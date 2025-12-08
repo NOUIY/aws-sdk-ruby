@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.21.0 (2025-12-08)
+------------------
+
+* Feature - Deal Sizing Service for AI-based deal size estimation with AWS service-level breakdown, supporting Expansion and Migration deals across Technology, and Reseller partner cohorts, including Pricing Calculator AddOn for MAP deals and funding incentives.
+
 1.20.0 (2025-12-01)
 ------------------
 

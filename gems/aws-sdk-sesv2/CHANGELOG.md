@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.90.0 (2025-12-08)
+------------------
+
+* Feature - Update Mail Manager Archive ARN validation
+
 1.89.0 (2025-12-05)
 ------------------
 
