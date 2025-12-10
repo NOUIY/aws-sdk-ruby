@@ -517,10 +517,17 @@ module Aws::PartnerCentralSelling
     #   [1]: https://calculator.aws/#/
     #   @return [Array<Types::ExpectedCustomerSpend>]
     #
+    # @!attribute [rw] aws_partition
+    #   AWS partition where the opportunity will be deployed. Possible
+    #   values: 'aws-eusc' for AWS European Sovereign Cloud, `null` for
+    #   all other partitions
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/AwsOpportunityProject AWS API Documentation
     #
     class AwsOpportunityProject < Struct.new(
-      :expected_customer_spend)
+      :expected_customer_spend,
+      :aws_partition)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5184,6 +5191,12 @@ module Aws::PartnerCentralSelling
     #   that weren't captured in other fields.
     #   @return [String]
     #
+    # @!attribute [rw] aws_partition
+    #   AWS partition where the opportunity will be deployed. Possible
+    #   values: 'aws-eusc' for AWS European Sovereign Cloud, `null` for
+    #   all other partitions
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/Project AWS API Documentation
     #
     class Project < Struct.new(
@@ -5198,7 +5211,8 @@ module Aws::PartnerCentralSelling
       :competitor_name,
       :other_competitor_names,
       :other_solution_description,
-      :additional_comments)
+      :additional_comments,
+      :aws_partition)
       SENSITIVE = [:title, :customer_business_problem, :other_solution_description]
       include Aws::Structure
     end

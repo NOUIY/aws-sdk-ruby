@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.22.0 (2025-12-10)
+------------------
+
+* Feature - Adds support for the new Project.AwsPartition field on Opportunity and AWS Opportunity Summary. Use this field to specify the AWS partition where the opportunity will be deployed.
+
 1.21.0 (2025-12-08)
 ------------------
 

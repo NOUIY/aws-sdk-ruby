@@ -110,6 +110,7 @@ module Aws::PartnerCentralSelling
 
     class AwsOpportunityProject
       attr_accessor expected_customer_spend: ::Array[Types::ExpectedCustomerSpend]
+      attr_accessor aws_partition: ("aws-eusc")
       SENSITIVE: []
     end
 
@@ -1034,6 +1035,7 @@ module Aws::PartnerCentralSelling
       attr_accessor other_competitor_names: ::String
       attr_accessor other_solution_description: ::String
       attr_accessor additional_comments: ::String
+      attr_accessor aws_partition: ("aws-eusc")
       SENSITIVE: [:title, :customer_business_problem, :other_solution_description]
     end
 

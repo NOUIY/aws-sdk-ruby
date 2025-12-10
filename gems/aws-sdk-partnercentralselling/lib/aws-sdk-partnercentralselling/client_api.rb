@@ -62,6 +62,7 @@ module Aws::PartnerCentralSelling
     AwsOpportunityRelatedEntities = Shapes::StructureShape.new(name: 'AwsOpportunityRelatedEntities')
     AwsOpportunityStage = Shapes::StringShape.new(name: 'AwsOpportunityStage')
     AwsOpportunityTeamMembersList = Shapes::ListShape.new(name: 'AwsOpportunityTeamMembersList')
+    AwsPartition = Shapes::StringShape.new(name: 'AwsPartition')
     AwsProductDetails = Shapes::StructureShape.new(name: 'AwsProductDetails')
     AwsProductDetailsCategoriesList = Shapes::ListShape.new(name: 'AwsProductDetailsCategoriesList')
     AwsProductIdentifier = Shapes::StringShape.new(name: 'AwsProductIdentifier')
@@ -482,6 +483,7 @@ module Aws::PartnerCentralSelling
     AwsOpportunityLifeCycleNextStepsHistoryList.member = Shapes::ShapeRef.new(shape: ProfileNextStepsHistory)
 
     AwsOpportunityProject.add_member(:expected_customer_spend, Shapes::ShapeRef.new(shape: ExpectedCustomerSpendList, location_name: "ExpectedCustomerSpend"))
+    AwsOpportunityProject.add_member(:aws_partition, Shapes::ShapeRef.new(shape: AwsPartition, location_name: "AwsPartition"))
     AwsOpportunityProject.struct_class = Types::AwsOpportunityProject
 
     AwsOpportunityRelatedEntities.add_member(:aws_products, Shapes::ShapeRef.new(shape: AwsProductIdentifiers, location_name: "AwsProducts"))
@@ -1266,6 +1268,7 @@ module Aws::PartnerCentralSelling
     Project.add_member(:other_competitor_names, Shapes::ShapeRef.new(shape: ProjectOtherCompetitorNamesString, location_name: "OtherCompetitorNames"))
     Project.add_member(:other_solution_description, Shapes::ShapeRef.new(shape: ProjectOtherSolutionDescriptionString, location_name: "OtherSolutionDescription"))
     Project.add_member(:additional_comments, Shapes::ShapeRef.new(shape: ProjectAdditionalCommentsString, location_name: "AdditionalComments"))
+    Project.add_member(:aws_partition, Shapes::ShapeRef.new(shape: AwsPartition, location_name: "AwsPartition"))
     Project.struct_class = Types::Project
 
     ProjectDetails.add_member(:business_problem, Shapes::ShapeRef.new(shape: EngagementCustomerBusinessProblem, required: true, location_name: "BusinessProblem"))

@@ -1240,6 +1240,7 @@ module Aws::PartnerCentralSelling
     #       other_competitor_names: "ProjectOtherCompetitorNamesString",
     #       other_solution_description: "ProjectOtherSolutionDescriptionString",
     #       additional_comments: "ProjectAdditionalCommentsString",
+    #       aws_partition: "aws-eusc", # accepts aws-eusc
     #     },
     #     opportunity_type: "Net New Business", # accepts Net New Business, Flat Renewal, Expansion
     #     marketing: {
@@ -1671,6 +1672,7 @@ module Aws::PartnerCentralSelling
     #   resp.project.expected_customer_spend[0].frequency #=> String, one of "Monthly"
     #   resp.project.expected_customer_spend[0].target_company #=> String
     #   resp.project.expected_customer_spend[0].estimation_url #=> String
+    #   resp.project.aws_partition #=> String, one of "aws-eusc"
     #   resp.catalog #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/GetAwsOpportunitySummary AWS API Documentation
@@ -1958,6 +1960,7 @@ module Aws::PartnerCentralSelling
     #   resp.project.other_competitor_names #=> String
     #   resp.project.other_solution_description #=> String
     #   resp.project.additional_comments #=> String
+    #   resp.project.aws_partition #=> String, one of "aws-eusc"
     #   resp.opportunity_type #=> String, one of "Net New Business", "Flat Renewal", "Expansion"
     #   resp.marketing.campaign_name #=> String
     #   resp.marketing.source #=> String, one of "Marketing Activity", "None"
@@ -4036,6 +4039,7 @@ module Aws::PartnerCentralSelling
     #       other_competitor_names: "ProjectOtherCompetitorNamesString",
     #       other_solution_description: "ProjectOtherSolutionDescriptionString",
     #       additional_comments: "ProjectAdditionalCommentsString",
+    #       aws_partition: "aws-eusc", # accepts aws-eusc
     #     },
     #     opportunity_type: "Net New Business", # accepts Net New Business, Flat Renewal, Expansion
     #     marketing: {
@@ -4105,7 +4109,7 @@ module Aws::PartnerCentralSelling
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-partnercentralselling'
-      context[:gem_version] = '1.21.0'
+      context[:gem_version] = '1.22.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

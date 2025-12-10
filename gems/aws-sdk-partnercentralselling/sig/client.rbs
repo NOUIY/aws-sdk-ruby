@@ -375,7 +375,8 @@ module Aws
                                   competitor_name: ("Oracle Cloud" | "On-Prem" | "Co-location" | "Akamai" | "AliCloud" | "Google Cloud Platform" | "IBM Softlayer" | "Microsoft Azure" | "Other- Cost Optimization" | "No Competition" | "*Other")?,
                                   other_competitor_names: ::String?,
                                   other_solution_description: ::String?,
-                                  additional_comments: ::String?
+                                  additional_comments: ::String?,
+                                  aws_partition: ("aws-eusc")?
                                 },
                                 ?opportunity_type: ("Net New Business" | "Flat Renewal" | "Expansion"),
                                 ?marketing: {
@@ -1140,7 +1141,8 @@ module Aws
                                   competitor_name: ("Oracle Cloud" | "On-Prem" | "Co-location" | "Akamai" | "AliCloud" | "Google Cloud Platform" | "IBM Softlayer" | "Microsoft Azure" | "Other- Cost Optimization" | "No Competition" | "*Other")?,
                                   other_competitor_names: ::String?,
                                   other_solution_description: ::String?,
-                                  additional_comments: ::String?
+                                  additional_comments: ::String?,
+                                  aws_partition: ("aws-eusc")?
                                 },
                                 ?opportunity_type: ("Net New Business" | "Flat Renewal" | "Expansion"),
                                 ?marketing: {
