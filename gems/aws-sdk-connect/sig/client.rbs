@@ -5226,7 +5226,8 @@ module Aws
                                     ]?,
                                     value_arn: ::String?
                                   }],
-                                ?customer_id: ::String
+                                ?customer_id: ::String,
+                                ?disconnect_on_customer_exit: Array[("AGENT")]
                               ) -> _StartChatContactResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartChatContactResponseSuccess
 

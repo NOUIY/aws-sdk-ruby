@@ -6764,6 +6764,7 @@ module Aws::Connect
       attr_accessor related_contact_id: ::String
       attr_accessor segment_attributes: ::Hash[::String, Types::SegmentAttributeValue]
       attr_accessor customer_id: ::String
+      attr_accessor disconnect_on_customer_exit: ::Array[("AGENT")]
       SENSITIVE: [:customer_id]
     end
 

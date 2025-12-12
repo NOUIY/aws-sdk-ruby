@@ -29013,6 +29013,19 @@ module Aws::Connect
     #   may be a customer number from your CRM.
     #   @return [String]
     #
+    # @!attribute [rw] disconnect_on_customer_exit
+    #   A list of participant types to automatically disconnect when the end
+    #   customer ends the chat session, allowing them to continue through
+    #   disconnect flows such as surveys or feedback forms.
+    #
+    #   Valid value: `AGENT`.
+    #
+    #   With the `DisconnectOnCustomerExit` parameter, you can configure
+    #   automatic agent disconnection when end customers end the chat,
+    #   ensuring that disconnect flows are triggered consistently regardless
+    #   of which participant disconnects first.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartChatContactRequest AWS API Documentation
     #
     class StartChatContactRequest < Struct.new(
@@ -29028,7 +29041,8 @@ module Aws::Connect
       :persistent_chat,
       :related_contact_id,
       :segment_attributes,
-      :customer_id)
+      :customer_id,
+      :disconnect_on_customer_exit)
       SENSITIVE = [:customer_id]
       include Aws::Structure
     end

@@ -21014,6 +21014,18 @@ module Aws::Connect
     #   The customer's identification number. For example, the `CustomerId`
     #   may be a customer number from your CRM.
     #
+    # @option params [Array<String>] :disconnect_on_customer_exit
+    #   A list of participant types to automatically disconnect when the end
+    #   customer ends the chat session, allowing them to continue through
+    #   disconnect flows such as surveys or feedback forms.
+    #
+    #   Valid value: `AGENT`.
+    #
+    #   With the `DisconnectOnCustomerExit` parameter, you can configure
+    #   automatic agent disconnection when end customers end the chat,
+    #   ensuring that disconnect flows are triggered consistently regardless
+    #   of which participant disconnects first.
+    #
     # @return [Types::StartChatContactResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::StartChatContactResponse#contact_id #contact_id} => String
@@ -21065,6 +21077,7 @@ module Aws::Connect
     #       },
     #     },
     #     customer_id: "CustomerIdNonEmpty",
+    #     disconnect_on_customer_exit: ["AGENT"], # accepts AGENT
     #   })
     #
     # @example Response structure
@@ -26793,7 +26806,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.227.0'
+      context[:gem_version] = '1.228.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
