@@ -5391,6 +5391,14 @@ module Aws
                                            content_type: ::String,
                                            content: ::String
                                          },
+                                         ?initial_templated_system_message: {
+                                           knowledge_base_id: ::String,
+                                           message_template_id: ::String,
+                                           template_attributes: {
+                                             custom_attributes: Hash[::String, ::String]?,
+                                             customer_profile_attributes: ::String?
+                                           }
+                                         },
                                          ?related_contact_id: ::String,
                                          ?supported_messaging_content_types: Array[::String],
                                          ?client_token: ::String

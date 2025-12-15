@@ -21626,6 +21626,9 @@ module Aws::Connect
     # @option params [Types::ChatMessage] :initial_system_message
     #   A chat message.
     #
+    # @option params [Types::TemplatedMessageConfig] :initial_templated_system_message
+    #   Information about template message configuration.
+    #
     # @option params [String] :related_contact_id
     #   The unique identifier for an Amazon Connect contact. This identifier
     #   is related to the contact starting.
@@ -21712,6 +21715,16 @@ module Aws::Connect
     #     initial_system_message: {
     #       content_type: "ChatContentType", # required
     #       content: "ChatContent", # required
+    #     },
+    #     initial_templated_system_message: {
+    #       knowledge_base_id: "MessageTemplateKnowledgeBaseId", # required
+    #       message_template_id: "MessageTemplateId", # required
+    #       template_attributes: { # required
+    #         custom_attributes: {
+    #           "AttributeName" => "AttributeValue",
+    #         },
+    #         customer_profile_attributes: "CustomerProfileAttributesSerialized",
+    #       },
     #     },
     #     related_contact_id: "ContactId",
     #     supported_messaging_content_types: ["SupportedMessagingContentType"],
@@ -26806,7 +26819,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.228.0'
+      context[:gem_version] = '1.229.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

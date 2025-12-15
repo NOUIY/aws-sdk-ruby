@@ -29483,6 +29483,10 @@ module Aws::Connect
     #   A chat message.
     #   @return [Types::ChatMessage]
     #
+    # @!attribute [rw] initial_templated_system_message
+    #   Information about template message configuration.
+    #   @return [Types::TemplatedMessageConfig]
+    #
     # @!attribute [rw] related_contact_id
     #   The unique identifier for an Amazon Connect contact. This identifier
     #   is related to the contact starting.
@@ -29540,6 +29544,7 @@ module Aws::Connect
       :chat_duration_in_minutes,
       :participant_details,
       :initial_system_message,
+      :initial_templated_system_message,
       :related_contact_id,
       :supported_messaging_content_types,
       :client_token)

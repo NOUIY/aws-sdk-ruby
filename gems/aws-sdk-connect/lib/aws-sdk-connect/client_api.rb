@@ -7427,6 +7427,7 @@ module Aws::Connect
     StartOutboundChatContactRequest.add_member(:chat_duration_in_minutes, Shapes::ShapeRef.new(shape: ChatDurationInMinutes, location_name: "ChatDurationInMinutes"))
     StartOutboundChatContactRequest.add_member(:participant_details, Shapes::ShapeRef.new(shape: ParticipantDetails, location_name: "ParticipantDetails"))
     StartOutboundChatContactRequest.add_member(:initial_system_message, Shapes::ShapeRef.new(shape: ChatMessage, location_name: "InitialSystemMessage"))
+    StartOutboundChatContactRequest.add_member(:initial_templated_system_message, Shapes::ShapeRef.new(shape: TemplatedMessageConfig, location_name: "InitialTemplatedSystemMessage"))
     StartOutboundChatContactRequest.add_member(:related_contact_id, Shapes::ShapeRef.new(shape: ContactId, location_name: "RelatedContactId"))
     StartOutboundChatContactRequest.add_member(:supported_messaging_content_types, Shapes::ShapeRef.new(shape: SupportedMessagingContentTypes, location_name: "SupportedMessagingContentTypes"))
     StartOutboundChatContactRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
