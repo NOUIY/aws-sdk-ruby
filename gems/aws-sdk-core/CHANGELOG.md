@@ -1,6 +1,8 @@
 Unreleased Changes
 ------------------
 
+* Issue - Prioritizes JSON over CBOR when both are supported for stubbed clients.
+
 3.239.2 (2025-11-25)
 ------------------
 
