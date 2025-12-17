@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.138.0 (2025-12-17)
+------------------
+
+* Feature - Add support for dbiResourceId in finding.
+
 1.137.0 (2025-12-09)
 ------------------
 
