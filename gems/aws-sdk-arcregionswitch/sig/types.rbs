@@ -415,6 +415,21 @@ module Aws::ARCRegionswitch
       SENSITIVE: []
     end
 
+    class ListRoute53HealthChecksInRegionRequest
+      attr_accessor arn: ::String
+      attr_accessor hosted_zone_id: ::String
+      attr_accessor record_name: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListRoute53HealthChecksInRegionResponse
+      attr_accessor health_checks: ::Array[Types::Route53HealthCheck]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListRoute53HealthChecksRequest
       attr_accessor arn: ::String
       attr_accessor hosted_zone_id: ::String
@@ -496,6 +511,7 @@ module Aws::ARCRegionswitch
       attr_accessor hosted_zone_id: ::String
       attr_accessor record_name: ::String
       attr_accessor health_check_id: ::String
+      attr_accessor status: ("healthy" | "unhealthy" | "unknown")
       attr_accessor region: ::String
       SENSITIVE: []
     end

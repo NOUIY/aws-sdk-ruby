@@ -1390,6 +1390,12 @@ module Aws
                                            service_name: ::String,
                                            role_arn: ::String
                                          }?
+                                       }?,
+                                       enable_batching: bool?,
+                                       batch_config: {
+                                         max_batch_open_ms: ::Integer?,
+                                         max_batch_size: ::Integer?,
+                                         max_batch_size_bytes: ::Integer?
                                        }?
                                      }?,
                                      kafka: {
@@ -1597,6 +1603,12 @@ module Aws
                                          service_name: ::String,
                                          role_arn: ::String
                                        }?
+                                     }?,
+                                     enable_batching: bool?,
+                                     batch_config: {
+                                       max_batch_open_ms: ::Integer?,
+                                       max_batch_size: ::Integer?,
+                                       max_batch_size_bytes: ::Integer?
                                      }?
                                    }?,
                                    kafka: {
@@ -4124,6 +4136,12 @@ module Aws
                                             service_name: ::String,
                                             role_arn: ::String
                                           }?
+                                        }?,
+                                        enable_batching: bool?,
+                                        batch_config: {
+                                          max_batch_open_ms: ::Integer?,
+                                          max_batch_size: ::Integer?,
+                                          max_batch_size_bytes: ::Integer?
                                         }?
                                       }?,
                                       kafka: {
@@ -4331,6 +4349,12 @@ module Aws
                                           service_name: ::String,
                                           role_arn: ::String
                                         }?
+                                      }?,
+                                      enable_batching: bool?,
+                                      batch_config: {
+                                        max_batch_open_ms: ::Integer?,
+                                        max_batch_size: ::Integer?,
+                                        max_batch_size_bytes: ::Integer?
                                       }?
                                     }?,
                                     kafka: {

@@ -1373,6 +1373,32 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # Configuration settings for batching.
+    #
+    # @!attribute [rw] max_batch_open_ms
+    #   The maximum amount of time (in milliseconds) that an outgoing call
+    #   waits for other calls with which it batches messages of the same
+    #   type. The higher the setting, the longer the latency of the batched
+    #   HTTP Action will be.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_batch_size
+    #   The maximum number of messages that are batched together in a single
+    #   action execution.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_batch_size_bytes
+    #   Maximum size of a message batch, in bytes.
+    #   @return [Integer]
+    #
+    class BatchConfig < Struct.new(
+      :max_batch_open_ms,
+      :max_batch_size,
+      :max_batch_size_bytes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A Device Defender security profile behavior.
     #
     # @!attribute [rw] name
@@ -9041,11 +9067,24 @@ module Aws::IoT
     #   endpoint.
     #   @return [Types::HttpAuthorization]
     #
+    # @!attribute [rw] enable_batching
+    #   Whether to process the HTTP action messages into a single request.
+    #   Value can be true or false.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] batch_config
+    #   The configuration settings for batching. For more information, see
+    #   [Batching HTTP action
+    #   messages](/iot/latest/developerguide/http_batching.html).
+    #   @return [Types::BatchConfig]
+    #
     class HttpAction < Struct.new(
       :url,
       :confirmation_url,
       :headers,
-      :auth)
+      :auth,
+      :enable_batching,
+      :batch_config)
       SENSITIVE = []
       include Aws::Structure
     end

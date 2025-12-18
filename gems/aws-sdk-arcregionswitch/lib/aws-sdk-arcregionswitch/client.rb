@@ -1731,6 +1731,7 @@ module Aws::ARCRegionswitch
     #   resp.health_checks[0].hosted_zone_id #=> String
     #   resp.health_checks[0].record_name #=> String
     #   resp.health_checks[0].health_check_id #=> String
+    #   resp.health_checks[0].status #=> String, one of "healthy", "unhealthy", "unknown"
     #   resp.health_checks[0].region #=> String
     #   resp.next_token #=> String
     #
@@ -1740,6 +1741,95 @@ module Aws::ARCRegionswitch
     # @param [Hash] params ({})
     def list_route_53_health_checks(params = {}, options = {})
       req = build_request(:list_route_53_health_checks, params)
+      req.send_request(options)
+    end
+
+    # List the Amazon Route 53 health checks in a specific Amazon Web
+    # Services Region.
+    #
+    # @option params [required, String] :arn
+    #   The Amazon Resource Name (ARN) of the Arc Region Switch Plan.
+    #
+    # @option params [String] :hosted_zone_id
+    #   The hosted zone ID for the health checks.
+    #
+    # @option params [String] :record_name
+    #   The record name for the health checks.
+    #
+    # @option params [Integer] :max_results
+    #   The number of objects that you want to return with this call.
+    #
+    # @option params [String] :next_token
+    #   Specifies that you want to receive the next page of results. Valid
+    #   only if you received a `nextToken` response in the previous request.
+    #   If you did, it indicates that more output is available. Set this
+    #   parameter to the value provided by the previous call's `nextToken`
+    #   response to request the next page of results.
+    #
+    # @return [Types::ListRoute53HealthChecksInRegionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListRoute53HealthChecksInRegionResponse#health_checks #health_checks} => Array&lt;Types::Route53HealthCheck&gt;
+    #   * {Types::ListRoute53HealthChecksInRegionResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    #
+    # @example Example: Example ListRoute53HealthChecksInRegion
+    #
+    #   resp = client.list_route_53_health_checks_in_region({
+    #     arn: "arn:aws:arc-region-switch::123456789012:plan/example:000000", 
+    #     hosted_zone_id: "Z0123456789ABCDEFGHI", 
+    #     max_results: 10, 
+    #     next_token: "eyJNYXJrZXIiOiBudWxsLCAiYm90b190cnVuY2F0ZV9hbW91bnQiOiAxfQ", 
+    #     record_name: "my.record.name", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     health_checks: [
+    #       {
+    #         health_check_id: "01234567-8901-abcd-efgh-ijklmnop0123", 
+    #         hosted_zone_id: "Z0123456789ABCDEFGHI", 
+    #         record_name: "my.record.name", 
+    #         region: "us-west-2", 
+    #         status: "healthy", 
+    #       }, 
+    #       {
+    #         health_check_id: "zyxwvuts-rqpo-9876-5432-10nmlkji0123", 
+    #         hosted_zone_id: "Z0123456789ABCDEFGHI", 
+    #         record_name: "my.record.name", 
+    #         region: "us-east-1", 
+    #         status: "healthy", 
+    #       }, 
+    #     ], 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_route_53_health_checks_in_region({
+    #     arn: "PlanArn", # required
+    #     hosted_zone_id: "Route53HostedZoneId",
+    #     record_name: "Route53RecordName",
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.health_checks #=> Array
+    #   resp.health_checks[0].hosted_zone_id #=> String
+    #   resp.health_checks[0].record_name #=> String
+    #   resp.health_checks[0].health_check_id #=> String
+    #   resp.health_checks[0].status #=> String, one of "healthy", "unhealthy", "unknown"
+    #   resp.health_checks[0].region #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/arc-region-switch-2022-07-26/ListRoute53HealthChecksInRegion AWS API Documentation
+    #
+    # @overload list_route_53_health_checks_in_region(params = {})
+    # @param [Hash] params ({})
+    def list_route_53_health_checks_in_region(params = {}, options = {})
+      req = build_request(:list_route_53_health_checks_in_region, params)
       req.send_request(options)
     end
 
@@ -2318,7 +2408,7 @@ module Aws::ARCRegionswitch
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-arcregionswitch'
-      context[:gem_version] = '1.5.0'
+      context[:gem_version] = '1.6.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

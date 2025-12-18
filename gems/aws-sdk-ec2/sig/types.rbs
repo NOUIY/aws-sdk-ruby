@@ -9105,6 +9105,7 @@ module Aws::EC2
       attr_accessor instance_requirements: Types::InstanceRequirements
       attr_accessor image_id: ::String
       attr_accessor block_device_mappings: ::Array[Types::BlockDeviceMappingResponse]
+      attr_accessor availability_zone_id: ::String
       SENSITIVE: []
     end
 
@@ -9119,6 +9120,7 @@ module Aws::EC2
       attr_accessor block_device_mappings: ::Array[Types::FleetBlockDeviceMappingRequest]
       attr_accessor instance_requirements: Types::InstanceRequirementsRequest
       attr_accessor image_id: ::String
+      attr_accessor availability_zone_id: ::String
       SENSITIVE: []
     end
 
@@ -12213,6 +12215,7 @@ module Aws::EC2
       attr_accessor weighted_capacity: ::Float
       attr_accessor priority: ::Float
       attr_accessor instance_requirements: Types::InstanceRequirements
+      attr_accessor availability_zone_id: ::String
       SENSITIVE: []
     end
 
@@ -16630,6 +16633,7 @@ module Aws::EC2
       attr_accessor availability_zone: ::String
       attr_accessor group_name: ::String
       attr_accessor tenancy: ("default" | "dedicated" | "host")
+      attr_accessor availability_zone_id: ::String
       SENSITIVE: []
     end
 

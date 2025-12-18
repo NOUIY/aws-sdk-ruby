@@ -1663,7 +1663,8 @@ module Aws
                                     }?,
                                     require_encryption_in_transit: bool?
                                   }?,
-                                  image_id: ::String?
+                                  image_id: ::String?,
+                                  availability_zone_id: ::String?
                                 },
                               ]?
                             },
@@ -12056,7 +12057,8 @@ module Aws
                                     }?,
                                     require_encryption_in_transit: bool?
                                   }?,
-                                  image_id: ::String?
+                                  image_id: ::String?,
+                                  availability_zone_id: ::String?
                                 },
                               ]?
                             },
@@ -12870,7 +12872,8 @@ module Aws
                                                    }?
                                                  }?,
                                                  require_encryption_in_transit: bool?
-                                               }?
+                                               }?,
+                                               availability_zone_id: ::String?
                                              },
                                            ]?
                                          },
@@ -14252,7 +14255,8 @@ module Aws
                                       placement: {
                                         availability_zone: ::String?,
                                         group_name: ::String?,
-                                        tenancy: ("default" | "dedicated" | "host")?
+                                        tenancy: ("default" | "dedicated" | "host")?,
+                                        availability_zone_id: ::String?
                                       }?,
                                       ramdisk_id: ::String?,
                                       spot_price: ::String?,
@@ -14418,7 +14422,8 @@ module Aws
                                               }?
                                             }?,
                                             require_encryption_in_transit: bool?
-                                          }?
+                                          }?,
+                                          availability_zone_id: ::String?
                                         },
                                       ]?
                                     },
@@ -14568,7 +14573,8 @@ module Aws
                                       placement: {
                                         availability_zone: ::String?,
                                         group_name: ::String?,
-                                        tenancy: ("default" | "dedicated" | "host")?
+                                        tenancy: ("default" | "dedicated" | "host")?,
+                                        availability_zone_id: ::String?
                                       }?,
                                       ramdisk_id: ::String?,
                                       subnet_id: ::String?,

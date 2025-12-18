@@ -1448,6 +1448,63 @@ module Aws::ARCRegionswitch
     end
 
     # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the Arc Region Switch Plan.
+    #   @return [String]
+    #
+    # @!attribute [rw] hosted_zone_id
+    #   The hosted zone ID for the health checks.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_name
+    #   The record name for the health checks.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The number of objects that you want to return with this call.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Specifies that you want to receive the next page of results. Valid
+    #   only if you received a `nextToken` response in the previous request.
+    #   If you did, it indicates that more output is available. Set this
+    #   parameter to the value provided by the previous call's `nextToken`
+    #   response to request the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/arc-region-switch-2022-07-26/ListRoute53HealthChecksInRegionRequest AWS API Documentation
+    #
+    class ListRoute53HealthChecksInRegionRequest < Struct.new(
+      :arn,
+      :hosted_zone_id,
+      :record_name,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] health_checks
+    #   List of the health checks requested.
+    #   @return [Array<Types::Route53HealthCheck>]
+    #
+    # @!attribute [rw] next_token
+    #   Specifies that you want to receive the next page of results. Valid
+    #   only if you received a `nextToken` response in the previous request.
+    #   If you did, it indicates that more output is available. Set this
+    #   parameter to the value provided by the previous call's `nextToken`
+    #   response to request the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/arc-region-switch-2022-07-26/ListRoute53HealthChecksInRegionResponse AWS API Documentation
+    #
+    class ListRoute53HealthChecksInRegionResponse < Struct.new(
+      :health_checks,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
     #   The Amazon Resource Name (ARN) of the Amazon Route 53 health check
     #   request.
     #   @return [String]
@@ -1743,6 +1800,10 @@ module Aws::ARCRegionswitch
     #   The Amazon Route 53 health check ID.
     #   @return [String]
     #
+    # @!attribute [rw] status
+    #   The Amazon Route 53 health check status.
+    #   @return [String]
+    #
     # @!attribute [rw] region
     #   The Amazon Route 53 Region.
     #   @return [String]
@@ -1753,6 +1814,7 @@ module Aws::ARCRegionswitch
       :hosted_zone_id,
       :record_name,
       :health_check_id,
+      :status,
       :region)
       SENSITIVE = []
       include Aws::Structure

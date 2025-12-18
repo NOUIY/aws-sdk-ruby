@@ -150,6 +150,7 @@ module Aws::IoT
     AwsJobTimeoutConfig = Shapes::StructureShape.new(name: 'AwsJobTimeoutConfig')
     AwsJobTimeoutInProgressTimeoutInMinutes = Shapes::IntegerShape.new(name: 'AwsJobTimeoutInProgressTimeoutInMinutes')
     AwsJsonSubstitutionCommandPreprocessorConfig = Shapes::StructureShape.new(name: 'AwsJsonSubstitutionCommandPreprocessorConfig')
+    BatchConfig = Shapes::StructureShape.new(name: 'BatchConfig')
     BatchMode = Shapes::BooleanShape.new(name: 'BatchMode')
     BeforeSubstitutionFlag = Shapes::BooleanShape.new(name: 'BeforeSubstitutionFlag')
     Behavior = Shapes::StructureShape.new(name: 'Behavior')
@@ -580,6 +581,7 @@ module Aws::IoT
     ElasticsearchId = Shapes::StringShape.new(name: 'ElasticsearchId')
     ElasticsearchIndex = Shapes::StringShape.new(name: 'ElasticsearchIndex')
     ElasticsearchType = Shapes::StringShape.new(name: 'ElasticsearchType')
+    EnableBatching = Shapes::BooleanShape.new(name: 'EnableBatching')
     EnableCachingForHttp = Shapes::BooleanShape.new(name: 'EnableCachingForHttp')
     EnableIoTLoggingParams = Shapes::StructureShape.new(name: 'EnableIoTLoggingParams')
     EnableOCSPCheck = Shapes::BooleanShape.new(name: 'EnableOCSPCheck')
@@ -930,6 +932,9 @@ module Aws::IoT
     ManagedJobTemplatesSummaryList = Shapes::ListShape.new(name: 'ManagedJobTemplatesSummaryList')
     ManagedTemplateVersion = Shapes::StringShape.new(name: 'ManagedTemplateVersion')
     Marker = Shapes::StringShape.new(name: 'Marker')
+    MaxBatchOpenMs = Shapes::IntegerShape.new(name: 'MaxBatchOpenMs')
+    MaxBatchSize = Shapes::IntegerShape.new(name: 'MaxBatchSize')
+    MaxBatchSizeBytes = Shapes::IntegerShape.new(name: 'MaxBatchSizeBytes')
     MaxBuckets = Shapes::IntegerShape.new(name: 'MaxBuckets')
     MaxJobExecutionsPerMin = Shapes::IntegerShape.new(name: 'MaxJobExecutionsPerMin')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
@@ -1832,6 +1837,11 @@ module Aws::IoT
 
     AwsJsonSubstitutionCommandPreprocessorConfig.add_member(:output_format, Shapes::ShapeRef.new(shape: OutputFormat, required: true, location_name: "outputFormat"))
     AwsJsonSubstitutionCommandPreprocessorConfig.struct_class = Types::AwsJsonSubstitutionCommandPreprocessorConfig
+
+    BatchConfig.add_member(:max_batch_open_ms, Shapes::ShapeRef.new(shape: MaxBatchOpenMs, location_name: "maxBatchOpenMs"))
+    BatchConfig.add_member(:max_batch_size, Shapes::ShapeRef.new(shape: MaxBatchSize, location_name: "maxBatchSize"))
+    BatchConfig.add_member(:max_batch_size_bytes, Shapes::ShapeRef.new(shape: MaxBatchSizeBytes, location_name: "maxBatchSizeBytes"))
+    BatchConfig.struct_class = Types::BatchConfig
 
     Behavior.add_member(:name, Shapes::ShapeRef.new(shape: BehaviorName, required: true, location_name: "name"))
     Behavior.add_member(:metric, Shapes::ShapeRef.new(shape: BehaviorMetric, location_name: "metric"))
@@ -3511,6 +3521,8 @@ module Aws::IoT
     HttpAction.add_member(:confirmation_url, Shapes::ShapeRef.new(shape: Url, location_name: "confirmationUrl"))
     HttpAction.add_member(:headers, Shapes::ShapeRef.new(shape: HeaderList, location_name: "headers"))
     HttpAction.add_member(:auth, Shapes::ShapeRef.new(shape: HttpAuthorization, location_name: "auth"))
+    HttpAction.add_member(:enable_batching, Shapes::ShapeRef.new(shape: EnableBatching, location_name: "enableBatching"))
+    HttpAction.add_member(:batch_config, Shapes::ShapeRef.new(shape: BatchConfig, location_name: "batchConfig"))
     HttpAction.struct_class = Types::HttpAction
 
     HttpActionHeader.add_member(:key, Shapes::ShapeRef.new(shape: HeaderKey, required: true, location_name: "key"))

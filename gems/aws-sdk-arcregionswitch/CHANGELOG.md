@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.6.0 (2025-12-18)
+------------------
+
+* Feature - New API to list Route 53 health checks created by ARC region switch for a plan in a specific AWS Region using the Region switch Regional data plane.
+
 1.5.0 (2025-11-21)
 ------------------
 

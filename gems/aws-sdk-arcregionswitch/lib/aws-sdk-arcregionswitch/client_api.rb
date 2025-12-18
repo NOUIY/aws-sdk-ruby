@@ -121,6 +121,9 @@ module Aws::ARCRegionswitch
     ListPlansInRegionResponse = Shapes::StructureShape.new(name: 'ListPlansInRegionResponse')
     ListPlansRequest = Shapes::StructureShape.new(name: 'ListPlansRequest')
     ListPlansResponse = Shapes::StructureShape.new(name: 'ListPlansResponse')
+    ListRoute53HealthChecksInRegionRequest = Shapes::StructureShape.new(name: 'ListRoute53HealthChecksInRegionRequest')
+    ListRoute53HealthChecksInRegionRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListRoute53HealthChecksInRegionRequestMaxResultsInteger')
+    ListRoute53HealthChecksInRegionResponse = Shapes::StructureShape.new(name: 'ListRoute53HealthChecksInRegionResponse')
     ListRoute53HealthChecksRequest = Shapes::StructureShape.new(name: 'ListRoute53HealthChecksRequest')
     ListRoute53HealthChecksRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListRoute53HealthChecksRequestMaxResultsInteger')
     ListRoute53HealthChecksResponse = Shapes::StructureShape.new(name: 'ListRoute53HealthChecksResponse')
@@ -154,6 +157,7 @@ module Aws::ARCRegionswitch
     Route53HealthCheckConfigurationTimeoutMinutesInteger = Shapes::IntegerShape.new(name: 'Route53HealthCheckConfigurationTimeoutMinutesInteger')
     Route53HealthCheckId = Shapes::StringShape.new(name: 'Route53HealthCheckId')
     Route53HealthCheckList = Shapes::ListShape.new(name: 'Route53HealthCheckList')
+    Route53HealthCheckStatus = Shapes::StringShape.new(name: 'Route53HealthCheckStatus')
     Route53HostedZoneId = Shapes::StringShape.new(name: 'Route53HostedZoneId')
     Route53RecordName = Shapes::StringShape.new(name: 'Route53RecordName')
     Route53ResourceRecordSet = Shapes::StructureShape.new(name: 'Route53ResourceRecordSet')
@@ -516,6 +520,17 @@ module Aws::ARCRegionswitch
     ListPlansResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListPlansResponse.struct_class = Types::ListPlansResponse
 
+    ListRoute53HealthChecksInRegionRequest.add_member(:arn, Shapes::ShapeRef.new(shape: PlanArn, required: true, location_name: "arn"))
+    ListRoute53HealthChecksInRegionRequest.add_member(:hosted_zone_id, Shapes::ShapeRef.new(shape: Route53HostedZoneId, location_name: "hostedZoneId"))
+    ListRoute53HealthChecksInRegionRequest.add_member(:record_name, Shapes::ShapeRef.new(shape: Route53RecordName, location_name: "recordName"))
+    ListRoute53HealthChecksInRegionRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListRoute53HealthChecksInRegionRequestMaxResultsInteger, location_name: "maxResults"))
+    ListRoute53HealthChecksInRegionRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListRoute53HealthChecksInRegionRequest.struct_class = Types::ListRoute53HealthChecksInRegionRequest
+
+    ListRoute53HealthChecksInRegionResponse.add_member(:health_checks, Shapes::ShapeRef.new(shape: Route53HealthCheckList, location_name: "healthChecks"))
+    ListRoute53HealthChecksInRegionResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListRoute53HealthChecksInRegionResponse.struct_class = Types::ListRoute53HealthChecksInRegionResponse
+
     ListRoute53HealthChecksRequest.add_member(:arn, Shapes::ShapeRef.new(shape: PlanArn, required: true, location_name: "arn"))
     ListRoute53HealthChecksRequest.add_member(:hosted_zone_id, Shapes::ShapeRef.new(shape: Route53HostedZoneId, location_name: "hostedZoneId"))
     ListRoute53HealthChecksRequest.add_member(:record_name, Shapes::ShapeRef.new(shape: Route53RecordName, location_name: "recordName"))
@@ -590,6 +605,7 @@ module Aws::ARCRegionswitch
     Route53HealthCheck.add_member(:hosted_zone_id, Shapes::ShapeRef.new(shape: Route53HostedZoneId, required: true, location_name: "hostedZoneId"))
     Route53HealthCheck.add_member(:record_name, Shapes::ShapeRef.new(shape: Route53RecordName, required: true, location_name: "recordName"))
     Route53HealthCheck.add_member(:health_check_id, Shapes::ShapeRef.new(shape: Route53HealthCheckId, location_name: "healthCheckId"))
+    Route53HealthCheck.add_member(:status, Shapes::ShapeRef.new(shape: Route53HealthCheckStatus, location_name: "status"))
     Route53HealthCheck.add_member(:region, Shapes::ShapeRef.new(shape: Region, required: true, location_name: "region"))
     Route53HealthCheck.struct_class = Types::Route53HealthCheck
 
@@ -897,6 +913,24 @@ module Aws::ARCRegionswitch
         o.output = Shapes::ShapeRef.new(shape: ListRoute53HealthChecksResponse)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_route_53_health_checks_in_region, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListRoute53HealthChecksInRegion"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListRoute53HealthChecksInRegionRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListRoute53HealthChecksInRegionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: IllegalArgumentException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",

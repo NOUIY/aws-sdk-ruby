@@ -4100,6 +4100,12 @@ module Aws::IoT
     #                 role_arn: "AwsArn", # required
     #               },
     #             },
+    #             enable_batching: false,
+    #             batch_config: {
+    #               max_batch_open_ms: 1,
+    #               max_batch_size: 1,
+    #               max_batch_size_bytes: 1,
+    #             },
     #           },
     #           kafka: {
     #             destination_arn: "AwsArn", # required
@@ -4308,6 +4314,12 @@ module Aws::IoT
     #               service_name: "ServiceName", # required
     #               role_arn: "AwsArn", # required
     #             },
+    #           },
+    #           enable_batching: false,
+    #           batch_config: {
+    #             max_batch_open_ms: 1,
+    #             max_batch_size: 1,
+    #             max_batch_size_bytes: 1,
     #           },
     #         },
     #         kafka: {
@@ -8795,6 +8807,10 @@ module Aws::IoT
     #   resp.rule.actions[0].http.auth.sigv4.signing_region #=> String
     #   resp.rule.actions[0].http.auth.sigv4.service_name #=> String
     #   resp.rule.actions[0].http.auth.sigv4.role_arn #=> String
+    #   resp.rule.actions[0].http.enable_batching #=> Boolean
+    #   resp.rule.actions[0].http.batch_config.max_batch_open_ms #=> Integer
+    #   resp.rule.actions[0].http.batch_config.max_batch_size #=> Integer
+    #   resp.rule.actions[0].http.batch_config.max_batch_size_bytes #=> Integer
     #   resp.rule.actions[0].kafka.destination_arn #=> String
     #   resp.rule.actions[0].kafka.topic #=> String
     #   resp.rule.actions[0].kafka.key #=> String
@@ -8920,6 +8936,10 @@ module Aws::IoT
     #   resp.rule.error_action.http.auth.sigv4.signing_region #=> String
     #   resp.rule.error_action.http.auth.sigv4.service_name #=> String
     #   resp.rule.error_action.http.auth.sigv4.role_arn #=> String
+    #   resp.rule.error_action.http.enable_batching #=> Boolean
+    #   resp.rule.error_action.http.batch_config.max_batch_open_ms #=> Integer
+    #   resp.rule.error_action.http.batch_config.max_batch_size #=> Integer
+    #   resp.rule.error_action.http.batch_config.max_batch_size_bytes #=> Integer
     #   resp.rule.error_action.kafka.destination_arn #=> String
     #   resp.rule.error_action.kafka.topic #=> String
     #   resp.rule.error_action.kafka.key #=> String
@@ -13487,6 +13507,12 @@ module Aws::IoT
     #                 role_arn: "AwsArn", # required
     #               },
     #             },
+    #             enable_batching: false,
+    #             batch_config: {
+    #               max_batch_open_ms: 1,
+    #               max_batch_size: 1,
+    #               max_batch_size_bytes: 1,
+    #             },
     #           },
     #           kafka: {
     #             destination_arn: "AwsArn", # required
@@ -13695,6 +13721,12 @@ module Aws::IoT
     #               service_name: "ServiceName", # required
     #               role_arn: "AwsArn", # required
     #             },
+    #           },
+    #           enable_batching: false,
+    #           batch_config: {
+    #             max_batch_open_ms: 1,
+    #             max_batch_size: 1,
+    #             max_batch_size_bytes: 1,
     #           },
     #         },
     #         kafka: {
@@ -16601,7 +16633,7 @@ module Aws::IoT
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-iot'
-      context[:gem_version] = '1.158.0'
+      context[:gem_version] = '1.159.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

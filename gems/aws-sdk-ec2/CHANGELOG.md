@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.586.0 (2025-12-18)
+------------------
+
+* Feature - This release adds AvailabilityZoneId support for CreateFleet, ModifyFleet, DescribeFleets, RequestSpotFleet, ModifySpotFleetRequests and DescribeSpotFleetRequests APIs.
+
 1.585.0 (2025-12-15)
 ------------------
 
