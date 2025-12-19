@@ -2567,13 +2567,16 @@ module Aws::IoT
       SENSITIVE: []
     end
 
-    class GetV2LoggingOptionsRequest < Aws::EmptyStructure
+    class GetV2LoggingOptionsRequest
+      attr_accessor verbose: bool
+      SENSITIVE: []
     end
 
     class GetV2LoggingOptionsResponse
       attr_accessor role_arn: ::String
       attr_accessor default_log_level: ("DEBUG" | "INFO" | "ERROR" | "WARN" | "DISABLED")
       attr_accessor disable_all_logs: bool
+      attr_accessor event_configurations: ::Array[Types::LogEventConfiguration]
       SENSITIVE: []
     end
 
@@ -3786,6 +3789,13 @@ module Aws::IoT
       SENSITIVE: []
     end
 
+    class LogEventConfiguration
+      attr_accessor event_type: ::String
+      attr_accessor log_level: ("DEBUG" | "INFO" | "ERROR" | "WARN" | "DISABLED")
+      attr_accessor log_destination: ::String
+      SENSITIVE: []
+    end
+
     class LogTarget
       attr_accessor target_type: ("DEFAULT" | "THING_GROUP" | "CLIENT_ID" | "SOURCE_IP" | "PRINCIPAL_ID")
       attr_accessor target_name: ::String
@@ -4424,6 +4434,7 @@ module Aws::IoT
       attr_accessor role_arn: ::String
       attr_accessor default_log_level: ("DEBUG" | "INFO" | "ERROR" | "WARN" | "DISABLED")
       attr_accessor disable_all_logs: bool
+      attr_accessor event_configurations: ::Array[Types::LogEventConfiguration]
       SENSITIVE: []
     end
 

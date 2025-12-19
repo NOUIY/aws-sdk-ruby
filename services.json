@@ -1335,6 +1335,9 @@
   "WellArchitected": {
     "models": "wellarchitected/2020-03-31"
   },
+  "Wickr": {
+    "models": "wickr/2024-02-01"
+  },
   "WorkDocs": {
     "models": "workdocs/2016-05-01"
   },

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1198.0 (2025-12-19)
+------------------
+
+* Feature - Added support for enumerating regions for  `Aws::Wickr`.
+
 1.1197.0 (2025-12-18)
 ------------------
 

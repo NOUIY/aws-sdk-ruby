@@ -8999,9 +8999,16 @@ module Aws::IoT
       include Aws::Structure
     end
 
-    # @api private
+    # @!attribute [rw] verbose
+    #   The flag is used to get all the event types and their respective
+    #   configuration that event-based logging supports.
+    #   @return [Boolean]
     #
-    class GetV2LoggingOptionsRequest < Aws::EmptyStructure; end
+    class GetV2LoggingOptionsRequest < Struct.new(
+      :verbose)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # @!attribute [rw] role_arn
     #   The IAM role ARN IoT uses to write to your CloudWatch logs.
@@ -9015,10 +9022,16 @@ module Aws::IoT
     #   Disables all logs.
     #   @return [Boolean]
     #
+    # @!attribute [rw] event_configurations
+    #   The list of event configurations that override account-level
+    #   logging.
+    #   @return [Array<Types::LogEventConfiguration>]
+    #
     class GetV2LoggingOptionsResponse < Struct.new(
       :role_arn,
       :default_log_level,
-      :disable_all_logs)
+      :disable_all_logs,
+      :event_configurations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9073,9 +9086,12 @@ module Aws::IoT
     #   @return [Boolean]
     #
     # @!attribute [rw] batch_config
-    #   The configuration settings for batching. For more information, see
-    #   [Batching HTTP action
-    #   messages](/iot/latest/developerguide/http_batching.html).
+    #   The configuration settings for batching. For more information, see [
+    #   Batching HTTP action messages][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/http_batching.html
     #   @return [Types::BatchConfig]
     #
     class HttpAction < Struct.new(
@@ -13151,6 +13167,35 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # Configuration for event-based logging that specifies which event types
+    # to log and their logging settings. Used for account-level logging
+    # overrides.
+    #
+    # @!attribute [rw] event_type
+    #   The type of event to log. These include event types like Connect,
+    #   Publish, and Disconnect.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_level
+    #   The logging level for the specified event type. Determines the
+    #   verbosity of log messages generated for this event type.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_destination
+    #   CloudWatch Log Group for event-based logging. Specifies where log
+    #   events should be sent. The log destination for event-based logging
+    #   overrides default Log Group for the specified event type and applies
+    #   to all resources associated with that event.
+    #   @return [String]
+    #
+    class LogEventConfiguration < Struct.new(
+      :event_type,
+      :log_level,
+      :log_destination)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A log target.
     #
     # @!attribute [rw] target_type
@@ -15456,10 +15501,16 @@ module Aws::IoT
     #   If true all logs are disabled. The default is false.
     #   @return [Boolean]
     #
+    # @!attribute [rw] event_configurations
+    #   The list of event configurations that override account-level
+    #   logging.
+    #   @return [Array<Types::LogEventConfiguration>]
+    #
     class SetV2LoggingOptionsRequest < Struct.new(
       :role_arn,
       :default_log_level,
-      :disable_all_logs)
+      :disable_all_logs,
+      :event_configurations)
       SENSITIVE = []
       include Aws::Structure
     end
