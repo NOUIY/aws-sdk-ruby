@@ -12990,6 +12990,10 @@ module Aws::EC2
     #   * Rack – No usage restrictions.
     #   @return [String]
     #
+    # @!attribute [rw] linked_group_id
+    #   Reserved for future use.
+    #   @return [String]
+    #
     # @!attribute [rw] dry_run
     #   Checks whether you have the required permissions for the operation,
     #   without actually making the request, and provides an error response.
@@ -13014,6 +13018,7 @@ module Aws::EC2
       :partition_count,
       :tag_specifications,
       :spread_level,
+      :linked_group_id,
       :dry_run,
       :group_name,
       :strategy)
@@ -67538,6 +67543,10 @@ module Aws::EC2
     #   groups can be spread across hosts.
     #   @return [String]
     #
+    # @!attribute [rw] linked_group_id
+    #   Reserved for future use.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/PlacementGroup AWS API Documentation
     #
     class PlacementGroup < Struct.new(
@@ -67548,7 +67557,8 @@ module Aws::EC2
       :group_id,
       :tags,
       :group_arn,
-      :spread_level)
+      :spread_level,
+      :linked_group_id)
       SENSITIVE = []
       include Aws::Structure
     end

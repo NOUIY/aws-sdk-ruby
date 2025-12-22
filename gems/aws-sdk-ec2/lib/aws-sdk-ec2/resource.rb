@@ -1104,6 +1104,7 @@ module Aws::EC2
     #       },
     #     ],
     #     spread_level: "host", # accepts host, rack
+    #     linked_group_id: "PlacementGroupId",
     #     dry_run: false,
     #     group_name: "String",
     #     strategy: "cluster", # accepts cluster, spread, partition
@@ -1120,6 +1121,8 @@ module Aws::EC2
     #   * Host – You can use `host` only with Outpost placement groups.
     #
     #   * Rack – No usage restrictions.
+    # @option options [String] :linked_group_id
+    #   Reserved for future use.
     # @option options [Boolean] :dry_run
     #   Checks whether you have the required permissions for the operation,
     #   without actually making the request, and provides an error response.

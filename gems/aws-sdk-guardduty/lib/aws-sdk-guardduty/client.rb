@@ -3996,7 +3996,7 @@ module Aws::GuardDuty
     #
     #   [1]: https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html
     #
-    # @option params [Array<String>] :account_ids
+    # @option params [required, Array<String>] :account_ids
     #   A list of account identifiers of the GuardDuty member account.
     #
     # @return [Types::GetRemainingFreeTrialDaysResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
@@ -4008,7 +4008,7 @@ module Aws::GuardDuty
     #
     #   resp = client.get_remaining_free_trial_days({
     #     detector_id: "DetectorId", # required
-    #     account_ids: ["AccountId"],
+    #     account_ids: ["AccountId"], # required
     #   })
     #
     # @example Response structure
@@ -6517,7 +6517,7 @@ module Aws::GuardDuty
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-guardduty'
-      context[:gem_version] = '1.138.0'
+      context[:gem_version] = '1.139.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

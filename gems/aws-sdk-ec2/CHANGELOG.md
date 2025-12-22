@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.587.0 (2025-12-22)
+------------------
+
+* Feature - Adds support for linkedGroupId on the CreatePlacementGroup and DescribePlacementGroups APIs. The linkedGroupId parameter is reserved for future use.
+
 1.586.0 (2025-12-18)
 ------------------
 

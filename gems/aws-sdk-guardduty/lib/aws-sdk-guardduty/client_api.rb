@@ -1673,7 +1673,7 @@ module Aws::GuardDuty
     GetOrganizationStatisticsResponse.struct_class = Types::GetOrganizationStatisticsResponse
 
     GetRemainingFreeTrialDaysRequest.add_member(:detector_id, Shapes::ShapeRef.new(shape: DetectorId, required: true, location: "uri", location_name: "detectorId"))
-    GetRemainingFreeTrialDaysRequest.add_member(:account_ids, Shapes::ShapeRef.new(shape: AccountIds, location_name: "accountIds"))
+    GetRemainingFreeTrialDaysRequest.add_member(:account_ids, Shapes::ShapeRef.new(shape: AccountIds, required: true, location_name: "accountIds"))
     GetRemainingFreeTrialDaysRequest.struct_class = Types::GetRemainingFreeTrialDaysRequest
 
     GetRemainingFreeTrialDaysResponse.add_member(:accounts, Shapes::ShapeRef.new(shape: AccountFreeTrialInfos, location_name: "accounts"))

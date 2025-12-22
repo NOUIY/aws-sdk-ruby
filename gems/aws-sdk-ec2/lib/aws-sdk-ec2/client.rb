@@ -13177,6 +13177,9 @@ module Aws::EC2
     #
     #   * Rack – No usage restrictions.
     #
+    # @option params [String] :linked_group_id
+    #   Reserved for future use.
+    #
     # @option params [Boolean] :dry_run
     #   Checks whether you have the required permissions for the operation,
     #   without actually making the request, and provides an error response.
@@ -13226,6 +13229,7 @@ module Aws::EC2
     #       },
     #     ],
     #     spread_level: "host", # accepts host, rack
+    #     linked_group_id: "PlacementGroupId",
     #     dry_run: false,
     #     group_name: "String",
     #     strategy: "cluster", # accepts cluster, spread, partition
@@ -13243,6 +13247,7 @@ module Aws::EC2
     #   resp.placement_group.tags[0].value #=> String
     #   resp.placement_group.group_arn #=> String
     #   resp.placement_group.spread_level #=> String, one of "host", "rack"
+    #   resp.placement_group.linked_group_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreatePlacementGroup AWS API Documentation
     #
@@ -36988,6 +36993,7 @@ module Aws::EC2
     #   resp.placement_groups[0].tags[0].value #=> String
     #   resp.placement_groups[0].group_arn #=> String
     #   resp.placement_groups[0].spread_level #=> String, one of "host", "rack"
+    #   resp.placement_groups[0].linked_group_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribePlacementGroups AWS API Documentation
     #
@@ -71687,7 +71693,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.586.0'
+      context[:gem_version] = '1.587.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
