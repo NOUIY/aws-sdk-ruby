@@ -143,7 +143,7 @@ module Aws
             chunk_size = 32_768
             server, server_thread, port = start_mirror_server(chunk_size)
             client = Aws::S3::Client.new(
-              endpoint: "http://localhost:#{port}",
+              endpoint: "http://127.0.0.1:#{port}",
               region: 'us-east-1',
               access_key_id: 't',
               secret_access_key: 't'
@@ -172,7 +172,7 @@ module Aws
             chunk_size = 16_384
             server, server_thread, port = start_mirror_server(chunk_size)
             client = Aws::S3::Client.new(
-              endpoint: "http://localhost:#{port}",
+              endpoint: "http://127.0.0.1:#{port}",
               region: 'us-east-1',
               access_key_id: 't',
               secret_access_key: 't'
