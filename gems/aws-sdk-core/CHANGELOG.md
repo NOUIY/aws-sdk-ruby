@@ -1,6 +1,9 @@
 Unreleased Changes
 ------------------
 
+3.241.0 (2026-01-05)
+------------------
+
 * Feature - Improved memory efficiency when calculating request checksums.
 
 3.240.0 (2025-12-16)
