@@ -1,6 +1,9 @@
 Unreleased Changes
 ------------------
 
+1.210.1 (2026-01-06)
+------------------
+
 * Issue - Normalize response encoding to UTF-8 for proper XML error parsing in HTTP 200 responses.
 
 1.210.0 (2026-01-05)

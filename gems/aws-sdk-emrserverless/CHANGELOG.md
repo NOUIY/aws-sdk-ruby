@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.60.0 (2026-01-06)
+------------------
+
+* Feature - Added support for enabling disk encryption using customer managed AWS KMS keys to CreateApplication, UpdateApplication and StartJobRun APIs.
+
 1.59.0 (2026-01-05)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.144.0 (2026-01-06)
+------------------
+
+* Feature - This release updates existing reservation recommendations API to support deployment model.
+
 1.143.0 (2026-01-05)
 ------------------
 
