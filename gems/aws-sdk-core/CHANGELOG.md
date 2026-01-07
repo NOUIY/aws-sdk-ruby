@@ -1,6 +1,8 @@
 Unreleased Changes
 ------------------
 
+* Issue - Preserve existing Content-Encoding when applying request trailer checksum.
+
 3.241.1 (2026-01-06)
 ------------------
 
