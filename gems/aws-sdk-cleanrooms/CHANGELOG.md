@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.66.0 (2026-01-15)
+------------------
+
+* Feature - This release adds support for parameters in PySpark analysis templates.
+
 1.65.0 (2026-01-08)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.47.0 (2026-01-15)
+------------------
+
+* Feature - Fix inference configuration shapes for the CreateAIPrompt and UpdateAIPrompt APIs, Modify Text Length Limit for SendMessage API
+
 1.46.0 (2026-01-08)
 ------------------
 

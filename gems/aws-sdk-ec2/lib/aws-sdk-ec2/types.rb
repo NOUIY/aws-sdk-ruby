@@ -44033,7 +44033,11 @@ module Aws::EC2
     end
 
     # @!attribute [rw] organization_targets
-    #   The Amazon Web Services Organizations targets for an IPAM policy.
+    #   The IDs of the Amazon Web Services Organizations targets.
+    #
+    #   A target can be an individual Amazon Web Services account or an
+    #   entity within an Amazon Web Services Organization to which an IPAM
+    #   policy can be applied.
     #   @return [Array<Types::IpamPolicyOrganizationTarget>]
     #
     # @!attribute [rw] next_token
@@ -53543,8 +53547,11 @@ module Aws::EC2
     # The Amazon Web Services Organizations target for an IPAM policy.
     #
     # @!attribute [rw] organization_target_id
-    #   The ID of a Amazon Web Services Organizations target for an IPAM
-    #   policy.
+    #   The ID of the Amazon Web Services Organizations target.
+    #
+    #   A target can be an individual Amazon Web Services account or an
+    #   entity within an Amazon Web Services Organization to which an IPAM
+    #   policy can be applied.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/IpamPolicyOrganizationTarget AWS API Documentation

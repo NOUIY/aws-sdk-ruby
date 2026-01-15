@@ -1574,12 +1574,10 @@ module Aws::QConnect
     #     },
     #     description: "Description",
     #     inference_configuration: {
-    #       text_ai_prompt_inference_configuration: {
-    #         temperature: 1.0,
-    #         top_p: 1.0,
-    #         top_k: 1,
-    #         max_tokens_to_sample: 1,
-    #       },
+    #       temperature: 1.0,
+    #       top_p: 1.0,
+    #       top_k: 1,
+    #       max_tokens_to_sample: 1,
     #     },
     #   })
     #
@@ -1595,10 +1593,10 @@ module Aws::QConnect
     #   resp.ai_prompt.model_id #=> String
     #   resp.ai_prompt.api_format #=> String, one of "ANTHROPIC_CLAUDE_MESSAGES", "ANTHROPIC_CLAUDE_TEXT_COMPLETIONS", "MESSAGES", "TEXT_COMPLETIONS"
     #   resp.ai_prompt.template_configuration.text_full_ai_prompt_edit_template_configuration.text #=> String
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.temperature #=> Float
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.top_p #=> Float
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.top_k #=> Integer
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.max_tokens_to_sample #=> Integer
+    #   resp.ai_prompt.inference_configuration.temperature #=> Float
+    #   resp.ai_prompt.inference_configuration.top_p #=> Float
+    #   resp.ai_prompt.inference_configuration.top_k #=> Integer
+    #   resp.ai_prompt.inference_configuration.max_tokens_to_sample #=> Integer
     #   resp.ai_prompt.modified_time #=> Time
     #   resp.ai_prompt.description #=> String
     #   resp.ai_prompt.visibility_status #=> String, one of "SAVED", "PUBLISHED"
@@ -1667,10 +1665,10 @@ module Aws::QConnect
     #   resp.ai_prompt.model_id #=> String
     #   resp.ai_prompt.api_format #=> String, one of "ANTHROPIC_CLAUDE_MESSAGES", "ANTHROPIC_CLAUDE_TEXT_COMPLETIONS", "MESSAGES", "TEXT_COMPLETIONS"
     #   resp.ai_prompt.template_configuration.text_full_ai_prompt_edit_template_configuration.text #=> String
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.temperature #=> Float
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.top_p #=> Float
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.top_k #=> Integer
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.max_tokens_to_sample #=> Integer
+    #   resp.ai_prompt.inference_configuration.temperature #=> Float
+    #   resp.ai_prompt.inference_configuration.top_p #=> Float
+    #   resp.ai_prompt.inference_configuration.top_k #=> Integer
+    #   resp.ai_prompt.inference_configuration.max_tokens_to_sample #=> Integer
     #   resp.ai_prompt.modified_time #=> Time
     #   resp.ai_prompt.description #=> String
     #   resp.ai_prompt.visibility_status #=> String, one of "SAVED", "PUBLISHED"
@@ -3992,10 +3990,10 @@ module Aws::QConnect
     #   resp.ai_prompt.model_id #=> String
     #   resp.ai_prompt.api_format #=> String, one of "ANTHROPIC_CLAUDE_MESSAGES", "ANTHROPIC_CLAUDE_TEXT_COMPLETIONS", "MESSAGES", "TEXT_COMPLETIONS"
     #   resp.ai_prompt.template_configuration.text_full_ai_prompt_edit_template_configuration.text #=> String
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.temperature #=> Float
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.top_p #=> Float
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.top_k #=> Integer
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.max_tokens_to_sample #=> Integer
+    #   resp.ai_prompt.inference_configuration.temperature #=> Float
+    #   resp.ai_prompt.inference_configuration.top_p #=> Float
+    #   resp.ai_prompt.inference_configuration.top_k #=> Integer
+    #   resp.ai_prompt.inference_configuration.max_tokens_to_sample #=> Integer
     #   resp.ai_prompt.modified_time #=> Time
     #   resp.ai_prompt.description #=> String
     #   resp.ai_prompt.visibility_status #=> String, one of "SAVED", "PUBLISHED"
@@ -8317,12 +8315,10 @@ module Aws::QConnect
     #     description: "Description",
     #     model_id: "AIPromptModelIdentifier",
     #     inference_configuration: {
-    #       text_ai_prompt_inference_configuration: {
-    #         temperature: 1.0,
-    #         top_p: 1.0,
-    #         top_k: 1,
-    #         max_tokens_to_sample: 1,
-    #       },
+    #       temperature: 1.0,
+    #       top_p: 1.0,
+    #       top_k: 1,
+    #       max_tokens_to_sample: 1,
     #     },
     #   })
     #
@@ -8338,10 +8334,10 @@ module Aws::QConnect
     #   resp.ai_prompt.model_id #=> String
     #   resp.ai_prompt.api_format #=> String, one of "ANTHROPIC_CLAUDE_MESSAGES", "ANTHROPIC_CLAUDE_TEXT_COMPLETIONS", "MESSAGES", "TEXT_COMPLETIONS"
     #   resp.ai_prompt.template_configuration.text_full_ai_prompt_edit_template_configuration.text #=> String
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.temperature #=> Float
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.top_p #=> Float
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.top_k #=> Integer
-    #   resp.ai_prompt.inference_configuration.text_ai_prompt_inference_configuration.max_tokens_to_sample #=> Integer
+    #   resp.ai_prompt.inference_configuration.temperature #=> Float
+    #   resp.ai_prompt.inference_configuration.top_p #=> Float
+    #   resp.ai_prompt.inference_configuration.top_k #=> Integer
+    #   resp.ai_prompt.inference_configuration.max_tokens_to_sample #=> Integer
     #   resp.ai_prompt.modified_time #=> Time
     #   resp.ai_prompt.description #=> String
     #   resp.ai_prompt.visibility_status #=> String, one of "SAVED", "PUBLISHED"
@@ -9463,7 +9459,7 @@ module Aws::QConnect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-qconnect'
-      context[:gem_version] = '1.46.0'
+      context[:gem_version] = '1.47.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.590.0 (2026-01-15)
+------------------
+
+* Feature - This release includes documentation updates to support up to four Elastic Volume modifications per Amazon EBS volume within a rolling 24-hour period.
+
 1.589.0 (2026-01-08)
 ------------------
 

@@ -39,7 +39,7 @@ module Aws::QConnect
     AIGuardrailWordPolicyConfig = Shapes::StructureShape.new(name: 'AIGuardrailWordPolicyConfig')
     AIPromptAPIFormat = Shapes::StringShape.new(name: 'AIPromptAPIFormat')
     AIPromptData = Shapes::StructureShape.new(name: 'AIPromptData')
-    AIPromptInferenceConfiguration = Shapes::UnionShape.new(name: 'AIPromptInferenceConfiguration')
+    AIPromptInferenceConfiguration = Shapes::StructureShape.new(name: 'AIPromptInferenceConfiguration')
     AIPromptModelIdentifier = Shapes::StringShape.new(name: 'AIPromptModelIdentifier')
     AIPromptSummary = Shapes::StructureShape.new(name: 'AIPromptSummary')
     AIPromptSummaryList = Shapes::ListShape.new(name: 'AIPromptSummaryList')
@@ -587,7 +587,6 @@ module Aws::QConnect
     Tags = Shapes::MapShape.new(name: 'Tags')
     TargetType = Shapes::StringShape.new(name: 'TargetType')
     TextAIPrompt = Shapes::StringShape.new(name: 'TextAIPrompt')
-    TextAIPromptInferenceConfiguration = Shapes::StructureShape.new(name: 'TextAIPromptInferenceConfiguration')
     TextData = Shapes::StructureShape.new(name: 'TextData')
     TextFullAIPromptEditTemplateConfiguration = Shapes::StructureShape.new(name: 'TextFullAIPromptEditTemplateConfiguration')
     TextMessage = Shapes::StructureShape.new(name: 'TextMessage')
@@ -814,10 +813,10 @@ module Aws::QConnect
     AIPromptData.add_member(:status, Shapes::ShapeRef.new(shape: Status, location_name: "status"))
     AIPromptData.struct_class = Types::AIPromptData
 
-    AIPromptInferenceConfiguration.add_member(:text_ai_prompt_inference_configuration, Shapes::ShapeRef.new(shape: TextAIPromptInferenceConfiguration, location_name: "textAIPromptInferenceConfiguration"))
-    AIPromptInferenceConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
-    AIPromptInferenceConfiguration.add_member_subclass(:text_ai_prompt_inference_configuration, Types::AIPromptInferenceConfiguration::TextAiPromptInferenceConfiguration)
-    AIPromptInferenceConfiguration.add_member_subclass(:unknown, Types::AIPromptInferenceConfiguration::Unknown)
+    AIPromptInferenceConfiguration.add_member(:temperature, Shapes::ShapeRef.new(shape: Probability, location_name: "temperature"))
+    AIPromptInferenceConfiguration.add_member(:top_p, Shapes::ShapeRef.new(shape: Probability, location_name: "topP"))
+    AIPromptInferenceConfiguration.add_member(:top_k, Shapes::ShapeRef.new(shape: TopK, location_name: "topK"))
+    AIPromptInferenceConfiguration.add_member(:max_tokens_to_sample, Shapes::ShapeRef.new(shape: MaxTokensToSample, location_name: "maxTokensToSample"))
     AIPromptInferenceConfiguration.struct_class = Types::AIPromptInferenceConfiguration
 
     AIPromptSummary.add_member(:name, Shapes::ShapeRef.new(shape: Name, required: true, location_name: "name"))
@@ -2997,12 +2996,6 @@ module Aws::QConnect
 
     Tags.key = Shapes::ShapeRef.new(shape: TagKey)
     Tags.value = Shapes::ShapeRef.new(shape: TagValue)
-
-    TextAIPromptInferenceConfiguration.add_member(:temperature, Shapes::ShapeRef.new(shape: Probability, location_name: "temperature"))
-    TextAIPromptInferenceConfiguration.add_member(:top_p, Shapes::ShapeRef.new(shape: Probability, location_name: "topP"))
-    TextAIPromptInferenceConfiguration.add_member(:top_k, Shapes::ShapeRef.new(shape: TopK, location_name: "topK"))
-    TextAIPromptInferenceConfiguration.add_member(:max_tokens_to_sample, Shapes::ShapeRef.new(shape: MaxTokensToSample, location_name: "maxTokensToSample"))
-    TextAIPromptInferenceConfiguration.struct_class = Types::TextAIPromptInferenceConfiguration
 
     TextData.add_member(:title, Shapes::ShapeRef.new(shape: DocumentText, location_name: "title"))
     TextData.add_member(:excerpt, Shapes::ShapeRef.new(shape: DocumentText, location_name: "excerpt"))

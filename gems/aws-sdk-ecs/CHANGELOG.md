@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.219.0 (2026-01-15)
+------------------
+
+* Feature - Adds support for configuring FIPS in AWS GovCloud (US) Regions via a new ECS Capacity Provider field fipsEnabled. When enabled, instances launched by the capacity provider will use a FIPS-140 enabled AMI. Instances will use FIPS-140 compliant cryptographic modules and AWS FIPS endpoints.
+
 1.218.0 (2026-01-08)
 ------------------
 

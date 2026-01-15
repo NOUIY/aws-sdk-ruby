@@ -61728,10 +61728,14 @@ module Aws::EC2
     # require detaching and reattaching the volume or stopping and
     # restarting the instance.
     #
-    # After modifying a volume, you must wait at least six hours and ensure
-    # that the volume is in the `in-use` or `available` state before you can
-    # modify the same volume. This is sometimes referred to as a cooldown
-    # period.
+    # After you initiate a volume modification, you must wait for that
+    # modification to reach the `completed` state before you can initiate
+    # another modification for the same volume. You can modify a volume up
+    # to four times within a rolling 24-hour period, as long as the volume
+    # is in the `in-use` or `available` state, and all previous
+    # modifications for that volume are `completed`. If you exceed this
+    # limit, you get an error message that indicates when you can perform
+    # your next modification.
     #
     #
     #
@@ -71693,7 +71697,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.589.0'
+      context[:gem_version] = '1.590.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

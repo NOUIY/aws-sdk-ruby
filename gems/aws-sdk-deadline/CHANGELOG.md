@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.42.0 (2026-01-15)
+------------------
+
+* Feature - AWS Deadline Cloud now supports tagging Budget resources with ABAC for permissions management and selecting up to 16 filter values in the monitor and Search API.
+
 1.41.0 (2026-01-08)
 ------------------
 

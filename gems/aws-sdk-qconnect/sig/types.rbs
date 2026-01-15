@@ -183,14 +183,11 @@ module Aws::QConnect
     end
 
     class AIPromptInferenceConfiguration
-      attr_accessor text_ai_prompt_inference_configuration: Types::TextAIPromptInferenceConfiguration
-      attr_accessor unknown: untyped
-      SENSITIVE: []
-
-      class TextAiPromptInferenceConfiguration < AIPromptInferenceConfiguration
-      end
-      class Unknown < AIPromptInferenceConfiguration
-      end
+      attr_accessor temperature: ::Float
+      attr_accessor top_p: ::Float
+      attr_accessor top_k: ::Integer
+      attr_accessor max_tokens_to_sample: ::Integer
+      SENSITIVE: [:temperature, :top_p, :top_k, :max_tokens_to_sample]
     end
 
     class AIPromptSummary
@@ -2993,14 +2990,6 @@ module Aws::QConnect
     end
 
     class TagResourceResponse < Aws::EmptyStructure
-    end
-
-    class TextAIPromptInferenceConfiguration
-      attr_accessor temperature: ::Float
-      attr_accessor top_p: ::Float
-      attr_accessor top_k: ::Integer
-      attr_accessor max_tokens_to_sample: ::Integer
-      SENSITIVE: [:temperature, :top_p, :top_k, :max_tokens_to_sample]
     end
 
     class TextData

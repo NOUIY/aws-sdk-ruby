@@ -692,25 +692,32 @@ module Aws::QConnect
 
     # The configuration for inference parameters when using AI Prompts.
     #
-    # @note AIPromptInferenceConfiguration is a union - when making an API calls you must set exactly one of the members.
+    # @!attribute [rw] temperature
+    #   The temperature setting for controlling randomness in the generated
+    #   response.
+    #   @return [Float]
     #
-    # @note AIPromptInferenceConfiguration is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of AIPromptInferenceConfiguration corresponding to the set member.
+    # @!attribute [rw] top_p
+    #   The top-P sampling parameter for nucleus sampling.
+    #   @return [Float]
     #
-    # @!attribute [rw] text_ai_prompt_inference_configuration
-    #   The inference configuration for text-based AI Prompts.
-    #   @return [Types::TextAIPromptInferenceConfiguration]
+    # @!attribute [rw] top_k
+    #   The top-K sampling parameter for token selection.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_tokens_to_sample
+    #   The maximum number of tokens to generate in the response.
+    #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/qconnect-2020-10-19/AIPromptInferenceConfiguration AWS API Documentation
     #
     class AIPromptInferenceConfiguration < Struct.new(
-      :text_ai_prompt_inference_configuration,
-      :unknown)
-      SENSITIVE = []
+      :temperature,
+      :top_p,
+      :top_k,
+      :max_tokens_to_sample)
+      SENSITIVE = [:temperature, :top_p, :top_k, :max_tokens_to_sample]
       include Aws::Structure
-      include Aws::Structure::Union
-
-      class TextAiPromptInferenceConfiguration < AIPromptInferenceConfiguration; end
-      class Unknown < AIPromptInferenceConfiguration; end
     end
 
     # The summary of the AI Prompt.
@@ -11278,36 +11285,6 @@ module Aws::QConnect
     # @see http://docs.aws.amazon.com/goto/WebAPI/qconnect-2020-10-19/TagResourceResponse AWS API Documentation
     #
     class TagResourceResponse < Aws::EmptyStructure; end
-
-    # Inference configuration for text-based AI Prompts.
-    #
-    # @!attribute [rw] temperature
-    #   The temperature setting for controlling randomness in the generated
-    #   response.
-    #   @return [Float]
-    #
-    # @!attribute [rw] top_p
-    #   The top-P sampling parameter for nucleus sampling.
-    #   @return [Float]
-    #
-    # @!attribute [rw] top_k
-    #   The top-K sampling parameter for token selection.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] max_tokens_to_sample
-    #   The maximum number of tokens to generate in the response.
-    #   @return [Integer]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/qconnect-2020-10-19/TextAIPromptInferenceConfiguration AWS API Documentation
-    #
-    class TextAIPromptInferenceConfiguration < Struct.new(
-      :temperature,
-      :top_p,
-      :top_k,
-      :max_tokens_to_sample)
-      SENSITIVE = [:temperature, :top_p, :top_k, :max_tokens_to_sample]
-      include Aws::Structure
-    end
 
     # Details about the source content text data.
     #

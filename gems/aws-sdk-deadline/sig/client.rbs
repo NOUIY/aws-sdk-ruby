@@ -265,7 +265,8 @@ module Aws
                                start_time: ::Time,
                                end_time: ::Time
                              }?
-                           }
+                           },
+                           ?tags: Hash[::String, ::String]
                          ) -> _CreateBudgetResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateBudgetResponseSuccess
 
@@ -1621,12 +1622,12 @@ module Aws
                              {
                                date_time_filter: {
                                  name: ::String,
-                                 operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN"),
+                                 operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
                                  date_time: ::Time
                                }?,
                                parameter_filter: {
                                  name: ::String,
-                                 operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN"),
+                                 operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
                                  value: ::String
                                }?,
                                search_term_filter: {
@@ -1635,8 +1636,13 @@ module Aws
                                }?,
                                string_filter: {
                                  name: ::String,
-                                 operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN"),
+                                 operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
                                  value: ::String
+                               }?,
+                               string_list_filter: {
+                                 name: ::String,
+                                 operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
+                                 values: Array[::String]
                                }?,
                                group_filter: untyped?
                              },
@@ -1679,12 +1685,12 @@ module Aws
                               {
                                 date_time_filter: {
                                   name: ::String,
-                                  operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN"),
+                                  operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
                                   date_time: ::Time
                                 }?,
                                 parameter_filter: {
                                   name: ::String,
-                                  operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN"),
+                                  operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
                                   value: ::String
                                 }?,
                                 search_term_filter: {
@@ -1693,8 +1699,13 @@ module Aws
                                 }?,
                                 string_filter: {
                                   name: ::String,
-                                  operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN"),
+                                  operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
                                   value: ::String
+                                }?,
+                                string_list_filter: {
+                                  name: ::String,
+                                  operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
+                                  values: Array[::String]
                                 }?,
                                 group_filter: untyped?
                               },
@@ -1737,12 +1748,12 @@ module Aws
                               {
                                 date_time_filter: {
                                   name: ::String,
-                                  operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN"),
+                                  operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
                                   date_time: ::Time
                                 }?,
                                 parameter_filter: {
                                   name: ::String,
-                                  operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN"),
+                                  operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
                                   value: ::String
                                 }?,
                                 search_term_filter: {
@@ -1751,8 +1762,13 @@ module Aws
                                 }?,
                                 string_filter: {
                                   name: ::String,
-                                  operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN"),
+                                  operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
                                   value: ::String
+                                }?,
+                                string_list_filter: {
+                                  name: ::String,
+                                  operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
+                                  values: Array[::String]
                                 }?,
                                 group_filter: untyped?
                               },
@@ -1794,12 +1810,12 @@ module Aws
                                 {
                                   date_time_filter: {
                                     name: ::String,
-                                    operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN"),
+                                    operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
                                     date_time: ::Time
                                   }?,
                                   parameter_filter: {
                                     name: ::String,
-                                    operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN"),
+                                    operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
                                     value: ::String
                                   }?,
                                   search_term_filter: {
@@ -1808,8 +1824,13 @@ module Aws
                                   }?,
                                   string_filter: {
                                     name: ::String,
-                                    operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN"),
+                                    operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
                                     value: ::String
+                                  }?,
+                                  string_list_filter: {
+                                    name: ::String,
+                                    operator: ("EQUAL" | "NOT_EQUAL" | "GREATER_THAN_EQUAL_TO" | "GREATER_THAN" | "LESS_THAN_EQUAL_TO" | "LESS_THAN" | "ANY_EQUALS" | "ALL_NOT_EQUALS"),
+                                    values: Array[::String]
                                   }?,
                                   group_filter: untyped?
                                 },
@@ -2292,12 +2313,24 @@ module Aws
                     fleet_id: ::String
                   ) -> Client::_GetFleetResponseSuccess
                     | (:fleet_active waiter_name, Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_GetFleetResponseSuccess
+                    | (:job_complete waiter_name, 
+                    farm_id: ::String,
+                    queue_id: ::String,
+                    job_id: ::String
+                  ) -> Client::_GetJobResponseSuccess
+                    | (:job_complete waiter_name, Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_GetJobResponseSuccess
                     | (:job_create_complete waiter_name, 
                     farm_id: ::String,
                     queue_id: ::String,
                     job_id: ::String
                   ) -> Client::_GetJobResponseSuccess
                     | (:job_create_complete waiter_name, Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_GetJobResponseSuccess
+                    | (:job_succeeded waiter_name, 
+                    farm_id: ::String,
+                    queue_id: ::String,
+                    job_id: ::String
+                  ) -> Client::_GetJobResponseSuccess
+                    | (:job_succeeded waiter_name, Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_GetJobResponseSuccess
                     | (:license_endpoint_deleted waiter_name, 
                     license_endpoint_id: ::String
                   ) -> Client::_GetLicenseEndpointResponseSuccess
