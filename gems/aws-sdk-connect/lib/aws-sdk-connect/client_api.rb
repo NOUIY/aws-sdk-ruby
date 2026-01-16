@@ -771,6 +771,15 @@ module Aws::Connect
     EvaluationQuestionAnswerAnalysisDetails = Shapes::UnionShape.new(name: 'EvaluationQuestionAnswerAnalysisDetails')
     EvaluationQuestionAnswerAnalysisType = Shapes::StringShape.new(name: 'EvaluationQuestionAnswerAnalysisType')
     EvaluationQuestionInputDetails = Shapes::StructureShape.new(name: 'EvaluationQuestionInputDetails')
+    EvaluationReviewConfiguration = Shapes::StructureShape.new(name: 'EvaluationReviewConfiguration')
+    EvaluationReviewMetadata = Shapes::StructureShape.new(name: 'EvaluationReviewMetadata')
+    EvaluationReviewNotificationRecipient = Shapes::StructureShape.new(name: 'EvaluationReviewNotificationRecipient')
+    EvaluationReviewNotificationRecipientList = Shapes::ListShape.new(name: 'EvaluationReviewNotificationRecipientList')
+    EvaluationReviewNotificationRecipientType = Shapes::StringShape.new(name: 'EvaluationReviewNotificationRecipientType')
+    EvaluationReviewNotificationRecipientValue = Shapes::StructureShape.new(name: 'EvaluationReviewNotificationRecipientValue')
+    EvaluationReviewRequestComment = Shapes::StructureShape.new(name: 'EvaluationReviewRequestComment')
+    EvaluationReviewRequestCommentContent = Shapes::StringShape.new(name: 'EvaluationReviewRequestCommentContent')
+    EvaluationReviewRequestCommentList = Shapes::ListShape.new(name: 'EvaluationReviewRequestCommentList')
     EvaluationScore = Shapes::StructureShape.new(name: 'EvaluationScore')
     EvaluationScorePercentage = Shapes::FloatShape.new(name: 'EvaluationScorePercentage')
     EvaluationScoresMap = Shapes::MapShape.new(name: 'EvaluationScoresMap')
@@ -3141,6 +3150,7 @@ module Aws::Connect
     CreateEvaluationFormRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     CreateEvaluationFormRequest.add_member(:as_draft, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "AsDraft"))
     CreateEvaluationFormRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
+    CreateEvaluationFormRequest.add_member(:review_configuration, Shapes::ShapeRef.new(shape: EvaluationReviewConfiguration, location_name: "ReviewConfiguration"))
     CreateEvaluationFormRequest.add_member(:target_configuration, Shapes::ShapeRef.new(shape: EvaluationFormTargetConfiguration, location_name: "TargetConfiguration"))
     CreateEvaluationFormRequest.add_member(:language_configuration, Shapes::ShapeRef.new(shape: EvaluationFormLanguageConfiguration, location_name: "LanguageConfiguration"))
     CreateEvaluationFormRequest.struct_class = Types::CreateEvaluationFormRequest
@@ -4389,6 +4399,7 @@ module Aws::Connect
     EvaluationForm.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "LastModifiedTime"))
     EvaluationForm.add_member(:last_modified_by, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "LastModifiedBy"))
     EvaluationForm.add_member(:auto_evaluation_configuration, Shapes::ShapeRef.new(shape: EvaluationFormAutoEvaluationConfiguration, location_name: "AutoEvaluationConfiguration"))
+    EvaluationForm.add_member(:review_configuration, Shapes::ShapeRef.new(shape: EvaluationReviewConfiguration, location_name: "ReviewConfiguration"))
     EvaluationForm.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
     EvaluationForm.add_member(:target_configuration, Shapes::ShapeRef.new(shape: EvaluationFormTargetConfiguration, location_name: "TargetConfiguration"))
     EvaluationForm.add_member(:language_configuration, Shapes::ShapeRef.new(shape: EvaluationFormLanguageConfiguration, location_name: "LanguageConfiguration"))
@@ -4407,6 +4418,7 @@ module Aws::Connect
     EvaluationFormContent.add_member(:auto_evaluation_configuration, Shapes::ShapeRef.new(shape: EvaluationFormAutoEvaluationConfiguration, location_name: "AutoEvaluationConfiguration"))
     EvaluationFormContent.add_member(:target_configuration, Shapes::ShapeRef.new(shape: EvaluationFormTargetConfiguration, location_name: "TargetConfiguration"))
     EvaluationFormContent.add_member(:language_configuration, Shapes::ShapeRef.new(shape: EvaluationFormLanguageConfiguration, location_name: "LanguageConfiguration"))
+    EvaluationFormContent.add_member(:review_configuration, Shapes::ShapeRef.new(shape: EvaluationReviewConfiguration, location_name: "ReviewConfiguration"))
     EvaluationFormContent.struct_class = Types::EvaluationFormContent
 
     EvaluationFormItem.add_member(:section, Shapes::ShapeRef.new(shape: EvaluationFormSection, location_name: "Section"))
@@ -4648,6 +4660,7 @@ module Aws::Connect
     EvaluationMetadata.add_member(:score, Shapes::ShapeRef.new(shape: EvaluationScore, location_name: "Score"))
     EvaluationMetadata.add_member(:auto_evaluation, Shapes::ShapeRef.new(shape: AutoEvaluationDetails, location_name: "AutoEvaluation"))
     EvaluationMetadata.add_member(:acknowledgement, Shapes::ShapeRef.new(shape: EvaluationAcknowledgement, location_name: "Acknowledgement"))
+    EvaluationMetadata.add_member(:review, Shapes::ShapeRef.new(shape: EvaluationReviewMetadata, location_name: "Review"))
     EvaluationMetadata.add_member(:contact_participant, Shapes::ShapeRef.new(shape: EvaluationContactParticipant, location_name: "ContactParticipant"))
     EvaluationMetadata.add_member(:sampling_job_id, Shapes::ShapeRef.new(shape: ResourceId, location_name: "SamplingJobId"))
     EvaluationMetadata.struct_class = Types::EvaluationMetadata
@@ -4668,6 +4681,32 @@ module Aws::Connect
 
     EvaluationQuestionInputDetails.add_member(:transcript_type, Shapes::ShapeRef.new(shape: EvaluationTranscriptType, location_name: "TranscriptType"))
     EvaluationQuestionInputDetails.struct_class = Types::EvaluationQuestionInputDetails
+
+    EvaluationReviewConfiguration.add_member(:review_notification_recipients, Shapes::ShapeRef.new(shape: EvaluationReviewNotificationRecipientList, required: true, location_name: "ReviewNotificationRecipients"))
+    EvaluationReviewConfiguration.add_member(:eligibility_days, Shapes::ShapeRef.new(shape: Integer, location_name: "EligibilityDays"))
+    EvaluationReviewConfiguration.struct_class = Types::EvaluationReviewConfiguration
+
+    EvaluationReviewMetadata.add_member(:review_id, Shapes::ShapeRef.new(shape: ResourceId, location_name: "ReviewId"))
+    EvaluationReviewMetadata.add_member(:created_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreatedTime"))
+    EvaluationReviewMetadata.add_member(:created_by, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "CreatedBy"))
+    EvaluationReviewMetadata.add_member(:review_request_comments, Shapes::ShapeRef.new(shape: EvaluationReviewRequestCommentList, required: true, location_name: "ReviewRequestComments"))
+    EvaluationReviewMetadata.struct_class = Types::EvaluationReviewMetadata
+
+    EvaluationReviewNotificationRecipient.add_member(:type, Shapes::ShapeRef.new(shape: EvaluationReviewNotificationRecipientType, required: true, location_name: "Type"))
+    EvaluationReviewNotificationRecipient.add_member(:value, Shapes::ShapeRef.new(shape: EvaluationReviewNotificationRecipientValue, required: true, location_name: "Value"))
+    EvaluationReviewNotificationRecipient.struct_class = Types::EvaluationReviewNotificationRecipient
+
+    EvaluationReviewNotificationRecipientList.member = Shapes::ShapeRef.new(shape: EvaluationReviewNotificationRecipient)
+
+    EvaluationReviewNotificationRecipientValue.add_member(:user_id, Shapes::ShapeRef.new(shape: ResourceId, location_name: "UserId"))
+    EvaluationReviewNotificationRecipientValue.struct_class = Types::EvaluationReviewNotificationRecipientValue
+
+    EvaluationReviewRequestComment.add_member(:comment, Shapes::ShapeRef.new(shape: EvaluationReviewRequestCommentContent, location_name: "Comment"))
+    EvaluationReviewRequestComment.add_member(:created_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreatedTime"))
+    EvaluationReviewRequestComment.add_member(:created_by, Shapes::ShapeRef.new(shape: ARN, location_name: "CreatedBy"))
+    EvaluationReviewRequestComment.struct_class = Types::EvaluationReviewRequestComment
+
+    EvaluationReviewRequestCommentList.member = Shapes::ShapeRef.new(shape: EvaluationReviewRequestComment)
 
     EvaluationScore.add_member(:percentage, Shapes::ShapeRef.new(shape: EvaluationScorePercentage, location_name: "Percentage"))
     EvaluationScore.add_member(:not_applicable, Shapes::ShapeRef.new(shape: Boolean, location_name: "NotApplicable"))
@@ -8073,6 +8112,7 @@ module Aws::Connect
     UpdateEvaluationFormRequest.add_member(:items, Shapes::ShapeRef.new(shape: EvaluationFormItemsList, required: true, location_name: "Items"))
     UpdateEvaluationFormRequest.add_member(:scoring_strategy, Shapes::ShapeRef.new(shape: EvaluationFormScoringStrategy, location_name: "ScoringStrategy"))
     UpdateEvaluationFormRequest.add_member(:auto_evaluation_configuration, Shapes::ShapeRef.new(shape: EvaluationFormAutoEvaluationConfiguration, location_name: "AutoEvaluationConfiguration"))
+    UpdateEvaluationFormRequest.add_member(:review_configuration, Shapes::ShapeRef.new(shape: EvaluationReviewConfiguration, location_name: "ReviewConfiguration"))
     UpdateEvaluationFormRequest.add_member(:as_draft, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "AsDraft"))
     UpdateEvaluationFormRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     UpdateEvaluationFormRequest.add_member(:target_configuration, Shapes::ShapeRef.new(shape: EvaluationFormTargetConfiguration, location_name: "TargetConfiguration"))

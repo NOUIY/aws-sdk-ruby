@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.236.0 (2026-01-16)
+------------------
+
+* Feature - Adds support to allow customers to create form with Dispute configuration
+
 1.235.0 (2026-01-14)
 ------------------
 

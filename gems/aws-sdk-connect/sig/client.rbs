@@ -943,6 +943,17 @@ module Aws
                                     ?client_token: ::String,
                                     ?as_draft: bool,
                                     ?tags: Hash[::String, ::String],
+                                    ?review_configuration: {
+                                      review_notification_recipients: Array[
+                                        {
+                                          type: ("USER_ID"),
+                                          value: {
+                                            user_id: ::String?
+                                          }
+                                        },
+                                      ],
+                                      eligibility_days: ::Integer?
+                                    },
                                     ?target_configuration: {
                                       contact_interaction_type: ("AGENT" | "AUTOMATED")
                                     },
@@ -6267,6 +6278,17 @@ module Aws
                                     },
                                     ?auto_evaluation_configuration: {
                                       enabled: bool
+                                    },
+                                    ?review_configuration: {
+                                      review_notification_recipients: Array[
+                                        {
+                                          type: ("USER_ID"),
+                                          value: {
+                                            user_id: ::String?
+                                          }
+                                        },
+                                      ],
+                                      eligibility_days: ::Integer?
                                     },
                                     ?as_draft: bool,
                                     ?client_token: ::String,

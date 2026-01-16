@@ -8076,14 +8076,24 @@ module Aws::DataZone
     #   @return [String]
     #
     # @!attribute [rw] value
-    #   A search filter value in Amazon DataZone.
+    #   A search filter string value in Amazon DataZone.
+    #   @return [String]
+    #
+    # @!attribute [rw] int_value
+    #   A search filter integer value in Amazon DataZone.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] operator
+    #   Specifies the search filter operator.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/Filter AWS API Documentation
     #
     class Filter < Struct.new(
       :attribute,
-      :value)
+      :value,
+      :int_value,
+      :operator)
       SENSITIVE = []
       include Aws::Structure
     end

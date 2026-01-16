@@ -3255,6 +3255,9 @@ module Aws::Connect
     #   For example, \{ "Tags": \{"key1":"value1", "key2":"value2"}
     #   }.
     #
+    # @option params [Types::EvaluationReviewConfiguration] :review_configuration
+    #   Configuration information about evaluation reviews.
+    #
     # @option params [Types::EvaluationFormTargetConfiguration] :target_configuration
     #   Configuration that specifies the target for the evaluation form.
     #
@@ -3416,6 +3419,17 @@ module Aws::Connect
     #     as_draft: false,
     #     tags: {
     #       "TagKey" => "TagValue",
+    #     },
+    #     review_configuration: {
+    #       review_notification_recipients: [ # required
+    #         {
+    #           type: "USER_ID", # required, accepts USER_ID
+    #           value: { # required
+    #             user_id: "ResourceId",
+    #           },
+    #         },
+    #       ],
+    #       eligibility_days: 1,
     #     },
     #     target_configuration: {
     #       contact_interaction_type: "AGENT", # required, accepts AGENT, AUTOMATED
@@ -7310,6 +7324,13 @@ module Aws::Connect
     #   resp.evaluation.metadata.acknowledgement.acknowledged_time #=> Time
     #   resp.evaluation.metadata.acknowledgement.acknowledged_by #=> String
     #   resp.evaluation.metadata.acknowledgement.acknowledger_comment #=> String
+    #   resp.evaluation.metadata.review.review_id #=> String
+    #   resp.evaluation.metadata.review.created_time #=> Time
+    #   resp.evaluation.metadata.review.created_by #=> String
+    #   resp.evaluation.metadata.review.review_request_comments #=> Array
+    #   resp.evaluation.metadata.review.review_request_comments[0].comment #=> String
+    #   resp.evaluation.metadata.review.review_request_comments[0].created_time #=> Time
+    #   resp.evaluation.metadata.review.review_request_comments[0].created_by #=> String
     #   resp.evaluation.metadata.contact_participant.contact_participant_role #=> String, one of "AGENT", "SYSTEM", "CUSTOM_BOT"
     #   resp.evaluation.metadata.contact_participant.contact_participant_id #=> String
     #   resp.evaluation.metadata.sampling_job_id #=> String
@@ -7348,7 +7369,7 @@ module Aws::Connect
     #   resp.evaluation.answers["ResourceId"].suggested_answers[0].analysis_details.contact_lens.matched_rule_categories[0].points_of_interest[0].transcript_segment #=> String
     #   resp.evaluation.notes #=> Hash
     #   resp.evaluation.notes["ResourceId"].value #=> String
-    #   resp.evaluation.status #=> String, one of "DRAFT", "SUBMITTED"
+    #   resp.evaluation.status #=> String, one of "DRAFT", "SUBMITTED", "REVIEW_REQUESTED", "UNDER_REVIEW"
     #   resp.evaluation.scores #=> Hash
     #   resp.evaluation.scores["ResourceId"].percentage #=> Float
     #   resp.evaluation.scores["ResourceId"].not_applicable #=> Boolean
@@ -7428,6 +7449,10 @@ module Aws::Connect
     #   resp.evaluation_form.auto_evaluation_configuration.enabled #=> Boolean
     #   resp.evaluation_form.target_configuration.contact_interaction_type #=> String, one of "AGENT", "AUTOMATED"
     #   resp.evaluation_form.language_configuration.form_language #=> String, one of "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "pt-BR"
+    #   resp.evaluation_form.review_configuration.review_notification_recipients #=> Array
+    #   resp.evaluation_form.review_configuration.review_notification_recipients[0].type #=> String, one of "USER_ID"
+    #   resp.evaluation_form.review_configuration.review_notification_recipients[0].value.user_id #=> String
+    #   resp.evaluation_form.review_configuration.eligibility_days #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeContactEvaluation AWS API Documentation
     #
@@ -7889,6 +7914,10 @@ module Aws::Connect
     #   resp.evaluation_form.last_modified_time #=> Time
     #   resp.evaluation_form.last_modified_by #=> String
     #   resp.evaluation_form.auto_evaluation_configuration.enabled #=> Boolean
+    #   resp.evaluation_form.review_configuration.review_notification_recipients #=> Array
+    #   resp.evaluation_form.review_configuration.review_notification_recipients[0].type #=> String, one of "USER_ID"
+    #   resp.evaluation_form.review_configuration.review_notification_recipients[0].value.user_id #=> String
+    #   resp.evaluation_form.review_configuration.eligibility_days #=> Integer
     #   resp.evaluation_form.tags #=> Hash
     #   resp.evaluation_form.tags["TagKey"] #=> String
     #   resp.evaluation_form.target_configuration.contact_interaction_type #=> String, one of "AGENT", "AUTOMATED"
@@ -14249,7 +14278,7 @@ module Aws::Connect
     #   resp.evaluation_summary_list[0].evaluation_form_title #=> String
     #   resp.evaluation_summary_list[0].evaluation_form_id #=> String
     #   resp.evaluation_summary_list[0].calibration_session_id #=> String
-    #   resp.evaluation_summary_list[0].status #=> String, one of "DRAFT", "SUBMITTED"
+    #   resp.evaluation_summary_list[0].status #=> String, one of "DRAFT", "SUBMITTED", "REVIEW_REQUESTED", "UNDER_REVIEW"
     #   resp.evaluation_summary_list[0].auto_evaluation_enabled #=> Boolean
     #   resp.evaluation_summary_list[0].auto_evaluation_status #=> String, one of "IN_PROGRESS", "FAILED", "SUCCEEDED"
     #   resp.evaluation_summary_list[0].evaluator_arn #=> String
@@ -18278,7 +18307,7 @@ module Aws::Connect
     #   resp.evaluation_search_summary_list[0].metadata.review_id #=> String
     #   resp.evaluation_search_summary_list[0].metadata.contact_participant_role #=> String, one of "AGENT", "SYSTEM", "CUSTOM_BOT"
     #   resp.evaluation_search_summary_list[0].metadata.contact_participant_id #=> String
-    #   resp.evaluation_search_summary_list[0].status #=> String, one of "DRAFT", "SUBMITTED"
+    #   resp.evaluation_search_summary_list[0].status #=> String, one of "DRAFT", "SUBMITTED", "REVIEW_REQUESTED", "UNDER_REVIEW"
     #   resp.evaluation_search_summary_list[0].evaluation_type #=> String, one of "STANDARD", "CALIBRATION"
     #   resp.evaluation_search_summary_list[0].created_time #=> Time
     #   resp.evaluation_search_summary_list[0].last_modified_time #=> Time
@@ -24501,6 +24530,9 @@ module Aws::Connect
     # @option params [Types::EvaluationFormAutoEvaluationConfiguration] :auto_evaluation_configuration
     #   Whether automated evaluations are enabled.
     #
+    # @option params [Types::EvaluationReviewConfiguration] :review_configuration
+    #   Configuration for evaluation review settings of the evaluation form.
+    #
     # @option params [Boolean] :as_draft
     #   A boolean flag indicating whether to update evaluation form to draft
     #   state.
@@ -24678,6 +24710,17 @@ module Aws::Connect
     #     },
     #     auto_evaluation_configuration: {
     #       enabled: false, # required
+    #     },
+    #     review_configuration: {
+    #       review_notification_recipients: [ # required
+    #         {
+    #           type: "USER_ID", # required, accepts USER_ID
+    #           value: { # required
+    #             user_id: "ResourceId",
+    #           },
+    #         },
+    #       ],
+    #       eligibility_days: 1,
     #     },
     #     as_draft: false,
     #     client_token: "ClientToken",
@@ -27130,7 +27173,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.235.0'
+      context[:gem_version] = '1.236.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

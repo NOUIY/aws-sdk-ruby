@@ -5613,6 +5613,10 @@ module Aws::Connect
     #   "key2":"value2"} }.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] review_configuration
+    #   Configuration information about evaluation reviews.
+    #   @return [Types::EvaluationReviewConfiguration]
+    #
     # @!attribute [rw] target_configuration
     #   Configuration that specifies the target for the evaluation form.
     #   @return [Types::EvaluationFormTargetConfiguration]
@@ -5633,6 +5637,7 @@ module Aws::Connect
       :client_token,
       :as_draft,
       :tags,
+      :review_configuration,
       :target_configuration,
       :language_configuration)
       SENSITIVE = []
@@ -11862,6 +11867,11 @@ module Aws::Connect
     #   The automatic evaluation configuration of an evaluation form.
     #   @return [Types::EvaluationFormAutoEvaluationConfiguration]
     #
+    # @!attribute [rw] review_configuration
+    #   Configuration for evaluation review settings of this evaluation
+    #   form.
+    #   @return [Types::EvaluationReviewConfiguration]
+    #
     # @!attribute [rw] tags
     #   The tags used to organize, track, or control access for this
     #   resource. For example, \{ "Tags": \{"key1":"value1",
@@ -11893,6 +11903,7 @@ module Aws::Connect
       :last_modified_time,
       :last_modified_by,
       :auto_evaluation_configuration,
+      :review_configuration,
       :tags,
       :target_configuration,
       :language_configuration)
@@ -11959,6 +11970,11 @@ module Aws::Connect
     #   Configuration for language settings of this evaluation form content.
     #   @return [Types::EvaluationFormLanguageConfiguration]
     #
+    # @!attribute [rw] review_configuration
+    #   Configuration for evaluation review settings of this evaluation form
+    #   content.
+    #   @return [Types::EvaluationReviewConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationFormContent AWS API Documentation
     #
     class EvaluationFormContent < Struct.new(
@@ -11971,7 +11987,8 @@ module Aws::Connect
       :scoring_strategy,
       :auto_evaluation_configuration,
       :target_configuration,
-      :language_configuration)
+      :language_configuration,
+      :review_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13000,6 +13017,10 @@ module Aws::Connect
     #   Information related to evaluation acknowledgement.
     #   @return [Types::EvaluationAcknowledgement]
     #
+    # @!attribute [rw] review
+    #   Information about reviews of this evaluation.
+    #   @return [Types::EvaluationReviewMetadata]
+    #
     # @!attribute [rw] contact_participant
     #   Information about a contact participant in this evaluation.
     #   @return [Types::EvaluationContactParticipant]
@@ -13018,6 +13039,7 @@ module Aws::Connect
       :score,
       :auto_evaluation,
       :acknowledgement,
+      :review,
       :contact_participant,
       :sampling_job_id)
       SENSITIVE = []
@@ -13084,6 +13106,114 @@ module Aws::Connect
     #
     class EvaluationQuestionInputDetails < Struct.new(
       :transcript_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration settings for evaluation reviews.
+    #
+    # @!attribute [rw] review_notification_recipients
+    #   List of recipients who should be notified when a review is
+    #   requested.
+    #   @return [Array<Types::EvaluationReviewNotificationRecipient>]
+    #
+    # @!attribute [rw] eligibility_days
+    #   Number of days during which a request for review can be submitted
+    #   for evaluations created from this form.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationReviewConfiguration AWS API Documentation
+    #
+    class EvaluationReviewConfiguration < Struct.new(
+      :review_notification_recipients,
+      :eligibility_days)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Metadata information about an evaluation review.
+    #
+    # @!attribute [rw] review_id
+    #   The unique identifier for the evaluation review.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_time
+    #   The timestamp when the evaluation review was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_by
+    #   The user who created the evaluation review.
+    #   @return [String]
+    #
+    # @!attribute [rw] review_request_comments
+    #   Comments provided when requesting the evaluation review.
+    #   @return [Array<Types::EvaluationReviewRequestComment>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationReviewMetadata AWS API Documentation
+    #
+    class EvaluationReviewMetadata < Struct.new(
+      :review_id,
+      :created_time,
+      :created_by,
+      :review_request_comments)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about a recipient who should be notified when an
+    # evaluation review is requested.
+    #
+    # @!attribute [rw] type
+    #   The type of notification recipient.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value associated with the notification recipient type.
+    #   @return [Types::EvaluationReviewNotificationRecipientValue]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationReviewNotificationRecipient AWS API Documentation
+    #
+    class EvaluationReviewNotificationRecipient < Struct.new(
+      :type,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The value information for an evaluation review notification recipient.
+    #
+    # @!attribute [rw] user_id
+    #   The user identifier for the notification recipient.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationReviewNotificationRecipientValue AWS API Documentation
+    #
+    class EvaluationReviewNotificationRecipientValue < Struct.new(
+      :user_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A comment provided when requesting an evaluation review.
+    #
+    # @!attribute [rw] comment
+    #   The text content of the review request comment.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_time
+    #   The timestamp when the review request comment was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_by
+    #   The user who created the review request comment.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationReviewRequestComment AWS API Documentation
+    #
+    class EvaluationReviewRequestComment < Struct.new(
+      :comment,
+      :created_time,
+      :created_by)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -32744,6 +32874,10 @@ module Aws::Connect
     #   Whether automated evaluations are enabled.
     #   @return [Types::EvaluationFormAutoEvaluationConfiguration]
     #
+    # @!attribute [rw] review_configuration
+    #   Configuration for evaluation review settings of the evaluation form.
+    #   @return [Types::EvaluationReviewConfiguration]
+    #
     # @!attribute [rw] as_draft
     #   A boolean flag indicating whether to update evaluation form to draft
     #   state.
@@ -32783,6 +32917,7 @@ module Aws::Connect
       :items,
       :scoring_strategy,
       :auto_evaluation_configuration,
+      :review_configuration,
       :as_draft,
       :client_token,
       :target_configuration,

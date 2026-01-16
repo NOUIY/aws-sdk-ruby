@@ -8589,6 +8589,14 @@ module Aws::SageMaker
     # For information about notebook instance lifestyle configurations, see
     # [Step 2.1: (Optional) Customize a Notebook Instance][1].
     #
+    # <note markdown="1"> Lifecycle configuration scripts execute with root access and the
+    # notebook instance's IAM execution role privileges. Grant this
+    # permission only to trusted principals. See [Customize a Notebook
+    # Instance Using a Lifecycle Configuration Script][1] for security best
+    # practices.
+    #
+    #  </note>
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html
@@ -30779,6 +30787,20 @@ module Aws::SageMaker
     # notebook instance to accommodate changes in your workload
     # requirements.
     #
+    # <note markdown="1"> This API can attach lifecycle configurations to notebook instances.
+    # Lifecycle configuration scripts execute with root access and the
+    # notebook instance's IAM execution role privileges. Principals with
+    # this permission and access to lifecycle configurations can execute
+    # code with the execution role's credentials. See [Customize a Notebook
+    # Instance Using a Lifecycle Configuration Script][1] for security best
+    # practices.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html
+    #
     # @option params [required, String] :notebook_instance_name
     #   The name of the notebook instance to update.
     #
@@ -30940,9 +30962,19 @@ module Aws::SageMaker
     # Updates a notebook instance lifecycle configuration created with the
     # [CreateNotebookInstanceLifecycleConfig][1] API.
     #
+    # <note markdown="1"> Updates to lifecycle configurations affect all notebook instances
+    # using that configuration upon their next start. Lifecycle
+    # configuration scripts execute with root access and the notebook
+    # instance's IAM execution role privileges. Grant this permission only
+    # to trusted principals. See [Customize a Notebook Instance Using a
+    # Lifecycle Configuration Script][2] for security best practices.
+    #
+    #  </note>
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateNotebookInstanceLifecycleConfig.html
+    # [2]: https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html
     #
     # @option params [required, String] :notebook_instance_lifecycle_config_name
     #   The name of the lifecycle configuration.
@@ -32183,7 +32215,7 @@ module Aws::SageMaker
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemaker'
-      context[:gem_version] = '1.347.0'
+      context[:gem_version] = '1.348.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

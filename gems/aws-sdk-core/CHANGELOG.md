@@ -1,6 +1,9 @@
 Unreleased Changes
 ------------------
 
+3.241.4 (2026-01-16)
+------------------
+
 * Issue - Rewind IO during initialization for `AwsChunkedTrailerDigestIO`.
 
 3.241.3 (2026-01-08)

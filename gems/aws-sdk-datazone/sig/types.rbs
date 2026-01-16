@@ -2214,6 +2214,8 @@ module Aws::DataZone
     class Filter
       attr_accessor attribute: ::String
       attr_accessor value: ::String
+      attr_accessor int_value: ::Integer
+      attr_accessor operator: ("EQ" | "LE" | "LT" | "GE" | "GT" | "TEXT_SEARCH")
       SENSITIVE: []
     end
 

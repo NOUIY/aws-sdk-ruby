@@ -3469,7 +3469,9 @@ module Aws
                     ?filters: {
                       filter: {
                         attribute: ::String,
-                        value: ::String
+                        value: ::String?,
+                        int_value: ::Integer?,
+                        operator: ("EQ" | "LE" | "LT" | "GE" | "GT" | "TEXT_SEARCH")?
                       }?,
                       and: Array[
                         untyped,
@@ -3522,7 +3524,9 @@ module Aws
                              ?filters: {
                                filter: {
                                  attribute: ::String,
-                                 value: ::String
+                                 value: ::String?,
+                                 int_value: ::Integer?,
+                                 operator: ("EQ" | "LE" | "LT" | "GE" | "GT" | "TEXT_SEARCH")?
                                }?,
                                and: Array[
                                  untyped,
@@ -3566,7 +3570,9 @@ module Aws
                           ?filters: {
                             filter: {
                               attribute: ::String,
-                              value: ::String
+                              value: ::String?,
+                              int_value: ::Integer?,
+                              operator: ("EQ" | "LE" | "LT" | "GE" | "GT" | "TEXT_SEARCH")?
                             }?,
                             and: Array[
                               untyped,

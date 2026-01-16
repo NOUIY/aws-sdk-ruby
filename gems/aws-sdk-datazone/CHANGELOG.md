@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.66.0 (2026-01-16)
+------------------
+
+* Feature - This release adds support for numeric filtering and complex free-text searches cases for the Search and SearchListings APIs.
+
 1.65.0 (2026-01-13)
 ------------------
 

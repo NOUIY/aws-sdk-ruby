@@ -439,6 +439,7 @@ module Aws::DataZone
     FilterIds = Shapes::ListShape.new(name: 'FilterIds')
     FilterList = Shapes::ListShape.new(name: 'FilterList')
     FilterName = Shapes::StringShape.new(name: 'FilterName')
+    FilterOperator = Shapes::StringShape.new(name: 'FilterOperator')
     FilterStatus = Shapes::StringShape.new(name: 'FilterStatus')
     FilterValueString = Shapes::StringShape.new(name: 'FilterValueString')
     FirstName = Shapes::StringShape.new(name: 'FirstName')
@@ -725,6 +726,7 @@ module Aws::DataZone
     ListingSummary = Shapes::StructureShape.new(name: 'ListingSummary')
     ListingSummaryItem = Shapes::StructureShape.new(name: 'ListingSummaryItem')
     ListingSummaryItems = Shapes::ListShape.new(name: 'ListingSummaryItems')
+    Long = Shapes::IntegerShape.new(name: 'Long')
     LongDescription = Shapes::StringShape.new(name: 'LongDescription')
     ManagedEndpointCredentials = Shapes::StructureShape.new(name: 'ManagedEndpointCredentials')
     ManagedEndpointCredentialsIdString = Shapes::StringShape.new(name: 'ManagedEndpointCredentialsIdString')
@@ -2998,7 +3000,9 @@ module Aws::DataZone
     FailureReasons.member = Shapes::ShapeRef.new(shape: ProjectDeletionError)
 
     Filter.add_member(:attribute, Shapes::ShapeRef.new(shape: Attribute, required: true, location_name: "attribute"))
-    Filter.add_member(:value, Shapes::ShapeRef.new(shape: FilterValueString, required: true, location_name: "value"))
+    Filter.add_member(:value, Shapes::ShapeRef.new(shape: FilterValueString, location_name: "value"))
+    Filter.add_member(:int_value, Shapes::ShapeRef.new(shape: Long, location_name: "intValue"))
+    Filter.add_member(:operator, Shapes::ShapeRef.new(shape: FilterOperator, location_name: "operator"))
     Filter.struct_class = Types::Filter
 
     FilterClause.add_member(:filter, Shapes::ShapeRef.new(shape: Filter, location_name: "filter"))

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.348.0 (2026-01-16)
+------------------
+
+* Feature - Adding security consideration comments for lcc accessing execution role under root access
+
 1.347.0 (2026-01-12)
 ------------------
 

@@ -1338,6 +1338,7 @@ module Aws::Connect
       attr_accessor client_token: ::String
       attr_accessor as_draft: bool
       attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor review_configuration: Types::EvaluationReviewConfiguration
       attr_accessor target_configuration: Types::EvaluationFormTargetConfiguration
       attr_accessor language_configuration: Types::EvaluationFormLanguageConfiguration
       SENSITIVE: []
@@ -2919,7 +2920,7 @@ module Aws::Connect
       attr_accessor metadata: Types::EvaluationMetadata
       attr_accessor answers: ::Hash[::String, Types::EvaluationAnswerOutput]
       attr_accessor notes: ::Hash[::String, Types::EvaluationNote]
-      attr_accessor status: ("DRAFT" | "SUBMITTED")
+      attr_accessor status: ("DRAFT" | "SUBMITTED" | "REVIEW_REQUESTED" | "UNDER_REVIEW")
       attr_accessor scores: ::Hash[::String, Types::EvaluationScore]
       attr_accessor created_time: ::Time
       attr_accessor last_modified_time: ::Time
@@ -3010,6 +3011,7 @@ module Aws::Connect
       attr_accessor last_modified_time: ::Time
       attr_accessor last_modified_by: ::String
       attr_accessor auto_evaluation_configuration: Types::EvaluationFormAutoEvaluationConfiguration
+      attr_accessor review_configuration: Types::EvaluationReviewConfiguration
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor target_configuration: Types::EvaluationFormTargetConfiguration
       attr_accessor language_configuration: Types::EvaluationFormLanguageConfiguration
@@ -3032,6 +3034,7 @@ module Aws::Connect
       attr_accessor auto_evaluation_configuration: Types::EvaluationFormAutoEvaluationConfiguration
       attr_accessor target_configuration: Types::EvaluationFormTargetConfiguration
       attr_accessor language_configuration: Types::EvaluationFormLanguageConfiguration
+      attr_accessor review_configuration: Types::EvaluationReviewConfiguration
       SENSITIVE: []
     end
 
@@ -3341,6 +3344,7 @@ module Aws::Connect
       attr_accessor score: Types::EvaluationScore
       attr_accessor auto_evaluation: Types::AutoEvaluationDetails
       attr_accessor acknowledgement: Types::EvaluationAcknowledgement
+      attr_accessor review: Types::EvaluationReviewMetadata
       attr_accessor contact_participant: Types::EvaluationContactParticipant
       attr_accessor sampling_job_id: ::String
       SENSITIVE: []
@@ -3367,6 +3371,38 @@ module Aws::Connect
 
     class EvaluationQuestionInputDetails
       attr_accessor transcript_type: ("RAW" | "REDACTED")
+      SENSITIVE: []
+    end
+
+    class EvaluationReviewConfiguration
+      attr_accessor review_notification_recipients: ::Array[Types::EvaluationReviewNotificationRecipient]
+      attr_accessor eligibility_days: ::Integer
+      SENSITIVE: []
+    end
+
+    class EvaluationReviewMetadata
+      attr_accessor review_id: ::String
+      attr_accessor created_time: ::Time
+      attr_accessor created_by: ::String
+      attr_accessor review_request_comments: ::Array[Types::EvaluationReviewRequestComment]
+      SENSITIVE: []
+    end
+
+    class EvaluationReviewNotificationRecipient
+      attr_accessor type: ("USER_ID")
+      attr_accessor value: Types::EvaluationReviewNotificationRecipientValue
+      SENSITIVE: []
+    end
+
+    class EvaluationReviewNotificationRecipientValue
+      attr_accessor user_id: ::String
+      SENSITIVE: []
+    end
+
+    class EvaluationReviewRequestComment
+      attr_accessor comment: ::String
+      attr_accessor created_time: ::Time
+      attr_accessor created_by: ::String
       SENSITIVE: []
     end
 
@@ -3421,7 +3457,7 @@ module Aws::Connect
       attr_accessor evaluation_form_version: ::Integer
       attr_accessor evaluation_form_title: ::String
       attr_accessor metadata: Types::EvaluationSearchMetadata
-      attr_accessor status: ("DRAFT" | "SUBMITTED")
+      attr_accessor status: ("DRAFT" | "SUBMITTED" | "REVIEW_REQUESTED" | "UNDER_REVIEW")
       attr_accessor evaluation_type: ("STANDARD" | "CALIBRATION")
       attr_accessor created_time: ::Time
       attr_accessor last_modified_time: ::Time
@@ -3449,7 +3485,7 @@ module Aws::Connect
       attr_accessor evaluation_form_title: ::String
       attr_accessor evaluation_form_id: ::String
       attr_accessor calibration_session_id: ::String
-      attr_accessor status: ("DRAFT" | "SUBMITTED")
+      attr_accessor status: ("DRAFT" | "SUBMITTED" | "REVIEW_REQUESTED" | "UNDER_REVIEW")
       attr_accessor auto_evaluation_enabled: bool
       attr_accessor auto_evaluation_status: ("IN_PROGRESS" | "FAILED" | "SUCCEEDED")
       attr_accessor evaluator_arn: ::String
@@ -7610,6 +7646,7 @@ module Aws::Connect
       attr_accessor items: ::Array[Types::EvaluationFormItem]
       attr_accessor scoring_strategy: Types::EvaluationFormScoringStrategy
       attr_accessor auto_evaluation_configuration: Types::EvaluationFormAutoEvaluationConfiguration
+      attr_accessor review_configuration: Types::EvaluationReviewConfiguration
       attr_accessor as_draft: bool
       attr_accessor client_token: ::String
       attr_accessor target_configuration: Types::EvaluationFormTargetConfiguration
