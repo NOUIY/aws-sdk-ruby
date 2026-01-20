@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.72.0 (2026-01-20)
+------------------
+
+* Feature - Added support for extended prompt caching with one hour TTL.
+
 1.71.0 (2026-01-16)
 ------------------
 

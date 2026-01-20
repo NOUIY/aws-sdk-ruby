@@ -658,7 +658,13 @@ module Aws
                                          ?auto_scaling_group_name: ::String,
                                          ?include_deleted_groups: bool,
                                          ?max_records: ::Integer,
-                                         ?next_token: ::String
+                                         ?next_token: ::String,
+                                         ?filters: Array[
+                                           {
+                                             name: ::String?,
+                                             values: Array[::String]?
+                                           },
+                                         ]
                                        ) -> _DescribeScalingActivitiesResponseSuccess
                                      | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeScalingActivitiesResponseSuccess
 

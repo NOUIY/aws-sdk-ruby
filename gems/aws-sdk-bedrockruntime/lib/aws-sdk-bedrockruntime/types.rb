@@ -372,6 +372,26 @@ module Aws::BedrockRuntime
       include Aws::Structure
     end
 
+    # Cache creation metrics for a specific TTL duration
+    #
+    # @!attribute [rw] ttl
+    #   TTL duration for these cached tokens
+    #   @return [String]
+    #
+    # @!attribute [rw] input_tokens
+    #   Number of tokens written to cache with this TTL (cache creation
+    #   tokens)
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/CacheDetail AWS API Documentation
+    #
+    class CacheDetail < Struct.new(
+      :ttl,
+      :input_tokens)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Defines a section of content to be cached for reuse in subsequent API
     # calls.
     #
@@ -379,10 +399,17 @@ module Aws::BedrockRuntime
     #   Specifies the type of cache point within the CachePointBlock.
     #   @return [String]
     #
+    # @!attribute [rw] ttl
+    #   Optional TTL duration for cache entries. When specified, enables
+    #   extended TTL caching with the specified duration. When omitted, uses
+    #   `type` value for caching behavior.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/CachePointBlock AWS API Documentation
     #
     class CachePointBlock < Struct.new(
-      :type)
+      :type,
+      :ttl)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4304,6 +4331,11 @@ module Aws::BedrockRuntime
     #   The number of input tokens written to the cache for the request.
     #   @return [Integer]
     #
+    # @!attribute [rw] cache_details
+    #   Detailed breakdown of cache writes by TTL. Empty if no cache
+    #   creation occurred. Sorted by TTL duration (1h before 5m).
+    #   @return [Array<Types::CacheDetail>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/TokenUsage AWS API Documentation
     #
     class TokenUsage < Struct.new(
@@ -4311,7 +4343,8 @@ module Aws::BedrockRuntime
       :output_tokens,
       :total_tokens,
       :cache_read_input_tokens,
-      :cache_write_input_tokens)
+      :cache_write_input_tokens,
+      :cache_details)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -859,6 +859,7 @@ module Aws::AutoScaling
     DescribeScalingActivitiesType.add_member(:include_deleted_groups, Shapes::ShapeRef.new(shape: IncludeDeletedGroups, location_name: "IncludeDeletedGroups"))
     DescribeScalingActivitiesType.add_member(:max_records, Shapes::ShapeRef.new(shape: MaxRecords, location_name: "MaxRecords"))
     DescribeScalingActivitiesType.add_member(:next_token, Shapes::ShapeRef.new(shape: XmlString, location_name: "NextToken"))
+    DescribeScalingActivitiesType.add_member(:filters, Shapes::ShapeRef.new(shape: Filters, location_name: "Filters"))
     DescribeScalingActivitiesType.struct_class = Types::DescribeScalingActivitiesType
 
     DescribeScheduledActionsType.add_member(:auto_scaling_group_name, Shapes::ShapeRef.new(shape: XmlStringMaxLen255, location_name: "AutoScalingGroupName"))

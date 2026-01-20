@@ -522,6 +522,7 @@ module Aws::AutoScaling
       attr_accessor include_deleted_groups: bool
       attr_accessor max_records: ::Integer
       attr_accessor next_token: ::String
+      attr_accessor filters: ::Array[Types::Filter]
       SENSITIVE: []
     end
 

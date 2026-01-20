@@ -303,7 +303,13 @@ module Aws
       def activities: (
                         ?activity_ids: Array[::String],
                         ?auto_scaling_group_name: ::String,
-                        ?include_deleted_groups: bool
+                        ?include_deleted_groups: bool,
+                        ?filters: Array[
+                          {
+                            name: ::String?,
+                            values: Array[::String]?
+                          },
+                        ]
                       ) -> Activity::Collection
                     | (?Hash[Symbol, untyped]) -> Activity::Collection
 

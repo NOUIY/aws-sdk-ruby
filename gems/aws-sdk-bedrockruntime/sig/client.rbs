@@ -278,7 +278,8 @@ module Aws
                                 }?
                               }?,
                               cache_point: {
-                                type: ("default")
+                                type: ("default"),
+                                ttl: ("5m" | "1h")?
                               }?,
                               reasoning_content: {
                                 reasoning_text: {
@@ -363,7 +364,8 @@ module Aws
                             }?
                           }?,
                           cache_point: {
-                            type: ("default")
+                            type: ("default"),
+                            ttl: ("5m" | "1h")?
                           }?
                         },
                       ],
@@ -388,7 +390,8 @@ module Aws
                               name: ::String
                             }?,
                             cache_point: {
-                              type: ("default")
+                              type: ("default"),
+                              ttl: ("5m" | "1h")?
                             }?
                           },
                         ],
@@ -581,7 +584,8 @@ module Aws
                                        }?
                                      }?,
                                      cache_point: {
-                                       type: ("default")
+                                       type: ("default"),
+                                       ttl: ("5m" | "1h")?
                                      }?,
                                      reasoning_content: {
                                        reasoning_text: {
@@ -666,7 +670,8 @@ module Aws
                                    }?
                                  }?,
                                  cache_point: {
-                                   type: ("default")
+                                   type: ("default"),
+                                   ttl: ("5m" | "1h")?
                                  }?
                                },
                              ],
@@ -691,7 +696,8 @@ module Aws
                                      name: ::String
                                    }?,
                                    cache_point: {
-                                     type: ("default")
+                                     type: ("default"),
+                                     ttl: ("5m" | "1h")?
                                    }?
                                  },
                                ],
@@ -890,7 +896,8 @@ module Aws
                                         }?
                                       }?,
                                       cache_point: {
-                                        type: ("default")
+                                        type: ("default"),
+                                        ttl: ("5m" | "1h")?
                                       }?,
                                       reasoning_content: {
                                         reasoning_text: {
@@ -975,7 +982,8 @@ module Aws
                                     }?
                                   }?,
                                   cache_point: {
-                                    type: ("default")
+                                    type: ("default"),
+                                    ttl: ("5m" | "1h")?
                                   }?
                                 },
                               ]?,
@@ -994,7 +1002,8 @@ module Aws
                                       name: ::String
                                     }?,
                                     cache_point: {
-                                      type: ("default")
+                                      type: ("default"),
+                                      ttl: ("5m" | "1h")?
                                     }?
                                   },
                                 ],

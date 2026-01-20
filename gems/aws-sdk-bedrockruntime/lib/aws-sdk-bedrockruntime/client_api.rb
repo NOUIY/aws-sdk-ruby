@@ -40,8 +40,12 @@ module Aws::BedrockRuntime
     Blob = Shapes::BlobShape.new(name: 'Blob')
     Body = Shapes::BlobShape.new(name: 'Body')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
+    CacheDetail = Shapes::StructureShape.new(name: 'CacheDetail')
+    CacheDetailInputTokensInteger = Shapes::IntegerShape.new(name: 'CacheDetailInputTokensInteger')
+    CacheDetailsList = Shapes::ListShape.new(name: 'CacheDetailsList')
     CachePointBlock = Shapes::StructureShape.new(name: 'CachePointBlock')
     CachePointType = Shapes::StringShape.new(name: 'CachePointType')
+    CacheTTL = Shapes::StringShape.new(name: 'CacheTTL')
     Citation = Shapes::StructureShape.new(name: 'Citation')
     CitationGeneratedContent = Shapes::UnionShape.new(name: 'CitationGeneratedContent')
     CitationGeneratedContentList = Shapes::ListShape.new(name: 'CitationGeneratedContentList')
@@ -421,7 +425,14 @@ module Aws::BedrockRuntime
     BidirectionalOutputPayloadPart.add_member(:bytes, Shapes::ShapeRef.new(shape: PartBody, location_name: "bytes"))
     BidirectionalOutputPayloadPart.struct_class = Types::BidirectionalOutputPayloadPart
 
+    CacheDetail.add_member(:ttl, Shapes::ShapeRef.new(shape: CacheTTL, required: true, location_name: "ttl"))
+    CacheDetail.add_member(:input_tokens, Shapes::ShapeRef.new(shape: CacheDetailInputTokensInteger, required: true, location_name: "inputTokens"))
+    CacheDetail.struct_class = Types::CacheDetail
+
+    CacheDetailsList.member = Shapes::ShapeRef.new(shape: CacheDetail)
+
     CachePointBlock.add_member(:type, Shapes::ShapeRef.new(shape: CachePointType, required: true, location_name: "type"))
+    CachePointBlock.add_member(:ttl, Shapes::ShapeRef.new(shape: CacheTTL, location_name: "ttl"))
     CachePointBlock.struct_class = Types::CachePointBlock
 
     Citation.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
@@ -1275,6 +1286,7 @@ module Aws::BedrockRuntime
     TokenUsage.add_member(:total_tokens, Shapes::ShapeRef.new(shape: TokenUsageTotalTokensInteger, required: true, location_name: "totalTokens"))
     TokenUsage.add_member(:cache_read_input_tokens, Shapes::ShapeRef.new(shape: TokenUsageCacheReadInputTokensInteger, location_name: "cacheReadInputTokens"))
     TokenUsage.add_member(:cache_write_input_tokens, Shapes::ShapeRef.new(shape: TokenUsageCacheWriteInputTokensInteger, location_name: "cacheWriteInputTokens"))
+    TokenUsage.add_member(:cache_details, Shapes::ShapeRef.new(shape: CacheDetailsList, location_name: "cacheDetails"))
     TokenUsage.struct_class = Types::TokenUsage
 
     Tool.add_member(:tool_spec, Shapes::ShapeRef.new(shape: ToolSpecification, location_name: "toolSpec"))

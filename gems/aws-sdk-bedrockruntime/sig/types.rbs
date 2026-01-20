@@ -111,8 +111,15 @@ module Aws::BedrockRuntime
       SENSITIVE: [:bytes]
     end
 
+    class CacheDetail
+      attr_accessor ttl: ("5m" | "1h")
+      attr_accessor input_tokens: ::Integer
+      SENSITIVE: []
+    end
+
     class CachePointBlock
       attr_accessor type: ("default")
+      attr_accessor ttl: ("5m" | "1h")
       SENSITIVE: []
     end
 
@@ -1206,6 +1213,7 @@ module Aws::BedrockRuntime
       attr_accessor total_tokens: ::Integer
       attr_accessor cache_read_input_tokens: ::Integer
       attr_accessor cache_write_input_tokens: ::Integer
+      attr_accessor cache_details: ::Array[Types::CacheDetail]
       SENSITIVE: []
     end
 

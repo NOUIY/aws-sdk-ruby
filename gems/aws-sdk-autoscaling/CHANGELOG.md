@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.153.0 (2026-01-20)
+------------------
+
+* Feature - This release adds support for three new filters when describing scaling activities, StartTimeLowerBound, StartTimeUpperBound, and Status.
+
 1.152.0 (2026-01-16)
 ------------------
 

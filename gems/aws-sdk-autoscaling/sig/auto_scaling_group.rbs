@@ -527,7 +527,13 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AutoScaling/AutoScalingGroup.html#activities-instance_method
       def activities: (
                         ?activity_ids: Array[::String],
-                        ?include_deleted_groups: bool
+                        ?include_deleted_groups: bool,
+                        ?filters: Array[
+                          {
+                            name: ::String?,
+                            values: Array[::String]?
+                          },
+                        ]
                       ) -> Activity::Collection
                     | (?Hash[Symbol, untyped]) -> Activity::Collection
 
