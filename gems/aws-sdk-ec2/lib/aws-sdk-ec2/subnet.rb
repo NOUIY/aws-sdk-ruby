@@ -359,6 +359,7 @@ module Aws::EC2
     #           encrypted: false,
     #           volume_initialization_rate: 1,
     #           availability_zone_id: "String",
+    #           ebs_card_index: 1,
     #         },
     #         no_device: "String",
     #         device_name: "String",

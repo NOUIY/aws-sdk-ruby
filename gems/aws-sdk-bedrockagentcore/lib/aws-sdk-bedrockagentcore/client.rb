@@ -1028,6 +1028,7 @@ module Aws::BedrockAgentCore
     #   * {Types::GetBrowserSessionResponse#name #name} => String
     #   * {Types::GetBrowserSessionResponse#created_at #created_at} => Time
     #   * {Types::GetBrowserSessionResponse#view_port #view_port} => Types::ViewPort
+    #   * {Types::GetBrowserSessionResponse#extensions #extensions} => Array&lt;Types::BrowserExtension&gt;
     #   * {Types::GetBrowserSessionResponse#session_timeout_seconds #session_timeout_seconds} => Integer
     #   * {Types::GetBrowserSessionResponse#status #status} => String
     #   * {Types::GetBrowserSessionResponse#streams #streams} => Types::BrowserSessionStream
@@ -1049,6 +1050,10 @@ module Aws::BedrockAgentCore
     #   resp.created_at #=> Time
     #   resp.view_port.width #=> Integer
     #   resp.view_port.height #=> Integer
+    #   resp.extensions #=> Array
+    #   resp.extensions[0].location.s3.bucket #=> String
+    #   resp.extensions[0].location.s3.prefix #=> String
+    #   resp.extensions[0].location.s3.version_id #=> String
     #   resp.session_timeout_seconds #=> Integer
     #   resp.status #=> String, one of "READY", "TERMINATED"
     #   resp.streams.automation_stream.stream_endpoint #=> String
@@ -2525,6 +2530,9 @@ module Aws::BedrockAgentCore
     #   pages are rendered. If not specified, Amazon Bedrock uses a default
     #   viewport size.
     #
+    # @option params [Array<Types::BrowserExtension>] :extensions
+    #   A list of browser extensions to load into the browser session.
+    #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If this token matches a previous
@@ -2554,6 +2562,17 @@ module Aws::BedrockAgentCore
     #       width: 1, # required
     #       height: 1, # required
     #     },
+    #     extensions: [
+    #       {
+    #         location: { # required
+    #           s3: {
+    #             bucket: "S3LocationBucketString", # required
+    #             prefix: "S3LocationPrefixString", # required
+    #             version_id: "S3LocationVersionIdString",
+    #           },
+    #         },
+    #       },
+    #     ],
     #     client_token: "ClientToken",
     #   })
     #
@@ -2980,7 +2999,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.16.0'
+      context[:gem_version] = '1.17.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

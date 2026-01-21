@@ -253,6 +253,7 @@ module Aws
         def name: () -> ::String
         def created_at: () -> ::Time
         def view_port: () -> Types::ViewPort
+        def extensions: () -> ::Array[Types::BrowserExtension]
         def session_timeout_seconds: () -> ::Integer
         def status: () -> ("READY" | "TERMINATED")
         def streams: () -> Types::BrowserSessionStream
@@ -608,6 +609,17 @@ module Aws
                                      width: ::Integer,
                                      height: ::Integer
                                    },
+                                   ?extensions: Array[
+                                     {
+                                       location: {
+                                         s3: {
+                                           bucket: ::String,
+                                           prefix: ::String,
+                                           version_id: ::String?
+                                         }?
+                                       }
+                                     },
+                                   ],
                                    ?client_token: ::String
                                  ) -> _StartBrowserSessionResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartBrowserSessionResponseSuccess

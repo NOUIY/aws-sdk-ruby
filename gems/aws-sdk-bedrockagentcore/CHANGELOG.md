@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.17.0 (2026-01-21)
+------------------
+
+* Feature - Supports custom browser extensions for AgentCore Browser and increased message payloads up to 100KB per message in an Event for AgentCore Memory
+
 1.16.0 (2026-01-16)
 ------------------
 

@@ -3398,6 +3398,10 @@ module Aws::EC2
     #   The ID of the EBS volume. The volume and instance must be within the
     #   same Availability Zone.
     #
+    # @option params [Integer] :ebs_card_index
+    #   The index of the EBS card. Some instance types support multiple EBS
+    #   cards. The default EBS card index is 0.
+    #
     # @option params [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
@@ -3409,6 +3413,7 @@ module Aws::EC2
     #   * {Types::VolumeAttachment#delete_on_termination #delete_on_termination} => Boolean
     #   * {Types::VolumeAttachment#associated_resource #associated_resource} => String
     #   * {Types::VolumeAttachment#instance_owning_service #instance_owning_service} => String
+    #   * {Types::VolumeAttachment#ebs_card_index #ebs_card_index} => Integer
     #   * {Types::VolumeAttachment#volume_id #volume_id} => String
     #   * {Types::VolumeAttachment#instance_id #instance_id} => String
     #   * {Types::VolumeAttachment#device #device} => String
@@ -3441,6 +3446,7 @@ module Aws::EC2
     #     device: "String", # required
     #     instance_id: "InstanceId", # required
     #     volume_id: "VolumeId", # required
+    #     ebs_card_index: 1,
     #     dry_run: false,
     #   })
     #
@@ -3449,6 +3455,7 @@ module Aws::EC2
     #   resp.delete_on_termination #=> Boolean
     #   resp.associated_resource #=> String
     #   resp.instance_owning_service #=> String
+    #   resp.ebs_card_index #=> Integer
     #   resp.volume_id #=> String
     #   resp.instance_id #=> String
     #   resp.device #=> String
@@ -5599,6 +5606,7 @@ module Aws::EC2
     #   resp.volumes[0].attachments[0].delete_on_termination #=> Boolean
     #   resp.volumes[0].attachments[0].associated_resource #=> String
     #   resp.volumes[0].attachments[0].instance_owning_service #=> String
+    #   resp.volumes[0].attachments[0].ebs_card_index #=> Integer
     #   resp.volumes[0].attachments[0].volume_id #=> String
     #   resp.volumes[0].attachments[0].instance_id #=> String
     #   resp.volumes[0].attachments[0].device #=> String
@@ -8422,6 +8430,7 @@ module Aws::EC2
     #           encrypted: false,
     #           volume_initialization_rate: 1,
     #           availability_zone_id: "String",
+    #           ebs_card_index: 1,
     #         },
     #         no_device: "String",
     #         device_name: "String",
@@ -10283,6 +10292,7 @@ module Aws::EC2
     #             volume_type: "standard", # accepts standard, io1, io2, gp2, sc1, st1, gp3
     #             throughput: 1,
     #             volume_initialization_rate: 1,
+    #             ebs_card_index: 1,
     #           },
     #           no_device: "String",
     #         },
@@ -10714,6 +10724,7 @@ module Aws::EC2
     #             volume_type: "standard", # accepts standard, io1, io2, gp2, sc1, st1, gp3
     #             throughput: 1,
     #             volume_initialization_rate: 1,
+    #             ebs_card_index: 1,
     #           },
     #           no_device: "String",
     #         },
@@ -10967,6 +10978,7 @@ module Aws::EC2
     #   resp.launch_template_version.launch_template_data.block_device_mappings[0].ebs.volume_type #=> String, one of "standard", "io1", "io2", "gp2", "sc1", "st1", "gp3"
     #   resp.launch_template_version.launch_template_data.block_device_mappings[0].ebs.throughput #=> Integer
     #   resp.launch_template_version.launch_template_data.block_device_mappings[0].ebs.volume_initialization_rate #=> Integer
+    #   resp.launch_template_version.launch_template_data.block_device_mappings[0].ebs.ebs_card_index #=> Integer
     #   resp.launch_template_version.launch_template_data.block_device_mappings[0].no_device #=> String
     #   resp.launch_template_version.launch_template_data.network_interfaces #=> Array
     #   resp.launch_template_version.launch_template_data.network_interfaces[0].associate_carrier_ip_address #=> Boolean
@@ -17594,6 +17606,7 @@ module Aws::EC2
     #   resp.attachments[0].delete_on_termination #=> Boolean
     #   resp.attachments[0].associated_resource #=> String
     #   resp.attachments[0].instance_owning_service #=> String
+    #   resp.attachments[0].ebs_card_index #=> Integer
     #   resp.attachments[0].volume_id #=> String
     #   resp.attachments[0].instance_id #=> String
     #   resp.attachments[0].device #=> String
@@ -28780,6 +28793,7 @@ module Aws::EC2
     #   resp.block_device_mappings[0].ebs.encrypted #=> Boolean
     #   resp.block_device_mappings[0].ebs.volume_initialization_rate #=> Integer
     #   resp.block_device_mappings[0].ebs.availability_zone_id #=> String
+    #   resp.block_device_mappings[0].ebs.ebs_card_index #=> Integer
     #   resp.block_device_mappings[0].no_device #=> String
     #   resp.block_device_mappings[0].device_name #=> String
     #   resp.block_device_mappings[0].virtual_name #=> String
@@ -29412,6 +29426,7 @@ module Aws::EC2
     #   resp.images[0].block_device_mappings[0].ebs.encrypted #=> Boolean
     #   resp.images[0].block_device_mappings[0].ebs.volume_initialization_rate #=> Integer
     #   resp.images[0].block_device_mappings[0].ebs.availability_zone_id #=> String
+    #   resp.images[0].block_device_mappings[0].ebs.ebs_card_index #=> Integer
     #   resp.images[0].block_device_mappings[0].no_device #=> String
     #   resp.images[0].block_device_mappings[0].device_name #=> String
     #   resp.images[0].block_device_mappings[0].virtual_name #=> String
@@ -29767,6 +29782,7 @@ module Aws::EC2
     #   resp.block_device_mappings[0].ebs.volume_owner_id #=> String
     #   resp.block_device_mappings[0].ebs.operator.managed #=> Boolean
     #   resp.block_device_mappings[0].ebs.operator.principal #=> String
+    #   resp.block_device_mappings[0].ebs.ebs_card_index #=> Integer
     #   resp.disable_api_termination.value #=> Boolean
     #   resp.ena_support.value #=> Boolean
     #   resp.enclave_options.enabled #=> Boolean
@@ -31277,6 +31293,15 @@ module Aws::EC2
     #   resp.instance_types[0].ebs_info.nvme_support #=> String, one of "unsupported", "supported", "required"
     #   resp.instance_types[0].ebs_info.maximum_ebs_attachments #=> Integer
     #   resp.instance_types[0].ebs_info.attachment_limit_type #=> String, one of "shared", "dedicated"
+    #   resp.instance_types[0].ebs_info.maximum_ebs_cards #=> Integer
+    #   resp.instance_types[0].ebs_info.ebs_cards #=> Array
+    #   resp.instance_types[0].ebs_info.ebs_cards[0].ebs_card_index #=> Integer
+    #   resp.instance_types[0].ebs_info.ebs_cards[0].baseline_bandwidth_in_mbps #=> Integer
+    #   resp.instance_types[0].ebs_info.ebs_cards[0].baseline_throughput_in_m_bps #=> Float
+    #   resp.instance_types[0].ebs_info.ebs_cards[0].baseline_iops #=> Integer
+    #   resp.instance_types[0].ebs_info.ebs_cards[0].maximum_bandwidth_in_mbps #=> Integer
+    #   resp.instance_types[0].ebs_info.ebs_cards[0].maximum_throughput_in_m_bps #=> Float
+    #   resp.instance_types[0].ebs_info.ebs_cards[0].maximum_iops #=> Integer
     #   resp.instance_types[0].network_info.network_performance #=> String
     #   resp.instance_types[0].network_info.maximum_network_interfaces #=> Integer
     #   resp.instance_types[0].network_info.maximum_network_cards #=> Integer
@@ -31986,6 +32011,7 @@ module Aws::EC2
     #   resp.reservations[0].instances[0].block_device_mappings[0].ebs.volume_owner_id #=> String
     #   resp.reservations[0].instances[0].block_device_mappings[0].ebs.operator.managed #=> Boolean
     #   resp.reservations[0].instances[0].block_device_mappings[0].ebs.operator.principal #=> String
+    #   resp.reservations[0].instances[0].block_device_mappings[0].ebs.ebs_card_index #=> Integer
     #   resp.reservations[0].instances[0].client_token #=> String
     #   resp.reservations[0].instances[0].ebs_optimized #=> Boolean
     #   resp.reservations[0].instances[0].ena_support #=> Boolean
@@ -33491,6 +33517,7 @@ module Aws::EC2
     #   resp.launch_template_versions[0].launch_template_data.block_device_mappings[0].ebs.volume_type #=> String, one of "standard", "io1", "io2", "gp2", "sc1", "st1", "gp3"
     #   resp.launch_template_versions[0].launch_template_data.block_device_mappings[0].ebs.throughput #=> Integer
     #   resp.launch_template_versions[0].launch_template_data.block_device_mappings[0].ebs.volume_initialization_rate #=> Integer
+    #   resp.launch_template_versions[0].launch_template_data.block_device_mappings[0].ebs.ebs_card_index #=> Integer
     #   resp.launch_template_versions[0].launch_template_data.block_device_mappings[0].no_device #=> String
     #   resp.launch_template_versions[0].launch_template_data.network_interfaces #=> Array
     #   resp.launch_template_versions[0].launch_template_data.network_interfaces[0].associate_carrier_ip_address #=> Boolean
@@ -40132,6 +40159,7 @@ module Aws::EC2
     #   resp.spot_fleet_request_configs[0].spot_fleet_request_config.launch_specifications[0].block_device_mappings[0].ebs.encrypted #=> Boolean
     #   resp.spot_fleet_request_configs[0].spot_fleet_request_config.launch_specifications[0].block_device_mappings[0].ebs.volume_initialization_rate #=> Integer
     #   resp.spot_fleet_request_configs[0].spot_fleet_request_config.launch_specifications[0].block_device_mappings[0].ebs.availability_zone_id #=> String
+    #   resp.spot_fleet_request_configs[0].spot_fleet_request_config.launch_specifications[0].block_device_mappings[0].ebs.ebs_card_index #=> Integer
     #   resp.spot_fleet_request_configs[0].spot_fleet_request_config.launch_specifications[0].block_device_mappings[0].no_device #=> String
     #   resp.spot_fleet_request_configs[0].spot_fleet_request_config.launch_specifications[0].block_device_mappings[0].device_name #=> String
     #   resp.spot_fleet_request_configs[0].spot_fleet_request_config.launch_specifications[0].block_device_mappings[0].virtual_name #=> String
@@ -40605,6 +40633,7 @@ module Aws::EC2
     #   resp.spot_instance_requests[0].launch_specification.block_device_mappings[0].ebs.encrypted #=> Boolean
     #   resp.spot_instance_requests[0].launch_specification.block_device_mappings[0].ebs.volume_initialization_rate #=> Integer
     #   resp.spot_instance_requests[0].launch_specification.block_device_mappings[0].ebs.availability_zone_id #=> String
+    #   resp.spot_instance_requests[0].launch_specification.block_device_mappings[0].ebs.ebs_card_index #=> Integer
     #   resp.spot_instance_requests[0].launch_specification.block_device_mappings[0].no_device #=> String
     #   resp.spot_instance_requests[0].launch_specification.block_device_mappings[0].device_name #=> String
     #   resp.spot_instance_requests[0].launch_specification.block_device_mappings[0].virtual_name #=> String
@@ -43799,6 +43828,7 @@ module Aws::EC2
     #   resp.volumes[0].attachments[0].delete_on_termination #=> Boolean
     #   resp.volumes[0].attachments[0].associated_resource #=> String
     #   resp.volumes[0].attachments[0].instance_owning_service #=> String
+    #   resp.volumes[0].attachments[0].ebs_card_index #=> Integer
     #   resp.volumes[0].attachments[0].volume_id #=> String
     #   resp.volumes[0].attachments[0].instance_id #=> String
     #   resp.volumes[0].attachments[0].device #=> String
@@ -46085,6 +46115,7 @@ module Aws::EC2
     #   * {Types::VolumeAttachment#delete_on_termination #delete_on_termination} => Boolean
     #   * {Types::VolumeAttachment#associated_resource #associated_resource} => String
     #   * {Types::VolumeAttachment#instance_owning_service #instance_owning_service} => String
+    #   * {Types::VolumeAttachment#ebs_card_index #ebs_card_index} => Integer
     #   * {Types::VolumeAttachment#volume_id #volume_id} => String
     #   * {Types::VolumeAttachment#instance_id #instance_id} => String
     #   * {Types::VolumeAttachment#device #device} => String
@@ -46124,6 +46155,7 @@ module Aws::EC2
     #   resp.delete_on_termination #=> Boolean
     #   resp.associated_resource #=> String
     #   resp.instance_owning_service #=> String
+    #   resp.ebs_card_index #=> Integer
     #   resp.volume_id #=> String
     #   resp.instance_id #=> String
     #   resp.device #=> String
@@ -52459,6 +52491,7 @@ module Aws::EC2
     #   resp.launch_template_data.block_device_mappings[0].ebs.volume_type #=> String, one of "standard", "io1", "io2", "gp2", "sc1", "st1", "gp3"
     #   resp.launch_template_data.block_device_mappings[0].ebs.throughput #=> Integer
     #   resp.launch_template_data.block_device_mappings[0].ebs.volume_initialization_rate #=> Integer
+    #   resp.launch_template_data.block_device_mappings[0].ebs.ebs_card_index #=> Integer
     #   resp.launch_template_data.block_device_mappings[0].no_device #=> String
     #   resp.launch_template_data.network_interfaces #=> Array
     #   resp.launch_template_data.network_interfaces[0].associate_carrier_ip_address #=> Boolean
@@ -64755,6 +64788,7 @@ module Aws::EC2
     #           encrypted: false,
     #           volume_initialization_rate: 1,
     #           availability_zone_id: "String",
+    #           ebs_card_index: 1,
     #         },
     #         no_device: "String",
     #         device_name: "String",
@@ -66297,6 +66331,7 @@ module Aws::EC2
     #                 encrypted: false,
     #                 volume_initialization_rate: 1,
     #                 availability_zone_id: "String",
+    #                 ebs_card_index: 1,
     #               },
     #               no_device: "String",
     #               device_name: "String",
@@ -66801,6 +66836,7 @@ module Aws::EC2
     #             encrypted: false,
     #             volume_initialization_rate: 1,
     #             availability_zone_id: "String",
+    #             ebs_card_index: 1,
     #           },
     #           no_device: "String",
     #           device_name: "String",
@@ -66933,6 +66969,7 @@ module Aws::EC2
     #   resp.spot_instance_requests[0].launch_specification.block_device_mappings[0].ebs.encrypted #=> Boolean
     #   resp.spot_instance_requests[0].launch_specification.block_device_mappings[0].ebs.volume_initialization_rate #=> Integer
     #   resp.spot_instance_requests[0].launch_specification.block_device_mappings[0].ebs.availability_zone_id #=> String
+    #   resp.spot_instance_requests[0].launch_specification.block_device_mappings[0].ebs.ebs_card_index #=> Integer
     #   resp.spot_instance_requests[0].launch_specification.block_device_mappings[0].no_device #=> String
     #   resp.spot_instance_requests[0].launch_specification.block_device_mappings[0].device_name #=> String
     #   resp.spot_instance_requests[0].launch_specification.block_device_mappings[0].virtual_name #=> String
@@ -68551,6 +68588,7 @@ module Aws::EC2
     #           encrypted: false,
     #           volume_initialization_rate: 1,
     #           availability_zone_id: "String",
+    #           ebs_card_index: 1,
     #         },
     #         no_device: "String",
     #         device_name: "String",
@@ -68763,6 +68801,7 @@ module Aws::EC2
     #   resp.instances[0].block_device_mappings[0].ebs.volume_owner_id #=> String
     #   resp.instances[0].block_device_mappings[0].ebs.operator.managed #=> Boolean
     #   resp.instances[0].block_device_mappings[0].ebs.operator.principal #=> String
+    #   resp.instances[0].block_device_mappings[0].ebs.ebs_card_index #=> Integer
     #   resp.instances[0].client_token #=> String
     #   resp.instances[0].ebs_optimized #=> Boolean
     #   resp.instances[0].ena_support #=> Boolean
@@ -71697,7 +71736,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.591.0'
+      context[:gem_version] = '1.592.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

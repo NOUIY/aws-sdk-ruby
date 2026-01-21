@@ -37,6 +37,8 @@ module Aws::BedrockAgentCore
     Branch = Shapes::StructureShape.new(name: 'Branch')
     BranchFilter = Shapes::StructureShape.new(name: 'BranchFilter')
     BranchName = Shapes::StringShape.new(name: 'BranchName')
+    BrowserExtension = Shapes::StructureShape.new(name: 'BrowserExtension')
+    BrowserExtensions = Shapes::ListShape.new(name: 'BrowserExtensions')
     BrowserSessionId = Shapes::StringShape.new(name: 'BrowserSessionId')
     BrowserSessionStatus = Shapes::StringShape.new(name: 'BrowserSessionStatus')
     BrowserSessionStream = Shapes::StructureShape.new(name: 'BrowserSessionStream')
@@ -198,14 +200,20 @@ module Aws::BedrockAgentCore
     RequestUri = Shapes::StringShape.new(name: 'RequestUri')
     ResourceContent = Shapes::StructureShape.new(name: 'ResourceContent')
     ResourceContentType = Shapes::StringShape.new(name: 'ResourceContentType')
+    ResourceLocation = Shapes::UnionShape.new(name: 'ResourceLocation')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResourceOauth2ReturnUrlType = Shapes::StringShape.new(name: 'ResourceOauth2ReturnUrlType')
     ResponseStream = Shapes::BlobShape.new(name: 'ResponseStream', streaming: true)
     RetrieveMemoryRecordsInput = Shapes::StructureShape.new(name: 'RetrieveMemoryRecordsInput')
     RetrieveMemoryRecordsOutput = Shapes::StructureShape.new(name: 'RetrieveMemoryRecordsOutput')
+    RetryableConflictException = Shapes::StructureShape.new(name: 'RetryableConflictException')
     RightExpression = Shapes::UnionShape.new(name: 'RightExpression')
     Role = Shapes::StringShape.new(name: 'Role')
     RuntimeClientError = Shapes::StructureShape.new(name: 'RuntimeClientError')
+    S3Location = Shapes::StructureShape.new(name: 'S3Location')
+    S3LocationBucketString = Shapes::StringShape.new(name: 'S3LocationBucketString')
+    S3LocationPrefixString = Shapes::StringShape.new(name: 'S3LocationPrefixString')
+    S3LocationVersionIdString = Shapes::StringShape.new(name: 'S3LocationVersionIdString')
     ScopeType = Shapes::StringShape.new(name: 'ScopeType')
     ScopesListType = Shapes::ListShape.new(name: 'ScopesListType')
     SearchCriteria = Shapes::StructureShape.new(name: 'SearchCriteria')
@@ -321,6 +329,11 @@ module Aws::BedrockAgentCore
     BranchFilter.add_member(:name, Shapes::ShapeRef.new(shape: BranchName, required: true, location_name: "name"))
     BranchFilter.add_member(:include_parent_branches, Shapes::ShapeRef.new(shape: Boolean, location_name: "includeParentBranches"))
     BranchFilter.struct_class = Types::BranchFilter
+
+    BrowserExtension.add_member(:location, Shapes::ShapeRef.new(shape: ResourceLocation, required: true, location_name: "location"))
+    BrowserExtension.struct_class = Types::BrowserExtension
+
+    BrowserExtensions.member = Shapes::ShapeRef.new(shape: BrowserExtension)
 
     BrowserSessionStream.add_member(:automation_stream, Shapes::ShapeRef.new(shape: AutomationStream, required: true, location_name: "automationStream"))
     BrowserSessionStream.add_member(:live_view_stream, Shapes::ShapeRef.new(shape: LiveViewStream, location_name: "liveViewStream"))
@@ -540,6 +553,7 @@ module Aws::BedrockAgentCore
     GetBrowserSessionResponse.add_member(:name, Shapes::ShapeRef.new(shape: Name, location_name: "name"))
     GetBrowserSessionResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "createdAt"))
     GetBrowserSessionResponse.add_member(:view_port, Shapes::ShapeRef.new(shape: ViewPort, location_name: "viewPort"))
+    GetBrowserSessionResponse.add_member(:extensions, Shapes::ShapeRef.new(shape: BrowserExtensions, location_name: "extensions"))
     GetBrowserSessionResponse.add_member(:session_timeout_seconds, Shapes::ShapeRef.new(shape: BrowserSessionTimeout, location_name: "sessionTimeoutSeconds"))
     GetBrowserSessionResponse.add_member(:status, Shapes::ShapeRef.new(shape: BrowserSessionStatus, location_name: "status"))
     GetBrowserSessionResponse.add_member(:streams, Shapes::ShapeRef.new(shape: BrowserSessionStream, location_name: "streams"))
@@ -858,6 +872,12 @@ module Aws::BedrockAgentCore
     ResourceContent.add_member(:blob, Shapes::ShapeRef.new(shape: Blob, location_name: "blob"))
     ResourceContent.struct_class = Types::ResourceContent
 
+    ResourceLocation.add_member(:s3, Shapes::ShapeRef.new(shape: S3Location, location_name: "s3"))
+    ResourceLocation.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    ResourceLocation.add_member_subclass(:s3, Types::ResourceLocation::S3)
+    ResourceLocation.add_member_subclass(:unknown, Types::ResourceLocation::Unknown)
+    ResourceLocation.struct_class = Types::ResourceLocation
+
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
 
@@ -872,6 +892,9 @@ module Aws::BedrockAgentCore
     RetrieveMemoryRecordsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
     RetrieveMemoryRecordsOutput.struct_class = Types::RetrieveMemoryRecordsOutput
 
+    RetryableConflictException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    RetryableConflictException.struct_class = Types::RetryableConflictException
+
     RightExpression.add_member(:metadata_value, Shapes::ShapeRef.new(shape: MetadataValue, location_name: "metadataValue"))
     RightExpression.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     RightExpression.add_member_subclass(:metadata_value, Types::RightExpression::MetadataValue)
@@ -880,6 +903,11 @@ module Aws::BedrockAgentCore
 
     RuntimeClientError.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     RuntimeClientError.struct_class = Types::RuntimeClientError
+
+    S3Location.add_member(:bucket, Shapes::ShapeRef.new(shape: S3LocationBucketString, required: true, location_name: "bucket"))
+    S3Location.add_member(:prefix, Shapes::ShapeRef.new(shape: S3LocationPrefixString, required: true, location_name: "prefix"))
+    S3Location.add_member(:version_id, Shapes::ShapeRef.new(shape: S3LocationVersionIdString, location_name: "versionId"))
+    S3Location.struct_class = Types::S3Location
 
     ScopesListType.member = Shapes::ShapeRef.new(shape: ScopeType)
 
@@ -917,6 +945,7 @@ module Aws::BedrockAgentCore
     StartBrowserSessionRequest.add_member(:name, Shapes::ShapeRef.new(shape: Name, location_name: "name"))
     StartBrowserSessionRequest.add_member(:session_timeout_seconds, Shapes::ShapeRef.new(shape: BrowserSessionTimeout, location_name: "sessionTimeoutSeconds"))
     StartBrowserSessionRequest.add_member(:view_port, Shapes::ShapeRef.new(shape: ViewPort, location_name: "viewPort"))
+    StartBrowserSessionRequest.add_member(:extensions, Shapes::ShapeRef.new(shape: BrowserExtensions, location_name: "extensions"))
     StartBrowserSessionRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     StartBrowserSessionRequest.struct_class = Types::StartBrowserSessionRequest
 
@@ -1085,11 +1114,11 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: BatchCreateMemoryRecordsInput)
         o.output = Shapes::ShapeRef.new(shape: BatchCreateMemoryRecordsOutput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
       end)
 
       api.add_operation(:batch_delete_memory_records, Seahorse::Model::Operation.new.tap do |o|
@@ -1099,11 +1128,11 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: BatchDeleteMemoryRecordsInput)
         o.output = Shapes::ShapeRef.new(shape: BatchDeleteMemoryRecordsOutput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
       end)
 
       api.add_operation(:batch_update_memory_records, Seahorse::Model::Operation.new.tap do |o|
@@ -1113,11 +1142,11 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: BatchUpdateMemoryRecordsInput)
         o.output = Shapes::ShapeRef.new(shape: BatchUpdateMemoryRecordsOutput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
       end)
 
       api.add_operation(:complete_resource_token_auth, Seahorse::Model::Operation.new.tap do |o|
@@ -1141,12 +1170,13 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: CreateEventInput)
         o.output = Shapes::ShapeRef.new(shape: CreateEventOutput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: RetryableConflictException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
       end)
 
       api.add_operation(:delete_event, Seahorse::Model::Operation.new.tap do |o|
@@ -1156,12 +1186,12 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: DeleteEventInput)
         o.output = Shapes::ShapeRef.new(shape: DeleteEventOutput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
       end)
 
       api.add_operation(:delete_memory_record, Seahorse::Model::Operation.new.tap do |o|
@@ -1171,12 +1201,12 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: DeleteMemoryRecordInput)
         o.output = Shapes::ShapeRef.new(shape: DeleteMemoryRecordOutput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
       end)
 
       api.add_operation(:evaluate, Seahorse::Model::Operation.new.tap do |o|
@@ -1244,12 +1274,12 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: GetEventInput)
         o.output = Shapes::ShapeRef.new(shape: GetEventOutput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
       end)
 
       api.add_operation(:get_memory_record, Seahorse::Model::Operation.new.tap do |o|
@@ -1259,12 +1289,12 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: GetMemoryRecordInput)
         o.output = Shapes::ShapeRef.new(shape: GetMemoryRecordOutput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
       end)
 
       api.add_operation(:get_resource_api_key, Seahorse::Model::Operation.new.tap do |o|
@@ -1374,12 +1404,12 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: ListActorsInput)
         o.output = Shapes::ShapeRef.new(shape: ListActorsOutput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1421,12 +1451,12 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: ListEventsInput)
         o.output = Shapes::ShapeRef.new(shape: ListEventsOutput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1442,11 +1472,11 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: ListMemoryExtractionJobsInput)
         o.output = Shapes::ShapeRef.new(shape: ListMemoryExtractionJobsOutput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1462,12 +1492,12 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: ListMemoryRecordsInput)
         o.output = Shapes::ShapeRef.new(shape: ListMemoryRecordsOutput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1483,12 +1513,12 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: ListSessionsInput)
         o.output = Shapes::ShapeRef.new(shape: ListSessionsOutput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1504,12 +1534,12 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: RetrieveMemoryRecordsInput)
         o.output = Shapes::ShapeRef.new(shape: RetrieveMemoryRecordsOutput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1555,11 +1585,11 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: StartMemoryExtractionJobInput)
         o.output = Shapes::ShapeRef.new(shape: StartMemoryExtractionJobOutput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
       end)
 
       api.add_operation(:stop_browser_session, Seahorse::Model::Operation.new.tap do |o|

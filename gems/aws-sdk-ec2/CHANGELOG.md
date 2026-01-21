@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.592.0 (2026-01-21)
+------------------
+
+* Feature - Added support of multiple EBS cards. New EbsCardIndex parameter enables attaching volumes to specific EBS cards on supported instance types for improved storage performance.
+
 1.591.0 (2026-01-16)
 ------------------
 

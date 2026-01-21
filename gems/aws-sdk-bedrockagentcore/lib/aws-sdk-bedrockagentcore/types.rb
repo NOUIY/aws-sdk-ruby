@@ -243,6 +243,22 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # Browser extension configuration.
+    #
+    # @!attribute [rw] location
+    #   The location where the browser extension files are stored. This
+    #   specifies the source from which the extension will be loaded and
+    #   installed.
+    #   @return [Types::ResourceLocation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/BrowserExtension AWS API Documentation
+    #
+    class BrowserExtension < Struct.new(
+      :location)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The collection of streams associated with a browser session in Amazon
     # Bedrock. These streams provide different ways to interact with and
     # observe the browser session, including programmatic control and visual
@@ -1219,6 +1235,11 @@ module Aws::BedrockAgentCore
     #   correctly for the agent's browsing tasks.
     #   @return [Types::ViewPort]
     #
+    # @!attribute [rw] extensions
+    #   The list of browser extensions that are configured in the browser
+    #   session.
+    #   @return [Array<Types::BrowserExtension>]
+    #
     # @!attribute [rw] session_timeout_seconds
     #   The timeout period for the browser session in seconds.
     #   @return [Integer]
@@ -1249,6 +1270,7 @@ module Aws::BedrockAgentCore
       :name,
       :created_at,
       :view_port,
+      :extensions,
       :session_timeout_seconds,
       :status,
       :streams,
@@ -2657,6 +2679,30 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # The location of the browser extension.
+    #
+    # @note ResourceLocation is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note ResourceLocation is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of ResourceLocation corresponding to the set member.
+    #
+    # @!attribute [rw] s3
+    #   The Amazon S3 location of the resource. Use this when the resource
+    #   is stored in an Amazon S3 bucket.
+    #   @return [Types::S3Location]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ResourceLocation AWS API Documentation
+    #
+    class ResourceLocation < Struct.new(
+      :s3,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class S3 < ResourceLocation; end
+      class Unknown < ResourceLocation; end
+    end
+
     # The exception that occurs when the specified resource does not exist.
     # This can happen when using an invalid identifier or when trying to
     # access a resource that has been deleted.
@@ -2731,6 +2777,22 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # The exception that occurs when there is a retryable conflict
+    # performing an operation. This is a temporary condition that may
+    # resolve itself with retries. We recommend implementing exponential
+    # backoff retry logic in your application.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/RetryableConflictException AWS API Documentation
+    #
+    class RetryableConflictException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Right expression of the `eventMetadata`filter.
     #
     # @note RightExpression is a union - when making an API calls you must set exactly one of the members.
@@ -2764,6 +2826,31 @@ module Aws::BedrockAgentCore
     #
     class RuntimeClientError < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Amazon S3 location configuration of a resource.
+    #
+    # @!attribute [rw] bucket
+    #   The name of the Amazon S3 bucket where the resource is stored.
+    #   @return [String]
+    #
+    # @!attribute [rw] prefix
+    #   The name of the Amazon S3 prefix/key where the resource is stored.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   The name of the Amazon S3 version ID where the resource is stored
+    #   (Optional).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/S3Location AWS API Documentation
+    #
+    class S3Location < Struct.new(
+      :bucket,
+      :prefix,
+      :version_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2919,6 +3006,10 @@ module Aws::BedrockAgentCore
     #   viewport size.
     #   @return [Types::ViewPort]
     #
+    # @!attribute [rw] extensions
+    #   A list of browser extensions to load into the browser session.
+    #   @return [Array<Types::BrowserExtension>]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If this token matches a previous
@@ -2939,6 +3030,7 @@ module Aws::BedrockAgentCore
       :name,
       :session_timeout_seconds,
       :view_port,
+      :extensions,
       :client_token)
       SENSITIVE = []
       include Aws::Structure

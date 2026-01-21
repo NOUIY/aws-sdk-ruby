@@ -119,7 +119,8 @@ module Aws
                                     availability_zone: ::String?,
                                     encrypted: bool?,
                                     volume_initialization_rate: ::Integer?,
-                                    availability_zone_id: ::String?
+                                    availability_zone_id: ::String?,
+                                    ebs_card_index: ::Integer?
                                   }?,
                                   no_device: ::String?,
                                   device_name: ::String?,
@@ -755,7 +756,8 @@ module Aws
                                   availability_zone: ::String?,
                                   encrypted: bool?,
                                   volume_initialization_rate: ::Integer?,
-                                  availability_zone_id: ::String?
+                                  availability_zone_id: ::String?,
+                                  ebs_card_index: ::Integer?
                                 }?,
                                 no_device: ::String?,
                                 device_name: ::String?,

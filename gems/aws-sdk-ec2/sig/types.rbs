@@ -830,6 +830,7 @@ module Aws::EC2
       attr_accessor device: ::String
       attr_accessor instance_id: ::String
       attr_accessor volume_id: ::String
+      attr_accessor ebs_card_index: ::Integer
       attr_accessor dry_run: bool
       SENSITIVE: []
     end
@@ -8251,6 +8252,7 @@ module Aws::EC2
       attr_accessor encrypted: bool
       attr_accessor volume_initialization_rate: ::Integer
       attr_accessor availability_zone_id: ::String
+      attr_accessor ebs_card_index: ::Integer
       SENSITIVE: []
     end
 
@@ -8266,6 +8268,17 @@ module Aws::EC2
       SENSITIVE: []
     end
 
+    class EbsCardInfo
+      attr_accessor ebs_card_index: ::Integer
+      attr_accessor baseline_bandwidth_in_mbps: ::Integer
+      attr_accessor baseline_throughput_in_m_bps: ::Float
+      attr_accessor baseline_iops: ::Integer
+      attr_accessor maximum_bandwidth_in_mbps: ::Integer
+      attr_accessor maximum_throughput_in_m_bps: ::Float
+      attr_accessor maximum_iops: ::Integer
+      SENSITIVE: []
+    end
+
     class EbsInfo
       attr_accessor ebs_optimized_support: ("unsupported" | "supported" | "default")
       attr_accessor encryption_support: ("unsupported" | "supported")
@@ -8273,6 +8286,8 @@ module Aws::EC2
       attr_accessor nvme_support: ("unsupported" | "supported" | "required")
       attr_accessor maximum_ebs_attachments: ::Integer
       attr_accessor attachment_limit_type: ("shared" | "dedicated")
+      attr_accessor maximum_ebs_cards: ::Integer
+      attr_accessor ebs_cards: ::Array[Types::EbsCardInfo]
       SENSITIVE: []
     end
 
@@ -8284,6 +8299,7 @@ module Aws::EC2
       attr_accessor associated_resource: ::String
       attr_accessor volume_owner_id: ::String
       attr_accessor operator: Types::OperatorResponse
+      attr_accessor ebs_card_index: ::Integer
       SENSITIVE: []
     end
 
@@ -12022,6 +12038,7 @@ module Aws::EC2
       attr_accessor volume_type: ("standard" | "io1" | "io2" | "gp2" | "sc1" | "st1" | "gp3")
       attr_accessor throughput: ::Integer
       attr_accessor volume_initialization_rate: ::Integer
+      attr_accessor ebs_card_index: ::Integer
       SENSITIVE: []
     end
 
@@ -12035,6 +12052,7 @@ module Aws::EC2
       attr_accessor volume_type: ("standard" | "io1" | "io2" | "gp2" | "sc1" | "st1" | "gp3")
       attr_accessor throughput: ::Integer
       attr_accessor volume_initialization_rate: ::Integer
+      attr_accessor ebs_card_index: ::Integer
       SENSITIVE: []
     end
 
@@ -18017,6 +18035,7 @@ module Aws::EC2
       attr_accessor delete_on_termination: bool
       attr_accessor associated_resource: ::String
       attr_accessor instance_owning_service: ::String
+      attr_accessor ebs_card_index: ::Integer
       attr_accessor volume_id: ::String
       attr_accessor instance_id: ::String
       attr_accessor device: ::String

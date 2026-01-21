@@ -79,6 +79,11 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class BrowserExtension
+      attr_accessor location: Types::ResourceLocation
+      SENSITIVE: []
+    end
+
     class BrowserSessionStream
       attr_accessor automation_stream: Types::AutomationStream
       attr_accessor live_view_stream: Types::LiveViewStream
@@ -352,6 +357,7 @@ module Aws::BedrockAgentCore
       attr_accessor name: ::String
       attr_accessor created_at: ::Time
       attr_accessor view_port: Types::ViewPort
+      attr_accessor extensions: ::Array[Types::BrowserExtension]
       attr_accessor session_timeout_seconds: ::Integer
       attr_accessor status: ("READY" | "TERMINATED")
       attr_accessor streams: Types::BrowserSessionStream
@@ -758,6 +764,17 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class ResourceLocation
+      attr_accessor s3: Types::S3Location
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class S3 < ResourceLocation
+      end
+      class Unknown < ResourceLocation
+      end
+    end
+
     class ResourceNotFoundException
       attr_accessor message: ::String
       attr_accessor event_type: untyped
@@ -779,6 +796,11 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class RetryableConflictException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
     class RightExpression
       attr_accessor metadata_value: Types::MetadataValue
       attr_accessor unknown: untyped
@@ -792,6 +814,13 @@ module Aws::BedrockAgentCore
 
     class RuntimeClientError
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class S3Location
+      attr_accessor bucket: ::String
+      attr_accessor prefix: ::String
+      attr_accessor version_id: ::String
       SENSITIVE: []
     end
 
@@ -835,6 +864,7 @@ module Aws::BedrockAgentCore
       attr_accessor name: ::String
       attr_accessor session_timeout_seconds: ::Integer
       attr_accessor view_port: Types::ViewPort
+      attr_accessor extensions: ::Array[Types::BrowserExtension]
       attr_accessor client_token: ::String
       SENSITIVE: []
     end

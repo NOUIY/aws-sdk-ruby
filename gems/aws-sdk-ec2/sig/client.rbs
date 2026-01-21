@@ -682,6 +682,7 @@ module Aws
         def delete_on_termination: () -> bool
         def associated_resource: () -> ::String
         def instance_owning_service: () -> ::String
+        def ebs_card_index: () -> ::Integer
         def volume_id: () -> ::String
         def instance_id: () -> ::String
         def device: () -> ::String
@@ -693,6 +694,7 @@ module Aws
                            device: ::String,
                            instance_id: ::String,
                            volume_id: ::String,
+                           ?ebs_card_index: ::Integer,
                            ?dry_run: bool
                          ) -> _AttachVolumeResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AttachVolumeResponseSuccess
@@ -1805,7 +1807,8 @@ module Aws
                                 availability_zone: ::String?,
                                 encrypted: bool?,
                                 volume_initialization_rate: ::Integer?,
-                                availability_zone_id: ::String?
+                                availability_zone_id: ::String?,
+                                ebs_card_index: ::Integer?
                               }?,
                               no_device: ::String?,
                               device_name: ::String?,
@@ -2297,7 +2300,8 @@ module Aws
                                             volume_size: ::Integer?,
                                             volume_type: ("standard" | "io1" | "io2" | "gp2" | "sc1" | "st1" | "gp3")?,
                                             throughput: ::Integer?,
-                                            volume_initialization_rate: ::Integer?
+                                            volume_initialization_rate: ::Integer?,
+                                            ebs_card_index: ::Integer?
                                           }?,
                                           no_device: ::String?
                                         },
@@ -2573,7 +2577,8 @@ module Aws
                                                     volume_size: ::Integer?,
                                                     volume_type: ("standard" | "io1" | "io2" | "gp2" | "sc1" | "st1" | "gp3")?,
                                                     throughput: ::Integer?,
-                                                    volume_initialization_rate: ::Integer?
+                                                    volume_initialization_rate: ::Integer?,
+                                                    ebs_card_index: ::Integer?
                                                   }?,
                                                   no_device: ::String?
                                                 },
@@ -9414,6 +9419,7 @@ module Aws
         def delete_on_termination: () -> bool
         def associated_resource: () -> ::String
         def instance_owning_service: () -> ::String
+        def ebs_card_index: () -> ::Integer
         def volume_id: () -> ::String
         def instance_id: () -> ::String
         def device: () -> ::String
@@ -13842,7 +13848,8 @@ module Aws
                                   availability_zone: ::String?,
                                   encrypted: bool?,
                                   volume_initialization_rate: ::Integer?,
-                                  availability_zone_id: ::String?
+                                  availability_zone_id: ::String?,
+                                  ebs_card_index: ::Integer?
                                 }?,
                                 no_device: ::String?,
                                 device_name: ::String?,
@@ -14180,7 +14187,8 @@ module Aws
                                             availability_zone: ::String?,
                                             encrypted: bool?,
                                             volume_initialization_rate: ::Integer?,
-                                            availability_zone_id: ::String?
+                                            availability_zone_id: ::String?,
+                                            ebs_card_index: ::Integer?
                                           }?,
                                           no_device: ::String?,
                                           device_name: ::String?,
@@ -14498,7 +14506,8 @@ module Aws
                                             availability_zone: ::String?,
                                             encrypted: bool?,
                                             volume_initialization_rate: ::Integer?,
-                                            availability_zone_id: ::String?
+                                            availability_zone_id: ::String?,
+                                            ebs_card_index: ::Integer?
                                           }?,
                                           no_device: ::String?,
                                           device_name: ::String?,
@@ -14907,7 +14916,8 @@ module Aws
                                  availability_zone: ::String?,
                                  encrypted: bool?,
                                  volume_initialization_rate: ::Integer?,
-                                 availability_zone_id: ::String?
+                                 availability_zone_id: ::String?,
+                                 ebs_card_index: ::Integer?
                                }?,
                                no_device: ::String?,
                                device_name: ::String?,
