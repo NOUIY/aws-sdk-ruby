@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.118.0 (2026-01-22)
+------------------
+
+* Feature - Amazon GameLift Servers Realtime now supports Node.js 24.x runtime on the Amazon Linux 2023 operating system.
+
 1.117.0 (2026-01-16)
 ------------------
 

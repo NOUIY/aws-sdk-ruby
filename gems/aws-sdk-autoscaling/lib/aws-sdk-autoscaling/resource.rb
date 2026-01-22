@@ -162,6 +162,7 @@ module Aws::AutoScaling
     #         role_arn: "XmlStringMaxLen255",
     #       },
     #     ],
+    #     deletion_protection: "none", # accepts none, prevent-force-deletion, prevent-all-deletion
     #     tags: [
     #       {
     #         resource_id: "XmlString",
@@ -407,6 +408,18 @@ module Aws::AutoScaling
     # @option options [Array<Types::LifecycleHookSpecification>] :lifecycle_hook_specification_list
     #   One or more lifecycle hooks to add to the Auto Scaling group before
     #   instances are launched.
+    # @option options [String] :deletion_protection
+    #   The deletion protection setting for the Auto Scaling group. This
+    #   setting helps safeguard your Auto Scaling group and its instances by
+    #   controlling whether the `DeleteAutoScalingGroup` operation is allowed.
+    #   When deletion protection is enabled, users cannot delete the Auto
+    #   Scaling group according to the specified protection level until the
+    #   setting is changed back to a less restrictive level.
+    #
+    #   The valid values are `none`, `prevent-force-deletion`, and
+    #   `prevent-all-deletion`.
+    #
+    #   Default: `none`
     # @option options [Array<Types::Tag>] :tags
     #   One or more tags. You can tag your Auto Scaling group and propagate
     #   the tags to the Amazon EC2 instances it launches. Tags are not

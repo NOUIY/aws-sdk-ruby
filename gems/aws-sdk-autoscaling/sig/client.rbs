@@ -304,6 +304,7 @@ module Aws
                                            role_arn: ::String?
                                          },
                                        ],
+                                       ?deletion_protection: ("none" | "prevent-force-deletion" | "prevent-all-deletion"),
                                        ?tags: Array[
                                          {
                                            resource_id: ::String?,
@@ -1435,7 +1436,8 @@ module Aws
                                          retention_triggers: {
                                            terminate_hook_abandon: ("retain" | "terminate")?
                                          }?
-                                       }
+                                       },
+                                       ?deletion_protection: ("none" | "prevent-force-deletion" | "prevent-all-deletion")
                                      ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 

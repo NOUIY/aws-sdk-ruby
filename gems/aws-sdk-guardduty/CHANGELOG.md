@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.143.0 (2026-01-22)
+------------------
+
+* Feature - Adding new enum value for ScanStatusReason
+
 1.142.0 (2026-01-16)
 ------------------
 

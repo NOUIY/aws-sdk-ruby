@@ -1895,6 +1895,7 @@ module Aws::EC2
     GpuDeviceMemorySize = Shapes::IntegerShape.new(name: 'GpuDeviceMemorySize')
     GpuDeviceName = Shapes::StringShape.new(name: 'GpuDeviceName')
     GpuInfo = Shapes::StructureShape.new(name: 'GpuInfo')
+    GpuPartitionSize = Shapes::FloatShape.new(name: 'GpuPartitionSize')
     GroupBy = Shapes::StringShape.new(name: 'GroupBy')
     GroupBySet = Shapes::ListShape.new(name: 'GroupBySet')
     GroupIdStringList = Shapes::ListShape.new(name: 'GroupIdStringList')
@@ -2502,6 +2503,7 @@ module Aws::EC2
     LockedSnapshotsInfo = Shapes::StructureShape.new(name: 'LockedSnapshotsInfo')
     LockedSnapshotsInfoList = Shapes::ListShape.new(name: 'LockedSnapshotsInfoList')
     LogDestinationType = Shapes::StringShape.new(name: 'LogDestinationType')
+    LogicalGpuCount = Shapes::IntegerShape.new(name: 'LogicalGpuCount')
     Long = Shapes::IntegerShape.new(name: 'Long')
     MacHost = Shapes::StructureShape.new(name: 'MacHost')
     MacHostList = Shapes::ListShape.new(name: 'MacHostList')
@@ -3885,6 +3887,8 @@ module Aws::EC2
     WeekDay = Shapes::StringShape.new(name: 'WeekDay')
     WithdrawByoipCidrRequest = Shapes::StructureShape.new(name: 'WithdrawByoipCidrRequest')
     WithdrawByoipCidrResult = Shapes::StructureShape.new(name: 'WithdrawByoipCidrResult')
+    Workload = Shapes::StringShape.new(name: 'Workload')
+    WorkloadsList = Shapes::ListShape.new(name: 'WorkloadsList')
     ZoneIdStringList = Shapes::ListShape.new(name: 'ZoneIdStringList')
     ZoneNameStringList = Shapes::ListShape.new(name: 'ZoneNameStringList')
     customerGatewayConfiguration = Shapes::StringShape.new(name: 'customerGatewayConfiguration')
@@ -11707,6 +11711,9 @@ module Aws::EC2
     GpuDeviceInfo.add_member(:name, Shapes::ShapeRef.new(shape: GpuDeviceName, location_name: "name"))
     GpuDeviceInfo.add_member(:manufacturer, Shapes::ShapeRef.new(shape: GpuDeviceManufacturerName, location_name: "manufacturer"))
     GpuDeviceInfo.add_member(:count, Shapes::ShapeRef.new(shape: GpuDeviceCount, location_name: "count"))
+    GpuDeviceInfo.add_member(:logical_gpu_count, Shapes::ShapeRef.new(shape: LogicalGpuCount, location_name: "logicalGpuCount"))
+    GpuDeviceInfo.add_member(:gpu_partition_size, Shapes::ShapeRef.new(shape: GpuPartitionSize, location_name: "gpuPartitionSize"))
+    GpuDeviceInfo.add_member(:workloads, Shapes::ShapeRef.new(shape: WorkloadsList, location_name: "workloadSet"))
     GpuDeviceInfo.add_member(:memory_info, Shapes::ShapeRef.new(shape: GpuDeviceMemoryInfo, location_name: "memoryInfo"))
     GpuDeviceInfo.struct_class = Types::GpuDeviceInfo
 
@@ -19151,6 +19158,8 @@ module Aws::EC2
 
     WithdrawByoipCidrResult.add_member(:byoip_cidr, Shapes::ShapeRef.new(shape: ByoipCidr, location_name: "byoipCidr"))
     WithdrawByoipCidrResult.struct_class = Types::WithdrawByoipCidrResult
+
+    WorkloadsList.member = Shapes::ShapeRef.new(shape: Workload, location_name: "item")
 
     ZoneIdStringList.member = Shapes::ShapeRef.new(shape: String, location_name: "ZoneId")
 

@@ -31330,6 +31330,10 @@ module Aws::EC2
     #   resp.instance_types[0].gpu_info.gpus[0].name #=> String
     #   resp.instance_types[0].gpu_info.gpus[0].manufacturer #=> String
     #   resp.instance_types[0].gpu_info.gpus[0].count #=> Integer
+    #   resp.instance_types[0].gpu_info.gpus[0].logical_gpu_count #=> Integer
+    #   resp.instance_types[0].gpu_info.gpus[0].gpu_partition_size #=> Float
+    #   resp.instance_types[0].gpu_info.gpus[0].workloads #=> Array
+    #   resp.instance_types[0].gpu_info.gpus[0].workloads[0] #=> String
     #   resp.instance_types[0].gpu_info.gpus[0].memory_info.size_in_mi_b #=> Integer
     #   resp.instance_types[0].gpu_info.total_gpu_memory_in_mi_b #=> Integer
     #   resp.instance_types[0].fpga_info.fpgas #=> Array
@@ -71736,7 +71740,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.592.0'
+      context[:gem_version] = '1.593.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

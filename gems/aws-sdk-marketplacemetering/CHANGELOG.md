@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.92.0 (2026-01-22)
+------------------
+
+* Feature - Customer Identifier parameter deprecation date has been removed. For new implementations, we recommend using the CustomerAWSAccountID. Your current integration will continue to work. When updating your implementation, consider migrating to CustomerAWSAccountID for improved integration.
+
 1.91.0 (2026-01-16)
 ------------------
 

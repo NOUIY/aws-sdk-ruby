@@ -1748,7 +1748,8 @@ module Aws::VerifiedPermissions
     #   @return [Types::KmsEncryptionSettings]
     #
     # @!attribute [rw] default
-    #   Use AWS owned encryption keys for encrypting policy store data.
+    #   This is the default encryption setting. The policy store uses an
+    #   Amazon Web Services owned key for encrypting data.
     #   @return [Types::Unit]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/verifiedpermissions-2021-12-01/EncryptionSettings AWS API Documentation
@@ -1785,7 +1786,8 @@ module Aws::VerifiedPermissions
     #   @return [Types::KmsEncryptionState]
     #
     # @!attribute [rw] default
-    #   Policy store data is encrypted using AWS owned encryption keys.
+    #   This is the default encryption state. The policy store is encrypted
+    #   using an Amazon Web Services owned key.
     #   @return [Types::Unit]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/verifiedpermissions-2021-12-01/EncryptionState AWS API Documentation

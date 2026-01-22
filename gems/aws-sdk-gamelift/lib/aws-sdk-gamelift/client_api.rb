@@ -443,6 +443,7 @@ module Aws::GameLift
     MetricGroupList = Shapes::ListShape.new(name: 'MetricGroupList')
     MetricName = Shapes::StringShape.new(name: 'MetricName')
     MinimumHealthyPercentage = Shapes::IntegerShape.new(name: 'MinimumHealthyPercentage')
+    NodeJsVersion = Shapes::StringShape.new(name: 'NodeJsVersion')
     NonBlankAndLengthConstraintString = Shapes::StringShape.new(name: 'NonBlankAndLengthConstraintString')
     NonEmptyString = Shapes::StringShape.new(name: 'NonEmptyString')
     NonNegativeDouble = Shapes::FloatShape.new(name: 'NonNegativeDouble')
@@ -993,6 +994,7 @@ module Aws::GameLift
     CreateScriptInput.add_member(:storage_location, Shapes::ShapeRef.new(shape: S3Location, location_name: "StorageLocation"))
     CreateScriptInput.add_member(:zip_file, Shapes::ShapeRef.new(shape: ZipBlob, location_name: "ZipFile"))
     CreateScriptInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateScriptInput.add_member(:node_js_version, Shapes::ShapeRef.new(shape: NodeJsVersion, location_name: "NodeJsVersion"))
     CreateScriptInput.struct_class = Types::CreateScriptInput
 
     CreateScriptOutput.add_member(:script, Shapes::ShapeRef.new(shape: Script, location_name: "Script"))
@@ -2153,6 +2155,7 @@ module Aws::GameLift
     Script.add_member(:size_on_disk, Shapes::ShapeRef.new(shape: PositiveLong, location_name: "SizeOnDisk"))
     Script.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTime"))
     Script.add_member(:storage_location, Shapes::ShapeRef.new(shape: S3Location, location_name: "StorageLocation"))
+    Script.add_member(:node_js_version, Shapes::ShapeRef.new(shape: NodeJsVersion, location_name: "NodeJsVersion"))
     Script.struct_class = Types::Script
 
     ScriptList.member = Shapes::ShapeRef.new(shape: Script)

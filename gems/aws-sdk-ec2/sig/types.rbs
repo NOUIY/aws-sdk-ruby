@@ -10242,6 +10242,9 @@ module Aws::EC2
       attr_accessor name: ::String
       attr_accessor manufacturer: ::String
       attr_accessor count: ::Integer
+      attr_accessor logical_gpu_count: ::Integer
+      attr_accessor gpu_partition_size: ::Float
+      attr_accessor workloads: ::Array[::String]
       attr_accessor memory_info: Types::GpuDeviceMemoryInfo
       SENSITIVE: []
     end

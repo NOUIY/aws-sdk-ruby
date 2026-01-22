@@ -280,7 +280,7 @@ module Aws::GameLift
     #   This value determines the type of fleet resources that you can use
     #   for this build.
     #
-    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See
+    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See
     #   more details in the [Amazon Linux 2 FAQs][1]. For game servers that
     #   are hosted on AL2 and use server SDK version 4.x for Amazon GameLift
     #   Servers, first update the game server build to server SDK 5.x, and
@@ -480,7 +480,7 @@ module Aws::GameLift
     # @!attribute [rw] operating_system
     #   The type of operating system on the compute resource.
     #
-    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See
+    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See
     #   more details in the [Amazon Linux 2 FAQs][1]. For game servers that
     #   are hosted on AL2 and use server SDK version 4.x for Amazon GameLift
     #   Servers, first update the game server build to server SDK 5.x, and
@@ -982,7 +982,7 @@ module Aws::GameLift
     #   The platform that all containers in the container group definition
     #   run on.
     #
-    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See
+    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See
     #   more details in the [Amazon Linux 2 FAQs][1]. For game servers that
     #   are hosted on AL2 and use server SDK version 4.x for Amazon GameLift
     #   Servers, first update the game server build to server SDK 5.x, and
@@ -1417,12 +1417,20 @@ module Aws::GameLift
     #   operating system in this request. There is no default value. You
     #   can't change a build's operating system later.
     #
-    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See
+    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See
     #   more details in the [Amazon Linux 2 FAQs][1]. For game servers that
     #   are hosted on AL2 and use server SDK version 4.x for Amazon GameLift
     #   Servers, first update the game server build to server SDK 5.x, and
     #   then deploy to AL2023 instances. See [ Migrate to server SDK version
     #   5.][2]
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> Windows Server 2016 will reach end of support on 1/12/2027. For game
+    #   servers that are hosted on Windows Server 2016 and use server SDK
+    #   version 4.x for Amazon GameLift Servers, first update the game
+    #   server build to server SDK 5.x, and then deploy to Windows Server
+    #   2022 instances. See [ Migrate to server SDK version 5.][2]
     #
     #    </note>
     #
@@ -1842,7 +1850,7 @@ module Aws::GameLift
     #
     #   Default value: `AMAZON_LINUX_2023`
     #
-    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See
+    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See
     #   more details in the [Amazon Linux 2 FAQs][1]. For game servers that
     #   are hosted on AL2 and use server SDK version 4.x for Amazon GameLift
     #   Servers, first update the game server build to server SDK 5.x, and
@@ -2482,6 +2490,13 @@ module Aws::GameLift
     #   For an example, see [Create a game session with custom
     #   properties][1].
     #
+    #   <note markdown="1"> Avoid using periods (".") in property keys if you plan to search
+    #   for game sessions by properties. Property keys containing periods
+    #   cannot be searched and will be filtered out from search results due
+    #   to search index limitations.
+    #
+    #    </note>
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-create
@@ -2792,6 +2807,13 @@ module Aws::GameLift
     #   This information is added to the new `GameSession` object that is
     #   created for a successful match. This parameter is not used if
     #   `FlexMatchMode` is set to `STANDALONE`.
+    #
+    #   <note markdown="1"> Avoid using periods (".") in property keys if you plan to search
+    #   for game sessions by properties. Property keys containing periods
+    #   cannot be searched and will be filtered out from search results due
+    #   to search index limitations.
+    #
+    #    </note>
     #   @return [Array<Types::GameProperty>]
     #
     # @!attribute [rw] game_session_data
@@ -3073,6 +3095,12 @@ module Aws::GameLift
     #   [4]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListTagsForResource.html
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] node_js_version
+    #   The Node.js version used for execution of your Realtime script. The
+    #   valid values are `10.x | 24.x`. By default, `NodeJsVersion` is
+    #   `10.x`. This value cannot be updated later.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/CreateScriptInput AWS API Documentation
     #
     class CreateScriptInput < Struct.new(
@@ -3080,7 +3108,8 @@ module Aws::GameLift
       :version,
       :storage_location,
       :zip_file,
-      :tags)
+      :tags,
+      :node_js_version)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5586,7 +5615,7 @@ module Aws::GameLift
     #   is deployed on this fleet. This attribute is used with fleets where
     #   `ComputeType` is `EC2`.
     #
-    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See
+    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See
     #   more details in the [Amazon Linux 2 FAQs][1]. For game servers that
     #   are hosted on AL2 and use server SDK version 4.x for Amazon GameLift
     #   Servers, first update the game server build to server SDK 5.x, and
@@ -5955,6 +5984,13 @@ module Aws::GameLift
     #
     # @!attribute [rw] key
     #   The game property identifier.
+    #
+    #   <note markdown="1"> Avoid using periods (".") in property keys if you plan to search
+    #   for game sessions by properties. Property keys containing periods
+    #   cannot be searched and will be filtered out from search results due
+    #   to search index limitations.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] value
@@ -6628,6 +6664,13 @@ module Aws::GameLift
     # @!attribute [rw] game_properties
     #   A set of key-value pairs that can store custom data in a game
     #   session. For example: `{"Key": "difficulty", "Value": "novice"}`.
+    #
+    #   <note markdown="1"> Avoid using periods (".") in property keys if you plan to search
+    #   for game sessions by properties. Property keys containing periods
+    #   cannot be searched and will be filtered out from search results due
+    #   to search index limitations.
+    #
+    #    </note>
     #   @return [Array<Types::GameProperty>]
     #
     # @!attribute [rw] ip_address
@@ -6915,6 +6958,13 @@ module Aws::GameLift
     # @!attribute [rw] game_properties
     #   A set of key-value pairs that can store custom data in a game
     #   session. For example: `{"Key": "difficulty", "Value": "novice"}`.
+    #
+    #   <note markdown="1"> Avoid using periods (".") in property keys if you plan to search
+    #   for game sessions by properties. Property keys containing periods
+    #   cannot be searched and will be filtered out from search results due
+    #   to search index limitations.
+    #
+    #    </note>
     #   @return [Array<Types::GameProperty>]
     #
     # @!attribute [rw] maximum_player_session_count
@@ -7459,7 +7509,7 @@ module Aws::GameLift
     # @!attribute [rw] operating_system
     #   Operating system that is running on this EC2 instance.
     #
-    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See
+    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See
     #   more details in the [Amazon Linux 2 FAQs][1]. For game servers that
     #   are hosted on AL2 and use server SDK version 4.x for Amazon GameLift
     #   Servers, first update the game server build to server SDK 5.x, and
@@ -8769,6 +8819,13 @@ module Aws::GameLift
     #   This information is added to the new `GameSession` object that is
     #   created for a successful match. This parameter is not used when
     #   `FlexMatchMode` is set to `STANDALONE`.
+    #
+    #   <note markdown="1"> Avoid using periods (".") in property keys if you plan to search
+    #   for game sessions by properties. Property keys containing periods
+    #   cannot be searched and will be filtered out from search results due
+    #   to search index limitations.
+    #
+    #    </note>
     #   @return [Array<Types::GameProperty>]
     #
     # @!attribute [rw] game_session_data
@@ -10241,6 +10298,12 @@ module Aws::GameLift
     #   specify an earlier version.
     #   @return [Types::S3Location]
     #
+    # @!attribute [rw] node_js_version
+    #   The Node.js version used for execution of your Realtime script. The
+    #   valid values are `10.x | 24.x`. By default, `NodeJsVersion` is
+    #   `10.x`. This value cannot be updated later.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/Script AWS API Documentation
     #
     class Script < Struct.new(
@@ -10250,7 +10313,8 @@ module Aws::GameLift
       :version,
       :size_on_disk,
       :creation_time,
-      :storage_location)
+      :storage_location,
+      :node_js_version)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10494,6 +10558,13 @@ module Aws::GameLift
     # @!attribute [rw] game_properties
     #   A set of key-value pairs that can store custom data in a game
     #   session. For example: `{"Key": "difficulty", "Value": "novice"}`.
+    #
+    #   <note markdown="1"> Avoid using periods (".") in property keys if you plan to search
+    #   for game sessions by properties. Property keys containing periods
+    #   cannot be searched and will be filtered out from search results due
+    #   to search index limitations.
+    #
+    #    </note>
     #   @return [Array<Types::GameProperty>]
     #
     # @!attribute [rw] maximum_player_session_count
@@ -11664,7 +11735,7 @@ module Aws::GameLift
     #   The platform that all containers in the group use. Containers in a
     #   group must run on the same operating system.
     #
-    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See
+    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See
     #   more details in the [Amazon Linux 2 FAQs][1]. For game servers that
     #   are hosted on AL2 and use server SDK version 4.x for Amazon GameLift
     #   Servers, first update the game server build to server SDK 5.x, and
@@ -12095,6 +12166,13 @@ module Aws::GameLift
     #   properties. There is no way to delete properties. For an example,
     #   see [Update the value of a game property][1].
     #
+    #   <note markdown="1"> Avoid using periods (".") in property keys if you plan to search
+    #   for game sessions by properties. Property keys containing periods
+    #   cannot be searched and will be filtered out from search results due
+    #   to search index limitations.
+    #
+    #    </note>
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-update
@@ -12292,6 +12370,13 @@ module Aws::GameLift
     #   This information is added to the new `GameSession` object that is
     #   created for a successful match. This parameter is not used if
     #   `FlexMatchMode` is set to `STANDALONE`.
+    #
+    #   <note markdown="1"> Avoid using periods (".") in property keys if you plan to search
+    #   for game sessions by properties. Property keys containing periods
+    #   cannot be searched and will be filtered out from search results due
+    #   to search index limitations.
+    #
+    #    </note>
     #   @return [Array<Types::GameProperty>]
     #
     # @!attribute [rw] game_session_data

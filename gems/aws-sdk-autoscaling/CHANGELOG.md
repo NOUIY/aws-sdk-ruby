@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.154.0 (2026-01-22)
+------------------
+
+* Feature - This release adds support for Amazon EC2 Auto Scaling group deletion protection
+
 1.153.0 (2026-01-20)
 ------------------
 

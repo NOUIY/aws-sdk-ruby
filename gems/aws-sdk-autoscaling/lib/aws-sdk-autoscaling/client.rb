@@ -616,9 +616,8 @@ module Aws::AutoScaling
       req.send_request(options)
     end
 
-    # <note markdown="1"> This API operation is superseded by
-    # [https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API\_AttachTrafficSources.html][1],
-    # which can attach multiple traffic sources types. We recommend using
+    # <note markdown="1"> This API operation is superseded by [AttachTrafficSources][1], which
+    # can attach multiple traffic sources types. We recommend using
     # `AttachTrafficSources` to simplify how you manage traffic sources.
     # However, we continue to support `AttachLoadBalancers`. You can use
     # both the original `AttachLoadBalancers` API operation and
@@ -1261,6 +1260,19 @@ module Aws::AutoScaling
     #   One or more lifecycle hooks to add to the Auto Scaling group before
     #   instances are launched.
     #
+    # @option params [String] :deletion_protection
+    #   The deletion protection setting for the Auto Scaling group. This
+    #   setting helps safeguard your Auto Scaling group and its instances by
+    #   controlling whether the `DeleteAutoScalingGroup` operation is allowed.
+    #   When deletion protection is enabled, users cannot delete the Auto
+    #   Scaling group according to the specified protection level until the
+    #   setting is changed back to a less restrictive level.
+    #
+    #   The valid values are `none`, `prevent-force-deletion`, and
+    #   `prevent-all-deletion`.
+    #
+    #   Default: `none`
+    #
     # @option params [Array<Types::Tag>] :tags
     #   One or more tags. You can tag your Auto Scaling group and propagate
     #   the tags to the Amazon EC2 instances it launches. Tags are not
@@ -1650,6 +1662,7 @@ module Aws::AutoScaling
     #         role_arn: "XmlStringMaxLen255",
     #       },
     #     ],
+    #     deletion_protection: "none", # accepts none, prevent-force-deletion, prevent-all-deletion
     #     tags: [
     #       {
     #         resource_id: "XmlString",
@@ -2810,6 +2823,7 @@ module Aws::AutoScaling
     #   resp.auto_scaling_groups[0].traffic_sources[0].type #=> String
     #   resp.auto_scaling_groups[0].instance_maintenance_policy.min_healthy_percentage #=> Integer
     #   resp.auto_scaling_groups[0].instance_maintenance_policy.max_healthy_percentage #=> Integer
+    #   resp.auto_scaling_groups[0].deletion_protection #=> String, one of "none", "prevent-force-deletion", "prevent-all-deletion"
     #   resp.auto_scaling_groups[0].availability_zone_distribution.capacity_distribution_strategy #=> String, one of "balanced-only", "balanced-best-effort"
     #   resp.auto_scaling_groups[0].availability_zone_impairment_policy.zonal_shift_enabled #=> Boolean
     #   resp.auto_scaling_groups[0].availability_zone_impairment_policy.impaired_zone_health_check_behavior #=> String, one of "ReplaceUnhealthy", "IgnoreUnhealthy"
@@ -4705,7 +4719,7 @@ module Aws::AutoScaling
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTrafficSources.html
+    # [1]: https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachTrafficSources.html
     # [2]: https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeLoadBalancerTargetGroups.html
     # [3]: https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachLoadBalancerTargetGroups.html
     # [4]: https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachTrafficSources.html
@@ -7483,6 +7497,19 @@ module Aws::AutoScaling
     #
     #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html
     #
+    # @option params [String] :deletion_protection
+    #   The deletion protection setting for the Auto Scaling group. This
+    #   setting helps safeguard your Auto Scaling group and its instances by
+    #   controlling whether the `DeleteAutoScalingGroup` operation is allowed.
+    #   When deletion protection is enabled, users cannot delete the Auto
+    #   Scaling group according to the specified protection level until the
+    #   setting is changed back to a less restrictive level.
+    #
+    #   The valid values are `none`, `prevent-force-deletion`, and
+    #   `prevent-all-deletion`.
+    #
+    #   Default: `none`
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     #
@@ -7643,6 +7670,7 @@ module Aws::AutoScaling
     #         terminate_hook_abandon: "retain", # accepts retain, terminate
     #       },
     #     },
+    #     deletion_protection: "none", # accepts none, prevent-force-deletion, prevent-all-deletion
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/UpdateAutoScalingGroup AWS API Documentation
@@ -7672,7 +7700,7 @@ module Aws::AutoScaling
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-autoscaling'
-      context[:gem_version] = '1.153.0'
+      context[:gem_version] = '1.154.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

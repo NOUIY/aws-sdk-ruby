@@ -469,6 +469,7 @@ module Aws::GameLift
       attr_accessor storage_location: Types::S3Location
       attr_accessor zip_file: ::String
       attr_accessor tags: ::Array[Types::Tag]
+      attr_accessor node_js_version: ::String
       SENSITIVE: []
     end
 
@@ -1921,6 +1922,7 @@ module Aws::GameLift
       attr_accessor size_on_disk: ::Integer
       attr_accessor creation_time: ::Time
       attr_accessor storage_location: Types::S3Location
+      attr_accessor node_js_version: ::String
       SENSITIVE: []
     end
 

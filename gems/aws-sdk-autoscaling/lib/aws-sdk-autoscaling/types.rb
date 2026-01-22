@@ -515,6 +515,10 @@ module Aws::AutoScaling
     #   An instance maintenance policy.
     #   @return [Types::InstanceMaintenancePolicy]
     #
+    # @!attribute [rw] deletion_protection
+    #   The deletion protection setting for the Auto Scaling group.
+    #   @return [String]
+    #
     # @!attribute [rw] availability_zone_distribution
     #   The EC2 instance capacity distribution across Availability Zones for
     #   the Auto Scaling group.
@@ -570,6 +574,7 @@ module Aws::AutoScaling
       :default_instance_warmup,
       :traffic_sources,
       :instance_maintenance_policy,
+      :deletion_protection,
       :availability_zone_distribution,
       :availability_zone_impairment_policy,
       :capacity_reservation_specification,
@@ -1399,6 +1404,20 @@ module Aws::AutoScaling
     #   instances are launched.
     #   @return [Array<Types::LifecycleHookSpecification>]
     #
+    # @!attribute [rw] deletion_protection
+    #   The deletion protection setting for the Auto Scaling group. This
+    #   setting helps safeguard your Auto Scaling group and its instances by
+    #   controlling whether the `DeleteAutoScalingGroup` operation is
+    #   allowed. When deletion protection is enabled, users cannot delete
+    #   the Auto Scaling group according to the specified protection level
+    #   until the setting is changed back to a less restrictive level.
+    #
+    #   The valid values are `none`, `prevent-force-deletion`, and
+    #   `prevent-all-deletion`.
+    #
+    #   Default: `none`
+    #   @return [String]
+    #
     # @!attribute [rw] tags
     #   One or more tags. You can tag your Auto Scaling group and propagate
     #   the tags to the Amazon EC2 instances it launches. Tags are not
@@ -1575,6 +1594,7 @@ module Aws::AutoScaling
       :new_instances_protected_from_scale_in,
       :capacity_rebalance,
       :lifecycle_hook_specification_list,
+      :deletion_protection,
       :tags,
       :service_linked_role_arn,
       :max_instance_lifetime,
@@ -8709,6 +8729,20 @@ module Aws::AutoScaling
     #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html
     #   @return [Types::InstanceLifecyclePolicy]
     #
+    # @!attribute [rw] deletion_protection
+    #   The deletion protection setting for the Auto Scaling group. This
+    #   setting helps safeguard your Auto Scaling group and its instances by
+    #   controlling whether the `DeleteAutoScalingGroup` operation is
+    #   allowed. When deletion protection is enabled, users cannot delete
+    #   the Auto Scaling group according to the specified protection level
+    #   until the setting is changed back to a less restrictive level.
+    #
+    #   The valid values are `none`, `prevent-force-deletion`, and
+    #   `prevent-all-deletion`.
+    #
+    #   Default: `none`
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/UpdateAutoScalingGroupType AWS API Documentation
     #
     class UpdateAutoScalingGroupType < Struct.new(
@@ -8738,7 +8772,8 @@ module Aws::AutoScaling
       :availability_zone_impairment_policy,
       :skip_zonal_shift_validation,
       :capacity_reservation_specification,
-      :instance_lifecycle_policy)
+      :instance_lifecycle_policy,
+      :deletion_protection)
       SENSITIVE = []
       include Aws::Structure
     end

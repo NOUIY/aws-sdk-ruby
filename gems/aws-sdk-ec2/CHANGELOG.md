@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.593.0 (2026-01-22)
+------------------
+
+* Feature - Add better support for fractional GPU instances in DescribeInstanceTypes API. The new fields, logicalGpuCount, gpuPartitionSize, and workload array enable better GPU resource selection and filtering for both full and fractional GPU instance types.
+
 1.592.0 (2026-01-21)
 ------------------
 

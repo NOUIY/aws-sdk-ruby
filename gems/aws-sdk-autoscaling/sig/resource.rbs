@@ -206,6 +206,7 @@ module Aws
                               role_arn: ::String?
                             },
                           ],
+                          ?deletion_protection: ("none" | "prevent-force-deletion" | "prevent-all-deletion"),
                           ?tags: Array[
                             {
                               resource_id: ::String?,

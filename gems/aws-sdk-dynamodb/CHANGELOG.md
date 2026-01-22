@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.161.0 (2026-01-22)
+------------------
+
+* Feature - Adds additional waiters to Amazon DynamoDB.
+
 1.160.0 (2026-01-16)
 ------------------
 

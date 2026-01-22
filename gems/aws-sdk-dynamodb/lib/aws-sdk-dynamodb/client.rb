@@ -2669,6 +2669,11 @@ module Aws::DynamoDB
     #   resp.failure_exception.exception_description #=> String
     #   resp.contributor_insights_mode #=> String, one of "ACCESSED_AND_THROTTLED_KEYS", "THROTTLED_KEYS"
     #
+    #
+    # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
+    #
+    #   * contributor_insights_enabled
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeContributorInsights AWS API Documentation
     #
     # @overload describe_contributor_insights(params = {})
@@ -2744,6 +2749,11 @@ module Aws::DynamoDB
     #   resp.export_description.incremental_export_specification.export_from_time #=> Time
     #   resp.export_description.incremental_export_specification.export_to_time #=> Time
     #   resp.export_description.incremental_export_specification.export_view_type #=> String, one of "NEW_IMAGE", "NEW_AND_OLD_IMAGES"
+    #
+    #
+    # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
+    #
+    #   * export_completed
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeExport AWS API Documentation
     #
@@ -2993,6 +3003,11 @@ module Aws::DynamoDB
     #   resp.import_table_description.failure_code #=> String
     #   resp.import_table_description.failure_message #=> String
     #
+    #
+    # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
+    #
+    #   * import_completed
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeImport AWS API Documentation
     #
     # @overload describe_import(params = {})
@@ -3027,6 +3042,11 @@ module Aws::DynamoDB
     #   resp.kinesis_data_stream_destinations[0].destination_status #=> String, one of "ENABLING", "ACTIVE", "DISABLING", "DISABLED", "ENABLE_FAILED", "UPDATING"
     #   resp.kinesis_data_stream_destinations[0].destination_status_description #=> String
     #   resp.kinesis_data_stream_destinations[0].approximate_creation_date_time_precision #=> String, one of "MILLISECOND", "MICROSECOND"
+    #
+    #
+    # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
+    #
+    #   * kinesis_streaming_destination_active
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeKinesisStreamingDestination AWS API Documentation
     #
@@ -8681,7 +8701,7 @@ module Aws::DynamoDB
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-dynamodb'
-      context[:gem_version] = '1.160.0'
+      context[:gem_version] = '1.161.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
@@ -8747,10 +8767,14 @@ module Aws::DynamoDB
     # The following table lists the valid waiter names, the operations they call,
     # and the default `:delay` and `:max_attempts` values.
     #
-    # | waiter_name      | params                  | :delay   | :max_attempts |
-    # | ---------------- | ----------------------- | -------- | ------------- |
-    # | table_exists     | {Client#describe_table} | 20       | 25            |
-    # | table_not_exists | {Client#describe_table} | 20       | 25            |
+    # | waiter_name                          | params                                          | :delay   | :max_attempts |
+    # | ------------------------------------ | ----------------------------------------------- | -------- | ------------- |
+    # | contributor_insights_enabled         | {Client#describe_contributor_insights}          | 20       | 30            |
+    # | export_completed                     | {Client#describe_export}                        | 20       | 60            |
+    # | import_completed                     | {Client#describe_import}                        | 20       | 60            |
+    # | kinesis_streaming_destination_active | {Client#describe_kinesis_streaming_destination} | 20       | 30            |
+    # | table_exists                         | {Client#describe_table}                         | 20       | 25            |
+    # | table_not_exists                     | {Client#describe_table}                         | 20       | 25            |
     #
     # @raise [Errors::FailureStateError] Raised when the waiter terminates
     #   because the waiter has entered a state that it will not transition
@@ -8801,6 +8825,10 @@ module Aws::DynamoDB
 
     def waiters
       {
+        contributor_insights_enabled: Waiters::ContributorInsightsEnabled,
+        export_completed: Waiters::ExportCompleted,
+        import_completed: Waiters::ImportCompleted,
+        kinesis_streaming_destination_active: Waiters::KinesisStreamingDestinationActive,
         table_exists: Waiters::TableExists,
         table_not_exists: Waiters::TableNotExists
       }

@@ -596,7 +596,8 @@ module Aws
                                key: ::String,
                                value: ::String
                              },
-                           ]
+                           ],
+                           ?node_js_version: ::String
                          ) -> _CreateScriptResponseSuccess
                        | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateScriptResponseSuccess
 

@@ -46222,6 +46222,19 @@ module Aws::EC2
     #   The number of GPUs for the instance type.
     #   @return [Integer]
     #
+    # @!attribute [rw] logical_gpu_count
+    #   Total number of GPU devices of this type.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] gpu_partition_size
+    #   The size of each GPU as a fraction of a full GPU, between 0
+    #   (excluded) and 1 (included).
+    #   @return [Float]
+    #
+    # @!attribute [rw] workloads
+    #   A list of workload types this GPU supports.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] memory_info
     #   Describes the memory available to the GPU accelerator.
     #   @return [Types::GpuDeviceMemoryInfo]
@@ -46232,6 +46245,9 @@ module Aws::EC2
       :name,
       :manufacturer,
       :count,
+      :logical_gpu_count,
+      :gpu_partition_size,
+      :workloads,
       :memory_info)
       SENSITIVE = []
       include Aws::Structure

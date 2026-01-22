@@ -1534,7 +1534,24 @@ module Aws
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateTimeToLiveResponseSuccess
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DynamoDB/Client.html#wait_until-instance_method
-      def wait_until: (:table_exists waiter_name, 
+      def wait_until: (:contributor_insights_enabled waiter_name, 
+                    table_name: ::String,
+                    ?index_name: ::String
+                  ) -> Client::_DescribeContributorInsightsResponseSuccess
+                    | (:contributor_insights_enabled waiter_name, Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_DescribeContributorInsightsResponseSuccess
+                    | (:export_completed waiter_name, 
+                    export_arn: ::String
+                  ) -> Client::_DescribeExportResponseSuccess
+                    | (:export_completed waiter_name, Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_DescribeExportResponseSuccess
+                    | (:import_completed waiter_name, 
+                    import_arn: ::String
+                  ) -> Client::_DescribeImportResponseSuccess
+                    | (:import_completed waiter_name, Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_DescribeImportResponseSuccess
+                    | (:kinesis_streaming_destination_active waiter_name, 
+                    table_name: ::String
+                  ) -> Client::_DescribeKinesisStreamingDestinationResponseSuccess
+                    | (:kinesis_streaming_destination_active waiter_name, Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_DescribeKinesisStreamingDestinationResponseSuccess
+                    | (:table_exists waiter_name, 
                     table_name: ::String
                   ) -> Client::_DescribeTableResponseSuccess
                     | (:table_exists waiter_name, Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_DescribeTableResponseSuccess

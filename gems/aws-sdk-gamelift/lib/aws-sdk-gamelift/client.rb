@@ -832,12 +832,20 @@ module Aws::GameLift
     #   in this request. There is no default value. You can't change a
     #   build's operating system later.
     #
-    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more
+    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more
     #   details in the [Amazon Linux 2 FAQs][1]. For game servers that are
     #   hosted on AL2 and use server SDK version 4.x for Amazon GameLift
     #   Servers, first update the game server build to server SDK 5.x, and
     #   then deploy to AL2023 instances. See [ Migrate to server SDK version
     #   5.][2]
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> Windows Server 2016 will reach end of support on 1/12/2027. For game
+    #   servers that are hosted on Windows Server 2016 and use server SDK
+    #   version 4.x for Amazon GameLift Servers, first update the game server
+    #   build to server SDK 5.x, and then deploy to Windows Server 2022
+    #   instances. See [ Migrate to server SDK version 5.][2]
     #
     #    </note>
     #
@@ -1503,7 +1511,7 @@ module Aws::GameLift
     #
     #   Default value: `AMAZON_LINUX_2023`
     #
-    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more
+    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more
     #   details in the [Amazon Linux 2 FAQs][1]. For game servers that are
     #   hosted on AL2 and use server SDK version 4.x for Amazon GameLift
     #   Servers, first update the game server build to server SDK 5.x, and
@@ -2539,6 +2547,13 @@ module Aws::GameLift
     #   For example: `{"Key": "difficulty", "Value": "novice"}`. For an
     #   example, see [Create a game session with custom properties][1].
     #
+    #   <note markdown="1"> Avoid using periods (".") in property keys if you plan to search for
+    #   game sessions by properties. Property keys containing periods cannot
+    #   be searched and will be filtered out from search results due to search
+    #   index limitations.
+    #
+    #    </note>
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-create
@@ -3025,6 +3040,13 @@ module Aws::GameLift
     #   for a successful match. This parameter is not used if `FlexMatchMode`
     #   is set to `STANDALONE`.
     #
+    #   <note markdown="1"> Avoid using periods (".") in property keys if you plan to search for
+    #   game sessions by properties. Property keys containing periods cannot
+    #   be searched and will be filtered out from search results due to search
+    #   index limitations.
+    #
+    #    </note>
+    #
     # @option params [String] :game_session_data
     #   A set of custom game session properties, formatted as a single string
     #   value. This data is passed to a game server process with a request to
@@ -3497,6 +3519,11 @@ module Aws::GameLift
     #   [3]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_UntagResource.html
     #   [4]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListTagsForResource.html
     #
+    # @option params [String] :node_js_version
+    #   The Node.js version used for execution of your Realtime script. The
+    #   valid values are `10.x | 24.x`. By default, `NodeJsVersion` is `10.x`.
+    #   This value cannot be updated later.
+    #
     # @return [Types::CreateScriptOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateScriptOutput#script #script} => Types::Script
@@ -3519,6 +3546,7 @@ module Aws::GameLift
     #         value: "TagValue", # required
     #       },
     #     ],
+    #     node_js_version: "NodeJsVersion",
     #   })
     #
     # @example Response structure
@@ -3533,6 +3561,7 @@ module Aws::GameLift
     #   resp.script.storage_location.key #=> String
     #   resp.script.storage_location.role_arn #=> String
     #   resp.script.storage_location.object_version #=> String
+    #   resp.script.node_js_version #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/CreateScript AWS API Documentation
     #
@@ -7077,6 +7106,7 @@ module Aws::GameLift
     #   resp.script.storage_location.key #=> String
     #   resp.script.storage_location.role_arn #=> String
     #   resp.script.storage_location.object_version #=> String
+    #   resp.script.node_js_version #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/DescribeScript AWS API Documentation
     #
@@ -8565,6 +8595,7 @@ module Aws::GameLift
     #   resp.scripts[0].storage_location.key #=> String
     #   resp.scripts[0].storage_location.role_arn #=> String
     #   resp.scripts[0].storage_location.object_version #=> String
+    #   resp.scripts[0].node_js_version #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/ListScripts AWS API Documentation
@@ -9285,6 +9316,13 @@ module Aws::GameLift
     #   For examples of searching game sessions, see the ones below, and
     #   also see [Search game sessions by game property][3].
     #
+    #   <note markdown="1"> Avoid using periods (".") in property keys if you plan to search
+    #   for game sessions by properties. Property keys containing periods
+    #   cannot be searched and will be filtered out from search results due
+    #   to search index limitations.
+    #
+    #    </note>
+    #
     # * **maximumSessions** -- Maximum number of player sessions allowed for
     #   a game session.
     #
@@ -9639,6 +9677,13 @@ module Aws::GameLift
     # @option params [Array<Types::GameProperty>] :game_properties
     #   A set of key-value pairs that can store custom data in a game session.
     #   For example: `{"Key": "difficulty", "Value": "novice"}`.
+    #
+    #   <note markdown="1"> Avoid using periods (".") in property keys if you plan to search for
+    #   game sessions by properties. Property keys containing periods cannot
+    #   be searched and will be filtered out from search results due to search
+    #   index limitations.
+    #
+    #    </note>
     #
     # @option params [required, Integer] :maximum_player_session_count
     #   The maximum number of players that can be connected simultaneously to
@@ -11045,7 +11090,7 @@ module Aws::GameLift
     #   The platform that all containers in the group use. Containers in a
     #   group must run on the same operating system.
     #
-    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more
+    #   <note markdown="1"> Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more
     #   details in the [Amazon Linux 2 FAQs][1]. For game servers that are
     #   hosted on AL2 and use server SDK version 4.x for Amazon GameLift
     #   Servers, first update the game server build to server SDK 5.x, and
@@ -11783,6 +11828,13 @@ module Aws::GameLift
     #   There is no way to delete properties. For an example, see [Update the
     #   value of a game property][1].
     #
+    #   <note markdown="1"> Avoid using periods (".") in property keys if you plan to search for
+    #   game sessions by properties. Property keys containing periods cannot
+    #   be searched and will be filtered out from search results due to search
+    #   index limitations.
+    #
+    #    </note>
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-update
@@ -12053,6 +12105,13 @@ module Aws::GameLift
     #   information is added to the new `GameSession` object that is created
     #   for a successful match. This parameter is not used if `FlexMatchMode`
     #   is set to `STANDALONE`.
+    #
+    #   <note markdown="1"> Avoid using periods (".") in property keys if you plan to search for
+    #   game sessions by properties. Property keys containing periods cannot
+    #   be searched and will be filtered out from search results due to search
+    #   index limitations.
+    #
+    #    </note>
     #
     # @option params [String] :game_session_data
     #   A set of custom game session properties, formatted as a single string
@@ -12328,6 +12387,7 @@ module Aws::GameLift
     #   resp.script.storage_location.key #=> String
     #   resp.script.storage_location.role_arn #=> String
     #   resp.script.storage_location.object_version #=> String
+    #   resp.script.node_js_version #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/UpdateScript AWS API Documentation
     #
@@ -12401,7 +12461,7 @@ module Aws::GameLift
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-gamelift'
-      context[:gem_version] = '1.117.0'
+      context[:gem_version] = '1.118.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
