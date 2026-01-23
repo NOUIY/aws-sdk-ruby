@@ -1718,6 +1718,14 @@ module Aws::DataZone
       SENSITIVE: []
     end
 
+    class DeleteDataExportConfigurationInput
+      attr_accessor domain_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteDataExportConfigurationOutput < Aws::EmptyStructure
+    end
+
     class DeleteDataProductInput
       attr_accessor domain_identifier: ::String
       attr_accessor identifier: ::String

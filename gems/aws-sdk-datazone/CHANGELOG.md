@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.67.0 (2026-01-23)
+------------------
+
+* Feature - Added api for deleting data export configuration for a domain
+
 1.66.0 (2026-01-16)
 ------------------
 

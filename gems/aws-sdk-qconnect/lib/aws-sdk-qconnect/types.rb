@@ -1584,7 +1584,7 @@ module Aws::QConnect
     class CaseSummarizationChunkDataDetails < Struct.new(
       :completion,
       :next_chunk_token)
-      SENSITIVE = []
+      SENSITIVE = [:completion]
       include Aws::Structure
     end
 
@@ -4715,7 +4715,7 @@ module Aws::QConnect
     class FilterAttribute < Struct.new(
       :key,
       :value)
-      SENSITIVE = []
+      SENSITIVE = [:value]
       include Aws::Structure
     end
 
@@ -11008,7 +11008,7 @@ module Aws::QConnect
       :tool_use_id,
       :name,
       :arguments)
-      SENSITIVE = []
+      SENSITIVE = [:arguments]
       include Aws::Structure
     end
 
@@ -11442,7 +11442,7 @@ module Aws::QConnect
       :output_schema,
       :annotations,
       :user_interaction_configuration)
-      SENSITIVE = []
+      SENSITIVE = [:title, :description, :instruction, :override_input_values, :output_filters, :input_schema, :output_schema, :annotations]
       include Aws::Structure
     end
 
@@ -11589,7 +11589,7 @@ module Aws::QConnect
       :tool_name,
       :tool_result,
       :input_schema)
-      SENSITIVE = []
+      SENSITIVE = [:tool_result, :input_schema]
       include Aws::Structure
     end
 
@@ -11886,10 +11886,9 @@ module Aws::QConnect
     #   on the Amazon Q in Connect Assistant.
     #   @return [Types::AIAgentConfigurationData]
     #
-    # @!attribute [rw] orchestrator_configuration_list
-    #   The updated list of orchestrator configurations for the assistant AI
-    #   Agent.
-    #   @return [Array<Types::OrchestratorConfigurationEntry>]
+    # @!attribute [rw] orchestrator_use_case
+    #   The orchestrator use case for the AI Agent being added.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/qconnect-2020-10-19/UpdateAssistantAIAgentRequest AWS API Documentation
     #
@@ -11897,7 +11896,7 @@ module Aws::QConnect
       :assistant_id,
       :ai_agent_type,
       :configuration,
-      :orchestrator_configuration_list)
+      :orchestrator_use_case)
       SENSITIVE = []
       include Aws::Structure
     end

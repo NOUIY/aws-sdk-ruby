@@ -985,7 +985,7 @@ module Aws::QConnect
     CaseSummarizationAIAgentConfiguration.add_member(:locale, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "locale"))
     CaseSummarizationAIAgentConfiguration.struct_class = Types::CaseSummarizationAIAgentConfiguration
 
-    CaseSummarizationChunkDataDetails.add_member(:completion, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "completion"))
+    CaseSummarizationChunkDataDetails.add_member(:completion, Shapes::ShapeRef.new(shape: NonEmptySensitiveString, location_name: "completion"))
     CaseSummarizationChunkDataDetails.add_member(:next_chunk_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextChunkToken"))
     CaseSummarizationChunkDataDetails.struct_class = Types::CaseSummarizationChunkDataDetails
 
@@ -3018,9 +3018,9 @@ module Aws::QConnect
 
     ToolConfiguration.add_member(:tool_name, Shapes::ShapeRef.new(shape: NonEmptyString, required: true, location_name: "toolName"))
     ToolConfiguration.add_member(:tool_type, Shapes::ShapeRef.new(shape: ToolType, required: true, location_name: "toolType"))
-    ToolConfiguration.add_member(:title, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "title"))
+    ToolConfiguration.add_member(:title, Shapes::ShapeRef.new(shape: NonEmptySensitiveString, location_name: "title"))
     ToolConfiguration.add_member(:tool_id, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "toolId"))
-    ToolConfiguration.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    ToolConfiguration.add_member(:description, Shapes::ShapeRef.new(shape: NonEmptySensitiveString, location_name: "description"))
     ToolConfiguration.add_member(:instruction, Shapes::ShapeRef.new(shape: ToolInstruction, location_name: "instruction"))
     ToolConfiguration.add_member(:override_input_values, Shapes::ShapeRef.new(shape: ToolOverrideInputValueList, location_name: "overrideInputValues"))
     ToolConfiguration.add_member(:output_filters, Shapes::ShapeRef.new(shape: ToolOutputFilterList, location_name: "outputFilters"))
@@ -3126,7 +3126,7 @@ module Aws::QConnect
     UpdateAssistantAIAgentRequest.add_member(:assistant_id, Shapes::ShapeRef.new(shape: UuidOrArn, required: true, location: "uri", location_name: "assistantId"))
     UpdateAssistantAIAgentRequest.add_member(:ai_agent_type, Shapes::ShapeRef.new(shape: AIAgentType, required: true, location_name: "aiAgentType"))
     UpdateAssistantAIAgentRequest.add_member(:configuration, Shapes::ShapeRef.new(shape: AIAgentConfigurationData, required: true, location_name: "configuration"))
-    UpdateAssistantAIAgentRequest.add_member(:orchestrator_configuration_list, Shapes::ShapeRef.new(shape: OrchestratorConfigurationList, location_name: "orchestratorConfigurationList"))
+    UpdateAssistantAIAgentRequest.add_member(:orchestrator_use_case, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "orchestratorUseCase"))
     UpdateAssistantAIAgentRequest.struct_class = Types::UpdateAssistantAIAgentRequest
 
     UpdateAssistantAIAgentResponse.add_member(:assistant, Shapes::ShapeRef.new(shape: AssistantData, location_name: "assistant"))

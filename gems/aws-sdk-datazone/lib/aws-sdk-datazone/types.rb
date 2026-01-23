@@ -6403,6 +6403,23 @@ module Aws::DataZone
     end
 
     # @!attribute [rw] domain_identifier
+    #   The domain ID for which you want to delete the data export
+    #   configuration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/DeleteDataExportConfigurationInput AWS API Documentation
+    #
+    class DeleteDataExportConfigurationInput < Struct.new(
+      :domain_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/DeleteDataExportConfigurationOutput AWS API Documentation
+    #
+    class DeleteDataExportConfigurationOutput < Aws::EmptyStructure; end
+
+    # @!attribute [rw] domain_identifier
     #   The ID of the Amazon DataZone domain in which the data product is
     #   deleted.
     #   @return [String]
@@ -16701,7 +16718,7 @@ module Aws::DataZone
     end
 
     # @!attribute [rw] domain_identifier
-    #   The domain ID where you want to create data export configuration
+    #   The domain ID for which you want to create data export configuration
     #   details.
     #   @return [String]
     #

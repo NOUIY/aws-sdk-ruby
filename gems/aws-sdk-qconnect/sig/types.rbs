@@ -405,7 +405,7 @@ module Aws::QConnect
     class CaseSummarizationChunkDataDetails
       attr_accessor completion: ::String
       attr_accessor next_chunk_token: ::String
-      SENSITIVE: []
+      SENSITIVE: [:completion]
     end
 
     class CaseSummarizationInputData
@@ -1241,7 +1241,7 @@ module Aws::QConnect
     class FilterAttribute
       attr_accessor key: ::String
       attr_accessor value: untyped
-      SENSITIVE: []
+      SENSITIVE: [:value]
     end
 
     class FixedSizeChunkingConfiguration
@@ -2234,7 +2234,7 @@ module Aws::QConnect
     class PutFeedbackRequest
       attr_accessor assistant_id: ::String
       attr_accessor target_id: ::String
-      attr_accessor target_type: ("RECOMMENDATION" | "RESULT")
+      attr_accessor target_type: ("RECOMMENDATION" | "RESULT" | "MESSAGE")
       attr_accessor content_feedback: Types::ContentFeedbackData
       SENSITIVE: []
     end
@@ -2243,7 +2243,7 @@ module Aws::QConnect
       attr_accessor assistant_id: ::String
       attr_accessor assistant_arn: ::String
       attr_accessor target_id: ::String
-      attr_accessor target_type: ("RECOMMENDATION" | "RESULT")
+      attr_accessor target_type: ("RECOMMENDATION" | "RESULT" | "MESSAGE")
       attr_accessor content_feedback: Types::ContentFeedbackData
       SENSITIVE: []
     end
@@ -2904,7 +2904,7 @@ module Aws::QConnect
       attr_accessor tool_use_id: ::String
       attr_accessor name: ::String
       attr_accessor arguments: untyped
-      SENSITIVE: []
+      SENSITIVE: [:arguments]
     end
 
     class StartContentUploadRequest
@@ -3034,7 +3034,7 @@ module Aws::QConnect
       attr_accessor output_schema: untyped
       attr_accessor annotations: Types::Annotation
       attr_accessor user_interaction_configuration: Types::UserInteractionConfiguration
-      SENSITIVE: []
+      SENSITIVE: [:title, :description, :instruction, :override_input_values, :output_filters, :input_schema, :output_schema, :annotations]
     end
 
     class ToolInstruction
@@ -3083,7 +3083,7 @@ module Aws::QConnect
       attr_accessor tool_name: ::String
       attr_accessor tool_result: untyped
       attr_accessor input_schema: untyped
-      SENSITIVE: []
+      SENSITIVE: [:tool_result, :input_schema]
     end
 
     class UnauthorizedException
@@ -3162,7 +3162,7 @@ module Aws::QConnect
       attr_accessor assistant_id: ::String
       attr_accessor ai_agent_type: ("MANUAL_SEARCH" | "ANSWER_RECOMMENDATION" | "SELF_SERVICE" | "EMAIL_RESPONSE" | "EMAIL_OVERVIEW" | "EMAIL_GENERATIVE_ANSWER" | "ORCHESTRATION" | "NOTE_TAKING" | "CASE_SUMMARIZATION")
       attr_accessor configuration: Types::AIAgentConfigurationData
-      attr_accessor orchestrator_configuration_list: ::Array[Types::OrchestratorConfigurationEntry]
+      attr_accessor orchestrator_use_case: ::String
       SENSITIVE: []
     end
 

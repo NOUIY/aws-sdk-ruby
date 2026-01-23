@@ -4677,6 +4677,37 @@ module Aws::DataZone
       req.send_request(options)
     end
 
+    # Deletes data export configuration for a domain.
+    #
+    # This operation does not delete the S3 table created by the
+    # PutDataExportConfiguration operation.
+    #
+    # To temporarily disable export without deleting the configuration, use
+    # the PutDataExportConfiguration operation with the `--no-enable-export`
+    # flag instead. This allows you to re-enable export for the same domain
+    # using the `--enable-export` flag without deleting S3 table.
+    #
+    # @option params [required, String] :domain_identifier
+    #   The domain ID for which you want to delete the data export
+    #   configuration.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_data_export_configuration({
+    #     domain_identifier: "DomainId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/DeleteDataExportConfiguration AWS API Documentation
+    #
+    # @overload delete_data_export_configuration(params = {})
+    # @param [Hash] params ({})
+    def delete_data_export_configuration(params = {}, options = {})
+      req = build_request(:delete_data_export_configuration, params)
+      req.send_request(options)
+    end
+
     # Deletes a data product in Amazon DataZone.
     #
     # Prerequisites:
@@ -11026,14 +11057,28 @@ module Aws::DataZone
 
     # Creates data export configuration details.
     #
-    # In the current release, you can enable exporting asset metadata only
-    # for one domain per Amazon Web Services account per region. If you
-    # disable exporting asset metadata feature for a domain where it's
-    # already enabled, you cannot enable this feature for another domain in
-    # the same Amazon Web Services account and region.
+    # If you want to temporarily disable export and later re-enable it for
+    # the same domain, use the `--no-enable-export` flag to disable and the
+    # `--enable-export` flag to re-enable. This preserves the configuration
+    # and allows you to re-enable export without deleting S3 table.
+    #
+    # <note markdown="1"> You can enable asset metadata export for only one domain per account
+    # per Region. To enable export for a different domain, complete the
+    # following steps:
+    #
+    #  1.  Delete the export configuration for the currently enabled domain
+    #     using the DeleteDataExportConfiguration operation.
+    #
+    # 2.  Delete the asset S3 table under the aws-sagemaker-catalog S3 table
+    #     bucket. We recommend backing up the S3 table before deletion.
+    #
+    # 3.  Call the PutDataExportConfiguration API to enable export for the
+    #     new domain.
+    #
+    #  </note>
     #
     # @option params [required, String] :domain_identifier
-    #   The domain ID where you want to create data export configuration
+    #   The domain ID for which you want to create data export configuration
     #   details.
     #
     # @option params [required, Boolean] :enable_export
@@ -14862,7 +14907,7 @@ module Aws::DataZone
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-datazone'
-      context[:gem_version] = '1.66.0'
+      context[:gem_version] = '1.67.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

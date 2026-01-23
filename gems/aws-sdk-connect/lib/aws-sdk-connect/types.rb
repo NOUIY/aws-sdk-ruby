@@ -6815,6 +6815,89 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the test.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the test.
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   The JSON string that represents the content of the test.
+    #   @return [String]
+    #
+    # @!attribute [rw] entry_point
+    #   Defines the starting point for your test.
+    #   @return [Types::TestCaseEntryPoint]
+    #
+    # @!attribute [rw] initialization_data
+    #   Defines the initial custom attributes for your test.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Indicates the test status as either SAVED or PUBLISHED. The
+    #   PUBLISHED status will initiate validation on the content. The SAVED
+    #   status does not initiate validation of the content.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_id
+    #   Id of the test case if you want to create it in a replica region
+    #   using Amazon Connect Global Resiliency
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The time at which the resource was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_region
+    #   The region in which the resource was last modified
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateTestCaseRequest AWS API Documentation
+    #
+    class CreateTestCaseRequest < Struct.new(
+      :instance_id,
+      :name,
+      :description,
+      :content,
+      :entry_point,
+      :initialization_data,
+      :status,
+      :test_case_id,
+      :tags,
+      :last_modified_time,
+      :last_modified_region)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] test_case_id
+    #   The identifier of the test.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_arn
+    #   The Amazon Resource Name (ARN) of the test.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateTestCaseResponse AWS API Documentation
+    #
+    class CreateTestCaseResponse < Struct.new(
+      :test_case_id,
+      :test_case_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] name
     #   The name for the traffic distribution group.
     #   @return [String]
@@ -8976,6 +9059,27 @@ module Aws::Connect
     #
     class DeleteTaskTemplateResponse < Aws::EmptyStructure; end
 
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_id
+    #   The identifier of the test case to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteTestCaseRequest AWS API Documentation
+    #
+    class DeleteTestCaseRequest < Struct.new(
+      :instance_id,
+      :test_case_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteTestCaseResponse AWS API Documentation
+    #
+    class DeleteTestCaseResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] traffic_distribution_group_id
     #   The identifier of the traffic distribution group. This can be the ID
     #   or the ARN of the traffic distribution group.
@@ -10117,6 +10221,42 @@ module Aws::Connect
     #
     class DescribeSecurityProfileResponse < Struct.new(
       :security_profile)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_id
+    #   The identifier of the test case.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the test case version to retrieve. If not specified,
+    #   returns the published version if available, otherwise returns the
+    #   saved version.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeTestCaseRequest AWS API Documentation
+    #
+    class DescribeTestCaseRequest < Struct.new(
+      :instance_id,
+      :test_case_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] test_case
+    #   The test case object containing all test case information.
+    #   @return [Types::TestCase]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeTestCaseResponse AWS API Documentation
+    #
+    class DescribeTestCaseResponse < Struct.new(
+      :test_case)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13666,6 +13806,35 @@ module Aws::Connect
     #
     class EventBridgeActionDefinition < Struct.new(
       :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about a test case execution record.
+    #
+    # @!attribute [rw] observation_id
+    #   The identifier of the execution record.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the action execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] timestamp
+    #   The timestamp when the action was executed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] record
+    #   The details of the executed record.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ExecutionRecord AWS API Documentation
+    #
+    class ExecutionRecord < Struct.new(
+      :observation_id,
+      :status,
+      :timestamp,
+      :record)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -17341,6 +17510,55 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_id
+    #   The identifier of the test case.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_execution_id
+    #   The identifier of the test case execution.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/GetTestCaseExecutionSummaryRequest AWS API Documentation
+    #
+    class GetTestCaseExecutionSummaryRequest < Struct.new(
+      :instance_id,
+      :test_case_id,
+      :test_case_execution_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] start_time
+    #   The timestamp when the test case execution started.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The timestamp when the test case execution ended.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The status of the test case execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] observation_summary
+    #   Summary statistics for the test case execution.
+    #   @return [Types::ObservationSummary]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/GetTestCaseExecutionSummaryResponse AWS API Documentation
+    #
+    class GetTestCaseExecutionSummaryResponse < Struct.new(
+      :start_time,
+      :end_time,
+      :status,
+      :observation_summary)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] id
     #   The identifier of the traffic distribution group. This can be the ID
     #   or the ARN if the API is being called in the Region where the
@@ -19071,6 +19289,20 @@ module Aws::Connect
 
       class AttachedFileInvalidRequestExceptionReason < InvalidRequestExceptionReason; end
       class Unknown < InvalidRequestExceptionReason; end
+    end
+
+    # The test is not valid.
+    #
+    # @!attribute [rw] problems
+    #   The problems with the test. Please fix before trying again.
+    #   @return [Array<Types::ProblemDetail>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/InvalidTestCaseException AWS API Documentation
+    #
+    class InvalidTestCaseException < Struct.new(
+      :problems)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # A field that is invisible to an agent.
@@ -22076,6 +22308,172 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_id
+    #   The identifier of the test case.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_execution_id
+    #   The identifier of the test case execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Filter execution records by status.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListTestCaseExecutionRecordsRequest AWS API Documentation
+    #
+    class ListTestCaseExecutionRecordsRequest < Struct.new(
+      :instance_id,
+      :test_case_id,
+      :test_case_execution_id,
+      :status,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] execution_records
+    #   An array of test case execution record objects.
+    #   @return [Array<Types::ExecutionRecord>]
+    #
+    # @!attribute [rw] next_token
+    #   If there are additional results, this is the token for the next set
+    #   of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListTestCaseExecutionRecordsResponse AWS API Documentation
+    #
+    class ListTestCaseExecutionRecordsResponse < Struct.new(
+      :execution_records,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_id
+    #   Filter executions by test case identifier.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_name
+    #   Filter executions by test case name.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   Filter executions that started after this time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   Filter executions that started before this time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   Filter executions by status.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListTestCaseExecutionsRequest AWS API Documentation
+    #
+    class ListTestCaseExecutionsRequest < Struct.new(
+      :instance_id,
+      :test_case_id,
+      :test_case_name,
+      :start_time,
+      :end_time,
+      :status,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] test_case_executions
+    #   An array of test case execution summary objects.
+    #   @return [Array<Types::TestCaseExecution>]
+    #
+    # @!attribute [rw] next_token
+    #   If there are additional results, this is the token for the next set
+    #   of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListTestCaseExecutionsResponse AWS API Documentation
+    #
+    class ListTestCaseExecutionsResponse < Struct.new(
+      :test_case_executions,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListTestCasesRequest AWS API Documentation
+    #
+    class ListTestCasesRequest < Struct.new(
+      :instance_id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] test_case_summary_list
+    #   Information about the tests.
+    #   @return [Array<Types::TestCaseSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If there are additional results, this is the token for the next set
+    #   of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListTestCasesResponse AWS API Documentation
+    #
+    class ListTestCasesResponse < Struct.new(
+      :test_case_summary_list,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] traffic_distribution_group_id
     #   The identifier of the traffic distribution group. This can be the ID
     #   or the ARN if the API is being called in the Region where the
@@ -23247,6 +23645,30 @@ module Aws::Connect
     #
     class NumericQuestionPropertyValueAutomation < Struct.new(
       :label)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains summary statistics about a test case execution.
+    #
+    # @!attribute [rw] total_observations
+    #   The total number of observations in the test case.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] observations_passed
+    #   The number of observations that passed during execution.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] observations_failed
+    #   The number of observations that failed during execution.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ObservationSummary AWS API Documentation
+    #
+    class ObservationSummary < Struct.new(
+      :total_observations,
+      :observations_passed,
+      :observations_failed)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -28240,6 +28662,64 @@ module Aws::Connect
 
     # @!attribute [rw] instance_id
     #   The identifier of the Amazon Connect instance. You can find the
+    #   instance ID in the Amazon Resource Name (ARN) of the instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] search_filter
+    #   Filters to be applied to search results.
+    #   @return [Types::TestCaseSearchFilter]
+    #
+    # @!attribute [rw] search_criteria
+    #   The search criteria to be used to return test cases.
+    #   @return [Types::TestCaseSearchCriteria]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SearchTestCasesRequest AWS API Documentation
+    #
+    class SearchTestCasesRequest < Struct.new(
+      :instance_id,
+      :next_token,
+      :max_results,
+      :search_filter,
+      :search_criteria)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] test_cases
+    #   Information about the test cases.
+    #   @return [Array<Types::TestCase>]
+    #
+    # @!attribute [rw] next_token
+    #   If there are additional results, this is the token for the next set
+    #   of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] approximate_total_count
+    #   The total number of test cases which matched your search query.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SearchTestCasesResponse AWS API Documentation
+    #
+    class SearchTestCasesResponse < Struct.new(
+      :test_cases,
+      :next_token,
+      :approximate_total_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can find the
     #   instanceId in the ARN of the instance.
     #   @return [String]
     #
@@ -30598,6 +31078,57 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_id
+    #   The identifier of the test case to execute.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency,
+    #   see [Making retries safe with idempotent APIs][1].
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartTestCaseExecutionRequest AWS API Documentation
+    #
+    class StartTestCaseExecutionRequest < Struct.new(
+      :instance_id,
+      :test_case_id,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] test_case_execution_id
+    #   The identifier of the test case execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_id
+    #   The identifier of the test case resource that was executed.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of a test case execution.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartTestCaseExecutionResponse AWS API Documentation
+    #
+    class StartTestCaseExecutionResponse < Struct.new(
+      :test_case_execution_id,
+      :test_case_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] attributes
     #   A custom key-value pair using an attribute map. The attributes are
     #   standard Amazon Connect attributes, and can be accessed in flows
@@ -30905,6 +31436,44 @@ module Aws::Connect
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StopContactStreamingResponse AWS API Documentation
     #
     class StopContactStreamingResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_execution_id
+    #   The identifier of the test case execution to stop.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_id
+    #   The identifier of the test case.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency,
+    #   see [Making retries safe with idempotent APIs][1].
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StopTestCaseExecutionRequest AWS API Documentation
+    #
+    class StopTestCaseExecutionRequest < Struct.new(
+      :instance_id,
+      :test_case_execution_id,
+      :test_case_id,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StopTestCaseExecutionResponse AWS API Documentation
+    #
+    class StopTestCaseExecutionResponse < Aws::EmptyStructure; end
 
     # A leaf node condition which can be used to specify a string condition.
     #
@@ -31487,6 +32056,225 @@ module Aws::Connect
       :knowledge_base_id,
       :message_template_id,
       :template_attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about a test case.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the test case.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The identifier of the test case.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the test case.
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   The JSON string that represents the content of the test.
+    #   @return [String]
+    #
+    # @!attribute [rw] entry_point
+    #   Defines the starting point for the test, including channel type and
+    #   parameters.
+    #   @return [Types::TestCaseEntryPoint]
+    #
+    # @!attribute [rw] initialization_data
+    #   Defines the test attributes for precise data representation.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the test case.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Indicates the test status as either SAVED or PUBLISHED.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The time at which the test case was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_region
+    #   The region in which the test case was last modified.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] test_case_sha_256
+    #   The SHA256 hash of the test case content.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/TestCase AWS API Documentation
+    #
+    class TestCase < Struct.new(
+      :arn,
+      :id,
+      :name,
+      :content,
+      :entry_point,
+      :initialization_data,
+      :description,
+      :status,
+      :last_modified_time,
+      :last_modified_region,
+      :tags,
+      :test_case_sha_256)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines the starting point for a test case.
+    #
+    # @!attribute [rw] type
+    #   The type of entry point.
+    #   @return [String]
+    #
+    # @!attribute [rw] voice_call_entry_point_parameters
+    #   Parameters for voice call entry point.
+    #   @return [Types::VoiceCallEntryPointParameters]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/TestCaseEntryPoint AWS API Documentation
+    #
+    class TestCaseEntryPoint < Struct.new(
+      :type,
+      :voice_call_entry_point_parameters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about a test case execution.
+    #
+    # @!attribute [rw] start_time
+    #   The timestamp when the test case execution started.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The timestamp when the test case execution ended.
+    #   @return [Time]
+    #
+    # @!attribute [rw] test_case_execution_id
+    #   The identifier of the test case execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_id
+    #   The identifier of the test case.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_execution_status
+    #   The status of the test case execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/TestCaseExecution AWS API Documentation
+    #
+    class TestCaseExecution < Struct.new(
+      :start_time,
+      :end_time,
+      :test_case_execution_id,
+      :test_case_id,
+      :test_case_execution_status,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The search criteria to be used to return test cases.
+    #
+    # @!attribute [rw] or_conditions
+    #   A list of conditions which would be applied together with an OR
+    #   condition.
+    #   @return [Array<Types::TestCaseSearchCriteria>]
+    #
+    # @!attribute [rw] and_conditions
+    #   A list of conditions which would be applied together with an AND
+    #   condition.
+    #   @return [Array<Types::TestCaseSearchCriteria>]
+    #
+    # @!attribute [rw] string_condition
+    #   A leaf node condition which can be used to specify a string
+    #   condition.
+    #   @return [Types::StringCondition]
+    #
+    # @!attribute [rw] status_condition
+    #   The status of the test case.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/TestCaseSearchCriteria AWS API Documentation
+    #
+    class TestCaseSearchCriteria < Struct.new(
+      :or_conditions,
+      :and_conditions,
+      :string_condition,
+      :status_condition)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Filters to be applied to search results.
+    #
+    # @!attribute [rw] tag_filter
+    #   An object that can be used to specify Tag conditions inside the
+    #   SearchFilter. This accepts an OR of AND (List of List) input where:
+    #   Top level list specifies conditions that need to be applied with OR
+    #   operator. Inner list specifies conditions that need to be applied
+    #   with AND operator.
+    #   @return [Types::ControlPlaneTagFilter]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/TestCaseSearchFilter AWS API Documentation
+    #
+    class TestCaseSearchFilter < Struct.new(
+      :tag_filter)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains summary information about a test case.
+    #
+    # @!attribute [rw] id
+    #   The identifier of the test case.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the test case.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the test case.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the test case.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The time at which the test case was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_region
+    #   The region in which the test case was last modified.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/TestCaseSummary AWS API Documentation
+    #
+    class TestCaseSummary < Struct.new(
+      :id,
+      :arn,
+      :name,
+      :status,
+      :last_modified_time,
+      :last_modified_region)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -34104,6 +34892,69 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_case_id
+    #   The identifier of the test case to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   The JSON string that represents the content of the test.
+    #   @return [String]
+    #
+    # @!attribute [rw] entry_point
+    #   Defines the starting point for your test.
+    #   @return [Types::TestCaseEntryPoint]
+    #
+    # @!attribute [rw] initialization_data
+    #   Defines the test attributes for precise data representation.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the test case.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the test case.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Indicates the test status as either SAVED or PUBLISHED. The
+    #   PUBLISHED status will initiate validation on the content. The SAVED
+    #   status does not initiate validation of the content.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The time at which the resource was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_region
+    #   The region in which the resource was last modified
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateTestCaseRequest AWS API Documentation
+    #
+    class UpdateTestCaseRequest < Struct.new(
+      :instance_id,
+      :test_case_id,
+      :content,
+      :entry_point,
+      :initialization_data,
+      :name,
+      :description,
+      :status,
+      :last_modified_time,
+      :last_modified_region)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateTestCaseResponse AWS API Documentation
+    #
+    class UpdateTestCaseResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] id
     #   The identifier of the traffic distribution group. This can be the ID
     #   or the ARN if the API is being called in the Region where the
@@ -35818,6 +36669,30 @@ module Aws::Connect
       :state,
       :last_modified_time,
       :failure_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Parameters for initiating a voice call test.
+    #
+    # @!attribute [rw] source_phone_number
+    #   The source phone number for the test.
+    #   @return [String]
+    #
+    # @!attribute [rw] destination_phone_number
+    #   The destination phone number for the test.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_id
+    #   The flow identifier for the test.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/VoiceCallEntryPointParameters AWS API Documentation
+    #
+    class VoiceCallEntryPointParameters < Struct.new(
+      :source_phone_number,
+      :destination_phone_number,
+      :flow_id)
       SENSITIVE = []
       include Aws::Structure
     end

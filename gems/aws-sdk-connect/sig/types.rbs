@@ -1598,6 +1598,27 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class CreateTestCaseRequest
+      attr_accessor instance_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor content: ::String
+      attr_accessor entry_point: Types::TestCaseEntryPoint
+      attr_accessor initialization_data: ::String
+      attr_accessor status: ("PUBLISHED" | "SAVED")
+      attr_accessor test_case_id: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor last_modified_time: ::Time
+      attr_accessor last_modified_region: ::String
+      SENSITIVE: []
+    end
+
+    class CreateTestCaseResponse
+      attr_accessor test_case_id: ::String
+      attr_accessor test_case_arn: ::String
+      SENSITIVE: []
+    end
+
     class CreateTrafficDistributionGroupRequest
       attr_accessor name: ::String
       attr_accessor description: ::String
@@ -2164,6 +2185,15 @@ module Aws::Connect
     class DeleteTaskTemplateResponse < Aws::EmptyStructure
     end
 
+    class DeleteTestCaseRequest
+      attr_accessor instance_id: ::String
+      attr_accessor test_case_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteTestCaseResponse < Aws::EmptyStructure
+    end
+
     class DeleteTrafficDistributionGroupRequest
       attr_accessor traffic_distribution_group_id: ::String
       SENSITIVE: []
@@ -2526,6 +2556,18 @@ module Aws::Connect
 
     class DescribeSecurityProfileResponse
       attr_accessor security_profile: Types::SecurityProfile
+      SENSITIVE: []
+    end
+
+    class DescribeTestCaseRequest
+      attr_accessor instance_id: ::String
+      attr_accessor test_case_id: ::String
+      attr_accessor status: ("PUBLISHED" | "SAVED")
+      SENSITIVE: []
+    end
+
+    class DescribeTestCaseResponse
+      attr_accessor test_case: Types::TestCase
       SENSITIVE: []
     end
 
@@ -3520,6 +3562,14 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class ExecutionRecord
+      attr_accessor observation_id: ::String
+      attr_accessor status: ("PASSED" | "FAILED" | "IN_PROGRESS" | "STOPPED")
+      attr_accessor timestamp: ::Time
+      attr_accessor record: ::String
+      SENSITIVE: []
+    end
+
     class Expiry
       attr_accessor duration_in_seconds: ::Integer
       attr_accessor expiry_timestamp: ::Time
@@ -3809,6 +3859,21 @@ module Aws::Connect
       attr_accessor last_modified_time: ::Time
       attr_accessor created_time: ::Time
       attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class GetTestCaseExecutionSummaryRequest
+      attr_accessor instance_id: ::String
+      attr_accessor test_case_id: ::String
+      attr_accessor test_case_execution_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetTestCaseExecutionSummaryResponse
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor status: ("INITIATED" | "PASSED" | "FAILED" | "IN_PROGRESS" | "STOPPED")
+      attr_accessor observation_summary: Types::ObservationSummary
       SENSITIVE: []
     end
 
@@ -4199,6 +4264,11 @@ module Aws::Connect
       end
       class Unknown < InvalidRequestExceptionReason
       end
+    end
+
+    class InvalidTestCaseException
+      attr_accessor problems: ::Array[Types::ProblemDetail]
+      SENSITIVE: []
     end
 
     class InvisibleFieldInfo
@@ -4990,6 +5060,53 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class ListTestCaseExecutionRecordsRequest
+      attr_accessor instance_id: ::String
+      attr_accessor test_case_id: ::String
+      attr_accessor test_case_execution_id: ::String
+      attr_accessor status: ("INITIATED" | "PASSED" | "FAILED" | "IN_PROGRESS" | "STOPPED")
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListTestCaseExecutionRecordsResponse
+      attr_accessor execution_records: ::Array[Types::ExecutionRecord]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListTestCaseExecutionsRequest
+      attr_accessor instance_id: ::String
+      attr_accessor test_case_id: ::String
+      attr_accessor test_case_name: ::String
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor status: ("INITIATED" | "PASSED" | "FAILED" | "IN_PROGRESS" | "STOPPED")
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListTestCaseExecutionsResponse
+      attr_accessor test_case_executions: ::Array[Types::TestCaseExecution]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListTestCasesRequest
+      attr_accessor instance_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListTestCasesResponse
+      attr_accessor test_case_summary_list: ::Array[Types::TestCaseSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListTrafficDistributionGroupUsersRequest
       attr_accessor traffic_distribution_group_id: ::String
       attr_accessor max_results: ::Integer
@@ -5293,6 +5410,13 @@ module Aws::Connect
 
     class NumericQuestionPropertyValueAutomation
       attr_accessor label: ("OVERALL_CUSTOMER_SENTIMENT_SCORE" | "OVERALL_AGENT_SENTIMENT_SCORE" | "CUSTOMER_SENTIMENT_SCORE_WITHOUT_AGENT" | "CUSTOMER_SENTIMENT_SCORE_WITH_AGENT" | "NON_TALK_TIME" | "NON_TALK_TIME_PERCENTAGE" | "NUMBER_OF_INTERRUPTIONS" | "CONTACT_DURATION" | "AGENT_INTERACTION_DURATION" | "CUSTOMER_HOLD_TIME" | "LONGEST_HOLD_DURATION" | "NUMBER_OF_HOLDS" | "AGENT_INTERACTION_AND_HOLD_DURATION")
+      SENSITIVE: []
+    end
+
+    class ObservationSummary
+      attr_accessor total_observations: ::Integer
+      attr_accessor observations_passed: ::Integer
+      attr_accessor observations_failed: ::Integer
       SENSITIVE: []
     end
 
@@ -6568,6 +6692,22 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class SearchTestCasesRequest
+      attr_accessor instance_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor search_filter: Types::TestCaseSearchFilter
+      attr_accessor search_criteria: Types::TestCaseSearchCriteria
+      SENSITIVE: []
+    end
+
+    class SearchTestCasesResponse
+      attr_accessor test_cases: ::Array[Types::TestCase]
+      attr_accessor next_token: ::String
+      attr_accessor approximate_total_count: ::Integer
+      SENSITIVE: []
+    end
+
     class SearchUserHierarchyGroupsRequest
       attr_accessor instance_id: ::String
       attr_accessor next_token: ::String
@@ -7078,6 +7218,20 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class StartTestCaseExecutionRequest
+      attr_accessor instance_id: ::String
+      attr_accessor test_case_id: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class StartTestCaseExecutionResponse
+      attr_accessor test_case_execution_id: ::String
+      attr_accessor test_case_id: ::String
+      attr_accessor status: ("INITIATED" | "PASSED" | "FAILED" | "IN_PROGRESS" | "STOPPED")
+      SENSITIVE: []
+    end
+
     class StartWebRTCContactRequest
       attr_accessor attributes: ::Hash[::String, ::String]
       attr_accessor client_token: ::String
@@ -7151,6 +7305,17 @@ module Aws::Connect
     end
 
     class StopContactStreamingResponse < Aws::EmptyStructure
+    end
+
+    class StopTestCaseExecutionRequest
+      attr_accessor instance_id: ::String
+      attr_accessor test_case_execution_id: ::String
+      attr_accessor test_case_id: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class StopTestCaseExecutionResponse < Aws::EmptyStructure
     end
 
     class StringCondition
@@ -7315,6 +7480,61 @@ module Aws::Connect
       attr_accessor knowledge_base_id: ::String
       attr_accessor message_template_id: ::String
       attr_accessor template_attributes: Types::TemplateAttributes
+      SENSITIVE: []
+    end
+
+    class TestCase
+      attr_accessor arn: ::String
+      attr_accessor id: ::String
+      attr_accessor name: ::String
+      attr_accessor content: ::String
+      attr_accessor entry_point: Types::TestCaseEntryPoint
+      attr_accessor initialization_data: ::String
+      attr_accessor description: ::String
+      attr_accessor status: ("PUBLISHED" | "SAVED")
+      attr_accessor last_modified_time: ::Time
+      attr_accessor last_modified_region: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor test_case_sha_256: ::String
+      SENSITIVE: []
+    end
+
+    class TestCaseEntryPoint
+      attr_accessor type: ("VOICE_CALL")
+      attr_accessor voice_call_entry_point_parameters: Types::VoiceCallEntryPointParameters
+      SENSITIVE: []
+    end
+
+    class TestCaseExecution
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor test_case_execution_id: ::String
+      attr_accessor test_case_id: ::String
+      attr_accessor test_case_execution_status: ("INITIATED" | "PASSED" | "FAILED" | "IN_PROGRESS" | "STOPPED")
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class TestCaseSearchCriteria
+      attr_accessor or_conditions: ::Array[Types::TestCaseSearchCriteria]
+      attr_accessor and_conditions: ::Array[Types::TestCaseSearchCriteria]
+      attr_accessor string_condition: Types::StringCondition
+      attr_accessor status_condition: ("PUBLISHED" | "SAVED")
+      SENSITIVE: []
+    end
+
+    class TestCaseSearchFilter
+      attr_accessor tag_filter: Types::ControlPlaneTagFilter
+      SENSITIVE: []
+    end
+
+    class TestCaseSummary
+      attr_accessor id: ::String
+      attr_accessor arn: ::String
+      attr_accessor name: ::String
+      attr_accessor status: ("PUBLISHED" | "SAVED")
+      attr_accessor last_modified_time: ::Time
+      attr_accessor last_modified_region: ::String
       SENSITIVE: []
     end
 
@@ -7930,6 +8150,23 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class UpdateTestCaseRequest
+      attr_accessor instance_id: ::String
+      attr_accessor test_case_id: ::String
+      attr_accessor content: ::String
+      attr_accessor entry_point: Types::TestCaseEntryPoint
+      attr_accessor initialization_data: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor status: ("PUBLISHED" | "SAVED")
+      attr_accessor last_modified_time: ::Time
+      attr_accessor last_modified_region: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateTestCaseResponse < Aws::EmptyStructure
+    end
+
     class UpdateTrafficDistributionRequest
       attr_accessor id: ::String
       attr_accessor telephony_config: Types::TelephonyConfig
@@ -8340,6 +8577,13 @@ module Aws::Connect
       attr_accessor state: ("CREATION_IN_PROGRESS" | "ACTIVE" | "CREATION_FAILED" | "DELETE_IN_PROGRESS")
       attr_accessor last_modified_time: ::Time
       attr_accessor failure_reason: ::String
+      SENSITIVE: []
+    end
+
+    class VoiceCallEntryPointParameters
+      attr_accessor source_phone_number: ::String
+      attr_accessor destination_phone_number: ::String
+      attr_accessor flow_id: ::String
       SENSITIVE: []
     end
 

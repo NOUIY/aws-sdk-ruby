@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.237.0 (2026-01-23)
+------------------
+
+* Feature - Amazon Connect now offers public APIs to programmatically configure and run automated tests for contact center experiences. Integrate testing into CICD pipelines, run multiple tests at scale, and retrieve results via API to automate validation of voice interactions and workflows.
+
 1.236.0 (2026-01-16)
 ------------------
 

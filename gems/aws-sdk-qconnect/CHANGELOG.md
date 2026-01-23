@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.49.0 (2026-01-23)
+------------------
+
+* Feature - Fixes incorrect types in the UpdateAssistantAIAgent API request, adds MESSAGE to TargetType enum, and other minor changes.
+
 1.48.0 (2026-01-16)
 ------------------
 
