@@ -155,7 +155,8 @@ module Aws
                          ?performed_by: {
                            user_arn: ::String?,
                            custom_entity: ::String?
-                         }
+                         },
+                         ?tags: Hash[::String, ::String]
                        ) -> _CreateCaseResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateCaseResponseSuccess
 
@@ -409,6 +410,12 @@ module Aws
                                  case_rule_id: ::String,
                                  field_id: ::String?
                                },
+                             ],
+                             ?tag_propagation_configurations: Array[
+                               {
+                                 resource_type: ("Cases"),
+                                 tag_map: Hash[::String, ::String]
+                               },
                              ]
                            ) -> _CreateTemplateResponseSuccess
                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateTemplateResponseSuccess
@@ -574,6 +581,7 @@ module Aws
         def created_time: () -> ::Time
         def last_modified_time: () -> ::Time
         def rules: () -> ::Array[Types::TemplateRule]
+        def tag_propagation_configurations: () -> ::Array[Types::TagPropagationConfiguration]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ConnectCases/Client.html#get_template-instance_method
       def get_template: (
@@ -909,6 +917,12 @@ module Aws
                               }?
                             }?,
                             not: untyped?,
+                            tag: {
+                              equal_to: {
+                                key: ::String?,
+                                value: ::String?
+                              }?
+                            }?,
                             and_all: Array[
                               untyped,
                             ]?,
@@ -1251,6 +1265,12 @@ module Aws
                                {
                                  case_rule_id: ::String,
                                  field_id: ::String?
+                               },
+                             ],
+                             ?tag_propagation_configurations: Array[
+                               {
+                                 resource_type: ("Cases"),
+                                 tag_map: Hash[::String, ::String]
                                },
                              ]
                            ) -> _UpdateTemplateResponseSuccess

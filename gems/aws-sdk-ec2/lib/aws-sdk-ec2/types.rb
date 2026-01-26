@@ -65403,6 +65403,13 @@ module Aws::EC2
     #   The maximum number of network interfaces for the network card.
     #   @return [Integer]
     #
+    # @!attribute [rw] additional_flexible_network_interfaces
+    #   The number of additional network interfaces that can be attached to
+    #   an instance when using flexible Elastic Network Adapter (ENA)
+    #   queues. This number is in addition to the base number specified by
+    #   `maximumNetworkInterfaces`.
+    #   @return [Integer]
+    #
     # @!attribute [rw] baseline_bandwidth_in_gbps
     #   The baseline network performance of the network card, in Gbps.
     #   @return [Float]
@@ -65429,6 +65436,7 @@ module Aws::EC2
       :network_card_index,
       :network_performance,
       :maximum_network_interfaces,
+      :additional_flexible_network_interfaces,
       :baseline_bandwidth_in_gbps,
       :peak_bandwidth_in_gbps,
       :default_ena_queue_count_per_interface,

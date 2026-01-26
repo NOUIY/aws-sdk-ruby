@@ -131,6 +131,7 @@ module Aws::ConnectCases
     class CaseFilter
       attr_accessor field: Types::FieldFilter
       attr_accessor not: Types::CaseFilter
+      attr_accessor tag: Types::TagFilter
       attr_accessor and_all: ::Array[Types::CaseFilter]
       attr_accessor or_all: ::Array[Types::CaseFilter]
       attr_accessor unknown: untyped
@@ -139,6 +140,8 @@ module Aws::ConnectCases
       class Field < CaseFilter
       end
       class Not < CaseFilter
+      end
+      class Tag < CaseFilter
       end
       class AndAll < CaseFilter
       end
@@ -245,6 +248,7 @@ module Aws::ConnectCases
       attr_accessor fields: ::Array[Types::FieldValue]
       attr_accessor client_token: ::String
       attr_accessor performed_by: Types::UserUnion
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 
@@ -330,6 +334,7 @@ module Aws::ConnectCases
       attr_accessor required_fields: ::Array[Types::RequiredField]
       attr_accessor status: ("Active" | "Inactive")
       attr_accessor rules: ::Array[Types::TemplateRule]
+      attr_accessor tag_propagation_configurations: ::Array[Types::TagPropagationConfiguration]
       SENSITIVE: []
     end
 
@@ -699,6 +704,7 @@ module Aws::ConnectCases
       attr_accessor created_time: ::Time
       attr_accessor last_modified_time: ::Time
       attr_accessor rules: ::Array[Types::TemplateRule]
+      attr_accessor tag_propagation_configurations: ::Array[Types::TagPropagationConfiguration]
       SENSITIVE: []
     end
 
@@ -1139,9 +1145,32 @@ module Aws::ConnectCases
       SENSITIVE: []
     end
 
+    class TagFilter
+      attr_accessor equal_to: Types::TagValue
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class EqualTo < TagFilter
+      end
+      class Unknown < TagFilter
+      end
+    end
+
+    class TagPropagationConfiguration
+      attr_accessor resource_type: ("Cases")
+      attr_accessor tag_map: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
     class TagResourceRequest
       attr_accessor arn: ::String
       attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class TagValue
+      attr_accessor key: ::String
+      attr_accessor value: ::String
       SENSITIVE: []
     end
 
@@ -1156,6 +1185,7 @@ module Aws::ConnectCases
       attr_accessor template_arn: ::String
       attr_accessor name: ::String
       attr_accessor status: ("Active" | "Inactive")
+      attr_accessor tag_propagation_configurations: ::Array[Types::TagPropagationConfiguration]
       SENSITIVE: []
     end
 
@@ -1224,6 +1254,7 @@ module Aws::ConnectCases
       attr_accessor required_fields: ::Array[Types::RequiredField]
       attr_accessor status: ("Active" | "Inactive")
       attr_accessor rules: ::Array[Types::TemplateRule]
+      attr_accessor tag_propagation_configurations: ::Array[Types::TagPropagationConfiguration]
       SENSITIVE: []
     end
 

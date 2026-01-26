@@ -378,6 +378,10 @@ module Aws::ConnectCases
     #   A filter for cases. Only one value can be provided.
     #   @return [Types::CaseFilter]
     #
+    # @!attribute [rw] tag
+    #   A list of tags to filter on.
+    #   @return [Types::TagFilter]
+    #
     # @!attribute [rw] and_all
     #   Provides "and all" filtering.
     #   @return [Array<Types::CaseFilter>]
@@ -391,6 +395,7 @@ module Aws::ConnectCases
     class CaseFilter < Struct.new(
       :field,
       :not,
+      :tag,
       :and_all,
       :or_all,
       :unknown)
@@ -400,6 +405,7 @@ module Aws::ConnectCases
 
       class Field < CaseFilter; end
       class Not < CaseFilter; end
+      class Tag < CaseFilter; end
       class AndAll < CaseFilter; end
       class OrAll < CaseFilter; end
       class Unknown < CaseFilter; end
@@ -728,6 +734,11 @@ module Aws::ConnectCases
     #   Represents the entity that performed the action.
     #   @return [Types::UserUnion]
     #
+    # @!attribute [rw] tags
+    #   A map of of key-value pairs that represent tags on a resource. Tags
+    #   are used to organize, track, or control access for this resource.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/CreateCaseRequest AWS API Documentation
     #
     class CreateCaseRequest < Struct.new(
@@ -735,7 +746,8 @@ module Aws::ConnectCases
       :template_id,
       :fields,
       :client_token,
-      :performed_by)
+      :performed_by,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1004,6 +1016,12 @@ module Aws::ConnectCases
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
     #   @return [Array<Types::TemplateRule>]
     #
+    # @!attribute [rw] tag_propagation_configurations
+    #   Defines tag propagation configuration for resources created within a
+    #   domain. Tags specified here will be automatically applied to
+    #   resources being created for the specified resource type.
+    #   @return [Array<Types::TagPropagationConfiguration>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/CreateTemplateRequest AWS API Documentation
     #
     class CreateTemplateRequest < Struct.new(
@@ -1013,7 +1031,8 @@ module Aws::ConnectCases
       :layout_configuration,
       :required_fields,
       :status,
-      :rules)
+      :rules,
+      :tag_propagation_configurations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2133,6 +2152,12 @@ module Aws::ConnectCases
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
     #   @return [Array<Types::TemplateRule>]
     #
+    # @!attribute [rw] tag_propagation_configurations
+    #   Defines tag propagation configuration for resources created within a
+    #   domain. Tags specified here will be automatically applied to
+    #   resources being created for the specified resource type.
+    #   @return [Array<Types::TagPropagationConfiguration>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/GetTemplateResponse AWS API Documentation
     #
     class GetTemplateResponse < Struct.new(
@@ -2147,7 +2172,8 @@ module Aws::ConnectCases
       :deleted,
       :created_time,
       :last_modified_time,
-      :rules)
+      :rules,
+      :tag_propagation_configurations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3475,6 +3501,49 @@ module Aws::ConnectCases
       include Aws::Structure
     end
 
+    # A filter for tags. Only one value can be provided.
+    #
+    # @note TagFilter is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] equal_to
+    #   Object containing tag key and value information.
+    #   @return [Types::TagValue]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/TagFilter AWS API Documentation
+    #
+    class TagFilter < Struct.new(
+      :equal_to,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class EqualTo < TagFilter; end
+      class Unknown < TagFilter; end
+    end
+
+    # Defines tag propagation configuration for resources created within a
+    # domain. Tags specified here will be automatically applied to resources
+    # being created for the specified resource type.
+    #
+    # @!attribute [rw] resource_type
+    #   Supported resource types for tag propagation. Determines which
+    #   resources will receive automatically propagated tags.
+    #   @return [String]
+    #
+    # @!attribute [rw] tag_map
+    #   The tags that will be applied to the created resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/TagPropagationConfiguration AWS API Documentation
+    #
+    class TagPropagationConfiguration < Struct.new(
+      :resource_type,
+      :tag_map)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] arn
     #   The Amazon Resource Name (ARN)
     #   @return [String]
@@ -3489,6 +3558,25 @@ module Aws::ConnectCases
     class TagResourceRequest < Struct.new(
       :arn,
       :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Object for case tag filter values.
+    #
+    # @!attribute [rw] key
+    #   The tag key in the tag filter value.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The tag value in the tag filter value.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/TagValue AWS API Documentation
+    #
+    class TagValue < Struct.new(
+      :key,
+      :value)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3537,13 +3625,20 @@ module Aws::ConnectCases
     #   The status of the template.
     #   @return [String]
     #
+    # @!attribute [rw] tag_propagation_configurations
+    #   Defines tag propagation configuration for resources created within a
+    #   domain. Tags specified here will be automatically applied to
+    #   resources being created for the specified resource type.
+    #   @return [Array<Types::TagPropagationConfiguration>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/TemplateSummary AWS API Documentation
     #
     class TemplateSummary < Struct.new(
       :template_id,
       :template_arn,
       :name,
-      :status)
+      :status,
+      :tag_propagation_configurations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3749,6 +3844,12 @@ module Aws::ConnectCases
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
     #   @return [Array<Types::TemplateRule>]
     #
+    # @!attribute [rw] tag_propagation_configurations
+    #   Defines tag propagation configuration for resources created within a
+    #   domain. Tags specified here will be automatically applied to
+    #   resources being created for the specified resource type.
+    #   @return [Array<Types::TagPropagationConfiguration>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/UpdateTemplateRequest AWS API Documentation
     #
     class UpdateTemplateRequest < Struct.new(
@@ -3759,7 +3860,8 @@ module Aws::ConnectCases
       :layout_configuration,
       :required_fields,
       :status,
-      :rules)
+      :rules,
+      :tag_propagation_configurations)
       SENSITIVE = []
       include Aws::Structure
     end

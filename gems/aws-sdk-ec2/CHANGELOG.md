@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.594.0 (2026-01-26)
+------------------
+
+* Feature - DescribeInstanceTypes API response now includes an additionalFlexibleNetworkInterfaces field, the number of interfaces attachable to an instance when using flexible Elastic Network Adapter (ENA) queues in addition to the base number specified by maximumNetworkInterfaces.
+
 1.593.0 (2026-01-22)
 ------------------
 

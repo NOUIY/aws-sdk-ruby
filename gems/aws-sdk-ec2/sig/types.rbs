@@ -14072,6 +14072,7 @@ module Aws::EC2
       attr_accessor network_card_index: ::Integer
       attr_accessor network_performance: ::String
       attr_accessor maximum_network_interfaces: ::Integer
+      attr_accessor additional_flexible_network_interfaces: ::Integer
       attr_accessor baseline_bandwidth_in_gbps: ::Float
       attr_accessor peak_bandwidth_in_gbps: ::Float
       attr_accessor default_ena_queue_count_per_interface: ::Integer

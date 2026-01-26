@@ -31310,6 +31310,7 @@ module Aws::EC2
     #   resp.instance_types[0].network_info.network_cards[0].network_card_index #=> Integer
     #   resp.instance_types[0].network_info.network_cards[0].network_performance #=> String
     #   resp.instance_types[0].network_info.network_cards[0].maximum_network_interfaces #=> Integer
+    #   resp.instance_types[0].network_info.network_cards[0].additional_flexible_network_interfaces #=> Integer
     #   resp.instance_types[0].network_info.network_cards[0].baseline_bandwidth_in_gbps #=> Float
     #   resp.instance_types[0].network_info.network_cards[0].peak_bandwidth_in_gbps #=> Float
     #   resp.instance_types[0].network_info.network_cards[0].default_ena_queue_count_per_interface #=> Integer
@@ -71740,7 +71741,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.593.0'
+      context[:gem_version] = '1.594.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

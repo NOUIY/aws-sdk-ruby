@@ -210,6 +210,8 @@ module Aws::ConnectCases
     ListTemplatesResponse = Shapes::StructureShape.new(name: 'ListTemplatesResponse')
     ListTemplatesResponseTemplatesList = Shapes::ListShape.new(name: 'ListTemplatesResponseTemplatesList')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
+    MutableTagKey = Shapes::StringShape.new(name: 'MutableTagKey')
+    MutableTags = Shapes::MapShape.new(name: 'MutableTags')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     OperandOne = Shapes::UnionShape.new(name: 'OperandOne')
     OperandTwo = Shapes::UnionShape.new(name: 'OperandTwo')
@@ -257,6 +259,7 @@ module Aws::ConnectCases
     SearchRelatedItemsResponse = Shapes::StructureShape.new(name: 'SearchRelatedItemsResponse')
     SearchRelatedItemsResponseItem = Shapes::StructureShape.new(name: 'SearchRelatedItemsResponseItem')
     SearchRelatedItemsResponseRelatedItemsList = Shapes::ListShape.new(name: 'SearchRelatedItemsResponseRelatedItemsList')
+    SearchTagKey = Shapes::StringShape.new(name: 'SearchTagKey')
     Section = Shapes::UnionShape.new(name: 'Section')
     SectionsList = Shapes::ListShape.new(name: 'SectionsList')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
@@ -273,9 +276,16 @@ module Aws::ConnectCases
     SlaType = Shapes::StringShape.new(name: 'SlaType')
     Sort = Shapes::StructureShape.new(name: 'Sort')
     String = Shapes::StringShape.new(name: 'String')
+    TagFilter = Shapes::UnionShape.new(name: 'TagFilter')
     TagKey = Shapes::StringShape.new(name: 'TagKey')
     TagKeyList = Shapes::ListShape.new(name: 'TagKeyList')
+    TagPropagationConfiguration = Shapes::StructureShape.new(name: 'TagPropagationConfiguration')
+    TagPropagationConfigurationList = Shapes::ListShape.new(name: 'TagPropagationConfigurationList')
+    TagPropagationConfigurationTagMapMap = Shapes::MapShape.new(name: 'TagPropagationConfigurationTagMapMap')
+    TagPropagationResourceType = Shapes::StringShape.new(name: 'TagPropagationResourceType')
     TagResourceRequest = Shapes::StructureShape.new(name: 'TagResourceRequest')
+    TagValue = Shapes::StructureShape.new(name: 'TagValue')
+    TagValueString = Shapes::StringShape.new(name: 'TagValueString')
     Tags = Shapes::MapShape.new(name: 'Tags')
     TargetSlaMinutes = Shapes::IntegerShape.new(name: 'TargetSlaMinutes')
     TemplateArn = Shapes::StringShape.new(name: 'TemplateArn')
@@ -409,11 +419,13 @@ module Aws::ConnectCases
 
     CaseFilter.add_member(:field, Shapes::ShapeRef.new(shape: FieldFilter, location_name: "field"))
     CaseFilter.add_member(:not, Shapes::ShapeRef.new(shape: CaseFilter, location_name: "not"))
+    CaseFilter.add_member(:tag, Shapes::ShapeRef.new(shape: TagFilter, location_name: "tag"))
     CaseFilter.add_member(:and_all, Shapes::ShapeRef.new(shape: CaseFilterAndAllList, location_name: "andAll"))
     CaseFilter.add_member(:or_all, Shapes::ShapeRef.new(shape: CaseFilterOrAllList, location_name: "orAll"))
     CaseFilter.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     CaseFilter.add_member_subclass(:field, Types::CaseFilter::Field)
     CaseFilter.add_member_subclass(:not, Types::CaseFilter::Not)
+    CaseFilter.add_member_subclass(:tag, Types::CaseFilter::Tag)
     CaseFilter.add_member_subclass(:and_all, Types::CaseFilter::AndAll)
     CaseFilter.add_member_subclass(:or_all, Types::CaseFilter::OrAll)
     CaseFilter.add_member_subclass(:unknown, Types::CaseFilter::Unknown)
@@ -491,6 +503,7 @@ module Aws::ConnectCases
     CreateCaseRequest.add_member(:fields, Shapes::ShapeRef.new(shape: CreateCaseRequestFieldsList, required: true, location_name: "fields"))
     CreateCaseRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: CreateCaseRequestClientTokenString, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     CreateCaseRequest.add_member(:performed_by, Shapes::ShapeRef.new(shape: UserUnion, location_name: "performedBy"))
+    CreateCaseRequest.add_member(:tags, Shapes::ShapeRef.new(shape: MutableTags, location_name: "tags"))
     CreateCaseRequest.struct_class = Types::CreateCaseRequest
 
     CreateCaseRequestFieldsList.member = Shapes::ShapeRef.new(shape: FieldValue)
@@ -554,6 +567,7 @@ module Aws::ConnectCases
     CreateTemplateRequest.add_member(:required_fields, Shapes::ShapeRef.new(shape: RequiredFieldList, location_name: "requiredFields"))
     CreateTemplateRequest.add_member(:status, Shapes::ShapeRef.new(shape: TemplateStatus, location_name: "status"))
     CreateTemplateRequest.add_member(:rules, Shapes::ShapeRef.new(shape: TemplateCaseRuleList, location_name: "rules"))
+    CreateTemplateRequest.add_member(:tag_propagation_configurations, Shapes::ShapeRef.new(shape: TagPropagationConfigurationList, location_name: "tagPropagationConfigurations"))
     CreateTemplateRequest.struct_class = Types::CreateTemplateRequest
 
     CreateTemplateResponse.add_member(:template_id, Shapes::ShapeRef.new(shape: TemplateId, required: true, location_name: "templateId"))
@@ -829,6 +843,7 @@ module Aws::ConnectCases
     GetTemplateResponse.add_member(:created_time, Shapes::ShapeRef.new(shape: CreatedTime, location_name: "createdTime"))
     GetTemplateResponse.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: LastModifiedTime, location_name: "lastModifiedTime"))
     GetTemplateResponse.add_member(:rules, Shapes::ShapeRef.new(shape: TemplateCaseRuleList, location_name: "rules"))
+    GetTemplateResponse.add_member(:tag_propagation_configurations, Shapes::ShapeRef.new(shape: TagPropagationConfigurationList, location_name: "tagPropagationConfigurations"))
     GetTemplateResponse.struct_class = Types::GetTemplateResponse
 
     HiddenCaseRule.add_member(:default_value, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "defaultValue"))
@@ -937,6 +952,9 @@ module Aws::ConnectCases
     ListTemplatesResponse.struct_class = Types::ListTemplatesResponse
 
     ListTemplatesResponseTemplatesList.member = Shapes::ShapeRef.new(shape: TemplateSummary)
+
+    MutableTags.key = Shapes::ShapeRef.new(shape: MutableTagKey)
+    MutableTags.value = Shapes::ShapeRef.new(shape: TagValueString)
 
     OperandOne.add_member(:field_id, Shapes::ShapeRef.new(shape: FieldId, location_name: "fieldId"))
     OperandOne.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
@@ -1161,11 +1179,30 @@ module Aws::ConnectCases
     Sort.add_member(:sort_order, Shapes::ShapeRef.new(shape: Order, required: true, location_name: "sortOrder"))
     Sort.struct_class = Types::Sort
 
+    TagFilter.add_member(:equal_to, Shapes::ShapeRef.new(shape: TagValue, location_name: "equalTo"))
+    TagFilter.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    TagFilter.add_member_subclass(:equal_to, Types::TagFilter::EqualTo)
+    TagFilter.add_member_subclass(:unknown, Types::TagFilter::Unknown)
+    TagFilter.struct_class = Types::TagFilter
+
     TagKeyList.member = Shapes::ShapeRef.new(shape: TagKey)
+
+    TagPropagationConfiguration.add_member(:resource_type, Shapes::ShapeRef.new(shape: TagPropagationResourceType, required: true, location_name: "resourceType"))
+    TagPropagationConfiguration.add_member(:tag_map, Shapes::ShapeRef.new(shape: TagPropagationConfigurationTagMapMap, required: true, location_name: "tagMap"))
+    TagPropagationConfiguration.struct_class = Types::TagPropagationConfiguration
+
+    TagPropagationConfigurationList.member = Shapes::ShapeRef.new(shape: TagPropagationConfiguration)
+
+    TagPropagationConfigurationTagMapMap.key = Shapes::ShapeRef.new(shape: MutableTagKey)
+    TagPropagationConfigurationTagMapMap.value = Shapes::ShapeRef.new(shape: TagValueString)
 
     TagResourceRequest.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, required: true, location: "uri", location_name: "arn"))
     TagResourceRequest.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, required: true, location_name: "tags"))
     TagResourceRequest.struct_class = Types::TagResourceRequest
+
+    TagValue.add_member(:key, Shapes::ShapeRef.new(shape: SearchTagKey, location_name: "key"))
+    TagValue.add_member(:value, Shapes::ShapeRef.new(shape: TagValueString, location_name: "value"))
+    TagValue.struct_class = Types::TagValue
 
     Tags.key = Shapes::ShapeRef.new(shape: String)
     Tags.value = Shapes::ShapeRef.new(shape: String)
@@ -1182,6 +1219,7 @@ module Aws::ConnectCases
     TemplateSummary.add_member(:template_arn, Shapes::ShapeRef.new(shape: TemplateArn, required: true, location_name: "templateArn"))
     TemplateSummary.add_member(:name, Shapes::ShapeRef.new(shape: TemplateName, required: true, location_name: "name"))
     TemplateSummary.add_member(:status, Shapes::ShapeRef.new(shape: TemplateStatus, required: true, location_name: "status"))
+    TemplateSummary.add_member(:tag_propagation_configurations, Shapes::ShapeRef.new(shape: TagPropagationConfigurationList, location_name: "tagPropagationConfigurations"))
     TemplateSummary.struct_class = Types::TemplateSummary
 
     ThrottlingException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
@@ -1234,6 +1272,7 @@ module Aws::ConnectCases
     UpdateTemplateRequest.add_member(:required_fields, Shapes::ShapeRef.new(shape: RequiredFieldList, location_name: "requiredFields"))
     UpdateTemplateRequest.add_member(:status, Shapes::ShapeRef.new(shape: TemplateStatus, location_name: "status"))
     UpdateTemplateRequest.add_member(:rules, Shapes::ShapeRef.new(shape: TemplateCaseRuleList, location_name: "rules"))
+    UpdateTemplateRequest.add_member(:tag_propagation_configurations, Shapes::ShapeRef.new(shape: TagPropagationConfigurationList, location_name: "tagPropagationConfigurations"))
     UpdateTemplateRequest.struct_class = Types::UpdateTemplateRequest
 
     UpdateTemplateResponse.struct_class = Types::UpdateTemplateResponse
