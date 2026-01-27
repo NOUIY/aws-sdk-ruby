@@ -1402,6 +1402,13 @@ module Aws::Deadline
     # @option params [String] :source_job_id
     #   The job ID for the source job.
     #
+    # @option params [String] :name_override
+    #   A custom name to override the job name derived from the job template.
+    #
+    # @option params [String] :description_override
+    #   A custom description to override the job description derived from the
+    #   job template.
+    #
     # @return [Types::CreateJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateJobResponse#job_id #job_id} => String
@@ -1442,6 +1449,8 @@ module Aws::Deadline
     #     max_retries_per_task: 1,
     #     max_worker_count: 1,
     #     source_job_id: "JobId",
+    #     name_override: "JobName",
+    #     description_override: "JobDescriptionOverride",
     #   })
     #
     # @example Response structure
@@ -6389,7 +6398,7 @@ module Aws::Deadline
     #   The task status to update the job's tasks to.
     #
     # @option params [Integer] :priority
-    #   The job priority to update.
+    #   The updated job priority.
     #
     # @option params [Integer] :max_failed_tasks_count
     #   The number of task failures before the job stops running and is marked
@@ -6418,6 +6427,12 @@ module Aws::Deadline
     #
     #   The maximum number of workers that can process tasks in the job.
     #
+    # @option params [String] :name
+    #   The updated job name.
+    #
+    # @option params [String] :description
+    #   The updated job description.
+    #
     # @option params [required, String] :farm_id
     #   The farm ID of the job to update.
     #
@@ -6439,6 +6454,8 @@ module Aws::Deadline
     #     max_retries_per_task: 1,
     #     lifecycle_status: "ARCHIVED", # accepts ARCHIVED
     #     max_worker_count: 1,
+    #     name: "JobName",
+    #     description: "JobDescriptionOverride",
     #     farm_id: "FarmId", # required
     #     queue_id: "QueueId", # required
     #     job_id: "JobId", # required
@@ -7152,7 +7169,7 @@ module Aws::Deadline
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-deadline'
-      context[:gem_version] = '1.43.0'
+      context[:gem_version] = '1.44.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

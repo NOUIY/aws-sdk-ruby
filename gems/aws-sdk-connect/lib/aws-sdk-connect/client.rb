@@ -23073,6 +23073,10 @@ module Aws::Connect
     #
     #    </note>
     #
+    # @option params [Array<Types::TaskAttachment>] :attachments
+    #   List of S3 presigned URLs of task attachments and their file name. You
+    #   can have a maximum of 5 attachments per task.
+    #
     # @return [Types::StartTaskContactResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::StartTaskContactResponse#contact_id #contact_id} => String
@@ -23119,6 +23123,12 @@ module Aws::Connect
     #         value_arn: "SegmentAttributeValueString",
     #       },
     #     },
+    #     attachments: [
+    #       {
+    #         file_name: "FileName", # required
+    #         s3_url: "PreSignedAttachmentUrl", # required
+    #       },
+    #     ],
     #   })
     #
     # @example Response structure
@@ -27824,7 +27834,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.237.0'
+      context[:gem_version] = '1.238.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

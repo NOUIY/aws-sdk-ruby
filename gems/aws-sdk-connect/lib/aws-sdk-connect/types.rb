@@ -31046,6 +31046,11 @@ module Aws::Connect
     #    </note>
     #   @return [Hash<String,Types::SegmentAttributeValue>]
     #
+    # @!attribute [rw] attachments
+    #   List of S3 presigned URLs of task attachments and their file name.
+    #   You can have a maximum of 5 attachments per task.
+    #   @return [Array<Types::TaskAttachment>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartTaskContactRequest AWS API Documentation
     #
     class StartTaskContactRequest < Struct.new(
@@ -31061,8 +31066,9 @@ module Aws::Connect
       :task_template_id,
       :quick_connect_id,
       :related_contact_id,
-      :segment_attributes)
-      SENSITIVE = [:name, :description]
+      :segment_attributes,
+      :attachments)
+      SENSITIVE = [:name, :description, :attachments]
       include Aws::Structure
     end
 
@@ -31824,6 +31830,26 @@ module Aws::Connect
       :description,
       :contact_flow_id,
       :references)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the task attachment files.
+    #
+    # @!attribute [rw] file_name
+    #   A case-sensitive name of the attached file being uploaded.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_url
+    #   The pre-signed URLs for the S3 bucket where the task attachment is
+    #   stored.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/TaskAttachment AWS API Documentation
+    #
+    class TaskAttachment < Struct.new(
+      :file_name,
+      :s3_url)
       SENSITIVE = []
       include Aws::Structure
     end

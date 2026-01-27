@@ -284,6 +284,7 @@ module Aws::Deadline
     JobAttachmentSettings = Shapes::StructureShape.new(name: 'JobAttachmentSettings')
     JobAttachmentsFileSystem = Shapes::StringShape.new(name: 'JobAttachmentsFileSystem')
     JobDescription = Shapes::StringShape.new(name: 'JobDescription')
+    JobDescriptionOverride = Shapes::StringShape.new(name: 'JobDescriptionOverride')
     JobDetailsEntity = Shapes::StructureShape.new(name: 'JobDetailsEntity')
     JobDetailsError = Shapes::StructureShape.new(name: 'JobDetailsError')
     JobDetailsIdentifiers = Shapes::StructureShape.new(name: 'JobDetailsIdentifiers')
@@ -956,6 +957,8 @@ module Aws::Deadline
     CreateJobRequest.add_member(:max_retries_per_task, Shapes::ShapeRef.new(shape: MaxRetriesPerTask, location_name: "maxRetriesPerTask"))
     CreateJobRequest.add_member(:max_worker_count, Shapes::ShapeRef.new(shape: MaxWorkerCount, location_name: "maxWorkerCount"))
     CreateJobRequest.add_member(:source_job_id, Shapes::ShapeRef.new(shape: JobId, location_name: "sourceJobId"))
+    CreateJobRequest.add_member(:name_override, Shapes::ShapeRef.new(shape: JobName, location_name: "nameOverride"))
+    CreateJobRequest.add_member(:description_override, Shapes::ShapeRef.new(shape: JobDescriptionOverride, location_name: "descriptionOverride"))
     CreateJobRequest.struct_class = Types::CreateJobRequest
 
     CreateJobResponse.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
@@ -2820,6 +2823,8 @@ module Aws::Deadline
     UpdateJobRequest.add_member(:max_retries_per_task, Shapes::ShapeRef.new(shape: MaxRetriesPerTask, location_name: "maxRetriesPerTask"))
     UpdateJobRequest.add_member(:lifecycle_status, Shapes::ShapeRef.new(shape: UpdateJobLifecycleStatus, location_name: "lifecycleStatus"))
     UpdateJobRequest.add_member(:max_worker_count, Shapes::ShapeRef.new(shape: MaxWorkerCount, location_name: "maxWorkerCount"))
+    UpdateJobRequest.add_member(:name, Shapes::ShapeRef.new(shape: JobName, location_name: "name"))
+    UpdateJobRequest.add_member(:description, Shapes::ShapeRef.new(shape: JobDescriptionOverride, location_name: "description"))
     UpdateJobRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     UpdateJobRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
     UpdateJobRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location: "uri", location_name: "jobId"))

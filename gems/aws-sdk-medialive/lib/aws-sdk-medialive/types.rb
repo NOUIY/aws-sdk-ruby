@@ -10501,11 +10501,16 @@ module Aws::MediaLive
     #   Pipeline Locking Settings
     #   @return [Types::PipelineLockingSettings]
     #
+    # @!attribute [rw] disabled_locking_settings
+    #   Disabled Locking Settings
+    #   @return [Types::DisabledLockingSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/OutputLockingSettings AWS API Documentation
     #
     class OutputLockingSettings < Struct.new(
       :epoch_locking_settings,
-      :pipeline_locking_settings)
+      :pipeline_locking_settings,
+      :disabled_locking_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10645,10 +10650,20 @@ module Aws::MediaLive
     #   will not be used for any locking decisions.
     #   @return [String]
     #
+    # @!attribute [rw] custom_epoch
+    #   Optional. Only applies to CMAF Ingest Output Group and MediaPackage
+    #   V2 Output Group Only. Enter a value here to use a custom epoch,
+    #   instead of the standard epoch (which started at 1970-01-01T00:00:00
+    #   UTC). Specify the start time of the custom epoch, in
+    #   YYYY-MM-DDTHH:MM:SS in UTC. The time must be 2000-01-01T00:00:00 or
+    #   later. Always set the MM:SS portion to 00:00.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/PipelineLockingSettings AWS API Documentation
     #
     class PipelineLockingSettings < Struct.new(
-      :pipeline_locking_method)
+      :pipeline_locking_method,
+      :custom_epoch)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -18581,6 +18596,16 @@ module Aws::MediaLive
     #   quantization in the MediaLive user guide.
     #   @return [String]
     #
+    # @!attribute [rw] timecode_insertion
+    #   Controls how MediaLive inserts timecodes into the video output
+    #   encode. DISABLED: Do not insert timecodes. METADATA\_OBU: Include
+    #   timecodes. MediaLive inserts timecode metadata based on the timecode
+    #   from the source specified in the Timecode Config property. The
+    #   timecode metadata is a metadata OBU (Open Bitstream Unit) of type
+    #   METADATA\_TYPE\_TIMECODE, in accordance with
+    #   https://aomediacodec.github.io/av1-spec/#metadata-timecode-syntax.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/Av1Settings AWS API Documentation
     #
     class Av1Settings < Struct.new(
@@ -18605,7 +18630,8 @@ module Aws::MediaLive
       :rate_control_mode,
       :min_bitrate,
       :spatial_aq,
-      :temporal_aq)
+      :temporal_aq,
+      :timecode_insertion)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -22623,6 +22649,25 @@ module Aws::MediaLive
     #
     class MediaPackageAdditionalDestinations < Struct.new(
       :destination)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Disabled Locking Settings
+    #
+    # @!attribute [rw] custom_epoch
+    #   Optional. Only applies to CMAF Ingest Output Group and MediaPackage
+    #   V2 Output Group. Enter a value here to use a custom epoch, instead
+    #   of the standard epoch (which started at 1970-01-01T00:00:00 UTC).
+    #   Specify the start time of the custom epoch, in YYYY-MM-DDTHH:MM:SS
+    #   in UTC. The time must be 2000-01-01T00:00:00 or later. Always set
+    #   the MM:SS portion to 00:00.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DisabledLockingSettings AWS API Documentation
+    #
+    class DisabledLockingSettings < Struct.new(
+      :custom_epoch)
       SENSITIVE = []
       include Aws::Structure
     end

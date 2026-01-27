@@ -2612,6 +2612,7 @@ module Aws::MediaLive
     class OutputLockingSettings
       attr_accessor epoch_locking_settings: Types::EpochLockingSettings
       attr_accessor pipeline_locking_settings: Types::PipelineLockingSettings
+      attr_accessor disabled_locking_settings: Types::DisabledLockingSettings
       SENSITIVE: []
     end
 
@@ -2649,6 +2650,7 @@ module Aws::MediaLive
 
     class PipelineLockingSettings
       attr_accessor pipeline_locking_method: ("SOURCE_TIMECODE" | "VIDEO_ALIGNMENT")
+      attr_accessor custom_epoch: ::String
       SENSITIVE: []
     end
 
@@ -4796,6 +4798,7 @@ module Aws::MediaLive
       attr_accessor min_bitrate: ::Integer
       attr_accessor spatial_aq: ("DISABLED" | "ENABLED")
       attr_accessor temporal_aq: ("DISABLED" | "ENABLED")
+      attr_accessor timecode_insertion: ("DISABLED" | "METADATA_OBU")
       SENSITIVE: []
     end
 
@@ -5886,6 +5889,11 @@ module Aws::MediaLive
 
     class MediaPackageAdditionalDestinations
       attr_accessor destination: Types::OutputLocationRef
+      SENSITIVE: []
+    end
+
+    class DisabledLockingSettings
+      attr_accessor custom_epoch: ::String
       SENSITIVE: []
     end
   end

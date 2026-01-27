@@ -1327,6 +1327,16 @@ module Aws::Deadline
     #   The job ID for the source job.
     #   @return [String]
     #
+    # @!attribute [rw] name_override
+    #   A custom name to override the job name derived from the job
+    #   template.
+    #   @return [String]
+    #
+    # @!attribute [rw] description_override
+    #   A custom description to override the job description derived from
+    #   the job template.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/CreateJobRequest AWS API Documentation
     #
     class CreateJobRequest < Struct.new(
@@ -1343,8 +1353,10 @@ module Aws::Deadline
       :max_failed_tasks_count,
       :max_retries_per_task,
       :max_worker_count,
-      :source_job_id)
-      SENSITIVE = [:template, :parameters]
+      :source_job_id,
+      :name_override,
+      :description_override)
+      SENSITIVE = [:template, :parameters, :description_override]
       include Aws::Structure
     end
 
@@ -7729,7 +7741,7 @@ module Aws::Deadline
     #   @return [Types::StringFilterExpression]
     #
     # @!attribute [rw] string_list_filter
-    #   Filters by a list of string values.
+    #   Filters by a list of strings.
     #   @return [Types::StringListFilterExpression]
     #
     # @!attribute [rw] group_filter
@@ -9132,15 +9144,14 @@ module Aws::Deadline
       include Aws::Structure
     end
 
-    # Searches for a match within a list of strings.
+    # Searches for a particular list of strings.
     #
     # @!attribute [rw] name
     #   The field name to search.
     #   @return [String]
     #
     # @!attribute [rw] operator
-    #   The type of comparison to use for this search. ANY\_EQUALS and
-    #   ALL\_NOT\_EQUALS are supported.
+    #   The type of comparison to use for this search.
     #   @return [String]
     #
     # @!attribute [rw] values
@@ -9753,7 +9764,7 @@ module Aws::Deadline
     #   @return [String]
     #
     # @!attribute [rw] priority
-    #   The job priority to update.
+    #   The updated job priority.
     #   @return [Integer]
     #
     # @!attribute [rw] max_failed_tasks_count
@@ -9787,6 +9798,14 @@ module Aws::Deadline
     #   The maximum number of workers that can process tasks in the job.
     #   @return [Integer]
     #
+    # @!attribute [rw] name
+    #   The updated job name.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The updated job description.
+    #   @return [String]
+    #
     # @!attribute [rw] farm_id
     #   The farm ID of the job to update.
     #   @return [String]
@@ -9809,10 +9828,12 @@ module Aws::Deadline
       :max_retries_per_task,
       :lifecycle_status,
       :max_worker_count,
+      :name,
+      :description,
       :farm_id,
       :queue_id,
       :job_id)
-      SENSITIVE = []
+      SENSITIVE = [:description]
       include Aws::Structure
     end
 

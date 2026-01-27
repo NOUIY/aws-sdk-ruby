@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.595.0 (2026-01-27)
+------------------
+
+* Feature - Releasing new EC2 instances. C8gb and M8gb with highest EBS performance, M8gn with 600 Gbps network bandwidth, X8aedz and M8azn with 5GHz AMD processors, X8i with Intel Xeon 6 processors and up to 6TB memory, and Mac-m4max with Apple M4 Max chip for 25 percent faster builds.
+
 1.594.0 (2026-01-26)
 ------------------
 

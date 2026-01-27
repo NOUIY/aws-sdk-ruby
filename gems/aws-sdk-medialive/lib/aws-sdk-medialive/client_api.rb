@@ -82,6 +82,7 @@ module Aws::MediaLive
     Av1Settings = Shapes::StructureShape.new(name: 'Av1Settings')
     Av1SpatialAq = Shapes::StringShape.new(name: 'Av1SpatialAq')
     Av1TemporalAq = Shapes::StringShape.new(name: 'Av1TemporalAq')
+    Av1TimecodeInsertionBehavior = Shapes::StringShape.new(name: 'Av1TimecodeInsertionBehavior')
     AvailBlanking = Shapes::StructureShape.new(name: 'AvailBlanking')
     AvailBlankingState = Shapes::StringShape.new(name: 'AvailBlankingState')
     AvailConfiguration = Shapes::StructureShape.new(name: 'AvailConfiguration')
@@ -316,6 +317,7 @@ module Aws::MediaLive
     DescribeThumbnailsResultModel = Shapes::StructureShape.new(name: 'DescribeThumbnailsResultModel')
     DeviceSettingsSyncState = Shapes::StringShape.new(name: 'DeviceSettingsSyncState')
     DeviceUpdateStatus = Shapes::StringShape.new(name: 'DeviceUpdateStatus')
+    DisabledLockingSettings = Shapes::StructureShape.new(name: 'DisabledLockingSettings')
     DolbyEProgramSelection = Shapes::StringShape.new(name: 'DolbyEProgramSelection')
     DolbyVision81Settings = Shapes::StructureShape.new(name: 'DolbyVision81Settings')
     DvbDashAccessibility = Shapes::StringShape.new(name: 'DvbDashAccessibility')
@@ -1463,6 +1465,7 @@ module Aws::MediaLive
     Av1Settings.add_member(:min_bitrate, Shapes::ShapeRef.new(shape: __integerMin0Max8000000, location_name: "minBitrate"))
     Av1Settings.add_member(:spatial_aq, Shapes::ShapeRef.new(shape: Av1SpatialAq, location_name: "spatialAq"))
     Av1Settings.add_member(:temporal_aq, Shapes::ShapeRef.new(shape: Av1TemporalAq, location_name: "temporalAq"))
+    Av1Settings.add_member(:timecode_insertion, Shapes::ShapeRef.new(shape: Av1TimecodeInsertionBehavior, location_name: "timecodeInsertion"))
     Av1Settings.struct_class = Types::Av1Settings
 
     AvailBlanking.add_member(:avail_blanking_image, Shapes::ShapeRef.new(shape: InputLocation, location_name: "availBlankingImage"))
@@ -2833,6 +2836,9 @@ module Aws::MediaLive
 
     DescribeThumbnailsResultModel.add_member(:thumbnail_details, Shapes::ShapeRef.new(shape: __listOfThumbnailDetail, location_name: "thumbnailDetails"))
     DescribeThumbnailsResultModel.struct_class = Types::DescribeThumbnailsResultModel
+
+    DisabledLockingSettings.add_member(:custom_epoch, Shapes::ShapeRef.new(shape: __string, location_name: "customEpoch"))
+    DisabledLockingSettings.struct_class = Types::DisabledLockingSettings
 
     DolbyVision81Settings.struct_class = Types::DolbyVision81Settings
 
@@ -4519,6 +4525,7 @@ module Aws::MediaLive
 
     OutputLockingSettings.add_member(:epoch_locking_settings, Shapes::ShapeRef.new(shape: EpochLockingSettings, location_name: "epochLockingSettings"))
     OutputLockingSettings.add_member(:pipeline_locking_settings, Shapes::ShapeRef.new(shape: PipelineLockingSettings, location_name: "pipelineLockingSettings"))
+    OutputLockingSettings.add_member(:disabled_locking_settings, Shapes::ShapeRef.new(shape: DisabledLockingSettings, location_name: "disabledLockingSettings"))
     OutputLockingSettings.struct_class = Types::OutputLockingSettings
 
     OutputSettings.add_member(:archive_output_settings, Shapes::ShapeRef.new(shape: ArchiveOutputSettings, location_name: "archiveOutputSettings"))
@@ -4547,6 +4554,7 @@ module Aws::MediaLive
     PipelineDetail.struct_class = Types::PipelineDetail
 
     PipelineLockingSettings.add_member(:pipeline_locking_method, Shapes::ShapeRef.new(shape: PipelineLockingMethod, location_name: "pipelineLockingMethod"))
+    PipelineLockingSettings.add_member(:custom_epoch, Shapes::ShapeRef.new(shape: __string, location_name: "customEpoch"))
     PipelineLockingSettings.struct_class = Types::PipelineLockingSettings
 
     PipelinePauseStateSettings.add_member(:pipeline_id, Shapes::ShapeRef.new(shape: PipelineId, required: true, location_name: "pipelineId"))

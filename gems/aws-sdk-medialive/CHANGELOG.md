@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.176.0 (2026-01-27)
+------------------
+
+* Feature - AWS Elemental MediaLive released two new features that allows customers 1) to set Output Timecode for AV1 encoder, 2) to set a Custom Epoch for CMAF Ingest and MediaPackage V2 output groups when using Pipeline Locking or Disabled Locking modes.
+
 1.175.0 (2026-01-16)
 ------------------
 

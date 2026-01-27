@@ -636,7 +636,11 @@ module Aws
                                     jam_sync_time: ::String?
                                   }?,
                                   pipeline_locking_settings: {
-                                    pipeline_locking_method: ("SOURCE_TIMECODE" | "VIDEO_ALIGNMENT")?
+                                    pipeline_locking_method: ("SOURCE_TIMECODE" | "VIDEO_ALIGNMENT")?,
+                                    custom_epoch: ::String?
+                                  }?,
+                                  disabled_locking_settings: {
+                                    custom_epoch: ::String?
                                   }?
                                 }?
                               }?,
@@ -1419,7 +1423,8 @@ module Aws
                                       rate_control_mode: ("CBR" | "QVBR")?,
                                       min_bitrate: ::Integer?,
                                       spatial_aq: ("DISABLED" | "ENABLED")?,
-                                      temporal_aq: ("DISABLED" | "ENABLED")?
+                                      temporal_aq: ("DISABLED" | "ENABLED")?,
+                                      timecode_insertion: ("DISABLED" | "METADATA_OBU")?
                                     }?
                                   }?,
                                   height: ::Integer?,
@@ -2813,7 +2818,11 @@ module Aws
                                     jam_sync_time: ::String?
                                   }?,
                                   pipeline_locking_settings: {
-                                    pipeline_locking_method: ("SOURCE_TIMECODE" | "VIDEO_ALIGNMENT")?
+                                    pipeline_locking_method: ("SOURCE_TIMECODE" | "VIDEO_ALIGNMENT")?,
+                                    custom_epoch: ::String?
+                                  }?,
+                                  disabled_locking_settings: {
+                                    custom_epoch: ::String?
                                   }?
                                 }?
                               }?,
@@ -3596,7 +3605,8 @@ module Aws
                                       rate_control_mode: ("CBR" | "QVBR")?,
                                       min_bitrate: ::Integer?,
                                       spatial_aq: ("DISABLED" | "ENABLED")?,
-                                      temporal_aq: ("DISABLED" | "ENABLED")?
+                                      temporal_aq: ("DISABLED" | "ENABLED")?,
+                                      timecode_insertion: ("DISABLED" | "METADATA_OBU")?
                                     }?
                                   }?,
                                   height: ::Integer?,

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.238.0 (2026-01-27)
+------------------
+
+* Feature - Added support for task attachments. The StartTaskContact API now accepts file attachments, enabling customers to include files (.csv, .doc, .docx, .heic, .jfif, .jpeg, .jpg, .mov, .mp4, .pdf, .png, .ppt, .pptx, .rtf, .txt, etc.) when creating Task contacts. Supports up to 5 attachments per task.
+
 1.237.0 (2026-01-23)
 ------------------
 

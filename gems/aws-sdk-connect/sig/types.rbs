@@ -7210,7 +7210,8 @@ module Aws::Connect
       attr_accessor quick_connect_id: ::String
       attr_accessor related_contact_id: ::String
       attr_accessor segment_attributes: ::Hash[::String, Types::SegmentAttributeValue]
-      SENSITIVE: [:name, :description]
+      attr_accessor attachments: ::Array[Types::TaskAttachment]
+      SENSITIVE: [:name, :description, :attachments]
     end
 
     class StartTaskContactResponse
@@ -7414,6 +7415,12 @@ module Aws::Connect
       attr_accessor description: ::String
       attr_accessor contact_flow_id: ::String
       attr_accessor references: ::Hash[::String, Types::Reference]
+      SENSITIVE: []
+    end
+
+    class TaskAttachment
+      attr_accessor file_name: ::String
+      attr_accessor s3_url: ::String
       SENSITIVE: []
     end
 

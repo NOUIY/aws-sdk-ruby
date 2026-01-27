@@ -1283,6 +1283,8 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.custom_epoch #=> String
     #   resp.channel.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.jam_sync_time #=> String
     #   resp.channel.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.pipeline_locking_method #=> String, one of "SOURCE_TIMECODE", "VIDEO_ALIGNMENT"
+    #   resp.channel.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.custom_epoch #=> String
+    #   resp.channel.encoder_settings.global_configuration.output_locking_settings.disabled_locking_settings.custom_epoch #=> String
     #   resp.channel.encoder_settings.motion_graphics_configuration.motion_graphics_insertion #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.encoder_settings.nielsen_configuration.distributor_id #=> String
     #   resp.channel.encoder_settings.nielsen_configuration.nielsen_pcm_to_id_3_tagging #=> String, one of "DISABLED", "ENABLED"
@@ -1817,6 +1819,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.min_bitrate #=> Integer
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
+    #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
     #   resp.channel.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.channel.encoder_settings.video_descriptions[0].name #=> String
     #   resp.channel.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -2737,6 +2740,8 @@ module Aws::MediaLive
     #   resp.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.custom_epoch #=> String
     #   resp.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.jam_sync_time #=> String
     #   resp.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.pipeline_locking_method #=> String, one of "SOURCE_TIMECODE", "VIDEO_ALIGNMENT"
+    #   resp.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.custom_epoch #=> String
+    #   resp.encoder_settings.global_configuration.output_locking_settings.disabled_locking_settings.custom_epoch #=> String
     #   resp.encoder_settings.motion_graphics_configuration.motion_graphics_insertion #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.nielsen_configuration.distributor_id #=> String
     #   resp.encoder_settings.nielsen_configuration.nielsen_pcm_to_id_3_tagging #=> String, one of "DISABLED", "ENABLED"
@@ -3271,6 +3276,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.min_bitrate #=> Integer
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
+    #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
     #   resp.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.encoder_settings.video_descriptions[0].name #=> String
     #   resp.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -3932,6 +3938,8 @@ module Aws::MediaLive
     #   resp.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.custom_epoch #=> String
     #   resp.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.jam_sync_time #=> String
     #   resp.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.pipeline_locking_method #=> String, one of "SOURCE_TIMECODE", "VIDEO_ALIGNMENT"
+    #   resp.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.custom_epoch #=> String
+    #   resp.encoder_settings.global_configuration.output_locking_settings.disabled_locking_settings.custom_epoch #=> String
     #   resp.encoder_settings.motion_graphics_configuration.motion_graphics_insertion #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.nielsen_configuration.distributor_id #=> String
     #   resp.encoder_settings.nielsen_configuration.nielsen_pcm_to_id_3_tagging #=> String, one of "DISABLED", "ENABLED"
@@ -4466,6 +4474,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.min_bitrate #=> Integer
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
+    #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
     #   resp.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.encoder_settings.video_descriptions[0].name #=> String
     #   resp.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -6362,6 +6371,8 @@ module Aws::MediaLive
     #   resp.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.custom_epoch #=> String
     #   resp.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.jam_sync_time #=> String
     #   resp.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.pipeline_locking_method #=> String, one of "SOURCE_TIMECODE", "VIDEO_ALIGNMENT"
+    #   resp.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.custom_epoch #=> String
+    #   resp.encoder_settings.global_configuration.output_locking_settings.disabled_locking_settings.custom_epoch #=> String
     #   resp.encoder_settings.motion_graphics_configuration.motion_graphics_insertion #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.nielsen_configuration.distributor_id #=> String
     #   resp.encoder_settings.nielsen_configuration.nielsen_pcm_to_id_3_tagging #=> String, one of "DISABLED", "ENABLED"
@@ -6896,6 +6907,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.min_bitrate #=> Integer
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
+    #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
     #   resp.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.encoder_settings.video_descriptions[0].name #=> String
     #   resp.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -7364,6 +7376,8 @@ module Aws::MediaLive
     #   resp.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.custom_epoch #=> String
     #   resp.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.jam_sync_time #=> String
     #   resp.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.pipeline_locking_method #=> String, one of "SOURCE_TIMECODE", "VIDEO_ALIGNMENT"
+    #   resp.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.custom_epoch #=> String
+    #   resp.encoder_settings.global_configuration.output_locking_settings.disabled_locking_settings.custom_epoch #=> String
     #   resp.encoder_settings.motion_graphics_configuration.motion_graphics_insertion #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.nielsen_configuration.distributor_id #=> String
     #   resp.encoder_settings.nielsen_configuration.nielsen_pcm_to_id_3_tagging #=> String, one of "DISABLED", "ENABLED"
@@ -7898,6 +7912,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.min_bitrate #=> Integer
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
+    #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
     #   resp.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.encoder_settings.video_descriptions[0].name #=> String
     #   resp.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -8401,6 +8416,8 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.custom_epoch #=> String
     #   resp.channel.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.jam_sync_time #=> String
     #   resp.channel.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.pipeline_locking_method #=> String, one of "SOURCE_TIMECODE", "VIDEO_ALIGNMENT"
+    #   resp.channel.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.custom_epoch #=> String
+    #   resp.channel.encoder_settings.global_configuration.output_locking_settings.disabled_locking_settings.custom_epoch #=> String
     #   resp.channel.encoder_settings.motion_graphics_configuration.motion_graphics_insertion #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.encoder_settings.nielsen_configuration.distributor_id #=> String
     #   resp.channel.encoder_settings.nielsen_configuration.nielsen_pcm_to_id_3_tagging #=> String, one of "DISABLED", "ENABLED"
@@ -8935,6 +8952,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.min_bitrate #=> Integer
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
+    #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
     #   resp.channel.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.channel.encoder_settings.video_descriptions[0].name #=> String
     #   resp.channel.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -9320,6 +9338,8 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.custom_epoch #=> String
     #   resp.channel.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.jam_sync_time #=> String
     #   resp.channel.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.pipeline_locking_method #=> String, one of "SOURCE_TIMECODE", "VIDEO_ALIGNMENT"
+    #   resp.channel.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.custom_epoch #=> String
+    #   resp.channel.encoder_settings.global_configuration.output_locking_settings.disabled_locking_settings.custom_epoch #=> String
     #   resp.channel.encoder_settings.motion_graphics_configuration.motion_graphics_insertion #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.encoder_settings.nielsen_configuration.distributor_id #=> String
     #   resp.channel.encoder_settings.nielsen_configuration.nielsen_pcm_to_id_3_tagging #=> String, one of "DISABLED", "ENABLED"
@@ -9854,6 +9874,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.min_bitrate #=> Integer
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
+    #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
     #   resp.channel.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.channel.encoder_settings.video_descriptions[0].name #=> String
     #   resp.channel.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -10840,6 +10861,8 @@ module Aws::MediaLive
     #   resp.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.custom_epoch #=> String
     #   resp.encoder_settings.global_configuration.output_locking_settings.epoch_locking_settings.jam_sync_time #=> String
     #   resp.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.pipeline_locking_method #=> String, one of "SOURCE_TIMECODE", "VIDEO_ALIGNMENT"
+    #   resp.encoder_settings.global_configuration.output_locking_settings.pipeline_locking_settings.custom_epoch #=> String
+    #   resp.encoder_settings.global_configuration.output_locking_settings.disabled_locking_settings.custom_epoch #=> String
     #   resp.encoder_settings.motion_graphics_configuration.motion_graphics_insertion #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.nielsen_configuration.distributor_id #=> String
     #   resp.encoder_settings.nielsen_configuration.nielsen_pcm_to_id_3_tagging #=> String, one of "DISABLED", "ENABLED"
@@ -11374,6 +11397,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.min_bitrate #=> Integer
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
+    #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
     #   resp.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.encoder_settings.video_descriptions[0].name #=> String
     #   resp.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -14816,7 +14840,7 @@ module Aws::MediaLive
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-medialive'
-      context[:gem_version] = '1.175.0'
+      context[:gem_version] = '1.176.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

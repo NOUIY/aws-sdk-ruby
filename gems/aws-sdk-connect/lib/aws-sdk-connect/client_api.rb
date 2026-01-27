@@ -1764,6 +1764,8 @@ module Aws::Connect
     TargetListType = Shapes::StringShape.new(name: 'TargetListType')
     TargetSlaMinutes = Shapes::IntegerShape.new(name: 'TargetSlaMinutes')
     TaskActionDefinition = Shapes::StructureShape.new(name: 'TaskActionDefinition')
+    TaskAttachment = Shapes::StructureShape.new(name: 'TaskAttachment')
+    TaskAttachments = Shapes::ListShape.new(name: 'TaskAttachments')
     TaskDescriptionExpression = Shapes::StringShape.new(name: 'TaskDescriptionExpression')
     TaskNameExpression = Shapes::StringShape.new(name: 'TaskNameExpression')
     TaskTemplateArn = Shapes::StringShape.new(name: 'TaskTemplateArn')
@@ -7809,6 +7811,7 @@ module Aws::Connect
     StartTaskContactRequest.add_member(:quick_connect_id, Shapes::ShapeRef.new(shape: QuickConnectId, location_name: "QuickConnectId"))
     StartTaskContactRequest.add_member(:related_contact_id, Shapes::ShapeRef.new(shape: ContactId, location_name: "RelatedContactId"))
     StartTaskContactRequest.add_member(:segment_attributes, Shapes::ShapeRef.new(shape: SegmentAttributes, location_name: "SegmentAttributes"))
+    StartTaskContactRequest.add_member(:attachments, Shapes::ShapeRef.new(shape: TaskAttachments, location_name: "Attachments"))
     StartTaskContactRequest.struct_class = Types::StartTaskContactRequest
 
     StartTaskContactResponse.add_member(:contact_id, Shapes::ShapeRef.new(shape: ContactId, location_name: "ContactId"))
@@ -7980,6 +7983,12 @@ module Aws::Connect
     TaskActionDefinition.add_member(:contact_flow_id, Shapes::ShapeRef.new(shape: ContactFlowId, required: true, location_name: "ContactFlowId"))
     TaskActionDefinition.add_member(:references, Shapes::ShapeRef.new(shape: ContactReferences, location_name: "References"))
     TaskActionDefinition.struct_class = Types::TaskActionDefinition
+
+    TaskAttachment.add_member(:file_name, Shapes::ShapeRef.new(shape: FileName, required: true, location_name: "FileName"))
+    TaskAttachment.add_member(:s3_url, Shapes::ShapeRef.new(shape: PreSignedAttachmentUrl, required: true, location_name: "S3Url"))
+    TaskAttachment.struct_class = Types::TaskAttachment
+
+    TaskAttachments.member = Shapes::ShapeRef.new(shape: TaskAttachment)
 
     TaskTemplateConstraints.add_member(:required_fields, Shapes::ShapeRef.new(shape: RequiredTaskTemplateFields, location_name: "RequiredFields"))
     TaskTemplateConstraints.add_member(:read_only_fields, Shapes::ShapeRef.new(shape: ReadOnlyTaskTemplateFields, location_name: "ReadOnlyFields"))

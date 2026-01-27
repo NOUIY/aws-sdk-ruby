@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.44.0 (2026-01-27)
+------------------
+
+* Feature - AWS Deadline Cloud now supports editing job names and descriptions after submission.
+
 1.43.0 (2026-01-16)
 ------------------
 

@@ -5769,7 +5769,13 @@ module Aws
                                       untyped,
                                     ]?,
                                     value_arn: ::String?
-                                  }]
+                                  }],
+                                ?attachments: Array[
+                                  {
+                                    file_name: ::String,
+                                    s3_url: ::String
+                                  },
+                                ]
                               ) -> _StartTaskContactResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartTaskContactResponseSuccess
 
