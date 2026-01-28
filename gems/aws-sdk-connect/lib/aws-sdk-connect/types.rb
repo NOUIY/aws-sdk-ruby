@@ -4548,6 +4548,11 @@ module Aws::Connect
     #   Latest routing criteria on the contact.
     #   @return [Types::RoutingCriteria]
     #
+    # @!attribute [rw] tags
+    #   Tags associated with the contact. This contains both Amazon Web
+    #   Services generated and user-defined tags.
+    #   @return [Hash<String,String>]
+    #
     # @!attribute [rw] global_resiliency_metadata
     #   Additional routing information for contacts created in ACGR
     #   instances.
@@ -4570,6 +4575,7 @@ module Aws::Connect
       :segment_attributes,
       :name,
       :routing_criteria,
+      :tags,
       :global_resiliency_metadata)
       SENSITIVE = [:segment_attributes, :name]
       include Aws::Structure
@@ -27862,6 +27868,18 @@ module Aws::Connect
     #   The list of active regions for contacts in ACGR instances.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] contact_tags
+    #   An object that can be used to specify Tag conditions inside the
+    #   `SearchFilter`. This accepts an `OR` of `AND` (List of List) input
+    #   where:
+    #
+    #   * Top level list specifies conditions that need to be applied with
+    #     `OR` operator
+    #
+    #   * Inner list specifies conditions that need to be applied with `AND`
+    #     operator.
+    #   @return [Types::ControlPlaneTagFilter]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SearchCriteria AWS API Documentation
     #
     class SearchCriteria < Struct.new(
@@ -27876,7 +27894,8 @@ module Aws::Connect
       :additional_time_range,
       :searchable_contact_attributes,
       :searchable_segment_attributes,
-      :active_regions)
+      :active_regions,
+      :contact_tags)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -19086,6 +19086,26 @@ module Aws::Connect
     #         match_type: "MATCH_ALL", # accepts MATCH_ALL, MATCH_ANY, MATCH_EXACT, MATCH_NONE
     #       },
     #       active_regions: ["RegionName"],
+    #       contact_tags: {
+    #         or_conditions: [
+    #           [
+    #             {
+    #               tag_key: "String",
+    #               tag_value: "String",
+    #             },
+    #           ],
+    #         ],
+    #         and_conditions: [
+    #           {
+    #             tag_key: "String",
+    #             tag_value: "String",
+    #           },
+    #         ],
+    #         tag_condition: {
+    #           tag_key: "String",
+    #           tag_value: "String",
+    #         },
+    #       },
     #     },
     #     max_results: 1,
     #     next_token: "LargeNextToken",
@@ -19147,6 +19167,8 @@ module Aws::Connect
     #   resp.contacts[0].routing_criteria.steps[0].status #=> String, one of "ACTIVE", "INACTIVE", "JOINED", "EXPIRED"
     #   resp.contacts[0].routing_criteria.activation_timestamp #=> Time
     #   resp.contacts[0].routing_criteria.index #=> Integer
+    #   resp.contacts[0].tags #=> Hash
+    #   resp.contacts[0].tags["ContactTagKey"] #=> String
     #   resp.contacts[0].global_resiliency_metadata.active_region #=> String
     #   resp.contacts[0].global_resiliency_metadata.origin_region #=> String
     #   resp.contacts[0].global_resiliency_metadata.traffic_distribution_group_id #=> String
@@ -27834,7 +27856,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.238.0'
+      context[:gem_version] = '1.239.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

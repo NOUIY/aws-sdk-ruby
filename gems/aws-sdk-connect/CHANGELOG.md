@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.239.0 (2026-01-28)
+------------------
+
+* Feature - Adds support for filtering search results based on tags assigned to contacts.
+
 1.238.0 (2026-01-27)
 ------------------
 

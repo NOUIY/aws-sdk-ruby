@@ -75247,13 +75247,18 @@ module Aws::EC2
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
     #   @return [Boolean]
     #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SearchTransitGatewayRoutesRequest AWS API Documentation
     #
     class SearchTransitGatewayRoutesRequest < Struct.new(
       :transit_gateway_route_table_id,
       :filters,
       :max_results,
-      :dry_run)
+      :dry_run,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -75266,11 +75271,17 @@ module Aws::EC2
     #   Indicates whether there are additional routes available.
     #   @return [Boolean]
     #
+    # @!attribute [rw] next_token
+    #   The token to use to retrieve the next page of results. This value is
+    #   `null` when there are no more results to return.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SearchTransitGatewayRoutesResult AWS API Documentation
     #
     class SearchTransitGatewayRoutesResult < Struct.new(
       :routes,
-      :additional_routes_available)
+      :additional_routes_available,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end

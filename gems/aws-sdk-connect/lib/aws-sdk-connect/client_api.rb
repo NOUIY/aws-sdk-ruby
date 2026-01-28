@@ -3012,6 +3012,7 @@ module Aws::Connect
     ContactSearchSummary.add_member(:segment_attributes, Shapes::ShapeRef.new(shape: ContactSearchSummarySegmentAttributes, location_name: "SegmentAttributes"))
     ContactSearchSummary.add_member(:name, Shapes::ShapeRef.new(shape: Name, location_name: "Name"))
     ContactSearchSummary.add_member(:routing_criteria, Shapes::ShapeRef.new(shape: RoutingCriteria, location_name: "RoutingCriteria"))
+    ContactSearchSummary.add_member(:tags, Shapes::ShapeRef.new(shape: ContactTagMap, location_name: "Tags"))
     ContactSearchSummary.add_member(:global_resiliency_metadata, Shapes::ShapeRef.new(shape: GlobalResiliencyMetadata, location_name: "GlobalResiliencyMetadata"))
     ContactSearchSummary.struct_class = Types::ContactSearchSummary
 
@@ -7235,6 +7236,7 @@ module Aws::Connect
     SearchCriteria.add_member(:searchable_contact_attributes, Shapes::ShapeRef.new(shape: SearchableContactAttributes, location_name: "SearchableContactAttributes"))
     SearchCriteria.add_member(:searchable_segment_attributes, Shapes::ShapeRef.new(shape: SearchableSegmentAttributes, location_name: "SearchableSegmentAttributes"))
     SearchCriteria.add_member(:active_regions, Shapes::ShapeRef.new(shape: ActiveRegionList, location_name: "ActiveRegions"))
+    SearchCriteria.add_member(:contact_tags, Shapes::ShapeRef.new(shape: ControlPlaneTagFilter, location_name: "ContactTags"))
     SearchCriteria.struct_class = Types::SearchCriteria
 
     SearchDataTablesRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "InstanceId"))

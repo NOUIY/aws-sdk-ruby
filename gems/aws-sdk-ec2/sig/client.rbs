@@ -15230,6 +15230,7 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::SearchTransitGatewayRoutesResult]
         def routes: () -> ::Array[Types::TransitGatewayRoute]
         def additional_routes_available: () -> bool
+        def next_token: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#search_transit_gateway_routes-instance_method
       def search_transit_gateway_routes: (
@@ -15241,7 +15242,8 @@ module Aws
                                              },
                                            ],
                                            ?max_results: ::Integer,
-                                           ?dry_run: bool
+                                           ?dry_run: bool,
+                                           ?next_token: ::String
                                          ) -> _SearchTransitGatewayRoutesResponseSuccess
                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchTransitGatewayRoutesResponseSuccess
 

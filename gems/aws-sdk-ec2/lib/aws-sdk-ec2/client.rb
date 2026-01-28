@@ -69328,10 +69328,16 @@ module Aws::EC2
     #   If you have the required permissions, the error response is
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
     #
+    # @option params [String] :next_token
+    #   The token for the next page of results.
+    #
     # @return [Types::SearchTransitGatewayRoutesResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::SearchTransitGatewayRoutesResult#routes #routes} => Array&lt;Types::TransitGatewayRoute&gt;
     #   * {Types::SearchTransitGatewayRoutesResult#additional_routes_available #additional_routes_available} => Boolean
+    #   * {Types::SearchTransitGatewayRoutesResult#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
@@ -69345,6 +69351,7 @@ module Aws::EC2
     #     ],
     #     max_results: 1,
     #     dry_run: false,
+    #     next_token: "String",
     #   })
     #
     # @example Response structure
@@ -69360,6 +69367,7 @@ module Aws::EC2
     #   resp.routes[0].type #=> String, one of "static", "propagated"
     #   resp.routes[0].state #=> String, one of "pending", "active", "blackhole", "deleting", "deleted"
     #   resp.additional_routes_available #=> Boolean
+    #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SearchTransitGatewayRoutes AWS API Documentation
     #
@@ -71741,7 +71749,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.595.0'
+      context[:gem_version] = '1.596.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

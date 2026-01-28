@@ -4350,7 +4350,27 @@ module Aws
                                  ],
                                  match_type: ("MATCH_ALL" | "MATCH_ANY" | "MATCH_EXACT" | "MATCH_NONE")?
                                }?,
-                               active_regions: Array[::String]?
+                               active_regions: Array[::String]?,
+                               contact_tags: {
+                                 or_conditions: Array[
+                                   Array[
+                                     {
+                                       tag_key: ::String?,
+                                       tag_value: ::String?
+                                     },
+                                   ],
+                                 ]?,
+                                 and_conditions: Array[
+                                   {
+                                     tag_key: ::String?,
+                                     tag_value: ::String?
+                                   },
+                                 ]?,
+                                 tag_condition: {
+                                   tag_key: ::String?,
+                                   tag_value: ::String?
+                                 }?
+                               }?
                              },
                              ?max_results: ::Integer,
                              ?next_token: ::String,

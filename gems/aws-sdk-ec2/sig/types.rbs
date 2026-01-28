@@ -16203,12 +16203,14 @@ module Aws::EC2
       attr_accessor filters: ::Array[Types::Filter]
       attr_accessor max_results: ::Integer
       attr_accessor dry_run: bool
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 
     class SearchTransitGatewayRoutesResult
       attr_accessor routes: ::Array[Types::TransitGatewayRoute]
       attr_accessor additional_routes_available: bool
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 

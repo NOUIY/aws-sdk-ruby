@@ -17001,10 +17001,12 @@ module Aws::EC2
     SearchTransitGatewayRoutesRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, required: true, location_name: "Filter"))
     SearchTransitGatewayRoutesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: TransitGatewayMaxResults, location_name: "MaxResults"))
     SearchTransitGatewayRoutesRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    SearchTransitGatewayRoutesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
     SearchTransitGatewayRoutesRequest.struct_class = Types::SearchTransitGatewayRoutesRequest
 
     SearchTransitGatewayRoutesResult.add_member(:routes, Shapes::ShapeRef.new(shape: TransitGatewayRouteList, location_name: "routeSet"))
     SearchTransitGatewayRoutesResult.add_member(:additional_routes_available, Shapes::ShapeRef.new(shape: Boolean, location_name: "additionalRoutesAvailable"))
+    SearchTransitGatewayRoutesResult.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
     SearchTransitGatewayRoutesResult.struct_class = Types::SearchTransitGatewayRoutesResult
 
     SecurityGroup.add_member(:group_id, Shapes::ShapeRef.new(shape: String, location_name: "groupId"))
@@ -26004,6 +26006,13 @@ module Aws::EC2
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: SearchTransitGatewayRoutesRequest)
         o.output = Shapes::ShapeRef.new(shape: SearchTransitGatewayRoutesResult)
+        o[:pager] = Aws::Pager.new(
+          more_results: "additional_routes_available",
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:send_diagnostic_interrupt, Seahorse::Model::Operation.new.tap do |o|

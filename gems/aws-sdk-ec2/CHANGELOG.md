@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.596.0 (2026-01-28)
+------------------
+
+* Feature - SearchTransitGatewayRoutes API response now includes a NextToken field, enabling pagination when retrieving large sets of transit gateway routes. Pass the returned NextToken value in subsequent requests to retrieve the next page of results.
+
 1.595.0 (2026-01-27)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.126.0 (2026-01-28)
+------------------
+
+* Feature - Adds support for the UpdateObjectEncryption API to change the server-side encryption type of objects in general purpose buckets.
+
 1.125.0 (2026-01-16)
 ------------------
 
