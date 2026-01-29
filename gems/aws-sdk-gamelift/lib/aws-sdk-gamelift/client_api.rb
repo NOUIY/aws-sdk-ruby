@@ -417,6 +417,7 @@ module Aws::GameLift
     LogConfiguration = Shapes::StructureShape.new(name: 'LogConfiguration')
     LogDestination = Shapes::StringShape.new(name: 'LogDestination')
     LogGroupArnStringModel = Shapes::StringShape.new(name: 'LogGroupArnStringModel')
+    ManagedCapacityConfiguration = Shapes::StructureShape.new(name: 'ManagedCapacityConfiguration')
     MatchedPlayerSession = Shapes::StructureShape.new(name: 'MatchedPlayerSession')
     MatchedPlayerSessionList = Shapes::ListShape.new(name: 'MatchedPlayerSessionList')
     MatchmakerData = Shapes::StringShape.new(name: 'MatchmakerData')
@@ -510,6 +511,7 @@ module Aws::GameLift
     RuleSetLimit = Shapes::IntegerShape.new(name: 'RuleSetLimit')
     RuntimeConfiguration = Shapes::StructureShape.new(name: 'RuntimeConfiguration')
     S3Location = Shapes::StructureShape.new(name: 'S3Location')
+    ScaleInAfterInactivityMinutes = Shapes::IntegerShape.new(name: 'ScaleInAfterInactivityMinutes')
     ScalingAdjustmentType = Shapes::StringShape.new(name: 'ScalingAdjustmentType')
     ScalingPolicy = Shapes::StructureShape.new(name: 'ScalingPolicy')
     ScalingPolicyList = Shapes::ListShape.new(name: 'ScalingPolicyList')
@@ -609,6 +611,7 @@ module Aws::GameLift
     VpcSubnets = Shapes::ListShape.new(name: 'VpcSubnets')
     WeightedCapacity = Shapes::StringShape.new(name: 'WeightedCapacity')
     WholeNumber = Shapes::IntegerShape.new(name: 'WholeNumber')
+    ZeroCapacityStrategy = Shapes::StringShape.new(name: 'ZeroCapacityStrategy')
     ZipBlob = Shapes::BlobShape.new(name: 'ZipBlob')
 
     AcceptMatchInput.add_member(:ticket_id, Shapes::ShapeRef.new(shape: MatchmakingIdStringModel, required: true, location_name: "TicketId"))
@@ -1453,6 +1456,7 @@ module Aws::GameLift
     FleetCapacity.add_member(:instance_counts, Shapes::ShapeRef.new(shape: EC2InstanceCounts, location_name: "InstanceCounts"))
     FleetCapacity.add_member(:location, Shapes::ShapeRef.new(shape: LocationStringModel, location_name: "Location"))
     FleetCapacity.add_member(:game_server_container_group_counts, Shapes::ShapeRef.new(shape: GameServerContainerGroupCounts, location_name: "GameServerContainerGroupCounts"))
+    FleetCapacity.add_member(:managed_capacity_configuration, Shapes::ShapeRef.new(shape: ManagedCapacityConfiguration, location_name: "ManagedCapacityConfiguration"))
     FleetCapacity.struct_class = Types::FleetCapacity
 
     FleetCapacityExceededException.add_member(:message, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "Message"))
@@ -1912,6 +1916,10 @@ module Aws::GameLift
     LogConfiguration.add_member(:s3_bucket_name, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "S3BucketName"))
     LogConfiguration.add_member(:log_group_arn, Shapes::ShapeRef.new(shape: LogGroupArnStringModel, location_name: "LogGroupArn"))
     LogConfiguration.struct_class = Types::LogConfiguration
+
+    ManagedCapacityConfiguration.add_member(:zero_capacity_strategy, Shapes::ShapeRef.new(shape: ZeroCapacityStrategy, location_name: "ZeroCapacityStrategy"))
+    ManagedCapacityConfiguration.add_member(:scale_in_after_inactivity_minutes, Shapes::ShapeRef.new(shape: ScaleInAfterInactivityMinutes, location_name: "ScaleInAfterInactivityMinutes"))
+    ManagedCapacityConfiguration.struct_class = Types::ManagedCapacityConfiguration
 
     MatchedPlayerSession.add_member(:player_id, Shapes::ShapeRef.new(shape: PlayerId, location_name: "PlayerId"))
     MatchedPlayerSession.add_member(:player_session_id, Shapes::ShapeRef.new(shape: PlayerSessionId, location_name: "PlayerSessionId"))
@@ -2394,11 +2402,13 @@ module Aws::GameLift
     UpdateFleetCapacityInput.add_member(:min_size, Shapes::ShapeRef.new(shape: WholeNumber, location_name: "MinSize"))
     UpdateFleetCapacityInput.add_member(:max_size, Shapes::ShapeRef.new(shape: WholeNumber, location_name: "MaxSize"))
     UpdateFleetCapacityInput.add_member(:location, Shapes::ShapeRef.new(shape: LocationStringModel, location_name: "Location"))
+    UpdateFleetCapacityInput.add_member(:managed_capacity_configuration, Shapes::ShapeRef.new(shape: ManagedCapacityConfiguration, location_name: "ManagedCapacityConfiguration"))
     UpdateFleetCapacityInput.struct_class = Types::UpdateFleetCapacityInput
 
     UpdateFleetCapacityOutput.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, location_name: "FleetId"))
     UpdateFleetCapacityOutput.add_member(:fleet_arn, Shapes::ShapeRef.new(shape: FleetArn, location_name: "FleetArn"))
     UpdateFleetCapacityOutput.add_member(:location, Shapes::ShapeRef.new(shape: LocationStringModel, location_name: "Location"))
+    UpdateFleetCapacityOutput.add_member(:managed_capacity_configuration, Shapes::ShapeRef.new(shape: ManagedCapacityConfiguration, location_name: "ManagedCapacityConfiguration"))
     UpdateFleetCapacityOutput.struct_class = Types::UpdateFleetCapacityOutput
 
     UpdateFleetPortSettingsInput.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetIdOrArn, required: true, location_name: "FleetId"))

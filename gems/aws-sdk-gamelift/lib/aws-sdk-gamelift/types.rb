@@ -2601,6 +2601,10 @@ module Aws::GameLift
     #   request remains in the queue. When a request exceeds this time, the
     #   game session placement changes to a `TIMED_OUT` status. If you
     #   don't specify a request timeout, the queue uses a default value.
+    #
+    #   <note markdown="1"> The minimum value is 10 and the maximum value is 600.
+    #
+    #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] player_latency_policies
@@ -5797,6 +5801,10 @@ module Aws::GameLift
     #   container fleet.
     #   @return [Types::GameServerContainerGroupCounts]
     #
+    # @!attribute [rw] managed_capacity_configuration
+    #   Configuration settings for managed capacity scaling.
+    #   @return [Types::ManagedCapacityConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/FleetCapacity AWS API Documentation
     #
     class FleetCapacity < Struct.new(
@@ -5805,7 +5813,8 @@ module Aws::GameLift
       :instance_type,
       :instance_counts,
       :location,
-      :game_server_container_group_counts)
+      :game_server_container_group_counts,
+      :managed_capacity_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7139,6 +7148,10 @@ module Aws::GameLift
     #   The maximum time, in seconds, that a new game session placement
     #   request remains in the queue. When a request exceeds this time, the
     #   game session placement changes to a `TIMED_OUT` status.
+    #
+    #   <note markdown="1"> The minimum value is 10 and the maximum value is 600.
+    #
+    #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] player_latency_policies
@@ -8681,6 +8694,59 @@ module Aws::GameLift
       :log_destination,
       :s3_bucket_name,
       :log_group_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Use ManagedCapacityConfiguration with the
+    # "SCALE\_TO\_AND\_FROM\_ZERO" ZeroCapacityStrategy to enable Amazon
+    # GameLift Servers to fully manage the MinSize value, switching between
+    # 0 and 1 based on game session activity. This is ideal for eliminating
+    # compute costs during periods of no game activity. It is particularly
+    # beneficial during development when you're away from your desk,
+    # iterating on builds for extended periods, in production environments
+    # serving low-traffic locations, or for games with long, predictable
+    # downtime windows. By automatically managing capacity between 0 and 1
+    # instances, you avoid paying for idle instances while maintaining the
+    # ability to serve game sessions when demand arrives. Note that while
+    # scale-out is triggered immediately upon receiving a game session
+    # request, actual game session availability depends on your server
+    # process startup time, so this approach works best with multi-location
+    # Fleets where cold-start latency is tolerable. With a "MANUAL"
+    # ZeroCapacityStrategy Amazon GameLift Servers will not modify Fleet
+    # MinSize values automatically and will not scale out from zero
+    # instances in response to game sessions.
+    #
+    # @!attribute [rw] zero_capacity_strategy
+    #   The strategy Amazon GameLift Servers will use to automatically scale
+    #   your capacity to and from zero instances in response to game session
+    #   activity. Game session activity refers to any active running
+    #   sessions or game session requests.
+    #
+    #   Possible ZeroCapacityStrategy types include:
+    #
+    #   * **MANUAL** -- (default value) Amazon GameLift Servers will not
+    #     update capacity to and from zero on your behalf.
+    #
+    #   * **SCALE\_TO\_AND\_FROM\_ZERO** -- Amazon GameLift Servers will
+    #     automatically scale out MinSize and DesiredInstances from 0 to 1
+    #     in response to a game session request, and will scale in MinSize
+    #     and DesiredInstances to 0 after a period with no game session
+    #     activity. The duration of this scale in period can be configured
+    #     using ScaleInAfterInactivityMinutes.
+    #   @return [String]
+    #
+    # @!attribute [rw] scale_in_after_inactivity_minutes
+    #   Length of time, in minutes, that Amazon GameLift Servers will wait
+    #   before scaling in your MinSize and DesiredInstances to 0 after a
+    #   period with no game session activity. Default: 30 minutes.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/ManagedCapacityConfiguration AWS API Documentation
+    #
+    class ManagedCapacityConfiguration < Struct.new(
+      :zero_capacity_strategy,
+      :scale_in_after_inactivity_minutes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11878,7 +11944,10 @@ module Aws::GameLift
     #
     # @!attribute [rw] min_size
     #   The minimum number of instances that are allowed in the specified
-    #   fleet location. If this parameter is not set, the default is 0.
+    #   fleet location. If this parameter is not set, the default is 0. This
+    #   parameter cannot be set when using a ManagedCapacityConfiguration
+    #   where ZeroCapacityStrategy has a value of
+    #   SCALE\_TO\_AND\_FROM\_ZERO.
     #   @return [Integer]
     #
     # @!attribute [rw] max_size
@@ -11892,6 +11961,11 @@ module Aws::GameLift
     #   `us-west-2`.
     #   @return [String]
     #
+    # @!attribute [rw] managed_capacity_configuration
+    #   Configuration for Amazon GameLift Servers-managed capacity scaling
+    #   options.
+    #   @return [Types::ManagedCapacityConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/UpdateFleetCapacityInput AWS API Documentation
     #
     class UpdateFleetCapacityInput < Struct.new(
@@ -11899,7 +11973,8 @@ module Aws::GameLift
       :desired_instances,
       :min_size,
       :max_size,
-      :location)
+      :location,
+      :managed_capacity_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11924,12 +11999,18 @@ module Aws::GameLift
     #   Services Region code, such as `us-west-2`.
     #   @return [String]
     #
+    # @!attribute [rw] managed_capacity_configuration
+    #   Configuration for Amazon GameLift Servers-managed capacity scaling
+    #   options.
+    #   @return [Types::ManagedCapacityConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/UpdateFleetCapacityOutput AWS API Documentation
     #
     class UpdateFleetCapacityOutput < Struct.new(
       :fleet_id,
       :fleet_arn,
-      :location)
+      :location,
+      :managed_capacity_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -12213,6 +12294,10 @@ module Aws::GameLift
     #   The maximum time, in seconds, that a new game session placement
     #   request remains in the queue. When a request exceeds this time, the
     #   game session placement changes to a `TIMED_OUT` status.
+    #
+    #   <note markdown="1"> The minimum value is 10 and the maximum value is 600.
+    #
+    #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] player_latency_policies

@@ -1117,6 +1117,7 @@ module Aws::GameLift
       attr_accessor instance_counts: Types::EC2InstanceCounts
       attr_accessor location: ::String
       attr_accessor game_server_container_group_counts: Types::GameServerContainerGroupCounts
+      attr_accessor managed_capacity_configuration: Types::ManagedCapacityConfiguration
       SENSITIVE: []
     end
 
@@ -1659,6 +1660,12 @@ module Aws::GameLift
       attr_accessor log_destination: ("NONE" | "CLOUDWATCH" | "S3")
       attr_accessor s3_bucket_name: ::String
       attr_accessor log_group_arn: ::String
+      SENSITIVE: []
+    end
+
+    class ManagedCapacityConfiguration
+      attr_accessor zero_capacity_strategy: ("MANUAL" | "SCALE_TO_AND_FROM_ZERO")
+      attr_accessor scale_in_after_inactivity_minutes: ::Integer
       SENSITIVE: []
     end
 
@@ -2236,6 +2243,7 @@ module Aws::GameLift
       attr_accessor min_size: ::Integer
       attr_accessor max_size: ::Integer
       attr_accessor location: ::String
+      attr_accessor managed_capacity_configuration: Types::ManagedCapacityConfiguration
       SENSITIVE: []
     end
 
@@ -2243,6 +2251,7 @@ module Aws::GameLift
       attr_accessor fleet_id: ::String
       attr_accessor fleet_arn: ::String
       attr_accessor location: ::String
+      attr_accessor managed_capacity_configuration: Types::ManagedCapacityConfiguration
       SENSITIVE: []
     end
 
