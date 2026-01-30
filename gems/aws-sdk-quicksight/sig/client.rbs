@@ -117489,10 +117489,10 @@ module Aws
                                                           state_persistence: {
                                                             enabled: bool
                                                           }?,
-                                                          shared_view: {
+                                                          bookmarks: {
                                                             enabled: bool
                                                           }?,
-                                                          bookmarks: {
+                                                          shared_view: {
                                                             enabled: bool
                                                           }?,
                                                           amazon_q_in_quick_sight: {
@@ -117582,10 +117582,10 @@ module Aws
                                                                         state_persistence: {
                                                                           enabled: bool
                                                                         }?,
-                                                                        shared_view: {
+                                                                        bookmarks: {
                                                                           enabled: bool
                                                                         }?,
-                                                                        bookmarks: {
+                                                                        shared_view: {
                                                                           enabled: bool
                                                                         }?,
                                                                         amazon_q_in_quick_sight: {

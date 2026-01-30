@@ -10375,28 +10375,32 @@ module Aws::Connect
       req.send_request(options)
     end
 
-    # Retrieves the position of the contact in the queue.
+    # Retrieves contact metric data for a specified contact.
     #
     # **Use cases**
     #
-    # Following are common uses cases for position in queue:
+    # Following are common use cases for position in queue and estimated
+    # wait time:
     #
-    # * Understand the expected wait experience of a contact.
+    # * Customer-Facing Wait Time Announcements - Display or announce the
+    #   estimated wait time and position in queue to customers before or
+    #   during their queue experience.
     #
-    # * Inform customers of their position in queue and potentially offer a
-    #   callback.
+    # * Callback Offerings - Offer customers a callback option when the
+    #   estimated wait time or position in queue exceeds a defined
+    #   threshold.
     #
-    # * Make data-driven routing decisions between primary and alternative
-    #   queues.
+    # * Queue Routing Decisions - Route incoming contacts to less congested
+    #   queues by comparing estimated wait time and position in queue across
+    #   multiple queues.
     #
-    # * Enhance queue visibility and leverage agent proficiencies to
-    #   streamline contact routing.
+    # * Self-Service Deflection - Redirect customers to self-service options
+    #   like chatbots or FAQs when estimated wait time is high or position
+    #   in queue is unfavorable.
     #
     # **Important things to know**
     #
-    # * The only way to retrieve the position of the contact in queue is by
-    #   using this API. You can't retrieve the position by using flows and
-    #   attributes.
+    # * Metrics are only available while the contact is actively in queue.
     #
     # * For more information, see the [Position in queue][1] metric in the
     #   *Amazon Connect Administrator Guide*.
@@ -10420,7 +10424,10 @@ module Aws::Connect
     #   The identifier of the contact in this instance of Amazon Connect.
     #
     # @option params [required, Array<Types::ContactMetricInfo>] :metrics
-    #   A list of contact-level metrics to retrieve.
+    #   A list of contact level metrics to retrieve.Supported metrics include
+    #   POSITION\_IN\_QUEUE (the contact's current position in the queue) and
+    #   ESTIMATED\_WAIT\_TIME (the predicted time in seconds until the contact
+    #   is connected to an agent)
     #
     # @return [Types::GetContactMetricsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -10435,7 +10442,7 @@ module Aws::Connect
     #     contact_id: "InstanceIdOrArn", # required
     #     metrics: [ # required
     #       {
-    #         name: "POSITION_IN_QUEUE", # required, accepts POSITION_IN_QUEUE
+    #         name: "ESTIMATED_WAIT_TIME", # required, accepts ESTIMATED_WAIT_TIME, POSITION_IN_QUEUE
     #       },
     #     ],
     #   })
@@ -10443,7 +10450,7 @@ module Aws::Connect
     # @example Response structure
     #
     #   resp.metric_results #=> Array
-    #   resp.metric_results[0].name #=> String, one of "POSITION_IN_QUEUE"
+    #   resp.metric_results[0].name #=> String, one of "ESTIMATED_WAIT_TIME", "POSITION_IN_QUEUE"
     #   resp.metric_results[0].value.number #=> Float
     #   resp.id #=> String
     #   resp.arn #=> String
@@ -10645,6 +10652,20 @@ module Aws::Connect
     #
     #     Name in real-time metrics report: [Scheduled][10]
     #
+    #   ESTIMATED\_WAIT\_TIME
+    #
+    #   : Unit: SECONDS
+    #
+    #     This metric supports filter and grouping combination only used for
+    #     core routing purpose. Valid filter and grouping use cases:
+    #
+    #     * Filter by a list of \[Queues\] and a list of \[Channels\], group
+    #       by \[“QUEUE”, “CHANNEL”\]
+    #
+    #     * Filter by a singleton list of \[Queue\], a singleton list of
+    #       \[Channel\], a list of \[RoutingStepExpression\], group by
+    #       \[“ROUTING\_STEP\_EXPRESSION”\].
+    #
     #   OLDEST\_CONTACT\_AGE
     #
     #   : Unit: SECONDS
@@ -10746,7 +10767,7 @@ module Aws::Connect
     #     groupings: ["QUEUE"], # accepts QUEUE, CHANNEL, ROUTING_PROFILE, ROUTING_STEP_EXPRESSION, AGENT_STATUS, SUBTYPE, VALIDATION_TEST_TYPE
     #     current_metrics: [ # required
     #       {
-    #         name: "AGENTS_ONLINE", # accepts AGENTS_ONLINE, AGENTS_AVAILABLE, AGENTS_ON_CALL, AGENTS_NON_PRODUCTIVE, AGENTS_AFTER_CONTACT_WORK, AGENTS_ERROR, AGENTS_STAFFED, CONTACTS_IN_QUEUE, OLDEST_CONTACT_AGE, CONTACTS_SCHEDULED, AGENTS_ON_CONTACT, SLOTS_ACTIVE, SLOTS_AVAILABLE
+    #         name: "AGENTS_ONLINE", # accepts AGENTS_ONLINE, AGENTS_AVAILABLE, AGENTS_ON_CALL, AGENTS_NON_PRODUCTIVE, AGENTS_AFTER_CONTACT_WORK, AGENTS_ERROR, AGENTS_STAFFED, CONTACTS_IN_QUEUE, OLDEST_CONTACT_AGE, CONTACTS_SCHEDULED, AGENTS_ON_CONTACT, SLOTS_ACTIVE, SLOTS_AVAILABLE, ESTIMATED_WAIT_TIME
     #         metric_id: "CurrentMetricId",
     #         unit: "SECONDS", # accepts SECONDS, COUNT, PERCENT
     #       },
@@ -10755,7 +10776,7 @@ module Aws::Connect
     #     max_results: 1,
     #     sort_criteria: [
     #       {
-    #         sort_by_metric: "AGENTS_ONLINE", # accepts AGENTS_ONLINE, AGENTS_AVAILABLE, AGENTS_ON_CALL, AGENTS_NON_PRODUCTIVE, AGENTS_AFTER_CONTACT_WORK, AGENTS_ERROR, AGENTS_STAFFED, CONTACTS_IN_QUEUE, OLDEST_CONTACT_AGE, CONTACTS_SCHEDULED, AGENTS_ON_CONTACT, SLOTS_ACTIVE, SLOTS_AVAILABLE
+    #         sort_by_metric: "AGENTS_ONLINE", # accepts AGENTS_ONLINE, AGENTS_AVAILABLE, AGENTS_ON_CALL, AGENTS_NON_PRODUCTIVE, AGENTS_AFTER_CONTACT_WORK, AGENTS_ERROR, AGENTS_STAFFED, CONTACTS_IN_QUEUE, OLDEST_CONTACT_AGE, CONTACTS_SCHEDULED, AGENTS_ON_CONTACT, SLOTS_ACTIVE, SLOTS_AVAILABLE, ESTIMATED_WAIT_TIME
     #         sort_order: "ASCENDING", # accepts ASCENDING, DESCENDING
     #       },
     #     ],
@@ -10776,7 +10797,7 @@ module Aws::Connect
     #   resp.metric_results[0].dimensions.subtype #=> String
     #   resp.metric_results[0].dimensions.validation_test_type #=> String
     #   resp.metric_results[0].collections #=> Array
-    #   resp.metric_results[0].collections[0].metric.name #=> String, one of "AGENTS_ONLINE", "AGENTS_AVAILABLE", "AGENTS_ON_CALL", "AGENTS_NON_PRODUCTIVE", "AGENTS_AFTER_CONTACT_WORK", "AGENTS_ERROR", "AGENTS_STAFFED", "CONTACTS_IN_QUEUE", "OLDEST_CONTACT_AGE", "CONTACTS_SCHEDULED", "AGENTS_ON_CONTACT", "SLOTS_ACTIVE", "SLOTS_AVAILABLE"
+    #   resp.metric_results[0].collections[0].metric.name #=> String, one of "AGENTS_ONLINE", "AGENTS_AVAILABLE", "AGENTS_ON_CALL", "AGENTS_NON_PRODUCTIVE", "AGENTS_AFTER_CONTACT_WORK", "AGENTS_ERROR", "AGENTS_STAFFED", "CONTACTS_IN_QUEUE", "OLDEST_CONTACT_AGE", "CONTACTS_SCHEDULED", "AGENTS_ON_CONTACT", "SLOTS_ACTIVE", "SLOTS_AVAILABLE", "ESTIMATED_WAIT_TIME"
     #   resp.metric_results[0].collections[0].metric.metric_id #=> String
     #   resp.metric_results[0].collections[0].metric.unit #=> String, one of "SECONDS", "COUNT", "PERCENT"
     #   resp.metric_results[0].collections[0].value #=> Float
@@ -27856,7 +27877,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.239.0'
+      context[:gem_version] = '1.240.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

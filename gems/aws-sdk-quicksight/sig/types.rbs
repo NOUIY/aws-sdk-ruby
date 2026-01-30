@@ -8390,8 +8390,8 @@ module Aws::QuickSight
 
     class RegisteredUserDashboardFeatureConfigurations
       attr_accessor state_persistence: Types::StatePersistenceConfigurations
-      attr_accessor shared_view: Types::SharedViewConfigurations
       attr_accessor bookmarks: Types::BookmarksConfigurations
+      attr_accessor shared_view: Types::SharedViewConfigurations
       attr_accessor amazon_q_in_quick_sight: Types::AmazonQInQuickSightDashboardConfigurations
       attr_accessor schedules: Types::SchedulesConfigurations
       attr_accessor recent_snapshots: Types::RecentSnapshotsConfigurations

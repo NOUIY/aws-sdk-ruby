@@ -4409,10 +4409,15 @@ module Aws::Connect
       include Aws::Structure
     end
 
-    # The object that contains information about metric being requested.
+    # Contains the details of a metric to be retrieved for a contact. Use
+    # this object to specify which contact level metrics you want to include
+    # in your GetContactMetrics request.
     #
     # @!attribute [rw] name
-    #   The name of the metric being retrieved in type String.
+    #   The name of the metric to retrieve. Supported values are
+    #   POSITION\_IN\_QUEUE (returns the contact's current position in the
+    #   queue) and ESTIMATED\_WAIT\_TIME (returns the predicted wait time in
+    #   seconds).
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ContactMetricInfo AWS API Documentation
@@ -4423,14 +4428,20 @@ module Aws::Connect
       include Aws::Structure
     end
 
-    # Object containing information about metric requested for the contact.
+    # Contains the result of a requested metric for the contact. This object
+    # is returned as part of the GetContactMetrics response and includes
+    # both the metric name and its calculated value.
     #
     # @!attribute [rw] name
-    #   The name of the metric being retrieved in type String.
+    #   The name of the metric that was retrieved. This corresponds to the
+    #   metric name specified in the request, such as POSITION\_IN\_QUEUE or
+    #   ESTIMATED\_WAIT\_TIME.
     #   @return [String]
     #
     # @!attribute [rw] value
-    #   Object result associated with the metric received.
+    #   The calculated value for the requested metric. This object contains
+    #   the numeric result based on the contact's current state in the
+    #   queue.
     #   @return [Types::ContactMetricValue]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ContactMetricResult AWS API Documentation
@@ -4442,13 +4453,16 @@ module Aws::Connect
       include Aws::Structure
     end
 
-    # Object which contains the number.
+    # Contains the numeric value of a contact metric result.
     #
     # @note ContactMetricValue is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of ContactMetricValue corresponding to the set member.
     #
     # @!attribute [rw] number
-    #   The number of type Double. This number is the contact's position in
-    #   queue.
+    #   The numeric value of the metric result. For POSITION\_IN\_QUEUE,
+    #   this represents the contact's current position in the queue (e.g.,
+    #   3.00 means third in line). For ESTIMATED\_WAIT\_TIME, this
+    #   represents the predicted wait time in seconds (e.g., 120.00 means
+    #   approximately 2 minutes).
     #   @return [Float]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ContactMetricValue AWS API Documentation
@@ -14340,7 +14354,10 @@ module Aws::Connect
     #   @return [String]
     #
     # @!attribute [rw] metrics
-    #   A list of contact-level metrics to retrieve.
+    #   A list of contact level metrics to retrieve.Supported metrics
+    #   include POSITION\_IN\_QUEUE (the contact's current position in the
+    #   queue) and ESTIMATED\_WAIT\_TIME (the predicted time in seconds
+    #   until the contact is connected to an agent)
     #   @return [Array<Types::ContactMetricInfo>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/GetContactMetricsRequest AWS API Documentation
@@ -14356,12 +14373,14 @@ module Aws::Connect
     # @!attribute [rw] metric_results
     #   A list of metric results containing the calculated values for each
     #   requested metric. Each result includes the metric name and its
-    #   corresponding calculated value.
+    #   corresponding value. For example, POSITION\_IN\_QUEUE returns a
+    #   numeric value representing the contact's position in queue, and
+    #   ESTIMATED\_WAIT\_TIME returns the predicted wait time in seconds.
     #   @return [Array<Types::ContactMetricResult>]
     #
     # @!attribute [rw] id
     #   The unique identifier of the contact for which metrics were
-    #   retrieved.
+    #   retrieved. This matches the ContactId provided in the request.
     #   @return [String]
     #
     # @!attribute [rw] arn
@@ -14531,6 +14550,20 @@ module Aws::Connect
     #   : Unit: COUNT
     #
     #     Name in real-time metrics report: [Scheduled][10]
+    #
+    #   ESTIMATED\_WAIT\_TIME
+    #
+    #   : Unit: SECONDS
+    #
+    #     This metric supports filter and grouping combination only used for
+    #     core routing purpose. Valid filter and grouping use cases:
+    #
+    #     * Filter by a list of \[Queues\] and a list of \[Channels\], group
+    #       by \[“QUEUE”, “CHANNEL”\]
+    #
+    #     * Filter by a singleton list of \[Queue\], a singleton list of
+    #       \[Channel\], a list of \[RoutingStepExpression\], group by
+    #       \[“ROUTING\_STEP\_EXPRESSION”\].
     #
     #   OLDEST\_CONTACT\_AGE
     #

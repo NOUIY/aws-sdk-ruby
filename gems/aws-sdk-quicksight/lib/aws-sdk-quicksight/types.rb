@@ -20838,14 +20838,24 @@ module Aws::QuickSight
     #   @return [String]
     #
     # @!attribute [rw] session_tags
-    #   The session tags used for row-level security. Before you use this
-    #   parameter, make sure that you have configured the relevant datasets
-    #   using the `DataSet$RowLevelPermissionTagConfiguration` parameter so
-    #   that session tags can be used to provide row-level security.
+    #   Session tags are user-specified strings that identify a session in
+    #   your application. You can use these tags to implement row-level
+    #   security (RLS) controls. Before you use the `SessionTags` parameter,
+    #   make sure that you have configured the relevant datasets using the
+    #   `DataSet$RowLevelPermissionTagConfiguration` parameter so that
+    #   session tags can be used to provide row-level security.
     #
-    #   These are not the tags used for the Amazon Web Services resource
-    #   tagging feature. For more information, see [Using Row-Level Security
-    #   (RLS) with Tags][1]in the *Amazon Quick Sight User Guide*.
+    #   When using session tags, you must call
+    #   `GenerateEmbedUrlForAnonymousUser` from a secure, trusted
+    #   environment. The API call passes session tags that enable
+    #   server-side data redaction by using the row-level security (RLS)
+    #   rules configured in your datasets. A secure, trusted environment has
+    #   access controls that you implement. These controls ensure that only
+    #   your server or authorized users can add or modify session tags.
+    #
+    #   Besides, these are not the tags used for the Amazon Web Services
+    #   resource tagging feature. For more information, see [Using Row-Level
+    #   Security (RLS) with Tags][1] in the *Amazon Quick Suite User Guide*.
     #
     #
     #
@@ -32426,14 +32436,14 @@ module Aws::QuickSight
     #   The state persistence settings of an embedded dashboard.
     #   @return [Types::StatePersistenceConfigurations]
     #
-    # @!attribute [rw] shared_view
-    #   The shared view settings of an embedded dashboard.
-    #   @return [Types::SharedViewConfigurations]
-    #
     # @!attribute [rw] bookmarks
     #   The bookmarks configuration for an embedded dashboard in Amazon
     #   Quick Sight.
     #   @return [Types::BookmarksConfigurations]
+    #
+    # @!attribute [rw] shared_view
+    #   The shared view settings of an embedded dashboard.
+    #   @return [Types::SharedViewConfigurations]
     #
     # @!attribute [rw] amazon_q_in_quick_sight
     #   The Amazon Q configurations of an embedded Amazon Quick Sight
@@ -32458,8 +32468,8 @@ module Aws::QuickSight
     #
     class RegisteredUserDashboardFeatureConfigurations < Struct.new(
       :state_persistence,
-      :shared_view,
       :bookmarks,
+      :shared_view,
       :amazon_q_in_quick_sight,
       :schedules,
       :recent_snapshots,

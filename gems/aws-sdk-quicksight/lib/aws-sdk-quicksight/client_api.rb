@@ -9106,8 +9106,8 @@ module Aws::QuickSight
     RegisteredUserDashboardEmbeddingConfiguration.struct_class = Types::RegisteredUserDashboardEmbeddingConfiguration
 
     RegisteredUserDashboardFeatureConfigurations.add_member(:state_persistence, Shapes::ShapeRef.new(shape: StatePersistenceConfigurations, location_name: "StatePersistence"))
-    RegisteredUserDashboardFeatureConfigurations.add_member(:shared_view, Shapes::ShapeRef.new(shape: SharedViewConfigurations, location_name: "SharedView"))
     RegisteredUserDashboardFeatureConfigurations.add_member(:bookmarks, Shapes::ShapeRef.new(shape: BookmarksConfigurations, location_name: "Bookmarks"))
+    RegisteredUserDashboardFeatureConfigurations.add_member(:shared_view, Shapes::ShapeRef.new(shape: SharedViewConfigurations, location_name: "SharedView"))
     RegisteredUserDashboardFeatureConfigurations.add_member(:amazon_q_in_quick_sight, Shapes::ShapeRef.new(shape: AmazonQInQuickSightDashboardConfigurations, location_name: "AmazonQInQuickSight"))
     RegisteredUserDashboardFeatureConfigurations.add_member(:schedules, Shapes::ShapeRef.new(shape: SchedulesConfigurations, location_name: "Schedules"))
     RegisteredUserDashboardFeatureConfigurations.add_member(:recent_snapshots, Shapes::ShapeRef.new(shape: RecentSnapshotsConfigurations, location_name: "RecentSnapshots"))

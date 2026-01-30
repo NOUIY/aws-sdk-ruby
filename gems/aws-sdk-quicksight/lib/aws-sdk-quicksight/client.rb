@@ -11132,14 +11132,24 @@ module Aws::QuickSight
     #   namespace, set this to `default`.
     #
     # @option params [Array<Types::SessionTag>] :session_tags
-    #   The session tags used for row-level security. Before you use this
-    #   parameter, make sure that you have configured the relevant datasets
-    #   using the `DataSet$RowLevelPermissionTagConfiguration` parameter so
-    #   that session tags can be used to provide row-level security.
+    #   Session tags are user-specified strings that identify a session in
+    #   your application. You can use these tags to implement row-level
+    #   security (RLS) controls. Before you use the `SessionTags` parameter,
+    #   make sure that you have configured the relevant datasets using the
+    #   `DataSet$RowLevelPermissionTagConfiguration` parameter so that session
+    #   tags can be used to provide row-level security.
     #
-    #   These are not the tags used for the Amazon Web Services resource
-    #   tagging feature. For more information, see [Using Row-Level Security
-    #   (RLS) with Tags][1]in the *Amazon Quick Sight User Guide*.
+    #   When using session tags, you must call
+    #   `GenerateEmbedUrlForAnonymousUser` from a secure, trusted environment.
+    #   The API call passes session tags that enable server-side data
+    #   redaction by using the row-level security (RLS) rules configured in
+    #   your datasets. A secure, trusted environment has access controls that
+    #   you implement. These controls ensure that only your server or
+    #   authorized users can add or modify session tags.
+    #
+    #   Besides, these are not the tags used for the Amazon Web Services
+    #   resource tagging feature. For more information, see [Using Row-Level
+    #   Security (RLS) with Tags][1] in the *Amazon Quick Suite User Guide*.
     #
     #
     #
@@ -11319,10 +11329,10 @@ module Aws::QuickSight
     #           state_persistence: {
     #             enabled: false, # required
     #           },
-    #           shared_view: {
+    #           bookmarks: {
     #             enabled: false, # required
     #           },
-    #           bookmarks: {
+    #           shared_view: {
     #             enabled: false, # required
     #           },
     #           amazon_q_in_quick_sight: {
@@ -11467,10 +11477,10 @@ module Aws::QuickSight
     #           state_persistence: {
     #             enabled: false, # required
     #           },
-    #           shared_view: {
+    #           bookmarks: {
     #             enabled: false, # required
     #           },
-    #           bookmarks: {
+    #           shared_view: {
     #             enabled: false, # required
     #           },
     #           amazon_q_in_quick_sight: {
@@ -11808,6 +11818,24 @@ module Aws::QuickSight
     # Web Services Identity Center, see [Identity Center documentation on
     # identity-enhanced IAM role sessions][4].
     #
+    # **Supported Regions**
+    #
+    # The GetIdentityContext API works only in regions that support at least
+    # one of these identity types:
+    #
+    # * Amazon Quick Sight native identity
+    #
+    # * IAM federated identity
+    #
+    # * Active Directory
+    #
+    # To use this API successfully, call it in the same region where your
+    # user's identity resides. For example, if your user's identity is in
+    # us-east-1, make the API call in us-east-1. For more information about
+    # managing identities in Amazon Quick Sight, see [Identity and access
+    # management in Amazon Quick Sight][5] in the Amazon Quick Sight User
+    # Guide.
+    #
     # **Getting Identity-Enhanced Credentials**
     #
     # To obtain identity-enhanced credentials, follow these steps:
@@ -11815,7 +11843,7 @@ module Aws::QuickSight
     # * Call the GetIdentityContext API to retrieve an identity token for
     #   the specified user.
     #
-    # * Use the identity token with the [STS AssumeRole API][5] to obtain
+    # * Use the identity token with the [STS AssumeRole API][6] to obtain
     #   identity-enhanced IAM role session credentials.
     #
     # **Usage with STS AssumeRole**
@@ -11838,7 +11866,8 @@ module Aws::QuickSight
     # [2]: https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeDashboardSnapshotJob.html
     # [3]: https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeDashboardSnapshotJobResult.html
     # [4]: https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-identity-enhanced-iam-role-sessions.html
-    # [5]: https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html
+    # [5]: https://docs.aws.amazon.com/quicksight/latest/userguide/identity.html
+    # [6]: https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html
     #
     # @option params [required, String] :aws_account_id
     #   The ID for the Amazon Web Services account that the user whose
@@ -21824,7 +21853,7 @@ module Aws::QuickSight
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.171.0'
+      context[:gem_version] = '1.172.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

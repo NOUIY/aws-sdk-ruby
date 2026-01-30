@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.172.0 (2026-01-30)
+------------------
+
+* Feature - Improve SessionTag usage guidelines in the GenerateEmbedURLForAnonymousUser API documentation. Update the GetIdentityContext document with the region support context.
+
 1.171.0 (2026-01-21)
 ------------------
 

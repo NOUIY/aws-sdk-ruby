@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.240.0 (2026-01-30)
+------------------
+
+* Feature - This release adds Estimated Wait Time support to the GetContactMetrics API for Amazon Connect.
+
 1.239.0 (2026-01-28)
 ------------------
 
