@@ -934,6 +934,7 @@ module Aws::BedrockAgentCoreControl
     CreateEvaluatorRequest.add_member(:description, Shapes::ShapeRef.new(shape: EvaluatorDescription, location_name: "description"))
     CreateEvaluatorRequest.add_member(:evaluator_config, Shapes::ShapeRef.new(shape: EvaluatorConfig, required: true, location_name: "evaluatorConfig"))
     CreateEvaluatorRequest.add_member(:level, Shapes::ShapeRef.new(shape: EvaluatorLevel, required: true, location_name: "level"))
+    CreateEvaluatorRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     CreateEvaluatorRequest.struct_class = Types::CreateEvaluatorRequest
 
     CreateEvaluatorResponse.add_member(:evaluator_arn, Shapes::ShapeRef.new(shape: CustomEvaluatorArn, required: true, location_name: "evaluatorArn"))
@@ -1035,6 +1036,7 @@ module Aws::BedrockAgentCoreControl
     CreateOnlineEvaluationConfigRequest.add_member(:evaluators, Shapes::ShapeRef.new(shape: EvaluatorList, required: true, location_name: "evaluators"))
     CreateOnlineEvaluationConfigRequest.add_member(:evaluation_execution_role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "evaluationExecutionRoleArn"))
     CreateOnlineEvaluationConfigRequest.add_member(:enable_on_create, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "enableOnCreate"))
+    CreateOnlineEvaluationConfigRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     CreateOnlineEvaluationConfigRequest.struct_class = Types::CreateOnlineEvaluationConfigRequest
 
     CreateOnlineEvaluationConfigResponse.add_member(:online_evaluation_config_arn, Shapes::ShapeRef.new(shape: OnlineEvaluationConfigArn, required: true, location_name: "onlineEvaluationConfigArn"))

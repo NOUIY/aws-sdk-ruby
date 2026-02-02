@@ -1357,6 +1357,12 @@ module Aws::BedrockAgentCoreControl
     #   conversation sessions.
     #   @return [String]
     #
+    # @!attribute [rw] tags
+    #   A map of tag keys and values to assign to an AgentCore Evaluator.
+    #   Tags enable you to categorize your resources in different ways, for
+    #   example, by purpose, owner, or environment.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateEvaluatorRequest AWS API Documentation
     #
     class CreateEvaluatorRequest < Struct.new(
@@ -1364,7 +1370,8 @@ module Aws::BedrockAgentCoreControl
       :evaluator_name,
       :description,
       :evaluator_config,
-      :level)
+      :level,
+      :tags)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -1936,6 +1943,12 @@ module Aws::BedrockAgentCoreControl
     #   upon creation. If true, evaluation begins automatically.
     #   @return [Boolean]
     #
+    # @!attribute [rw] tags
+    #   A map of tag keys and values to assign to an AgentCore Online
+    #   Evaluation Config. Tags enable you to categorize your resources in
+    #   different ways, for example, by purpose, owner, or environment.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateOnlineEvaluationConfigRequest AWS API Documentation
     #
     class CreateOnlineEvaluationConfigRequest < Struct.new(
@@ -1946,7 +1959,8 @@ module Aws::BedrockAgentCoreControl
       :data_source_config,
       :evaluators,
       :evaluation_execution_role_arn,
-      :enable_on_create)
+      :enable_on_create,
+      :tags)
       SENSITIVE = [:description]
       include Aws::Structure
     end

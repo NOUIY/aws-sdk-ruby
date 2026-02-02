@@ -935,6 +935,11 @@ module Aws::BedrockAgentCoreControl
     #   single request-response interactions, or `SESSION` for entire
     #   conversation sessions.
     #
+    # @option params [Hash<String,String>] :tags
+    #   A map of tag keys and values to assign to an AgentCore Evaluator. Tags
+    #   enable you to categorize your resources in different ways, for
+    #   example, by purpose, owner, or environment.
+    #
     # @return [Types::CreateEvaluatorResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateEvaluatorResponse#evaluator_arn #evaluator_arn} => String
@@ -982,6 +987,9 @@ module Aws::BedrockAgentCoreControl
     #       },
     #     },
     #     level: "TOOL_CALL", # required, accepts TOOL_CALL, TRACE, SESSION
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
     #   })
     #
     # @example Response structure
@@ -1915,6 +1923,11 @@ module Aws::BedrockAgentCoreControl
     #   Whether to enable the online evaluation configuration immediately upon
     #   creation. If true, evaluation begins automatically.
     #
+    # @option params [Hash<String,String>] :tags
+    #   A map of tag keys and values to assign to an AgentCore Online
+    #   Evaluation Config. Tags enable you to categorize your resources in
+    #   different ways, for example, by purpose, owner, or environment.
+    #
     # @return [Types::CreateOnlineEvaluationConfigResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateOnlineEvaluationConfigResponse#online_evaluation_config_arn #online_evaluation_config_arn} => String
@@ -1963,6 +1976,9 @@ module Aws::BedrockAgentCoreControl
     #     ],
     #     evaluation_execution_role_arn: "RoleArn", # required
     #     enable_on_create: false, # required
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
     #   })
     #
     # @example Response structure
@@ -6632,7 +6648,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.22.0'
+      context[:gem_version] = '1.23.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

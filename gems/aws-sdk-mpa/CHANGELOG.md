@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.12.0 (2026-02-02)
+------------------
+
+* Feature - Updates to multi-party approval (MPA) service to add support for multi-factor authentication (MFA) for voting operations.
+
 1.11.0 (2026-01-16)
 ------------------
 

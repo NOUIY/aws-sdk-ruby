@@ -291,7 +291,8 @@ module Aws
                                   }
                                 }?
                               },
-                              level: ("TOOL_CALL" | "TRACE" | "SESSION")
+                              level: ("TOOL_CALL" | "TRACE" | "SESSION"),
+                              ?tags: Hash[::String, ::String]
                             ) -> _CreateEvaluatorResponseSuccess
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateEvaluatorResponseSuccess
 
@@ -720,7 +721,8 @@ module Aws
                                                },
                                              ],
                                              evaluation_execution_role_arn: ::String,
-                                             enable_on_create: bool
+                                             enable_on_create: bool,
+                                             ?tags: Hash[::String, ::String]
                                            ) -> _CreateOnlineEvaluationConfigResponseSuccess
                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateOnlineEvaluationConfigResponseSuccess
 

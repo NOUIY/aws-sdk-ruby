@@ -385,6 +385,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor description: ::String
       attr_accessor evaluator_config: Types::EvaluatorConfig
       attr_accessor level: ("TOOL_CALL" | "TRACE" | "SESSION")
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:description]
     end
 
@@ -506,6 +507,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor evaluators: ::Array[Types::EvaluatorReference]
       attr_accessor evaluation_execution_role_arn: ::String
       attr_accessor enable_on_create: bool
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:description]
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.141.0 (2026-02-02)
+------------------
+
+* Feature - Add OriginMTLS support to CloudFront Distribution APIs
+
 1.140.0 (2026-01-16)
 ------------------
 
