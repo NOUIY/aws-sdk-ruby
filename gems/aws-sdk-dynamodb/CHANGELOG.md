@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.162.0 (2026-02-03)
+------------------
+
+* Feature - This change supports the creation of multi-account global tables. It adds two new arguments to CreateTable, GlobalTableSourceArn and GlobalTableSettingsReplicationMode. DescribeTable is also updated to include information about GlobalTableSettingsReplicationMode.
+
 1.161.0 (2026-01-22)
 ------------------
 

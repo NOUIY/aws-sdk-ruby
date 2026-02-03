@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.135.0 (2026-02-03)
+------------------
+
+* Feature - Updated the CloseAccount description.
+
 1.134.0 (2026-01-16)
 ------------------
 

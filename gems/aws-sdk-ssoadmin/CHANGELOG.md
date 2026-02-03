@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.69.0 (2026-02-03)
+------------------
+
+* Feature - Added new Region management APIs to support multi-Region replication in IAM Identity Center.
+
 1.68.0 (2026-01-16)
 ------------------
 

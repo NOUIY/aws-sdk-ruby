@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.21.0 (2026-02-03)
+------------------
+
+* Feature - Added support for optional style parameters in maps, including 3D terrain and 3D Buildings
+
 1.20.0 (2026-01-16)
 ------------------
 
