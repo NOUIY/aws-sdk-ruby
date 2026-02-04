@@ -605,6 +605,7 @@ module Aws::ConnectCases
     #   resp.fields[0].deleted #=> Boolean
     #   resp.fields[0].created_time #=> Time
     #   resp.fields[0].last_modified_time #=> Time
+    #   resp.fields[0].attributes.text.is_multiline #=> Boolean
     #   resp.errors #=> Array
     #   resp.errors[0].id #=> String
     #   resp.errors[0].error_code #=> String
@@ -957,6 +958,9 @@ module Aws::ConnectCases
     # @option params [String] :description
     #   The description of the field.
     #
+    # @option params [Types::FieldAttributes] :attributes
+    #   Union of field attributes.
+    #
     # @return [Types::CreateFieldResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateFieldResponse#field_id #field_id} => String
@@ -969,6 +973,11 @@ module Aws::ConnectCases
     #     name: "FieldName", # required
     #     type: "Text", # required, accepts Text, Number, Boolean, DateTime, SingleSelect, Url, User
     #     description: "FieldDescription",
+    #     attributes: {
+    #       text: {
+    #         is_multiline: false, # required
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -2160,6 +2169,7 @@ module Aws::ConnectCases
     #   resp.fields[0].name #=> String
     #   resp.fields[0].type #=> String, one of "Text", "Number", "Boolean", "DateTime", "SingleSelect", "Url", "User"
     #   resp.fields[0].namespace #=> String, one of "System", "Custom"
+    #   resp.fields[0].attributes.text.is_multiline #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/ListFields AWS API Documentation
@@ -2634,6 +2644,7 @@ module Aws::ConnectCases
     #
     #   * {Types::SearchCasesResponse#next_token #next_token} => String
     #   * {Types::SearchCasesResponse#cases #cases} => Array&lt;Types::SearchCasesResponseItem&gt;
+    #   * {Types::SearchCasesResponse#total_count #total_count} => Integer
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
@@ -2760,6 +2771,7 @@ module Aws::ConnectCases
     #   resp.cases[0].fields[0].value.user_arn_value #=> String
     #   resp.cases[0].tags #=> Hash
     #   resp.cases[0].tags["String"] #=> String
+    #   resp.total_count #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/SearchCases AWS API Documentation
     #
@@ -3218,6 +3230,9 @@ module Aws::ConnectCases
     # @option params [String] :description
     #   The description of a field.
     #
+    # @option params [Types::FieldAttributes] :attributes
+    #   Union of field attributes.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -3227,6 +3242,11 @@ module Aws::ConnectCases
     #     field_id: "FieldId", # required
     #     name: "FieldName",
     #     description: "FieldDescription",
+    #     attributes: {
+    #       text: {
+    #         is_multiline: false, # required
+    #       },
+    #     },
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/UpdateField AWS API Documentation
@@ -3435,7 +3455,7 @@ module Aws::ConnectCases
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connectcases'
-      context[:gem_version] = '1.60.0'
+      context[:gem_version] = '1.61.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

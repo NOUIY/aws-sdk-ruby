@@ -289,6 +289,7 @@ module Aws::ConnectCases
       attr_accessor name: ::String
       attr_accessor type: ("Text" | "Number" | "Boolean" | "DateTime" | "SingleSelect" | "Url" | "User")
       attr_accessor description: ::String
+      attr_accessor attributes: Types::FieldAttributes
       SENSITIVE: []
     end
 
@@ -467,6 +468,17 @@ module Aws::ConnectCases
       SENSITIVE: []
     end
 
+    class FieldAttributes
+      attr_accessor text: Types::TextAttributes
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Text < FieldAttributes
+      end
+      class Unknown < FieldAttributes
+      end
+    end
+
     class FieldError
       attr_accessor id: ::String
       attr_accessor error_code: ::String
@@ -543,6 +555,7 @@ module Aws::ConnectCases
       attr_accessor name: ::String
       attr_accessor type: ("Text" | "Number" | "Boolean" | "DateTime" | "SingleSelect" | "Url" | "User")
       attr_accessor namespace: ("System" | "Custom")
+      attr_accessor attributes: Types::FieldAttributes
       SENSITIVE: []
     end
 
@@ -664,6 +677,7 @@ module Aws::ConnectCases
       attr_accessor deleted: bool
       attr_accessor created_time: ::Time
       attr_accessor last_modified_time: ::Time
+      attr_accessor attributes: Types::FieldAttributes
       SENSITIVE: []
     end
 
@@ -1045,6 +1059,7 @@ module Aws::ConnectCases
     class SearchCasesResponse
       attr_accessor next_token: ::String
       attr_accessor cases: ::Array[Types::SearchCasesResponseItem]
+      attr_accessor total_count: ::Integer
       SENSITIVE: []
     end
 
@@ -1189,6 +1204,11 @@ module Aws::ConnectCases
       SENSITIVE: []
     end
 
+    class TextAttributes
+      attr_accessor is_multiline: bool
+      SENSITIVE: []
+    end
+
     class ThrottlingException
       attr_accessor message: ::String
       SENSITIVE: []
@@ -1228,6 +1248,7 @@ module Aws::ConnectCases
       attr_accessor field_id: ::String
       attr_accessor name: ::String
       attr_accessor description: ::String
+      attr_accessor attributes: Types::FieldAttributes
       SENSITIVE: []
     end
 

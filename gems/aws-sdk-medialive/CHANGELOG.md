@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.177.0 (2026-02-04)
+------------------
+
+* Feature - AWS Elemental MediaLive now supports SRT listener mode for inputs and outputs, in addition to the existing SRT caller mode.
+
 1.176.0 (2026-01-27)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.157.0 (2026-02-04)
+------------------
+
+* Feature - Update delete cluster description
+
 1.156.0 (2026-01-16)
 ------------------
 

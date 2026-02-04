@@ -924,6 +924,9 @@ module Aws::BedrockRuntime
     #   Specifies the processing tier configuration used for serving the
     #   request.
     #
+    # @option params [Types::OutputConfig] :output_config
+    #   Output configuration for a model response.
+    #
     # @return [Types::ConverseResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ConverseResponse#output #output} => Types::ConverseOutput
@@ -1197,6 +1200,7 @@ module Aws::BedrockRuntime
     #               json: {
     #               },
     #             },
+    #             strict: false,
     #           },
     #           system_tool: {
     #             name: "ToolName", # required
@@ -1238,6 +1242,18 @@ module Aws::BedrockRuntime
     #     },
     #     service_tier: {
     #       type: "priority", # required, accepts priority, default, flex, reserved
+    #     },
+    #     output_config: {
+    #       text_format: {
+    #         type: "json_schema", # required, accepts json_schema
+    #         structure: { # required
+    #           json_schema: {
+    #             schema: "String", # required
+    #             name: "String",
+    #             description: "String",
+    #           },
+    #         },
+    #       },
     #     },
     #   })
     #
@@ -1884,6 +1900,9 @@ module Aws::BedrockRuntime
     #   Specifies the processing tier configuration used for serving the
     #   request.
     #
+    # @option params [Types::OutputConfig] :output_config
+    #   Output configuration for a model response.
+    #
     # @return [Types::ConverseStreamResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ConverseStreamResponse#stream #stream} => Types::ConverseStreamOutput
@@ -2329,6 +2348,7 @@ module Aws::BedrockRuntime
     #               json: {
     #               },
     #             },
+    #             strict: false,
     #           },
     #           system_tool: {
     #             name: "ToolName", # required
@@ -2371,6 +2391,18 @@ module Aws::BedrockRuntime
     #     },
     #     service_tier: {
     #       type: "priority", # required, accepts priority, default, flex, reserved
+    #     },
+    #     output_config: {
+    #       text_format: {
+    #         type: "json_schema", # required, accepts json_schema
+    #         structure: { # required
+    #           json_schema: {
+    #             schema: "String", # required
+    #             name: "String",
+    #             description: "String",
+    #           },
+    #         },
+    #       },
     #     },
     #   })
     #
@@ -3144,6 +3176,7 @@ module Aws::BedrockRuntime
     #                   json: {
     #                   },
     #                 },
+    #                 strict: false,
     #               },
     #               system_tool: {
     #                 name: "ToolName", # required
@@ -3893,7 +3926,7 @@ module Aws::BedrockRuntime
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockruntime'
-      context[:gem_version] = '1.72.0'
+      context[:gem_version] = '1.73.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

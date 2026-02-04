@@ -351,7 +351,9 @@ module Aws
                                   {
                                     encryption_passphrase_secret_arn: ::String?,
                                     stream_id: ::String?,
-                                    url: ::String?
+                                    url: ::String?,
+                                    connection_mode: ("CALLER" | "LISTENER")?,
+                                    listener_port: ::Integer?
                                   },
                                 ]?,
                                 logical_interface_names: Array[::String]?
@@ -1621,7 +1623,8 @@ module Aws
                               primary_channel_settings: {
                                 linked_channel_type: ("FOLLOWING_CHANNEL" | "PRIMARY_CHANNEL")?
                               }?
-                            }
+                            },
+                            ?channel_security_groups: Array[::String]
                           ) -> _CreateChannelResponseSuccess
                         | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateChannelResponseSuccess
 
@@ -1666,7 +1669,7 @@ module Aws
                             },
                           ],
                           ?tags: Hash[::String, ::String],
-                          ?type: ("UDP_PUSH" | "RTP_PUSH" | "RTMP_PUSH" | "RTMP_PULL" | "URL_PULL" | "MP4_FILE" | "MEDIACONNECT" | "INPUT_DEVICE" | "AWS_CDI" | "TS_FILE" | "SRT_CALLER" | "MULTICAST" | "SMPTE_2110_RECEIVER_GROUP" | "SDI" | "MEDIACONNECT_ROUTER"),
+                          ?type: ("UDP_PUSH" | "RTP_PUSH" | "RTMP_PUSH" | "RTMP_PULL" | "URL_PULL" | "MP4_FILE" | "MEDIACONNECT" | "INPUT_DEVICE" | "AWS_CDI" | "TS_FILE" | "SRT_CALLER" | "MULTICAST" | "SMPTE_2110_RECEIVER_GROUP" | "SDI" | "MEDIACONNECT_ROUTER" | "SRT_LISTENER"),
                           ?vpc: {
                             security_group_ids: Array[::String]?,
                             subnet_ids: Array[::String]
@@ -1683,7 +1686,15 @@ module Aws
                                 srt_listener_port: ::String?,
                                 stream_id: ::String?
                               },
-                            ]?
+                            ]?,
+                            srt_listener_settings: {
+                              decryption: {
+                                algorithm: ("AES128" | "AES192" | "AES256"),
+                                passphrase_secret_arn: ::String
+                              },
+                              minimum_latency: ::Integer,
+                              stream_id: ::String?
+                            }?
                           },
                           ?input_network_location: ("AWS" | "ON_PREMISES"),
                           ?multicast_settings: {
@@ -1835,6 +1846,7 @@ module Aws
         def anywhere_settings: () -> Types::DescribeAnywhereSettings
         def channel_engine_version: () -> Types::ChannelEngineVersionResponse
         def linked_channel_settings: () -> Types::DescribeLinkedChannelSettings
+        def channel_security_groups: () -> ::Array[::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/MediaLive/Client.html#delete_channel-instance_method
       def delete_channel: (
@@ -1970,6 +1982,7 @@ module Aws
         def anywhere_settings: () -> Types::DescribeAnywhereSettings
         def channel_engine_version: () -> Types::ChannelEngineVersionResponse
         def linked_channel_settings: () -> Types::DescribeLinkedChannelSettings
+        def channel_security_groups: () -> ::Array[::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/MediaLive/Client.html#describe_channel-instance_method
       def describe_channel: (
@@ -1994,7 +2007,7 @@ module Aws
         def sources: () -> ::Array[Types::InputSource]
         def state: () -> ("CREATING" | "DETACHED" | "ATTACHED" | "DELETING" | "DELETED")
         def tags: () -> ::Hash[::String, ::String]
-        def type: () -> ("UDP_PUSH" | "RTP_PUSH" | "RTMP_PUSH" | "RTMP_PULL" | "URL_PULL" | "MP4_FILE" | "MEDIACONNECT" | "INPUT_DEVICE" | "AWS_CDI" | "TS_FILE" | "SRT_CALLER" | "MULTICAST" | "SMPTE_2110_RECEIVER_GROUP" | "SDI" | "MEDIACONNECT_ROUTER")
+        def type: () -> ("UDP_PUSH" | "RTP_PUSH" | "RTMP_PUSH" | "RTMP_PULL" | "URL_PULL" | "MP4_FILE" | "MEDIACONNECT" | "INPUT_DEVICE" | "AWS_CDI" | "TS_FILE" | "SRT_CALLER" | "MULTICAST" | "SMPTE_2110_RECEIVER_GROUP" | "SDI" | "MEDIACONNECT_ROUTER" | "SRT_LISTENER")
         def srt_settings: () -> Types::SrtSettings
         def input_network_location: () -> ("AWS" | "ON_PREMISES")
         def multicast_settings: () -> Types::MulticastSettings
@@ -2056,6 +2069,7 @@ module Aws
         def state: () -> ("IDLE" | "IN_USE" | "UPDATING" | "DELETED")
         def tags: () -> ::Hash[::String, ::String]
         def whitelist_rules: () -> ::Array[Types::InputWhitelistRule]
+        def channels: () -> ::Array[::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/MediaLive/Client.html#describe_input_security_group-instance_method
       def describe_input_security_group: (
@@ -2369,6 +2383,7 @@ module Aws
         def anywhere_settings: () -> Types::DescribeAnywhereSettings
         def channel_engine_version: () -> Types::ChannelEngineVersionResponse
         def linked_channel_settings: () -> Types::DescribeLinkedChannelSettings
+        def channel_security_groups: () -> ::Array[::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/MediaLive/Client.html#start_channel-instance_method
       def start_channel: (
@@ -2436,6 +2451,7 @@ module Aws
         def anywhere_settings: () -> Types::DescribeAnywhereSettings
         def channel_engine_version: () -> Types::ChannelEngineVersionResponse
         def linked_channel_settings: () -> Types::DescribeLinkedChannelSettings
+        def channel_security_groups: () -> ::Array[::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/MediaLive/Client.html#stop_channel-instance_method
       def stop_channel: (
@@ -2533,7 +2549,9 @@ module Aws
                                   {
                                     encryption_passphrase_secret_arn: ::String?,
                                     stream_id: ::String?,
-                                    url: ::String?
+                                    url: ::String?,
+                                    connection_mode: ("CALLER" | "LISTENER")?,
+                                    listener_port: ::Integer?
                                   },
                                 ]?,
                                 logical_interface_names: Array[::String]?
@@ -3796,7 +3814,8 @@ module Aws
                               primary_channel_settings: {
                                 linked_channel_type: ("FOLLOWING_CHANNEL" | "PRIMARY_CHANNEL")?
                               }?
-                            }
+                            },
+                            ?channel_security_groups: Array[::String]
                           ) -> _UpdateChannelResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateChannelResponseSuccess
 
@@ -3836,7 +3855,9 @@ module Aws
                                         {
                                           encryption_passphrase_secret_arn: ::String?,
                                           stream_id: ::String?,
-                                          url: ::String?
+                                          url: ::String?,
+                                          connection_mode: ("CALLER" | "LISTENER")?,
+                                          listener_port: ::Integer?
                                         },
                                       ]?,
                                       logical_interface_names: Array[::String]?
@@ -3897,7 +3918,15 @@ module Aws
                                 srt_listener_port: ::String?,
                                 stream_id: ::String?
                               },
-                            ]?
+                            ]?,
+                            srt_listener_settings: {
+                              decryption: {
+                                algorithm: ("AES128" | "AES192" | "AES256"),
+                                passphrase_secret_arn: ::String
+                              },
+                              minimum_latency: ::Integer,
+                              stream_id: ::String?
+                            }?
                           },
                           ?multicast_settings: {
                             sources: Array[
@@ -4121,6 +4150,7 @@ module Aws
         def anywhere_settings: () -> Types::DescribeAnywhereSettings
         def channel_engine_version: () -> Types::ChannelEngineVersionResponse
         def linked_channel_settings: () -> Types::DescribeLinkedChannelSettings
+        def channel_security_groups: () -> ::Array[::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/MediaLive/Client.html#restart_channel_pipelines-instance_method
       def restart_channel_pipelines: (
@@ -4783,7 +4813,8 @@ module Aws
                                                {
                                                  logical_interface_name: ::String?,
                                                  network_interface_mode: ("NAT" | "BRIDGE")?,
-                                                 physical_interface_name: ::String?
+                                                 physical_interface_name: ::String?,
+                                                 physical_interface_ip_addresses: Array[::String]?
                                                },
                                              ],
                                              ?request_id: ::String,

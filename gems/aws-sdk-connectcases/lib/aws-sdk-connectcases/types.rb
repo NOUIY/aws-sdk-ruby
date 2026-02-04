@@ -865,13 +865,18 @@ module Aws::ConnectCases
     #   The description of the field.
     #   @return [String]
     #
+    # @!attribute [rw] attributes
+    #   Union of field attributes.
+    #   @return [Types::FieldAttributes]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/CreateFieldRequest AWS API Documentation
     #
     class CreateFieldRequest < Struct.new(
       :domain_id,
       :name,
       :type,
-      :description)
+      :description,
+      :attributes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1377,6 +1382,29 @@ module Aws::ConnectCases
       include Aws::Structure
     end
 
+    # Union of field attributes.
+    #
+    # @note FieldAttributes is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note FieldAttributes is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of FieldAttributes corresponding to the set member.
+    #
+    # @!attribute [rw] text
+    #   Field attributes for Text field type.
+    #   @return [Types::TextAttributes]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/FieldAttributes AWS API Documentation
+    #
+    class FieldAttributes < Struct.new(
+      :text,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Text < FieldAttributes; end
+      class Unknown < FieldAttributes; end
+    end
+
     # Object for errors on fields.
     #
     # @!attribute [rw] id
@@ -1597,6 +1625,10 @@ module Aws::ConnectCases
     #   The namespace of a field.
     #   @return [String]
     #
+    # @!attribute [rw] attributes
+    #   Union of field attributes.
+    #   @return [Types::FieldAttributes]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/FieldSummary AWS API Documentation
     #
     class FieldSummary < Struct.new(
@@ -1604,7 +1636,8 @@ module Aws::ConnectCases
       :field_arn,
       :name,
       :type,
-      :namespace)
+      :namespace,
+      :attributes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1997,6 +2030,10 @@ module Aws::ConnectCases
     #   Timestamp at which the resource was created or last modified.
     #   @return [Time]
     #
+    # @!attribute [rw] attributes
+    #   Union of field attributes.
+    #   @return [Types::FieldAttributes]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/GetFieldResponse AWS API Documentation
     #
     class GetFieldResponse < Struct.new(
@@ -2009,7 +2046,8 @@ module Aws::ConnectCases
       :tags,
       :deleted,
       :created_time,
-      :last_modified_time)
+      :last_modified_time,
+      :attributes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3173,11 +3211,16 @@ module Aws::ConnectCases
     #   `CaseId` and `Fields` where each field is a complex union structure.
     #   @return [Array<Types::SearchCasesResponseItem>]
     #
+    # @!attribute [rw] total_count
+    #   The total number of cases that matched the search criteria.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/SearchCasesResponse AWS API Documentation
     #
     class SearchCasesResponse < Struct.new(
       :next_token,
-      :cases)
+      :cases,
+      :total_count)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3643,6 +3686,20 @@ module Aws::ConnectCases
       include Aws::Structure
     end
 
+    # Field attributes for Text field type.
+    #
+    # @!attribute [rw] is_multiline
+    #   Attribute that defines rendering component and validation.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/TextAttributes AWS API Documentation
+    #
+    class TextAttributes < Struct.new(
+      :is_multiline)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The rate has been exceeded for this API. Please try again after a few
     # minutes.
     #
@@ -3759,13 +3816,18 @@ module Aws::ConnectCases
     #   The description of a field.
     #   @return [String]
     #
+    # @!attribute [rw] attributes
+    #   Union of field attributes.
+    #   @return [Types::FieldAttributes]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/UpdateFieldRequest AWS API Documentation
     #
     class UpdateFieldRequest < Struct.new(
       :domain_id,
       :field_id,
       :name,
-      :description)
+      :description,
+      :attributes)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -130,6 +130,7 @@ module Aws::ConnectCases
     EventBridgeConfiguration = Shapes::StructureShape.new(name: 'EventBridgeConfiguration')
     EventIncludedData = Shapes::StructureShape.new(name: 'EventIncludedData')
     FieldArn = Shapes::StringShape.new(name: 'FieldArn')
+    FieldAttributes = Shapes::UnionShape.new(name: 'FieldAttributes')
     FieldDescription = Shapes::StringShape.new(name: 'FieldDescription')
     FieldError = Shapes::StructureShape.new(name: 'FieldError')
     FieldFilter = Shapes::UnionShape.new(name: 'FieldFilter')
@@ -297,7 +298,9 @@ module Aws::ConnectCases
     TemplateStatus = Shapes::StringShape.new(name: 'TemplateStatus')
     TemplateStatusFilters = Shapes::ListShape.new(name: 'TemplateStatusFilters')
     TemplateSummary = Shapes::StructureShape.new(name: 'TemplateSummary')
+    TextAttributes = Shapes::StructureShape.new(name: 'TextAttributes')
     ThrottlingException = Shapes::StructureShape.new(name: 'ThrottlingException')
+    TotalCount = Shapes::IntegerShape.new(name: 'TotalCount')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
     UpdateCaseRequest = Shapes::StructureShape.new(name: 'UpdateCaseRequest')
     UpdateCaseRequestFieldsList = Shapes::ListShape.new(name: 'UpdateCaseRequestFieldsList')
@@ -534,6 +537,7 @@ module Aws::ConnectCases
     CreateFieldRequest.add_member(:name, Shapes::ShapeRef.new(shape: FieldName, required: true, location_name: "name"))
     CreateFieldRequest.add_member(:type, Shapes::ShapeRef.new(shape: FieldType, required: true, location_name: "type"))
     CreateFieldRequest.add_member(:description, Shapes::ShapeRef.new(shape: FieldDescription, location_name: "description"))
+    CreateFieldRequest.add_member(:attributes, Shapes::ShapeRef.new(shape: FieldAttributes, location_name: "attributes"))
     CreateFieldRequest.struct_class = Types::CreateFieldRequest
 
     CreateFieldResponse.add_member(:field_id, Shapes::ShapeRef.new(shape: FieldId, required: true, location_name: "fieldId"))
@@ -662,6 +666,12 @@ module Aws::ConnectCases
     EventIncludedData.add_member(:related_item_data, Shapes::ShapeRef.new(shape: RelatedItemEventIncludedData, location_name: "relatedItemData"))
     EventIncludedData.struct_class = Types::EventIncludedData
 
+    FieldAttributes.add_member(:text, Shapes::ShapeRef.new(shape: TextAttributes, location_name: "text"))
+    FieldAttributes.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    FieldAttributes.add_member_subclass(:text, Types::FieldAttributes::Text)
+    FieldAttributes.add_member_subclass(:unknown, Types::FieldAttributes::Unknown)
+    FieldAttributes.struct_class = Types::FieldAttributes
+
     FieldError.add_member(:id, Shapes::ShapeRef.new(shape: FieldId, required: true, location_name: "id"))
     FieldError.add_member(:error_code, Shapes::ShapeRef.new(shape: String, required: true, location_name: "errorCode"))
     FieldError.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
@@ -717,6 +727,7 @@ module Aws::ConnectCases
     FieldSummary.add_member(:name, Shapes::ShapeRef.new(shape: FieldName, required: true, location_name: "name"))
     FieldSummary.add_member(:type, Shapes::ShapeRef.new(shape: FieldType, required: true, location_name: "type"))
     FieldSummary.add_member(:namespace, Shapes::ShapeRef.new(shape: FieldNamespace, required: true, location_name: "namespace"))
+    FieldSummary.add_member(:attributes, Shapes::ShapeRef.new(shape: FieldAttributes, location_name: "attributes"))
     FieldSummary.struct_class = Types::FieldSummary
 
     FieldValue.add_member(:id, Shapes::ShapeRef.new(shape: FieldId, required: true, location_name: "id"))
@@ -811,6 +822,7 @@ module Aws::ConnectCases
     GetFieldResponse.add_member(:deleted, Shapes::ShapeRef.new(shape: Deleted, location_name: "deleted"))
     GetFieldResponse.add_member(:created_time, Shapes::ShapeRef.new(shape: CreatedTime, location_name: "createdTime"))
     GetFieldResponse.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: LastModifiedTime, location_name: "lastModifiedTime"))
+    GetFieldResponse.add_member(:attributes, Shapes::ShapeRef.new(shape: FieldAttributes, location_name: "attributes"))
     GetFieldResponse.struct_class = Types::GetFieldResponse
 
     GetLayoutRequest.add_member(:domain_id, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainId"))
@@ -1098,6 +1110,7 @@ module Aws::ConnectCases
 
     SearchCasesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     SearchCasesResponse.add_member(:cases, Shapes::ShapeRef.new(shape: SearchCasesResponseCasesList, required: true, location_name: "cases"))
+    SearchCasesResponse.add_member(:total_count, Shapes::ShapeRef.new(shape: TotalCount, location_name: "totalCount"))
     SearchCasesResponse.struct_class = Types::SearchCasesResponse
 
     SearchCasesResponseCasesList.member = Shapes::ShapeRef.new(shape: SearchCasesResponseItem)
@@ -1222,6 +1235,9 @@ module Aws::ConnectCases
     TemplateSummary.add_member(:tag_propagation_configurations, Shapes::ShapeRef.new(shape: TagPropagationConfigurationList, location_name: "tagPropagationConfigurations"))
     TemplateSummary.struct_class = Types::TemplateSummary
 
+    TextAttributes.add_member(:is_multiline, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "isMultiline"))
+    TextAttributes.struct_class = Types::TextAttributes
+
     ThrottlingException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ThrottlingException.struct_class = Types::ThrottlingException
 
@@ -1252,6 +1268,7 @@ module Aws::ConnectCases
     UpdateFieldRequest.add_member(:field_id, Shapes::ShapeRef.new(shape: FieldId, required: true, location: "uri", location_name: "fieldId"))
     UpdateFieldRequest.add_member(:name, Shapes::ShapeRef.new(shape: FieldName, location_name: "name"))
     UpdateFieldRequest.add_member(:description, Shapes::ShapeRef.new(shape: FieldDescription, location_name: "description"))
+    UpdateFieldRequest.add_member(:attributes, Shapes::ShapeRef.new(shape: FieldAttributes, location_name: "attributes"))
     UpdateFieldRequest.struct_class = Types::UpdateFieldRequest
 
     UpdateFieldResponse.struct_class = Types::UpdateFieldResponse
