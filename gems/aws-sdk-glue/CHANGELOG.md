@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.249.0 (2026-02-05)
+------------------
+
+* Feature - This release adds the capability to easily create custom AWS Glue connections to data sources with REST APIs.
+
 1.248.0 (2026-01-16)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.18.0 (2026-02-05)
+------------------
+
+* Feature - Support Browser profile persistence (cookies and local storage) across sessions for AgentCore Browser.
+
 1.17.0 (2026-01-21)
 ------------------
 

@@ -4814,6 +4814,7 @@ module Aws::MediaLive
       attr_accessor spatial_aq: ("DISABLED" | "ENABLED")
       attr_accessor temporal_aq: ("DISABLED" | "ENABLED")
       attr_accessor timecode_insertion: ("DISABLED" | "METADATA_OBU")
+      attr_accessor bit_depth: ("DEPTH_10" | "DEPTH_8")
       SENSITIVE: []
     end
 

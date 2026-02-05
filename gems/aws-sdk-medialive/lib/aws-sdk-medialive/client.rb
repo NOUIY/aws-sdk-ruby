@@ -1824,6 +1824,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
+    #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.bit_depth #=> String, one of "DEPTH_10", "DEPTH_8"
     #   resp.channel.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.channel.encoder_settings.video_descriptions[0].name #=> String
     #   resp.channel.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -3304,6 +3305,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
+    #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.bit_depth #=> String, one of "DEPTH_10", "DEPTH_8"
     #   resp.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.encoder_settings.video_descriptions[0].name #=> String
     #   resp.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -4507,6 +4509,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
+    #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.bit_depth #=> String, one of "DEPTH_10", "DEPTH_8"
     #   resp.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.encoder_settings.video_descriptions[0].name #=> String
     #   resp.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -6962,6 +6965,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
+    #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.bit_depth #=> String, one of "DEPTH_10", "DEPTH_8"
     #   resp.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.encoder_settings.video_descriptions[0].name #=> String
     #   resp.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -7972,6 +7976,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
+    #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.bit_depth #=> String, one of "DEPTH_10", "DEPTH_8"
     #   resp.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.encoder_settings.video_descriptions[0].name #=> String
     #   resp.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -9018,6 +9023,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
+    #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.bit_depth #=> String, one of "DEPTH_10", "DEPTH_8"
     #   resp.channel.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.channel.encoder_settings.video_descriptions[0].name #=> String
     #   resp.channel.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -9946,6 +9952,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
+    #   resp.channel.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.bit_depth #=> String, one of "DEPTH_10", "DEPTH_8"
     #   resp.channel.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.channel.encoder_settings.video_descriptions[0].name #=> String
     #   resp.channel.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -11488,6 +11495,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.spatial_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.temporal_aq #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.timecode_insertion #=> String, one of "DISABLED", "METADATA_OBU"
+    #   resp.encoder_settings.video_descriptions[0].codec_settings.av_1_settings.bit_depth #=> String, one of "DEPTH_10", "DEPTH_8"
     #   resp.encoder_settings.video_descriptions[0].height #=> Integer
     #   resp.encoder_settings.video_descriptions[0].name #=> String
     #   resp.encoder_settings.video_descriptions[0].respond_to_afd #=> String, one of "NONE", "PASSTHROUGH", "RESPOND"
@@ -14945,7 +14953,7 @@ module Aws::MediaLive
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-medialive'
-      context[:gem_version] = '1.177.0'
+      context[:gem_version] = '1.178.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

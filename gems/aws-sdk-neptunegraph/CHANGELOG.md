@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.46.0 (2026-02-05)
+------------------
+
+* Feature - Minor neptune-graph documentation changes
+
 1.45.0 (2026-01-16)
 ------------------
 

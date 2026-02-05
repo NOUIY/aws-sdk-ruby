@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.84.0 (2026-02-05)
+------------------
+
+* Feature - Added ListSourceAssociations API. Allows RAM resource share owners to list source associations that determine which sources can access resources through service principal associations. Supports filtering by resource share ARN, source ID, source type, or status, with pagination.
+
 1.83.0 (2026-01-16)
 ------------------
 

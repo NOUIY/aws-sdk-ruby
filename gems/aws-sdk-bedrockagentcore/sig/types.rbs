@@ -84,6 +84,11 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class BrowserProfileConfiguration
+      attr_accessor profile_identifier: ::String
+      SENSITIVE: []
+    end
+
     class BrowserSessionStream
       attr_accessor automation_stream: Types::AutomationStream
       attr_accessor live_view_stream: Types::LiveViewStream
@@ -358,6 +363,7 @@ module Aws::BedrockAgentCore
       attr_accessor created_at: ::Time
       attr_accessor view_port: Types::ViewPort
       attr_accessor extensions: ::Array[Types::BrowserExtension]
+      attr_accessor profile_configuration: Types::BrowserProfileConfiguration
       attr_accessor session_timeout_seconds: ::Integer
       attr_accessor status: ("READY" | "TERMINATED")
       attr_accessor streams: Types::BrowserSessionStream
@@ -824,6 +830,24 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class SaveBrowserSessionProfileRequest
+      attr_accessor trace_id: ::String
+      attr_accessor trace_parent: ::String
+      attr_accessor profile_identifier: ::String
+      attr_accessor browser_identifier: ::String
+      attr_accessor session_id: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class SaveBrowserSessionProfileResponse
+      attr_accessor profile_identifier: ::String
+      attr_accessor browser_identifier: ::String
+      attr_accessor session_id: ::String
+      attr_accessor last_updated_at: ::Time
+      SENSITIVE: []
+    end
+
     class SearchCriteria
       attr_accessor search_query: ::String
       attr_accessor memory_strategy_id: ::String
@@ -865,6 +889,7 @@ module Aws::BedrockAgentCore
       attr_accessor session_timeout_seconds: ::Integer
       attr_accessor view_port: Types::ViewPort
       attr_accessor extensions: ::Array[Types::BrowserExtension]
+      attr_accessor profile_configuration: Types::BrowserProfileConfiguration
       attr_accessor client_token: ::String
       SENSITIVE: []
     end

@@ -42,7 +42,7 @@ module Aws::BedrockAgentCore
     end
 
     # The configuration for a stream that enables programmatic control of a
-    # browser session in Amazon Bedrock. This stream provides a
+    # browser session in Amazon Bedrock AgentCore. This stream provides a
     # bidirectional communication channel for sending commands to the
     # browser and receiving responses, allowing agents to automate web
     # interactions such as navigation, form filling, and element clicking.
@@ -259,10 +259,31 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # The configuration for a browser profile in Amazon Bedrock AgentCore. A
+    # browser profile contains persistent browser data such as cookies and
+    # local storage that can be saved from one browser session and reused in
+    # subsequent sessions. Browser profiles enable continuity for tasks that
+    # require authentication, maintain user preferences, or depend on
+    # previously stored browser state.
+    #
+    # @!attribute [rw] profile_identifier
+    #   The unique identifier of the browser profile. This identifier is
+    #   used to reference the profile when starting new browser sessions or
+    #   saving session data to the profile.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/BrowserProfileConfiguration AWS API Documentation
+    #
+    class BrowserProfileConfiguration < Struct.new(
+      :profile_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The collection of streams associated with a browser session in Amazon
-    # Bedrock. These streams provide different ways to interact with and
-    # observe the browser session, including programmatic control and visual
-    # representation of the browser content.
+    # Bedrock AgentCore. These streams provide different ways to interact
+    # with and observe the browser session, including programmatic control
+    # and visual representation of the browser content.
     #
     # @!attribute [rw] automation_stream
     #   The stream that enables programmatic control of the browser. This
@@ -285,10 +306,10 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
-    # A condensed representation of a browser session in Amazon Bedrock.
-    # This structure contains key information about a browser session,
-    # including identifiers, status, and timestamps, without the full
-    # details of the session configuration and streams.
+    # A condensed representation of a browser session in Amazon Bedrock
+    # AgentCore. This structure contains key information about a browser
+    # session, including identifiers, status, and timestamps, without the
+    # full details of the session configuration and streams.
     #
     # @!attribute [rw] browser_identifier
     #   The unique identifier of the browser associated with the session.
@@ -335,10 +356,10 @@ module Aws::BedrockAgentCore
     end
 
     # The output produced by executing code in a code interpreter session in
-    # Amazon Bedrock. This structure contains the results of code execution,
-    # including textual output, structured data, and error information.
-    # Agents use these results to generate responses that incorporate
-    # computation, data analysis, and visualization.
+    # Amazon Bedrock AgentCore. This structure contains the results of code
+    # execution, including textual output, structured data, and error
+    # information. Agents use these results to generate responses that
+    # incorporate computation, data analysis, and visualization.
     #
     # @!attribute [rw] content
     #   The textual content of the execution result. This includes standard
@@ -372,9 +393,9 @@ module Aws::BedrockAgentCore
     end
 
     # A condensed representation of a code interpreter session in Amazon
-    # Bedrock. This structure contains key information about a code
-    # interpreter session, including identifiers, status, and timestamps,
-    # without the full details of the session configuration.
+    # Bedrock AgentCore. This structure contains key information about a
+    # code interpreter session, including identifiers, status, and
+    # timestamps, without the full details of the session configuration.
     #
     # @!attribute [rw] code_interpreter_identifier
     #   The unique identifier of the code interpreter associated with the
@@ -1240,6 +1261,12 @@ module Aws::BedrockAgentCore
     #   session.
     #   @return [Array<Types::BrowserExtension>]
     #
+    # @!attribute [rw] profile_configuration
+    #   The browser profile configuration associated with this session.
+    #   Contains the profile identifier that links to persistent browser
+    #   data such as cookies and local storage.
+    #   @return [Types::BrowserProfileConfiguration]
+    #
     # @!attribute [rw] session_timeout_seconds
     #   The timeout period for the browser session in seconds.
     #   @return [Integer]
@@ -1271,6 +1298,7 @@ module Aws::BedrockAgentCore
       :created_at,
       :view_port,
       :extensions,
+      :profile_configuration,
       :session_timeout_seconds,
       :status,
       :streams,
@@ -1724,14 +1752,14 @@ module Aws::BedrockAgentCore
     # @!attribute [rw] agent_runtime_arn
     #   The Amazon Web Services Resource Name (ARN) of the agent runtime to
     #   invoke. The ARN uniquely identifies the agent runtime resource in
-    #   Amazon Bedrock.
+    #   Amazon Bedrock AgentCore.
     #   @return [String]
     #
     # @!attribute [rw] qualifier
     #   The qualifier to use for the agent runtime. This can be a version
     #   number or an endpoint name that points to a specific version. If not
-    #   specified, Amazon Bedrock uses the default version of the agent
-    #   runtime.
+    #   specified, Amazon Bedrock AgentCore uses the default version of the
+    #   agent runtime.
     #   @return [String]
     #
     # @!attribute [rw] account_id
@@ -1977,8 +2005,8 @@ module Aws::BedrockAgentCore
     # @!attribute [rw] next_token
     #   The token for the next set of results. Use the value returned in the
     #   previous response in the next request to retrieve the next set of
-    #   results. If not specified, Amazon Bedrock returns the first page of
-    #   results.
+    #   results. If not specified, Amazon Bedrock AgentCore returns the
+    #   first page of results.
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -2032,8 +2060,8 @@ module Aws::BedrockAgentCore
     # @!attribute [rw] next_token
     #   The token for the next set of results. Use the value returned in the
     #   previous response in the next request to retrieve the next set of
-    #   results. If not specified, Amazon Bedrock returns the first page of
-    #   results.
+    #   results. If not specified, Amazon Bedrock AgentCore returns the
+    #   first page of results.
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -2191,8 +2219,8 @@ module Aws::BedrockAgentCore
     #   @return [String]
     #
     # @!attribute [rw] namespace
-    #   The namespace to filter memory records by. If specified, only memory
-    #   records in this namespace are returned.
+    #   The namespace prefix to filter memory records by. Returns all memory
+    #   records in namespaces that start with the provided prefix.
     #   @return [String]
     #
     # @!attribute [rw] memory_strategy_id
@@ -2294,9 +2322,9 @@ module Aws::BedrockAgentCore
     end
 
     # The configuration for a stream that provides a visual representation
-    # of a browser session in Amazon Bedrock. This stream enables agents to
-    # observe the current state of the browser, including rendered web
-    # pages, visual elements, and the results of interactions.
+    # of a browser session in Amazon Bedrock AgentCore. This stream enables
+    # agents to observe the current state of the browser, including rendered
+    # web pages, visual elements, and the results of interactions.
     #
     # @!attribute [rw] stream_endpoint
     #   The endpoint URL for the live view stream. This URL is used to
@@ -2725,7 +2753,8 @@ module Aws::BedrockAgentCore
     #   @return [String]
     #
     # @!attribute [rw] namespace
-    #   The namespace to filter memory records by.
+    #   The namespace prefix to filter memory records by. Searches for
+    #   memory records in namespaces that start with the provided prefix.
     #   @return [String]
     #
     # @!attribute [rw] search_criteria
@@ -2851,6 +2880,85 @@ module Aws::BedrockAgentCore
       :bucket,
       :prefix,
       :version_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] trace_id
+    #   The trace identifier for request tracking.
+    #   @return [String]
+    #
+    # @!attribute [rw] trace_parent
+    #   The parent trace information for distributed tracing.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile_identifier
+    #   The unique identifier for the browser profile. This identifier is
+    #   used to reference the profile when starting new browser sessions.
+    #   The identifier must follow the pattern of an alphanumeric name (up
+    #   to 48 characters) followed by a hyphen and a 10-character
+    #   alphanumeric suffix.
+    #   @return [String]
+    #
+    # @!attribute [rw] browser_identifier
+    #   The unique identifier of the browser associated with the session
+    #   from which to save the profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The unique identifier of the browser session from which to save the
+    #   profile. The session must be active when saving the profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If this token matches a previous
+    #   request, Amazon Bedrock AgentCore ignores the request, but does not
+    #   return an error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/SaveBrowserSessionProfileRequest AWS API Documentation
+    #
+    class SaveBrowserSessionProfileRequest < Struct.new(
+      :trace_id,
+      :trace_parent,
+      :profile_identifier,
+      :browser_identifier,
+      :session_id,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] profile_identifier
+    #   The unique identifier of the saved browser profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] browser_identifier
+    #   The unique identifier of the browser associated with the session
+    #   from which the profile was saved.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The unique identifier of the browser session from which the profile
+    #   was saved.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The timestamp when the browser profile was last updated. This value
+    #   is in ISO 8601 format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/SaveBrowserSessionProfileResponse AWS API Documentation
+    #
+    class SaveBrowserSessionProfileResponse < Struct.new(
+      :profile_identifier,
+      :browser_identifier,
+      :session_id,
+      :last_updated_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3002,20 +3110,29 @@ module Aws::BedrockAgentCore
     # @!attribute [rw] view_port
     #   The dimensions of the browser viewport for this session. This
     #   determines the visible area of the web content and affects how web
-    #   pages are rendered. If not specified, Amazon Bedrock uses a default
-    #   viewport size.
+    #   pages are rendered. If not specified, Amazon Bedrock AgentCore uses
+    #   a default viewport size.
     #   @return [Types::ViewPort]
     #
     # @!attribute [rw] extensions
     #   A list of browser extensions to load into the browser session.
     #   @return [Array<Types::BrowserExtension>]
     #
+    # @!attribute [rw] profile_configuration
+    #   The browser profile configuration to use for this session. A browser
+    #   profile contains persistent data such as cookies and local storage
+    #   that can be reused across multiple browser sessions. If specified,
+    #   the session initializes with the profile's stored data, enabling
+    #   continuity for tasks that require authentication or personalized
+    #   settings.
+    #   @return [Types::BrowserProfileConfiguration]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If this token matches a previous
-    #   request, Amazon Bedrock ignores the request, but does not return an
-    #   error. This parameter helps prevent the creation of duplicate
-    #   sessions if there are temporary network issues.
+    #   request, Amazon Bedrock AgentCore ignores the request, but does not
+    #   return an error. This parameter helps prevent the creation of
+    #   duplicate sessions if there are temporary network issues.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -3031,6 +3148,7 @@ module Aws::BedrockAgentCore
       :session_timeout_seconds,
       :view_port,
       :extensions,
+      :profile_configuration,
       :client_token)
       SENSITIVE = []
       include Aws::Structure
@@ -3094,9 +3212,9 @@ module Aws::BedrockAgentCore
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If this token matches a previous
-    #   request, Amazon Bedrock ignores the request, but does not return an
-    #   error. This parameter helps prevent the creation of duplicate
-    #   sessions if there are temporary network issues.
+    #   request, Amazon Bedrock AgentCore ignores the request, but does not
+    #   return an error. This parameter helps prevent the creation of
+    #   duplicate sessions if there are temporary network issues.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -3195,8 +3313,8 @@ module Aws::BedrockAgentCore
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If this token matches a previous
-    #   request, Amazon Bedrock ignores the request, but does not return an
-    #   error.
+    #   request, Amazon Bedrock AgentCore ignores the request, but does not
+    #   return an error.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -3256,8 +3374,8 @@ module Aws::BedrockAgentCore
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If this token matches a previous
-    #   request, Amazon Bedrock ignores the request, but does not return an
-    #   error.
+    #   request, Amazon Bedrock AgentCore ignores the request, but does not
+    #   return an error.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -3434,9 +3552,10 @@ module Aws::BedrockAgentCore
     end
 
     # The collection of arguments that specify the operation to perform and
-    # its parameters when invoking a tool in Amazon Bedrock. Different tools
-    # require different arguments, and this structure provides a flexible
-    # way to pass the appropriate arguments to each tool type.
+    # its parameters when invoking a tool in Amazon Bedrock AgentCore.
+    # Different tools require different arguments, and this structure
+    # provides a flexible way to pass the appropriate arguments to each tool
+    # type.
     #
     # @!attribute [rw] code
     #   The code to execute in a code interpreter session. This is the
@@ -3590,9 +3709,10 @@ module Aws::BedrockAgentCore
     #
     # @!attribute [rw] streams
     #   The collection of streams associated with a browser session in
-    #   Amazon Bedrock. These streams provide different ways to interact
-    #   with and observe the browser session, including programmatic control
-    #   and visual representation of the browser content.
+    #   Amazon Bedrock AgentCore. These streams provide different ways to
+    #   interact with and observe the browser session, including
+    #   programmatic control and visual representation of the browser
+    #   content.
     #   @return [Types::BrowserSessionStream]
     #
     # @!attribute [rw] updated_at

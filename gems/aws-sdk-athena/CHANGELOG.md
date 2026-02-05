@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.117.0 (2026-02-05)
+------------------
+
+* Feature - Reduces the minimum TargetDpus to create or update capacity reservations from 24 to 4.
+
 1.116.0 (2026-01-16)
 ------------------
 

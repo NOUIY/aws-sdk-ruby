@@ -18680,6 +18680,11 @@ module Aws::MediaLive
     #   https://aomediacodec.github.io/av1-spec/#metadata-timecode-syntax.
     #   @return [String]
     #
+    # @!attribute [rw] bit_depth
+    #   Specifies the bit depth for the output encode. Choose a value. Or
+    #   leave the field empty to use the default, which is 8 bit.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/Av1Settings AWS API Documentation
     #
     class Av1Settings < Struct.new(
@@ -18705,7 +18710,8 @@ module Aws::MediaLive
       :min_bitrate,
       :spatial_aq,
       :temporal_aq,
-      :timecode_insertion)
+      :timecode_insertion,
+      :bit_depth)
       SENSITIVE = []
       include Aws::Structure
     end

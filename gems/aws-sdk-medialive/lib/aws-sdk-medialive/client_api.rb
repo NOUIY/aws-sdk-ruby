@@ -73,6 +73,7 @@ module Aws::MediaLive
     AudioWatermarkSettings = Shapes::StructureShape.new(name: 'AudioWatermarkSettings')
     AuthenticationScheme = Shapes::StringShape.new(name: 'AuthenticationScheme')
     AutomaticInputFailoverSettings = Shapes::StructureShape.new(name: 'AutomaticInputFailoverSettings')
+    Av1BitDepth = Shapes::StringShape.new(name: 'Av1BitDepth')
     Av1ColorSpaceSettings = Shapes::StructureShape.new(name: 'Av1ColorSpaceSettings')
     Av1GopSizeUnits = Shapes::StringShape.new(name: 'Av1GopSizeUnits')
     Av1Level = Shapes::StringShape.new(name: 'Av1Level')
@@ -1472,6 +1473,7 @@ module Aws::MediaLive
     Av1Settings.add_member(:spatial_aq, Shapes::ShapeRef.new(shape: Av1SpatialAq, location_name: "spatialAq"))
     Av1Settings.add_member(:temporal_aq, Shapes::ShapeRef.new(shape: Av1TemporalAq, location_name: "temporalAq"))
     Av1Settings.add_member(:timecode_insertion, Shapes::ShapeRef.new(shape: Av1TimecodeInsertionBehavior, location_name: "timecodeInsertion"))
+    Av1Settings.add_member(:bit_depth, Shapes::ShapeRef.new(shape: Av1BitDepth, location_name: "bitDepth"))
     Av1Settings.struct_class = Types::Av1Settings
 
     AvailBlanking.add_member(:avail_blanking_image, Shapes::ShapeRef.new(shape: InputLocation, location_name: "availBlankingImage"))

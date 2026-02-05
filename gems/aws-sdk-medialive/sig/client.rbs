@@ -1426,7 +1426,8 @@ module Aws
                                       min_bitrate: ::Integer?,
                                       spatial_aq: ("DISABLED" | "ENABLED")?,
                                       temporal_aq: ("DISABLED" | "ENABLED")?,
-                                      timecode_insertion: ("DISABLED" | "METADATA_OBU")?
+                                      timecode_insertion: ("DISABLED" | "METADATA_OBU")?,
+                                      bit_depth: ("DEPTH_10" | "DEPTH_8")?
                                     }?
                                   }?,
                                   height: ::Integer?,
@@ -3624,7 +3625,8 @@ module Aws
                                       min_bitrate: ::Integer?,
                                       spatial_aq: ("DISABLED" | "ENABLED")?,
                                       temporal_aq: ("DISABLED" | "ENABLED")?,
-                                      timecode_insertion: ("DISABLED" | "METADATA_OBU")?
+                                      timecode_insertion: ("DISABLED" | "METADATA_OBU")?,
+                                      bit_depth: ("DEPTH_10" | "DEPTH_8")?
                                     }?
                                   }?,
                                   height: ::Integer?,

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.11.0 (2026-02-05)
+------------------
+
+* Feature - Updates documentation for ARC Region switch and provides stronger validation for Amazon Aurora Global Database execution block parameters.
+
 1.10.0 (2026-01-16)
 ------------------
 

@@ -151,6 +151,20 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class BrowserProfileSummary
+      attr_accessor profile_id: ::String
+      attr_accessor profile_arn: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor status: ("READY" | "DELETING" | "DELETED" | "SAVING")
+      attr_accessor created_at: ::Time
+      attr_accessor last_updated_at: ::Time
+      attr_accessor last_saved_at: ::Time
+      attr_accessor last_saved_browser_session_id: ::String
+      attr_accessor last_saved_browser_id: ::String
+      SENSITIVE: [:description]
+    end
+
     class BrowserSigningConfigInput
       attr_accessor enabled: bool
       SENSITIVE: []
@@ -338,6 +352,22 @@ module Aws::BedrockAgentCoreControl
       attr_accessor api_key_secret_arn: Types::Secret
       attr_accessor name: ::String
       attr_accessor credential_provider_arn: ::String
+      SENSITIVE: []
+    end
+
+    class CreateBrowserProfileRequest
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor client_token: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: [:description]
+    end
+
+    class CreateBrowserProfileResponse
+      attr_accessor profile_id: ::String
+      attr_accessor profile_arn: ::String
+      attr_accessor created_at: ::Time
+      attr_accessor status: ("READY" | "DELETING" | "DELETED" | "SAVING")
       SENSITIVE: []
     end
 
@@ -805,6 +835,21 @@ module Aws::BedrockAgentCoreControl
     class DeleteApiKeyCredentialProviderResponse < Aws::EmptyStructure
     end
 
+    class DeleteBrowserProfileRequest
+      attr_accessor profile_id: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteBrowserProfileResponse
+      attr_accessor profile_id: ::String
+      attr_accessor profile_arn: ::String
+      attr_accessor status: ("READY" | "DELETING" | "DELETED" | "SAVING")
+      attr_accessor last_updated_at: ::Time
+      attr_accessor last_saved_at: ::Time
+      SENSITIVE: []
+    end
+
     class DeleteBrowserRequest
       attr_accessor browser_id: ::String
       attr_accessor client_token: ::String
@@ -1230,6 +1275,25 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class GetBrowserProfileRequest
+      attr_accessor profile_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetBrowserProfileResponse
+      attr_accessor profile_id: ::String
+      attr_accessor profile_arn: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor status: ("READY" | "DELETING" | "DELETED" | "SAVING")
+      attr_accessor created_at: ::Time
+      attr_accessor last_updated_at: ::Time
+      attr_accessor last_saved_at: ::Time
+      attr_accessor last_saved_browser_session_id: ::String
+      attr_accessor last_saved_browser_id: ::String
+      SENSITIVE: [:description]
+    end
+
     class GetBrowserRequest
       attr_accessor browser_id: ::String
       SENSITIVE: []
@@ -1638,6 +1702,18 @@ module Aws::BedrockAgentCoreControl
 
     class ListApiKeyCredentialProvidersResponse
       attr_accessor credential_providers: ::Array[Types::ApiKeyCredentialProviderItem]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListBrowserProfilesRequest
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListBrowserProfilesResponse
+      attr_accessor profile_summaries: ::Array[Types::BrowserProfileSummary]
       attr_accessor next_token: ::String
       SENSITIVE: []
     end
