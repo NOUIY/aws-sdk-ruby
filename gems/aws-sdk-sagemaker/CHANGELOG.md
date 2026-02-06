@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.350.0 (2026-02-06)
+------------------
+
+* Feature - Adding g7e instance support in Sagemaker Training
+
 1.349.0 (2026-01-27)
 ------------------
 
