@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.158.0 (2026-02-09)
+------------------
+
+* Feature - Amazon EKS adds a new DescribeUpdate update type, VendedLogsUpdate, to support an integration between EKS Auto Mode and Amazon CloudWatch Vended Logs.
+
 1.157.0 (2026-02-04)
 ------------------
 

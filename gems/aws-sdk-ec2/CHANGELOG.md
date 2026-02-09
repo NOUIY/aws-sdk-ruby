@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.598.0 (2026-02-09)
+------------------
+
+* Feature - Amazon Secondary Networks is a networking feature that provides high-performance, low-latency connectivity for specialized workloads.
+
 1.597.0 (2026-01-29)
 ------------------
 
