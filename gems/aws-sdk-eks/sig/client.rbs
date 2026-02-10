@@ -423,7 +423,8 @@ module Aws
                                              ?client_request_token: ::String,
                                              ?tags: Hash[::String, ::String],
                                              ?disable_session_tags: bool,
-                                             ?target_role_arn: ::String
+                                             ?target_role_arn: ::String,
+                                             ?policy: ::String
                                            ) -> _CreatePodIdentityAssociationResponseSuccess
                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreatePodIdentityAssociationResponseSuccess
 
@@ -1237,7 +1238,8 @@ module Aws
                                              ?role_arn: ::String,
                                              ?client_request_token: ::String,
                                              ?disable_session_tags: bool,
-                                             ?target_role_arn: ::String
+                                             ?target_role_arn: ::String,
+                                             ?policy: ::String
                                            ) -> _UpdatePodIdentityAssociationResponseSuccess
                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdatePodIdentityAssociationResponseSuccess
 

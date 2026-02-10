@@ -107,6 +107,48 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # Configuration settings for after contact work (ACW) timeout.
+    #
+    # @!attribute [rw] after_contact_work_time_limit
+    #   The ACW timeout duration in seconds. Minimum: 1 second. Maximum:
+    #   2,000,000 seconds (24 days). Enter 0 for indefinite ACW time.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/AfterContactWorkConfig AWS API Documentation
+    #
+    class AfterContactWorkConfig < Struct.new(
+      :after_contact_work_time_limit)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration settings for after contact work (ACW) timeout for a
+    # specific channel.
+    #
+    # @!attribute [rw] channel
+    #   The channel for this ACW timeout configuration. Valid values: VOICE,
+    #   CHAT, TASK, EMAIL.
+    #   @return [String]
+    #
+    # @!attribute [rw] after_contact_work_config
+    #   The ACW timeout settings for this channel.
+    #   @return [Types::AfterContactWorkConfig]
+    #
+    # @!attribute [rw] agent_first_callback_after_contact_work_config
+    #   The ACW timeout settings for agent-first callbacks. This setting
+    #   only applies to the VOICE channel.
+    #   @return [Types::AfterContactWorkConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/AfterContactWorkConfigPerChannel AWS API Documentation
+    #
+    class AfterContactWorkConfigPerChannel < Struct.new(
+      :channel,
+      :after_contact_work_config,
+      :agent_first_callback_after_contact_work_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The distribution of agents between the instance and its replica(s).
     #
     # @!attribute [rw] distributions
@@ -2017,6 +2059,34 @@ module Aws::Connect
       :is_default,
       :last_modified_time,
       :last_modified_region)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration settings for auto-accept for a specific channel.
+    #
+    # @!attribute [rw] channel
+    #   The channel for this auto-accept configuration. Valid values: VOICE,
+    #   CHAT, TASK, EMAIL.
+    #   @return [String]
+    #
+    # @!attribute [rw] auto_accept
+    #   Indicates whether auto-accept is enabled for this channel. When
+    #   enabled, available agents are automatically connected to contacts
+    #   from this channel.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] agent_first_callback_auto_accept
+    #   Indicates whether auto-accept is enabled for agent-first callbacks.
+    #   This setting only applies to the VOICE channel.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/AutoAcceptConfig AWS API Documentation
+    #
+    class AutoAcceptConfig < Struct.new(
+      :channel,
+      :auto_accept,
+      :agent_first_callback_auto_accept)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7114,7 +7184,11 @@ module Aws::Connect
     #   @return [Types::UserIdentityInfo]
     #
     # @!attribute [rw] phone_config
-    #   The phone settings for the user.
+    #   The phone settings for the user. This parameter is optional. If not
+    #   provided, the user can be configured using channel-specific
+    #   parameters such as `AutoAcceptConfigs`, `AfterContactWorkConfigs`,
+    #   `PhoneNumberConfigs`, `PersistentConnectionConfigs`, and
+    #   `VoiceEnhancementConfigs`.
     #   @return [Types::UserPhoneConfig]
     #
     # @!attribute [rw] directory_user_id
@@ -7153,6 +7227,29 @@ module Aws::Connect
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
     #   @return [String]
     #
+    # @!attribute [rw] auto_accept_configs
+    #   The list of auto-accept configuration settings for each channel.
+    #   @return [Array<Types::AutoAcceptConfig>]
+    #
+    # @!attribute [rw] after_contact_work_configs
+    #   The list of after contact work (ACW) timeout configuration settings
+    #   for each channel.
+    #   @return [Array<Types::AfterContactWorkConfigPerChannel>]
+    #
+    # @!attribute [rw] phone_number_configs
+    #   The list of phone number configuration settings for each channel.
+    #   @return [Array<Types::PhoneNumberConfig>]
+    #
+    # @!attribute [rw] persistent_connection_configs
+    #   The list of persistent connection configuration settings for each
+    #   channel.
+    #   @return [Array<Types::PersistentConnectionConfig>]
+    #
+    # @!attribute [rw] voice_enhancement_configs
+    #   The list of voice enhancement configuration settings for each
+    #   channel.
+    #   @return [Array<Types::VoiceEnhancementConfig>]
+    #
     # @!attribute [rw] tags
     #   The tags used to organize, track, or control access for this
     #   resource. For example, \{ "Tags": \{"key1":"value1",
@@ -7171,6 +7268,11 @@ module Aws::Connect
       :routing_profile_id,
       :hierarchy_group_id,
       :instance_id,
+      :auto_accept_configs,
+      :after_contact_work_configs,
+      :phone_number_configs,
+      :persistent_connection_configs,
+      :voice_enhancement_configs,
       :tags)
       SENSITIVE = [:password]
       include Aws::Structure
@@ -24402,6 +24504,54 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # Configuration settings for persistent connection for a specific
+    # channel.
+    #
+    # @!attribute [rw] channel
+    #   Configuration settings for persistent connection. **Only `VOICE` is
+    #   supported for this data type.**
+    #   @return [String]
+    #
+    # @!attribute [rw] persistent_connection
+    #   Indicates whether persistent connection is enabled. When enabled,
+    #   the agent's connection is maintained after a call ends, enabling
+    #   subsequent calls to connect faster.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/PersistentConnectionConfig AWS API Documentation
+    #
+    class PersistentConnectionConfig < Struct.new(
+      :channel,
+      :persistent_connection)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration settings for phone type and phone number.
+    #
+    # @!attribute [rw] channel
+    #   The channel for this phone number configuration. **Only `VOICE` is
+    #   supported for this data type.**
+    #   @return [String]
+    #
+    # @!attribute [rw] phone_type
+    #   The phone type. Valid values: SOFT\_PHONE, DESK\_PHONE.
+    #   @return [String]
+    #
+    # @!attribute [rw] phone_number
+    #   The phone number for the user's desk phone.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/PhoneNumberConfig AWS API Documentation
+    #
+    class PhoneNumberConfig < Struct.new(
+      :channel,
+      :phone_type,
+      :phone_number)
+      SENSITIVE = [:phone_number]
+      include Aws::Structure
+    end
+
     # Contains information about a phone number for a quick connect.
     #
     # @!attribute [rw] phone_number
@@ -35069,6 +35219,64 @@ module Aws::Connect
     #
     class UpdateTrafficDistributionResponse < Aws::EmptyStructure; end
 
+    # @!attribute [rw] auto_accept_configs
+    #   The list of auto-accept configuration settings for each channel.
+    #   When auto-accept is enabled for a channel, available agents are
+    #   automatically connected to contacts from that channel without
+    #   needing to manually accept. Auto-accept connects agents to contacts
+    #   in less than one second.
+    #   @return [Array<Types::AutoAcceptConfig>]
+    #
+    # @!attribute [rw] after_contact_work_configs
+    #   The list of after contact work (ACW) timeout configuration settings
+    #   for each channel. ACW timeout specifies how many seconds agents have
+    #   for after contact work, such as entering notes about the contact.
+    #   The minimum setting is 1 second, and the maximum is 2,000,000
+    #   seconds (24 days). Enter 0 for an indefinite amount of time, meaning
+    #   agents must manually choose to end ACW.
+    #   @return [Array<Types::AfterContactWorkConfigPerChannel>]
+    #
+    # @!attribute [rw] phone_number_configs
+    #   The list of phone number configuration settings for each channel.
+    #   @return [Array<Types::PhoneNumberConfig>]
+    #
+    # @!attribute [rw] persistent_connection_configs
+    #   The list of persistent connection configuration settings for each
+    #   channel.
+    #   @return [Array<Types::PersistentConnectionConfig>]
+    #
+    # @!attribute [rw] voice_enhancement_configs
+    #   The list of voice enhancement configuration settings for each
+    #   channel.
+    #   @return [Array<Types::VoiceEnhancementConfig>]
+    #
+    # @!attribute [rw] user_id
+    #   The identifier of the user account.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateUserConfigRequest AWS API Documentation
+    #
+    class UpdateUserConfigRequest < Struct.new(
+      :auto_accept_configs,
+      :after_contact_work_configs,
+      :phone_number_configs,
+      :persistent_connection_configs,
+      :voice_enhancement_configs,
+      :user_id,
+      :instance_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] name
     #   The name of the hierarchy group. Must not be more than 100
     #   characters.
@@ -35631,6 +35839,29 @@ module Aws::Connect
     #   The tags.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] auto_accept_configs
+    #   The list of auto-accept configuration settings for each channel.
+    #   @return [Array<Types::AutoAcceptConfig>]
+    #
+    # @!attribute [rw] after_contact_work_configs
+    #   The list of after contact work (ACW) timeout configuration settings
+    #   for each channel.
+    #   @return [Array<Types::AfterContactWorkConfigPerChannel>]
+    #
+    # @!attribute [rw] phone_number_configs
+    #   The list of phone number configuration settings for each channel.
+    #   @return [Array<Types::PhoneNumberConfig>]
+    #
+    # @!attribute [rw] persistent_connection_configs
+    #   The list of persistent connection configuration settings for each
+    #   channel.
+    #   @return [Array<Types::PersistentConnectionConfig>]
+    #
+    # @!attribute [rw] voice_enhancement_configs
+    #   The list of voice enhancement configuration settings for each
+    #   channel.
+    #   @return [Array<Types::VoiceEnhancementConfig>]
+    #
     # @!attribute [rw] last_modified_time
     #   The timestamp when this resource was last modified.
     #   @return [Time]
@@ -35653,6 +35884,11 @@ module Aws::Connect
       :routing_profile_id,
       :hierarchy_group_id,
       :tags,
+      :auto_accept_configs,
+      :after_contact_work_configs,
+      :phone_number_configs,
+      :persistent_connection_configs,
+      :voice_enhancement_configs,
       :last_modified_time,
       :last_modified_region)
       SENSITIVE = []
@@ -35963,7 +36199,7 @@ module Aws::Connect
       :after_contact_work_time_limit,
       :desk_phone_number,
       :persistent_connection)
-      SENSITIVE = []
+      SENSITIVE = [:desk_phone_number]
       include Aws::Structure
     end
 
@@ -36191,6 +36427,29 @@ module Aws::Connect
     #   The name of the user.
     #   @return [String]
     #
+    # @!attribute [rw] auto_accept_configs
+    #   The list of auto-accept configuration settings for each channel.
+    #   @return [Array<Types::AutoAcceptConfig>]
+    #
+    # @!attribute [rw] after_contact_work_configs
+    #   The list of after contact work (ACW) timeout configuration settings
+    #   for each channel.
+    #   @return [Array<Types::AfterContactWorkConfigPerChannel>]
+    #
+    # @!attribute [rw] phone_number_configs
+    #   The list of phone number configuration settings for each channel.
+    #   @return [Array<Types::PhoneNumberConfig>]
+    #
+    # @!attribute [rw] persistent_connection_configs
+    #   The list of persistent connection configuration settings for each
+    #   channel.
+    #   @return [Array<Types::PersistentConnectionConfig>]
+    #
+    # @!attribute [rw] voice_enhancement_configs
+    #   The list of voice enhancement configuration settings for each
+    #   channel.
+    #   @return [Array<Types::VoiceEnhancementConfig>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UserSearchSummary AWS API Documentation
     #
     class UserSearchSummary < Struct.new(
@@ -36203,7 +36462,12 @@ module Aws::Connect
       :routing_profile_id,
       :security_profile_ids,
       :tags,
-      :username)
+      :username,
+      :auto_accept_configs,
+      :after_contact_work_configs,
+      :phone_number_configs,
+      :persistent_connection_configs,
+      :voice_enhancement_configs)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -36771,6 +37035,26 @@ module Aws::Connect
       :source_phone_number,
       :destination_phone_number,
       :flow_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration settings for voice enhancement.
+    #
+    # @!attribute [rw] channel
+    #   The channel for this voice enhancement configuration. **Only `VOICE`
+    #   is supported for this data type.**
+    #   @return [String]
+    #
+    # @!attribute [rw] voice_enhancement_mode
+    #   The voice enhancement mode.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/VoiceEnhancementConfig AWS API Documentation
+    #
+    class VoiceEnhancementConfig < Struct.new(
+      :channel,
+      :voice_enhancement_mode)
       SENSITIVE = []
       include Aws::Structure
     end

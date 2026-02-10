@@ -569,6 +569,7 @@ module Aws::EKS
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor disable_session_tags: bool
       attr_accessor target_role_arn: ::String
+      attr_accessor policy: ::String
       SENSITIVE: []
     end
 
@@ -1432,6 +1433,7 @@ module Aws::EKS
       attr_accessor disable_session_tags: bool
       attr_accessor target_role_arn: ::String
       attr_accessor external_id: ::String
+      attr_accessor policy: ::String
       SENSITIVE: []
     end
 
@@ -1773,6 +1775,7 @@ module Aws::EKS
       attr_accessor client_request_token: ::String
       attr_accessor disable_session_tags: bool
       attr_accessor target_role_arn: ::String
+      attr_accessor policy: ::String
       SENSITIVE: []
     end
 

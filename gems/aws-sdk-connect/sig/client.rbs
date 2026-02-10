@@ -1535,8 +1535,8 @@ module Aws
                            secondary_email: ::String?,
                            mobile: ::String?
                          },
-                         phone_config: {
-                           phone_type: ("SOFT_PHONE" | "DESK_PHONE"),
+                         ?phone_config: {
+                           phone_type: ("SOFT_PHONE" | "DESK_PHONE")?,
                            auto_accept: bool?,
                            after_contact_work_time_limit: ::Integer?,
                            desk_phone_number: ::String?,
@@ -1547,6 +1547,43 @@ module Aws
                          routing_profile_id: ::String,
                          ?hierarchy_group_id: ::String,
                          instance_id: ::String,
+                         ?auto_accept_configs: Array[
+                           {
+                             channel: ("VOICE" | "CHAT" | "TASK" | "EMAIL"),
+                             auto_accept: bool,
+                             agent_first_callback_auto_accept: bool?
+                           },
+                         ],
+                         ?after_contact_work_configs: Array[
+                           {
+                             channel: ("VOICE" | "CHAT" | "TASK" | "EMAIL"),
+                             after_contact_work_config: {
+                               after_contact_work_time_limit: ::Integer?
+                             },
+                             agent_first_callback_after_contact_work_config: {
+                               after_contact_work_time_limit: ::Integer?
+                             }?
+                           },
+                         ],
+                         ?phone_number_configs: Array[
+                           {
+                             channel: ("VOICE" | "CHAT" | "TASK" | "EMAIL"),
+                             phone_type: ("SOFT_PHONE" | "DESK_PHONE"),
+                             phone_number: ::String?
+                           },
+                         ],
+                         ?persistent_connection_configs: Array[
+                           {
+                             channel: ("VOICE" | "CHAT" | "TASK" | "EMAIL"),
+                             persistent_connection: bool
+                           },
+                         ],
+                         ?voice_enhancement_configs: Array[
+                           {
+                             channel: ("VOICE" | "CHAT" | "TASK" | "EMAIL"),
+                             voice_enhancement_mode: ("VOICE_ISOLATION" | "NOISE_SUPPRESSION" | "NONE")
+                           },
+                         ],
                          ?tags: Hash[::String, ::String]
                        ) -> _CreateUserResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateUserResponseSuccess
@@ -7117,6 +7154,50 @@ module Aws
                                        ) -> _UpdateTrafficDistributionResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateTrafficDistributionResponseSuccess
 
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#update_user_config-instance_method
+      def update_user_config: (
+                                ?auto_accept_configs: Array[
+                                  {
+                                    channel: ("VOICE" | "CHAT" | "TASK" | "EMAIL"),
+                                    auto_accept: bool,
+                                    agent_first_callback_auto_accept: bool?
+                                  },
+                                ],
+                                ?after_contact_work_configs: Array[
+                                  {
+                                    channel: ("VOICE" | "CHAT" | "TASK" | "EMAIL"),
+                                    after_contact_work_config: {
+                                      after_contact_work_time_limit: ::Integer?
+                                    },
+                                    agent_first_callback_after_contact_work_config: {
+                                      after_contact_work_time_limit: ::Integer?
+                                    }?
+                                  },
+                                ],
+                                ?phone_number_configs: Array[
+                                  {
+                                    channel: ("VOICE" | "CHAT" | "TASK" | "EMAIL"),
+                                    phone_type: ("SOFT_PHONE" | "DESK_PHONE"),
+                                    phone_number: ::String?
+                                  },
+                                ],
+                                ?persistent_connection_configs: Array[
+                                  {
+                                    channel: ("VOICE" | "CHAT" | "TASK" | "EMAIL"),
+                                    persistent_connection: bool
+                                  },
+                                ],
+                                ?voice_enhancement_configs: Array[
+                                  {
+                                    channel: ("VOICE" | "CHAT" | "TASK" | "EMAIL"),
+                                    voice_enhancement_mode: ("VOICE_ISOLATION" | "NOISE_SUPPRESSION" | "NONE")
+                                  },
+                                ],
+                                user_id: ::String,
+                                instance_id: ::String
+                              ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#update_user_hierarchy-instance_method
       def update_user_hierarchy: (
                                    ?hierarchy_group_id: ::String,
@@ -7173,7 +7254,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#update_user_phone_config-instance_method
       def update_user_phone_config: (
                                       phone_config: {
-                                        phone_type: ("SOFT_PHONE" | "DESK_PHONE"),
+                                        phone_type: ("SOFT_PHONE" | "DESK_PHONE")?,
                                         auto_accept: bool?,
                                         after_contact_work_time_limit: ::Integer?,
                                         desk_phone_number: ::String?,

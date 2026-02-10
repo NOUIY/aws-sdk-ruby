@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.159.0 (2026-02-10)
+------------------
+
+* Feature - Introducing an optional policy field, an IAM policy applied to pod identity associations in addition to IAM role policies. When specified, pod permissions are the intersection of IAM role policies and the policy field, ensuring the principle of least privilege.
+
 1.158.0 (2026-02-09)
 ------------------
 

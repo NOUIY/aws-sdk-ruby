@@ -2332,6 +2332,25 @@ module Aws::EKS
     #   allowing your Pods to securely access resources like S3 buckets in the
     #   target account.
     #
+    # @option params [String] :policy
+    #   An optional IAM policy in JSON format (as an escaped string) that
+    #   applies additional restrictions to this pod identity association
+    #   beyond the IAM policies attached to the IAM role. This policy is
+    #   applied as the intersection of the role's policies and this policy,
+    #   allowing you to reduce the permissions that applications in the pods
+    #   can use. Use this policy to enforce least privilege access while still
+    #   leveraging a shared IAM role across multiple applications.
+    #
+    #   **Important considerations**
+    #
+    #   * **Session tags:** When using this policy, `disableSessionTags` must
+    #     be set to `true`.
+    #
+    #   * **Target role permissions:** If you specify both a `TargetRoleArn`
+    #     and a policy, the policy restrictions apply only to the target
+    #     role's permissions, not to the initial role used for assuming the
+    #     target role.
+    #
     # @return [Types::CreatePodIdentityAssociationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreatePodIdentityAssociationResponse#association #association} => Types::PodIdentityAssociation
@@ -2349,6 +2368,7 @@ module Aws::EKS
     #     },
     #     disable_session_tags: false,
     #     target_role_arn: "String",
+    #     policy: "String",
     #   })
     #
     # @example Response structure
@@ -2367,6 +2387,7 @@ module Aws::EKS
     #   resp.association.disable_session_tags #=> Boolean
     #   resp.association.target_role_arn #=> String
     #   resp.association.external_id #=> String
+    #   resp.association.policy #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/CreatePodIdentityAssociation AWS API Documentation
     #
@@ -2900,6 +2921,7 @@ module Aws::EKS
     #   resp.association.disable_session_tags #=> Boolean
     #   resp.association.target_role_arn #=> String
     #   resp.association.external_id #=> String
+    #   resp.association.policy #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/DeletePodIdentityAssociation AWS API Documentation
     #
@@ -3932,6 +3954,7 @@ module Aws::EKS
     #   resp.association.disable_session_tags #=> Boolean
     #   resp.association.target_role_arn #=> String
     #   resp.association.external_id #=> String
+    #   resp.association.policy #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/DescribePodIdentityAssociation AWS API Documentation
     #
@@ -6296,6 +6319,25 @@ module Aws::EKS
     #   allowing your Pods to securely access resources like S3 buckets in the
     #   target account.
     #
+    # @option params [String] :policy
+    #   An optional IAM policy in JSON format (as an escaped string) that
+    #   applies additional restrictions to this pod identity association
+    #   beyond the IAM policies attached to the IAM role. This policy is
+    #   applied as the intersection of the role's policies and this policy,
+    #   allowing you to reduce the permissions that applications in the pods
+    #   can use. Use this policy to enforce least privilege access while still
+    #   leveraging a shared IAM role across multiple applications.
+    #
+    #   **Important considerations**
+    #
+    #   * **Session tags:** When using this policy, `disableSessionTags` must
+    #     be set to `true`.
+    #
+    #   * **Target role permissions:** If you specify both a `TargetRoleArn`
+    #     and a policy, the policy restrictions apply only to the target
+    #     role's permissions, not to the initial role used for assuming the
+    #     target role.
+    #
     # @return [Types::UpdatePodIdentityAssociationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdatePodIdentityAssociationResponse#association #association} => Types::PodIdentityAssociation
@@ -6309,6 +6351,7 @@ module Aws::EKS
     #     client_request_token: "String",
     #     disable_session_tags: false,
     #     target_role_arn: "String",
+    #     policy: "String",
     #   })
     #
     # @example Response structure
@@ -6327,6 +6370,7 @@ module Aws::EKS
     #   resp.association.disable_session_tags #=> Boolean
     #   resp.association.target_role_arn #=> String
     #   resp.association.external_id #=> String
+    #   resp.association.policy #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/UpdatePodIdentityAssociation AWS API Documentation
     #
@@ -6355,7 +6399,7 @@ module Aws::EKS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-eks'
-      context[:gem_version] = '1.158.0'
+      context[:gem_version] = '1.159.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

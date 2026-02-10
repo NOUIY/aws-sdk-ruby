@@ -27,12 +27,16 @@ module Aws::Connect
     ActiveRegion = Shapes::StringShape.new(name: 'ActiveRegion')
     ActiveRegionList = Shapes::ListShape.new(name: 'ActiveRegionList')
     AdditionalEmailRecipients = Shapes::StructureShape.new(name: 'AdditionalEmailRecipients')
+    AfterContactWorkConfig = Shapes::StructureShape.new(name: 'AfterContactWorkConfig')
+    AfterContactWorkConfigPerChannel = Shapes::StructureShape.new(name: 'AfterContactWorkConfigPerChannel')
+    AfterContactWorkConfigs = Shapes::ListShape.new(name: 'AfterContactWorkConfigs')
     AfterContactWorkTimeLimit = Shapes::IntegerShape.new(name: 'AfterContactWorkTimeLimit')
     AgentAvailabilityTimer = Shapes::StringShape.new(name: 'AgentAvailabilityTimer')
     AgentConfig = Shapes::StructureShape.new(name: 'AgentConfig')
     AgentContactReference = Shapes::StructureShape.new(name: 'AgentContactReference')
     AgentContactReferenceList = Shapes::ListShape.new(name: 'AgentContactReferenceList')
     AgentFirst = Shapes::StructureShape.new(name: 'AgentFirst')
+    AgentFirstCallbackAutoAccept = Shapes::BooleanShape.new(name: 'AgentFirstCallbackAutoAccept')
     AgentFirstName = Shapes::StringShape.new(name: 'AgentFirstName')
     AgentHierarchyGroup = Shapes::StructureShape.new(name: 'AgentHierarchyGroup')
     AgentHierarchyGroups = Shapes::StructureShape.new(name: 'AgentHierarchyGroups')
@@ -158,6 +162,8 @@ module Aws::Connect
     AuthenticationProfileSummaryList = Shapes::ListShape.new(name: 'AuthenticationProfileSummaryList')
     AuthorizationCode = Shapes::StringShape.new(name: 'AuthorizationCode')
     AutoAccept = Shapes::BooleanShape.new(name: 'AutoAccept')
+    AutoAcceptConfig = Shapes::StructureShape.new(name: 'AutoAcceptConfig')
+    AutoAcceptConfigs = Shapes::ListShape.new(name: 'AutoAcceptConfigs')
     AutoEvaluationConfiguration = Shapes::StructureShape.new(name: 'AutoEvaluationConfiguration')
     AutoEvaluationDetails = Shapes::StructureShape.new(name: 'AutoEvaluationDetails')
     AutoEvaluationStatus = Shapes::StringShape.new(name: 'AutoEvaluationStatus')
@@ -1294,7 +1300,11 @@ module Aws::Connect
     PermissionsList = Shapes::ListShape.new(name: 'PermissionsList')
     PersistentChat = Shapes::StructureShape.new(name: 'PersistentChat')
     PersistentConnection = Shapes::BooleanShape.new(name: 'PersistentConnection')
+    PersistentConnectionConfig = Shapes::StructureShape.new(name: 'PersistentConnectionConfig')
+    PersistentConnectionConfigs = Shapes::ListShape.new(name: 'PersistentConnectionConfigs')
     PhoneNumber = Shapes::StringShape.new(name: 'PhoneNumber')
+    PhoneNumberConfig = Shapes::StructureShape.new(name: 'PhoneNumberConfig')
+    PhoneNumberConfigs = Shapes::ListShape.new(name: 'PhoneNumberConfigs')
     PhoneNumberCountryCode = Shapes::StringShape.new(name: 'PhoneNumberCountryCode')
     PhoneNumberCountryCodes = Shapes::ListShape.new(name: 'PhoneNumberCountryCodes')
     PhoneNumberDescription = Shapes::StringShape.new(name: 'PhoneNumberDescription')
@@ -1658,6 +1668,7 @@ module Aws::Connect
     SendNotificationActionDefinition = Shapes::StructureShape.new(name: 'SendNotificationActionDefinition')
     SendOutboundEmailRequest = Shapes::StructureShape.new(name: 'SendOutboundEmailRequest')
     SendOutboundEmailResponse = Shapes::StructureShape.new(name: 'SendOutboundEmailResponse')
+    SensitivePhoneNumber = Shapes::StringShape.new(name: 'SensitivePhoneNumber')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     ServiceQuotaExceededExceptionReason = Shapes::UnionShape.new(name: 'ServiceQuotaExceededExceptionReason')
     SignInConfig = Shapes::StructureShape.new(name: 'SignInConfig')
@@ -1923,6 +1934,7 @@ module Aws::Connect
     UpdateTestCaseResponse = Shapes::StructureShape.new(name: 'UpdateTestCaseResponse')
     UpdateTrafficDistributionRequest = Shapes::StructureShape.new(name: 'UpdateTrafficDistributionRequest')
     UpdateTrafficDistributionResponse = Shapes::StructureShape.new(name: 'UpdateTrafficDistributionResponse')
+    UpdateUserConfigRequest = Shapes::StructureShape.new(name: 'UpdateUserConfigRequest')
     UpdateUserHierarchyGroupNameRequest = Shapes::StructureShape.new(name: 'UpdateUserHierarchyGroupNameRequest')
     UpdateUserHierarchyRequest = Shapes::StructureShape.new(name: 'UpdateUserHierarchyRequest')
     UpdateUserHierarchyStructureRequest = Shapes::StructureShape.new(name: 'UpdateUserHierarchyStructureRequest')
@@ -2031,6 +2043,9 @@ module Aws::Connect
     VocabularySummary = Shapes::StructureShape.new(name: 'VocabularySummary')
     VocabularySummaryList = Shapes::ListShape.new(name: 'VocabularySummaryList')
     VoiceCallEntryPointParameters = Shapes::StructureShape.new(name: 'VoiceCallEntryPointParameters')
+    VoiceEnhancementConfig = Shapes::StructureShape.new(name: 'VoiceEnhancementConfig')
+    VoiceEnhancementConfigs = Shapes::ListShape.new(name: 'VoiceEnhancementConfigs')
+    VoiceEnhancementMode = Shapes::StringShape.new(name: 'VoiceEnhancementMode')
     VoiceRecordingConfiguration = Shapes::StructureShape.new(name: 'VoiceRecordingConfiguration')
     VoiceRecordingTrack = Shapes::StringShape.new(name: 'VoiceRecordingTrack')
     WeekdayOccurrenceInteger = Shapes::IntegerShape.new(name: 'WeekdayOccurrenceInteger')
@@ -2093,6 +2108,16 @@ module Aws::Connect
     AdditionalEmailRecipients.add_member(:to_list, Shapes::ShapeRef.new(shape: EmailRecipientsList, location_name: "ToList"))
     AdditionalEmailRecipients.add_member(:cc_list, Shapes::ShapeRef.new(shape: EmailRecipientsList, location_name: "CcList"))
     AdditionalEmailRecipients.struct_class = Types::AdditionalEmailRecipients
+
+    AfterContactWorkConfig.add_member(:after_contact_work_time_limit, Shapes::ShapeRef.new(shape: AfterContactWorkTimeLimit, location_name: "AfterContactWorkTimeLimit"))
+    AfterContactWorkConfig.struct_class = Types::AfterContactWorkConfig
+
+    AfterContactWorkConfigPerChannel.add_member(:channel, Shapes::ShapeRef.new(shape: Channel, required: true, location_name: "Channel"))
+    AfterContactWorkConfigPerChannel.add_member(:after_contact_work_config, Shapes::ShapeRef.new(shape: AfterContactWorkConfig, required: true, location_name: "AfterContactWorkConfig"))
+    AfterContactWorkConfigPerChannel.add_member(:agent_first_callback_after_contact_work_config, Shapes::ShapeRef.new(shape: AfterContactWorkConfig, location_name: "AgentFirstCallbackAfterContactWorkConfig"))
+    AfterContactWorkConfigPerChannel.struct_class = Types::AfterContactWorkConfigPerChannel
+
+    AfterContactWorkConfigs.member = Shapes::ShapeRef.new(shape: AfterContactWorkConfigPerChannel)
 
     AgentConfig.add_member(:distributions, Shapes::ShapeRef.new(shape: DistributionList, required: true, location_name: "Distributions"))
     AgentConfig.struct_class = Types::AgentConfig
@@ -2488,6 +2513,13 @@ module Aws::Connect
     AuthenticationProfileSummary.struct_class = Types::AuthenticationProfileSummary
 
     AuthenticationProfileSummaryList.member = Shapes::ShapeRef.new(shape: AuthenticationProfileSummary)
+
+    AutoAcceptConfig.add_member(:channel, Shapes::ShapeRef.new(shape: Channel, required: true, location_name: "Channel"))
+    AutoAcceptConfig.add_member(:auto_accept, Shapes::ShapeRef.new(shape: AutoAccept, required: true, location_name: "AutoAccept"))
+    AutoAcceptConfig.add_member(:agent_first_callback_auto_accept, Shapes::ShapeRef.new(shape: AgentFirstCallbackAutoAccept, location_name: "AgentFirstCallbackAutoAccept"))
+    AutoAcceptConfig.struct_class = Types::AutoAcceptConfig
+
+    AutoAcceptConfigs.member = Shapes::ShapeRef.new(shape: AutoAcceptConfig)
 
     AutoEvaluationConfiguration.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "Enabled"))
     AutoEvaluationConfiguration.struct_class = Types::AutoEvaluationConfiguration
@@ -3453,12 +3485,17 @@ module Aws::Connect
     CreateUserRequest.add_member(:username, Shapes::ShapeRef.new(shape: AgentUsername, required: true, location_name: "Username"))
     CreateUserRequest.add_member(:password, Shapes::ShapeRef.new(shape: Password, location_name: "Password"))
     CreateUserRequest.add_member(:identity_info, Shapes::ShapeRef.new(shape: UserIdentityInfo, location_name: "IdentityInfo"))
-    CreateUserRequest.add_member(:phone_config, Shapes::ShapeRef.new(shape: UserPhoneConfig, required: true, location_name: "PhoneConfig"))
+    CreateUserRequest.add_member(:phone_config, Shapes::ShapeRef.new(shape: UserPhoneConfig, location_name: "PhoneConfig"))
     CreateUserRequest.add_member(:directory_user_id, Shapes::ShapeRef.new(shape: DirectoryUserId, location_name: "DirectoryUserId"))
     CreateUserRequest.add_member(:security_profile_ids, Shapes::ShapeRef.new(shape: SecurityProfileIds, required: true, location_name: "SecurityProfileIds"))
     CreateUserRequest.add_member(:routing_profile_id, Shapes::ShapeRef.new(shape: RoutingProfileId, required: true, location_name: "RoutingProfileId"))
     CreateUserRequest.add_member(:hierarchy_group_id, Shapes::ShapeRef.new(shape: HierarchyGroupId, location_name: "HierarchyGroupId"))
     CreateUserRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    CreateUserRequest.add_member(:auto_accept_configs, Shapes::ShapeRef.new(shape: AutoAcceptConfigs, location_name: "AutoAcceptConfigs"))
+    CreateUserRequest.add_member(:after_contact_work_configs, Shapes::ShapeRef.new(shape: AfterContactWorkConfigs, location_name: "AfterContactWorkConfigs"))
+    CreateUserRequest.add_member(:phone_number_configs, Shapes::ShapeRef.new(shape: PhoneNumberConfigs, location_name: "PhoneNumberConfigs"))
+    CreateUserRequest.add_member(:persistent_connection_configs, Shapes::ShapeRef.new(shape: PersistentConnectionConfigs, location_name: "PersistentConnectionConfigs"))
+    CreateUserRequest.add_member(:voice_enhancement_configs, Shapes::ShapeRef.new(shape: VoiceEnhancementConfigs, location_name: "VoiceEnhancementConfigs"))
     CreateUserRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
     CreateUserRequest.struct_class = Types::CreateUserRequest
 
@@ -6467,6 +6504,19 @@ module Aws::Connect
     PersistentChat.add_member(:source_contact_id, Shapes::ShapeRef.new(shape: ContactId, location_name: "SourceContactId"))
     PersistentChat.struct_class = Types::PersistentChat
 
+    PersistentConnectionConfig.add_member(:channel, Shapes::ShapeRef.new(shape: Channel, required: true, location_name: "Channel"))
+    PersistentConnectionConfig.add_member(:persistent_connection, Shapes::ShapeRef.new(shape: PersistentConnection, required: true, location_name: "PersistentConnection", metadata: {"box" => true}))
+    PersistentConnectionConfig.struct_class = Types::PersistentConnectionConfig
+
+    PersistentConnectionConfigs.member = Shapes::ShapeRef.new(shape: PersistentConnectionConfig)
+
+    PhoneNumberConfig.add_member(:channel, Shapes::ShapeRef.new(shape: Channel, required: true, location_name: "Channel"))
+    PhoneNumberConfig.add_member(:phone_type, Shapes::ShapeRef.new(shape: PhoneType, required: true, location_name: "PhoneType"))
+    PhoneNumberConfig.add_member(:phone_number, Shapes::ShapeRef.new(shape: SensitivePhoneNumber, location_name: "PhoneNumber"))
+    PhoneNumberConfig.struct_class = Types::PhoneNumberConfig
+
+    PhoneNumberConfigs.member = Shapes::ShapeRef.new(shape: PhoneNumberConfig)
+
     PhoneNumberCountryCodes.member = Shapes::ShapeRef.new(shape: PhoneNumberCountryCode)
 
     PhoneNumberQuickConnectConfig.add_member(:phone_number, Shapes::ShapeRef.new(shape: PhoneNumber, required: true, location_name: "PhoneNumber"))
@@ -8585,6 +8635,15 @@ module Aws::Connect
 
     UpdateTrafficDistributionResponse.struct_class = Types::UpdateTrafficDistributionResponse
 
+    UpdateUserConfigRequest.add_member(:auto_accept_configs, Shapes::ShapeRef.new(shape: AutoAcceptConfigs, location_name: "AutoAcceptConfigs"))
+    UpdateUserConfigRequest.add_member(:after_contact_work_configs, Shapes::ShapeRef.new(shape: AfterContactWorkConfigs, location_name: "AfterContactWorkConfigs"))
+    UpdateUserConfigRequest.add_member(:phone_number_configs, Shapes::ShapeRef.new(shape: PhoneNumberConfigs, location_name: "PhoneNumberConfigs"))
+    UpdateUserConfigRequest.add_member(:persistent_connection_configs, Shapes::ShapeRef.new(shape: PersistentConnectionConfigs, location_name: "PersistentConnectionConfigs"))
+    UpdateUserConfigRequest.add_member(:voice_enhancement_configs, Shapes::ShapeRef.new(shape: VoiceEnhancementConfigs, location_name: "VoiceEnhancementConfigs"))
+    UpdateUserConfigRequest.add_member(:user_id, Shapes::ShapeRef.new(shape: UserId, required: true, location: "uri", location_name: "UserId"))
+    UpdateUserConfigRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    UpdateUserConfigRequest.struct_class = Types::UpdateUserConfigRequest
+
     UpdateUserHierarchyGroupNameRequest.add_member(:name, Shapes::ShapeRef.new(shape: HierarchyGroupName, required: true, location_name: "Name"))
     UpdateUserHierarchyGroupNameRequest.add_member(:hierarchy_group_id, Shapes::ShapeRef.new(shape: HierarchyGroupId, required: true, location: "uri", location_name: "HierarchyGroupId"))
     UpdateUserHierarchyGroupNameRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
@@ -8704,6 +8763,11 @@ module Aws::Connect
     User.add_member(:routing_profile_id, Shapes::ShapeRef.new(shape: RoutingProfileId, location_name: "RoutingProfileId"))
     User.add_member(:hierarchy_group_id, Shapes::ShapeRef.new(shape: HierarchyGroupId, location_name: "HierarchyGroupId"))
     User.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
+    User.add_member(:auto_accept_configs, Shapes::ShapeRef.new(shape: AutoAcceptConfigs, location_name: "AutoAcceptConfigs"))
+    User.add_member(:after_contact_work_configs, Shapes::ShapeRef.new(shape: AfterContactWorkConfigs, location_name: "AfterContactWorkConfigs"))
+    User.add_member(:phone_number_configs, Shapes::ShapeRef.new(shape: PhoneNumberConfigs, location_name: "PhoneNumberConfigs"))
+    User.add_member(:persistent_connection_configs, Shapes::ShapeRef.new(shape: PersistentConnectionConfigs, location_name: "PersistentConnectionConfigs"))
+    User.add_member(:voice_enhancement_configs, Shapes::ShapeRef.new(shape: VoiceEnhancementConfigs, location_name: "VoiceEnhancementConfigs"))
     User.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastModifiedTime"))
     User.add_member(:last_modified_region, Shapes::ShapeRef.new(shape: RegionName, location_name: "LastModifiedRegion"))
     User.struct_class = Types::User
@@ -8761,10 +8825,10 @@ module Aws::Connect
     UserNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: Message, location_name: "Message"))
     UserNotFoundException.struct_class = Types::UserNotFoundException
 
-    UserPhoneConfig.add_member(:phone_type, Shapes::ShapeRef.new(shape: PhoneType, required: true, location_name: "PhoneType"))
+    UserPhoneConfig.add_member(:phone_type, Shapes::ShapeRef.new(shape: PhoneType, location_name: "PhoneType"))
     UserPhoneConfig.add_member(:auto_accept, Shapes::ShapeRef.new(shape: AutoAccept, location_name: "AutoAccept"))
     UserPhoneConfig.add_member(:after_contact_work_time_limit, Shapes::ShapeRef.new(shape: AfterContactWorkTimeLimit, location_name: "AfterContactWorkTimeLimit"))
-    UserPhoneConfig.add_member(:desk_phone_number, Shapes::ShapeRef.new(shape: PhoneNumber, location_name: "DeskPhoneNumber"))
+    UserPhoneConfig.add_member(:desk_phone_number, Shapes::ShapeRef.new(shape: SensitivePhoneNumber, location_name: "DeskPhoneNumber"))
     UserPhoneConfig.add_member(:persistent_connection, Shapes::ShapeRef.new(shape: PersistentConnection, location_name: "PersistentConnection", metadata: {"box" => true}))
     UserPhoneConfig.struct_class = Types::UserPhoneConfig
 
@@ -8812,6 +8876,11 @@ module Aws::Connect
     UserSearchSummary.add_member(:security_profile_ids, Shapes::ShapeRef.new(shape: SecurityProfileIds, location_name: "SecurityProfileIds"))
     UserSearchSummary.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
     UserSearchSummary.add_member(:username, Shapes::ShapeRef.new(shape: AgentUsername, location_name: "Username"))
+    UserSearchSummary.add_member(:auto_accept_configs, Shapes::ShapeRef.new(shape: AutoAcceptConfigs, location_name: "AutoAcceptConfigs"))
+    UserSearchSummary.add_member(:after_contact_work_configs, Shapes::ShapeRef.new(shape: AfterContactWorkConfigs, location_name: "AfterContactWorkConfigs"))
+    UserSearchSummary.add_member(:phone_number_configs, Shapes::ShapeRef.new(shape: PhoneNumberConfigs, location_name: "PhoneNumberConfigs"))
+    UserSearchSummary.add_member(:persistent_connection_configs, Shapes::ShapeRef.new(shape: PersistentConnectionConfigs, location_name: "PersistentConnectionConfigs"))
+    UserSearchSummary.add_member(:voice_enhancement_configs, Shapes::ShapeRef.new(shape: VoiceEnhancementConfigs, location_name: "VoiceEnhancementConfigs"))
     UserSearchSummary.struct_class = Types::UserSearchSummary
 
     UserSearchSummaryList.member = Shapes::ShapeRef.new(shape: UserSearchSummary)
@@ -8938,6 +9007,12 @@ module Aws::Connect
     VoiceCallEntryPointParameters.add_member(:destination_phone_number, Shapes::ShapeRef.new(shape: PhoneNumber, location_name: "DestinationPhoneNumber"))
     VoiceCallEntryPointParameters.add_member(:flow_id, Shapes::ShapeRef.new(shape: ContactFlowId, location_name: "FlowId"))
     VoiceCallEntryPointParameters.struct_class = Types::VoiceCallEntryPointParameters
+
+    VoiceEnhancementConfig.add_member(:channel, Shapes::ShapeRef.new(shape: Channel, required: true, location_name: "Channel"))
+    VoiceEnhancementConfig.add_member(:voice_enhancement_mode, Shapes::ShapeRef.new(shape: VoiceEnhancementMode, required: true, location_name: "VoiceEnhancementMode"))
+    VoiceEnhancementConfig.struct_class = Types::VoiceEnhancementConfig
+
+    VoiceEnhancementConfigs.member = Shapes::ShapeRef.new(shape: VoiceEnhancementConfig)
 
     VoiceRecordingConfiguration.add_member(:voice_recording_track, Shapes::ShapeRef.new(shape: VoiceRecordingTrack, location_name: "VoiceRecordingTrack"))
     VoiceRecordingConfiguration.add_member(:ivr_recording_track, Shapes::ShapeRef.new(shape: IvrRecordingTrack, location_name: "IvrRecordingTrack"))
@@ -14262,6 +14337,20 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: ResourceConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+      end)
+
+      api.add_operation(:update_user_config, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateUserConfig"
+        o.http_method = "POST"
+        o.http_request_uri = "/users/{InstanceId}/{UserId}/config"
+        o.input = Shapes::ShapeRef.new(shape: UpdateUserConfigRequest)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ConditionalOperationFailedException)
       end)
 
       api.add_operation(:update_user_hierarchy, Seahorse::Model::Operation.new.tap do |o|

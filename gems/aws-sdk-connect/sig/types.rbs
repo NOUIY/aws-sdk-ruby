@@ -38,6 +38,18 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class AfterContactWorkConfig
+      attr_accessor after_contact_work_time_limit: ::Integer
+      SENSITIVE: []
+    end
+
+    class AfterContactWorkConfigPerChannel
+      attr_accessor channel: ("VOICE" | "CHAT" | "TASK" | "EMAIL")
+      attr_accessor after_contact_work_config: Types::AfterContactWorkConfig
+      attr_accessor agent_first_callback_after_contact_work_config: Types::AfterContactWorkConfig
+      SENSITIVE: []
+    end
+
     class AgentConfig
       attr_accessor distributions: ::Array[Types::Distribution]
       SENSITIVE: []
@@ -488,6 +500,13 @@ module Aws::Connect
       attr_accessor is_default: bool
       attr_accessor last_modified_time: ::Time
       attr_accessor last_modified_region: ::String
+      SENSITIVE: []
+    end
+
+    class AutoAcceptConfig
+      attr_accessor channel: ("VOICE" | "CHAT" | "TASK" | "EMAIL")
+      attr_accessor auto_accept: bool
+      attr_accessor agent_first_callback_auto_accept: bool
       SENSITIVE: []
     end
 
@@ -1673,6 +1692,11 @@ module Aws::Connect
       attr_accessor routing_profile_id: ::String
       attr_accessor hierarchy_group_id: ::String
       attr_accessor instance_id: ::String
+      attr_accessor auto_accept_configs: ::Array[Types::AutoAcceptConfig]
+      attr_accessor after_contact_work_configs: ::Array[Types::AfterContactWorkConfigPerChannel]
+      attr_accessor phone_number_configs: ::Array[Types::PhoneNumberConfig]
+      attr_accessor persistent_connection_configs: ::Array[Types::PersistentConnectionConfig]
+      attr_accessor voice_enhancement_configs: ::Array[Types::VoiceEnhancementConfig]
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:password]
     end
@@ -5610,6 +5634,19 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class PersistentConnectionConfig
+      attr_accessor channel: ("VOICE" | "CHAT" | "TASK" | "EMAIL")
+      attr_accessor persistent_connection: bool
+      SENSITIVE: []
+    end
+
+    class PhoneNumberConfig
+      attr_accessor channel: ("VOICE" | "CHAT" | "TASK" | "EMAIL")
+      attr_accessor phone_type: ("SOFT_PHONE" | "DESK_PHONE")
+      attr_accessor phone_number: ::String
+      SENSITIVE: [:phone_number]
+    end
+
     class PhoneNumberQuickConnectConfig
       attr_accessor phone_number: ::String
       SENSITIVE: []
@@ -8187,6 +8224,17 @@ module Aws::Connect
     class UpdateTrafficDistributionResponse < Aws::EmptyStructure
     end
 
+    class UpdateUserConfigRequest
+      attr_accessor auto_accept_configs: ::Array[Types::AutoAcceptConfig]
+      attr_accessor after_contact_work_configs: ::Array[Types::AfterContactWorkConfigPerChannel]
+      attr_accessor phone_number_configs: ::Array[Types::PhoneNumberConfig]
+      attr_accessor persistent_connection_configs: ::Array[Types::PersistentConnectionConfig]
+      attr_accessor voice_enhancement_configs: ::Array[Types::VoiceEnhancementConfig]
+      attr_accessor user_id: ::String
+      attr_accessor instance_id: ::String
+      SENSITIVE: []
+    end
+
     class UpdateUserHierarchyGroupNameRequest
       attr_accessor name: ::String
       attr_accessor hierarchy_group_id: ::String
@@ -8343,6 +8391,11 @@ module Aws::Connect
       attr_accessor routing_profile_id: ::String
       attr_accessor hierarchy_group_id: ::String
       attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor auto_accept_configs: ::Array[Types::AutoAcceptConfig]
+      attr_accessor after_contact_work_configs: ::Array[Types::AfterContactWorkConfigPerChannel]
+      attr_accessor phone_number_configs: ::Array[Types::PhoneNumberConfig]
+      attr_accessor persistent_connection_configs: ::Array[Types::PersistentConnectionConfig]
+      attr_accessor voice_enhancement_configs: ::Array[Types::VoiceEnhancementConfig]
       attr_accessor last_modified_time: ::Time
       attr_accessor last_modified_region: ::String
       SENSITIVE: []
@@ -8413,7 +8466,7 @@ module Aws::Connect
       attr_accessor after_contact_work_time_limit: ::Integer
       attr_accessor desk_phone_number: ::String
       attr_accessor persistent_connection: bool
-      SENSITIVE: []
+      SENSITIVE: [:desk_phone_number]
     end
 
     class UserProficiency
@@ -8467,6 +8520,11 @@ module Aws::Connect
       attr_accessor security_profile_ids: ::Array[::String]
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor username: ::String
+      attr_accessor auto_accept_configs: ::Array[Types::AutoAcceptConfig]
+      attr_accessor after_contact_work_configs: ::Array[Types::AfterContactWorkConfigPerChannel]
+      attr_accessor phone_number_configs: ::Array[Types::PhoneNumberConfig]
+      attr_accessor persistent_connection_configs: ::Array[Types::PersistentConnectionConfig]
+      attr_accessor voice_enhancement_configs: ::Array[Types::VoiceEnhancementConfig]
       SENSITIVE: []
     end
 
@@ -8593,6 +8651,12 @@ module Aws::Connect
       attr_accessor source_phone_number: ::String
       attr_accessor destination_phone_number: ::String
       attr_accessor flow_id: ::String
+      SENSITIVE: []
+    end
+
+    class VoiceEnhancementConfig
+      attr_accessor channel: ("VOICE" | "CHAT" | "TASK" | "EMAIL")
+      attr_accessor voice_enhancement_mode: ("VOICE_ISOLATION" | "NOISE_SUPPRESSION" | "NONE")
       SENSITIVE: []
     end
 
