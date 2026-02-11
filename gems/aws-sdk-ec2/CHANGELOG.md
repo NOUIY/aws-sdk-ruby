@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.599.0 (2026-02-11)
+------------------
+
+* Feature - R8i instances powered by custom Intel Xeon 6 processors available only on AWS with sustained all-core 3.9 GHz turbo frequency
+
 1.598.0 (2026-02-09)
 ------------------
 

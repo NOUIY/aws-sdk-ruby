@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.160.0 (2026-02-11)
+------------------
+
+* Feature - This release adds support for Windows Server 2025 in Amazon EKS Managed Node Groups.
+
 1.159.0 (2026-02-10)
 ------------------
 
