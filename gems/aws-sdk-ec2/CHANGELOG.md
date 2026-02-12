@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.600.0 (2026-02-12)
+------------------
+
+* Feature - Launching nested virtualization. This feature allows you to run nested VMs inside virtual (non-bare metal) EC2 instances.
+
 1.599.0 (2026-02-11)
 ------------------
 

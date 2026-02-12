@@ -2421,7 +2421,8 @@ module Aws
                                       cpu_options: {
                                         core_count: ::Integer?,
                                         threads_per_core: ::Integer?,
-                                        amd_sev_snp: ("enabled" | "disabled")?
+                                        amd_sev_snp: ("enabled" | "disabled")?,
+                                        nested_virtualization: ("enabled" | "disabled")?
                                       }?,
                                       capacity_reservation_specification: {
                                         capacity_reservation_preference: ("capacity-reservations-only" | "open" | "none")?,
@@ -2713,7 +2714,8 @@ module Aws
                                               cpu_options: {
                                                 core_count: ::Integer?,
                                                 threads_per_core: ::Integer?,
-                                                amd_sev_snp: ("enabled" | "disabled")?
+                                                amd_sev_snp: ("enabled" | "disabled")?,
+                                                nested_virtualization: ("enabled" | "disabled")?
                                               }?,
                                               capacity_reservation_specification: {
                                                 capacity_reservation_preference: ("capacity-reservations-only" | "open" | "none")?,
@@ -12429,12 +12431,14 @@ module Aws
         def instance_id: () -> ::String
         def core_count: () -> ::Integer
         def threads_per_core: () -> ::Integer
+        def nested_virtualization: () -> ("enabled" | "disabled")
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#modify_instance_cpu_options-instance_method
       def modify_instance_cpu_options: (
                                          instance_id: ::String,
-                                         core_count: ::Integer,
-                                         threads_per_core: ::Integer,
+                                         ?core_count: ::Integer,
+                                         ?threads_per_core: ::Integer,
+                                         ?nested_virtualization: ("enabled" | "disabled"),
                                          ?dry_run: bool
                                        ) -> _ModifyInstanceCpuOptionsResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ModifyInstanceCpuOptionsResponseSuccess
@@ -15168,7 +15172,8 @@ module Aws
                            ?cpu_options: {
                              core_count: ::Integer?,
                              threads_per_core: ::Integer?,
-                             amd_sev_snp: ("enabled" | "disabled")?
+                             amd_sev_snp: ("enabled" | "disabled")?,
+                             nested_virtualization: ("enabled" | "disabled")?
                            },
                            ?capacity_reservation_specification: {
                              capacity_reservation_preference: ("capacity-reservations-only" | "open" | "none")?,

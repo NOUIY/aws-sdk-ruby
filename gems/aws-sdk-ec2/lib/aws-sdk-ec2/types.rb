@@ -8428,12 +8428,17 @@ module Aws::EC2
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sev-snp.html
     #   @return [String]
     #
+    # @!attribute [rw] nested_virtualization
+    #   Indicates whether the instance is enabled for nested virtualization.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CpuOptions AWS API Documentation
     #
     class CpuOptions < Struct.new(
       :core_count,
       :threads_per_core,
-      :amd_sev_snp)
+      :amd_sev_snp,
+      :nested_virtualization)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8461,12 +8466,21 @@ module Aws::EC2
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sev-snp.html
     #   @return [String]
     #
+    # @!attribute [rw] nested_virtualization
+    #   Indicates whether to enable the instance for nested virtualization.
+    #   Nested virtualization is supported only on 8th generation
+    #   Intel-based instance types (c8i, m8i, r8i, and their flex variants).
+    #   When nested virtualization is enabled, Virtual Secure Mode (VSM) is
+    #   automatically disabled for the instance.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CpuOptionsRequest AWS API Documentation
     #
     class CpuOptionsRequest < Struct.new(
       :core_count,
       :threads_per_core,
-      :amd_sev_snp)
+      :amd_sev_snp,
+      :nested_virtualization)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -56601,12 +56615,17 @@ module Aws::EC2
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sev-snp.html
     #   @return [String]
     #
+    # @!attribute [rw] nested_virtualization
+    #   Indicates whether the instance is enabled for nested virtualization.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/LaunchTemplateCpuOptions AWS API Documentation
     #
     class LaunchTemplateCpuOptions < Struct.new(
       :core_count,
       :threads_per_core,
-      :amd_sev_snp)
+      :amd_sev_snp,
+      :nested_virtualization)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -56634,12 +56653,21 @@ module Aws::EC2
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sev-snp.html
     #   @return [String]
     #
+    # @!attribute [rw] nested_virtualization
+    #   Indicates whether to enable the instance for nested virtualization.
+    #   Nested virtualization is supported only on 8th generation
+    #   Intel-based instance types (c8i, m8i, r8i, and their flex variants).
+    #   When nested virtualization is enabled, Virtual Secure Mode (VSM) is
+    #   automatically disabled for the instance.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/LaunchTemplateCpuOptionsRequest AWS API Documentation
     #
     class LaunchTemplateCpuOptionsRequest < Struct.new(
       :core_count,
       :threads_per_core,
-      :amd_sev_snp)
+      :amd_sev_snp,
+      :nested_virtualization)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -61030,6 +61058,12 @@ module Aws::EC2
     #   The number of threads to run for each CPU core.
     #   @return [Integer]
     #
+    # @!attribute [rw] nested_virtualization
+    #   Indicates whether to enable or disable nested virtualization for the
+    #   instance. When nested virtualization is enabled, Virtual Secure Mode
+    #   (VSM) is automatically disabled for the instance.
+    #   @return [String]
+    #
     # @!attribute [rw] dry_run
     #   Checks whether you have the required permissions for the operation,
     #   without actually making the request, and provides an error response.
@@ -61043,6 +61077,7 @@ module Aws::EC2
       :instance_id,
       :core_count,
       :threads_per_core,
+      :nested_virtualization,
       :dry_run)
       SENSITIVE = []
       include Aws::Structure
@@ -61062,12 +61097,18 @@ module Aws::EC2
     #   specified instance after the update.
     #   @return [Integer]
     #
+    # @!attribute [rw] nested_virtualization
+    #   Indicates whether nested virtualization has been enabled or
+    #   disabled.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyInstanceCpuOptionsResult AWS API Documentation
     #
     class ModifyInstanceCpuOptionsResult < Struct.new(
       :instance_id,
       :core_count,
-      :threads_per_core)
+      :threads_per_core,
+      :nested_virtualization)
       SENSITIVE = []
       include Aws::Structure
     end

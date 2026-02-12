@@ -196,7 +196,8 @@ module Aws
                               ?cpu_options: {
                                 core_count: ::Integer?,
                                 threads_per_core: ::Integer?,
-                                amd_sev_snp: ("enabled" | "disabled")?
+                                amd_sev_snp: ("enabled" | "disabled")?,
+                                nested_virtualization: ("enabled" | "disabled")?
                               },
                               ?capacity_reservation_specification: {
                                 capacity_reservation_preference: ("capacity-reservations-only" | "open" | "none")?,

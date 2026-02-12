@@ -2789,6 +2789,7 @@ module Aws::EC2
     NatGatewayList = Shapes::ListShape.new(name: 'NatGatewayList')
     NatGatewayState = Shapes::StringShape.new(name: 'NatGatewayState')
     NativeApplicationOidcOptions = Shapes::StructureShape.new(name: 'NativeApplicationOidcOptions')
+    NestedVirtualizationSpecification = Shapes::StringShape.new(name: 'NestedVirtualizationSpecification')
     NetmaskLength = Shapes::IntegerShape.new(name: 'NetmaskLength')
     NetworkAcl = Shapes::StructureShape.new(name: 'NetworkAcl')
     NetworkAclAssociation = Shapes::StructureShape.new(name: 'NetworkAclAssociation')
@@ -5566,11 +5567,13 @@ module Aws::EC2
     CpuOptions.add_member(:core_count, Shapes::ShapeRef.new(shape: Integer, location_name: "coreCount"))
     CpuOptions.add_member(:threads_per_core, Shapes::ShapeRef.new(shape: Integer, location_name: "threadsPerCore"))
     CpuOptions.add_member(:amd_sev_snp, Shapes::ShapeRef.new(shape: AmdSevSnpSpecification, location_name: "amdSevSnp"))
+    CpuOptions.add_member(:nested_virtualization, Shapes::ShapeRef.new(shape: NestedVirtualizationSpecification, location_name: "nestedVirtualization"))
     CpuOptions.struct_class = Types::CpuOptions
 
     CpuOptionsRequest.add_member(:core_count, Shapes::ShapeRef.new(shape: Integer, location_name: "CoreCount"))
     CpuOptionsRequest.add_member(:threads_per_core, Shapes::ShapeRef.new(shape: Integer, location_name: "ThreadsPerCore"))
     CpuOptionsRequest.add_member(:amd_sev_snp, Shapes::ShapeRef.new(shape: AmdSevSnpSpecification, location_name: "AmdSevSnp"))
+    CpuOptionsRequest.add_member(:nested_virtualization, Shapes::ShapeRef.new(shape: NestedVirtualizationSpecification, location_name: "NestedVirtualization"))
     CpuOptionsRequest.struct_class = Types::CpuOptionsRequest
 
     CpuPerformanceFactor.add_member(:references, Shapes::ShapeRef.new(shape: PerformanceFactorReferenceSet, location_name: "referenceSet"))
@@ -13610,11 +13613,13 @@ module Aws::EC2
     LaunchTemplateCpuOptions.add_member(:core_count, Shapes::ShapeRef.new(shape: Integer, location_name: "coreCount"))
     LaunchTemplateCpuOptions.add_member(:threads_per_core, Shapes::ShapeRef.new(shape: Integer, location_name: "threadsPerCore"))
     LaunchTemplateCpuOptions.add_member(:amd_sev_snp, Shapes::ShapeRef.new(shape: AmdSevSnpSpecification, location_name: "amdSevSnp"))
+    LaunchTemplateCpuOptions.add_member(:nested_virtualization, Shapes::ShapeRef.new(shape: NestedVirtualizationSpecification, location_name: "nestedVirtualization"))
     LaunchTemplateCpuOptions.struct_class = Types::LaunchTemplateCpuOptions
 
     LaunchTemplateCpuOptionsRequest.add_member(:core_count, Shapes::ShapeRef.new(shape: Integer, location_name: "CoreCount"))
     LaunchTemplateCpuOptionsRequest.add_member(:threads_per_core, Shapes::ShapeRef.new(shape: Integer, location_name: "ThreadsPerCore"))
     LaunchTemplateCpuOptionsRequest.add_member(:amd_sev_snp, Shapes::ShapeRef.new(shape: AmdSevSnpSpecification, location_name: "AmdSevSnp"))
+    LaunchTemplateCpuOptionsRequest.add_member(:nested_virtualization, Shapes::ShapeRef.new(shape: NestedVirtualizationSpecification, location_name: "NestedVirtualization"))
     LaunchTemplateCpuOptionsRequest.struct_class = Types::LaunchTemplateCpuOptionsRequest
 
     LaunchTemplateEbsBlockDevice.add_member(:encrypted, Shapes::ShapeRef.new(shape: Boolean, location_name: "encrypted"))
@@ -14399,14 +14404,16 @@ module Aws::EC2
     ModifyInstanceConnectEndpointResult.struct_class = Types::ModifyInstanceConnectEndpointResult
 
     ModifyInstanceCpuOptionsRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "InstanceId"))
-    ModifyInstanceCpuOptionsRequest.add_member(:core_count, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "CoreCount"))
-    ModifyInstanceCpuOptionsRequest.add_member(:threads_per_core, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "ThreadsPerCore"))
+    ModifyInstanceCpuOptionsRequest.add_member(:core_count, Shapes::ShapeRef.new(shape: Integer, location_name: "CoreCount"))
+    ModifyInstanceCpuOptionsRequest.add_member(:threads_per_core, Shapes::ShapeRef.new(shape: Integer, location_name: "ThreadsPerCore"))
+    ModifyInstanceCpuOptionsRequest.add_member(:nested_virtualization, Shapes::ShapeRef.new(shape: NestedVirtualizationSpecification, location_name: "NestedVirtualization"))
     ModifyInstanceCpuOptionsRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     ModifyInstanceCpuOptionsRequest.struct_class = Types::ModifyInstanceCpuOptionsRequest
 
     ModifyInstanceCpuOptionsResult.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, location_name: "instanceId"))
     ModifyInstanceCpuOptionsResult.add_member(:core_count, Shapes::ShapeRef.new(shape: Integer, location_name: "coreCount"))
     ModifyInstanceCpuOptionsResult.add_member(:threads_per_core, Shapes::ShapeRef.new(shape: Integer, location_name: "threadsPerCore"))
+    ModifyInstanceCpuOptionsResult.add_member(:nested_virtualization, Shapes::ShapeRef.new(shape: NestedVirtualizationSpecification, location_name: "nestedVirtualization"))
     ModifyInstanceCpuOptionsResult.struct_class = Types::ModifyInstanceCpuOptionsResult
 
     ModifyInstanceCreditSpecificationRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))

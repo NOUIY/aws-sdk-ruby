@@ -442,6 +442,7 @@ module Aws::EC2
     #       core_count: 1,
     #       threads_per_core: 1,
     #       amd_sev_snp: "enabled", # accepts enabled, disabled
+    #       nested_virtualization: "enabled", # accepts enabled, disabled
     #     },
     #     capacity_reservation_specification: {
     #       capacity_reservation_preference: "capacity-reservations-only", # accepts capacity-reservations-only, open, none

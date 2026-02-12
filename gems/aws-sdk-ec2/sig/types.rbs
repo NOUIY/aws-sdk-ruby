@@ -1900,6 +1900,7 @@ module Aws::EC2
       attr_accessor core_count: ::Integer
       attr_accessor threads_per_core: ::Integer
       attr_accessor amd_sev_snp: ("enabled" | "disabled")
+      attr_accessor nested_virtualization: ("enabled" | "disabled")
       SENSITIVE: []
     end
 
@@ -1907,6 +1908,7 @@ module Aws::EC2
       attr_accessor core_count: ::Integer
       attr_accessor threads_per_core: ::Integer
       attr_accessor amd_sev_snp: ("enabled" | "disabled")
+      attr_accessor nested_virtualization: ("enabled" | "disabled")
       SENSITIVE: []
     end
 
@@ -12170,6 +12172,7 @@ module Aws::EC2
       attr_accessor core_count: ::Integer
       attr_accessor threads_per_core: ::Integer
       attr_accessor amd_sev_snp: ("enabled" | "disabled")
+      attr_accessor nested_virtualization: ("enabled" | "disabled")
       SENSITIVE: []
     end
 
@@ -12177,6 +12180,7 @@ module Aws::EC2
       attr_accessor core_count: ::Integer
       attr_accessor threads_per_core: ::Integer
       attr_accessor amd_sev_snp: ("enabled" | "disabled")
+      attr_accessor nested_virtualization: ("enabled" | "disabled")
       SENSITIVE: []
     end
 
@@ -13083,6 +13087,7 @@ module Aws::EC2
       attr_accessor instance_id: ::String
       attr_accessor core_count: ::Integer
       attr_accessor threads_per_core: ::Integer
+      attr_accessor nested_virtualization: ("enabled" | "disabled")
       attr_accessor dry_run: bool
       SENSITIVE: []
     end
@@ -13091,6 +13096,7 @@ module Aws::EC2
       attr_accessor instance_id: ::String
       attr_accessor core_count: ::Integer
       attr_accessor threads_per_core: ::Integer
+      attr_accessor nested_virtualization: ("enabled" | "disabled")
       SENSITIVE: []
     end
 
@@ -14868,7 +14874,7 @@ module Aws::EC2
     class ProcessorInfo
       attr_accessor supported_architectures: ::Array[("i386" | "x86_64" | "arm64" | "x86_64_mac" | "arm64_mac")]
       attr_accessor sustained_clock_speed_in_ghz: ::Float
-      attr_accessor supported_features: ::Array[("amd-sev-snp")]
+      attr_accessor supported_features: ::Array[("amd-sev-snp" | "nested-virtualization")]
       attr_accessor manufacturer: ::String
       SENSITIVE: []
     end

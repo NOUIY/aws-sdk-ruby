@@ -10413,6 +10413,7 @@ module Aws::EC2
     #         core_count: 1,
     #         threads_per_core: 1,
     #         amd_sev_snp: "enabled", # accepts enabled, disabled
+    #         nested_virtualization: "enabled", # accepts enabled, disabled
     #       },
     #       capacity_reservation_specification: {
     #         capacity_reservation_preference: "capacity-reservations-only", # accepts capacity-reservations-only, open, none
@@ -10860,6 +10861,7 @@ module Aws::EC2
     #         core_count: 1,
     #         threads_per_core: 1,
     #         amd_sev_snp: "enabled", # accepts enabled, disabled
+    #         nested_virtualization: "enabled", # accepts enabled, disabled
     #       },
     #       capacity_reservation_specification: {
     #         capacity_reservation_preference: "capacity-reservations-only", # accepts capacity-reservations-only, open, none
@@ -11086,6 +11088,7 @@ module Aws::EC2
     #   resp.launch_template_version.launch_template_data.cpu_options.core_count #=> Integer
     #   resp.launch_template_version.launch_template_data.cpu_options.threads_per_core #=> Integer
     #   resp.launch_template_version.launch_template_data.cpu_options.amd_sev_snp #=> String, one of "enabled", "disabled"
+    #   resp.launch_template_version.launch_template_data.cpu_options.nested_virtualization #=> String, one of "enabled", "disabled"
     #   resp.launch_template_version.launch_template_data.capacity_reservation_specification.capacity_reservation_preference #=> String, one of "capacity-reservations-only", "open", "none"
     #   resp.launch_template_version.launch_template_data.capacity_reservation_specification.capacity_reservation_target.capacity_reservation_id #=> String
     #   resp.launch_template_version.launch_template_data.capacity_reservation_specification.capacity_reservation_target.capacity_reservation_resource_group_arn #=> String
@@ -31805,7 +31808,7 @@ module Aws::EC2
     #   resp.instance_types[0].processor_info.supported_architectures[0] #=> String, one of "i386", "x86_64", "arm64", "x86_64_mac", "arm64_mac"
     #   resp.instance_types[0].processor_info.sustained_clock_speed_in_ghz #=> Float
     #   resp.instance_types[0].processor_info.supported_features #=> Array
-    #   resp.instance_types[0].processor_info.supported_features[0] #=> String, one of "amd-sev-snp"
+    #   resp.instance_types[0].processor_info.supported_features[0] #=> String, one of "amd-sev-snp", "nested-virtualization"
     #   resp.instance_types[0].processor_info.manufacturer #=> String
     #   resp.instance_types[0].v_cpu_info.default_v_cpus #=> Integer
     #   resp.instance_types[0].v_cpu_info.default_cores #=> Integer
@@ -32646,6 +32649,7 @@ module Aws::EC2
     #   resp.reservations[0].instances[0].cpu_options.core_count #=> Integer
     #   resp.reservations[0].instances[0].cpu_options.threads_per_core #=> Integer
     #   resp.reservations[0].instances[0].cpu_options.amd_sev_snp #=> String, one of "enabled", "disabled"
+    #   resp.reservations[0].instances[0].cpu_options.nested_virtualization #=> String, one of "enabled", "disabled"
     #   resp.reservations[0].instances[0].capacity_block_id #=> String
     #   resp.reservations[0].instances[0].capacity_reservation_id #=> String
     #   resp.reservations[0].instances[0].capacity_reservation_specification.capacity_reservation_preference #=> String, one of "capacity-reservations-only", "open", "none"
@@ -34161,6 +34165,7 @@ module Aws::EC2
     #   resp.launch_template_versions[0].launch_template_data.cpu_options.core_count #=> Integer
     #   resp.launch_template_versions[0].launch_template_data.cpu_options.threads_per_core #=> Integer
     #   resp.launch_template_versions[0].launch_template_data.cpu_options.amd_sev_snp #=> String, one of "enabled", "disabled"
+    #   resp.launch_template_versions[0].launch_template_data.cpu_options.nested_virtualization #=> String, one of "enabled", "disabled"
     #   resp.launch_template_versions[0].launch_template_data.capacity_reservation_specification.capacity_reservation_preference #=> String, one of "capacity-reservations-only", "open", "none"
     #   resp.launch_template_versions[0].launch_template_data.capacity_reservation_specification.capacity_reservation_target.capacity_reservation_id #=> String
     #   resp.launch_template_versions[0].launch_template_data.capacity_reservation_specification.capacity_reservation_target.capacity_reservation_resource_group_arn #=> String
@@ -53778,6 +53783,7 @@ module Aws::EC2
     #   resp.launch_template_data.cpu_options.core_count #=> Integer
     #   resp.launch_template_data.cpu_options.threads_per_core #=> Integer
     #   resp.launch_template_data.cpu_options.amd_sev_snp #=> String, one of "enabled", "disabled"
+    #   resp.launch_template_data.cpu_options.nested_virtualization #=> String, one of "enabled", "disabled"
     #   resp.launch_template_data.capacity_reservation_specification.capacity_reservation_preference #=> String, one of "capacity-reservations-only", "open", "none"
     #   resp.launch_template_data.capacity_reservation_specification.capacity_reservation_target.capacity_reservation_id #=> String
     #   resp.launch_template_data.capacity_reservation_specification.capacity_reservation_target.capacity_reservation_resource_group_arn #=> String
@@ -58998,11 +59004,16 @@ module Aws::EC2
     # @option params [required, String] :instance_id
     #   The ID of the instance to update.
     #
-    # @option params [required, Integer] :core_count
+    # @option params [Integer] :core_count
     #   The number of CPU cores to activate for the specified instance.
     #
-    # @option params [required, Integer] :threads_per_core
+    # @option params [Integer] :threads_per_core
     #   The number of threads to run for each CPU core.
+    #
+    # @option params [String] :nested_virtualization
+    #   Indicates whether to enable or disable nested virtualization for the
+    #   instance. When nested virtualization is enabled, Virtual Secure Mode
+    #   (VSM) is automatically disabled for the instance.
     #
     # @option params [Boolean] :dry_run
     #   Checks whether you have the required permissions for the operation,
@@ -59015,13 +59026,15 @@ module Aws::EC2
     #   * {Types::ModifyInstanceCpuOptionsResult#instance_id #instance_id} => String
     #   * {Types::ModifyInstanceCpuOptionsResult#core_count #core_count} => Integer
     #   * {Types::ModifyInstanceCpuOptionsResult#threads_per_core #threads_per_core} => Integer
+    #   * {Types::ModifyInstanceCpuOptionsResult#nested_virtualization #nested_virtualization} => String
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.modify_instance_cpu_options({
     #     instance_id: "InstanceId", # required
-    #     core_count: 1, # required
-    #     threads_per_core: 1, # required
+    #     core_count: 1,
+    #     threads_per_core: 1,
+    #     nested_virtualization: "enabled", # accepts enabled, disabled
     #     dry_run: false,
     #   })
     #
@@ -59030,6 +59043,7 @@ module Aws::EC2
     #   resp.instance_id #=> String
     #   resp.core_count #=> Integer
     #   resp.threads_per_core #=> Integer
+    #   resp.nested_virtualization #=> String, one of "enabled", "disabled"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyInstanceCpuOptions AWS API Documentation
     #
@@ -69893,6 +69907,7 @@ module Aws::EC2
     #       core_count: 1,
     #       threads_per_core: 1,
     #       amd_sev_snp: "enabled", # accepts enabled, disabled
+    #       nested_virtualization: "enabled", # accepts enabled, disabled
     #     },
     #     capacity_reservation_specification: {
     #       capacity_reservation_preference: "capacity-reservations-only", # accepts capacity-reservations-only, open, none
@@ -70123,6 +70138,7 @@ module Aws::EC2
     #   resp.instances[0].cpu_options.core_count #=> Integer
     #   resp.instances[0].cpu_options.threads_per_core #=> Integer
     #   resp.instances[0].cpu_options.amd_sev_snp #=> String, one of "enabled", "disabled"
+    #   resp.instances[0].cpu_options.nested_virtualization #=> String, one of "enabled", "disabled"
     #   resp.instances[0].capacity_block_id #=> String
     #   resp.instances[0].capacity_reservation_id #=> String
     #   resp.instances[0].capacity_reservation_specification.capacity_reservation_preference #=> String, one of "capacity-reservations-only", "open", "none"
@@ -72997,7 +73013,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.599.0'
+      context[:gem_version] = '1.600.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
