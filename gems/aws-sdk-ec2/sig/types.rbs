@@ -956,6 +956,8 @@ module Aws::EC2
       attr_accessor parent_zone_name: ::String
       attr_accessor parent_zone_id: ::String
       attr_accessor group_long_name: ::String
+      attr_accessor geography: ::Array[Types::AvailabilityZoneGeography]
+      attr_accessor sub_geography: ::Array[Types::AvailabilityZoneSubGeography]
       attr_accessor state: ("available" | "information" | "impaired" | "unavailable" | "constrained")
       SENSITIVE: []
     end
@@ -967,8 +969,18 @@ module Aws::EC2
       SENSITIVE: []
     end
 
+    class AvailabilityZoneGeography
+      attr_accessor name: ::String
+      SENSITIVE: []
+    end
+
     class AvailabilityZoneMessage
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class AvailabilityZoneSubGeography
+      attr_accessor name: ::String
       SENSITIVE: []
     end
 
@@ -15107,8 +15119,14 @@ module Aws::EC2
 
     class Region
       attr_accessor opt_in_status: ::String
+      attr_accessor geography: ::Array[Types::RegionGeography]
       attr_accessor region_name: ::String
       attr_accessor endpoint: ::String
+      SENSITIVE: []
+    end
+
+    class RegionGeography
+      attr_accessor name: ::String
       SENSITIVE: []
     end
 

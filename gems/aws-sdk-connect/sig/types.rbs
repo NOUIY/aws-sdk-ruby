@@ -1439,6 +1439,24 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class CreateNotificationRequest
+      attr_accessor instance_id: ::String
+      attr_accessor expires_at: ::Time
+      attr_accessor recipients: ::Array[::String]
+      attr_accessor priority: ("HIGH" | "LOW")
+      attr_accessor content: ::Hash[("en_US" | "de_DE" | "es_ES" | "fr_FR" | "id_ID" | "it_IT" | "ja_JP" | "ko_KR" | "pt_BR" | "zh_CN" | "zh_TW"), ::String]
+      attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor predefined_notification_id: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class CreateNotificationResponse
+      attr_accessor notification_id: ::String
+      attr_accessor notification_arn: ::String
+      SENSITIVE: []
+    end
+
     class CreateParticipantRequest
       attr_accessor instance_id: ::String
       attr_accessor contact_id: ::String
@@ -2149,6 +2167,15 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class DeleteNotificationRequest
+      attr_accessor instance_id: ::String
+      attr_accessor notification_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteNotificationResponse < Aws::EmptyStructure
+    end
+
     class DeletePredefinedAttributeRequest
       attr_accessor instance_id: ::String
       attr_accessor name: ::String
@@ -2494,6 +2521,17 @@ module Aws::Connect
 
     class DescribeInstanceStorageConfigResponse
       attr_accessor storage_config: Types::InstanceStorageConfig
+      SENSITIVE: []
+    end
+
+    class DescribeNotificationRequest
+      attr_accessor instance_id: ::String
+      attr_accessor notification_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeNotificationResponse
+      attr_accessor notification: Types::Notification
       SENSITIVE: []
     end
 
@@ -4793,6 +4831,19 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class ListNotificationsRequest
+      attr_accessor instance_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListNotificationsResponse
+      attr_accessor next_token: ::String
+      attr_accessor notification_summary_list: ::Array[Types::Notification]
+      SENSITIVE: []
+    end
+
     class ListPhoneNumbersRequest
       attr_accessor instance_id: ::String
       attr_accessor phone_number_types: ::Array[("TOLL_FREE" | "DID" | "UIFN" | "SHARED" | "THIRD_PARTY_TF" | "THIRD_PARTY_DID" | "SHORT_CODE")]
@@ -5185,6 +5236,20 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class ListUserNotificationsRequest
+      attr_accessor instance_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor user_id: ::String
+      SENSITIVE: []
+    end
+
+    class ListUserNotificationsResponse
+      attr_accessor user_notifications: ::Array[Types::UserNotificationSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListUserProficienciesRequest
       attr_accessor instance_id: ::String
       attr_accessor user_id: ::String
@@ -5413,9 +5478,50 @@ module Aws::Connect
       end
     end
 
+    class Notification
+      attr_accessor content: ::Hash[("en_US" | "de_DE" | "es_ES" | "fr_FR" | "id_ID" | "it_IT" | "ja_JP" | "ko_KR" | "pt_BR" | "zh_CN" | "zh_TW"), ::String]
+      attr_accessor id: ::String
+      attr_accessor arn: ::String
+      attr_accessor priority: ("URGENT" | "HIGH" | "LOW")
+      attr_accessor recipients: ::Array[::String]
+      attr_accessor last_modified_time: ::Time
+      attr_accessor created_at: ::Time
+      attr_accessor expires_at: ::Time
+      attr_accessor last_modified_region: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
     class NotificationRecipientType
       attr_accessor user_tags: ::Hash[::String, ::String]
       attr_accessor user_ids: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class NotificationSearchCriteria
+      attr_accessor or_conditions: ::Array[Types::NotificationSearchCriteria]
+      attr_accessor and_conditions: ::Array[Types::NotificationSearchCriteria]
+      attr_accessor string_condition: Types::StringCondition
+      SENSITIVE: []
+    end
+
+    class NotificationSearchFilter
+      attr_accessor attribute_filter: Types::ControlPlaneAttributeFilter
+      SENSITIVE: []
+    end
+
+    class NotificationSearchSummary
+      attr_accessor id: ::String
+      attr_accessor arn: ::String
+      attr_accessor instance_id: ::String
+      attr_accessor content: ::Hash[("en_US" | "de_DE" | "es_ES" | "fr_FR" | "id_ID" | "it_IT" | "ja_JP" | "ko_KR" | "pt_BR" | "zh_CN" | "zh_TW"), ::String]
+      attr_accessor priority: ("URGENT" | "HIGH" | "LOW")
+      attr_accessor recipients: ::Array[::String]
+      attr_accessor created_at: ::Time
+      attr_accessor expires_at: ::Time
+      attr_accessor last_modified_region: ::String
+      attr_accessor last_modified_time: ::Time
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 
@@ -6616,6 +6722,22 @@ module Aws::Connect
 
     class SearchHoursOfOperationsResponse
       attr_accessor hours_of_operations: ::Array[Types::HoursOfOperation]
+      attr_accessor next_token: ::String
+      attr_accessor approximate_total_count: ::Integer
+      SENSITIVE: []
+    end
+
+    class SearchNotificationsRequest
+      attr_accessor instance_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor search_filter: Types::NotificationSearchFilter
+      attr_accessor search_criteria: Types::NotificationSearchCriteria
+      SENSITIVE: []
+    end
+
+    class SearchNotificationsResponse
+      attr_accessor notifications: ::Array[Types::NotificationSearchSummary]
       attr_accessor next_token: ::String
       attr_accessor approximate_total_count: ::Integer
       SENSITIVE: []
@@ -7968,6 +8090,16 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class UpdateNotificationContentRequest
+      attr_accessor instance_id: ::String
+      attr_accessor notification_id: ::String
+      attr_accessor content: ::Hash[("en_US" | "de_DE" | "es_ES" | "fr_FR" | "id_ID" | "it_IT" | "ja_JP" | "ko_KR" | "pt_BR" | "zh_CN" | "zh_TW"), ::String]
+      SENSITIVE: []
+    end
+
+    class UpdateNotificationContentResponse < Aws::EmptyStructure
+    end
+
     class UpdateParticipantAuthenticationRequest
       attr_accessor state: ::String
       attr_accessor instance_id: ::String
@@ -8262,6 +8394,19 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class UpdateUserNotificationStatusRequest
+      attr_accessor instance_id: ::String
+      attr_accessor notification_id: ::String
+      attr_accessor user_id: ::String
+      attr_accessor status: ("READ" | "UNREAD" | "HIDDEN")
+      attr_accessor last_modified_time: ::Time
+      attr_accessor last_modified_region: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateUserNotificationStatusResponse < Aws::EmptyStructure
+    end
+
     class UpdateUserPhoneConfigRequest
       attr_accessor phone_config: Types::UserPhoneConfig
       attr_accessor user_id: ::String
@@ -8457,6 +8602,19 @@ module Aws::Connect
 
     class UserNotFoundException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class UserNotificationSummary
+      attr_accessor notification_id: ::String
+      attr_accessor notification_status: ("READ" | "UNREAD" | "HIDDEN")
+      attr_accessor instance_id: ::String
+      attr_accessor recipient_id: ::String
+      attr_accessor content: ::Hash[("en_US" | "de_DE" | "es_ES" | "fr_FR" | "id_ID" | "it_IT" | "ja_JP" | "ko_KR" | "pt_BR" | "zh_CN" | "zh_TW"), ::String]
+      attr_accessor priority: ("URGENT" | "HIGH" | "LOW")
+      attr_accessor source: ("CUSTOMER" | "RULES" | "SYSTEM")
+      attr_accessor created_at: ::Time
+      attr_accessor expires_at: ::Time
       SENSITIVE: []
     end
 

@@ -3868,6 +3868,16 @@ module Aws::EC2
     #   Wavelength Zone group.
     #   @return [String]
     #
+    # @!attribute [rw] geography
+    #   The geography information for the Availability Zone or Local Zone.
+    #   The geography is returned as a list.
+    #   @return [Array<Types::AvailabilityZoneGeography>]
+    #
+    # @!attribute [rw] sub_geography
+    #   The sub-geography information for the Availability Zone or Local
+    #   Zone. The sub-geography is returned as a list.
+    #   @return [Array<Types::AvailabilityZoneSubGeography>]
+    #
     # @!attribute [rw] state
     #   The state of the Availability Zone, Local Zone, or Wavelength Zone.
     #   The possible values are `available`, `unavailable`, and
@@ -3888,6 +3898,8 @@ module Aws::EC2
       :parent_zone_name,
       :parent_zone_id,
       :group_long_name,
+      :geography,
+      :sub_geography,
       :state)
       SENSITIVE = []
       include Aws::Structure
@@ -3947,6 +3959,21 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # Describes the geography information for an Availability Zone or Local
+    # Zone.
+    #
+    # @!attribute [rw] name
+    #   The name of the geography, for example, `United States of America`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AvailabilityZoneGeography AWS API Documentation
+    #
+    class AvailabilityZoneGeography < Struct.new(
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Describes a message about an Availability Zone, Local Zone, or
     # Wavelength Zone.
     #
@@ -3959,6 +3986,21 @@ module Aws::EC2
     #
     class AvailabilityZoneMessage < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the sub-geography information for an Availability Zone or
+    # Local Zone.
+    #
+    # @!attribute [rw] name
+    #   The name of the sub-geography, for example, `Oregon.`
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AvailabilityZoneSubGeography AWS API Documentation
+    #
+    class AvailabilityZoneSubGeography < Struct.new(
+      :name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -69936,6 +69978,11 @@ module Aws::EC2
     #   `opt-in-not-required`, `opted-in`, and `not-opted-in`.
     #   @return [String]
     #
+    # @!attribute [rw] geography
+    #   The geography information for the Region. The geography is returned
+    #   as a list.
+    #   @return [Array<Types::RegionGeography>]
+    #
     # @!attribute [rw] region_name
     #   The name of the Region.
     #   @return [String]
@@ -69948,8 +69995,23 @@ module Aws::EC2
     #
     class Region < Struct.new(
       :opt_in_status,
+      :geography,
       :region_name,
       :endpoint)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the geography information for a Region.
+    #
+    # @!attribute [rw] name
+    #   The name of the geography, for example, `United States of America`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RegionGeography AWS API Documentation
+    #
+    class RegionGeography < Struct.new(
+      :name)
       SENSITIVE = []
       include Aws::Structure
     end

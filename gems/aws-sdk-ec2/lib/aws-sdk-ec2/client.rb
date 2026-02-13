@@ -25109,6 +25109,10 @@ module Aws::EC2
     #   resp.availability_zones[0].parent_zone_name #=> String
     #   resp.availability_zones[0].parent_zone_id #=> String
     #   resp.availability_zones[0].group_long_name #=> String
+    #   resp.availability_zones[0].geography #=> Array
+    #   resp.availability_zones[0].geography[0].name #=> String
+    #   resp.availability_zones[0].sub_geography #=> Array
+    #   resp.availability_zones[0].sub_geography[0].name #=> String
     #   resp.availability_zones[0].state #=> String, one of "available", "information", "impaired", "unavailable", "constrained"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeAvailabilityZones AWS API Documentation
@@ -37962,6 +37966,8 @@ module Aws::EC2
     #
     #   resp.regions #=> Array
     #   resp.regions[0].opt_in_status #=> String
+    #   resp.regions[0].geography #=> Array
+    #   resp.regions[0].geography[0].name #=> String
     #   resp.regions[0].region_name #=> String
     #   resp.regions[0].endpoint #=> String
     #
@@ -73013,7 +73019,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.600.0'
+      context[:gem_version] = '1.601.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

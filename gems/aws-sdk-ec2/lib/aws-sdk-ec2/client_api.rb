@@ -220,6 +220,8 @@ module Aws::EC2
     AvailabilityZone = Shapes::StructureShape.new(name: 'AvailabilityZone')
     AvailabilityZoneAddress = Shapes::StructureShape.new(name: 'AvailabilityZoneAddress')
     AvailabilityZoneAddresses = Shapes::ListShape.new(name: 'AvailabilityZoneAddresses')
+    AvailabilityZoneGeography = Shapes::StructureShape.new(name: 'AvailabilityZoneGeography')
+    AvailabilityZoneGeographyList = Shapes::ListShape.new(name: 'AvailabilityZoneGeographyList')
     AvailabilityZoneId = Shapes::StringShape.new(name: 'AvailabilityZoneId')
     AvailabilityZoneIdStringList = Shapes::ListShape.new(name: 'AvailabilityZoneIdStringList')
     AvailabilityZoneList = Shapes::ListShape.new(name: 'AvailabilityZoneList')
@@ -229,6 +231,8 @@ module Aws::EC2
     AvailabilityZoneOptInStatus = Shapes::StringShape.new(name: 'AvailabilityZoneOptInStatus')
     AvailabilityZoneState = Shapes::StringShape.new(name: 'AvailabilityZoneState')
     AvailabilityZoneStringList = Shapes::ListShape.new(name: 'AvailabilityZoneStringList')
+    AvailabilityZoneSubGeography = Shapes::StructureShape.new(name: 'AvailabilityZoneSubGeography')
+    AvailabilityZoneSubGeographyList = Shapes::ListShape.new(name: 'AvailabilityZoneSubGeographyList')
     AvailableCapacity = Shapes::StructureShape.new(name: 'AvailableCapacity')
     AvailableInstanceCapacityList = Shapes::ListShape.new(name: 'AvailableInstanceCapacityList')
     BandwidthWeightingType = Shapes::StringShape.new(name: 'BandwidthWeightingType')
@@ -3062,6 +3066,8 @@ module Aws::EC2
     RecurringChargesList = Shapes::ListShape.new(name: 'RecurringChargesList')
     ReferencedSecurityGroup = Shapes::StructureShape.new(name: 'ReferencedSecurityGroup')
     Region = Shapes::StructureShape.new(name: 'Region')
+    RegionGeography = Shapes::StructureShape.new(name: 'RegionGeography')
+    RegionGeographyList = Shapes::ListShape.new(name: 'RegionGeographyList')
     RegionList = Shapes::ListShape.new(name: 'RegionList')
     RegionNameStringList = Shapes::ListShape.new(name: 'RegionNameStringList')
     RegionNames = Shapes::ListShape.new(name: 'RegionNames')
@@ -4739,6 +4745,8 @@ module Aws::EC2
     AvailabilityZone.add_member(:parent_zone_name, Shapes::ShapeRef.new(shape: String, location_name: "parentZoneName"))
     AvailabilityZone.add_member(:parent_zone_id, Shapes::ShapeRef.new(shape: String, location_name: "parentZoneId"))
     AvailabilityZone.add_member(:group_long_name, Shapes::ShapeRef.new(shape: String, location_name: "groupLongName"))
+    AvailabilityZone.add_member(:geography, Shapes::ShapeRef.new(shape: AvailabilityZoneGeographyList, location_name: "geographySet"))
+    AvailabilityZone.add_member(:sub_geography, Shapes::ShapeRef.new(shape: AvailabilityZoneSubGeographyList, location_name: "subGeographySet"))
     AvailabilityZone.add_member(:state, Shapes::ShapeRef.new(shape: AvailabilityZoneState, location_name: "zoneState"))
     AvailabilityZone.struct_class = Types::AvailabilityZone
 
@@ -4748,6 +4756,11 @@ module Aws::EC2
     AvailabilityZoneAddress.struct_class = Types::AvailabilityZoneAddress
 
     AvailabilityZoneAddresses.member = Shapes::ShapeRef.new(shape: AvailabilityZoneAddress, location_name: "AvailabilityZoneAddress")
+
+    AvailabilityZoneGeography.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
+    AvailabilityZoneGeography.struct_class = Types::AvailabilityZoneGeography
+
+    AvailabilityZoneGeographyList.member = Shapes::ShapeRef.new(shape: AvailabilityZoneGeography, location_name: "item")
 
     AvailabilityZoneIdStringList.member = Shapes::ShapeRef.new(shape: String, location_name: "AvailabilityZoneId")
 
@@ -4759,6 +4772,11 @@ module Aws::EC2
     AvailabilityZoneMessageList.member = Shapes::ShapeRef.new(shape: AvailabilityZoneMessage, location_name: "item")
 
     AvailabilityZoneStringList.member = Shapes::ShapeRef.new(shape: String, location_name: "AvailabilityZone")
+
+    AvailabilityZoneSubGeography.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
+    AvailabilityZoneSubGeography.struct_class = Types::AvailabilityZoneSubGeography
+
+    AvailabilityZoneSubGeographyList.member = Shapes::ShapeRef.new(shape: AvailabilityZoneSubGeography, location_name: "item")
 
     AvailableCapacity.add_member(:available_instance_capacity, Shapes::ShapeRef.new(shape: AvailableInstanceCapacityList, location_name: "availableInstanceCapacity"))
     AvailableCapacity.add_member(:available_v_cpus, Shapes::ShapeRef.new(shape: Integer, location_name: "availableVCpus"))
@@ -16100,9 +16118,15 @@ module Aws::EC2
     ReferencedSecurityGroup.struct_class = Types::ReferencedSecurityGroup
 
     Region.add_member(:opt_in_status, Shapes::ShapeRef.new(shape: String, location_name: "optInStatus"))
+    Region.add_member(:geography, Shapes::ShapeRef.new(shape: RegionGeographyList, location_name: "geographySet"))
     Region.add_member(:region_name, Shapes::ShapeRef.new(shape: String, location_name: "regionName"))
     Region.add_member(:endpoint, Shapes::ShapeRef.new(shape: String, location_name: "regionEndpoint"))
     Region.struct_class = Types::Region
+
+    RegionGeography.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
+    RegionGeography.struct_class = Types::RegionGeography
+
+    RegionGeographyList.member = Shapes::ShapeRef.new(shape: RegionGeography, location_name: "item")
 
     RegionList.member = Shapes::ShapeRef.new(shape: Region, location_name: "item")
 

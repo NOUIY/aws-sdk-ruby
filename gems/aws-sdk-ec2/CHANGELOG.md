@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.601.0 (2026-02-13)
+------------------
+
+* Feature - This release adds geography information to EC2 region and availability zone APIs. DescribeRegions now includes a Geography field, while DescribeAvailabilityZones includes both Geography and SubGeography fields, enabling better geographic classification for AWS regions and zones.
+
 1.600.0 (2026-02-12)
 ------------------
 

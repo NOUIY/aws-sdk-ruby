@@ -6048,6 +6048,96 @@ module Aws::Connect
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
     #   @return [String]
     #
+    # @!attribute [rw] expires_at
+    #   The timestamp when the notification should expire and no longer be
+    #   displayed to users. If not specified, defaults to one week from
+    #   creation.
+    #   @return [Time]
+    #
+    # @!attribute [rw] recipients
+    #   A list of Amazon Resource Names (ARNs) identifying the recipients of
+    #   the notification. Can include user ARNs or instance ARNs to target
+    #   all users in an instance. Maximum of 200 recipients.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] priority
+    #   The priority level of the notification. Valid values are HIGH and
+    #   LOW. High priority notifications are displayed above low priority
+    #   notifications.
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   The localized content of the notification. A map where keys are
+    #   locale codes and values are the notification text in that locale.
+    #   Content supports markdown formatting and embedded links. Maximum 250
+    #   characters per locale.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource. For example, `{ "Tags": {"key1":"value1", "key2":"value2"}
+    #   }`.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] predefined_notification_id
+    #   The unique identifier for a notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency,
+    #   see [Making retries safe with idempotent APIs][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateNotificationRequest AWS API Documentation
+    #
+    class CreateNotificationRequest < Struct.new(
+      :instance_id,
+      :expires_at,
+      :recipients,
+      :priority,
+      :content,
+      :tags,
+      :predefined_notification_id,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] notification_id
+    #   The unique identifier assigned to the created notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] notification_arn
+    #   The Amazon Resource Name (ARN) of the created notification.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateNotificationResponse AWS API Documentation
+    #
+    class CreateNotificationResponse < Struct.new(
+      :notification_id,
+      :notification_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
     # @!attribute [rw] contact_id
     #   The identifier of the contact in this instance of Amazon Connect.
     #   Supports contacts in the CHAT channel and VOICE (WebRTC) channels.
@@ -8975,6 +9065,34 @@ module Aws::Connect
     end
 
     # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] notification_id
+    #   The unique identifier for the notification to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteNotificationRequest AWS API Documentation
+    #
+    class DeleteNotificationRequest < Struct.new(
+      :instance_id,
+      :notification_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The response from deleting a notification.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteNotificationResponse AWS API Documentation
+    #
+    class DeleteNotificationResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] instance_id
     #   The identifier of the Amazon Connect instance. You can find the
     #   instance ID in the Amazon Resource Name (ARN) of the instance.
     #   @return [String]
@@ -10084,6 +10202,41 @@ module Aws::Connect
     #
     class DescribeInstanceStorageConfigResponse < Struct.new(
       :storage_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] notification_id
+    #   The unique identifier for the notification.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeNotificationRequest AWS API Documentation
+    #
+    class DescribeNotificationRequest < Struct.new(
+      :instance_id,
+      :notification_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] notification
+    #   The complete notification information including content, priority,
+    #   recipients, and metadata.
+    #   @return [Types::Notification]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeNotificationResponse AWS API Documentation
+    #
+    class DescribeNotificationResponse < Struct.new(
+      :notification)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -21282,6 +21435,53 @@ module Aws::Connect
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
     #   @return [String]
     #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page. Valid range is
+    #   1-100.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListNotificationsRequest AWS API Documentation
+    #
+    class ListNotificationsRequest < Struct.new(
+      :instance_id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. If present, there are more
+    #   results available.
+    #   @return [String]
+    #
+    # @!attribute [rw] notification_summary_list
+    #   A list of notification summaries.
+    #   @return [Array<Types::Notification>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListNotificationsResponse AWS API Documentation
+    #
+    class ListNotificationsResponse < Struct.new(
+      :next_token,
+      :notification_summary_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
     # @!attribute [rw] phone_number_types
     #   The type of phone number.
     #
@@ -22811,6 +23011,58 @@ module Aws::Connect
     end
 
     # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page. Valid range is
+    #   1-1000.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] user_id
+    #   The identifier of the user.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListUserNotificationsRequest AWS API Documentation
+    #
+    class ListUserNotificationsRequest < Struct.new(
+      :instance_id,
+      :next_token,
+      :max_results,
+      :user_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] user_notifications
+    #   A list of notifications sent to the specified user.
+    #   @return [Array<Types::UserNotificationSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. If present, there are more
+    #   results available.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListUserNotificationsResponse AWS API Documentation
+    #
+    class ListUserNotificationsResponse < Struct.new(
+      :user_notifications,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
     #   The identifier of the Amazon Connect instance. You can find the
     #   instance ID in the Amazon Resource Name (ARN) of the instance.
     #   @return [String]
@@ -23684,6 +23936,72 @@ module Aws::Connect
       class Unknown < NextContactMetadata; end
     end
 
+    # Contains information about a notification, including its content,
+    # priority, recipients, and metadata.
+    #
+    # @!attribute [rw] content
+    #   The localized content of the notification. A map where keys are
+    #   locale codes and values are the notification text in that locale.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] id
+    #   The unique identifier for the notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] priority
+    #   The priority level of the notification. Valid values are URGENT,
+    #   HIGH, and LOW.
+    #   @return [String]
+    #
+    # @!attribute [rw] recipients
+    #   A list of Amazon Resource Names (ARNs) identifying the recipients of
+    #   the notification. Maximum of 200 recipients.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The timestamp when the notification was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the notification was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] expires_at
+    #   The timestamp when the notification expires and is no longer
+    #   displayed to users.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_region
+    #   The AWS Region where the notification was last modified.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource. For example, `{ "Tags": {"key1":"value1", "key2":"value2"}
+    #   }`.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/Notification AWS API Documentation
+    #
+    class Notification < Struct.new(
+      :content,
+      :id,
+      :arn,
+      :priority,
+      :recipients,
+      :last_modified_time,
+      :created_at,
+      :expires_at,
+      :last_modified_region,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The type of notification recipient.
     #
     # @!attribute [rw] user_tags
@@ -23704,6 +24022,111 @@ module Aws::Connect
     class NotificationRecipientType < Struct.new(
       :user_tags,
       :user_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The search criteria to be used to return notifications.
+    #
+    # @!attribute [rw] or_conditions
+    #   A list of conditions to be met, where at least one condition must be
+    #   satisfied.
+    #   @return [Array<Types::NotificationSearchCriteria>]
+    #
+    # @!attribute [rw] and_conditions
+    #   A list of conditions that must all be satisfied.
+    #   @return [Array<Types::NotificationSearchCriteria>]
+    #
+    # @!attribute [rw] string_condition
+    #   A leaf node condition which can be used to specify a string
+    #   condition.
+    #   @return [Types::StringCondition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/NotificationSearchCriteria AWS API Documentation
+    #
+    class NotificationSearchCriteria < Struct.new(
+      :or_conditions,
+      :and_conditions,
+      :string_condition)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Filters to apply when searching for notifications.
+    #
+    # @!attribute [rw] attribute_filter
+    #   Attribute-based filters to apply to the search results.
+    #   @return [Types::ControlPlaneAttributeFilter]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/NotificationSearchFilter AWS API Documentation
+    #
+    class NotificationSearchFilter < Struct.new(
+      :attribute_filter)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about a notification returned from a search
+    # operation.
+    #
+    # @!attribute [rw] id
+    #   The unique identifier for the notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   The localized content of the notification.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] priority
+    #   The priority level of the notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] recipients
+    #   A list of recipient Amazon Resource Names (ARNs).
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the notification was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] expires_at
+    #   The timestamp when the notification expires.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_region
+    #   The AWS Region where the notification was last modified.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The timestamp when the notification was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   The tags associated with the notification.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/NotificationSearchSummary AWS API Documentation
+    #
+    class NotificationSearchSummary < Struct.new(
+      :id,
+      :arn,
+      :instance_id,
+      :content,
+      :priority,
+      :recipients,
+      :created_at,
+      :expires_at,
+      :last_modified_region,
+      :last_modified_time,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -28387,6 +28810,71 @@ module Aws::Connect
     #
     class SearchHoursOfOperationsResponse < Struct.new(
       :hours_of_operations,
+      :next_token,
+      :approximate_total_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page. Valid range is
+    #   1-100.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] search_filter
+    #   Filters to apply to the search results, such as tag-based filters.
+    #   @return [Types::NotificationSearchFilter]
+    #
+    # @!attribute [rw] search_criteria
+    #   The search criteria to apply when searching for notifications.
+    #   Supports filtering by notification ID and message content using
+    #   comparison types such as STARTS\_WITH, CONTAINS, and EXACT.
+    #   @return [Types::NotificationSearchCriteria]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SearchNotificationsRequest AWS API Documentation
+    #
+    class SearchNotificationsRequest < Struct.new(
+      :instance_id,
+      :next_token,
+      :max_results,
+      :search_filter,
+      :search_criteria)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] notifications
+    #   A list of notifications matching the search criteria.
+    #   @return [Array<Types::NotificationSearchSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. If present, there are more
+    #   results available.
+    #   @return [String]
+    #
+    # @!attribute [rw] approximate_total_count
+    #   The approximate total number of notifications matching the search
+    #   criteria.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SearchNotificationsResponse AWS API Documentation
+    #
+    class SearchNotificationsResponse < Struct.new(
+      :notifications,
       :next_token,
       :approximate_total_count)
       SENSITIVE = []
@@ -34177,6 +34665,40 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] notification_id
+    #   The unique identifier for the notification to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   The updated localized content of the notification. A map of locale
+    #   codes and values. Maximum 500 characters per locale.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateNotificationContentRequest AWS API Documentation
+    #
+    class UpdateNotificationContentRequest < Struct.new(
+      :instance_id,
+      :notification_id,
+      :content)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The response from updating notification content.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateNotificationContentResponse AWS API Documentation
+    #
+    class UpdateNotificationContentResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] state
     #   The `state` query parameter that was provided by Cognito in the
     #   `redirectUri`. This will also match the `state` parameter provided
@@ -35381,6 +35903,58 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] notification_id
+    #   The unique identifier for the notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] user_id
+    #   The identifier of the user whose notification status is being
+    #   updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The new status for the notification. Valid values are READ, UNREAD,
+    #   and HIDDEN.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The timestamp when the notification status was last modified. Used
+    #   for cross-region replication and optimistic locking.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_region
+    #   The AWS Region where the notification status was last modified. Used
+    #   for cross-region replication.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateUserNotificationStatusRequest AWS API Documentation
+    #
+    class UpdateUserNotificationStatusRequest < Struct.new(
+      :instance_id,
+      :notification_id,
+      :user_id,
+      :status,
+      :last_modified_time,
+      :last_modified_region)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The response from updating a user's notification status.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateUserNotificationStatusResponse AWS API Documentation
+    #
+    class UpdateUserNotificationStatusResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] phone_config
     #   Information about phone configuration settings for the user.
     #   @return [Types::UserPhoneConfig]
@@ -36154,6 +36728,63 @@ module Aws::Connect
     #
     class UserNotFoundException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about a notification for a specific user,
+    # including the user's read status.
+    #
+    # @!attribute [rw] notification_id
+    #   The unique identifier for the notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] notification_status
+    #   The status of the notification for this user. Valid values are READ,
+    #   UNREAD, and HIDDEN.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] recipient_id
+    #   The identifier of the recipient user.
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   The localized content of the notification.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] priority
+    #   The priority level of the notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] source
+    #   The source that created the notification. Valid values are CUSTOMER,
+    #   RULES, and SYSTEM.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the notification was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] expires_at
+    #   The timestamp when the notification expires.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UserNotificationSummary AWS API Documentation
+    #
+    class UserNotificationSummary < Struct.new(
+      :notification_id,
+      :notification_status,
+      :instance_id,
+      :recipient_id,
+      :content,
+      :priority,
+      :source,
+      :created_at,
+      :expires_at)
       SENSITIVE = []
       include Aws::Structure
     end
