@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.120.0 (2026-02-16)
+------------------
+
+* Feature - Adds support for enabling blob mounting, and removes support for Clair based image scanning
+
 1.119.0 (2026-01-16)
 ------------------
 

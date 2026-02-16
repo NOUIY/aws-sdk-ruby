@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.602.0 (2026-02-16)
+------------------
+
+* Feature - Documentation updates for EC2 Secondary Networks
+
 1.601.0 (2026-02-13)
 ------------------
 

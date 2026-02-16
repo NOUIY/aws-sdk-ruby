@@ -14291,7 +14291,7 @@ module Aws::EC2
       req.send_request(options)
     end
 
-    # Creates an Amazon secondary network.
+    # Creates a secondary network.
     #
     # The allowed size for a secondary network CIDR block is between /28
     # netmask (16 IP addresses) and /12 netmask (1,048,576 IP addresses).
@@ -73019,7 +73019,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.601.0'
+      context[:gem_version] = '1.602.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
