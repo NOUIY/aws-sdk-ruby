@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.121.0 (2026-02-19)
+------------------
+
+* Feature - Adds multiple artifact types filter support in ListImageReferrers API.
+
 1.120.0 (2026-02-16)
 ------------------
 
