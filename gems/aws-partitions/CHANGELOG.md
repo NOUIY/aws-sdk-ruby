@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1217.0 (2026-02-20)
+------------------
+
+* Feature - Added support for enumerating regions for  `Aws::SignerData`.
+
 1.1216.0 (2026-02-18)
 ------------------
 
