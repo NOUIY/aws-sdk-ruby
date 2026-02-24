@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1219.0 (2026-02-24)
+------------------
+
+* Feature - Added support for enumerating regions for  `Aws::ElementalInference`.
+
 1.1218.0 (2026-02-23)
 ------------------
 
