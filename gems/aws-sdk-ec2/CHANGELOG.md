@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.605.0 (2026-02-25)
+------------------
+
+* Feature - Add support for EC2 Capacity Blocks in Local Zones.
+
 1.604.0 (2026-02-24)
 ------------------
 

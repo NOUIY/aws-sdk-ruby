@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.135.0 (2026-02-25)
+------------------
+
+* Feature - AWS Batch documentation update for service job capacity units.
+
 1.134.0 (2026-02-11)
 ------------------
 

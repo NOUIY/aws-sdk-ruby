@@ -5424,7 +5424,7 @@ module Aws::Batch
     # @!attribute [rw] capacity_unit
     #   The unit of measure for the capacity usage. For compute jobs, this
     #   is `VCPU` for Amazon EC2 and `cpu` for Amazon EKS. For service jobs,
-    #   this is `NUM_INSTANCES`.
+    #   this is the instance type.
     #   @return [String]
     #
     # @!attribute [rw] quantity
@@ -7909,7 +7909,7 @@ module Aws::Batch
     # @!attribute [rw] capacity_unit
     #   The unit of measure for the capacity usage. For compute jobs, this
     #   is `VCPU` for Amazon EC2 and `cpu` for Amazon EKS. For service jobs,
-    #   this is `NUM_INSTANCES`.
+    #   this is the instance type.
     #   @return [String]
     #
     # @!attribute [rw] quantity
@@ -8660,7 +8660,7 @@ module Aws::Batch
     #
     # @!attribute [rw] capacity_unit
     #   The unit of measure for the service job capacity usage. For service
-    #   jobs, this is `NUM_INSTANCES`.
+    #   jobs, this is the instance type.
     #   @return [String]
     #
     # @!attribute [rw] quantity
@@ -8682,7 +8682,7 @@ module Aws::Batch
     #
     # @!attribute [rw] capacity_unit
     #   The unit of measure for the service job capacity usage. For service
-    #   jobs, this is `NUM_INSTANCES`.
+    #   jobs, this is the instance type.
     #   @return [String]
     #
     # @!attribute [rw] quantity

@@ -1268,6 +1268,7 @@ module Aws::EC2
       attr_accessor capacity_block_extension_end_date: ::Time
       attr_accessor upfront_fee: ::String
       attr_accessor currency_code: ::String
+      attr_accessor zone_type: ::String
       SENSITIVE: []
     end
 
@@ -1284,6 +1285,7 @@ module Aws::EC2
       attr_accessor upfront_fee: ::String
       attr_accessor currency_code: ::String
       attr_accessor tenancy: ("default" | "dedicated")
+      attr_accessor zone_type: ::String
       SENSITIVE: []
     end
 
@@ -1301,6 +1303,7 @@ module Aws::EC2
       attr_accessor ultraserver_type: ::String
       attr_accessor ultraserver_count: ::Integer
       attr_accessor capacity_block_duration_minutes: ::Integer
+      attr_accessor zone_type: ::String
       SENSITIVE: []
     end
 
@@ -5084,6 +5087,7 @@ module Aws::EC2
       attr_accessor max_results: ::Integer
       attr_accessor ultraserver_type: ::String
       attr_accessor ultraserver_count: ::Integer
+      attr_accessor all_availability_zones: bool
       SENSITIVE: []
     end
 

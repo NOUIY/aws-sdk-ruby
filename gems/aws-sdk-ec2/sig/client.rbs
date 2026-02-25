@@ -6169,7 +6169,8 @@ module Aws
                                                ?next_token: ::String,
                                                ?max_results: ::Integer,
                                                ?ultraserver_type: ::String,
-                                               ?ultraserver_count: ::Integer
+                                               ?ultraserver_count: ::Integer,
+                                               ?all_availability_zones: bool
                                              ) -> _DescribeCapacityBlockOfferingsResponseSuccess
                                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeCapacityBlockOfferingsResponseSuccess
 

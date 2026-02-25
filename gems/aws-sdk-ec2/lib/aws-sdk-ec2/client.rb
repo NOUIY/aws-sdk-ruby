@@ -25430,6 +25430,7 @@ module Aws::EC2
     #   resp.capacity_block_extensions[0].capacity_block_extension_end_date #=> Time
     #   resp.capacity_block_extensions[0].upfront_fee #=> String
     #   resp.capacity_block_extensions[0].currency_code #=> String
+    #   resp.capacity_block_extensions[0].zone_type #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeCapacityBlockExtensionHistory AWS API Documentation
@@ -25500,6 +25501,7 @@ module Aws::EC2
     #   resp.capacity_block_extension_offerings[0].upfront_fee #=> String
     #   resp.capacity_block_extension_offerings[0].currency_code #=> String
     #   resp.capacity_block_extension_offerings[0].tenancy #=> String, one of "default", "dedicated"
+    #   resp.capacity_block_extension_offerings[0].zone_type #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeCapacityBlockExtensionOfferings AWS API Documentation
@@ -25563,6 +25565,12 @@ module Aws::EC2
     # @option params [Integer] :ultraserver_count
     #   The number of EC2 UltraServers in the offerings.
     #
+    # @option params [Boolean] :all_availability_zones
+    #   Include all Availability Zones and Local Zones, regardless of your
+    #   opt-in status. If you do not use this parameter, the results include
+    #   available offerings from all Availability Zones in the Amazon Web
+    #   Services Region and Local Zones you are opted into.
+    #
     # @return [Types::DescribeCapacityBlockOfferingsResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DescribeCapacityBlockOfferingsResult#capacity_block_offerings #capacity_block_offerings} => Array&lt;Types::CapacityBlockOffering&gt;
@@ -25583,6 +25591,7 @@ module Aws::EC2
     #     max_results: 1,
     #     ultraserver_type: "String",
     #     ultraserver_count: 1,
+    #     all_availability_zones: false,
     #   })
     #
     # @example Response structure
@@ -25601,6 +25610,7 @@ module Aws::EC2
     #   resp.capacity_block_offerings[0].ultraserver_type #=> String
     #   resp.capacity_block_offerings[0].ultraserver_count #=> Integer
     #   resp.capacity_block_offerings[0].capacity_block_duration_minutes #=> Integer
+    #   resp.capacity_block_offerings[0].zone_type #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeCapacityBlockOfferings AWS API Documentation
@@ -65464,6 +65474,7 @@ module Aws::EC2
     #   resp.capacity_block_extensions[0].capacity_block_extension_end_date #=> Time
     #   resp.capacity_block_extensions[0].upfront_fee #=> String
     #   resp.capacity_block_extensions[0].currency_code #=> String
+    #   resp.capacity_block_extensions[0].zone_type #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/PurchaseCapacityBlockExtension AWS API Documentation
     #
@@ -73042,7 +73053,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.604.0'
+      context[:gem_version] = '1.605.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
