@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.136.0 (2026-02-27)
+------------------
+
+* Feature - This feature allows customers to specify the minimum time (in minutes) that AWS Batch keeps instances running in a compute environment after all jobs on the instance complete
+
 1.135.0 (2026-02-25)
 ------------------
 
