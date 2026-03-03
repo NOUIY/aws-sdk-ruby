@@ -1337,6 +1337,7 @@ module Aws::CloudWatchLogs
       attr_accessor log_group_class: ("STANDARD" | "INFREQUENT_ACCESS" | "DELIVERY")
       attr_accessor log_group_arn: ::String
       attr_accessor deletion_protection_enabled: bool
+      attr_accessor bearer_token_authentication_enabled: bool
       SENSITIVE: []
     end
 
@@ -1606,6 +1607,12 @@ module Aws::CloudWatchLogs
 
     class PutAccountPolicyResponse
       attr_accessor account_policy: Types::AccountPolicy
+      SENSITIVE: []
+    end
+
+    class PutBearerTokenAuthenticationRequest
+      attr_accessor log_group_identifier: ::String
+      attr_accessor bearer_token_authentication_enabled: bool
       SENSITIVE: []
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.69.0 (2026-03-03)
+------------------
+
+* Feature - Adding QueryGraph operation to DataZone SDK
+
 1.68.0 (2026-02-23)
 ------------------
 

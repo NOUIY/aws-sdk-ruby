@@ -513,6 +513,22 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # Additional details on the queried entity that can be requested in the
+    # response.
+    #
+    # @!attribute [rw] form_names
+    #   Names of forms on the query entity that can be requested in the
+    #   response.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/AdditionalAttributes AWS API Documentation
+    #
+    class AdditionalAttributes < Struct.new(
+      :form_names)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An aggregation list item.
     #
     # @!attribute [rw] attribute
@@ -7536,6 +7552,32 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # The pattern describing the entities to be matched during the graph
+    # query.
+    #
+    # @!attribute [rw] entity_type
+    #   The type of entity to be matched during the graph query.
+    #   @return [String]
+    #
+    # @!attribute [rw] identifier
+    #   The identifier of the root entity to start traversal from during the
+    #   graph query.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   A search filter clause in Amazon DataZone.
+    #   @return [Types::FilterClause]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/EntityPattern AWS API Documentation
+    #
+    class EntityPattern < Struct.new(
+      :entity_type,
+      :identifier,
+      :filters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The details about the specified action configured for an environment.
     # For example, the details of the specified console links for an
     # analytics tool that is available in this environment.
@@ -12606,6 +12648,91 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # The summary and output forms of a LineageNode
+    #
+    # @!attribute [rw] domain_id
+    #   The ID of the domain of the data lineage node.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the data lineage node.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the data lineage node.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp at which the data lineage node was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_by
+    #   The user who created the data lineage node.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp at which the data lineage node was updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_by
+    #   The user who updated the data lineage node.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the data lineage node.
+    #   @return [String]
+    #
+    # @!attribute [rw] type_name
+    #   The name of the type of the data lineage node.
+    #   @return [String]
+    #
+    # @!attribute [rw] type_revision
+    #   The type of the revision of the data lineage node.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_identifier
+    #   The alternate ID of the data lineage node.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_timestamp
+    #   The event timestamp of the data lineage node.
+    #   @return [Time]
+    #
+    # @!attribute [rw] forms_output
+    #   The forms included in the additional attributes of a data lineage
+    #   node.
+    #   @return [Array<Types::FormOutput>]
+    #
+    # @!attribute [rw] upstream_lineage_node_ids
+    #   The IDs of the upstream data lineage nodes.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] downstream_lineage_node_ids
+    #   The IDs of the downstream data lineage nodes.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/LineageNodeItem AWS API Documentation
+    #
+    class LineageNodeItem < Struct.new(
+      :domain_id,
+      :name,
+      :description,
+      :created_at,
+      :created_by,
+      :updated_at,
+      :updated_by,
+      :id,
+      :type_name,
+      :type_revision,
+      :source_identifier,
+      :event_timestamp,
+      :forms_output,
+      :upstream_lineage_node_ids,
+      :downstream_lineage_node_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The reference details for the data lineage node.
     #
     # @!attribute [rw] id
@@ -15343,6 +15470,33 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # A clause to match a query pattern
+    #
+    # @note MatchClause is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] relation_pattern
+    #   The pattern describing the query's relational traversal.
+    #   @return [Types::RelationPattern]
+    #
+    # @!attribute [rw] entity_pattern
+    #   The pattern describing the entities for the query to traverse.
+    #   @return [Types::EntityPattern]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/MatchClause AWS API Documentation
+    #
+    class MatchClause < Struct.new(
+      :relation_pattern,
+      :entity_pattern,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class RelationPattern < MatchClause; end
+      class EntityPattern < MatchClause; end
+      class Unknown < MatchClause; end
+    end
+
     # The offset of a matched term.
     #
     # @!attribute [rw] start_offset
@@ -16896,6 +17050,70 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # @!attribute [rw] domain_identifier
+    #   The identifier of the Amazon DataZone domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] match
+    #   List of query match clauses.
+    #   @return [Array<Types::MatchClause>]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of entities to return in a single call to
+    #   `QueryGraph`. When the number of entities to be listed is greater
+    #   than the value of `MaxResults`, the response contains a `NextToken`
+    #   value that you can use in a subsequent call to `QueryGraph` to list
+    #   the next set of entities.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   When the number of entities is greater than the default value for
+    #   the `MaxResults` parameter, or if you explicitly specify a value for
+    #   `MaxResults` that is less than the number of entities, the response
+    #   includes a pagination token named `NextToken`. You can specify this
+    #   `NextToken` value in a subsequent call to `QueryGraph` to list the
+    #   next set of entities.
+    #   @return [String]
+    #
+    # @!attribute [rw] additional_attributes
+    #   Additional details on the queried entity that can be requested in
+    #   the response.
+    #   @return [Types::AdditionalAttributes]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/QueryGraphInput AWS API Documentation
+    #
+    class QueryGraphInput < Struct.new(
+      :domain_identifier,
+      :match,
+      :max_results,
+      :next_token,
+      :additional_attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   The results of the `QueryGraph` action.
+    #   @return [Array<Types::ResultItem>]
+    #
+    # @!attribute [rw] next_token
+    #   When the number of entities is greater than the default value for
+    #   the `MaxResults` parameter, or if you explicitly specify a value for
+    #   `MaxResults` that is less than the number of entities, the response
+    #   includes a pagination token named `NextToken`. You can specify this
+    #   `NextToken` value in a subsequent call to `QueryGraph` to list the
+    #   next set of entities.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/QueryGraphOutput AWS API Documentation
+    #
+    class QueryGraphOutput < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The recommendation to be updated as part of the `UpdateDataSource`
     # action.
     #
@@ -17556,6 +17774,30 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # The pattern describing the query's relational traversal.
+    #
+    # @!attribute [rw] relation_type
+    #   The type of relation to query.
+    #   @return [String]
+    #
+    # @!attribute [rw] relation_direction
+    #   The direction to query.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_path_length
+    #   The number of hops to query.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/RelationPattern AWS API Documentation
+    #
+    class RelationPattern < Struct.new(
+      :relation_type,
+      :relation_direction,
+      :max_path_length)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The relational filter configuration for the data source.
     #
     # @!attribute [rw] database_name
@@ -17769,6 +18011,27 @@ module Aws::DataZone
       :is_value_editable)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # Resulting entity from the query.
+    #
+    # @note ResultItem is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of ResultItem corresponding to the set member.
+    #
+    # @!attribute [rw] lineage_node
+    #   Resulting data lineage node from the query.
+    #   @return [Types::LineageNodeItem]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ResultItem AWS API Documentation
+    #
+    class ResultItem < Struct.new(
+      :lineage_node,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class LineageNode < ResultItem; end
+      class Unknown < ResultItem; end
     end
 
     # @!attribute [rw] domain_identifier

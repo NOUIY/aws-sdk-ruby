@@ -43579,6 +43579,15 @@ module Aws::SageMaker
     #
     #     * NVIDIA Container Toolkit with disabled CUDA-compat mounting
     #
+    #   al2023-ami-sagemaker-inference-gpu-4-1
+    #   : * Accelerator: GPU
+    #
+    #     * NVIDIA driver version: 580
+    #
+    #     * CUDA version: 13.0
+    #
+    #     * NVIDIA Container Toolkit with disabled CUDA-compat mounting
+    #
     #   al2-ami-sagemaker-inference-neuron-2
     #   : * Accelerator: Inferentia2 and Trainium
     #

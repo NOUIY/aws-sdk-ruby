@@ -11233,6 +11233,117 @@ module Aws::DataZone
       req.send_request(options)
     end
 
+    # Queries entities in the graph store.
+    #
+    # @option params [required, String] :domain_identifier
+    #   The identifier of the Amazon DataZone domain.
+    #
+    # @option params [required, Array<Types::MatchClause>] :match
+    #   List of query match clauses.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of entities to return in a single call to
+    #   `QueryGraph`. When the number of entities to be listed is greater than
+    #   the value of `MaxResults`, the response contains a `NextToken` value
+    #   that you can use in a subsequent call to `QueryGraph` to list the next
+    #   set of entities.
+    #
+    # @option params [String] :next_token
+    #   When the number of entities is greater than the default value for the
+    #   `MaxResults` parameter, or if you explicitly specify a value for
+    #   `MaxResults` that is less than the number of entities, the response
+    #   includes a pagination token named `NextToken`. You can specify this
+    #   `NextToken` value in a subsequent call to `QueryGraph` to list the
+    #   next set of entities.
+    #
+    # @option params [Types::AdditionalAttributes] :additional_attributes
+    #   Additional details on the queried entity that can be requested in the
+    #   response.
+    #
+    # @return [Types::QueryGraphOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::QueryGraphOutput#items #items} => Array&lt;Types::ResultItem&gt;
+    #   * {Types::QueryGraphOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.query_graph({
+    #     domain_identifier: "DomainId", # required
+    #     match: [ # required
+    #       {
+    #         relation_pattern: {
+    #           relation_type: "LINEAGE", # required, accepts LINEAGE
+    #           relation_direction: "IN", # required, accepts IN, OUT
+    #           max_path_length: 1,
+    #         },
+    #         entity_pattern: {
+    #           entity_type: "LINEAGE_NODE", # required, accepts LINEAGE_NODE
+    #           identifier: "EntityPatternIdentifierString", # required
+    #           filters: {
+    #             filter: {
+    #               attribute: "Attribute", # required
+    #               value: "FilterValueString",
+    #               int_value: 1,
+    #               operator: "EQ", # accepts EQ, LE, LT, GE, GT, TEXT_SEARCH
+    #             },
+    #             and: [
+    #               {
+    #                 # recursive FilterClause
+    #               },
+    #             ],
+    #             or: [
+    #               {
+    #                 # recursive FilterClause
+    #               },
+    #             ],
+    #           },
+    #         },
+    #       },
+    #     ],
+    #     max_results: 1,
+    #     next_token: "PaginationToken",
+    #     additional_attributes: {
+    #       form_names: ["FormName"],
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].lineage_node.domain_id #=> String
+    #   resp.items[0].lineage_node.name #=> String
+    #   resp.items[0].lineage_node.description #=> String
+    #   resp.items[0].lineage_node.created_at #=> Time
+    #   resp.items[0].lineage_node.created_by #=> String
+    #   resp.items[0].lineage_node.updated_at #=> Time
+    #   resp.items[0].lineage_node.updated_by #=> String
+    #   resp.items[0].lineage_node.id #=> String
+    #   resp.items[0].lineage_node.type_name #=> String
+    #   resp.items[0].lineage_node.type_revision #=> String
+    #   resp.items[0].lineage_node.source_identifier #=> String
+    #   resp.items[0].lineage_node.event_timestamp #=> Time
+    #   resp.items[0].lineage_node.forms_output #=> Array
+    #   resp.items[0].lineage_node.forms_output[0].form_name #=> String
+    #   resp.items[0].lineage_node.forms_output[0].type_name #=> String
+    #   resp.items[0].lineage_node.forms_output[0].type_revision #=> String
+    #   resp.items[0].lineage_node.forms_output[0].content #=> String
+    #   resp.items[0].lineage_node.upstream_lineage_node_ids #=> Array
+    #   resp.items[0].lineage_node.upstream_lineage_node_ids[0] #=> String
+    #   resp.items[0].lineage_node.downstream_lineage_node_ids #=> Array
+    #   resp.items[0].lineage_node.downstream_lineage_node_ids[0] #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/QueryGraph AWS API Documentation
+    #
+    # @overload query_graph(params = {})
+    # @param [Hash] params ({})
+    def query_graph(params = {}, options = {})
+      req = build_request(:query_graph, params)
+      req.send_request(options)
+    end
+
     # Rejects automatically generated business-friendly metadata for your
     # Amazon DataZone assets.
     #
@@ -14916,7 +15027,7 @@ module Aws::DataZone
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-datazone'
-      context[:gem_version] = '1.68.0'
+      context[:gem_version] = '1.69.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

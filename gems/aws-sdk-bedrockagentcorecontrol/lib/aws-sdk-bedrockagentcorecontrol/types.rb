@@ -2167,12 +2167,25 @@ module Aws::BedrockAgentCoreControl
     #   not need to pass this option.
     #   @return [String]
     #
+    # @!attribute [rw] encryption_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt the
+    #   policy engine data.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   A map of tag keys and values to assign to an AgentCore Policy. Tags
+    #   enable you to categorize your resources in different ways, for
+    #   example, by purpose, owner, or environment.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreatePolicyEngineRequest AWS API Documentation
     #
     class CreatePolicyEngineRequest < Struct.new(
       :name,
       :description,
-      :client_token)
+      :client_token,
+      :encryption_key_arn,
+      :tags)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -2222,6 +2235,11 @@ module Aws::BedrockAgentCoreControl
     #   creation process.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] encryption_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt the
+    #   policy engine data.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreatePolicyEngineResponse AWS API Documentation
     #
     class CreatePolicyEngineResponse < Struct.new(
@@ -2232,7 +2250,8 @@ module Aws::BedrockAgentCoreControl
       :updated_at,
       :policy_engine_arn,
       :status,
-      :status_reasons)
+      :status_reasons,
+      :encryption_key_arn)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -3419,6 +3438,11 @@ module Aws::BedrockAgentCoreControl
     #   occurred.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] encryption_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt the
+    #   policy engine data.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeletePolicyEngineResponse AWS API Documentation
     #
     class DeletePolicyEngineResponse < Struct.new(
@@ -3429,7 +3453,8 @@ module Aws::BedrockAgentCoreControl
       :updated_at,
       :policy_engine_arn,
       :status,
-      :status_reasons)
+      :status_reasons,
+      :encryption_key_arn)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -4446,6 +4471,11 @@ module Aws::BedrockAgentCoreControl
     #   to the runtime.
     #   @return [Types::RequestHeaderConfiguration]
     #
+    # @!attribute [rw] metadata_configuration
+    #   Configuration for microVM Metadata Service (MMDS) settings for the
+    #   AgentCore Runtime.
+    #   @return [Types::RuntimeMetadataConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetAgentRuntimeResponse AWS API Documentation
     #
     class GetAgentRuntimeResponse < Struct.new(
@@ -4466,7 +4496,8 @@ module Aws::BedrockAgentCoreControl
       :protocol_configuration,
       :environment_variables,
       :authorizer_configuration,
-      :request_header_configuration)
+      :request_header_configuration,
+      :metadata_configuration)
       SENSITIVE = [:description, :environment_variables]
       include Aws::Structure
     end
@@ -5268,6 +5299,11 @@ module Aws::BedrockAgentCoreControl
     #   engine.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] encryption_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt the
+    #   policy engine data.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetPolicyEngineResponse AWS API Documentation
     #
     class GetPolicyEngineResponse < Struct.new(
@@ -5278,7 +5314,8 @@ module Aws::BedrockAgentCoreControl
       :updated_at,
       :policy_engine_arn,
       :status,
-      :status_reasons)
+      :status_reasons,
+      :encryption_key_arn)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -7900,16 +7937,28 @@ module Aws::BedrockAgentCoreControl
     #   always override permit policies.
     #   @return [Types::CedarPolicy]
     #
+    # @!attribute [rw] policy_generation
+    #   The generated policy asset information within the policy definition
+    #   structure. This contains information identifying a generated policy
+    #   asset from the AI-powered policy generation process within the
+    #   AgentCore Policy system. Each asset contains a Cedar policy
+    #   statement generated from natural language input, along with
+    #   associated metadata and analysis findings to help users evaluate and
+    #   select the most appropriate policy option.
+    #   @return [Types::PolicyGenerationDetails]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PolicyDefinition AWS API Documentation
     #
     class PolicyDefinition < Struct.new(
       :cedar,
+      :policy_generation,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
       class Cedar < PolicyDefinition; end
+      class PolicyGeneration < PolicyDefinition; end
       class Unknown < PolicyDefinition; end
     end
 
@@ -7974,6 +8023,11 @@ module Aws::BedrockAgentCoreControl
     #   lifecycle.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] encryption_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt the
+    #   policy engine data.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PolicyEngine AWS API Documentation
     #
     class PolicyEngine < Struct.new(
@@ -7984,7 +8038,8 @@ module Aws::BedrockAgentCoreControl
       :updated_at,
       :policy_engine_arn,
       :status,
-      :status_reasons)
+      :status_reasons,
+      :encryption_key_arn)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -8107,6 +8162,31 @@ module Aws::BedrockAgentCoreControl
       :definition,
       :raw_text_fragment,
       :findings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents the information identifying a generated policy asset from
+    # the AI-powered policy generation process within the AgentCore Policy
+    # system. Each asset contains a Cedar policy statement generated from
+    # natural language input, along with associated metadata and analysis
+    # findings to help users evaluate and select the most appropriate policy
+    # option.
+    #
+    # @!attribute [rw] policy_generation_id
+    #   The unique identifier for this policy generation request.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy_generation_asset_id
+    #   The unique identifier for this generated policy asset within the
+    #   policy generation request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PolicyGenerationDetails AWS API Documentation
+    #
+    class PolicyGenerationDetails < Struct.new(
+      :policy_generation_id,
+      :policy_generation_asset_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8341,6 +8421,22 @@ module Aws::BedrockAgentCoreControl
       :sampling_config,
       :filters,
       :session_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for microVM metadata service settings.
+    #
+    # @!attribute [rw] require_mmdsv2
+    #   Enables MMDSv2 (microVM Metadata Service Version 2) requirement for
+    #   the agent runtime. When set to `true`, the runtime microVM will only
+    #   accept MMDSv2 requests.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/RuntimeMetadataConfiguration AWS API Documentation
+    #
+    class RuntimeMetadataConfiguration < Struct.new(
+      :require_mmdsv2)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9497,6 +9593,11 @@ module Aws::BedrockAgentCoreControl
     #   The updated life cycle configuration for the AgentCore Runtime.
     #   @return [Types::LifecycleConfiguration]
     #
+    # @!attribute [rw] metadata_configuration
+    #   The updated configuration for microVM Metadata Service (MMDS)
+    #   settings for the AgentCore Runtime.
+    #   @return [Types::RuntimeMetadataConfiguration]
+    #
     # @!attribute [rw] environment_variables
     #   Updated environment variables to set in the AgentCore Runtime
     #   environment.
@@ -9522,6 +9623,7 @@ module Aws::BedrockAgentCoreControl
       :request_header_configuration,
       :protocol_configuration,
       :lifecycle_configuration,
+      :metadata_configuration,
       :environment_variables,
       :client_token)
       SENSITIVE = [:description, :environment_variables]
@@ -10239,14 +10341,14 @@ module Aws::BedrockAgentCoreControl
     #
     # @!attribute [rw] description
     #   The new description for the policy engine.
-    #   @return [String]
+    #   @return [Types::UpdatedDescription]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatePolicyEngineRequest AWS API Documentation
     #
     class UpdatePolicyEngineRequest < Struct.new(
       :policy_engine_id,
       :description)
-      SENSITIVE = [:description]
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -10282,6 +10384,11 @@ module Aws::BedrockAgentCoreControl
     #   Additional information about the update status.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] encryption_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt the
+    #   policy engine data.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatePolicyEngineResponse AWS API Documentation
     #
     class UpdatePolicyEngineResponse < Struct.new(
@@ -10292,7 +10399,8 @@ module Aws::BedrockAgentCoreControl
       :updated_at,
       :policy_engine_arn,
       :status,
-      :status_reasons)
+      :status_reasons,
+      :encryption_key_arn)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -10312,7 +10420,7 @@ module Aws::BedrockAgentCoreControl
     #   The new human-readable description for the policy. This optional
     #   field allows updating the policy's documentation while keeping the
     #   same policy logic.
-    #   @return [String]
+    #   @return [Types::UpdatedDescription]
     #
     # @!attribute [rw] definition
     #   The new Cedar policy statement that defines the access control
@@ -10339,7 +10447,7 @@ module Aws::BedrockAgentCoreControl
       :description,
       :definition,
       :validation_mode)
-      SENSITIVE = [:description]
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -10448,6 +10556,25 @@ module Aws::BedrockAgentCoreControl
       :created_time,
       :last_updated_time)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Respresents an optional value that can be provided to update the
+    # human-readable description of the resource. If the field is omitted
+    # from the request, it will leave the current decription value
+    # unchanged.
+    #
+    # @!attribute [rw] optional_value
+    #   Represents an optional value that is used to update the
+    #   human-readable description of the resource. If set to null, it will
+    #   clear the current description of the resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedDescription AWS API Documentation
+    #
+    class UpdatedDescription < Struct.new(
+      :optional_value)
+      SENSITIVE = [:optional_value]
       include Aws::Structure
     end
 

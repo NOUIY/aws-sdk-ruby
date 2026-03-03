@@ -235,7 +235,7 @@ module Aws::BedrockAgentCoreControl
 
     class CodeConfiguration
       attr_accessor code: Types::Code
-      attr_accessor runtime: ("PYTHON_3_10" | "PYTHON_3_11" | "PYTHON_3_12" | "PYTHON_3_13")
+      attr_accessor runtime: ("PYTHON_3_10" | "PYTHON_3_11" | "PYTHON_3_12" | "PYTHON_3_13" | "PYTHON_3_14")
       attr_accessor entry_point: ::Array[::String]
       SENSITIVE: []
     end
@@ -556,6 +556,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor name: ::String
       attr_accessor description: ::String
       attr_accessor client_token: ::String
+      attr_accessor encryption_key_arn: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:description]
     end
 
@@ -568,6 +570,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor policy_engine_arn: ::String
       attr_accessor status: ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
       attr_accessor status_reasons: ::Array[::String]
+      attr_accessor encryption_key_arn: ::String
       SENSITIVE: [:description]
     end
 
@@ -965,6 +968,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor policy_engine_arn: ::String
       attr_accessor status: ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
       attr_accessor status_reasons: ::Array[::String]
+      attr_accessor encryption_key_arn: ::String
       SENSITIVE: [:description]
     end
 
@@ -1258,6 +1262,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor environment_variables: ::Hash[::String, ::String]
       attr_accessor authorizer_configuration: Types::AuthorizerConfiguration
       attr_accessor request_header_configuration: Types::RequestHeaderConfiguration
+      attr_accessor metadata_configuration: Types::RuntimeMetadataConfiguration
       SENSITIVE: [:description, :environment_variables]
     end
 
@@ -1468,6 +1473,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor policy_engine_arn: ::String
       attr_accessor status: ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
       attr_accessor status_reasons: ::Array[::String]
+      attr_accessor encryption_key_arn: ::String
       SENSITIVE: [:description]
     end
 
@@ -2261,10 +2267,13 @@ module Aws::BedrockAgentCoreControl
 
     class PolicyDefinition
       attr_accessor cedar: Types::CedarPolicy
+      attr_accessor policy_generation: Types::PolicyGenerationDetails
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class Cedar < PolicyDefinition
+      end
+      class PolicyGeneration < PolicyDefinition
       end
       class Unknown < PolicyDefinition
       end
@@ -2279,6 +2288,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor policy_engine_arn: ::String
       attr_accessor status: ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
       attr_accessor status_reasons: ::Array[::String]
+      attr_accessor encryption_key_arn: ::String
       SENSITIVE: [:description]
     end
 
@@ -2301,6 +2311,12 @@ module Aws::BedrockAgentCoreControl
       attr_accessor definition: Types::PolicyDefinition
       attr_accessor raw_text_fragment: ::String
       attr_accessor findings: ::Array[Types::Finding]
+      SENSITIVE: []
+    end
+
+    class PolicyGenerationDetails
+      attr_accessor policy_generation_id: ::String
+      attr_accessor policy_generation_asset_id: ::String
       SENSITIVE: []
     end
 
@@ -2390,6 +2406,11 @@ module Aws::BedrockAgentCoreControl
       attr_accessor sampling_config: Types::SamplingConfig
       attr_accessor filters: ::Array[Types::Filter]
       attr_accessor session_config: Types::SessionConfig
+      SENSITIVE: []
+    end
+
+    class RuntimeMetadataConfiguration
+      attr_accessor require_mmdsv2: bool
       SENSITIVE: []
     end
 
@@ -2755,6 +2776,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor request_header_configuration: Types::RequestHeaderConfiguration
       attr_accessor protocol_configuration: Types::ProtocolConfiguration
       attr_accessor lifecycle_configuration: Types::LifecycleConfiguration
+      attr_accessor metadata_configuration: Types::RuntimeMetadataConfiguration
       attr_accessor environment_variables: ::Hash[::String, ::String]
       attr_accessor client_token: ::String
       SENSITIVE: [:description, :environment_variables]
@@ -2927,8 +2949,8 @@ module Aws::BedrockAgentCoreControl
 
     class UpdatePolicyEngineRequest
       attr_accessor policy_engine_id: ::String
-      attr_accessor description: ::String
-      SENSITIVE: [:description]
+      attr_accessor description: Types::UpdatedDescription
+      SENSITIVE: []
     end
 
     class UpdatePolicyEngineResponse
@@ -2940,16 +2962,17 @@ module Aws::BedrockAgentCoreControl
       attr_accessor policy_engine_arn: ::String
       attr_accessor status: ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
       attr_accessor status_reasons: ::Array[::String]
+      attr_accessor encryption_key_arn: ::String
       SENSITIVE: [:description]
     end
 
     class UpdatePolicyRequest
       attr_accessor policy_engine_id: ::String
       attr_accessor policy_id: ::String
-      attr_accessor description: ::String
+      attr_accessor description: Types::UpdatedDescription
       attr_accessor definition: Types::PolicyDefinition
       attr_accessor validation_mode: ("FAIL_ON_ANY_FINDINGS" | "IGNORE_ALL_FINDINGS")
-      SENSITIVE: [:description]
+      SENSITIVE: []
     end
 
     class UpdatePolicyResponse
@@ -2979,6 +3002,11 @@ module Aws::BedrockAgentCoreControl
       attr_accessor created_time: ::Time
       attr_accessor last_updated_time: ::Time
       SENSITIVE: []
+    end
+
+    class UpdatedDescription
+      attr_accessor optional_value: ::String
+      SENSITIVE: [:optional_value]
     end
 
     class UserPreferenceConsolidationOverride

@@ -42,6 +42,7 @@ module Aws::DataZone
     AddPolicyGrantInput = Shapes::StructureShape.new(name: 'AddPolicyGrantInput')
     AddPolicyGrantOutput = Shapes::StructureShape.new(name: 'AddPolicyGrantOutput')
     AddToProjectMemberPoolPolicyGrantDetail = Shapes::StructureShape.new(name: 'AddToProjectMemberPoolPolicyGrantDetail')
+    AdditionalAttributes = Shapes::StructureShape.new(name: 'AdditionalAttributes')
     AggregationAttributeDisplayValue = Shapes::StringShape.new(name: 'AggregationAttributeDisplayValue')
     AggregationAttributeValue = Shapes::StringShape.new(name: 'AggregationAttributeValue')
     AggregationDisplayValue = Shapes::StringShape.new(name: 'AggregationDisplayValue')
@@ -388,6 +389,8 @@ module Aws::DataZone
     EntityId = Shapes::StringShape.new(name: 'EntityId')
     EntityIdentifier = Shapes::StringShape.new(name: 'EntityIdentifier')
     EntityOwners = Shapes::ListShape.new(name: 'EntityOwners')
+    EntityPattern = Shapes::StructureShape.new(name: 'EntityPattern')
+    EntityPatternIdentifierString = Shapes::StringShape.new(name: 'EntityPatternIdentifierString')
     EntityType = Shapes::StringShape.new(name: 'EntityType')
     EnvironmentActionId = Shapes::StringShape.new(name: 'EnvironmentActionId')
     EnvironmentActionList = Shapes::ListShape.new(name: 'EnvironmentActionList')
@@ -452,6 +455,7 @@ module Aws::DataZone
     FormInputContentString = Shapes::StringShape.new(name: 'FormInputContentString')
     FormInputList = Shapes::ListShape.new(name: 'FormInputList')
     FormName = Shapes::StringShape.new(name: 'FormName')
+    FormNameList = Shapes::ListShape.new(name: 'FormNameList')
     FormOutput = Shapes::StructureShape.new(name: 'FormOutput')
     FormOutputList = Shapes::ListShape.new(name: 'FormOutputList')
     FormTypeData = Shapes::StructureShape.new(name: 'FormTypeData')
@@ -584,6 +588,7 @@ module Aws::DataZone
     GrantIdentifier = Shapes::StringShape.new(name: 'GrantIdentifier')
     GrantedEntity = Shapes::UnionShape.new(name: 'GrantedEntity')
     GrantedEntityInput = Shapes::UnionShape.new(name: 'GrantedEntityInput')
+    GraphEntityType = Shapes::StringShape.new(name: 'GraphEntityType')
     GreaterThanExpression = Shapes::StructureShape.new(name: 'GreaterThanExpression')
     GreaterThanOrEqualToExpression = Shapes::StructureShape.new(name: 'GreaterThanOrEqualToExpression')
     GroupDetails = Shapes::StructureShape.new(name: 'GroupDetails')
@@ -640,6 +645,8 @@ module Aws::DataZone
     LineageInfo = Shapes::StructureShape.new(name: 'LineageInfo')
     LineageNodeId = Shapes::StringShape.new(name: 'LineageNodeId')
     LineageNodeIdentifier = Shapes::StringShape.new(name: 'LineageNodeIdentifier')
+    LineageNodeIds = Shapes::ListShape.new(name: 'LineageNodeIds')
+    LineageNodeItem = Shapes::StructureShape.new(name: 'LineageNodeItem')
     LineageNodeReference = Shapes::StructureShape.new(name: 'LineageNodeReference')
     LineageNodeReferenceList = Shapes::ListShape.new(name: 'LineageNodeReferenceList')
     LineageNodeSummaries = Shapes::ListShape.new(name: 'LineageNodeSummaries')
@@ -733,6 +740,8 @@ module Aws::DataZone
     ManagedEndpointCredentials = Shapes::StructureShape.new(name: 'ManagedEndpointCredentials')
     ManagedEndpointCredentialsIdString = Shapes::StringShape.new(name: 'ManagedEndpointCredentialsIdString')
     ManagedPolicyType = Shapes::StringShape.new(name: 'ManagedPolicyType')
+    MatchClause = Shapes::UnionShape.new(name: 'MatchClause')
+    MatchClauses = Shapes::ListShape.new(name: 'MatchClauses')
     MatchCriteria = Shapes::ListShape.new(name: 'MatchCriteria')
     MatchOffset = Shapes::StructureShape.new(name: 'MatchOffset')
     MatchOffsets = Shapes::ListShape.new(name: 'MatchOffsets')
@@ -843,6 +852,8 @@ module Aws::DataZone
     PutDataExportConfigurationOutput = Shapes::StructureShape.new(name: 'PutDataExportConfigurationOutput')
     PutEnvironmentBlueprintConfigurationInput = Shapes::StructureShape.new(name: 'PutEnvironmentBlueprintConfigurationInput')
     PutEnvironmentBlueprintConfigurationOutput = Shapes::StructureShape.new(name: 'PutEnvironmentBlueprintConfigurationOutput')
+    QueryGraphInput = Shapes::StructureShape.new(name: 'QueryGraphInput')
+    QueryGraphOutput = Shapes::StructureShape.new(name: 'QueryGraphOutput')
     RecommendationConfiguration = Shapes::StructureShape.new(name: 'RecommendationConfiguration')
     RedshiftClusterStorage = Shapes::StructureShape.new(name: 'RedshiftClusterStorage')
     RedshiftClusterStorageClusterNameString = Shapes::StringShape.new(name: 'RedshiftClusterStorageClusterNameString')
@@ -886,6 +897,10 @@ module Aws::DataZone
     RejectSubscriptionRequestOutput = Shapes::StructureShape.new(name: 'RejectSubscriptionRequestOutput')
     RejectSubscriptionRequestOutputSubscribedListingsList = Shapes::ListShape.new(name: 'RejectSubscriptionRequestOutputSubscribedListingsList')
     RejectSubscriptionRequestOutputSubscribedPrincipalsList = Shapes::ListShape.new(name: 'RejectSubscriptionRequestOutputSubscribedPrincipalsList')
+    RelationDirection = Shapes::StringShape.new(name: 'RelationDirection')
+    RelationPattern = Shapes::StructureShape.new(name: 'RelationPattern')
+    RelationPatternMaxPathLengthInteger = Shapes::IntegerShape.new(name: 'RelationPatternMaxPathLengthInteger')
+    RelationType = Shapes::StringShape.new(name: 'RelationType')
     RelationalFilterConfiguration = Shapes::StructureShape.new(name: 'RelationalFilterConfiguration')
     RelationalFilterConfigurationDatabaseNameString = Shapes::StringShape.new(name: 'RelationalFilterConfigurationDatabaseNameString')
     RelationalFilterConfigurationSchemaNameString = Shapes::StringShape.new(name: 'RelationalFilterConfigurationSchemaNameString')
@@ -904,6 +919,8 @@ module Aws::DataZone
     ResourceTagParameter = Shapes::StructureShape.new(name: 'ResourceTagParameter')
     ResourceTagSource = Shapes::StringShape.new(name: 'ResourceTagSource')
     ResourceTags = Shapes::ListShape.new(name: 'ResourceTags')
+    ResultItem = Shapes::UnionShape.new(name: 'ResultItem')
+    ResultItemList = Shapes::ListShape.new(name: 'ResultItemList')
     Revision = Shapes::StringShape.new(name: 'Revision')
     RevisionInput = Shapes::StringShape.new(name: 'RevisionInput')
     RevokeSubscriptionInput = Shapes::StructureShape.new(name: 'RevokeSubscriptionInput')
@@ -1296,6 +1313,9 @@ module Aws::DataZone
 
     AddToProjectMemberPoolPolicyGrantDetail.add_member(:include_child_domain_units, Shapes::ShapeRef.new(shape: Boolean, location_name: "includeChildDomainUnits"))
     AddToProjectMemberPoolPolicyGrantDetail.struct_class = Types::AddToProjectMemberPoolPolicyGrantDetail
+
+    AdditionalAttributes.add_member(:form_names, Shapes::ShapeRef.new(shape: FormNameList, location_name: "formNames"))
+    AdditionalAttributes.struct_class = Types::AdditionalAttributes
 
     AggregationList.member = Shapes::ShapeRef.new(shape: AggregationListItem)
 
@@ -2875,6 +2895,11 @@ module Aws::DataZone
 
     EntityOwners.member = Shapes::ShapeRef.new(shape: OwnerPropertiesOutput)
 
+    EntityPattern.add_member(:entity_type, Shapes::ShapeRef.new(shape: GraphEntityType, required: true, location_name: "entityType"))
+    EntityPattern.add_member(:identifier, Shapes::ShapeRef.new(shape: EntityPatternIdentifierString, required: true, location_name: "identifier"))
+    EntityPattern.add_member(:filters, Shapes::ShapeRef.new(shape: FilterClause, location_name: "filters"))
+    EntityPattern.struct_class = Types::EntityPattern
+
     EnvironmentActionList.member = Shapes::ShapeRef.new(shape: ConfigurableEnvironmentAction)
 
     EnvironmentActionSummary.add_member(:domain_id, Shapes::ShapeRef.new(shape: DomainId, required: true, location_name: "domainId"))
@@ -3061,6 +3086,8 @@ module Aws::DataZone
     FormInput.struct_class = Types::FormInput
 
     FormInputList.member = Shapes::ShapeRef.new(shape: FormInput)
+
+    FormNameList.member = Shapes::ShapeRef.new(shape: FormName)
 
     FormOutput.add_member(:form_name, Shapes::ShapeRef.new(shape: FormName, required: true, location_name: "formName"))
     FormOutput.add_member(:type_name, Shapes::ShapeRef.new(shape: FormTypeName, location_name: "typeName"))
@@ -3997,6 +4024,25 @@ module Aws::DataZone
     LineageInfo.add_member(:error_message, Shapes::ShapeRef.new(shape: LineageEventErrorMessage, location_name: "errorMessage"))
     LineageInfo.struct_class = Types::LineageInfo
 
+    LineageNodeIds.member = Shapes::ShapeRef.new(shape: LineageNodeId)
+
+    LineageNodeItem.add_member(:domain_id, Shapes::ShapeRef.new(shape: DomainId, required: true, location_name: "domainId"))
+    LineageNodeItem.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
+    LineageNodeItem.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    LineageNodeItem.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, location_name: "createdAt"))
+    LineageNodeItem.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, location_name: "createdBy"))
+    LineageNodeItem.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
+    LineageNodeItem.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
+    LineageNodeItem.add_member(:id, Shapes::ShapeRef.new(shape: LineageNodeId, required: true, location_name: "id"))
+    LineageNodeItem.add_member(:type_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "typeName"))
+    LineageNodeItem.add_member(:type_revision, Shapes::ShapeRef.new(shape: Revision, location_name: "typeRevision"))
+    LineageNodeItem.add_member(:source_identifier, Shapes::ShapeRef.new(shape: String, location_name: "sourceIdentifier"))
+    LineageNodeItem.add_member(:event_timestamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "eventTimestamp"))
+    LineageNodeItem.add_member(:forms_output, Shapes::ShapeRef.new(shape: FormOutputList, location_name: "formsOutput"))
+    LineageNodeItem.add_member(:upstream_lineage_node_ids, Shapes::ShapeRef.new(shape: LineageNodeIds, location_name: "upstreamLineageNodeIds"))
+    LineageNodeItem.add_member(:downstream_lineage_node_ids, Shapes::ShapeRef.new(shape: LineageNodeIds, location_name: "downstreamLineageNodeIds"))
+    LineageNodeItem.struct_class = Types::LineageNodeItem
+
     LineageNodeReference.add_member(:id, Shapes::ShapeRef.new(shape: LineageNodeId, location_name: "id"))
     LineageNodeReference.add_member(:event_timestamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "eventTimestamp"))
     LineageNodeReference.struct_class = Types::LineageNodeReference
@@ -4494,6 +4540,16 @@ module Aws::DataZone
     ManagedEndpointCredentials.add_member(:token, Shapes::ShapeRef.new(shape: String, location_name: "token"))
     ManagedEndpointCredentials.struct_class = Types::ManagedEndpointCredentials
 
+    MatchClause.add_member(:relation_pattern, Shapes::ShapeRef.new(shape: RelationPattern, location_name: "relationPattern"))
+    MatchClause.add_member(:entity_pattern, Shapes::ShapeRef.new(shape: EntityPattern, location_name: "entityPattern"))
+    MatchClause.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    MatchClause.add_member_subclass(:relation_pattern, Types::MatchClause::RelationPattern)
+    MatchClause.add_member_subclass(:entity_pattern, Types::MatchClause::EntityPattern)
+    MatchClause.add_member_subclass(:unknown, Types::MatchClause::Unknown)
+    MatchClause.struct_class = Types::MatchClause
+
+    MatchClauses.member = Shapes::ShapeRef.new(shape: MatchClause)
+
     MatchCriteria.member = Shapes::ShapeRef.new(shape: String)
 
     MatchOffset.add_member(:start_offset, Shapes::ShapeRef.new(shape: Integer, location_name: "startOffset"))
@@ -4894,6 +4950,17 @@ module Aws::DataZone
     PutEnvironmentBlueprintConfigurationOutput.add_member(:provisioning_configurations, Shapes::ShapeRef.new(shape: ProvisioningConfigurationList, location_name: "provisioningConfigurations"))
     PutEnvironmentBlueprintConfigurationOutput.struct_class = Types::PutEnvironmentBlueprintConfigurationOutput
 
+    QueryGraphInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
+    QueryGraphInput.add_member(:match, Shapes::ShapeRef.new(shape: MatchClauses, required: true, location_name: "match"))
+    QueryGraphInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    QueryGraphInput.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location: "querystring", location_name: "nextToken"))
+    QueryGraphInput.add_member(:additional_attributes, Shapes::ShapeRef.new(shape: AdditionalAttributes, location_name: "additionalAttributes"))
+    QueryGraphInput.struct_class = Types::QueryGraphInput
+
+    QueryGraphOutput.add_member(:items, Shapes::ShapeRef.new(shape: ResultItemList, location_name: "items"))
+    QueryGraphOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
+    QueryGraphOutput.struct_class = Types::QueryGraphOutput
+
     RecommendationConfiguration.add_member(:enable_business_name_generation, Shapes::ShapeRef.new(shape: Boolean, location_name: "enableBusinessNameGeneration"))
     RecommendationConfiguration.struct_class = Types::RecommendationConfiguration
 
@@ -5045,6 +5112,11 @@ module Aws::DataZone
 
     RejectSubscriptionRequestOutputSubscribedPrincipalsList.member = Shapes::ShapeRef.new(shape: SubscribedPrincipal)
 
+    RelationPattern.add_member(:relation_type, Shapes::ShapeRef.new(shape: RelationType, required: true, location_name: "relationType"))
+    RelationPattern.add_member(:relation_direction, Shapes::ShapeRef.new(shape: RelationDirection, required: true, location_name: "relationDirection"))
+    RelationPattern.add_member(:max_path_length, Shapes::ShapeRef.new(shape: RelationPatternMaxPathLengthInteger, location_name: "maxPathLength"))
+    RelationPattern.struct_class = Types::RelationPattern
+
     RelationalFilterConfiguration.add_member(:database_name, Shapes::ShapeRef.new(shape: RelationalFilterConfigurationDatabaseNameString, required: true, location_name: "databaseName"))
     RelationalFilterConfiguration.add_member(:schema_name, Shapes::ShapeRef.new(shape: RelationalFilterConfigurationSchemaNameString, location_name: "schemaName"))
     RelationalFilterConfiguration.add_member(:filter_expressions, Shapes::ShapeRef.new(shape: FilterExpressions, location_name: "filterExpressions"))
@@ -5096,6 +5168,14 @@ module Aws::DataZone
     ResourceTagParameter.struct_class = Types::ResourceTagParameter
 
     ResourceTags.member = Shapes::ShapeRef.new(shape: ResourceTag)
+
+    ResultItem.add_member(:lineage_node, Shapes::ShapeRef.new(shape: LineageNodeItem, location_name: "lineageNode"))
+    ResultItem.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    ResultItem.add_member_subclass(:lineage_node, Types::ResultItem::LineageNode)
+    ResultItem.add_member_subclass(:unknown, Types::ResultItem::Unknown)
+    ResultItem.struct_class = Types::ResultItem
+
+    ResultItemList.member = Shapes::ShapeRef.new(shape: ResultItem)
 
     RevokeSubscriptionInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
     RevokeSubscriptionInput.add_member(:identifier, Shapes::ShapeRef.new(shape: SubscriptionId, required: true, location: "uri", location_name: "identifier"))
@@ -8507,6 +8587,25 @@ module Aws::DataZone
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+      end)
+
+      api.add_operation(:query_graph, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "QueryGraph"
+        o.http_method = "POST"
+        o.http_request_uri = "/v2/domains/{domainIdentifier}/graph/query"
+        o.input = Shapes::ShapeRef.new(shape: QueryGraphInput)
+        o.output = Shapes::ShapeRef.new(shape: QueryGraphOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:reject_predictions, Seahorse::Model::Operation.new.tap do |o|

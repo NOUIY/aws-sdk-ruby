@@ -47,6 +47,7 @@ module Aws::CloudWatchLogs
     AssociateSourceToS3TableIntegrationResponse = Shapes::StructureShape.new(name: 'AssociateSourceToS3TableIntegrationResponse')
     Baseline = Shapes::BooleanShape.new(name: 'Baseline')
     BatchId = Shapes::StringShape.new(name: 'BatchId')
+    BearerTokenAuthenticationEnabled = Shapes::BooleanShape.new(name: 'BearerTokenAuthenticationEnabled')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
     CSV = Shapes::StructureShape.new(name: 'CSV')
     CancelExportTaskRequest = Shapes::StructureShape.new(name: 'CancelExportTaskRequest')
@@ -465,6 +466,7 @@ module Aws::CloudWatchLogs
     Processors = Shapes::ListShape.new(name: 'Processors')
     PutAccountPolicyRequest = Shapes::StructureShape.new(name: 'PutAccountPolicyRequest')
     PutAccountPolicyResponse = Shapes::StructureShape.new(name: 'PutAccountPolicyResponse')
+    PutBearerTokenAuthenticationRequest = Shapes::StructureShape.new(name: 'PutBearerTokenAuthenticationRequest')
     PutDataProtectionPolicyRequest = Shapes::StructureShape.new(name: 'PutDataProtectionPolicyRequest')
     PutDataProtectionPolicyResponse = Shapes::StructureShape.new(name: 'PutDataProtectionPolicyResponse')
     PutDeliveryDestinationPolicyRequest = Shapes::StructureShape.new(name: 'PutDeliveryDestinationPolicyRequest')
@@ -1696,6 +1698,7 @@ module Aws::CloudWatchLogs
     LogGroup.add_member(:log_group_class, Shapes::ShapeRef.new(shape: LogGroupClass, location_name: "logGroupClass"))
     LogGroup.add_member(:log_group_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "logGroupArn"))
     LogGroup.add_member(:deletion_protection_enabled, Shapes::ShapeRef.new(shape: DeletionProtectionEnabled, location_name: "deletionProtectionEnabled"))
+    LogGroup.add_member(:bearer_token_authentication_enabled, Shapes::ShapeRef.new(shape: BearerTokenAuthenticationEnabled, location_name: "bearerTokenAuthenticationEnabled"))
     LogGroup.struct_class = Types::LogGroup
 
     LogGroupArnList.member = Shapes::ShapeRef.new(shape: LogGroupArn)
@@ -1936,6 +1939,10 @@ module Aws::CloudWatchLogs
 
     PutAccountPolicyResponse.add_member(:account_policy, Shapes::ShapeRef.new(shape: AccountPolicy, location_name: "accountPolicy"))
     PutAccountPolicyResponse.struct_class = Types::PutAccountPolicyResponse
+
+    PutBearerTokenAuthenticationRequest.add_member(:log_group_identifier, Shapes::ShapeRef.new(shape: LogGroupIdentifier, required: true, location_name: "logGroupIdentifier"))
+    PutBearerTokenAuthenticationRequest.add_member(:bearer_token_authentication_enabled, Shapes::ShapeRef.new(shape: BearerTokenAuthenticationEnabled, required: true, location_name: "bearerTokenAuthenticationEnabled"))
+    PutBearerTokenAuthenticationRequest.struct_class = Types::PutBearerTokenAuthenticationRequest
 
     PutDataProtectionPolicyRequest.add_member(:log_group_identifier, Shapes::ShapeRef.new(shape: LogGroupIdentifier, required: true, location_name: "logGroupIdentifier"))
     PutDataProtectionPolicyRequest.add_member(:policy_document, Shapes::ShapeRef.new(shape: DataProtectionPolicyDocument, required: true, location_name: "policyDocument"))
@@ -3508,6 +3515,20 @@ module Aws::CloudWatchLogs
         o.errors << Shapes::ShapeRef.new(shape: OperationAbortedException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+      end)
+
+      api.add_operation(:put_bearer_token_authentication, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutBearerTokenAuthentication"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: PutBearerTokenAuthenticationRequest)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: OperationAbortedException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidOperationException)
       end)
 
       api.add_operation(:put_data_protection_policy, Seahorse::Model::Operation.new.tap do |o|

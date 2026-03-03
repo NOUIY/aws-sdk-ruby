@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.25.0 (2026-03-03)
+------------------
+
+* Feature - Support for AgentCore Policy GA
+
 1.24.0 (2026-02-05)
 ------------------
 

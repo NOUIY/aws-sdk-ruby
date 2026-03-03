@@ -102,7 +102,7 @@ module Aws
                                           version_id: ::String?
                                         }?
                                       },
-                                      runtime: ("PYTHON_3_10" | "PYTHON_3_11" | "PYTHON_3_12" | "PYTHON_3_13"),
+                                      runtime: ("PYTHON_3_10" | "PYTHON_3_11" | "PYTHON_3_12" | "PYTHON_3_13" | "PYTHON_3_14"),
                                       entry_point: Array[::String]
                                     }?
                                   },
@@ -761,6 +761,10 @@ module Aws
                            definition: {
                              cedar: {
                                statement: ::String
+                             }?,
+                             policy_generation: {
+                               policy_generation_id: ::String,
+                               policy_generation_asset_id: ::String
                              }?
                            },
                            ?description: ::String,
@@ -780,12 +784,15 @@ module Aws
         def policy_engine_arn: () -> ::String
         def status: () -> ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
         def status_reasons: () -> ::Array[::String]
+        def encryption_key_arn: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#create_policy_engine-instance_method
       def create_policy_engine: (
                                   name: ::String,
                                   ?description: ::String,
-                                  ?client_token: ::String
+                                  ?client_token: ::String,
+                                  ?encryption_key_arn: ::String,
+                                  ?tags: Hash[::String, ::String]
                                 ) -> _CreatePolicyEngineResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreatePolicyEngineResponseSuccess
 
@@ -980,6 +987,7 @@ module Aws
         def policy_engine_arn: () -> ::String
         def status: () -> ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
         def status_reasons: () -> ::Array[::String]
+        def encryption_key_arn: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#delete_policy_engine-instance_method
       def delete_policy_engine: (
@@ -1025,6 +1033,7 @@ module Aws
         def environment_variables: () -> ::Hash[::String, ::String]
         def authorizer_configuration: () -> Types::AuthorizerConfiguration
         def request_header_configuration: () -> Types::RequestHeaderConfiguration
+        def metadata_configuration: () -> Types::RuntimeMetadataConfiguration
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_agent_runtime-instance_method
       def get_agent_runtime: (
@@ -1277,6 +1286,7 @@ module Aws
         def policy_engine_arn: () -> ::String
         def status: () -> ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
         def status_reasons: () -> ::Array[::String]
+        def encryption_key_arn: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_policy_engine-instance_method
       def get_policy_engine: (
@@ -1686,7 +1696,7 @@ module Aws
                                           version_id: ::String?
                                         }?
                                       },
-                                      runtime: ("PYTHON_3_10" | "PYTHON_3_11" | "PYTHON_3_12" | "PYTHON_3_13"),
+                                      runtime: ("PYTHON_3_10" | "PYTHON_3_11" | "PYTHON_3_12" | "PYTHON_3_13" | "PYTHON_3_14"),
                                       entry_point: Array[::String]
                                     }?
                                   },
@@ -1729,6 +1739,9 @@ module Aws
                                   ?lifecycle_configuration: {
                                     idle_runtime_session_timeout: ::Integer?,
                                     max_lifetime: ::Integer?
+                                  },
+                                  ?metadata_configuration: {
+                                    require_mmdsv2: bool
                                   },
                                   ?environment_variables: Hash[::String, ::String],
                                   ?client_token: ::String
@@ -2347,10 +2360,16 @@ module Aws
       def update_policy: (
                            policy_engine_id: ::String,
                            policy_id: ::String,
-                           ?description: ::String,
-                           definition: {
+                           ?description: {
+                             optional_value: ::String?
+                           },
+                           ?definition: {
                              cedar: {
                                statement: ::String
+                             }?,
+                             policy_generation: {
+                               policy_generation_id: ::String,
+                               policy_generation_asset_id: ::String
                              }?
                            },
                            ?validation_mode: ("FAIL_ON_ANY_FINDINGS" | "IGNORE_ALL_FINDINGS")
@@ -2367,11 +2386,14 @@ module Aws
         def policy_engine_arn: () -> ::String
         def status: () -> ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
         def status_reasons: () -> ::Array[::String]
+        def encryption_key_arn: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#update_policy_engine-instance_method
       def update_policy_engine: (
                                   policy_engine_id: ::String,
-                                  ?description: ::String
+                                  ?description: {
+                                    optional_value: ::String?
+                                  }
                                 ) -> _UpdatePolicyEngineResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdatePolicyEngineResponseSuccess
 

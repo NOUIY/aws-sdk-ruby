@@ -3327,6 +3327,49 @@ module Aws
                                                    ) -> _PutEnvironmentBlueprintConfigurationResponseSuccess
                                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutEnvironmentBlueprintConfigurationResponseSuccess
 
+      interface _QueryGraphResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::QueryGraphOutput]
+        def items: () -> ::Array[Types::ResultItem]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#query_graph-instance_method
+      def query_graph: (
+                         domain_identifier: ::String,
+                         match: Array[
+                           {
+                             relation_pattern: {
+                               relation_type: ("LINEAGE"),
+                               relation_direction: ("IN" | "OUT"),
+                               max_path_length: ::Integer?
+                             }?,
+                             entity_pattern: {
+                               entity_type: ("LINEAGE_NODE"),
+                               identifier: ::String,
+                               filters: {
+                                 filter: {
+                                   attribute: ::String,
+                                   value: ::String?,
+                                   int_value: ::Integer?,
+                                   operator: ("EQ" | "LE" | "LT" | "GE" | "GT" | "TEXT_SEARCH")?
+                                 }?,
+                                 and: Array[
+                                   untyped,
+                                 ]?,
+                                 or: Array[
+                                   untyped,
+                                 ]?
+                               }?
+                             }?
+                           },
+                         ],
+                         ?max_results: ::Integer,
+                         ?next_token: ::String,
+                         ?additional_attributes: {
+                           form_names: Array[::String]?
+                         }
+                       ) -> _QueryGraphResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _QueryGraphResponseSuccess
+
       interface _RejectPredictionsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::RejectPredictionsOutput]
         def domain_id: () -> ::String

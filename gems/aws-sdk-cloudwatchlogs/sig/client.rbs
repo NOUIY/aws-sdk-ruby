@@ -1044,6 +1044,13 @@ module Aws
                               ) -> _PutAccountPolicyResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutAccountPolicyResponseSuccess
 
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatchLogs/Client.html#put_bearer_token_authentication-instance_method
+      def put_bearer_token_authentication: (
+                                             log_group_identifier: ::String,
+                                             bearer_token_authentication_enabled: bool
+                                           ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
       interface _PutDataProtectionPolicyResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::PutDataProtectionPolicyResponse]
         def log_group_identifier: () -> ::String

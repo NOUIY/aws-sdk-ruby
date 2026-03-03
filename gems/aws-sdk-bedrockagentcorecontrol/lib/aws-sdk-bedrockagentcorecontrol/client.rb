@@ -547,7 +547,7 @@ module Aws::BedrockAgentCoreControl
     #             version_id: "S3LocationVersionIdString",
     #           },
     #         },
-    #         runtime: "PYTHON_3_10", # required, accepts PYTHON_3_10, PYTHON_3_11, PYTHON_3_12, PYTHON_3_13
+    #         runtime: "PYTHON_3_10", # required, accepts PYTHON_3_10, PYTHON_3_11, PYTHON_3_12, PYTHON_3_13, PYTHON_3_14
     #         entry_point: ["entryPoint"], # required
     #       },
     #     },
@@ -2146,6 +2146,10 @@ module Aws::BedrockAgentCoreControl
     #       cedar: {
     #         statement: "Statement", # required
     #       },
+    #       policy_generation: {
+    #         policy_generation_id: "ResourceId", # required
+    #         policy_generation_asset_id: "ResourceId", # required
+    #       },
     #     },
     #     description: "Description",
     #     validation_mode: "FAIL_ON_ANY_FINDINGS", # accepts FAIL_ON_ANY_FINDINGS, IGNORE_ALL_FINDINGS
@@ -2159,6 +2163,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.name #=> String
     #   resp.policy_engine_id #=> String
     #   resp.definition.cedar.statement #=> String
+    #   resp.definition.policy_generation.policy_generation_id #=> String
+    #   resp.definition.policy_generation.policy_generation_asset_id #=> String
     #   resp.description #=> String
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
@@ -2212,6 +2218,15 @@ module Aws::BedrockAgentCoreControl
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
     #
+    # @option params [String] :encryption_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt the
+    #   policy engine data.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   A map of tag keys and values to assign to an AgentCore Policy. Tags
+    #   enable you to categorize your resources in different ways, for
+    #   example, by purpose, owner, or environment.
+    #
     # @return [Types::CreatePolicyEngineResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreatePolicyEngineResponse#policy_engine_id #policy_engine_id} => String
@@ -2222,6 +2237,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::CreatePolicyEngineResponse#policy_engine_arn #policy_engine_arn} => String
     #   * {Types::CreatePolicyEngineResponse#status #status} => String
     #   * {Types::CreatePolicyEngineResponse#status_reasons #status_reasons} => Array&lt;String&gt;
+    #   * {Types::CreatePolicyEngineResponse#encryption_key_arn #encryption_key_arn} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -2229,6 +2245,10 @@ module Aws::BedrockAgentCoreControl
     #     name: "PolicyEngineName", # required
     #     description: "Description",
     #     client_token: "ClientToken",
+    #     encryption_key_arn: "KmsKeyArn",
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
     #   })
     #
     # @example Response structure
@@ -2242,6 +2262,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
     #   resp.status_reasons #=> Array
     #   resp.status_reasons[0] #=> String
+    #   resp.encryption_key_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreatePolicyEngine AWS API Documentation
     #
@@ -2771,6 +2792,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.name #=> String
     #   resp.policy_engine_id #=> String
     #   resp.definition.cedar.statement #=> String
+    #   resp.definition.policy_generation.policy_generation_id #=> String
+    #   resp.definition.policy_generation.policy_generation_asset_id #=> String
     #   resp.description #=> String
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
@@ -2809,6 +2832,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::DeletePolicyEngineResponse#policy_engine_arn #policy_engine_arn} => String
     #   * {Types::DeletePolicyEngineResponse#status #status} => String
     #   * {Types::DeletePolicyEngineResponse#status_reasons #status_reasons} => Array&lt;String&gt;
+    #   * {Types::DeletePolicyEngineResponse#encryption_key_arn #encryption_key_arn} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -2827,6 +2851,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
     #   resp.status_reasons #=> Array
     #   resp.status_reasons[0] #=> String
+    #   resp.encryption_key_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeletePolicyEngine AWS API Documentation
     #
@@ -2915,6 +2940,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetAgentRuntimeResponse#environment_variables #environment_variables} => Hash&lt;String,String&gt;
     #   * {Types::GetAgentRuntimeResponse#authorizer_configuration #authorizer_configuration} => Types::AuthorizerConfiguration
     #   * {Types::GetAgentRuntimeResponse#request_header_configuration #request_header_configuration} => Types::RequestHeaderConfiguration
+    #   * {Types::GetAgentRuntimeResponse#metadata_configuration #metadata_configuration} => Types::RuntimeMetadataConfiguration
     #
     # @example Request syntax with placeholder values
     #
@@ -2947,7 +2973,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.agent_runtime_artifact.code_configuration.code.s3.bucket #=> String
     #   resp.agent_runtime_artifact.code_configuration.code.s3.prefix #=> String
     #   resp.agent_runtime_artifact.code_configuration.code.s3.version_id #=> String
-    #   resp.agent_runtime_artifact.code_configuration.runtime #=> String, one of "PYTHON_3_10", "PYTHON_3_11", "PYTHON_3_12", "PYTHON_3_13"
+    #   resp.agent_runtime_artifact.code_configuration.runtime #=> String, one of "PYTHON_3_10", "PYTHON_3_11", "PYTHON_3_12", "PYTHON_3_13", "PYTHON_3_14"
     #   resp.agent_runtime_artifact.code_configuration.entry_point #=> Array
     #   resp.agent_runtime_artifact.code_configuration.entry_point[0] #=> String
     #   resp.protocol_configuration.server_protocol #=> String, one of "MCP", "HTTP", "A2A"
@@ -2969,6 +2995,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
     #   resp.request_header_configuration.request_header_allowlist #=> Array
     #   resp.request_header_configuration.request_header_allowlist[0] #=> String
+    #   resp.metadata_configuration.require_mmdsv2 #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetAgentRuntime AWS API Documentation
     #
@@ -3792,6 +3819,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.name #=> String
     #   resp.policy_engine_id #=> String
     #   resp.definition.cedar.statement #=> String
+    #   resp.definition.policy_generation.policy_generation_id #=> String
+    #   resp.definition.policy_generation.policy_generation_asset_id #=> String
     #   resp.description #=> String
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
@@ -3834,6 +3863,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetPolicyEngineResponse#policy_engine_arn #policy_engine_arn} => String
     #   * {Types::GetPolicyEngineResponse#status #status} => String
     #   * {Types::GetPolicyEngineResponse#status_reasons #status_reasons} => Array&lt;String&gt;
+    #   * {Types::GetPolicyEngineResponse#encryption_key_arn #encryption_key_arn} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -3852,6 +3882,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
     #   resp.status_reasons #=> Array
     #   resp.status_reasons[0] #=> String
+    #   resp.encryption_key_arn #=> String
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -4698,6 +4729,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.policies[0].name #=> String
     #   resp.policies[0].policy_engine_id #=> String
     #   resp.policies[0].definition.cedar.statement #=> String
+    #   resp.policies[0].definition.policy_generation.policy_generation_id #=> String
+    #   resp.policies[0].definition.policy_generation.policy_generation_asset_id #=> String
     #   resp.policies[0].description #=> String
     #   resp.policies[0].created_at #=> Time
     #   resp.policies[0].updated_at #=> Time
@@ -4761,6 +4794,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.policy_engines[0].status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
     #   resp.policy_engines[0].status_reasons #=> Array
     #   resp.policy_engines[0].status_reasons[0] #=> String
+    #   resp.policy_engines[0].encryption_key_arn #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListPolicyEngines AWS API Documentation
@@ -4831,6 +4865,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.policy_generation_assets #=> Array
     #   resp.policy_generation_assets[0].policy_generation_asset_id #=> String
     #   resp.policy_generation_assets[0].definition.cedar.statement #=> String
+    #   resp.policy_generation_assets[0].definition.policy_generation.policy_generation_id #=> String
+    #   resp.policy_generation_assets[0].definition.policy_generation.policy_generation_asset_id #=> String
     #   resp.policy_generation_assets[0].raw_text_fragment #=> String
     #   resp.policy_generation_assets[0].findings #=> Array
     #   resp.policy_generation_assets[0].findings[0].type #=> String, one of "VALID", "INVALID", "NOT_TRANSLATABLE", "ALLOW_ALL", "ALLOW_NONE", "DENY_ALL", "DENY_NONE"
@@ -5349,6 +5385,10 @@ module Aws::BedrockAgentCoreControl
     # @option params [Types::LifecycleConfiguration] :lifecycle_configuration
     #   The updated life cycle configuration for the AgentCore Runtime.
     #
+    # @option params [Types::RuntimeMetadataConfiguration] :metadata_configuration
+    #   The updated configuration for microVM Metadata Service (MMDS) settings
+    #   for the AgentCore Runtime.
+    #
     # @option params [Hash<String,String>] :environment_variables
     #   Updated environment variables to set in the AgentCore Runtime
     #   environment.
@@ -5386,7 +5426,7 @@ module Aws::BedrockAgentCoreControl
     #             version_id: "S3LocationVersionIdString",
     #           },
     #         },
-    #         runtime: "PYTHON_3_10", # required, accepts PYTHON_3_10, PYTHON_3_11, PYTHON_3_12, PYTHON_3_13
+    #         runtime: "PYTHON_3_10", # required, accepts PYTHON_3_10, PYTHON_3_11, PYTHON_3_12, PYTHON_3_13, PYTHON_3_14
     #         entry_point: ["entryPoint"], # required
     #       },
     #     },
@@ -5429,6 +5469,9 @@ module Aws::BedrockAgentCoreControl
     #     lifecycle_configuration: {
     #       idle_runtime_session_timeout: 1,
     #       max_lifetime: 1,
+    #     },
+    #     metadata_configuration: {
+    #       require_mmdsv2: false, # required
     #     },
     #     environment_variables: {
     #       "EnvironmentVariableKey" => "EnvironmentVariableValue",
@@ -6664,12 +6707,12 @@ module Aws::BedrockAgentCoreControl
     #   The unique identifier of the policy to be updated. This must be a
     #   valid policy ID that exists within the specified policy engine.
     #
-    # @option params [String] :description
+    # @option params [Types::UpdatedDescription] :description
     #   The new human-readable description for the policy. This optional field
     #   allows updating the policy's documentation while keeping the same
     #   policy logic.
     #
-    # @option params [required, Types::PolicyDefinition] :definition
+    # @option params [Types::PolicyDefinition] :definition
     #   The new Cedar policy statement that defines the access control rules.
     #   This replaces the existing policy definition with new logic while
     #   maintaining the policy's identity.
@@ -6702,10 +6745,16 @@ module Aws::BedrockAgentCoreControl
     #   resp = client.update_policy({
     #     policy_engine_id: "ResourceId", # required
     #     policy_id: "ResourceId", # required
-    #     description: "Description",
-    #     definition: { # required
+    #     description: {
+    #       optional_value: "Description",
+    #     },
+    #     definition: {
     #       cedar: {
     #         statement: "Statement", # required
+    #       },
+    #       policy_generation: {
+    #         policy_generation_id: "ResourceId", # required
+    #         policy_generation_asset_id: "ResourceId", # required
     #       },
     #     },
     #     validation_mode: "FAIL_ON_ANY_FINDINGS", # accepts FAIL_ON_ANY_FINDINGS, IGNORE_ALL_FINDINGS
@@ -6717,6 +6766,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.name #=> String
     #   resp.policy_engine_id #=> String
     #   resp.definition.cedar.statement #=> String
+    #   resp.definition.policy_generation.policy_generation_id #=> String
+    #   resp.definition.policy_generation.policy_generation_asset_id #=> String
     #   resp.description #=> String
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
@@ -6743,7 +6794,7 @@ module Aws::BedrockAgentCoreControl
     # @option params [required, String] :policy_engine_id
     #   The unique identifier of the policy engine to be updated.
     #
-    # @option params [String] :description
+    # @option params [Types::UpdatedDescription] :description
     #   The new description for the policy engine.
     #
     # @return [Types::UpdatePolicyEngineResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
@@ -6756,12 +6807,15 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::UpdatePolicyEngineResponse#policy_engine_arn #policy_engine_arn} => String
     #   * {Types::UpdatePolicyEngineResponse#status #status} => String
     #   * {Types::UpdatePolicyEngineResponse#status_reasons #status_reasons} => Array&lt;String&gt;
+    #   * {Types::UpdatePolicyEngineResponse#encryption_key_arn #encryption_key_arn} => String
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.update_policy_engine({
     #     policy_engine_id: "ResourceId", # required
-    #     description: "Description",
+    #     description: {
+    #       optional_value: "Description",
+    #     },
     #   })
     #
     # @example Response structure
@@ -6775,6 +6829,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
     #   resp.status_reasons #=> Array
     #   resp.status_reasons[0] #=> String
+    #   resp.encryption_key_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatePolicyEngine AWS API Documentation
     #
@@ -6845,7 +6900,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.24.0'
+      context[:gem_version] = '1.25.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
@@ -6914,11 +6969,11 @@ module Aws::BedrockAgentCoreControl
     # | waiter_name                 | params                         | :delay   | :max_attempts |
     # | --------------------------- | ------------------------------ | -------- | ------------- |
     # | memory_created              | {Client#get_memory}            | 2        | 60            |
-    # | policy_active               | {Client#get_policy}            | 2        | 60            |
+    # | policy_active               | {Client#get_policy}            | 5        | 24            |
     # | policy_deleted              | {Client#get_policy}            | 2        | 60            |
-    # | policy_engine_active        | {Client#get_policy_engine}     | 2        | 60            |
+    # | policy_engine_active        | {Client#get_policy_engine}     | 5        | 24            |
     # | policy_engine_deleted       | {Client#get_policy_engine}     | 2        | 60            |
-    # | policy_generation_completed | {Client#get_policy_generation} | 2        | 60            |
+    # | policy_generation_completed | {Client#get_policy_generation} | 5        | 24            |
     #
     # @raise [Errors::FailureStateError] Raised when the waiter terminates
     #   because the waiter has entered a state that it will not transition

@@ -973,9 +973,11 @@ module Aws::CloudWatchLogs
     #
     #   * logs:PutResourcePolicy
     #
-    #   * (If source has an associated AWS KMS Key) kms:Decrypt
+    #   * (If source has an associated Amazon Web Services KMS Key)
+    #     kms:Decrypt
     #
-    #   * (If source has an associated AWS KMS Key) kms:GenerateDataKey
+    #   * (If source has an associated Amazon Web Services KMS Key)
+    #     kms:GenerateDataKey
     #   Example IAM policy for provided import role:
     #
     #   `[ { "Effect": "Allow", "Action": "iam:PassRole", "Resource":
@@ -2865,6 +2867,7 @@ module Aws::CloudWatchLogs
     #   resp.log_groups[0].log_group_class #=> String, one of "STANDARD", "INFREQUENT_ACCESS", "DELIVERY"
     #   resp.log_groups[0].log_group_arn #=> String
     #   resp.log_groups[0].deletion_protection_enabled #=> Boolean
+    #   resp.log_groups[0].bearer_token_authentication_enabled #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeLogGroups AWS API Documentation
@@ -4196,6 +4199,20 @@ module Aws::CloudWatchLogs
     # located. For example, this could be `@ptr.$['input']['message']`,
     # `@ptr.$['AAA']['BBB']['CCC']['DDD']`, `@ptr.$['AAA']`, or any other
     # path matching your log structure.
+    #
+    # <note markdown="1"> The `GetLogObject` API routes requests using SDK host prefix
+    # injection. SDK versions released before April 1, 2026 route to
+    # `streaming-logs.Region.amazonaws.com`, which does not support VPC
+    # endpoints. SDK versions released on or after April 1, 2026 route to
+    # `stream-logs.Region.amazonaws.com`, which supports VPC endpoints. To
+    # set up a VPC endpoint for this API, see [Creating a VPC endpoint for
+    # CloudWatch Logs ][1].
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch-logs-and-interface-VPC.html#create-VPC-endpoint-for-CloudWatchLogs
     #
     # @option params [Boolean] :unmask
     #   A boolean flag that indicates whether to unmask sensitive log data.
@@ -5699,12 +5716,12 @@ module Aws::CloudWatchLogs
     # in the EMF format are still ingested, but no CloudWatch Metrics are
     # created from them.
     #
-    # Creating a policy disables metrics for AWS features that use EMF to
-    # create metrics, such as CloudWatch Container Insights and CloudWatch
-    # Application Signals. To prevent turning off those features by
-    # accident, we recommend that you exclude the underlying log-groups
-    # through a selection-criteria such as `LogGroupNamePrefix NOT IN
-    # ["/aws/containerinsights", "/aws/ecs/containerinsights",
+    # Creating a policy disables metrics for Amazon Web Services features
+    # that use EMF to create metrics, such as CloudWatch Container Insights
+    # and CloudWatch Application Signals. To prevent turning off those
+    # features by accident, we recommend that you exclude the underlying
+    # log-groups through a selection-criteria such as `LogGroupNamePrefix
+    # NOT IN ["/aws/containerinsights", "/aws/ecs/containerinsights",
     # "/aws/application-signals/data"]`.
     #
     # Each account can have either one account-level metric extraction
@@ -5954,6 +5971,53 @@ module Aws::CloudWatchLogs
     # @param [Hash] params ({})
     def put_account_policy(params = {}, options = {})
       req = build_request(:put_account_policy, params)
+      req.send_request(options)
+    end
+
+    # Enables or disables bearer token authentication for the specified log
+    # group. When enabled on a log group, bearer token authentication is
+    # enabled on operations until it is explicitly disabled.
+    #
+    # For information about the parameters that are common to all actions,
+    # see [Common Parameters][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/CommonParameters.html
+    #
+    # @option params [required, String] :log_group_identifier
+    #   The name or ARN of the log group.
+    #
+    #   Type: String
+    #
+    #   Length Constraints: Minimum length of 1. Maximum length of 512.
+    #
+    #   Pattern: `[\.\-_/#A-Za-z0-9]+`
+    #
+    #   Required: Yes
+    #
+    # @option params [required, Boolean] :bearer_token_authentication_enabled
+    #   Whether to enable bearer token authentication.
+    #
+    #   Type: Boolean
+    #
+    #   Required: Yes
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_bearer_token_authentication({
+    #     log_group_identifier: "LogGroupIdentifier", # required
+    #     bearer_token_authentication_enabled: false, # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutBearerTokenAuthentication AWS API Documentation
+    #
+    # @overload put_bearer_token_authentication(params = {})
+    # @param [Hash] params ({})
+    def put_bearer_token_authentication(params = {}, options = {})
+      req = build_request(:put_bearer_token_authentication, params)
       req.send_request(options)
     end
 
@@ -7687,9 +7751,13 @@ module Aws::CloudWatchLogs
     # * A [SessionTimeoutException][5] object is returned when the session
     #   times out, after it has been kept open for three hours.
     #
-    # <note markdown="1"> The `StartLiveTail` API routes requests to
-    # `streaming-logs.Region.amazonaws.com` using SDK host prefix injection.
-    # VPC endpoint support is not available for this API.
+    # <note markdown="1"> The `StartLiveTail` API routes requests using SDK host prefix
+    # injection. SDK versions released before April 1, 2026 route to
+    # `streaming-logs.Region.amazonaws.com`, which does not support VPC
+    # endpoints. SDK versions released on or after April 1, 2026 route to
+    # `stream-logs.Region.amazonaws.com`, which supports VPC endpoints. To
+    # set up a VPC endpoint for this API, see [Creating a VPC endpoint for
+    # CloudWatch Logs ][6].
     #
     #  </note>
     #
@@ -7699,7 +7767,7 @@ module Aws::CloudWatchLogs
     # the server breaks.
     #
     # For examples of using an SDK to start a Live Tail session, see [ Start
-    # a Live Tail session using an Amazon Web Services SDK][6].
+    # a Live Tail session using an Amazon Web Services SDK][7].
     #
     #
     #
@@ -7708,7 +7776,8 @@ module Aws::CloudWatchLogs
     # [3]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_LiveTailSessionUpdate.html
     # [4]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTailResponseStream.html#CWL-Type-StartLiveTailResponseStream-SessionStreamingException
     # [5]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTailResponseStream.html#CWL-Type-StartLiveTailResponseStream-SessionTimeoutException
-    # [6]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/example_cloudwatch-logs_StartLiveTail_section.html
+    # [6]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch-logs-and-interface-VPC.html#create-VPC-endpoint-for-CloudWatchLogs
+    # [7]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/example_cloudwatch-logs_StartLiveTail_section.html
     #
     # @option params [required, Array<String>] :log_group_identifiers
     #   An array where each item in the array is a log group to include in the
@@ -8878,7 +8947,7 @@ module Aws::CloudWatchLogs
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatchlogs'
-      context[:gem_version] = '1.138.0'
+      context[:gem_version] = '1.139.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

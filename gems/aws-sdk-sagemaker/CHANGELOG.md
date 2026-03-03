@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.352.0 (2026-03-03)
+------------------
+
+* Feature - This release adds b300 and g7e instance types for SageMaker inference endpoints.
+
 1.351.0 (2026-02-13)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.139.0 (2026-03-03)
+------------------
+
+* Feature - CloudWatch Logs updates- Added support for the PutBearerTokenAuthentication API to enable or disable bearer token authentication on a log group. For more information, see CloudWatch Logs API documentation.
+
 1.138.0 (2026-01-16)
 ------------------
 

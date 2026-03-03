@@ -4302,7 +4302,7 @@ module Aws::CloudWatchLogs
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Processors.html#CloudWatch-Logs-Transformation-Grok
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Configurable.html#CloudWatch-Logs-Transformation-Grok
     #
     # @!attribute [rw] source
     #   The path to the field in the log event that you want to parse. If
@@ -4315,7 +4315,7 @@ module Aws::CloudWatchLogs
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Processors.html#Grok-Patterns
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Configurable.html#CloudWatch-Logs-Transformation-Grok
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/Grok AWS API Documentation
@@ -5572,6 +5572,12 @@ module Aws::CloudWatchLogs
     #   until it is explicitly disabled.
     #   @return [Boolean]
     #
+    # @!attribute [rw] bearer_token_authentication_enabled
+    #   Indicates whether bearer token authentication is enabled for this
+    #   log group. When enabled, bearer token authentication is allowed on
+    #   operations until it is explicitly disabled.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/LogGroup AWS API Documentation
     #
     class LogGroup < Struct.new(
@@ -5586,7 +5592,8 @@ module Aws::CloudWatchLogs
       :inherited_properties,
       :log_group_class,
       :log_group_arn,
-      :deletion_protection_enabled)
+      :deletion_protection_enabled,
+      :bearer_token_authentication_enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7253,6 +7260,35 @@ module Aws::CloudWatchLogs
     #
     class PutAccountPolicyResponse < Struct.new(
       :account_policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] log_group_identifier
+    #   The name or ARN of the log group.
+    #
+    #   Type: String
+    #
+    #   Length Constraints: Minimum length of 1. Maximum length of 512.
+    #
+    #   Pattern: `[\.\-_/#A-Za-z0-9]+`
+    #
+    #   Required: Yes
+    #   @return [String]
+    #
+    # @!attribute [rw] bearer_token_authentication_enabled
+    #   Whether to enable bearer token authentication.
+    #
+    #   Type: Boolean
+    #
+    #   Required: Yes
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutBearerTokenAuthenticationRequest AWS API Documentation
+    #
+    class PutBearerTokenAuthenticationRequest < Struct.new(
+      :log_group_identifier,
+      :bearer_token_authentication_enabled)
       SENSITIVE = []
       include Aws::Structure
     end
