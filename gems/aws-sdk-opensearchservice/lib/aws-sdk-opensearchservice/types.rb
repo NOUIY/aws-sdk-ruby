@@ -1809,6 +1809,10 @@ module Aws::OpenSearchService
     #   Options for all machine learning features for the specified domain.
     #   @return [Types::AIMLOptionsInput]
     #
+    # @!attribute [rw] deployment_strategy_options
+    #   Specifies the deployment strategy options for the domain.
+    #   @return [Types::DeploymentStrategyOptions]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/CreateDomainRequest AWS API Documentation
     #
     class CreateDomainRequest < Struct.new(
@@ -1832,7 +1836,8 @@ module Aws::OpenSearchService
       :auto_tune_options,
       :off_peak_window_options,
       :software_update_options,
-      :aiml_options)
+      :aiml_options,
+      :deployment_strategy_options)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2413,6 +2418,41 @@ module Aws::OpenSearchService
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DependencyFailureException AWS API Documentation
     #
     class DependencyFailureException < Aws::EmptyStructure; end
+
+    # Specifies the deployment strategy options for the domain.
+    #
+    # @!attribute [rw] deployment_strategy
+    #   Specifies the deployment strategy for the domain. Valid values are
+    #   `Default` and `CapacityOptimized`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DeploymentStrategyOptions AWS API Documentation
+    #
+    class DeploymentStrategyOptions < Struct.new(
+      :deployment_strategy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The status of deployment strategy options for the domain.
+    #
+    # @!attribute [rw] options
+    #   Deployment strategy options for the domain.
+    #   @return [Types::DeploymentStrategyOptions]
+    #
+    # @!attribute [rw] status
+    #   The current status of the deployment strategy options for the
+    #   domain.
+    #   @return [Types::OptionStatus]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DeploymentStrategyOptionsStatus AWS API Documentation
+    #
+    class DeploymentStrategyOptionsStatus < Struct.new(
+      :options,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # Container for the parameters to the `DescribeDomainAutoTunes`
     # operation.
@@ -3399,6 +3439,10 @@ module Aws::OpenSearchService
     #   features.
     #   @return [Types::AIMLOptionsStatus]
     #
+    # @!attribute [rw] deployment_strategy_options
+    #   Specifies `DeploymentStrategyOptions` for the domain.
+    #   @return [Types::DeploymentStrategyOptionsStatus]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DomainConfig AWS API Documentation
     #
     class DomainConfig < Struct.new(
@@ -3422,7 +3466,8 @@ module Aws::OpenSearchService
       :off_peak_window_options,
       :software_update_options,
       :modifying_properties,
-      :aiml_options)
+      :aiml_options,
+      :deployment_strategy_options)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3875,6 +3920,10 @@ module Aws::OpenSearchService
     #   features.
     #   @return [Types::AIMLOptionsOutput]
     #
+    # @!attribute [rw] deployment_strategy_options
+    #   The current status of the domain's deployment strategy options.
+    #   @return [Types::DeploymentStrategyOptions]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DomainStatus AWS API Documentation
     #
     class DomainStatus < Struct.new(
@@ -3911,7 +3960,8 @@ module Aws::OpenSearchService
       :software_update_options,
       :domain_processing_status,
       :modifying_properties,
-      :aiml_options)
+      :aiml_options,
+      :deployment_strategy_options)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7812,6 +7862,10 @@ module Aws::OpenSearchService
     #   Options for all machine learning features for the specified domain.
     #   @return [Types::AIMLOptionsInput]
     #
+    # @!attribute [rw] deployment_strategy_options
+    #   Specifies the deployment strategy options for the domain.
+    #   @return [Types::DeploymentStrategyOptions]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/UpdateDomainConfigRequest AWS API Documentation
     #
     class UpdateDomainConfigRequest < Struct.new(
@@ -7835,7 +7889,8 @@ module Aws::OpenSearchService
       :dry_run_mode,
       :off_peak_window_options,
       :software_update_options,
-      :aiml_options)
+      :aiml_options,
+      :deployment_strategy_options)
       SENSITIVE = []
       include Aws::Structure
     end

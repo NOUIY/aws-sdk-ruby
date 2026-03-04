@@ -114,6 +114,7 @@ module Aws::Connect
     AssociateLambdaFunctionRequest = Shapes::StructureShape.new(name: 'AssociateLambdaFunctionRequest')
     AssociateLexBotRequest = Shapes::StructureShape.new(name: 'AssociateLexBotRequest')
     AssociatePhoneNumberContactFlowRequest = Shapes::StructureShape.new(name: 'AssociatePhoneNumberContactFlowRequest')
+    AssociateQueueEmailAddressesRequest = Shapes::StructureShape.new(name: 'AssociateQueueEmailAddressesRequest')
     AssociateQueueQuickConnectsRequest = Shapes::StructureShape.new(name: 'AssociateQueueQuickConnectsRequest')
     AssociateRoutingProfileQueuesRequest = Shapes::StructureShape.new(name: 'AssociateRoutingProfileQueuesRequest')
     AssociateSecurityKeyRequest = Shapes::StructureShape.new(name: 'AssociateSecurityKeyRequest')
@@ -624,6 +625,7 @@ module Aws::Connect
     DisassociateLambdaFunctionRequest = Shapes::StructureShape.new(name: 'DisassociateLambdaFunctionRequest')
     DisassociateLexBotRequest = Shapes::StructureShape.new(name: 'DisassociateLexBotRequest')
     DisassociatePhoneNumberContactFlowRequest = Shapes::StructureShape.new(name: 'DisassociatePhoneNumberContactFlowRequest')
+    DisassociateQueueEmailAddressesRequest = Shapes::StructureShape.new(name: 'DisassociateQueueEmailAddressesRequest')
     DisassociateQueueQuickConnectsRequest = Shapes::StructureShape.new(name: 'DisassociateQueueQuickConnectsRequest')
     DisassociateRoutingProfileQueuesRequest = Shapes::StructureShape.new(name: 'DisassociateRoutingProfileQueuesRequest')
     DisassociateSecurityKeyRequest = Shapes::StructureShape.new(name: 'DisassociateSecurityKeyRequest')
@@ -656,15 +658,20 @@ module Aws::Connect
     Email = Shapes::StringShape.new(name: 'Email')
     EmailAddress = Shapes::StringShape.new(name: 'EmailAddress')
     EmailAddressArn = Shapes::StringShape.new(name: 'EmailAddressArn')
+    EmailAddressConfig = Shapes::StructureShape.new(name: 'EmailAddressConfig')
+    EmailAddressConfigList = Shapes::ListShape.new(name: 'EmailAddressConfigList')
     EmailAddressDisplayName = Shapes::StringShape.new(name: 'EmailAddressDisplayName')
     EmailAddressId = Shapes::StringShape.new(name: 'EmailAddressId')
+    EmailAddressIdList = Shapes::ListShape.new(name: 'EmailAddressIdList')
     EmailAddressInfo = Shapes::StructureShape.new(name: 'EmailAddressInfo')
     EmailAddressList = Shapes::ListShape.new(name: 'EmailAddressList')
     EmailAddressMetadata = Shapes::StructureShape.new(name: 'EmailAddressMetadata')
+    EmailAddressMetadataList = Shapes::ListShape.new(name: 'EmailAddressMetadataList')
     EmailAddressRecipientList = Shapes::ListShape.new(name: 'EmailAddressRecipientList')
     EmailAddressSearchConditionList = Shapes::ListShape.new(name: 'EmailAddressSearchConditionList')
     EmailAddressSearchCriteria = Shapes::StructureShape.new(name: 'EmailAddressSearchCriteria')
     EmailAddressSearchFilter = Shapes::StructureShape.new(name: 'EmailAddressSearchFilter')
+    EmailAddressSummary = Shapes::StructureShape.new(name: 'EmailAddressSummary')
     EmailAttachment = Shapes::StructureShape.new(name: 'EmailAttachment')
     EmailAttachments = Shapes::ListShape.new(name: 'EmailAttachments')
     EmailHeaderType = Shapes::StringShape.new(name: 'EmailHeaderType')
@@ -1112,6 +1119,8 @@ module Aws::Connect
     ListPredefinedAttributesResponse = Shapes::StructureShape.new(name: 'ListPredefinedAttributesResponse')
     ListPromptsRequest = Shapes::StructureShape.new(name: 'ListPromptsRequest')
     ListPromptsResponse = Shapes::StructureShape.new(name: 'ListPromptsResponse')
+    ListQueueEmailAddressesRequest = Shapes::StructureShape.new(name: 'ListQueueEmailAddressesRequest')
+    ListQueueEmailAddressesResponse = Shapes::StructureShape.new(name: 'ListQueueEmailAddressesResponse')
     ListQueueQuickConnectsRequest = Shapes::StructureShape.new(name: 'ListQueueQuickConnectsRequest')
     ListQueueQuickConnectsResponse = Shapes::StructureShape.new(name: 'ListQueueQuickConnectsResponse')
     ListQueuesRequest = Shapes::StructureShape.new(name: 'ListQueuesRequest')
@@ -2394,6 +2403,12 @@ module Aws::Connect
     AssociatePhoneNumberContactFlowRequest.add_member(:contact_flow_id, Shapes::ShapeRef.new(shape: ContactFlowId, required: true, location_name: "ContactFlowId"))
     AssociatePhoneNumberContactFlowRequest.struct_class = Types::AssociatePhoneNumberContactFlowRequest
 
+    AssociateQueueEmailAddressesRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    AssociateQueueEmailAddressesRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "QueueId"))
+    AssociateQueueEmailAddressesRequest.add_member(:email_addresses_config, Shapes::ShapeRef.new(shape: EmailAddressConfigList, required: true, location_name: "EmailAddressesConfig"))
+    AssociateQueueEmailAddressesRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    AssociateQueueEmailAddressesRequest.struct_class = Types::AssociateQueueEmailAddressesRequest
+
     AssociateQueueQuickConnectsRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     AssociateQueueQuickConnectsRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "QueueId"))
     AssociateQueueQuickConnectsRequest.add_member(:quick_connect_ids, Shapes::ShapeRef.new(shape: QuickConnectsList, required: true, location_name: "QuickConnectIds"))
@@ -3402,6 +3417,7 @@ module Aws::Connect
     CreateQueueRequest.add_member(:hours_of_operation_id, Shapes::ShapeRef.new(shape: HoursOfOperationId, required: true, location_name: "HoursOfOperationId"))
     CreateQueueRequest.add_member(:max_contacts, Shapes::ShapeRef.new(shape: QueueMaxContacts, location_name: "MaxContacts", metadata: {"box" => true}))
     CreateQueueRequest.add_member(:quick_connect_ids, Shapes::ShapeRef.new(shape: QuickConnectsList, location_name: "QuickConnectIds"))
+    CreateQueueRequest.add_member(:email_addresses_config, Shapes::ShapeRef.new(shape: EmailAddressConfigList, location_name: "EmailAddressesConfig"))
     CreateQueueRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
     CreateQueueRequest.struct_class = Types::CreateQueueRequest
 
@@ -4333,6 +4349,12 @@ module Aws::Connect
     DisassociatePhoneNumberContactFlowRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "querystring", location_name: "instanceId"))
     DisassociatePhoneNumberContactFlowRequest.struct_class = Types::DisassociatePhoneNumberContactFlowRequest
 
+    DisassociateQueueEmailAddressesRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    DisassociateQueueEmailAddressesRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "QueueId"))
+    DisassociateQueueEmailAddressesRequest.add_member(:email_addresses_id, Shapes::ShapeRef.new(shape: EmailAddressIdList, required: true, location_name: "EmailAddressesId"))
+    DisassociateQueueEmailAddressesRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    DisassociateQueueEmailAddressesRequest.struct_class = Types::DisassociateQueueEmailAddressesRequest
+
     DisassociateQueueQuickConnectsRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     DisassociateQueueQuickConnectsRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "QueueId"))
     DisassociateQueueQuickConnectsRequest.add_member(:quick_connect_ids, Shapes::ShapeRef.new(shape: QuickConnectsList, required: true, location_name: "QuickConnectIds"))
@@ -4416,6 +4438,13 @@ module Aws::Connect
 
     EffectiveOverrideHoursList.member = Shapes::ShapeRef.new(shape: EffectiveOverrideHours)
 
+    EmailAddressConfig.add_member(:email_address_id, Shapes::ShapeRef.new(shape: EmailAddressId, required: true, location_name: "EmailAddressId"))
+    EmailAddressConfig.struct_class = Types::EmailAddressConfig
+
+    EmailAddressConfigList.member = Shapes::ShapeRef.new(shape: EmailAddressConfig)
+
+    EmailAddressIdList.member = Shapes::ShapeRef.new(shape: EmailAddressId)
+
     EmailAddressInfo.add_member(:email_address, Shapes::ShapeRef.new(shape: EmailAddress, required: true, location_name: "EmailAddress"))
     EmailAddressInfo.add_member(:display_name, Shapes::ShapeRef.new(shape: EmailAddressDisplayName, location_name: "DisplayName"))
     EmailAddressInfo.struct_class = Types::EmailAddressInfo
@@ -4430,6 +4459,8 @@ module Aws::Connect
     EmailAddressMetadata.add_member(:alias_configurations, Shapes::ShapeRef.new(shape: AliasConfigurationList, location_name: "AliasConfigurations"))
     EmailAddressMetadata.struct_class = Types::EmailAddressMetadata
 
+    EmailAddressMetadataList.member = Shapes::ShapeRef.new(shape: EmailAddressSummary)
+
     EmailAddressRecipientList.member = Shapes::ShapeRef.new(shape: EmailAddressInfo)
 
     EmailAddressSearchConditionList.member = Shapes::ShapeRef.new(shape: EmailAddressSearchCriteria)
@@ -4441,6 +4472,11 @@ module Aws::Connect
 
     EmailAddressSearchFilter.add_member(:tag_filter, Shapes::ShapeRef.new(shape: ControlPlaneTagFilter, location_name: "TagFilter"))
     EmailAddressSearchFilter.struct_class = Types::EmailAddressSearchFilter
+
+    EmailAddressSummary.add_member(:id, Shapes::ShapeRef.new(shape: EmailAddressId, location_name: "Id"))
+    EmailAddressSummary.add_member(:arn, Shapes::ShapeRef.new(shape: EmailAddressArn, location_name: "Arn"))
+    EmailAddressSummary.add_member(:is_default_outbound_email, Shapes::ShapeRef.new(shape: Boolean, location_name: "IsDefaultOutboundEmail"))
+    EmailAddressSummary.struct_class = Types::EmailAddressSummary
 
     EmailAttachment.add_member(:file_name, Shapes::ShapeRef.new(shape: FileName, required: true, location_name: "FileName"))
     EmailAttachment.add_member(:s3_url, Shapes::ShapeRef.new(shape: PreSignedAttachmentUrl, required: true, location_name: "S3Url"))
@@ -5995,6 +6031,18 @@ module Aws::Connect
     ListPromptsResponse.add_member(:prompt_summary_list, Shapes::ShapeRef.new(shape: PromptSummaryList, location_name: "PromptSummaryList"))
     ListPromptsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     ListPromptsResponse.struct_class = Types::ListPromptsResponse
+
+    ListQueueEmailAddressesRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    ListQueueEmailAddressesRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "QueueId"))
+    ListQueueEmailAddressesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListQueueEmailAddressesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResult100, location: "querystring", location_name: "maxResults", metadata: {"box" => true}))
+    ListQueueEmailAddressesRequest.struct_class = Types::ListQueueEmailAddressesRequest
+
+    ListQueueEmailAddressesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListQueueEmailAddressesResponse.add_member(:email_address_metadata_list, Shapes::ShapeRef.new(shape: EmailAddressMetadataList, location_name: "EmailAddressMetadataList"))
+    ListQueueEmailAddressesResponse.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastModifiedTime"))
+    ListQueueEmailAddressesResponse.add_member(:last_modified_region, Shapes::ShapeRef.new(shape: RegionName, location_name: "LastModifiedRegion"))
+    ListQueueEmailAddressesResponse.struct_class = Types::ListQueueEmailAddressesResponse
 
     ListQueueQuickConnectsRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     ListQueueQuickConnectsRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "QueueId"))
@@ -9494,6 +9542,21 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
+      api.add_operation(:associate_queue_email_addresses, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "AssociateQueueEmailAddresses"
+        o.http_method = "POST"
+        o.http_request_uri = "/queues/{InstanceId}/{QueueId}/associate-email-addresses"
+        o.input = Shapes::ShapeRef.new(shape: AssociateQueueEmailAddressesRequest)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:associate_queue_quick_connects, Seahorse::Model::Operation.new.tap do |o|
         o.name = "AssociateQueueQuickConnects"
         o.http_method = "POST"
@@ -11391,6 +11454,20 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
+      api.add_operation(:disassociate_queue_email_addresses, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DisassociateQueueEmailAddresses"
+        o.http_method = "POST"
+        o.http_request_uri = "/queues/{InstanceId}/{QueueId}/disassociate-email-addresses"
+        o.input = Shapes::ShapeRef.new(shape: DisassociateQueueEmailAddressesRequest)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:disassociate_queue_quick_connects, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DisassociateQueueQuickConnects"
         o.http_method = "POST"
@@ -12431,6 +12508,20 @@ module Aws::Connect
             "next_token" => "next_token"
           }
         )
+      end)
+
+      api.add_operation(:list_queue_email_addresses, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListQueueEmailAddresses"
+        o.http_method = "GET"
+        o.http_request_uri = "/queues/{InstanceId}/{QueueId}/email-addresses"
+        o.input = Shapes::ShapeRef.new(shape: ListQueueEmailAddressesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListQueueEmailAddressesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
       api.add_operation(:list_queue_quick_connects, Seahorse::Model::Operation.new.tap do |o|

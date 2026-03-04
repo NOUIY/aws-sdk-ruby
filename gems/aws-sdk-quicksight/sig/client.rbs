@@ -38801,6 +38801,7 @@ module Aws
                                          publish_without_approval: ("DENY")?,
                                          use_bedrock_models: ("DENY")?,
                                          perform_flow_ui_task: ("DENY")?,
+                                         approve_flow_share_requests: ("DENY")?,
                                          use_agent_web_search: ("DENY")?,
                                          knowledge_base: ("DENY")?,
                                          action: ("DENY")?,
@@ -38976,11 +38977,16 @@ module Aws
                                          create_and_update_new_relic_action: ("DENY")?,
                                          share_new_relic_action: ("DENY")?,
                                          use_new_relic_action: ("DENY")?,
+                                         topic: ("DENY")?,
+                                         edit_visual_with_q: ("DENY")?,
+                                         build_calculated_field_with_q: ("DENY")?,
+                                         create_dashboard_executive_summary_with_q: ("DENY")?,
                                          space: ("DENY")?,
                                          chat_agent: ("DENY")?,
                                          create_chat_agents: ("DENY")?,
                                          research: ("DENY")?,
-                                         self_upgrade_user_role: ("DENY")?
+                                         self_upgrade_user_role: ("DENY")?,
+                                         extension: ("DENY")?
                                        },
                                        ?tags: Array[
                                          {
@@ -157224,6 +157230,7 @@ module Aws
                                          publish_without_approval: ("DENY")?,
                                          use_bedrock_models: ("DENY")?,
                                          perform_flow_ui_task: ("DENY")?,
+                                         approve_flow_share_requests: ("DENY")?,
                                          use_agent_web_search: ("DENY")?,
                                          knowledge_base: ("DENY")?,
                                          action: ("DENY")?,
@@ -157399,11 +157406,16 @@ module Aws
                                          create_and_update_new_relic_action: ("DENY")?,
                                          share_new_relic_action: ("DENY")?,
                                          use_new_relic_action: ("DENY")?,
+                                         topic: ("DENY")?,
+                                         edit_visual_with_q: ("DENY")?,
+                                         build_calculated_field_with_q: ("DENY")?,
+                                         create_dashboard_executive_summary_with_q: ("DENY")?,
                                          space: ("DENY")?,
                                          chat_agent: ("DENY")?,
                                          create_chat_agents: ("DENY")?,
                                          research: ("DENY")?,
-                                         self_upgrade_user_role: ("DENY")?
+                                         self_upgrade_user_role: ("DENY")?,
+                                         extension: ("DENY")?
                                        }
                                      ) -> _UpdateCustomPermissionsResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateCustomPermissionsResponseSuccess

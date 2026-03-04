@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.174.0 (2026-03-04)
+------------------
+
+* Feature - Added several new values for Capabilities, increased visual limit per sheet from previous limit to 75, renamed Quick Suite to Quick in several places.
+
 1.173.0 (2026-02-23)
 ------------------
 

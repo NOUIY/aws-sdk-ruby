@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.88.0 (2026-03-04)
+------------------
+
+* Feature - Adding support for DeploymentStrategyOptions
+
 1.87.0 (2026-02-24)
 ------------------
 

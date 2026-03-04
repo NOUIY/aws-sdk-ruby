@@ -947,38 +947,6 @@
                     },
                     "body": "oWtkZW5zZVNldE1hcKJheIBheYJhYWFi"
                 }
-            },
-            {
-                "id": "RpcV2CborDeserializesDenseSetMapAndSkipsNull",
-                "description": "Clients SHOULD tolerate seeing a null value in a dense map, and they SHOULD\ndrop the null key-value pair.",
-                "given": {
-                    "name": "RpcV2CborDenseMaps",
-                    "http": {
-                        "method": "POST",
-                        "requestUri": "/"
-                    },
-                    "output": {
-                        "shape": "RpcV2CborDenseMapsInputOutput"
-                    },
-                    "documentation": "<p>The example tests basic map serialization.</p>"
-                },
-                "result": {
-                    "denseSetMap": {
-                        "x": [],
-                        "y": [
-                            "a",
-                            "b"
-                        ]
-                    }
-                },
-                "response": {
-                    "status_code": 200,
-                    "headers": {
-                        "smithy-protocol": "rpc-v2-cbor",
-                        "Content-Type": "application/cbor"
-                    },
-                    "body": "oWtkZW5zZVNldE1hcKNheIBheYJhYWFiYXr2"
-                }
             }
         ]
     },

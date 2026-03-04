@@ -1213,6 +1213,7 @@ module Aws::QuickSight
       attr_accessor publish_without_approval: ("DENY")
       attr_accessor use_bedrock_models: ("DENY")
       attr_accessor perform_flow_ui_task: ("DENY")
+      attr_accessor approve_flow_share_requests: ("DENY")
       attr_accessor use_agent_web_search: ("DENY")
       attr_accessor knowledge_base: ("DENY")
       attr_accessor action: ("DENY")
@@ -1388,11 +1389,16 @@ module Aws::QuickSight
       attr_accessor create_and_update_new_relic_action: ("DENY")
       attr_accessor share_new_relic_action: ("DENY")
       attr_accessor use_new_relic_action: ("DENY")
+      attr_accessor topic: ("DENY")
+      attr_accessor edit_visual_with_q: ("DENY")
+      attr_accessor build_calculated_field_with_q: ("DENY")
+      attr_accessor create_dashboard_executive_summary_with_q: ("DENY")
       attr_accessor space: ("DENY")
       attr_accessor chat_agent: ("DENY")
       attr_accessor create_chat_agents: ("DENY")
       attr_accessor research: ("DENY")
       attr_accessor self_upgrade_user_role: ("DENY")
+      attr_accessor extension: ("DENY")
       SENSITIVE: []
     end
 

@@ -1281,6 +1281,83 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Associates a set of email addresses with a queue to enable agents to
+    # select different "From" (system) email addresses when replying to
+    # inbound email contacts or initiating outbound email contacts. This
+    # allows agents to handle email contacts across different brands and
+    # business units within the same queue.
+    #
+    # **Important things to know**
+    #
+    # * You can associate up to 49 additional email addresses with a single
+    #   queue, plus 1 default outbound email address, for a total of 50.
+    #
+    # * The email addresses must already exist in the Amazon Connect
+    #   instance before they can be associated with a queue.
+    #
+    # * Agents will be able to select from these associated email addresses
+    #   when handling email contacts in the queue.
+    #
+    # * For inbound email contacts, agents can select from email addresses
+    #   associated with the queue where the contact was accepted.
+    #
+    # * For outbound email contacts, agents can select from email addresses
+    #   associated with their default outbound queue configured in their
+    #   routing profile.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :queue_id
+    #   The identifier for the queue.
+    #
+    # @option params [required, Array<Types::EmailAddressConfig>] :email_addresses_config
+    #   Configuration list containing the email addresses to associate with
+    #   the queue. Each configuration specifies an email address ID that
+    #   should be linked to this queue for routing purposes.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency, see
+    #   [Making retries safe with idempotent APIs][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.associate_queue_email_addresses({
+    #     instance_id: "InstanceId", # required
+    #     queue_id: "QueueId", # required
+    #     email_addresses_config: [ # required
+    #       {
+    #         email_address_id: "EmailAddressId", # required
+    #       },
+    #     ],
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/AssociateQueueEmailAddresses AWS API Documentation
+    #
+    # @overload associate_queue_email_addresses(params = {})
+    # @param [Hash] params ({})
+    def associate_queue_email_addresses(params = {}, options = {})
+      req = build_request(:associate_queue_email_addresses, params)
+      req.send_request(options)
+    end
+
     # Associates a set of quick connects with a queue.
     #
     # @option params [required, String] :instance_id
@@ -4350,6 +4427,12 @@ module Aws::Connect
     # @option params [Array<String>] :quick_connect_ids
     #   The quick connects available to agents who are working the queue.
     #
+    # @option params [Array<Types::EmailAddressConfig>] :email_addresses_config
+    #   Configuration list containing the email addresses to associate with
+    #   the queue during creation. Each configuration specifies an email
+    #   address ID that agents can select when handling email contacts in this
+    #   queue.
+    #
     # @option params [Hash<String,String>] :tags
     #   The tags used to organize, track, or control access for this resource.
     #   For example, \{ "Tags": \{"key1":"value1", "key2":"value2"}
@@ -4377,6 +4460,11 @@ module Aws::Connect
     #     hours_of_operation_id: "HoursOfOperationId", # required
     #     max_contacts: 1,
     #     quick_connect_ids: ["QuickConnectId"],
+    #     email_addresses_config: [
+    #       {
+    #         email_address_id: "EmailAddressId", # required
+    #       },
+    #     ],
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
@@ -10111,6 +10199,72 @@ module Aws::Connect
     # @param [Hash] params ({})
     def disassociate_phone_number_contact_flow(params = {}, options = {})
       req = build_request(:disassociate_phone_number_contact_flow, params)
+      req.send_request(options)
+    end
+
+    # Removes the association between a set of email addresses and a queue.
+    # After disassociation, agents will no longer be able to select these
+    # email addresses as "From" addresses when replying to inbound email
+    # contacts or initiating outbound email contacts in this queue.
+    #
+    # **Important things to know**
+    #
+    # * Agents will no longer see these email addresses in their "From"
+    #   address selection options for this queue.
+    #
+    # * The email addresses themselves are not deleted from the instance,
+    #   only their availability for agent selection in this queue is
+    #   removed.
+    #
+    # * Changes take effect immediately and will affect the agent experience
+    #   in the Contact Control Panel (CCP).
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :queue_id
+    #   The identifier for the queue.
+    #
+    # @option params [required, Array<String>] :email_addresses_id
+    #   List of email address identifiers to disassociate from the queue.
+    #   These are the unique identifiers of email addresses that should no
+    #   longer be routed to this queue.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency, see
+    #   [Making retries safe with idempotent APIs][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.disassociate_queue_email_addresses({
+    #     instance_id: "InstanceId", # required
+    #     queue_id: "QueueId", # required
+    #     email_addresses_id: ["EmailAddressId"], # required
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DisassociateQueueEmailAddresses AWS API Documentation
+    #
+    # @overload disassociate_queue_email_addresses(params = {})
+    # @param [Hash] params ({})
+    def disassociate_queue_email_addresses(params = {}, options = {})
+      req = build_request(:disassociate_queue_email_addresses, params)
       req.send_request(options)
     end
 
@@ -16597,6 +16751,81 @@ module Aws::Connect
     # @param [Hash] params ({})
     def list_prompts(params = {}, options = {})
       req = build_request(:list_prompts, params)
+      req.send_request(options)
+    end
+
+    # Lists all email addresses that are currently associated with a
+    # specific queue, providing details about which "From" email addresses
+    # agents can select when handling email contacts. This helps
+    # administrators manage agent email address options and understand the
+    # available choices for different brands and business units.
+    #
+    # **Important things to know**
+    #
+    # * The response includes metadata about each email address available
+    #   for agent selection, including whether it's configured as the
+    #   default outbound email.
+    #
+    # * Agents can select from these email addresses when replying to
+    #   inbound contacts or initiating outbound contacts in this queue.
+    #
+    # * The list includes both explicitly associated email addresses and any
+    #   default outbound email address configured for the queue.
+    #
+    # * Results are paginated to handle queues with many associated email
+    #   addresses (up to 50 per queue).
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :queue_id
+    #   The identifier for the queue.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return per page.
+    #
+    # @return [Types::ListQueueEmailAddressesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListQueueEmailAddressesResponse#next_token #next_token} => String
+    #   * {Types::ListQueueEmailAddressesResponse#email_address_metadata_list #email_address_metadata_list} => Array&lt;Types::EmailAddressSummary&gt;
+    #   * {Types::ListQueueEmailAddressesResponse#last_modified_time #last_modified_time} => Time
+    #   * {Types::ListQueueEmailAddressesResponse#last_modified_region #last_modified_region} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_queue_email_addresses({
+    #     instance_id: "InstanceId", # required
+    #     queue_id: "QueueId", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.email_address_metadata_list #=> Array
+    #   resp.email_address_metadata_list[0].id #=> String
+    #   resp.email_address_metadata_list[0].arn #=> String
+    #   resp.email_address_metadata_list[0].is_default_outbound_email #=> Boolean
+    #   resp.last_modified_time #=> Time
+    #   resp.last_modified_region #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListQueueEmailAddresses AWS API Documentation
+    #
+    # @overload list_queue_email_addresses(params = {})
+    # @param [Hash] params ({})
+    def list_queue_email_addresses(params = {}, options = {})
+      req = build_request(:list_queue_email_addresses, params)
       req.send_request(options)
     end
 
@@ -28604,7 +28833,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.244.0'
+      context[:gem_version] = '1.245.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -150,6 +150,9 @@ module Aws::OpenSearchService
     DependencyFailureException = Shapes::StructureShape.new(name: 'DependencyFailureException')
     DeploymentCloseDateTimeStamp = Shapes::TimestampShape.new(name: 'DeploymentCloseDateTimeStamp')
     DeploymentStatus = Shapes::StringShape.new(name: 'DeploymentStatus')
+    DeploymentStrategy = Shapes::StringShape.new(name: 'DeploymentStrategy')
+    DeploymentStrategyOptions = Shapes::StructureShape.new(name: 'DeploymentStrategyOptions')
+    DeploymentStrategyOptionsStatus = Shapes::StructureShape.new(name: 'DeploymentStrategyOptionsStatus')
     DeploymentType = Shapes::StringShape.new(name: 'DeploymentType')
     DescribeDomainAutoTunesRequest = Shapes::StructureShape.new(name: 'DescribeDomainAutoTunesRequest')
     DescribeDomainAutoTunesResponse = Shapes::StructureShape.new(name: 'DescribeDomainAutoTunesResponse')
@@ -901,6 +904,7 @@ module Aws::OpenSearchService
     CreateDomainRequest.add_member(:off_peak_window_options, Shapes::ShapeRef.new(shape: OffPeakWindowOptions, location_name: "OffPeakWindowOptions"))
     CreateDomainRequest.add_member(:software_update_options, Shapes::ShapeRef.new(shape: SoftwareUpdateOptions, location_name: "SoftwareUpdateOptions"))
     CreateDomainRequest.add_member(:aiml_options, Shapes::ShapeRef.new(shape: AIMLOptionsInput, location_name: "AIMLOptions"))
+    CreateDomainRequest.add_member(:deployment_strategy_options, Shapes::ShapeRef.new(shape: DeploymentStrategyOptions, location_name: "DeploymentStrategyOptions"))
     CreateDomainRequest.struct_class = Types::CreateDomainRequest
 
     CreateDomainResponse.add_member(:domain_status, Shapes::ShapeRef.new(shape: DomainStatus, location_name: "DomainStatus"))
@@ -1027,6 +1031,13 @@ module Aws::OpenSearchService
     DeleteVpcEndpointResponse.struct_class = Types::DeleteVpcEndpointResponse
 
     DependencyFailureException.struct_class = Types::DependencyFailureException
+
+    DeploymentStrategyOptions.add_member(:deployment_strategy, Shapes::ShapeRef.new(shape: DeploymentStrategy, required: true, location_name: "DeploymentStrategy"))
+    DeploymentStrategyOptions.struct_class = Types::DeploymentStrategyOptions
+
+    DeploymentStrategyOptionsStatus.add_member(:options, Shapes::ShapeRef.new(shape: DeploymentStrategyOptions, required: true, location_name: "Options"))
+    DeploymentStrategyOptionsStatus.add_member(:status, Shapes::ShapeRef.new(shape: OptionStatus, required: true, location_name: "Status"))
+    DeploymentStrategyOptionsStatus.struct_class = Types::DeploymentStrategyOptionsStatus
 
     DescribeDomainAutoTunesRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: DomainName, required: true, location: "uri", location_name: "DomainName"))
     DescribeDomainAutoTunesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
@@ -1221,6 +1232,7 @@ module Aws::OpenSearchService
     DomainConfig.add_member(:software_update_options, Shapes::ShapeRef.new(shape: SoftwareUpdateOptionsStatus, location_name: "SoftwareUpdateOptions"))
     DomainConfig.add_member(:modifying_properties, Shapes::ShapeRef.new(shape: ModifyingPropertiesList, location_name: "ModifyingProperties"))
     DomainConfig.add_member(:aiml_options, Shapes::ShapeRef.new(shape: AIMLOptionsStatus, location_name: "AIMLOptions"))
+    DomainConfig.add_member(:deployment_strategy_options, Shapes::ShapeRef.new(shape: DeploymentStrategyOptionsStatus, location_name: "DeploymentStrategyOptions"))
     DomainConfig.struct_class = Types::DomainConfig
 
     DomainEndpointOptions.add_member(:enforce_https, Shapes::ShapeRef.new(shape: Boolean, location_name: "EnforceHTTPS"))
@@ -1318,6 +1330,7 @@ module Aws::OpenSearchService
     DomainStatus.add_member(:domain_processing_status, Shapes::ShapeRef.new(shape: DomainProcessingStatusType, location_name: "DomainProcessingStatus"))
     DomainStatus.add_member(:modifying_properties, Shapes::ShapeRef.new(shape: ModifyingPropertiesList, location_name: "ModifyingProperties"))
     DomainStatus.add_member(:aiml_options, Shapes::ShapeRef.new(shape: AIMLOptionsOutput, location_name: "AIMLOptions"))
+    DomainStatus.add_member(:deployment_strategy_options, Shapes::ShapeRef.new(shape: DeploymentStrategyOptions, location_name: "DeploymentStrategyOptions"))
     DomainStatus.struct_class = Types::DomainStatus
 
     DomainStatusList.member = Shapes::ShapeRef.new(shape: DomainStatus)
@@ -2093,6 +2106,7 @@ module Aws::OpenSearchService
     UpdateDomainConfigRequest.add_member(:off_peak_window_options, Shapes::ShapeRef.new(shape: OffPeakWindowOptions, location_name: "OffPeakWindowOptions"))
     UpdateDomainConfigRequest.add_member(:software_update_options, Shapes::ShapeRef.new(shape: SoftwareUpdateOptions, location_name: "SoftwareUpdateOptions"))
     UpdateDomainConfigRequest.add_member(:aiml_options, Shapes::ShapeRef.new(shape: AIMLOptionsInput, location_name: "AIMLOptions"))
+    UpdateDomainConfigRequest.add_member(:deployment_strategy_options, Shapes::ShapeRef.new(shape: DeploymentStrategyOptions, location_name: "DeploymentStrategyOptions"))
     UpdateDomainConfigRequest.struct_class = Types::UpdateDomainConfigRequest
 
     UpdateDomainConfigResponse.add_member(:domain_config, Shapes::ShapeRef.new(shape: DomainConfig, required: true, location_name: "DomainConfig"))

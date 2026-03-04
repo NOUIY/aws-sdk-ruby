@@ -1334,6 +1334,50 @@ module Aws::Connect
     #   The identifier for the queue.
     #   @return [String]
     #
+    # @!attribute [rw] email_addresses_config
+    #   Configuration list containing the email addresses to associate with
+    #   the queue. Each configuration specifies an email address ID that
+    #   should be linked to this queue for routing purposes.
+    #   @return [Array<Types::EmailAddressConfig>]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency,
+    #   see [Making retries safe with idempotent APIs][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/AssociateQueueEmailAddressesRequest AWS API Documentation
+    #
+    class AssociateQueueEmailAddressesRequest < Struct.new(
+      :instance_id,
+      :queue_id,
+      :email_addresses_config,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The identifier for the queue.
+    #   @return [String]
+    #
     # @!attribute [rw] quick_connect_ids
     #   The quick connects to associate with this queue.
     #   @return [Array<String>]
@@ -6519,6 +6563,13 @@ module Aws::Connect
     #   The quick connects available to agents who are working the queue.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] email_addresses_config
+    #   Configuration list containing the email addresses to associate with
+    #   the queue during creation. Each configuration specifies an email
+    #   address ID that agents can select when handling email contacts in
+    #   this queue.
+    #   @return [Array<Types::EmailAddressConfig>]
+    #
     # @!attribute [rw] tags
     #   The tags used to organize, track, or control access for this
     #   resource. For example, \{ "Tags": \{"key1":"value1",
@@ -6536,6 +6587,7 @@ module Aws::Connect
       :hours_of_operation_id,
       :max_contacts,
       :quick_connect_ids,
+      :email_addresses_config,
       :tags)
       SENSITIVE = []
       include Aws::Structure
@@ -11225,6 +11277,50 @@ module Aws::Connect
     #   The identifier for the queue.
     #   @return [String]
     #
+    # @!attribute [rw] email_addresses_id
+    #   List of email address identifiers to disassociate from the queue.
+    #   These are the unique identifiers of email addresses that should no
+    #   longer be routed to this queue.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency,
+    #   see [Making retries safe with idempotent APIs][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DisassociateQueueEmailAddressesRequest AWS API Documentation
+    #
+    class DisassociateQueueEmailAddressesRequest < Struct.new(
+      :instance_id,
+      :queue_id,
+      :email_addresses_id,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The identifier for the queue.
+    #   @return [String]
+    #
     # @!attribute [rw] quick_connect_ids
     #   The quick connects to disassociate from the queue.
     #   @return [Array<String>]
@@ -11594,6 +11690,25 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # Configuration object that specifies an email address to be associated
+    # with a queue. This configuration contains the identifier of the email
+    # address that should be linked to the queue for routing email contacts.
+    #
+    # @!attribute [rw] email_address_id
+    #   The identifier of the email address that should be associated with
+    #   the queue. This email address must already exist in the Amazon
+    #   Connect instance and will be used to route incoming email contacts
+    #   to the specified queue.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EmailAddressConfig AWS API Documentation
+    #
+    class EmailAddressConfig < Struct.new(
+      :email_address_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains information about a source or destination email address.
     #
     # @!attribute [rw] email_address
@@ -11700,6 +11815,37 @@ module Aws::Connect
     #
     class EmailAddressSearchFilter < Struct.new(
       :tag_filter)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about an email address associated with a queue.
+    # Contains the essential details needed to identify and manage the email
+    # address routing configuration.
+    #
+    # @!attribute [rw] id
+    #   The unique identifier of the email address associated with the
+    #   queue.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the email address associated with
+    #   the queue.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_default_outbound_email
+    #   Indicates whether this email address is configured as the default
+    #   outbound email address for the queue. When set to true, this email
+    #   address is used as the default sender for outbound email contacts
+    #   from this queue.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EmailAddressSummary AWS API Documentation
+    #
+    class EmailAddressSummary < Struct.new(
+      :id,
+      :arn,
+      :is_default_outbound_email)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -21780,6 +21926,71 @@ module Aws::Connect
     class ListPromptsResponse < Struct.new(
       :prompt_summary_list,
       :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The identifier for the queue.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListQueueEmailAddressesRequest AWS API Documentation
+    #
+    class ListQueueEmailAddressesRequest < Struct.new(
+      :instance_id,
+      :queue_id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   If there are additional results, this is the token for the next set
+    #   of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] email_address_metadata_list
+    #   List of email address summary information for all email addresses
+    #   associated with the queue. Each item contains the email address
+    #   identifier, ARN, and configuration details.
+    #   @return [Array<Types::EmailAddressSummary>]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The timestamp when this resource was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_region
+    #   The Amazon Web Services Region where this resource was last
+    #   modified.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListQueueEmailAddressesResponse AWS API Documentation
+    #
+    class ListQueueEmailAddressesResponse < Struct.new(
+      :next_token,
+      :email_address_metadata_list,
+      :last_modified_time,
+      :last_modified_region)
       SENSITIVE = []
       include Aws::Structure
     end

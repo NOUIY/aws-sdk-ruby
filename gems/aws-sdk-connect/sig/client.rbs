@@ -254,6 +254,19 @@ module Aws
                                                ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#associate_queue_email_addresses-instance_method
+      def associate_queue_email_addresses: (
+                                             instance_id: ::String,
+                                             queue_id: ::String,
+                                             email_addresses_config: Array[
+                                               {
+                                                 email_address_id: ::String
+                                               },
+                                             ],
+                                             ?client_token: ::String
+                                           ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#associate_queue_quick_connects-instance_method
       def associate_queue_quick_connects: (
                                             instance_id: ::String,
@@ -1190,6 +1203,11 @@ module Aws
                           hours_of_operation_id: ::String,
                           ?max_contacts: ::Integer,
                           ?quick_connect_ids: Array[::String],
+                          ?email_addresses_config: Array[
+                            {
+                              email_address_id: ::String
+                            },
+                          ],
                           ?tags: Hash[::String, ::String]
                         ) -> _CreateQueueResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateQueueResponseSuccess
@@ -2592,6 +2610,15 @@ module Aws
                                                   ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#disassociate_queue_email_addresses-instance_method
+      def disassociate_queue_email_addresses: (
+                                                instance_id: ::String,
+                                                queue_id: ::String,
+                                                email_addresses_id: Array[::String],
+                                                ?client_token: ::String
+                                              ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+                                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#disassociate_queue_quick_connects-instance_method
       def disassociate_queue_quick_connects: (
                                                instance_id: ::String,
@@ -3574,6 +3601,22 @@ module Aws
                           ?max_results: ::Integer
                         ) -> _ListPromptsResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListPromptsResponseSuccess
+
+      interface _ListQueueEmailAddressesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListQueueEmailAddressesResponse]
+        def next_token: () -> ::String
+        def email_address_metadata_list: () -> ::Array[Types::EmailAddressSummary]
+        def last_modified_time: () -> ::Time
+        def last_modified_region: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#list_queue_email_addresses-instance_method
+      def list_queue_email_addresses: (
+                                        instance_id: ::String,
+                                        queue_id: ::String,
+                                        ?next_token: ::String,
+                                        ?max_results: ::Integer
+                                      ) -> _ListQueueEmailAddressesResponseSuccess
+                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListQueueEmailAddressesResponseSuccess
 
       interface _ListQueueQuickConnectsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListQueueQuickConnectsResponse]

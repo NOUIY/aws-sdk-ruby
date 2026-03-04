@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.245.0 (2026-03-04)
+------------------
+
+* Feature - Added support for configuring additional email addresses on queues in Amazon Connect. Agents can now select an outbound email address and associate additional email addresses for replying to or initiating emails.
+
 1.244.0 (2026-02-27)
 ------------------
 

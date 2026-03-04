@@ -419,6 +419,9 @@ module Aws
                              serverless_vector_acceleration: {
                                enabled: bool?
                              }?
+                           },
+                           ?deployment_strategy_options: {
+                             deployment_strategy: ("Default" | "CapacityOptimized")
                            }
                          ) -> _CreateDomainResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateDomainResponseSuccess
@@ -1433,6 +1436,9 @@ module Aws
                                     serverless_vector_acceleration: {
                                       enabled: bool?
                                     }?
+                                  },
+                                  ?deployment_strategy_options: {
+                                    deployment_strategy: ("Default" | "CapacityOptimized")
                                   }
                                 ) -> _UpdateDomainConfigResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateDomainConfigResponseSuccess

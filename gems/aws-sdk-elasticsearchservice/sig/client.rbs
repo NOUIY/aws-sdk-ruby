@@ -250,7 +250,10 @@ module Aws
                                              key: ::String,
                                              value: ::String
                                            },
-                                         ]
+                                         ],
+                                         ?deployment_strategy_options: {
+                                           deployment_strategy: ("Default" | "CapacityOptimized")
+                                         }
                                        ) -> _CreateElasticsearchDomainResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateElasticsearchDomainResponseSuccess
 
@@ -838,7 +841,10 @@ module Aws
                                                     },
                                                   ]?
                                                 },
-                                                ?dry_run: bool
+                                                ?dry_run: bool,
+                                                ?deployment_strategy_options: {
+                                                  deployment_strategy: ("Default" | "CapacityOptimized")
+                                                }
                                               ) -> _UpdateElasticsearchDomainConfigResponseSuccess
                                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateElasticsearchDomainConfigResponseSuccess
 

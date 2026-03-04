@@ -3234,38 +3234,6 @@
                     },
                     "body": "{\n    \"denseSetMap\": {\n        \"x\": [],\n        \"y\": [\"a\", \"b\"]\n    }\n}"
                 }
-            },
-            {
-                "id": "RestJsonDeserializesDenseSetMapAndSkipsNull",
-                "description": "Clients SHOULD tolerate seeing a null value in a dense map, and they SHOULD\ndrop the null key-value pair.",
-                "given": {
-                    "name": "JsonMaps",
-                    "http": {
-                        "method": "POST",
-                        "requestUri": "/JsonMaps",
-                        "responseCode": 200
-                    },
-                    "output": {
-                        "shape": "JsonMapsInputOutput"
-                    },
-                    "documentation": "<p>The example tests basic map serialization.</p>"
-                },
-                "result": {
-                    "denseSetMap": {
-                        "x": [],
-                        "y": [
-                            "a",
-                            "b"
-                        ]
-                    }
-                },
-                "response": {
-                    "status_code": 200,
-                    "headers": {
-                        "Content-Type": "application/json"
-                    },
-                    "body": "{\n    \"denseSetMap\": {\n        \"x\": [],\n        \"y\": [\"a\", \"b\"],\n        \"z\": null\n    }\n}"
-                }
             }
         ]
     },

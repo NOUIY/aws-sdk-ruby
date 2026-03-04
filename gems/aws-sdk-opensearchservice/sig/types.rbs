@@ -427,6 +427,7 @@ module Aws::OpenSearchService
       attr_accessor off_peak_window_options: Types::OffPeakWindowOptions
       attr_accessor software_update_options: Types::SoftwareUpdateOptions
       attr_accessor aiml_options: Types::AIMLOptionsInput
+      attr_accessor deployment_strategy_options: Types::DeploymentStrategyOptions
       SENSITIVE: []
     end
 
@@ -612,6 +613,17 @@ module Aws::OpenSearchService
     end
 
     class DependencyFailureException < Aws::EmptyStructure
+    end
+
+    class DeploymentStrategyOptions
+      attr_accessor deployment_strategy: ("Default" | "CapacityOptimized")
+      SENSITIVE: []
+    end
+
+    class DeploymentStrategyOptionsStatus
+      attr_accessor options: Types::DeploymentStrategyOptions
+      attr_accessor status: Types::OptionStatus
+      SENSITIVE: []
     end
 
     class DescribeDomainAutoTunesRequest
@@ -879,6 +891,7 @@ module Aws::OpenSearchService
       attr_accessor software_update_options: Types::SoftwareUpdateOptionsStatus
       attr_accessor modifying_properties: ::Array[Types::ModifyingProperties]
       attr_accessor aiml_options: Types::AIMLOptionsStatus
+      attr_accessor deployment_strategy_options: Types::DeploymentStrategyOptionsStatus
       SENSITIVE: []
     end
 
@@ -982,6 +995,7 @@ module Aws::OpenSearchService
       attr_accessor domain_processing_status: ("Creating" | "Active" | "Modifying" | "UpgradingEngineVersion" | "UpdatingServiceSoftware" | "Isolated" | "Deleting")
       attr_accessor modifying_properties: ::Array[Types::ModifyingProperties]
       attr_accessor aiml_options: Types::AIMLOptionsOutput
+      attr_accessor deployment_strategy_options: Types::DeploymentStrategyOptions
       SENSITIVE: []
     end
 
@@ -1983,6 +1997,7 @@ module Aws::OpenSearchService
       attr_accessor off_peak_window_options: Types::OffPeakWindowOptions
       attr_accessor software_update_options: Types::SoftwareUpdateOptions
       attr_accessor aiml_options: Types::AIMLOptionsInput
+      attr_accessor deployment_strategy_options: Types::DeploymentStrategyOptions
       SENSITIVE: []
     end
 
