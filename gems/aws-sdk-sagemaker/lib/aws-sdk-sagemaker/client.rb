@@ -6796,6 +6796,16 @@ module Aws::SageMaker
     #   Tags consisting of key-value pairs used to manage metadata for the
     #   tracking server.
     #
+    # @option params [String] :s3_bucket_owner_account_id
+    #   Expected Amazon Web Services account ID that owns the Amazon S3 bucket
+    #   for artifact storage. Defaults to caller's account ID if not
+    #   provided.
+    #
+    # @option params [Boolean] :s3_bucket_owner_verification
+    #   Enable Amazon S3 Ownership checks when interacting with Amazon S3
+    #   buckets from a SageMaker Managed MLflow Tracking Server. Defaults to
+    #   `True` if not provided.
+    #
     # @return [Types::CreateMlflowTrackingServerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateMlflowTrackingServerResponse#tracking_server_arn #tracking_server_arn} => String
@@ -6816,6 +6826,8 @@ module Aws::SageMaker
     #         value: "TagValue", # required
     #       },
     #     ],
+    #     s3_bucket_owner_account_id: "AccountId",
+    #     s3_bucket_owner_verification: false,
     #   })
     #
     # @example Response structure
@@ -16930,6 +16942,8 @@ module Aws::SageMaker
     #   * {Types::DescribeMlflowTrackingServerResponse#created_by #created_by} => Types::UserContext
     #   * {Types::DescribeMlflowTrackingServerResponse#last_modified_time #last_modified_time} => Time
     #   * {Types::DescribeMlflowTrackingServerResponse#last_modified_by #last_modified_by} => Types::UserContext
+    #   * {Types::DescribeMlflowTrackingServerResponse#s3_bucket_owner_account_id #s3_bucket_owner_account_id} => String
+    #   * {Types::DescribeMlflowTrackingServerResponse#s3_bucket_owner_verification #s3_bucket_owner_verification} => Boolean
     #
     # @example Request syntax with placeholder values
     #
@@ -16965,6 +16979,8 @@ module Aws::SageMaker
     #   resp.last_modified_by.iam_identity.arn #=> String
     #   resp.last_modified_by.iam_identity.principal_id #=> String
     #   resp.last_modified_by.iam_identity.source_identity #=> String
+    #   resp.s3_bucket_owner_account_id #=> String
+    #   resp.s3_bucket_owner_verification #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeMlflowTrackingServer AWS API Documentation
     #
@@ -30429,6 +30445,14 @@ module Aws::SageMaker
     #   maintenance window day and time should be in Coordinated Universal
     #   Time (UTC) 24-hour standard time. For example: TUE:03:30.
     #
+    # @option params [String] :s3_bucket_owner_account_id
+    #   The new expected Amazon Web Services account ID that owns the Amazon
+    #   S3 bucket for artifact storage.
+    #
+    # @option params [Boolean] :s3_bucket_owner_verification
+    #   Whether to enable or disable Amazon S3 Bucket Owenrship Verifaction
+    #   whenever the MLflow Tracking Server interacts with Amazon Amazon S3.
+    #
     # @return [Types::UpdateMlflowTrackingServerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateMlflowTrackingServerResponse#tracking_server_arn #tracking_server_arn} => String
@@ -30441,6 +30465,8 @@ module Aws::SageMaker
     #     tracking_server_size: "Small", # accepts Small, Medium, Large
     #     automatic_model_registration: false,
     #     weekly_maintenance_window_start: "WeeklyMaintenanceWindowStart",
+    #     s3_bucket_owner_account_id: "AccountId",
+    #     s3_bucket_owner_verification: false,
     #   })
     #
     # @example Response structure
@@ -32347,7 +32373,7 @@ module Aws::SageMaker
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemaker'
-      context[:gem_version] = '1.352.0'
+      context[:gem_version] = '1.353.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

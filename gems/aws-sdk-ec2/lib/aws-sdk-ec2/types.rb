@@ -4996,11 +4996,38 @@ module Aws::EC2
     #   instances is currently in use.
     #   @return [Integer]
     #
+    # @!attribute [rw] allocation_metadata
+    #   Additional metadata associated with the capacity allocation. Each
+    #   entry contains a key-value pair providing context about the
+    #   allocation.
+    #   @return [Array<Types::CapacityAllocationMetadataEntry>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CapacityAllocation AWS API Documentation
     #
     class CapacityAllocation < Struct.new(
       :allocation_type,
-      :count)
+      :count,
+      :allocation_metadata)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A key-value pair that provides additional metadata about a capacity
+    # allocation.
+    #
+    # @!attribute [rw] key
+    #   The key of the metadata entry.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value of the metadata entry.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CapacityAllocationMetadataEntry AWS API Documentation
+    #
+    class CapacityAllocationMetadataEntry < Struct.new(
+      :key,
+      :value)
       SENSITIVE = []
       include Aws::Structure
     end

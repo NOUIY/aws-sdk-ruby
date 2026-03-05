@@ -110,6 +110,7 @@ module Aws
   autoload :ConnectCampaignsV2, 'aws-sdk-connectcampaignsv2'
   autoload :ConnectCases, 'aws-sdk-connectcases'
   autoload :ConnectContactLens, 'aws-sdk-connectcontactlens'
+  autoload :ConnectHealth, 'aws-sdk-connecthealth'
   autoload :ConnectParticipant, 'aws-sdk-connectparticipant'
   autoload :ConnectWisdomService, 'aws-sdk-connectwisdomservice'
   autoload :ControlCatalog, 'aws-sdk-controlcatalog'

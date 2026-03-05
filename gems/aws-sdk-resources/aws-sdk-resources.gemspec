@@ -120,6 +120,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency('aws-sdk-connectcampaignsv2', '~> 1')
   spec.add_dependency('aws-sdk-connectcases', '~> 1')
   spec.add_dependency('aws-sdk-connectcontactlens', '~> 1')
+  spec.add_dependency('aws-sdk-connecthealth', '~> 1')
   spec.add_dependency('aws-sdk-connectparticipant', '~> 1')
   spec.add_dependency('aws-sdk-connectwisdomservice', '~> 1')
   spec.add_dependency('aws-sdk-controlcatalog', '~> 1')

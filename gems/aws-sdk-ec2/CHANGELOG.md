@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.607.0 (2026-03-05)
+------------------
+
+* Feature - Added metadata field to CapacityAllocation.
+
 1.606.0 (2026-02-26)
 ------------------
 

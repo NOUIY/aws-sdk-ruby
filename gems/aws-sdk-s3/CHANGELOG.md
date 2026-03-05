@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.215.0 (2026-03-05)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
 * Issue - Fix `LoadError` when requiring `aws-sdk-s3` due to missing `directory_progress` file. 
 
 1.214.0 (2026-03-04)

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+3.255.0 (2026-03-05)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-connecthealth` gem.
+
 3.254.0 (2026-02-24)
 ------------------
 

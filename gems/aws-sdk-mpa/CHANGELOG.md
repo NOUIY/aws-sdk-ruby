@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.13.0 (2026-03-05)
+------------------
+
+* Feature - Updates to multi-party approval (MPA) service to add support for approval team baseline operations.
+
 1.12.0 (2026-02-02)
 ------------------
 

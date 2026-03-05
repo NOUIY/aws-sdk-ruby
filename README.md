@@ -678,6 +678,7 @@ RubyGems.org page under "LINKS" section.
 | CloudWatch RUM                                        | Aws::CloudWatchRUM                       | aws-sdk-cloudwatchrum                       | 2018-05-10  |
 | CodeArtifact                                          | Aws::CodeArtifact                        | aws-sdk-codeartifact                        | 2018-09-22  |
 | Compute Optimizer Automation                          | Aws::ComputeOptimizerAutomation          | aws-sdk-computeoptimizerautomation          | 2025-09-22  |
+| Connect Health                                        | Aws::ConnectHealth                       | aws-sdk-connecthealth                       | 2025-01-29  |
 | Cost Optimization Hub                                 | Aws::CostOptimizationHub                 | aws-sdk-costoptimizationhub                 | 2022-07-26  |
 | Data Automation for Amazon Bedrock                    | Aws::BedrockDataAutomation               | aws-sdk-bedrockdataautomation               | 2023-07-26  |
 | EC2 Image Builder                                     | Aws::Imagebuilder                        | aws-sdk-imagebuilder                        | 2019-12-02  |

@@ -349,6 +349,7 @@ module Aws
             'ConnectCampaignsV2' => 'connect-campaigns',
             'ConnectCases' => 'cases',
             'ConnectContactLens' => 'contact-lens',
+            'ConnectHealth' => 'health-agent',
             'ConnectParticipant' => 'participant.connect',
             'ConnectWisdomService' => 'wisdom',
             'ControlCatalog' => 'controlcatalog',

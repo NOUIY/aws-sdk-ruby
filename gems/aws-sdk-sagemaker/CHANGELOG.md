@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.353.0 (2026-03-05)
+------------------
+
+* Feature - Adds support for S3 Bucket Ownership validation for SageMaker Managed MLflow.
+
 1.352.0 (2026-03-03)
 ------------------
 

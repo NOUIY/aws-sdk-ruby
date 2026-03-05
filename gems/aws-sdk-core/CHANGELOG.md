@@ -1,6 +1,9 @@
 Unreleased Changes
 ------------------
 
+3.243.0 (2026-03-05)
+------------------
+
 * Feature - Add user agent metrics for S3 Transfer Manager directory operations.
 
 3.242.0 (2026-02-02)

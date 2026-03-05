@@ -10700,6 +10700,18 @@ module Aws::SageMaker
     #   tracking server.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] s3_bucket_owner_account_id
+    #   Expected Amazon Web Services account ID that owns the Amazon S3
+    #   bucket for artifact storage. Defaults to caller's account ID if not
+    #   provided.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_bucket_owner_verification
+    #   Enable Amazon S3 Ownership checks when interacting with Amazon S3
+    #   buckets from a SageMaker Managed MLflow Tracking Server. Defaults to
+    #   `True` if not provided.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/CreateMlflowTrackingServerRequest AWS API Documentation
     #
     class CreateMlflowTrackingServerRequest < Struct.new(
@@ -10710,7 +10722,9 @@ module Aws::SageMaker
       :role_arn,
       :automatic_model_registration,
       :weekly_maintenance_window_start,
-      :tags)
+      :tags,
+      :s3_bucket_owner_account_id,
+      :s3_bucket_owner_verification)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -19343,6 +19357,16 @@ module Aws::SageMaker
     #   resource.
     #   @return [Types::UserContext]
     #
+    # @!attribute [rw] s3_bucket_owner_account_id
+    #   Expected Amazon Web Services account ID that owns the Amazon S3
+    #   bucket for artifact storage.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_bucket_owner_verification
+    #   Whether Amazon S3 Bucket Ownership checks are enabled whenever the
+    #   tracking server interacts with Amazon Amazon S3.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeMlflowTrackingServerResponse AWS API Documentation
     #
     class DescribeMlflowTrackingServerResponse < Struct.new(
@@ -19361,7 +19385,9 @@ module Aws::SageMaker
       :creation_time,
       :created_by,
       :last_modified_time,
-      :last_modified_by)
+      :last_modified_by,
+      :s3_bucket_owner_account_id,
+      :s3_bucket_owner_verification)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -53942,6 +53968,16 @@ module Aws::SageMaker
     #   Time (UTC) 24-hour standard time. For example: TUE:03:30.
     #   @return [String]
     #
+    # @!attribute [rw] s3_bucket_owner_account_id
+    #   The new expected Amazon Web Services account ID that owns the Amazon
+    #   S3 bucket for artifact storage.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_bucket_owner_verification
+    #   Whether to enable or disable Amazon S3 Bucket Owenrship Verifaction
+    #   whenever the MLflow Tracking Server interacts with Amazon Amazon S3.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/UpdateMlflowTrackingServerRequest AWS API Documentation
     #
     class UpdateMlflowTrackingServerRequest < Struct.new(
@@ -53949,7 +53985,9 @@ module Aws::SageMaker
       :artifact_store_uri,
       :tracking_server_size,
       :automatic_model_registration,
-      :weekly_maintenance_window_start)
+      :weekly_maintenance_window_start,
+      :s3_bucket_owner_account_id,
+      :s3_bucket_owner_verification)
       SENSITIVE = []
       include Aws::Structure
     end

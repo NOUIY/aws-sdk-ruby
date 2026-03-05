@@ -335,6 +335,9 @@
   "ConnectContactLens": {
     "models": "connect-contact-lens/2020-08-21"
   },
+  "ConnectHealth": {
+    "models": "connecthealth/2025-01-29"
+  },
   "ConnectParticipant": {
     "models": "connectparticipant/2018-09-07"
   },

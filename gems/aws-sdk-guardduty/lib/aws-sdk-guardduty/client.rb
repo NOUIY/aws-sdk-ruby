@@ -3341,12 +3341,12 @@ module Aws::GuardDuty
     #   resp.findings[0].service.detection.sequence.signals[0].endpoint_ids #=> Array
     #   resp.findings[0].service.detection.sequence.signals[0].endpoint_ids[0] #=> String
     #   resp.findings[0].service.detection.sequence.signals[0].signal_indicators #=> Array
-    #   resp.findings[0].service.detection.sequence.signals[0].signal_indicators[0].key #=> String, one of "SUSPICIOUS_USER_AGENT", "SUSPICIOUS_NETWORK", "MALICIOUS_IP", "TOR_IP", "ATTACK_TACTIC", "HIGH_RISK_API", "ATTACK_TECHNIQUE", "UNUSUAL_API_FOR_ACCOUNT", "UNUSUAL_ASN_FOR_ACCOUNT", "UNUSUAL_ASN_FOR_USER", "SUSPICIOUS_PROCESS", "MALICIOUS_DOMAIN", "MALICIOUS_PROCESS", "CRYPTOMINING_IP", "CRYPTOMINING_DOMAIN", "CRYPTOMINING_PROCESS"
+    #   resp.findings[0].service.detection.sequence.signals[0].signal_indicators[0].key #=> String, one of "SUSPICIOUS_USER_AGENT", "SUSPICIOUS_NETWORK", "MALICIOUS_IP", "TOR_IP", "ATTACK_TACTIC", "HIGH_RISK_API", "ATTACK_TECHNIQUE", "UNUSUAL_API_FOR_ACCOUNT", "UNUSUAL_ASN_FOR_ACCOUNT", "UNUSUAL_ASN_FOR_USER", "SUSPICIOUS_PROCESS", "MALICIOUS_DOMAIN", "MALICIOUS_PROCESS", "CRYPTOMINING_IP", "CRYPTOMINING_DOMAIN", "CRYPTOMINING_PROCESS", "MALICIOUS_FILE"
     #   resp.findings[0].service.detection.sequence.signals[0].signal_indicators[0].values #=> Array
     #   resp.findings[0].service.detection.sequence.signals[0].signal_indicators[0].values[0] #=> String
     #   resp.findings[0].service.detection.sequence.signals[0].signal_indicators[0].title #=> String
     #   resp.findings[0].service.detection.sequence.sequence_indicators #=> Array
-    #   resp.findings[0].service.detection.sequence.sequence_indicators[0].key #=> String, one of "SUSPICIOUS_USER_AGENT", "SUSPICIOUS_NETWORK", "MALICIOUS_IP", "TOR_IP", "ATTACK_TACTIC", "HIGH_RISK_API", "ATTACK_TECHNIQUE", "UNUSUAL_API_FOR_ACCOUNT", "UNUSUAL_ASN_FOR_ACCOUNT", "UNUSUAL_ASN_FOR_USER", "SUSPICIOUS_PROCESS", "MALICIOUS_DOMAIN", "MALICIOUS_PROCESS", "CRYPTOMINING_IP", "CRYPTOMINING_DOMAIN", "CRYPTOMINING_PROCESS"
+    #   resp.findings[0].service.detection.sequence.sequence_indicators[0].key #=> String, one of "SUSPICIOUS_USER_AGENT", "SUSPICIOUS_NETWORK", "MALICIOUS_IP", "TOR_IP", "ATTACK_TACTIC", "HIGH_RISK_API", "ATTACK_TECHNIQUE", "UNUSUAL_API_FOR_ACCOUNT", "UNUSUAL_ASN_FOR_ACCOUNT", "UNUSUAL_ASN_FOR_USER", "SUSPICIOUS_PROCESS", "MALICIOUS_DOMAIN", "MALICIOUS_PROCESS", "CRYPTOMINING_IP", "CRYPTOMINING_DOMAIN", "CRYPTOMINING_PROCESS", "MALICIOUS_FILE"
     #   resp.findings[0].service.detection.sequence.sequence_indicators[0].values #=> Array
     #   resp.findings[0].service.detection.sequence.sequence_indicators[0].values[0] #=> String
     #   resp.findings[0].service.detection.sequence.sequence_indicators[0].title #=> String
@@ -6517,7 +6517,7 @@ module Aws::GuardDuty
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-guardduty'
-      context[:gem_version] = '1.143.0'
+      context[:gem_version] = '1.144.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

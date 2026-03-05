@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.74.0 (2026-03-05)
+------------------
+
+* Feature - Added support for OpenSearch and Neptune Analytics to Database Savings Plans.
+
 1.73.0 (2026-01-16)
 ------------------
 

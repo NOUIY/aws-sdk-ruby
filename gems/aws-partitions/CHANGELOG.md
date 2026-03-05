@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1222.0 (2026-03-05)
+------------------
+
+* Feature - Added support for enumerating regions for  `Aws::ConnectHealth`.
+
 1.1221.0 (2026-03-03)
 ------------------
 

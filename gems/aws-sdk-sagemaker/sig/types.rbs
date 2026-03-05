@@ -2033,6 +2033,8 @@ module Aws::SageMaker
       attr_accessor automatic_model_registration: bool
       attr_accessor weekly_maintenance_window_start: ::String
       attr_accessor tags: ::Array[Types::Tag]
+      attr_accessor s3_bucket_owner_account_id: ::String
+      attr_accessor s3_bucket_owner_verification: bool
       SENSITIVE: []
     end
 
@@ -4101,6 +4103,8 @@ module Aws::SageMaker
       attr_accessor created_by: Types::UserContext
       attr_accessor last_modified_time: ::Time
       attr_accessor last_modified_by: Types::UserContext
+      attr_accessor s3_bucket_owner_account_id: ::String
+      attr_accessor s3_bucket_owner_verification: bool
       SENSITIVE: []
     end
 
@@ -11342,6 +11346,8 @@ module Aws::SageMaker
       attr_accessor tracking_server_size: ("Small" | "Medium" | "Large")
       attr_accessor automatic_model_registration: bool
       attr_accessor weekly_maintenance_window_start: ::String
+      attr_accessor s3_bucket_owner_account_id: ::String
+      attr_accessor s3_bucket_owner_verification: bool
       SENSITIVE: []
     end
 

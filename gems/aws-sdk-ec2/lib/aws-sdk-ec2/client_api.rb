@@ -316,6 +316,8 @@ module Aws::EC2
     CancelledSpotInstanceRequest = Shapes::StructureShape.new(name: 'CancelledSpotInstanceRequest')
     CancelledSpotInstanceRequestList = Shapes::ListShape.new(name: 'CancelledSpotInstanceRequestList')
     CapacityAllocation = Shapes::StructureShape.new(name: 'CapacityAllocation')
+    CapacityAllocationMetadataEntry = Shapes::StructureShape.new(name: 'CapacityAllocationMetadataEntry')
+    CapacityAllocationMetadataList = Shapes::ListShape.new(name: 'CapacityAllocationMetadataList')
     CapacityAllocations = Shapes::ListShape.new(name: 'CapacityAllocations')
     CapacityBlock = Shapes::StructureShape.new(name: 'CapacityBlock')
     CapacityBlockExtension = Shapes::StructureShape.new(name: 'CapacityBlockExtension')
@@ -4980,7 +4982,14 @@ module Aws::EC2
 
     CapacityAllocation.add_member(:allocation_type, Shapes::ShapeRef.new(shape: AllocationType, location_name: "allocationType"))
     CapacityAllocation.add_member(:count, Shapes::ShapeRef.new(shape: Integer, location_name: "count"))
+    CapacityAllocation.add_member(:allocation_metadata, Shapes::ShapeRef.new(shape: CapacityAllocationMetadataList, location_name: "allocationMetadataList"))
     CapacityAllocation.struct_class = Types::CapacityAllocation
+
+    CapacityAllocationMetadataEntry.add_member(:key, Shapes::ShapeRef.new(shape: String, location_name: "key"))
+    CapacityAllocationMetadataEntry.add_member(:value, Shapes::ShapeRef.new(shape: String, location_name: "value"))
+    CapacityAllocationMetadataEntry.struct_class = Types::CapacityAllocationMetadataEntry
+
+    CapacityAllocationMetadataList.member = Shapes::ShapeRef.new(shape: CapacityAllocationMetadataEntry, location_name: "item")
 
     CapacityAllocations.member = Shapes::ShapeRef.new(shape: CapacityAllocation, location_name: "item")
 

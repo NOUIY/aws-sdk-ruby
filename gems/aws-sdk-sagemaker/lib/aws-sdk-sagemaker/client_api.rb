@@ -4526,6 +4526,8 @@ module Aws::SageMaker
     CreateMlflowTrackingServerRequest.add_member(:automatic_model_registration, Shapes::ShapeRef.new(shape: Boolean, location_name: "AutomaticModelRegistration", metadata: {"box" => true}))
     CreateMlflowTrackingServerRequest.add_member(:weekly_maintenance_window_start, Shapes::ShapeRef.new(shape: WeeklyMaintenanceWindowStart, location_name: "WeeklyMaintenanceWindowStart"))
     CreateMlflowTrackingServerRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateMlflowTrackingServerRequest.add_member(:s3_bucket_owner_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "S3BucketOwnerAccountId"))
+    CreateMlflowTrackingServerRequest.add_member(:s3_bucket_owner_verification, Shapes::ShapeRef.new(shape: Boolean, location_name: "S3BucketOwnerVerification", metadata: {"box" => true}))
     CreateMlflowTrackingServerRequest.struct_class = Types::CreateMlflowTrackingServerRequest
 
     CreateMlflowTrackingServerResponse.add_member(:tracking_server_arn, Shapes::ShapeRef.new(shape: TrackingServerArn, location_name: "TrackingServerArn"))
@@ -6122,6 +6124,8 @@ module Aws::SageMaker
     DescribeMlflowTrackingServerResponse.add_member(:created_by, Shapes::ShapeRef.new(shape: UserContext, location_name: "CreatedBy"))
     DescribeMlflowTrackingServerResponse.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastModifiedTime"))
     DescribeMlflowTrackingServerResponse.add_member(:last_modified_by, Shapes::ShapeRef.new(shape: UserContext, location_name: "LastModifiedBy"))
+    DescribeMlflowTrackingServerResponse.add_member(:s3_bucket_owner_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "S3BucketOwnerAccountId"))
+    DescribeMlflowTrackingServerResponse.add_member(:s3_bucket_owner_verification, Shapes::ShapeRef.new(shape: Boolean, location_name: "S3BucketOwnerVerification", metadata: {"box" => true}))
     DescribeMlflowTrackingServerResponse.struct_class = Types::DescribeMlflowTrackingServerResponse
 
     DescribeModelBiasJobDefinitionRequest.add_member(:job_definition_name, Shapes::ShapeRef.new(shape: MonitoringJobDefinitionName, required: true, location_name: "JobDefinitionName"))
@@ -12081,6 +12085,8 @@ module Aws::SageMaker
     UpdateMlflowTrackingServerRequest.add_member(:tracking_server_size, Shapes::ShapeRef.new(shape: TrackingServerSize, location_name: "TrackingServerSize"))
     UpdateMlflowTrackingServerRequest.add_member(:automatic_model_registration, Shapes::ShapeRef.new(shape: Boolean, location_name: "AutomaticModelRegistration", metadata: {"box" => true}))
     UpdateMlflowTrackingServerRequest.add_member(:weekly_maintenance_window_start, Shapes::ShapeRef.new(shape: WeeklyMaintenanceWindowStart, location_name: "WeeklyMaintenanceWindowStart"))
+    UpdateMlflowTrackingServerRequest.add_member(:s3_bucket_owner_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "S3BucketOwnerAccountId"))
+    UpdateMlflowTrackingServerRequest.add_member(:s3_bucket_owner_verification, Shapes::ShapeRef.new(shape: Boolean, location_name: "S3BucketOwnerVerification", metadata: {"box" => true}))
     UpdateMlflowTrackingServerRequest.struct_class = Types::UpdateMlflowTrackingServerRequest
 
     UpdateMlflowTrackingServerResponse.add_member(:tracking_server_arn, Shapes::ShapeRef.new(shape: TrackingServerArn, location_name: "TrackingServerArn"))

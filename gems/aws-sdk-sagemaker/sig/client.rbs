@@ -2895,7 +2895,9 @@ module Aws
                                                key: ::String,
                                                value: ::String
                                              },
-                                           ]
+                                           ],
+                                           ?s3_bucket_owner_account_id: ::String,
+                                           ?s3_bucket_owner_verification: bool
                                          ) -> _CreateMlflowTrackingServerResponseSuccess
                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateMlflowTrackingServerResponseSuccess
 
@@ -6352,6 +6354,8 @@ module Aws
         def created_by: () -> Types::UserContext
         def last_modified_time: () -> ::Time
         def last_modified_by: () -> Types::UserContext
+        def s3_bucket_owner_account_id: () -> ::String
+        def s3_bucket_owner_verification: () -> bool
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#describe_mlflow_tracking_server-instance_method
       def describe_mlflow_tracking_server: (
@@ -10240,7 +10244,9 @@ module Aws
                                            ?artifact_store_uri: ::String,
                                            ?tracking_server_size: ("Small" | "Medium" | "Large"),
                                            ?automatic_model_registration: bool,
-                                           ?weekly_maintenance_window_start: ::String
+                                           ?weekly_maintenance_window_start: ::String,
+                                           ?s3_bucket_owner_account_id: ::String,
+                                           ?s3_bucket_owner_verification: bool
                                          ) -> _UpdateMlflowTrackingServerResponseSuccess
                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateMlflowTrackingServerResponseSuccess
 

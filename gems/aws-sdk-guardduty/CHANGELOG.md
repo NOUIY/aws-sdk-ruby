@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.144.0 (2026-03-05)
+------------------
+
+* Feature - Added MALICIOUS FILE to IndicatorType enum in MDC Sequence
+
 1.143.0 (2026-01-22)
 ------------------
 

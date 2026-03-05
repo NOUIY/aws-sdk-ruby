@@ -5994,6 +5994,9 @@ module Aws::EC2
     #   resp.capacity_reservation.capacity_allocations #=> Array
     #   resp.capacity_reservation.capacity_allocations[0].allocation_type #=> String, one of "used", "future"
     #   resp.capacity_reservation.capacity_allocations[0].count #=> Integer
+    #   resp.capacity_reservation.capacity_allocations[0].allocation_metadata #=> Array
+    #   resp.capacity_reservation.capacity_allocations[0].allocation_metadata[0].key #=> String
+    #   resp.capacity_reservation.capacity_allocations[0].allocation_metadata[0].value #=> String
     #   resp.capacity_reservation.reservation_type #=> String, one of "default", "capacity-block"
     #   resp.capacity_reservation.unused_reservation_billing_owner_id #=> String
     #   resp.capacity_reservation.commitment_info.committed_instance_count #=> Integer
@@ -6107,6 +6110,9 @@ module Aws::EC2
     #   resp.source_capacity_reservation.capacity_allocations #=> Array
     #   resp.source_capacity_reservation.capacity_allocations[0].allocation_type #=> String, one of "used", "future"
     #   resp.source_capacity_reservation.capacity_allocations[0].count #=> Integer
+    #   resp.source_capacity_reservation.capacity_allocations[0].allocation_metadata #=> Array
+    #   resp.source_capacity_reservation.capacity_allocations[0].allocation_metadata[0].key #=> String
+    #   resp.source_capacity_reservation.capacity_allocations[0].allocation_metadata[0].value #=> String
     #   resp.source_capacity_reservation.reservation_type #=> String, one of "default", "capacity-block"
     #   resp.source_capacity_reservation.unused_reservation_billing_owner_id #=> String
     #   resp.source_capacity_reservation.commitment_info.committed_instance_count #=> Integer
@@ -6148,6 +6154,9 @@ module Aws::EC2
     #   resp.destination_capacity_reservation.capacity_allocations #=> Array
     #   resp.destination_capacity_reservation.capacity_allocations[0].allocation_type #=> String, one of "used", "future"
     #   resp.destination_capacity_reservation.capacity_allocations[0].count #=> Integer
+    #   resp.destination_capacity_reservation.capacity_allocations[0].allocation_metadata #=> Array
+    #   resp.destination_capacity_reservation.capacity_allocations[0].allocation_metadata[0].key #=> String
+    #   resp.destination_capacity_reservation.capacity_allocations[0].allocation_metadata[0].value #=> String
     #   resp.destination_capacity_reservation.reservation_type #=> String, one of "default", "capacity-block"
     #   resp.destination_capacity_reservation.unused_reservation_billing_owner_id #=> String
     #   resp.destination_capacity_reservation.commitment_info.committed_instance_count #=> Integer
@@ -26354,6 +26363,9 @@ module Aws::EC2
     #   resp.capacity_reservations[0].capacity_allocations #=> Array
     #   resp.capacity_reservations[0].capacity_allocations[0].allocation_type #=> String, one of "used", "future"
     #   resp.capacity_reservations[0].capacity_allocations[0].count #=> Integer
+    #   resp.capacity_reservations[0].capacity_allocations[0].allocation_metadata #=> Array
+    #   resp.capacity_reservations[0].capacity_allocations[0].allocation_metadata[0].key #=> String
+    #   resp.capacity_reservations[0].capacity_allocations[0].allocation_metadata[0].value #=> String
     #   resp.capacity_reservations[0].reservation_type #=> String, one of "default", "capacity-block"
     #   resp.capacity_reservations[0].unused_reservation_billing_owner_id #=> String
     #   resp.capacity_reservations[0].commitment_info.committed_instance_count #=> Integer
@@ -64897,6 +64909,9 @@ module Aws::EC2
     #   resp.source_capacity_reservation.capacity_allocations #=> Array
     #   resp.source_capacity_reservation.capacity_allocations[0].allocation_type #=> String, one of "used", "future"
     #   resp.source_capacity_reservation.capacity_allocations[0].count #=> Integer
+    #   resp.source_capacity_reservation.capacity_allocations[0].allocation_metadata #=> Array
+    #   resp.source_capacity_reservation.capacity_allocations[0].allocation_metadata[0].key #=> String
+    #   resp.source_capacity_reservation.capacity_allocations[0].allocation_metadata[0].value #=> String
     #   resp.source_capacity_reservation.reservation_type #=> String, one of "default", "capacity-block"
     #   resp.source_capacity_reservation.unused_reservation_billing_owner_id #=> String
     #   resp.source_capacity_reservation.commitment_info.committed_instance_count #=> Integer
@@ -64938,6 +64953,9 @@ module Aws::EC2
     #   resp.destination_capacity_reservation.capacity_allocations #=> Array
     #   resp.destination_capacity_reservation.capacity_allocations[0].allocation_type #=> String, one of "used", "future"
     #   resp.destination_capacity_reservation.capacity_allocations[0].count #=> Integer
+    #   resp.destination_capacity_reservation.capacity_allocations[0].allocation_metadata #=> Array
+    #   resp.destination_capacity_reservation.capacity_allocations[0].allocation_metadata[0].key #=> String
+    #   resp.destination_capacity_reservation.capacity_allocations[0].allocation_metadata[0].value #=> String
     #   resp.destination_capacity_reservation.reservation_type #=> String, one of "default", "capacity-block"
     #   resp.destination_capacity_reservation.unused_reservation_billing_owner_id #=> String
     #   resp.destination_capacity_reservation.commitment_info.committed_instance_count #=> Integer
@@ -65392,6 +65410,9 @@ module Aws::EC2
     #   resp.capacity_reservation.capacity_allocations #=> Array
     #   resp.capacity_reservation.capacity_allocations[0].allocation_type #=> String, one of "used", "future"
     #   resp.capacity_reservation.capacity_allocations[0].count #=> Integer
+    #   resp.capacity_reservation.capacity_allocations[0].allocation_metadata #=> Array
+    #   resp.capacity_reservation.capacity_allocations[0].allocation_metadata[0].key #=> String
+    #   resp.capacity_reservation.capacity_allocations[0].allocation_metadata[0].value #=> String
     #   resp.capacity_reservation.reservation_type #=> String, one of "default", "capacity-block"
     #   resp.capacity_reservation.unused_reservation_billing_owner_id #=> String
     #   resp.capacity_reservation.commitment_info.committed_instance_count #=> Integer
@@ -73053,7 +73074,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.606.0'
+      context[:gem_version] = '1.607.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
