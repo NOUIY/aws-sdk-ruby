@@ -376,6 +376,8 @@ module Aws::Bedrock
     EvaluatorModelConfig = Shapes::UnionShape.new(name: 'EvaluatorModelConfig')
     EvaluatorModelIdentifier = Shapes::StringShape.new(name: 'EvaluatorModelIdentifier')
     EvaluatorModelIdentifiers = Shapes::ListShape.new(name: 'EvaluatorModelIdentifiers')
+    ExcludedModelId = Shapes::StringShape.new(name: 'ExcludedModelId')
+    ExcludedModelsList = Shapes::ListShape.new(name: 'ExcludedModelsList')
     ExportAutomatedReasoningPolicyVersionRequest = Shapes::StructureShape.new(name: 'ExportAutomatedReasoningPolicyVersionRequest')
     ExportAutomatedReasoningPolicyVersionResponse = Shapes::StructureShape.new(name: 'ExportAutomatedReasoningPolicyVersionResponse')
     ExternalSource = Shapes::StructureShape.new(name: 'ExternalSource')
@@ -560,6 +562,8 @@ module Aws::Bedrock
     ImportedModelName = Shapes::StringShape.new(name: 'ImportedModelName')
     ImportedModelSummary = Shapes::StructureShape.new(name: 'ImportedModelSummary')
     ImportedModelSummaryList = Shapes::ListShape.new(name: 'ImportedModelSummaryList')
+    IncludedModelId = Shapes::StringShape.new(name: 'IncludedModelId')
+    IncludedModelsList = Shapes::ListShape.new(name: 'IncludedModelsList')
     InferenceProfileArn = Shapes::StringShape.new(name: 'InferenceProfileArn')
     InferenceProfileDescription = Shapes::StringShape.new(name: 'InferenceProfileDescription')
     InferenceProfileId = Shapes::StringShape.new(name: 'InferenceProfileId')
@@ -671,6 +675,7 @@ module Aws::Bedrock
     ModelCustomizationList = Shapes::ListShape.new(name: 'ModelCustomizationList')
     ModelDataSource = Shapes::UnionShape.new(name: 'ModelDataSource')
     ModelDeploymentName = Shapes::StringShape.new(name: 'ModelDeploymentName')
+    ModelEnforcement = Shapes::StructureShape.new(name: 'ModelEnforcement')
     ModelId = Shapes::StringShape.new(name: 'ModelId')
     ModelIdentifier = Shapes::StringShape.new(name: 'ModelIdentifier')
     ModelImportJobArn = Shapes::StringShape.new(name: 'ModelImportJobArn')
@@ -867,6 +872,7 @@ module Aws::Bedrock
     AccountEnforcedGuardrailInferenceInputConfiguration.add_member(:guardrail_identifier, Shapes::ShapeRef.new(shape: GuardrailIdentifier, required: true, location_name: "guardrailIdentifier"))
     AccountEnforcedGuardrailInferenceInputConfiguration.add_member(:guardrail_version, Shapes::ShapeRef.new(shape: GuardrailNumericalVersion, required: true, location_name: "guardrailVersion"))
     AccountEnforcedGuardrailInferenceInputConfiguration.add_member(:input_tags, Shapes::ShapeRef.new(shape: InputTags, required: true, location_name: "inputTags"))
+    AccountEnforcedGuardrailInferenceInputConfiguration.add_member(:model_enforcement, Shapes::ShapeRef.new(shape: ModelEnforcement, location_name: "modelEnforcement"))
     AccountEnforcedGuardrailInferenceInputConfiguration.struct_class = Types::AccountEnforcedGuardrailInferenceInputConfiguration
 
     AccountEnforcedGuardrailOutputConfiguration.add_member(:config_id, Shapes::ShapeRef.new(shape: AccountEnforcedGuardrailConfigurationId, location_name: "configId"))
@@ -879,6 +885,7 @@ module Aws::Bedrock
     AccountEnforcedGuardrailOutputConfiguration.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "updatedAt"))
     AccountEnforcedGuardrailOutputConfiguration.add_member(:updated_by, Shapes::ShapeRef.new(shape: String, location_name: "updatedBy"))
     AccountEnforcedGuardrailOutputConfiguration.add_member(:owner, Shapes::ShapeRef.new(shape: ConfigurationOwner, location_name: "owner"))
+    AccountEnforcedGuardrailOutputConfiguration.add_member(:model_enforcement, Shapes::ShapeRef.new(shape: ModelEnforcement, location_name: "modelEnforcement"))
     AccountEnforcedGuardrailOutputConfiguration.struct_class = Types::AccountEnforcedGuardrailOutputConfiguration
 
     AccountEnforcedGuardrailsOutputConfiguration.member = Shapes::ShapeRef.new(shape: AccountEnforcedGuardrailOutputConfiguration)
@@ -2010,6 +2017,8 @@ module Aws::Bedrock
 
     EvaluatorModelIdentifiers.member = Shapes::ShapeRef.new(shape: EvaluatorModelIdentifier)
 
+    ExcludedModelsList.member = Shapes::ShapeRef.new(shape: ExcludedModelId)
+
     ExportAutomatedReasoningPolicyVersionRequest.add_member(:policy_arn, Shapes::ShapeRef.new(shape: AutomatedReasoningPolicyArn, required: true, location: "uri", location_name: "policyArn"))
     ExportAutomatedReasoningPolicyVersionRequest.struct_class = Types::ExportAutomatedReasoningPolicyVersionRequest
 
@@ -2693,6 +2702,8 @@ module Aws::Bedrock
 
     ImportedModelSummaryList.member = Shapes::ShapeRef.new(shape: ImportedModelSummary)
 
+    IncludedModelsList.member = Shapes::ShapeRef.new(shape: IncludedModelId)
+
     InferenceProfileModel.add_member(:model_arn, Shapes::ShapeRef.new(shape: FoundationModelArn, location_name: "modelArn"))
     InferenceProfileModel.struct_class = Types::InferenceProfileModel
 
@@ -3084,6 +3095,10 @@ module Aws::Bedrock
     ModelDataSource.add_member_subclass(:s3_data_source, Types::ModelDataSource::S3DataSource)
     ModelDataSource.add_member_subclass(:unknown, Types::ModelDataSource::Unknown)
     ModelDataSource.struct_class = Types::ModelDataSource
+
+    ModelEnforcement.add_member(:included_models, Shapes::ShapeRef.new(shape: IncludedModelsList, required: true, location_name: "includedModels"))
+    ModelEnforcement.add_member(:excluded_models, Shapes::ShapeRef.new(shape: ExcludedModelsList, required: true, location_name: "excludedModels"))
+    ModelEnforcement.struct_class = Types::ModelEnforcement
 
     ModelImportJobSummaries.member = Shapes::ShapeRef.new(shape: ModelImportJobSummary)
 
@@ -4012,6 +4027,7 @@ module Aws::Bedrock
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 

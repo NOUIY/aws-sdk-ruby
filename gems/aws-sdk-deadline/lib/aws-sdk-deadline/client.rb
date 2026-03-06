@@ -1111,6 +1111,9 @@ module Aws::Deadline
     # @option params [String] :kms_key_arn
     #   The ARN of the KMS key to use on the farm.
     #
+    # @option params [Float] :cost_scale_factor
+    #   The cost scale factor to apply on the farm.
+    #
     # @option params [Hash<String,String>] :tags
     #   The tags to add to your farm. Each tag consists of a tag key and a tag
     #   value. Tag keys and values are both required, but tag values can be
@@ -1127,6 +1130,7 @@ module Aws::Deadline
     #     display_name: "ResourceName", # required
     #     description: "Description",
     #     kms_key_arn: "KmsKeyArn",
+    #     cost_scale_factor: 1.0,
     #     tags: {
     #       "String" => "String",
     #     },
@@ -2581,6 +2585,7 @@ module Aws::Deadline
     #   * {Types::GetFarmResponse#display_name #display_name} => String
     #   * {Types::GetFarmResponse#description #description} => String
     #   * {Types::GetFarmResponse#kms_key_arn #kms_key_arn} => String
+    #   * {Types::GetFarmResponse#cost_scale_factor #cost_scale_factor} => Float
     #   * {Types::GetFarmResponse#created_at #created_at} => Time
     #   * {Types::GetFarmResponse#created_by #created_by} => String
     #   * {Types::GetFarmResponse#updated_at #updated_at} => Time
@@ -2598,6 +2603,7 @@ module Aws::Deadline
     #   resp.display_name #=> String
     #   resp.description #=> String
     #   resp.kms_key_arn #=> String
+    #   resp.cost_scale_factor #=> Float
     #   resp.created_at #=> Time
     #   resp.created_by #=> String
     #   resp.updated_at #=> Time
@@ -6192,6 +6198,9 @@ module Aws::Deadline
     #   displaying it on a webpage or any other system that might interpret
     #   the content of this field.
     #
+    # @option params [Float] :cost_scale_factor
+    #   The cost scale factor of the farm to update.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -6200,6 +6209,7 @@ module Aws::Deadline
     #     farm_id: "FarmId", # required
     #     display_name: "ResourceName",
     #     description: "Description",
+    #     cost_scale_factor: 1.0,
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/UpdateFarm AWS API Documentation
@@ -7177,7 +7187,7 @@ module Aws::Deadline
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-deadline'
-      context[:gem_version] = '1.45.0'
+      context[:gem_version] = '1.46.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

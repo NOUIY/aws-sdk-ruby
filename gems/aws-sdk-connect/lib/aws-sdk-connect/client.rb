@@ -5161,10 +5161,13 @@ module Aws::Connect
     #     description: "TestCaseDescription",
     #     content: "TestCaseContent", # required
     #     entry_point: {
-    #       type: "VOICE_CALL", # accepts VOICE_CALL
+    #       type: "VOICE_CALL", # accepts VOICE_CALL, CHAT
     #       voice_call_entry_point_parameters: {
     #         source_phone_number: "PhoneNumber",
     #         destination_phone_number: "PhoneNumber",
+    #         flow_id: "ContactFlowId",
+    #       },
+    #       chat_entry_point_parameters: {
     #         flow_id: "ContactFlowId",
     #       },
     #     },
@@ -9179,10 +9182,11 @@ module Aws::Connect
     #   resp.test_case.id #=> String
     #   resp.test_case.name #=> String
     #   resp.test_case.content #=> String
-    #   resp.test_case.entry_point.type #=> String, one of "VOICE_CALL"
+    #   resp.test_case.entry_point.type #=> String, one of "VOICE_CALL", "CHAT"
     #   resp.test_case.entry_point.voice_call_entry_point_parameters.source_phone_number #=> String
     #   resp.test_case.entry_point.voice_call_entry_point_parameters.destination_phone_number #=> String
     #   resp.test_case.entry_point.voice_call_entry_point_parameters.flow_id #=> String
+    #   resp.test_case.entry_point.chat_entry_point_parameters.flow_id #=> String
     #   resp.test_case.initialization_data #=> String
     #   resp.test_case.description #=> String
     #   resp.test_case.status #=> String, one of "PUBLISHED", "SAVED"
@@ -21396,10 +21400,11 @@ module Aws::Connect
     #   resp.test_cases[0].id #=> String
     #   resp.test_cases[0].name #=> String
     #   resp.test_cases[0].content #=> String
-    #   resp.test_cases[0].entry_point.type #=> String, one of "VOICE_CALL"
+    #   resp.test_cases[0].entry_point.type #=> String, one of "VOICE_CALL", "CHAT"
     #   resp.test_cases[0].entry_point.voice_call_entry_point_parameters.source_phone_number #=> String
     #   resp.test_cases[0].entry_point.voice_call_entry_point_parameters.destination_phone_number #=> String
     #   resp.test_cases[0].entry_point.voice_call_entry_point_parameters.flow_id #=> String
+    #   resp.test_cases[0].entry_point.chat_entry_point_parameters.flow_id #=> String
     #   resp.test_cases[0].initialization_data #=> String
     #   resp.test_cases[0].description #=> String
     #   resp.test_cases[0].status #=> String, one of "PUBLISHED", "SAVED"
@@ -27861,10 +27866,13 @@ module Aws::Connect
     #     test_case_id: "TestCaseId", # required
     #     content: "TestCaseContent",
     #     entry_point: {
-    #       type: "VOICE_CALL", # accepts VOICE_CALL
+    #       type: "VOICE_CALL", # accepts VOICE_CALL, CHAT
     #       voice_call_entry_point_parameters: {
     #         source_phone_number: "PhoneNumber",
     #         destination_phone_number: "PhoneNumber",
+    #         flow_id: "ContactFlowId",
+    #       },
+    #       chat_entry_point_parameters: {
     #         flow_id: "ContactFlowId",
     #       },
     #     },
@@ -28833,7 +28841,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.245.0'
+      context[:gem_version] = '1.246.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

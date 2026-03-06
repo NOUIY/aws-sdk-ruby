@@ -225,6 +225,7 @@ module Aws::Connect
     ChatContent = Shapes::StringShape.new(name: 'ChatContent')
     ChatContentType = Shapes::StringShape.new(name: 'ChatContentType')
     ChatDurationInMinutes = Shapes::IntegerShape.new(name: 'ChatDurationInMinutes')
+    ChatEntryPointParameters = Shapes::StructureShape.new(name: 'ChatEntryPointParameters')
     ChatEvent = Shapes::StructureShape.new(name: 'ChatEvent')
     ChatEventType = Shapes::StringShape.new(name: 'ChatEventType')
     ChatMessage = Shapes::StructureShape.new(name: 'ChatMessage')
@@ -2759,6 +2760,9 @@ module Aws::Connect
     ChatContactMetrics.add_member(:agent_first_response_timestamp, Shapes::ShapeRef.new(shape: timestamp, location_name: "AgentFirstResponseTimestamp"))
     ChatContactMetrics.add_member(:agent_first_response_time_in_millis, Shapes::ShapeRef.new(shape: DurationMillis, location_name: "AgentFirstResponseTimeInMillis"))
     ChatContactMetrics.struct_class = Types::ChatContactMetrics
+
+    ChatEntryPointParameters.add_member(:flow_id, Shapes::ShapeRef.new(shape: ContactFlowId, location_name: "FlowId"))
+    ChatEntryPointParameters.struct_class = Types::ChatEntryPointParameters
 
     ChatEvent.add_member(:type, Shapes::ShapeRef.new(shape: ChatEventType, required: true, location_name: "Type"))
     ChatEvent.add_member(:content_type, Shapes::ShapeRef.new(shape: ChatContentType, location_name: "ContentType"))
@@ -8296,6 +8300,7 @@ module Aws::Connect
 
     TestCaseEntryPoint.add_member(:type, Shapes::ShapeRef.new(shape: TestCaseEntryPointType, location_name: "Type"))
     TestCaseEntryPoint.add_member(:voice_call_entry_point_parameters, Shapes::ShapeRef.new(shape: VoiceCallEntryPointParameters, location_name: "VoiceCallEntryPointParameters"))
+    TestCaseEntryPoint.add_member(:chat_entry_point_parameters, Shapes::ShapeRef.new(shape: ChatEntryPointParameters, location_name: "ChatEntryPointParameters"))
     TestCaseEntryPoint.struct_class = Types::TestCaseEntryPoint
 
     TestCaseExecution.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "StartTime"))

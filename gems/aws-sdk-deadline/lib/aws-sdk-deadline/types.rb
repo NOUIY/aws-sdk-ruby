@@ -1128,6 +1128,10 @@ module Aws::Deadline
     #   The ARN of the KMS key to use on the farm.
     #   @return [String]
     #
+    # @!attribute [rw] cost_scale_factor
+    #   The cost scale factor to apply on the farm.
+    #   @return [Float]
+    #
     # @!attribute [rw] tags
     #   The tags to add to your farm. Each tag consists of a tag key and a
     #   tag value. Tag keys and values are both required, but tag values can
@@ -1141,6 +1145,7 @@ module Aws::Deadline
       :display_name,
       :description,
       :kms_key_arn,
+      :cost_scale_factor,
       :tags)
       SENSITIVE = [:description]
       include Aws::Structure
@@ -3066,6 +3071,10 @@ module Aws::Deadline
     #   The ARN of the KMS key used on the farm.
     #   @return [String]
     #
+    # @!attribute [rw] cost_scale_factor
+    #   The cost scale factor applied on the farm.
+    #   @return [Float]
+    #
     # @!attribute [rw] created_at
     #   The date and time the resource was created.
     #   @return [Time]
@@ -3089,6 +3098,7 @@ module Aws::Deadline
       :display_name,
       :description,
       :kms_key_arn,
+      :cost_scale_factor,
       :created_at,
       :created_by,
       :updated_at,
@@ -9660,12 +9670,17 @@ module Aws::Deadline
     #   interpret the content of this field.
     #   @return [String]
     #
+    # @!attribute [rw] cost_scale_factor
+    #   The cost scale factor of the farm to update.
+    #   @return [Float]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/UpdateFarmRequest AWS API Documentation
     #
     class UpdateFarmRequest < Struct.new(
       :farm_id,
       :display_name,
-      :description)
+      :description,
+      :cost_scale_factor)
       SENSITIVE = [:description]
       include Aws::Structure
     end

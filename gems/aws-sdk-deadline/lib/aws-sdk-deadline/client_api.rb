@@ -91,6 +91,7 @@ module Aws::Deadline
     ConsumedUsages = Shapes::StructureShape.new(name: 'ConsumedUsages')
     CopyJobTemplateRequest = Shapes::StructureShape.new(name: 'CopyJobTemplateRequest')
     CopyJobTemplateResponse = Shapes::StructureShape.new(name: 'CopyJobTemplateResponse')
+    CostScaleFactor = Shapes::FloatShape.new(name: 'CostScaleFactor')
     CpuArchitectureType = Shapes::StringShape.new(name: 'CpuArchitectureType')
     CreateBudgetRequest = Shapes::StructureShape.new(name: 'CreateBudgetRequest')
     CreateBudgetResponse = Shapes::StructureShape.new(name: 'CreateBudgetResponse')
@@ -923,6 +924,7 @@ module Aws::Deadline
     CreateFarmRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
     CreateFarmRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     CreateFarmRequest.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
+    CreateFarmRequest.add_member(:cost_scale_factor, Shapes::ShapeRef.new(shape: CostScaleFactor, location_name: "costScaleFactor"))
     CreateFarmRequest.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
     CreateFarmRequest.struct_class = Types::CreateFarmRequest
 
@@ -1358,6 +1360,7 @@ module Aws::Deadline
     GetFarmResponse.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
     GetFarmResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     GetFarmResponse.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
+    GetFarmResponse.add_member(:cost_scale_factor, Shapes::ShapeRef.new(shape: CostScaleFactor, required: true, location_name: "costScaleFactor"))
     GetFarmResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
     GetFarmResponse.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
     GetFarmResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
@@ -2800,6 +2803,7 @@ module Aws::Deadline
     UpdateFarmRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     UpdateFarmRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "displayName"))
     UpdateFarmRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    UpdateFarmRequest.add_member(:cost_scale_factor, Shapes::ShapeRef.new(shape: CostScaleFactor, location_name: "costScaleFactor"))
     UpdateFarmRequest.struct_class = Types::UpdateFarmRequest
 
     UpdateFarmResponse.struct_class = Types::UpdateFarmResponse

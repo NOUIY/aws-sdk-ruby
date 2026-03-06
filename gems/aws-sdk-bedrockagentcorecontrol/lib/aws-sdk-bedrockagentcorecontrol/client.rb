@@ -1570,6 +1570,9 @@ module Aws::BedrockAgentCoreControl
     #   The memory strategies to use for this memory. Strategies define how
     #   information is extracted, processed, and consolidated.
     #
+    # @option params [Types::StreamDeliveryResources] :stream_delivery_resources
+    #   Configuration for streaming memory record data to external resources.
+    #
     # @option params [Hash<String,String>] :tags
     #   A map of tag keys and values to assign to an AgentCore Memory. Tags
     #   enable you to categorize your resources in different ways, for
@@ -1683,6 +1686,21 @@ module Aws::BedrockAgentCoreControl
     #         },
     #       },
     #     ],
+    #     stream_delivery_resources: {
+    #       resources: [ # required
+    #         {
+    #           kinesis: {
+    #             data_stream_arn: "Arn", # required
+    #             content_configurations: [ # required
+    #               {
+    #                 type: "MEMORY_RECORDS", # required, accepts MEMORY_RECORDS
+    #                 level: "METADATA_ONLY", # accepts METADATA_ONLY, FULL_CONTENT
+    #               },
+    #             ],
+    #           },
+    #         },
+    #       ],
+    #     },
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
@@ -1739,6 +1757,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].created_at #=> Time
     #   resp.memory.strategies[0].updated_at #=> Time
     #   resp.memory.strategies[0].status #=> String, one of "CREATING", "ACTIVE", "DELETING", "FAILED"
+    #   resp.memory.stream_delivery_resources.resources #=> Array
+    #   resp.memory.stream_delivery_resources.resources[0].kinesis.data_stream_arn #=> String
+    #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations #=> Array
+    #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations[0].type #=> String, one of "MEMORY_RECORDS"
+    #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations[0].level #=> String, one of "METADATA_ONLY", "FULL_CONTENT"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateMemory AWS API Documentation
     #
@@ -3575,6 +3598,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].created_at #=> Time
     #   resp.memory.strategies[0].updated_at #=> Time
     #   resp.memory.strategies[0].status #=> String, one of "CREATING", "ACTIVE", "DELETING", "FAILED"
+    #   resp.memory.stream_delivery_resources.resources #=> Array
+    #   resp.memory.stream_delivery_resources.resources[0].kinesis.data_stream_arn #=> String
+    #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations #=> Array
+    #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations[0].type #=> String, one of "MEMORY_RECORDS"
+    #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations[0].level #=> String, one of "METADATA_ONLY", "FULL_CONTENT"
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -6145,6 +6173,9 @@ module Aws::BedrockAgentCoreControl
     # @option params [Types::ModifyMemoryStrategies] :memory_strategies
     #   The memory strategies to add, modify, or delete.
     #
+    # @option params [Types::StreamDeliveryResources] :stream_delivery_resources
+    #   Configuration for streaming memory record data to external resources.
+    #
     # @return [Types::UpdateMemoryOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateMemoryOutput#memory #memory} => Types::Memory
@@ -6336,6 +6367,21 @@ module Aws::BedrockAgentCoreControl
     #         },
     #       ],
     #     },
+    #     stream_delivery_resources: {
+    #       resources: [ # required
+    #         {
+    #           kinesis: {
+    #             data_stream_arn: "Arn", # required
+    #             content_configurations: [ # required
+    #               {
+    #                 type: "MEMORY_RECORDS", # required, accepts MEMORY_RECORDS
+    #                 level: "METADATA_ONLY", # accepts METADATA_ONLY, FULL_CONTENT
+    #               },
+    #             ],
+    #           },
+    #         },
+    #       ],
+    #     },
     #   })
     #
     # @example Response structure
@@ -6389,6 +6435,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].created_at #=> Time
     #   resp.memory.strategies[0].updated_at #=> Time
     #   resp.memory.strategies[0].status #=> String, one of "CREATING", "ACTIVE", "DELETING", "FAILED"
+    #   resp.memory.stream_delivery_resources.resources #=> Array
+    #   resp.memory.stream_delivery_resources.resources[0].kinesis.data_stream_arn #=> String
+    #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations #=> Array
+    #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations[0].type #=> String, one of "MEMORY_RECORDS"
+    #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations[0].level #=> String, one of "METADATA_ONLY", "FULL_CONTENT"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateMemory AWS API Documentation
     #
@@ -6900,7 +6951,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.25.0'
+      context[:gem_version] = '1.26.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

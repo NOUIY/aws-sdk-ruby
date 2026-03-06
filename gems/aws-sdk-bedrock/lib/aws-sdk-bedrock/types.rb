@@ -37,12 +37,18 @@ module Aws::Bedrock
     #   Whether to honor or ignore input tags at runtime.
     #   @return [String]
     #
+    # @!attribute [rw] model_enforcement
+    #   Model-specific information for the enforced guardrail configuration.
+    #   If not present, the configuration is enforced on all models
+    #   @return [Types::ModelEnforcement]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/AccountEnforcedGuardrailInferenceInputConfiguration AWS API Documentation
     #
     class AccountEnforcedGuardrailInferenceInputConfiguration < Struct.new(
       :guardrail_identifier,
       :guardrail_version,
-      :input_tags)
+      :input_tags,
+      :model_enforcement)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -89,6 +95,10 @@ module Aws::Bedrock
     #   Configuration owner type.
     #   @return [String]
     #
+    # @!attribute [rw] model_enforcement
+    #   Model-specific information for the enforced guardrail configuration.
+    #   @return [Types::ModelEnforcement]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/AccountEnforcedGuardrailOutputConfiguration AWS API Documentation
     #
     class AccountEnforcedGuardrailOutputConfiguration < Struct.new(
@@ -101,7 +111,8 @@ module Aws::Bedrock
       :created_by,
       :updated_at,
       :updated_by,
-      :owner)
+      :owner,
+      :model_enforcement)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11249,6 +11260,25 @@ module Aws::Bedrock
 
       class S3DataSource < ModelDataSource; end
       class Unknown < ModelDataSource; end
+    end
+
+    # Model-specific information for the enforced guardrail configuration.
+    #
+    # @!attribute [rw] included_models
+    #   Models to enforce the guardrail on.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] excluded_models
+    #   Models to exclude from enforcement of the guardrail.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/ModelEnforcement AWS API Documentation
+    #
+    class ModelEnforcement < Struct.new(
+      :included_models,
+      :excluded_models)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # Information about the import job.

@@ -972,6 +972,25 @@ module Aws::BedrockAgentCoreControl
       class Unknown < Content; end
     end
 
+    # Defines what content to stream and at what level of detail.
+    #
+    # @!attribute [rw] type
+    #   Type of content to stream.
+    #   @return [String]
+    #
+    # @!attribute [rw] level
+    #   Level of detail for streamed content.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ContentConfiguration AWS API Documentation
+    #
+    class ContentConfiguration < Struct.new(
+      :type,
+      :level)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] agent_runtime_id
     #   The unique identifier of the AgentCore Runtime to create an endpoint
     #   for.
@@ -1918,6 +1937,11 @@ module Aws::BedrockAgentCoreControl
     #   information is extracted, processed, and consolidated.
     #   @return [Array<Types::MemoryStrategyInput>]
     #
+    # @!attribute [rw] stream_delivery_resources
+    #   Configuration for streaming memory record data to external
+    #   resources.
+    #   @return [Types::StreamDeliveryResources]
+    #
     # @!attribute [rw] tags
     #   A map of tag keys and values to assign to an AgentCore Memory. Tags
     #   enable you to categorize your resources in different ways, for
@@ -1934,6 +1958,7 @@ module Aws::BedrockAgentCoreControl
       :memory_execution_role_arn,
       :event_expiry_duration,
       :memory_strategies,
+      :stream_delivery_resources,
       :tags)
       SENSITIVE = [:description]
       include Aws::Structure
@@ -5881,6 +5906,25 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # Configuration for Kinesis Data Stream delivery.
+    #
+    # @!attribute [rw] data_stream_arn
+    #   ARN of the Kinesis Data Stream.
+    #   @return [String]
+    #
+    # @!attribute [rw] content_configurations
+    #   Content configurations for stream delivery.
+    #   @return [Array<Types::ContentConfiguration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/KinesisResource AWS API Documentation
+    #
+    class KinesisResource < Struct.new(
+      :data_stream_arn,
+      :content_configurations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains the KMS configuration for a resource.
     #
     # @!attribute [rw] key_type
@@ -6971,6 +7015,11 @@ module Aws::BedrockAgentCoreControl
     #   The list of memory strategies associated with this memory.
     #   @return [Array<Types::MemoryStrategy>]
     #
+    # @!attribute [rw] stream_delivery_resources
+    #   Configuration for streaming memory record data to external
+    #   resources.
+    #   @return [Types::StreamDeliveryResources]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/Memory AWS API Documentation
     #
     class Memory < Struct.new(
@@ -6985,7 +7034,8 @@ module Aws::BedrockAgentCoreControl
       :failure_reason,
       :created_at,
       :updated_at,
-      :strategies)
+      :strategies,
+      :stream_delivery_resources)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -9031,6 +9081,43 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # Supported stream delivery resource types.
+    #
+    # @note StreamDeliveryResource is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note StreamDeliveryResource is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of StreamDeliveryResource corresponding to the set member.
+    #
+    # @!attribute [rw] kinesis
+    #   Kinesis Data Stream configuration.
+    #   @return [Types::KinesisResource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/StreamDeliveryResource AWS API Documentation
+    #
+    class StreamDeliveryResource < Struct.new(
+      :kinesis,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Kinesis < StreamDeliveryResource; end
+      class Unknown < StreamDeliveryResource; end
+    end
+
+    # Configuration for streaming memory record data to external resources.
+    #
+    # @!attribute [rw] resources
+    #   List of stream delivery resource configurations.
+    #   @return [Array<Types::StreamDeliveryResource>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/StreamDeliveryResources AWS API Documentation
+    #
+    class StreamDeliveryResources < Struct.new(
+      :resources)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains summary consolidation override configuration.
     #
     # @!attribute [rw] append_to_prompt
@@ -10132,6 +10219,11 @@ module Aws::BedrockAgentCoreControl
     #   The memory strategies to add, modify, or delete.
     #   @return [Types::ModifyMemoryStrategies]
     #
+    # @!attribute [rw] stream_delivery_resources
+    #   Configuration for streaming memory record data to external
+    #   resources.
+    #   @return [Types::StreamDeliveryResources]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateMemoryInput AWS API Documentation
     #
     class UpdateMemoryInput < Struct.new(
@@ -10140,7 +10232,8 @@ module Aws::BedrockAgentCoreControl
       :description,
       :event_expiry_duration,
       :memory_execution_role_arn,
-      :memory_strategies)
+      :memory_strategies,
+      :stream_delivery_resources)
       SENSITIVE = [:description]
       include Aws::Structure
     end

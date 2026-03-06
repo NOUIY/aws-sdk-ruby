@@ -1510,10 +1510,13 @@ module Aws
                               ?description: ::String,
                               content: ::String,
                               ?entry_point: {
-                                type: ("VOICE_CALL")?,
+                                type: ("VOICE_CALL" | "CHAT")?,
                                 voice_call_entry_point_parameters: {
                                   source_phone_number: ::String?,
                                   destination_phone_number: ::String?,
+                                  flow_id: ::String?
+                                }?,
+                                chat_entry_point_parameters: {
                                   flow_id: ::String?
                                 }?
                               },
@@ -7278,10 +7281,13 @@ module Aws
                               test_case_id: ::String,
                               ?content: ::String,
                               ?entry_point: {
-                                type: ("VOICE_CALL")?,
+                                type: ("VOICE_CALL" | "CHAT")?,
                                 voice_call_entry_point_parameters: {
                                   source_phone_number: ::String?,
                                   destination_phone_number: ::String?,
+                                  flow_id: ::String?
+                                }?,
+                                chat_entry_point_parameters: {
                                   flow_id: ::String?
                                 }?
                               },

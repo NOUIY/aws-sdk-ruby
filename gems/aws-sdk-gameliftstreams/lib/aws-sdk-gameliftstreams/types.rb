@@ -640,6 +640,28 @@ module Aws::GameLiftStreams
     #     * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     #
     #     * Tenancy: Supports up to 12 concurrent stream sessions
+    #   * <b> <code>gen6n_medium_win2022</code> (NVIDIA, medium)</b>
+    #     Supports applications with low 3D scene complexity. Uses NVIDIA L4
+    #     Tensor Core GPU.
+    #
+    #     * Reference resolution: 1080p
+    #
+    #     * Reference frame rate: 60 fps
+    #
+    #     * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+    #
+    #     * Tenancy: Supports 1 concurrent stream session
+    #   * <b> <code>gen6n_small_win2022</code> (NVIDIA, small)</b> Supports
+    #     applications with low 3D scene complexity. Uses NVIDIA L4 Tensor
+    #     Core GPU.
+    #
+    #     * Reference resolution: 1080p
+    #
+    #     * Reference frame rate: 60 fps
+    #
+    #     * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+    #
+    #     * Tenancy: Supports 1 concurrent stream session
     #   * <b> <code>gen5n_win2022</code> (NVIDIA, ultra)</b> Supports
     #     applications with extremely high 3D scene complexity. Runs
     #     applications on Microsoft Windows Server 2022 Base and supports
@@ -913,6 +935,28 @@ module Aws::GameLiftStreams
     #     * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     #
     #     * Tenancy: Supports up to 12 concurrent stream sessions
+    #   * <b> <code>gen6n_medium_win2022</code> (NVIDIA, medium)</b>
+    #     Supports applications with low 3D scene complexity. Uses NVIDIA L4
+    #     Tensor Core GPU.
+    #
+    #     * Reference resolution: 1080p
+    #
+    #     * Reference frame rate: 60 fps
+    #
+    #     * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+    #
+    #     * Tenancy: Supports 1 concurrent stream session
+    #   * <b> <code>gen6n_small_win2022</code> (NVIDIA, small)</b> Supports
+    #     applications with low 3D scene complexity. Uses NVIDIA L4 Tensor
+    #     Core GPU.
+    #
+    #     * Reference resolution: 1080p
+    #
+    #     * Reference frame rate: 60 fps
+    #
+    #     * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+    #
+    #     * Tenancy: Supports 1 concurrent stream session
     #   * <b> <code>gen5n_win2022</code> (NVIDIA, ultra)</b> Supports
     #     applications with extremely high 3D scene complexity. Runs
     #     applications on Microsoft Windows Server 2022 Base and supports
@@ -1701,6 +1745,28 @@ module Aws::GameLiftStreams
     #     * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     #
     #     * Tenancy: Supports up to 12 concurrent stream sessions
+    #   * <b> <code>gen6n_medium_win2022</code> (NVIDIA, medium)</b>
+    #     Supports applications with low 3D scene complexity. Uses NVIDIA L4
+    #     Tensor Core GPU.
+    #
+    #     * Reference resolution: 1080p
+    #
+    #     * Reference frame rate: 60 fps
+    #
+    #     * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+    #
+    #     * Tenancy: Supports 1 concurrent stream session
+    #   * <b> <code>gen6n_small_win2022</code> (NVIDIA, small)</b> Supports
+    #     applications with low 3D scene complexity. Uses NVIDIA L4 Tensor
+    #     Core GPU.
+    #
+    #     * Reference resolution: 1080p
+    #
+    #     * Reference frame rate: 60 fps
+    #
+    #     * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+    #
+    #     * Tenancy: Supports 1 concurrent stream session
     #   * <b> <code>gen5n_win2022</code> (NVIDIA, ultra)</b> Supports
     #     applications with extremely high 3D scene complexity. Runs
     #     applications on Microsoft Windows Server 2022 Base and supports
@@ -2010,10 +2076,6 @@ module Aws::GameLiftStreams
     #   * `connectionTimeout`: The stream session was terminated because the
     #     client failed to connect within the connection timeout period
     #     specified by `ConnectionTimeoutSeconds`.
-    #
-    #   * `idleTimeout`: The stream session was terminated because it
-    #     exceeded the idle timeout period of 60 minutes with no user input
-    #     activity.
     #
     #   * `maxSessionLengthTimeout`: The stream session was terminated
     #     because it exceeded the maximum session length timeout period
@@ -3026,10 +3088,6 @@ module Aws::GameLiftStreams
     #     client failed to connect within the connection timeout period
     #     specified by `ConnectionTimeoutSeconds`.
     #
-    #   * `idleTimeout`: The stream session was terminated because it
-    #     exceeded the idle timeout period of 60 minutes with no user input
-    #     activity.
-    #
     #   * `maxSessionLengthTimeout`: The stream session was terminated
     #     because it exceeded the maximum session length timeout period
     #     specified by `SessionLengthSeconds`.
@@ -3309,6 +3367,28 @@ module Aws::GameLiftStreams
     #     * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     #
     #     * Tenancy: Supports up to 12 concurrent stream sessions
+    #   * <b> <code>gen6n_medium_win2022</code> (NVIDIA, medium)</b>
+    #     Supports applications with low 3D scene complexity. Uses NVIDIA L4
+    #     Tensor Core GPU.
+    #
+    #     * Reference resolution: 1080p
+    #
+    #     * Reference frame rate: 60 fps
+    #
+    #     * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+    #
+    #     * Tenancy: Supports 1 concurrent stream session
+    #   * <b> <code>gen6n_small_win2022</code> (NVIDIA, small)</b> Supports
+    #     applications with low 3D scene complexity. Uses NVIDIA L4 Tensor
+    #     Core GPU.
+    #
+    #     * Reference resolution: 1080p
+    #
+    #     * Reference frame rate: 60 fps
+    #
+    #     * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+    #
+    #     * Tenancy: Supports 1 concurrent stream session
     #   * <b> <code>gen5n_win2022</code> (NVIDIA, ultra)</b> Supports
     #     applications with extremely high 3D scene complexity. Runs
     #     applications on Microsoft Windows Server 2022 Base and supports
@@ -3543,10 +3623,6 @@ module Aws::GameLiftStreams
     #   * `connectionTimeout`: The stream session was terminated because the
     #     client failed to connect within the connection timeout period
     #     specified by `ConnectionTimeoutSeconds`.
-    #
-    #   * `idleTimeout`: The stream session was terminated because it
-    #     exceeded the idle timeout period of 60 minutes with no user input
-    #     activity.
     #
     #   * `maxSessionLengthTimeout`: The stream session was terminated
     #     because it exceeded the maximum session length timeout period
@@ -4115,6 +4191,28 @@ module Aws::GameLiftStreams
     #     * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     #
     #     * Tenancy: Supports up to 12 concurrent stream sessions
+    #   * <b> <code>gen6n_medium_win2022</code> (NVIDIA, medium)</b>
+    #     Supports applications with low 3D scene complexity. Uses NVIDIA L4
+    #     Tensor Core GPU.
+    #
+    #     * Reference resolution: 1080p
+    #
+    #     * Reference frame rate: 60 fps
+    #
+    #     * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+    #
+    #     * Tenancy: Supports 1 concurrent stream session
+    #   * <b> <code>gen6n_small_win2022</code> (NVIDIA, small)</b> Supports
+    #     applications with low 3D scene complexity. Uses NVIDIA L4 Tensor
+    #     Core GPU.
+    #
+    #     * Reference resolution: 1080p
+    #
+    #     * Reference frame rate: 60 fps
+    #
+    #     * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+    #
+    #     * Tenancy: Supports 1 concurrent stream session
     #   * <b> <code>gen5n_win2022</code> (NVIDIA, ultra)</b> Supports
     #     applications with extremely high 3D scene complexity. Runs
     #     applications on Microsoft Windows Server 2022 Base and supports

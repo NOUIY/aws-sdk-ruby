@@ -111,6 +111,9 @@ module Aws::BedrockAgentCoreControl
     ConsolidationConfiguration = Shapes::UnionShape.new(name: 'ConsolidationConfiguration')
     ContainerConfiguration = Shapes::StructureShape.new(name: 'ContainerConfiguration')
     Content = Shapes::UnionShape.new(name: 'Content')
+    ContentConfiguration = Shapes::StructureShape.new(name: 'ContentConfiguration')
+    ContentLevel = Shapes::StringShape.new(name: 'ContentLevel')
+    ContentType = Shapes::StringShape.new(name: 'ContentType')
     CreateAgentRuntimeEndpointRequest = Shapes::StructureShape.new(name: 'CreateAgentRuntimeEndpointRequest')
     CreateAgentRuntimeEndpointResponse = Shapes::StructureShape.new(name: 'CreateAgentRuntimeEndpointResponse')
     CreateAgentRuntimeRequest = Shapes::StructureShape.new(name: 'CreateAgentRuntimeRequest')
@@ -333,6 +336,8 @@ module Aws::BedrockAgentCoreControl
     InvocationConfigurationInputPayloadDeliveryBucketNameString = Shapes::StringShape.new(name: 'InvocationConfigurationInputPayloadDeliveryBucketNameString')
     IssuerUrlType = Shapes::StringShape.new(name: 'IssuerUrlType')
     KeyType = Shapes::StringShape.new(name: 'KeyType')
+    KinesisResource = Shapes::StructureShape.new(name: 'KinesisResource')
+    KinesisResourceContentConfigurationsList = Shapes::ListShape.new(name: 'KinesisResourceContentConfigurationsList')
     KmsConfiguration = Shapes::StructureShape.new(name: 'KmsConfiguration')
     KmsKeyArn = Shapes::StringShape.new(name: 'KmsKeyArn')
     LambdaFunctionArn = Shapes::StringShape.new(name: 'LambdaFunctionArn')
@@ -558,6 +563,9 @@ module Aws::BedrockAgentCoreControl
     StatusReason = Shapes::StringShape.new(name: 'StatusReason')
     StatusReasons = Shapes::ListShape.new(name: 'StatusReasons')
     StrategyConfiguration = Shapes::StructureShape.new(name: 'StrategyConfiguration')
+    StreamDeliveryResource = Shapes::UnionShape.new(name: 'StreamDeliveryResource')
+    StreamDeliveryResources = Shapes::StructureShape.new(name: 'StreamDeliveryResources')
+    StreamDeliveryResourcesList = Shapes::ListShape.new(name: 'StreamDeliveryResourcesList')
     String = Shapes::StringShape.new(name: 'String')
     SubnetId = Shapes::StringShape.new(name: 'SubnetId')
     Subnets = Shapes::ListShape.new(name: 'Subnets')
@@ -882,6 +890,10 @@ module Aws::BedrockAgentCoreControl
     Content.add_member_subclass(:unknown, Types::Content::Unknown)
     Content.struct_class = Types::Content
 
+    ContentConfiguration.add_member(:type, Shapes::ShapeRef.new(shape: ContentType, required: true, location_name: "type"))
+    ContentConfiguration.add_member(:level, Shapes::ShapeRef.new(shape: ContentLevel, location_name: "level"))
+    ContentConfiguration.struct_class = Types::ContentConfiguration
+
     CreateAgentRuntimeEndpointRequest.add_member(:agent_runtime_id, Shapes::ShapeRef.new(shape: AgentRuntimeId, required: true, location: "uri", location_name: "agentRuntimeId"))
     CreateAgentRuntimeEndpointRequest.add_member(:name, Shapes::ShapeRef.new(shape: EndpointName, required: true, location_name: "name"))
     CreateAgentRuntimeEndpointRequest.add_member(:agent_runtime_version, Shapes::ShapeRef.new(shape: AgentRuntimeVersion, location_name: "agentRuntimeVersion"))
@@ -1053,6 +1065,7 @@ module Aws::BedrockAgentCoreControl
     CreateMemoryInput.add_member(:memory_execution_role_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "memoryExecutionRoleArn"))
     CreateMemoryInput.add_member(:event_expiry_duration, Shapes::ShapeRef.new(shape: CreateMemoryInputEventExpiryDurationInteger, required: true, location_name: "eventExpiryDuration"))
     CreateMemoryInput.add_member(:memory_strategies, Shapes::ShapeRef.new(shape: MemoryStrategyInputList, location_name: "memoryStrategies"))
+    CreateMemoryInput.add_member(:stream_delivery_resources, Shapes::ShapeRef.new(shape: StreamDeliveryResources, location_name: "streamDeliveryResources"))
     CreateMemoryInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     CreateMemoryInput.struct_class = Types::CreateMemoryInput
 
@@ -1885,6 +1898,12 @@ module Aws::BedrockAgentCoreControl
     InvocationConfigurationInput.add_member(:payload_delivery_bucket_name, Shapes::ShapeRef.new(shape: InvocationConfigurationInputPayloadDeliveryBucketNameString, required: true, location_name: "payloadDeliveryBucketName"))
     InvocationConfigurationInput.struct_class = Types::InvocationConfigurationInput
 
+    KinesisResource.add_member(:data_stream_arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "dataStreamArn"))
+    KinesisResource.add_member(:content_configurations, Shapes::ShapeRef.new(shape: KinesisResourceContentConfigurationsList, required: true, location_name: "contentConfigurations"))
+    KinesisResource.struct_class = Types::KinesisResource
+
+    KinesisResourceContentConfigurationsList.member = Shapes::ShapeRef.new(shape: ContentConfiguration)
+
     KmsConfiguration.add_member(:key_type, Shapes::ShapeRef.new(shape: KeyType, required: true, location_name: "keyType"))
     KmsConfiguration.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     KmsConfiguration.struct_class = Types::KmsConfiguration
@@ -2111,6 +2130,7 @@ module Aws::BedrockAgentCoreControl
     Memory.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
     Memory.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
     Memory.add_member(:strategies, Shapes::ShapeRef.new(shape: MemoryStrategyList, location_name: "strategies"))
+    Memory.add_member(:stream_delivery_resources, Shapes::ShapeRef.new(shape: StreamDeliveryResources, location_name: "streamDeliveryResources"))
     Memory.struct_class = Types::Memory
 
     MemoryStrategy.add_member(:strategy_id, Shapes::ShapeRef.new(shape: MemoryStrategyId, required: true, location_name: "strategyId"))
@@ -2581,6 +2601,17 @@ module Aws::BedrockAgentCoreControl
     StrategyConfiguration.add_member(:self_managed_configuration, Shapes::ShapeRef.new(shape: SelfManagedConfiguration, location_name: "selfManagedConfiguration"))
     StrategyConfiguration.struct_class = Types::StrategyConfiguration
 
+    StreamDeliveryResource.add_member(:kinesis, Shapes::ShapeRef.new(shape: KinesisResource, location_name: "kinesis"))
+    StreamDeliveryResource.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    StreamDeliveryResource.add_member_subclass(:kinesis, Types::StreamDeliveryResource::Kinesis)
+    StreamDeliveryResource.add_member_subclass(:unknown, Types::StreamDeliveryResource::Unknown)
+    StreamDeliveryResource.struct_class = Types::StreamDeliveryResource
+
+    StreamDeliveryResources.add_member(:resources, Shapes::ShapeRef.new(shape: StreamDeliveryResourcesList, required: true, location_name: "resources"))
+    StreamDeliveryResources.struct_class = Types::StreamDeliveryResources
+
+    StreamDeliveryResourcesList.member = Shapes::ShapeRef.new(shape: StreamDeliveryResource)
+
     Subnets.member = Shapes::ShapeRef.new(shape: SubnetId)
 
     SummaryConsolidationOverride.add_member(:append_to_prompt, Shapes::ShapeRef.new(shape: Prompt, required: true, location_name: "appendToPrompt"))
@@ -2831,6 +2862,7 @@ module Aws::BedrockAgentCoreControl
     UpdateMemoryInput.add_member(:event_expiry_duration, Shapes::ShapeRef.new(shape: UpdateMemoryInputEventExpiryDurationInteger, location_name: "eventExpiryDuration"))
     UpdateMemoryInput.add_member(:memory_execution_role_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "memoryExecutionRoleArn"))
     UpdateMemoryInput.add_member(:memory_strategies, Shapes::ShapeRef.new(shape: ModifyMemoryStrategies, location_name: "memoryStrategies"))
+    UpdateMemoryInput.add_member(:stream_delivery_resources, Shapes::ShapeRef.new(shape: StreamDeliveryResources, location_name: "streamDeliveryResources"))
     UpdateMemoryInput.struct_class = Types::UpdateMemoryInput
 
     UpdateMemoryOutput.add_member(:memory, Shapes::ShapeRef.new(shape: Memory, location_name: "memory"))

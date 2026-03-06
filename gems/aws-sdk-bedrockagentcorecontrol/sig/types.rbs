@@ -294,6 +294,12 @@ module Aws::BedrockAgentCoreControl
       end
     end
 
+    class ContentConfiguration
+      attr_accessor type: ("MEMORY_RECORDS")
+      attr_accessor level: ("METADATA_ONLY" | "FULL_CONTENT")
+      SENSITIVE: []
+    end
+
     class CreateAgentRuntimeEndpointRequest
       attr_accessor agent_runtime_id: ::String
       attr_accessor name: ::String
@@ -502,6 +508,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor memory_execution_role_arn: ::String
       attr_accessor event_expiry_duration: ::Integer
       attr_accessor memory_strategies: ::Array[Types::MemoryStrategyInput]
+      attr_accessor stream_delivery_resources: Types::StreamDeliveryResources
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:description]
     end
@@ -1633,6 +1640,12 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class KinesisResource
+      attr_accessor data_stream_arn: ::String
+      attr_accessor content_configurations: ::Array[Types::ContentConfiguration]
+      SENSITIVE: []
+    end
+
     class KmsConfiguration
       attr_accessor key_type: ("CustomerManagedKey" | "ServiceManagedKey")
       attr_accessor kms_key_arn: ::String
@@ -1959,6 +1972,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
       attr_accessor strategies: ::Array[Types::MemoryStrategy]
+      attr_accessor stream_delivery_resources: Types::StreamDeliveryResources
       SENSITIVE: [:description]
     end
 
@@ -2581,6 +2595,22 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class StreamDeliveryResource
+      attr_accessor kinesis: Types::KinesisResource
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Kinesis < StreamDeliveryResource
+      end
+      class Unknown < StreamDeliveryResource
+      end
+    end
+
+    class StreamDeliveryResources
+      attr_accessor resources: ::Array[Types::StreamDeliveryResource]
+      SENSITIVE: []
+    end
+
     class SummaryConsolidationOverride
       attr_accessor append_to_prompt: ::String
       attr_accessor model_id: ::String
@@ -2898,6 +2928,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor event_expiry_duration: ::Integer
       attr_accessor memory_execution_role_arn: ::String
       attr_accessor memory_strategies: Types::ModifyMemoryStrategies
+      attr_accessor stream_delivery_resources: Types::StreamDeliveryResources
       SENSITIVE: [:description]
     end
 

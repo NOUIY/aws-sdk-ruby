@@ -619,6 +619,21 @@ module Aws
                                }?
                              },
                            ],
+                           ?stream_delivery_resources: {
+                             resources: Array[
+                               {
+                                 kinesis: {
+                                   data_stream_arn: ::String,
+                                   content_configurations: Array[
+                                     {
+                                       type: ("MEMORY_RECORDS"),
+                                       level: ("METADATA_ONLY" | "FULL_CONTENT")?
+                                     },
+                                   ]
+                                 }?
+                               },
+                             ]
+                           },
                            ?tags: Hash[::String, ::String]
                          ) -> _CreateMemoryResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateMemoryResponseSuccess
@@ -2220,6 +2235,21 @@ module Aws
                                  memory_strategy_id: ::String
                                },
                              ]?
+                           },
+                           ?stream_delivery_resources: {
+                             resources: Array[
+                               {
+                                 kinesis: {
+                                   data_stream_arn: ::String,
+                                   content_configurations: Array[
+                                     {
+                                       type: ("MEMORY_RECORDS"),
+                                       level: ("METADATA_ONLY" | "FULL_CONTENT")?
+                                     },
+                                   ]
+                                 }?
+                               },
+                             ]
                            }
                          ) -> _UpdateMemoryResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateMemoryResponseSuccess

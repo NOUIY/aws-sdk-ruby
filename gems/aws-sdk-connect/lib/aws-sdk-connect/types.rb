@@ -2972,6 +2972,20 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # Parameters for initiating a chat test.
+    #
+    # @!attribute [rw] flow_id
+    #   The flow identifier for the test.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ChatEntryPointParameters AWS API Documentation
+    #
+    class ChatEntryPointParameters < Struct.new(
+      :flow_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Chat integration event containing payload to perform different chat
     # actions such as:
     #
@@ -33078,11 +33092,16 @@ module Aws::Connect
     #   Parameters for voice call entry point.
     #   @return [Types::VoiceCallEntryPointParameters]
     #
+    # @!attribute [rw] chat_entry_point_parameters
+    #   Parameters for chat entry point.
+    #   @return [Types::ChatEntryPointParameters]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/TestCaseEntryPoint AWS API Documentation
     #
     class TestCaseEntryPoint < Struct.new(
       :type,
-      :voice_call_entry_point_parameters)
+      :voice_call_entry_point_parameters,
+      :chat_entry_point_parameters)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -751,6 +751,11 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class ChatEntryPointParameters
+      attr_accessor flow_id: ::String
+      SENSITIVE: []
+    end
+
     class ChatEvent
       attr_accessor type: ("DISCONNECT" | "MESSAGE" | "EVENT")
       attr_accessor content_type: ::String
@@ -7715,8 +7720,9 @@ module Aws::Connect
     end
 
     class TestCaseEntryPoint
-      attr_accessor type: ("VOICE_CALL")
+      attr_accessor type: ("VOICE_CALL" | "CHAT")
       attr_accessor voice_call_entry_point_parameters: Types::VoiceCallEntryPointParameters
+      attr_accessor chat_entry_point_parameters: Types::ChatEntryPointParameters
       SENSITIVE: []
     end
 

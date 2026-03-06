@@ -790,7 +790,7 @@ module Aws::GameLiftStreams
     #   resp.application_source_uri #=> String
     #   resp.id #=> String
     #   resp.status #=> String, one of "INITIALIZED", "PROCESSING", "READY", "DELETING", "ERROR"
-    #   resp.status_reason #=> String, one of "internalError", "accessDenied"
+    #   resp.status_reason #=> String, one of "internalError", "accessDenied", "sourceModified"
     #   resp.replication_statuses #=> Array
     #   resp.replication_statuses[0].location #=> String
     #   resp.replication_statuses[0].status #=> String, one of "REPLICATING", "COMPLETED"
@@ -961,6 +961,28 @@ module Aws::GameLiftStreams
     #     * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     #
     #     * Tenancy: Supports up to 12 concurrent stream sessions
+    #   * <b> <code>gen6n_medium_win2022</code> (NVIDIA, medium)</b> Supports
+    #     applications with low 3D scene complexity. Uses NVIDIA L4 Tensor
+    #     Core GPU.
+    #
+    #     * Reference resolution: 1080p
+    #
+    #     * Reference frame rate: 60 fps
+    #
+    #     * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+    #
+    #     * Tenancy: Supports 1 concurrent stream session
+    #   * <b> <code>gen6n_small_win2022</code> (NVIDIA, small)</b> Supports
+    #     applications with low 3D scene complexity. Uses NVIDIA L4 Tensor
+    #     Core GPU.
+    #
+    #     * Reference resolution: 1080p
+    #
+    #     * Reference frame rate: 60 fps
+    #
+    #     * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+    #
+    #     * Tenancy: Supports 1 concurrent stream session
     #   * <b> <code>gen5n_win2022</code> (NVIDIA, ultra)</b> Supports
     #     applications with extremely high 3D scene complexity. Runs
     #     applications on Microsoft Windows Server 2022 Base and supports
@@ -1104,7 +1126,7 @@ module Aws::GameLiftStreams
     #
     #   resp = client.create_stream_group({
     #     description: "Description", # required
-    #     stream_class: "gen4n_high", # required, accepts gen4n_high, gen4n_ultra, gen4n_win2022, gen5n_high, gen5n_ultra, gen5n_win2022, gen6n_small, gen6n_medium, gen6n_high, gen6n_ultra, gen6n_ultra_win2022, gen6n_pro, gen6n_pro_win2022
+    #     stream_class: "gen4n_high", # required, accepts gen4n_high, gen4n_ultra, gen4n_win2022, gen5n_high, gen5n_ultra, gen5n_win2022, gen6n_small, gen6n_medium, gen6n_high, gen6n_ultra, gen6n_ultra_win2022, gen6n_pro, gen6n_pro_win2022, gen6n_small_win2022, gen6n_medium_win2022, gen6e_pro, gen6e_pro_win2022
     #     default_application_identifier: "Identifier",
     #     location_configurations: [
     #       {
@@ -1137,7 +1159,7 @@ module Aws::GameLiftStreams
     #   resp.location_states[0].requested_capacity #=> Integer
     #   resp.location_states[0].allocated_capacity #=> Integer
     #   resp.location_states[0].idle_capacity #=> Integer
-    #   resp.stream_class #=> String, one of "gen4n_high", "gen4n_ultra", "gen4n_win2022", "gen5n_high", "gen5n_ultra", "gen5n_win2022", "gen6n_small", "gen6n_medium", "gen6n_high", "gen6n_ultra", "gen6n_ultra_win2022", "gen6n_pro", "gen6n_pro_win2022"
+    #   resp.stream_class #=> String, one of "gen4n_high", "gen4n_ultra", "gen4n_win2022", "gen5n_high", "gen5n_ultra", "gen5n_win2022", "gen6n_small", "gen6n_medium", "gen6n_high", "gen6n_ultra", "gen6n_ultra_win2022", "gen6n_pro", "gen6n_pro_win2022", "gen6n_small_win2022", "gen6n_medium_win2022", "gen6e_pro", "gen6e_pro_win2022"
     #   resp.id #=> String
     #   resp.status #=> String, one of "ACTIVATING", "UPDATING_LOCATIONS", "ACTIVE", "ACTIVE_WITH_ERRORS", "ERROR", "DELETING", "EXPIRED"
     #   resp.status_reason #=> String, one of "internalError", "noAvailableInstances"
@@ -1586,7 +1608,7 @@ module Aws::GameLiftStreams
     #   resp.application_source_uri #=> String
     #   resp.id #=> String
     #   resp.status #=> String, one of "INITIALIZED", "PROCESSING", "READY", "DELETING", "ERROR"
-    #   resp.status_reason #=> String, one of "internalError", "accessDenied"
+    #   resp.status_reason #=> String, one of "internalError", "accessDenied", "sourceModified"
     #   resp.replication_statuses #=> Array
     #   resp.replication_statuses[0].location #=> String
     #   resp.replication_statuses[0].status #=> String, one of "REPLICATING", "COMPLETED"
@@ -1662,7 +1684,7 @@ module Aws::GameLiftStreams
     #   resp.location_states[0].requested_capacity #=> Integer
     #   resp.location_states[0].allocated_capacity #=> Integer
     #   resp.location_states[0].idle_capacity #=> Integer
-    #   resp.stream_class #=> String, one of "gen4n_high", "gen4n_ultra", "gen4n_win2022", "gen5n_high", "gen5n_ultra", "gen5n_win2022", "gen6n_small", "gen6n_medium", "gen6n_high", "gen6n_ultra", "gen6n_ultra_win2022", "gen6n_pro", "gen6n_pro_win2022"
+    #   resp.stream_class #=> String, one of "gen4n_high", "gen4n_ultra", "gen4n_win2022", "gen5n_high", "gen5n_ultra", "gen5n_win2022", "gen6n_small", "gen6n_medium", "gen6n_high", "gen6n_ultra", "gen6n_ultra_win2022", "gen6n_pro", "gen6n_pro_win2022", "gen6n_small_win2022", "gen6n_medium_win2022", "gen6e_pro", "gen6e_pro_win2022"
     #   resp.id #=> String
     #   resp.status #=> String, one of "ACTIVATING", "UPDATING_LOCATIONS", "ACTIVE", "ACTIVE_WITH_ERRORS", "ERROR", "DELETING", "EXPIRED"
     #   resp.status_reason #=> String, one of "internalError", "noAvailableInstances"
@@ -1875,7 +1897,7 @@ module Aws::GameLiftStreams
     #   resp.items[0].description #=> String
     #   resp.items[0].default_application.id #=> String
     #   resp.items[0].default_application.arn #=> String
-    #   resp.items[0].stream_class #=> String, one of "gen4n_high", "gen4n_ultra", "gen4n_win2022", "gen5n_high", "gen5n_ultra", "gen5n_win2022", "gen6n_small", "gen6n_medium", "gen6n_high", "gen6n_ultra", "gen6n_ultra_win2022", "gen6n_pro", "gen6n_pro_win2022"
+    #   resp.items[0].stream_class #=> String, one of "gen4n_high", "gen4n_ultra", "gen4n_win2022", "gen5n_high", "gen5n_ultra", "gen5n_win2022", "gen6n_small", "gen6n_medium", "gen6n_high", "gen6n_ultra", "gen6n_ultra_win2022", "gen6n_pro", "gen6n_pro_win2022", "gen6n_small_win2022", "gen6n_medium_win2022", "gen6e_pro", "gen6e_pro_win2022"
     #   resp.items[0].status #=> String, one of "ACTIVATING", "UPDATING_LOCATIONS", "ACTIVE", "ACTIVE_WITH_ERRORS", "ERROR", "DELETING", "EXPIRED"
     #   resp.items[0].created_at #=> Time
     #   resp.items[0].last_updated_at #=> Time
@@ -2237,9 +2259,6 @@ module Aws::GameLiftStreams
     #   If no client connects before the timeout, Amazon GameLift Streams
     #   terminates the stream session. This value is specified by
     #   `ConnectionTimeoutSeconds` in the `StartStreamSession` parameters.
-    #
-    # * **Idle timeout**: A stream session will be terminated if no user
-    #   input has been received for 60 minutes.
     #
     # * **Maximum session length**: A stream session will be terminated
     #   after this amount of time has elapsed since it started, regardless
@@ -2690,7 +2709,7 @@ module Aws::GameLiftStreams
     #   resp.application_source_uri #=> String
     #   resp.id #=> String
     #   resp.status #=> String, one of "INITIALIZED", "PROCESSING", "READY", "DELETING", "ERROR"
-    #   resp.status_reason #=> String, one of "internalError", "accessDenied"
+    #   resp.status_reason #=> String, one of "internalError", "accessDenied", "sourceModified"
     #   resp.replication_statuses #=> Array
     #   resp.replication_statuses[0].location #=> String
     #   resp.replication_statuses[0].status #=> String, one of "REPLICATING", "COMPLETED"
@@ -2833,7 +2852,7 @@ module Aws::GameLiftStreams
     #   resp.location_states[0].requested_capacity #=> Integer
     #   resp.location_states[0].allocated_capacity #=> Integer
     #   resp.location_states[0].idle_capacity #=> Integer
-    #   resp.stream_class #=> String, one of "gen4n_high", "gen4n_ultra", "gen4n_win2022", "gen5n_high", "gen5n_ultra", "gen5n_win2022", "gen6n_small", "gen6n_medium", "gen6n_high", "gen6n_ultra", "gen6n_ultra_win2022", "gen6n_pro", "gen6n_pro_win2022"
+    #   resp.stream_class #=> String, one of "gen4n_high", "gen4n_ultra", "gen4n_win2022", "gen5n_high", "gen5n_ultra", "gen5n_win2022", "gen6n_small", "gen6n_medium", "gen6n_high", "gen6n_ultra", "gen6n_ultra_win2022", "gen6n_pro", "gen6n_pro_win2022", "gen6n_small_win2022", "gen6n_medium_win2022", "gen6e_pro", "gen6e_pro_win2022"
     #   resp.id #=> String
     #   resp.status #=> String, one of "ACTIVATING", "UPDATING_LOCATIONS", "ACTIVE", "ACTIVE_WITH_ERRORS", "ERROR", "DELETING", "EXPIRED"
     #   resp.status_reason #=> String, one of "internalError", "noAvailableInstances"
@@ -2870,7 +2889,7 @@ module Aws::GameLiftStreams
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-gameliftstreams'
-      context[:gem_version] = '1.21.0'
+      context[:gem_version] = '1.22.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

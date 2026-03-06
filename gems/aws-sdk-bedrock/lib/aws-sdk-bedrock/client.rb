@@ -5607,6 +5607,10 @@ module Aws::Bedrock
     #   resp.guardrails_config[0].updated_at #=> Time
     #   resp.guardrails_config[0].updated_by #=> String
     #   resp.guardrails_config[0].owner #=> String, one of "ACCOUNT"
+    #   resp.guardrails_config[0].model_enforcement.included_models #=> Array
+    #   resp.guardrails_config[0].model_enforcement.included_models[0] #=> String
+    #   resp.guardrails_config[0].model_enforcement.excluded_models #=> Array
+    #   resp.guardrails_config[0].model_enforcement.excluded_models[0] #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/ListEnforcedGuardrailsConfiguration AWS API Documentation
@@ -6721,6 +6725,10 @@ module Aws::Bedrock
     #       guardrail_identifier: "GuardrailIdentifier", # required
     #       guardrail_version: "GuardrailNumericalVersion", # required
     #       input_tags: "HONOR", # required, accepts HONOR, IGNORE
+    #       model_enforcement: {
+    #         included_models: ["IncludedModelId"], # required
+    #         excluded_models: ["ExcludedModelId"], # required
+    #       },
     #     },
     #   })
     #
@@ -7895,7 +7903,7 @@ module Aws::Bedrock
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrock'
-      context[:gem_version] = '1.76.0'
+      context[:gem_version] = '1.77.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

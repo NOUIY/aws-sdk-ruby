@@ -327,6 +327,7 @@ module Aws::Deadline
       attr_accessor display_name: ::String
       attr_accessor description: ::String
       attr_accessor kms_key_arn: ::String
+      attr_accessor cost_scale_factor: ::Float
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:description]
     end
@@ -888,6 +889,7 @@ module Aws::Deadline
       attr_accessor display_name: ::String
       attr_accessor description: ::String
       attr_accessor kms_key_arn: ::String
+      attr_accessor cost_scale_factor: ::Float
       attr_accessor created_at: ::Time
       attr_accessor created_by: ::String
       attr_accessor updated_at: ::Time
@@ -2646,6 +2648,7 @@ module Aws::Deadline
       attr_accessor farm_id: ::String
       attr_accessor display_name: ::String
       attr_accessor description: ::String
+      attr_accessor cost_scale_factor: ::Float
       SENSITIVE: [:description]
     end
 

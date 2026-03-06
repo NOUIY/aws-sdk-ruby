@@ -17,6 +17,7 @@ module Aws::Bedrock
       attr_accessor guardrail_identifier: ::String
       attr_accessor guardrail_version: ::String
       attr_accessor input_tags: ("HONOR" | "IGNORE")
+      attr_accessor model_enforcement: Types::ModelEnforcement
       SENSITIVE: []
     end
 
@@ -31,6 +32,7 @@ module Aws::Bedrock
       attr_accessor updated_at: ::Time
       attr_accessor updated_by: ::String
       attr_accessor owner: ("ACCOUNT")
+      attr_accessor model_enforcement: Types::ModelEnforcement
       SENSITIVE: []
     end
 
@@ -2838,6 +2840,12 @@ module Aws::Bedrock
       end
       class Unknown < ModelDataSource
       end
+    end
+
+    class ModelEnforcement
+      attr_accessor included_models: ::Array[::String]
+      attr_accessor excluded_models: ::Array[::String]
+      SENSITIVE: []
     end
 
     class ModelImportJobSummary

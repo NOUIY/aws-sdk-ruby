@@ -1986,7 +1986,11 @@ module Aws
                                                   guardrail_inference_config: {
                                                     guardrail_identifier: ::String,
                                                     guardrail_version: ::String,
-                                                    input_tags: ("HONOR" | "IGNORE")
+                                                    input_tags: ("HONOR" | "IGNORE"),
+                                                    model_enforcement: {
+                                                      included_models: Array[::String],
+                                                      excluded_models: Array[::String]
+                                                    }?
                                                   }
                                                 ) -> _PutEnforcedGuardrailConfigurationResponseSuccess
                                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutEnforcedGuardrailConfigurationResponseSuccess

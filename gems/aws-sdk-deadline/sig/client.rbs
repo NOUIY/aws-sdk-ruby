@@ -280,6 +280,7 @@ module Aws
                          display_name: ::String,
                          ?description: ::String,
                          ?kms_key_arn: ::String,
+                         ?cost_scale_factor: ::Float,
                          ?tags: Hash[::String, ::String]
                        ) -> _CreateFarmResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateFarmResponseSuccess
@@ -803,6 +804,7 @@ module Aws
         def display_name: () -> ::String
         def description: () -> ::String
         def kms_key_arn: () -> ::String
+        def cost_scale_factor: () -> ::Float
         def created_at: () -> ::Time
         def created_by: () -> ::String
         def updated_at: () -> ::Time
@@ -1941,7 +1943,8 @@ module Aws
       def update_farm: (
                          farm_id: ::String,
                          ?display_name: ::String,
-                         ?description: ::String
+                         ?description: ::String,
+                         ?cost_scale_factor: ::Float
                        ) -> _UpdateFarmResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateFarmResponseSuccess
 

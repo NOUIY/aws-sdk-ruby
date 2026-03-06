@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.26.0 (2026-03-06)
+------------------
+
+* Feature - Adds support for streaming memory records in AgentCore Memory
+
 1.25.0 (2026-03-03)
 ------------------
 
