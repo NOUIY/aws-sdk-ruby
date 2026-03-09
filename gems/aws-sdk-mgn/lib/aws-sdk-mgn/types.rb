@@ -570,6 +570,11 @@ module Aws::Mgn
     #   Request to configure the internet protocol to IPv4 or IPv6.
     #   @return [String]
     #
+    # @!attribute [rw] store_snapshot_on_local_zone
+    #   Request to store snapshot on local zone during Replication Settings
+    #   template creation.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/CreateReplicationConfigurationTemplateRequest AWS API Documentation
     #
     class CreateReplicationConfigurationTemplateRequest < Struct.new(
@@ -587,7 +592,8 @@ module Aws::Mgn
       :staging_area_tags,
       :use_fips_endpoint,
       :tags,
-      :internet_protocol)
+      :internet_protocol,
+      :store_snapshot_on_local_zone)
       SENSITIVE = [:staging_area_tags, :tags]
       include Aws::Structure
     end
@@ -3333,6 +3339,10 @@ module Aws::Mgn
     #   Replication Configuration internet protocol.
     #   @return [String]
     #
+    # @!attribute [rw] store_snapshot_on_local_zone
+    #   Replication Configuration store snapshot on local zone.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/ReplicationConfiguration AWS API Documentation
     #
     class ReplicationConfiguration < Struct.new(
@@ -3352,7 +3362,8 @@ module Aws::Mgn
       :create_public_ip,
       :staging_area_tags,
       :use_fips_endpoint,
-      :internet_protocol)
+      :internet_protocol,
+      :store_snapshot_on_local_zone)
       SENSITIVE = [:staging_area_tags]
       include Aws::Structure
     end
@@ -3461,6 +3472,10 @@ module Aws::Mgn
     #   Replication Configuration template internet protocol.
     #   @return [String]
     #
+    # @!attribute [rw] store_snapshot_on_local_zone
+    #   Replication Configuration template store snapshot on local zone.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/ReplicationConfigurationTemplate AWS API Documentation
     #
     class ReplicationConfigurationTemplate < Struct.new(
@@ -3480,7 +3495,8 @@ module Aws::Mgn
       :staging_area_tags,
       :use_fips_endpoint,
       :tags,
-      :internet_protocol)
+      :internet_protocol,
+      :store_snapshot_on_local_zone)
       SENSITIVE = [:staging_area_tags, :tags]
       include Aws::Structure
     end
@@ -4620,6 +4636,10 @@ module Aws::Mgn
     #   Update replication configuration internet protocol.
     #   @return [String]
     #
+    # @!attribute [rw] store_snapshot_on_local_zone
+    #   Update replication configuration store snapshot on local zone.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/UpdateReplicationConfigurationRequest AWS API Documentation
     #
     class UpdateReplicationConfigurationRequest < Struct.new(
@@ -4640,7 +4660,8 @@ module Aws::Mgn
       :staging_area_tags,
       :use_fips_endpoint,
       :account_id,
-      :internet_protocol)
+      :internet_protocol,
+      :store_snapshot_on_local_zone)
       SENSITIVE = [:staging_area_tags]
       include Aws::Structure
     end
@@ -4718,6 +4739,11 @@ module Aws::Mgn
     #   Update replication configuration template internet protocol request.
     #   @return [String]
     #
+    # @!attribute [rw] store_snapshot_on_local_zone
+    #   Update replication configuration template store snapshot on local
+    #   zone request.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/UpdateReplicationConfigurationTemplateRequest AWS API Documentation
     #
     class UpdateReplicationConfigurationTemplateRequest < Struct.new(
@@ -4736,7 +4762,8 @@ module Aws::Mgn
       :create_public_ip,
       :staging_area_tags,
       :use_fips_endpoint,
-      :internet_protocol)
+      :internet_protocol,
+      :store_snapshot_on_local_zone)
       SENSITIVE = [:staging_area_tags]
       include Aws::Structure
     end

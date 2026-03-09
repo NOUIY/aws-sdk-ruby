@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.4.0 (2026-03-09)
+------------------
+
+* Feature - Adds support for dual stack Global Resolvers and Dictionary-based Domain Generation Firewall Advanced Protection.
+
 1.3.0 (2026-01-16)
 ------------------
 

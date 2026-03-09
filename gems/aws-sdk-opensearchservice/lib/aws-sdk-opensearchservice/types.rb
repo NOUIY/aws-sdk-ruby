@@ -239,6 +239,12 @@ module Aws::OpenSearchService
     #   collections that are associated with the direct query data source.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] data_source_access_policy
+    #   An optional IAM access policy document that defines the permissions
+    #   for accessing the data source. The policy document must be in valid
+    #   JSON format and follow IAM policy syntax.
+    #   @return [String]
+    #
     # @!attribute [rw] tag_list
     #   A list of tags attached to a domain.
     #   @return [Array<Types::Tag>]
@@ -250,6 +256,7 @@ module Aws::OpenSearchService
       :data_source_type,
       :description,
       :open_search_arns,
+      :data_source_access_policy,
       :tag_list)
       SENSITIVE = []
       include Aws::Structure
@@ -2113,11 +2120,17 @@ module Aws::OpenSearchService
     #   Detailed description of a data source.
     #   @return [String]
     #
+    # @!attribute [rw] iam_role_for_data_source_arn
+    #   The ARN of the IAM role to be used for cross account/region data
+    #   source association.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DataSource AWS API Documentation
     #
     class DataSource < Struct.new(
       :data_source_arn,
-      :data_source_description)
+      :data_source_description,
+      :iam_role_for_data_source_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4435,6 +4448,13 @@ module Aws::OpenSearchService
     #   collections that are associated with the direct query data source.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] data_source_access_policy
+    #   The IAM access policy document that defines the permissions for
+    #   accessing the direct query data source. Returns the current policy
+    #   configuration in JSON format, or null if no custom policy is
+    #   configured.
+    #   @return [String]
+    #
     # @!attribute [rw] data_source_arn
     #   The unique, system-generated identifier that represents the data
     #   source.
@@ -4447,6 +4467,7 @@ module Aws::OpenSearchService
       :data_source_type,
       :description,
       :open_search_arns,
+      :data_source_access_policy,
       :data_source_arn)
       SENSITIVE = []
       include Aws::Structure
@@ -7699,13 +7720,22 @@ module Aws::OpenSearchService
     #   collections that are associated with the direct query data source.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] data_source_access_policy
+    #   An optional IAM access policy document that defines the updated
+    #   permissions for accessing the direct query data source. The policy
+    #   document must be in valid JSON format and follow IAM policy syntax.
+    #   If not specified, the existing access policy if present remains
+    #   unchanged.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/UpdateDirectQueryDataSourceRequest AWS API Documentation
     #
     class UpdateDirectQueryDataSourceRequest < Struct.new(
       :data_source_name,
       :data_source_type,
       :description,
-      :open_search_arns)
+      :open_search_arns,
+      :data_source_access_policy)
       SENSITIVE = []
       include Aws::Structure
     end

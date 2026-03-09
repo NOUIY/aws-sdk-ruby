@@ -589,6 +589,11 @@ module Aws::OpenSearchService
     #   A list of Amazon Resource Names (ARNs) for the OpenSearch collections
     #   that are associated with the direct query data source.
     #
+    # @option params [String] :data_source_access_policy
+    #   An optional IAM access policy document that defines the permissions
+    #   for accessing the data source. The policy document must be in valid
+    #   JSON format and follow IAM policy syntax.
+    #
     # @option params [Array<Types::Tag>] :tag_list
     #   A list of tags attached to a domain.
     #
@@ -610,6 +615,7 @@ module Aws::OpenSearchService
     #     },
     #     description: "DirectQueryDataSourceDescription",
     #     open_search_arns: ["ARN"], # required
+    #     data_source_access_policy: "PolicyDocument",
     #     tag_list: [
     #       {
     #         key: "TagKey", # required
@@ -986,6 +992,7 @@ module Aws::OpenSearchService
     #       {
     #         data_source_arn: "ARN",
     #         data_source_description: "DataSourceDescription",
+    #         iam_role_for_data_source_arn: "RoleArn",
     #       },
     #     ],
     #     iam_identity_center_options: {
@@ -1016,6 +1023,7 @@ module Aws::OpenSearchService
     #   resp.data_sources #=> Array
     #   resp.data_sources[0].data_source_arn #=> String
     #   resp.data_sources[0].data_source_description #=> String
+    #   resp.data_sources[0].iam_role_for_data_source_arn #=> String
     #   resp.iam_identity_center_options.enabled #=> Boolean
     #   resp.iam_identity_center_options.iam_identity_center_instance_arn #=> String
     #   resp.iam_identity_center_options.iam_role_for_identity_center_application_arn #=> String
@@ -3709,6 +3717,7 @@ module Aws::OpenSearchService
     #   resp.data_sources #=> Array
     #   resp.data_sources[0].data_source_arn #=> String
     #   resp.data_sources[0].data_source_description #=> String
+    #   resp.data_sources[0].iam_role_for_data_source_arn #=> String
     #   resp.app_configs #=> Array
     #   resp.app_configs[0].key #=> String, one of "opensearchDashboards.dashboardAdmin.users", "opensearchDashboards.dashboardAdmin.groups"
     #   resp.app_configs[0].value #=> String
@@ -3831,6 +3840,7 @@ module Aws::OpenSearchService
     #   * {Types::GetDirectQueryDataSourceResponse#data_source_type #data_source_type} => Types::DirectQueryDataSourceType
     #   * {Types::GetDirectQueryDataSourceResponse#description #description} => String
     #   * {Types::GetDirectQueryDataSourceResponse#open_search_arns #open_search_arns} => Array&lt;String&gt;
+    #   * {Types::GetDirectQueryDataSourceResponse#data_source_access_policy #data_source_access_policy} => String
     #   * {Types::GetDirectQueryDataSourceResponse#data_source_arn #data_source_arn} => String
     #
     # @example Request syntax with placeholder values
@@ -3847,6 +3857,7 @@ module Aws::OpenSearchService
     #   resp.description #=> String
     #   resp.open_search_arns #=> Array
     #   resp.open_search_arns[0] #=> String
+    #   resp.data_source_access_policy #=> String
     #   resp.data_source_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/GetDirectQueryDataSource AWS API Documentation
@@ -5093,6 +5104,7 @@ module Aws::OpenSearchService
     #       {
     #         data_source_arn: "ARN",
     #         data_source_description: "DataSourceDescription",
+    #         iam_role_for_data_source_arn: "RoleArn",
     #       },
     #     ],
     #     app_configs: [
@@ -5111,6 +5123,7 @@ module Aws::OpenSearchService
     #   resp.data_sources #=> Array
     #   resp.data_sources[0].data_source_arn #=> String
     #   resp.data_sources[0].data_source_description #=> String
+    #   resp.data_sources[0].iam_role_for_data_source_arn #=> String
     #   resp.iam_identity_center_options.enabled #=> Boolean
     #   resp.iam_identity_center_options.iam_identity_center_instance_arn #=> String
     #   resp.iam_identity_center_options.iam_role_for_identity_center_application_arn #=> String
@@ -5203,6 +5216,13 @@ module Aws::OpenSearchService
     #   A list of Amazon Resource Names (ARNs) for the OpenSearch collections
     #   that are associated with the direct query data source.
     #
+    # @option params [String] :data_source_access_policy
+    #   An optional IAM access policy document that defines the updated
+    #   permissions for accessing the direct query data source. The policy
+    #   document must be in valid JSON format and follow IAM policy syntax. If
+    #   not specified, the existing access policy if present remains
+    #   unchanged.
+    #
     # @return [Types::UpdateDirectQueryDataSourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateDirectQueryDataSourceResponse#data_source_arn #data_source_arn} => String
@@ -5221,6 +5241,7 @@ module Aws::OpenSearchService
     #     },
     #     description: "DirectQueryDataSourceDescription",
     #     open_search_arns: ["ARN"], # required
+    #     data_source_access_policy: "PolicyDocument",
     #   })
     #
     # @example Response structure
@@ -6143,7 +6164,7 @@ module Aws::OpenSearchService
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-opensearchservice'
-      context[:gem_version] = '1.88.0'
+      context[:gem_version] = '1.89.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

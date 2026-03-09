@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.141.0 (2026-03-09)
+------------------
+
+* Feature - Added support for CloudWatch Logs long-term API keys, currently available in Preview
+
 1.140.0 (2026-01-16)
 ------------------
 

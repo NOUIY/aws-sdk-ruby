@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.89.0 (2026-03-09)
+------------------
+
+* Feature - This change enables cross-account and cross-region access for DataSources. Customers can now define access policies on their datasources to allow other AWS accounts to access and query their data.
+
 1.88.0 (2026-03-04)
 ------------------
 

@@ -165,6 +165,7 @@ module Aws::Mgn
       attr_accessor use_fips_endpoint: bool
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor internet_protocol: ("IPV4" | "IPV6")
+      attr_accessor store_snapshot_on_local_zone: bool
       SENSITIVE: [:staging_area_tags, :tags]
     end
 
@@ -993,6 +994,7 @@ module Aws::Mgn
       attr_accessor staging_area_tags: ::Hash[::String, ::String]
       attr_accessor use_fips_endpoint: bool
       attr_accessor internet_protocol: ("IPV4" | "IPV6")
+      attr_accessor store_snapshot_on_local_zone: bool
       SENSITIVE: [:staging_area_tags]
     end
 
@@ -1023,6 +1025,7 @@ module Aws::Mgn
       attr_accessor use_fips_endpoint: bool
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor internet_protocol: ("IPV4" | "IPV6")
+      attr_accessor store_snapshot_on_local_zone: bool
       SENSITIVE: [:staging_area_tags, :tags]
     end
 
@@ -1351,6 +1354,7 @@ module Aws::Mgn
       attr_accessor use_fips_endpoint: bool
       attr_accessor account_id: ::String
       attr_accessor internet_protocol: ("IPV4" | "IPV6")
+      attr_accessor store_snapshot_on_local_zone: bool
       SENSITIVE: [:staging_area_tags]
     end
 
@@ -1371,6 +1375,7 @@ module Aws::Mgn
       attr_accessor staging_area_tags: ::Hash[::String, ::String]
       attr_accessor use_fips_endpoint: bool
       attr_accessor internet_protocol: ("IPV4" | "IPV6")
+      attr_accessor store_snapshot_on_local_zone: bool
       SENSITIVE: [:staging_area_tags]
     end
 

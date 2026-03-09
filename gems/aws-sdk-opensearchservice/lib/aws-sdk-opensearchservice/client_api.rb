@@ -613,6 +613,7 @@ module Aws::OpenSearchService
     AddDirectQueryDataSourceRequest.add_member(:data_source_type, Shapes::ShapeRef.new(shape: DirectQueryDataSourceType, required: true, location_name: "DataSourceType"))
     AddDirectQueryDataSourceRequest.add_member(:description, Shapes::ShapeRef.new(shape: DirectQueryDataSourceDescription, location_name: "Description"))
     AddDirectQueryDataSourceRequest.add_member(:open_search_arns, Shapes::ShapeRef.new(shape: DirectQueryOpenSearchARNList, required: true, location_name: "OpenSearchArns"))
+    AddDirectQueryDataSourceRequest.add_member(:data_source_access_policy, Shapes::ShapeRef.new(shape: PolicyDocument, location_name: "DataSourceAccessPolicy"))
     AddDirectQueryDataSourceRequest.add_member(:tag_list, Shapes::ShapeRef.new(shape: TagList, location_name: "TagList"))
     AddDirectQueryDataSourceRequest.struct_class = Types::AddDirectQueryDataSourceRequest
 
@@ -960,6 +961,7 @@ module Aws::OpenSearchService
 
     DataSource.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: ARN, location_name: "dataSourceArn"))
     DataSource.add_member(:data_source_description, Shapes::ShapeRef.new(shape: DataSourceDescription, location_name: "dataSourceDescription"))
+    DataSource.add_member(:iam_role_for_data_source_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "iamRoleForDataSourceArn"))
     DataSource.struct_class = Types::DataSource
 
     DataSourceDetails.add_member(:data_source_type, Shapes::ShapeRef.new(shape: DataSourceType, location_name: "DataSourceType"))
@@ -1433,6 +1435,7 @@ module Aws::OpenSearchService
     GetDirectQueryDataSourceResponse.add_member(:data_source_type, Shapes::ShapeRef.new(shape: DirectQueryDataSourceType, location_name: "DataSourceType"))
     GetDirectQueryDataSourceResponse.add_member(:description, Shapes::ShapeRef.new(shape: DirectQueryDataSourceDescription, location_name: "Description"))
     GetDirectQueryDataSourceResponse.add_member(:open_search_arns, Shapes::ShapeRef.new(shape: DirectQueryOpenSearchARNList, location_name: "OpenSearchArns"))
+    GetDirectQueryDataSourceResponse.add_member(:data_source_access_policy, Shapes::ShapeRef.new(shape: PolicyDocument, location_name: "DataSourceAccessPolicy"))
     GetDirectQueryDataSourceResponse.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: String, location_name: "DataSourceArn"))
     GetDirectQueryDataSourceResponse.struct_class = Types::GetDirectQueryDataSourceResponse
 
@@ -2080,6 +2083,7 @@ module Aws::OpenSearchService
     UpdateDirectQueryDataSourceRequest.add_member(:data_source_type, Shapes::ShapeRef.new(shape: DirectQueryDataSourceType, required: true, location_name: "DataSourceType"))
     UpdateDirectQueryDataSourceRequest.add_member(:description, Shapes::ShapeRef.new(shape: DirectQueryDataSourceDescription, location_name: "Description"))
     UpdateDirectQueryDataSourceRequest.add_member(:open_search_arns, Shapes::ShapeRef.new(shape: DirectQueryOpenSearchARNList, required: true, location_name: "OpenSearchArns"))
+    UpdateDirectQueryDataSourceRequest.add_member(:data_source_access_policy, Shapes::ShapeRef.new(shape: PolicyDocument, location_name: "DataSourceAccessPolicy"))
     UpdateDirectQueryDataSourceRequest.struct_class = Types::UpdateDirectQueryDataSourceRequest
 
     UpdateDirectQueryDataSourceResponse.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: String, location_name: "DataSourceArn"))
@@ -3324,6 +3328,7 @@ module Aws::OpenSearchService
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
       end)
 
       api.add_operation(:update_domain_config, Seahorse::Model::Operation.new.tap do |o|

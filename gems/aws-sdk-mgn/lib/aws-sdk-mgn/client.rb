@@ -1131,6 +1131,10 @@ module Aws::Mgn
     # @option params [String] :internet_protocol
     #   Request to configure the internet protocol to IPv4 or IPv6.
     #
+    # @option params [Boolean] :store_snapshot_on_local_zone
+    #   Request to store snapshot on local zone during Replication Settings
+    #   template creation.
+    #
     # @return [Types::ReplicationConfigurationTemplate] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ReplicationConfigurationTemplate#replication_configuration_template_id #replication_configuration_template_id} => String
@@ -1150,6 +1154,7 @@ module Aws::Mgn
     #   * {Types::ReplicationConfigurationTemplate#use_fips_endpoint #use_fips_endpoint} => Boolean
     #   * {Types::ReplicationConfigurationTemplate#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::ReplicationConfigurationTemplate#internet_protocol #internet_protocol} => String
+    #   * {Types::ReplicationConfigurationTemplate#store_snapshot_on_local_zone #store_snapshot_on_local_zone} => Boolean
     #
     # @example Request syntax with placeholder values
     #
@@ -1173,6 +1178,7 @@ module Aws::Mgn
     #       "TagKey" => "TagValue",
     #     },
     #     internet_protocol: "IPV4", # accepts IPV4, IPV6
+    #     store_snapshot_on_local_zone: false,
     #   })
     #
     # @example Response structure
@@ -1197,6 +1203,7 @@ module Aws::Mgn
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
     #   resp.internet_protocol #=> String, one of "IPV4", "IPV6"
+    #   resp.store_snapshot_on_local_zone #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/CreateReplicationConfigurationTemplate AWS API Documentation
     #
@@ -1731,6 +1738,7 @@ module Aws::Mgn
     #   resp.items[0].tags #=> Hash
     #   resp.items[0].tags["TagKey"] #=> String
     #   resp.items[0].internet_protocol #=> String, one of "IPV4", "IPV6"
+    #   resp.items[0].store_snapshot_on_local_zone #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/DescribeReplicationConfigurationTemplates AWS API Documentation
@@ -2305,6 +2313,7 @@ module Aws::Mgn
     #   * {Types::ReplicationConfiguration#staging_area_tags #staging_area_tags} => Hash&lt;String,String&gt;
     #   * {Types::ReplicationConfiguration#use_fips_endpoint #use_fips_endpoint} => Boolean
     #   * {Types::ReplicationConfiguration#internet_protocol #internet_protocol} => String
+    #   * {Types::ReplicationConfiguration#store_snapshot_on_local_zone #store_snapshot_on_local_zone} => Boolean
     #
     # @example Request syntax with placeholder values
     #
@@ -2339,6 +2348,7 @@ module Aws::Mgn
     #   resp.staging_area_tags["TagKey"] #=> String
     #   resp.use_fips_endpoint #=> Boolean
     #   resp.internet_protocol #=> String, one of "IPV4", "IPV6"
+    #   resp.store_snapshot_on_local_zone #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/GetReplicationConfiguration AWS API Documentation
     #
@@ -4888,6 +4898,9 @@ module Aws::Mgn
     # @option params [String] :internet_protocol
     #   Update replication configuration internet protocol.
     #
+    # @option params [Boolean] :store_snapshot_on_local_zone
+    #   Update replication configuration store snapshot on local zone.
+    #
     # @return [Types::ReplicationConfiguration] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ReplicationConfiguration#source_server_id #source_server_id} => String
@@ -4907,6 +4920,7 @@ module Aws::Mgn
     #   * {Types::ReplicationConfiguration#staging_area_tags #staging_area_tags} => Hash&lt;String,String&gt;
     #   * {Types::ReplicationConfiguration#use_fips_endpoint #use_fips_endpoint} => Boolean
     #   * {Types::ReplicationConfiguration#internet_protocol #internet_protocol} => String
+    #   * {Types::ReplicationConfiguration#store_snapshot_on_local_zone #store_snapshot_on_local_zone} => Boolean
     #
     # @example Request syntax with placeholder values
     #
@@ -4939,6 +4953,7 @@ module Aws::Mgn
     #     use_fips_endpoint: false,
     #     account_id: "AccountID",
     #     internet_protocol: "IPV4", # accepts IPV4, IPV6
+    #     store_snapshot_on_local_zone: false,
     #   })
     #
     # @example Response structure
@@ -4967,6 +4982,7 @@ module Aws::Mgn
     #   resp.staging_area_tags["TagKey"] #=> String
     #   resp.use_fips_endpoint #=> Boolean
     #   resp.internet_protocol #=> String, one of "IPV4", "IPV6"
+    #   resp.store_snapshot_on_local_zone #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/UpdateReplicationConfiguration AWS API Documentation
     #
@@ -5035,6 +5051,10 @@ module Aws::Mgn
     # @option params [String] :internet_protocol
     #   Update replication configuration template internet protocol request.
     #
+    # @option params [Boolean] :store_snapshot_on_local_zone
+    #   Update replication configuration template store snapshot on local zone
+    #   request.
+    #
     # @return [Types::ReplicationConfigurationTemplate] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ReplicationConfigurationTemplate#replication_configuration_template_id #replication_configuration_template_id} => String
@@ -5054,6 +5074,7 @@ module Aws::Mgn
     #   * {Types::ReplicationConfigurationTemplate#use_fips_endpoint #use_fips_endpoint} => Boolean
     #   * {Types::ReplicationConfigurationTemplate#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::ReplicationConfigurationTemplate#internet_protocol #internet_protocol} => String
+    #   * {Types::ReplicationConfigurationTemplate#store_snapshot_on_local_zone #store_snapshot_on_local_zone} => Boolean
     #
     # @example Request syntax with placeholder values
     #
@@ -5076,6 +5097,7 @@ module Aws::Mgn
     #     },
     #     use_fips_endpoint: false,
     #     internet_protocol: "IPV4", # accepts IPV4, IPV6
+    #     store_snapshot_on_local_zone: false,
     #   })
     #
     # @example Response structure
@@ -5100,6 +5122,7 @@ module Aws::Mgn
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
     #   resp.internet_protocol #=> String, one of "IPV4", "IPV6"
+    #   resp.store_snapshot_on_local_zone #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/UpdateReplicationConfigurationTemplate AWS API Documentation
     #
@@ -5423,7 +5446,7 @@ module Aws::Mgn
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-mgn'
-      context[:gem_version] = '1.61.0'
+      context[:gem_version] = '1.62.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -72,6 +72,7 @@ module Aws::OpenSearchService
       attr_accessor data_source_type: Types::DirectQueryDataSourceType
       attr_accessor description: ::String
       attr_accessor open_search_arns: ::Array[::String]
+      attr_accessor data_source_access_policy: ::String
       attr_accessor tag_list: ::Array[Types::Tag]
       SENSITIVE: []
     end
@@ -505,6 +506,7 @@ module Aws::OpenSearchService
     class DataSource
       attr_accessor data_source_arn: ::String
       attr_accessor data_source_description: ::String
+      attr_accessor iam_role_for_data_source_arn: ::String
       SENSITIVE: []
     end
 
@@ -1126,6 +1128,7 @@ module Aws::OpenSearchService
       attr_accessor data_source_type: Types::DirectQueryDataSourceType
       attr_accessor description: ::String
       attr_accessor open_search_arns: ::Array[::String]
+      attr_accessor data_source_access_policy: ::String
       attr_accessor data_source_arn: ::String
       SENSITIVE: []
     end
@@ -1967,6 +1970,7 @@ module Aws::OpenSearchService
       attr_accessor data_source_type: Types::DirectQueryDataSourceType
       attr_accessor description: ::String
       attr_accessor open_search_arns: ::Array[::String]
+      attr_accessor data_source_access_policy: ::String
       SENSITIVE: []
     end
 

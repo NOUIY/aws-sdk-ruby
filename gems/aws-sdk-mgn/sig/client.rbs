@@ -305,6 +305,7 @@ module Aws
         def use_fips_endpoint: () -> bool
         def tags: () -> ::Hash[::String, ::String]
         def internet_protocol: () -> ("IPV4" | "IPV6")
+        def store_snapshot_on_local_zone: () -> bool
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Mgn/Client.html#create_replication_configuration_template-instance_method
       def create_replication_configuration_template: (
@@ -322,7 +323,8 @@ module Aws
                                                        staging_area_tags: Hash[::String, ::String],
                                                        ?use_fips_endpoint: bool,
                                                        ?tags: Hash[::String, ::String],
-                                                       ?internet_protocol: ("IPV4" | "IPV6")
+                                                       ?internet_protocol: ("IPV4" | "IPV6"),
+                                                       ?store_snapshot_on_local_zone: bool
                                                      ) -> _CreateReplicationConfigurationTemplateResponseSuccess
                                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateReplicationConfigurationTemplateResponseSuccess
 
@@ -618,6 +620,7 @@ module Aws
         def staging_area_tags: () -> ::Hash[::String, ::String]
         def use_fips_endpoint: () -> bool
         def internet_protocol: () -> ("IPV4" | "IPV6")
+        def store_snapshot_on_local_zone: () -> bool
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Mgn/Client.html#get_replication_configuration-instance_method
       def get_replication_configuration: (
@@ -1355,6 +1358,7 @@ module Aws
         def staging_area_tags: () -> ::Hash[::String, ::String]
         def use_fips_endpoint: () -> bool
         def internet_protocol: () -> ("IPV4" | "IPV6")
+        def store_snapshot_on_local_zone: () -> bool
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Mgn/Client.html#update_replication_configuration-instance_method
       def update_replication_configuration: (
@@ -1383,7 +1387,8 @@ module Aws
                                               ?staging_area_tags: Hash[::String, ::String],
                                               ?use_fips_endpoint: bool,
                                               ?account_id: ::String,
-                                              ?internet_protocol: ("IPV4" | "IPV6")
+                                              ?internet_protocol: ("IPV4" | "IPV6"),
+                                              ?store_snapshot_on_local_zone: bool
                                             ) -> _UpdateReplicationConfigurationResponseSuccess
                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateReplicationConfigurationResponseSuccess
 
@@ -1406,6 +1411,7 @@ module Aws
         def use_fips_endpoint: () -> bool
         def tags: () -> ::Hash[::String, ::String]
         def internet_protocol: () -> ("IPV4" | "IPV6")
+        def store_snapshot_on_local_zone: () -> bool
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Mgn/Client.html#update_replication_configuration_template-instance_method
       def update_replication_configuration_template: (
@@ -1424,7 +1430,8 @@ module Aws
                                                        ?create_public_ip: bool,
                                                        ?staging_area_tags: Hash[::String, ::String],
                                                        ?use_fips_endpoint: bool,
-                                                       ?internet_protocol: ("IPV4" | "IPV6")
+                                                       ?internet_protocol: ("IPV4" | "IPV6"),
+                                                       ?store_snapshot_on_local_zone: bool
                                                      ) -> _UpdateReplicationConfigurationTemplateResponseSuccess
                                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateReplicationConfigurationTemplateResponseSuccess
 
