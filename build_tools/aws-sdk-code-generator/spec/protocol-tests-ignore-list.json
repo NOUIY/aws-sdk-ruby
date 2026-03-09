@@ -1,4 +1,110 @@
 {
+  "json": {
+    "input": {
+      "AwsJson11SparseMapsSerializeNullValues" : {
+        "description": "Sparse trait support required to test"
+      },
+      "AwsJson11SparseListsSerializeNull" : {
+        "description": "Sparse trait support required to test"
+      }
+    },
+    "output": {
+      "AwsJson11SparseMapsDeserializeNullValues" : {
+        "description": "Sparse trait support required to test"
+      },
+      "AwsJson11SparseListsDeserializeNull" : {
+        "description": "Sparse trait support required to test"
+      }
+    }
+  },
+  "rest-json": {
+    "input": {
+      "RestJsonSparseListsSerializeNull" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RestJsonSparseJsonMaps" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RestJsonSerializesSparseNullMapValues" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RestJsonSerializesZeroValuesInSparseMaps" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RestJsonSerializesSparseSetMap" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RestJsonSerializesSparseSetMapAndRetainsNull" : {
+        "description": "Sparse trait support required to test"
+      }
+    },
+    "output": {
+      "RestJsonSparseListsSerializeNull" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RestJsonSparseJsonMaps" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RestJsonDeserializesSparseNullMapValues" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RestJsonDeserializesZeroValuesInSparseMaps" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RestJsonDeserializesSparseSetMap" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RestJsonDeserializesSparseSetMapAndRetainsNull" : {
+        "description": "Sparse trait support required to test"
+      }
+    }
+  },
+  "smithy-rpc-v2-cbor": {
+    "input": {
+      "RpcV2CborSparseMaps" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RpcV2CborSerializesNullMapValues" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RpcV2CborSerializesSparseSetMap" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RpcV2CborSerializesSparseSetMapAndRetainsNull" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RpcV2CborSerializesZeroValuesInSparseMaps" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RpcV2CborSparseMapsSerializeNullValues" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RpcV2CborSparseListsSerializeNull" : {
+        "description": "Sparse trait support required to test"
+      }
+    },
+    "output": {
+      "RpcV2CborSparseJsonMaps" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RpcV2CborDeserializesNullMapValues" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RpcV2CborDeserializesSparseSetMapAndRetainsNull" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RpcV2CborDeserializesZeroValuesInSparseMaps" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RpcV2CborSparseMapsDeserializeNullValues" : {
+        "description": "Sparse trait support required to test"
+      },
+      "RpcV2CborSparseListsDeserializeNull" : {
+        "description": "Sparse trait support required to test"
+      }
+    }
+
+  },
   "rest-xml": {
     "output": {
       "SimpleScalarPropertiesComplexEscapes": {
