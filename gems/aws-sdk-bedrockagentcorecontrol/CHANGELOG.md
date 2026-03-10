@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.27.0 (2026-03-10)
+------------------
+
+* Feature - Adding first class support for AG-UI protocol in AgentCore Runtime.
+
 1.26.0 (2026-03-06)
 ------------------
 

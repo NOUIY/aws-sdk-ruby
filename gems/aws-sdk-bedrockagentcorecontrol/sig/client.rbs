@@ -141,7 +141,7 @@ module Aws
                                     request_header_allowlist: Array[::String]?
                                   },
                                   ?protocol_configuration: {
-                                    server_protocol: ("MCP" | "HTTP" | "A2A")
+                                    server_protocol: ("MCP" | "HTTP" | "A2A" | "AGUI")
                                   },
                                   ?lifecycle_configuration: {
                                     idle_runtime_session_timeout: ::Integer?,
@@ -1749,7 +1749,7 @@ module Aws
                                     request_header_allowlist: Array[::String]?
                                   },
                                   ?protocol_configuration: {
-                                    server_protocol: ("MCP" | "HTTP" | "A2A")
+                                    server_protocol: ("MCP" | "HTTP" | "A2A" | "AGUI")
                                   },
                                   ?lifecycle_configuration: {
                                     idle_runtime_session_timeout: ::Integer?,

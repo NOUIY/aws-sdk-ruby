@@ -68,6 +68,7 @@ module Aws::ConnectCases
     CommentBodyTextType = Shapes::StringShape.new(name: 'CommentBodyTextType')
     CommentContent = Shapes::StructureShape.new(name: 'CommentContent')
     CommentFilter = Shapes::StructureShape.new(name: 'CommentFilter')
+    CompoundCondition = Shapes::StructureShape.new(name: 'CompoundCondition')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     ConnectCaseContent = Shapes::StructureShape.new(name: 'ConnectCaseContent')
     ConnectCaseFilter = Shapes::StructureShape.new(name: 'ConnectCaseFilter')
@@ -402,9 +403,13 @@ module Aws::ConnectCases
 
     BooleanCondition.add_member(:equal_to, Shapes::ShapeRef.new(shape: BooleanOperands, location_name: "equalTo"))
     BooleanCondition.add_member(:not_equal_to, Shapes::ShapeRef.new(shape: BooleanOperands, location_name: "notEqualTo"))
+    BooleanCondition.add_member(:and_all, Shapes::ShapeRef.new(shape: CompoundCondition, location_name: "andAll"))
+    BooleanCondition.add_member(:or_all, Shapes::ShapeRef.new(shape: CompoundCondition, location_name: "orAll"))
     BooleanCondition.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     BooleanCondition.add_member_subclass(:equal_to, Types::BooleanCondition::EqualTo)
     BooleanCondition.add_member_subclass(:not_equal_to, Types::BooleanCondition::NotEqualTo)
+    BooleanCondition.add_member_subclass(:and_all, Types::BooleanCondition::AndAll)
+    BooleanCondition.add_member_subclass(:or_all, Types::BooleanCondition::OrAll)
     BooleanCondition.add_member_subclass(:unknown, Types::BooleanCondition::Unknown)
     BooleanCondition.struct_class = Types::BooleanCondition
 
@@ -474,6 +479,9 @@ module Aws::ConnectCases
     CommentContent.struct_class = Types::CommentContent
 
     CommentFilter.struct_class = Types::CommentFilter
+
+    CompoundCondition.add_member(:conditions, Shapes::ShapeRef.new(shape: BooleanConditionList, required: true, location_name: "conditions"))
+    CompoundCondition.struct_class = Types::CompoundCondition
 
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ConflictException.struct_class = Types::ConflictException

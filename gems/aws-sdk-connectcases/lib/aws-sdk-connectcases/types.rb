@@ -306,11 +306,23 @@ module Aws::ConnectCases
     #   Tests that operandOne is not equal to operandTwo.
     #   @return [Types::BooleanOperands]
     #
+    # @!attribute [rw] and_all
+    #   Combines multiple conditions with AND operator. All conditions must
+    #   be true for the compound condition to be true.
+    #   @return [Types::CompoundCondition]
+    #
+    # @!attribute [rw] or_all
+    #   Combines multiple conditions with OR operator. At least one
+    #   condition must be true for the compound condition to be true.
+    #   @return [Types::CompoundCondition]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/BooleanCondition AWS API Documentation
     #
     class BooleanCondition < Struct.new(
       :equal_to,
       :not_equal_to,
+      :and_all,
+      :or_all,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -318,6 +330,8 @@ module Aws::ConnectCases
 
       class EqualTo < BooleanCondition; end
       class NotEqualTo < BooleanCondition; end
+      class AndAll < BooleanCondition; end
+      class OrAll < BooleanCondition; end
       class Unknown < BooleanCondition; end
     end
 
@@ -585,6 +599,28 @@ module Aws::ConnectCases
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/CommentFilter AWS API Documentation
     #
     class CommentFilter < Aws::EmptyStructure; end
+
+    # A compound condition that combines multiple boolean conditions using
+    # logical operators. In the Amazon Connect admin website, case rules are
+    # known as *case field conditions*. For more information about case
+    # field conditions, see [Add case field conditions to a case
+    # template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @!attribute [rw] conditions
+    #   The list of conditions to combine using the logical operator.
+    #   @return [Array<Types::BooleanCondition>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/CompoundCondition AWS API Documentation
+    #
+    class CompoundCondition < Struct.new(
+      :conditions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # The requested operation would cause a conflict with the current state
     # of a service resource associated with the request. Resolve the

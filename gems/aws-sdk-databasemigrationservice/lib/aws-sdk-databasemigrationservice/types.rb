@@ -11223,7 +11223,7 @@ module Aws::DatabaseMigrationService
     #   @return [Integer]
     #
     # @!attribute [rw] load_timeout
-    #   The amount of time to wait (in milliseconds) before timing out of
+    #   The amount of time to wait (in seconds) before timing out of
     #   operations performed by DMS on a Redshift cluster, such as Redshift
     #   COPY, INSERT, DELETE, and UPDATE.
     #   @return [Integer]

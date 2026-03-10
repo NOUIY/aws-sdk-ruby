@@ -586,7 +586,7 @@ module Aws::BedrockAgentCoreControl
     #       request_header_allowlist: ["HeaderName"],
     #     },
     #     protocol_configuration: {
-    #       server_protocol: "MCP", # required, accepts MCP, HTTP, A2A
+    #       server_protocol: "MCP", # required, accepts MCP, HTTP, A2A, AGUI
     #     },
     #     lifecycle_configuration: {
     #       idle_runtime_session_timeout: 1,
@@ -2999,7 +2999,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.agent_runtime_artifact.code_configuration.runtime #=> String, one of "PYTHON_3_10", "PYTHON_3_11", "PYTHON_3_12", "PYTHON_3_13", "PYTHON_3_14"
     #   resp.agent_runtime_artifact.code_configuration.entry_point #=> Array
     #   resp.agent_runtime_artifact.code_configuration.entry_point[0] #=> String
-    #   resp.protocol_configuration.server_protocol #=> String, one of "MCP", "HTTP", "A2A"
+    #   resp.protocol_configuration.server_protocol #=> String, one of "MCP", "HTTP", "A2A", "AGUI"
     #   resp.environment_variables #=> Hash
     #   resp.environment_variables["EnvironmentVariableKey"] #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.discovery_url #=> String
@@ -5492,7 +5492,7 @@ module Aws::BedrockAgentCoreControl
     #       request_header_allowlist: ["HeaderName"],
     #     },
     #     protocol_configuration: {
-    #       server_protocol: "MCP", # required, accepts MCP, HTTP, A2A
+    #       server_protocol: "MCP", # required, accepts MCP, HTTP, A2A, AGUI
     #     },
     #     lifecycle_configuration: {
     #       idle_runtime_session_timeout: 1,
@@ -6951,7 +6951,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.26.0'
+      context[:gem_version] = '1.27.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.63.0 (2026-03-10)
+------------------
+
+* Feature - Added functionality for the Required and Hidden case rule types to be conditionally evaluated on up to 5 conditions.
+
 1.62.0 (2026-02-23)
 ------------------
 

@@ -526,6 +526,8 @@ module Aws::ConnectCases
     #   resp.case_rules[0].rule.required.conditions[0].not_equal_to.operand_two.boolean_value #=> Boolean
     #   resp.case_rules[0].rule.required.conditions[0].not_equal_to.operand_two.double_value #=> Float
     #   resp.case_rules[0].rule.required.conditions[0].not_equal_to.result #=> Boolean
+    #   resp.case_rules[0].rule.required.conditions[0].and_all.conditions #=> Types::BooleanConditionList
+    #   resp.case_rules[0].rule.required.conditions[0].or_all.conditions #=> Types::BooleanConditionList
     #   resp.case_rules[0].rule.field_options.parent_field_id #=> String
     #   resp.case_rules[0].rule.field_options.child_field_id #=> String
     #   resp.case_rules[0].rule.field_options.parent_child_field_options_mappings #=> Array
@@ -544,6 +546,8 @@ module Aws::ConnectCases
     #   resp.case_rules[0].rule.hidden.conditions[0].not_equal_to.operand_two.boolean_value #=> Boolean
     #   resp.case_rules[0].rule.hidden.conditions[0].not_equal_to.operand_two.double_value #=> Float
     #   resp.case_rules[0].rule.hidden.conditions[0].not_equal_to.result #=> Boolean
+    #   resp.case_rules[0].rule.hidden.conditions[0].and_all.conditions #=> Types::BooleanConditionList
+    #   resp.case_rules[0].rule.hidden.conditions[0].or_all.conditions #=> Types::BooleanConditionList
     #   resp.case_rules[0].description #=> String
     #   resp.case_rules[0].deleted #=> Boolean
     #   resp.case_rules[0].created_time #=> Time
@@ -833,6 +837,16 @@ module Aws::ConnectCases
     #               },
     #               result: false, # required
     #             },
+    #             and_all: {
+    #               conditions: { # required
+    #                 # recursive BooleanConditionList
+    #               },
+    #             },
+    #             or_all: {
+    #               conditions: { # required
+    #                 # recursive BooleanConditionList
+    #               },
+    #             },
     #           },
     #         ],
     #       },
@@ -875,6 +889,16 @@ module Aws::ConnectCases
     #                 },
     #               },
     #               result: false, # required
+    #             },
+    #             and_all: {
+    #               conditions: { # required
+    #                 # recursive BooleanConditionList
+    #               },
+    #             },
+    #             or_all: {
+    #               conditions: { # required
+    #                 # recursive BooleanConditionList
+    #               },
     #             },
     #           },
     #         ],
@@ -3157,6 +3181,16 @@ module Aws::ConnectCases
     #               },
     #               result: false, # required
     #             },
+    #             and_all: {
+    #               conditions: { # required
+    #                 # recursive BooleanConditionList
+    #               },
+    #             },
+    #             or_all: {
+    #               conditions: { # required
+    #                 # recursive BooleanConditionList
+    #               },
+    #             },
     #           },
     #         ],
     #       },
@@ -3199,6 +3233,16 @@ module Aws::ConnectCases
     #                 },
     #               },
     #               result: false, # required
+    #             },
+    #             and_all: {
+    #               conditions: { # required
+    #                 # recursive BooleanConditionList
+    #               },
+    #             },
+    #             or_all: {
+    #               conditions: { # required
+    #                 # recursive BooleanConditionList
+    #               },
     #             },
     #           },
     #         ],
@@ -3454,7 +3498,7 @@ module Aws::ConnectCases
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connectcases'
-      context[:gem_version] = '1.62.0'
+      context[:gem_version] = '1.63.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

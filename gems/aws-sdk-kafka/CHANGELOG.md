@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.107.0 (2026-03-10)
+------------------
+
+* Feature - Add dual stack endpoint to SDK
+
 1.106.0 (2026-02-16)
 ------------------
 

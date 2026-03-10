@@ -2335,7 +2335,7 @@ module Aws::BedrockAgentCoreControl
     end
 
     class ProtocolConfiguration
-      attr_accessor server_protocol: ("MCP" | "HTTP" | "A2A")
+      attr_accessor server_protocol: ("MCP" | "HTTP" | "A2A" | "AGUI")
       SENSITIVE: []
     end
 

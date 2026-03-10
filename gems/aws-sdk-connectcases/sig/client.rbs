@@ -200,6 +200,12 @@ module Aws
                                           }?
                                         },
                                         result: bool
+                                      }?,
+                                      and_all: {
+                                        conditions: untyped
+                                      }?,
+                                      or_all: {
+                                        conditions: untyped
                                       }?
                                     },
                                   ]
@@ -243,6 +249,12 @@ module Aws
                                           }?
                                         },
                                         result: bool
+                                      }?,
+                                      and_all: {
+                                        conditions: untyped
+                                      }?,
+                                      or_all: {
+                                        conditions: untyped
                                       }?
                                     },
                                   ]
@@ -1143,6 +1155,12 @@ module Aws
                                           }?
                                         },
                                         result: bool
+                                      }?,
+                                      and_all: {
+                                        conditions: untyped
+                                      }?,
+                                      or_all: {
+                                        conditions: untyped
                                       }?
                                     },
                                   ]
@@ -1186,6 +1204,12 @@ module Aws
                                           }?
                                         },
                                         result: bool
+                                      }?,
+                                      and_all: {
+                                        conditions: untyped
+                                      }?,
+                                      or_all: {
+                                        conditions: untyped
                                       }?
                                     },
                                   ]

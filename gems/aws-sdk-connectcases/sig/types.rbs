@@ -105,12 +105,18 @@ module Aws::ConnectCases
     class BooleanCondition
       attr_accessor equal_to: Types::BooleanOperands
       attr_accessor not_equal_to: Types::BooleanOperands
+      attr_accessor and_all: Types::CompoundCondition
+      attr_accessor or_all: Types::CompoundCondition
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class EqualTo < BooleanCondition
       end
       class NotEqualTo < BooleanCondition
+      end
+      class AndAll < BooleanCondition
+      end
+      class OrAll < BooleanCondition
       end
       class Unknown < BooleanCondition
       end
@@ -202,6 +208,11 @@ module Aws::ConnectCases
     end
 
     class CommentFilter < Aws::EmptyStructure
+    end
+
+    class CompoundCondition
+      attr_accessor conditions: ::Array[Types::BooleanCondition]
+      SENSITIVE: []
     end
 
     class ConflictException

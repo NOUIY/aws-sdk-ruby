@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.140.0 (2026-03-10)
+------------------
+
+* Feature - Not need to include to any release notes. The only change is to correct LoadTimeout unit from milliseconds to seconds in RedshiftSettings
+
 1.139.0 (2026-01-16)
 ------------------
 
