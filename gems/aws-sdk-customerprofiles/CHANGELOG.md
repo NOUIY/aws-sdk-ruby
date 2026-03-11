@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.81.0 (2026-03-11)
+------------------
+
+* Feature - Today, Amazon Connect is announcing the ability to filter (include or exclude) recommendations based on properties of items and interactions.
+
 1.80.0 (2026-02-27)
 ------------------
 

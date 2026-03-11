@@ -6925,6 +6925,19 @@ module Aws
                                   ) -> _DescribeTrainingPlanResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeTrainingPlanResponseSuccess
 
+      interface _DescribeTrainingPlanExtensionHistoryResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeTrainingPlanExtensionHistoryResponse]
+        def training_plan_extensions: () -> ::Array[Types::TrainingPlanExtension]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#describe_training_plan_extension_history-instance_method
+      def describe_training_plan_extension_history: (
+                                                      training_plan_arn: ::String,
+                                                      ?next_token: ::String,
+                                                      ?max_results: ::Integer
+                                                    ) -> _DescribeTrainingPlanExtensionHistoryResponseSuccess
+                                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeTrainingPlanExtensionHistoryResponseSuccess
+
       interface _DescribeTransformJobResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeTransformJobResponse]
         def transform_job_name: () -> ::String
@@ -7086,6 +7099,16 @@ module Aws
       def enable_sagemaker_servicecatalog_portfolio: (
                                                      ) -> _EnableSagemakerServicecatalogPortfolioResponseSuccess
                                                    | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _EnableSagemakerServicecatalogPortfolioResponseSuccess
+
+      interface _ExtendTrainingPlanResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ExtendTrainingPlanResponse]
+        def training_plan_extensions: () -> ::Array[Types::TrainingPlanExtension]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#extend_training_plan-instance_method
+      def extend_training_plan: (
+                                  training_plan_extension_offering_id: ::String
+                                ) -> _ExtendTrainingPlanResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ExtendTrainingPlanResponseSuccess
 
       interface _GetDeviceFleetReportResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetDeviceFleetReportResponse]
@@ -8873,6 +8896,7 @@ module Aws
       interface _SearchTrainingPlanOfferingsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::SearchTrainingPlanOfferingsResponse]
         def training_plan_offerings: () -> ::Array[Types::TrainingPlanOffering]
+        def training_plan_extension_offerings: () -> ::Array[Types::TrainingPlanExtensionOffering]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#search_training_plan_offerings-instance_method
       def search_training_plan_offerings: (
@@ -8883,7 +8907,8 @@ module Aws
                                             ?start_time_after: ::Time,
                                             ?end_time_before: ::Time,
                                             ?duration_hours: ::Integer,
-                                            ?target_resources: Array[("training-job" | "hyperpod-cluster" | "endpoint")]
+                                            ?target_resources: Array[("training-job" | "hyperpod-cluster" | "endpoint")],
+                                            ?training_plan_arn: ::String
                                           ) -> _SearchTrainingPlanOfferingsResponseSuccess
                                         | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchTrainingPlanOfferingsResponseSuccess
 

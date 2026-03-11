@@ -19148,6 +19148,60 @@ module Aws::SageMaker
       req.send_request(options)
     end
 
+    # Retrieves the extension history for a specified training plan. The
+    # response includes details about each extension, such as the offering
+    # ID, start and end dates, status, payment status, and cost information.
+    #
+    # @option params [required, String] :training_plan_arn
+    #   The Amazon Resource Name (ARN); of the training plan to retrieve
+    #   extension history for.
+    #
+    # @option params [String] :next_token
+    #   A token to continue pagination if more results are available.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of extensions to return in the response.
+    #
+    # @return [Types::DescribeTrainingPlanExtensionHistoryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeTrainingPlanExtensionHistoryResponse#training_plan_extensions #training_plan_extensions} => Array&lt;Types::TrainingPlanExtension&gt;
+    #   * {Types::DescribeTrainingPlanExtensionHistoryResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_training_plan_extension_history({
+    #     training_plan_arn: "TrainingPlanArn", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.training_plan_extensions #=> Array
+    #   resp.training_plan_extensions[0].training_plan_extension_offering_id #=> String
+    #   resp.training_plan_extensions[0].extended_at #=> Time
+    #   resp.training_plan_extensions[0].start_date #=> Time
+    #   resp.training_plan_extensions[0].end_date #=> Time
+    #   resp.training_plan_extensions[0].status #=> String
+    #   resp.training_plan_extensions[0].payment_status #=> String
+    #   resp.training_plan_extensions[0].availability_zone #=> String
+    #   resp.training_plan_extensions[0].availability_zone_id #=> String
+    #   resp.training_plan_extensions[0].duration_hours #=> Integer
+    #   resp.training_plan_extensions[0].upfront_fee #=> String
+    #   resp.training_plan_extensions[0].currency_code #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeTrainingPlanExtensionHistory AWS API Documentation
+    #
+    # @overload describe_training_plan_extension_history(params = {})
+    # @param [Hash] params ({})
+    def describe_training_plan_extension_history(params = {}, options = {})
+      req = build_request(:describe_training_plan_extension_history, params)
+      req.send_request(options)
+    end
+
     # Returns information about a transform job.
     #
     # @option params [required, String] :transform_job_name
@@ -19806,6 +19860,57 @@ module Aws::SageMaker
     # @param [Hash] params ({})
     def enable_sagemaker_servicecatalog_portfolio(params = {}, options = {})
       req = build_request(:enable_sagemaker_servicecatalog_portfolio, params)
+      req.send_request(options)
+    end
+
+    # Extends an existing training plan by purchasing an extension offering.
+    # This allows you to add additional compute capacity time to your
+    # training plan without creating a new plan or reconfiguring your
+    # workloads.
+    #
+    # To find available extension offerings, use the `
+    # SearchTrainingPlanOfferings ` API with the `TrainingPlanArn`
+    # parameter.
+    #
+    # To view the history of extensions for a training plan, use the `
+    # DescribeTrainingPlanExtensionHistory ` API.
+    #
+    # @option params [required, String] :training_plan_extension_offering_id
+    #   The unique identifier of the extension offering to purchase. You can
+    #   retrieve this ID from the `TrainingPlanExtensionOfferings` in the
+    #   response of the `SearchTrainingPlanOfferings` API.
+    #
+    # @return [Types::ExtendTrainingPlanResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ExtendTrainingPlanResponse#training_plan_extensions #training_plan_extensions} => Array&lt;Types::TrainingPlanExtension&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.extend_training_plan({
+    #     training_plan_extension_offering_id: "TrainingPlanExtensionOfferingId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.training_plan_extensions #=> Array
+    #   resp.training_plan_extensions[0].training_plan_extension_offering_id #=> String
+    #   resp.training_plan_extensions[0].extended_at #=> Time
+    #   resp.training_plan_extensions[0].start_date #=> Time
+    #   resp.training_plan_extensions[0].end_date #=> Time
+    #   resp.training_plan_extensions[0].status #=> String
+    #   resp.training_plan_extensions[0].payment_status #=> String
+    #   resp.training_plan_extensions[0].availability_zone #=> String
+    #   resp.training_plan_extensions[0].availability_zone_id #=> String
+    #   resp.training_plan_extensions[0].duration_hours #=> Integer
+    #   resp.training_plan_extensions[0].upfront_fee #=> String
+    #   resp.training_plan_extensions[0].currency_code #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ExtendTrainingPlan AWS API Documentation
+    #
+    # @overload extend_training_plan(params = {})
+    # @param [Hash] params ({})
+    def extend_training_plan(params = {}, options = {})
+      req = build_request(:extend_training_plan, params)
       req.send_request(options)
     end
 
@@ -27320,9 +27425,15 @@ module Aws::SageMaker
     #     provide compute resources to SageMaker endpoints for model
     #     deployment.
     #
+    # @option params [String] :training_plan_arn
+    #   The Amazon Resource Name (ARN); of an existing training plan to search
+    #   for extension offerings. When specified, the API returns extension
+    #   offerings that can be used to extend the specified training plan.
+    #
     # @return [Types::SearchTrainingPlanOfferingsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::SearchTrainingPlanOfferingsResponse#training_plan_offerings #training_plan_offerings} => Array&lt;Types::TrainingPlanOffering&gt;
+    #   * {Types::SearchTrainingPlanOfferingsResponse#training_plan_extension_offerings #training_plan_extension_offerings} => Array&lt;Types::TrainingPlanExtensionOffering&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -27335,6 +27446,7 @@ module Aws::SageMaker
     #     end_time_before: Time.now,
     #     duration_hours: 1,
     #     target_resources: ["training-job"], # accepts training-job, hyperpod-cluster, endpoint
+    #     training_plan_arn: "String",
     #   })
     #
     # @example Response structure
@@ -27360,6 +27472,16 @@ module Aws::SageMaker
     #   resp.training_plan_offerings[0].reserved_capacity_offerings[0].duration_minutes #=> Integer
     #   resp.training_plan_offerings[0].reserved_capacity_offerings[0].start_time #=> Time
     #   resp.training_plan_offerings[0].reserved_capacity_offerings[0].end_time #=> Time
+    #   resp.training_plan_offerings[0].reserved_capacity_offerings[0].extension_start_time #=> Time
+    #   resp.training_plan_offerings[0].reserved_capacity_offerings[0].extension_end_time #=> Time
+    #   resp.training_plan_extension_offerings #=> Array
+    #   resp.training_plan_extension_offerings[0].training_plan_extension_offering_id #=> String
+    #   resp.training_plan_extension_offerings[0].availability_zone #=> String
+    #   resp.training_plan_extension_offerings[0].start_date #=> Time
+    #   resp.training_plan_extension_offerings[0].end_date #=> Time
+    #   resp.training_plan_extension_offerings[0].duration_hours #=> Integer
+    #   resp.training_plan_extension_offerings[0].upfront_fee #=> String
+    #   resp.training_plan_extension_offerings[0].currency_code #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/SearchTrainingPlanOfferings AWS API Documentation
     #
@@ -32373,7 +32495,7 @@ module Aws::SageMaker
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemaker'
-      context[:gem_version] = '1.353.0'
+      context[:gem_version] = '1.354.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

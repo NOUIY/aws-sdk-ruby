@@ -386,6 +386,7 @@ module Aws
   autoload :Signin, 'aws-sdk-core'
   autoload :SimSpaceWeaver, 'aws-sdk-simspaceweaver'
   autoload :SimpleDB, 'aws-sdk-simpledb'
+  autoload :SimpleDBv2, 'aws-sdk-simpledbv2'
   autoload :SnowDeviceManagement, 'aws-sdk-snowdevicemanagement'
   autoload :Snowball, 'aws-sdk-snowball'
   autoload :SocialMessaging, 'aws-sdk-socialmessaging'

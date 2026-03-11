@@ -194,6 +194,7 @@ module Aws::SageMaker
     Autotune = Shapes::StructureShape.new(name: 'Autotune')
     AutotuneMode = Shapes::StringShape.new(name: 'AutotuneMode')
     AvailabilityZone = Shapes::StringShape.new(name: 'AvailabilityZone')
+    AvailabilityZoneId = Shapes::StringShape.new(name: 'AvailabilityZoneId')
     AvailableInstanceCount = Shapes::IntegerShape.new(name: 'AvailableInstanceCount')
     AvailableSpareInstanceCount = Shapes::IntegerShape.new(name: 'AvailableSpareInstanceCount')
     AvailableUpgrade = Shapes::StructureShape.new(name: 'AvailableUpgrade')
@@ -913,6 +914,8 @@ module Aws::SageMaker
     DescribeSubscribedWorkteamResponse = Shapes::StructureShape.new(name: 'DescribeSubscribedWorkteamResponse')
     DescribeTrainingJobRequest = Shapes::StructureShape.new(name: 'DescribeTrainingJobRequest')
     DescribeTrainingJobResponse = Shapes::StructureShape.new(name: 'DescribeTrainingJobResponse')
+    DescribeTrainingPlanExtensionHistoryRequest = Shapes::StructureShape.new(name: 'DescribeTrainingPlanExtensionHistoryRequest')
+    DescribeTrainingPlanExtensionHistoryResponse = Shapes::StructureShape.new(name: 'DescribeTrainingPlanExtensionHistoryResponse')
     DescribeTrainingPlanRequest = Shapes::StructureShape.new(name: 'DescribeTrainingPlanRequest')
     DescribeTrainingPlanResponse = Shapes::StructureShape.new(name: 'DescribeTrainingPlanResponse')
     DescribeTransformJobRequest = Shapes::StructureShape.new(name: 'DescribeTransformJobRequest')
@@ -1097,6 +1100,8 @@ module Aws::SageMaker
     Explainability = Shapes::StructureShape.new(name: 'Explainability')
     ExplainabilityLocation = Shapes::StringShape.new(name: 'ExplainabilityLocation')
     ExplainerConfig = Shapes::StructureShape.new(name: 'ExplainerConfig')
+    ExtendTrainingPlanRequest = Shapes::StructureShape.new(name: 'ExtendTrainingPlanRequest')
+    ExtendTrainingPlanResponse = Shapes::StructureShape.new(name: 'ExtendTrainingPlanResponse')
     FSxLustreConfig = Shapes::StructureShape.new(name: 'FSxLustreConfig')
     FSxLustreFileSystem = Shapes::StructureShape.new(name: 'FSxLustreFileSystem')
     FSxLustreFileSystemConfig = Shapes::StructureShape.new(name: 'FSxLustreFileSystemConfig')
@@ -2579,6 +2584,12 @@ module Aws::SageMaker
     TrainingPlanDurationHours = Shapes::IntegerShape.new(name: 'TrainingPlanDurationHours')
     TrainingPlanDurationHoursInput = Shapes::IntegerShape.new(name: 'TrainingPlanDurationHoursInput')
     TrainingPlanDurationMinutes = Shapes::IntegerShape.new(name: 'TrainingPlanDurationMinutes')
+    TrainingPlanExtension = Shapes::StructureShape.new(name: 'TrainingPlanExtension')
+    TrainingPlanExtensionDurationHours = Shapes::IntegerShape.new(name: 'TrainingPlanExtensionDurationHours')
+    TrainingPlanExtensionOffering = Shapes::StructureShape.new(name: 'TrainingPlanExtensionOffering')
+    TrainingPlanExtensionOfferingId = Shapes::StringShape.new(name: 'TrainingPlanExtensionOfferingId')
+    TrainingPlanExtensionOfferings = Shapes::ListShape.new(name: 'TrainingPlanExtensionOfferings')
+    TrainingPlanExtensions = Shapes::ListShape.new(name: 'TrainingPlanExtensions')
     TrainingPlanFilter = Shapes::StructureShape.new(name: 'TrainingPlanFilter')
     TrainingPlanFilterName = Shapes::StringShape.new(name: 'TrainingPlanFilterName')
     TrainingPlanFilters = Shapes::ListShape.new(name: 'TrainingPlanFilters')
@@ -6572,6 +6583,15 @@ module Aws::SageMaker
     DescribeTrainingJobResponse.add_member(:output_model_package_arn, Shapes::ShapeRef.new(shape: ModelPackageArn, location_name: "OutputModelPackageArn"))
     DescribeTrainingJobResponse.struct_class = Types::DescribeTrainingJobResponse
 
+    DescribeTrainingPlanExtensionHistoryRequest.add_member(:training_plan_arn, Shapes::ShapeRef.new(shape: TrainingPlanArn, required: true, location_name: "TrainingPlanArn"))
+    DescribeTrainingPlanExtensionHistoryRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    DescribeTrainingPlanExtensionHistoryRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "MaxResults"))
+    DescribeTrainingPlanExtensionHistoryRequest.struct_class = Types::DescribeTrainingPlanExtensionHistoryRequest
+
+    DescribeTrainingPlanExtensionHistoryResponse.add_member(:training_plan_extensions, Shapes::ShapeRef.new(shape: TrainingPlanExtensions, required: true, location_name: "TrainingPlanExtensions"))
+    DescribeTrainingPlanExtensionHistoryResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    DescribeTrainingPlanExtensionHistoryResponse.struct_class = Types::DescribeTrainingPlanExtensionHistoryResponse
+
     DescribeTrainingPlanRequest.add_member(:training_plan_name, Shapes::ShapeRef.new(shape: TrainingPlanName, required: true, location_name: "TrainingPlanName"))
     DescribeTrainingPlanRequest.struct_class = Types::DescribeTrainingPlanRequest
 
@@ -7133,6 +7153,12 @@ module Aws::SageMaker
 
     ExplainerConfig.add_member(:clarify_explainer_config, Shapes::ShapeRef.new(shape: ClarifyExplainerConfig, location_name: "ClarifyExplainerConfig"))
     ExplainerConfig.struct_class = Types::ExplainerConfig
+
+    ExtendTrainingPlanRequest.add_member(:training_plan_extension_offering_id, Shapes::ShapeRef.new(shape: TrainingPlanExtensionOfferingId, required: true, location_name: "TrainingPlanExtensionOfferingId"))
+    ExtendTrainingPlanRequest.struct_class = Types::ExtendTrainingPlanRequest
+
+    ExtendTrainingPlanResponse.add_member(:training_plan_extensions, Shapes::ShapeRef.new(shape: TrainingPlanExtensions, required: true, location_name: "TrainingPlanExtensions"))
+    ExtendTrainingPlanResponse.struct_class = Types::ExtendTrainingPlanResponse
 
     FSxLustreConfig.add_member(:size_in_gi_b, Shapes::ShapeRef.new(shape: FSxLustreSizeInGiB, required: true, location_name: "SizeInGiB"))
     FSxLustreConfig.add_member(:per_unit_storage_throughput, Shapes::ShapeRef.new(shape: FSxLustrePerUnitStorageThroughput, required: true, location_name: "PerUnitStorageThroughput"))
@@ -10753,6 +10779,8 @@ module Aws::SageMaker
     ReservedCapacityOffering.add_member(:duration_minutes, Shapes::ShapeRef.new(shape: ReservedCapacityDurationMinutes, location_name: "DurationMinutes"))
     ReservedCapacityOffering.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "StartTime"))
     ReservedCapacityOffering.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndTime"))
+    ReservedCapacityOffering.add_member(:extension_start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "ExtensionStartTime"))
+    ReservedCapacityOffering.add_member(:extension_end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "ExtensionEndTime"))
     ReservedCapacityOffering.struct_class = Types::ReservedCapacityOffering
 
     ReservedCapacityOfferings.member = Shapes::ShapeRef.new(shape: ReservedCapacityOffering)
@@ -10979,9 +11007,11 @@ module Aws::SageMaker
     SearchTrainingPlanOfferingsRequest.add_member(:end_time_before, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndTimeBefore"))
     SearchTrainingPlanOfferingsRequest.add_member(:duration_hours, Shapes::ShapeRef.new(shape: TrainingPlanDurationHoursInput, location_name: "DurationHours"))
     SearchTrainingPlanOfferingsRequest.add_member(:target_resources, Shapes::ShapeRef.new(shape: SageMakerResourceNames, location_name: "TargetResources"))
+    SearchTrainingPlanOfferingsRequest.add_member(:training_plan_arn, Shapes::ShapeRef.new(shape: String, location_name: "TrainingPlanArn"))
     SearchTrainingPlanOfferingsRequest.struct_class = Types::SearchTrainingPlanOfferingsRequest
 
     SearchTrainingPlanOfferingsResponse.add_member(:training_plan_offerings, Shapes::ShapeRef.new(shape: TrainingPlanOfferings, required: true, location_name: "TrainingPlanOfferings"))
+    SearchTrainingPlanOfferingsResponse.add_member(:training_plan_extension_offerings, Shapes::ShapeRef.new(shape: TrainingPlanExtensionOfferings, location_name: "TrainingPlanExtensionOfferings"))
     SearchTrainingPlanOfferingsResponse.struct_class = Types::SearchTrainingPlanOfferingsResponse
 
     SecondaryStatusTransition.add_member(:status, Shapes::ShapeRef.new(shape: SecondaryStatus, required: true, location_name: "Status"))
@@ -11496,6 +11526,32 @@ module Aws::SageMaker
     TrainingJobSummary.struct_class = Types::TrainingJobSummary
 
     TrainingPlanArns.member = Shapes::ShapeRef.new(shape: TrainingPlanArn)
+
+    TrainingPlanExtension.add_member(:training_plan_extension_offering_id, Shapes::ShapeRef.new(shape: TrainingPlanExtensionOfferingId, required: true, location_name: "TrainingPlanExtensionOfferingId"))
+    TrainingPlanExtension.add_member(:extended_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "ExtendedAt"))
+    TrainingPlanExtension.add_member(:start_date, Shapes::ShapeRef.new(shape: Timestamp, location_name: "StartDate"))
+    TrainingPlanExtension.add_member(:end_date, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndDate"))
+    TrainingPlanExtension.add_member(:status, Shapes::ShapeRef.new(shape: String256, location_name: "Status"))
+    TrainingPlanExtension.add_member(:payment_status, Shapes::ShapeRef.new(shape: String256, location_name: "PaymentStatus"))
+    TrainingPlanExtension.add_member(:availability_zone, Shapes::ShapeRef.new(shape: String256, location_name: "AvailabilityZone"))
+    TrainingPlanExtension.add_member(:availability_zone_id, Shapes::ShapeRef.new(shape: AvailabilityZoneId, location_name: "AvailabilityZoneId"))
+    TrainingPlanExtension.add_member(:duration_hours, Shapes::ShapeRef.new(shape: TrainingPlanExtensionDurationHours, location_name: "DurationHours"))
+    TrainingPlanExtension.add_member(:upfront_fee, Shapes::ShapeRef.new(shape: String256, location_name: "UpfrontFee"))
+    TrainingPlanExtension.add_member(:currency_code, Shapes::ShapeRef.new(shape: CurrencyCode, location_name: "CurrencyCode"))
+    TrainingPlanExtension.struct_class = Types::TrainingPlanExtension
+
+    TrainingPlanExtensionOffering.add_member(:training_plan_extension_offering_id, Shapes::ShapeRef.new(shape: TrainingPlanExtensionOfferingId, required: true, location_name: "TrainingPlanExtensionOfferingId"))
+    TrainingPlanExtensionOffering.add_member(:availability_zone, Shapes::ShapeRef.new(shape: String256, location_name: "AvailabilityZone"))
+    TrainingPlanExtensionOffering.add_member(:start_date, Shapes::ShapeRef.new(shape: Timestamp, location_name: "StartDate"))
+    TrainingPlanExtensionOffering.add_member(:end_date, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndDate"))
+    TrainingPlanExtensionOffering.add_member(:duration_hours, Shapes::ShapeRef.new(shape: TrainingPlanExtensionDurationHours, location_name: "DurationHours"))
+    TrainingPlanExtensionOffering.add_member(:upfront_fee, Shapes::ShapeRef.new(shape: String256, location_name: "UpfrontFee"))
+    TrainingPlanExtensionOffering.add_member(:currency_code, Shapes::ShapeRef.new(shape: CurrencyCode, location_name: "CurrencyCode"))
+    TrainingPlanExtensionOffering.struct_class = Types::TrainingPlanExtensionOffering
+
+    TrainingPlanExtensionOfferings.member = Shapes::ShapeRef.new(shape: TrainingPlanExtensionOffering)
+
+    TrainingPlanExtensions.member = Shapes::ShapeRef.new(shape: TrainingPlanExtension)
 
     TrainingPlanFilter.add_member(:name, Shapes::ShapeRef.new(shape: TrainingPlanFilterName, required: true, location_name: "Name"))
     TrainingPlanFilter.add_member(:value, Shapes::ShapeRef.new(shape: String64, required: true, location_name: "Value"))
@@ -14280,6 +14336,21 @@ module Aws::SageMaker
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
       end)
 
+      api.add_operation(:describe_training_plan_extension_history, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeTrainingPlanExtensionHistory"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeTrainingPlanExtensionHistoryRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeTrainingPlanExtensionHistoryResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:describe_transform_job, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DescribeTransformJob"
         o.http_method = "POST"
@@ -14365,6 +14436,15 @@ module Aws::SageMaker
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: EnableSagemakerServicecatalogPortfolioInput)
         o.output = Shapes::ShapeRef.new(shape: EnableSagemakerServicecatalogPortfolioOutput)
+      end)
+
+      api.add_operation(:extend_training_plan, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ExtendTrainingPlan"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ExtendTrainingPlanRequest)
+        o.output = Shapes::ShapeRef.new(shape: ExtendTrainingPlanResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
       end)
 
       api.add_operation(:get_device_fleet_report, Seahorse::Model::Operation.new.tap do |o|

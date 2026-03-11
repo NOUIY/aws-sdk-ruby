@@ -624,6 +624,7 @@ module Aws
             'Signin' => 'signin',
             'SimSpaceWeaver' => 'simspaceweaver',
             'SimpleDB' => 'sdb',
+            'SimpleDBv2' => 'sdb',
             'SnowDeviceManagement' => 'snow-device-management',
             'Snowball' => 'snowball',
             'SocialMessaging' => 'social-messaging',

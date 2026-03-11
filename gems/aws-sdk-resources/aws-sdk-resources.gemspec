@@ -392,6 +392,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency('aws-sdk-signerdata', '~> 1')
   spec.add_dependency('aws-sdk-simspaceweaver', '~> 1')
   spec.add_dependency('aws-sdk-simpledb', '~> 1')
+  spec.add_dependency('aws-sdk-simpledbv2', '~> 1')
   spec.add_dependency('aws-sdk-snowdevicemanagement', '~> 1')
   spec.add_dependency('aws-sdk-snowball', '~> 1')
   spec.add_dependency('aws-sdk-socialmessaging', '~> 1')

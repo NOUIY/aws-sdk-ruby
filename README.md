@@ -644,6 +644,7 @@ RubyGems.org page under "LINKS" section.
 | Amazon Simple Systems Manager (SSM)                   | Aws::SSM                                 | aws-sdk-ssm                                 | 2014-11-06  |
 | Amazon Simple Workflow Service                        | Aws::SWF                                 | aws-sdk-swf                                 | 2012-01-25  |
 | Amazon SimpleDB                                       | Aws::SimpleDB                            | aws-sdk-simpledb                            | 2009-04-15  |
+| Amazon SimpleDB v2                                    | Aws::SimpleDBv2                          | aws-sdk-simpledbv2                          | 2025-09-26  |
 | Amazon Textract                                       | Aws::Textract                            | aws-sdk-textract                            | 2018-06-27  |
 | Amazon Timestream Query                               | Aws::TimestreamQuery                     | aws-sdk-timestreamquery                     | 2018-11-01  |
 | Amazon Timestream Write                               | Aws::TimestreamWrite                     | aws-sdk-timestreamwrite                     | 2018-11-01  |

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.354.0 (2026-03-11)
+------------------
+
+* Feature - SageMaker training plans allow you to extend your existing training plans to avoid workload interruptions without workload reconfiguration. When a training plan is approaching expiration, you can extend it directly through the SageMaker AI console or programmatically using the API or AWS CLI.
+
 1.353.0 (2026-03-05)
 ------------------
 

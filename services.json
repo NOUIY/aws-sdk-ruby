@@ -1248,6 +1248,9 @@
     "models": "sdb/2009-04-15",
     "legacyEndpoints": true
   },
+  "SimpleDBv2": {
+    "models": "simpledbv2/2025-09-26"
+  },
   "SnowDeviceManagement": {
     "models": "snow-device-management/2021-08-04"
   },

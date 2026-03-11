@@ -1779,6 +1779,59 @@ module Aws::CustomerProfiles
     #   The unique name of the domain.
     #   @return [String]
     #
+    # @!attribute [rw] recommender_filter_name
+    #   The name of the recommender filter. The name must be unique within
+    #   the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommender_filter_expression
+    #   The filter expression that defines which items to include or exclude
+    #   from recommendations.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the recommender filter.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CreateRecommenderFilterRequest AWS API Documentation
+    #
+    class CreateRecommenderFilterRequest < Struct.new(
+      :domain_name,
+      :recommender_filter_name,
+      :recommender_filter_expression,
+      :description,
+      :tags)
+      SENSITIVE = [:recommender_filter_expression, :description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] recommender_filter_arn
+    #   The Amazon Resource Name (ARN) of the recommender filter.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CreateRecommenderFilterResponse AWS API Documentation
+    #
+    class CreateRecommenderFilterResponse < Struct.new(
+      :recommender_filter_arn,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
     # @!attribute [rw] recommender_name
     #   The name of the recommender.
     #   @return [String]
@@ -2430,6 +2483,35 @@ module Aws::CustomerProfiles
     #   The unique name of the domain.
     #   @return [String]
     #
+    # @!attribute [rw] recommender_filter_name
+    #   The name of the recommender filter to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DeleteRecommenderFilterRequest AWS API Documentation
+    #
+    class DeleteRecommenderFilterRequest < Struct.new(
+      :domain_name,
+      :recommender_filter_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] message
+    #   A message that indicates the delete request is done.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DeleteRecommenderFilterResponse AWS API Documentation
+    #
+    class DeleteRecommenderFilterResponse < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
     # @!attribute [rw] recommender_name
     #   The recommender name.
     #   @return [String]
@@ -2740,11 +2822,17 @@ module Aws::CustomerProfiles
     #   valid.
     #   @return [Float]
     #
+    # @!attribute [rw] event_weight
+    #   The weight of the event type. A higher weight means higher
+    #   importance of the event type for the created solution.
+    #   @return [Float]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/EventParameters AWS API Documentation
     #
     class EventParameters < Struct.new(
       :event_type,
-      :event_value_threshold)
+      :event_value_threshold,
+      :event_weight)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4483,10 +4571,35 @@ module Aws::CustomerProfiles
     #   to tailor recommendations.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] recommender_filters
+    #   A list of filters to apply to the returned recommendations. Filters
+    #   define criteria for including or excluding items from the
+    #   recommendation results.
+    #   @return [Array<Types::RecommenderFilter>]
+    #
+    # @!attribute [rw] recommender_promotional_filters
+    #   A list of promotional filters to apply to the recommendations.
+    #   Promotional filters allow you to promote specific items within a
+    #   configurable subset of recommendation results.
+    #   @return [Array<Types::RecommenderPromotionalFilter>]
+    #
+    # @!attribute [rw] candidate_ids
+    #   A list of item IDs to rank for the user. Use this when you want to
+    #   re-rank a specific set of items rather than getting recommendations
+    #   from the full item catalog. Required for personalized-ranking use
+    #   cases.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] max_results
     #   The maximum number of recommendations to return. The default value
     #   is 10.
     #   @return [Integer]
+    #
+    # @!attribute [rw] metadata_config
+    #   Configuration for including item metadata in the recommendation
+    #   response. Use this to specify which metadata columns to return
+    #   alongside recommended items.
+    #   @return [Types::MetadataConfig]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetProfileRecommendationsRequest AWS API Documentation
     #
@@ -4495,7 +4608,11 @@ module Aws::CustomerProfiles
       :profile_id,
       :recommender_name,
       :context,
-      :max_results)
+      :recommender_filters,
+      :recommender_promotional_filters,
+      :candidate_ids,
+      :max_results,
+      :metadata_config)
       SENSITIVE = [:context]
       include Aws::Structure
     end
@@ -4509,6 +4626,68 @@ module Aws::CustomerProfiles
     class GetProfileRecommendationsResponse < Struct.new(
       :recommendations)
       SENSITIVE = [:recommendations]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommender_filter_name
+    #   The name of the recommender filter to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetRecommenderFilterRequest AWS API Documentation
+    #
+    class GetRecommenderFilterRequest < Struct.new(
+      :domain_name,
+      :recommender_filter_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] recommender_filter_name
+    #   The name of the recommender filter.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommender_filter_expression
+    #   The filter expression that defines which items to include or exclude
+    #   from recommendations.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the recommender filter was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The status of the recommender filter.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the recommender filter.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_reason
+    #   If the recommender filter failed, provides the reason for the
+    #   failure.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetRecommenderFilterResponse AWS API Documentation
+    #
+    class GetRecommenderFilterResponse < Struct.new(
+      :recommender_filter_name,
+      :recommender_filter_expression,
+      :created_at,
+      :status,
+      :description,
+      :failure_reason,
+      :tags)
+      SENSITIVE = [:recommender_filter_expression, :description]
       include Aws::Structure
     end
 
@@ -5331,6 +5510,22 @@ module Aws::CustomerProfiles
     #
     class IncrementalPullConfig < Struct.new(
       :datetime_type_field_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration settings for inference behavior of the recommender.
+    #
+    # @!attribute [rw] min_provisioned_tps
+    #   The minimum provisioned transactions per second (TPS) that the
+    #   recommender supports. The default value is 1. A high
+    #   MinProvisionedTPS will increase your cost.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/InferenceConfig AWS API Documentation
+    #
+    class InferenceConfig < Struct.new(
+      :min_provisioned_tps)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6511,6 +6706,49 @@ module Aws::CustomerProfiles
       include Aws::Structure
     end
 
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of recommender filters to return in the response.
+    #   The default value is 100.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   A token received from a previous ListRecommenderFilters call to
+    #   retrieve the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListRecommenderFiltersRequest AWS API Documentation
+    #
+    class ListRecommenderFiltersRequest < Struct.new(
+      :domain_name,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   A token to retrieve the next page of results. Null if there are no
+    #   more results to retrieve.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommender_filters
+    #   A list of recommender filters and their properties in the specified
+    #   domain.
+    #   @return [Array<Types::RecommenderFilterSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListRecommenderFiltersResponse AWS API Documentation
+    #
+    class ListRecommenderFiltersResponse < Struct.new(
+      :next_token,
+      :recommender_filters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] max_results
     #   The maximum number of recommender recipes to return in the response.
     #   The default value is 100.
@@ -7036,6 +7274,21 @@ module Aws::CustomerProfiles
     #
     class MergeProfilesResponse < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for metadata to include in recommendation responses.
+    #
+    # @!attribute [rw] metadata_columns
+    #   A list of metadata column names from your Items dataset to include
+    #   in the recommendation response.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/MetadataConfig AWS API Documentation
+    #
+    class MetadataConfig < Struct.new(
+      :metadata_columns)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8237,12 +8490,126 @@ module Aws::CustomerProfiles
     #   How often the recommender should retrain its model with new data.
     #   @return [Integer]
     #
+    # @!attribute [rw] inference_config
+    #   Configuration settings for how the recommender handles inference
+    #   requests.
+    #   @return [Types::InferenceConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/RecommenderConfig AWS API Documentation
     #
     class RecommenderConfig < Struct.new(
       :events_config,
-      :training_frequency)
+      :training_frequency,
+      :inference_config)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A filter that specifies criteria for including or excluding items from
+    # recommendations.
+    #
+    # @!attribute [rw] name
+    #   The name of the recommender filter to apply.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   The values to use when filtering recommendations. For each
+    #   placeholder parameter in your filter expression, provide the
+    #   parameter name (in matching case) as a key and the filter value(s)
+    #   as the corresponding value. Separate multiple values for one
+    #   parameter with a comma.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/RecommenderFilter AWS API Documentation
+    #
+    class RecommenderFilter < Struct.new(
+      :name,
+      :values)
+      SENSITIVE = [:values]
+      include Aws::Structure
+    end
+
+    # Provides a summary of a recommender filter's configuration and
+    # current state.
+    #
+    # @!attribute [rw] recommender_filter_name
+    #   The name of the recommender filter.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommender_filter_expression
+    #   The filter expression that defines which items to include or exclude
+    #   from recommendations.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the recommender filter was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] description
+    #   A description of the recommender filter's purpose and
+    #   characteristics.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current operational status of the recommender filter.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_reason
+    #   If the recommender filter is in a failed state, provides the reason
+    #   for the failure.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/RecommenderFilterSummary AWS API Documentation
+    #
+    class RecommenderFilterSummary < Struct.new(
+      :recommender_filter_name,
+      :recommender_filter_expression,
+      :created_at,
+      :description,
+      :status,
+      :failure_reason,
+      :tags)
+      SENSITIVE = [:recommender_filter_expression, :description]
+      include Aws::Structure
+    end
+
+    # Contains information on a promotion. A promotion defines additional
+    # business rules that apply to a configurable subset of recommended
+    # items.
+    #
+    # @!attribute [rw] name
+    #   The name of the recommender filter to use for the promotion.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   The values to use when promoting items. For each placeholder
+    #   parameter in your promotion's filter expression, provide the
+    #   parameter name (in matching case) as a key and the filter value(s)
+    #   as the corresponding value. Separate multiple values for one
+    #   parameter with a comma.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] promotion_name
+    #   The name of the promotion.
+    #   @return [String]
+    #
+    # @!attribute [rw] percent_promoted_items
+    #   The percentage of recommended items to apply the promotion to.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/RecommenderPromotionalFilter AWS API Documentation
+    #
+    class RecommenderPromotionalFilter < Struct.new(
+      :name,
+      :values,
+      :promotion_name,
+      :percent_promoted_items)
+      SENSITIVE = [:values]
       include Aws::Structure
     end
 

@@ -1528,7 +1528,7 @@ module Aws::EKS
     #     },
     #     deletion_protection: false,
     #     control_plane_scaling_config: {
-    #       tier: "standard", # accepts standard, tier-xl, tier-2xl, tier-4xl
+    #       tier: "standard", # accepts standard, tier-xl, tier-2xl, tier-4xl, tier-8xl
     #     },
     #   })
     #
@@ -1600,7 +1600,7 @@ module Aws::EKS
     #   resp.cluster.compute_config.node_role_arn #=> String
     #   resp.cluster.storage_config.block_storage.enabled #=> Boolean
     #   resp.cluster.deletion_protection #=> Boolean
-    #   resp.cluster.control_plane_scaling_config.tier #=> String, one of "standard", "tier-xl", "tier-2xl", "tier-4xl"
+    #   resp.cluster.control_plane_scaling_config.tier #=> String, one of "standard", "tier-xl", "tier-2xl", "tier-4xl", "tier-8xl"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/CreateCluster AWS API Documentation
     #
@@ -2676,7 +2676,7 @@ module Aws::EKS
     #   resp.cluster.compute_config.node_role_arn #=> String
     #   resp.cluster.storage_config.block_storage.enabled #=> Boolean
     #   resp.cluster.deletion_protection #=> Boolean
-    #   resp.cluster.control_plane_scaling_config.tier #=> String, one of "standard", "tier-xl", "tier-2xl", "tier-4xl"
+    #   resp.cluster.control_plane_scaling_config.tier #=> String, one of "standard", "tier-xl", "tier-2xl", "tier-4xl", "tier-8xl"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/DeleteCluster AWS API Documentation
     #
@@ -3023,7 +3023,7 @@ module Aws::EKS
     #   resp.cluster.compute_config.node_role_arn #=> String
     #   resp.cluster.storage_config.block_storage.enabled #=> Boolean
     #   resp.cluster.deletion_protection #=> Boolean
-    #   resp.cluster.control_plane_scaling_config.tier #=> String, one of "standard", "tier-xl", "tier-2xl", "tier-4xl"
+    #   resp.cluster.control_plane_scaling_config.tier #=> String, one of "standard", "tier-xl", "tier-2xl", "tier-4xl", "tier-8xl"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/DeregisterCluster AWS API Documentation
     #
@@ -3486,7 +3486,7 @@ module Aws::EKS
     #   resp.cluster.compute_config.node_role_arn #=> String
     #   resp.cluster.storage_config.block_storage.enabled #=> Boolean
     #   resp.cluster.deletion_protection #=> Boolean
-    #   resp.cluster.control_plane_scaling_config.tier #=> String, one of "standard", "tier-xl", "tier-2xl", "tier-4xl"
+    #   resp.cluster.control_plane_scaling_config.tier #=> String, one of "standard", "tier-xl", "tier-2xl", "tier-4xl", "tier-8xl"
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -5150,7 +5150,7 @@ module Aws::EKS
     #   resp.cluster.compute_config.node_role_arn #=> String
     #   resp.cluster.storage_config.block_storage.enabled #=> Boolean
     #   resp.cluster.deletion_protection #=> Boolean
-    #   resp.cluster.control_plane_scaling_config.tier #=> String, one of "standard", "tier-xl", "tier-2xl", "tier-4xl"
+    #   resp.cluster.control_plane_scaling_config.tier #=> String, one of "standard", "tier-xl", "tier-2xl", "tier-4xl", "tier-8xl"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/RegisterCluster AWS API Documentation
     #
@@ -5795,7 +5795,7 @@ module Aws::EKS
     #     },
     #     deletion_protection: false,
     #     control_plane_scaling_config: {
-    #       tier: "standard", # accepts standard, tier-xl, tier-2xl, tier-4xl
+    #       tier: "standard", # accepts standard, tier-xl, tier-2xl, tier-4xl, tier-8xl
     #     },
     #   })
     #
@@ -6399,7 +6399,7 @@ module Aws::EKS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-eks'
-      context[:gem_version] = '1.160.0'
+      context[:gem_version] = '1.161.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

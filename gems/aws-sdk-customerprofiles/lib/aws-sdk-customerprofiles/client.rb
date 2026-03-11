@@ -1697,17 +1697,21 @@ module Aws::CustomerProfiles
     #   resp = client.create_recommender({
     #     domain_name: "name", # required
     #     recommender_name: "name", # required
-    #     recommender_recipe_name: "recommended-for-you", # required, accepts recommended-for-you, similar-items, frequently-paired-items, popular-items, trending-now
+    #     recommender_recipe_name: "recommended-for-you", # required, accepts recommended-for-you, similar-items, frequently-paired-items, popular-items, trending-now, personalized-ranking
     #     recommender_config: {
-    #       events_config: { # required
+    #       events_config: {
     #         event_parameters_list: [ # required
     #           {
     #             event_type: "EventParametersEventTypeString", # required
     #             event_value_threshold: 1.0,
+    #             event_weight: 1.0,
     #           },
     #         ],
     #       },
     #       training_frequency: 1,
+    #       inference_config: {
+    #         min_provisioned_tps: 1,
+    #       },
     #     },
     #     description: "sensitiveText",
     #     tags: {
@@ -1727,6 +1731,58 @@ module Aws::CustomerProfiles
     # @param [Hash] params ({})
     def create_recommender(params = {}, options = {})
       req = build_request(:create_recommender, params)
+      req.send_request(options)
+    end
+
+    # Creates a recommender filter. A recommender filter specifies which
+    # items to include or exclude from recommendations.
+    #
+    # @option params [required, String] :domain_name
+    #   The unique name of the domain.
+    #
+    # @option params [required, String] :recommender_filter_name
+    #   The name of the recommender filter. The name must be unique within the
+    #   domain.
+    #
+    # @option params [required, String] :recommender_filter_expression
+    #   The filter expression that defines which items to include or exclude
+    #   from recommendations.
+    #
+    # @option params [String] :description
+    #   A description of the recommender filter.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   The tags used to organize, track, or control access for this resource.
+    #
+    # @return [Types::CreateRecommenderFilterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateRecommenderFilterResponse#recommender_filter_arn #recommender_filter_arn} => String
+    #   * {Types::CreateRecommenderFilterResponse#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_recommender_filter({
+    #     domain_name: "name", # required
+    #     recommender_filter_name: "RecommenderFilterName", # required
+    #     recommender_filter_expression: "RecommenderFilterExpression", # required
+    #     description: "sensitiveText",
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.recommender_filter_arn #=> String
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CreateRecommenderFilter AWS API Documentation
+    #
+    # @overload create_recommender_filter(params = {})
+    # @param [Hash] params ({})
+    def create_recommender_filter(params = {}, options = {})
+      req = build_request(:create_recommender_filter, params)
       req.send_request(options)
     end
 
@@ -2751,6 +2807,38 @@ module Aws::CustomerProfiles
     # @param [Hash] params ({})
     def delete_recommender(params = {}, options = {})
       req = build_request(:delete_recommender, params)
+      req.send_request(options)
+    end
+
+    # Deletes a recommender filter from a domain.
+    #
+    # @option params [required, String] :domain_name
+    #   The unique name of the domain.
+    #
+    # @option params [required, String] :recommender_filter_name
+    #   The name of the recommender filter to delete.
+    #
+    # @return [Types::DeleteRecommenderFilterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteRecommenderFilterResponse#message #message} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_recommender_filter({
+    #     domain_name: "name", # required
+    #     recommender_filter_name: "RecommenderFilterName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DeleteRecommenderFilter AWS API Documentation
+    #
+    # @overload delete_recommender_filter(params = {})
+    # @param [Hash] params ({})
+    def delete_recommender_filter(params = {}, options = {})
+      req = build_request(:delete_recommender_filter, params)
       req.send_request(options)
     end
 
@@ -3817,9 +3905,30 @@ module Aws::CustomerProfiles
     #   The contextual metadata used to provide dynamic runtime information to
     #   tailor recommendations.
     #
+    # @option params [Array<Types::RecommenderFilter>] :recommender_filters
+    #   A list of filters to apply to the returned recommendations. Filters
+    #   define criteria for including or excluding items from the
+    #   recommendation results.
+    #
+    # @option params [Array<Types::RecommenderPromotionalFilter>] :recommender_promotional_filters
+    #   A list of promotional filters to apply to the recommendations.
+    #   Promotional filters allow you to promote specific items within a
+    #   configurable subset of recommendation results.
+    #
+    # @option params [Array<String>] :candidate_ids
+    #   A list of item IDs to rank for the user. Use this when you want to
+    #   re-rank a specific set of items rather than getting recommendations
+    #   from the full item catalog. Required for personalized-ranking use
+    #   cases.
+    #
     # @option params [Integer] :max_results
     #   The maximum number of recommendations to return. The default value is
     #   10.
+    #
+    # @option params [Types::MetadataConfig] :metadata_config
+    #   Configuration for including item metadata in the recommendation
+    #   response. Use this to specify which metadata columns to return
+    #   alongside recommended items.
     #
     # @return [Types::GetProfileRecommendationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3834,7 +3943,29 @@ module Aws::CustomerProfiles
     #     context: {
     #       "ContextKey" => "string1To255",
     #     },
+    #     recommender_filters: [
+    #       {
+    #         name: "name",
+    #         values: {
+    #           "RecommenderFilterAttributeName" => "RecommenderFilterAttributeValue",
+    #         },
+    #       },
+    #     ],
+    #     recommender_promotional_filters: [
+    #       {
+    #         name: "name",
+    #         values: {
+    #           "RecommenderFilterAttributeName" => "RecommenderFilterAttributeValue",
+    #         },
+    #         promotion_name: "name",
+    #         percent_promoted_items: 1,
+    #       },
+    #     ],
+    #     candidate_ids: ["string1To255"],
     #     max_results: 1,
+    #     metadata_config: {
+    #       metadata_columns: ["MetadataColumnName"],
+    #     },
     #   })
     #
     # @example Response structure
@@ -3901,11 +4032,13 @@ module Aws::CustomerProfiles
     # @example Response structure
     #
     #   resp.recommender_name #=> String
-    #   resp.recommender_recipe_name #=> String, one of "recommended-for-you", "similar-items", "frequently-paired-items", "popular-items", "trending-now"
+    #   resp.recommender_recipe_name #=> String, one of "recommended-for-you", "similar-items", "frequently-paired-items", "popular-items", "trending-now", "personalized-ranking"
     #   resp.recommender_config.events_config.event_parameters_list #=> Array
     #   resp.recommender_config.events_config.event_parameters_list[0].event_type #=> String
     #   resp.recommender_config.events_config.event_parameters_list[0].event_value_threshold #=> Float
+    #   resp.recommender_config.events_config.event_parameters_list[0].event_weight #=> Float
     #   resp.recommender_config.training_frequency #=> Integer
+    #   resp.recommender_config.inference_config.min_provisioned_tps #=> Integer
     #   resp.description #=> String
     #   resp.status #=> String, one of "PENDING", "IN_PROGRESS", "ACTIVE", "FAILED", "STOPPING", "INACTIVE", "STARTING", "DELETING"
     #   resp.last_updated_at #=> Time
@@ -3914,7 +4047,9 @@ module Aws::CustomerProfiles
     #   resp.latest_recommender_update.recommender_config.events_config.event_parameters_list #=> Array
     #   resp.latest_recommender_update.recommender_config.events_config.event_parameters_list[0].event_type #=> String
     #   resp.latest_recommender_update.recommender_config.events_config.event_parameters_list[0].event_value_threshold #=> Float
+    #   resp.latest_recommender_update.recommender_config.events_config.event_parameters_list[0].event_weight #=> Float
     #   resp.latest_recommender_update.recommender_config.training_frequency #=> Integer
+    #   resp.latest_recommender_update.recommender_config.inference_config.min_provisioned_tps #=> Integer
     #   resp.latest_recommender_update.status #=> String, one of "PENDING", "IN_PROGRESS", "ACTIVE", "FAILED", "STOPPING", "INACTIVE", "STARTING", "DELETING"
     #   resp.latest_recommender_update.created_at #=> Time
     #   resp.latest_recommender_update.last_updated_at #=> Time
@@ -3932,6 +4067,51 @@ module Aws::CustomerProfiles
     # @param [Hash] params ({})
     def get_recommender(params = {}, options = {})
       req = build_request(:get_recommender, params)
+      req.send_request(options)
+    end
+
+    # Retrieves information about a specific recommender filter in a domain.
+    #
+    # @option params [required, String] :domain_name
+    #   The unique name of the domain.
+    #
+    # @option params [required, String] :recommender_filter_name
+    #   The name of the recommender filter to retrieve.
+    #
+    # @return [Types::GetRecommenderFilterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetRecommenderFilterResponse#recommender_filter_name #recommender_filter_name} => String
+    #   * {Types::GetRecommenderFilterResponse#recommender_filter_expression #recommender_filter_expression} => String
+    #   * {Types::GetRecommenderFilterResponse#created_at #created_at} => Time
+    #   * {Types::GetRecommenderFilterResponse#status #status} => String
+    #   * {Types::GetRecommenderFilterResponse#description #description} => String
+    #   * {Types::GetRecommenderFilterResponse#failure_reason #failure_reason} => String
+    #   * {Types::GetRecommenderFilterResponse#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_recommender_filter({
+    #     domain_name: "name", # required
+    #     recommender_filter_name: "RecommenderFilterName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.recommender_filter_name #=> String
+    #   resp.recommender_filter_expression #=> String
+    #   resp.created_at #=> Time
+    #   resp.status #=> String, one of "ACTIVE", "PENDING", "IN_PROGRESS", "FAILED", "DELETING"
+    #   resp.description #=> String
+    #   resp.failure_reason #=> String
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetRecommenderFilter AWS API Documentation
+    #
+    # @overload get_recommender_filter(params = {})
+    # @param [Hash] params ({})
+    def get_recommender_filter(params = {}, options = {})
+      req = build_request(:get_recommender_filter, params)
       req.send_request(options)
     end
 
@@ -5455,6 +5635,56 @@ module Aws::CustomerProfiles
       req.send_request(options)
     end
 
+    # Returns a list of recommender filters in the specified domain.
+    #
+    # @option params [required, String] :domain_name
+    #   The unique name of the domain.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of recommender filters to return in the response.
+    #   The default value is 100.
+    #
+    # @option params [String] :next_token
+    #   A token received from a previous ListRecommenderFilters call to
+    #   retrieve the next page of results.
+    #
+    # @return [Types::ListRecommenderFiltersResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListRecommenderFiltersResponse#next_token #next_token} => String
+    #   * {Types::ListRecommenderFiltersResponse#recommender_filters #recommender_filters} => Array&lt;Types::RecommenderFilterSummary&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_recommender_filters({
+    #     domain_name: "name", # required
+    #     max_results: 1,
+    #     next_token: "token",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.recommender_filters #=> Array
+    #   resp.recommender_filters[0].recommender_filter_name #=> String
+    #   resp.recommender_filters[0].recommender_filter_expression #=> String
+    #   resp.recommender_filters[0].created_at #=> Time
+    #   resp.recommender_filters[0].description #=> String
+    #   resp.recommender_filters[0].status #=> String, one of "ACTIVE", "PENDING", "IN_PROGRESS", "FAILED", "DELETING"
+    #   resp.recommender_filters[0].failure_reason #=> String
+    #   resp.recommender_filters[0].tags #=> Hash
+    #   resp.recommender_filters[0].tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListRecommenderFilters AWS API Documentation
+    #
+    # @overload list_recommender_filters(params = {})
+    # @param [Hash] params ({})
+    def list_recommender_filters(params = {}, options = {})
+      req = build_request(:list_recommender_filters, params)
+      req.send_request(options)
+    end
+
     # Returns a list of available recommender recipes that can be used to
     # create recommenders.
     #
@@ -5484,7 +5714,7 @@ module Aws::CustomerProfiles
     #
     #   resp.next_token #=> String
     #   resp.recommender_recipes #=> Array
-    #   resp.recommender_recipes[0].name #=> String, one of "recommended-for-you", "similar-items", "frequently-paired-items", "popular-items", "trending-now"
+    #   resp.recommender_recipes[0].name #=> String, one of "recommended-for-you", "similar-items", "frequently-paired-items", "popular-items", "trending-now", "personalized-ranking"
     #   resp.recommender_recipes[0].description #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListRecommenderRecipes AWS API Documentation
@@ -5529,11 +5759,13 @@ module Aws::CustomerProfiles
     #   resp.next_token #=> String
     #   resp.recommenders #=> Array
     #   resp.recommenders[0].recommender_name #=> String
-    #   resp.recommenders[0].recipe_name #=> String, one of "recommended-for-you", "similar-items", "frequently-paired-items", "popular-items", "trending-now"
+    #   resp.recommenders[0].recipe_name #=> String, one of "recommended-for-you", "similar-items", "frequently-paired-items", "popular-items", "trending-now", "personalized-ranking"
     #   resp.recommenders[0].recommender_config.events_config.event_parameters_list #=> Array
     #   resp.recommenders[0].recommender_config.events_config.event_parameters_list[0].event_type #=> String
     #   resp.recommenders[0].recommender_config.events_config.event_parameters_list[0].event_value_threshold #=> Float
+    #   resp.recommenders[0].recommender_config.events_config.event_parameters_list[0].event_weight #=> Float
     #   resp.recommenders[0].recommender_config.training_frequency #=> Integer
+    #   resp.recommenders[0].recommender_config.inference_config.min_provisioned_tps #=> Integer
     #   resp.recommenders[0].created_at #=> Time
     #   resp.recommenders[0].description #=> String
     #   resp.recommenders[0].status #=> String, one of "PENDING", "IN_PROGRESS", "ACTIVE", "FAILED", "STOPPING", "INACTIVE", "STARTING", "DELETING"
@@ -5544,7 +5776,9 @@ module Aws::CustomerProfiles
     #   resp.recommenders[0].latest_recommender_update.recommender_config.events_config.event_parameters_list #=> Array
     #   resp.recommenders[0].latest_recommender_update.recommender_config.events_config.event_parameters_list[0].event_type #=> String
     #   resp.recommenders[0].latest_recommender_update.recommender_config.events_config.event_parameters_list[0].event_value_threshold #=> Float
+    #   resp.recommenders[0].latest_recommender_update.recommender_config.events_config.event_parameters_list[0].event_weight #=> Float
     #   resp.recommenders[0].latest_recommender_update.recommender_config.training_frequency #=> Integer
+    #   resp.recommenders[0].latest_recommender_update.recommender_config.inference_config.min_provisioned_tps #=> Integer
     #   resp.recommenders[0].latest_recommender_update.status #=> String, one of "PENDING", "IN_PROGRESS", "ACTIVE", "FAILED", "STOPPING", "INACTIVE", "STARTING", "DELETING"
     #   resp.recommenders[0].latest_recommender_update.created_at #=> Time
     #   resp.recommenders[0].latest_recommender_update.last_updated_at #=> Time
@@ -7421,15 +7655,19 @@ module Aws::CustomerProfiles
     #     recommender_name: "name", # required
     #     description: "sensitiveText",
     #     recommender_config: {
-    #       events_config: { # required
+    #       events_config: {
     #         event_parameters_list: [ # required
     #           {
     #             event_type: "EventParametersEventTypeString", # required
     #             event_value_threshold: 1.0,
+    #             event_weight: 1.0,
     #           },
     #         ],
     #       },
     #       training_frequency: 1,
+    #       inference_config: {
+    #         min_provisioned_tps: 1,
+    #       },
     #     },
     #   })
     #
@@ -7464,7 +7702,7 @@ module Aws::CustomerProfiles
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-customerprofiles'
-      context[:gem_version] = '1.80.0'
+      context[:gem_version] = '1.81.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

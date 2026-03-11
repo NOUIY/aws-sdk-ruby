@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.161.0 (2026-03-11)
+------------------
+
+* Feature - Adds support for a new tier in controlPlaneScalingConfig on EKS Clusters.
+
 1.160.0 (2026-02-11)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.154.0 (2026-03-11)
+------------------
+
+* Feature - Added WINDOWS SERVER 2025 OperatingSystemName.
+
 1.153.0 (2026-02-05)
 ------------------
 

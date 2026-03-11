@@ -21962,6 +21962,46 @@ module Aws::SageMaker
       include Aws::Structure
     end
 
+    # @!attribute [rw] training_plan_arn
+    #   The Amazon Resource Name (ARN); of the training plan to retrieve
+    #   extension history for.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   A token to continue pagination if more results are available.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of extensions to return in the response.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeTrainingPlanExtensionHistoryRequest AWS API Documentation
+    #
+    class DescribeTrainingPlanExtensionHistoryRequest < Struct.new(
+      :training_plan_arn,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] training_plan_extensions
+    #   A list of extensions for the specified training plan.
+    #   @return [Array<Types::TrainingPlanExtension>]
+    #
+    # @!attribute [rw] next_token
+    #   A token to continue pagination if more results are available.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeTrainingPlanExtensionHistoryResponse AWS API Documentation
+    #
+    class DescribeTrainingPlanExtensionHistoryResponse < Struct.new(
+      :training_plan_extensions,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] training_plan_name
     #   The name of the training plan to describe.
     #   @return [String]
@@ -24763,6 +24803,33 @@ module Aws::SageMaker
     #
     class ExplainerConfig < Struct.new(
       :clarify_explainer_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] training_plan_extension_offering_id
+    #   The unique identifier of the extension offering to purchase. You can
+    #   retrieve this ID from the `TrainingPlanExtensionOfferings` in the
+    #   response of the `SearchTrainingPlanOfferings` API.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ExtendTrainingPlanRequest AWS API Documentation
+    #
+    class ExtendTrainingPlanRequest < Struct.new(
+      :training_plan_extension_offering_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] training_plan_extensions
+    #   The list of extensions for the training plan, including the newly
+    #   created extension.
+    #   @return [Array<Types::TrainingPlanExtension>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ExtendTrainingPlanResponse AWS API Documentation
+    #
+    class ExtendTrainingPlanResponse < Struct.new(
+      :training_plan_extensions)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -45812,6 +45879,14 @@ module Aws::SageMaker
     #   The end time of the reserved capacity offering.
     #   @return [Time]
     #
+    # @!attribute [rw] extension_start_time
+    #   The start time of the extension for the reserved capacity offering.
+    #   @return [Time]
+    #
+    # @!attribute [rw] extension_end_time
+    #   The end time of the extension for the reserved capacity offering.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ReservedCapacityOffering AWS API Documentation
     #
     class ReservedCapacityOffering < Struct.new(
@@ -45824,7 +45899,9 @@ module Aws::SageMaker
       :duration_hours,
       :duration_minutes,
       :start_time,
-      :end_time)
+      :end_time,
+      :extension_start_time,
+      :extension_end_time)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -47339,6 +47416,13 @@ module Aws::SageMaker
     #     deployment.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] training_plan_arn
+    #   The Amazon Resource Name (ARN); of an existing training plan to
+    #   search for extension offerings. When specified, the API returns
+    #   extension offerings that can be used to extend the specified
+    #   training plan.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/SearchTrainingPlanOfferingsRequest AWS API Documentation
     #
     class SearchTrainingPlanOfferingsRequest < Struct.new(
@@ -47349,7 +47433,8 @@ module Aws::SageMaker
       :start_time_after,
       :end_time_before,
       :duration_hours,
-      :target_resources)
+      :target_resources,
+      :training_plan_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -47358,10 +47443,17 @@ module Aws::SageMaker
     #   A list of training plan offerings that match the search criteria.
     #   @return [Array<Types::TrainingPlanOffering>]
     #
+    # @!attribute [rw] training_plan_extension_offerings
+    #   A list of extension offerings available for the specified training
+    #   plan. These offerings can be used with the ` ExtendTrainingPlan `
+    #   API to extend an existing training plan.
+    #   @return [Array<Types::TrainingPlanExtensionOffering>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/SearchTrainingPlanOfferingsResponse AWS API Documentation
     #
     class SearchTrainingPlanOfferingsResponse < Struct.new(
-      :training_plan_offerings)
+      :training_plan_offerings,
+      :training_plan_extension_offerings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -50611,6 +50703,119 @@ module Aws::SageMaker
       :secondary_status,
       :warm_pool_status,
       :training_plan_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details about an extension to a training plan, including the offering
+    # ID, dates, status, and cost information.
+    #
+    # @!attribute [rw] training_plan_extension_offering_id
+    #   The unique identifier of the extension offering that was used to
+    #   create this extension.
+    #   @return [String]
+    #
+    # @!attribute [rw] extended_at
+    #   The timestamp when the extension was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] start_date
+    #   The start date of the extension period.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_date
+    #   The end date of the extension period.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The current status of the extension (e.g., Pending, Active,
+    #   Scheduled, Failed, Expired).
+    #   @return [String]
+    #
+    # @!attribute [rw] payment_status
+    #   The payment processing status of the extension.
+    #   @return [String]
+    #
+    # @!attribute [rw] availability_zone
+    #   The Availability Zone of the extension.
+    #   @return [String]
+    #
+    # @!attribute [rw] availability_zone_id
+    #   The Availability Zone ID of the extension.
+    #   @return [String]
+    #
+    # @!attribute [rw] duration_hours
+    #   The duration of the extension in hours.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] upfront_fee
+    #   The upfront fee for the extension.
+    #   @return [String]
+    #
+    # @!attribute [rw] currency_code
+    #   The currency code for the upfront fee (e.g., USD).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/TrainingPlanExtension AWS API Documentation
+    #
+    class TrainingPlanExtension < Struct.new(
+      :training_plan_extension_offering_id,
+      :extended_at,
+      :start_date,
+      :end_date,
+      :status,
+      :payment_status,
+      :availability_zone,
+      :availability_zone_id,
+      :duration_hours,
+      :upfront_fee,
+      :currency_code)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details about an available extension offering for a training plan. Use
+    # the offering ID with the ` ExtendTrainingPlan ` API to extend a
+    # training plan.
+    #
+    # @!attribute [rw] training_plan_extension_offering_id
+    #   The unique identifier for this extension offering.
+    #   @return [String]
+    #
+    # @!attribute [rw] availability_zone
+    #   The Availability Zone for this extension offering.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_date
+    #   The start date of this extension offering.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_date
+    #   The end date of this extension offering.
+    #   @return [Time]
+    #
+    # @!attribute [rw] duration_hours
+    #   The duration of this extension offering in hours.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] upfront_fee
+    #   The upfront fee for this extension offering.
+    #   @return [String]
+    #
+    # @!attribute [rw] currency_code
+    #   The currency code for the upfront fee (e.g., USD).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/TrainingPlanExtensionOffering AWS API Documentation
+    #
+    class TrainingPlanExtensionOffering < Struct.new(
+      :training_plan_extension_offering_id,
+      :availability_zone,
+      :start_date,
+      :end_date,
+      :duration_hours,
+      :upfront_fee,
+      :currency_code)
       SENSITIVE = []
       include Aws::Structure
     end

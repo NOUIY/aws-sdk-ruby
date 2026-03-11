@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+3.256.0 (2026-03-11)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-simpledbv2` gem.
+
 3.255.0 (2026-03-05)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1224.0 (2026-03-11)
+------------------
+
+* Feature - Added support for enumerating regions for  `Aws::SimpleDBv2`.
+
 1.1223.0 (2026-03-06)
 ------------------
 

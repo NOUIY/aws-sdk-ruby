@@ -4644,6 +4644,19 @@ module Aws::SageMaker
       SENSITIVE: []
     end
 
+    class DescribeTrainingPlanExtensionHistoryRequest
+      attr_accessor training_plan_arn: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class DescribeTrainingPlanExtensionHistoryResponse
+      attr_accessor training_plan_extensions: ::Array[Types::TrainingPlanExtension]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class DescribeTrainingPlanRequest
       attr_accessor training_plan_name: ::String
       SENSITIVE: []
@@ -5316,6 +5329,16 @@ module Aws::SageMaker
 
     class ExplainerConfig
       attr_accessor clarify_explainer_config: Types::ClarifyExplainerConfig
+      SENSITIVE: []
+    end
+
+    class ExtendTrainingPlanRequest
+      attr_accessor training_plan_extension_offering_id: ::String
+      SENSITIVE: []
+    end
+
+    class ExtendTrainingPlanResponse
+      attr_accessor training_plan_extensions: ::Array[Types::TrainingPlanExtension]
       SENSITIVE: []
     end
 
@@ -9674,6 +9697,8 @@ module Aws::SageMaker
       attr_accessor duration_minutes: ::Integer
       attr_accessor start_time: ::Time
       attr_accessor end_time: ::Time
+      attr_accessor extension_start_time: ::Time
+      attr_accessor extension_end_time: ::Time
       SENSITIVE: []
     end
 
@@ -9950,11 +9975,13 @@ module Aws::SageMaker
       attr_accessor end_time_before: ::Time
       attr_accessor duration_hours: ::Integer
       attr_accessor target_resources: ::Array[("training-job" | "hyperpod-cluster" | "endpoint")]
+      attr_accessor training_plan_arn: ::String
       SENSITIVE: []
     end
 
     class SearchTrainingPlanOfferingsResponse
       attr_accessor training_plan_offerings: ::Array[Types::TrainingPlanOffering]
+      attr_accessor training_plan_extension_offerings: ::Array[Types::TrainingPlanExtensionOffering]
       SENSITIVE: []
     end
 
@@ -10609,6 +10636,32 @@ module Aws::SageMaker
       attr_accessor secondary_status: ("Starting" | "LaunchingMLInstances" | "PreparingTrainingStack" | "Downloading" | "DownloadingTrainingImage" | "Training" | "Uploading" | "Stopping" | "Stopped" | "MaxRuntimeExceeded" | "Completed" | "Failed" | "Interrupted" | "MaxWaitTimeExceeded" | "Updating" | "Restarting" | "Pending")
       attr_accessor warm_pool_status: Types::WarmPoolStatus
       attr_accessor training_plan_arn: ::String
+      SENSITIVE: []
+    end
+
+    class TrainingPlanExtension
+      attr_accessor training_plan_extension_offering_id: ::String
+      attr_accessor extended_at: ::Time
+      attr_accessor start_date: ::Time
+      attr_accessor end_date: ::Time
+      attr_accessor status: ::String
+      attr_accessor payment_status: ::String
+      attr_accessor availability_zone: ::String
+      attr_accessor availability_zone_id: ::String
+      attr_accessor duration_hours: ::Integer
+      attr_accessor upfront_fee: ::String
+      attr_accessor currency_code: ::String
+      SENSITIVE: []
+    end
+
+    class TrainingPlanExtensionOffering
+      attr_accessor training_plan_extension_offering_id: ::String
+      attr_accessor availability_zone: ::String
+      attr_accessor start_date: ::Time
+      attr_accessor end_date: ::Time
+      attr_accessor duration_hours: ::Integer
+      attr_accessor upfront_fee: ::String
+      attr_accessor currency_code: ::String
       SENSITIVE: []
     end
 
