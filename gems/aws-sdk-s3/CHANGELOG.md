@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.216.0 (2026-03-12)
+------------------
+
+* Feature - Adds support for account regional namespaces for general purpose buckets. The account regional namespace is a reserved subdivision of the global bucket namespace where only your account can create general purpose buckets.
+
 1.215.0 (2026-03-05)
 ------------------
 

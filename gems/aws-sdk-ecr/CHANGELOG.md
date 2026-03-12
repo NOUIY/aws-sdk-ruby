@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.123.0 (2026-03-12)
+------------------
+
+* Feature - Add Chainguard to PTC upstreamRegistry enum
+
 1.122.0 (2026-02-25)
 ------------------
 

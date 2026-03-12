@@ -3075,6 +3075,36 @@ module Aws::S3
     #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html
     #   @return [String]
     #
+    # @!attribute [rw] bucket_namespace
+    #   Specifies the namespace where you want to create your general
+    #   purpose bucket. When you create a general purpose bucket, you can
+    #   choose to create a bucket in the shared global namespace or you can
+    #   choose to create a bucket in your account regional namespace. Your
+    #   account regional namespace is a subdivision of the global namespace
+    #   that only your account can create buckets in. For more information
+    #   on bucket namespaces, see [Namespaces for general purpose
+    #   buckets][1].
+    #
+    #   General purpose buckets in your account regional namespace must
+    #   follow a specific naming convention. These buckets consist of a
+    #   bucket name prefix that you create, and a suffix that contains your
+    #   12-digit Amazon Web Services Account ID, the Amazon Web Services
+    #   Region code, and ends with `-an`. Bucket names must follow the
+    #   format `bucket-name-prefix-accountId-region-an` (for example,
+    #   `amzn-s3-demo-bucket-111122223333-us-west-2-an`). For information
+    #   about bucket naming restrictions, see [Account regional namespace
+    #   naming rules][2] in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/gpbucketnamespaces.html
+    #   [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html#account-regional-naming-rules
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateBucketRequest AWS API Documentation
     #
     class CreateBucketRequest < Struct.new(
@@ -3087,7 +3117,8 @@ module Aws::S3
       :grant_write,
       :grant_write_acp,
       :object_lock_enabled_for_bucket,
-      :object_ownership)
+      :object_ownership,
+      :bucket_namespace)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3981,12 +4012,17 @@ module Aws::S3
 
     # @!attribute [rw] session_mode
     #   Specifies the mode of the session that will be created, either
-    #   `ReadWrite` or `ReadOnly`. By default, a `ReadWrite` session is
-    #   created. A `ReadWrite` session is capable of executing all the Zonal
-    #   endpoint API operations on a directory bucket. A `ReadOnly` session
-    #   is constrained to execute the following Zonal endpoint API
-    #   operations: `GetObject`, `HeadObject`, `ListObjectsV2`,
-    #   `GetObjectAttributes`, `ListParts`, and `ListMultipartUploads`.
+    #   `ReadWrite` or `ReadOnly`. If no session mode is specified, the
+    #   default behavior attempts to create a session with the maximum
+    #   allowable privilege. It will first attempt to create a `ReadWrite`
+    #   session, and if that is not allowed by permissions, it will attempt
+    #   to create a `ReadOnly` session. If neither session type is allowed,
+    #   the request will return an Access Denied error. A `ReadWrite`
+    #   session is capable of executing all the Zonal endpoint API
+    #   operations on a directory bucket. A `ReadOnly` session is
+    #   constrained to execute the following Zonal endpoint API operations:
+    #   `GetObject`, `HeadObject`, `ListObjectsV2`, `GetObjectAttributes`,
+    #   `ListParts`, and `ListMultipartUploads`.
     #   @return [String]
     #
     # @!attribute [rw] bucket

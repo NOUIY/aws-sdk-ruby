@@ -376,6 +376,7 @@ module Aws::S3
       attr_accessor grant_write_acp: ::String
       attr_accessor object_lock_enabled_for_bucket: bool
       attr_accessor object_ownership: ("BucketOwnerPreferred" | "ObjectWriter" | "BucketOwnerEnforced")
+      attr_accessor bucket_namespace: ("account-regional" | "global")
       SENSITIVE: []
     end
 
