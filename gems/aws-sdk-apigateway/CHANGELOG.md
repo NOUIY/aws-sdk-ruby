@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.132.0 (2026-03-13)
+------------------
+
+* Feature - API Gateway now supports an additional security policy "SecurityPolicy-TLS13-1-2-FIPS-PFS-PQ-2025-09" for REST APIs and custom domain names. The new policy is compliant with TLS 1.3, Federal Information Processing Standards (FIPS), Perfect Forward Secrecy (PFS), and post-quantum (PQ) cryptography
+
 1.131.0 (2026-01-16)
 ------------------
 

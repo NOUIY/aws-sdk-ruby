@@ -31,6 +31,11 @@ module Aws::MediaConvert
     Ac3LfeFilter = Shapes::StringShape.new(name: 'Ac3LfeFilter')
     Ac3MetadataControl = Shapes::StringShape.new(name: 'Ac3MetadataControl')
     Ac3Settings = Shapes::StructureShape.new(name: 'Ac3Settings')
+    Ac4BitstreamMode = Shapes::StringShape.new(name: 'Ac4BitstreamMode')
+    Ac4CodingMode = Shapes::StringShape.new(name: 'Ac4CodingMode')
+    Ac4DynamicRangeCompressionDrcProfile = Shapes::StringShape.new(name: 'Ac4DynamicRangeCompressionDrcProfile')
+    Ac4Settings = Shapes::StructureShape.new(name: 'Ac4Settings')
+    Ac4StereoDownmix = Shapes::StringShape.new(name: 'Ac4StereoDownmix')
     AccelerationMode = Shapes::StringShape.new(name: 'AccelerationMode')
     AccelerationSettings = Shapes::StructureShape.new(name: 'AccelerationSettings')
     AccelerationStatus = Shapes::StringShape.new(name: 'AccelerationStatus')
@@ -385,6 +390,7 @@ module Aws::MediaConvert
     HlsCaptionLanguageMapping = Shapes::StructureShape.new(name: 'HlsCaptionLanguageMapping')
     HlsCaptionLanguageSetting = Shapes::StringShape.new(name: 'HlsCaptionLanguageSetting')
     HlsCaptionSegmentLengthControl = Shapes::StringShape.new(name: 'HlsCaptionSegmentLengthControl')
+    HlsClearLead = Shapes::StringShape.new(name: 'HlsClearLead')
     HlsClientCache = Shapes::StringShape.new(name: 'HlsClientCache')
     HlsCodecSpecification = Shapes::StringShape.new(name: 'HlsCodecSpecification')
     HlsDescriptiveVideoServiceFlag = Shapes::StringShape.new(name: 'HlsDescriptiveVideoServiceFlag')
@@ -762,6 +768,8 @@ module Aws::MediaConvert
     __doubleMin0Max1 = Shapes::FloatShape.new(name: '__doubleMin0Max1')
     __doubleMin0Max2147483647 = Shapes::FloatShape.new(name: '__doubleMin0Max2147483647')
     __doubleMin1Max10 = Shapes::FloatShape.new(name: '__doubleMin1Max10')
+    __doubleMinNegative1000Max3 = Shapes::FloatShape.new(name: '__doubleMinNegative1000Max3')
+    __doubleMinNegative1000MaxNegative1 = Shapes::FloatShape.new(name: '__doubleMinNegative1000MaxNegative1')
     __doubleMinNegative59Max0 = Shapes::FloatShape.new(name: '__doubleMinNegative59Max0')
     __doubleMinNegative60Max3 = Shapes::FloatShape.new(name: '__doubleMinNegative60Max3')
     __doubleMinNegative60Max6 = Shapes::FloatShape.new(name: '__doubleMinNegative60Max6')
@@ -814,6 +822,7 @@ module Aws::MediaConvert
     __integerMin16000Max320000 = Shapes::IntegerShape.new(name: '__integerMin16000Max320000')
     __integerMin16000Max48000 = Shapes::IntegerShape.new(name: '__integerMin16000Max48000')
     __integerMin16Max24 = Shapes::IntegerShape.new(name: '__integerMin16Max24')
+    __integerMin192000Max1024000 = Shapes::IntegerShape.new(name: '__integerMin192000Max1024000')
     __integerMin1Max1 = Shapes::IntegerShape.new(name: '__integerMin1Max1')
     __integerMin1Max10 = Shapes::IntegerShape.new(name: '__integerMin1Max10')
     __integerMin1Max100 = Shapes::IntegerShape.new(name: '__integerMin1Max100')
@@ -1024,6 +1033,21 @@ module Aws::MediaConvert
     Ac3Settings.add_member(:sample_rate, Shapes::ShapeRef.new(shape: __integerMin48000Max48000, location_name: "sampleRate"))
     Ac3Settings.struct_class = Types::Ac3Settings
 
+    Ac4Settings.add_member(:bitrate, Shapes::ShapeRef.new(shape: __integerMin192000Max1024000, location_name: "bitrate"))
+    Ac4Settings.add_member(:bitstream_mode, Shapes::ShapeRef.new(shape: Ac4BitstreamMode, location_name: "bitstreamMode"))
+    Ac4Settings.add_member(:coding_mode, Shapes::ShapeRef.new(shape: Ac4CodingMode, location_name: "codingMode"))
+    Ac4Settings.add_member(:dynamic_range_compression_flat_panel_tv, Shapes::ShapeRef.new(shape: Ac4DynamicRangeCompressionDrcProfile, location_name: "dynamicRangeCompressionFlatPanelTv"))
+    Ac4Settings.add_member(:dynamic_range_compression_home_theater, Shapes::ShapeRef.new(shape: Ac4DynamicRangeCompressionDrcProfile, location_name: "dynamicRangeCompressionHomeTheater"))
+    Ac4Settings.add_member(:dynamic_range_compression_portable_headphones, Shapes::ShapeRef.new(shape: Ac4DynamicRangeCompressionDrcProfile, location_name: "dynamicRangeCompressionPortableHeadphones"))
+    Ac4Settings.add_member(:dynamic_range_compression_portable_speakers, Shapes::ShapeRef.new(shape: Ac4DynamicRangeCompressionDrcProfile, location_name: "dynamicRangeCompressionPortableSpeakers"))
+    Ac4Settings.add_member(:lo_ro_center_mix_level, Shapes::ShapeRef.new(shape: __doubleMinNegative1000Max3, location_name: "loRoCenterMixLevel"))
+    Ac4Settings.add_member(:lo_ro_surround_mix_level, Shapes::ShapeRef.new(shape: __doubleMinNegative1000MaxNegative1, location_name: "loRoSurroundMixLevel"))
+    Ac4Settings.add_member(:lt_rt_center_mix_level, Shapes::ShapeRef.new(shape: __doubleMinNegative1000Max3, location_name: "ltRtCenterMixLevel"))
+    Ac4Settings.add_member(:lt_rt_surround_mix_level, Shapes::ShapeRef.new(shape: __doubleMinNegative1000MaxNegative1, location_name: "ltRtSurroundMixLevel"))
+    Ac4Settings.add_member(:sample_rate, Shapes::ShapeRef.new(shape: __integerMin48000Max48000, location_name: "sampleRate"))
+    Ac4Settings.add_member(:stereo_downmix, Shapes::ShapeRef.new(shape: Ac4StereoDownmix, location_name: "stereoDownmix"))
+    Ac4Settings.struct_class = Types::Ac4Settings
+
     AccelerationSettings.add_member(:mode, Shapes::ShapeRef.new(shape: AccelerationMode, required: true, location_name: "mode"))
     AccelerationSettings.struct_class = Types::AccelerationSettings
 
@@ -1057,6 +1081,7 @@ module Aws::MediaConvert
 
     AudioCodecSettings.add_member(:aac_settings, Shapes::ShapeRef.new(shape: AacSettings, location_name: "aacSettings"))
     AudioCodecSettings.add_member(:ac_3_settings, Shapes::ShapeRef.new(shape: Ac3Settings, location_name: "ac3Settings"))
+    AudioCodecSettings.add_member(:ac_4_settings, Shapes::ShapeRef.new(shape: Ac4Settings, location_name: "ac4Settings"))
     AudioCodecSettings.add_member(:aiff_settings, Shapes::ShapeRef.new(shape: AiffSettings, location_name: "aiffSettings"))
     AudioCodecSettings.add_member(:codec, Shapes::ShapeRef.new(shape: AudioCodec, location_name: "codec"))
     AudioCodecSettings.add_member(:eac_3_atmos_settings, Shapes::ShapeRef.new(shape: Eac3AtmosSettings, location_name: "eac3AtmosSettings"))
@@ -1275,6 +1300,7 @@ module Aws::MediaConvert
     CmafAdditionalManifest.add_member(:selected_outputs, Shapes::ShapeRef.new(shape: __listOf__stringMin1, location_name: "selectedOutputs"))
     CmafAdditionalManifest.struct_class = Types::CmafAdditionalManifest
 
+    CmafEncryptionSettings.add_member(:clear_lead, Shapes::ShapeRef.new(shape: HlsClearLead, location_name: "clearLead"))
     CmafEncryptionSettings.add_member(:constant_initialization_vector, Shapes::ShapeRef.new(shape: __stringMin32Max32Pattern09aFAF32, location_name: "constantInitializationVector"))
     CmafEncryptionSettings.add_member(:encryption_method, Shapes::ShapeRef.new(shape: CmafEncryptionType, location_name: "encryptionMethod"))
     CmafEncryptionSettings.add_member(:initialization_vector_in_manifest, Shapes::ShapeRef.new(shape: CmafInitializationVectorInManifest, location_name: "initializationVectorInManifest"))

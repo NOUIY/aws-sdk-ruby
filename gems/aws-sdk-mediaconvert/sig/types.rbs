@@ -38,6 +38,23 @@ module Aws::MediaConvert
       SENSITIVE: []
     end
 
+    class Ac4Settings
+      attr_accessor bitrate: ::Integer
+      attr_accessor bitstream_mode: ("COMPLETE_MAIN" | "EMERGENCY")
+      attr_accessor coding_mode: ("CODING_MODE_2_0" | "CODING_MODE_3_2_LFE" | "CODING_MODE_5_1_4")
+      attr_accessor dynamic_range_compression_flat_panel_tv: ("NONE" | "FILM_STANDARD" | "FILM_LIGHT" | "MUSIC_STANDARD" | "MUSIC_LIGHT" | "SPEECH")
+      attr_accessor dynamic_range_compression_home_theater: ("NONE" | "FILM_STANDARD" | "FILM_LIGHT" | "MUSIC_STANDARD" | "MUSIC_LIGHT" | "SPEECH")
+      attr_accessor dynamic_range_compression_portable_headphones: ("NONE" | "FILM_STANDARD" | "FILM_LIGHT" | "MUSIC_STANDARD" | "MUSIC_LIGHT" | "SPEECH")
+      attr_accessor dynamic_range_compression_portable_speakers: ("NONE" | "FILM_STANDARD" | "FILM_LIGHT" | "MUSIC_STANDARD" | "MUSIC_LIGHT" | "SPEECH")
+      attr_accessor lo_ro_center_mix_level: ::Float
+      attr_accessor lo_ro_surround_mix_level: ::Float
+      attr_accessor lt_rt_center_mix_level: ::Float
+      attr_accessor lt_rt_surround_mix_level: ::Float
+      attr_accessor sample_rate: ::Integer
+      attr_accessor stereo_downmix: ("NOT_INDICATED" | "LO_RO" | "LT_RT" | "DPL2")
+      SENSITIVE: []
+    end
+
     class AccelerationSettings
       attr_accessor mode: ("DISABLED" | "ENABLED" | "PREFERRED")
       SENSITIVE: []
@@ -87,8 +104,9 @@ module Aws::MediaConvert
     class AudioCodecSettings
       attr_accessor aac_settings: Types::AacSettings
       attr_accessor ac_3_settings: Types::Ac3Settings
+      attr_accessor ac_4_settings: Types::Ac4Settings
       attr_accessor aiff_settings: Types::AiffSettings
-      attr_accessor codec: ("AAC" | "MP2" | "MP3" | "WAV" | "AIFF" | "AC3" | "EAC3" | "EAC3_ATMOS" | "VORBIS" | "OPUS" | "PASSTHROUGH" | "FLAC")
+      attr_accessor codec: ("AAC" | "MP2" | "MP3" | "WAV" | "AIFF" | "AC3" | "AC4" | "EAC3" | "EAC3_ATMOS" | "VORBIS" | "OPUS" | "PASSTHROUGH" | "FLAC")
       attr_accessor eac_3_atmos_settings: Types::Eac3AtmosSettings
       attr_accessor eac_3_settings: Types::Eac3Settings
       attr_accessor flac_settings: Types::FlacSettings
@@ -362,6 +380,7 @@ module Aws::MediaConvert
     end
 
     class CmafEncryptionSettings
+      attr_accessor clear_lead: ("ENABLED" | "DISABLED")
       attr_accessor constant_initialization_vector: ::String
       attr_accessor encryption_method: ("SAMPLE_AES" | "AES_CTR")
       attr_accessor initialization_vector_in_manifest: ("INCLUDE" | "EXCLUDE")
@@ -404,7 +423,7 @@ module Aws::MediaConvert
     end
 
     class CmafImageBasedTrickPlaySettings
-      attr_accessor interval_cadence: ("FOLLOW_IFRAME" | "FOLLOW_CUSTOM")
+      attr_accessor interval_cadence: ("FOLLOW_IFRAME" | "FOLLOW_CUSTOM" | "FOLLOW_SEGMENTATION")
       attr_accessor thumbnail_height: ::Integer
       attr_accessor thumbnail_interval: ::Float
       attr_accessor thumbnail_width: ::Integer
@@ -480,7 +499,7 @@ module Aws::MediaConvert
 
     class Container
       attr_accessor duration: ::Float
-      attr_accessor format: ("mp4" | "quicktime" | "matroska" | "webm" | "mxf" | "wave")
+      attr_accessor format: ("mp4" | "quicktime" | "matroska" | "webm" | "mxf" | "wave" | "avi")
       attr_accessor tracks: ::Array[Types::Track]
       SENSITIVE: []
     end
@@ -618,7 +637,7 @@ module Aws::MediaConvert
     end
 
     class DashIsoImageBasedTrickPlaySettings
-      attr_accessor interval_cadence: ("FOLLOW_IFRAME" | "FOLLOW_CUSTOM")
+      attr_accessor interval_cadence: ("FOLLOW_IFRAME" | "FOLLOW_CUSTOM" | "FOLLOW_SEGMENTATION")
       attr_accessor thumbnail_height: ::Integer
       attr_accessor thumbnail_interval: ::Float
       attr_accessor thumbnail_width: ::Integer
@@ -1204,7 +1223,7 @@ module Aws::MediaConvert
     end
 
     class HlsImageBasedTrickPlaySettings
-      attr_accessor interval_cadence: ("FOLLOW_IFRAME" | "FOLLOW_CUSTOM")
+      attr_accessor interval_cadence: ("FOLLOW_IFRAME" | "FOLLOW_CUSTOM" | "FOLLOW_SEGMENTATION")
       attr_accessor thumbnail_height: ::Integer
       attr_accessor thumbnail_interval: ::Float
       attr_accessor thumbnail_width: ::Integer
@@ -2253,7 +2272,7 @@ module Aws::MediaConvert
 
     class Track
       attr_accessor audio_properties: Types::AudioProperties
-      attr_accessor codec: ("UNKNOWN" | "AAC" | "AC3" | "EAC3" | "FLAC" | "MP3" | "OPUS" | "PCM" | "VORBIS" | "AV1" | "AVC" | "HEVC" | "JPEG2000" | "MJPEG" | "MPEG1" | "MP4V" | "MPEG2" | "PRORES" | "THEORA" | "VFW" | "VP8" | "VP9" | "QTRLE" | "C608" | "C708" | "WEBVTT")
+      attr_accessor codec: ("UNKNOWN" | "AAC" | "AC3" | "EAC3" | "FLAC" | "MP3" | "OPUS" | "PCM" | "VORBIS" | "AV1" | "AVC" | "HEVC" | "JPEG2000" | "MJPEG" | "MPEG1" | "MP4V" | "MPEG2" | "PRORES" | "QTRLE" | "THEORA" | "UNCOMPRESSED" | "VFW" | "VP8" | "VP9" | "C608" | "C708" | "WEBVTT")
       attr_accessor data_properties: Types::DataProperties
       attr_accessor duration: ::Float
       attr_accessor index: ::Integer

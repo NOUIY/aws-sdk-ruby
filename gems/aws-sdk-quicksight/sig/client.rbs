@@ -38986,7 +38986,8 @@ module Aws
                                          create_chat_agents: ("DENY")?,
                                          research: ("DENY")?,
                                          self_upgrade_user_role: ("DENY")?,
-                                         extension: ("DENY")?
+                                         extension: ("DENY")?,
+                                         manage_shared_folders: ("DENY")?
                                        },
                                        ?tags: Array[
                                          {
@@ -157415,7 +157416,8 @@ module Aws
                                          create_chat_agents: ("DENY")?,
                                          research: ("DENY")?,
                                          self_upgrade_user_role: ("DENY")?,
-                                         extension: ("DENY")?
+                                         extension: ("DENY")?,
+                                         manage_shared_folders: ("DENY")?
                                        }
                                      ) -> _UpdateCustomPermissionsResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateCustomPermissionsResponseSuccess

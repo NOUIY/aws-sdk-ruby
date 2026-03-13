@@ -1227,13 +1227,26 @@ module Aws::Glue
     #   A list of partition values identifying the partitions to retrieve.
     #   @return [Array<Types::PartitionValueList>]
     #
+    # @!attribute [rw] audit_context
+    #   A structure containing the Lake Formation audit context.
+    #   @return [Types::AuditContext]
+    #
+    # @!attribute [rw] query_session_context
+    #   A structure used as a protocol between query engines and Lake
+    #   Formation or Glue. Contains both a Lake Formation generated
+    #   authorization identifier and information from the request's
+    #   authorization context.
+    #   @return [Types::QuerySessionContext]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetPartitionRequest AWS API Documentation
     #
     class BatchGetPartitionRequest < Struct.new(
       :catalog_id,
       :database_name,
       :table_name,
-      :partitions_to_get)
+      :partitions_to_get,
+      :audit_context,
+      :query_session_context)
       SENSITIVE = []
       include Aws::Structure
     end

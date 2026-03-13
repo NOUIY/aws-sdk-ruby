@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.175.0 (2026-03-13)
+------------------
+
+* Feature - The change adds a new capability named ManageSharedFolders in Custom Permissions
+
 1.174.0 (2026-03-04)
 ------------------
 

@@ -767,12 +767,27 @@ module Aws::MediaConvert
     #               metadata_control: "FOLLOW_INPUT", # accepts FOLLOW_INPUT, USE_CONFIGURED
     #               sample_rate: 1,
     #             },
+    #             ac_4_settings: {
+    #               bitrate: 1,
+    #               bitstream_mode: "COMPLETE_MAIN", # accepts COMPLETE_MAIN, EMERGENCY
+    #               coding_mode: "CODING_MODE_2_0", # accepts CODING_MODE_2_0, CODING_MODE_3_2_LFE, CODING_MODE_5_1_4
+    #               dynamic_range_compression_flat_panel_tv: "NONE", # accepts NONE, FILM_STANDARD, FILM_LIGHT, MUSIC_STANDARD, MUSIC_LIGHT, SPEECH
+    #               dynamic_range_compression_home_theater: "NONE", # accepts NONE, FILM_STANDARD, FILM_LIGHT, MUSIC_STANDARD, MUSIC_LIGHT, SPEECH
+    #               dynamic_range_compression_portable_headphones: "NONE", # accepts NONE, FILM_STANDARD, FILM_LIGHT, MUSIC_STANDARD, MUSIC_LIGHT, SPEECH
+    #               dynamic_range_compression_portable_speakers: "NONE", # accepts NONE, FILM_STANDARD, FILM_LIGHT, MUSIC_STANDARD, MUSIC_LIGHT, SPEECH
+    #               lo_ro_center_mix_level: 1.0,
+    #               lo_ro_surround_mix_level: 1.0,
+    #               lt_rt_center_mix_level: 1.0,
+    #               lt_rt_surround_mix_level: 1.0,
+    #               sample_rate: 1,
+    #               stereo_downmix: "NOT_INDICATED", # accepts NOT_INDICATED, LO_RO, LT_RT, DPL2
+    #             },
     #             aiff_settings: {
     #               bit_depth: 1,
     #               channels: 1,
     #               sample_rate: 1,
     #             },
-    #             codec: "AAC", # accepts AAC, MP2, MP3, WAV, AIFF, AC3, EAC3, EAC3_ATMOS, VORBIS, OPUS, PASSTHROUGH, FLAC
+    #             codec: "AAC", # accepts AAC, MP2, MP3, WAV, AIFF, AC3, AC4, EAC3, EAC3_ATMOS, VORBIS, OPUS, PASSTHROUGH, FLAC
     #             eac_3_atmos_settings: {
     #               bitrate: 1,
     #               bitstream_mode: "COMPLETE_MAIN", # accepts COMPLETE_MAIN
@@ -1612,10 +1627,23 @@ module Aws::MediaConvert
     #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_3_settings.lfe_filter #=> String, one of "ENABLED", "DISABLED"
     #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_3_settings.metadata_control #=> String, one of "FOLLOW_INPUT", "USE_CONFIGURED"
     #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_3_settings.sample_rate #=> Integer
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.bitrate #=> Integer
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.bitstream_mode #=> String, one of "COMPLETE_MAIN", "EMERGENCY"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.coding_mode #=> String, one of "CODING_MODE_2_0", "CODING_MODE_3_2_LFE", "CODING_MODE_5_1_4"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_flat_panel_tv #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_home_theater #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_portable_headphones #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_portable_speakers #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.lo_ro_center_mix_level #=> Float
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.lo_ro_surround_mix_level #=> Float
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.lt_rt_center_mix_level #=> Float
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.lt_rt_surround_mix_level #=> Float
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.sample_rate #=> Integer
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.stereo_downmix #=> String, one of "NOT_INDICATED", "LO_RO", "LT_RT", "DPL2"
     #   resp.preset.settings.audio_descriptions[0].codec_settings.aiff_settings.bit_depth #=> Integer
     #   resp.preset.settings.audio_descriptions[0].codec_settings.aiff_settings.channels #=> Integer
     #   resp.preset.settings.audio_descriptions[0].codec_settings.aiff_settings.sample_rate #=> Integer
-    #   resp.preset.settings.audio_descriptions[0].codec_settings.codec #=> String, one of "AAC", "MP2", "MP3", "WAV", "AIFF", "AC3", "EAC3", "EAC3_ATMOS", "VORBIS", "OPUS", "PASSTHROUGH", "FLAC"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.codec #=> String, one of "AAC", "MP2", "MP3", "WAV", "AIFF", "AC3", "AC4", "EAC3", "EAC3_ATMOS", "VORBIS", "OPUS", "PASSTHROUGH", "FLAC"
     #   resp.preset.settings.audio_descriptions[0].codec_settings.eac_3_atmos_settings.bitrate #=> Integer
     #   resp.preset.settings.audio_descriptions[0].codec_settings.eac_3_atmos_settings.bitstream_mode #=> String, one of "COMPLETE_MAIN"
     #   resp.preset.settings.audio_descriptions[0].codec_settings.eac_3_atmos_settings.coding_mode #=> String, one of "CODING_MODE_AUTO", "CODING_MODE_5_1_4", "CODING_MODE_7_1_4", "CODING_MODE_9_1_6"
@@ -2689,10 +2717,23 @@ module Aws::MediaConvert
     #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_3_settings.lfe_filter #=> String, one of "ENABLED", "DISABLED"
     #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_3_settings.metadata_control #=> String, one of "FOLLOW_INPUT", "USE_CONFIGURED"
     #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_3_settings.sample_rate #=> Integer
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.bitrate #=> Integer
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.bitstream_mode #=> String, one of "COMPLETE_MAIN", "EMERGENCY"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.coding_mode #=> String, one of "CODING_MODE_2_0", "CODING_MODE_3_2_LFE", "CODING_MODE_5_1_4"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_flat_panel_tv #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_home_theater #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_portable_headphones #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_portable_speakers #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.lo_ro_center_mix_level #=> Float
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.lo_ro_surround_mix_level #=> Float
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.lt_rt_center_mix_level #=> Float
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.lt_rt_surround_mix_level #=> Float
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.sample_rate #=> Integer
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.stereo_downmix #=> String, one of "NOT_INDICATED", "LO_RO", "LT_RT", "DPL2"
     #   resp.preset.settings.audio_descriptions[0].codec_settings.aiff_settings.bit_depth #=> Integer
     #   resp.preset.settings.audio_descriptions[0].codec_settings.aiff_settings.channels #=> Integer
     #   resp.preset.settings.audio_descriptions[0].codec_settings.aiff_settings.sample_rate #=> Integer
-    #   resp.preset.settings.audio_descriptions[0].codec_settings.codec #=> String, one of "AAC", "MP2", "MP3", "WAV", "AIFF", "AC3", "EAC3", "EAC3_ATMOS", "VORBIS", "OPUS", "PASSTHROUGH", "FLAC"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.codec #=> String, one of "AAC", "MP2", "MP3", "WAV", "AIFF", "AC3", "AC4", "EAC3", "EAC3_ATMOS", "VORBIS", "OPUS", "PASSTHROUGH", "FLAC"
     #   resp.preset.settings.audio_descriptions[0].codec_settings.eac_3_atmos_settings.bitrate #=> Integer
     #   resp.preset.settings.audio_descriptions[0].codec_settings.eac_3_atmos_settings.bitstream_mode #=> String, one of "COMPLETE_MAIN"
     #   resp.preset.settings.audio_descriptions[0].codec_settings.eac_3_atmos_settings.coding_mode #=> String, one of "CODING_MODE_AUTO", "CODING_MODE_5_1_4", "CODING_MODE_7_1_4", "CODING_MODE_9_1_6"
@@ -3580,10 +3621,23 @@ module Aws::MediaConvert
     #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_3_settings.lfe_filter #=> String, one of "ENABLED", "DISABLED"
     #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_3_settings.metadata_control #=> String, one of "FOLLOW_INPUT", "USE_CONFIGURED"
     #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_3_settings.sample_rate #=> Integer
+    #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_4_settings.bitrate #=> Integer
+    #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_4_settings.bitstream_mode #=> String, one of "COMPLETE_MAIN", "EMERGENCY"
+    #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_4_settings.coding_mode #=> String, one of "CODING_MODE_2_0", "CODING_MODE_3_2_LFE", "CODING_MODE_5_1_4"
+    #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_flat_panel_tv #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_home_theater #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_portable_headphones #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_portable_speakers #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_4_settings.lo_ro_center_mix_level #=> Float
+    #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_4_settings.lo_ro_surround_mix_level #=> Float
+    #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_4_settings.lt_rt_center_mix_level #=> Float
+    #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_4_settings.lt_rt_surround_mix_level #=> Float
+    #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_4_settings.sample_rate #=> Integer
+    #   resp.presets[0].settings.audio_descriptions[0].codec_settings.ac_4_settings.stereo_downmix #=> String, one of "NOT_INDICATED", "LO_RO", "LT_RT", "DPL2"
     #   resp.presets[0].settings.audio_descriptions[0].codec_settings.aiff_settings.bit_depth #=> Integer
     #   resp.presets[0].settings.audio_descriptions[0].codec_settings.aiff_settings.channels #=> Integer
     #   resp.presets[0].settings.audio_descriptions[0].codec_settings.aiff_settings.sample_rate #=> Integer
-    #   resp.presets[0].settings.audio_descriptions[0].codec_settings.codec #=> String, one of "AAC", "MP2", "MP3", "WAV", "AIFF", "AC3", "EAC3", "EAC3_ATMOS", "VORBIS", "OPUS", "PASSTHROUGH", "FLAC"
+    #   resp.presets[0].settings.audio_descriptions[0].codec_settings.codec #=> String, one of "AAC", "MP2", "MP3", "WAV", "AIFF", "AC3", "AC4", "EAC3", "EAC3_ATMOS", "VORBIS", "OPUS", "PASSTHROUGH", "FLAC"
     #   resp.presets[0].settings.audio_descriptions[0].codec_settings.eac_3_atmos_settings.bitrate #=> Integer
     #   resp.presets[0].settings.audio_descriptions[0].codec_settings.eac_3_atmos_settings.bitstream_mode #=> String, one of "COMPLETE_MAIN"
     #   resp.presets[0].settings.audio_descriptions[0].codec_settings.eac_3_atmos_settings.coding_mode #=> String, one of "CODING_MODE_AUTO", "CODING_MODE_5_1_4", "CODING_MODE_7_1_4", "CODING_MODE_9_1_6"
@@ -4403,7 +4457,7 @@ module Aws::MediaConvert
     #
     #   resp.probe_results #=> Array
     #   resp.probe_results[0].container.duration #=> Float
-    #   resp.probe_results[0].container.format #=> String, one of "mp4", "quicktime", "matroska", "webm", "mxf", "wave"
+    #   resp.probe_results[0].container.format #=> String, one of "mp4", "quicktime", "matroska", "webm", "mxf", "wave", "avi"
     #   resp.probe_results[0].container.tracks #=> Array
     #   resp.probe_results[0].container.tracks[0].audio_properties.bit_depth #=> Integer
     #   resp.probe_results[0].container.tracks[0].audio_properties.bit_rate #=> Integer
@@ -4412,7 +4466,7 @@ module Aws::MediaConvert
     #   resp.probe_results[0].container.tracks[0].audio_properties.frame_rate.numerator #=> Integer
     #   resp.probe_results[0].container.tracks[0].audio_properties.language_code #=> String
     #   resp.probe_results[0].container.tracks[0].audio_properties.sample_rate #=> Integer
-    #   resp.probe_results[0].container.tracks[0].codec #=> String, one of "UNKNOWN", "AAC", "AC3", "EAC3", "FLAC", "MP3", "OPUS", "PCM", "VORBIS", "AV1", "AVC", "HEVC", "JPEG2000", "MJPEG", "MPEG1", "MP4V", "MPEG2", "PRORES", "THEORA", "VFW", "VP8", "VP9", "QTRLE", "C608", "C708", "WEBVTT"
+    #   resp.probe_results[0].container.tracks[0].codec #=> String, one of "UNKNOWN", "AAC", "AC3", "EAC3", "FLAC", "MP3", "OPUS", "PCM", "VORBIS", "AV1", "AVC", "HEVC", "JPEG2000", "MJPEG", "MPEG1", "MP4V", "MPEG2", "PRORES", "QTRLE", "THEORA", "UNCOMPRESSED", "VFW", "VP8", "VP9", "C608", "C708", "WEBVTT"
     #   resp.probe_results[0].container.tracks[0].data_properties.language_code #=> String
     #   resp.probe_results[0].container.tracks[0].duration #=> Float
     #   resp.probe_results[0].container.tracks[0].index #=> Integer
@@ -4795,12 +4849,27 @@ module Aws::MediaConvert
     #               metadata_control: "FOLLOW_INPUT", # accepts FOLLOW_INPUT, USE_CONFIGURED
     #               sample_rate: 1,
     #             },
+    #             ac_4_settings: {
+    #               bitrate: 1,
+    #               bitstream_mode: "COMPLETE_MAIN", # accepts COMPLETE_MAIN, EMERGENCY
+    #               coding_mode: "CODING_MODE_2_0", # accepts CODING_MODE_2_0, CODING_MODE_3_2_LFE, CODING_MODE_5_1_4
+    #               dynamic_range_compression_flat_panel_tv: "NONE", # accepts NONE, FILM_STANDARD, FILM_LIGHT, MUSIC_STANDARD, MUSIC_LIGHT, SPEECH
+    #               dynamic_range_compression_home_theater: "NONE", # accepts NONE, FILM_STANDARD, FILM_LIGHT, MUSIC_STANDARD, MUSIC_LIGHT, SPEECH
+    #               dynamic_range_compression_portable_headphones: "NONE", # accepts NONE, FILM_STANDARD, FILM_LIGHT, MUSIC_STANDARD, MUSIC_LIGHT, SPEECH
+    #               dynamic_range_compression_portable_speakers: "NONE", # accepts NONE, FILM_STANDARD, FILM_LIGHT, MUSIC_STANDARD, MUSIC_LIGHT, SPEECH
+    #               lo_ro_center_mix_level: 1.0,
+    #               lo_ro_surround_mix_level: 1.0,
+    #               lt_rt_center_mix_level: 1.0,
+    #               lt_rt_surround_mix_level: 1.0,
+    #               sample_rate: 1,
+    #               stereo_downmix: "NOT_INDICATED", # accepts NOT_INDICATED, LO_RO, LT_RT, DPL2
+    #             },
     #             aiff_settings: {
     #               bit_depth: 1,
     #               channels: 1,
     #               sample_rate: 1,
     #             },
-    #             codec: "AAC", # accepts AAC, MP2, MP3, WAV, AIFF, AC3, EAC3, EAC3_ATMOS, VORBIS, OPUS, PASSTHROUGH, FLAC
+    #             codec: "AAC", # accepts AAC, MP2, MP3, WAV, AIFF, AC3, AC4, EAC3, EAC3_ATMOS, VORBIS, OPUS, PASSTHROUGH, FLAC
     #             eac_3_atmos_settings: {
     #               bitrate: 1,
     #               bitstream_mode: "COMPLETE_MAIN", # accepts COMPLETE_MAIN
@@ -5637,10 +5706,23 @@ module Aws::MediaConvert
     #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_3_settings.lfe_filter #=> String, one of "ENABLED", "DISABLED"
     #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_3_settings.metadata_control #=> String, one of "FOLLOW_INPUT", "USE_CONFIGURED"
     #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_3_settings.sample_rate #=> Integer
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.bitrate #=> Integer
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.bitstream_mode #=> String, one of "COMPLETE_MAIN", "EMERGENCY"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.coding_mode #=> String, one of "CODING_MODE_2_0", "CODING_MODE_3_2_LFE", "CODING_MODE_5_1_4"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_flat_panel_tv #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_home_theater #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_portable_headphones #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.dynamic_range_compression_portable_speakers #=> String, one of "NONE", "FILM_STANDARD", "FILM_LIGHT", "MUSIC_STANDARD", "MUSIC_LIGHT", "SPEECH"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.lo_ro_center_mix_level #=> Float
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.lo_ro_surround_mix_level #=> Float
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.lt_rt_center_mix_level #=> Float
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.lt_rt_surround_mix_level #=> Float
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.sample_rate #=> Integer
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.ac_4_settings.stereo_downmix #=> String, one of "NOT_INDICATED", "LO_RO", "LT_RT", "DPL2"
     #   resp.preset.settings.audio_descriptions[0].codec_settings.aiff_settings.bit_depth #=> Integer
     #   resp.preset.settings.audio_descriptions[0].codec_settings.aiff_settings.channels #=> Integer
     #   resp.preset.settings.audio_descriptions[0].codec_settings.aiff_settings.sample_rate #=> Integer
-    #   resp.preset.settings.audio_descriptions[0].codec_settings.codec #=> String, one of "AAC", "MP2", "MP3", "WAV", "AIFF", "AC3", "EAC3", "EAC3_ATMOS", "VORBIS", "OPUS", "PASSTHROUGH", "FLAC"
+    #   resp.preset.settings.audio_descriptions[0].codec_settings.codec #=> String, one of "AAC", "MP2", "MP3", "WAV", "AIFF", "AC3", "AC4", "EAC3", "EAC3_ATMOS", "VORBIS", "OPUS", "PASSTHROUGH", "FLAC"
     #   resp.preset.settings.audio_descriptions[0].codec_settings.eac_3_atmos_settings.bitrate #=> Integer
     #   resp.preset.settings.audio_descriptions[0].codec_settings.eac_3_atmos_settings.bitstream_mode #=> String, one of "COMPLETE_MAIN"
     #   resp.preset.settings.audio_descriptions[0].codec_settings.eac_3_atmos_settings.coding_mode #=> String, one of "CODING_MODE_AUTO", "CODING_MODE_5_1_4", "CODING_MODE_7_1_4", "CODING_MODE_9_1_6"
@@ -6383,7 +6465,7 @@ module Aws::MediaConvert
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-mediaconvert'
-      context[:gem_version] = '1.179.0'
+      context[:gem_version] = '1.180.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

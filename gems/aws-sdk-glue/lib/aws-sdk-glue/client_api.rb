@@ -1966,6 +1966,8 @@ module Aws::Glue
     BatchGetPartitionRequest.add_member(:database_name, Shapes::ShapeRef.new(shape: NameString, required: true, location_name: "DatabaseName"))
     BatchGetPartitionRequest.add_member(:table_name, Shapes::ShapeRef.new(shape: NameString, required: true, location_name: "TableName"))
     BatchGetPartitionRequest.add_member(:partitions_to_get, Shapes::ShapeRef.new(shape: BatchGetPartitionValueList, required: true, location_name: "PartitionsToGet"))
+    BatchGetPartitionRequest.add_member(:audit_context, Shapes::ShapeRef.new(shape: AuditContext, location_name: "AuditContext"))
+    BatchGetPartitionRequest.add_member(:query_session_context, Shapes::ShapeRef.new(shape: QuerySessionContext, location_name: "QuerySessionContext"))
     BatchGetPartitionRequest.struct_class = Types::BatchGetPartitionRequest
 
     BatchGetPartitionResponse.add_member(:partitions, Shapes::ShapeRef.new(shape: PartitionList, location_name: "Partitions"))

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.180.0 (2026-03-13)
+------------------
+
+* Feature - This update adds support for Dolby AC-4 audio output, frame rate conversion between non-Dolby Vision inputs to Dolby Vision outputs, and clear lead CMAF HLS output.
+
 1.179.0 (2026-01-28)
 ------------------
 

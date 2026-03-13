@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.247.0 (2026-03-13)
+------------------
+
+* Feature - Deprecating PredefinedNotificationID field
+
 1.246.0 (2026-03-06)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.59.0 (2026-03-13)
+------------------
+
+* Feature - Updates maximum reconnect window seconds from 60 to 300 for participant replication
+
 1.58.0 (2026-01-16)
 ------------------
 

@@ -3660,6 +3660,7 @@ module Aws::QuickSight
     Capabilities.add_member(:research, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "Research"))
     Capabilities.add_member(:self_upgrade_user_role, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "SelfUpgradeUserRole"))
     Capabilities.add_member(:extension, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "Extension"))
+    Capabilities.add_member(:manage_shared_folders, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "ManageSharedFolders"))
     Capabilities.struct_class = Types::Capabilities
 
     CascadingControlConfiguration.add_member(:source_controls, Shapes::ShapeRef.new(shape: CascadingControlSourceList, location_name: "SourceControls"))

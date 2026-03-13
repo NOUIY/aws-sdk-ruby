@@ -1399,6 +1399,7 @@ module Aws::QuickSight
       attr_accessor research: ("DENY")
       attr_accessor self_upgrade_user_role: ("DENY")
       attr_accessor extension: ("DENY")
+      attr_accessor manage_shared_folders: ("DENY")
       SENSITIVE: []
     end
 

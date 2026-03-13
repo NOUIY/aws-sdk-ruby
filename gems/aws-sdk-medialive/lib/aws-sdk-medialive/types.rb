@@ -13860,11 +13860,14 @@ module Aws::MediaLive
     #   @return [String]
     #
     # @!attribute [rw] scaling_behavior
-    #   STRETCH\_TO\_OUTPUT configures the output position to stretch the
-    #   video to the specified output resolution (height and width). This
-    #   option will override any position value. DEFAULT may insert black
-    #   boxes (pillar boxes or letter boxes) around the video to provide the
-    #   specified output resolution.
+    #   Configures how MediaLive transforms the video picture to match the
+    #   output frame. Use STRETCH\_TO\_OUTPUT to stretch the video to fill
+    #   the output frame. The video might get distorted. Use DEFAULT to
+    #   insert pillar boxes or letter boxes around the video to fill the
+    #   output frame. The video won't get distorted. Use SMART\_CROP to
+    #   enable the smart crop feature that uses the Elemental Inference
+    #   service to crop the frame using AI - see the MediaLive User Guide
+    #   for more information.
     #   @return [String]
     #
     # @!attribute [rw] sharpness

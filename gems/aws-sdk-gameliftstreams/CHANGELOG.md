@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.23.0 (2026-03-13)
+------------------
+
+* Feature - Feature launch that enables customers to connect streaming sessions to their own VPCs running in AWS.
+
 1.22.0 (2026-03-06)
 ------------------
 

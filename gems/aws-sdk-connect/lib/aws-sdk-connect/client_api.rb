@@ -3356,7 +3356,7 @@ module Aws::Connect
     CreateNotificationRequest.add_member(:priority, Shapes::ShapeRef.new(shape: ConfigurableNotificationPriority, location_name: "Priority"))
     CreateNotificationRequest.add_member(:content, Shapes::ShapeRef.new(shape: NotificationContent, required: true, location_name: "Content"))
     CreateNotificationRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
-    CreateNotificationRequest.add_member(:predefined_notification_id, Shapes::ShapeRef.new(shape: NotificationId, location_name: "PredefinedNotificationId"))
+    CreateNotificationRequest.add_member(:predefined_notification_id, Shapes::ShapeRef.new(shape: NotificationId, deprecated: true, location_name: "PredefinedNotificationId", metadata: {"deprecatedMessage" => "PredefinedNotificationId is deprecated. Use ClientToken for idempotency.", "deprecatedSince" => "3/13/2026"}))
     CreateNotificationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     CreateNotificationRequest.struct_class = Types::CreateNotificationRequest
 

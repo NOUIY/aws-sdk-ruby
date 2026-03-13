@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.180.0 (2026-03-13)
+------------------
+
+* Feature - Documents the VideoDescription.ScalingBehavior.SMART(underscore)CROP enum value.
+
 1.179.0 (2026-02-24)
 ------------------
 

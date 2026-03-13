@@ -245,6 +245,140 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
+    # Required when you set Codec to the value AC4.
+    #
+    # @!attribute [rw] bitrate
+    #   Specify the average bitrate in bits per second. Leave blank to use
+    #   the default bitrate for the coding mode you select according to ETSI
+    #   TS 103 190. Valid bitrates for coding mode 2.0 (stereo): 192000,
+    #   256000, or 320000. Valid bitrates for coding mode 5.1 (3/2 with
+    #   LFE): 512000. Valid bitrates for coding mode 5.1.4 (immersive):
+    #   512000, 768000, or 1024000.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] bitstream_mode
+    #   Specify the bitstream mode for the AC-4 stream that the encoder
+    #   emits. For more information about the AC-4 bitstream mode, see ETSI
+    #   TS 103 190. Maps to dlb\_paec\_ac4\_bed\_classifier in the encoder
+    #   implementation. - COMPLETE\_MAIN: Complete Main (standard mix) -
+    #   EMERGENCY: Stereo Emergency content
+    #   @return [String]
+    #
+    # @!attribute [rw] coding_mode
+    #   Dolby AC-4 coding mode. Determines number of channels. Maps to
+    #   dlb\_paec\_ac4\_bed\_channel\_config in the encoder implementation.
+    #   - CODING\_MODE\_2\_0: 2.0 (stereo) - maps to
+    #   DLB\_PAEC\_AC4\_BED\_CHANNEL\_CONFIG\_20 - CODING\_MODE\_3\_2\_LFE:
+    #   5.1 surround - maps to DLB\_PAEC\_AC4\_BED\_CHANNEL\_CONFIG\_51 -
+    #   CODING\_MODE\_5\_1\_4: 5.1.4 immersive - maps to
+    #   DLB\_PAEC\_AC4\_BED\_CHANNEL\_CONFIG\_514
+    #   @return [String]
+    #
+    # @!attribute [rw] dynamic_range_compression_flat_panel_tv
+    #   Choose the Dolby AC-4 dynamic range control (DRC) profile that
+    #   MediaConvert uses when encoding the metadata in the Dolby AC-4
+    #   stream for the specified decoder mode. For information about the
+    #   Dolby AC-4 DRC profiles, see the Dolby AC-4 specification.
+    #   @return [String]
+    #
+    # @!attribute [rw] dynamic_range_compression_home_theater
+    #   Choose the Dolby AC-4 dynamic range control (DRC) profile that
+    #   MediaConvert uses when encoding the metadata in the Dolby AC-4
+    #   stream for the specified decoder mode. For information about the
+    #   Dolby AC-4 DRC profiles, see the Dolby AC-4 specification.
+    #   @return [String]
+    #
+    # @!attribute [rw] dynamic_range_compression_portable_headphones
+    #   Choose the Dolby AC-4 dynamic range control (DRC) profile that
+    #   MediaConvert uses when encoding the metadata in the Dolby AC-4
+    #   stream for the specified decoder mode. For information about the
+    #   Dolby AC-4 DRC profiles, see the Dolby AC-4 specification.
+    #   @return [String]
+    #
+    # @!attribute [rw] dynamic_range_compression_portable_speakers
+    #   Choose the Dolby AC-4 dynamic range control (DRC) profile that
+    #   MediaConvert uses when encoding the metadata in the Dolby AC-4
+    #   stream for the specified decoder mode. For information about the
+    #   Dolby AC-4 DRC profiles, see the Dolby AC-4 specification.
+    #   @return [String]
+    #
+    # @!attribute [rw] lo_ro_center_mix_level
+    #   Specify a value for the following Dolby AC-4 setting: Left
+    #   only/Right only center mix. MediaConvert uses this value for
+    #   downmixing. How the service uses this value depends on the value
+    #   that you choose for Stereo downmix. Valid values: 3.0, 1.5, 0.0,
+    #   -1.5, -3.0, -4.5, -6.0, and -infinity. The value -infinity mutes the
+    #   channel. This setting applies only if you keep the default value of
+    #   3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you choose a
+    #   different value for Coding mode, the service ignores Left only/Right
+    #   only center.
+    #   @return [Float]
+    #
+    # @!attribute [rw] lo_ro_surround_mix_level
+    #   Specify a value for the following Dolby AC-4 setting: Left
+    #   only/Right only surround mix. MediaConvert uses this value for
+    #   downmixing. How the service uses this value depends on the value
+    #   that you choose for Stereo downmix. Valid values: -1.5, -3.0, -4.5,
+    #   -6.0, and -infinity. The value -infinity mutes the channel. This
+    #   setting applies only if you keep the default value of 3/2 - L, R, C,
+    #   Ls, Rs for the setting Coding mode. If you choose a different value
+    #   for Coding mode, the service ignores Left only/Right only surround.
+    #   @return [Float]
+    #
+    # @!attribute [rw] lt_rt_center_mix_level
+    #   Specify a value for the following Dolby AC-4 setting: Left
+    #   total/Right total center mix. MediaConvert uses this value for
+    #   downmixing. How the service uses this value depends on the value
+    #   that you choose for Stereo downmix. Valid values: 3.0, 1.5, 0.0,
+    #   -1.5, -3.0, -4.5, -6.0, and -infinity. The value -infinity mutes the
+    #   channel. This setting applies only if you keep the default value of
+    #   3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you choose a
+    #   different value for Coding mode, the service ignores Left
+    #   total/Right total center.
+    #   @return [Float]
+    #
+    # @!attribute [rw] lt_rt_surround_mix_level
+    #   Specify a value for the following Dolby AC-4 setting: Left
+    #   total/Right total surround mix. MediaConvert uses this value for
+    #   downmixing. How the service uses this value depends on the value
+    #   that you choose for Stereo downmix. Valid values: -1.5, -3.0, -4.5,
+    #   -6.0, and -infinity. The value -infinity mutes the channel. This
+    #   setting applies only if you keep the default value of 3/2 - L, R, C,
+    #   Ls, Rs for the setting Coding mode. If you choose a different value
+    #   for Coding mode, the service ignores Left total/Right total
+    #   surround.
+    #   @return [Float]
+    #
+    # @!attribute [rw] sample_rate
+    #   This value is always 48000. It represents the sample rate in Hz.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] stereo_downmix
+    #   Choose the preferred stereo downmix method. This setting tells the
+    #   decoder how to downmix multi-channel audio to stereo during
+    #   playback.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/Ac4Settings AWS API Documentation
+    #
+    class Ac4Settings < Struct.new(
+      :bitrate,
+      :bitstream_mode,
+      :coding_mode,
+      :dynamic_range_compression_flat_panel_tv,
+      :dynamic_range_compression_home_theater,
+      :dynamic_range_compression_portable_headphones,
+      :dynamic_range_compression_portable_speakers,
+      :lo_ro_center_mix_level,
+      :lo_ro_surround_mix_level,
+      :lt_rt_center_mix_level,
+      :lt_rt_surround_mix_level,
+      :sample_rate,
+      :stereo_downmix)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Accelerated transcoding can significantly speed up jobs with long,
     # visually complex content.
     #
@@ -457,6 +591,10 @@ module Aws::MediaConvert
     #   Required when you set Codec to the value AC3.
     #   @return [Types::Ac3Settings]
     #
+    # @!attribute [rw] ac_4_settings
+    #   Required when you set Codec to the value AC4.
+    #   @return [Types::Ac4Settings]
+    #
     # @!attribute [rw] aiff_settings
     #   Required when you set Codec to the value AIFF.
     #   @return [Types::AiffSettings]
@@ -516,6 +654,7 @@ module Aws::MediaConvert
     class AudioCodecSettings < Struct.new(
       :aac_settings,
       :ac_3_settings,
+      :ac_4_settings,
       :aiff_settings,
       :codec,
       :eac_3_atmos_settings,
@@ -2340,6 +2479,24 @@ module Aws::MediaConvert
 
     # Settings for CMAF encryption
     #
+    # @!attribute [rw] clear_lead
+    #   Enable Clear Lead DRM to reduce video startup latency by leaving the
+    #   first segment unencrypted while DRM license retrieval occurs in
+    #   parallel. This optimization allows immediate playback startup while
+    #   maintaining content protection for the remainder of the stream. When
+    #   enabled, the first output segment remains fully unencrypted, and
+    #   encryption begins at the start of the second segment. The HLS
+    #   manifest will omit #EXT-X-KEY tags during the clear segment and
+    #   insert the first #EXT-X-KEY immediately before the first encrypted
+    #   fragment. This feature is supported exclusively for CMAF HLS (fMP4)
+    #   outputs and is compatible with all existing key provider
+    #   integrations (SPEKE v1, SPEKE v2, and Static Key encryption).
+    #   Supported codecs: H.264 and H.265 video codecs, and AAC audio codec.
+    #   Choose Enabled to activate Clear Lead DRM optimization. Choose
+    #   Disabled to use standard encryption where all segments are encrypted
+    #   from the beginning.
+    #   @return [String]
+    #
     # @!attribute [rw] constant_initialization_vector
     #   This is a 128-bit, 16-byte hex value represented by a 32-character
     #   text string. If this parameter is not set then the Initialization
@@ -2378,6 +2535,7 @@ module Aws::MediaConvert
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/CmafEncryptionSettings AWS API Documentation
     #
     class CmafEncryptionSettings < Struct.new(
+      :clear_lead,
       :constant_initialization_vector,
       :encryption_method,
       :initialization_vector_in_manifest,
@@ -2686,7 +2844,10 @@ module Aws::MediaConvert
     #   to FOLLOW\_IFRAME, MediaConvert generates thumbnails for each IDR
     #   frame in the output (matching the GOP cadence). If set to
     #   FOLLOW\_CUSTOM, MediaConvert generates thumbnails according to the
-    #   interval you specify in thumbnailInterval.
+    #   interval you specify in thumbnailInterval. If set to
+    #   FOLLOW\_SEGMENTATION, MediaConvert generates thumbnail playlist
+    #   entries that align exactly with video segment boundaries.
+    #   FOLLOW\_SEGMENTATION requires 1x1 tiling.
     #   @return [String]
     #
     # @!attribute [rw] thumbnail_height
@@ -3236,9 +3397,9 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] format
     #   The format of your media file. For example: MP4, QuickTime (MOV),
-    #   Matroska (MKV), WebM, MXF or Wave. Note that this will be blank if
-    #   your media file has a format that the MediaConvert Probe operation
-    #   does not recognize.
+    #   Matroska (MKV), WebM, MXF, Wave, or AVI. Note that this will be
+    #   blank if your media file has a format that the MediaConvert Probe
+    #   operation does not recognize.
     #   @return [String]
     #
     # @!attribute [rw] tracks
@@ -4030,7 +4191,10 @@ module Aws::MediaConvert
     #   to FOLLOW\_IFRAME, MediaConvert generates thumbnails for each IDR
     #   frame in the output (matching the GOP cadence). If set to
     #   FOLLOW\_CUSTOM, MediaConvert generates thumbnails according to the
-    #   interval you specify in thumbnailInterval.
+    #   interval you specify in thumbnailInterval. If set to
+    #   FOLLOW\_SEGMENTATION, MediaConvert generates thumbnail playlist
+    #   entries that align exactly with video segment boundaries.
+    #   FOLLOW\_SEGMENTATION requires 1x1 tiling.
     #   @return [String]
     #
     # @!attribute [rw] thumbnail_height
@@ -7765,7 +7929,10 @@ module Aws::MediaConvert
     #   to FOLLOW\_IFRAME, MediaConvert generates thumbnails for each IDR
     #   frame in the output (matching the GOP cadence). If set to
     #   FOLLOW\_CUSTOM, MediaConvert generates thumbnails according to the
-    #   interval you specify in thumbnailInterval.
+    #   interval you specify in thumbnailInterval. If set to
+    #   FOLLOW\_SEGMENTATION, MediaConvert generates thumbnail playlist
+    #   entries that align exactly with video segment boundaries.
+    #   FOLLOW\_SEGMENTATION requires 1x1 tiling.
     #   @return [String]
     #
     # @!attribute [rw] thumbnail_height

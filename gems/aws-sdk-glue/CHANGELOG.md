@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.250.0 (2026-03-13)
+------------------
+
+* Feature - Add QuerySessionContext to BatchGetPartitionRequest
+
 1.249.0 (2026-02-05)
 ------------------
 

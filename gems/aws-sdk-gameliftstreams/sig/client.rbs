@@ -92,7 +92,11 @@ module Aws
                                             always_on_capacity: ::Integer?,
                                             on_demand_capacity: ::Integer?,
                                             target_idle_capacity: ::Integer?,
-                                            maximum_capacity: ::Integer?
+                                            maximum_capacity: ::Integer?,
+                                            vpc_transit_configuration: {
+                                              vpc_id: ::String,
+                                              ipv_4_cidr_blocks: Array[::String]
+                                            }?
                                           },
                                         ]
                                       ) -> _AddStreamGroupLocationsResponseSuccess
@@ -169,7 +173,11 @@ module Aws
                                      always_on_capacity: ::Integer?,
                                      on_demand_capacity: ::Integer?,
                                      target_idle_capacity: ::Integer?,
-                                     maximum_capacity: ::Integer?
+                                     maximum_capacity: ::Integer?,
+                                     vpc_transit_configuration: {
+                                       vpc_id: ::String,
+                                       ipv_4_cidr_blocks: Array[::String]
+                                     }?
                                    },
                                  ],
                                  ?tags: Hash[::String, ::String],
@@ -491,7 +499,11 @@ module Aws
                                      always_on_capacity: ::Integer?,
                                      on_demand_capacity: ::Integer?,
                                      target_idle_capacity: ::Integer?,
-                                     maximum_capacity: ::Integer?
+                                     maximum_capacity: ::Integer?,
+                                     vpc_transit_configuration: {
+                                       vpc_id: ::String,
+                                       ipv_4_cidr_blocks: Array[::String]
+                                     }?
                                    },
                                  ],
                                  ?description: ::String,

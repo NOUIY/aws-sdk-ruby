@@ -280,7 +280,19 @@ module Aws
                                    {
                                      values: Array[::String]
                                    },
-                                 ]
+                                 ],
+                                 ?audit_context: {
+                                   additional_audit_context: ::String?,
+                                   requested_columns: Array[::String]?,
+                                   all_columns_requested: bool?
+                                 },
+                                 ?query_session_context: {
+                                   query_id: ::String?,
+                                   query_start_time: ::Time?,
+                                   cluster_id: ::String?,
+                                   query_authorization_id: ::String?,
+                                   additional_context: Hash[::String, ::String]?
+                                 }
                                ) -> _BatchGetPartitionResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetPartitionResponseSuccess
 

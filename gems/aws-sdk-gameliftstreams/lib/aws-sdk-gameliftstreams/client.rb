@@ -522,6 +522,10 @@ module Aws::GameLiftStreams
     #         on_demand_capacity: 1,
     #         target_idle_capacity: 1,
     #         maximum_capacity: 1,
+    #         vpc_transit_configuration: {
+    #           vpc_id: "VpcId", # required
+    #           ipv_4_cidr_blocks: ["Ipv4CidrBlock"], # required
+    #         },
     #       },
     #     ],
     #   })
@@ -539,6 +543,12 @@ module Aws::GameLiftStreams
     #   resp.locations[0].requested_capacity #=> Integer
     #   resp.locations[0].allocated_capacity #=> Integer
     #   resp.locations[0].idle_capacity #=> Integer
+    #   resp.locations[0].internal_vpc_ipv_4_cidr_block #=> String
+    #   resp.locations[0].vpc_transit_configuration.vpc_id #=> String
+    #   resp.locations[0].vpc_transit_configuration.ipv_4_cidr_blocks #=> Array
+    #   resp.locations[0].vpc_transit_configuration.ipv_4_cidr_blocks[0] #=> String
+    #   resp.locations[0].vpc_transit_configuration.transit_gateway_id #=> String
+    #   resp.locations[0].vpc_transit_configuration.transit_gateway_resource_share_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/AddStreamGroupLocations AWS API Documentation
     #
@@ -961,28 +971,6 @@ module Aws::GameLiftStreams
     #     * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     #
     #     * Tenancy: Supports up to 12 concurrent stream sessions
-    #   * <b> <code>gen6n_medium_win2022</code> (NVIDIA, medium)</b> Supports
-    #     applications with low 3D scene complexity. Uses NVIDIA L4 Tensor
-    #     Core GPU.
-    #
-    #     * Reference resolution: 1080p
-    #
-    #     * Reference frame rate: 60 fps
-    #
-    #     * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
-    #
-    #     * Tenancy: Supports 1 concurrent stream session
-    #   * <b> <code>gen6n_small_win2022</code> (NVIDIA, small)</b> Supports
-    #     applications with low 3D scene complexity. Uses NVIDIA L4 Tensor
-    #     Core GPU.
-    #
-    #     * Reference resolution: 1080p
-    #
-    #     * Reference frame rate: 60 fps
-    #
-    #     * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
-    #
-    #     * Tenancy: Supports 1 concurrent stream session
     #   * <b> <code>gen5n_win2022</code> (NVIDIA, ultra)</b> Supports
     #     applications with extremely high 3D scene complexity. Runs
     #     applications on Microsoft Windows Server 2022 Base and supports
@@ -1135,6 +1123,10 @@ module Aws::GameLiftStreams
     #         on_demand_capacity: 1,
     #         target_idle_capacity: 1,
     #         maximum_capacity: 1,
+    #         vpc_transit_configuration: {
+    #           vpc_id: "VpcId", # required
+    #           ipv_4_cidr_blocks: ["Ipv4CidrBlock"], # required
+    #         },
     #       },
     #     ],
     #     tags: {
@@ -1159,6 +1151,12 @@ module Aws::GameLiftStreams
     #   resp.location_states[0].requested_capacity #=> Integer
     #   resp.location_states[0].allocated_capacity #=> Integer
     #   resp.location_states[0].idle_capacity #=> Integer
+    #   resp.location_states[0].internal_vpc_ipv_4_cidr_block #=> String
+    #   resp.location_states[0].vpc_transit_configuration.vpc_id #=> String
+    #   resp.location_states[0].vpc_transit_configuration.ipv_4_cidr_blocks #=> Array
+    #   resp.location_states[0].vpc_transit_configuration.ipv_4_cidr_blocks[0] #=> String
+    #   resp.location_states[0].vpc_transit_configuration.transit_gateway_id #=> String
+    #   resp.location_states[0].vpc_transit_configuration.transit_gateway_resource_share_arn #=> String
     #   resp.stream_class #=> String, one of "gen4n_high", "gen4n_ultra", "gen4n_win2022", "gen5n_high", "gen5n_ultra", "gen5n_win2022", "gen6n_small", "gen6n_medium", "gen6n_high", "gen6n_ultra", "gen6n_ultra_win2022", "gen6n_pro", "gen6n_pro_win2022", "gen6n_small_win2022", "gen6n_medium_win2022", "gen6e_pro", "gen6e_pro_win2022"
     #   resp.id #=> String
     #   resp.status #=> String, one of "ACTIVATING", "UPDATING_LOCATIONS", "ACTIVE", "ACTIVE_WITH_ERRORS", "ERROR", "DELETING", "EXPIRED"
@@ -1684,6 +1682,12 @@ module Aws::GameLiftStreams
     #   resp.location_states[0].requested_capacity #=> Integer
     #   resp.location_states[0].allocated_capacity #=> Integer
     #   resp.location_states[0].idle_capacity #=> Integer
+    #   resp.location_states[0].internal_vpc_ipv_4_cidr_block #=> String
+    #   resp.location_states[0].vpc_transit_configuration.vpc_id #=> String
+    #   resp.location_states[0].vpc_transit_configuration.ipv_4_cidr_blocks #=> Array
+    #   resp.location_states[0].vpc_transit_configuration.ipv_4_cidr_blocks[0] #=> String
+    #   resp.location_states[0].vpc_transit_configuration.transit_gateway_id #=> String
+    #   resp.location_states[0].vpc_transit_configuration.transit_gateway_resource_share_arn #=> String
     #   resp.stream_class #=> String, one of "gen4n_high", "gen4n_ultra", "gen4n_win2022", "gen5n_high", "gen5n_ultra", "gen5n_win2022", "gen6n_small", "gen6n_medium", "gen6n_high", "gen6n_ultra", "gen6n_ultra_win2022", "gen6n_pro", "gen6n_pro_win2022", "gen6n_small_win2022", "gen6n_medium_win2022", "gen6e_pro", "gen6e_pro_win2022"
     #   resp.id #=> String
     #   resp.status #=> String, one of "ACTIVATING", "UPDATING_LOCATIONS", "ACTIVE", "ACTIVE_WITH_ERRORS", "ERROR", "DELETING", "EXPIRED"
@@ -2260,6 +2264,9 @@ module Aws::GameLiftStreams
     #   terminates the stream session. This value is specified by
     #   `ConnectionTimeoutSeconds` in the `StartStreamSession` parameters.
     #
+    # * **Idle timeout**: A stream session will be terminated if no user
+    #   input has been received for 60 minutes.
+    #
     # * **Maximum session length**: A stream session will be terminated
     #   after this amount of time has elapsed since it started, regardless
     #   of any existing client connections. This value is specified by
@@ -2830,6 +2837,10 @@ module Aws::GameLiftStreams
     #         on_demand_capacity: 1,
     #         target_idle_capacity: 1,
     #         maximum_capacity: 1,
+    #         vpc_transit_configuration: {
+    #           vpc_id: "VpcId", # required
+    #           ipv_4_cidr_blocks: ["Ipv4CidrBlock"], # required
+    #         },
     #       },
     #     ],
     #     description: "Description",
@@ -2852,6 +2863,12 @@ module Aws::GameLiftStreams
     #   resp.location_states[0].requested_capacity #=> Integer
     #   resp.location_states[0].allocated_capacity #=> Integer
     #   resp.location_states[0].idle_capacity #=> Integer
+    #   resp.location_states[0].internal_vpc_ipv_4_cidr_block #=> String
+    #   resp.location_states[0].vpc_transit_configuration.vpc_id #=> String
+    #   resp.location_states[0].vpc_transit_configuration.ipv_4_cidr_blocks #=> Array
+    #   resp.location_states[0].vpc_transit_configuration.ipv_4_cidr_blocks[0] #=> String
+    #   resp.location_states[0].vpc_transit_configuration.transit_gateway_id #=> String
+    #   resp.location_states[0].vpc_transit_configuration.transit_gateway_resource_share_arn #=> String
     #   resp.stream_class #=> String, one of "gen4n_high", "gen4n_ultra", "gen4n_win2022", "gen5n_high", "gen5n_ultra", "gen5n_win2022", "gen6n_small", "gen6n_medium", "gen6n_high", "gen6n_ultra", "gen6n_ultra_win2022", "gen6n_pro", "gen6n_pro_win2022", "gen6n_small_win2022", "gen6n_medium_win2022", "gen6e_pro", "gen6e_pro_win2022"
     #   resp.id #=> String
     #   resp.status #=> String, one of "ACTIVATING", "UPDATING_LOCATIONS", "ACTIVE", "ACTIVE_WITH_ERRORS", "ERROR", "DELETING", "EXPIRED"
@@ -2889,7 +2906,7 @@ module Aws::GameLiftStreams
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-gameliftstreams'
-      context[:gem_version] = '1.22.0'
+      context[:gem_version] = '1.23.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

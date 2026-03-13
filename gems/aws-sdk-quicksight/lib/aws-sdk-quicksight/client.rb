@@ -2415,6 +2415,7 @@ module Aws::QuickSight
     #       research: "DENY", # accepts DENY
     #       self_upgrade_user_role: "DENY", # accepts DENY
     #       extension: "DENY", # accepts DENY
+    #       manage_shared_folders: "DENY", # accepts DENY
     #     },
     #     tags: [
     #       {
@@ -8148,6 +8149,7 @@ module Aws::QuickSight
     #   resp.custom_permissions.capabilities.research #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.self_upgrade_user_role #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.extension #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.manage_shared_folders #=> String, one of "DENY"
     #   resp.request_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeCustomPermissions AWS API Documentation
@@ -12560,6 +12562,7 @@ module Aws::QuickSight
     #   resp.custom_permissions_list[0].capabilities.research #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.self_upgrade_user_role #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.extension #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.manage_shared_folders #=> String, one of "DENY"
     #   resp.next_token #=> String
     #   resp.request_id #=> String
     #
@@ -18077,6 +18080,7 @@ module Aws::QuickSight
     #       research: "DENY", # accepts DENY
     #       self_upgrade_user_role: "DENY", # accepts DENY
     #       extension: "DENY", # accepts DENY
+    #       manage_shared_folders: "DENY", # accepts DENY
     #     },
     #   })
     #
@@ -21886,7 +21890,7 @@ module Aws::QuickSight
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.174.0'
+      context[:gem_version] = '1.175.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -5415,6 +5415,15 @@ module Aws::QuickSight
     #   The ability to perform Extension-related actions.
     #   @return [String]
     #
+    # @!attribute [rw] manage_shared_folders
+    #   The ability to create, update, delete and view shared folders (both
+    #   restricted and unrestricted), ability to add any asset to shared
+    #   folders, and ability to share the folders.
+    #
+    #   **Note:** This does *not* prevent inheriting access to assets that
+    #   others share with them through folder membership.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/Capabilities AWS API Documentation
     #
     class Capabilities < Struct.new(
@@ -5633,7 +5642,8 @@ module Aws::QuickSight
       :create_chat_agents,
       :research,
       :self_upgrade_user_role,
-      :extension)
+      :extension,
+      :manage_shared_folders)
       SENSITIVE = []
       include Aws::Structure
     end

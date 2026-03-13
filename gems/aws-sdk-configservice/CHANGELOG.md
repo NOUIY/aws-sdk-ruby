@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.147.0 (2026-03-13)
+------------------
+
+* Feature - Fix pagination support for DescribeConformancePackCompliance, and update OrganizationConfigRule InputParameters max length to match ConfigRule.
+
 1.146.0 (2026-01-21)
 ------------------
 

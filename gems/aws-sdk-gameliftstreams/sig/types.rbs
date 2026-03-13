@@ -316,6 +316,7 @@ module Aws::GameLiftStreams
       attr_accessor on_demand_capacity: ::Integer
       attr_accessor target_idle_capacity: ::Integer
       attr_accessor maximum_capacity: ::Integer
+      attr_accessor vpc_transit_configuration: Types::VpcTransitConfiguration
       SENSITIVE: []
     end
 
@@ -329,6 +330,8 @@ module Aws::GameLiftStreams
       attr_accessor requested_capacity: ::Integer
       attr_accessor allocated_capacity: ::Integer
       attr_accessor idle_capacity: ::Integer
+      attr_accessor internal_vpc_ipv_4_cidr_block: ::String
+      attr_accessor vpc_transit_configuration: Types::VpcTransitConfigurationResponse
       SENSITIVE: []
     end
 
@@ -515,6 +518,20 @@ module Aws::GameLiftStreams
 
     class ValidationException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class VpcTransitConfiguration
+      attr_accessor vpc_id: ::String
+      attr_accessor ipv_4_cidr_blocks: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class VpcTransitConfigurationResponse
+      attr_accessor vpc_id: ::String
+      attr_accessor ipv_4_cidr_blocks: ::Array[::String]
+      attr_accessor transit_gateway_id: ::String
+      attr_accessor transit_gateway_resource_share_arn: ::String
       SENSITIVE: []
     end
   end

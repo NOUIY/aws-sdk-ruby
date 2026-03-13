@@ -332,6 +332,8 @@ module Aws::Glue
       attr_accessor database_name: ::String
       attr_accessor table_name: ::String
       attr_accessor partitions_to_get: ::Array[Types::PartitionValueList]
+      attr_accessor audit_context: Types::AuditContext
+      attr_accessor query_session_context: Types::QuerySessionContext
       SENSITIVE: []
     end
 
