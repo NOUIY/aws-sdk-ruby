@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.28.0 (2026-03-16)
+------------------
+
+* Feature - Supporting hosting of public ECR Container Images in AgentCore Runtime
+
 1.27.0 (2026-03-10)
 ------------------
 

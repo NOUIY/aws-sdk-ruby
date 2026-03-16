@@ -57,6 +57,7 @@ module Aws::BedrockAgentCore
     CodeInterpreterSessionSummary = Shapes::StructureShape.new(name: 'CodeInterpreterSessionSummary')
     CodeInterpreterSessionTimeout = Shapes::IntegerShape.new(name: 'CodeInterpreterSessionTimeout')
     CodeInterpreterStreamOutput = Shapes::StructureShape.new(name: 'CodeInterpreterStreamOutput')
+    CommandExecutionStatus = Shapes::StringShape.new(name: 'CommandExecutionStatus')
     CompleteResourceTokenAuthRequest = Shapes::StructureShape.new(name: 'CompleteResourceTokenAuthRequest')
     CompleteResourceTokenAuthResponse = Shapes::StructureShape.new(name: 'CompleteResourceTokenAuthResponse')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
@@ -64,6 +65,9 @@ module Aws::BedrockAgentCore
     ContentBlock = Shapes::StructureShape.new(name: 'ContentBlock')
     ContentBlockList = Shapes::ListShape.new(name: 'ContentBlockList')
     ContentBlockType = Shapes::StringShape.new(name: 'ContentBlockType')
+    ContentDeltaEvent = Shapes::StructureShape.new(name: 'ContentDeltaEvent')
+    ContentStartEvent = Shapes::StructureShape.new(name: 'ContentStartEvent')
+    ContentStopEvent = Shapes::StructureShape.new(name: 'ContentStopEvent')
     ContentTextString = Shapes::StringShape.new(name: 'ContentTextString')
     Context = Shapes::UnionShape.new(name: 'Context')
     Conversational = Shapes::StructureShape.new(name: 'Conversational')
@@ -136,6 +140,16 @@ module Aws::BedrockAgentCore
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
     InvalidInputException = Shapes::StructureShape.new(name: 'InvalidInputException')
+    InvokeAgentRuntimeCommandRequest = Shapes::StructureShape.new(name: 'InvokeAgentRuntimeCommandRequest')
+    InvokeAgentRuntimeCommandRequestAccountIdString = Shapes::StringShape.new(name: 'InvokeAgentRuntimeCommandRequestAccountIdString')
+    InvokeAgentRuntimeCommandRequestBaggageString = Shapes::StringShape.new(name: 'InvokeAgentRuntimeCommandRequestBaggageString')
+    InvokeAgentRuntimeCommandRequestBody = Shapes::StructureShape.new(name: 'InvokeAgentRuntimeCommandRequestBody')
+    InvokeAgentRuntimeCommandRequestBodyCommandString = Shapes::StringShape.new(name: 'InvokeAgentRuntimeCommandRequestBodyCommandString')
+    InvokeAgentRuntimeCommandRequestTraceIdString = Shapes::StringShape.new(name: 'InvokeAgentRuntimeCommandRequestTraceIdString')
+    InvokeAgentRuntimeCommandRequestTraceParentString = Shapes::StringShape.new(name: 'InvokeAgentRuntimeCommandRequestTraceParentString')
+    InvokeAgentRuntimeCommandRequestTraceStateString = Shapes::StringShape.new(name: 'InvokeAgentRuntimeCommandRequestTraceStateString')
+    InvokeAgentRuntimeCommandResponse = Shapes::StructureShape.new(name: 'InvokeAgentRuntimeCommandResponse')
+    InvokeAgentRuntimeCommandStreamOutput = Shapes::StructureShape.new(name: 'InvokeAgentRuntimeCommandStreamOutput')
     InvokeAgentRuntimeRequest = Shapes::StructureShape.new(name: 'InvokeAgentRuntimeRequest')
     InvokeAgentRuntimeRequestAccountIdString = Shapes::StringShape.new(name: 'InvokeAgentRuntimeRequestAccountIdString')
     InvokeAgentRuntimeRequestBaggageString = Shapes::StringShape.new(name: 'InvokeAgentRuntimeRequestBaggageString')
@@ -216,6 +230,7 @@ module Aws::BedrockAgentCore
     ResourceLocation = Shapes::UnionShape.new(name: 'ResourceLocation')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResourceOauth2ReturnUrlType = Shapes::StringShape.new(name: 'ResourceOauth2ReturnUrlType')
+    ResponseChunk = Shapes::StructureShape.new(name: 'ResponseChunk')
     ResponseStream = Shapes::BlobShape.new(name: 'ResponseStream', streaming: true)
     RetrieveMemoryRecordsInput = Shapes::StructureShape.new(name: 'RetrieveMemoryRecordsInput')
     RetrieveMemoryRecordsOutput = Shapes::StructureShape.new(name: 'RetrieveMemoryRecordsOutput')
@@ -425,6 +440,16 @@ module Aws::BedrockAgentCore
     ContentBlock.struct_class = Types::ContentBlock
 
     ContentBlockList.member = Shapes::ShapeRef.new(shape: ContentBlock)
+
+    ContentDeltaEvent.add_member(:stdout, Shapes::ShapeRef.new(shape: String, location_name: "stdout"))
+    ContentDeltaEvent.add_member(:stderr, Shapes::ShapeRef.new(shape: String, location_name: "stderr"))
+    ContentDeltaEvent.struct_class = Types::ContentDeltaEvent
+
+    ContentStartEvent.struct_class = Types::ContentStartEvent
+
+    ContentStopEvent.add_member(:exit_code, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "exitCode"))
+    ContentStopEvent.add_member(:status, Shapes::ShapeRef.new(shape: CommandExecutionStatus, required: true, location_name: "status"))
+    ContentStopEvent.struct_class = Types::ContentStopEvent
 
     Context.add_member(:span_context, Shapes::ShapeRef.new(shape: SpanContext, location_name: "spanContext"))
     Context.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
@@ -679,6 +704,47 @@ module Aws::BedrockAgentCore
 
     InvalidInputException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     InvalidInputException.struct_class = Types::InvalidInputException
+
+    InvokeAgentRuntimeCommandRequest.add_member(:content_type, Shapes::ShapeRef.new(shape: MimeType, location: "header", location_name: "Content-Type"))
+    InvokeAgentRuntimeCommandRequest.add_member(:accept, Shapes::ShapeRef.new(shape: MimeType, location: "header", location_name: "Accept"))
+    InvokeAgentRuntimeCommandRequest.add_member(:runtime_session_id, Shapes::ShapeRef.new(shape: SessionType, location: "header", location_name: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id", metadata: {"idempotencyToken" => true}))
+    InvokeAgentRuntimeCommandRequest.add_member(:trace_id, Shapes::ShapeRef.new(shape: InvokeAgentRuntimeCommandRequestTraceIdString, location: "header", location_name: "X-Amzn-Trace-Id"))
+    InvokeAgentRuntimeCommandRequest.add_member(:trace_parent, Shapes::ShapeRef.new(shape: InvokeAgentRuntimeCommandRequestTraceParentString, location: "header", location_name: "traceparent"))
+    InvokeAgentRuntimeCommandRequest.add_member(:trace_state, Shapes::ShapeRef.new(shape: InvokeAgentRuntimeCommandRequestTraceStateString, location: "header", location_name: "tracestate"))
+    InvokeAgentRuntimeCommandRequest.add_member(:baggage, Shapes::ShapeRef.new(shape: InvokeAgentRuntimeCommandRequestBaggageString, location: "header", location_name: "baggage"))
+    InvokeAgentRuntimeCommandRequest.add_member(:agent_runtime_arn, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "agentRuntimeArn"))
+    InvokeAgentRuntimeCommandRequest.add_member(:qualifier, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "qualifier"))
+    InvokeAgentRuntimeCommandRequest.add_member(:account_id, Shapes::ShapeRef.new(shape: InvokeAgentRuntimeCommandRequestAccountIdString, location: "querystring", location_name: "accountId"))
+    InvokeAgentRuntimeCommandRequest.add_member(:body, Shapes::ShapeRef.new(shape: InvokeAgentRuntimeCommandRequestBody, required: true, location_name: "body"))
+    InvokeAgentRuntimeCommandRequest.struct_class = Types::InvokeAgentRuntimeCommandRequest
+    InvokeAgentRuntimeCommandRequest[:payload] = :body
+    InvokeAgentRuntimeCommandRequest[:payload_member] = InvokeAgentRuntimeCommandRequest.member(:body)
+
+    InvokeAgentRuntimeCommandRequestBody.add_member(:command, Shapes::ShapeRef.new(shape: InvokeAgentRuntimeCommandRequestBodyCommandString, required: true, location_name: "command"))
+    InvokeAgentRuntimeCommandRequestBody.add_member(:timeout, Shapes::ShapeRef.new(shape: Integer, location_name: "timeout"))
+    InvokeAgentRuntimeCommandRequestBody.struct_class = Types::InvokeAgentRuntimeCommandRequestBody
+
+    InvokeAgentRuntimeCommandResponse.add_member(:runtime_session_id, Shapes::ShapeRef.new(shape: SessionId, location: "header", location_name: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"))
+    InvokeAgentRuntimeCommandResponse.add_member(:trace_id, Shapes::ShapeRef.new(shape: String, location: "header", location_name: "X-Amzn-Trace-Id"))
+    InvokeAgentRuntimeCommandResponse.add_member(:trace_parent, Shapes::ShapeRef.new(shape: String, location: "header", location_name: "traceparent"))
+    InvokeAgentRuntimeCommandResponse.add_member(:trace_state, Shapes::ShapeRef.new(shape: String, location: "header", location_name: "tracestate"))
+    InvokeAgentRuntimeCommandResponse.add_member(:baggage, Shapes::ShapeRef.new(shape: String, location: "header", location_name: "baggage"))
+    InvokeAgentRuntimeCommandResponse.add_member(:content_type, Shapes::ShapeRef.new(shape: String, required: true, location: "header", location_name: "Content-Type"))
+    InvokeAgentRuntimeCommandResponse.add_member(:status_code, Shapes::ShapeRef.new(shape: HttpResponseCode, location: "statusCode", location_name: "statusCode"))
+    InvokeAgentRuntimeCommandResponse.add_member(:stream, Shapes::ShapeRef.new(shape: InvokeAgentRuntimeCommandStreamOutput, required: true, eventstream: true, location_name: "stream"))
+    InvokeAgentRuntimeCommandResponse.struct_class = Types::InvokeAgentRuntimeCommandResponse
+    InvokeAgentRuntimeCommandResponse[:payload] = :stream
+    InvokeAgentRuntimeCommandResponse[:payload_member] = InvokeAgentRuntimeCommandResponse.member(:stream)
+
+    InvokeAgentRuntimeCommandStreamOutput.add_member(:chunk, Shapes::ShapeRef.new(shape: ResponseChunk, event: true, location_name: "chunk"))
+    InvokeAgentRuntimeCommandStreamOutput.add_member(:access_denied_exception, Shapes::ShapeRef.new(shape: AccessDeniedException, location_name: "accessDeniedException"))
+    InvokeAgentRuntimeCommandStreamOutput.add_member(:internal_server_exception, Shapes::ShapeRef.new(shape: InternalServerException, location_name: "internalServerException"))
+    InvokeAgentRuntimeCommandStreamOutput.add_member(:resource_not_found_exception, Shapes::ShapeRef.new(shape: ResourceNotFoundException, location_name: "resourceNotFoundException"))
+    InvokeAgentRuntimeCommandStreamOutput.add_member(:service_quota_exceeded_exception, Shapes::ShapeRef.new(shape: ServiceQuotaExceededException, location_name: "serviceQuotaExceededException"))
+    InvokeAgentRuntimeCommandStreamOutput.add_member(:throttling_exception, Shapes::ShapeRef.new(shape: ThrottlingException, location_name: "throttlingException"))
+    InvokeAgentRuntimeCommandStreamOutput.add_member(:validation_exception, Shapes::ShapeRef.new(shape: ValidationException, location_name: "validationException"))
+    InvokeAgentRuntimeCommandStreamOutput.add_member(:runtime_client_error, Shapes::ShapeRef.new(shape: RuntimeClientError, location_name: "runtimeClientError"))
+    InvokeAgentRuntimeCommandStreamOutput.struct_class = Types::InvokeAgentRuntimeCommandStreamOutput
 
     InvokeAgentRuntimeRequest.add_member(:content_type, Shapes::ShapeRef.new(shape: MimeType, location: "header", location_name: "Content-Type"))
     InvokeAgentRuntimeRequest.add_member(:accept, Shapes::ShapeRef.new(shape: MimeType, location: "header", location_name: "Accept"))
@@ -935,6 +1001,11 @@ module Aws::BedrockAgentCore
 
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
+
+    ResponseChunk.add_member(:content_start, Shapes::ShapeRef.new(shape: ContentStartEvent, location_name: "contentStart"))
+    ResponseChunk.add_member(:content_delta, Shapes::ShapeRef.new(shape: ContentDeltaEvent, location_name: "contentDelta"))
+    ResponseChunk.add_member(:content_stop, Shapes::ShapeRef.new(shape: ContentStopEvent, location_name: "contentStop"))
+    ResponseChunk.struct_class = Types::ResponseChunk
 
     RetrieveMemoryRecordsInput.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location: "uri", location_name: "memoryId"))
     RetrieveMemoryRecordsInput.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, required: true, location_name: "namespace"))
@@ -1444,6 +1515,21 @@ module Aws::BedrockAgentCore
         o.http_request_uri = "/runtimes/{agentRuntimeArn}/invocations"
         o.input = Shapes::ShapeRef.new(shape: InvokeAgentRuntimeRequest)
         o.output = Shapes::ShapeRef.new(shape: InvokeAgentRuntimeResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: RuntimeClientError)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:invoke_agent_runtime_command, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "InvokeAgentRuntimeCommand"
+        o.http_method = "POST"
+        o.http_request_uri = "/runtimes/{agentRuntimeArn}/commands"
+        o.input = Shapes::ShapeRef.new(shape: InvokeAgentRuntimeCommandRequest)
+        o.output = Shapes::ShapeRef.new(shape: InvokeAgentRuntimeCommandResponse)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)

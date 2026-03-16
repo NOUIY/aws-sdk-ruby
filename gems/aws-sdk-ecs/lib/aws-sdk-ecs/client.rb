@@ -613,6 +613,7 @@ module Aws::ECS
     #         },
     #         monitoring: "BASIC", # accepts BASIC, DETAILED
     #         capacity_option_type: "ON_DEMAND", # accepts ON_DEMAND, SPOT, RESERVED
+    #         instance_metadata_tags_propagation: false,
     #         instance_requirements: {
     #           v_cpu_count: { # required
     #             min: 1, # required
@@ -708,6 +709,7 @@ module Aws::ECS
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.storage_configuration.storage_size_gi_b #=> Integer
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.monitoring #=> String, one of "BASIC", "DETAILED"
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.capacity_option_type #=> String, one of "ON_DEMAND", "SPOT", "RESERVED"
+    #   resp.capacity_provider.managed_instances_provider.instance_launch_template.instance_metadata_tags_propagation #=> Boolean
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.instance_requirements.v_cpu_count.min #=> Integer
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.instance_requirements.v_cpu_count.max #=> Integer
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.instance_requirements.memory_mi_b.min #=> Integer
@@ -2989,6 +2991,7 @@ module Aws::ECS
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.storage_configuration.storage_size_gi_b #=> Integer
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.monitoring #=> String, one of "BASIC", "DETAILED"
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.capacity_option_type #=> String, one of "ON_DEMAND", "SPOT", "RESERVED"
+    #   resp.capacity_provider.managed_instances_provider.instance_launch_template.instance_metadata_tags_propagation #=> Boolean
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.instance_requirements.v_cpu_count.min #=> Integer
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.instance_requirements.v_cpu_count.max #=> Integer
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.instance_requirements.memory_mi_b.min #=> Integer
@@ -4527,6 +4530,7 @@ module Aws::ECS
     #   resp.capacity_providers[0].managed_instances_provider.instance_launch_template.storage_configuration.storage_size_gi_b #=> Integer
     #   resp.capacity_providers[0].managed_instances_provider.instance_launch_template.monitoring #=> String, one of "BASIC", "DETAILED"
     #   resp.capacity_providers[0].managed_instances_provider.instance_launch_template.capacity_option_type #=> String, one of "ON_DEMAND", "SPOT", "RESERVED"
+    #   resp.capacity_providers[0].managed_instances_provider.instance_launch_template.instance_metadata_tags_propagation #=> Boolean
     #   resp.capacity_providers[0].managed_instances_provider.instance_launch_template.instance_requirements.v_cpu_count.min #=> Integer
     #   resp.capacity_providers[0].managed_instances_provider.instance_launch_template.instance_requirements.v_cpu_count.max #=> Integer
     #   resp.capacity_providers[0].managed_instances_provider.instance_launch_template.instance_requirements.memory_mi_b.min #=> Integer
@@ -11473,6 +11477,7 @@ module Aws::ECS
     #         storage_configuration: {
     #           storage_size_gi_b: 1,
     #         },
+    #         instance_metadata_tags_propagation: false,
     #         monitoring: "BASIC", # accepts BASIC, DETAILED
     #         instance_requirements: {
     #           v_cpu_count: { # required
@@ -11562,6 +11567,7 @@ module Aws::ECS
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.storage_configuration.storage_size_gi_b #=> Integer
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.monitoring #=> String, one of "BASIC", "DETAILED"
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.capacity_option_type #=> String, one of "ON_DEMAND", "SPOT", "RESERVED"
+    #   resp.capacity_provider.managed_instances_provider.instance_launch_template.instance_metadata_tags_propagation #=> Boolean
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.instance_requirements.v_cpu_count.min #=> Integer
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.instance_requirements.v_cpu_count.max #=> Integer
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.instance_requirements.memory_mi_b.min #=> Integer
@@ -14062,7 +14068,7 @@ module Aws::ECS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ecs'
-      context[:gem_version] = '1.222.0'
+      context[:gem_version] = '1.223.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

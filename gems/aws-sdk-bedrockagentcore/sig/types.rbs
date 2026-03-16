@@ -167,6 +167,21 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class ContentDeltaEvent
+      attr_accessor stdout: ::String
+      attr_accessor stderr: ::String
+      SENSITIVE: []
+    end
+
+    class ContentStartEvent < Aws::EmptyStructure
+    end
+
+    class ContentStopEvent
+      attr_accessor exit_code: ::Integer
+      attr_accessor status: ("COMPLETED" | "TIMED_OUT")
+      SENSITIVE: []
+    end
+
     class Context
       attr_accessor span_context: Types::SpanContext
       attr_accessor unknown: untyped
@@ -508,6 +523,39 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class InvokeAgentRuntimeCommandRequest
+      attr_accessor content_type: ::String
+      attr_accessor accept: ::String
+      attr_accessor runtime_session_id: ::String
+      attr_accessor trace_id: ::String
+      attr_accessor trace_parent: ::String
+      attr_accessor trace_state: ::String
+      attr_accessor baggage: ::String
+      attr_accessor agent_runtime_arn: ::String
+      attr_accessor qualifier: ::String
+      attr_accessor account_id: ::String
+      attr_accessor body: Types::InvokeAgentRuntimeCommandRequestBody
+      SENSITIVE: []
+    end
+
+    class InvokeAgentRuntimeCommandRequestBody
+      attr_accessor command: ::String
+      attr_accessor timeout: ::Integer
+      SENSITIVE: []
+    end
+
+    class InvokeAgentRuntimeCommandResponse
+      attr_accessor runtime_session_id: ::String
+      attr_accessor trace_id: ::String
+      attr_accessor trace_parent: ::String
+      attr_accessor trace_state: ::String
+      attr_accessor baggage: ::String
+      attr_accessor content_type: ::String
+      attr_accessor status_code: ::Integer
+      attr_accessor stream: Types::InvokeAgentRuntimeCommandStreamOutput
+      SENSITIVE: []
+    end
+
     class InvokeAgentRuntimeRequest
       attr_accessor content_type: ::String
       attr_accessor accept: ::String
@@ -834,6 +882,14 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class ResponseChunk
+      attr_accessor content_start: Types::ContentStartEvent
+      attr_accessor content_delta: Types::ContentDeltaEvent
+      attr_accessor content_stop: Types::ContentStopEvent
+      attr_accessor event_type: untyped
+      SENSITIVE: []
+    end
+
     class RetrieveMemoryRecordsInput
       attr_accessor memory_id: ::String
       attr_accessor namespace: ::String
@@ -867,6 +923,7 @@ module Aws::BedrockAgentCore
 
     class RuntimeClientError
       attr_accessor message: ::String
+      attr_accessor event_type: untyped
       SENSITIVE: []
     end
 
@@ -1134,6 +1191,10 @@ module Aws::BedrockAgentCore
 
     class CodeInterpreterStreamOutput < Enumerator[untyped, untyped]
       def event_types: () -> [:result, :access_denied_exception, :conflict_exception, :internal_server_exception, :resource_not_found_exception, :service_quota_exceeded_exception, :throttling_exception, :validation_exception]
+    end
+
+    class InvokeAgentRuntimeCommandStreamOutput < Enumerator[untyped, untyped]
+      def event_types: () -> [:chunk, :access_denied_exception, :internal_server_exception, :resource_not_found_exception, :service_quota_exceeded_exception, :throttling_exception, :validation_exception, :runtime_client_error]
     end
   end
 end

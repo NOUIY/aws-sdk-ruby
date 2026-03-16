@@ -587,6 +587,50 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # Content event containing stdout or stderr output
+    #
+    # @!attribute [rw] stdout
+    #   Standard output content
+    #   @return [String]
+    #
+    # @!attribute [rw] stderr
+    #   Standard error content
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ContentDeltaEvent AWS API Documentation
+    #
+    class ContentDeltaEvent < Struct.new(
+      :stdout,
+      :stderr)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # First event indicating command execution has started
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ContentStartEvent AWS API Documentation
+    #
+    class ContentStartEvent < Aws::EmptyStructure; end
+
+    # Final event indicating command execution has completed
+    #
+    # @!attribute [rw] exit_code
+    #   Exit code: 0 = success, -1 = platform error, &gt;0 = command error
+    #   @return [Integer]
+    #
+    # @!attribute [rw] status
+    #   Execution status
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ContentStopEvent AWS API Documentation
+    #
+    class ContentStopEvent < Struct.new(
+      :exit_code,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The contextual information associated with an evaluation, including
     # span context details that identify the specific traces and sessions
     # being evaluated within the agent's execution flow.
@@ -1776,6 +1820,149 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # Request for InvokeAgentRuntimeCommand operation
+    #
+    # @!attribute [rw] content_type
+    #   The MIME type of the input data in the request payload. This tells
+    #   the agent runtime how to interpret the payload data. Common values
+    #   include application/json for JSON data.
+    #   @return [String]
+    #
+    # @!attribute [rw] accept
+    #   The desired MIME type for the response from the agent runtime
+    #   command. This tells the agent runtime what format to use for the
+    #   response data. Common values include application/json for JSON data.
+    #   @return [String]
+    #
+    # @!attribute [rw] runtime_session_id
+    #   Runtime session identifier
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] trace_id
+    #   The trace identifier for request tracking.
+    #   @return [String]
+    #
+    # @!attribute [rw] trace_parent
+    #   The parent trace information for distributed tracing.
+    #   @return [String]
+    #
+    # @!attribute [rw] trace_state
+    #   The trace state information for distributed tracing.
+    #   @return [String]
+    #
+    # @!attribute [rw] baggage
+    #   Additional context information for distributed tracing.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_runtime_arn
+    #   ARN of the agent runtime
+    #   @return [String]
+    #
+    # @!attribute [rw] qualifier
+    #   Version or alias qualifier
+    #   @return [String]
+    #
+    # @!attribute [rw] account_id
+    #   Account ID (12 digits)
+    #   @return [String]
+    #
+    # @!attribute [rw] body
+    #   Request body containing command and timeout
+    #   @return [Types::InvokeAgentRuntimeCommandRequestBody]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InvokeAgentRuntimeCommandRequest AWS API Documentation
+    #
+    class InvokeAgentRuntimeCommandRequest < Struct.new(
+      :content_type,
+      :accept,
+      :runtime_session_id,
+      :trace_id,
+      :trace_parent,
+      :trace_state,
+      :baggage,
+      :agent_runtime_arn,
+      :qualifier,
+      :account_id,
+      :body)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Request body for InvokeAgentRuntimeCommand
+    #
+    # @!attribute [rw] command
+    #   The command to execute in the runtime container
+    #   @return [String]
+    #
+    # @!attribute [rw] timeout
+    #   Command timeout in seconds (default: 300, min:1, max: 3600)
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InvokeAgentRuntimeCommandRequestBody AWS API Documentation
+    #
+    class InvokeAgentRuntimeCommandRequestBody < Struct.new(
+      :command,
+      :timeout)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response for InvokeAgentRuntimeCommand operation
+    #
+    # @!attribute [rw] runtime_session_id
+    #   Runtime session identifier
+    #   @return [String]
+    #
+    # @!attribute [rw] trace_id
+    #   The trace identifier for request tracking.
+    #   @return [String]
+    #
+    # @!attribute [rw] trace_parent
+    #   The parent trace information for distributed tracing.
+    #   @return [String]
+    #
+    # @!attribute [rw] trace_state
+    #   The trace state information for distributed tracing.
+    #   @return [String]
+    #
+    # @!attribute [rw] baggage
+    #   Additional context information for distributed tracing.
+    #   @return [String]
+    #
+    # @!attribute [rw] content_type
+    #   The MIME type of the response data. This indicates how to interpret
+    #   the response data. Common values include application/json for JSON
+    #   data.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_code
+    #   The HTTP status code of the response. A status code of 200 indicates
+    #   a successful operation. Other status codes indicate various error
+    #   conditions.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] stream
+    #   Streaming output containing command execution events
+    #   @return [Types::InvokeAgentRuntimeCommandStreamOutput]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InvokeAgentRuntimeCommandResponse AWS API Documentation
+    #
+    class InvokeAgentRuntimeCommandResponse < Struct.new(
+      :runtime_session_id,
+      :trace_id,
+      :trace_parent,
+      :trace_state,
+      :baggage,
+      :content_type,
+      :status_code,
+      :stream)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] content_type
     #   The MIME type of the input data in the payload. This tells the agent
     #   runtime how to interpret the payload data. Common values include
@@ -1824,21 +2011,22 @@ module Aws::BedrockAgentCore
     #   @return [String]
     #
     # @!attribute [rw] agent_runtime_arn
-    #   The Amazon Web Services Resource Name (ARN) of the agent runtime to
-    #   invoke. The ARN uniquely identifies the agent runtime resource in
-    #   Amazon Bedrock AgentCore.
+    #   The identifier of the agent runtime to invoke. You can specify
+    #   either the full Amazon Web Services Resource Name (ARN) or the agent
+    #   ID. If you use the agent ID, you must also provide the `accountId`
+    #   query parameter.
     #   @return [String]
     #
     # @!attribute [rw] qualifier
-    #   The qualifier to use for the agent runtime. This can be a version
-    #   number or an endpoint name that points to a specific version. If not
-    #   specified, Amazon Bedrock AgentCore uses the default version of the
-    #   agent runtime.
+    #   The qualifier to use for the agent runtime. This is an endpoint name
+    #   that points to a specific version. If not specified, Amazon Bedrock
+    #   AgentCore uses the default endpoint of the agent runtime.
     #   @return [String]
     #
     # @!attribute [rw] account_id
     #   The identifier of the Amazon Web Services account for the agent
-    #   runtime resource.
+    #   runtime resource. This parameter is required when you specify an
+    #   agent ID instead of the full ARN for `agentRuntimeArn`.
     #   @return [String]
     #
     # @!attribute [rw] payload
@@ -2915,6 +3103,32 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # Response chunk containing exactly one of: contentStart, contentDelta,
+    # or contentStop
+    #
+    # @!attribute [rw] content_start
+    #   First chunk - indicates command execution has started
+    #   @return [Types::ContentStartEvent]
+    #
+    # @!attribute [rw] content_delta
+    #   Middle chunks - stdout/stderr output
+    #   @return [Types::ContentDeltaEvent]
+    #
+    # @!attribute [rw] content_stop
+    #   Last chunk - indicates command execution has completed
+    #   @return [Types::ContentStopEvent]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ResponseChunk AWS API Documentation
+    #
+    class ResponseChunk < Struct.new(
+      :content_start,
+      :content_delta,
+      :content_stop,
+      :event_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] memory_id
     #   The identifier of the AgentCore Memory resource from which to
     #   retrieve memory records.
@@ -3022,7 +3236,8 @@ module Aws::BedrockAgentCore
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/RuntimeClientError AWS API Documentation
     #
     class RuntimeClientError < Struct.new(
-      :message)
+      :message,
+      :event_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3269,10 +3484,10 @@ module Aws::BedrockAgentCore
     #   @return [String]
     #
     # @!attribute [rw] session_timeout_seconds
-    #   The time in seconds after which the session automatically terminates
-    #   if there is no activity. The default value is 3600 seconds (1 hour).
-    #   The minimum allowed value is 60 seconds, and the maximum allowed
-    #   value is 28800 seconds (8 hours).
+    #   The duration in seconds (time-to-live) after which the session
+    #   automatically terminates, regardless of ongoing activity. Defaults
+    #   to 3600 seconds (1 hour). Recommended minimum: 60 seconds. Maximum
+    #   allowed: 28,800 seconds (8 hours).
     #   @return [Integer]
     #
     # @!attribute [rw] view_port
@@ -3380,10 +3595,10 @@ module Aws::BedrockAgentCore
     #   @return [String]
     #
     # @!attribute [rw] session_timeout_seconds
-    #   The time in seconds after which the session automatically terminates
-    #   if there is no activity. The default value is 900 seconds (15
-    #   minutes). The minimum allowed value is 60 seconds, and the maximum
-    #   allowed value is 28800 seconds (8 hours).
+    #   The duration in seconds (time-to-live) after which the session
+    #   automatically terminates, regardless of ongoing activity. Defaults
+    #   to 900 seconds (15 minutes). Recommended minimum: 60 seconds.
+    #   Maximum allowed: 28,800 seconds (8 hours).
     #   @return [Integer]
     #
     # @!attribute [rw] client_token
@@ -3914,7 +4129,8 @@ module Aws::BedrockAgentCore
     # @note UserIdentifier is a union - when making an API calls you must set exactly one of the members.
     #
     # @!attribute [rw] user_token
-    #   The OAuth2.0 token issued by the user’s identity provider
+    #   The OAuth2.0 token issued by the user’s identity provider that was
+    #   used to generate the workload access token
     #   @return [String]
     #
     # @!attribute [rw] user_id
@@ -4028,6 +4244,32 @@ module Aws::BedrockAgentCore
           :service_quota_exceeded_exception,
           :throttling_exception,
           :validation_exception
+        ]
+      end
+
+    end
+
+    # Streaming output for InvokeAgentRuntimeCommand operation Delivers
+    # typed events: contentStart (first), contentDelta (middle), contentStop
+    # (last)
+    #
+    # EventStream is an Enumerator of Events.
+    #  #event_types #=> Array, returns all modeled event types in the stream
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InvokeAgentRuntimeCommandStreamOutput AWS API Documentation
+    #
+    class InvokeAgentRuntimeCommandStreamOutput < Enumerator
+
+      def event_types
+        [
+          :chunk,
+          :access_denied_exception,
+          :internal_server_exception,
+          :resource_not_found_exception,
+          :service_quota_exceeded_exception,
+          :throttling_exception,
+          :validation_exception,
+          :runtime_client_error
         ]
       end
 

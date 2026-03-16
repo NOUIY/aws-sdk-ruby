@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.78.0 (2026-03-16)
+------------------
+
+* Feature - You can now generate policy scenarios on demand using the new GENERATE POLICY SCENARIOS build workflow type. Scenarios will no longer be automatically generated during INGEST CONTENT, REFINE POLICY, and IMPORT POLICY workflows, resulting in faster completion times for these operations.
+
 1.77.0 (2026-03-06)
 ------------------
 

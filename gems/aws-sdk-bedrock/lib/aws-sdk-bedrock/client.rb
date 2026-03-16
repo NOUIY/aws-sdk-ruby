@@ -3417,7 +3417,7 @@ module Aws::Bedrock
     #   resp.policy_arn #=> String
     #   resp.build_workflow_id #=> String
     #   resp.status #=> String, one of "SCHEDULED", "CANCEL_REQUESTED", "PREPROCESSING", "BUILDING", "TESTING", "COMPLETED", "FAILED", "CANCELLED"
-    #   resp.build_workflow_type #=> String, one of "INGEST_CONTENT", "REFINE_POLICY", "IMPORT_POLICY", "GENERATE_FIDELITY_REPORT"
+    #   resp.build_workflow_type #=> String, one of "INGEST_CONTENT", "REFINE_POLICY", "IMPORT_POLICY", "GENERATE_FIDELITY_REPORT", "GENERATE_POLICY_SCENARIOS"
     #   resp.document_name #=> String
     #   resp.document_content_type #=> String, one of "pdf", "txt"
     #   resp.document_description #=> String
@@ -5137,7 +5137,7 @@ module Aws::Bedrock
     #   resp.automated_reasoning_policy_build_workflow_summaries[0].policy_arn #=> String
     #   resp.automated_reasoning_policy_build_workflow_summaries[0].build_workflow_id #=> String
     #   resp.automated_reasoning_policy_build_workflow_summaries[0].status #=> String, one of "SCHEDULED", "CANCEL_REQUESTED", "PREPROCESSING", "BUILDING", "TESTING", "COMPLETED", "FAILED", "CANCELLED"
-    #   resp.automated_reasoning_policy_build_workflow_summaries[0].build_workflow_type #=> String, one of "INGEST_CONTENT", "REFINE_POLICY", "IMPORT_POLICY", "GENERATE_FIDELITY_REPORT"
+    #   resp.automated_reasoning_policy_build_workflow_summaries[0].build_workflow_type #=> String, one of "INGEST_CONTENT", "REFINE_POLICY", "IMPORT_POLICY", "GENERATE_FIDELITY_REPORT", "GENERATE_POLICY_SCENARIOS"
     #   resp.automated_reasoning_policy_build_workflow_summaries[0].created_at #=> Time
     #   resp.automated_reasoning_policy_build_workflow_summaries[0].updated_at #=> Time
     #   resp.next_token #=> String
@@ -6893,7 +6893,7 @@ module Aws::Bedrock
     #
     #   resp = client.start_automated_reasoning_policy_build_workflow({
     #     policy_arn: "AutomatedReasoningPolicyArn", # required
-    #     build_workflow_type: "INGEST_CONTENT", # required, accepts INGEST_CONTENT, REFINE_POLICY, IMPORT_POLICY, GENERATE_FIDELITY_REPORT
+    #     build_workflow_type: "INGEST_CONTENT", # required, accepts INGEST_CONTENT, REFINE_POLICY, IMPORT_POLICY, GENERATE_FIDELITY_REPORT, GENERATE_POLICY_SCENARIOS
     #     client_request_token: "IdempotencyToken",
     #     source_content: { # required
     #       policy_definition: {
@@ -7903,7 +7903,7 @@ module Aws::Bedrock
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrock'
-      context[:gem_version] = '1.77.0'
+      context[:gem_version] = '1.78.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

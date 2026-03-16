@@ -1456,9 +1456,11 @@ module Aws::BedrockAgentCore
     # Sends a request to an agent or tool hosted in an Amazon Bedrock
     # AgentCore Runtime and receives responses in real-time.
     #
-    # To invoke an agent you must specify the AgentCore Runtime ARN and
-    # provide a payload containing your request. You can optionally specify
-    # a qualifier to target a specific version or endpoint of the agent.
+    # To invoke an agent, you can specify either the AgentCore Runtime ARN
+    # or the agent ID with an account ID, and provide a payload containing
+    # your request. When you use the agent ID instead of the full ARN, you
+    # don't need to URL-encode the identifier. You can optionally specify a
+    # qualifier to target a specific endpoint of the agent.
     #
     # This operation supports streaming responses, allowing you to receive
     # partial responses as they become available. We recommend using
@@ -1522,19 +1524,20 @@ module Aws::BedrockAgentCore
     #   Additional context information for distributed tracing.
     #
     # @option params [required, String] :agent_runtime_arn
-    #   The Amazon Web Services Resource Name (ARN) of the agent runtime to
-    #   invoke. The ARN uniquely identifies the agent runtime resource in
-    #   Amazon Bedrock AgentCore.
+    #   The identifier of the agent runtime to invoke. You can specify either
+    #   the full Amazon Web Services Resource Name (ARN) or the agent ID. If
+    #   you use the agent ID, you must also provide the `accountId` query
+    #   parameter.
     #
     # @option params [String] :qualifier
-    #   The qualifier to use for the agent runtime. This can be a version
-    #   number or an endpoint name that points to a specific version. If not
-    #   specified, Amazon Bedrock AgentCore uses the default version of the
-    #   agent runtime.
+    #   The qualifier to use for the agent runtime. This is an endpoint name
+    #   that points to a specific version. If not specified, Amazon Bedrock
+    #   AgentCore uses the default endpoint of the agent runtime.
     #
     # @option params [String] :account_id
     #   The identifier of the Amazon Web Services account for the agent
-    #   runtime resource.
+    #   runtime resource. This parameter is required when you specify an agent
+    #   ID instead of the full ARN for `agentRuntimeArn`.
     #
     # @option params [required, String, StringIO, File] :payload
     #   The input data to send to the agent runtime. The format of this data
@@ -1593,6 +1596,302 @@ module Aws::BedrockAgentCore
     # @param [Hash] params ({})
     def invoke_agent_runtime(params = {}, options = {}, &block)
       req = build_request(:invoke_agent_runtime, params)
+      req.send_request(options, &block)
+    end
+
+    # Executes a command in a runtime session container. Returns streaming
+    # output with contentStart, contentDelta, and contentStop events.
+    #
+    # @option params [String] :content_type
+    #   The MIME type of the input data in the request payload. This tells the
+    #   agent runtime how to interpret the payload data. Common values include
+    #   application/json for JSON data.
+    #
+    # @option params [String] :accept
+    #   The desired MIME type for the response from the agent runtime command.
+    #   This tells the agent runtime what format to use for the response data.
+    #   Common values include application/json for JSON data.
+    #
+    # @option params [String] :runtime_session_id
+    #   Runtime session identifier
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [String] :trace_id
+    #   The trace identifier for request tracking.
+    #
+    # @option params [String] :trace_parent
+    #   The parent trace information for distributed tracing.
+    #
+    # @option params [String] :trace_state
+    #   The trace state information for distributed tracing.
+    #
+    # @option params [String] :baggage
+    #   Additional context information for distributed tracing.
+    #
+    # @option params [required, String] :agent_runtime_arn
+    #   ARN of the agent runtime
+    #
+    # @option params [String] :qualifier
+    #   Version or alias qualifier
+    #
+    # @option params [String] :account_id
+    #   Account ID (12 digits)
+    #
+    # @option params [required, Types::InvokeAgentRuntimeCommandRequestBody] :body
+    #   Request body containing command and timeout
+    #
+    # @return [Types::InvokeAgentRuntimeCommandResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::InvokeAgentRuntimeCommandResponse#runtime_session_id #runtime_session_id} => String
+    #   * {Types::InvokeAgentRuntimeCommandResponse#trace_id #trace_id} => String
+    #   * {Types::InvokeAgentRuntimeCommandResponse#trace_parent #trace_parent} => String
+    #   * {Types::InvokeAgentRuntimeCommandResponse#trace_state #trace_state} => String
+    #   * {Types::InvokeAgentRuntimeCommandResponse#baggage #baggage} => String
+    #   * {Types::InvokeAgentRuntimeCommandResponse#content_type #content_type} => String
+    #   * {Types::InvokeAgentRuntimeCommandResponse#status_code #status_code} => Integer
+    #   * {Types::InvokeAgentRuntimeCommandResponse#stream #stream} => Types::InvokeAgentRuntimeCommandStreamOutput
+    #
+    # @example EventStream Operation Example
+    #
+    #   # You can process the event once it arrives immediately, or wait until the
+    #   # full response is complete and iterate through the eventstream enumerator.
+    #
+    #   # To interact with event immediately, you need to register invoke_agent_runtime_command
+    #   # with callbacks. Callbacks can be registered for specific events or for all
+    #   # events, including error events.
+    #
+    #   # Callbacks can be passed into the `:event_stream_handler` option or within a
+    #   # block statement attached to the #invoke_agent_runtime_command call directly. Hybrid
+    #   # pattern of both is also supported.
+    #
+    #   # `:event_stream_handler` option takes in either a Proc object or
+    #   # Aws::BedrockAgentCore::EventStreams::InvokeAgentRuntimeCommandStreamOutput object.
+    #
+    #   # Usage pattern a): Callbacks with a block attached to #invoke_agent_runtime_command
+    #   # Example for registering callbacks for all event types and an error event
+    #   client.invoke_agent_runtime_command(
+    #     # params input
+    #   ) do |stream|
+    #     stream.on_error_event do |event|
+    #       # catch unmodeled error event in the stream
+    #       raise event
+    #       # => Aws::Errors::EventError
+    #       # event.event_type => :error
+    #       # event.error_code => String
+    #       # event.error_message => String
+    #     end
+    #
+    #     stream.on_event do |event|
+    #       # process all events arrive
+    #       puts event.event_type
+    #       # ...
+    #     end
+    #   end
+    #
+    #   # Usage pattern b): Pass in `:event_stream_handler` for #invoke_agent_runtime_command
+    #   #  1) Create a Aws::BedrockAgentCore::EventStreams::InvokeAgentRuntimeCommandStreamOutput object
+    #   #  Example for registering callbacks with specific events
+    #
+    #   handler = Aws::BedrockAgentCore::EventStreams::InvokeAgentRuntimeCommandStreamOutput.new
+    #   handler.on_chunk_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::chunk
+    #   end
+    #   handler.on_access_denied_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::accessDeniedException
+    #   end
+    #   handler.on_internal_server_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::internalServerException
+    #   end
+    #   handler.on_resource_not_found_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::resourceNotFoundException
+    #   end
+    #   handler.on_service_quota_exceeded_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::serviceQuotaExceededException
+    #   end
+    #   handler.on_throttling_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::throttlingException
+    #   end
+    #   handler.on_validation_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::validationException
+    #   end
+    #   handler.on_runtime_client_error_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::runtimeClientError
+    #   end
+    #
+    #   client.invoke_agent_runtime_command(
+    #     # params inputs
+    #     event_stream_handler: handler
+    #   )
+    #
+    #   #  2) Use a Ruby Proc object
+    #   #  Example for registering callbacks with specific events
+    #   handler = Proc.new do |stream|
+    #     stream.on_chunk_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::chunk
+    #     end
+    #     stream.on_access_denied_exception_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::accessDeniedException
+    #     end
+    #     stream.on_internal_server_exception_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::internalServerException
+    #     end
+    #     stream.on_resource_not_found_exception_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::resourceNotFoundException
+    #     end
+    #     stream.on_service_quota_exceeded_exception_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::serviceQuotaExceededException
+    #     end
+    #     stream.on_throttling_exception_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::throttlingException
+    #     end
+    #     stream.on_validation_exception_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::validationException
+    #     end
+    #     stream.on_runtime_client_error_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::runtimeClientError
+    #     end
+    #   end
+    #
+    #   client.invoke_agent_runtime_command(
+    #     # params inputs
+    #     event_stream_handler: handler
+    #   )
+    #
+    #   #  Usage pattern c): Hybrid pattern of a) and b)
+    #   handler = Aws::BedrockAgentCore::EventStreams::InvokeAgentRuntimeCommandStreamOutput.new
+    #   handler.on_chunk_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::chunk
+    #   end
+    #   handler.on_access_denied_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::accessDeniedException
+    #   end
+    #   handler.on_internal_server_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::internalServerException
+    #   end
+    #   handler.on_resource_not_found_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::resourceNotFoundException
+    #   end
+    #   handler.on_service_quota_exceeded_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::serviceQuotaExceededException
+    #   end
+    #   handler.on_throttling_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::throttlingException
+    #   end
+    #   handler.on_validation_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::validationException
+    #   end
+    #   handler.on_runtime_client_error_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::runtimeClientError
+    #   end
+    #
+    #   client.invoke_agent_runtime_command(
+    #     # params input
+    #     event_stream_handler: handler
+    #   ) do |stream|
+    #     stream.on_error_event do |event|
+    #       # catch unmodeled error event in the stream
+    #       raise event
+    #       # => Aws::Errors::EventError
+    #       # event.event_type => :error
+    #       # event.error_code => String
+    #       # event.error_message => String
+    #     end
+    #   end
+    #
+    #   # You can also iterate through events after the response complete.
+    #   # Events are available at
+    #   resp.stream # => Enumerator
+    #   # For parameter input example, please refer to following request syntax.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.invoke_agent_runtime_command({
+    #     content_type: "MimeType",
+    #     accept: "MimeType",
+    #     runtime_session_id: "SessionType",
+    #     trace_id: "InvokeAgentRuntimeCommandRequestTraceIdString",
+    #     trace_parent: "InvokeAgentRuntimeCommandRequestTraceParentString",
+    #     trace_state: "InvokeAgentRuntimeCommandRequestTraceStateString",
+    #     baggage: "InvokeAgentRuntimeCommandRequestBaggageString",
+    #     agent_runtime_arn: "String", # required
+    #     qualifier: "String",
+    #     account_id: "InvokeAgentRuntimeCommandRequestAccountIdString",
+    #     body: { # required
+    #       command: "InvokeAgentRuntimeCommandRequestBodyCommandString", # required
+    #       timeout: 1,
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.runtime_session_id #=> String
+    #   resp.trace_id #=> String
+    #   resp.trace_parent #=> String
+    #   resp.trace_state #=> String
+    #   resp.baggage #=> String
+    #   resp.content_type #=> String
+    #   resp.status_code #=> Integer
+    #   # All events are available at resp.stream:
+    #   resp.stream #=> Enumerator
+    #   resp.stream.event_types #=> [:chunk, :access_denied_exception, :internal_server_exception, :resource_not_found_exception, :service_quota_exceeded_exception, :throttling_exception, :validation_exception, :runtime_client_error]
+    #
+    #   # For :chunk event available at #on_chunk_event callback and response eventstream enumerator:
+    #   event.content_delta.stdout #=> String
+    #   event.content_delta.stderr #=> String
+    #   event.content_stop.exit_code #=> Integer
+    #   event.content_stop.status #=> String, one of "COMPLETED", "TIMED_OUT"
+    #
+    #   # For :access_denied_exception event available at #on_access_denied_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    #   # For :internal_server_exception event available at #on_internal_server_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    #   # For :resource_not_found_exception event available at #on_resource_not_found_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    #   # For :service_quota_exceeded_exception event available at #on_service_quota_exceeded_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    #   # For :throttling_exception event available at #on_throttling_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    #   # For :validation_exception event available at #on_validation_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #   event.reason #=> String, one of "CannotParse", "FieldValidationFailed", "IdempotentParameterMismatchException", "EventInOtherSession", "ResourceConflict"
+    #   event.field_list #=> Array
+    #   event.field_list[0].name #=> String
+    #   event.field_list[0].message #=> String
+    #
+    #   # For :runtime_client_error event available at #on_runtime_client_error_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InvokeAgentRuntimeCommand AWS API Documentation
+    #
+    # @overload invoke_agent_runtime_command(params = {})
+    # @param [Hash] params ({})
+    def invoke_agent_runtime_command(params = {}, options = {}, &block)
+      params = params.dup
+      event_stream_handler = case handler = params.delete(:event_stream_handler)
+        when EventStreams::InvokeAgentRuntimeCommandStreamOutput then handler
+        when Proc then EventStreams::InvokeAgentRuntimeCommandStreamOutput.new.tap(&handler)
+        when nil then EventStreams::InvokeAgentRuntimeCommandStreamOutput.new
+        else
+          msg = "expected :event_stream_handler to be a block or "\
+                "instance of Aws::BedrockAgentCore::EventStreams::InvokeAgentRuntimeCommandStreamOutput"\
+                ", got `#{handler.inspect}` instead"
+          raise ArgumentError, msg
+        end
+
+      yield(event_stream_handler) if block_given?
+
+      req = build_request(:invoke_agent_runtime_command, params)
+
+      req.context[:event_stream_handler] = event_stream_handler
+      req.handlers.add(Aws::Binary::DecodeHandler, priority: 95)
+
       req.send_request(options, &block)
     end
 
@@ -2625,10 +2924,10 @@ module Aws::BedrockAgentCore
     #   manage the session. The name does not need to be unique.
     #
     # @option params [Integer] :session_timeout_seconds
-    #   The time in seconds after which the session automatically terminates
-    #   if there is no activity. The default value is 3600 seconds (1 hour).
-    #   The minimum allowed value is 60 seconds, and the maximum allowed value
-    #   is 28800 seconds (8 hours).
+    #   The duration in seconds (time-to-live) after which the session
+    #   automatically terminates, regardless of ongoing activity. Defaults to
+    #   3600 seconds (1 hour). Recommended minimum: 60 seconds. Maximum
+    #   allowed: 28,800 seconds (8 hours).
     #
     # @option params [Types::ViewPort] :view_port
     #   The dimensions of the browser viewport for this session. This
@@ -2776,10 +3075,10 @@ module Aws::BedrockAgentCore
     #   and manage the session. The name does not need to be unique.
     #
     # @option params [Integer] :session_timeout_seconds
-    #   The time in seconds after which the session automatically terminates
-    #   if there is no activity. The default value is 900 seconds (15
-    #   minutes). The minimum allowed value is 60 seconds, and the maximum
-    #   allowed value is 28800 seconds (8 hours).
+    #   The duration in seconds (time-to-live) after which the session
+    #   automatically terminates, regardless of ongoing activity. Defaults to
+    #   900 seconds (15 minutes). Recommended minimum: 60 seconds. Maximum
+    #   allowed: 28,800 seconds (8 hours).
     #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier to ensure that the API request
@@ -3142,7 +3441,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.19.0'
+      context[:gem_version] = '1.20.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

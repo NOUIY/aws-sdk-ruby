@@ -7043,6 +7043,27 @@ module Aws::ECS
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html
     #   @return [String]
     #
+    # @!attribute [rw] instance_metadata_tags_propagation
+    #   Determines whether tags are propagated to the instance metadata
+    #   service (IMDS) for Amazon EC2 instances launched by the Managed
+    #   Instances capacity provider. When enabled, all tags associated with
+    #   the instance are available through the instance metadata service.
+    #   When disabled, tags are not propagated to IMDS.
+    #
+    #   Disable this setting if your tags contain characters that are not
+    #   compatible with IMDS, such as `/`. IMDS requires tag keys to match
+    #   the pattern `[0-9a-zA-Z\-_+=,.@:]{1,255}`.
+    #
+    #   The default value is `true`.
+    #
+    #   For more information, see [Work with instance tags in instance
+    #   metadata][1] in the *Amazon EC2 User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#work-with-tags-in-IMDS
+    #   @return [Boolean]
+    #
     # @!attribute [rw] instance_requirements
     #   The instance requirements. You can specify:
     #
@@ -7086,6 +7107,7 @@ module Aws::ECS
       :storage_configuration,
       :monitoring,
       :capacity_option_type,
+      :instance_metadata_tags_propagation,
       :instance_requirements,
       :fips_enabled,
       :capacity_reservations)
@@ -7130,6 +7152,27 @@ module Aws::ECS
     #   the update.
     #   @return [Types::ManagedInstancesStorageConfiguration]
     #
+    # @!attribute [rw] instance_metadata_tags_propagation
+    #   Determines whether tags are propagated to the instance metadata
+    #   service (IMDS) for Amazon EC2 instances launched by the Managed
+    #   Instances capacity provider. When enabled, all tags associated with
+    #   the instance are available through the instance metadata service.
+    #   When disabled, tags are not propagated to IMDS.
+    #
+    #   Disable this setting if your tags contain characters that are not
+    #   compatible with IMDS, such as `/`. IMDS requires tag keys to match
+    #   the pattern `[0-9a-zA-Z\-_+=,.@:]{1,255}`.
+    #
+    #   The default value is `true`.
+    #
+    #   For more information, see [Work with instance tags in instance
+    #   metadata][1] in the *Amazon EC2 User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#work-with-tags-in-IMDS
+    #   @return [Boolean]
+    #
     # @!attribute [rw] monitoring
     #   CloudWatch provides two categories of monitoring: basic monitoring
     #   and detailed monitoring. By default, your managed instance is
@@ -7163,6 +7206,7 @@ module Aws::ECS
       :ec2_instance_profile_arn,
       :network_configuration,
       :storage_configuration,
+      :instance_metadata_tags_propagation,
       :monitoring,
       :instance_requirements,
       :capacity_reservations)

@@ -1025,6 +1025,7 @@ module Aws::ECS
       attr_accessor storage_configuration: Types::ManagedInstancesStorageConfiguration
       attr_accessor monitoring: ("BASIC" | "DETAILED")
       attr_accessor capacity_option_type: ("ON_DEMAND" | "SPOT" | "RESERVED")
+      attr_accessor instance_metadata_tags_propagation: bool
       attr_accessor instance_requirements: Types::InstanceRequirementsRequest
       attr_accessor fips_enabled: bool
       attr_accessor capacity_reservations: Types::CapacityReservationRequest
@@ -1035,6 +1036,7 @@ module Aws::ECS
       attr_accessor ec2_instance_profile_arn: ::String
       attr_accessor network_configuration: Types::ManagedInstancesNetworkConfiguration
       attr_accessor storage_configuration: Types::ManagedInstancesStorageConfiguration
+      attr_accessor instance_metadata_tags_propagation: bool
       attr_accessor monitoring: ("BASIC" | "DETAILED")
       attr_accessor instance_requirements: Types::InstanceRequirementsRequest
       attr_accessor capacity_reservations: Types::CapacityReservationRequest

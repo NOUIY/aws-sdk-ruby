@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.20.0 (2026-03-16)
+------------------
+
+* Feature - Provide support to perform deterministic operations on agent runtime through shell command executions via the new InvokeAgentRuntimeCommand API
+
 1.19.0 (2026-02-10)
 ------------------
 

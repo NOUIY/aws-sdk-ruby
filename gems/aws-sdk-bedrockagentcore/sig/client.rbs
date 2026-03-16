@@ -405,6 +405,36 @@ module Aws
                                 ) ?{ (*untyped) -> void } -> _InvokeAgentRuntimeResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _InvokeAgentRuntimeResponseSuccess
 
+      interface _InvokeAgentRuntimeCommandResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::InvokeAgentRuntimeCommandResponse]
+        def runtime_session_id: () -> ::String
+        def trace_id: () -> ::String
+        def trace_parent: () -> ::String
+        def trace_state: () -> ::String
+        def baggage: () -> ::String
+        def content_type: () -> ::String
+        def status_code: () -> ::Integer
+        def stream: () -> Types::InvokeAgentRuntimeCommandStreamOutput
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#invoke_agent_runtime_command-instance_method
+      def invoke_agent_runtime_command: (
+                                          ?content_type: ::String,
+                                          ?accept: ::String,
+                                          ?runtime_session_id: ::String,
+                                          ?trace_id: ::String,
+                                          ?trace_parent: ::String,
+                                          ?trace_state: ::String,
+                                          ?baggage: ::String,
+                                          agent_runtime_arn: ::String,
+                                          ?qualifier: ::String,
+                                          ?account_id: ::String,
+                                          body: {
+                                            command: ::String,
+                                            timeout: ::Integer?
+                                          }
+                                        ) ?{ (*untyped) -> void } -> _InvokeAgentRuntimeCommandResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _InvokeAgentRuntimeCommandResponseSuccess
+
       interface _InvokeCodeInterpreterResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::InvokeCodeInterpreterResponse]
         def session_id: () -> ::String
