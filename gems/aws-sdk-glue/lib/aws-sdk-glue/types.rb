@@ -2281,6 +2281,13 @@ module Aws::Glue
     #   that are registered with Lake Formation.
     #   @return [String]
     #
+    # @!attribute [rw] overwrite_child_resource_permissions_with_default
+    #   Overwrites existing Amazon Web Services Lake Formation permissions
+    #   with `CatalogInput$CreateTableDefaultPermissions` and
+    #   `CatalogInput$CreateDatabaseDefaultPermissions` for all child
+    #   resources.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CatalogInput AWS API Documentation
     #
     class CatalogInput < Struct.new(
@@ -2291,7 +2298,8 @@ module Aws::Glue
       :catalog_properties,
       :create_table_default_permissions,
       :create_database_default_permissions,
-      :allow_full_table_external_data_access)
+      :allow_full_table_external_data_access,
+      :overwrite_child_resource_permissions_with_default)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.29.0 (2026-03-17)
+------------------
+
+* Feature - Deprecating namespaces field and adding namespaceTemplates.
+
 1.28.0 (2026-03-16)
 ------------------
 

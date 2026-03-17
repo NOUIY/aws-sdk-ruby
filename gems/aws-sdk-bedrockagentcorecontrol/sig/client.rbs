@@ -529,22 +529,26 @@ module Aws
                                semantic_memory_strategy: {
                                  name: ::String,
                                  description: ::String?,
-                                 namespaces: Array[::String]?
+                                 namespaces: Array[::String]?,
+                                 namespace_templates: Array[::String]?
                                }?,
                                summary_memory_strategy: {
                                  name: ::String,
                                  description: ::String?,
-                                 namespaces: Array[::String]?
+                                 namespaces: Array[::String]?,
+                                 namespace_templates: Array[::String]?
                                }?,
                                user_preference_memory_strategy: {
                                  name: ::String,
                                  description: ::String?,
-                                 namespaces: Array[::String]?
+                                 namespaces: Array[::String]?,
+                                 namespace_templates: Array[::String]?
                                }?,
                                custom_memory_strategy: {
                                  name: ::String,
                                  description: ::String?,
                                  namespaces: Array[::String]?,
+                                 namespace_templates: Array[::String]?,
                                  configuration: {
                                    semantic_override: {
                                      extraction: {
@@ -584,7 +588,8 @@ module Aws
                                      reflection: {
                                        append_to_prompt: ::String,
                                        model_id: ::String,
-                                       namespaces: Array[::String]?
+                                       namespaces: Array[::String]?,
+                                       namespace_templates: Array[::String]?
                                      }?
                                    }?,
                                    self_managed_configuration: {
@@ -613,8 +618,10 @@ module Aws
                                  name: ::String,
                                  description: ::String?,
                                  namespaces: Array[::String]?,
+                                 namespace_templates: Array[::String]?,
                                  reflection_configuration: {
-                                   namespaces: Array[::String]
+                                   namespaces: Array[::String]?,
+                                   namespace_templates: Array[::String]?
                                  }?
                                }?
                              },
@@ -2063,22 +2070,26 @@ module Aws
                                  semantic_memory_strategy: {
                                    name: ::String,
                                    description: ::String?,
-                                   namespaces: Array[::String]?
+                                   namespaces: Array[::String]?,
+                                   namespace_templates: Array[::String]?
                                  }?,
                                  summary_memory_strategy: {
                                    name: ::String,
                                    description: ::String?,
-                                   namespaces: Array[::String]?
+                                   namespaces: Array[::String]?,
+                                   namespace_templates: Array[::String]?
                                  }?,
                                  user_preference_memory_strategy: {
                                    name: ::String,
                                    description: ::String?,
-                                   namespaces: Array[::String]?
+                                   namespaces: Array[::String]?,
+                                   namespace_templates: Array[::String]?
                                  }?,
                                  custom_memory_strategy: {
                                    name: ::String,
                                    description: ::String?,
                                    namespaces: Array[::String]?,
+                                   namespace_templates: Array[::String]?,
                                    configuration: {
                                      semantic_override: {
                                        extraction: {
@@ -2118,7 +2129,8 @@ module Aws
                                        reflection: {
                                          append_to_prompt: ::String,
                                          model_id: ::String,
-                                         namespaces: Array[::String]?
+                                         namespaces: Array[::String]?,
+                                         namespace_templates: Array[::String]?
                                        }?
                                      }?,
                                      self_managed_configuration: {
@@ -2147,8 +2159,10 @@ module Aws
                                    name: ::String,
                                    description: ::String?,
                                    namespaces: Array[::String]?,
+                                   namespace_templates: Array[::String]?,
                                    reflection_configuration: {
-                                     namespaces: Array[::String]
+                                     namespaces: Array[::String]?,
+                                     namespace_templates: Array[::String]?
                                    }?
                                  }?
                                },
@@ -2158,6 +2172,7 @@ module Aws
                                  memory_strategy_id: ::String,
                                  description: ::String?,
                                  namespaces: Array[::String]?,
+                                 namespace_templates: Array[::String]?,
                                  configuration: {
                                    extraction: {
                                      custom_extraction_configuration: {
@@ -2197,13 +2212,15 @@ module Aws
                                    }?,
                                    reflection: {
                                      episodic_reflection_configuration: {
-                                       namespaces: Array[::String]
+                                       namespaces: Array[::String]?,
+                                       namespace_templates: Array[::String]?
                                      }?,
                                      custom_reflection_configuration: {
                                        episodic_reflection_override: {
                                          append_to_prompt: ::String,
                                          model_id: ::String,
-                                         namespaces: Array[::String]?
+                                         namespaces: Array[::String]?,
+                                         namespace_templates: Array[::String]?
                                        }?
                                      }?
                                    }?,

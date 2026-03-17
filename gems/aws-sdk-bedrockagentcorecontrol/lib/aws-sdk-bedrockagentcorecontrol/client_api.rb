@@ -1241,7 +1241,8 @@ module Aws::BedrockAgentCoreControl
 
     CustomMemoryStrategyInput.add_member(:name, Shapes::ShapeRef.new(shape: Name, required: true, location_name: "name"))
     CustomMemoryStrategyInput.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
-    CustomMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaces"))
+    CustomMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
+    CustomMemoryStrategyInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
     CustomMemoryStrategyInput.add_member(:configuration, Shapes::ShapeRef.new(shape: CustomConfigurationInput, location_name: "configuration"))
     CustomMemoryStrategyInput.struct_class = Types::CustomMemoryStrategyInput
 
@@ -1435,7 +1436,8 @@ module Aws::BedrockAgentCoreControl
 
     EpisodicMemoryStrategyInput.add_member(:name, Shapes::ShapeRef.new(shape: Name, required: true, location_name: "name"))
     EpisodicMemoryStrategyInput.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
-    EpisodicMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaces"))
+    EpisodicMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
+    EpisodicMemoryStrategyInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
     EpisodicMemoryStrategyInput.add_member(:reflection_configuration, Shapes::ShapeRef.new(shape: EpisodicReflectionConfigurationInput, location_name: "reflectionConfiguration"))
     EpisodicMemoryStrategyInput.struct_class = Types::EpisodicMemoryStrategyInput
 
@@ -1454,18 +1456,22 @@ module Aws::BedrockAgentCoreControl
 
     EpisodicOverrideReflectionConfigurationInput.add_member(:append_to_prompt, Shapes::ShapeRef.new(shape: Prompt, required: true, location_name: "appendToPrompt"))
     EpisodicOverrideReflectionConfigurationInput.add_member(:model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "modelId"))
-    EpisodicOverrideReflectionConfigurationInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaces"))
+    EpisodicOverrideReflectionConfigurationInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
+    EpisodicOverrideReflectionConfigurationInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
     EpisodicOverrideReflectionConfigurationInput.struct_class = Types::EpisodicOverrideReflectionConfigurationInput
 
-    EpisodicReflectionConfiguration.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, required: true, location_name: "namespaces"))
+    EpisodicReflectionConfiguration.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
+    EpisodicReflectionConfiguration.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
     EpisodicReflectionConfiguration.struct_class = Types::EpisodicReflectionConfiguration
 
-    EpisodicReflectionConfigurationInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, required: true, location_name: "namespaces"))
+    EpisodicReflectionConfigurationInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
+    EpisodicReflectionConfigurationInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
     EpisodicReflectionConfigurationInput.struct_class = Types::EpisodicReflectionConfigurationInput
 
     EpisodicReflectionOverride.add_member(:append_to_prompt, Shapes::ShapeRef.new(shape: Prompt, required: true, location_name: "appendToPrompt"))
     EpisodicReflectionOverride.add_member(:model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "modelId"))
-    EpisodicReflectionOverride.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaces"))
+    EpisodicReflectionOverride.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
+    EpisodicReflectionOverride.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
     EpisodicReflectionOverride.struct_class = Types::EpisodicReflectionOverride
 
     EvaluatorConfig.add_member(:llm_as_a_judge, Shapes::ShapeRef.new(shape: LlmAsAJudgeEvaluatorConfig, location_name: "llmAsAJudge"))
@@ -2138,7 +2144,8 @@ module Aws::BedrockAgentCoreControl
     MemoryStrategy.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     MemoryStrategy.add_member(:configuration, Shapes::ShapeRef.new(shape: StrategyConfiguration, location_name: "configuration"))
     MemoryStrategy.add_member(:type, Shapes::ShapeRef.new(shape: MemoryStrategyType, required: true, location_name: "type"))
-    MemoryStrategy.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, required: true, location_name: "namespaces"))
+    MemoryStrategy.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, required: true, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
+    MemoryStrategy.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, required: true, location_name: "namespaceTemplates"))
     MemoryStrategy.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "createdAt"))
     MemoryStrategy.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "updatedAt"))
     MemoryStrategy.add_member(:status, Shapes::ShapeRef.new(shape: MemoryStrategyStatus, location_name: "status"))
@@ -2216,7 +2223,8 @@ module Aws::BedrockAgentCoreControl
 
     ModifyMemoryStrategyInput.add_member(:memory_strategy_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "memoryStrategyId"))
     ModifyMemoryStrategyInput.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
-    ModifyMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaces"))
+    ModifyMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
+    ModifyMemoryStrategyInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
     ModifyMemoryStrategyInput.add_member(:configuration, Shapes::ShapeRef.new(shape: ModifyStrategyConfiguration, location_name: "configuration"))
     ModifyMemoryStrategyInput.struct_class = Types::ModifyMemoryStrategyInput
 
@@ -2532,7 +2540,8 @@ module Aws::BedrockAgentCoreControl
 
     SemanticMemoryStrategyInput.add_member(:name, Shapes::ShapeRef.new(shape: Name, required: true, location_name: "name"))
     SemanticMemoryStrategyInput.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
-    SemanticMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaces"))
+    SemanticMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
+    SemanticMemoryStrategyInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
     SemanticMemoryStrategyInput.struct_class = Types::SemanticMemoryStrategyInput
 
     SemanticOverrideConfigurationInput.add_member(:extraction, Shapes::ShapeRef.new(shape: SemanticOverrideExtractionConfigurationInput, location_name: "extraction"))
@@ -2620,7 +2629,8 @@ module Aws::BedrockAgentCoreControl
 
     SummaryMemoryStrategyInput.add_member(:name, Shapes::ShapeRef.new(shape: Name, required: true, location_name: "name"))
     SummaryMemoryStrategyInput.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
-    SummaryMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaces"))
+    SummaryMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
+    SummaryMemoryStrategyInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
     SummaryMemoryStrategyInput.struct_class = Types::SummaryMemoryStrategyInput
 
     SummaryOverrideConfigurationInput.add_member(:consolidation, Shapes::ShapeRef.new(shape: SummaryOverrideConsolidationConfigurationInput, location_name: "consolidation"))
@@ -2959,7 +2969,8 @@ module Aws::BedrockAgentCoreControl
 
     UserPreferenceMemoryStrategyInput.add_member(:name, Shapes::ShapeRef.new(shape: Name, required: true, location_name: "name"))
     UserPreferenceMemoryStrategyInput.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
-    UserPreferenceMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaces"))
+    UserPreferenceMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
+    UserPreferenceMemoryStrategyInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
     UserPreferenceMemoryStrategyInput.struct_class = Types::UserPreferenceMemoryStrategyInput
 
     UserPreferenceOverrideConfigurationInput.add_member(:extraction, Shapes::ShapeRef.new(shape: UserPreferenceOverrideExtractionConfigurationInput, location_name: "extraction"))

@@ -623,6 +623,7 @@ module Aws::Glue
       attr_accessor create_table_default_permissions: ::Array[Types::PrincipalPermissions]
       attr_accessor create_database_default_permissions: ::Array[Types::PrincipalPermissions]
       attr_accessor allow_full_table_external_data_access: ("True" | "False")
+      attr_accessor overwrite_child_resource_permissions_with_default: ("Accept" | "Deny")
       SENSITIVE: []
     end
 

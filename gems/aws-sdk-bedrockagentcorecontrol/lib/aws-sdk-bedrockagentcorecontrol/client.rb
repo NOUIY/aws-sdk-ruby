@@ -1597,21 +1597,25 @@ module Aws::BedrockAgentCoreControl
     #           name: "Name", # required
     #           description: "Description",
     #           namespaces: ["Namespace"],
+    #           namespace_templates: ["Namespace"],
     #         },
     #         summary_memory_strategy: {
     #           name: "Name", # required
     #           description: "Description",
     #           namespaces: ["Namespace"],
+    #           namespace_templates: ["Namespace"],
     #         },
     #         user_preference_memory_strategy: {
     #           name: "Name", # required
     #           description: "Description",
     #           namespaces: ["Namespace"],
+    #           namespace_templates: ["Namespace"],
     #         },
     #         custom_memory_strategy: {
     #           name: "Name", # required
     #           description: "Description",
     #           namespaces: ["Namespace"],
+    #           namespace_templates: ["Namespace"],
     #           configuration: {
     #             semantic_override: {
     #               extraction: {
@@ -1652,6 +1656,7 @@ module Aws::BedrockAgentCoreControl
     #                 append_to_prompt: "Prompt", # required
     #                 model_id: "String", # required
     #                 namespaces: ["Namespace"],
+    #                 namespace_templates: ["Namespace"],
     #               },
     #             },
     #             self_managed_configuration: {
@@ -1680,8 +1685,10 @@ module Aws::BedrockAgentCoreControl
     #           name: "Name", # required
     #           description: "Description",
     #           namespaces: ["Namespace"],
+    #           namespace_templates: ["Namespace"],
     #           reflection_configuration: {
-    #             namespaces: ["Namespace"], # required
+    #             namespaces: ["Namespace"],
+    #             namespace_templates: ["Namespace"],
     #           },
     #         },
     #       },
@@ -1742,8 +1749,12 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.model_id #=> String
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespaces #=> Array
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespaces[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespace_templates #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespace_templates[0] #=> String
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespaces #=> Array
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespaces[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespace_templates #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespace_templates[0] #=> String
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions #=> Array
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions[0].message_based_trigger.message_count #=> Integer
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions[0].token_based_trigger.token_count #=> Integer
@@ -1754,6 +1765,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].type #=> String, one of "SEMANTIC", "SUMMARIZATION", "USER_PREFERENCE", "CUSTOM", "EPISODIC"
     #   resp.memory.strategies[0].namespaces #=> Array
     #   resp.memory.strategies[0].namespaces[0] #=> String
+    #   resp.memory.strategies[0].namespace_templates #=> Array
+    #   resp.memory.strategies[0].namespace_templates[0] #=> String
     #   resp.memory.strategies[0].created_at #=> Time
     #   resp.memory.strategies[0].updated_at #=> Time
     #   resp.memory.strategies[0].status #=> String, one of "CREATING", "ACTIVE", "DELETING", "FAILED"
@@ -3583,8 +3596,12 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.model_id #=> String
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespaces #=> Array
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespaces[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespace_templates #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespace_templates[0] #=> String
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespaces #=> Array
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespaces[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespace_templates #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespace_templates[0] #=> String
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions #=> Array
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions[0].message_based_trigger.message_count #=> Integer
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions[0].token_based_trigger.token_count #=> Integer
@@ -3595,6 +3612,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].type #=> String, one of "SEMANTIC", "SUMMARIZATION", "USER_PREFERENCE", "CUSTOM", "EPISODIC"
     #   resp.memory.strategies[0].namespaces #=> Array
     #   resp.memory.strategies[0].namespaces[0] #=> String
+    #   resp.memory.strategies[0].namespace_templates #=> Array
+    #   resp.memory.strategies[0].namespace_templates[0] #=> String
     #   resp.memory.strategies[0].created_at #=> Time
     #   resp.memory.strategies[0].updated_at #=> Time
     #   resp.memory.strategies[0].status #=> String, one of "CREATING", "ACTIVE", "DELETING", "FAILED"
@@ -6195,21 +6214,25 @@ module Aws::BedrockAgentCoreControl
     #             name: "Name", # required
     #             description: "Description",
     #             namespaces: ["Namespace"],
+    #             namespace_templates: ["Namespace"],
     #           },
     #           summary_memory_strategy: {
     #             name: "Name", # required
     #             description: "Description",
     #             namespaces: ["Namespace"],
+    #             namespace_templates: ["Namespace"],
     #           },
     #           user_preference_memory_strategy: {
     #             name: "Name", # required
     #             description: "Description",
     #             namespaces: ["Namespace"],
+    #             namespace_templates: ["Namespace"],
     #           },
     #           custom_memory_strategy: {
     #             name: "Name", # required
     #             description: "Description",
     #             namespaces: ["Namespace"],
+    #             namespace_templates: ["Namespace"],
     #             configuration: {
     #               semantic_override: {
     #                 extraction: {
@@ -6250,6 +6273,7 @@ module Aws::BedrockAgentCoreControl
     #                   append_to_prompt: "Prompt", # required
     #                   model_id: "String", # required
     #                   namespaces: ["Namespace"],
+    #                   namespace_templates: ["Namespace"],
     #                 },
     #               },
     #               self_managed_configuration: {
@@ -6278,8 +6302,10 @@ module Aws::BedrockAgentCoreControl
     #             name: "Name", # required
     #             description: "Description",
     #             namespaces: ["Namespace"],
+    #             namespace_templates: ["Namespace"],
     #             reflection_configuration: {
-    #               namespaces: ["Namespace"], # required
+    #               namespaces: ["Namespace"],
+    #               namespace_templates: ["Namespace"],
     #             },
     #           },
     #         },
@@ -6289,6 +6315,7 @@ module Aws::BedrockAgentCoreControl
     #           memory_strategy_id: "String", # required
     #           description: "Description",
     #           namespaces: ["Namespace"],
+    #           namespace_templates: ["Namespace"],
     #           configuration: {
     #             extraction: {
     #               custom_extraction_configuration: {
@@ -6328,13 +6355,15 @@ module Aws::BedrockAgentCoreControl
     #             },
     #             reflection: {
     #               episodic_reflection_configuration: {
-    #                 namespaces: ["Namespace"], # required
+    #                 namespaces: ["Namespace"],
+    #                 namespace_templates: ["Namespace"],
     #               },
     #               custom_reflection_configuration: {
     #                 episodic_reflection_override: {
     #                   append_to_prompt: "Prompt", # required
     #                   model_id: "String", # required
     #                   namespaces: ["Namespace"],
+    #                   namespace_templates: ["Namespace"],
     #                 },
     #               },
     #             },
@@ -6420,8 +6449,12 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.model_id #=> String
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespaces #=> Array
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespaces[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespace_templates #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespace_templates[0] #=> String
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespaces #=> Array
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespaces[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespace_templates #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespace_templates[0] #=> String
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions #=> Array
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions[0].message_based_trigger.message_count #=> Integer
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions[0].token_based_trigger.token_count #=> Integer
@@ -6432,6 +6465,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].type #=> String, one of "SEMANTIC", "SUMMARIZATION", "USER_PREFERENCE", "CUSTOM", "EPISODIC"
     #   resp.memory.strategies[0].namespaces #=> Array
     #   resp.memory.strategies[0].namespaces[0] #=> String
+    #   resp.memory.strategies[0].namespace_templates #=> Array
+    #   resp.memory.strategies[0].namespace_templates[0] #=> String
     #   resp.memory.strategies[0].created_at #=> Time
     #   resp.memory.strategies[0].updated_at #=> Time
     #   resp.memory.strategies[0].status #=> String, one of "CREATING", "ACTIVE", "DELETING", "FAILED"
@@ -6951,7 +6986,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.28.0'
+      context[:gem_version] = '1.29.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

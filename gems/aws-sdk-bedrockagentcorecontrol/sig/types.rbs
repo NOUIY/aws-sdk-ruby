@@ -756,6 +756,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor name: ::String
       attr_accessor description: ::String
       attr_accessor namespaces: ::Array[::String]
+      attr_accessor namespace_templates: ::Array[::String]
       attr_accessor configuration: Types::CustomConfigurationInput
       SENSITIVE: [:description]
     end
@@ -1036,6 +1037,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor name: ::String
       attr_accessor description: ::String
       attr_accessor namespaces: ::Array[::String]
+      attr_accessor namespace_templates: ::Array[::String]
       attr_accessor reflection_configuration: Types::EpisodicReflectionConfigurationInput
       SENSITIVE: [:description]
     end
@@ -1063,16 +1065,19 @@ module Aws::BedrockAgentCoreControl
       attr_accessor append_to_prompt: ::String
       attr_accessor model_id: ::String
       attr_accessor namespaces: ::Array[::String]
+      attr_accessor namespace_templates: ::Array[::String]
       SENSITIVE: [:append_to_prompt]
     end
 
     class EpisodicReflectionConfiguration
       attr_accessor namespaces: ::Array[::String]
+      attr_accessor namespace_templates: ::Array[::String]
       SENSITIVE: []
     end
 
     class EpisodicReflectionConfigurationInput
       attr_accessor namespaces: ::Array[::String]
+      attr_accessor namespace_templates: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -1080,6 +1085,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor append_to_prompt: ::String
       attr_accessor model_id: ::String
       attr_accessor namespaces: ::Array[::String]
+      attr_accessor namespace_templates: ::Array[::String]
       SENSITIVE: [:append_to_prompt]
     end
 
@@ -1983,6 +1989,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor configuration: Types::StrategyConfiguration
       attr_accessor type: ("SEMANTIC" | "SUMMARIZATION" | "USER_PREFERENCE" | "CUSTOM" | "EPISODIC")
       attr_accessor namespaces: ::Array[::String]
+      attr_accessor namespace_templates: ::Array[::String]
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
       attr_accessor status: ("CREATING" | "ACTIVE" | "DELETING" | "FAILED")
@@ -2090,6 +2097,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor memory_strategy_id: ::String
       attr_accessor description: ::String
       attr_accessor namespaces: ::Array[::String]
+      attr_accessor namespace_templates: ::Array[::String]
       attr_accessor configuration: Types::ModifyStrategyConfiguration
       SENSITIVE: [:description]
     end
@@ -2502,6 +2510,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor name: ::String
       attr_accessor description: ::String
       attr_accessor namespaces: ::Array[::String]
+      attr_accessor namespace_templates: ::Array[::String]
       SENSITIVE: [:description]
     end
 
@@ -2621,6 +2630,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor name: ::String
       attr_accessor description: ::String
       attr_accessor namespaces: ::Array[::String]
+      attr_accessor namespace_templates: ::Array[::String]
       SENSITIVE: [:description]
     end
 
@@ -3056,6 +3066,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor name: ::String
       attr_accessor description: ::String
       attr_accessor namespaces: ::Array[::String]
+      attr_accessor namespace_templates: ::Array[::String]
       SENSITIVE: [:description]
     end
 

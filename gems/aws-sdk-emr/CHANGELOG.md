@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.126.0 (2026-03-17)
+------------------
+
+* Feature - Add S3LoggingConfiguration to Control LogUploads
+
 1.125.0 (2026-01-16)
 ------------------
 

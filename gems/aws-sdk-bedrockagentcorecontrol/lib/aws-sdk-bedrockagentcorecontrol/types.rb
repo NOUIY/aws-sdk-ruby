@@ -2807,6 +2807,10 @@ module Aws::BedrockAgentCoreControl
     #   The namespaces associated with the custom memory strategy.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] namespace_templates
+    #   The namespaceTemplates associated with the custom memory strategy.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] configuration
     #   The configuration for the custom memory strategy.
     #   @return [Types::CustomConfigurationInput]
@@ -2817,6 +2821,7 @@ module Aws::BedrockAgentCoreControl
       :name,
       :description,
       :namespaces,
+      :namespace_templates,
       :configuration)
       SENSITIVE = [:description]
       include Aws::Structure
@@ -3681,6 +3686,10 @@ module Aws::BedrockAgentCoreControl
     #   The namespaces for which to create episodes.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] namespace_templates
+    #   The namespaceTemplates for which to create episodes.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] reflection_configuration
     #   The configuration for the reflections created with the episodic
     #   memory strategy.
@@ -3692,6 +3701,7 @@ module Aws::BedrockAgentCoreControl
       :name,
       :description,
       :namespaces,
+      :namespace_templates,
       :reflection_configuration)
       SENSITIVE = [:description]
       include Aws::Structure
@@ -3786,12 +3796,18 @@ module Aws::BedrockAgentCoreControl
     #   than the episodic namespaces.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] namespace_templates
+    #   The namespaceTemplates to use for episodic reflection. Can be less
+    #   nested than the episodic namespaces.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/EpisodicOverrideReflectionConfigurationInput AWS API Documentation
     #
     class EpisodicOverrideReflectionConfigurationInput < Struct.new(
       :append_to_prompt,
       :model_id,
-      :namespaces)
+      :namespaces,
+      :namespace_templates)
       SENSITIVE = [:append_to_prompt]
       include Aws::Structure
     end
@@ -3804,10 +3820,16 @@ module Aws::BedrockAgentCoreControl
     #   than the episodic namespaces.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] namespace_templates
+    #   The namespaceTemplates for which to create reflections. Can be less
+    #   nested than the episodic namespaces.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/EpisodicReflectionConfiguration AWS API Documentation
     #
     class EpisodicReflectionConfiguration < Struct.new(
-      :namespaces)
+      :namespaces,
+      :namespace_templates)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3819,10 +3841,16 @@ module Aws::BedrockAgentCoreControl
     #   than episode namespaces.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] namespace_templates
+    #   The namespaceTemplates over which to create reflections. Can be less
+    #   nested than episode namespaces.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/EpisodicReflectionConfigurationInput AWS API Documentation
     #
     class EpisodicReflectionConfigurationInput < Struct.new(
-      :namespaces)
+      :namespaces,
+      :namespace_templates)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3845,12 +3873,18 @@ module Aws::BedrockAgentCoreControl
     #   nested than the episodic namespaces.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] namespace_templates
+    #   The namespaceTemplates over which reflections were created. Can be
+    #   less nested than the episodic namespaces.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/EpisodicReflectionOverride AWS API Documentation
     #
     class EpisodicReflectionOverride < Struct.new(
       :append_to_prompt,
       :model_id,
-      :namespaces)
+      :namespaces,
+      :namespace_templates)
       SENSITIVE = [:append_to_prompt]
       include Aws::Structure
     end
@@ -7066,6 +7100,10 @@ module Aws::BedrockAgentCoreControl
     #   The namespaces associated with the memory strategy.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] namespace_templates
+    #   The namespaceTemplates associated with the memory strategy.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] created_at
     #   The timestamp when the memory strategy was created.
     #   @return [Time]
@@ -7087,6 +7125,7 @@ module Aws::BedrockAgentCoreControl
       :configuration,
       :type,
       :namespaces,
+      :namespace_templates,
       :created_at,
       :updated_at,
       :status)
@@ -7373,6 +7412,10 @@ module Aws::BedrockAgentCoreControl
     #   The updated namespaces for the memory strategy.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] namespace_templates
+    #   The updated namespaceTemplates for the memory strategy.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] configuration
     #   The updated configuration for the memory strategy.
     #   @return [Types::ModifyStrategyConfiguration]
@@ -7383,6 +7426,7 @@ module Aws::BedrockAgentCoreControl
       :memory_strategy_id,
       :description,
       :namespaces,
+      :namespace_templates,
       :configuration)
       SENSITIVE = [:description]
       include Aws::Structure
@@ -8750,12 +8794,17 @@ module Aws::BedrockAgentCoreControl
     #   The namespaces associated with the semantic memory strategy.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] namespace_templates
+    #   The namespaceTemplates associated with the semantic memory strategy.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SemanticMemoryStrategyInput AWS API Documentation
     #
     class SemanticMemoryStrategyInput < Struct.new(
       :name,
       :description,
-      :namespaces)
+      :namespaces,
+      :namespace_templates)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -9151,12 +9200,17 @@ module Aws::BedrockAgentCoreControl
     #   The namespaces associated with the summary memory strategy.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] namespace_templates
+    #   The namespaceTemplates associated with the summary memory strategy.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SummaryMemoryStrategyInput AWS API Documentation
     #
     class SummaryMemoryStrategyInput < Struct.new(
       :name,
       :description,
-      :namespaces)
+      :namespaces,
+      :namespace_templates)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -10723,12 +10777,18 @@ module Aws::BedrockAgentCoreControl
     #   The namespaces associated with the user preference memory strategy.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] namespace_templates
+    #   The namespaceTemplates associated with the user preference memory
+    #   strategy.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UserPreferenceMemoryStrategyInput AWS API Documentation
     #
     class UserPreferenceMemoryStrategyInput < Struct.new(
       :name,
       :description,
-      :namespaces)
+      :namespaces,
+      :namespace_templates)
       SENSITIVE = [:description]
       include Aws::Structure
     end

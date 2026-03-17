@@ -1388,6 +1388,8 @@ module Aws::EMR
     #   resp.cluster.monitoring_configuration.cloud_watch_log_configuration.log_types #=> Hash
     #   resp.cluster.monitoring_configuration.cloud_watch_log_configuration.log_types["XmlString"] #=> Array
     #   resp.cluster.monitoring_configuration.cloud_watch_log_configuration.log_types["XmlString"][0] #=> String
+    #   resp.cluster.monitoring_configuration.s3_logging_configuration.log_type_upload_policy #=> Hash
+    #   resp.cluster.monitoring_configuration.s3_logging_configuration.log_type_upload_policy["LogType"] #=> String, one of "emr-managed", "on-customer-s3only", "disabled"
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -4052,6 +4054,11 @@ module Aws::EMR
     #           "XmlString" => ["XmlString"],
     #         },
     #       },
+    #       s3_logging_configuration: {
+    #         log_type_upload_policy: {
+    #           "system-logs" => "emr-managed", # accepts emr-managed, on-customer-s3only, disabled
+    #         },
+    #       },
     #     },
     #   })
     #
@@ -4553,7 +4560,7 @@ module Aws::EMR
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-emr'
-      context[:gem_version] = '1.125.0'
+      context[:gem_version] = '1.126.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

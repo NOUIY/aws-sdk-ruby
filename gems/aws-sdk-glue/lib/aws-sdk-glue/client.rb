@@ -2121,6 +2121,7 @@ module Aws::Glue
     #         },
     #       ],
     #       allow_full_table_external_data_access: "True", # accepts True, False
+    #       overwrite_child_resource_permissions_with_default: "Accept", # accepts Accept, Deny
     #     },
     #     tags: {
     #       "TagKey" => "TagValue",
@@ -16947,6 +16948,7 @@ module Aws::Glue
     #         },
     #       ],
     #       allow_full_table_external_data_access: "True", # accepts True, False
+    #       overwrite_child_resource_permissions_with_default: "Accept", # accepts Accept, Deny
     #     },
     #   })
     #
@@ -19016,7 +19018,7 @@ module Aws::Glue
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-glue'
-      context[:gem_version] = '1.250.0'
+      context[:gem_version] = '1.251.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
