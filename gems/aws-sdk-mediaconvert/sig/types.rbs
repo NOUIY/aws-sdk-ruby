@@ -499,7 +499,7 @@ module Aws::MediaConvert
 
     class Container
       attr_accessor duration: ::Float
-      attr_accessor format: ("mp4" | "quicktime" | "matroska" | "webm" | "mxf" | "wave" | "avi")
+      attr_accessor format: ("mp4" | "quicktime" | "matroska" | "webm" | "mxf" | "wave" | "avi" | "mpegts")
       attr_accessor tracks: ::Array[Types::Track]
       SENSITIVE: []
     end

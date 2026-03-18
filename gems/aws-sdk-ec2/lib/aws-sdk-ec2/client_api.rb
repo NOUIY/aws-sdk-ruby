@@ -737,6 +737,7 @@ module Aws::EC2
     DedicatedHostFlag = Shapes::BooleanShape.new(name: 'DedicatedHostFlag')
     DedicatedHostId = Shapes::StringShape.new(name: 'DedicatedHostId')
     DedicatedHostIdList = Shapes::ListShape.new(name: 'DedicatedHostIdList')
+    DefaultConnectionTrackingConfiguration = Shapes::StructureShape.new(name: 'DefaultConnectionTrackingConfiguration')
     DefaultEnaQueueCountPerInterface = Shapes::IntegerShape.new(name: 'DefaultEnaQueueCountPerInterface')
     DefaultHttpTokensEnforcedState = Shapes::StringShape.new(name: 'DefaultHttpTokensEnforcedState')
     DefaultInstanceMetadataEndpointState = Shapes::StringShape.new(name: 'DefaultInstanceMetadataEndpointState')
@@ -745,6 +746,9 @@ module Aws::EC2
     DefaultRouteTableAssociationValue = Shapes::StringShape.new(name: 'DefaultRouteTableAssociationValue')
     DefaultRouteTablePropagationValue = Shapes::StringShape.new(name: 'DefaultRouteTablePropagationValue')
     DefaultTargetCapacityType = Shapes::StringShape.new(name: 'DefaultTargetCapacityType')
+    DefaultTcpEstablishedTimeout = Shapes::IntegerShape.new(name: 'DefaultTcpEstablishedTimeout')
+    DefaultUdpStreamTimeout = Shapes::IntegerShape.new(name: 'DefaultUdpStreamTimeout')
+    DefaultUdpTimeout = Shapes::IntegerShape.new(name: 'DefaultUdpTimeout')
     DefaultingDhcpOptionsId = Shapes::StringShape.new(name: 'DefaultingDhcpOptionsId')
     DeleteCapacityManagerDataExportRequest = Shapes::StructureShape.new(name: 'DeleteCapacityManagerDataExportRequest')
     DeleteCapacityManagerDataExportResult = Shapes::StructureShape.new(name: 'DeleteCapacityManagerDataExportResult')
@@ -7056,6 +7060,11 @@ module Aws::EC2
     DeclarativePoliciesReportList.member = Shapes::ShapeRef.new(shape: DeclarativePoliciesReport, location_name: "item")
 
     DedicatedHostIdList.member = Shapes::ShapeRef.new(shape: DedicatedHostId, location_name: "item")
+
+    DefaultConnectionTrackingConfiguration.add_member(:default_tcp_established_timeout, Shapes::ShapeRef.new(shape: DefaultTcpEstablishedTimeout, location_name: "defaultTcpEstablishedTimeout"))
+    DefaultConnectionTrackingConfiguration.add_member(:default_udp_timeout, Shapes::ShapeRef.new(shape: DefaultUdpTimeout, location_name: "defaultUdpTimeout"))
+    DefaultConnectionTrackingConfiguration.add_member(:default_udp_stream_timeout, Shapes::ShapeRef.new(shape: DefaultUdpStreamTimeout, location_name: "defaultUdpStreamTimeout"))
+    DefaultConnectionTrackingConfiguration.struct_class = Types::DefaultConnectionTrackingConfiguration
 
     DeleteCapacityManagerDataExportRequest.add_member(:capacity_manager_data_export_id, Shapes::ShapeRef.new(shape: CapacityManagerDataExportId, required: true, location_name: "CapacityManagerDataExportId"))
     DeleteCapacityManagerDataExportRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
@@ -15357,6 +15366,7 @@ module Aws::EC2
     NetworkInfo.add_member(:ena_srd_supported, Shapes::ShapeRef.new(shape: EnaSrdSupported, location_name: "enaSrdSupported"))
     NetworkInfo.add_member(:bandwidth_weightings, Shapes::ShapeRef.new(shape: BandwidthWeightingTypeList, location_name: "bandwidthWeightings"))
     NetworkInfo.add_member(:flexible_ena_queues_support, Shapes::ShapeRef.new(shape: FlexibleEnaQueuesSupport, location_name: "flexibleEnaQueuesSupport"))
+    NetworkInfo.add_member(:connection_tracking_configuration, Shapes::ShapeRef.new(shape: DefaultConnectionTrackingConfiguration, location_name: "connectionTrackingConfiguration"))
     NetworkInfo.add_member(:secondary_network_supported, Shapes::ShapeRef.new(shape: SecondaryNetworkSupportedFlag, location_name: "secondaryNetworkSupported"))
     NetworkInfo.add_member(:maximum_secondary_network_interfaces, Shapes::ShapeRef.new(shape: MaximumSecondaryNetworkInterfaces, location_name: "maximumSecondaryNetworkInterfaces"))
     NetworkInfo.add_member(:ipv_4_addresses_per_secondary_interface, Shapes::ShapeRef.new(shape: Ipv4AddressesPerSecondaryInterface, location_name: "ipv4AddressesPerSecondaryInterface"))

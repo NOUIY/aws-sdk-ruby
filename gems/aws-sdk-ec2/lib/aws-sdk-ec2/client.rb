@@ -31905,6 +31905,9 @@ module Aws::EC2
     #   resp.instance_types[0].network_info.bandwidth_weightings #=> Array
     #   resp.instance_types[0].network_info.bandwidth_weightings[0] #=> String, one of "default", "vpc-1", "ebs-1"
     #   resp.instance_types[0].network_info.flexible_ena_queues_support #=> String, one of "unsupported", "supported"
+    #   resp.instance_types[0].network_info.connection_tracking_configuration.default_tcp_established_timeout #=> Integer
+    #   resp.instance_types[0].network_info.connection_tracking_configuration.default_udp_timeout #=> Integer
+    #   resp.instance_types[0].network_info.connection_tracking_configuration.default_udp_stream_timeout #=> Integer
     #   resp.instance_types[0].network_info.secondary_network_supported #=> Boolean
     #   resp.instance_types[0].network_info.maximum_secondary_network_interfaces #=> Integer
     #   resp.instance_types[0].network_info.ipv_4_addresses_per_secondary_interface #=> Integer
@@ -73074,7 +73077,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.607.0'
+      context[:gem_version] = '1.608.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.181.0 (2026-03-18)
+------------------
+
+* Feature - This update adds additional bitrate options for Dolby AC-4 audio outputs.
+
 1.180.0 (2026-03-13)
 ------------------
 

@@ -3817,6 +3817,13 @@ module Aws::EC2
       SENSITIVE: []
     end
 
+    class DefaultConnectionTrackingConfiguration
+      attr_accessor default_tcp_established_timeout: ::Integer
+      attr_accessor default_udp_timeout: ::Integer
+      attr_accessor default_udp_stream_timeout: ::Integer
+      SENSITIVE: []
+    end
+
     class DeleteCapacityManagerDataExportRequest
       attr_accessor capacity_manager_data_export_id: ::String
       attr_accessor dry_run: bool
@@ -14300,6 +14307,7 @@ module Aws::EC2
       attr_accessor ena_srd_supported: bool
       attr_accessor bandwidth_weightings: ::Array[("default" | "vpc-1" | "ebs-1")]
       attr_accessor flexible_ena_queues_support: ("unsupported" | "supported")
+      attr_accessor connection_tracking_configuration: Types::DefaultConnectionTrackingConfiguration
       attr_accessor secondary_network_supported: bool
       attr_accessor maximum_secondary_network_interfaces: ::Integer
       attr_accessor ipv_4_addresses_per_secondary_interface: ::Integer

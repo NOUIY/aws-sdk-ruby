@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.608.0 (2026-03-18)
+------------------
+
+* Feature - The DescribeInstanceTypes API now returns default connection tracking timeout values for TCP, UDP, and UDP stream via the new connectionTrackingConfiguration field on NetworkInfo.
+
 1.607.0 (2026-03-05)
 ------------------
 

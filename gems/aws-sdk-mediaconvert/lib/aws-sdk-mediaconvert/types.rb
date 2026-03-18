@@ -250,10 +250,13 @@ module Aws::MediaConvert
     # @!attribute [rw] bitrate
     #   Specify the average bitrate in bits per second. Leave blank to use
     #   the default bitrate for the coding mode you select according to ETSI
-    #   TS 103 190. Valid bitrates for coding mode 2.0 (stereo): 192000,
-    #   256000, or 320000. Valid bitrates for coding mode 5.1 (3/2 with
-    #   LFE): 512000. Valid bitrates for coding mode 5.1.4 (immersive):
-    #   512000, 768000, or 1024000.
+    #   TS 103 190. Valid bitrates for coding mode 2.0 (stereo): 48000,
+    #   64000, 96000, 128000, 144000, 192000, 256000, 288000, 320000,
+    #   384000, 448000, 512000, or 768000. Valid bitrates for coding mode
+    #   5.1 (3/2 with LFE): 96000, 128000, 144000, 192000, 256000, 288000,
+    #   320000, 384000, 448000, 512000, or 768000. Valid bitrates for coding
+    #   mode 5.1.4 (immersive): 192000, 256000, 288000, 320000, 384000,
+    #   448000, 512000, or 768000.
     #   @return [Integer]
     #
     # @!attribute [rw] bitstream_mode
@@ -3397,9 +3400,9 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] format
     #   The format of your media file. For example: MP4, QuickTime (MOV),
-    #   Matroska (MKV), WebM, MXF, Wave, or AVI. Note that this will be
-    #   blank if your media file has a format that the MediaConvert Probe
-    #   operation does not recognize.
+    #   Matroska (MKV), WebM, MXF, Wave, AVI, or MPEG-TS. Note that this
+    #   will be blank if your media file has a format that the MediaConvert
+    #   Probe operation does not recognize.
     #   @return [String]
     #
     # @!attribute [rw] tracks
@@ -12712,8 +12715,7 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # The request to probe one or more media files and retrieve metadata
-    # about them.
+    # A request to probe a media file and retrieve its metadata.
     #
     # @!attribute [rw] input_files
     #   Specify a media file to probe.

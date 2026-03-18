@@ -17560,6 +17560,40 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # Indicates default conntrack information for the instance type. For
+    # more information, see [ Connection tracking timeouts ][1] in the
+    # Amazon EC2 User Guide.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html#connection-tracking-timeouts
+    #
+    # @!attribute [rw] default_tcp_established_timeout
+    #   Default timeout (in seconds) for idle TCP connections in an
+    #   established state.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] default_udp_timeout
+    #   Default timeout (in seconds) for idle UDP flows that have seen
+    #   traffic only in a single direction or a single request-response
+    #   transaction.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] default_udp_stream_timeout
+    #   Default timeout (in seconds) for idle UDP flows classified as
+    #   streams which have seen more than one request-response transaction.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DefaultConnectionTrackingConfiguration AWS API Documentation
+    #
+    class DefaultConnectionTrackingConfiguration < Struct.new(
+      :default_tcp_established_timeout,
+      :default_udp_timeout,
+      :default_udp_stream_timeout)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] capacity_manager_data_export_id
     #   The unique identifier of the data export configuration to delete.
     #   @return [String]
@@ -66492,6 +66526,10 @@ module Aws::EC2
     #   Indicates whether changing the number of ENA queues is supported.
     #   @return [String]
     #
+    # @!attribute [rw] connection_tracking_configuration
+    #   Indicates conntrack information for the instance type
+    #   @return [Types::DefaultConnectionTrackingConfiguration]
+    #
     # @!attribute [rw] secondary_network_supported
     #   Indicates whether secondary interface attachments from secondary
     #   network are supported.
@@ -66523,6 +66561,7 @@ module Aws::EC2
       :ena_srd_supported,
       :bandwidth_weightings,
       :flexible_ena_queues_support,
+      :connection_tracking_configuration,
       :secondary_network_supported,
       :maximum_secondary_network_interfaces,
       :ipv_4_addresses_per_secondary_interface)

@@ -822,7 +822,6 @@ module Aws::MediaConvert
     __integerMin16000Max320000 = Shapes::IntegerShape.new(name: '__integerMin16000Max320000')
     __integerMin16000Max48000 = Shapes::IntegerShape.new(name: '__integerMin16000Max48000')
     __integerMin16Max24 = Shapes::IntegerShape.new(name: '__integerMin16Max24')
-    __integerMin192000Max1024000 = Shapes::IntegerShape.new(name: '__integerMin192000Max1024000')
     __integerMin1Max1 = Shapes::IntegerShape.new(name: '__integerMin1Max1')
     __integerMin1Max10 = Shapes::IntegerShape.new(name: '__integerMin1Max10')
     __integerMin1Max100 = Shapes::IntegerShape.new(name: '__integerMin1Max100')
@@ -861,6 +860,7 @@ module Aws::MediaConvert
     __integerMin384000Max1024000 = Shapes::IntegerShape.new(name: '__integerMin384000Max1024000')
     __integerMin3Max15 = Shapes::IntegerShape.new(name: '__integerMin3Max15')
     __integerMin48000Max48000 = Shapes::IntegerShape.new(name: '__integerMin48000Max48000')
+    __integerMin48000Max768000 = Shapes::IntegerShape.new(name: '__integerMin48000Max768000')
     __integerMin4Max12 = Shapes::IntegerShape.new(name: '__integerMin4Max12')
     __integerMin6000Max1024000 = Shapes::IntegerShape.new(name: '__integerMin6000Max1024000')
     __integerMin64000Max640000 = Shapes::IntegerShape.new(name: '__integerMin64000Max640000')
@@ -1033,7 +1033,7 @@ module Aws::MediaConvert
     Ac3Settings.add_member(:sample_rate, Shapes::ShapeRef.new(shape: __integerMin48000Max48000, location_name: "sampleRate"))
     Ac3Settings.struct_class = Types::Ac3Settings
 
-    Ac4Settings.add_member(:bitrate, Shapes::ShapeRef.new(shape: __integerMin192000Max1024000, location_name: "bitrate"))
+    Ac4Settings.add_member(:bitrate, Shapes::ShapeRef.new(shape: __integerMin48000Max768000, location_name: "bitrate"))
     Ac4Settings.add_member(:bitstream_mode, Shapes::ShapeRef.new(shape: Ac4BitstreamMode, location_name: "bitstreamMode"))
     Ac4Settings.add_member(:coding_mode, Shapes::ShapeRef.new(shape: Ac4CodingMode, location_name: "codingMode"))
     Ac4Settings.add_member(:dynamic_range_compression_flat_panel_tv, Shapes::ShapeRef.new(shape: Ac4DynamicRangeCompressionDrcProfile, location_name: "dynamicRangeCompressionFlatPanelTv"))
