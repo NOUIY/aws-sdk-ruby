@@ -1,7 +1,7 @@
 Unreleased Changes
 ------------------
 
-* Issue - Fix waiter error matcher to handle both boolean and boolean-string acceptors.
+* Feature - Support waiter error matcher to handle both boolean and boolean-string acceptors.
 
 3.243.0 (2026-03-05)
 ------------------
