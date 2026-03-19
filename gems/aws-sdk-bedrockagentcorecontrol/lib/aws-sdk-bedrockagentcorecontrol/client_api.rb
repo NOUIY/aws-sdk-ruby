@@ -68,6 +68,9 @@ module Aws::BedrockAgentCoreControl
     BedrockEvaluatorModelConfig = Shapes::StructureShape.new(name: 'BedrockEvaluatorModelConfig')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
     BrowserArn = Shapes::StringShape.new(name: 'BrowserArn')
+    BrowserEnterprisePolicies = Shapes::ListShape.new(name: 'BrowserEnterprisePolicies')
+    BrowserEnterprisePolicy = Shapes::StructureShape.new(name: 'BrowserEnterprisePolicy')
+    BrowserEnterprisePolicyType = Shapes::StringShape.new(name: 'BrowserEnterprisePolicyType')
     BrowserId = Shapes::StringShape.new(name: 'BrowserId')
     BrowserNetworkConfiguration = Shapes::StructureShape.new(name: 'BrowserNetworkConfiguration')
     BrowserNetworkMode = Shapes::StringShape.new(name: 'BrowserNetworkMode')
@@ -87,6 +90,9 @@ module Aws::BedrockAgentCoreControl
     CategoricalScaleDefinitionLabelString = Shapes::StringShape.new(name: 'CategoricalScaleDefinitionLabelString')
     CategoricalScaleDefinitions = Shapes::ListShape.new(name: 'CategoricalScaleDefinitions')
     CedarPolicy = Shapes::StructureShape.new(name: 'CedarPolicy')
+    Certificate = Shapes::StructureShape.new(name: 'Certificate')
+    CertificateLocation = Shapes::UnionShape.new(name: 'CertificateLocation')
+    Certificates = Shapes::ListShape.new(name: 'Certificates')
     ClaimMatchOperatorType = Shapes::StringShape.new(name: 'ClaimMatchOperatorType')
     ClaimMatchValueType = Shapes::UnionShape.new(name: 'ClaimMatchValueType')
     ClientIdType = Shapes::StringShape.new(name: 'ClientIdType')
@@ -506,6 +512,7 @@ module Aws::BedrockAgentCoreControl
     Resource = Shapes::UnionShape.new(name: 'Resource')
     ResourceId = Shapes::StringShape.new(name: 'ResourceId')
     ResourceLimitExceededException = Shapes::StructureShape.new(name: 'ResourceLimitExceededException')
+    ResourceLocation = Shapes::UnionShape.new(name: 'ResourceLocation')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResourceOauth2ReturnUrlListType = Shapes::ListShape.new(name: 'ResourceOauth2ReturnUrlListType')
     ResourceOauth2ReturnUrlType = Shapes::StringShape.new(name: 'ResourceOauth2ReturnUrlType')
@@ -536,6 +543,7 @@ module Aws::BedrockAgentCoreControl
     SearchType = Shapes::StringShape.new(name: 'SearchType')
     Secret = Shapes::StructureShape.new(name: 'Secret')
     SecretArn = Shapes::StringShape.new(name: 'SecretArn')
+    SecretsManagerLocation = Shapes::StructureShape.new(name: 'SecretsManagerLocation')
     SecurityGroupId = Shapes::StringShape.new(name: 'SecurityGroupId')
     SecurityGroups = Shapes::ListShape.new(name: 'SecurityGroups')
     SelfManagedConfiguration = Shapes::StructureShape.new(name: 'SelfManagedConfiguration')
@@ -609,6 +617,7 @@ module Aws::BedrockAgentCoreControl
     ToolDefinition = Shapes::StructureShape.new(name: 'ToolDefinition')
     ToolDefinitions = Shapes::ListShape.new(name: 'ToolDefinitions')
     ToolSchema = Shapes::UnionShape.new(name: 'ToolSchema')
+    ToolSecretArn = Shapes::StringShape.new(name: 'ToolSecretArn')
     TriggerCondition = Shapes::UnionShape.new(name: 'TriggerCondition')
     TriggerConditionInput = Shapes::UnionShape.new(name: 'TriggerConditionInput')
     TriggerConditionInputList = Shapes::ListShape.new(name: 'TriggerConditionInputList')
@@ -778,6 +787,12 @@ module Aws::BedrockAgentCoreControl
     BedrockEvaluatorModelConfig.add_member(:additional_model_request_fields, Shapes::ShapeRef.new(shape: AdditionalModelRequestFields, location_name: "additionalModelRequestFields"))
     BedrockEvaluatorModelConfig.struct_class = Types::BedrockEvaluatorModelConfig
 
+    BrowserEnterprisePolicies.member = Shapes::ShapeRef.new(shape: BrowserEnterprisePolicy)
+
+    BrowserEnterprisePolicy.add_member(:location, Shapes::ShapeRef.new(shape: ResourceLocation, required: true, location_name: "location"))
+    BrowserEnterprisePolicy.add_member(:type, Shapes::ShapeRef.new(shape: BrowserEnterprisePolicyType, location_name: "type"))
+    BrowserEnterprisePolicy.struct_class = Types::BrowserEnterprisePolicy
+
     BrowserNetworkConfiguration.add_member(:network_mode, Shapes::ShapeRef.new(shape: BrowserNetworkMode, required: true, location_name: "networkMode"))
     BrowserNetworkConfiguration.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "vpcConfig"))
     BrowserNetworkConfiguration.struct_class = Types::BrowserNetworkConfiguration
@@ -821,6 +836,17 @@ module Aws::BedrockAgentCoreControl
 
     CedarPolicy.add_member(:statement, Shapes::ShapeRef.new(shape: Statement, required: true, location_name: "statement"))
     CedarPolicy.struct_class = Types::CedarPolicy
+
+    Certificate.add_member(:location, Shapes::ShapeRef.new(shape: CertificateLocation, required: true, location_name: "location"))
+    Certificate.struct_class = Types::Certificate
+
+    CertificateLocation.add_member(:secrets_manager, Shapes::ShapeRef.new(shape: SecretsManagerLocation, location_name: "secretsManager"))
+    CertificateLocation.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    CertificateLocation.add_member_subclass(:secrets_manager, Types::CertificateLocation::SecretsManager)
+    CertificateLocation.add_member_subclass(:unknown, Types::CertificateLocation::Unknown)
+    CertificateLocation.struct_class = Types::CertificateLocation
+
+    Certificates.member = Shapes::ShapeRef.new(shape: Certificate)
 
     ClaimMatchValueType.add_member(:match_value_string, Shapes::ShapeRef.new(shape: MatchValueString, location_name: "matchValueString"))
     ClaimMatchValueType.add_member(:match_value_string_list, Shapes::ShapeRef.new(shape: MatchValueStringList, location_name: "matchValueStringList"))
@@ -961,6 +987,8 @@ module Aws::BedrockAgentCoreControl
     CreateBrowserRequest.add_member(:network_configuration, Shapes::ShapeRef.new(shape: BrowserNetworkConfiguration, required: true, location_name: "networkConfiguration"))
     CreateBrowserRequest.add_member(:recording, Shapes::ShapeRef.new(shape: RecordingConfig, location_name: "recording"))
     CreateBrowserRequest.add_member(:browser_signing, Shapes::ShapeRef.new(shape: BrowserSigningConfigInput, location_name: "browserSigning"))
+    CreateBrowserRequest.add_member(:enterprise_policies, Shapes::ShapeRef.new(shape: BrowserEnterprisePolicies, location_name: "enterprisePolicies"))
+    CreateBrowserRequest.add_member(:certificates, Shapes::ShapeRef.new(shape: Certificates, location_name: "certificates"))
     CreateBrowserRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     CreateBrowserRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     CreateBrowserRequest.struct_class = Types::CreateBrowserRequest
@@ -975,6 +1003,7 @@ module Aws::BedrockAgentCoreControl
     CreateCodeInterpreterRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     CreateCodeInterpreterRequest.add_member(:execution_role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "executionRoleArn"))
     CreateCodeInterpreterRequest.add_member(:network_configuration, Shapes::ShapeRef.new(shape: CodeInterpreterNetworkConfiguration, required: true, location_name: "networkConfiguration"))
+    CreateCodeInterpreterRequest.add_member(:certificates, Shapes::ShapeRef.new(shape: Certificates, location_name: "certificates"))
     CreateCodeInterpreterRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     CreateCodeInterpreterRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     CreateCodeInterpreterRequest.struct_class = Types::CreateCodeInterpreterRequest
@@ -1662,6 +1691,8 @@ module Aws::BedrockAgentCoreControl
     GetBrowserResponse.add_member(:network_configuration, Shapes::ShapeRef.new(shape: BrowserNetworkConfiguration, required: true, location_name: "networkConfiguration"))
     GetBrowserResponse.add_member(:recording, Shapes::ShapeRef.new(shape: RecordingConfig, location_name: "recording"))
     GetBrowserResponse.add_member(:browser_signing, Shapes::ShapeRef.new(shape: BrowserSigningConfigOutput, location_name: "browserSigning"))
+    GetBrowserResponse.add_member(:enterprise_policies, Shapes::ShapeRef.new(shape: BrowserEnterprisePolicies, location_name: "enterprisePolicies"))
+    GetBrowserResponse.add_member(:certificates, Shapes::ShapeRef.new(shape: Certificates, location_name: "certificates"))
     GetBrowserResponse.add_member(:status, Shapes::ShapeRef.new(shape: BrowserStatus, required: true, location_name: "status"))
     GetBrowserResponse.add_member(:failure_reason, Shapes::ShapeRef.new(shape: String, location_name: "failureReason"))
     GetBrowserResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "createdAt"))
@@ -1678,6 +1709,7 @@ module Aws::BedrockAgentCoreControl
     GetCodeInterpreterResponse.add_member(:execution_role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "executionRoleArn"))
     GetCodeInterpreterResponse.add_member(:network_configuration, Shapes::ShapeRef.new(shape: CodeInterpreterNetworkConfiguration, required: true, location_name: "networkConfiguration"))
     GetCodeInterpreterResponse.add_member(:status, Shapes::ShapeRef.new(shape: CodeInterpreterStatus, required: true, location_name: "status"))
+    GetCodeInterpreterResponse.add_member(:certificates, Shapes::ShapeRef.new(shape: Certificates, location_name: "certificates"))
     GetCodeInterpreterResponse.add_member(:failure_reason, Shapes::ShapeRef.new(shape: String, location_name: "failureReason"))
     GetCodeInterpreterResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "createdAt"))
     GetCodeInterpreterResponse.add_member(:last_updated_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "lastUpdatedAt"))
@@ -2468,6 +2500,12 @@ module Aws::BedrockAgentCoreControl
     ResourceLimitExceededException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
     ResourceLimitExceededException.struct_class = Types::ResourceLimitExceededException
 
+    ResourceLocation.add_member(:s3, Shapes::ShapeRef.new(shape: S3Location, location_name: "s3"))
+    ResourceLocation.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    ResourceLocation.add_member_subclass(:s3, Types::ResourceLocation::S3)
+    ResourceLocation.add_member_subclass(:unknown, Types::ResourceLocation::Unknown)
+    ResourceLocation.struct_class = Types::ResourceLocation
+
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
 
@@ -2517,6 +2555,9 @@ module Aws::BedrockAgentCoreControl
 
     Secret.add_member(:secret_arn, Shapes::ShapeRef.new(shape: SecretArn, required: true, location_name: "secretArn"))
     Secret.struct_class = Types::Secret
+
+    SecretsManagerLocation.add_member(:secret_arn, Shapes::ShapeRef.new(shape: ToolSecretArn, required: true, location_name: "secretArn"))
+    SecretsManagerLocation.struct_class = Types::SecretsManagerLocation
 
     SecurityGroups.member = Shapes::ShapeRef.new(shape: SecurityGroupId)
 

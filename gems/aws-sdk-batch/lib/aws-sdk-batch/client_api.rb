@@ -60,6 +60,8 @@ module Aws::Batch
     CreateConsumableResourceResponse = Shapes::StructureShape.new(name: 'CreateConsumableResourceResponse')
     CreateJobQueueRequest = Shapes::StructureShape.new(name: 'CreateJobQueueRequest')
     CreateJobQueueResponse = Shapes::StructureShape.new(name: 'CreateJobQueueResponse')
+    CreateQuotaShareRequest = Shapes::StructureShape.new(name: 'CreateQuotaShareRequest')
+    CreateQuotaShareResponse = Shapes::StructureShape.new(name: 'CreateQuotaShareResponse')
     CreateSchedulingPolicyRequest = Shapes::StructureShape.new(name: 'CreateSchedulingPolicyRequest')
     CreateSchedulingPolicyResponse = Shapes::StructureShape.new(name: 'CreateSchedulingPolicyResponse')
     CreateServiceEnvironmentRequest = Shapes::StructureShape.new(name: 'CreateServiceEnvironmentRequest')
@@ -70,6 +72,8 @@ module Aws::Batch
     DeleteConsumableResourceResponse = Shapes::StructureShape.new(name: 'DeleteConsumableResourceResponse')
     DeleteJobQueueRequest = Shapes::StructureShape.new(name: 'DeleteJobQueueRequest')
     DeleteJobQueueResponse = Shapes::StructureShape.new(name: 'DeleteJobQueueResponse')
+    DeleteQuotaShareRequest = Shapes::StructureShape.new(name: 'DeleteQuotaShareRequest')
+    DeleteQuotaShareResponse = Shapes::StructureShape.new(name: 'DeleteQuotaShareResponse')
     DeleteSchedulingPolicyRequest = Shapes::StructureShape.new(name: 'DeleteSchedulingPolicyRequest')
     DeleteSchedulingPolicyResponse = Shapes::StructureShape.new(name: 'DeleteSchedulingPolicyResponse')
     DeleteServiceEnvironmentRequest = Shapes::StructureShape.new(name: 'DeleteServiceEnvironmentRequest')
@@ -86,6 +90,8 @@ module Aws::Batch
     DescribeJobQueuesResponse = Shapes::StructureShape.new(name: 'DescribeJobQueuesResponse')
     DescribeJobsRequest = Shapes::StructureShape.new(name: 'DescribeJobsRequest')
     DescribeJobsResponse = Shapes::StructureShape.new(name: 'DescribeJobsResponse')
+    DescribeQuotaShareRequest = Shapes::StructureShape.new(name: 'DescribeQuotaShareRequest')
+    DescribeQuotaShareResponse = Shapes::StructureShape.new(name: 'DescribeQuotaShareResponse')
     DescribeSchedulingPoliciesRequest = Shapes::StructureShape.new(name: 'DescribeSchedulingPoliciesRequest')
     DescribeSchedulingPoliciesResponse = Shapes::StructureShape.new(name: 'DescribeSchedulingPoliciesResponse')
     DescribeServiceEnvironmentsRequest = Shapes::StructureShape.new(name: 'DescribeServiceEnvironmentsRequest')
@@ -160,6 +166,10 @@ module Aws::Batch
     FrontOfQueueDetail = Shapes::StructureShape.new(name: 'FrontOfQueueDetail')
     FrontOfQueueJobSummary = Shapes::StructureShape.new(name: 'FrontOfQueueJobSummary')
     FrontOfQueueJobSummaryList = Shapes::ListShape.new(name: 'FrontOfQueueJobSummaryList')
+    FrontOfQuotaShareJobSummary = Shapes::StructureShape.new(name: 'FrontOfQuotaShareJobSummary')
+    FrontOfQuotaShareJobSummaryList = Shapes::ListShape.new(name: 'FrontOfQuotaShareJobSummaryList')
+    FrontOfQuotaSharesDetail = Shapes::StructureShape.new(name: 'FrontOfQuotaSharesDetail')
+    FrontOfQuotaSharesJobSummaryMap = Shapes::MapShape.new(name: 'FrontOfQuotaSharesJobSummaryMap')
     GetJobQueueSnapshotRequest = Shapes::StructureShape.new(name: 'GetJobQueueSnapshotRequest')
     GetJobQueueSnapshotResponse = Shapes::StructureShape.new(name: 'GetJobQueueSnapshotResponse')
     Host = Shapes::StructureShape.new(name: 'Host')
@@ -214,6 +224,8 @@ module Aws::Batch
     ListJobsFilterList = Shapes::ListShape.new(name: 'ListJobsFilterList')
     ListJobsRequest = Shapes::StructureShape.new(name: 'ListJobsRequest')
     ListJobsResponse = Shapes::StructureShape.new(name: 'ListJobsResponse')
+    ListQuotaSharesRequest = Shapes::StructureShape.new(name: 'ListQuotaSharesRequest')
+    ListQuotaSharesResponse = Shapes::StructureShape.new(name: 'ListQuotaSharesResponse')
     ListSchedulingPoliciesRequest = Shapes::StructureShape.new(name: 'ListSchedulingPoliciesRequest')
     ListSchedulingPoliciesResponse = Shapes::StructureShape.new(name: 'ListSchedulingPoliciesResponse')
     ListServiceJobsRequest = Shapes::StructureShape.new(name: 'ListServiceJobsRequest')
@@ -249,6 +261,23 @@ module Aws::Batch
     QueueSnapshotCapacityUsage = Shapes::StructureShape.new(name: 'QueueSnapshotCapacityUsage')
     QueueSnapshotCapacityUsageList = Shapes::ListShape.new(name: 'QueueSnapshotCapacityUsageList')
     QueueSnapshotUtilizationDetail = Shapes::StructureShape.new(name: 'QueueSnapshotUtilizationDetail')
+    QuotaShareCapacityLimit = Shapes::StructureShape.new(name: 'QuotaShareCapacityLimit')
+    QuotaShareCapacityLimits = Shapes::ListShape.new(name: 'QuotaShareCapacityLimits')
+    QuotaShareCapacityUsage = Shapes::StructureShape.new(name: 'QuotaShareCapacityUsage')
+    QuotaShareCapacityUsageList = Shapes::ListShape.new(name: 'QuotaShareCapacityUsageList')
+    QuotaShareCapacityUtilization = Shapes::StructureShape.new(name: 'QuotaShareCapacityUtilization')
+    QuotaShareCapacityUtilizationList = Shapes::ListShape.new(name: 'QuotaShareCapacityUtilizationList')
+    QuotaShareDetail = Shapes::StructureShape.new(name: 'QuotaShareDetail')
+    QuotaShareIdleResourceAssignmentStrategy = Shapes::StringShape.new(name: 'QuotaShareIdleResourceAssignmentStrategy')
+    QuotaShareInSharePreemptionState = Shapes::StringShape.new(name: 'QuotaShareInSharePreemptionState')
+    QuotaShareList = Shapes::ListShape.new(name: 'QuotaShareList')
+    QuotaSharePolicy = Shapes::StructureShape.new(name: 'QuotaSharePolicy')
+    QuotaSharePreemptionConfiguration = Shapes::StructureShape.new(name: 'QuotaSharePreemptionConfiguration')
+    QuotaShareResourceSharingConfiguration = Shapes::StructureShape.new(name: 'QuotaShareResourceSharingConfiguration')
+    QuotaShareResourceSharingStrategy = Shapes::StringShape.new(name: 'QuotaShareResourceSharingStrategy')
+    QuotaShareState = Shapes::StringShape.new(name: 'QuotaShareState')
+    QuotaShareStatus = Shapes::StringShape.new(name: 'QuotaShareStatus')
+    QuotaShareUtilizationDetail = Shapes::StructureShape.new(name: 'QuotaShareUtilizationDetail')
     RegisterJobDefinitionRequest = Shapes::StructureShape.new(name: 'RegisterJobDefinitionRequest')
     RegisterJobDefinitionResponse = Shapes::StructureShape.new(name: 'RegisterJobDefinitionResponse')
     RepositoryCredentials = Shapes::StructureShape.new(name: 'RepositoryCredentials')
@@ -280,6 +309,10 @@ module Aws::Batch
     ServiceJobCapacityUsageSummaryList = Shapes::ListShape.new(name: 'ServiceJobCapacityUsageSummaryList')
     ServiceJobEvaluateOnExit = Shapes::StructureShape.new(name: 'ServiceJobEvaluateOnExit')
     ServiceJobEvaluateOnExitList = Shapes::ListShape.new(name: 'ServiceJobEvaluateOnExitList')
+    ServiceJobPreemptedAttempt = Shapes::StructureShape.new(name: 'ServiceJobPreemptedAttempt')
+    ServiceJobPreemptionConfiguration = Shapes::StructureShape.new(name: 'ServiceJobPreemptionConfiguration')
+    ServiceJobPreemptionSummary = Shapes::StructureShape.new(name: 'ServiceJobPreemptionSummary')
+    ServiceJobRecentPreemptedAttemptList = Shapes::ListShape.new(name: 'ServiceJobRecentPreemptedAttemptList')
     ServiceJobRetryAction = Shapes::StringShape.new(name: 'ServiceJobRetryAction')
     ServiceJobRetryStrategy = Shapes::StructureShape.new(name: 'ServiceJobRetryStrategy')
     ServiceJobStatus = Shapes::StringShape.new(name: 'ServiceJobStatus')
@@ -327,10 +360,14 @@ module Aws::Batch
     UpdateJobQueueRequest = Shapes::StructureShape.new(name: 'UpdateJobQueueRequest')
     UpdateJobQueueResponse = Shapes::StructureShape.new(name: 'UpdateJobQueueResponse')
     UpdatePolicy = Shapes::StructureShape.new(name: 'UpdatePolicy')
+    UpdateQuotaShareRequest = Shapes::StructureShape.new(name: 'UpdateQuotaShareRequest')
+    UpdateQuotaShareResponse = Shapes::StructureShape.new(name: 'UpdateQuotaShareResponse')
     UpdateSchedulingPolicyRequest = Shapes::StructureShape.new(name: 'UpdateSchedulingPolicyRequest')
     UpdateSchedulingPolicyResponse = Shapes::StructureShape.new(name: 'UpdateSchedulingPolicyResponse')
     UpdateServiceEnvironmentRequest = Shapes::StructureShape.new(name: 'UpdateServiceEnvironmentRequest')
     UpdateServiceEnvironmentResponse = Shapes::StructureShape.new(name: 'UpdateServiceEnvironmentResponse')
+    UpdateServiceJobRequest = Shapes::StructureShape.new(name: 'UpdateServiceJobRequest')
+    UpdateServiceJobResponse = Shapes::StructureShape.new(name: 'UpdateServiceJobResponse')
     UserdataType = Shapes::StringShape.new(name: 'UserdataType')
     Volume = Shapes::StructureShape.new(name: 'Volume')
     Volumes = Shapes::ListShape.new(name: 'Volumes')
@@ -594,7 +631,21 @@ module Aws::Batch
     CreateJobQueueResponse.add_member(:job_queue_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "jobQueueArn"))
     CreateJobQueueResponse.struct_class = Types::CreateJobQueueResponse
 
+    CreateQuotaShareRequest.add_member(:quota_share_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "quotaShareName"))
+    CreateQuotaShareRequest.add_member(:job_queue, Shapes::ShapeRef.new(shape: String, required: true, location_name: "jobQueue"))
+    CreateQuotaShareRequest.add_member(:capacity_limits, Shapes::ShapeRef.new(shape: QuotaShareCapacityLimits, required: true, location_name: "capacityLimits"))
+    CreateQuotaShareRequest.add_member(:resource_sharing_configuration, Shapes::ShapeRef.new(shape: QuotaShareResourceSharingConfiguration, required: true, location_name: "resourceSharingConfiguration"))
+    CreateQuotaShareRequest.add_member(:preemption_configuration, Shapes::ShapeRef.new(shape: QuotaSharePreemptionConfiguration, required: true, location_name: "preemptionConfiguration"))
+    CreateQuotaShareRequest.add_member(:state, Shapes::ShapeRef.new(shape: QuotaShareState, location_name: "state"))
+    CreateQuotaShareRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagrisTagsMap, location_name: "tags"))
+    CreateQuotaShareRequest.struct_class = Types::CreateQuotaShareRequest
+
+    CreateQuotaShareResponse.add_member(:quota_share_name, Shapes::ShapeRef.new(shape: String, location_name: "quotaShareName"))
+    CreateQuotaShareResponse.add_member(:quota_share_arn, Shapes::ShapeRef.new(shape: String, location_name: "quotaShareArn"))
+    CreateQuotaShareResponse.struct_class = Types::CreateQuotaShareResponse
+
     CreateSchedulingPolicyRequest.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
+    CreateSchedulingPolicyRequest.add_member(:quota_share_policy, Shapes::ShapeRef.new(shape: QuotaSharePolicy, location_name: "quotaSharePolicy"))
     CreateSchedulingPolicyRequest.add_member(:fairshare_policy, Shapes::ShapeRef.new(shape: FairsharePolicy, location_name: "fairsharePolicy"))
     CreateSchedulingPolicyRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagrisTagsMap, location_name: "tags"))
     CreateSchedulingPolicyRequest.struct_class = Types::CreateSchedulingPolicyRequest
@@ -628,6 +679,11 @@ module Aws::Batch
     DeleteJobQueueRequest.struct_class = Types::DeleteJobQueueRequest
 
     DeleteJobQueueResponse.struct_class = Types::DeleteJobQueueResponse
+
+    DeleteQuotaShareRequest.add_member(:quota_share_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "quotaShareArn"))
+    DeleteQuotaShareRequest.struct_class = Types::DeleteQuotaShareRequest
+
+    DeleteQuotaShareResponse.struct_class = Types::DeleteQuotaShareResponse
 
     DeleteSchedulingPolicyRequest.add_member(:arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "arn"))
     DeleteSchedulingPolicyRequest.struct_class = Types::DeleteSchedulingPolicyRequest
@@ -692,6 +748,20 @@ module Aws::Batch
     DescribeJobsResponse.add_member(:jobs, Shapes::ShapeRef.new(shape: JobDetailList, location_name: "jobs"))
     DescribeJobsResponse.struct_class = Types::DescribeJobsResponse
 
+    DescribeQuotaShareRequest.add_member(:quota_share_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "quotaShareArn"))
+    DescribeQuotaShareRequest.struct_class = Types::DescribeQuotaShareRequest
+
+    DescribeQuotaShareResponse.add_member(:quota_share_name, Shapes::ShapeRef.new(shape: String, location_name: "quotaShareName"))
+    DescribeQuotaShareResponse.add_member(:quota_share_arn, Shapes::ShapeRef.new(shape: String, location_name: "quotaShareArn"))
+    DescribeQuotaShareResponse.add_member(:job_queue_arn, Shapes::ShapeRef.new(shape: String, location_name: "jobQueueArn"))
+    DescribeQuotaShareResponse.add_member(:capacity_limits, Shapes::ShapeRef.new(shape: QuotaShareCapacityLimits, location_name: "capacityLimits"))
+    DescribeQuotaShareResponse.add_member(:resource_sharing_configuration, Shapes::ShapeRef.new(shape: QuotaShareResourceSharingConfiguration, location_name: "resourceSharingConfiguration"))
+    DescribeQuotaShareResponse.add_member(:preemption_configuration, Shapes::ShapeRef.new(shape: QuotaSharePreemptionConfiguration, location_name: "preemptionConfiguration"))
+    DescribeQuotaShareResponse.add_member(:state, Shapes::ShapeRef.new(shape: QuotaShareState, location_name: "state"))
+    DescribeQuotaShareResponse.add_member(:status, Shapes::ShapeRef.new(shape: QuotaShareStatus, location_name: "status"))
+    DescribeQuotaShareResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagrisTagsMap, location_name: "tags"))
+    DescribeQuotaShareResponse.struct_class = Types::DescribeQuotaShareResponse
+
     DescribeSchedulingPoliciesRequest.add_member(:arns, Shapes::ShapeRef.new(shape: StringList, required: true, location_name: "arns"))
     DescribeSchedulingPoliciesRequest.struct_class = Types::DescribeSchedulingPoliciesRequest
 
@@ -725,6 +795,9 @@ module Aws::Batch
     DescribeServiceJobResponse.add_member(:service_request_payload, Shapes::ShapeRef.new(shape: String, location_name: "serviceRequestPayload"))
     DescribeServiceJobResponse.add_member(:service_job_type, Shapes::ShapeRef.new(shape: ServiceJobType, required: true, location_name: "serviceJobType"))
     DescribeServiceJobResponse.add_member(:share_identifier, Shapes::ShapeRef.new(shape: String, location_name: "shareIdentifier"))
+    DescribeServiceJobResponse.add_member(:quota_share_name, Shapes::ShapeRef.new(shape: String, location_name: "quotaShareName"))
+    DescribeServiceJobResponse.add_member(:preemption_configuration, Shapes::ShapeRef.new(shape: ServiceJobPreemptionConfiguration, location_name: "preemptionConfiguration"))
+    DescribeServiceJobResponse.add_member(:preemption_summary, Shapes::ShapeRef.new(shape: ServiceJobPreemptionSummary, location_name: "preemptionSummary"))
     DescribeServiceJobResponse.add_member(:started_at, Shapes::ShapeRef.new(shape: Long, required: true, location_name: "startedAt"))
     DescribeServiceJobResponse.add_member(:status, Shapes::ShapeRef.new(shape: ServiceJobStatus, required: true, location_name: "status"))
     DescribeServiceJobResponse.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
@@ -1019,10 +1092,24 @@ module Aws::Batch
 
     FrontOfQueueJobSummaryList.member = Shapes::ShapeRef.new(shape: FrontOfQueueJobSummary)
 
+    FrontOfQuotaShareJobSummary.add_member(:job_arn, Shapes::ShapeRef.new(shape: String, location_name: "jobArn"))
+    FrontOfQuotaShareJobSummary.add_member(:earliest_time_at_position, Shapes::ShapeRef.new(shape: Long, location_name: "earliestTimeAtPosition"))
+    FrontOfQuotaShareJobSummary.struct_class = Types::FrontOfQuotaShareJobSummary
+
+    FrontOfQuotaShareJobSummaryList.member = Shapes::ShapeRef.new(shape: FrontOfQuotaShareJobSummary)
+
+    FrontOfQuotaSharesDetail.add_member(:quota_shares, Shapes::ShapeRef.new(shape: FrontOfQuotaSharesJobSummaryMap, location_name: "quotaShares"))
+    FrontOfQuotaSharesDetail.add_member(:last_updated_at, Shapes::ShapeRef.new(shape: Long, location_name: "lastUpdatedAt"))
+    FrontOfQuotaSharesDetail.struct_class = Types::FrontOfQuotaSharesDetail
+
+    FrontOfQuotaSharesJobSummaryMap.key = Shapes::ShapeRef.new(shape: String)
+    FrontOfQuotaSharesJobSummaryMap.value = Shapes::ShapeRef.new(shape: FrontOfQuotaShareJobSummaryList)
+
     GetJobQueueSnapshotRequest.add_member(:job_queue, Shapes::ShapeRef.new(shape: String, required: true, location_name: "jobQueue"))
     GetJobQueueSnapshotRequest.struct_class = Types::GetJobQueueSnapshotRequest
 
     GetJobQueueSnapshotResponse.add_member(:front_of_queue, Shapes::ShapeRef.new(shape: FrontOfQueueDetail, location_name: "frontOfQueue"))
+    GetJobQueueSnapshotResponse.add_member(:front_of_quota_shares, Shapes::ShapeRef.new(shape: FrontOfQuotaSharesDetail, location_name: "frontOfQuotaShares"))
     GetJobQueueSnapshotResponse.add_member(:queue_utilization, Shapes::ShapeRef.new(shape: QueueSnapshotUtilizationDetail, location_name: "queueUtilization"))
     GetJobQueueSnapshotResponse.struct_class = Types::GetJobQueueSnapshotResponse
 
@@ -1244,6 +1331,15 @@ module Aws::Batch
     ListJobsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
     ListJobsResponse.struct_class = Types::ListJobsResponse
 
+    ListQuotaSharesRequest.add_member(:job_queue, Shapes::ShapeRef.new(shape: String, required: true, location_name: "jobQueue"))
+    ListQuotaSharesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: Integer, location_name: "maxResults"))
+    ListQuotaSharesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListQuotaSharesRequest.struct_class = Types::ListQuotaSharesRequest
+
+    ListQuotaSharesResponse.add_member(:quota_shares, Shapes::ShapeRef.new(shape: QuotaShareList, location_name: "quotaShares"))
+    ListQuotaSharesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListQuotaSharesResponse.struct_class = Types::ListQuotaSharesResponse
+
     ListSchedulingPoliciesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: Integer, location_name: "maxResults"))
     ListSchedulingPoliciesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
     ListSchedulingPoliciesRequest.struct_class = Types::ListSchedulingPoliciesRequest
@@ -1353,8 +1449,52 @@ module Aws::Batch
 
     QueueSnapshotUtilizationDetail.add_member(:total_capacity_usage, Shapes::ShapeRef.new(shape: QueueSnapshotCapacityUsageList, location_name: "totalCapacityUsage"))
     QueueSnapshotUtilizationDetail.add_member(:fairshare_utilization, Shapes::ShapeRef.new(shape: FairshareUtilizationDetail, location_name: "fairshareUtilization"))
+    QueueSnapshotUtilizationDetail.add_member(:quota_share_utilization, Shapes::ShapeRef.new(shape: QuotaShareUtilizationDetail, location_name: "quotaShareUtilization"))
     QueueSnapshotUtilizationDetail.add_member(:last_updated_at, Shapes::ShapeRef.new(shape: Long, location_name: "lastUpdatedAt"))
     QueueSnapshotUtilizationDetail.struct_class = Types::QueueSnapshotUtilizationDetail
+
+    QuotaShareCapacityLimit.add_member(:max_capacity, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "maxCapacity"))
+    QuotaShareCapacityLimit.add_member(:capacity_unit, Shapes::ShapeRef.new(shape: String, required: true, location_name: "capacityUnit"))
+    QuotaShareCapacityLimit.struct_class = Types::QuotaShareCapacityLimit
+
+    QuotaShareCapacityLimits.member = Shapes::ShapeRef.new(shape: QuotaShareCapacityLimit)
+
+    QuotaShareCapacityUsage.add_member(:capacity_unit, Shapes::ShapeRef.new(shape: String, location_name: "capacityUnit"))
+    QuotaShareCapacityUsage.add_member(:quantity, Shapes::ShapeRef.new(shape: Double, location_name: "quantity"))
+    QuotaShareCapacityUsage.struct_class = Types::QuotaShareCapacityUsage
+
+    QuotaShareCapacityUsageList.member = Shapes::ShapeRef.new(shape: QuotaShareCapacityUsage)
+
+    QuotaShareCapacityUtilization.add_member(:quota_share_name, Shapes::ShapeRef.new(shape: String, location_name: "quotaShareName"))
+    QuotaShareCapacityUtilization.add_member(:capacity_usage, Shapes::ShapeRef.new(shape: QuotaShareCapacityUsageList, location_name: "capacityUsage"))
+    QuotaShareCapacityUtilization.struct_class = Types::QuotaShareCapacityUtilization
+
+    QuotaShareCapacityUtilizationList.member = Shapes::ShapeRef.new(shape: QuotaShareCapacityUtilization)
+
+    QuotaShareDetail.add_member(:quota_share_name, Shapes::ShapeRef.new(shape: String, location_name: "quotaShareName"))
+    QuotaShareDetail.add_member(:quota_share_arn, Shapes::ShapeRef.new(shape: String, location_name: "quotaShareArn"))
+    QuotaShareDetail.add_member(:job_queue_arn, Shapes::ShapeRef.new(shape: String, location_name: "jobQueueArn"))
+    QuotaShareDetail.add_member(:capacity_limits, Shapes::ShapeRef.new(shape: QuotaShareCapacityLimits, location_name: "capacityLimits"))
+    QuotaShareDetail.add_member(:resource_sharing_configuration, Shapes::ShapeRef.new(shape: QuotaShareResourceSharingConfiguration, location_name: "resourceSharingConfiguration"))
+    QuotaShareDetail.add_member(:preemption_configuration, Shapes::ShapeRef.new(shape: QuotaSharePreemptionConfiguration, location_name: "preemptionConfiguration"))
+    QuotaShareDetail.add_member(:state, Shapes::ShapeRef.new(shape: QuotaShareState, location_name: "state"))
+    QuotaShareDetail.add_member(:status, Shapes::ShapeRef.new(shape: QuotaShareStatus, location_name: "status"))
+    QuotaShareDetail.struct_class = Types::QuotaShareDetail
+
+    QuotaShareList.member = Shapes::ShapeRef.new(shape: QuotaShareDetail)
+
+    QuotaSharePolicy.add_member(:idle_resource_assignment_strategy, Shapes::ShapeRef.new(shape: QuotaShareIdleResourceAssignmentStrategy, required: true, location_name: "idleResourceAssignmentStrategy"))
+    QuotaSharePolicy.struct_class = Types::QuotaSharePolicy
+
+    QuotaSharePreemptionConfiguration.add_member(:in_share_preemption, Shapes::ShapeRef.new(shape: QuotaShareInSharePreemptionState, required: true, location_name: "inSharePreemption"))
+    QuotaSharePreemptionConfiguration.struct_class = Types::QuotaSharePreemptionConfiguration
+
+    QuotaShareResourceSharingConfiguration.add_member(:strategy, Shapes::ShapeRef.new(shape: QuotaShareResourceSharingStrategy, required: true, location_name: "strategy"))
+    QuotaShareResourceSharingConfiguration.add_member(:borrow_limit, Shapes::ShapeRef.new(shape: Integer, location_name: "borrowLimit"))
+    QuotaShareResourceSharingConfiguration.struct_class = Types::QuotaShareResourceSharingConfiguration
+
+    QuotaShareUtilizationDetail.add_member(:top_capacity_utilization, Shapes::ShapeRef.new(shape: QuotaShareCapacityUtilizationList, location_name: "topCapacityUtilization"))
+    QuotaShareUtilizationDetail.struct_class = Types::QuotaShareUtilizationDetail
 
     RegisterJobDefinitionRequest.add_member(:job_definition_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "jobDefinitionName"))
     RegisterJobDefinitionRequest.add_member(:type, Shapes::ShapeRef.new(shape: JobDefinitionType, required: true, location_name: "type"))
@@ -1396,6 +1536,7 @@ module Aws::Batch
 
     SchedulingPolicyDetail.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
     SchedulingPolicyDetail.add_member(:arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "arn"))
+    SchedulingPolicyDetail.add_member(:quota_share_policy, Shapes::ShapeRef.new(shape: QuotaSharePolicy, location_name: "quotaSharePolicy"))
     SchedulingPolicyDetail.add_member(:fairshare_policy, Shapes::ShapeRef.new(shape: FairsharePolicy, location_name: "fairsharePolicy"))
     SchedulingPolicyDetail.add_member(:tags, Shapes::ShapeRef.new(shape: TagrisTagsMap, location_name: "tags"))
     SchedulingPolicyDetail.struct_class = Types::SchedulingPolicyDetail
@@ -1459,6 +1600,21 @@ module Aws::Batch
 
     ServiceJobEvaluateOnExitList.member = Shapes::ShapeRef.new(shape: ServiceJobEvaluateOnExit)
 
+    ServiceJobPreemptedAttempt.add_member(:service_resource_id, Shapes::ShapeRef.new(shape: ServiceResourceId, location_name: "serviceResourceId"))
+    ServiceJobPreemptedAttempt.add_member(:started_at, Shapes::ShapeRef.new(shape: Long, location_name: "startedAt"))
+    ServiceJobPreemptedAttempt.add_member(:stopped_at, Shapes::ShapeRef.new(shape: Long, location_name: "stoppedAt"))
+    ServiceJobPreemptedAttempt.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    ServiceJobPreemptedAttempt.struct_class = Types::ServiceJobPreemptedAttempt
+
+    ServiceJobPreemptionConfiguration.add_member(:preemption_retries_before_termination, Shapes::ShapeRef.new(shape: Integer, location_name: "preemptionRetriesBeforeTermination"))
+    ServiceJobPreemptionConfiguration.struct_class = Types::ServiceJobPreemptionConfiguration
+
+    ServiceJobPreemptionSummary.add_member(:preempted_attempt_count, Shapes::ShapeRef.new(shape: Integer, location_name: "preemptedAttemptCount"))
+    ServiceJobPreemptionSummary.add_member(:recent_preempted_attempts, Shapes::ShapeRef.new(shape: ServiceJobRecentPreemptedAttemptList, location_name: "recentPreemptedAttempts"))
+    ServiceJobPreemptionSummary.struct_class = Types::ServiceJobPreemptionSummary
+
+    ServiceJobRecentPreemptedAttemptList.member = Shapes::ShapeRef.new(shape: ServiceJobPreemptedAttempt)
+
     ServiceJobRetryStrategy.add_member(:attempts, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "attempts"))
     ServiceJobRetryStrategy.add_member(:evaluate_on_exit, Shapes::ShapeRef.new(shape: ServiceJobEvaluateOnExitList, location_name: "evaluateOnExit"))
     ServiceJobRetryStrategy.struct_class = Types::ServiceJobRetryStrategy
@@ -1472,6 +1628,7 @@ module Aws::Batch
     ServiceJobSummary.add_member(:scheduled_at, Shapes::ShapeRef.new(shape: Long, location_name: "scheduledAt"))
     ServiceJobSummary.add_member(:service_job_type, Shapes::ShapeRef.new(shape: ServiceJobType, required: true, location_name: "serviceJobType"))
     ServiceJobSummary.add_member(:share_identifier, Shapes::ShapeRef.new(shape: String, location_name: "shareIdentifier"))
+    ServiceJobSummary.add_member(:quota_share_name, Shapes::ShapeRef.new(shape: String, location_name: "quotaShareName"))
     ServiceJobSummary.add_member(:status, Shapes::ShapeRef.new(shape: ServiceJobStatus, location_name: "status"))
     ServiceJobSummary.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
     ServiceJobSummary.add_member(:started_at, Shapes::ShapeRef.new(shape: Long, location_name: "startedAt"))
@@ -1526,6 +1683,8 @@ module Aws::Batch
     SubmitServiceJobRequest.add_member(:service_request_payload, Shapes::ShapeRef.new(shape: String, required: true, location_name: "serviceRequestPayload"))
     SubmitServiceJobRequest.add_member(:service_job_type, Shapes::ShapeRef.new(shape: ServiceJobType, required: true, location_name: "serviceJobType"))
     SubmitServiceJobRequest.add_member(:share_identifier, Shapes::ShapeRef.new(shape: String, location_name: "shareIdentifier"))
+    SubmitServiceJobRequest.add_member(:quota_share_name, Shapes::ShapeRef.new(shape: String, location_name: "quotaShareName"))
+    SubmitServiceJobRequest.add_member(:preemption_configuration, Shapes::ShapeRef.new(shape: ServiceJobPreemptionConfiguration, location_name: "preemptionConfiguration"))
     SubmitServiceJobRequest.add_member(:timeout_config, Shapes::ShapeRef.new(shape: ServiceJobTimeout, location_name: "timeoutConfig"))
     SubmitServiceJobRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagrisTagsMap, location_name: "tags"))
     SubmitServiceJobRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientRequestToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
@@ -1680,7 +1839,19 @@ module Aws::Batch
     UpdatePolicy.add_member(:job_execution_timeout_minutes, Shapes::ShapeRef.new(shape: JobExecutionTimeoutMinutes, location_name: "jobExecutionTimeoutMinutes"))
     UpdatePolicy.struct_class = Types::UpdatePolicy
 
+    UpdateQuotaShareRequest.add_member(:quota_share_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "quotaShareArn"))
+    UpdateQuotaShareRequest.add_member(:capacity_limits, Shapes::ShapeRef.new(shape: QuotaShareCapacityLimits, location_name: "capacityLimits"))
+    UpdateQuotaShareRequest.add_member(:resource_sharing_configuration, Shapes::ShapeRef.new(shape: QuotaShareResourceSharingConfiguration, location_name: "resourceSharingConfiguration"))
+    UpdateQuotaShareRequest.add_member(:preemption_configuration, Shapes::ShapeRef.new(shape: QuotaSharePreemptionConfiguration, location_name: "preemptionConfiguration"))
+    UpdateQuotaShareRequest.add_member(:state, Shapes::ShapeRef.new(shape: QuotaShareState, location_name: "state"))
+    UpdateQuotaShareRequest.struct_class = Types::UpdateQuotaShareRequest
+
+    UpdateQuotaShareResponse.add_member(:quota_share_name, Shapes::ShapeRef.new(shape: String, location_name: "quotaShareName"))
+    UpdateQuotaShareResponse.add_member(:quota_share_arn, Shapes::ShapeRef.new(shape: String, location_name: "quotaShareArn"))
+    UpdateQuotaShareResponse.struct_class = Types::UpdateQuotaShareResponse
+
     UpdateSchedulingPolicyRequest.add_member(:arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "arn"))
+    UpdateSchedulingPolicyRequest.add_member(:quota_share_policy, Shapes::ShapeRef.new(shape: QuotaSharePolicy, location_name: "quotaSharePolicy"))
     UpdateSchedulingPolicyRequest.add_member(:fairshare_policy, Shapes::ShapeRef.new(shape: FairsharePolicy, location_name: "fairsharePolicy"))
     UpdateSchedulingPolicyRequest.struct_class = Types::UpdateSchedulingPolicyRequest
 
@@ -1694,6 +1865,15 @@ module Aws::Batch
     UpdateServiceEnvironmentResponse.add_member(:service_environment_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "serviceEnvironmentName"))
     UpdateServiceEnvironmentResponse.add_member(:service_environment_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "serviceEnvironmentArn"))
     UpdateServiceEnvironmentResponse.struct_class = Types::UpdateServiceEnvironmentResponse
+
+    UpdateServiceJobRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "jobId"))
+    UpdateServiceJobRequest.add_member(:scheduling_priority, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "schedulingPriority"))
+    UpdateServiceJobRequest.struct_class = Types::UpdateServiceJobRequest
+
+    UpdateServiceJobResponse.add_member(:job_arn, Shapes::ShapeRef.new(shape: String, location_name: "jobArn"))
+    UpdateServiceJobResponse.add_member(:job_name, Shapes::ShapeRef.new(shape: String, location_name: "jobName"))
+    UpdateServiceJobResponse.add_member(:job_id, Shapes::ShapeRef.new(shape: String, location_name: "jobId"))
+    UpdateServiceJobResponse.struct_class = Types::UpdateServiceJobResponse
 
     Volume.add_member(:host, Shapes::ShapeRef.new(shape: Host, location_name: "host"))
     Volume.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
@@ -1762,6 +1942,16 @@ module Aws::Batch
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
       end)
 
+      api.add_operation(:create_quota_share, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateQuotaShare"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/createquotashare"
+        o.input = Shapes::ShapeRef.new(shape: CreateQuotaShareRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateQuotaShareResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ClientException)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+      end)
+
       api.add_operation(:create_scheduling_policy, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateSchedulingPolicy"
         o.http_method = "POST"
@@ -1808,6 +1998,16 @@ module Aws::Batch
         o.http_request_uri = "/v1/deletejobqueue"
         o.input = Shapes::ShapeRef.new(shape: DeleteJobQueueRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteJobQueueResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ClientException)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+      end)
+
+      api.add_operation(:delete_quota_share, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteQuotaShare"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/deletequotashare"
+        o.input = Shapes::ShapeRef.new(shape: DeleteQuotaShareRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteQuotaShareResponse)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
       end)
@@ -1910,6 +2110,16 @@ module Aws::Batch
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
       end)
 
+      api.add_operation(:describe_quota_share, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeQuotaShare"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/describequotashare"
+        o.input = Shapes::ShapeRef.new(shape: DescribeQuotaShareRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeQuotaShareResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ClientException)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+      end)
+
       api.add_operation(:describe_scheduling_policies, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DescribeSchedulingPolicies"
         o.http_method = "POST"
@@ -1994,6 +2204,22 @@ module Aws::Batch
         o.http_request_uri = "/v1/listjobsbyconsumableresource"
         o.input = Shapes::ShapeRef.new(shape: ListJobsByConsumableResourceRequest)
         o.output = Shapes::ShapeRef.new(shape: ListJobsByConsumableResourceResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ClientException)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_quota_shares, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListQuotaShares"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/listquotashares"
+        o.input = Shapes::ShapeRef.new(shape: ListQuotaSharesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListQuotaSharesResponse)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o[:pager] = Aws::Pager.new(
@@ -2146,6 +2372,16 @@ module Aws::Batch
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
       end)
 
+      api.add_operation(:update_quota_share, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateQuotaShare"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/updatequotashare"
+        o.input = Shapes::ShapeRef.new(shape: UpdateQuotaShareRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateQuotaShareResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ClientException)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+      end)
+
       api.add_operation(:update_scheduling_policy, Seahorse::Model::Operation.new.tap do |o|
         o.name = "UpdateSchedulingPolicy"
         o.http_method = "POST"
@@ -2162,6 +2398,16 @@ module Aws::Batch
         o.http_request_uri = "/v1/updateserviceenvironment"
         o.input = Shapes::ShapeRef.new(shape: UpdateServiceEnvironmentRequest)
         o.output = Shapes::ShapeRef.new(shape: UpdateServiceEnvironmentResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ClientException)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+      end)
+
+      api.add_operation(:update_service_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateServiceJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/updateservicejob"
+        o.input = Shapes::ShapeRef.new(shape: UpdateServiceJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateServiceJobResponse)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
       end)

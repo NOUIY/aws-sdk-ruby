@@ -521,6 +521,7 @@ module Aws::ObservabilityAdmin
 
     class SourceLogsConfiguration
       attr_accessor log_group_selection_criteria: ::String
+      attr_accessor data_source_selection_criteria: ::String
       attr_accessor encrypted_log_group_strategy: ("ALLOW" | "SKIP")
       SENSITIVE: []
     end

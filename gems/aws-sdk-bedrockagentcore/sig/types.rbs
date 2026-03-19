@@ -84,6 +84,12 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class BrowserEnterprisePolicy
+      attr_accessor location: Types::ResourceLocation
+      attr_accessor type: ("MANAGED" | "RECOMMENDED")
+      SENSITIVE: []
+    end
+
     class BrowserExtension
       attr_accessor location: Types::ResourceLocation
       SENSITIVE: []
@@ -108,6 +114,22 @@ module Aws::BedrockAgentCore
       attr_accessor created_at: ::Time
       attr_accessor last_updated_at: ::Time
       SENSITIVE: []
+    end
+
+    class Certificate
+      attr_accessor location: Types::CertificateLocation
+      SENSITIVE: []
+    end
+
+    class CertificateLocation
+      attr_accessor secrets_manager: Types::SecretsManagerLocation
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class SecretsManager < CertificateLocation
+      end
+      class Unknown < CertificateLocation
+      end
     end
 
     class CodeInterpreterResult
@@ -391,11 +413,13 @@ module Aws::BedrockAgentCore
       attr_accessor created_at: ::Time
       attr_accessor view_port: Types::ViewPort
       attr_accessor extensions: ::Array[Types::BrowserExtension]
+      attr_accessor enterprise_policies: ::Array[Types::BrowserEnterprisePolicy]
       attr_accessor profile_configuration: Types::BrowserProfileConfiguration
       attr_accessor session_timeout_seconds: ::Integer
       attr_accessor status: ("READY" | "TERMINATED")
       attr_accessor streams: Types::BrowserSessionStream
       attr_accessor proxy_configuration: Types::ProxyConfiguration
+      attr_accessor certificates: ::Array[Types::Certificate]
       attr_accessor session_replay_artifact: ::String
       attr_accessor last_updated_at: ::Time
       SENSITIVE: []
@@ -414,6 +438,7 @@ module Aws::BedrockAgentCore
       attr_accessor created_at: ::Time
       attr_accessor session_timeout_seconds: ::Integer
       attr_accessor status: ("READY" | "TERMINATED")
+      attr_accessor certificates: ::Array[Types::Certificate]
       SENSITIVE: []
     end
 
@@ -960,6 +985,11 @@ module Aws::BedrockAgentCore
       SENSITIVE: [:search_query]
     end
 
+    class SecretsManagerLocation
+      attr_accessor secret_arn: ::String
+      SENSITIVE: []
+    end
+
     class ServiceException
       attr_accessor message: ::String
       SENSITIVE: []
@@ -995,6 +1025,8 @@ module Aws::BedrockAgentCore
       attr_accessor extensions: ::Array[Types::BrowserExtension]
       attr_accessor profile_configuration: Types::BrowserProfileConfiguration
       attr_accessor proxy_configuration: Types::ProxyConfiguration
+      attr_accessor enterprise_policies: ::Array[Types::BrowserEnterprisePolicy]
+      attr_accessor certificates: ::Array[Types::Certificate]
       attr_accessor client_token: ::String
       SENSITIVE: []
     end
@@ -1013,6 +1045,7 @@ module Aws::BedrockAgentCore
       attr_accessor code_interpreter_identifier: ::String
       attr_accessor name: ::String
       attr_accessor session_timeout_seconds: ::Integer
+      attr_accessor certificates: ::Array[Types::Certificate]
       attr_accessor client_token: ::String
       SENSITIVE: []
     end

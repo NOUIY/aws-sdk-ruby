@@ -9968,8 +9968,9 @@ module Aws::EC2
     #   @return [Types::LaunchTemplateAndOverridesResponse]
     #
     # @!attribute [rw] lifecycle
-    #   Indicates if the instance that could not be launched was a Spot
-    #   Instance or On-Demand Instance.
+    #   Indicates if the instance that could not be launched was a Spot,
+    #   On-Demand, Capacity Block, or Interruptible Capacity Reservation
+    #   instance.
     #   @return [String]
     #
     # @!attribute [rw] error_code
@@ -10012,8 +10013,8 @@ module Aws::EC2
     #   @return [Types::LaunchTemplateAndOverridesResponse]
     #
     # @!attribute [rw] lifecycle
-    #   Indicates if the instance that was launched is a Spot Instance or
-    #   On-Demand Instance.
+    #   Indicates if the instance that was launched is a Spot, On-Demand,
+    #   Capacity Block, or Interruptible Capacity Reservation instance.
     #   @return [String]
     #
     # @!attribute [rw] instance_ids
@@ -10071,6 +10072,13 @@ module Aws::EC2
     # @!attribute [rw] on_demand_options
     #   Describes the configuration of On-Demand Instances in an EC2 Fleet.
     #   @return [Types::OnDemandOptionsRequest]
+    #
+    # @!attribute [rw] reserved_capacity_options
+    #   Defines EC2 Fleet preferences for utilizing reserved capacity when
+    #   DefaultTargetCapacityType is set to `reserved-capacity`.
+    #
+    #   Supported only for fleets of type `instant`.
+    #   @return [Types::ReservedCapacityOptionsRequest]
     #
     # @!attribute [rw] excess_capacity_termination_policy
     #   Indicates whether running instances should be terminated if the
@@ -10169,6 +10177,7 @@ module Aws::EC2
       :client_token,
       :spot_options,
       :on_demand_options,
+      :reserved_capacity_options,
       :excess_capacity_termination_policy,
       :launch_template_configs,
       :target_capacity_specification,
@@ -23849,8 +23858,9 @@ module Aws::EC2
     #   @return [Types::LaunchTemplateAndOverridesResponse]
     #
     # @!attribute [rw] lifecycle
-    #   Indicates if the instance that could not be launched was a Spot
-    #   Instance or On-Demand Instance.
+    #   Indicates if the instance that could not be launched was a Spot,
+    #   On-Demand, Capacity Block, or Interruptible Capacity Reservation
+    #   instance.
     #   @return [String]
     #
     # @!attribute [rw] error_code
@@ -24053,8 +24063,8 @@ module Aws::EC2
     #   @return [Types::LaunchTemplateAndOverridesResponse]
     #
     # @!attribute [rw] lifecycle
-    #   Indicates if the instance that was launched is a Spot Instance or
-    #   On-Demand Instance.
+    #   Indicates if the instance that was launched is a Spot, On-Demand,
+    #   Capacity Block, or Interruptible Capacity Reservation instance.
     #   @return [String]
     #
     # @!attribute [rw] instance_ids
@@ -41837,6 +41847,11 @@ module Aws::EC2
     #   The allocation strategy of On-Demand Instances in an EC2 Fleet.
     #   @return [Types::OnDemandOptions]
     #
+    # @!attribute [rw] reserved_capacity_options
+    #   Defines EC2 Fleet preferences for utilizing reserved capacity when
+    #   DefaultTargetCapacityType is set to `reserved-capacity`.
+    #   @return [Types::ReservedCapacityOptions]
+    #
     # @!attribute [rw] tags
     #   The tags for an EC2 Fleet resource.
     #   @return [Array<Types::Tag>]
@@ -41875,6 +41890,7 @@ module Aws::EC2
       :replace_unhealthy_instances,
       :spot_options,
       :on_demand_options,
+      :reserved_capacity_options,
       :tags,
       :errors,
       :instances,
@@ -72452,6 +72468,55 @@ module Aws::EC2
       :hourly_price,
       :remaining_total_value,
       :remaining_upfront_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines EC2 Fleet preferences for utilizing reserved capacity when
+    # DefaultTargetCapacityType is set to `reserved-capacity`.
+    #
+    # @!attribute [rw] reservation_types
+    #   The types of Capacity Reservations used for fulfilling the EC2 Fleet
+    #   request.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ReservedCapacityOptions AWS API Documentation
+    #
+    class ReservedCapacityOptions < Struct.new(
+      :reservation_types)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines EC2 Fleet preferences for utilizing reserved capacity when
+    # DefaultTargetCapacityType is set to `reserved-capacity`.
+    #
+    # <note markdown="1"> This configuration can only be used if the EC2 Fleet is of type
+    # `instant`.
+    #
+    #  </note>
+    #
+    # When you specify `ReservedCapacityOptions`, you must also set
+    # `DefaultTargetCapacityType` to `reserved-capacity` in the
+    # `TargetCapacitySpecification`.
+    #
+    # For more information about Interruptible Capacity Reservations, see
+    # [Launch instances into an Interruptible Capacity Reservation][1] in
+    # the *Amazon EC2 User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-launch-instances-interruptible-cr-walkthrough.html
+    #
+    # @!attribute [rw] reservation_types
+    #   The types of Capacity Reservations to use for fulfilling the EC2
+    #   Fleet request.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ReservedCapacityOptionsRequest AWS API Documentation
+    #
+    class ReservedCapacityOptionsRequest < Struct.new(
+      :reservation_types)
       SENSITIVE = []
       include Aws::Structure
     end

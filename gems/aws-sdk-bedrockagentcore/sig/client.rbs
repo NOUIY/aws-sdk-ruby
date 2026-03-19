@@ -254,11 +254,13 @@ module Aws
         def created_at: () -> ::Time
         def view_port: () -> Types::ViewPort
         def extensions: () -> ::Array[Types::BrowserExtension]
+        def enterprise_policies: () -> ::Array[Types::BrowserEnterprisePolicy]
         def profile_configuration: () -> Types::BrowserProfileConfiguration
         def session_timeout_seconds: () -> ::Integer
         def status: () -> ("READY" | "TERMINATED")
         def streams: () -> Types::BrowserSessionStream
         def proxy_configuration: () -> Types::ProxyConfiguration
+        def certificates: () -> ::Array[Types::Certificate]
         def session_replay_artifact: () -> ::String
         def last_updated_at: () -> ::Time
       end
@@ -277,6 +279,7 @@ module Aws
         def created_at: () -> ::Time
         def session_timeout_seconds: () -> ::Integer
         def status: () -> ("READY" | "TERMINATED")
+        def certificates: () -> ::Array[Types::Certificate]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#get_code_interpreter_session-instance_method
       def get_code_interpreter_session: (
@@ -692,6 +695,27 @@ module Aws
                                        domain_patterns: Array[::String]?
                                      }?
                                    },
+                                   ?enterprise_policies: Array[
+                                     {
+                                       location: {
+                                         s3: {
+                                           bucket: ::String,
+                                           prefix: ::String,
+                                           version_id: ::String?
+                                         }?
+                                       },
+                                       type: ("MANAGED" | "RECOMMENDED")?
+                                     },
+                                   ],
+                                   ?certificates: Array[
+                                     {
+                                       location: {
+                                         secrets_manager: {
+                                           secret_arn: ::String
+                                         }?
+                                       }
+                                     },
+                                   ],
                                    ?client_token: ::String
                                  ) -> _StartBrowserSessionResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartBrowserSessionResponseSuccess
@@ -709,6 +733,15 @@ module Aws
                                             code_interpreter_identifier: ::String,
                                             ?name: ::String,
                                             ?session_timeout_seconds: ::Integer,
+                                            ?certificates: Array[
+                                              {
+                                                location: {
+                                                  secrets_manager: {
+                                                    secret_arn: ::String
+                                                  }?
+                                                }
+                                              },
+                                            ],
                                             ?client_token: ::String
                                           ) -> _StartCodeInterpreterSessionResponseSuccess
                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartCodeInterpreterSessionResponseSuccess

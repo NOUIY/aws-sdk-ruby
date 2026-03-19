@@ -477,6 +477,26 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # Browser enterprise policy configuration.
+    #
+    # @!attribute [rw] location
+    #   The location of the enterprise policy file.
+    #   @return [Types::ResourceLocation]
+    #
+    # @!attribute [rw] type
+    #   The type of browser enterprise policy. Available values are
+    #   `MANAGED` and `RECOMMENDED`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/BrowserEnterprisePolicy AWS API Documentation
+    #
+    class BrowserEnterprisePolicy < Struct.new(
+      :location,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The network configuration for a browser. This structure defines how
     # the browser connects to the network.
     #
@@ -682,6 +702,43 @@ module Aws::BedrockAgentCoreControl
       :statement)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # A certificate to install in the browser or code interpreter.
+    #
+    # @!attribute [rw] location
+    #   The location of the certificate.
+    #   @return [Types::CertificateLocation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/Certificate AWS API Documentation
+    #
+    class Certificate < Struct.new(
+      :location)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The location from which to retrieve a certificate.
+    #
+    # @note CertificateLocation is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note CertificateLocation is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of CertificateLocation corresponding to the set member.
+    #
+    # @!attribute [rw] secrets_manager
+    #   The Amazon Web Services Secrets Manager location of the certificate.
+    #   @return [Types::SecretsManagerLocation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CertificateLocation AWS API Documentation
+    #
+    class CertificateLocation < Struct.new(
+      :secrets_manager,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class SecretsManager < CertificateLocation; end
+      class Unknown < CertificateLocation; end
     end
 
     # The value or values to match for.
@@ -1334,6 +1391,14 @@ module Aws::BedrockAgentCoreControl
     #   authentication.
     #   @return [Types::BrowserSigningConfigInput]
     #
+    # @!attribute [rw] enterprise_policies
+    #   A list of enterprise policy files for the browser.
+    #   @return [Array<Types::BrowserEnterprisePolicy>]
+    #
+    # @!attribute [rw] certificates
+    #   A list of certificates to install in the browser.
+    #   @return [Array<Types::Certificate>]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier to ensure that the operation
     #   completes no more than one time. If this token matches a previous
@@ -1359,6 +1424,8 @@ module Aws::BedrockAgentCoreControl
       :network_configuration,
       :recording,
       :browser_signing,
+      :enterprise_policies,
+      :certificates,
       :client_token,
       :tags)
       SENSITIVE = [:description]
@@ -1412,6 +1479,10 @@ module Aws::BedrockAgentCoreControl
     #   configuration specifies the network mode for the code interpreter.
     #   @return [Types::CodeInterpreterNetworkConfiguration]
     #
+    # @!attribute [rw] certificates
+    #   A list of certificates to install in the code interpreter.
+    #   @return [Array<Types::Certificate>]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier to ensure that the operation
     #   completes no more than one time. If this token matches a previous
@@ -1435,6 +1506,7 @@ module Aws::BedrockAgentCoreControl
       :description,
       :execution_role_arn,
       :network_configuration,
+      :certificates,
       :client_token,
       :tags)
       SENSITIVE = [:description]
@@ -4725,6 +4797,14 @@ module Aws::BedrockAgentCoreControl
     #   agent identification is enabled for web bot authentication.
     #   @return [Types::BrowserSigningConfigOutput]
     #
+    # @!attribute [rw] enterprise_policies
+    #   The list of enterprise policy files configured for the browser.
+    #   @return [Array<Types::BrowserEnterprisePolicy>]
+    #
+    # @!attribute [rw] certificates
+    #   The list of certificates configured for the browser.
+    #   @return [Array<Types::Certificate>]
+    #
     # @!attribute [rw] status
     #   The current status of the browser.
     #   @return [String]
@@ -4752,6 +4832,8 @@ module Aws::BedrockAgentCoreControl
       :network_configuration,
       :recording,
       :browser_signing,
+      :enterprise_policies,
+      :certificates,
       :status,
       :failure_reason,
       :created_at,
@@ -4801,6 +4883,10 @@ module Aws::BedrockAgentCoreControl
     #   The current status of the code interpreter.
     #   @return [String]
     #
+    # @!attribute [rw] certificates
+    #   The list of certificates configured for the code interpreter.
+    #   @return [Array<Types::Certificate>]
+    #
     # @!attribute [rw] failure_reason
     #   The reason for failure if the code interpreter is in a failed state.
     #   @return [String]
@@ -4823,6 +4909,7 @@ module Aws::BedrockAgentCoreControl
       :execution_role_arn,
       :network_configuration,
       :status,
+      :certificates,
       :failure_reason,
       :created_at,
       :last_updated_at)
@@ -8477,6 +8564,30 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The location of a resource.
+    #
+    # @note ResourceLocation is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note ResourceLocation is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of ResourceLocation corresponding to the set member.
+    #
+    # @!attribute [rw] s3
+    #   The Amazon S3 location for storing data. This structure defines
+    #   where in Amazon S3 data is stored.
+    #   @return [Types::S3Location]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ResourceLocation AWS API Documentation
+    #
+    class ResourceLocation < Struct.new(
+      :s3,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class S3 < ResourceLocation; end
+      class Unknown < ResourceLocation; end
+    end
+
     # This exception is thrown when a resource referenced by the operation
     # does not exist
     #
@@ -8688,6 +8799,21 @@ module Aws::BedrockAgentCoreControl
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/Secret AWS API Documentation
     #
     class Secret < Struct.new(
+      :secret_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Amazon Web Services Secrets Manager location configuration.
+    #
+    # @!attribute [rw] secret_arn
+    #   The ARN of the Amazon Web Services Secrets Manager secret containing
+    #   the certificate.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SecretsManagerLocation AWS API Documentation
+    #
+    class SecretsManagerLocation < Struct.new(
       :secret_arn)
       SENSITIVE = []
       include Aws::Structure

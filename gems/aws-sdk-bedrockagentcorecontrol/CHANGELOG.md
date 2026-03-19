@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.31.0 (2026-03-19)
+------------------
+
+* Feature - Adds support for the following new features. 1. Enterprise Policies support for AgentCore Browser Tool. 2. Root CA Configuration support for AgentCore Browser Tool and Code Interpreter.
+
 1.30.0 (2026-03-18)
 ------------------
 

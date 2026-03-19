@@ -35,6 +35,7 @@ require 'aws-sdk-core/plugins/recursion_detection'
 require 'aws-sdk-core/plugins/telemetry'
 require 'aws-sdk-core/plugins/sign'
 require 'aws-sdk-core/plugins/protocols/rest_json'
+require 'aws-sdk-core/plugins/event_stream_configuration'
 
 module Aws::Polly
   # An API client for Polly.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -85,6 +86,7 @@ module Aws::Polly
     add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
+    add_plugin(Aws::Plugins::EventStreamConfiguration)
     add_plugin(Aws::Polly::Plugins::Endpoints)
 
     # @overload initialize(options)
@@ -239,9 +241,15 @@ module Aws::Polly
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
     #
+    #   @option options [Proc] :event_stream_handler
+    #     When an EventStream or Proc object is provided, it will be used as callback for each chunk of event stream response received along the way.
+    #
     #   @option options [Boolean] :ignore_configured_endpoint_urls
     #     Setting to true disables use of endpoint URLs provided via environment
     #     variables and the shared configuration file.
+    #
+    #   @option options [Proc] :input_event_stream_handler
+    #     When an EventStream or Proc object is provided, it can be used for sending events for the event stream.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -258,6 +266,9 @@ module Aws::Polly
     #     a single request, including the initial attempt.  For example,
     #     setting this value to 5 will result in a request being retried up to
     #     4 times. Used in `standard` and `adaptive` retry modes.
+    #
+    #   @option options [Proc] :output_event_stream_handler
+    #     When an EventStream or Proc object is provided, it will be used as callback for each chunk of event stream response received along the way.
     #
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file at `HOME/.aws/credentials`.
@@ -974,8 +985,8 @@ module Aws::Polly
     #
     # @option params [required, String] :output_format
     #   The format in which the returned output will be encoded. For audio
-    #   stream, this will be mp3, ogg\_vorbis, or pcm. For speech marks, this
-    #   will be json.
+    #   stream, this will be mp3, ogg\_vorbis, ogg\_opus, mu-law, a-law, or
+    #   pcm. For speech marks, this will be json.
     #
     # @option params [required, String] :output_s3_bucket_name
     #   Amazon S3 bucket name to which the output file will be saved.
@@ -994,6 +1005,10 @@ module Aws::Polly
     #
     #   Valid values for pcm are "8000" and "16000" The default value is
     #   "16000".
+    #
+    #   Valid value for ogg\_opus is "48000".
+    #
+    #   Valid value for mu-law and a-law is "8000".
     #
     # @option params [String] :sns_topic_arn
     #   ARN for the SNS topic optionally used for providing status
@@ -1115,8 +1130,8 @@ module Aws::Polly
     #
     # @option params [required, String] :output_format
     #   The format in which the returned output will be encoded. For audio
-    #   stream, this will be mp3, ogg\_vorbis, or pcm. For speech marks, this
-    #   will be json.
+    #   stream, this will be mp3, ogg\_vorbis, ogg\_opus, mu-law, a-law or
+    #   pcm. For speech marks, this will be json.
     #
     #   When pcm is used, the content returned is audio/pcm in a signed
     #   16-bit, 1 channel (mono), little-endian format.
@@ -1132,6 +1147,10 @@ module Aws::Polly
     #
     #   Valid values for pcm are "8000" and "16000" The default value is
     #   "16000".
+    #
+    #   Valid value for ogg\_opus is "48000".
+    #
+    #   Valid value for mu-law and a-law is "8000".
     #
     # @option params [Array<String>] :speech_mark_types
     #   The type of speech marks returned for the input text.
@@ -1232,7 +1251,7 @@ module Aws::Polly
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-polly'
-      context[:gem_version] = '1.121.0'
+      context[:gem_version] = '1.122.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

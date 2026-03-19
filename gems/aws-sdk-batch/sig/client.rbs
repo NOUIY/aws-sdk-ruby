@@ -201,6 +201,33 @@ module Aws
                             ) -> _CreateJobQueueResponseSuccess
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateJobQueueResponseSuccess
 
+      interface _CreateQuotaShareResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateQuotaShareResponse]
+        def quota_share_name: () -> ::String
+        def quota_share_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Batch/Client.html#create_quota_share-instance_method
+      def create_quota_share: (
+                                quota_share_name: ::String,
+                                job_queue: ::String,
+                                capacity_limits: Array[
+                                  {
+                                    max_capacity: ::Integer,
+                                    capacity_unit: ::String
+                                  },
+                                ],
+                                resource_sharing_configuration: {
+                                  strategy: ("RESERVE" | "LEND" | "LEND_AND_BORROW"),
+                                  borrow_limit: ::Integer?
+                                },
+                                preemption_configuration: {
+                                  in_share_preemption: ("ENABLED" | "DISABLED")
+                                },
+                                ?state: ("ENABLED" | "DISABLED"),
+                                ?tags: Hash[::String, ::String]
+                              ) -> _CreateQuotaShareResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateQuotaShareResponseSuccess
+
       interface _CreateSchedulingPolicyResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateSchedulingPolicyResponse]
         def name: () -> ::String
@@ -209,6 +236,9 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Batch/Client.html#create_scheduling_policy-instance_method
       def create_scheduling_policy: (
                                       name: ::String,
+                                      ?quota_share_policy: {
+                                        idle_resource_assignment_strategy: ("FIFO")
+                                      },
                                       ?fairshare_policy: {
                                         share_decay_seconds: ::Integer?,
                                         compute_reservation: ::Integer?,
@@ -269,6 +299,15 @@ module Aws
                               job_queue: ::String
                             ) -> _DeleteJobQueueResponseSuccess
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteJobQueueResponseSuccess
+
+      interface _DeleteQuotaShareResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteQuotaShareResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Batch/Client.html#delete_quota_share-instance_method
+      def delete_quota_share: (
+                                quota_share_arn: ::String
+                              ) -> _DeleteQuotaShareResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteQuotaShareResponseSuccess
 
       interface _DeleteSchedulingPolicyResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteSchedulingPolicyResponse]
@@ -365,6 +404,24 @@ module Aws
                          ) -> _DescribeJobsResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeJobsResponseSuccess
 
+      interface _DescribeQuotaShareResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeQuotaShareResponse]
+        def quota_share_name: () -> ::String
+        def quota_share_arn: () -> ::String
+        def job_queue_arn: () -> ::String
+        def capacity_limits: () -> ::Array[Types::QuotaShareCapacityLimit]
+        def resource_sharing_configuration: () -> Types::QuotaShareResourceSharingConfiguration
+        def preemption_configuration: () -> Types::QuotaSharePreemptionConfiguration
+        def state: () -> ("ENABLED" | "DISABLED")
+        def status: () -> ("CREATING" | "VALID" | "INVALID" | "UPDATING" | "DELETING")
+        def tags: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Batch/Client.html#describe_quota_share-instance_method
+      def describe_quota_share: (
+                                  quota_share_arn: ::String
+                                ) -> _DescribeQuotaShareResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeQuotaShareResponseSuccess
+
       interface _DescribeSchedulingPoliciesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeSchedulingPoliciesResponse]
         def scheduling_policies: () -> ::Array[Types::SchedulingPolicyDetail]
@@ -405,6 +462,9 @@ module Aws
         def service_request_payload: () -> ::String
         def service_job_type: () -> ("SAGEMAKER_TRAINING")
         def share_identifier: () -> ::String
+        def quota_share_name: () -> ::String
+        def preemption_configuration: () -> Types::ServiceJobPreemptionConfiguration
+        def preemption_summary: () -> Types::ServiceJobPreemptionSummary
         def started_at: () -> ::Integer
         def status: () -> ("SUBMITTED" | "PENDING" | "RUNNABLE" | "SCHEDULED" | "STARTING" | "RUNNING" | "SUCCEEDED" | "FAILED")
         def status_reason: () -> ::String
@@ -421,6 +481,7 @@ module Aws
       interface _GetJobQueueSnapshotResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetJobQueueSnapshotResponse]
         def front_of_queue: () -> Types::FrontOfQueueDetail
+        def front_of_quota_shares: () -> Types::FrontOfQuotaSharesDetail
         def queue_utilization: () -> Types::QueueSnapshotUtilizationDetail
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Batch/Client.html#get_job_queue_snapshot-instance_method
@@ -487,6 +548,19 @@ module Aws
                                               ?next_token: ::String
                                             ) -> _ListJobsByConsumableResourceResponseSuccess
                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListJobsByConsumableResourceResponseSuccess
+
+      interface _ListQuotaSharesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListQuotaSharesResponse]
+        def quota_shares: () -> ::Array[Types::QuotaShareDetail]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Batch/Client.html#list_quota_shares-instance_method
+      def list_quota_shares: (
+                               job_queue: ::String,
+                               ?max_results: ::Integer,
+                               ?next_token: ::String
+                             ) -> _ListQuotaSharesResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListQuotaSharesResponseSuccess
 
       interface _ListSchedulingPoliciesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListSchedulingPoliciesResponse]
@@ -1538,6 +1612,10 @@ module Aws
                                 service_request_payload: ::String,
                                 service_job_type: ("SAGEMAKER_TRAINING"),
                                 ?share_identifier: ::String,
+                                ?quota_share_name: ::String,
+                                ?preemption_configuration: {
+                                  preemption_retries_before_termination: ::Integer?
+                                },
                                 ?timeout_config: {
                                   attempt_duration_seconds: ::Integer?
                                 },
@@ -1696,12 +1774,40 @@ module Aws
                             ) -> _UpdateJobQueueResponseSuccess
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateJobQueueResponseSuccess
 
+      interface _UpdateQuotaShareResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateQuotaShareResponse]
+        def quota_share_name: () -> ::String
+        def quota_share_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Batch/Client.html#update_quota_share-instance_method
+      def update_quota_share: (
+                                quota_share_arn: ::String,
+                                ?capacity_limits: Array[
+                                  {
+                                    max_capacity: ::Integer,
+                                    capacity_unit: ::String
+                                  },
+                                ],
+                                ?resource_sharing_configuration: {
+                                  strategy: ("RESERVE" | "LEND" | "LEND_AND_BORROW"),
+                                  borrow_limit: ::Integer?
+                                },
+                                ?preemption_configuration: {
+                                  in_share_preemption: ("ENABLED" | "DISABLED")
+                                },
+                                ?state: ("ENABLED" | "DISABLED")
+                              ) -> _UpdateQuotaShareResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateQuotaShareResponseSuccess
+
       interface _UpdateSchedulingPolicyResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateSchedulingPolicyResponse]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Batch/Client.html#update_scheduling_policy-instance_method
       def update_scheduling_policy: (
                                       arn: ::String,
+                                      ?quota_share_policy: {
+                                        idle_resource_assignment_strategy: ("FIFO")
+                                      },
                                       ?fairshare_policy: {
                                         share_decay_seconds: ::Integer?,
                                         compute_reservation: ::Integer?,
@@ -1732,6 +1838,19 @@ module Aws
                                         ]
                                       ) -> _UpdateServiceEnvironmentResponseSuccess
                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateServiceEnvironmentResponseSuccess
+
+      interface _UpdateServiceJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateServiceJobResponse]
+        def job_arn: () -> ::String
+        def job_name: () -> ::String
+        def job_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Batch/Client.html#update_service_job-instance_method
+      def update_service_job: (
+                                job_id: ::String,
+                                scheduling_priority: ::Integer
+                              ) -> _UpdateServiceJobResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateServiceJobResponseSuccess
     end
   end
 end

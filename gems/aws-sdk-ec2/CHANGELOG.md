@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.609.0 (2026-03-19)
+------------------
+
+* Feature - Amazon EC2 Fleet instant mode now supports launching instances into Interruptible Capacity Reservations, enabling customers to use spare capacity shared by Capacity Reservation owners within their AWS Organization.
+
 1.608.0 (2026-03-18)
 ------------------
 

@@ -90,7 +90,8 @@ module Aws
                                                              regions: Array[::String],
                                                              scope: ::String?,
                                                              source_logs_configuration: {
-                                                               log_group_selection_criteria: ::String,
+                                                               log_group_selection_criteria: ::String?,
+                                                               data_source_selection_criteria: ::String?,
                                                                encrypted_log_group_strategy: ("ALLOW" | "SKIP")
                                                              }?
                                                            },
@@ -633,7 +634,8 @@ module Aws
                                                              regions: Array[::String],
                                                              scope: ::String?,
                                                              source_logs_configuration: {
-                                                               log_group_selection_criteria: ::String,
+                                                               log_group_selection_criteria: ::String?,
+                                                               data_source_selection_criteria: ::String?,
                                                                encrypted_log_group_strategy: ("ALLOW" | "SKIP")
                                                              }?
                                                            },

@@ -507,7 +507,8 @@ module Aws::ObservabilityAdmin
     #         regions: ["Region"], # required
     #         scope: "SourceFilterString",
     #         source_logs_configuration: {
-    #           log_group_selection_criteria: "LogsFilterString", # required
+    #           log_group_selection_criteria: "LogsFilterString",
+    #           data_source_selection_criteria: "DataSourceFilterString",
     #           encrypted_log_group_strategy: "ALLOW", # required, accepts ALLOW, SKIP
     #         },
     #       },
@@ -1044,6 +1045,7 @@ module Aws::ObservabilityAdmin
     #   resp.centralization_rule.source.regions[0] #=> String
     #   resp.centralization_rule.source.scope #=> String
     #   resp.centralization_rule.source.source_logs_configuration.log_group_selection_criteria #=> String
+    #   resp.centralization_rule.source.source_logs_configuration.data_source_selection_criteria #=> String
     #   resp.centralization_rule.source.source_logs_configuration.encrypted_log_group_strategy #=> String, one of "ALLOW", "SKIP"
     #   resp.centralization_rule.destination.region #=> String
     #   resp.centralization_rule.destination.account #=> String
@@ -2075,7 +2077,8 @@ module Aws::ObservabilityAdmin
     #         regions: ["Region"], # required
     #         scope: "SourceFilterString",
     #         source_logs_configuration: {
-    #           log_group_selection_criteria: "LogsFilterString", # required
+    #           log_group_selection_criteria: "LogsFilterString",
+    #           data_source_selection_criteria: "DataSourceFilterString",
     #           encrypted_log_group_strategy: "ALLOW", # required, accepts ALLOW, SKIP
     #         },
     #       },
@@ -2484,7 +2487,7 @@ module Aws::ObservabilityAdmin
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-observabilityadmin'
-      context[:gem_version] = '1.22.0'
+      context[:gem_version] = '1.23.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

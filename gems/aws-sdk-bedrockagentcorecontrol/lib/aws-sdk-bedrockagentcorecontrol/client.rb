@@ -758,6 +758,12 @@ module Aws::BedrockAgentCoreControl
     #   identification using HTTP message signatures for web bot
     #   authentication.
     #
+    # @option params [Array<Types::BrowserEnterprisePolicy>] :enterprise_policies
+    #   A list of enterprise policy files for the browser.
+    #
+    # @option params [Array<Types::Certificate>] :certificates
+    #   A list of certificates to install in the browser.
+    #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier to ensure that the operation
     #   completes no more than one time. If this token matches a previous
@@ -803,6 +809,27 @@ module Aws::BedrockAgentCoreControl
     #     browser_signing: {
     #       enabled: false, # required
     #     },
+    #     enterprise_policies: [
+    #       {
+    #         location: { # required
+    #           s3: {
+    #             bucket: "S3LocationBucketString", # required
+    #             prefix: "S3LocationPrefixString", # required
+    #             version_id: "S3LocationVersionIdString",
+    #           },
+    #         },
+    #         type: "MANAGED", # accepts MANAGED, RECOMMENDED
+    #       },
+    #     ],
+    #     certificates: [
+    #       {
+    #         location: { # required
+    #           secrets_manager: {
+    #             secret_arn: "ToolSecretArn", # required
+    #           },
+    #         },
+    #       },
+    #     ],
     #     client_token: "ClientToken",
     #     tags: {
     #       "TagKey" => "TagValue",
@@ -904,6 +931,9 @@ module Aws::BedrockAgentCoreControl
     #   The network configuration for the code interpreter. This configuration
     #   specifies the network mode for the code interpreter.
     #
+    # @option params [Array<Types::Certificate>] :certificates
+    #   A list of certificates to install in the code interpreter.
+    #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier to ensure that the operation
     #   completes no more than one time. If this token matches a previous
@@ -938,6 +968,15 @@ module Aws::BedrockAgentCoreControl
     #         subnets: ["SubnetId"], # required
     #       },
     #     },
+    #     certificates: [
+    #       {
+    #         location: { # required
+    #           secrets_manager: {
+    #             secret_arn: "ToolSecretArn", # required
+    #           },
+    #         },
+    #       },
+    #     ],
     #     client_token: "ClientToken",
     #     tags: {
     #       "TagKey" => "TagValue",
@@ -3146,6 +3185,8 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetBrowserResponse#network_configuration #network_configuration} => Types::BrowserNetworkConfiguration
     #   * {Types::GetBrowserResponse#recording #recording} => Types::RecordingConfig
     #   * {Types::GetBrowserResponse#browser_signing #browser_signing} => Types::BrowserSigningConfigOutput
+    #   * {Types::GetBrowserResponse#enterprise_policies #enterprise_policies} => Array&lt;Types::BrowserEnterprisePolicy&gt;
+    #   * {Types::GetBrowserResponse#certificates #certificates} => Array&lt;Types::Certificate&gt;
     #   * {Types::GetBrowserResponse#status #status} => String
     #   * {Types::GetBrowserResponse#failure_reason #failure_reason} => String
     #   * {Types::GetBrowserResponse#created_at #created_at} => Time
@@ -3174,6 +3215,13 @@ module Aws::BedrockAgentCoreControl
     #   resp.recording.s3_location.prefix #=> String
     #   resp.recording.s3_location.version_id #=> String
     #   resp.browser_signing.enabled #=> Boolean
+    #   resp.enterprise_policies #=> Array
+    #   resp.enterprise_policies[0].location.s3.bucket #=> String
+    #   resp.enterprise_policies[0].location.s3.prefix #=> String
+    #   resp.enterprise_policies[0].location.s3.version_id #=> String
+    #   resp.enterprise_policies[0].type #=> String, one of "MANAGED", "RECOMMENDED"
+    #   resp.certificates #=> Array
+    #   resp.certificates[0].location.secrets_manager.secret_arn #=> String
     #   resp.status #=> String, one of "CREATING", "CREATE_FAILED", "READY", "DELETING", "DELETE_FAILED", "DELETED"
     #   resp.failure_reason #=> String
     #   resp.created_at #=> Time
@@ -3248,6 +3296,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetCodeInterpreterResponse#execution_role_arn #execution_role_arn} => String
     #   * {Types::GetCodeInterpreterResponse#network_configuration #network_configuration} => Types::CodeInterpreterNetworkConfiguration
     #   * {Types::GetCodeInterpreterResponse#status #status} => String
+    #   * {Types::GetCodeInterpreterResponse#certificates #certificates} => Array&lt;Types::Certificate&gt;
     #   * {Types::GetCodeInterpreterResponse#failure_reason #failure_reason} => String
     #   * {Types::GetCodeInterpreterResponse#created_at #created_at} => Time
     #   * {Types::GetCodeInterpreterResponse#last_updated_at #last_updated_at} => Time
@@ -3271,6 +3320,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.network_configuration.vpc_config.subnets #=> Array
     #   resp.network_configuration.vpc_config.subnets[0] #=> String
     #   resp.status #=> String, one of "CREATING", "CREATE_FAILED", "READY", "DELETING", "DELETE_FAILED", "DELETED"
+    #   resp.certificates #=> Array
+    #   resp.certificates[0].location.secrets_manager.secret_arn #=> String
     #   resp.failure_reason #=> String
     #   resp.created_at #=> Time
     #   resp.last_updated_at #=> Time
@@ -6986,7 +7037,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.30.0'
+      context[:gem_version] = '1.31.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -271,26 +271,37 @@ module Aws::Batch
     #
     class CancelJobResponse < Aws::EmptyStructure; end
 
-    # Defines the capacity limit for a service environment. This structure
-    # specifies the maximum amount of resources that can be used by service
-    # jobs in the environment.
+    # Defines the type and maximum quantity of resources that can be
+    # allocated to service jobs in a service environment.
     #
     # @!attribute [rw] max_capacity
-    #   The maximum capacity available for the service environment. This
-    #   value represents the maximum amount of resources that can be
-    #   allocated to service jobs.
+    #   The maximum capacity available for the service environment. For a
+    #   quota management enabled service environment, this value represents
+    #   the maximum quantity of a particular resource type (specified by
+    #   `capacityUnit`) that can be allocated to service jobs. For other
+    #   service environments, this value represents the maximum quantity of
+    #   all resources that can be allocated to service jobs.
     #
-    #   For example, `maxCapacity=50`, `capacityUnit=NUM_INSTANCES`. This
-    #   indicates that the maximum number of instances that can be run on
-    #   this service environment is 50. You could then run 5 SageMaker
-    #   Training jobs that each use 10 instances. However, if you submit
-    #   another job that requires 10 instances, it will wait in the queue.
+    #   For example, if `maxCapacity=50` and `capacityUnit=NUM_INSTANCES`,
+    #   you can run up to 50 instances concurrently. If you run 5 SageMaker
+    #   Training jobs that each use 10 instances, a subsequent job requiring
+    #   10 instances waits in the queue until capacity is available. In a
+    #   quota management enabled service environment with
+    #   `capacityUnit=ml.m5.large`, only `ml.m5.large` instances count
+    #   against this limit, and jobs requiring other instance types wait
+    #   until a matching capacity limit is configured.
     #   @return [Integer]
     #
     # @!attribute [rw] capacity_unit
-    #   The unit of measure for the capacity limit. This defines how the
-    #   maxCapacity value should be interpreted. For `SAGEMAKER_TRAINING`
-    #   jobs, use `NUM_INSTANCES`.
+    #   The unit of measure for the capacity limit, which defines how
+    #   `maxCapacity` is interpreted. For `SAGEMAKER_TRAINING` jobs in a
+    #   quota management enabled service environment, specify the [instance
+    #   type][1] (for example, `ml.m5.large`). Otherwise, use
+    #   `NUM_INSTANCES`.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ResourceConfig.html#sagemaker-Type-ResourceConfig-InstanceType
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/CapacityLimit AWS API Documentation
@@ -2722,6 +2733,81 @@ module Aws::Batch
       include Aws::Structure
     end
 
+    # @!attribute [rw] quota_share_name
+    #   The name of the quota share. It can be up to 128 characters long. It
+    #   can contain uppercase and lowercase letters, numbers, hyphens (-),
+    #   and underscores (\_).
+    #   @return [String]
+    #
+    # @!attribute [rw] job_queue
+    #   The Batch job queue associated with the quota share. This can be the
+    #   job queue name or ARN. A job queue must be in the `VALID` state
+    #   before you can associate it with a quota share.
+    #   @return [String]
+    #
+    # @!attribute [rw] capacity_limits
+    #   A list that specifies the quantity and type of compute capacity
+    #   allocated to the quota share.
+    #   @return [Array<Types::QuotaShareCapacityLimit>]
+    #
+    # @!attribute [rw] resource_sharing_configuration
+    #   Specifies whether a quota share reserves, lends, or both lends and
+    #   borrows idle compute capacity.
+    #   @return [Types::QuotaShareResourceSharingConfiguration]
+    #
+    # @!attribute [rw] preemption_configuration
+    #   Specifies the preemption behavior for jobs in a quota share.
+    #   @return [Types::QuotaSharePreemptionConfiguration]
+    #
+    # @!attribute [rw] state
+    #   The state of the quota share. If the quota share is `ENABLED`, it is
+    #   able to accept jobs. If the quota share is `DISABLED`, new jobs
+    #   won't be accepted but jobs already submitted can finish. The
+    #   default state is `ENABLED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags that you apply to the quota share to help you categorize
+    #   and organize your resources. Each tag consists of a key and an
+    #   optional value. For more information, see [Tagging your Batch
+    #   resources][1] in *Batch User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/CreateQuotaShareRequest AWS API Documentation
+    #
+    class CreateQuotaShareRequest < Struct.new(
+      :quota_share_name,
+      :job_queue,
+      :capacity_limits,
+      :resource_sharing_configuration,
+      :preemption_configuration,
+      :state,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] quota_share_name
+    #   The name of the quota share.
+    #   @return [String]
+    #
+    # @!attribute [rw] quota_share_arn
+    #   The Amazon Resource Name (ARN) of the quota share.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/CreateQuotaShareResponse AWS API Documentation
+    #
+    class CreateQuotaShareResponse < Struct.new(
+      :quota_share_name,
+      :quota_share_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains the parameters for `CreateSchedulingPolicy`.
     #
     # @!attribute [rw] name
@@ -2730,8 +2816,16 @@ module Aws::Batch
     #   numbers, hyphens (-), and underscores (\_).
     #   @return [String]
     #
+    # @!attribute [rw] quota_share_policy
+    #   The quota share scheduling policy details. Only one of
+    #   fairsharePolicy or quotaSharePolicy can be set. Once set, this
+    #   policy type cannot be removed or changed to a fairSharePolicy.
+    #   @return [Types::QuotaSharePolicy]
+    #
     # @!attribute [rw] fairshare_policy
-    #   The fair-share scheduling policy details.
+    #   The fair-share scheduling policy details. Only one of
+    #   fairsharePolicy or quotaSharePolicy can be set. Once set, this
+    #   policy type cannot be removed or changed to a quotaSharePolicy.
     #   @return [Types::FairsharePolicy]
     #
     # @!attribute [rw] tags
@@ -2754,6 +2848,7 @@ module Aws::Batch
     #
     class CreateSchedulingPolicyRequest < Struct.new(
       :name,
+      :quota_share_policy,
       :fairshare_policy,
       :tags)
       SENSITIVE = []
@@ -2895,6 +2990,22 @@ module Aws::Batch
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DeleteJobQueueResponse AWS API Documentation
     #
     class DeleteJobQueueResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] quota_share_arn
+    #   The Amazon Resource Name (ARN) of the quota share.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DeleteQuotaShareRequest AWS API Documentation
+    #
+    class DeleteQuotaShareRequest < Struct.new(
+      :quota_share_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DeleteQuotaShareResponse AWS API Documentation
+    #
+    class DeleteQuotaShareResponse < Aws::EmptyStructure; end
 
     # Contains the parameters for `DeleteSchedulingPolicy`.
     #
@@ -3256,6 +3367,72 @@ module Aws::Batch
       include Aws::Structure
     end
 
+    # @!attribute [rw] quota_share_arn
+    #   The Amazon Resource Name (ARN) of the quota share.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DescribeQuotaShareRequest AWS API Documentation
+    #
+    class DescribeQuotaShareRequest < Struct.new(
+      :quota_share_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] quota_share_name
+    #   The name of the quota share.
+    #   @return [String]
+    #
+    # @!attribute [rw] quota_share_arn
+    #   The Amazon Resource Name (ARN) of the quota share.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_queue_arn
+    #   The ARN of the job queue associated with the quota share.
+    #   @return [String]
+    #
+    # @!attribute [rw] capacity_limits
+    #   A list that specifies the quantity and type of compute capacity
+    #   allocated to the quota share.
+    #   @return [Array<Types::QuotaShareCapacityLimit>]
+    #
+    # @!attribute [rw] resource_sharing_configuration
+    #   Specifies whether a quota share reserves, lends, or both lends and
+    #   borrows idle compute capacity.
+    #   @return [Types::QuotaShareResourceSharingConfiguration]
+    #
+    # @!attribute [rw] preemption_configuration
+    #   Specifies the preemption behavior for jobs in a quota share.
+    #   @return [Types::QuotaSharePreemptionConfiguration]
+    #
+    # @!attribute [rw] state
+    #   The state of the quota share.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the quota share.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags applied to the quota share.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DescribeQuotaShareResponse AWS API Documentation
+    #
+    class DescribeQuotaShareResponse < Struct.new(
+      :quota_share_name,
+      :quota_share_arn,
+      :job_queue_arn,
+      :capacity_limits,
+      :resource_sharing_configuration,
+      :preemption_configuration,
+      :state,
+      :status,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains the parameters for `DescribeSchedulingPolicies`.
     #
     # @!attribute [rw] arns
@@ -3426,6 +3603,19 @@ module Aws::Batch
     #   fair-share scheduling.
     #   @return [String]
     #
+    # @!attribute [rw] quota_share_name
+    #   The name of the quota share that the service job is associated with.
+    #   @return [String]
+    #
+    # @!attribute [rw] preemption_configuration
+    #   Specifies the service job behavior when preempted.
+    #   @return [Types::ServiceJobPreemptionConfiguration]
+    #
+    # @!attribute [rw] preemption_summary
+    #   Summarizes the preemptions of the service job. This field appears on
+    #   a service job when it has been preempted.
+    #   @return [Types::ServiceJobPreemptionSummary]
+    #
     # @!attribute [rw] started_at
     #   The Unix timestamp (in milliseconds) for when the service job was
     #   started.
@@ -3477,6 +3667,9 @@ module Aws::Batch
       :service_request_payload,
       :service_job_type,
       :share_identifier,
+      :quota_share_name,
+      :preemption_configuration,
+      :preemption_summary,
       :started_at,
       :status,
       :status_reason,
@@ -5699,6 +5892,49 @@ module Aws::Batch
       include Aws::Structure
     end
 
+    # An object that represents summary details for the first `RUNNABLE` job
+    # in a quota share.
+    #
+    # @!attribute [rw] job_arn
+    #   The ARN for a job in a named quota share.
+    #   @return [String]
+    #
+    # @!attribute [rw] earliest_time_at_position
+    #   The Unix timestamp (in milliseconds) for when the job transitioned
+    #   to its current position in the quota share.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/FrontOfQuotaShareJobSummary AWS API Documentation
+    #
+    class FrontOfQuotaShareJobSummary < Struct.new(
+      :job_arn,
+      :earliest_time_at_position)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that represents the details of the first `RUNNABLE` job in
+    # each named quota share associated with a single job queue.
+    #
+    # @!attribute [rw] quota_shares
+    #   Contains a list of the first `RUNNABLE` job in each named quota
+    #   share.
+    #   @return [Hash<String,Array<Types::FrontOfQuotaShareJobSummary>>]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The Unix timestamp (in milliseconds) for when the first `RUNNABLE`
+    #   job per quota share were all last updated.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/FrontOfQuotaSharesDetail AWS API Documentation
+    #
+    class FrontOfQuotaSharesDetail < Struct.new(
+      :quota_shares,
+      :last_updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] job_queue
     #   The job queue’s name or full queue Amazon Resource Name (ARN).
     #   @return [String]
@@ -5714,19 +5950,26 @@ module Aws::Batch
     # @!attribute [rw] front_of_queue
     #   The list of the first 100 `RUNNABLE` jobs in each job queue. For
     #   first-in-first-out (FIFO) job queues, jobs are ordered based on
-    #   their submission time. For fair-share scheduling (FSS) job queues,
-    #   jobs are ordered based on their job priority and share usage.
+    #   their submission time. For job queues with an attached fair-share
+    #   scheduling (FSS) or quota-share policy, jobs are ordered based on
+    #   their job priority and share usage.
     #   @return [Types::FrontOfQueueDetail]
+    #
+    # @!attribute [rw] front_of_quota_shares
+    #   The first `RUNNABLE` job in each quota share. Jobs are ordered based
+    #   on their job priority and share usage.
+    #   @return [Types::FrontOfQuotaSharesDetail]
     #
     # @!attribute [rw] queue_utilization
     #   The job queue's capacity utilization, including total usage and
-    #   breakdown by fairshare scheduling queue.
+    #   breakdown per given share.
     #   @return [Types::QueueSnapshotUtilizationDetail]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/GetJobQueueSnapshotResponse AWS API Documentation
     #
     class GetJobQueueSnapshotResponse < Struct.new(
       :front_of_queue,
+      :front_of_quota_shares,
       :queue_utilization)
       SENSITIVE = []
       include Aws::Structure
@@ -6333,8 +6576,11 @@ module Aws::Batch
     #
     # @!attribute [rw] action
     #   The action to take when a job is at the head of the job queue in the
-    #   specified state for the specified period of time. The only supported
-    #   value is `CANCEL`, which will cancel the job.
+    #   specified state for the specified period of time. For job queues
+    #   connected to a `ECS`, `FARGATE` or `EKS` compute environment, the
+    #   only supported value is `CANCEL`, which will cancel the job. For job
+    #   queues connected to a `SAGEMAKER_TRAINING` service environment, the
+    #   only supported value is `TERMINATE`, which will terminate the job.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/JobStateTimeLimitAction AWS API Documentation
@@ -7301,6 +7547,68 @@ module Aws::Batch
       include Aws::Structure
     end
 
+    # @!attribute [rw] job_queue
+    #   The name or full Amazon Resource Name (ARN) of the job queue used to
+    #   list quota shares.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results returned by `ListQuotaShares` in
+    #   paginated output. When this parameter is used, `ListQuotaShares`
+    #   only returns `maxResults` results in a single page and a `nextToken`
+    #   response element. You can see the remaining results of the initial
+    #   request by sending another `ListQuotaShares` request with the
+    #   returned `nextToken` value. This value can be between 1 and 100. If
+    #   this parameter isn't used, `ListQuotaShares` returns up to 100
+    #   results and a `nextToken` value if applicable.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The `nextToken` value that's returned from a previous paginated
+    #   `ListQuotaShares` request where `maxResults` was used and the
+    #   results exceeded the value of that parameter. Pagination continues
+    #   from the end of the previous results that returned the `nextToken`
+    #   value. This value is `null` when there are no more results to
+    #   return.
+    #
+    #   <note markdown="1"> Treat this token as an opaque identifier that's only used to
+    #   retrieve the next items in a list and not for other programmatic
+    #   purposes.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ListQuotaSharesRequest AWS API Documentation
+    #
+    class ListQuotaSharesRequest < Struct.new(
+      :job_queue,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] quota_shares
+    #   A list of quota shares that match the request.
+    #   @return [Array<Types::QuotaShareDetail>]
+    #
+    # @!attribute [rw] next_token
+    #   The `nextToken` value to include in a future `ListQuotaShares`
+    #   request. When the results of a `ListQuotaShares` request exceed
+    #   `maxResults`, this value can be used to retrieve the next page of
+    #   results. This value is `null` when there are no more results to
+    #   return.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ListQuotaSharesResponse AWS API Documentation
+    #
+    class ListQuotaSharesResponse < Struct.new(
+      :quota_shares,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains the parameters for `ListSchedulingPolicies`.
     #
     # @!attribute [rw] max_results
@@ -7978,17 +8286,22 @@ module Aws::Batch
     end
 
     # The job queue utilization at a specific point in time, including total
-    # capacity usage and fairshare utilization breakdown.
+    # capacity usage, and quota share or fairshare utilization breakdown
+    # depending on the job queue scheduling policy.
     #
     # @!attribute [rw] total_capacity_usage
-    #   The total capacity usage for the entire job queue, for both
-    #   first-in, first-out (FIFO) and fairshare scheduling job queue.
+    #   The total capacity usage for the entire job queue.
     #   @return [Array<Types::QueueSnapshotCapacityUsage>]
     #
     # @!attribute [rw] fairshare_utilization
     #   The utilization information for a fairshare scheduling job queues,
     #   including active share count and top capacity utilization by share.
     #   @return [Types::FairshareUtilizationDetail]
+    #
+    # @!attribute [rw] quota_share_utilization
+    #   The utilization information for a job queue with a quota share
+    #   scheduling policy.
+    #   @return [Types::QuotaShareUtilizationDetail]
     #
     # @!attribute [rw] last_updated_at
     #   The Unix timestamp (in milliseconds) for when the queue utilization
@@ -8000,7 +8313,212 @@ module Aws::Batch
     class QueueSnapshotUtilizationDetail < Struct.new(
       :total_capacity_usage,
       :fairshare_utilization,
+      :quota_share_utilization,
       :last_updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines the capacity limit for a quota share, or the type and maximum
+    # quantity of a particular resource that can be allocated to jobs in the
+    # quota share without borrowing.
+    #
+    # @!attribute [rw] max_capacity
+    #   The maximum capacity available for the quota share. This value
+    #   represents the maximum quantity of a resource that can be allocated
+    #   to jobs in the quota share without borrowing.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] capacity_unit
+    #   The unit of compute capacity for the capacityLimit. For example,
+    #   `ml.m5.large`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/QuotaShareCapacityLimit AWS API Documentation
+    #
+    class QuotaShareCapacityLimit < Struct.new(
+      :max_capacity,
+      :capacity_unit)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The capacity usage for a quota share, including units of compute
+    # capacity and quantity of resources being used.
+    #
+    # @!attribute [rw] capacity_unit
+    #   The unit of compute capacity for the capacity usage.
+    #   @return [String]
+    #
+    # @!attribute [rw] quantity
+    #   The quantity of capacity being used.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/QuotaShareCapacityUsage AWS API Documentation
+    #
+    class QuotaShareCapacityUsage < Struct.new(
+      :capacity_unit,
+      :quantity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The capacity utilization for a specific quota share, including the
+    # quota share name and its current usage.
+    #
+    # @!attribute [rw] quota_share_name
+    #   The name of the quota share.
+    #   @return [String]
+    #
+    # @!attribute [rw] capacity_usage
+    #   The capacity usage information for this quota share, including the
+    #   units of compute capacity and quantity being used.
+    #   @return [Array<Types::QuotaShareCapacityUsage>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/QuotaShareCapacityUtilization AWS API Documentation
+    #
+    class QuotaShareCapacityUtilization < Struct.new(
+      :quota_share_name,
+      :capacity_usage)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Detailed information about a quota share, including its configuration,
+    # state, and capacity limits.
+    #
+    # @!attribute [rw] quota_share_name
+    #   The name of the quota share.
+    #   @return [String]
+    #
+    # @!attribute [rw] quota_share_arn
+    #   The Amazon Resource Name (ARN) of the quota share.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_queue_arn
+    #   The Amazon Resource Name (ARN) of the job queue associated with the
+    #   quota share.
+    #   @return [String]
+    #
+    # @!attribute [rw] capacity_limits
+    #   A list that specifies the quantity and type of compute capacity
+    #   allocated to the quota share.
+    #   @return [Array<Types::QuotaShareCapacityLimit>]
+    #
+    # @!attribute [rw] resource_sharing_configuration
+    #   Specifies whether a quota share reserves, lends, or both lends and
+    #   borrows idle compute capacity.
+    #   @return [Types::QuotaShareResourceSharingConfiguration]
+    #
+    # @!attribute [rw] preemption_configuration
+    #   Specifies the preemption behavior for jobs in a quota share.
+    #   @return [Types::QuotaSharePreemptionConfiguration]
+    #
+    # @!attribute [rw] state
+    #   The state of the quota share.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the quota share.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/QuotaShareDetail AWS API Documentation
+    #
+    class QuotaShareDetail < Struct.new(
+      :quota_share_name,
+      :quota_share_arn,
+      :job_queue_arn,
+      :capacity_limits,
+      :resource_sharing_configuration,
+      :preemption_configuration,
+      :state,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The quota share scheduling policy details for a job queue.
+    #
+    # @!attribute [rw] idle_resource_assignment_strategy
+    #   The strategy that determines how idle resources are assigned to
+    #   quota shares that are borrowing capacity. Currently, only `FIFO` is
+    #   supported.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/QuotaSharePolicy AWS API Documentation
+    #
+    class QuotaSharePolicy < Struct.new(
+      :idle_resource_assignment_strategy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the preemption behavior for jobs in a quota share.
+    #
+    # @!attribute [rw] in_share_preemption
+    #   Specifies whether jobs within a quota share can be preempted by
+    #   another, higher priority job in the same quota share.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/QuotaSharePreemptionConfiguration AWS API Documentation
+    #
+    class QuotaSharePreemptionConfiguration < Struct.new(
+      :in_share_preemption)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies whether a quota share reserves, lends, or both lends and
+    # borrows idle compute capacity.
+    #
+    # @!attribute [rw] strategy
+    #   The resource sharing strategy for the quota share. The `RESERVE`
+    #   strategy allows a quota share to reserve idle capacity for itself.
+    #   `LEND` configures the share to lend its idle capacity to another
+    #   share in need of capacity. The `LEND_AND_BORROW` strategy configures
+    #   the share to borrow idle capacity from an underutilized share, as
+    #   well as lend to another share.
+    #   @return [String]
+    #
+    # @!attribute [rw] borrow_limit
+    #   The maximum percentage of additional capacity that the quota share
+    #   can borrow from other shares. `borrowLimit` can only be applied to
+    #   quota shares with a strategy of `LEND_AND_BORROW`. This value is
+    #   expressed as a percentage of the quota share's configured
+    #   [CapacityLimits][1].
+    #
+    #   The `borrowLimit` is applied uniformly across all capacity units.
+    #   For example, if the `borrowLimit` is 200, the quota share can borrow
+    #   up to 200% of its configured `maxCapacity` for each capacity unit.
+    #   The default `borrowLimit` is -1, which indicates unlimited
+    #   borrowing.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/APIReference/API_QuotaShareCapacityLimit.html
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/QuotaShareResourceSharingConfiguration AWS API Documentation
+    #
+    class QuotaShareResourceSharingConfiguration < Struct.new(
+      :strategy,
+      :borrow_limit)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that represents the capacity utilization details of all
+    # quota shares associated with a single job queue.
+    #
+    # @!attribute [rw] top_capacity_utilization
+    #   A list of the top capacity utilizations across quota shares
+    #   associated with a job queue.
+    #   @return [Array<Types::QuotaShareCapacityUtilization>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/QuotaShareUtilizationDetail AWS API Documentation
+    #
+    class QuotaShareUtilizationDetail < Struct.new(
+      :top_capacity_utilization)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8497,6 +9015,10 @@ module Aws::Batch
     #   `.
     #   @return [String]
     #
+    # @!attribute [rw] quota_share_policy
+    #   The quota share scheduling policy details.
+    #   @return [Types::QuotaSharePolicy]
+    #
     # @!attribute [rw] fairshare_policy
     #   The fair-share scheduling policy details.
     #   @return [Types::FairsharePolicy]
@@ -8517,6 +9039,7 @@ module Aws::Batch
     class SchedulingPolicyDetail < Struct.new(
       :name,
       :arn,
+      :quota_share_policy,
       :fairshare_policy,
       :tags)
       SENSITIVE = []
@@ -8775,6 +9298,76 @@ module Aws::Batch
       include Aws::Structure
     end
 
+    # Detailed information about a preempted attempt of a service job.
+    #
+    # @!attribute [rw] service_resource_id
+    #   The service resource identifier associated with the service job
+    #   attempt.
+    #   @return [Types::ServiceResourceId]
+    #
+    # @!attribute [rw] started_at
+    #   The Unix timestamp (in milliseconds) for when the service job
+    #   attempt was started.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] stopped_at
+    #   The Unix timestamp (in milliseconds) for when the service job
+    #   attempt stopped running.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] status_reason
+    #   A string that provides additional details for the current status of
+    #   the service job attempt.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ServiceJobPreemptedAttempt AWS API Documentation
+    #
+    class ServiceJobPreemptedAttempt < Struct.new(
+      :service_resource_id,
+      :started_at,
+      :stopped_at,
+      :status_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the service job behavior when preempted.
+    #
+    # @!attribute [rw] preemption_retries_before_termination
+    #   The number of times a service job can be retried after it is
+    #   preempted. A job will be terminated when preemption retries have
+    #   been exhausted. If this field is unset, preempted jobs will be
+    #   requeued an unlimited number of times.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ServiceJobPreemptionConfiguration AWS API Documentation
+    #
+    class ServiceJobPreemptionConfiguration < Struct.new(
+      :preemption_retries_before_termination)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summarizes the preemptions of the service job. This field appears on a
+    # service job when it has been preempted.
+    #
+    # @!attribute [rw] preempted_attempt_count
+    #   The total number of times the service job has been preempted.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] recent_preempted_attempts
+    #   A list of the most recent preemption attempts for the service job.
+    #   @return [Array<Types::ServiceJobPreemptedAttempt>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ServiceJobPreemptionSummary AWS API Documentation
+    #
+    class ServiceJobPreemptionSummary < Struct.new(
+      :preempted_attempt_count,
+      :recent_preempted_attempts)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The retry strategy for service jobs. This defines how many times to
     # retry a failed service job and under what conditions. For more
     # information, see [Service job retry strategies][1] in the *Batch User
@@ -8845,6 +9438,10 @@ module Aws::Batch
     #   The share identifier for the job.
     #   @return [String]
     #
+    # @!attribute [rw] quota_share_name
+    #   The quota share for the service job.
+    #   @return [String]
+    #
     # @!attribute [rw] status
     #   The current status of the service job.
     #   @return [String]
@@ -8876,6 +9473,7 @@ module Aws::Batch
       :scheduled_at,
       :service_job_type,
       :share_identifier,
+      :quota_share_name,
       :status,
       :status_reason,
       :started_at,
@@ -9200,6 +9798,17 @@ module Aws::Batch
     #   this parameter must be specified.
     #   @return [String]
     #
+    # @!attribute [rw] quota_share_name
+    #   The quota share for the service job. Don't specify this parameter
+    #   if the job queue doesn't have a quota share scheduling policy. If
+    #   the job queue has a quota share scheduling policy, then this
+    #   parameter must be specified.
+    #   @return [String]
+    #
+    # @!attribute [rw] preemption_configuration
+    #   Specifies the service job behavior when preempted.
+    #   @return [Types::ServiceJobPreemptionConfiguration]
+    #
     # @!attribute [rw] timeout_config
     #   The timeout configuration for the service job. If none is specified,
     #   Batch defers to the default timeout of the underlying service
@@ -9237,6 +9846,8 @@ module Aws::Batch
       :service_request_payload,
       :service_job_type,
       :share_identifier,
+      :quota_share_name,
+      :preemption_configuration,
       :timeout_config,
       :tags,
       :client_token)
@@ -10546,20 +11157,82 @@ module Aws::Batch
       include Aws::Structure
     end
 
+    # @!attribute [rw] quota_share_arn
+    #   The Amazon Resource Name (ARN) of the quota share to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] capacity_limits
+    #   A list that specifies the quantity and type of compute capacity
+    #   allocated to the quota share.
+    #   @return [Array<Types::QuotaShareCapacityLimit>]
+    #
+    # @!attribute [rw] resource_sharing_configuration
+    #   Specifies whether a quota share reserves, lends, or both lends and
+    #   borrows idle compute capacity.
+    #   @return [Types::QuotaShareResourceSharingConfiguration]
+    #
+    # @!attribute [rw] preemption_configuration
+    #   Specifies the preemption behavior for jobs in a quota share.
+    #   @return [Types::QuotaSharePreemptionConfiguration]
+    #
+    # @!attribute [rw] state
+    #   The state of the quota share. If the quota share is `ENABLED`, it is
+    #   able to accept jobs. If the quota share is `DISABLED`, new jobs
+    #   won't be accepted but jobs already submitted can finish.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/UpdateQuotaShareRequest AWS API Documentation
+    #
+    class UpdateQuotaShareRequest < Struct.new(
+      :quota_share_arn,
+      :capacity_limits,
+      :resource_sharing_configuration,
+      :preemption_configuration,
+      :state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] quota_share_name
+    #   The name of the quota share.
+    #   @return [String]
+    #
+    # @!attribute [rw] quota_share_arn
+    #   The Amazon Resource Name (ARN) of the quota share.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/UpdateQuotaShareResponse AWS API Documentation
+    #
+    class UpdateQuotaShareResponse < Struct.new(
+      :quota_share_name,
+      :quota_share_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains the parameters for `UpdateSchedulingPolicy`.
     #
     # @!attribute [rw] arn
     #   The Amazon Resource Name (ARN) of the scheduling policy to update.
     #   @return [String]
     #
+    # @!attribute [rw] quota_share_policy
+    #   The quota share scheduling policy details. Once set during creation,
+    #   a quotaSharePolicy cannot be removed or changed to a
+    #   fairsharePolicy.
+    #   @return [Types::QuotaSharePolicy]
+    #
     # @!attribute [rw] fairshare_policy
-    #   The fair-share policy scheduling details.
+    #   The fair-share policy scheduling details. Once set during creation,
+    #   a fairsharePolicy cannot be removed or changed to a
+    #   quotaSharePolicy.
     #   @return [Types::FairsharePolicy]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/UpdateSchedulingPolicyRequest AWS API Documentation
     #
     class UpdateSchedulingPolicyRequest < Struct.new(
       :arn,
+      :quota_share_policy,
       :fairshare_policy)
       SENSITIVE = []
       include Aws::Structure
@@ -10607,6 +11280,51 @@ module Aws::Batch
     class UpdateServiceEnvironmentResponse < Struct.new(
       :service_environment_name,
       :service_environment_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] job_id
+    #   The Batch job ID of the job to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] scheduling_priority
+    #   The scheduling priority for the job. This only affects jobs in job
+    #   queues with a quota-share or fair-share scheduling policy. Jobs with
+    #   a higher scheduling priority are scheduled before jobs with a lower
+    #   scheduling priority within a share.
+    #
+    #   The minimum supported value is 0 and the maximum supported value is
+    #   9999.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/UpdateServiceJobRequest AWS API Documentation
+    #
+    class UpdateServiceJobRequest < Struct.new(
+      :job_id,
+      :scheduling_priority)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] job_arn
+    #   The Amazon Resource Name (ARN) for the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_name
+    #   The name of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The unique identifier for the job.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/UpdateServiceJobResponse AWS API Documentation
+    #
+    class UpdateServiceJobResponse < Struct.new(
+      :job_arn,
+      :job_name,
+      :job_id)
       SENSITIVE = []
       include Aws::Structure
     end

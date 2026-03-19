@@ -269,6 +269,25 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # Browser enterprise policy configuration.
+    #
+    # @!attribute [rw] location
+    #   The location of the enterprise policy file.
+    #   @return [Types::ResourceLocation]
+    #
+    # @!attribute [rw] type
+    #   The enterprise policy type. See BrowserEnterprisePolicyType.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/BrowserEnterprisePolicy AWS API Documentation
+    #
+    class BrowserEnterprisePolicy < Struct.new(
+      :location,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Browser extension configuration.
     #
     # @!attribute [rw] location
@@ -379,6 +398,43 @@ module Aws::BedrockAgentCore
       :last_updated_at)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # A certificate to install in the browser or code interpreter session.
+    #
+    # @!attribute [rw] location
+    #   The location of the certificate.
+    #   @return [Types::CertificateLocation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/Certificate AWS API Documentation
+    #
+    class Certificate < Struct.new(
+      :location)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The location from which to retrieve a certificate.
+    #
+    # @note CertificateLocation is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note CertificateLocation is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of CertificateLocation corresponding to the set member.
+    #
+    # @!attribute [rw] secrets_manager
+    #   The Amazon Web Services Secrets Manager location of the certificate.
+    #   @return [Types::SecretsManagerLocation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CertificateLocation AWS API Documentation
+    #
+    class CertificateLocation < Struct.new(
+      :secrets_manager,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class SecretsManager < CertificateLocation; end
+      class Unknown < CertificateLocation; end
     end
 
     # The output produced by executing code in a code interpreter session in
@@ -1370,6 +1426,11 @@ module Aws::BedrockAgentCore
     #   session.
     #   @return [Array<Types::BrowserExtension>]
     #
+    # @!attribute [rw] enterprise_policies
+    #   A list of files containing enterprise policies for the browser
+    #   session.
+    #   @return [Array<Types::BrowserEnterprisePolicy>]
+    #
     # @!attribute [rw] profile_configuration
     #   The browser profile configuration associated with this session.
     #   Contains the profile identifier that links to persistent browser
@@ -1398,6 +1459,10 @@ module Aws::BedrockAgentCore
     #   credentials.
     #   @return [Types::ProxyConfiguration]
     #
+    # @!attribute [rw] certificates
+    #   The list of certificates installed in the browser session.
+    #   @return [Array<Types::Certificate>]
+    #
     # @!attribute [rw] session_replay_artifact
     #   The artifact containing the session replay information.
     #   @return [String]
@@ -1415,11 +1480,13 @@ module Aws::BedrockAgentCore
       :created_at,
       :view_port,
       :extensions,
+      :enterprise_policies,
       :profile_configuration,
       :session_timeout_seconds,
       :status,
       :streams,
       :proxy_configuration,
+      :certificates,
       :session_replay_artifact,
       :last_updated_at)
       SENSITIVE = []
@@ -1469,6 +1536,10 @@ module Aws::BedrockAgentCore
     #   include ACTIVE, STOPPING, and STOPPED.
     #   @return [String]
     #
+    # @!attribute [rw] certificates
+    #   The list of certificates installed in the code interpreter session.
+    #   @return [Array<Types::Certificate>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetCodeInterpreterSessionResponse AWS API Documentation
     #
     class GetCodeInterpreterSessionResponse < Struct.new(
@@ -1477,7 +1548,8 @@ module Aws::BedrockAgentCore
       :name,
       :created_at,
       :session_timeout_seconds,
-      :status)
+      :status,
+      :certificates)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3376,6 +3448,21 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # The Amazon Web Services Secrets Manager location configuration.
+    #
+    # @!attribute [rw] secret_arn
+    #   The ARN of the Amazon Web Services Secrets Manager secret containing
+    #   the certificate.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/SecretsManagerLocation AWS API Documentation
+    #
+    class SecretsManagerLocation < Struct.new(
+      :secret_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The service encountered an internal error. Try your request again
     # later.
     #
@@ -3518,6 +3605,14 @@ module Aws::BedrockAgentCore
     #   IAM permission for the specified secret ARNs.
     #   @return [Types::ProxyConfiguration]
     #
+    # @!attribute [rw] enterprise_policies
+    #   A list of files containing enterprise policies for the browser.
+    #   @return [Array<Types::BrowserEnterprisePolicy>]
+    #
+    # @!attribute [rw] certificates
+    #   A list of certificates to install in the browser session.
+    #   @return [Array<Types::Certificate>]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If this token matches a previous
@@ -3541,6 +3636,8 @@ module Aws::BedrockAgentCore
       :extensions,
       :profile_configuration,
       :proxy_configuration,
+      :enterprise_policies,
+      :certificates,
       :client_token)
       SENSITIVE = []
       include Aws::Structure
@@ -3601,6 +3698,10 @@ module Aws::BedrockAgentCore
     #   Maximum allowed: 28,800 seconds (8 hours).
     #   @return [Integer]
     #
+    # @!attribute [rw] certificates
+    #   A list of certificates to install in the code interpreter session.
+    #   @return [Array<Types::Certificate>]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If this token matches a previous
@@ -3620,6 +3721,7 @@ module Aws::BedrockAgentCore
       :code_interpreter_identifier,
       :name,
       :session_timeout_seconds,
+      :certificates,
       :client_token)
       SENSITIVE = []
       include Aws::Structure

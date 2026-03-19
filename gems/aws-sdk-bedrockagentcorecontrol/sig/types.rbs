@@ -145,6 +145,12 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class BrowserEnterprisePolicy
+      attr_accessor location: Types::ResourceLocation
+      attr_accessor type: ("MANAGED" | "RECOMMENDED")
+      SENSITIVE: []
+    end
+
     class BrowserNetworkConfiguration
       attr_accessor network_mode: ("PUBLIC" | "VPC")
       attr_accessor vpc_config: Types::VpcConfig
@@ -195,6 +201,22 @@ module Aws::BedrockAgentCoreControl
     class CedarPolicy
       attr_accessor statement: ::String
       SENSITIVE: []
+    end
+
+    class Certificate
+      attr_accessor location: Types::CertificateLocation
+      SENSITIVE: []
+    end
+
+    class CertificateLocation
+      attr_accessor secrets_manager: Types::SecretsManagerLocation
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class SecretsManager < CertificateLocation
+      end
+      class Unknown < CertificateLocation
+      end
     end
 
     class ClaimMatchValueType
@@ -384,6 +406,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor network_configuration: Types::BrowserNetworkConfiguration
       attr_accessor recording: Types::RecordingConfig
       attr_accessor browser_signing: Types::BrowserSigningConfigInput
+      attr_accessor enterprise_policies: ::Array[Types::BrowserEnterprisePolicy]
+      attr_accessor certificates: ::Array[Types::Certificate]
       attr_accessor client_token: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:description]
@@ -402,6 +426,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor description: ::String
       attr_accessor execution_role_arn: ::String
       attr_accessor network_configuration: Types::CodeInterpreterNetworkConfiguration
+      attr_accessor certificates: ::Array[Types::Certificate]
       attr_accessor client_token: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:description]
@@ -1326,6 +1351,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor network_configuration: Types::BrowserNetworkConfiguration
       attr_accessor recording: Types::RecordingConfig
       attr_accessor browser_signing: Types::BrowserSigningConfigOutput
+      attr_accessor enterprise_policies: ::Array[Types::BrowserEnterprisePolicy]
+      attr_accessor certificates: ::Array[Types::Certificate]
       attr_accessor status: ("CREATING" | "CREATE_FAILED" | "READY" | "DELETING" | "DELETE_FAILED" | "DELETED")
       attr_accessor failure_reason: ::String
       attr_accessor created_at: ::Time
@@ -1346,6 +1373,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor execution_role_arn: ::String
       attr_accessor network_configuration: Types::CodeInterpreterNetworkConfiguration
       attr_accessor status: ("CREATING" | "CREATE_FAILED" | "READY" | "DELETING" | "DELETE_FAILED" | "DELETED")
+      attr_accessor certificates: ::Array[Types::Certificate]
       attr_accessor failure_reason: ::String
       attr_accessor created_at: ::Time
       attr_accessor last_updated_at: ::Time
@@ -2419,6 +2447,17 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class ResourceLocation
+      attr_accessor s3: Types::S3Location
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class S3 < ResourceLocation
+      end
+      class Unknown < ResourceLocation
+      end
+    end
+
     class ResourceNotFoundException
       attr_accessor message: ::String
       SENSITIVE: []
@@ -2476,6 +2515,11 @@ module Aws::BedrockAgentCoreControl
     end
 
     class Secret
+      attr_accessor secret_arn: ::String
+      SENSITIVE: []
+    end
+
+    class SecretsManagerLocation
       attr_accessor secret_arn: ::String
       SENSITIVE: []
     end

@@ -38,6 +38,9 @@ module Aws::BedrockAgentCore
     Branch = Shapes::StructureShape.new(name: 'Branch')
     BranchFilter = Shapes::StructureShape.new(name: 'BranchFilter')
     BranchName = Shapes::StringShape.new(name: 'BranchName')
+    BrowserEnterprisePolicies = Shapes::ListShape.new(name: 'BrowserEnterprisePolicies')
+    BrowserEnterprisePolicy = Shapes::StructureShape.new(name: 'BrowserEnterprisePolicy')
+    BrowserEnterprisePolicyType = Shapes::StringShape.new(name: 'BrowserEnterprisePolicyType')
     BrowserExtension = Shapes::StructureShape.new(name: 'BrowserExtension')
     BrowserExtensions = Shapes::ListShape.new(name: 'BrowserExtensions')
     BrowserProfileConfiguration = Shapes::StructureShape.new(name: 'BrowserProfileConfiguration')
@@ -49,6 +52,9 @@ module Aws::BedrockAgentCore
     BrowserSessionSummary = Shapes::StructureShape.new(name: 'BrowserSessionSummary')
     BrowserSessionTimeout = Shapes::IntegerShape.new(name: 'BrowserSessionTimeout')
     BrowserStreamEndpoint = Shapes::StringShape.new(name: 'BrowserStreamEndpoint')
+    Certificate = Shapes::StructureShape.new(name: 'Certificate')
+    CertificateLocation = Shapes::UnionShape.new(name: 'CertificateLocation')
+    Certificates = Shapes::ListShape.new(name: 'Certificates')
     ClientToken = Shapes::StringShape.new(name: 'ClientToken')
     CodeInterpreterResult = Shapes::StructureShape.new(name: 'CodeInterpreterResult')
     CodeInterpreterSessionId = Shapes::StringShape.new(name: 'CodeInterpreterSessionId')
@@ -252,6 +258,7 @@ module Aws::BedrockAgentCore
     SearchCriteriaSearchQueryString = Shapes::StringShape.new(name: 'SearchCriteriaSearchQueryString')
     SearchCriteriaTopKInteger = Shapes::IntegerShape.new(name: 'SearchCriteriaTopKInteger')
     SecretArn = Shapes::StringShape.new(name: 'SecretArn')
+    SecretsManagerLocation = Shapes::StructureShape.new(name: 'SecretsManagerLocation')
     ServiceException = Shapes::StructureShape.new(name: 'ServiceException')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     SessionId = Shapes::StringShape.new(name: 'SessionId')
@@ -366,6 +373,12 @@ module Aws::BedrockAgentCore
     BranchFilter.add_member(:include_parent_branches, Shapes::ShapeRef.new(shape: Boolean, location_name: "includeParentBranches"))
     BranchFilter.struct_class = Types::BranchFilter
 
+    BrowserEnterprisePolicies.member = Shapes::ShapeRef.new(shape: BrowserEnterprisePolicy)
+
+    BrowserEnterprisePolicy.add_member(:location, Shapes::ShapeRef.new(shape: ResourceLocation, required: true, location_name: "location"))
+    BrowserEnterprisePolicy.add_member(:type, Shapes::ShapeRef.new(shape: BrowserEnterprisePolicyType, location_name: "type"))
+    BrowserEnterprisePolicy.struct_class = Types::BrowserEnterprisePolicy
+
     BrowserExtension.add_member(:location, Shapes::ShapeRef.new(shape: ResourceLocation, required: true, location_name: "location"))
     BrowserExtension.struct_class = Types::BrowserExtension
 
@@ -387,6 +400,17 @@ module Aws::BedrockAgentCore
     BrowserSessionSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "createdAt"))
     BrowserSessionSummary.add_member(:last_updated_at, Shapes::ShapeRef.new(shape: DateTimestamp, location_name: "lastUpdatedAt"))
     BrowserSessionSummary.struct_class = Types::BrowserSessionSummary
+
+    Certificate.add_member(:location, Shapes::ShapeRef.new(shape: CertificateLocation, required: true, location_name: "location"))
+    Certificate.struct_class = Types::Certificate
+
+    CertificateLocation.add_member(:secrets_manager, Shapes::ShapeRef.new(shape: SecretsManagerLocation, location_name: "secretsManager"))
+    CertificateLocation.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    CertificateLocation.add_member_subclass(:secrets_manager, Types::CertificateLocation::SecretsManager)
+    CertificateLocation.add_member_subclass(:unknown, Types::CertificateLocation::Unknown)
+    CertificateLocation.struct_class = Types::CertificateLocation
+
+    Certificates.member = Shapes::ShapeRef.new(shape: Certificate)
 
     CodeInterpreterResult.add_member(:content, Shapes::ShapeRef.new(shape: ContentBlockList, required: true, location_name: "content"))
     CodeInterpreterResult.add_member(:structured_content, Shapes::ShapeRef.new(shape: ToolResultStructuredContent, location_name: "structuredContent"))
@@ -611,11 +635,13 @@ module Aws::BedrockAgentCore
     GetBrowserSessionResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "createdAt"))
     GetBrowserSessionResponse.add_member(:view_port, Shapes::ShapeRef.new(shape: ViewPort, location_name: "viewPort"))
     GetBrowserSessionResponse.add_member(:extensions, Shapes::ShapeRef.new(shape: BrowserExtensions, location_name: "extensions"))
+    GetBrowserSessionResponse.add_member(:enterprise_policies, Shapes::ShapeRef.new(shape: BrowserEnterprisePolicies, location_name: "enterprisePolicies"))
     GetBrowserSessionResponse.add_member(:profile_configuration, Shapes::ShapeRef.new(shape: BrowserProfileConfiguration, location_name: "profileConfiguration"))
     GetBrowserSessionResponse.add_member(:session_timeout_seconds, Shapes::ShapeRef.new(shape: BrowserSessionTimeout, location_name: "sessionTimeoutSeconds"))
     GetBrowserSessionResponse.add_member(:status, Shapes::ShapeRef.new(shape: BrowserSessionStatus, location_name: "status"))
     GetBrowserSessionResponse.add_member(:streams, Shapes::ShapeRef.new(shape: BrowserSessionStream, location_name: "streams"))
     GetBrowserSessionResponse.add_member(:proxy_configuration, Shapes::ShapeRef.new(shape: ProxyConfiguration, location_name: "proxyConfiguration"))
+    GetBrowserSessionResponse.add_member(:certificates, Shapes::ShapeRef.new(shape: Certificates, location_name: "certificates"))
     GetBrowserSessionResponse.add_member(:session_replay_artifact, Shapes::ShapeRef.new(shape: String, location_name: "sessionReplayArtifact"))
     GetBrowserSessionResponse.add_member(:last_updated_at, Shapes::ShapeRef.new(shape: DateTimestamp, location_name: "lastUpdatedAt"))
     GetBrowserSessionResponse.struct_class = Types::GetBrowserSessionResponse
@@ -630,6 +656,7 @@ module Aws::BedrockAgentCore
     GetCodeInterpreterSessionResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "createdAt"))
     GetCodeInterpreterSessionResponse.add_member(:session_timeout_seconds, Shapes::ShapeRef.new(shape: CodeInterpreterSessionTimeout, location_name: "sessionTimeoutSeconds"))
     GetCodeInterpreterSessionResponse.add_member(:status, Shapes::ShapeRef.new(shape: CodeInterpreterSessionStatus, location_name: "status"))
+    GetCodeInterpreterSessionResponse.add_member(:certificates, Shapes::ShapeRef.new(shape: Certificates, location_name: "certificates"))
     GetCodeInterpreterSessionResponse.struct_class = Types::GetCodeInterpreterSessionResponse
 
     GetEventInput.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location: "uri", location_name: "memoryId"))
@@ -1057,6 +1084,9 @@ module Aws::BedrockAgentCore
     SearchCriteria.add_member(:metadata_filters, Shapes::ShapeRef.new(shape: MemoryMetadataFilterList, location_name: "metadataFilters"))
     SearchCriteria.struct_class = Types::SearchCriteria
 
+    SecretsManagerLocation.add_member(:secret_arn, Shapes::ShapeRef.new(shape: SecretArn, required: true, location_name: "secretArn"))
+    SecretsManagerLocation.struct_class = Types::SecretsManagerLocation
+
     ServiceException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ServiceException.struct_class = Types::ServiceException
 
@@ -1088,6 +1118,8 @@ module Aws::BedrockAgentCore
     StartBrowserSessionRequest.add_member(:extensions, Shapes::ShapeRef.new(shape: BrowserExtensions, location_name: "extensions"))
     StartBrowserSessionRequest.add_member(:profile_configuration, Shapes::ShapeRef.new(shape: BrowserProfileConfiguration, location_name: "profileConfiguration"))
     StartBrowserSessionRequest.add_member(:proxy_configuration, Shapes::ShapeRef.new(shape: ProxyConfiguration, location_name: "proxyConfiguration"))
+    StartBrowserSessionRequest.add_member(:enterprise_policies, Shapes::ShapeRef.new(shape: BrowserEnterprisePolicies, location_name: "enterprisePolicies"))
+    StartBrowserSessionRequest.add_member(:certificates, Shapes::ShapeRef.new(shape: Certificates, location_name: "certificates"))
     StartBrowserSessionRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     StartBrowserSessionRequest.struct_class = Types::StartBrowserSessionRequest
 
@@ -1102,6 +1134,7 @@ module Aws::BedrockAgentCore
     StartCodeInterpreterSessionRequest.add_member(:code_interpreter_identifier, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "codeInterpreterIdentifier"))
     StartCodeInterpreterSessionRequest.add_member(:name, Shapes::ShapeRef.new(shape: Name, location_name: "name"))
     StartCodeInterpreterSessionRequest.add_member(:session_timeout_seconds, Shapes::ShapeRef.new(shape: CodeInterpreterSessionTimeout, location_name: "sessionTimeoutSeconds"))
+    StartCodeInterpreterSessionRequest.add_member(:certificates, Shapes::ShapeRef.new(shape: Certificates, location_name: "certificates"))
     StartCodeInterpreterSessionRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     StartCodeInterpreterSessionRequest.struct_class = Types::StartCodeInterpreterSessionRequest
 

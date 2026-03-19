@@ -1736,6 +1736,7 @@ module Aws::EC2
     FleetLaunchTemplateSpecificationRequest = Shapes::StructureShape.new(name: 'FleetLaunchTemplateSpecificationRequest')
     FleetOnDemandAllocationStrategy = Shapes::StringShape.new(name: 'FleetOnDemandAllocationStrategy')
     FleetReplacementStrategy = Shapes::StringShape.new(name: 'FleetReplacementStrategy')
+    FleetReservationType = Shapes::StringShape.new(name: 'FleetReservationType')
     FleetSet = Shapes::ListShape.new(name: 'FleetSet')
     FleetSpotCapacityRebalance = Shapes::StructureShape.new(name: 'FleetSpotCapacityRebalance')
     FleetSpotCapacityRebalanceRequest = Shapes::StructureShape.new(name: 'FleetSpotCapacityRebalanceRequest')
@@ -3162,7 +3163,11 @@ module Aws::EC2
     ReservationList = Shapes::ListShape.new(name: 'ReservationList')
     ReservationState = Shapes::StringShape.new(name: 'ReservationState')
     ReservationType = Shapes::StringShape.new(name: 'ReservationType')
+    ReservationTypeList = Shapes::ListShape.new(name: 'ReservationTypeList')
+    ReservationTypeListRequest = Shapes::ListShape.new(name: 'ReservationTypeListRequest')
     ReservationValue = Shapes::StructureShape.new(name: 'ReservationValue')
+    ReservedCapacityOptions = Shapes::StructureShape.new(name: 'ReservedCapacityOptions')
+    ReservedCapacityOptionsRequest = Shapes::StructureShape.new(name: 'ReservedCapacityOptionsRequest')
     ReservedInstanceIdSet = Shapes::ListShape.new(name: 'ReservedInstanceIdSet')
     ReservedInstanceLimitPrice = Shapes::StructureShape.new(name: 'ReservedInstanceLimitPrice')
     ReservedInstanceReservationValue = Shapes::StructureShape.new(name: 'ReservedInstanceReservationValue')
@@ -5833,6 +5838,7 @@ module Aws::EC2
     CreateFleetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     CreateFleetRequest.add_member(:spot_options, Shapes::ShapeRef.new(shape: SpotOptionsRequest, location_name: "SpotOptions"))
     CreateFleetRequest.add_member(:on_demand_options, Shapes::ShapeRef.new(shape: OnDemandOptionsRequest, location_name: "OnDemandOptions"))
+    CreateFleetRequest.add_member(:reserved_capacity_options, Shapes::ShapeRef.new(shape: ReservedCapacityOptionsRequest, location_name: "ReservedCapacityOptions"))
     CreateFleetRequest.add_member(:excess_capacity_termination_policy, Shapes::ShapeRef.new(shape: FleetExcessCapacityTerminationPolicy, location_name: "ExcessCapacityTerminationPolicy"))
     CreateFleetRequest.add_member(:launch_template_configs, Shapes::ShapeRef.new(shape: FleetLaunchTemplateConfigListRequest, required: true, location_name: "LaunchTemplateConfigs"))
     CreateFleetRequest.add_member(:target_capacity_specification, Shapes::ShapeRef.new(shape: TargetCapacitySpecificationRequest, required: true, location_name: "TargetCapacitySpecification"))
@@ -11023,6 +11029,7 @@ module Aws::EC2
     FleetData.add_member(:replace_unhealthy_instances, Shapes::ShapeRef.new(shape: Boolean, location_name: "replaceUnhealthyInstances"))
     FleetData.add_member(:spot_options, Shapes::ShapeRef.new(shape: SpotOptions, location_name: "spotOptions"))
     FleetData.add_member(:on_demand_options, Shapes::ShapeRef.new(shape: OnDemandOptions, location_name: "onDemandOptions"))
+    FleetData.add_member(:reserved_capacity_options, Shapes::ShapeRef.new(shape: ReservedCapacityOptions, location_name: "reservedCapacityOptions"))
     FleetData.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tagSet"))
     FleetData.add_member(:errors, Shapes::ShapeRef.new(shape: DescribeFleetsErrorSet, location_name: "errorSet"))
     FleetData.add_member(:instances, Shapes::ShapeRef.new(shape: DescribeFleetsInstancesSet, location_name: "fleetInstanceSet"))
@@ -16540,10 +16547,20 @@ module Aws::EC2
 
     ReservationList.member = Shapes::ShapeRef.new(shape: Reservation, location_name: "item")
 
+    ReservationTypeList.member = Shapes::ShapeRef.new(shape: FleetReservationType, location_name: "item")
+
+    ReservationTypeListRequest.member = Shapes::ShapeRef.new(shape: FleetReservationType, location_name: "ReservationType")
+
     ReservationValue.add_member(:hourly_price, Shapes::ShapeRef.new(shape: String, location_name: "hourlyPrice"))
     ReservationValue.add_member(:remaining_total_value, Shapes::ShapeRef.new(shape: String, location_name: "remainingTotalValue"))
     ReservationValue.add_member(:remaining_upfront_value, Shapes::ShapeRef.new(shape: String, location_name: "remainingUpfrontValue"))
     ReservationValue.struct_class = Types::ReservationValue
+
+    ReservedCapacityOptions.add_member(:reservation_types, Shapes::ShapeRef.new(shape: ReservationTypeList, location_name: "reservationTypeSet"))
+    ReservedCapacityOptions.struct_class = Types::ReservedCapacityOptions
+
+    ReservedCapacityOptionsRequest.add_member(:reservation_types, Shapes::ShapeRef.new(shape: ReservationTypeListRequest, location_name: "ReservationType"))
+    ReservedCapacityOptionsRequest.struct_class = Types::ReservedCapacityOptionsRequest
 
     ReservedInstanceIdSet.member = Shapes::ShapeRef.new(shape: ReservationId, location_name: "ReservedInstanceId")
 

@@ -1557,6 +1557,9 @@ module Aws
                             min_target_capacity: ::Integer?,
                             max_total_price: ::String?
                           },
+                          ?reserved_capacity_options: {
+                            reservation_types: Array[("interruptible-capacity-reservation")]?
+                          },
                           ?excess_capacity_termination_policy: ("no-termination" | "termination"),
                           launch_template_configs: Array[
                             {
@@ -1675,7 +1678,7 @@ module Aws
                             total_target_capacity: ::Integer,
                             on_demand_target_capacity: ::Integer?,
                             spot_target_capacity: ::Integer?,
-                            default_target_capacity_type: ("spot" | "on-demand" | "capacity-block")?,
+                            default_target_capacity_type: ("spot" | "on-demand" | "capacity-block" | "reserved-capacity")?,
                             target_capacity_unit_type: ("vcpu" | "memory-mib" | "units")?
                           },
                           ?terminate_instances_with_expiration: bool,
@@ -12249,7 +12252,7 @@ module Aws
                             total_target_capacity: ::Integer,
                             on_demand_target_capacity: ::Integer?,
                             spot_target_capacity: ::Integer?,
-                            default_target_capacity_type: ("spot" | "on-demand" | "capacity-block")?,
+                            default_target_capacity_type: ("spot" | "on-demand" | "capacity-block" | "reserved-capacity")?,
                             target_capacity_unit_type: ("vcpu" | "memory-mib" | "units")?
                           },
                           ?context: ::String

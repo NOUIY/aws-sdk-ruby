@@ -217,6 +217,27 @@ module Aws
                             ?browser_signing: {
                               enabled: bool
                             },
+                            ?enterprise_policies: Array[
+                              {
+                                location: {
+                                  s3: {
+                                    bucket: ::String,
+                                    prefix: ::String,
+                                    version_id: ::String?
+                                  }?
+                                },
+                                type: ("MANAGED" | "RECOMMENDED")?
+                              },
+                            ],
+                            ?certificates: Array[
+                              {
+                                location: {
+                                  secrets_manager: {
+                                    secret_arn: ::String
+                                  }?
+                                }
+                              },
+                            ],
                             ?client_token: ::String,
                             ?tags: Hash[::String, ::String]
                           ) -> _CreateBrowserResponseSuccess
@@ -257,6 +278,15 @@ module Aws
                                          subnets: Array[::String]
                                        }?
                                      },
+                                     ?certificates: Array[
+                                       {
+                                         location: {
+                                           secrets_manager: {
+                                             secret_arn: ::String
+                                           }?
+                                         }
+                                       },
+                                     ],
                                      ?client_token: ::String,
                                      ?tags: Hash[::String, ::String]
                                    ) -> _CreateCodeInterpreterResponseSuccess
@@ -1109,6 +1139,8 @@ module Aws
         def network_configuration: () -> Types::BrowserNetworkConfiguration
         def recording: () -> Types::RecordingConfig
         def browser_signing: () -> Types::BrowserSigningConfigOutput
+        def enterprise_policies: () -> ::Array[Types::BrowserEnterprisePolicy]
+        def certificates: () -> ::Array[Types::Certificate]
         def status: () -> ("CREATING" | "CREATE_FAILED" | "READY" | "DELETING" | "DELETE_FAILED" | "DELETED")
         def failure_reason: () -> ::String
         def created_at: () -> ::Time
@@ -1148,6 +1180,7 @@ module Aws
         def execution_role_arn: () -> ::String
         def network_configuration: () -> Types::CodeInterpreterNetworkConfiguration
         def status: () -> ("CREATING" | "CREATE_FAILED" | "READY" | "DELETING" | "DELETE_FAILED" | "DELETED")
+        def certificates: () -> ::Array[Types::Certificate]
         def failure_reason: () -> ::String
         def created_at: () -> ::Time
         def last_updated_at: () -> ::Time

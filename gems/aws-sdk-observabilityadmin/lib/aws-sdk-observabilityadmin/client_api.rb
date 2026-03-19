@@ -46,6 +46,7 @@ module Aws::ObservabilityAdmin
     CreateTelemetryRuleInput = Shapes::StructureShape.new(name: 'CreateTelemetryRuleInput')
     CreateTelemetryRuleOutput = Shapes::StructureShape.new(name: 'CreateTelemetryRuleOutput')
     DataSource = Shapes::StructureShape.new(name: 'DataSource')
+    DataSourceFilterString = Shapes::StringShape.new(name: 'DataSourceFilterString')
     DataSources = Shapes::ListShape.new(name: 'DataSources')
     DeleteCentralizationRuleForOrganizationInput = Shapes::StructureShape.new(name: 'DeleteCentralizationRuleForOrganizationInput')
     DeleteS3TableIntegrationInput = Shapes::StructureShape.new(name: 'DeleteS3TableIntegrationInput')
@@ -600,7 +601,8 @@ module Aws::ObservabilityAdmin
     Source.add_member(:type, Shapes::ShapeRef.new(shape: String, location_name: "Type"))
     Source.struct_class = Types::Source
 
-    SourceLogsConfiguration.add_member(:log_group_selection_criteria, Shapes::ShapeRef.new(shape: LogsFilterString, required: true, location_name: "LogGroupSelectionCriteria"))
+    SourceLogsConfiguration.add_member(:log_group_selection_criteria, Shapes::ShapeRef.new(shape: LogsFilterString, location_name: "LogGroupSelectionCriteria"))
+    SourceLogsConfiguration.add_member(:data_source_selection_criteria, Shapes::ShapeRef.new(shape: DataSourceFilterString, location_name: "DataSourceSelectionCriteria"))
     SourceLogsConfiguration.add_member(:encrypted_log_group_strategy, Shapes::ShapeRef.new(shape: EncryptedLogGroupStrategy, required: true, location_name: "EncryptedLogGroupStrategy"))
     SourceLogsConfiguration.struct_class = Types::SourceLogsConfiguration
 

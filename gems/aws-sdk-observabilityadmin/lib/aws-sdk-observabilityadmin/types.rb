@@ -1571,13 +1571,14 @@ module Aws::ObservabilityAdmin
     #   * **$\{source.logGroup}** — The original log group name from the
     #     source account.
     #
-    #   * **$\{source.accountId}** — The AWS account ID where the log
-    #     originated.
+    #   * **$\{source.accountId}** — The Amazon Web Services account ID
+    #     where the log originated.
     #
-    #   * **$\{source.region}** — The AWS Region where the log originated.
+    #   * **$\{source.region}** — The Amazon Web Services Region where the
+    #     log originated.
     #
-    #   * **$\{source.org.id}** — The AWS Organization ID of the source
-    #     account.
+    #   * **$\{source.org.id}** — The Amazon Web Services Organization ID of
+    #     the source account.
     #
     #   * **$\{source.org.ouId}** — The organizational unit ID of the source
     #     account.
@@ -1838,6 +1839,15 @@ module Aws::ObservabilityAdmin
     #   filters.
     #   @return [String]
     #
+    # @!attribute [rw] data_source_selection_criteria
+    #   The selection criteria that specifies which data sources to
+    #   centralize. The selection criteria uses the same filter expression
+    #   format as `LogGroupSelectionCriteria`, but operates on
+    #   `DataSourceName` and `DataSourceType` operands. When both
+    #   `LogGroupSelectionCriteria` and `DataSourceSelectionCriteria` are
+    #   specified, a log event must match both criteria to be centralized.
+    #   @return [String]
+    #
     # @!attribute [rw] encrypted_log_group_strategy
     #   A strategy determining whether to centralize source log groups that
     #   are encrypted with customer managed KMS keys (CMK). ALLOW will
@@ -1849,6 +1859,7 @@ module Aws::ObservabilityAdmin
     #
     class SourceLogsConfiguration < Struct.new(
       :log_group_selection_criteria,
+      :data_source_selection_criteria,
       :encrypted_log_group_strategy)
       SENSITIVE = []
       include Aws::Structure

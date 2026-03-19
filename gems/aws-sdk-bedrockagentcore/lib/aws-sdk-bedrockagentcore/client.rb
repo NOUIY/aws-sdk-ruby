@@ -1029,11 +1029,13 @@ module Aws::BedrockAgentCore
     #   * {Types::GetBrowserSessionResponse#created_at #created_at} => Time
     #   * {Types::GetBrowserSessionResponse#view_port #view_port} => Types::ViewPort
     #   * {Types::GetBrowserSessionResponse#extensions #extensions} => Array&lt;Types::BrowserExtension&gt;
+    #   * {Types::GetBrowserSessionResponse#enterprise_policies #enterprise_policies} => Array&lt;Types::BrowserEnterprisePolicy&gt;
     #   * {Types::GetBrowserSessionResponse#profile_configuration #profile_configuration} => Types::BrowserProfileConfiguration
     #   * {Types::GetBrowserSessionResponse#session_timeout_seconds #session_timeout_seconds} => Integer
     #   * {Types::GetBrowserSessionResponse#status #status} => String
     #   * {Types::GetBrowserSessionResponse#streams #streams} => Types::BrowserSessionStream
     #   * {Types::GetBrowserSessionResponse#proxy_configuration #proxy_configuration} => Types::ProxyConfiguration
+    #   * {Types::GetBrowserSessionResponse#certificates #certificates} => Array&lt;Types::Certificate&gt;
     #   * {Types::GetBrowserSessionResponse#session_replay_artifact #session_replay_artifact} => String
     #   * {Types::GetBrowserSessionResponse#last_updated_at #last_updated_at} => Time
     #
@@ -1056,6 +1058,11 @@ module Aws::BedrockAgentCore
     #   resp.extensions[0].location.s3.bucket #=> String
     #   resp.extensions[0].location.s3.prefix #=> String
     #   resp.extensions[0].location.s3.version_id #=> String
+    #   resp.enterprise_policies #=> Array
+    #   resp.enterprise_policies[0].location.s3.bucket #=> String
+    #   resp.enterprise_policies[0].location.s3.prefix #=> String
+    #   resp.enterprise_policies[0].location.s3.version_id #=> String
+    #   resp.enterprise_policies[0].type #=> String, one of "MANAGED", "RECOMMENDED"
     #   resp.profile_configuration.profile_identifier #=> String
     #   resp.session_timeout_seconds #=> Integer
     #   resp.status #=> String, one of "READY", "TERMINATED"
@@ -1070,6 +1077,8 @@ module Aws::BedrockAgentCore
     #   resp.proxy_configuration.proxies[0].external_proxy.credentials.basic_auth.secret_arn #=> String
     #   resp.proxy_configuration.bypass.domain_patterns #=> Array
     #   resp.proxy_configuration.bypass.domain_patterns[0] #=> String
+    #   resp.certificates #=> Array
+    #   resp.certificates[0].location.secrets_manager.secret_arn #=> String
     #   resp.session_replay_artifact #=> String
     #   resp.last_updated_at #=> Time
     #
@@ -1119,6 +1128,7 @@ module Aws::BedrockAgentCore
     #   * {Types::GetCodeInterpreterSessionResponse#created_at #created_at} => Time
     #   * {Types::GetCodeInterpreterSessionResponse#session_timeout_seconds #session_timeout_seconds} => Integer
     #   * {Types::GetCodeInterpreterSessionResponse#status #status} => String
+    #   * {Types::GetCodeInterpreterSessionResponse#certificates #certificates} => Array&lt;Types::Certificate&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -1135,6 +1145,8 @@ module Aws::BedrockAgentCore
     #   resp.created_at #=> Time
     #   resp.session_timeout_seconds #=> Integer
     #   resp.status #=> String, one of "READY", "TERMINATED"
+    #   resp.certificates #=> Array
+    #   resp.certificates[0].location.secrets_manager.secret_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetCodeInterpreterSession AWS API Documentation
     #
@@ -2953,6 +2965,12 @@ module Aws::BedrockAgentCore
     #   domain-based routing rules. Requires `secretsmanager:GetSecretValue`
     #   IAM permission for the specified secret ARNs.
     #
+    # @option params [Array<Types::BrowserEnterprisePolicy>] :enterprise_policies
+    #   A list of files containing enterprise policies for the browser.
+    #
+    # @option params [Array<Types::Certificate>] :certificates
+    #   A list of certificates to install in the browser session.
+    #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If this token matches a previous
@@ -3015,6 +3033,27 @@ module Aws::BedrockAgentCore
     #         domain_patterns: ["DomainPattern"],
     #       },
     #     },
+    #     enterprise_policies: [
+    #       {
+    #         location: { # required
+    #           s3: {
+    #             bucket: "S3LocationBucketString", # required
+    #             prefix: "S3LocationPrefixString", # required
+    #             version_id: "S3LocationVersionIdString",
+    #           },
+    #         },
+    #         type: "MANAGED", # accepts MANAGED, RECOMMENDED
+    #       },
+    #     ],
+    #     certificates: [
+    #       {
+    #         location: { # required
+    #           secrets_manager: {
+    #             secret_arn: "SecretArn", # required
+    #           },
+    #         },
+    #       },
+    #     ],
     #     client_token: "ClientToken",
     #   })
     #
@@ -3080,6 +3119,9 @@ module Aws::BedrockAgentCore
     #   900 seconds (15 minutes). Recommended minimum: 60 seconds. Maximum
     #   allowed: 28,800 seconds (8 hours).
     #
+    # @option params [Array<Types::Certificate>] :certificates
+    #   A list of certificates to install in the code interpreter session.
+    #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If this token matches a previous
@@ -3104,6 +3146,15 @@ module Aws::BedrockAgentCore
     #     code_interpreter_identifier: "String", # required
     #     name: "Name",
     #     session_timeout_seconds: 1,
+    #     certificates: [
+    #       {
+    #         location: { # required
+    #           secrets_manager: {
+    #             secret_arn: "SecretArn", # required
+    #           },
+    #         },
+    #       },
+    #     ],
     #     client_token: "ClientToken",
     #   })
     #
@@ -3441,7 +3492,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.21.0'
+      context[:gem_version] = '1.22.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
