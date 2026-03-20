@@ -835,12 +835,15 @@ module Aws::OpenSearchService
     class DirectQueryDataSourceType
       attr_accessor cloud_watch_log: Types::CloudWatchDirectQueryDataSource
       attr_accessor security_lake: Types::SecurityLakeDirectQueryDataSource
+      attr_accessor prometheus: Types::PrometheusDirectQueryDataSource
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class CloudWatchLog < DirectQueryDataSourceType
       end
       class SecurityLake < DirectQueryDataSourceType
+      end
+      class Prometheus < DirectQueryDataSourceType
       end
       class Unknown < DirectQueryDataSourceType
       end
@@ -1685,6 +1688,12 @@ module Aws::OpenSearchService
       attr_accessor version: ::String
       attr_accessor class_name: ::String
       attr_accessor uncompressed_size_in_bytes: ::Integer
+      SENSITIVE: []
+    end
+
+    class PrometheusDirectQueryDataSource
+      attr_accessor role_arn: ::String
+      attr_accessor workspace_arn: ::String
       SENSITIVE: []
     end
 

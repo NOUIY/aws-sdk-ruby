@@ -585,9 +585,11 @@ module Aws::OpenSearchService
     #   An optional text field for providing additional context and details
     #   about the data source.
     #
-    # @option params [required, Array<String>] :open_search_arns
-    #   A list of Amazon Resource Names (ARNs) for the OpenSearch collections
-    #   that are associated with the direct query data source.
+    # @option params [Array<String>] :open_search_arns
+    #   An optional list of Amazon Resource Names (ARNs) for the OpenSearch
+    #   collections that are associated with the direct query data source.
+    #   This field is required for CloudWatchLogs and SecurityLake datasource
+    #   types.
     #
     # @option params [String] :data_source_access_policy
     #   An optional IAM access policy document that defines the permissions
@@ -612,9 +614,13 @@ module Aws::OpenSearchService
     #       security_lake: {
     #         role_arn: "DirectQueryDataSourceRoleArn", # required
     #       },
+    #       prometheus: {
+    #         role_arn: "DirectQueryDataSourceRoleArn", # required
+    #         workspace_arn: "AMPWorkspaceArn", # required
+    #       },
     #     },
     #     description: "DirectQueryDataSourceDescription",
-    #     open_search_arns: ["ARN"], # required
+    #     open_search_arns: ["ARN"],
     #     data_source_access_policy: "PolicyDocument",
     #     tag_list: [
     #       {
@@ -3854,6 +3860,8 @@ module Aws::OpenSearchService
     #   resp.data_source_name #=> String
     #   resp.data_source_type.cloud_watch_log.role_arn #=> String
     #   resp.data_source_type.security_lake.role_arn #=> String
+    #   resp.data_source_type.prometheus.role_arn #=> String
+    #   resp.data_source_type.prometheus.workspace_arn #=> String
     #   resp.description #=> String
     #   resp.open_search_arns #=> Array
     #   resp.open_search_arns[0] #=> String
@@ -4215,6 +4223,8 @@ module Aws::OpenSearchService
     #   resp.direct_query_data_sources[0].data_source_name #=> String
     #   resp.direct_query_data_sources[0].data_source_type.cloud_watch_log.role_arn #=> String
     #   resp.direct_query_data_sources[0].data_source_type.security_lake.role_arn #=> String
+    #   resp.direct_query_data_sources[0].data_source_type.prometheus.role_arn #=> String
+    #   resp.direct_query_data_sources[0].data_source_type.prometheus.workspace_arn #=> String
     #   resp.direct_query_data_sources[0].description #=> String
     #   resp.direct_query_data_sources[0].open_search_arns #=> Array
     #   resp.direct_query_data_sources[0].open_search_arns[0] #=> String
@@ -5212,9 +5222,11 @@ module Aws::OpenSearchService
     #   An optional text field for providing additional context and details
     #   about the data source.
     #
-    # @option params [required, Array<String>] :open_search_arns
-    #   A list of Amazon Resource Names (ARNs) for the OpenSearch collections
-    #   that are associated with the direct query data source.
+    # @option params [Array<String>] :open_search_arns
+    #   An optional list of Amazon Resource Names (ARNs) for the OpenSearch
+    #   collections that are associated with the direct query data source.
+    #   This field is required for CloudWatchLogs and SecurityLake datasource
+    #   types.
     #
     # @option params [String] :data_source_access_policy
     #   An optional IAM access policy document that defines the updated
@@ -5238,9 +5250,13 @@ module Aws::OpenSearchService
     #       security_lake: {
     #         role_arn: "DirectQueryDataSourceRoleArn", # required
     #       },
+    #       prometheus: {
+    #         role_arn: "DirectQueryDataSourceRoleArn", # required
+    #         workspace_arn: "AMPWorkspaceArn", # required
+    #       },
     #     },
     #     description: "DirectQueryDataSourceDescription",
-    #     open_search_arns: ["ARN"], # required
+    #     open_search_arns: ["ARN"],
     #     data_source_access_policy: "PolicyDocument",
     #   })
     #
@@ -6164,7 +6180,7 @@ module Aws::OpenSearchService
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-opensearchservice'
-      context[:gem_version] = '1.90.0'
+      context[:gem_version] = '1.91.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

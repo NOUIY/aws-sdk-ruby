@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.109.0 (2026-03-20)
+------------------
+
+* Feature - Fix Typo for S3Backup Options ( S3BackupACLs to BackupACLs)
+
 1.108.0 (2026-03-18)
 ------------------
 

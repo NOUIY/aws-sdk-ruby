@@ -2089,10 +2089,11 @@ module Aws::Backup
       req.send_request(options)
     end
 
-    # Describes whether the Amazon Web Services account is opted in to
-    # cross-account backup. Returns an error if the account is not a member
-    # of an Organizations organization. Example: `describe-global-settings
-    # --region us-west-2`
+    # Describes whether the Amazon Web Services account has enabled
+    # different cross-account management options, including cross-account
+    # backup, multi-party approval, and delegated administrator. Returns an
+    # error if the account is not a member of an Organizations organization.
+    # Example: `describe-global-settings --region us-west-2`
     #
     # @return [Types::DescribeGlobalSettingsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3611,6 +3612,8 @@ module Aws::Backup
     #
     #   * `EFS` for Amazon Elastic File System
     #
+    #   * `EKS` for Amazon Elastic Kubernetes Service
+    #
     #   * `FSx` for Amazon FSx
     #
     #   * `Neptune` for Amazon Neptune
@@ -4177,6 +4180,8 @@ module Aws::Backup
     #
     #   * `EFS` for Amazon Elastic File System
     #
+    #   * `EKS` for Amazon Elastic Kubernetes Service
+    #
     #   * `FSx` for Amazon FSx
     #
     #   * `Neptune` for Amazon Neptune
@@ -4645,6 +4650,8 @@ module Aws::Backup
     #   * `EC2` for Amazon Elastic Compute Cloud
     #
     #   * `EFS` for Amazon Elastic File System
+    #
+    #   * `EKS` for Amazon Elastic Kubernetes Service
     #
     #   * `FSx` for Amazon FSx
     #
@@ -5220,6 +5227,8 @@ module Aws::Backup
     #   * `EC2` for Amazon Elastic Compute Cloud
     #
     #   * `EFS` for Amazon Elastic File System
+    #
+    #   * `EKS` for Amazon Elastic Kubernetes Service
     #
     #   * `FSx` for Amazon FSx
     #
@@ -5965,6 +5974,9 @@ module Aws::Backup
     #   effect and becomes immutable. Therefore, you must set
     #   `ChangeableForDays` to 3 or greater.
     #
+    #   The maximum value you can specify is 36,500 days (approximately 100
+    #   years).
+    #
     #   Before the lock date, you can delete Vault Lock from the vault using
     #   `DeleteBackupVaultLockConfiguration` or change the Vault Lock
     #   configuration using `PutBackupVaultLockConfiguration`. On and after
@@ -6433,21 +6445,23 @@ module Aws::Backup
     #
     #   * [Metadata for Amazon EFS][7]
     #
-    #   * [Metadata for Amazon FSx][8]
+    #   * [Metadata for Amazon EKS][8]
     #
-    #   * [Metadata for Amazon Neptune][9]
+    #   * [Metadata for Amazon FSx][9]
     #
-    #   * [Metadata for Amazon RDS][10]
+    #   * [Metadata for Amazon Neptune][10]
     #
-    #   * [Metadata for Amazon Redshift][11]
+    #   * [Metadata for Amazon RDS][11]
     #
-    #   * [Metadata for Storage Gateway][12]
+    #   * [Metadata for Amazon Redshift][12]
     #
-    #   * [Metadata for Amazon S3][13]
+    #   * [Metadata for Storage Gateway][13]
     #
-    #   * [Metadata for Amazon Timestream][14]
+    #   * [Metadata for Amazon S3][14]
     #
-    #   * [Metadata for virtual machines][15]
+    #   * [Metadata for Amazon Timestream][15]
+    #
+    #   * [Metadata for virtual machines][16]
     #
     #
     #
@@ -6458,14 +6472,15 @@ module Aws::Backup
     #   [5]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-ebs.html#ebs-restore-cli
     #   [6]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-ec2.html#restoring-ec2-cli
     #   [7]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-efs.html#efs-restore-cli
-    #   [8]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-fsx.html#fsx-restore-cli
-    #   [9]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-nep.html#nep-restore-cli
-    #   [10]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-rds.html#rds-restore-cli
-    #   [11]: https://docs.aws.amazon.com/aws-backup/latest/devguide/redshift-restores.html#redshift-restore-api
-    #   [12]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-storage-gateway.html#restoring-sgw-cli
-    #   [13]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-s3.html#s3-restore-cli
-    #   [14]: https://docs.aws.amazon.com/aws-backup/latest/devguide/timestream-restore.html#timestream-restore-api
-    #   [15]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-vm.html#vm-restore-cli
+    #   [8]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-eks.html#eks-restore-backup-section
+    #   [9]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-fsx.html#fsx-restore-cli
+    #   [10]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-nep.html#nep-restore-cli
+    #   [11]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-rds.html#rds-restore-cli
+    #   [12]: https://docs.aws.amazon.com/aws-backup/latest/devguide/redshift-restores.html#redshift-restore-api
+    #   [13]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-storage-gateway.html#restoring-sgw-cli
+    #   [14]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-s3.html#s3-restore-cli
+    #   [15]: https://docs.aws.amazon.com/aws-backup/latest/devguide/timestream-restore.html#timestream-restore-api
+    #   [16]: https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-vm.html#vm-restore-cli
     #
     # @option params [String] :iam_role_arn
     #   The Amazon Resource Name (ARN) of the IAM role that Backup uses to
@@ -6498,6 +6513,8 @@ module Aws::Backup
     #   * `EC2` - Amazon Elastic Compute Cloud
     #
     #   * `EFS` - Amazon Elastic File System
+    #
+    #   * `EKS` - Amazon Elastic Kubernetes Service
     #
     #   * `FSx` - Amazon FSx
     #
@@ -6921,26 +6938,27 @@ module Aws::Backup
       req.send_request(options)
     end
 
-    # Updates whether the Amazon Web Services account is opted in to
-    # cross-account backup. Returns an error if the account is not an
-    # Organizations management account. Use the `DescribeGlobalSettings` API
-    # to determine the current settings.
+    # Updates whether the Amazon Web Services account has enabled different
+    # cross-account management options, including cross-account backup,
+    # multi-party approval, and delegated administrator. Returns an error if
+    # the account is not an Organizations management account. Use the
+    # `DescribeGlobalSettings` API to determine the current settings.
     #
     # @option params [Hash<String,String>] :global_settings
     #   Inputs can include:
     #
-    #   A value for `isCrossAccountBackupEnabled` and a Region. Example:
-    #   `update-global-settings --global-settings
-    #   isCrossAccountBackupEnabled=false --region us-west-2`.
+    #   A value for `isCrossAccountBackupEnabled`. Values can be true or
+    #   false. Example: `update-global-settings --global-settings
+    #   isCrossAccountBackupEnabled=false`.
     #
-    #   A value for Multi-party approval, styled as "Mpa": `isMpaEnabled`.
-    #   Values can be true or false. Example: `update-global-settings
-    #   --global-settings isMpaEnabled=false --region us-west-2`.
+    #   A value for Multi-party approval, styled as `isMpaEnabled`. Values can
+    #   be true or false. Example: `update-global-settings --global-settings
+    #   isMpaEnabled=false`.
     #
-    #   A value for Backup Service-Linked Role creation, styled
-    #   as`isDelegatedAdministratorEnabled`. Values can be true or false.
+    #   A value for Backup Service-Linked Role creation, styled as
+    #   `isDelegatedAdministratorEnabled`. Values can be true or false.
     #   Example: `update-global-settings --global-settings
-    #   isDelegatedAdministratorEnabled=false --region us-west-2`.
+    #   isDelegatedAdministratorEnabled=false`.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -7450,7 +7468,7 @@ module Aws::Backup
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-backup'
-      context[:gem_version] = '1.108.0'
+      context[:gem_version] = '1.109.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

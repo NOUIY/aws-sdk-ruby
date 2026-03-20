@@ -235,8 +235,10 @@ module Aws::OpenSearchService
     #   @return [String]
     #
     # @!attribute [rw] open_search_arns
-    #   A list of Amazon Resource Names (ARNs) for the OpenSearch
+    #   An optional list of Amazon Resource Names (ARNs) for the OpenSearch
     #   collections that are associated with the direct query data source.
+    #   This field is required for CloudWatchLogs and SecurityLake
+    #   datasource types.
     #   @return [Array<String>]
     #
     # @!attribute [rw] data_source_access_policy
@@ -3260,11 +3262,16 @@ module Aws::OpenSearchService
     #   Specifies Security Lake as a type of data source for direct queries.
     #   @return [Types::SecurityLakeDirectQueryDataSource]
     #
+    # @!attribute [rw] prometheus
+    #   Specifies Prometheus as a type of data source for direct queries.
+    #   @return [Types::PrometheusDirectQueryDataSource]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DirectQueryDataSourceType AWS API Documentation
     #
     class DirectQueryDataSourceType < Struct.new(
       :cloud_watch_log,
       :security_lake,
+      :prometheus,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -3272,6 +3279,7 @@ module Aws::OpenSearchService
 
       class CloudWatchLog < DirectQueryDataSourceType; end
       class SecurityLake < DirectQueryDataSourceType; end
+      class Prometheus < DirectQueryDataSourceType; end
       class Unknown < DirectQueryDataSourceType; end
     end
 
@@ -6630,6 +6638,28 @@ module Aws::OpenSearchService
       include Aws::Structure
     end
 
+    # Configuration details for a Prometheus data source that can be used
+    # for direct queries.
+    #
+    # @!attribute [rw] role_arn
+    #   The unique identifier of the IAM role that grants OpenSearch Service
+    #   permission to access the specified data source.
+    #   @return [String]
+    #
+    # @!attribute [rw] workspace_arn
+    #   The unique identifier of the Amazon Managed Prometheus Workspace
+    #   that is associated with the specified data source.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/PrometheusDirectQueryDataSource AWS API Documentation
+    #
+    class PrometheusDirectQueryDataSource < Struct.new(
+      :role_arn,
+      :workspace_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Container for request parameters to the
     # `PurchaseReservedInstanceOffering` operation.
     #
@@ -7716,8 +7746,10 @@ module Aws::OpenSearchService
     #   @return [String]
     #
     # @!attribute [rw] open_search_arns
-    #   A list of Amazon Resource Names (ARNs) for the OpenSearch
+    #   An optional list of Amazon Resource Names (ARNs) for the OpenSearch
     #   collections that are associated with the direct query data source.
+    #   This field is required for CloudWatchLogs and SecurityLake
+    #   datasource types.
     #   @return [Array<String>]
     #
     # @!attribute [rw] data_source_access_policy

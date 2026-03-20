@@ -1285,6 +1285,7 @@ module Aws::DynamoDB
     class ReplicaDescription
       attr_accessor region_name: ::String
       attr_accessor replica_status: ("CREATING" | "CREATION_FAILED" | "UPDATING" | "DELETING" | "ACTIVE" | "REGION_DISABLED" | "INACCESSIBLE_ENCRYPTION_CREDENTIALS" | "ARCHIVING" | "ARCHIVED" | "REPLICATION_NOT_AUTHORIZED")
+      attr_accessor replica_arn: ::String
       attr_accessor replica_status_description: ::String
       attr_accessor replica_status_percent_progress: ::String
       attr_accessor kms_master_key_id: ::String

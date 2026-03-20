@@ -118,10 +118,14 @@ module Aws
                                             }?,
                                             security_lake: {
                                               role_arn: ::String
+                                            }?,
+                                            prometheus: {
+                                              role_arn: ::String,
+                                              workspace_arn: ::String
                                             }?
                                           },
                                           ?description: ::String,
-                                          open_search_arns: Array[::String],
+                                          ?open_search_arns: Array[::String],
                                           ?data_source_access_policy: ::String,
                                           ?tag_list: Array[
                                             {
@@ -1277,10 +1281,14 @@ module Aws
                                                }?,
                                                security_lake: {
                                                  role_arn: ::String
+                                               }?,
+                                               prometheus: {
+                                                 role_arn: ::String,
+                                                 workspace_arn: ::String
                                                }?
                                              },
                                              ?description: ::String,
-                                             open_search_arns: Array[::String],
+                                             ?open_search_arns: Array[::String],
                                              ?data_source_access_policy: ::String
                                            ) -> _UpdateDirectQueryDataSourceResponseSuccess
                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateDirectQueryDataSourceResponseSuccess

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.165.0 (2026-03-20)
+------------------
+
+* Feature - Adding ReplicaArn to ReplicaDescription of a global table replica
+
 1.164.0 (2026-03-18)
 ------------------
 

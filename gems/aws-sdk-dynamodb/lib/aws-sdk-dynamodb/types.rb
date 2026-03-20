@@ -7343,6 +7343,10 @@ module Aws::DynamoDB
     #      </note>
     #   @return [String]
     #
+    # @!attribute [rw] replica_arn
+    #   The Amazon Resource Name (ARN) of the global table replica.
+    #   @return [String]
+    #
     # @!attribute [rw] replica_status_description
     #   Detailed information about the replica status.
     #   @return [String]
@@ -7404,6 +7408,7 @@ module Aws::DynamoDB
     class ReplicaDescription < Struct.new(
       :region_name,
       :replica_status,
+      :replica_arn,
       :replica_status_description,
       :replica_status_percent_progress,
       :kms_master_key_id,

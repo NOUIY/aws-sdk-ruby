@@ -1317,6 +1317,7 @@ module Aws::DynamoDB
     #   resp.global_table_description.replication_group #=> Array
     #   resp.global_table_description.replication_group[0].region_name #=> String
     #   resp.global_table_description.replication_group[0].replica_status #=> String, one of "CREATING", "CREATION_FAILED", "UPDATING", "DELETING", "ACTIVE", "REGION_DISABLED", "INACCESSIBLE_ENCRYPTION_CREDENTIALS", "ARCHIVING", "ARCHIVED", "REPLICATION_NOT_AUTHORIZED"
+    #   resp.global_table_description.replication_group[0].replica_arn #=> String
     #   resp.global_table_description.replication_group[0].replica_status_description #=> String
     #   resp.global_table_description.replication_group[0].replica_status_percent_progress #=> String
     #   resp.global_table_description.replication_group[0].kms_master_key_id #=> String
@@ -1857,6 +1858,7 @@ module Aws::DynamoDB
     #   resp.table_description.replicas #=> Array
     #   resp.table_description.replicas[0].region_name #=> String
     #   resp.table_description.replicas[0].replica_status #=> String, one of "CREATING", "CREATION_FAILED", "UPDATING", "DELETING", "ACTIVE", "REGION_DISABLED", "INACCESSIBLE_ENCRYPTION_CREDENTIALS", "ARCHIVING", "ARCHIVED", "REPLICATION_NOT_AUTHORIZED"
+    #   resp.table_description.replicas[0].replica_arn #=> String
     #   resp.table_description.replicas[0].replica_status_description #=> String
     #   resp.table_description.replicas[0].replica_status_percent_progress #=> String
     #   resp.table_description.replicas[0].kms_master_key_id #=> String
@@ -2465,6 +2467,7 @@ module Aws::DynamoDB
     #   resp.table_description.replicas #=> Array
     #   resp.table_description.replicas[0].region_name #=> String
     #   resp.table_description.replicas[0].replica_status #=> String, one of "CREATING", "CREATION_FAILED", "UPDATING", "DELETING", "ACTIVE", "REGION_DISABLED", "INACCESSIBLE_ENCRYPTION_CREDENTIALS", "ARCHIVING", "ARCHIVED", "REPLICATION_NOT_AUTHORIZED"
+    #   resp.table_description.replicas[0].replica_arn #=> String
     #   resp.table_description.replicas[0].replica_status_description #=> String
     #   resp.table_description.replicas[0].replica_status_percent_progress #=> String
     #   resp.table_description.replicas[0].kms_master_key_id #=> String
@@ -2819,6 +2822,7 @@ module Aws::DynamoDB
     #   resp.global_table_description.replication_group #=> Array
     #   resp.global_table_description.replication_group[0].region_name #=> String
     #   resp.global_table_description.replication_group[0].replica_status #=> String, one of "CREATING", "CREATION_FAILED", "UPDATING", "DELETING", "ACTIVE", "REGION_DISABLED", "INACCESSIBLE_ENCRYPTION_CREDENTIALS", "ARCHIVING", "ARCHIVED", "REPLICATION_NOT_AUTHORIZED"
+    #   resp.global_table_description.replication_group[0].replica_arn #=> String
     #   resp.global_table_description.replication_group[0].replica_status_description #=> String
     #   resp.global_table_description.replication_group[0].replica_status_percent_progress #=> String
     #   resp.global_table_description.replication_group[0].kms_master_key_id #=> String
@@ -3321,6 +3325,7 @@ module Aws::DynamoDB
     #   resp.table.replicas #=> Array
     #   resp.table.replicas[0].region_name #=> String
     #   resp.table.replicas[0].replica_status #=> String, one of "CREATING", "CREATION_FAILED", "UPDATING", "DELETING", "ACTIVE", "REGION_DISABLED", "INACCESSIBLE_ENCRYPTION_CREDENTIALS", "ARCHIVING", "ARCHIVED", "REPLICATION_NOT_AUTHORIZED"
+    #   resp.table.replicas[0].replica_arn #=> String
     #   resp.table.replicas[0].replica_status_description #=> String
     #   resp.table.replicas[0].replica_status_percent_progress #=> String
     #   resp.table.replicas[0].kms_master_key_id #=> String
@@ -5931,6 +5936,7 @@ module Aws::DynamoDB
     #   resp.table_description.replicas #=> Array
     #   resp.table_description.replicas[0].region_name #=> String
     #   resp.table_description.replicas[0].replica_status #=> String, one of "CREATING", "CREATION_FAILED", "UPDATING", "DELETING", "ACTIVE", "REGION_DISABLED", "INACCESSIBLE_ENCRYPTION_CREDENTIALS", "ARCHIVING", "ARCHIVED", "REPLICATION_NOT_AUTHORIZED"
+    #   resp.table_description.replicas[0].replica_arn #=> String
     #   resp.table_description.replicas[0].replica_status_description #=> String
     #   resp.table_description.replicas[0].replica_status_percent_progress #=> String
     #   resp.table_description.replicas[0].kms_master_key_id #=> String
@@ -6201,6 +6207,7 @@ module Aws::DynamoDB
     #   resp.table_description.replicas #=> Array
     #   resp.table_description.replicas[0].region_name #=> String
     #   resp.table_description.replicas[0].replica_status #=> String, one of "CREATING", "CREATION_FAILED", "UPDATING", "DELETING", "ACTIVE", "REGION_DISABLED", "INACCESSIBLE_ENCRYPTION_CREDENTIALS", "ARCHIVING", "ARCHIVED", "REPLICATION_NOT_AUTHORIZED"
+    #   resp.table_description.replicas[0].replica_arn #=> String
     #   resp.table_description.replicas[0].replica_status_description #=> String
     #   resp.table_description.replicas[0].replica_status_percent_progress #=> String
     #   resp.table_description.replicas[0].kms_master_key_id #=> String
@@ -7318,6 +7325,7 @@ module Aws::DynamoDB
     #   resp.global_table_description.replication_group #=> Array
     #   resp.global_table_description.replication_group[0].region_name #=> String
     #   resp.global_table_description.replication_group[0].replica_status #=> String, one of "CREATING", "CREATION_FAILED", "UPDATING", "DELETING", "ACTIVE", "REGION_DISABLED", "INACCESSIBLE_ENCRYPTION_CREDENTIALS", "ARCHIVING", "ARCHIVED", "REPLICATION_NOT_AUTHORIZED"
+    #   resp.global_table_description.replication_group[0].replica_arn #=> String
     #   resp.global_table_description.replication_group[0].replica_status_description #=> String
     #   resp.global_table_description.replication_group[0].replica_status_percent_progress #=> String
     #   resp.global_table_description.replication_group[0].kms_master_key_id #=> String
@@ -8438,6 +8446,7 @@ module Aws::DynamoDB
     #   resp.table_description.replicas #=> Array
     #   resp.table_description.replicas[0].region_name #=> String
     #   resp.table_description.replicas[0].replica_status #=> String, one of "CREATING", "CREATION_FAILED", "UPDATING", "DELETING", "ACTIVE", "REGION_DISABLED", "INACCESSIBLE_ENCRYPTION_CREDENTIALS", "ARCHIVING", "ARCHIVED", "REPLICATION_NOT_AUTHORIZED"
+    #   resp.table_description.replicas[0].replica_arn #=> String
     #   resp.table_description.replicas[0].replica_status_description #=> String
     #   resp.table_description.replicas[0].replica_status_percent_progress #=> String
     #   resp.table_description.replicas[0].kms_master_key_id #=> String
@@ -8745,7 +8754,7 @@ module Aws::DynamoDB
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-dynamodb'
-      context[:gem_version] = '1.164.0'
+      context[:gem_version] = '1.165.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

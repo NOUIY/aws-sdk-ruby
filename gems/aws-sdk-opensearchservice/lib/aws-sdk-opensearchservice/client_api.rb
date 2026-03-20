@@ -17,6 +17,7 @@ module Aws::OpenSearchService
     AIMLOptionsInput = Shapes::StructureShape.new(name: 'AIMLOptionsInput')
     AIMLOptionsOutput = Shapes::StructureShape.new(name: 'AIMLOptionsOutput')
     AIMLOptionsStatus = Shapes::StructureShape.new(name: 'AIMLOptionsStatus')
+    AMPWorkspaceArn = Shapes::StringShape.new(name: 'AMPWorkspaceArn')
     ARN = Shapes::StringShape.new(name: 'ARN')
     AWSAccount = Shapes::StringShape.new(name: 'AWSAccount')
     AWSDomainInformation = Shapes::StructureShape.new(name: 'AWSDomainInformation')
@@ -428,6 +429,7 @@ module Aws::OpenSearchService
     PluginVersion = Shapes::StringShape.new(name: 'PluginVersion')
     PolicyDocument = Shapes::StringShape.new(name: 'PolicyDocument')
     PrincipalType = Shapes::StringShape.new(name: 'PrincipalType')
+    PrometheusDirectQueryDataSource = Shapes::StructureShape.new(name: 'PrometheusDirectQueryDataSource')
     PropertyValueType = Shapes::StringShape.new(name: 'PropertyValueType')
     PurchaseReservedInstanceOfferingRequest = Shapes::StructureShape.new(name: 'PurchaseReservedInstanceOfferingRequest')
     PurchaseReservedInstanceOfferingResponse = Shapes::StructureShape.new(name: 'PurchaseReservedInstanceOfferingResponse')
@@ -612,7 +614,7 @@ module Aws::OpenSearchService
     AddDirectQueryDataSourceRequest.add_member(:data_source_name, Shapes::ShapeRef.new(shape: DirectQueryDataSourceName, required: true, location_name: "DataSourceName"))
     AddDirectQueryDataSourceRequest.add_member(:data_source_type, Shapes::ShapeRef.new(shape: DirectQueryDataSourceType, required: true, location_name: "DataSourceType"))
     AddDirectQueryDataSourceRequest.add_member(:description, Shapes::ShapeRef.new(shape: DirectQueryDataSourceDescription, location_name: "Description"))
-    AddDirectQueryDataSourceRequest.add_member(:open_search_arns, Shapes::ShapeRef.new(shape: DirectQueryOpenSearchARNList, required: true, location_name: "OpenSearchArns"))
+    AddDirectQueryDataSourceRequest.add_member(:open_search_arns, Shapes::ShapeRef.new(shape: DirectQueryOpenSearchARNList, location_name: "OpenSearchArns"))
     AddDirectQueryDataSourceRequest.add_member(:data_source_access_policy, Shapes::ShapeRef.new(shape: PolicyDocument, location_name: "DataSourceAccessPolicy"))
     AddDirectQueryDataSourceRequest.add_member(:tag_list, Shapes::ShapeRef.new(shape: TagList, location_name: "TagList"))
     AddDirectQueryDataSourceRequest.struct_class = Types::AddDirectQueryDataSourceRequest
@@ -1189,9 +1191,11 @@ module Aws::OpenSearchService
 
     DirectQueryDataSourceType.add_member(:cloud_watch_log, Shapes::ShapeRef.new(shape: CloudWatchDirectQueryDataSource, location_name: "CloudWatchLog"))
     DirectQueryDataSourceType.add_member(:security_lake, Shapes::ShapeRef.new(shape: SecurityLakeDirectQueryDataSource, location_name: "SecurityLake"))
+    DirectQueryDataSourceType.add_member(:prometheus, Shapes::ShapeRef.new(shape: PrometheusDirectQueryDataSource, location_name: "Prometheus"))
     DirectQueryDataSourceType.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     DirectQueryDataSourceType.add_member_subclass(:cloud_watch_log, Types::DirectQueryDataSourceType::CloudWatchLog)
     DirectQueryDataSourceType.add_member_subclass(:security_lake, Types::DirectQueryDataSourceType::SecurityLake)
+    DirectQueryDataSourceType.add_member_subclass(:prometheus, Types::DirectQueryDataSourceType::Prometheus)
     DirectQueryDataSourceType.add_member_subclass(:unknown, Types::DirectQueryDataSourceType::Unknown)
     DirectQueryDataSourceType.struct_class = Types::DirectQueryDataSourceType
 
@@ -1862,6 +1866,10 @@ module Aws::OpenSearchService
     PluginProperties.add_member(:uncompressed_size_in_bytes, Shapes::ShapeRef.new(shape: UncompressedPluginSizeInBytes, location_name: "UncompressedSizeInBytes"))
     PluginProperties.struct_class = Types::PluginProperties
 
+    PrometheusDirectQueryDataSource.add_member(:role_arn, Shapes::ShapeRef.new(shape: DirectQueryDataSourceRoleArn, required: true, location_name: "RoleArn"))
+    PrometheusDirectQueryDataSource.add_member(:workspace_arn, Shapes::ShapeRef.new(shape: AMPWorkspaceArn, required: true, location_name: "WorkspaceArn"))
+    PrometheusDirectQueryDataSource.struct_class = Types::PrometheusDirectQueryDataSource
+
     PurchaseReservedInstanceOfferingRequest.add_member(:reserved_instance_offering_id, Shapes::ShapeRef.new(shape: GUID, required: true, location_name: "ReservedInstanceOfferingId"))
     PurchaseReservedInstanceOfferingRequest.add_member(:reservation_name, Shapes::ShapeRef.new(shape: ReservationToken, required: true, location_name: "ReservationName"))
     PurchaseReservedInstanceOfferingRequest.add_member(:instance_count, Shapes::ShapeRef.new(shape: InstanceCount, location_name: "InstanceCount"))
@@ -2082,7 +2090,7 @@ module Aws::OpenSearchService
     UpdateDirectQueryDataSourceRequest.add_member(:data_source_name, Shapes::ShapeRef.new(shape: DirectQueryDataSourceName, required: true, location: "uri", location_name: "DataSourceName"))
     UpdateDirectQueryDataSourceRequest.add_member(:data_source_type, Shapes::ShapeRef.new(shape: DirectQueryDataSourceType, required: true, location_name: "DataSourceType"))
     UpdateDirectQueryDataSourceRequest.add_member(:description, Shapes::ShapeRef.new(shape: DirectQueryDataSourceDescription, location_name: "Description"))
-    UpdateDirectQueryDataSourceRequest.add_member(:open_search_arns, Shapes::ShapeRef.new(shape: DirectQueryOpenSearchARNList, required: true, location_name: "OpenSearchArns"))
+    UpdateDirectQueryDataSourceRequest.add_member(:open_search_arns, Shapes::ShapeRef.new(shape: DirectQueryOpenSearchARNList, location_name: "OpenSearchArns"))
     UpdateDirectQueryDataSourceRequest.add_member(:data_source_access_policy, Shapes::ShapeRef.new(shape: PolicyDocument, location_name: "DataSourceAccessPolicy"))
     UpdateDirectQueryDataSourceRequest.struct_class = Types::UpdateDirectQueryDataSourceRequest
 
