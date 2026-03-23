@@ -916,7 +916,9 @@ module Aws::Batch
     # @!attribute [rw] ec2_configuration
     #   Provides information that's used to select Amazon Machine Images
     #   (AMIs) for Amazon EC2 instances in the compute environment. If
-    #   `Ec2Configuration` isn't specified, the default is `ECS_AL2`.
+    #   `Ec2Configuration` isn't specified, the default is `ECS_AL2` for
+    #   EC2 (ECS) compute environments and `EKS_AL2023` for EKS compute
+    #   environments.
     #
     #   One or two values can be provided.
     #
@@ -1357,7 +1359,9 @@ module Aws::Batch
     # @!attribute [rw] ec2_configuration
     #   Provides information used to select Amazon Machine Images (AMIs) for
     #   Amazon EC2 instances in the compute environment. If
-    #   `Ec2Configuration` isn't specified, the default is `ECS_AL2`.
+    #   `Ec2Configuration` isn't specified, the default is `ECS_AL2` for
+    #   EC2 (ECS) compute environments and `EKS_AL2023` for EKS compute
+    #   environments.
     #
     #   When updating a compute environment, changing this setting requires
     #   an infrastructure update of the compute environment. For more
@@ -3823,7 +3827,10 @@ module Aws::Batch
 
     # Provides information used to select Amazon Machine Images (AMIs) for
     # instances in the compute environment. If `Ec2Configuration` isn't
-    # specified, the default is `ECS_AL2` ([Amazon Linux 2][1]).
+    # specified, the default is `ECS_AL2` ([Amazon ECS-optimized Amazon
+    # Linux 2][1]) for EC2 (ECS) compute environments and `EKS_AL2023`
+    # ([Amazon EKS-optimized Amazon Linux 2023 AMI][2]) for EKS compute
+    # environments.
     #
     # <note markdown="1"> This object isn't applicable to jobs that are running on Fargate
     # resources.
@@ -3833,6 +3840,7 @@ module Aws::Batch
     #
     #
     # [1]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami
+    # [2]: https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html
     #
     # @!attribute [rw] image_type
     #   The image type to match with the instance type to select an AMI. The
@@ -3961,6 +3969,46 @@ module Aws::Batch
     #   [1]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html
     #   @return [String]
     #
+    # @!attribute [rw] batch_image_status
+    #   The status of the Batch-provided default AMIs associated with the
+    #   `imageType`.
+    #
+    #   The field only appears after the compute environment has begun
+    #   scaling instances using the `imageType`. The field is not present
+    #   when an image is specified in `ComputeResources.imageId`
+    #   (deprecated), the default launch template, or
+    #   `Ec2Configuration.imageIdOverride`. The field is also not present
+    #   when the compute environment has a launch template override. For
+    #   more information on image selection, see [AMI selection order][1].
+    #
+    #   <note markdown="1"> This field is read-only and only appears in the
+    #   [DescribeComputeEnvironments][2] response.
+    #
+    #    </note>
+    #
+    #   * `LATEST` − Using the most recent AMI supported
+    #
+    #   * `UPDATE_AVAILABLE` − An updated AMI is available
+    #
+    #     * If a compute environment has multiple AMIs for the `imageType`
+    #       and any one AMI has `UPDATE_AVAILABLE`, the status shows
+    #       `UPDATE_AVAILABLE`.
+    #
+    #     * For compute environments that use `BEST_FIT` as their allocation
+    #       strategy, you can perform a [blue/green update][3] to update the
+    #       AMI.
+    #
+    #     * For all other compute environments, you can perform an [AMI
+    #       version update][4] to update the AMI to the latest version.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/ami-selection-order.html
+    #   [2]: https://docs.aws.amazon.com/batch/latest/APIReference/API_DescribeComputeEnvironments.html
+    #   [3]: https://docs.aws.amazon.com/batch/latest/userguide/blue-green-updates.html
+    #   [4]: https://docs.aws.amazon.com/batch/latest/userguide/managing-ami-versions.html#updating-ami-versions
+    #   @return [String]
+    #
     # @!attribute [rw] image_kubernetes_version
     #   The Kubernetes version for the compute environment. If you don't
     #   specify a value, the latest version that Batch supports is used.
@@ -3971,6 +4019,7 @@ module Aws::Batch
     class Ec2Configuration < Struct.new(
       :image_type,
       :image_id_override,
+      :batch_image_status,
       :image_kubernetes_version)
       SENSITIVE = []
       include Aws::Structure

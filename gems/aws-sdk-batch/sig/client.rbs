@@ -134,6 +134,7 @@ module Aws
                                             {
                                               image_type: ::String,
                                               image_id_override: ::String?,
+                                              batch_image_status: ::String?,
                                               image_kubernetes_version: ::String?
                                             },
                                           ]?,
@@ -1706,6 +1707,7 @@ module Aws
                                             {
                                               image_type: ::String,
                                               image_id_override: ::String?,
+                                              batch_image_status: ::String?,
                                               image_kubernetes_version: ::String?
                                             },
                                           ]?,

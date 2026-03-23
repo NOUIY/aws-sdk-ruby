@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.64.0 (2026-03-23)
+------------------
+
+* Feature - Adds support for batch workflow runs in Amazon Omics, enabling users to submit, manage, and monitor multiple runs as a single batch. Includes APIs to create, cancel, and delete batches, track submission statuses and counts, list runs within a batch, and configure default settings.
+
 1.63.0 (2026-03-18)
 ------------------
 

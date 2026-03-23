@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.65.0 (2026-03-23)
+------------------
+
+* Feature - You can now use the UpdateRelatedItem API to update the content of comments and custom related items associated with a case.
+
 1.64.0 (2026-03-18)
 ------------------
 

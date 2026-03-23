@@ -2129,6 +2129,16 @@ module Aws::Lightsail
     #   easily.
     #   @return [String]
     #
+    # @!attribute [rw] tags
+    #   The tag keys and optional values for the resource. For more
+    #   information about tags in Lightsail, see the [Amazon Lightsail
+    #   Developer Guide][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags
+    #   @return [Array<Types::Tag>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/ContactMethod AWS API Documentation
     #
     class ContactMethod < Struct.new(
@@ -2140,7 +2150,8 @@ module Aws::Lightsail
       :created_at,
       :location,
       :resource_type,
-      :support_code)
+      :support_code,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3202,11 +3213,19 @@ module Aws::Lightsail
     #   [1]: https://en.wikipedia.org/wiki/E.164
     #   @return [String]
     #
+    # @!attribute [rw] tags
+    #   The tag keys and optional values to add to the contact method during
+    #   create.
+    #
+    #   Use the `TagResource` action to tag a resource after it's created.
+    #   @return [Array<Types::Tag>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateContactMethodRequest AWS API Documentation
     #
     class CreateContactMethodRequest < Struct.new(
       :protocol,
-      :contact_endpoint)
+      :contact_endpoint,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end

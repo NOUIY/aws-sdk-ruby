@@ -828,6 +828,7 @@ module Aws::Batch
 
     Ec2Configuration.add_member(:image_type, Shapes::ShapeRef.new(shape: ImageType, required: true, location_name: "imageType"))
     Ec2Configuration.add_member(:image_id_override, Shapes::ShapeRef.new(shape: ImageIdOverride, location_name: "imageIdOverride"))
+    Ec2Configuration.add_member(:batch_image_status, Shapes::ShapeRef.new(shape: String, location_name: "batchImageStatus"))
     Ec2Configuration.add_member(:image_kubernetes_version, Shapes::ShapeRef.new(shape: KubernetesVersion, location_name: "imageKubernetesVersion"))
     Ec2Configuration.struct_class = Types::Ec2Configuration
 

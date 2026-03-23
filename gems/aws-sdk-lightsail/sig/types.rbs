@@ -377,6 +377,7 @@ module Aws::Lightsail
       attr_accessor location: Types::ResourceLocation
       attr_accessor resource_type: ("ContainerService" | "Instance" | "StaticIp" | "KeyPair" | "InstanceSnapshot" | "Domain" | "PeeredVpc" | "LoadBalancer" | "LoadBalancerTlsCertificate" | "Disk" | "DiskSnapshot" | "RelationalDatabase" | "RelationalDatabaseSnapshot" | "ExportSnapshotRecord" | "CloudFormationStackRecord" | "Alarm" | "ContactMethod" | "Distribution" | "Certificate" | "Bucket")
       attr_accessor support_code: ::String
+      attr_accessor tags: ::Array[Types::Tag]
       SENSITIVE: []
     end
 
@@ -575,6 +576,7 @@ module Aws::Lightsail
     class CreateContactMethodRequest
       attr_accessor protocol: ("Email" | "SMS")
       attr_accessor contact_endpoint: ::String
+      attr_accessor tags: ::Array[Types::Tag]
       SENSITIVE: []
     end
 

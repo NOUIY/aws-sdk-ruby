@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.139.0 (2026-03-23)
+------------------
+
+* Feature - AWS Batch AMI Visibility feature support. Adds read-only batchImageStatus to Ec2Configuration to provide visibility on the status of Batch-vended AMIs used by Compute Environments.
+
 1.138.0 (2026-03-19)
 ------------------
 

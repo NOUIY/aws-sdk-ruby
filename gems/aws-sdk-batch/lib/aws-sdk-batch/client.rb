@@ -844,6 +844,7 @@ module Aws::Batch
     #         {
     #           image_type: "ImageType", # required
     #           image_id_override: "ImageIdOverride",
+    #           batch_image_status: "String",
     #           image_kubernetes_version: "KubernetesVersion",
     #         },
     #       ],
@@ -1751,6 +1752,7 @@ module Aws::Batch
     #   resp.compute_environments[0].compute_resources.ec2_configuration #=> Array
     #   resp.compute_environments[0].compute_resources.ec2_configuration[0].image_type #=> String
     #   resp.compute_environments[0].compute_resources.ec2_configuration[0].image_id_override #=> String
+    #   resp.compute_environments[0].compute_resources.ec2_configuration[0].batch_image_status #=> String
     #   resp.compute_environments[0].compute_resources.ec2_configuration[0].image_kubernetes_version #=> String
     #   resp.compute_environments[0].compute_resources.scaling_policy.min_scale_down_delay_minutes #=> Integer
     #   resp.compute_environments[0].service_role #=> String
@@ -6140,6 +6142,7 @@ module Aws::Batch
     #         {
     #           image_type: "ImageType", # required
     #           image_id_override: "ImageIdOverride",
+    #           batch_image_status: "String",
     #           image_kubernetes_version: "KubernetesVersion",
     #         },
     #       ],
@@ -6590,7 +6593,7 @@ module Aws::Batch
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-batch'
-      context[:gem_version] = '1.138.0'
+      context[:gem_version] = '1.139.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

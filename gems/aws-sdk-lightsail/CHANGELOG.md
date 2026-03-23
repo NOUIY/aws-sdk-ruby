@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.126.0 (2026-03-23)
+------------------
+
+* Feature - Add support for tagging of ContactMethod resource type
+
 1.125.0 (2026-03-18)
 ------------------
 

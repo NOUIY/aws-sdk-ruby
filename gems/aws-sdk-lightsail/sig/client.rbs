@@ -253,7 +253,13 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Lightsail/Client.html#create_contact_method-instance_method
       def create_contact_method: (
                                    protocol: ("Email" | "SMS"),
-                                   contact_endpoint: ::String
+                                   contact_endpoint: ::String,
+                                   ?tags: Array[
+                                     {
+                                       key: ::String?,
+                                       value: ::String?
+                                     },
+                                   ]
                                  ) -> _CreateContactMethodResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateContactMethodResponseSuccess
 

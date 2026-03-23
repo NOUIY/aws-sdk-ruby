@@ -1025,6 +1025,7 @@ module Aws::Lightsail
     ContactMethod.add_member(:location, Shapes::ShapeRef.new(shape: ResourceLocation, location_name: "location"))
     ContactMethod.add_member(:resource_type, Shapes::ShapeRef.new(shape: ResourceType, location_name: "resourceType"))
     ContactMethod.add_member(:support_code, Shapes::ShapeRef.new(shape: string, location_name: "supportCode"))
+    ContactMethod.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
     ContactMethod.struct_class = Types::ContactMethod
 
     ContactMethodsList.member = Shapes::ShapeRef.new(shape: ContactMethod)
@@ -1198,6 +1199,7 @@ module Aws::Lightsail
 
     CreateContactMethodRequest.add_member(:protocol, Shapes::ShapeRef.new(shape: ContactProtocol, required: true, location_name: "protocol"))
     CreateContactMethodRequest.add_member(:contact_endpoint, Shapes::ShapeRef.new(shape: StringMax256, required: true, location_name: "contactEndpoint"))
+    CreateContactMethodRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
     CreateContactMethodRequest.struct_class = Types::CreateContactMethodRequest
 
     CreateContactMethodResult.add_member(:operations, Shapes::ShapeRef.new(shape: OperationList, location_name: "operations"))

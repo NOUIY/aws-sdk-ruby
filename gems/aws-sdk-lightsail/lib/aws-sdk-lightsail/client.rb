@@ -1489,6 +1489,12 @@ module Aws::Lightsail
     #
     #   [1]: https://en.wikipedia.org/wiki/E.164
     #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tag keys and optional values to add to the contact method during
+    #   create.
+    #
+    #   Use the `TagResource` action to tag a resource after it's created.
+    #
     # @return [Types::CreateContactMethodResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateContactMethodResult#operations #operations} => Array&lt;Types::Operation&gt;
@@ -1498,6 +1504,12 @@ module Aws::Lightsail
     #   resp = client.create_contact_method({
     #     protocol: "Email", # required, accepts Email, SMS
     #     contact_endpoint: "StringMax256", # required
+    #     tags: [
+    #       {
+    #         key: "TagKey",
+    #         value: "TagValue",
+    #       },
+    #     ],
     #   })
     #
     # @example Response structure
@@ -6284,6 +6296,9 @@ module Aws::Lightsail
     #   resp.contact_methods[0].location.region_name #=> String, one of "us-east-1", "us-east-2", "us-west-1", "us-west-2", "eu-west-1", "eu-west-2", "eu-west-3", "eu-central-1", "ca-central-1", "ap-south-1", "ap-southeast-1", "ap-southeast-2", "ap-northeast-1", "ap-northeast-2", "eu-north-1", "ap-southeast-3"
     #   resp.contact_methods[0].resource_type #=> String, one of "ContainerService", "Instance", "StaticIp", "KeyPair", "InstanceSnapshot", "Domain", "PeeredVpc", "LoadBalancer", "LoadBalancerTlsCertificate", "Disk", "DiskSnapshot", "RelationalDatabase", "RelationalDatabaseSnapshot", "ExportSnapshotRecord", "CloudFormationStackRecord", "Alarm", "ContactMethod", "Distribution", "Certificate", "Bucket"
     #   resp.contact_methods[0].support_code #=> String
+    #   resp.contact_methods[0].tags #=> Array
+    #   resp.contact_methods[0].tags[0].key #=> String
+    #   resp.contact_methods[0].tags[0].value #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetContactMethods AWS API Documentation
     #
@@ -12561,7 +12576,7 @@ module Aws::Lightsail
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-lightsail'
-      context[:gem_version] = '1.125.0'
+      context[:gem_version] = '1.126.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

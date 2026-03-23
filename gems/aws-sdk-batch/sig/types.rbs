@@ -578,6 +578,7 @@ module Aws::Batch
     class Ec2Configuration
       attr_accessor image_type: ::String
       attr_accessor image_id_override: ::String
+      attr_accessor batch_image_status: ::String
       attr_accessor image_kubernetes_version: ::String
       SENSITIVE: []
     end
