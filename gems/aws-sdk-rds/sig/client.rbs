@@ -469,6 +469,7 @@ module Aws
                                  },
                                ],
                                ?master_user_authentication_type: ("password" | "iam-db-auth"),
+                               ?with_express_configuration: bool,
                                ?source_region: ::String
                              ) -> _CreateDBClusterResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateDBClusterResponseSuccess
@@ -3183,7 +3184,9 @@ module Aws
                                                     },
                                                   ]?
                                                 },
-                                              ]
+                                              ],
+                                              ?enable_vpc_networking: bool,
+                                              ?enable_internet_access_gateway: bool
                                             ) -> _RestoreDBClusterFromSnapshotResponseSuccess
                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RestoreDBClusterFromSnapshotResponseSuccess
 
@@ -3260,7 +3263,9 @@ module Aws
                                                        },
                                                      ]?
                                                    },
-                                                 ]
+                                                 ],
+                                                 ?enable_vpc_networking: bool,
+                                                 ?enable_internet_access_gateway: bool
                                                ) -> _RestoreDBClusterToPointInTimeResponseSuccess
                                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RestoreDBClusterToPointInTimeResponseSuccess
 

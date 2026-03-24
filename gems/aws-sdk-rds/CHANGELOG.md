@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.310.0 (2026-03-24)
+------------------
+
+* Feature - Adds support in Aurora PostgreSQL serverless databases for express configuration based creation through WithExpressConfiguration in CreateDbCluster API, and for restoring clusters using RestoreDBClusterToPointInTime and RestoreDBClusterFromSnapshot APIs.
+
 1.309.0 (2026-03-18)
 ------------------
 

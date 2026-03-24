@@ -8832,7 +8832,10 @@ module Aws::GameLift
     #   @return [String]
     #
     # @!attribute [rw] ping_beacon
-    #   Information about the UDP ping beacon for this location.
+    #   Information about the UDP ping beacon for this location. Ping
+    #   beacons are fixed endpoints that you can use to measure network
+    #   latency between a player device and an Amazon GameLift Servers
+    #   hosting location.
     #   @return [Types::PingBeacon]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/LocationModel AWS API Documentation
@@ -9508,7 +9511,9 @@ module Aws::GameLift
     # hosting location.
     #
     # @!attribute [rw] udp_endpoint
-    #   The domain name and port of the UDP ping beacon.
+    #   The domain name and port of the UDP ping beacon. Your game client
+    #   can send UDP messages to this endpoint and receive responses to
+    #   measure network latency.
     #   @return [Types::UDPEndpoint]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/PingBeacon AWS API Documentation
@@ -11856,7 +11861,8 @@ module Aws::GameLift
     #   @return [String]
     #
     # @!attribute [rw] port
-    #   The port number of the UDP endpoint.
+    #   The port number of the UDP endpoint. For Amazon GameLift Servers
+    #   ping beacons, this is typically port 7770.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/UDPEndpoint AWS API Documentation

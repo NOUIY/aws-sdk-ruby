@@ -148,6 +148,13 @@ module Aws
                                     max_lifetime: ::Integer?
                                   },
                                   ?environment_variables: Hash[::String, ::String],
+                                  ?filesystem_configurations: Array[
+                                    {
+                                      session_storage: {
+                                        mount_path: ::String
+                                      }?
+                                    },
+                                  ],
                                   ?tags: Hash[::String, ::String]
                                 ) -> _CreateAgentRuntimeResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAgentRuntimeResponseSuccess
@@ -1086,6 +1093,7 @@ module Aws
         def authorizer_configuration: () -> Types::AuthorizerConfiguration
         def request_header_configuration: () -> Types::RequestHeaderConfiguration
         def metadata_configuration: () -> Types::RuntimeMetadataConfiguration
+        def filesystem_configurations: () -> ::Array[Types::FilesystemConfiguration]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_agent_runtime-instance_method
       def get_agent_runtime: (
@@ -1463,7 +1471,8 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#list_browser_profiles-instance_method
       def list_browser_profiles: (
                                    ?max_results: ::Integer,
-                                   ?next_token: ::String
+                                   ?next_token: ::String,
+                                   ?name: ::String
                                  ) -> _ListBrowserProfilesResponseSuccess
                                | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListBrowserProfilesResponseSuccess
 
@@ -1799,6 +1808,13 @@ module Aws
                                     require_mmdsv2: bool
                                   },
                                   ?environment_variables: Hash[::String, ::String],
+                                  ?filesystem_configurations: Array[
+                                    {
+                                      session_storage: {
+                                        mount_path: ::String
+                                      }?
+                                    },
+                                  ],
                                   ?client_token: ::String
                                 ) -> _UpdateAgentRuntimeResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateAgentRuntimeResponseSuccess

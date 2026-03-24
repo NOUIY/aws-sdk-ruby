@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.56.0 (2026-03-24)
+------------------
+
+* Feature - Adds support for updating the vector options field for existing collections.
+
 1.55.0 (2026-03-18)
 ------------------
 

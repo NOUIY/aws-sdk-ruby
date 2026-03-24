@@ -1185,6 +1185,12 @@ module Aws::BedrockAgentCoreControl
     #   Environment variables to set in the AgentCore Runtime environment.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] filesystem_configurations
+    #   The filesystem configurations to mount into the AgentCore Runtime.
+    #   Use filesystem configurations to provide persistent storage to your
+    #   AgentCore Runtime sessions.
+    #   @return [Array<Types::FilesystemConfiguration>]
+    #
     # @!attribute [rw] tags
     #   A map of tag keys and values to assign to the agent runtime. Tags
     #   enable you to categorize your resources in different ways, for
@@ -1205,6 +1211,7 @@ module Aws::BedrockAgentCoreControl
       :protocol_configuration,
       :lifecycle_configuration,
       :environment_variables,
+      :filesystem_configurations,
       :tags)
       SENSITIVE = [:description, :environment_variables]
       include Aws::Structure
@@ -4120,6 +4127,32 @@ module Aws::BedrockAgentCoreControl
       class Unknown < ExtractionConfiguration; end
     end
 
+    # Configuration for a filesystem that can be mounted into the AgentCore
+    # Runtime.
+    #
+    # @note FilesystemConfiguration is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note FilesystemConfiguration is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of FilesystemConfiguration corresponding to the set member.
+    #
+    # @!attribute [rw] session_storage
+    #   Configuration for session storage. Session storage provides
+    #   persistent storage that is preserved across AgentCore Runtime
+    #   session invocations.
+    #   @return [Types::SessionStorageConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/FilesystemConfiguration AWS API Documentation
+    #
+    class FilesystemConfiguration < Struct.new(
+      :session_storage,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class SessionStorage < FilesystemConfiguration; end
+      class Unknown < FilesystemConfiguration; end
+    end
+
     # The filter that applies conditions to agent traces during online
     # evaluation to determine which traces should be evaluated.
     #
@@ -4607,6 +4640,10 @@ module Aws::BedrockAgentCoreControl
     #   AgentCore Runtime.
     #   @return [Types::RuntimeMetadataConfiguration]
     #
+    # @!attribute [rw] filesystem_configurations
+    #   The filesystem configurations mounted into the AgentCore Runtime.
+    #   @return [Array<Types::FilesystemConfiguration>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetAgentRuntimeResponse AWS API Documentation
     #
     class GetAgentRuntimeResponse < Struct.new(
@@ -4628,7 +4665,8 @@ module Aws::BedrockAgentCoreControl
       :environment_variables,
       :authorizer_configuration,
       :request_header_configuration,
-      :metadata_configuration)
+      :metadata_configuration,
+      :filesystem_configurations)
       SENSITIVE = [:description, :environment_variables]
       include Aws::Structure
     end
@@ -6305,11 +6343,16 @@ module Aws::BedrockAgentCoreControl
     #   A token to retrieve the next page of results.
     #   @return [String]
     #
+    # @!attribute [rw] name
+    #   The name of the browser profile to filter results by.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListBrowserProfilesRequest AWS API Documentation
     #
     class ListBrowserProfilesRequest < Struct.new(
       :max_results,
-      :next_token)
+      :next_token,
+      :name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9037,6 +9080,24 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # Configuration for a session storage filesystem mounted into the
+    # AgentCore Runtime. Session storage provides persistent storage that is
+    # preserved across AgentCore Runtime session invocations.
+    #
+    # @!attribute [rw] mount_path
+    #   The mount path for the session storage filesystem inside the
+    #   AgentCore Runtime. The path must be under `/mnt` with exactly one
+    #   subdirectory level (for example, `/mnt/data`).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SessionStorageConfiguration AWS API Documentation
+    #
+    class SessionStorageConfiguration < Struct.new(
+      :mount_path)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] token_vault_id
     #   The unique identifier of the token vault to update.
     #   @return [String]
@@ -9870,6 +9931,11 @@ module Aws::BedrockAgentCoreControl
     #   environment.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] filesystem_configurations
+    #   The updated filesystem configurations to mount into the AgentCore
+    #   Runtime.
+    #   @return [Array<Types::FilesystemConfiguration>]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier to ensure idempotency of the
     #   request.
@@ -9892,6 +9958,7 @@ module Aws::BedrockAgentCoreControl
       :lifecycle_configuration,
       :metadata_configuration,
       :environment_variables,
+      :filesystem_configurations,
       :client_token)
       SENSITIVE = [:description, :environment_variables]
       include Aws::Structure
@@ -10832,10 +10899,11 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
-    # Respresents an optional value that can be provided to update the
-    # human-readable description of the resource. If the field is omitted
-    # from the request, it will leave the current decription value
-    # unchanged.
+    # Wrapper for updating an optional Description field with PATCH
+    # semantics. When present in an update request, the description is
+    # replaced with optionalValue. When absent, the description is left
+    # unchanged. To unset the description, include the wrapper with
+    # optionalValue set to null.
     #
     # @!attribute [rw] optional_value
     #   Represents an optional value that is used to update the

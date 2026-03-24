@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.60.0 (2026-03-24)
+------------------
+
+* Feature - Reduces the minimum allowed value for startOverWindowSeconds from 60 to 0, allowing customers to effectively disable the start-over window.
+
 1.59.0 (2026-03-18)
 ------------------
 

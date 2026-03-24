@@ -1165,6 +1165,7 @@ module Aws::RDS
     CreateDBClusterMessage.add_member(:engine_lifecycle_support, Shapes::ShapeRef.new(shape: String, location_name: "EngineLifecycleSupport"))
     CreateDBClusterMessage.add_member(:tag_specifications, Shapes::ShapeRef.new(shape: TagSpecificationList, location_name: "TagSpecifications"))
     CreateDBClusterMessage.add_member(:master_user_authentication_type, Shapes::ShapeRef.new(shape: MasterUserAuthenticationType, location_name: "MasterUserAuthenticationType"))
+    CreateDBClusterMessage.add_member(:with_express_configuration, Shapes::ShapeRef.new(shape: BooleanOptional, location_name: "WithExpressConfiguration"))
     CreateDBClusterMessage.add_member(:source_region, Shapes::ShapeRef.new(shape: String, location_name: "SourceRegion"))
     CreateDBClusterMessage.struct_class = Types::CreateDBClusterMessage
 
@@ -1546,6 +1547,8 @@ module Aws::RDS
     DBCluster.add_member(:cluster_scalability_type, Shapes::ShapeRef.new(shape: ClusterScalabilityType, location_name: "ClusterScalabilityType"))
     DBCluster.add_member(:certificate_details, Shapes::ShapeRef.new(shape: CertificateDetails, location_name: "CertificateDetails"))
     DBCluster.add_member(:engine_lifecycle_support, Shapes::ShapeRef.new(shape: String, location_name: "EngineLifecycleSupport"))
+    DBCluster.add_member(:vpc_networking_enabled, Shapes::ShapeRef.new(shape: BooleanOptional, location_name: "VPCNetworkingEnabled"))
+    DBCluster.add_member(:internet_access_gateway_enabled, Shapes::ShapeRef.new(shape: BooleanOptional, location_name: "InternetAccessGatewayEnabled"))
     DBCluster.struct_class = Types::DBCluster
 
     DBClusterAlreadyExistsFault.struct_class = Types::DBClusterAlreadyExistsFault
@@ -3999,6 +4002,8 @@ module Aws::RDS
     RestoreDBClusterFromSnapshotMessage.add_member(:preferred_backup_window, Shapes::ShapeRef.new(shape: String, location_name: "PreferredBackupWindow"))
     RestoreDBClusterFromSnapshotMessage.add_member(:engine_lifecycle_support, Shapes::ShapeRef.new(shape: String, location_name: "EngineLifecycleSupport"))
     RestoreDBClusterFromSnapshotMessage.add_member(:tag_specifications, Shapes::ShapeRef.new(shape: TagSpecificationList, location_name: "TagSpecifications"))
+    RestoreDBClusterFromSnapshotMessage.add_member(:enable_vpc_networking, Shapes::ShapeRef.new(shape: BooleanOptional, location_name: "EnableVPCNetworking"))
+    RestoreDBClusterFromSnapshotMessage.add_member(:enable_internet_access_gateway, Shapes::ShapeRef.new(shape: BooleanOptional, location_name: "EnableInternetAccessGateway"))
     RestoreDBClusterFromSnapshotMessage.struct_class = Types::RestoreDBClusterFromSnapshotMessage
 
     RestoreDBClusterFromSnapshotResult.add_member(:db_cluster, Shapes::ShapeRef.new(shape: DBCluster, location_name: "DBCluster"))
@@ -4042,6 +4047,8 @@ module Aws::RDS
     RestoreDBClusterToPointInTimeMessage.add_member(:preferred_backup_window, Shapes::ShapeRef.new(shape: String, location_name: "PreferredBackupWindow"))
     RestoreDBClusterToPointInTimeMessage.add_member(:engine_lifecycle_support, Shapes::ShapeRef.new(shape: String, location_name: "EngineLifecycleSupport"))
     RestoreDBClusterToPointInTimeMessage.add_member(:tag_specifications, Shapes::ShapeRef.new(shape: TagSpecificationList, location_name: "TagSpecifications"))
+    RestoreDBClusterToPointInTimeMessage.add_member(:enable_vpc_networking, Shapes::ShapeRef.new(shape: BooleanOptional, location_name: "EnableVPCNetworking"))
+    RestoreDBClusterToPointInTimeMessage.add_member(:enable_internet_access_gateway, Shapes::ShapeRef.new(shape: BooleanOptional, location_name: "EnableInternetAccessGateway"))
     RestoreDBClusterToPointInTimeMessage.struct_class = Types::RestoreDBClusterToPointInTimeMessage
 
     RestoreDBClusterToPointInTimeResult.add_member(:db_cluster, Shapes::ShapeRef.new(shape: DBCluster, location_name: "DBCluster"))

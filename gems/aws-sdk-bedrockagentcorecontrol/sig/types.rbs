@@ -355,6 +355,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor protocol_configuration: Types::ProtocolConfiguration
       attr_accessor lifecycle_configuration: Types::LifecycleConfiguration
       attr_accessor environment_variables: ::Hash[::String, ::String]
+      attr_accessor filesystem_configurations: ::Array[Types::FilesystemConfiguration]
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:description, :environment_variables]
     end
@@ -1172,6 +1173,17 @@ module Aws::BedrockAgentCoreControl
       end
     end
 
+    class FilesystemConfiguration
+      attr_accessor session_storage: Types::SessionStorageConfiguration
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class SessionStorage < FilesystemConfiguration
+      end
+      class Unknown < FilesystemConfiguration
+      end
+    end
+
     class Filter
       attr_accessor key: ::String
       attr_accessor operator: ("Equals" | "NotEquals" | "GreaterThan" | "LessThan" | "GreaterThanOrEqual" | "LessThanOrEqual" | "Contains" | "NotContains")
@@ -1301,6 +1313,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor authorizer_configuration: Types::AuthorizerConfiguration
       attr_accessor request_header_configuration: Types::RequestHeaderConfiguration
       attr_accessor metadata_configuration: Types::RuntimeMetadataConfiguration
+      attr_accessor filesystem_configurations: ::Array[Types::FilesystemConfiguration]
       SENSITIVE: [:description, :environment_variables]
     end
 
@@ -1762,6 +1775,7 @@ module Aws::BedrockAgentCoreControl
     class ListBrowserProfilesRequest
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
+      attr_accessor name: ::String
       SENSITIVE: []
     end
 
@@ -2591,6 +2605,11 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class SessionStorageConfiguration
+      attr_accessor mount_path: ::String
+      SENSITIVE: []
+    end
+
     class SetTokenVaultCMKRequest
       attr_accessor token_vault_id: ::String
       attr_accessor kms_configuration: Types::KmsConfiguration
@@ -2862,6 +2881,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor lifecycle_configuration: Types::LifecycleConfiguration
       attr_accessor metadata_configuration: Types::RuntimeMetadataConfiguration
       attr_accessor environment_variables: ::Hash[::String, ::String]
+      attr_accessor filesystem_configurations: ::Array[Types::FilesystemConfiguration]
       attr_accessor client_token: ::String
       SENSITIVE: [:description, :environment_variables]
     end

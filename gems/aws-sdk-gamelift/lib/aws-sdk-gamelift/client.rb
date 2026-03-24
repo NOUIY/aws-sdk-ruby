@@ -8669,18 +8669,14 @@ module Aws::GameLift
       req.send_request(options)
     end
 
-    # **This API works with the following fleet types:** Anywhere
+    # **This API works with the following fleet types:** EC2, Anywhere,
+    # Container
     #
     # Lists all custom and Amazon Web Services locations where Amazon
-    # GameLift Servers can host game servers.
-    #
-    # Note that if you call this API using a location that doesn't have a
-    # service endpoint, such as one that can only be a remote location in a
-    # multi-location fleet, the API returns an error.
-    #
-    # Consult the table of supported locations in [Amazon GameLift Servers
-    # service locations][1] to identify home Regions that support single and
-    # multi-location fleets.
+    # GameLift Servers can host game servers. This operation also returns
+    # UDP ping beacon information for locations, which you can use to
+    # measure network latency between player devices and potential hosting
+    # locations.
     #
     # **Learn more**
     #
@@ -12724,7 +12720,7 @@ module Aws::GameLift
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-gamelift'
-      context[:gem_version] = '1.121.0'
+      context[:gem_version] = '1.122.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -517,6 +517,11 @@ module Aws::BedrockAgentCoreControl
     # @option params [Hash<String,String>] :environment_variables
     #   Environment variables to set in the AgentCore Runtime environment.
     #
+    # @option params [Array<Types::FilesystemConfiguration>] :filesystem_configurations
+    #   The filesystem configurations to mount into the AgentCore Runtime. Use
+    #   filesystem configurations to provide persistent storage to your
+    #   AgentCore Runtime sessions.
+    #
     # @option params [Hash<String,String>] :tags
     #   A map of tag keys and values to assign to the agent runtime. Tags
     #   enable you to categorize your resources in different ways, for
@@ -595,6 +600,13 @@ module Aws::BedrockAgentCoreControl
     #     environment_variables: {
     #       "EnvironmentVariableKey" => "EnvironmentVariableValue",
     #     },
+    #     filesystem_configurations: [
+    #       {
+    #         session_storage: {
+    #           mount_path: "MountPath", # required
+    #         },
+    #       },
+    #     ],
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
@@ -3016,6 +3028,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetAgentRuntimeResponse#authorizer_configuration #authorizer_configuration} => Types::AuthorizerConfiguration
     #   * {Types::GetAgentRuntimeResponse#request_header_configuration #request_header_configuration} => Types::RequestHeaderConfiguration
     #   * {Types::GetAgentRuntimeResponse#metadata_configuration #metadata_configuration} => Types::RuntimeMetadataConfiguration
+    #   * {Types::GetAgentRuntimeResponse#filesystem_configurations #filesystem_configurations} => Array&lt;Types::FilesystemConfiguration&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -3071,6 +3084,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.request_header_configuration.request_header_allowlist #=> Array
     #   resp.request_header_configuration.request_header_allowlist[0] #=> String
     #   resp.metadata_configuration.require_mmdsv2 #=> Boolean
+    #   resp.filesystem_configurations #=> Array
+    #   resp.filesystem_configurations[0].session_storage.mount_path #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetAgentRuntime AWS API Documentation
     #
@@ -4356,6 +4371,9 @@ module Aws::BedrockAgentCoreControl
     # @option params [String] :next_token
     #   A token to retrieve the next page of results.
     #
+    # @option params [String] :name
+    #   The name of the browser profile to filter results by.
+    #
     # @return [Types::ListBrowserProfilesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ListBrowserProfilesResponse#profile_summaries #profile_summaries} => Array&lt;Types::BrowserProfileSummary&gt;
@@ -4368,6 +4386,7 @@ module Aws::BedrockAgentCoreControl
     #   resp = client.list_browser_profiles({
     #     max_results: 1,
     #     next_token: "NextToken",
+    #     name: "BrowserProfileName",
     #   })
     #
     # @example Response structure
@@ -5491,6 +5510,10 @@ module Aws::BedrockAgentCoreControl
     #   Updated environment variables to set in the AgentCore Runtime
     #   environment.
     #
+    # @option params [Array<Types::FilesystemConfiguration>] :filesystem_configurations
+    #   The updated filesystem configurations to mount into the AgentCore
+    #   Runtime.
+    #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier to ensure idempotency of the
     #   request.
@@ -5574,6 +5597,13 @@ module Aws::BedrockAgentCoreControl
     #     environment_variables: {
     #       "EnvironmentVariableKey" => "EnvironmentVariableValue",
     #     },
+    #     filesystem_configurations: [
+    #       {
+    #         session_storage: {
+    #           mount_path: "MountPath", # required
+    #         },
+    #       },
+    #     ],
     #     client_token: "ClientToken",
     #   })
     #
@@ -7037,7 +7067,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.31.0'
+      context[:gem_version] = '1.32.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

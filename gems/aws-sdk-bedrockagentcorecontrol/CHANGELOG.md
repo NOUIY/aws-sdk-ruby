@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.32.0 (2026-03-24)
+------------------
+
+* Feature - Adds SDK support for 1) Persist session state in AgentCore Runtime via filesystemConfigurations in CreateAgentRuntime, UpdateAgentRuntime, and GetAgentRuntime APIs, 2) Optional name-based filtering on AgentCore ListBrowserProfiles API.
+
 1.31.0 (2026-03-19)
 ------------------
 

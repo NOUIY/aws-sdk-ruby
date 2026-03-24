@@ -249,6 +249,8 @@ module Aws::BedrockAgentCoreControl
     EvaluatorType = Shapes::StringShape.new(name: 'EvaluatorType')
     ExceptionLevel = Shapes::StringShape.new(name: 'ExceptionLevel')
     ExtractionConfiguration = Shapes::UnionShape.new(name: 'ExtractionConfiguration')
+    FilesystemConfiguration = Shapes::UnionShape.new(name: 'FilesystemConfiguration')
+    FilesystemConfigurations = Shapes::ListShape.new(name: 'FilesystemConfigurations')
     Filter = Shapes::StructureShape.new(name: 'Filter')
     FilterKeyString = Shapes::StringShape.new(name: 'FilterKeyString')
     FilterList = Shapes::ListShape.new(name: 'FilterList')
@@ -442,6 +444,7 @@ module Aws::BedrockAgentCoreControl
     ModifySelfManagedConfiguration = Shapes::StructureShape.new(name: 'ModifySelfManagedConfiguration')
     ModifySelfManagedConfigurationHistoricalContextWindowSizeInteger = Shapes::IntegerShape.new(name: 'ModifySelfManagedConfigurationHistoricalContextWindowSizeInteger')
     ModifyStrategyConfiguration = Shapes::StructureShape.new(name: 'ModifyStrategyConfiguration')
+    MountPath = Shapes::StringShape.new(name: 'MountPath')
     Name = Shapes::StringShape.new(name: 'Name')
     Namespace = Shapes::StringShape.new(name: 'Namespace')
     NamespacesList = Shapes::ListShape.new(name: 'NamespacesList')
@@ -561,6 +564,7 @@ module Aws::BedrockAgentCoreControl
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     SessionConfig = Shapes::StructureShape.new(name: 'SessionConfig')
     SessionConfigSessionTimeoutMinutesInteger = Shapes::IntegerShape.new(name: 'SessionConfigSessionTimeoutMinutesInteger')
+    SessionStorageConfiguration = Shapes::StructureShape.new(name: 'SessionStorageConfiguration')
     SetTokenVaultCMKRequest = Shapes::StructureShape.new(name: 'SetTokenVaultCMKRequest')
     SetTokenVaultCMKResponse = Shapes::StructureShape.new(name: 'SetTokenVaultCMKResponse')
     SlackOauth2ProviderConfigInput = Shapes::StructureShape.new(name: 'SlackOauth2ProviderConfigInput')
@@ -948,6 +952,7 @@ module Aws::BedrockAgentCoreControl
     CreateAgentRuntimeRequest.add_member(:protocol_configuration, Shapes::ShapeRef.new(shape: ProtocolConfiguration, location_name: "protocolConfiguration"))
     CreateAgentRuntimeRequest.add_member(:lifecycle_configuration, Shapes::ShapeRef.new(shape: LifecycleConfiguration, location_name: "lifecycleConfiguration"))
     CreateAgentRuntimeRequest.add_member(:environment_variables, Shapes::ShapeRef.new(shape: EnvironmentVariablesMap, location_name: "environmentVariables"))
+    CreateAgentRuntimeRequest.add_member(:filesystem_configurations, Shapes::ShapeRef.new(shape: FilesystemConfigurations, location_name: "filesystemConfigurations"))
     CreateAgentRuntimeRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     CreateAgentRuntimeRequest.struct_class = Types::CreateAgentRuntimeRequest
 
@@ -1543,6 +1548,14 @@ module Aws::BedrockAgentCoreControl
     ExtractionConfiguration.add_member_subclass(:unknown, Types::ExtractionConfiguration::Unknown)
     ExtractionConfiguration.struct_class = Types::ExtractionConfiguration
 
+    FilesystemConfiguration.add_member(:session_storage, Shapes::ShapeRef.new(shape: SessionStorageConfiguration, location_name: "sessionStorage"))
+    FilesystemConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    FilesystemConfiguration.add_member_subclass(:session_storage, Types::FilesystemConfiguration::SessionStorage)
+    FilesystemConfiguration.add_member_subclass(:unknown, Types::FilesystemConfiguration::Unknown)
+    FilesystemConfiguration.struct_class = Types::FilesystemConfiguration
+
+    FilesystemConfigurations.member = Shapes::ShapeRef.new(shape: FilesystemConfiguration)
+
     Filter.add_member(:key, Shapes::ShapeRef.new(shape: FilterKeyString, required: true, location_name: "key"))
     Filter.add_member(:operator, Shapes::ShapeRef.new(shape: FilterOperator, required: true, location_name: "operator"))
     Filter.add_member(:value, Shapes::ShapeRef.new(shape: FilterValue, required: true, location_name: "value"))
@@ -1653,6 +1666,7 @@ module Aws::BedrockAgentCoreControl
     GetAgentRuntimeResponse.add_member(:authorizer_configuration, Shapes::ShapeRef.new(shape: AuthorizerConfiguration, location_name: "authorizerConfiguration"))
     GetAgentRuntimeResponse.add_member(:request_header_configuration, Shapes::ShapeRef.new(shape: RequestHeaderConfiguration, location_name: "requestHeaderConfiguration"))
     GetAgentRuntimeResponse.add_member(:metadata_configuration, Shapes::ShapeRef.new(shape: RuntimeMetadataConfiguration, location_name: "metadataConfiguration"))
+    GetAgentRuntimeResponse.add_member(:filesystem_configurations, Shapes::ShapeRef.new(shape: FilesystemConfigurations, location_name: "filesystemConfigurations"))
     GetAgentRuntimeResponse.struct_class = Types::GetAgentRuntimeResponse
 
     GetApiKeyCredentialProviderRequest.add_member(:name, Shapes::ShapeRef.new(shape: CredentialProviderName, required: true, location_name: "name"))
@@ -1997,6 +2011,7 @@ module Aws::BedrockAgentCoreControl
 
     ListBrowserProfilesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
     ListBrowserProfilesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListBrowserProfilesRequest.add_member(:name, Shapes::ShapeRef.new(shape: BrowserProfileName, location_name: "name"))
     ListBrowserProfilesRequest.struct_class = Types::ListBrowserProfilesRequest
 
     ListBrowserProfilesResponse.add_member(:profile_summaries, Shapes::ShapeRef.new(shape: BrowserProfileSummaries, required: true, location_name: "profileSummaries"))
@@ -2606,6 +2621,9 @@ module Aws::BedrockAgentCoreControl
     SessionConfig.add_member(:session_timeout_minutes, Shapes::ShapeRef.new(shape: SessionConfigSessionTimeoutMinutesInteger, required: true, location_name: "sessionTimeoutMinutes"))
     SessionConfig.struct_class = Types::SessionConfig
 
+    SessionStorageConfiguration.add_member(:mount_path, Shapes::ShapeRef.new(shape: MountPath, required: true, location_name: "mountPath"))
+    SessionStorageConfiguration.struct_class = Types::SessionStorageConfiguration
+
     SetTokenVaultCMKRequest.add_member(:token_vault_id, Shapes::ShapeRef.new(shape: TokenVaultIdType, location_name: "tokenVaultId"))
     SetTokenVaultCMKRequest.add_member(:kms_configuration, Shapes::ShapeRef.new(shape: KmsConfiguration, required: true, location_name: "kmsConfiguration"))
     SetTokenVaultCMKRequest.struct_class = Types::SetTokenVaultCMKRequest
@@ -2813,6 +2831,7 @@ module Aws::BedrockAgentCoreControl
     UpdateAgentRuntimeRequest.add_member(:lifecycle_configuration, Shapes::ShapeRef.new(shape: LifecycleConfiguration, location_name: "lifecycleConfiguration"))
     UpdateAgentRuntimeRequest.add_member(:metadata_configuration, Shapes::ShapeRef.new(shape: RuntimeMetadataConfiguration, location_name: "metadataConfiguration"))
     UpdateAgentRuntimeRequest.add_member(:environment_variables, Shapes::ShapeRef.new(shape: EnvironmentVariablesMap, location_name: "environmentVariables"))
+    UpdateAgentRuntimeRequest.add_member(:filesystem_configurations, Shapes::ShapeRef.new(shape: FilesystemConfigurations, location_name: "filesystemConfigurations"))
     UpdateAgentRuntimeRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     UpdateAgentRuntimeRequest.struct_class = Types::UpdateAgentRuntimeRequest
 

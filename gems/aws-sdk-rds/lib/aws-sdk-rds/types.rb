@@ -730,10 +730,6 @@ module Aws::RDS
       include Aws::Structure
     end
 
-    # <zonbook />
-    #
-    # <xhtml />
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/BackupPolicyNotFoundFault AWS API Documentation
     #
     class BackupPolicyNotFoundFault < Aws::EmptyStructure; end
@@ -3423,6 +3419,15 @@ module Aws::RDS
     #   PostgreSQL engines.
     #   @return [String]
     #
+    # @!attribute [rw] with_express_configuration
+    #   Specifies to create an Aurora DB Cluster with express configuration
+    #   in seconds. Express configuration provides a cluster with a writer
+    #   instance and feature specific values set to all other input
+    #   parameters of this API.
+    #
+    #   Valid for Cluster Type: Aurora DB clusters
+    #   @return [Boolean]
+    #
     # @!attribute [rw] source_region
     #   The source region of the snapshot. This is only needed when the
     #   shapshot is encrypted and in a different region.
@@ -3489,6 +3494,7 @@ module Aws::RDS
       :engine_lifecycle_support,
       :tag_specifications,
       :master_user_authentication_type,
+      :with_express_configuration,
       :source_region)
       SENSITIVE = [:master_user_password, :pre_signed_url]
       include Aws::Structure
@@ -7956,6 +7962,21 @@ module Aws::RDS
     #   For more information, see CreateDBCluster.
     #   @return [String]
     #
+    # @!attribute [rw] vpc_networking_enabled
+    #   Indicates whether the DB cluster uses VPC-based networking.
+    #
+    #   This setting is applicable only for Aurora PostgreSQL clusters
+    #   created through express configuration.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] internet_access_gateway_enabled
+    #   Indicates whether the DB cluster has internet-based connectivity
+    #   enabled through an internet access gateway.
+    #
+    #   This setting is applicable only for Aurora PostgreSQL clusters
+    #   created through express configuration.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/DBCluster AWS API Documentation
     #
     class DBCluster < Struct.new(
@@ -8044,7 +8065,9 @@ module Aws::RDS
       :limitless_database,
       :cluster_scalability_type,
       :certificate_details,
-      :engine_lifecycle_support)
+      :engine_lifecycle_support,
+      :vpc_networking_enabled,
+      :internet_access_gateway_enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -25238,6 +25261,32 @@ module Aws::RDS
     #   ^
     #   @return [Array<Types::TagSpecification>]
     #
+    # @!attribute [rw] enable_vpc_networking
+    #   Specifies whether to enable VPC networking for the restored DB
+    #   cluster. Set this parameter to `false` to create a cluster without
+    #   the VPC network interface (ENI).
+    #
+    #   This parameter must be used together with
+    #   `EnableInternetAccessGateway`. When both parameters are specified,
+    #   IAM database authentication is required. You must also specify
+    #   `EnableIAMDatabaseAuthentication`.
+    #
+    #   Valid for Cluster Type: Aurora PostgreSQL clusters
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] enable_internet_access_gateway
+    #   Specifies that the restored DB cluster should use internet-based
+    #   connectivity through an internet access gateway. This allows clients
+    #   to connect to the cluster over the internet without requiring a VPC.
+    #
+    #   This parameter must be used together with `EnableVPCNetworking` set
+    #   to `false`. When both parameters are specified, IAM database
+    #   authentication is required. You must also specify
+    #   `EnableIAMDatabaseAuthentication`.
+    #
+    #   Valid for Cluster Type: Aurora PostgreSQL clusters
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/RestoreDBClusterFromSnapshotMessage AWS API Documentation
     #
     class RestoreDBClusterFromSnapshotMessage < Struct.new(
@@ -25278,7 +25327,9 @@ module Aws::RDS
       :backup_retention_period,
       :preferred_backup_window,
       :engine_lifecycle_support,
-      :tag_specifications)
+      :tag_specifications,
+      :enable_vpc_networking,
+      :enable_internet_access_gateway)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -25910,6 +25961,32 @@ module Aws::RDS
     #   ^
     #   @return [Array<Types::TagSpecification>]
     #
+    # @!attribute [rw] enable_vpc_networking
+    #   Specifies whether to enable VPC networking for the restored DB
+    #   cluster. Set this parameter to `false` to create a cluster without
+    #   the VPC network interface (ENI).
+    #
+    #   This parameter must be used together with
+    #   `EnableInternetAccessGateway`. When both parameters are specified,
+    #   IAM database authentication is required. You must also specify
+    #   `EnableIAMDatabaseAuthentication`.
+    #
+    #   Valid for Cluster Type: Aurora PostgreSQL clusters
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] enable_internet_access_gateway
+    #   Specifies that the restored DB cluster should use internet-based
+    #   connectivity through an internet access gateway. This allows clients
+    #   to connect to the cluster over the internet without requiring a VPC.
+    #
+    #   This parameter must be used together with `EnableVPCNetworking` set
+    #   to `false`. When both parameters are specified, IAM database
+    #   authentication is required. You must also specify
+    #   `EnableIAMDatabaseAuthentication`.
+    #
+    #   Valid for Cluster Type: Aurora PostgreSQL clusters
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/RestoreDBClusterToPointInTimeMessage AWS API Documentation
     #
     class RestoreDBClusterToPointInTimeMessage < Struct.new(
@@ -25950,7 +26027,9 @@ module Aws::RDS
       :backup_retention_period,
       :preferred_backup_window,
       :engine_lifecycle_support,
-      :tag_specifications)
+      :tag_specifications,
+      :enable_vpc_networking,
+      :enable_internet_access_gateway)
       SENSITIVE = []
       include Aws::Structure
     end
