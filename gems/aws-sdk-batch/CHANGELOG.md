@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.140.0 (2026-03-25)
+------------------
+
+* Feature - Documentation-only update for AWS Batch.
+
 1.139.0 (2026-03-23)
 ------------------
 

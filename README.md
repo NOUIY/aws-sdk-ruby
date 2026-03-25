@@ -469,6 +469,7 @@ RubyGems.org page under "LINKS" section.
 | AWS Systems Manager for SAP                           | Aws::SsmSap                              | aws-sdk-ssmsap                              | 2018-05-10  |
 | AWS Telco Network Builder                             | Aws::Tnb                                 | aws-sdk-tnb                                 | 2008-10-21  |
 | AWS Transfer Family                                   | Aws::Transfer                            | aws-sdk-transfer                            | 2018-11-05  |
+| AWS User Experience Customization                     | Aws::Uxc                                 | aws-sdk-uxc                                 | 2024-07-01  |
 | AWS User Notifications                                | Aws::Notifications                       | aws-sdk-notifications                       | 2018-05-10  |
 | AWS User Notifications Contacts                       | Aws::NotificationsContacts               | aws-sdk-notificationscontacts               | 2018-05-10  |
 | AWS WAF                                               | Aws::WAF                                 | aws-sdk-waf                                 | 2015-08-24  |

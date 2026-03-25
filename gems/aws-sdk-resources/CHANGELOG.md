@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+3.257.0 (2026-03-25)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-uxc` gem.
+
 3.256.0 (2026-03-11)
 ------------------
 

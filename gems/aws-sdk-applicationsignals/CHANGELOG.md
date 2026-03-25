@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.38.0 (2026-03-25)
+------------------
+
+* Feature - This release adds support for creating SLOs on RUM appMonitors, Synthetics canaries and services.
+
 1.37.0 (2026-03-18)
 ------------------
 

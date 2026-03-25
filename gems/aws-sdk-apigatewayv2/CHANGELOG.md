@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.92.0 (2026-03-25)
+------------------
+
+* Feature - Added DISABLE IN PROGRESS and DISABLE FAILED Portal statuses.
+
 1.91.0 (2026-03-18)
 ------------------
 

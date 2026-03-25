@@ -646,6 +646,7 @@ module Aws
             'Transfer' => 'transfer',
             'Translate' => 'translate',
             'TrustedAdvisor' => 'trustedadvisor',
+            'Uxc' => 'uxc',
             'VPCLattice' => 'vpc-lattice',
             'VerifiedPermissions' => 'verifiedpermissions',
             'VoiceID' => 'voiceid',

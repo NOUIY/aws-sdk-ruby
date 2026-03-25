@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.34.0 (2026-03-25)
+------------------
+
+* Feature - The Variable Payments APIs enable AWS Marketplace Sellers to perform manage their payment requests (send, get, list, cancel).
+
 1.33.0 (2026-03-18)
 ------------------
 

@@ -7724,12 +7724,13 @@ module Aws::Batch
     # @!attribute [rw] job_status
     #   The job status used to filter service jobs in the specified queue.
     #   If the `filters` parameter is specified, the `jobStatus` parameter
-    #   is ignored and jobs with any status are returned. The exception is
-    #   the `SHARE_IDENTIFIER` filter and `jobStatus` can be used together.
-    #   If you don't specify a status, only `RUNNING` jobs are returned.
+    #   is ignored and jobs with any status are returned. The exceptions are
+    #   the `SHARE_IDENTIFIER` filter and `QUOTA_SHARE_NAME` filter, which
+    #   can be used with `jobStatus`. If you don't specify a status, only
+    #   `RUNNING` jobs are returned.
     #
-    #   <note markdown="1"> The `SHARE_IDENTIFIER` filter and the `jobStatus` field can be used
-    #   together to filter results.
+    #   <note markdown="1"> The `SHARE_IDENTIFIER` filter or `QUOTA_SHARE_NAME` filter can be
+    #   used with the `jobStatus` field to filter results.
     #
     #    </note>
     #   @return [String]
@@ -7763,12 +7764,12 @@ module Aws::Batch
     # @!attribute [rw] filters
     #   The filter to apply to the query. Only one filter can be used at a
     #   time. When the filter is used, `jobStatus` is ignored with the
-    #   exception that `SHARE_IDENTIFIER` and `jobStatus` can be used
-    #   together. The results are sorted by the `createdAt` field, with the
-    #   most recent jobs being first.
+    #   exception that `SHARE_IDENTIFIER` or `QUOTA_SHARE_NAME` and
+    #   `jobStatus` can be used together. The results are sorted by the
+    #   `createdAt` field, with the most recent jobs being first.
     #
-    #   <note markdown="1"> The `SHARE_IDENTIFIER` filter and the `jobStatus` field can be used
-    #   together to filter results.
+    #   <note markdown="1"> The `SHARE_IDENTIFIER` or `QUOTA_SHARE_NAME` filter and the
+    #   `jobStatus` field can be used together to filter results.
     #
     #    </note>
     #
@@ -7800,6 +7801,10 @@ module Aws::Batch
     #
     #   : The value for the filter is the fairshare scheduling share
     #     identifier.
+    #
+    #   QUOTA\_SHARE\_NAME
+    #
+    #   : The value for the filter is the quota management share name.
     #   @return [Array<Types::KeyValuesPair>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ListServiceJobsRequest AWS API Documentation

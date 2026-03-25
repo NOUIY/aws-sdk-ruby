@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1230.0 (2026-03-25)
+------------------
+
+* Feature - Added support for enumerating regions for  `Aws::Uxc`.
+
 1.1229.0 (2026-03-20)
 ------------------
 

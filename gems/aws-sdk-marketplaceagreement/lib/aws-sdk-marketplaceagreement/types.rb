@@ -230,6 +230,79 @@ module Aws::MarketplaceAgreement
       include Aws::Structure
     end
 
+    # @!attribute [rw] payment_request_id
+    #   The unique identifier of the payment request to cancel.
+    #   @return [String]
+    #
+    # @!attribute [rw] agreement_id
+    #   The unique identifier of the agreement associated with the payment
+    #   request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/CancelAgreementPaymentRequestInput AWS API Documentation
+    #
+    class CancelAgreementPaymentRequestInput < Struct.new(
+      :payment_request_id,
+      :agreement_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] payment_request_id
+    #   The unique identifier of the cancelled payment request.
+    #   @return [String]
+    #
+    # @!attribute [rw] agreement_id
+    #   The unique identifier of the agreement associated with this payment
+    #   request.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The updated status of the payment request, which is `CANCELLED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The descriptive name of the payment request.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The detailed description of the payment request, if provided.
+    #   @return [String]
+    #
+    # @!attribute [rw] charge_amount
+    #   The amount that was requested to be charged.
+    #   @return [String]
+    #
+    # @!attribute [rw] currency_code
+    #   The currency code for the charge amount.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time when the payment request was originally created,
+    #   in ISO 8601 format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time when the payment request was cancelled, in ISO
+    #   8601 format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/CancelAgreementPaymentRequestOutput AWS API Documentation
+    #
+    class CancelAgreementPaymentRequestOutput < Struct.new(
+      :payment_request_id,
+      :agreement_id,
+      :status,
+      :name,
+      :description,
+      :charge_amount,
+      :currency_code,
+      :created_at,
+      :updated_at)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
     # Defines a prepaid payment model that allows buyers to configure the
     # entitlements they want to purchase and the duration.
     #
@@ -307,6 +380,35 @@ module Aws::MarketplaceAgreement
       :selector,
       :constraints,
       :rate_card)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The request could not be completed due to a conflict with the current
+    # state of the resource.
+    #
+    # @!attribute [rw] request_id
+    #   The unique identifier for the error.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_id
+    #   The unique identifier for the resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_type
+    #   The type of resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/ConflictException AWS API Documentation
+    #
+    class ConflictException < Struct.new(
+      :request_id,
+      :message,
+      :resource_id,
+      :resource_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -634,6 +736,106 @@ module Aws::MarketplaceAgreement
       include Aws::Structure
     end
 
+    # @!attribute [rw] payment_request_id
+    #   The identifier of the payment request.
+    #   @return [String]
+    #
+    # @!attribute [rw] agreement_id
+    #   The unique identifier of the agreement associated with the payment
+    #   request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/GetAgreementPaymentRequestInput AWS API Documentation
+    #
+    class GetAgreementPaymentRequestInput < Struct.new(
+      :payment_request_id,
+      :agreement_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] payment_request_id
+    #   The unique identifier of the payment request.
+    #   @return [String]
+    #
+    # @!attribute [rw] agreement_id
+    #   The unique identifier of the agreement associated with this payment
+    #   request. Use `DescribeAgreement` to retrieve full agreement details.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the payment request. Possible values include:
+    #
+    #   * `VALIDATING` – The payment request is being validated against
+    #     agreement terms.
+    #
+    #   * `VALIDATION_FAILED` – The payment request failed validation.
+    #
+    #   * `PENDING_APPROVAL` – The payment request is awaiting buyer action.
+    #
+    #   * `APPROVED` – The buyer has approved the payment request.
+    #
+    #   * `REJECTED` – The buyer has rejected the payment request.
+    #
+    #   * `CANCELLED` – The seller has cancelled the payment request.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   An optional message providing additional context about the payment
+    #   request status, such as a rejection reason or validation failure
+    #   details.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The descriptive name of the payment request.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The detailed description of the payment request, if provided.
+    #   @return [String]
+    #
+    # @!attribute [rw] charge_id
+    #   The unique identifier of the charge created after the payment
+    #   request is approved. This field is only present for approved payment
+    #   requests and follows the pattern `ch-[a-zA-Z0-9]+`.
+    #   @return [String]
+    #
+    # @!attribute [rw] charge_amount
+    #   The amount charged or to be charged to the buyer.
+    #   @return [String]
+    #
+    # @!attribute [rw] currency_code
+    #   The currency code for the charge amount.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time when the payment request was created, in ISO 8601
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time when the payment request was last updated, in ISO
+    #   8601 format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/GetAgreementPaymentRequestOutput AWS API Documentation
+    #
+    class GetAgreementPaymentRequestOutput < Struct.new(
+      :payment_request_id,
+      :agreement_id,
+      :status,
+      :status_message,
+      :name,
+      :description,
+      :charge_id,
+      :charge_amount,
+      :currency_code,
+      :created_at,
+      :updated_at)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
     # @!attribute [rw] agreement_id
     #   The unique identifier of the agreement.
     #   @return [String]
@@ -734,6 +936,137 @@ module Aws::MarketplaceAgreement
     class LegalTerm < Struct.new(
       :type,
       :documents)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] party_type
+    #   The party type for the payment requests. Required parameter. Use
+    #   `Proposer` to list payment requests where you are the seller, or
+    #   `Acceptor` to list payment requests where you are the buyer.
+    #   @return [String]
+    #
+    # @!attribute [rw] agreement_type
+    #   An optional parameter to list payment requests by agreement type
+    #   (e.g., `PurchaseAgreement`).
+    #   @return [String]
+    #
+    # @!attribute [rw] catalog
+    #   An optional parameter to list payment requests by catalog (e.g.,
+    #   `AWSMarketplace`).
+    #   @return [String]
+    #
+    # @!attribute [rw] agreement_id
+    #   An optional parameter to list payment requests for a specific
+    #   agreement.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   An optional parameter to list payment requests by status. Valid
+    #   values include `VALIDATING`, `VALIDATION_FAILED`,
+    #   `PENDING_APPROVAL`, `APPROVED`, `REJECTED`, and `CANCELLED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of payment requests to return in a single
+    #   response (1-50). Default is 50.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   A token to specify where to start pagination. Use the `nextToken`
+    #   value from a previous response to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/ListAgreementPaymentRequestsInput AWS API Documentation
+    #
+    class ListAgreementPaymentRequestsInput < Struct.new(
+      :party_type,
+      :agreement_type,
+      :catalog,
+      :agreement_id,
+      :status,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   A token to retrieve the next page of results. If `null`, there are
+    #   no more results to retrieve.
+    #   @return [String]
+    #
+    # @!attribute [rw] items
+    #   An array of `PaymentRequestSummary` objects containing summary
+    #   information about each payment request.
+    #   @return [Array<Types::PaymentRequestSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/ListAgreementPaymentRequestsOutput AWS API Documentation
+    #
+    class ListAgreementPaymentRequestsOutput < Struct.new(
+      :next_token,
+      :items)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary view of a payment request.
+    #
+    # @!attribute [rw] payment_request_id
+    #   The unique identifier of the payment request.
+    #   @return [String]
+    #
+    # @!attribute [rw] agreement_id
+    #   The unique identifier of the agreement associated with this payment
+    #   request.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the payment request. Possible values include
+    #   `VALIDATING`, `VALIDATION_FAILED`, `PENDING_APPROVAL`, `APPROVED`,
+    #   `REJECTED`, and `CANCELLED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The descriptive name of the payment request.
+    #   @return [String]
+    #
+    # @!attribute [rw] charge_id
+    #   The unique identifier of the charge created after the payment
+    #   request is approved. This field is only present for approved payment
+    #   requests.
+    #   @return [String]
+    #
+    # @!attribute [rw] charge_amount
+    #   The amount charged or to be charged to the buyer.
+    #   @return [String]
+    #
+    # @!attribute [rw] currency_code
+    #   The currency code for the charge amount.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time when the payment request was created, in ISO 8601
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time when the payment request was last updated, in ISO
+    #   8601 format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/PaymentRequestSummary AWS API Documentation
+    #
+    class PaymentRequestSummary < Struct.new(
+      :payment_request_id,
+      :agreement_id,
+      :status,
+      :name,
+      :charge_id,
+      :charge_amount,
+      :currency_code,
+      :created_at,
+      :updated_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1083,6 +1416,106 @@ module Aws::MarketplaceAgreement
       :type,
       :value)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] agreement_id
+    #   The unique identifier of the agreement for which the payment request
+    #   is being submitted. Use `GetAgreementTerms` to retrieve agreement
+    #   term details.
+    #   @return [String]
+    #
+    # @!attribute [rw] term_id
+    #   The unique identifier of the `VariablePaymentTerm` for the agreement
+    #   that the payment request is being sent for.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   A descriptive name for the payment request (5-64 characters).
+    #   @return [String]
+    #
+    # @!attribute [rw] charge_amount
+    #   The amount requested to be charged to the buyer, positive decimal
+    #   value in the currency of the accepted term.
+    #
+    #   <note markdown="1"> A `ValidationException` is returned if the `chargeAmount` exceeds
+    #   the available balance, if the agreement doesn't have an active
+    #   `VariablePaymentTerm`, or if the `termId` is invalid.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   An optional detailed description of the payment request (1-2000
+    #   characters).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/SendAgreementPaymentRequestInput AWS API Documentation
+    #
+    class SendAgreementPaymentRequestInput < Struct.new(
+      :client_token,
+      :agreement_id,
+      :term_id,
+      :name,
+      :charge_amount,
+      :description)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] payment_request_id
+    #   The unique identifier for the sent payment request.
+    #   @return [String]
+    #
+    # @!attribute [rw] agreement_id
+    #   The agreement identifier for this payment request.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the payment request. The initial status is
+    #   `PENDING_APPROVAL`.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The descriptive name of the payment request.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The detailed description of the payment request, if provided.
+    #   @return [String]
+    #
+    # @!attribute [rw] charge_amount
+    #   The amount being charged to the buyer.
+    #   @return [String]
+    #
+    # @!attribute [rw] currency_code
+    #   The currency code for the charge amount (e.g., `USD`).
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The time when the payment request was created, in ISO 8601 format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/SendAgreementPaymentRequestOutput AWS API Documentation
+    #
+    class SendAgreementPaymentRequestOutput < Struct.new(
+      :payment_request_id,
+      :agreement_id,
+      :status,
+      :name,
+      :description,
+      :charge_amount,
+      :currency_code,
+      :created_at)
+      SENSITIVE = [:description]
       include Aws::Structure
     end
 

@@ -483,6 +483,64 @@ module Aws::MarketplaceAgreement
 
     # @!group API Operations
 
+    # Allows sellers (proposers) to cancel a payment request that is in
+    # `PENDING_APPROVAL` status. Once cancelled, the payment request
+    # transitions to `CANCELLED` status and can no longer be accepted or
+    # rejected by the buyer.
+    #
+    # <note markdown="1"> Only payment requests in `PENDING_APPROVAL` status can be cancelled. A
+    # `ConflictException` is thrown if the payment request is in any other
+    # status.
+    #
+    #  </note>
+    #
+    # @option params [required, String] :payment_request_id
+    #   The unique identifier of the payment request to cancel.
+    #
+    # @option params [required, String] :agreement_id
+    #   The unique identifier of the agreement associated with the payment
+    #   request.
+    #
+    # @return [Types::CancelAgreementPaymentRequestOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CancelAgreementPaymentRequestOutput#payment_request_id #payment_request_id} => String
+    #   * {Types::CancelAgreementPaymentRequestOutput#agreement_id #agreement_id} => String
+    #   * {Types::CancelAgreementPaymentRequestOutput#status #status} => String
+    #   * {Types::CancelAgreementPaymentRequestOutput#name #name} => String
+    #   * {Types::CancelAgreementPaymentRequestOutput#description #description} => String
+    #   * {Types::CancelAgreementPaymentRequestOutput#charge_amount #charge_amount} => String
+    #   * {Types::CancelAgreementPaymentRequestOutput#currency_code #currency_code} => String
+    #   * {Types::CancelAgreementPaymentRequestOutput#created_at #created_at} => Time
+    #   * {Types::CancelAgreementPaymentRequestOutput#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.cancel_agreement_payment_request({
+    #     payment_request_id: "PaymentRequestId", # required
+    #     agreement_id: "AgreementId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.payment_request_id #=> String
+    #   resp.agreement_id #=> String
+    #   resp.status #=> String, one of "VALIDATING", "VALIDATION_FAILED", "PENDING_APPROVAL", "APPROVED", "REJECTED", "CANCELLED"
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.charge_amount #=> String
+    #   resp.currency_code #=> String
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/CancelAgreementPaymentRequest AWS API Documentation
+    #
+    # @overload cancel_agreement_payment_request(params = {})
+    # @param [Hash] params ({})
+    def cancel_agreement_payment_request(params = {}, options = {})
+      req = build_request(:cancel_agreement_payment_request, params)
+      req.send_request(options)
+    end
+
     # Provides details about an agreement, such as the proposer, acceptor,
     # start date, and end date.
     #
@@ -532,6 +590,69 @@ module Aws::MarketplaceAgreement
     # @param [Hash] params ({})
     def describe_agreement(params = {}, options = {})
       req = build_request(:describe_agreement, params)
+      req.send_request(options)
+    end
+
+    # Retrieves detailed information about a specific payment request. Both
+    # sellers (proposers) and buyers (acceptors) can use this operation to
+    # view payment requests associated with their agreements. The response
+    # includes the current status, charge details, timestamps, and the
+    # charge ID if the request has been approved.
+    #
+    # <note markdown="1"> The calling identity must be either the acceptor or proposer of the
+    # payment request. A `ResourceNotFoundException` is returned if the
+    # payment request does not exist.
+    #
+    #  </note>
+    #
+    # @option params [required, String] :payment_request_id
+    #   The identifier of the payment request.
+    #
+    # @option params [required, String] :agreement_id
+    #   The unique identifier of the agreement associated with the payment
+    #   request.
+    #
+    # @return [Types::GetAgreementPaymentRequestOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetAgreementPaymentRequestOutput#payment_request_id #payment_request_id} => String
+    #   * {Types::GetAgreementPaymentRequestOutput#agreement_id #agreement_id} => String
+    #   * {Types::GetAgreementPaymentRequestOutput#status #status} => String
+    #   * {Types::GetAgreementPaymentRequestOutput#status_message #status_message} => String
+    #   * {Types::GetAgreementPaymentRequestOutput#name #name} => String
+    #   * {Types::GetAgreementPaymentRequestOutput#description #description} => String
+    #   * {Types::GetAgreementPaymentRequestOutput#charge_id #charge_id} => String
+    #   * {Types::GetAgreementPaymentRequestOutput#charge_amount #charge_amount} => String
+    #   * {Types::GetAgreementPaymentRequestOutput#currency_code #currency_code} => String
+    #   * {Types::GetAgreementPaymentRequestOutput#created_at #created_at} => Time
+    #   * {Types::GetAgreementPaymentRequestOutput#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_agreement_payment_request({
+    #     payment_request_id: "PaymentRequestId", # required
+    #     agreement_id: "AgreementId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.payment_request_id #=> String
+    #   resp.agreement_id #=> String
+    #   resp.status #=> String, one of "VALIDATING", "VALIDATION_FAILED", "PENDING_APPROVAL", "APPROVED", "REJECTED", "CANCELLED"
+    #   resp.status_message #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.charge_id #=> String
+    #   resp.charge_amount #=> String
+    #   resp.currency_code #=> String
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/GetAgreementPaymentRequest AWS API Documentation
+    #
+    # @overload get_agreement_payment_request(params = {})
+    # @param [Hash] params ({})
+    def get_agreement_payment_request(params = {}, options = {})
+      req = build_request(:get_agreement_payment_request, params)
       req.send_request(options)
     end
 
@@ -653,6 +774,89 @@ module Aws::MarketplaceAgreement
     # @param [Hash] params ({})
     def get_agreement_terms(params = {}, options = {})
       req = build_request(:get_agreement_terms, params)
+      req.send_request(options)
+    end
+
+    # Lists payment requests available to you as a seller or buyer. Both
+    # sellers (proposers) and buyers (acceptors) can use this operation to
+    # find payment requests by specifying their party type and applying
+    # optional parameters.
+    #
+    # <note markdown="1"> `PartyType` is a required parameter. A `ValidationException` is
+    # returned if `PartyType` is not provided. Pagination is supported
+    # through `maxResults` (1-50, default 50) and `nextToken` parameters.
+    #
+    #  </note>
+    #
+    # @option params [required, String] :party_type
+    #   The party type for the payment requests. Required parameter. Use
+    #   `Proposer` to list payment requests where you are the seller, or
+    #   `Acceptor` to list payment requests where you are the buyer.
+    #
+    # @option params [String] :agreement_type
+    #   An optional parameter to list payment requests by agreement type
+    #   (e.g., `PurchaseAgreement`).
+    #
+    # @option params [String] :catalog
+    #   An optional parameter to list payment requests by catalog (e.g.,
+    #   `AWSMarketplace`).
+    #
+    # @option params [String] :agreement_id
+    #   An optional parameter to list payment requests for a specific
+    #   agreement.
+    #
+    # @option params [String] :status
+    #   An optional parameter to list payment requests by status. Valid values
+    #   include `VALIDATING`, `VALIDATION_FAILED`, `PENDING_APPROVAL`,
+    #   `APPROVED`, `REJECTED`, and `CANCELLED`.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of payment requests to return in a single response
+    #   (1-50). Default is 50.
+    #
+    # @option params [String] :next_token
+    #   A token to specify where to start pagination. Use the `nextToken`
+    #   value from a previous response to retrieve the next page of results.
+    #
+    # @return [Types::ListAgreementPaymentRequestsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAgreementPaymentRequestsOutput#next_token #next_token} => String
+    #   * {Types::ListAgreementPaymentRequestsOutput#items #items} => Array&lt;Types::PaymentRequestSummary&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_agreement_payment_requests({
+    #     party_type: "PartyType", # required
+    #     agreement_type: "AgreementType",
+    #     catalog: "Catalog",
+    #     agreement_id: "AgreementId",
+    #     status: "VALIDATING", # accepts VALIDATING, VALIDATION_FAILED, PENDING_APPROVAL, APPROVED, REJECTED, CANCELLED
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.items #=> Array
+    #   resp.items[0].payment_request_id #=> String
+    #   resp.items[0].agreement_id #=> String
+    #   resp.items[0].status #=> String, one of "VALIDATING", "VALIDATION_FAILED", "PENDING_APPROVAL", "APPROVED", "REJECTED", "CANCELLED"
+    #   resp.items[0].name #=> String
+    #   resp.items[0].charge_id #=> String
+    #   resp.items[0].charge_amount #=> String
+    #   resp.items[0].currency_code #=> String
+    #   resp.items[0].created_at #=> Time
+    #   resp.items[0].updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/ListAgreementPaymentRequests AWS API Documentation
+    #
+    # @overload list_agreement_payment_requests(params = {})
+    # @param [Hash] params ({})
+    def list_agreement_payment_requests(params = {}, options = {})
+      req = build_request(:list_agreement_payment_requests, params)
       req.send_request(options)
     end
 
@@ -847,6 +1051,94 @@ module Aws::MarketplaceAgreement
       req.send_request(options)
     end
 
+    # Allows sellers (proposers) to submit a payment request to buyers
+    # (acceptors) for a specific charge amount for an agreement that
+    # includes a `VariablePaymentTerm`. The payment request is created in
+    # `PENDING_APPROVAL` status, at which point the buyer can accept or
+    # reject it.
+    #
+    # <note markdown="1"> The agreement must be active and have a `VariablePaymentTerm` to
+    # support payment requests. The `chargeAmount` must not exceed the
+    # remaining available balance under the `VariablePaymentTerm`
+    # `maxTotalChargeAmount`.
+    #
+    #  </note>
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, String] :agreement_id
+    #   The unique identifier of the agreement for which the payment request
+    #   is being submitted. Use `GetAgreementTerms` to retrieve agreement term
+    #   details.
+    #
+    # @option params [required, String] :term_id
+    #   The unique identifier of the `VariablePaymentTerm` for the agreement
+    #   that the payment request is being sent for.
+    #
+    # @option params [required, String] :name
+    #   A descriptive name for the payment request (5-64 characters).
+    #
+    # @option params [required, String] :charge_amount
+    #   The amount requested to be charged to the buyer, positive decimal
+    #   value in the currency of the accepted term.
+    #
+    #   <note markdown="1"> A `ValidationException` is returned if the `chargeAmount` exceeds the
+    #   available balance, if the agreement doesn't have an active
+    #   `VariablePaymentTerm`, or if the `termId` is invalid.
+    #
+    #    </note>
+    #
+    # @option params [String] :description
+    #   An optional detailed description of the payment request (1-2000
+    #   characters).
+    #
+    # @return [Types::SendAgreementPaymentRequestOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SendAgreementPaymentRequestOutput#payment_request_id #payment_request_id} => String
+    #   * {Types::SendAgreementPaymentRequestOutput#agreement_id #agreement_id} => String
+    #   * {Types::SendAgreementPaymentRequestOutput#status #status} => String
+    #   * {Types::SendAgreementPaymentRequestOutput#name #name} => String
+    #   * {Types::SendAgreementPaymentRequestOutput#description #description} => String
+    #   * {Types::SendAgreementPaymentRequestOutput#charge_amount #charge_amount} => String
+    #   * {Types::SendAgreementPaymentRequestOutput#currency_code #currency_code} => String
+    #   * {Types::SendAgreementPaymentRequestOutput#created_at #created_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.send_agreement_payment_request({
+    #     client_token: "ClientToken",
+    #     agreement_id: "AgreementId", # required
+    #     term_id: "TermId", # required
+    #     name: "PaymentRequestName", # required
+    #     charge_amount: "PositiveAmountUpto8Decimals", # required
+    #     description: "PaymentRequestDescription",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.payment_request_id #=> String
+    #   resp.agreement_id #=> String
+    #   resp.status #=> String, one of "VALIDATING", "VALIDATION_FAILED", "PENDING_APPROVAL", "APPROVED", "REJECTED", "CANCELLED"
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.charge_amount #=> String
+    #   resp.currency_code #=> String
+    #   resp.created_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/SendAgreementPaymentRequest AWS API Documentation
+    #
+    # @overload send_agreement_payment_request(params = {})
+    # @param [Hash] params ({})
+    def send_agreement_payment_request(params = {}, options = {})
+      req = build_request(:send_agreement_payment_request, params)
+      req.send_request(options)
+    end
+
     # @!endgroup
 
     # @param params ({})
@@ -865,7 +1157,7 @@ module Aws::MarketplaceAgreement
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-marketplaceagreement'
-      context[:gem_version] = '1.33.0'
+      context[:gem_version] = '1.34.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

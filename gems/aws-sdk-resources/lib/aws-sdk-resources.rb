@@ -408,6 +408,7 @@ module Aws
   autoload :Transfer, 'aws-sdk-transfer'
   autoload :Translate, 'aws-sdk-translate'
   autoload :TrustedAdvisor, 'aws-sdk-trustedadvisor'
+  autoload :Uxc, 'aws-sdk-uxc'
   autoload :VPCLattice, 'aws-sdk-vpclattice'
   autoload :VerifiedPermissions, 'aws-sdk-verifiedpermissions'
   autoload :VoiceID, 'aws-sdk-voiceid'

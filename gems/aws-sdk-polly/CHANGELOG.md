@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.123.0 (2026-03-25)
+------------------
+
+* Feature - Add support for Mu-law and A-law codecs for output format
+
 1.122.0 (2026-03-19)
 ------------------
 
