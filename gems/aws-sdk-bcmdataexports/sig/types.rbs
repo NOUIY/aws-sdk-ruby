@@ -206,6 +206,7 @@ module Aws::BCMDataExports
 
     class S3Destination
       attr_accessor s3_bucket: ::String
+      attr_accessor s3_bucket_owner: ::String
       attr_accessor s3_prefix: ::String
       attr_accessor s3_region: ::String
       attr_accessor s3_output_configurations: Types::S3OutputConfigurations

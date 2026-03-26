@@ -1176,6 +1176,7 @@ module Aws
                               }?
                             },
                           ],
+                          ?step_execution_role_arn: ::String,
                           ?bootstrap_actions: Array[
                             {
                               name: ::String,

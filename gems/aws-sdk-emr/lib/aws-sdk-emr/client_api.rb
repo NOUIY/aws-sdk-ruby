@@ -1426,6 +1426,7 @@ module Aws::EMR
     RunJobFlowInput.add_member(:release_label, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "ReleaseLabel"))
     RunJobFlowInput.add_member(:instances, Shapes::ShapeRef.new(shape: JobFlowInstancesConfig, required: true, location_name: "Instances"))
     RunJobFlowInput.add_member(:steps, Shapes::ShapeRef.new(shape: StepConfigList, location_name: "Steps"))
+    RunJobFlowInput.add_member(:step_execution_role_arn, Shapes::ShapeRef.new(shape: ArnType, location_name: "StepExecutionRoleArn"))
     RunJobFlowInput.add_member(:bootstrap_actions, Shapes::ShapeRef.new(shape: BootstrapActionConfigList, location_name: "BootstrapActions"))
     RunJobFlowInput.add_member(:supported_products, Shapes::ShapeRef.new(shape: SupportedProductsList, location_name: "SupportedProducts"))
     RunJobFlowInput.add_member(:new_supported_products, Shapes::ShapeRef.new(shape: NewSupportedProductsList, location_name: "NewSupportedProducts"))

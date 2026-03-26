@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.34.0 (2026-03-26)
+------------------
+
+* Feature - With this release we are providing an option to accounts to have their export delivered to an S3 bucket that is not owned by the account.
+
 1.33.0 (2026-03-18)
 ------------------
 

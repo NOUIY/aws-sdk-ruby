@@ -226,7 +226,9 @@ module Aws
                                     ?destination_configuration: {
                                       s3_configuration: {
                                         destination_identifier: ::String,
-                                        role_arn: ::String
+                                        role_arn: ::String,
+                                        owner_account_id: ::String?,
+                                        kms_key_id: ::String?
                                       }
                                     },
                                     ?schedule_start_time: ::Integer,
@@ -1220,7 +1222,14 @@ module Aws
                                   ?query_definition_id: ::String,
                                   ?log_group_names: Array[::String],
                                   query_string: ::String,
-                                  ?client_token: ::String
+                                  ?client_token: ::String,
+                                  ?parameters: Array[
+                                    {
+                                      name: ::String,
+                                      default_value: ::String?,
+                                      description: ::String?
+                                    },
+                                  ]
                                 ) -> _PutQueryDefinitionResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutQueryDefinitionResponseSuccess
 
@@ -1703,7 +1712,9 @@ module Aws
                                     ?destination_configuration: {
                                       s3_configuration: {
                                         destination_identifier: ::String,
-                                        role_arn: ::String
+                                        role_arn: ::String,
+                                        owner_account_id: ::String?,
+                                        kms_key_id: ::String?
                                       }
                                     },
                                     ?schedule_start_time: ::Integer,

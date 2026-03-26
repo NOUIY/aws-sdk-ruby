@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.356.0 (2026-03-26)
+------------------
+
+* Feature - Release support for ml.r5d.16xlarge instance types for SageMaker HyperPod
+
 1.355.0 (2026-03-18)
 ------------------
 

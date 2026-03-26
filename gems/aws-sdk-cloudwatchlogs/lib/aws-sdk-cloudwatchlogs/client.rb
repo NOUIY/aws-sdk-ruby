@@ -1364,7 +1364,7 @@ module Aws::CloudWatchLogs
     #
     # @option params [required, String] :query_language
     #   The query language to use for the scheduled query. Valid values are
-    #   `LogsQL`, `PPL`, and `SQL`.
+    #   `CWLI`, `PPL`, and `SQL`.
     #
     # @option params [required, String] :query_string
     #   The query string to execute. This is the same query syntax used in
@@ -1434,6 +1434,8 @@ module Aws::CloudWatchLogs
     #       s3_configuration: { # required
     #         destination_identifier: "S3Uri", # required
     #         role_arn: "RoleArn", # required
+    #         owner_account_id: "AccountId",
+    #         kms_key_id: "KmsKeyId",
     #       },
     #     },
     #     schedule_start_time: 1,
@@ -3187,6 +3189,10 @@ module Aws::CloudWatchLogs
     #   resp.query_definitions[0].last_modified #=> Integer
     #   resp.query_definitions[0].log_group_names #=> Array
     #   resp.query_definitions[0].log_group_names[0] #=> String
+    #   resp.query_definitions[0].parameters #=> Array
+    #   resp.query_definitions[0].parameters[0].name #=> String
+    #   resp.query_definitions[0].parameters[0].default_value #=> String
+    #   resp.query_definitions[0].parameters[0].description #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeQueryDefinitions AWS API Documentation
@@ -4541,6 +4547,8 @@ module Aws::CloudWatchLogs
     #   resp.start_time_offset #=> Integer
     #   resp.destination_configuration.s3_configuration.destination_identifier #=> String
     #   resp.destination_configuration.s3_configuration.role_arn #=> String
+    #   resp.destination_configuration.s3_configuration.owner_account_id #=> String
+    #   resp.destination_configuration.s3_configuration.kms_key_id #=> String
     #   resp.state #=> String, one of "ENABLED", "DISABLED"
     #   resp.last_triggered_time #=> Integer
     #   resp.last_execution_status #=> String, one of "Running", "InvalidQuery", "Complete", "Failed", "Timeout"
@@ -5269,6 +5277,8 @@ module Aws::CloudWatchLogs
     #   resp.scheduled_queries[0].timezone #=> String
     #   resp.scheduled_queries[0].destination_configuration.s3_configuration.destination_identifier #=> String
     #   resp.scheduled_queries[0].destination_configuration.s3_configuration.role_arn #=> String
+    #   resp.scheduled_queries[0].destination_configuration.s3_configuration.owner_account_id #=> String
+    #   resp.scheduled_queries[0].destination_configuration.s3_configuration.kms_key_id #=> String
     #   resp.scheduled_queries[0].creation_time #=> Integer
     #   resp.scheduled_queries[0].last_updated_time #=> Integer
     #
@@ -6401,6 +6411,9 @@ module Aws::CloudWatchLogs
     #   * For Amazon Bedrock AgentCore Identity, the valid values are
     #     `APPLICATION_LOGS` and `TRACES`.
     #
+    #   * For Amazon Bedrock AgentCore Memory, the valid values are
+    #     `APPLICATION_LOGS` and `TRACES`.
+    #
     #   * For Amazon Bedrock AgentCore Gateway, the valid values are
     #     `APPLICATION_LOGS` and `TRACES`.
     #
@@ -6415,6 +6428,10 @@ module Aws::CloudWatchLogs
     #     `AD_DECISION_SERVER_LOGS`, `MANIFEST_SERVICE_LOGS`, and
     #     `TRANSCODE_LOGS`.
     #
+    #   * For Amazon EKS Auto Mode, the valid values are
+    #     `AUTO_MODE_BLOCK_STORAGE_LOGS`, `AUTO_MODE_COMPUTE_LOGS`,
+    #     `AUTO_MODE_IPAM_LOGS`, and `AUTO_MODE_LOAD_BALANCING_LOGS`.
+    #
     #   * For Entity Resolution, the valid value is `WORKFLOW_LOGS`.
     #
     #   * For IAM Identity Center, the valid value is `ERROR_LOGS`.
@@ -6427,8 +6444,7 @@ module Aws::CloudWatchLogs
     #   * For PCS, the valid values are `PCS_SCHEDULER_LOGS` and
     #     `PCS_JOBCOMP_LOGS`.
     #
-    #   * For Quick Suite, the valid values are `CHAT_LOGS` and
-    #     `FEEDBACK_LOGS`.
+    #   * For Quick, the valid values are `CHAT_LOGS` and `FEEDBACK_LOGS`.
     #
     #   * For Amazon Web Services RTB Fabric, the valid values is
     #     `APPLICATION_LOGS`.
@@ -7170,6 +7186,14 @@ module Aws::CloudWatchLogs
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
     #
+    # @option params [Array<Types::QueryParameter>] :parameters
+    #   Use this parameter to include specific query parameters as part of
+    #   your query definition. Query parameters are supported only for Logs
+    #   Insights QL queries. Query parameters allow you to use placeholder
+    #   variables in your query string that are substituted with values at
+    #   execution time. Use the `{{parameterName}}` syntax in your query
+    #   string to reference a parameter.
+    #
     # @return [Types::PutQueryDefinitionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::PutQueryDefinitionResponse#query_definition_id #query_definition_id} => String
@@ -7183,6 +7207,13 @@ module Aws::CloudWatchLogs
     #     log_group_names: ["LogGroupName"],
     #     query_string: "QueryDefinitionString", # required
     #     client_token: "ClientToken",
+    #     parameters: [
+    #       {
+    #         name: "QueryParameterName", # required
+    #         default_value: "QueryParameterDefaultValue",
+    #         description: "QueryParameterDescription",
+    #       },
+    #     ],
     #   })
     #
     # @example Response structure
@@ -8067,7 +8098,7 @@ module Aws::CloudWatchLogs
     # observability][5]. For a cross-account `StartQuery` operation, the
     # query definition must be defined in the monitoring account.
     #
-    # You can have up to 30 concurrent CloudWatch Logs insights queries,
+    # You can have up to 100 concurrent CloudWatch Logs insights queries,
     # including queries that have been added to dashboards.
     #
     #
@@ -8889,6 +8920,8 @@ module Aws::CloudWatchLogs
     #       s3_configuration: { # required
     #         destination_identifier: "S3Uri", # required
     #         role_arn: "RoleArn", # required
+    #         owner_account_id: "AccountId",
+    #         kms_key_id: "KmsKeyId",
     #       },
     #     },
     #     schedule_start_time: 1,
@@ -8911,6 +8944,8 @@ module Aws::CloudWatchLogs
     #   resp.start_time_offset #=> Integer
     #   resp.destination_configuration.s3_configuration.destination_identifier #=> String
     #   resp.destination_configuration.s3_configuration.role_arn #=> String
+    #   resp.destination_configuration.s3_configuration.owner_account_id #=> String
+    #   resp.destination_configuration.s3_configuration.kms_key_id #=> String
     #   resp.state #=> String, one of "ENABLED", "DISABLED"
     #   resp.last_triggered_time #=> Integer
     #   resp.last_execution_status #=> String, one of "Running", "InvalidQuery", "Complete", "Failed", "Timeout"
@@ -8947,7 +8982,7 @@ module Aws::CloudWatchLogs
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatchlogs'
-      context[:gem_version] = '1.140.0'
+      context[:gem_version] = '1.141.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

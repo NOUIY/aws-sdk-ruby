@@ -1327,6 +1327,7 @@ module Aws::EMR
       attr_accessor release_label: ::String
       attr_accessor instances: Types::JobFlowInstancesConfig
       attr_accessor steps: ::Array[Types::StepConfig]
+      attr_accessor step_execution_role_arn: ::String
       attr_accessor bootstrap_actions: ::Array[Types::BootstrapActionConfig]
       attr_accessor supported_products: ::Array[::String]
       attr_accessor new_supported_products: ::Array[Types::SupportedProductConfig]

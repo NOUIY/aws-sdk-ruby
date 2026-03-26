@@ -505,6 +505,11 @@ module Aws::CloudWatchLogs
     QueryInfoList = Shapes::ListShape.new(name: 'QueryInfoList')
     QueryLanguage = Shapes::StringShape.new(name: 'QueryLanguage')
     QueryListMaxResults = Shapes::IntegerShape.new(name: 'QueryListMaxResults')
+    QueryParameter = Shapes::StructureShape.new(name: 'QueryParameter')
+    QueryParameterDefaultValue = Shapes::StringShape.new(name: 'QueryParameterDefaultValue')
+    QueryParameterDescription = Shapes::StringShape.new(name: 'QueryParameterDescription')
+    QueryParameterList = Shapes::ListShape.new(name: 'QueryParameterList')
+    QueryParameterName = Shapes::StringShape.new(name: 'QueryParameterName')
     QueryResults = Shapes::ListShape.new(name: 'QueryResults')
     QueryStatistics = Shapes::StructureShape.new(name: 'QueryStatistics')
     QueryStatus = Shapes::StringShape.new(name: 'QueryStatus')
@@ -2040,6 +2045,7 @@ module Aws::CloudWatchLogs
     PutQueryDefinitionRequest.add_member(:log_group_names, Shapes::ShapeRef.new(shape: LogGroupNames, location_name: "logGroupNames"))
     PutQueryDefinitionRequest.add_member(:query_string, Shapes::ShapeRef.new(shape: QueryDefinitionString, required: true, location_name: "queryString"))
     PutQueryDefinitionRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    PutQueryDefinitionRequest.add_member(:parameters, Shapes::ShapeRef.new(shape: QueryParameterList, location_name: "parameters"))
     PutQueryDefinitionRequest.struct_class = Types::PutQueryDefinitionRequest
 
     PutQueryDefinitionResponse.add_member(:query_definition_id, Shapes::ShapeRef.new(shape: QueryId, location_name: "queryDefinitionId"))
@@ -2088,6 +2094,7 @@ module Aws::CloudWatchLogs
     QueryDefinition.add_member(:query_string, Shapes::ShapeRef.new(shape: QueryDefinitionString, location_name: "queryString"))
     QueryDefinition.add_member(:last_modified, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastModified"))
     QueryDefinition.add_member(:log_group_names, Shapes::ShapeRef.new(shape: LogGroupNames, location_name: "logGroupNames"))
+    QueryDefinition.add_member(:parameters, Shapes::ShapeRef.new(shape: QueryParameterList, location_name: "parameters"))
     QueryDefinition.struct_class = Types::QueryDefinition
 
     QueryDefinitionList.member = Shapes::ShapeRef.new(shape: QueryDefinition)
@@ -2101,6 +2108,13 @@ module Aws::CloudWatchLogs
     QueryInfo.struct_class = Types::QueryInfo
 
     QueryInfoList.member = Shapes::ShapeRef.new(shape: QueryInfo)
+
+    QueryParameter.add_member(:name, Shapes::ShapeRef.new(shape: QueryParameterName, required: true, location_name: "name"))
+    QueryParameter.add_member(:default_value, Shapes::ShapeRef.new(shape: QueryParameterDefaultValue, location_name: "defaultValue"))
+    QueryParameter.add_member(:description, Shapes::ShapeRef.new(shape: QueryParameterDescription, location_name: "description"))
+    QueryParameter.struct_class = Types::QueryParameter
+
+    QueryParameterList.member = Shapes::ShapeRef.new(shape: QueryParameter)
 
     QueryResults.member = Shapes::ShapeRef.new(shape: ResultRows)
 
@@ -2168,6 +2182,8 @@ module Aws::CloudWatchLogs
 
     S3Configuration.add_member(:destination_identifier, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "destinationIdentifier"))
     S3Configuration.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "roleArn"))
+    S3Configuration.add_member(:owner_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "ownerAccountId"))
+    S3Configuration.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "kmsKeyId"))
     S3Configuration.struct_class = Types::S3Configuration
 
     S3DeliveryConfiguration.add_member(:suffix_path, Shapes::ShapeRef.new(shape: DeliverySuffixPath, location_name: "suffixPath"))

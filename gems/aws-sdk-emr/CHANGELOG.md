@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.128.0 (2026-03-26)
+------------------
+
+* Feature - Add StepExecutionRoleArn to RunJobFlow API
+
 1.127.0 (2026-03-18)
 ------------------
 

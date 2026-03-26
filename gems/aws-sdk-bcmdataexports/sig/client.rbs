@@ -96,6 +96,7 @@ module Aws
                              destination_configurations: {
                                s3_destination: {
                                  s3_bucket: ::String,
+                                 s3_bucket_owner: ::String?,
                                  s3_prefix: ::String,
                                  s3_region: ::String,
                                  s3_output_configurations: {
@@ -260,6 +261,7 @@ module Aws
                              destination_configurations: {
                                s3_destination: {
                                  s3_bucket: ::String,
+                                 s3_bucket_owner: ::String?,
                                  s3_prefix: ::String,
                                  s3_region: ::String,
                                  s3_output_configurations: {

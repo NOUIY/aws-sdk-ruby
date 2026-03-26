@@ -15,6 +15,7 @@ module Aws::BCMDataExports
     include Seahorse::Model
 
     AccessDeniedException = Shapes::StructureShape.new(name: 'AccessDeniedException')
+    AccountId = Shapes::StringShape.new(name: 'AccountId')
     Arn = Shapes::StringShape.new(name: 'Arn')
     Column = Shapes::StructureShape.new(name: 'Column')
     ColumnList = Shapes::ListShape.new(name: 'ColumnList')
@@ -239,6 +240,7 @@ module Aws::BCMDataExports
     ResourceTagList.member = Shapes::ShapeRef.new(shape: ResourceTag)
 
     S3Destination.add_member(:s3_bucket, Shapes::ShapeRef.new(shape: GenericString, required: true, location_name: "S3Bucket"))
+    S3Destination.add_member(:s3_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location_name: "S3BucketOwner"))
     S3Destination.add_member(:s3_prefix, Shapes::ShapeRef.new(shape: GenericString, required: true, location_name: "S3Prefix"))
     S3Destination.add_member(:s3_region, Shapes::ShapeRef.new(shape: GenericString, required: true, location_name: "S3Region"))
     S3Destination.add_member(:s3_output_configurations, Shapes::ShapeRef.new(shape: S3OutputConfigurations, required: true, location_name: "S3OutputConfigurations"))

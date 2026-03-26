@@ -1133,7 +1133,7 @@ module Aws::CloudWatchLogs
     #
     # @!attribute [rw] query_language
     #   The query language to use for the scheduled query. Valid values are
-    #   `LogsQL`, `PPL`, and `SQL`.
+    #   `CWLI`, `PPL`, and `SQL`.
     #   @return [String]
     #
     # @!attribute [rw] query_string
@@ -7507,6 +7507,9 @@ module Aws::CloudWatchLogs
     #   * For Amazon Bedrock AgentCore Identity, the valid values are
     #     `APPLICATION_LOGS` and `TRACES`.
     #
+    #   * For Amazon Bedrock AgentCore Memory, the valid values are
+    #     `APPLICATION_LOGS` and `TRACES`.
+    #
     #   * For Amazon Bedrock AgentCore Gateway, the valid values are
     #     `APPLICATION_LOGS` and `TRACES`.
     #
@@ -7521,6 +7524,10 @@ module Aws::CloudWatchLogs
     #     `AD_DECISION_SERVER_LOGS`, `MANIFEST_SERVICE_LOGS`, and
     #     `TRANSCODE_LOGS`.
     #
+    #   * For Amazon EKS Auto Mode, the valid values are
+    #     `AUTO_MODE_BLOCK_STORAGE_LOGS`, `AUTO_MODE_COMPUTE_LOGS`,
+    #     `AUTO_MODE_IPAM_LOGS`, and `AUTO_MODE_LOAD_BALANCING_LOGS`.
+    #
     #   * For Entity Resolution, the valid value is `WORKFLOW_LOGS`.
     #
     #   * For IAM Identity Center, the valid value is `ERROR_LOGS`.
@@ -7533,8 +7540,7 @@ module Aws::CloudWatchLogs
     #   * For PCS, the valid values are `PCS_SCHEDULER_LOGS` and
     #     `PCS_JOBCOMP_LOGS`.
     #
-    #   * For Quick Suite, the valid values are `CHAT_LOGS` and
-    #     `FEEDBACK_LOGS`.
+    #   * For Quick, the valid values are `CHAT_LOGS` and `FEEDBACK_LOGS`.
     #
     #   * For Amazon Web Services RTB Fabric, the valid values is
     #     `APPLICATION_LOGS`.
@@ -8003,6 +8009,15 @@ module Aws::CloudWatchLogs
     #   not need to pass this option.
     #   @return [String]
     #
+    # @!attribute [rw] parameters
+    #   Use this parameter to include specific query parameters as part of
+    #   your query definition. Query parameters are supported only for Logs
+    #   Insights QL queries. Query parameters allow you to use placeholder
+    #   variables in your query string that are substituted with values at
+    #   execution time. Use the `{{parameterName}}` syntax in your query
+    #   string to reference a parameter.
+    #   @return [Array<Types::QueryParameter>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutQueryDefinitionRequest AWS API Documentation
     #
     class PutQueryDefinitionRequest < Struct.new(
@@ -8011,7 +8026,8 @@ module Aws::CloudWatchLogs
       :query_definition_id,
       :log_group_names,
       :query_string,
-      :client_token)
+      :client_token,
+      :parameters)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8337,6 +8353,12 @@ module Aws::CloudWatchLogs
     #   limited to, that list appears here.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] parameters
+    #   If this query definition contains a list of query parameters that
+    #   define placeholder variables for the query string, that list appears
+    #   here.
+    #   @return [Array<Types::QueryParameter>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/QueryDefinition AWS API Documentation
     #
     class QueryDefinition < Struct.new(
@@ -8345,7 +8367,8 @@ module Aws::CloudWatchLogs
       :name,
       :query_string,
       :last_modified,
-      :log_group_names)
+      :log_group_names,
+      :parameters)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8393,6 +8416,38 @@ module Aws::CloudWatchLogs
       :status,
       :create_time,
       :log_group_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # This structure defines a query parameter for a saved CloudWatch Logs
+    # Insights query definition. Query parameters are supported only for
+    # Logs Insights QL queries. They are placeholder variables that you can
+    # reference in a query string using the `{{parameterName}}` syntax. Each
+    # parameter can include a default value and a description.
+    #
+    # @!attribute [rw] name
+    #   The name of the query parameter. A query parameter name must start
+    #   with a letter or underscore, and contain only letters, digits, and
+    #   underscores.
+    #   @return [String]
+    #
+    # @!attribute [rw] default_value
+    #   The default value to use for this query parameter if no value is
+    #   supplied at execution time.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the query parameter that explains its purpose or
+    #   expected values.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/QueryParameter AWS API Documentation
+    #
+    class QueryParameter < Struct.new(
+      :name,
+      :default_value,
+      :description)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8712,11 +8767,22 @@ module Aws::CloudWatchLogs
     #   results to the specified Amazon S3 destination.
     #   @return [String]
     #
+    # @!attribute [rw] owner_account_id
+    #   The AWS accountId for the bucket owning account.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_id
+    #   The Amazon Resource Name (ARN) of the KMS encryption key. Must
+    #   belong to the same AWS Region as the destination Amazon S3 bucket.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/S3Configuration AWS API Documentation
     #
     class S3Configuration < Struct.new(
       :destination_identifier,
-      :role_arn)
+      :role_arn,
+      :owner_account_id,
+      :kms_key_id)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -542,6 +542,7 @@ module Aws::BCMDataExports
     #       destination_configurations: { # required
     #         s3_destination: { # required
     #           s3_bucket: "GenericString", # required
+    #           s3_bucket_owner: "AccountId",
     #           s3_prefix: "GenericString", # required
     #           s3_region: "GenericString", # required
     #           s3_output_configurations: { # required
@@ -638,6 +639,7 @@ module Aws::BCMDataExports
     #   resp.export.data_query.table_configurations["TableName"] #=> Hash
     #   resp.export.data_query.table_configurations["TableName"]["TableProperty"] #=> String
     #   resp.export.destination_configurations.s3_destination.s3_bucket #=> String
+    #   resp.export.destination_configurations.s3_destination.s3_bucket_owner #=> String
     #   resp.export.destination_configurations.s3_destination.s3_prefix #=> String
     #   resp.export.destination_configurations.s3_destination.s3_region #=> String
     #   resp.export.destination_configurations.s3_destination.s3_output_configurations.output_type #=> String, one of "CUSTOM"
@@ -686,6 +688,7 @@ module Aws::BCMDataExports
     #   resp.export.data_query.table_configurations["TableName"] #=> Hash
     #   resp.export.data_query.table_configurations["TableName"]["TableProperty"] #=> String
     #   resp.export.destination_configurations.s3_destination.s3_bucket #=> String
+    #   resp.export.destination_configurations.s3_destination.s3_bucket_owner #=> String
     #   resp.export.destination_configurations.s3_destination.s3_prefix #=> String
     #   resp.export.destination_configurations.s3_destination.s3_region #=> String
     #   resp.export.destination_configurations.s3_destination.s3_output_configurations.output_type #=> String, one of "CUSTOM"
@@ -1021,6 +1024,7 @@ module Aws::BCMDataExports
     #       destination_configurations: { # required
     #         s3_destination: { # required
     #           s3_bucket: "GenericString", # required
+    #           s3_bucket_owner: "AccountId",
     #           s3_prefix: "GenericString", # required
     #           s3_region: "GenericString", # required
     #           s3_output_configurations: { # required
@@ -1068,7 +1072,7 @@ module Aws::BCMDataExports
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bcmdataexports'
-      context[:gem_version] = '1.33.0'
+      context[:gem_version] = '1.34.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

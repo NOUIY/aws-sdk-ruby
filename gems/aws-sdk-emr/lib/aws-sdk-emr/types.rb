@@ -5730,6 +5730,21 @@ module Aws::EMR
     #   A list of steps to run.
     #   @return [Array<Types::StepConfig>]
     #
+    # @!attribute [rw] step_execution_role_arn
+    #   The Amazon Resource Name (ARN) of the runtime role for steps
+    #   specified in the RunJobFlow request. The runtime role can be a
+    #   cross-account IAM role. The runtime role ARN is a combination of
+    #   account ID, role name, and role type using the following format:
+    #   `arn:partition:iam::account-id:role/role-name`.
+    #
+    #   For example, `arn:aws:iam::1234567890:role/ReadOnly` is a correctly
+    #   formatted runtime role ARN.
+    #
+    #   This parameter applies only to steps included in the `Steps`
+    #   parameter of this RunJobFlow request. It does not apply to steps
+    #   added later to the cluster.
+    #   @return [String]
+    #
     # @!attribute [rw] bootstrap_actions
     #   A list of bootstrap actions to run before Hadoop starts on the
     #   cluster nodes.
@@ -5990,6 +6005,7 @@ module Aws::EMR
       :release_label,
       :instances,
       :steps,
+      :step_execution_role_arn,
       :bootstrap_actions,
       :supported_products,
       :new_supported_products,

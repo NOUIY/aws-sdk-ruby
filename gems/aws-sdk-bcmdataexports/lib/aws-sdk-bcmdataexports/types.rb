@@ -642,6 +642,11 @@ module Aws::BCMDataExports
     #   export file.
     #   @return [String]
     #
+    # @!attribute [rw] s3_bucket_owner
+    #   The AWS Account ID that owns the S3 bucket used as the destination
+    #   for the data export.
+    #   @return [String]
+    #
     # @!attribute [rw] s3_prefix
     #   The S3 path prefix you want prepended to the name of your data
     #   export.
@@ -659,6 +664,7 @@ module Aws::BCMDataExports
     #
     class S3Destination < Struct.new(
       :s3_bucket,
+      :s3_bucket_owner,
       :s3_prefix,
       :s3_region,
       :s3_output_configurations)

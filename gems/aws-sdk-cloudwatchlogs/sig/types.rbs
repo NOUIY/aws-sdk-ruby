@@ -1751,6 +1751,7 @@ module Aws::CloudWatchLogs
       attr_accessor log_group_names: ::Array[::String]
       attr_accessor query_string: ::String
       attr_accessor client_token: ::String
+      attr_accessor parameters: ::Array[Types::QueryParameter]
       SENSITIVE: []
     end
 
@@ -1817,6 +1818,7 @@ module Aws::CloudWatchLogs
       attr_accessor query_string: ::String
       attr_accessor last_modified: ::Integer
       attr_accessor log_group_names: ::Array[::String]
+      attr_accessor parameters: ::Array[Types::QueryParameter]
       SENSITIVE: []
     end
 
@@ -1827,6 +1829,13 @@ module Aws::CloudWatchLogs
       attr_accessor status: ("Scheduled" | "Running" | "Complete" | "Failed" | "Cancelled" | "Timeout" | "Unknown")
       attr_accessor create_time: ::Integer
       attr_accessor log_group_name: ::String
+      SENSITIVE: []
+    end
+
+    class QueryParameter
+      attr_accessor name: ::String
+      attr_accessor default_value: ::String
+      attr_accessor description: ::String
       SENSITIVE: []
     end
 
@@ -1906,6 +1915,8 @@ module Aws::CloudWatchLogs
     class S3Configuration
       attr_accessor destination_identifier: ::String
       attr_accessor role_arn: ::String
+      attr_accessor owner_account_id: ::String
+      attr_accessor kms_key_id: ::String
       SENSITIVE: []
     end
 

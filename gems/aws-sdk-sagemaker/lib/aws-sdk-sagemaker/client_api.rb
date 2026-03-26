@@ -4464,7 +4464,7 @@ module Aws::SageMaker
     CreateInferenceComponentInput.add_member(:inference_component_name, Shapes::ShapeRef.new(shape: InferenceComponentName, required: true, location_name: "InferenceComponentName"))
     CreateInferenceComponentInput.add_member(:endpoint_name, Shapes::ShapeRef.new(shape: EndpointName, required: true, location_name: "EndpointName"))
     CreateInferenceComponentInput.add_member(:variant_name, Shapes::ShapeRef.new(shape: VariantName, location_name: "VariantName"))
-    CreateInferenceComponentInput.add_member(:specification, Shapes::ShapeRef.new(shape: InferenceComponentSpecification, required: true, location_name: "Specification"))
+    CreateInferenceComponentInput.add_member(:specification, Shapes::ShapeRef.new(shape: InferenceComponentSpecification, location_name: "Specification"))
     CreateInferenceComponentInput.add_member(:runtime_config, Shapes::ShapeRef.new(shape: InferenceComponentRuntimeConfig, location_name: "RuntimeConfig"))
     CreateInferenceComponentInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     CreateInferenceComponentInput.struct_class = Types::CreateInferenceComponentInput
