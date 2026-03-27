@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.65.0 (2026-03-27)
+------------------
+
+* Feature - AWS HealthOmics now supports VPC networking, allowing users to connect runs to external resources with NAT gateway, AWS VPC resources, and more. New Configuration APIs support configuring VPC settings. StartRun API now accepts networkingMode and configurationName parameters to enable VPC networking.
+
 1.64.0 (2026-03-23)
 ------------------
 

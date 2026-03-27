@@ -604,6 +604,64 @@ module Aws::Omics
       include Aws::Structure
     end
 
+    # Minimal details for a configuration resource.
+    #
+    # @!attribute [rw] name
+    #   User-friendly name for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   Unique resource identifier for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] uuid
+    #   Unique identifier for the configuration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ConfigurationDetails AWS API Documentation
+    #
+    class ConfigurationDetails < Struct.new(
+      :name,
+      :arn,
+      :uuid)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration list item with summary information.
+    #
+    # @!attribute [rw] arn
+    #   Unique resource identifier for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   User-friendly name for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Description for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Current configuration status.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   Configuration creation timestamp.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ConfigurationListItem AWS API Documentation
+    #
+    class ConfigurationListItem < Struct.new(
+      :arn,
+      :name,
+      :description,
+      :status,
+      :creation_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The request cannot be applied to the target resource in its current
     # state.
     #
@@ -818,6 +876,90 @@ module Aws::Omics
       :name,
       :status,
       :creation_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   User-friendly name for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Optional description for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] run_configurations
+    #   Required run-specific configurations.
+    #   @return [Types::RunConfigurations]
+    #
+    # @!attribute [rw] tags
+    #   Optional tags for the configuration.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] request_id
+    #   Optional request idempotency token. If not specified, a universally
+    #   unique identifier (UUID) will be automatically generated for the
+    #   request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateConfigurationRequest AWS API Documentation
+    #
+    class CreateConfigurationRequest < Struct.new(
+      :name,
+      :description,
+      :run_configurations,
+      :tags,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   Unique resource identifier for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] uuid
+    #   Unique identifier for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   User-friendly name for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Description for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] run_configurations
+    #   Run-specific configurations.
+    #   @return [Types::RunConfigurationsResponse]
+    #
+    # @!attribute [rw] status
+    #   Current configuration status.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   Configuration creation timestamp.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   Tags for the configuration.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateConfigurationResponse AWS API Documentation
+    #
+    class CreateConfigurationResponse < Struct.new(
+      :arn,
+      :uuid,
+      :name,
+      :description,
+      :run_configurations,
+      :status,
+      :creation_time,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2159,6 +2301,18 @@ module Aws::Omics
       include Aws::Structure
     end
 
+    # @!attribute [rw] name
+    #   Configuration name to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/DeleteConfigurationRequest AWS API Documentation
+    #
+    class DeleteConfigurationRequest < Struct.new(
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] id
     #   The reference's ID.
     #   @return [String]
@@ -2940,6 +3094,65 @@ module Aws::Omics
       :processed_time,
       :failed_time,
       :failure_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   Configuration name to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetConfigurationRequest AWS API Documentation
+    #
+    class GetConfigurationRequest < Struct.new(
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   Unique resource identifier for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] uuid
+    #   Unique identifier for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   User-friendly name for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Description for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] run_configurations
+    #   Run-specific configurations.
+    #   @return [Types::RunConfigurationsResponse]
+    #
+    # @!attribute [rw] status
+    #   Current configuration status.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   Configuration creation timestamp.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   Tags for the configuration.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetConfigurationResponse AWS API Documentation
+    #
+    class GetConfigurationResponse < Struct.new(
+      :arn,
+      :uuid,
+      :name,
+      :description,
+      :run_configurations,
+      :status,
+      :creation_time,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3824,6 +4037,19 @@ module Aws::Omics
     #   The universally unique identifier (UUID) value for the workflow.
     #   @return [String]
     #
+    # @!attribute [rw] networking_mode
+    #   Configuration for run networking behavior. If absent, this will
+    #   default to RESTRICTED.
+    #   @return [String]
+    #
+    # @!attribute [rw] configuration
+    #   Configuration details for the workflow run.
+    #   @return [Types::ConfigurationDetails]
+    #
+    # @!attribute [rw] vpc_config
+    #   VPC configuration for the workflow run.
+    #   @return [Types::VpcConfigResponse]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetRunResponse AWS API Documentation
     #
     class GetRunResponse < Struct.new(
@@ -3863,7 +4089,10 @@ module Aws::Omics
       :storage_type,
       :workflow_owner_id,
       :workflow_version_name,
-      :workflow_uuid)
+      :workflow_uuid,
+      :networking_mode,
+      :configuration,
+      :vpc_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5192,6 +5421,40 @@ module Aws::Omics
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListBatchResponse AWS API Documentation
     #
     class ListBatchResponse < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   Maximum number of results to return.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] starting_token
+    #   Pagination token for retrieving next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListConfigurationsRequest AWS API Documentation
+    #
+    class ListConfigurationsRequest < Struct.new(
+      :max_results,
+      :starting_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   List of configuration items.
+    #   @return [Array<Types::ConfigurationListItem>]
+    #
+    # @!attribute [rw] next_token
+    #   Token for retrieving next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListConfigurationsResponse AWS API Documentation
+    #
+    class ListConfigurationsResponse < Struct.new(
       :items,
       :next_token)
       SENSITIVE = []
@@ -6964,6 +7227,34 @@ module Aws::Omics
       include Aws::Structure
     end
 
+    # Run-specific configuration settings.
+    #
+    # @!attribute [rw] vpc_config
+    #   VPC configuration for workflow runs.
+    #   @return [Types::VpcConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/RunConfigurations AWS API Documentation
+    #
+    class RunConfigurations < Struct.new(
+      :vpc_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Run-specific configuration settings with computed values.
+    #
+    # @!attribute [rw] vpc_config
+    #   VPC configuration for workflow runs with computed VPC ID.
+    #   @return [Types::VpcConfigResponse]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/RunConfigurationsResponse AWS API Documentation
+    #
+    class RunConfigurationsResponse < Struct.new(
+      :vpc_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A run group.
     #
     # @!attribute [rw] arn
@@ -8086,6 +8377,15 @@ module Aws::Omics
     #   [1]: https://docs.aws.amazon.com/omics/latest/dev/workflow-versions.html
     #   @return [String]
     #
+    # @!attribute [rw] networking_mode
+    #   Optional configuration for run networking behavior. If not
+    #   specified, this will default to RESTRICTED.
+    #   @return [String]
+    #
+    # @!attribute [rw] configuration_name
+    #   Optional configuration name to use for the workflow run.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartRunRequest AWS API Documentation
     #
     class StartRunRequest < Struct.new(
@@ -8107,7 +8407,9 @@ module Aws::Omics
       :retention_mode,
       :storage_type,
       :workflow_owner_id,
-      :workflow_version_name)
+      :workflow_version_name,
+      :networking_mode,
+      :configuration_name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8136,6 +8438,14 @@ module Aws::Omics
     #   The destination for workflow outputs.
     #   @return [String]
     #
+    # @!attribute [rw] configuration
+    #   Configuration details for the workflow run.
+    #   @return [Types::ConfigurationDetails]
+    #
+    # @!attribute [rw] networking_mode
+    #   Networking mode for the workflow run.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartRunResponse AWS API Documentation
     #
     class StartRunResponse < Struct.new(
@@ -8144,7 +8454,9 @@ module Aws::Omics
       :status,
       :tags,
       :uuid,
-      :run_output_uri)
+      :run_output_uri,
+      :configuration,
+      :networking_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9205,6 +9517,49 @@ module Aws::Omics
 
       class TsvVersionOptions < VersionOptions; end
       class Unknown < VersionOptions; end
+    end
+
+    # VPC configuration for workflow runs.
+    #
+    # @!attribute [rw] security_group_ids
+    #   List of security group IDs. Maximum of 5 security groups allowed.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] subnet_ids
+    #   List of subnet IDs. Maximum of 16 subnets allowed.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/VpcConfig AWS API Documentation
+    #
+    class VpcConfig < Struct.new(
+      :security_group_ids,
+      :subnet_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # VPC configuration for workflow runs with computed VPC ID.
+    #
+    # @!attribute [rw] security_group_ids
+    #   List of security group IDs.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] subnet_ids
+    #   List of subnet IDs.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] vpc_id
+    #   VPC ID computed from the provided subnet IDs.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/VpcConfigResponse AWS API Documentation
+    #
+    class VpcConfigResponse < Struct.new(
+      :security_group_ids,
+      :subnet_ids,
+      :vpc_id)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # A workflow.

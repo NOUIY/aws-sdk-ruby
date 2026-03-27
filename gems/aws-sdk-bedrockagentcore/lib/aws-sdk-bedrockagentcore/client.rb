@@ -885,7 +885,7 @@ module Aws::BedrockAgentCore
     # @option params [required, String] :evaluator_id
     #   The unique identifier of the evaluator to use for scoring. Can be a
     #   built-in evaluator (e.g., `Builtin.Helpfulness`,
-    #   `Builtin.Correctness`) or a custom evaluator ARN created through the
+    #   `Builtin.Correctness`) or a custom evaluator Id created through the
     #   control plane API.
     #
     # @option params [required, Types::EvaluationInput] :evaluation_input
@@ -2138,6 +2138,7 @@ module Aws::BedrockAgentCore
     #       ],
     #       directory_path: "MaxLenString",
     #       task_id: "MaxLenString",
+    #       runtime: "nodejs", # accepts nodejs, deno, python
     #     },
     #   })
     #
@@ -3492,7 +3493,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.22.0'
+      context[:gem_version] = '1.23.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

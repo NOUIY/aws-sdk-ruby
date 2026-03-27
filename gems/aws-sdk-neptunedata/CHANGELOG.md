@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.41.0 (2026-03-27)
+------------------
+
+* Feature - Minor formatting changes to remove unnecessary symbols.
+
 1.40.0 (2026-03-18)
 ------------------
 

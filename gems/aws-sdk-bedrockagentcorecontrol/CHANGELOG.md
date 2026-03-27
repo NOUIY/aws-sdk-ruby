@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.33.0 (2026-03-27)
+------------------
+
+* Feature - Adds support for custom code-based evaluators using customer-managed Lambda functions.
+
 1.32.0 (2026-03-24)
 ------------------
 

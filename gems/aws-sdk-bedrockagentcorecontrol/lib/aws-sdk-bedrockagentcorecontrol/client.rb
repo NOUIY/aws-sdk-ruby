@@ -1012,9 +1012,10 @@ module Aws::BedrockAgentCoreControl
     end
 
     # Creates a custom evaluator for agent quality assessment. Custom
-    # evaluators use LLM-as-a-Judge configurations with user-defined
-    # prompts, rating scales, and model settings to evaluate agent
-    # performance at tool call, trace, or session levels.
+    # evaluators can use either LLM-as-a-Judge configurations with
+    # user-defined prompts, rating scales, and model settings, or code-based
+    # configurations with customer-managed Lambda functions to evaluate
+    # agent performance at tool call, trace, or session levels.
     #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier to ensure that the API request
@@ -1038,8 +1039,9 @@ module Aws::BedrockAgentCoreControl
     #   evaluation criteria.
     #
     # @option params [required, Types::EvaluatorConfig] :evaluator_config
-    #   The configuration for the evaluator, including LLM-as-a-Judge settings
-    #   with instructions, rating scale, and model configuration.
+    #   The configuration for the evaluator. Specify either LLM-as-a-Judge
+    #   settings with instructions, rating scale, and model configuration, or
+    #   code-based settings with a customer-managed Lambda function.
     #
     # @option params [required, String] :level
     #   The evaluation level that determines the scope of evaluation. Valid
@@ -1095,6 +1097,12 @@ module Aws::BedrockAgentCoreControl
     #             additional_model_request_fields: {
     #             },
     #           },
+    #         },
+    #       },
+    #       code_based: {
+    #         lambda_config: {
+    #           lambda_arn: "LambdaArn", # required
+    #           lambda_timeout_in_seconds: 1,
     #         },
     #       },
     #     },
@@ -3397,6 +3405,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.evaluator_config.llm_as_a_judge.model_config.bedrock_evaluator_model_config.inference_config.top_p #=> Float
     #   resp.evaluator_config.llm_as_a_judge.model_config.bedrock_evaluator_model_config.inference_config.stop_sequences #=> Array
     #   resp.evaluator_config.llm_as_a_judge.model_config.bedrock_evaluator_model_config.inference_config.stop_sequences[0] #=> String
+    #   resp.evaluator_config.code_based.lambda_config.lambda_arn #=> String
+    #   resp.evaluator_config.code_based.lambda_config.lambda_timeout_in_seconds #=> Integer
     #   resp.level #=> String, one of "TOOL_CALL", "TRACE", "SESSION"
     #   resp.status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING"
     #   resp.created_at #=> Time
@@ -4542,7 +4552,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.evaluators[0].evaluator_id #=> String
     #   resp.evaluators[0].evaluator_name #=> String
     #   resp.evaluators[0].description #=> String
-    #   resp.evaluators[0].evaluator_type #=> String, one of "Builtin", "Custom"
+    #   resp.evaluators[0].evaluator_type #=> String, one of "Builtin", "Custom", "CustomCode"
     #   resp.evaluators[0].level #=> String, one of "TOOL_CALL", "TRACE", "SESSION"
     #   resp.evaluators[0].status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING"
     #   resp.evaluators[0].created_at #=> Time
@@ -5753,8 +5763,10 @@ module Aws::BedrockAgentCoreControl
     #   The updated description of the evaluator.
     #
     # @option params [Types::EvaluatorConfig] :evaluator_config
-    #   The updated configuration for the evaluator, including LLM-as-a-Judge
-    #   settings with instructions, rating scale, and model configuration.
+    #   The updated configuration for the evaluator. Specify either
+    #   LLM-as-a-Judge settings with instructions, rating scale, and model
+    #   configuration, or code-based settings with a customer-managed Lambda
+    #   function.
     #
     # @option params [String] :level
     #   The updated evaluation level (`TOOL_CALL`, `TRACE`, or `SESSION`) that
@@ -5803,6 +5815,12 @@ module Aws::BedrockAgentCoreControl
     #             additional_model_request_fields: {
     #             },
     #           },
+    #         },
+    #       },
+    #       code_based: {
+    #         lambda_config: {
+    #           lambda_arn: "LambdaArn", # required
+    #           lambda_timeout_in_seconds: 1,
     #         },
     #       },
     #     },
@@ -7067,7 +7085,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.32.0'
+      context[:gem_version] = '1.33.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

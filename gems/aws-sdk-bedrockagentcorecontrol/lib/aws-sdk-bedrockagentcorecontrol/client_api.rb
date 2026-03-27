@@ -103,6 +103,7 @@ module Aws::BedrockAgentCoreControl
     CloudWatchLogsInputConfigServiceNamesList = Shapes::ListShape.new(name: 'CloudWatchLogsInputConfigServiceNamesList')
     CloudWatchOutputConfig = Shapes::StructureShape.new(name: 'CloudWatchOutputConfig')
     Code = Shapes::UnionShape.new(name: 'Code')
+    CodeBasedEvaluatorConfig = Shapes::UnionShape.new(name: 'CodeBasedEvaluatorConfig')
     CodeConfiguration = Shapes::StructureShape.new(name: 'CodeConfiguration')
     CodeConfigurationEntryPointList = Shapes::ListShape.new(name: 'CodeConfigurationEntryPointList')
     CodeInterpreterArn = Shapes::StringShape.new(name: 'CodeInterpreterArn')
@@ -348,6 +349,9 @@ module Aws::BedrockAgentCoreControl
     KinesisResourceContentConfigurationsList = Shapes::ListShape.new(name: 'KinesisResourceContentConfigurationsList')
     KmsConfiguration = Shapes::StructureShape.new(name: 'KmsConfiguration')
     KmsKeyArn = Shapes::StringShape.new(name: 'KmsKeyArn')
+    LambdaArn = Shapes::StringShape.new(name: 'LambdaArn')
+    LambdaEvaluatorConfig = Shapes::StructureShape.new(name: 'LambdaEvaluatorConfig')
+    LambdaEvaluatorConfigLambdaTimeoutInSecondsInteger = Shapes::IntegerShape.new(name: 'LambdaEvaluatorConfigLambdaTimeoutInSecondsInteger')
     LambdaFunctionArn = Shapes::StringShape.new(name: 'LambdaFunctionArn')
     LambdaInterceptorConfiguration = Shapes::StructureShape.new(name: 'LambdaInterceptorConfiguration')
     LifecycleConfiguration = Shapes::StructureShape.new(name: 'LifecycleConfiguration')
@@ -876,6 +880,12 @@ module Aws::BedrockAgentCoreControl
     Code.add_member_subclass(:s3, Types::Code::S3)
     Code.add_member_subclass(:unknown, Types::Code::Unknown)
     Code.struct_class = Types::Code
+
+    CodeBasedEvaluatorConfig.add_member(:lambda_config, Shapes::ShapeRef.new(shape: LambdaEvaluatorConfig, location_name: "lambdaConfig"))
+    CodeBasedEvaluatorConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    CodeBasedEvaluatorConfig.add_member_subclass(:lambda_config, Types::CodeBasedEvaluatorConfig::LambdaConfig)
+    CodeBasedEvaluatorConfig.add_member_subclass(:unknown, Types::CodeBasedEvaluatorConfig::Unknown)
+    CodeBasedEvaluatorConfig.struct_class = Types::CodeBasedEvaluatorConfig
 
     CodeConfiguration.add_member(:code, Shapes::ShapeRef.new(shape: Code, required: true, location_name: "code"))
     CodeConfiguration.add_member(:runtime, Shapes::ShapeRef.new(shape: AgentManagedRuntimeType, required: true, location_name: "runtime"))
@@ -1509,8 +1519,10 @@ module Aws::BedrockAgentCoreControl
     EpisodicReflectionOverride.struct_class = Types::EpisodicReflectionOverride
 
     EvaluatorConfig.add_member(:llm_as_a_judge, Shapes::ShapeRef.new(shape: LlmAsAJudgeEvaluatorConfig, location_name: "llmAsAJudge"))
+    EvaluatorConfig.add_member(:code_based, Shapes::ShapeRef.new(shape: CodeBasedEvaluatorConfig, location_name: "codeBased"))
     EvaluatorConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     EvaluatorConfig.add_member_subclass(:llm_as_a_judge, Types::EvaluatorConfig::LlmAsAJudge)
+    EvaluatorConfig.add_member_subclass(:code_based, Types::EvaluatorConfig::CodeBased)
     EvaluatorConfig.add_member_subclass(:unknown, Types::EvaluatorConfig::Unknown)
     EvaluatorConfig.struct_class = Types::EvaluatorConfig
 
@@ -1959,6 +1971,10 @@ module Aws::BedrockAgentCoreControl
     KmsConfiguration.add_member(:key_type, Shapes::ShapeRef.new(shape: KeyType, required: true, location_name: "keyType"))
     KmsConfiguration.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     KmsConfiguration.struct_class = Types::KmsConfiguration
+
+    LambdaEvaluatorConfig.add_member(:lambda_arn, Shapes::ShapeRef.new(shape: LambdaArn, required: true, location_name: "lambdaArn"))
+    LambdaEvaluatorConfig.add_member(:lambda_timeout_in_seconds, Shapes::ShapeRef.new(shape: LambdaEvaluatorConfigLambdaTimeoutInSecondsInteger, location_name: "lambdaTimeoutInSeconds"))
+    LambdaEvaluatorConfig.struct_class = Types::LambdaEvaluatorConfig
 
     LambdaInterceptorConfiguration.add_member(:arn, Shapes::ShapeRef.new(shape: LambdaFunctionArn, required: true, location_name: "arn"))
     LambdaInterceptorConfiguration.struct_class = Types::LambdaInterceptorConfiguration

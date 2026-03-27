@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.23.0 (2026-03-27)
+------------------
+
+* Feature - Adding AgentCore Code Interpreter Node.js Runtime Support with an optional runtime field
+
 1.22.0 (2026-03-19)
 ------------------
 

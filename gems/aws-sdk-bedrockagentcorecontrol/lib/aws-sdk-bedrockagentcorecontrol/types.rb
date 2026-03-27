@@ -844,6 +844,30 @@ module Aws::BedrockAgentCoreControl
       class Unknown < Code; end
     end
 
+    # Configuration for a code-based evaluator. Specify the Lambda function
+    # to use for evaluation.
+    #
+    # @note CodeBasedEvaluatorConfig is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note CodeBasedEvaluatorConfig is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of CodeBasedEvaluatorConfig corresponding to the set member.
+    #
+    # @!attribute [rw] lambda_config
+    #   The Lambda function configuration for code-based evaluation.
+    #   @return [Types::LambdaEvaluatorConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CodeBasedEvaluatorConfig AWS API Documentation
+    #
+    class CodeBasedEvaluatorConfig < Struct.new(
+      :lambda_config,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class LambdaConfig < CodeBasedEvaluatorConfig; end
+      class Unknown < CodeBasedEvaluatorConfig; end
+    end
+
     # The configuration for the source code that defines how the agent
     # runtime code should be executed, including the code location, runtime
     # environment, and entry point.
@@ -1573,8 +1597,9 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] evaluator_config
-    #   The configuration for the evaluator, including LLM-as-a-Judge
-    #   settings with instructions, rating scale, and model configuration.
+    #   The configuration for the evaluator. Specify either LLM-as-a-Judge
+    #   settings with instructions, rating scale, and model configuration,
+    #   or code-based settings with a customer-managed Lambda function.
     #   @return [Types::EvaluatorConfig]
     #
     # @!attribute [rw] level
@@ -3981,16 +4006,24 @@ module Aws::BedrockAgentCoreControl
     #   scales.
     #   @return [Types::LlmAsAJudgeEvaluatorConfig]
     #
+    # @!attribute [rw] code_based
+    #   Configuration for a code-based evaluator that uses a
+    #   customer-managed Lambda function to programmatically assess agent
+    #   performance.
+    #   @return [Types::CodeBasedEvaluatorConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/EvaluatorConfig AWS API Documentation
     #
     class EvaluatorConfig < Struct.new(
       :llm_as_a_judge,
+      :code_based,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
       class LlmAsAJudge < EvaluatorConfig; end
+      class CodeBased < EvaluatorConfig; end
       class Unknown < EvaluatorConfig; end
     end
 
@@ -4986,8 +5019,8 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] evaluator_config
-    #   The configuration of the evaluator, including LLM-as-a-Judge
-    #   settings for custom evaluators.
+    #   The configuration of the evaluator, including LLM-as-a-Judge or
+    #   code-based settings.
     #   @return [Types::EvaluatorConfig]
     #
     # @!attribute [rw] level
@@ -6099,6 +6132,27 @@ module Aws::BedrockAgentCoreControl
     class KmsConfiguration < Struct.new(
       :key_type,
       :kms_key_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for a Lambda function used as a code-based evaluator.
+    #
+    # @!attribute [rw] lambda_arn
+    #   The Amazon Resource Name (ARN) of the Lambda function that
+    #   implements the evaluation logic.
+    #   @return [String]
+    #
+    # @!attribute [rw] lambda_timeout_in_seconds
+    #   The timeout in seconds for the Lambda function invocation. Defaults
+    #   to 60. Must be between 1 and 300.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/LambdaEvaluatorConfig AWS API Documentation
+    #
+    class LambdaEvaluatorConfig < Struct.new(
+      :lambda_arn,
+      :lambda_timeout_in_seconds)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10082,9 +10136,10 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] evaluator_config
-    #   The updated configuration for the evaluator, including
+    #   The updated configuration for the evaluator. Specify either
     #   LLM-as-a-Judge settings with instructions, rating scale, and model
-    #   configuration.
+    #   configuration, or code-based settings with a customer-managed Lambda
+    #   function.
     #   @return [Types::EvaluatorConfig]
     #
     # @!attribute [rw] level
@@ -10903,12 +10958,12 @@ module Aws::BedrockAgentCoreControl
     # semantics. When present in an update request, the description is
     # replaced with optionalValue. When absent, the description is left
     # unchanged. To unset the description, include the wrapper with
-    # optionalValue set to null.
+    # optionalValue not specified.
     #
     # @!attribute [rw] optional_value
     #   Represents an optional value that is used to update the
-    #   human-readable description of the resource. If set to null, it will
-    #   clear the current description of the resource.
+    #   human-readable description of the resource. If not specified, it
+    #   will clear the current description of the resource.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedDescription AWS API Documentation

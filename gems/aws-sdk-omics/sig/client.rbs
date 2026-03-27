@@ -225,6 +225,32 @@ module Aws
                                            ) -> _CreateAnnotationStoreVersionResponseSuccess
                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAnnotationStoreVersionResponseSuccess
 
+      interface _CreateConfigurationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateConfigurationResponse]
+        def arn: () -> ::String
+        def uuid: () -> ::String
+        def name: () -> ::String
+        def description: () -> ::String
+        def run_configurations: () -> Types::RunConfigurationsResponse
+        def status: () -> ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "DELETED" | "FAILED")
+        def creation_time: () -> ::Time
+        def tags: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Omics/Client.html#create_configuration-instance_method
+      def create_configuration: (
+                                  name: ::String,
+                                  ?description: ::String,
+                                  run_configurations: {
+                                    vpc_config: {
+                                      security_group_ids: Array[::String]?,
+                                      subnet_ids: Array[::String]?
+                                    }?
+                                  },
+                                  ?tags: Hash[::String, ::String],
+                                  request_id: ::String
+                                ) -> _CreateConfigurationResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateConfigurationResponseSuccess
+
       interface _CreateMultipartReadSetUploadResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateMultipartReadSetUploadResponse]
         def sequence_store_id: () -> ::String
@@ -533,6 +559,12 @@ module Aws
                         ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Omics/Client.html#delete_configuration-instance_method
+      def delete_configuration: (
+                                  name: ::String
+                                ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
       interface _DeleteReferenceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteReferenceResponse]
       end
@@ -723,6 +755,23 @@ module Aws
                        batch_id: ::String
                      ) -> _GetBatchResponseSuccess
                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetBatchResponseSuccess
+
+      interface _GetConfigurationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetConfigurationResponse]
+        def arn: () -> ::String
+        def uuid: () -> ::String
+        def name: () -> ::String
+        def description: () -> ::String
+        def run_configurations: () -> Types::RunConfigurationsResponse
+        def status: () -> ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "DELETED" | "FAILED")
+        def creation_time: () -> ::Time
+        def tags: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Omics/Client.html#get_configuration-instance_method
+      def get_configuration: (
+                               name: ::String
+                             ) -> _GetConfigurationResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetConfigurationResponseSuccess
 
       interface _GetReadSetResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetReadSetResponse]
@@ -925,6 +974,9 @@ module Aws
         def workflow_owner_id: () -> ::String
         def workflow_version_name: () -> ::String
         def workflow_uuid: () -> ::String
+        def networking_mode: () -> ("RESTRICTED" | "VPC")
+        def configuration: () -> Types::ConfigurationDetails
+        def vpc_config: () -> Types::VpcConfigResponse
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Omics/Client.html#get_run-instance_method
       def get_run: (
@@ -1218,6 +1270,18 @@ module Aws
                         ?run_group_id: ::String
                       ) -> _ListBatchResponseSuccess
                     | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListBatchResponseSuccess
+
+      interface _ListConfigurationsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListConfigurationsResponse]
+        def items: () -> ::Array[Types::ConfigurationListItem]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Omics/Client.html#list_configurations-instance_method
+      def list_configurations: (
+                                 ?max_results: ::Integer,
+                                 ?starting_token: ::String
+                               ) -> _ListConfigurationsResponseSuccess
+                             | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListConfigurationsResponseSuccess
 
       interface _ListMultipartReadSetUploadsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListMultipartReadSetUploadsResponse]
@@ -1720,6 +1784,8 @@ module Aws
         def tags: () -> ::Hash[::String, ::String]
         def uuid: () -> ::String
         def run_output_uri: () -> ::String
+        def configuration: () -> Types::ConfigurationDetails
+        def networking_mode: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Omics/Client.html#start_run-instance_method
       def start_run: (
@@ -1742,7 +1808,9 @@ module Aws
                        ?retention_mode: ("RETAIN" | "REMOVE"),
                        ?storage_type: ("STATIC" | "DYNAMIC"),
                        ?workflow_owner_id: ::String,
-                       ?workflow_version_name: ::String
+                       ?workflow_version_name: ::String,
+                       ?networking_mode: ("RESTRICTED" | "VPC"),
+                       ?configuration_name: ::String
                      ) -> _StartRunResponseSuccess
                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartRunResponseSuccess
 

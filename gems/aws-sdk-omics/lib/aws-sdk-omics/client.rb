@@ -930,6 +930,81 @@ module Aws::Omics
       req.send_request(options)
     end
 
+    # Create a new configuration.
+    #
+    # @option params [required, String] :name
+    #   User-friendly name for the configuration.
+    #
+    # @option params [String] :description
+    #   Optional description for the configuration.
+    #
+    # @option params [required, Types::RunConfigurations] :run_configurations
+    #   Required run-specific configurations.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   Optional tags for the configuration.
+    #
+    # @option params [required, String] :request_id
+    #   Optional request idempotency token. If not specified, a universally
+    #   unique identifier (UUID) will be automatically generated for the
+    #   request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateConfigurationResponse#arn #arn} => String
+    #   * {Types::CreateConfigurationResponse#uuid #uuid} => String
+    #   * {Types::CreateConfigurationResponse#name #name} => String
+    #   * {Types::CreateConfigurationResponse#description #description} => String
+    #   * {Types::CreateConfigurationResponse#run_configurations #run_configurations} => Types::RunConfigurationsResponse
+    #   * {Types::CreateConfigurationResponse#status #status} => String
+    #   * {Types::CreateConfigurationResponse#creation_time #creation_time} => Time
+    #   * {Types::CreateConfigurationResponse#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_configuration({
+    #     name: "ConfigurationName", # required
+    #     description: "ConfigurationDescription",
+    #     run_configurations: { # required
+    #       vpc_config: {
+    #         security_group_ids: ["SecurityGroupId"],
+    #         subnet_ids: ["SubnetId"],
+    #       },
+    #     },
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #     request_id: "ConfigurationRequestId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.uuid #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.run_configurations.vpc_config.security_group_ids #=> Array
+    #   resp.run_configurations.vpc_config.security_group_ids[0] #=> String
+    #   resp.run_configurations.vpc_config.subnet_ids #=> Array
+    #   resp.run_configurations.vpc_config.subnet_ids[0] #=> String
+    #   resp.run_configurations.vpc_config.vpc_id #=> String
+    #   resp.status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "DELETED", "FAILED"
+    #   resp.creation_time #=> Time
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateConfiguration AWS API Documentation
+    #
+    # @overload create_configuration(params = {})
+    # @param [Hash] params ({})
+    def create_configuration(params = {}, options = {})
+      req = build_request(:create_configuration, params)
+      req.send_request(options)
+    end
+
     # Initiates a multipart read set upload for uploading partitioned source
     # files into a sequence store. You can directly import source files from
     # an EC2 instance and other local compute, or from an S3 bucket. To
@@ -2178,6 +2253,28 @@ module Aws::Omics
       req.send_request(options)
     end
 
+    # Delete an existing configuration.
+    #
+    # @option params [required, String] :name
+    #   Configuration name to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_configuration({
+    #     name: "ConfigurationName", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/DeleteConfiguration AWS API Documentation
+    #
+    # @overload delete_configuration(params = {})
+    # @param [Hash] params ({})
+    def delete_configuration(params = {}, options = {})
+      req = build_request(:delete_configuration, params)
+      req.send_request(options)
+    end
+
     # Deletes a reference genome and returns a response with no body if the
     # operation is successful. The read set associated with the reference
     # genome must first be deleted before deleting the reference genome.
@@ -2885,6 +2982,53 @@ module Aws::Omics
       req.send_request(options)
     end
 
+    # Retrieve configuration details for specified name.
+    #
+    # @option params [required, String] :name
+    #   Configuration name to retrieve.
+    #
+    # @return [Types::GetConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetConfigurationResponse#arn #arn} => String
+    #   * {Types::GetConfigurationResponse#uuid #uuid} => String
+    #   * {Types::GetConfigurationResponse#name #name} => String
+    #   * {Types::GetConfigurationResponse#description #description} => String
+    #   * {Types::GetConfigurationResponse#run_configurations #run_configurations} => Types::RunConfigurationsResponse
+    #   * {Types::GetConfigurationResponse#status #status} => String
+    #   * {Types::GetConfigurationResponse#creation_time #creation_time} => Time
+    #   * {Types::GetConfigurationResponse#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_configuration({
+    #     name: "ConfigurationName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.uuid #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.run_configurations.vpc_config.security_group_ids #=> Array
+    #   resp.run_configurations.vpc_config.security_group_ids[0] #=> String
+    #   resp.run_configurations.vpc_config.subnet_ids #=> Array
+    #   resp.run_configurations.vpc_config.subnet_ids[0] #=> String
+    #   resp.run_configurations.vpc_config.vpc_id #=> String
+    #   resp.status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "DELETED", "FAILED"
+    #   resp.creation_time #=> Time
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetConfiguration AWS API Documentation
+    #
+    # @overload get_configuration(params = {})
+    # @param [Hash] params ({})
+    def get_configuration(params = {}, options = {})
+      req = build_request(:get_configuration, params)
+      req.send_request(options)
+    end
+
     # Retrieves detailed information from parts of a read set and returns
     # the read set in the same format that it was uploaded. You must have
     # read sets uploaded to your sequence store in order to run this
@@ -3458,6 +3602,9 @@ module Aws::Omics
     #   * {Types::GetRunResponse#workflow_owner_id #workflow_owner_id} => String
     #   * {Types::GetRunResponse#workflow_version_name #workflow_version_name} => String
     #   * {Types::GetRunResponse#workflow_uuid #workflow_uuid} => String
+    #   * {Types::GetRunResponse#networking_mode #networking_mode} => String
+    #   * {Types::GetRunResponse#configuration #configuration} => Types::ConfigurationDetails
+    #   * {Types::GetRunResponse#vpc_config #vpc_config} => Types::VpcConfigResponse
     #
     # @example Request syntax with placeholder values
     #
@@ -3507,6 +3654,15 @@ module Aws::Omics
     #   resp.workflow_owner_id #=> String
     #   resp.workflow_version_name #=> String
     #   resp.workflow_uuid #=> String
+    #   resp.networking_mode #=> String, one of "RESTRICTED", "VPC"
+    #   resp.configuration.name #=> String
+    #   resp.configuration.arn #=> String
+    #   resp.configuration.uuid #=> String
+    #   resp.vpc_config.security_group_ids #=> Array
+    #   resp.vpc_config.security_group_ids[0] #=> String
+    #   resp.vpc_config.subnet_ids #=> Array
+    #   resp.vpc_config.subnet_ids[0] #=> String
+    #   resp.vpc_config.vpc_id #=> String
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -4445,6 +4601,47 @@ module Aws::Omics
     # @param [Hash] params ({})
     def list_batch(params = {}, options = {})
       req = build_request(:list_batch, params)
+      req.send_request(options)
+    end
+
+    # List all configurations for the account.
+    #
+    # @option params [Integer] :max_results
+    #   Maximum number of results to return.
+    #
+    # @option params [String] :starting_token
+    #   Pagination token for retrieving next page of results.
+    #
+    # @return [Types::ListConfigurationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListConfigurationsResponse#items #items} => Array&lt;Types::ConfigurationListItem&gt;
+    #   * {Types::ListConfigurationsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_configurations({
+    #     max_results: 1,
+    #     starting_token: "ConfigurationListToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].arn #=> String
+    #   resp.items[0].name #=> String
+    #   resp.items[0].description #=> String
+    #   resp.items[0].status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "DELETED", "FAILED"
+    #   resp.items[0].creation_time #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListConfigurations AWS API Documentation
+    #
+    # @overload list_configurations(params = {})
+    # @param [Hash] params ({})
+    def list_configurations(params = {}, options = {})
+      req = build_request(:list_configurations, params)
       req.send_request(options)
     end
 
@@ -6303,6 +6500,13 @@ module Aws::Omics
     #
     #   [1]: https://docs.aws.amazon.com/omics/latest/dev/workflow-versions.html
     #
+    # @option params [String] :networking_mode
+    #   Optional configuration for run networking behavior. If not specified,
+    #   this will default to RESTRICTED.
+    #
+    # @option params [String] :configuration_name
+    #   Optional configuration name to use for the workflow run.
+    #
     # @return [Types::StartRunResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::StartRunResponse#arn #arn} => String
@@ -6311,6 +6515,8 @@ module Aws::Omics
     #   * {Types::StartRunResponse#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::StartRunResponse#uuid #uuid} => String
     #   * {Types::StartRunResponse#run_output_uri #run_output_uri} => String
+    #   * {Types::StartRunResponse#configuration #configuration} => Types::ConfigurationDetails
+    #   * {Types::StartRunResponse#networking_mode #networking_mode} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -6337,6 +6543,8 @@ module Aws::Omics
     #     storage_type: "STATIC", # accepts STATIC, DYNAMIC
     #     workflow_owner_id: "WorkflowOwnerId",
     #     workflow_version_name: "WorkflowVersionName",
+    #     networking_mode: "RESTRICTED", # accepts RESTRICTED, VPC
+    #     configuration_name: "ConfigurationName",
     #   })
     #
     # @example Response structure
@@ -6348,6 +6556,10 @@ module Aws::Omics
     #   resp.tags["TagKey"] #=> String
     #   resp.uuid #=> String
     #   resp.run_output_uri #=> String
+    #   resp.configuration.name #=> String
+    #   resp.configuration.arn #=> String
+    #   resp.configuration.uuid #=> String
+    #   resp.networking_mode #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartRun AWS API Documentation
     #
@@ -7152,7 +7364,7 @@ module Aws::Omics
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-omics'
-      context[:gem_version] = '1.64.0'
+      context[:gem_version] = '1.65.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

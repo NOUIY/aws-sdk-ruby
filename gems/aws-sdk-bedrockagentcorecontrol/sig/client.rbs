@@ -342,6 +342,12 @@ module Aws
                                       }?
                                     }?
                                   }
+                                }?,
+                                code_based: {
+                                  lambda_config: {
+                                    lambda_arn: ::String,
+                                    lambda_timeout_in_seconds: ::Integer?
+                                  }?
                                 }?
                               },
                               level: ("TOOL_CALL" | "TRACE" | "SESSION"),
@@ -1897,6 +1903,12 @@ module Aws
                                       }?
                                     }?
                                   }
+                                }?,
+                                code_based: {
+                                  lambda_config: {
+                                    lambda_arn: ::String,
+                                    lambda_timeout_in_seconds: ::Integer?
+                                  }?
                                 }?
                               },
                               ?level: ("TOOL_CALL" | "TRACE" | "SESSION")

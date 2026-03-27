@@ -167,6 +167,7 @@ module Aws::BedrockAgentCore
     InvokeCodeInterpreterRequestTraceIdString = Shapes::StringShape.new(name: 'InvokeCodeInterpreterRequestTraceIdString')
     InvokeCodeInterpreterRequestTraceParentString = Shapes::StringShape.new(name: 'InvokeCodeInterpreterRequestTraceParentString')
     InvokeCodeInterpreterResponse = Shapes::StructureShape.new(name: 'InvokeCodeInterpreterResponse')
+    LanguageRuntime = Shapes::StringShape.new(name: 'LanguageRuntime')
     LeftExpression = Shapes::UnionShape.new(name: 'LeftExpression')
     ListActorsInput = Shapes::StructureShape.new(name: 'ListActorsInput')
     ListActorsOutput = Shapes::StructureShape.new(name: 'ListActorsOutput')
@@ -1213,6 +1214,7 @@ module Aws::BedrockAgentCore
     ToolArguments.add_member(:content, Shapes::ShapeRef.new(shape: InputContentBlockList, location_name: "content"))
     ToolArguments.add_member(:directory_path, Shapes::ShapeRef.new(shape: MaxLenString, location_name: "directoryPath"))
     ToolArguments.add_member(:task_id, Shapes::ShapeRef.new(shape: MaxLenString, location_name: "taskId"))
+    ToolArguments.add_member(:runtime, Shapes::ShapeRef.new(shape: LanguageRuntime, location_name: "runtime"))
     ToolArguments.struct_class = Types::ToolArguments
 
     ToolResultStructuredContent.add_member(:task_id, Shapes::ShapeRef.new(shape: String, location_name: "taskId"))

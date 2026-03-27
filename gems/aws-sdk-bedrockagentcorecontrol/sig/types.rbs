@@ -255,6 +255,17 @@ module Aws::BedrockAgentCoreControl
       end
     end
 
+    class CodeBasedEvaluatorConfig
+      attr_accessor lambda_config: Types::LambdaEvaluatorConfig
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class LambdaConfig < CodeBasedEvaluatorConfig
+      end
+      class Unknown < CodeBasedEvaluatorConfig
+      end
+    end
+
     class CodeConfiguration
       attr_accessor code: Types::Code
       attr_accessor runtime: ("PYTHON_3_10" | "PYTHON_3_11" | "PYTHON_3_12" | "PYTHON_3_13" | "PYTHON_3_14")
@@ -1117,10 +1128,13 @@ module Aws::BedrockAgentCoreControl
 
     class EvaluatorConfig
       attr_accessor llm_as_a_judge: Types::LlmAsAJudgeEvaluatorConfig
+      attr_accessor code_based: Types::CodeBasedEvaluatorConfig
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class LlmAsAJudge < EvaluatorConfig
+      end
+      class CodeBased < EvaluatorConfig
       end
       class Unknown < EvaluatorConfig
       end
@@ -1153,7 +1167,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor evaluator_id: ::String
       attr_accessor evaluator_name: ::String
       attr_accessor description: ::String
-      attr_accessor evaluator_type: ("Builtin" | "Custom")
+      attr_accessor evaluator_type: ("Builtin" | "Custom" | "CustomCode")
       attr_accessor level: ("TOOL_CALL" | "TRACE" | "SESSION")
       attr_accessor status: ("ACTIVE" | "CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING")
       attr_accessor created_at: ::Time
@@ -1696,6 +1710,12 @@ module Aws::BedrockAgentCoreControl
     class KmsConfiguration
       attr_accessor key_type: ("CustomerManagedKey" | "ServiceManagedKey")
       attr_accessor kms_key_arn: ::String
+      SENSITIVE: []
+    end
+
+    class LambdaEvaluatorConfig
+      attr_accessor lambda_arn: ::String
+      attr_accessor lambda_timeout_in_seconds: ::Integer
       SENSITIVE: []
     end
 

@@ -891,7 +891,7 @@ module Aws::BedrockAgentCore
     # @!attribute [rw] evaluator_id
     #   The unique identifier of the evaluator to use for scoring. Can be a
     #   built-in evaluator (e.g., `Builtin.Helpfulness`,
-    #   `Builtin.Correctness`) or a custom evaluator ARN created through the
+    #   `Builtin.Correctness`) or a custom evaluator Id created through the
     #   control plane API.
     #   @return [String]
     #
@@ -4059,8 +4059,7 @@ module Aws::BedrockAgentCore
     #
     # @!attribute [rw] language
     #   The programming language of the code to execute. This tells the code
-    #   interpreter which language runtime to use for execution. Common
-    #   values include 'python', 'javascript', and 'r'.
+    #   interpreter which language runtime to use for execution.
     #   @return [String]
     #
     # @!attribute [rw] clear_context
@@ -4091,6 +4090,11 @@ module Aws::BedrockAgentCore
     #   The identifier of the task for the tool operation.
     #   @return [String]
     #
+    # @!attribute [rw] runtime
+    #   The runtime environment to use for code execution. If not specified,
+    #   defaults to `deno` for JavaScript and TypeScript.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ToolArguments AWS API Documentation
     #
     class ToolArguments < Struct.new(
@@ -4102,7 +4106,8 @@ module Aws::BedrockAgentCore
       :paths,
       :content,
       :directory_path,
-      :task_id)
+      :task_id,
+      :runtime)
       SENSITIVE = []
       include Aws::Structure
     end

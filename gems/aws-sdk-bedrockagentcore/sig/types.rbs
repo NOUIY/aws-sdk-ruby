@@ -1154,6 +1154,7 @@ module Aws::BedrockAgentCore
       attr_accessor content: ::Array[Types::InputContentBlock]
       attr_accessor directory_path: ::String
       attr_accessor task_id: ::String
+      attr_accessor runtime: ("nodejs" | "deno" | "python")
       SENSITIVE: []
     end
 

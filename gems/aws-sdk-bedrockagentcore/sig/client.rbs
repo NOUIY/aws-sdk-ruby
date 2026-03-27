@@ -465,7 +465,8 @@ module Aws
                                          },
                                        ]?,
                                        directory_path: ::String?,
-                                       task_id: ::String?
+                                       task_id: ::String?,
+                                       runtime: ("nodejs" | "deno" | "python")?
                                      }
                                    ) ?{ (*untyped) -> void } -> _InvokeCodeInterpreterResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _InvokeCodeInterpreterResponseSuccess
