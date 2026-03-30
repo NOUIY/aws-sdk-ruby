@@ -271,11 +271,28 @@ module Aws::BedrockAgentCore
       attr_accessor evaluator_id: ::String
       attr_accessor evaluation_input: Types::EvaluationInput
       attr_accessor evaluation_target: Types::EvaluationTarget
-      SENSITIVE: []
+      attr_accessor evaluation_reference_inputs: ::Array[Types::EvaluationReferenceInput]
+      SENSITIVE: [:evaluation_reference_inputs]
     end
 
     class EvaluateResponse
       attr_accessor evaluation_results: ::Array[Types::EvaluationResultContent]
+      SENSITIVE: []
+    end
+
+    class EvaluationContent
+      attr_accessor text: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Text < EvaluationContent
+      end
+      class Unknown < EvaluationContent
+      end
+    end
+
+    class EvaluationExpectedTrajectory
+      attr_accessor tool_names: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -290,6 +307,14 @@ module Aws::BedrockAgentCore
       end
     end
 
+    class EvaluationReferenceInput
+      attr_accessor context: Types::Context
+      attr_accessor expected_response: Types::EvaluationContent
+      attr_accessor assertions: ::Array[Types::EvaluationContent]
+      attr_accessor expected_trajectory: Types::EvaluationExpectedTrajectory
+      SENSITIVE: []
+    end
+
     class EvaluationResultContent
       attr_accessor evaluator_arn: ::String
       attr_accessor evaluator_id: ::String
@@ -301,6 +326,7 @@ module Aws::BedrockAgentCore
       attr_accessor token_usage: Types::TokenUsage
       attr_accessor error_message: ::String
       attr_accessor error_code: ::String
+      attr_accessor ignored_reference_input_fields: ::Array[::String]
       SENSITIVE: [:explanation]
     end
 

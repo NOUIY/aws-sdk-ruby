@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.123.0 (2026-03-30)
+------------------
+
+* Feature - Update CreateScript API documentation.
+
 1.122.0 (2026-03-24)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1232.0 (2026-03-30)
+------------------
+
+* Feature - Added support for enumerating regions for  `Aws::DevOpsAgent`.
+
 1.1231.0 (2026-03-26)
 ------------------
 

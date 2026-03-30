@@ -1273,6 +1273,14 @@ module Aws::AutoScaling
     #
     #   Default: `none`
     #
+    #   For more information, see [ Configure deletion protection for your
+    #   Amazon EC2 Auto Scaling resources][1] in the *Amazon EC2 Auto Scaling
+    #   User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/resource-deletion-protection.html
+    #
     # @option params [Array<Types::Tag>] :tags
     #   One or more tags. You can tag your Auto Scaling group and propagate
     #   the tags to the Amazon EC2 instances it launches. Tags are not
@@ -2778,7 +2786,7 @@ module Aws::AutoScaling
     #   resp.auto_scaling_groups[0].instances[0].instance_id #=> String
     #   resp.auto_scaling_groups[0].instances[0].instance_type #=> String
     #   resp.auto_scaling_groups[0].instances[0].availability_zone #=> String
-    #   resp.auto_scaling_groups[0].instances[0].lifecycle_state #=> String, one of "Pending", "Pending:Wait", "Pending:Proceed", "Quarantined", "InService", "Terminating", "Terminating:Wait", "Terminating:Proceed", "Terminated", "Detaching", "Detached", "EnteringStandby", "Standby", "Warmed:Pending", "Warmed:Pending:Wait", "Warmed:Pending:Proceed", "Warmed:Terminating", "Warmed:Terminating:Wait", "Warmed:Terminating:Proceed", "Warmed:Terminated", "Warmed:Stopped", "Warmed:Running", "Warmed:Hibernated"
+    #   resp.auto_scaling_groups[0].instances[0].lifecycle_state #=> String, one of "Pending", "Pending:Wait", "Pending:Proceed", "Quarantined", "InService", "Terminating", "Terminating:Wait", "Terminating:Proceed", "Terminating:Retained", "Terminated", "Detaching", "Detached", "EnteringStandby", "Standby", "ReplacingRootVolume", "ReplacingRootVolume:Wait", "ReplacingRootVolume:Proceed", "RootVolumeReplaced", "Warmed:Pending", "Warmed:Pending:Wait", "Warmed:Pending:Proceed", "Warmed:Pending:Retained", "Warmed:Terminating", "Warmed:Terminating:Wait", "Warmed:Terminating:Proceed", "Warmed:Terminating:Retained", "Warmed:Terminated", "Warmed:Stopped", "Warmed:Running", "Warmed:Hibernated"
     #   resp.auto_scaling_groups[0].instances[0].health_status #=> String
     #   resp.auto_scaling_groups[0].instances[0].launch_configuration_name #=> String
     #   resp.auto_scaling_groups[0].instances[0].launch_template.launch_template_id #=> String
@@ -4040,6 +4048,14 @@ module Aws::AutoScaling
     #     `AutoScalingGroupName` parameter. For valid `StatusCode` values, see
     #     [Activity][1] in the *Amazon EC2 Auto Scaling API Reference*.
     #
+    #   `StartTimeLowerBound` and `StartTimeUpperBound` accept ISO 8601
+    #   formatted timestamps. Timestamps without a timezone offset are assumed
+    #   to be UTC.
+    #
+    #   * `2000-01-18T08:15:00Z`
+    #
+    #   * `2000-01-18T16:15:00+08:00`
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_Activity.html
@@ -4576,7 +4592,7 @@ module Aws::AutoScaling
     #   resp.instances[0].instance_id #=> String
     #   resp.instances[0].instance_type #=> String
     #   resp.instances[0].availability_zone #=> String
-    #   resp.instances[0].lifecycle_state #=> String, one of "Pending", "Pending:Wait", "Pending:Proceed", "Quarantined", "InService", "Terminating", "Terminating:Wait", "Terminating:Proceed", "Terminated", "Detaching", "Detached", "EnteringStandby", "Standby", "Warmed:Pending", "Warmed:Pending:Wait", "Warmed:Pending:Proceed", "Warmed:Terminating", "Warmed:Terminating:Wait", "Warmed:Terminating:Proceed", "Warmed:Terminated", "Warmed:Stopped", "Warmed:Running", "Warmed:Hibernated"
+    #   resp.instances[0].lifecycle_state #=> String, one of "Pending", "Pending:Wait", "Pending:Proceed", "Quarantined", "InService", "Terminating", "Terminating:Wait", "Terminating:Proceed", "Terminating:Retained", "Terminated", "Detaching", "Detached", "EnteringStandby", "Standby", "ReplacingRootVolume", "ReplacingRootVolume:Wait", "ReplacingRootVolume:Proceed", "RootVolumeReplaced", "Warmed:Pending", "Warmed:Pending:Wait", "Warmed:Pending:Proceed", "Warmed:Pending:Retained", "Warmed:Terminating", "Warmed:Terminating:Wait", "Warmed:Terminating:Proceed", "Warmed:Terminating:Retained", "Warmed:Terminated", "Warmed:Stopped", "Warmed:Running", "Warmed:Hibernated"
     #   resp.instances[0].health_status #=> String
     #   resp.instances[0].launch_configuration_name #=> String
     #   resp.instances[0].launch_template.launch_template_id #=> String
@@ -7510,6 +7526,14 @@ module Aws::AutoScaling
     #
     #   Default: `none`
     #
+    #   For more information, see [ Configure deletion protection for your
+    #   Amazon EC2 Auto Scaling resources][1] in the *Amazon EC2 Auto Scaling
+    #   User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/resource-deletion-protection.html
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     #
@@ -7700,7 +7724,7 @@ module Aws::AutoScaling
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-autoscaling'
-      context[:gem_version] = '1.155.0'
+      context[:gem_version] = '1.156.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

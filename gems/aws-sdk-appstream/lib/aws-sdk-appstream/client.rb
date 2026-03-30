@@ -2441,6 +2441,11 @@ module Aws::AppStream
     #   The streaming protocol you want your stack to prefer. This can be UDP
     #   or TCP. Currently, UDP is only supported in the Windows native client.
     #
+    # @option params [Types::ContentRedirection] :content_redirection
+    #   Configuration for bidirectional URL redirection between the streaming
+    #   session and the local client. Use HostToClient to redirect URLs from
+    #   the remote desktop to the local browser.
+    #
     # @return [Types::CreateStackResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateStackResult#stack #stack} => Types::Stack
@@ -2485,6 +2490,13 @@ module Aws::AppStream
     #     streaming_experience_settings: {
     #       preferred_protocol: "TCP", # accepts TCP, UDP
     #     },
+    #     content_redirection: {
+    #       host_to_client: {
+    #         enabled: false, # required
+    #         allowed_urls: ["UrlPattern"],
+    #         denied_urls: ["UrlPattern"],
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -2519,6 +2531,11 @@ module Aws::AppStream
     #   resp.stack.embed_host_domains #=> Array
     #   resp.stack.embed_host_domains[0] #=> String
     #   resp.stack.streaming_experience_settings.preferred_protocol #=> String, one of "TCP", "UDP"
+    #   resp.stack.content_redirection.host_to_client.enabled #=> Boolean
+    #   resp.stack.content_redirection.host_to_client.allowed_urls #=> Array
+    #   resp.stack.content_redirection.host_to_client.allowed_urls[0] #=> String
+    #   resp.stack.content_redirection.host_to_client.denied_urls #=> Array
+    #   resp.stack.content_redirection.host_to_client.denied_urls[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateStack AWS API Documentation
     #
@@ -4202,6 +4219,11 @@ module Aws::AppStream
     #   resp.stacks[0].embed_host_domains #=> Array
     #   resp.stacks[0].embed_host_domains[0] #=> String
     #   resp.stacks[0].streaming_experience_settings.preferred_protocol #=> String, one of "TCP", "UDP"
+    #   resp.stacks[0].content_redirection.host_to_client.enabled #=> Boolean
+    #   resp.stacks[0].content_redirection.host_to_client.allowed_urls #=> Array
+    #   resp.stacks[0].content_redirection.host_to_client.allowed_urls[0] #=> String
+    #   resp.stacks[0].content_redirection.host_to_client.denied_urls #=> Array
+    #   resp.stacks[0].content_redirection.host_to_client.denied_urls[0] #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeStacks AWS API Documentation
@@ -6172,7 +6194,7 @@ module Aws::AppStream
     #     delete_storage_connectors: false,
     #     redirect_url: "RedirectURL",
     #     feedback_url: "FeedbackURL",
-    #     attributes_to_delete: ["STORAGE_CONNECTORS"], # accepts STORAGE_CONNECTORS, STORAGE_CONNECTOR_HOMEFOLDERS, STORAGE_CONNECTOR_GOOGLE_DRIVE, STORAGE_CONNECTOR_ONE_DRIVE, REDIRECT_URL, FEEDBACK_URL, THEME_NAME, USER_SETTINGS, EMBED_HOST_DOMAINS, IAM_ROLE_ARN, ACCESS_ENDPOINTS, STREAMING_EXPERIENCE_SETTINGS
+    #     attributes_to_delete: ["STORAGE_CONNECTORS"], # accepts STORAGE_CONNECTORS, STORAGE_CONNECTOR_HOMEFOLDERS, STORAGE_CONNECTOR_GOOGLE_DRIVE, STORAGE_CONNECTOR_ONE_DRIVE, REDIRECT_URL, FEEDBACK_URL, THEME_NAME, USER_SETTINGS, EMBED_HOST_DOMAINS, IAM_ROLE_ARN, ACCESS_ENDPOINTS, STREAMING_EXPERIENCE_SETTINGS, CONTENT_REDIRECTION
     #     user_settings: [
     #       {
     #         action: "CLIPBOARD_COPY_FROM_LOCAL_DEVICE", # required, accepts CLIPBOARD_COPY_FROM_LOCAL_DEVICE, CLIPBOARD_COPY_TO_LOCAL_DEVICE, FILE_UPLOAD, FILE_DOWNLOAD, PRINTING_TO_LOCAL_DEVICE, DOMAIN_PASSWORD_SIGNIN, DOMAIN_SMART_CARD_SIGNIN, AUTO_TIME_ZONE_REDIRECTION
@@ -6228,6 +6250,11 @@ module Aws::AppStream
     #   resp.stack.embed_host_domains #=> Array
     #   resp.stack.embed_host_domains[0] #=> String
     #   resp.stack.streaming_experience_settings.preferred_protocol #=> String, one of "TCP", "UDP"
+    #   resp.stack.content_redirection.host_to_client.enabled #=> Boolean
+    #   resp.stack.content_redirection.host_to_client.allowed_urls #=> Array
+    #   resp.stack.content_redirection.host_to_client.allowed_urls[0] #=> String
+    #   resp.stack.content_redirection.host_to_client.denied_urls #=> Array
+    #   resp.stack.content_redirection.host_to_client.denied_urls[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/UpdateStack AWS API Documentation
     #
@@ -6343,7 +6370,7 @@ module Aws::AppStream
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-appstream'
-      context[:gem_version] = '1.129.0'
+      context[:gem_version] = '1.130.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

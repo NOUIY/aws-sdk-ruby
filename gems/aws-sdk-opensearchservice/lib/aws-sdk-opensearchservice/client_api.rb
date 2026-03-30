@@ -173,6 +173,8 @@ module Aws::OpenSearchService
     DescribeDryRunProgressResponse = Shapes::StructureShape.new(name: 'DescribeDryRunProgressResponse')
     DescribeInboundConnectionsRequest = Shapes::StructureShape.new(name: 'DescribeInboundConnectionsRequest')
     DescribeInboundConnectionsResponse = Shapes::StructureShape.new(name: 'DescribeInboundConnectionsResponse')
+    DescribeInsightDetailsRequest = Shapes::StructureShape.new(name: 'DescribeInsightDetailsRequest')
+    DescribeInsightDetailsResponse = Shapes::StructureShape.new(name: 'DescribeInsightDetailsResponse')
     DescribeInstanceTypeLimitsRequest = Shapes::StructureShape.new(name: 'DescribeInstanceTypeLimitsRequest')
     DescribeInstanceTypeLimitsResponse = Shapes::StructureShape.new(name: 'DescribeInstanceTypeLimitsResponse')
     DescribeOutboundConnectionsRequest = Shapes::StructureShape.new(name: 'DescribeOutboundConnectionsRequest')
@@ -296,6 +298,20 @@ module Aws::OpenSearchService
     IndexSchema = Shapes::DocumentShape.new(name: 'IndexSchema', document: true)
     IndexStatus = Shapes::StringShape.new(name: 'IndexStatus')
     InitiatedBy = Shapes::StringShape.new(name: 'InitiatedBy')
+    Insight = Shapes::StructureShape.new(name: 'Insight')
+    InsightEntity = Shapes::StructureShape.new(name: 'InsightEntity')
+    InsightEntityType = Shapes::StringShape.new(name: 'InsightEntityType')
+    InsightEntityValue = Shapes::StringShape.new(name: 'InsightEntityValue')
+    InsightField = Shapes::StructureShape.new(name: 'InsightField')
+    InsightFieldList = Shapes::ListShape.new(name: 'InsightFieldList')
+    InsightFieldType = Shapes::StringShape.new(name: 'InsightFieldType')
+    InsightList = Shapes::ListShape.new(name: 'InsightList')
+    InsightPageSize = Shapes::IntegerShape.new(name: 'InsightPageSize')
+    InsightPriorityLevel = Shapes::StringShape.new(name: 'InsightPriorityLevel')
+    InsightSortOrder = Shapes::StringShape.new(name: 'InsightSortOrder')
+    InsightStatus = Shapes::StringShape.new(name: 'InsightStatus')
+    InsightTimeRange = Shapes::StructureShape.new(name: 'InsightTimeRange')
+    InsightType = Shapes::StringShape.new(name: 'InsightType')
     InstanceCount = Shapes::IntegerShape.new(name: 'InstanceCount')
     InstanceCountLimits = Shapes::StructureShape.new(name: 'InstanceCountLimits')
     InstanceLimits = Shapes::StructureShape.new(name: 'InstanceLimits')
@@ -336,6 +352,8 @@ module Aws::OpenSearchService
     ListDomainNamesResponse = Shapes::StructureShape.new(name: 'ListDomainNamesResponse')
     ListDomainsForPackageRequest = Shapes::StructureShape.new(name: 'ListDomainsForPackageRequest')
     ListDomainsForPackageResponse = Shapes::StructureShape.new(name: 'ListDomainsForPackageResponse')
+    ListInsightsRequest = Shapes::StructureShape.new(name: 'ListInsightsRequest')
+    ListInsightsResponse = Shapes::StructureShape.new(name: 'ListInsightsResponse')
     ListInstanceTypeDetailsRequest = Shapes::StructureShape.new(name: 'ListInstanceTypeDetailsRequest')
     ListInstanceTypeDetailsResponse = Shapes::StructureShape.new(name: 'ListInstanceTypeDetailsResponse')
     ListPackagesForDomainRequest = Shapes::StructureShape.new(name: 'ListPackagesForDomainRequest')
@@ -1120,6 +1138,14 @@ module Aws::OpenSearchService
     DescribeInboundConnectionsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     DescribeInboundConnectionsResponse.struct_class = Types::DescribeInboundConnectionsResponse
 
+    DescribeInsightDetailsRequest.add_member(:entity, Shapes::ShapeRef.new(shape: InsightEntity, required: true, location_name: "Entity"))
+    DescribeInsightDetailsRequest.add_member(:insight_id, Shapes::ShapeRef.new(shape: GUID, required: true, location_name: "InsightId"))
+    DescribeInsightDetailsRequest.add_member(:show_html_content, Shapes::ShapeRef.new(shape: Boolean, location_name: "ShowHtmlContent"))
+    DescribeInsightDetailsRequest.struct_class = Types::DescribeInsightDetailsRequest
+
+    DescribeInsightDetailsResponse.add_member(:fields, Shapes::ShapeRef.new(shape: InsightFieldList, required: true, location_name: "Fields"))
+    DescribeInsightDetailsResponse.struct_class = Types::DescribeInsightDetailsResponse
+
     DescribeInstanceTypeLimitsRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: DomainName, location: "querystring", location_name: "domainName"))
     DescribeInstanceTypeLimitsRequest.add_member(:instance_type, Shapes::ShapeRef.new(shape: OpenSearchPartitionInstanceType, required: true, location: "uri", location_name: "InstanceType"))
     DescribeInstanceTypeLimitsRequest.add_member(:engine_version, Shapes::ShapeRef.new(shape: VersionString, required: true, location: "uri", location_name: "EngineVersion"))
@@ -1545,6 +1571,33 @@ module Aws::OpenSearchService
 
     InboundConnections.member = Shapes::ShapeRef.new(shape: InboundConnection)
 
+    Insight.add_member(:insight_id, Shapes::ShapeRef.new(shape: GUID, location_name: "InsightId"))
+    Insight.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "DisplayName"))
+    Insight.add_member(:type, Shapes::ShapeRef.new(shape: InsightType, location_name: "Type"))
+    Insight.add_member(:priority, Shapes::ShapeRef.new(shape: InsightPriorityLevel, location_name: "Priority"))
+    Insight.add_member(:status, Shapes::ShapeRef.new(shape: InsightStatus, location_name: "Status"))
+    Insight.add_member(:creation_time, Shapes::ShapeRef.new(shape: UpdateTimestamp, location_name: "CreationTime"))
+    Insight.add_member(:update_time, Shapes::ShapeRef.new(shape: UpdateTimestamp, location_name: "UpdateTime"))
+    Insight.add_member(:is_experimental, Shapes::ShapeRef.new(shape: Boolean, location_name: "IsExperimental"))
+    Insight.struct_class = Types::Insight
+
+    InsightEntity.add_member(:type, Shapes::ShapeRef.new(shape: InsightEntityType, required: true, location_name: "Type"))
+    InsightEntity.add_member(:value, Shapes::ShapeRef.new(shape: InsightEntityValue, location_name: "Value"))
+    InsightEntity.struct_class = Types::InsightEntity
+
+    InsightField.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Name"))
+    InsightField.add_member(:type, Shapes::ShapeRef.new(shape: InsightFieldType, required: true, location_name: "Type"))
+    InsightField.add_member(:value, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Value"))
+    InsightField.struct_class = Types::InsightField
+
+    InsightFieldList.member = Shapes::ShapeRef.new(shape: InsightField)
+
+    InsightList.member = Shapes::ShapeRef.new(shape: Insight)
+
+    InsightTimeRange.add_member(:from, Shapes::ShapeRef.new(shape: Long, required: true, location_name: "From"))
+    InsightTimeRange.add_member(:to, Shapes::ShapeRef.new(shape: Long, required: true, location_name: "To"))
+    InsightTimeRange.struct_class = Types::InsightTimeRange
+
     InstanceCountLimits.add_member(:minimum_instance_count, Shapes::ShapeRef.new(shape: MinimumInstanceCount, location_name: "MinimumInstanceCount"))
     InstanceCountLimits.add_member(:maximum_instance_count, Shapes::ShapeRef.new(shape: MaximumInstanceCount, location_name: "MaximumInstanceCount"))
     InstanceCountLimits.struct_class = Types::InstanceCountLimits
@@ -1649,6 +1702,17 @@ module Aws::OpenSearchService
     ListDomainsForPackageResponse.add_member(:domain_package_details_list, Shapes::ShapeRef.new(shape: DomainPackageDetailsList, location_name: "DomainPackageDetailsList"))
     ListDomainsForPackageResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
     ListDomainsForPackageResponse.struct_class = Types::ListDomainsForPackageResponse
+
+    ListInsightsRequest.add_member(:entity, Shapes::ShapeRef.new(shape: InsightEntity, required: true, location_name: "Entity"))
+    ListInsightsRequest.add_member(:time_range, Shapes::ShapeRef.new(shape: InsightTimeRange, location_name: "TimeRange"))
+    ListInsightsRequest.add_member(:sort_order, Shapes::ShapeRef.new(shape: InsightSortOrder, location_name: "SortOrder"))
+    ListInsightsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: InsightPageSize, location_name: "MaxResults"))
+    ListInsightsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
+    ListInsightsRequest.struct_class = Types::ListInsightsRequest
+
+    ListInsightsResponse.add_member(:insights, Shapes::ShapeRef.new(shape: InsightList, location_name: "Insights"))
+    ListInsightsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListInsightsResponse.struct_class = Types::ListInsightsResponse
 
     ListInstanceTypeDetailsRequest.add_member(:engine_version, Shapes::ShapeRef.new(shape: VersionString, required: true, location: "uri", location_name: "EngineVersion"))
     ListInstanceTypeDetailsRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: DomainName, location: "querystring", location_name: "domainName"))
@@ -2725,6 +2789,20 @@ module Aws::OpenSearchService
         )
       end)
 
+      api.add_operation(:describe_insight_details, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeInsightDetails"
+        o.http_method = "POST"
+        o.http_request_uri = "/2021-01-01/opensearch/insight-details"
+        o.input = Shapes::ShapeRef.new(shape: DescribeInsightDetailsRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeInsightDetailsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: BaseException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+      end)
+
       api.add_operation(:describe_instance_type_limits, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DescribeInstanceTypeLimits"
         o.http_method = "GET"
@@ -3088,6 +3166,20 @@ module Aws::OpenSearchService
             "next_token" => "next_token"
           }
         )
+      end)
+
+      api.add_operation(:list_insights, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListInsights"
+        o.http_method = "POST"
+        o.http_request_uri = "/2021-01-01/opensearch/insights"
+        o.input = Shapes::ShapeRef.new(shape: ListInsightsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListInsightsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: BaseException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
       end)
 
       api.add_operation(:list_instance_type_details, Seahorse::Model::Operation.new.tap do |o|

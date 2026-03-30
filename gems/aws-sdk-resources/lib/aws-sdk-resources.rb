@@ -129,6 +129,7 @@ module Aws
   autoload :DatabaseMigrationService, 'aws-sdk-databasemigrationservice'
   autoload :Deadline, 'aws-sdk-deadline'
   autoload :Detective, 'aws-sdk-detective'
+  autoload :DevOpsAgent, 'aws-sdk-devopsagent'
   autoload :DevOpsGuru, 'aws-sdk-devopsguru'
   autoload :DeviceFarm, 'aws-sdk-devicefarm'
   autoload :DirectConnect, 'aws-sdk-directconnect'

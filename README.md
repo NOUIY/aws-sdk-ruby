@@ -362,6 +362,7 @@ RubyGems.org page under "LINKS" section.
 | AWS Data Pipeline                                     | Aws::DataPipeline                        | aws-sdk-datapipeline                        | 2012-10-29  |
 | AWS DataSync                                          | Aws::DataSync                            | aws-sdk-datasync                            | 2018-11-09  |
 | AWS Database Migration Service                        | Aws::DatabaseMigrationService            | aws-sdk-databasemigrationservice            | 2016-01-01  |
+| AWS DevOps Agent Service                              | Aws::DevOpsAgent                         | aws-sdk-devopsagent                         | 2026-01-01  |
 | AWS Device Farm                                       | Aws::DeviceFarm                          | aws-sdk-devicefarm                          | 2015-06-23  |
 | AWS Direct Connect                                    | Aws::DirectConnect                       | aws-sdk-directconnect                       | 2012-10-25  |
 | AWS Directory Service                                 | Aws::DirectoryService                    | aws-sdk-directoryservice                    | 2015-04-16  |

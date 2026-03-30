@@ -234,6 +234,21 @@ module Aws::CloudWatchLogs
       SENSITIVE: []
     end
 
+    class CreateLookupTableRequest
+      attr_accessor lookup_table_name: ::String
+      attr_accessor description: ::String
+      attr_accessor table_body: ::String
+      attr_accessor kms_key_id: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class CreateLookupTableResponse
+      attr_accessor lookup_table_arn: ::String
+      attr_accessor created_at: ::Integer
+      SENSITIVE: []
+    end
+
     class CreateScheduledQueryRequest
       attr_accessor name: ::String
       attr_accessor description: ::String
@@ -357,6 +372,11 @@ module Aws::CloudWatchLogs
     class DeleteLogStreamRequest
       attr_accessor log_group_name: ::String
       attr_accessor log_stream_name: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteLookupTableRequest
+      attr_accessor lookup_table_arn: ::String
       SENSITIVE: []
     end
 
@@ -624,6 +644,19 @@ module Aws::CloudWatchLogs
 
     class DescribeLogStreamsResponse
       attr_accessor log_streams: ::Array[Types::LogStream]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeLookupTablesRequest
+      attr_accessor lookup_table_name_prefix: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeLookupTablesResponse
+      attr_accessor lookup_tables: ::Array[Types::LookupTable]
       attr_accessor next_token: ::String
       SENSITIVE: []
     end
@@ -955,6 +988,22 @@ module Aws::CloudWatchLogs
 
     class GetLogRecordResponse
       attr_accessor log_record: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class GetLookupTableRequest
+      attr_accessor lookup_table_arn: ::String
+      SENSITIVE: []
+    end
+
+    class GetLookupTableResponse
+      attr_accessor lookup_table_arn: ::String
+      attr_accessor lookup_table_name: ::String
+      attr_accessor description: ::String
+      attr_accessor table_body: ::String
+      attr_accessor size_bytes: ::Integer
+      attr_accessor last_updated_time: ::Integer
+      attr_accessor kms_key_id: ::String
       SENSITIVE: []
     end
 
@@ -1363,6 +1412,18 @@ module Aws::CloudWatchLogs
       attr_accessor upload_sequence_token: ::String
       attr_accessor arn: ::String
       attr_accessor stored_bytes: ::Integer
+      SENSITIVE: []
+    end
+
+    class LookupTable
+      attr_accessor lookup_table_arn: ::String
+      attr_accessor lookup_table_name: ::String
+      attr_accessor description: ::String
+      attr_accessor table_fields: ::Array[::String]
+      attr_accessor records_count: ::Integer
+      attr_accessor size_bytes: ::Integer
+      attr_accessor last_updated_time: ::Integer
+      attr_accessor kms_key_id: ::String
       SENSITIVE: []
     end
 
@@ -2182,6 +2243,20 @@ module Aws::CloudWatchLogs
       attr_accessor filter_pattern: ::String
       attr_accessor anomaly_visibility_time: ::Integer
       attr_accessor enabled: bool
+      SENSITIVE: []
+    end
+
+    class UpdateLookupTableRequest
+      attr_accessor lookup_table_arn: ::String
+      attr_accessor description: ::String
+      attr_accessor table_body: ::String
+      attr_accessor kms_key_id: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateLookupTableResponse
+      attr_accessor lookup_table_arn: ::String
+      attr_accessor last_updated_time: ::Integer
       SENSITIVE: []
     end
 

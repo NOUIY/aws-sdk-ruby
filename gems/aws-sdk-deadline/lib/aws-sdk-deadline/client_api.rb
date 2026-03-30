@@ -126,6 +126,7 @@ module Aws::Deadline
     CreatedBy = Shapes::StringShape.new(name: 'CreatedBy')
     CustomFleetAmountCapabilities = Shapes::ListShape.new(name: 'CustomFleetAmountCapabilities')
     CustomFleetAttributeCapabilities = Shapes::ListShape.new(name: 'CustomFleetAttributeCapabilities')
+    CustomerManagedAutoScalingConfiguration = Shapes::StructureShape.new(name: 'CustomerManagedAutoScalingConfiguration')
     CustomerManagedFleetConfiguration = Shapes::StructureShape.new(name: 'CustomerManagedFleetConfiguration')
     CustomerManagedFleetOperatingSystemFamily = Shapes::StringShape.new(name: 'CustomerManagedFleetOperatingSystemFamily')
     CustomerManagedWorkerCapabilities = Shapes::StructureShape.new(name: 'CustomerManagedWorkerCapabilities')
@@ -491,9 +492,11 @@ module Aws::Deadline
     SearchWorkersResponse = Shapes::StructureShape.new(name: 'SearchWorkersResponse')
     SecretAccessKey = Shapes::StringShape.new(name: 'SecretAccessKey')
     SecurityGroupId = Shapes::StringShape.new(name: 'SecurityGroupId')
+    ServiceManagedEc2AutoScalingConfiguration = Shapes::StructureShape.new(name: 'ServiceManagedEc2AutoScalingConfiguration')
     ServiceManagedEc2FleetConfiguration = Shapes::StructureShape.new(name: 'ServiceManagedEc2FleetConfiguration')
     ServiceManagedEc2InstanceCapabilities = Shapes::StructureShape.new(name: 'ServiceManagedEc2InstanceCapabilities')
     ServiceManagedEc2InstanceMarketOptions = Shapes::StructureShape.new(name: 'ServiceManagedEc2InstanceMarketOptions')
+    ServiceManagedEc2WorkerIdleDurationSeconds = Shapes::IntegerShape.new(name: 'ServiceManagedEc2WorkerIdleDurationSeconds')
     ServiceManagedFleetOperatingSystemFamily = Shapes::StringShape.new(name: 'ServiceManagedFleetOperatingSystemFamily')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     ServiceQuotaExceededExceptionReason = Shapes::StringShape.new(name: 'ServiceQuotaExceededExceptionReason')
@@ -747,20 +750,20 @@ module Aws::Deadline
     AssignedTaskRunSessionActionDefinition.struct_class = Types::AssignedTaskRunSessionActionDefinition
 
     AssociateMemberToFarmRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
-    AssociateMemberToFarmRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, required: true, location: "uri", location_name: "principalId"))
     AssociateMemberToFarmRequest.add_member(:principal_type, Shapes::ShapeRef.new(shape: PrincipalType, required: true, location_name: "principalType"))
     AssociateMemberToFarmRequest.add_member(:identity_store_id, Shapes::ShapeRef.new(shape: IdentityStoreId, required: true, location_name: "identityStoreId"))
     AssociateMemberToFarmRequest.add_member(:membership_level, Shapes::ShapeRef.new(shape: MembershipLevel, required: true, location_name: "membershipLevel"))
+    AssociateMemberToFarmRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, required: true, location: "uri", location_name: "principalId"))
     AssociateMemberToFarmRequest.struct_class = Types::AssociateMemberToFarmRequest
 
     AssociateMemberToFarmResponse.struct_class = Types::AssociateMemberToFarmResponse
 
     AssociateMemberToFleetRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     AssociateMemberToFleetRequest.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location: "uri", location_name: "fleetId"))
-    AssociateMemberToFleetRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, required: true, location: "uri", location_name: "principalId"))
     AssociateMemberToFleetRequest.add_member(:principal_type, Shapes::ShapeRef.new(shape: PrincipalType, required: true, location_name: "principalType"))
     AssociateMemberToFleetRequest.add_member(:identity_store_id, Shapes::ShapeRef.new(shape: IdentityStoreId, required: true, location_name: "identityStoreId"))
     AssociateMemberToFleetRequest.add_member(:membership_level, Shapes::ShapeRef.new(shape: MembershipLevel, required: true, location_name: "membershipLevel"))
+    AssociateMemberToFleetRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, required: true, location: "uri", location_name: "principalId"))
     AssociateMemberToFleetRequest.struct_class = Types::AssociateMemberToFleetRequest
 
     AssociateMemberToFleetResponse.struct_class = Types::AssociateMemberToFleetResponse
@@ -768,20 +771,20 @@ module Aws::Deadline
     AssociateMemberToJobRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     AssociateMemberToJobRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
     AssociateMemberToJobRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location: "uri", location_name: "jobId"))
-    AssociateMemberToJobRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, required: true, location: "uri", location_name: "principalId"))
     AssociateMemberToJobRequest.add_member(:principal_type, Shapes::ShapeRef.new(shape: PrincipalType, required: true, location_name: "principalType"))
     AssociateMemberToJobRequest.add_member(:identity_store_id, Shapes::ShapeRef.new(shape: IdentityStoreId, required: true, location_name: "identityStoreId"))
     AssociateMemberToJobRequest.add_member(:membership_level, Shapes::ShapeRef.new(shape: MembershipLevel, required: true, location_name: "membershipLevel"))
+    AssociateMemberToJobRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, required: true, location: "uri", location_name: "principalId"))
     AssociateMemberToJobRequest.struct_class = Types::AssociateMemberToJobRequest
 
     AssociateMemberToJobResponse.struct_class = Types::AssociateMemberToJobResponse
 
     AssociateMemberToQueueRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     AssociateMemberToQueueRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
-    AssociateMemberToQueueRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, required: true, location: "uri", location_name: "principalId"))
     AssociateMemberToQueueRequest.add_member(:principal_type, Shapes::ShapeRef.new(shape: PrincipalType, required: true, location_name: "principalType"))
     AssociateMemberToQueueRequest.add_member(:identity_store_id, Shapes::ShapeRef.new(shape: IdentityStoreId, required: true, location_name: "identityStoreId"))
     AssociateMemberToQueueRequest.add_member(:membership_level, Shapes::ShapeRef.new(shape: MembershipLevel, required: true, location_name: "membershipLevel"))
+    AssociateMemberToQueueRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, required: true, location: "uri", location_name: "principalId"))
     AssociateMemberToQueueRequest.struct_class = Types::AssociateMemberToQueueRequest
 
     AssociateMemberToQueueResponse.struct_class = Types::AssociateMemberToQueueResponse
@@ -875,13 +878,13 @@ module Aws::Deadline
     BudgetSummary.add_member(:usage_tracking_resource, Shapes::ShapeRef.new(shape: UsageTrackingResource, required: true, location_name: "usageTrackingResource"))
     BudgetSummary.add_member(:status, Shapes::ShapeRef.new(shape: BudgetStatus, required: true, location_name: "status"))
     BudgetSummary.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
-    BudgetSummary.add_member(:description, Shapes::ShapeRef.new(shape: Description, deprecated: true, location_name: "description", metadata: {"deprecatedMessage" => "ListBudgets no longer supports description. Use GetBudget if description is needed."}))
     BudgetSummary.add_member(:approximate_dollar_limit, Shapes::ShapeRef.new(shape: ConsumedUsageLimit, required: true, location_name: "approximateDollarLimit"))
     BudgetSummary.add_member(:usages, Shapes::ShapeRef.new(shape: ConsumedUsages, required: true, location_name: "usages"))
     BudgetSummary.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
     BudgetSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
     BudgetSummary.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
     BudgetSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
+    BudgetSummary.add_member(:description, Shapes::ShapeRef.new(shape: Description, deprecated: true, location_name: "description", metadata: {"deprecatedMessage" => "ListBudgets no longer supports description. Use GetBudget if description is needed."}))
     BudgetSummary.struct_class = Types::BudgetSummary
 
     CancelSessionActions.key = Shapes::ShapeRef.new(shape: SessionId)
@@ -898,19 +901,19 @@ module Aws::Deadline
     ConsumedUsages.struct_class = Types::ConsumedUsages
 
     CopyJobTemplateRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
-    CopyJobTemplateRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location: "uri", location_name: "jobId"))
     CopyJobTemplateRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
+    CopyJobTemplateRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location: "uri", location_name: "jobId"))
     CopyJobTemplateRequest.add_member(:target_s3_location, Shapes::ShapeRef.new(shape: S3Location, required: true, location_name: "targetS3Location"))
     CopyJobTemplateRequest.struct_class = Types::CopyJobTemplateRequest
 
     CopyJobTemplateResponse.add_member(:template_type, Shapes::ShapeRef.new(shape: JobTemplateType, required: true, location_name: "templateType"))
     CopyJobTemplateResponse.struct_class = Types::CopyJobTemplateResponse
 
-    CreateBudgetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     CreateBudgetRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
-    CreateBudgetRequest.add_member(:usage_tracking_resource, Shapes::ShapeRef.new(shape: UsageTrackingResource, required: true, location_name: "usageTrackingResource"))
     CreateBudgetRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
     CreateBudgetRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    CreateBudgetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
+    CreateBudgetRequest.add_member(:usage_tracking_resource, Shapes::ShapeRef.new(shape: UsageTrackingResource, required: true, location_name: "usageTrackingResource"))
     CreateBudgetRequest.add_member(:approximate_dollar_limit, Shapes::ShapeRef.new(shape: ConsumedUsageLimit, required: true, location_name: "approximateDollarLimit"))
     CreateBudgetRequest.add_member(:actions, Shapes::ShapeRef.new(shape: BudgetActionsToAdd, required: true, location_name: "actions"))
     CreateBudgetRequest.add_member(:schedule, Shapes::ShapeRef.new(shape: BudgetSchedule, required: true, location_name: "schedule"))
@@ -931,8 +934,8 @@ module Aws::Deadline
     CreateFarmResponse.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
     CreateFarmResponse.struct_class = Types::CreateFarmResponse
 
-    CreateFleetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     CreateFleetRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
+    CreateFleetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     CreateFleetRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
     CreateFleetRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     CreateFleetRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "roleArn"))
@@ -982,11 +985,11 @@ module Aws::Deadline
     CreateLicenseEndpointResponse.add_member(:license_endpoint_id, Shapes::ShapeRef.new(shape: LicenseEndpointId, required: true, location_name: "licenseEndpointId"))
     CreateLicenseEndpointResponse.struct_class = Types::CreateLicenseEndpointResponse
 
+    CreateLimitRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     CreateLimitRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     CreateLimitRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
     CreateLimitRequest.add_member(:amount_requirement_name, Shapes::ShapeRef.new(shape: AmountRequirementName, required: true, location_name: "amountRequirementName"))
     CreateLimitRequest.add_member(:max_count, Shapes::ShapeRef.new(shape: MaxCount, required: true, location_name: "maxCount"))
-    CreateLimitRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     CreateLimitRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     CreateLimitRequest.struct_class = Types::CreateLimitRequest
 
@@ -1005,9 +1008,9 @@ module Aws::Deadline
     CreateMonitorResponse.add_member(:identity_center_application_arn, Shapes::ShapeRef.new(shape: IdentityCenterApplicationArn, required: true, location_name: "identityCenterApplicationArn"))
     CreateMonitorResponse.struct_class = Types::CreateMonitorResponse
 
-    CreateQueueEnvironmentRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     CreateQueueEnvironmentRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     CreateQueueEnvironmentRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
+    CreateQueueEnvironmentRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     CreateQueueEnvironmentRequest.add_member(:priority, Shapes::ShapeRef.new(shape: Priority, required: true, location_name: "priority"))
     CreateQueueEnvironmentRequest.add_member(:template_type, Shapes::ShapeRef.new(shape: EnvironmentTemplateType, required: true, location_name: "templateType"))
     CreateQueueEnvironmentRequest.add_member(:template, Shapes::ShapeRef.new(shape: EnvironmentTemplate, required: true, location_name: "template"))
@@ -1030,8 +1033,8 @@ module Aws::Deadline
 
     CreateQueueLimitAssociationResponse.struct_class = Types::CreateQueueLimitAssociationResponse
 
-    CreateQueueRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     CreateQueueRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
+    CreateQueueRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     CreateQueueRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
     CreateQueueRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     CreateQueueRequest.add_member(:default_budget_action, Shapes::ShapeRef.new(shape: DefaultQueueBudgetAction, location_name: "defaultBudgetAction"))
@@ -1046,8 +1049,8 @@ module Aws::Deadline
     CreateQueueResponse.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
     CreateQueueResponse.struct_class = Types::CreateQueueResponse
 
-    CreateStorageProfileRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     CreateStorageProfileRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
+    CreateStorageProfileRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     CreateStorageProfileRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
     CreateStorageProfileRequest.add_member(:os_family, Shapes::ShapeRef.new(shape: StorageProfileOperatingSystemFamily, required: true, location_name: "osFamily"))
     CreateStorageProfileRequest.add_member(:file_system_locations, Shapes::ShapeRef.new(shape: FileSystemLocationsList, location_name: "fileSystemLocations"))
@@ -1070,7 +1073,13 @@ module Aws::Deadline
 
     CustomFleetAttributeCapabilities.member = Shapes::ShapeRef.new(shape: FleetAttributeCapability)
 
+    CustomerManagedAutoScalingConfiguration.add_member(:standby_worker_count, Shapes::ShapeRef.new(shape: MinZeroMaxInteger, location_name: "standbyWorkerCount"))
+    CustomerManagedAutoScalingConfiguration.add_member(:worker_idle_duration_seconds, Shapes::ShapeRef.new(shape: MinZeroMaxInteger, location_name: "workerIdleDurationSeconds"))
+    CustomerManagedAutoScalingConfiguration.add_member(:scale_out_workers_per_minute, Shapes::ShapeRef.new(shape: MinOneMaxInteger, location_name: "scaleOutWorkersPerMinute"))
+    CustomerManagedAutoScalingConfiguration.struct_class = Types::CustomerManagedAutoScalingConfiguration
+
     CustomerManagedFleetConfiguration.add_member(:mode, Shapes::ShapeRef.new(shape: AutoScalingMode, required: true, location_name: "mode"))
+    CustomerManagedFleetConfiguration.add_member(:auto_scaling_configuration, Shapes::ShapeRef.new(shape: CustomerManagedAutoScalingConfiguration, location_name: "autoScalingConfiguration"))
     CustomerManagedFleetConfiguration.add_member(:worker_capabilities, Shapes::ShapeRef.new(shape: CustomerManagedWorkerCapabilities, required: true, location_name: "workerCapabilities"))
     CustomerManagedFleetConfiguration.add_member(:storage_profile_id, Shapes::ShapeRef.new(shape: StorageProfileId, location_name: "storageProfileId"))
     CustomerManagedFleetConfiguration.add_member(:tag_propagation_mode, Shapes::ShapeRef.new(shape: TagPropagationMode, location_name: "tagPropagationMode"))
@@ -1103,9 +1112,9 @@ module Aws::Deadline
 
     DeleteFarmResponse.struct_class = Types::DeleteFarmResponse
 
-    DeleteFleetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     DeleteFleetRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     DeleteFleetRequest.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location: "uri", location_name: "fleetId"))
+    DeleteFleetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     DeleteFleetRequest.struct_class = Types::DeleteFleetRequest
 
     DeleteFleetResponse.struct_class = Types::DeleteFleetResponse
@@ -1341,15 +1350,15 @@ module Aws::Deadline
     GetBudgetResponse.add_member(:usage_tracking_resource, Shapes::ShapeRef.new(shape: UsageTrackingResource, required: true, location_name: "usageTrackingResource"))
     GetBudgetResponse.add_member(:status, Shapes::ShapeRef.new(shape: BudgetStatus, required: true, location_name: "status"))
     GetBudgetResponse.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
-    GetBudgetResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     GetBudgetResponse.add_member(:approximate_dollar_limit, Shapes::ShapeRef.new(shape: ConsumedUsageLimit, required: true, location_name: "approximateDollarLimit"))
     GetBudgetResponse.add_member(:usages, Shapes::ShapeRef.new(shape: ConsumedUsages, required: true, location_name: "usages"))
-    GetBudgetResponse.add_member(:actions, Shapes::ShapeRef.new(shape: ResponseBudgetActionList, required: true, location_name: "actions"))
-    GetBudgetResponse.add_member(:schedule, Shapes::ShapeRef.new(shape: BudgetSchedule, required: true, location_name: "schedule"))
     GetBudgetResponse.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
     GetBudgetResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
     GetBudgetResponse.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
     GetBudgetResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
+    GetBudgetResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    GetBudgetResponse.add_member(:actions, Shapes::ShapeRef.new(shape: ResponseBudgetActionList, required: true, location_name: "actions"))
+    GetBudgetResponse.add_member(:schedule, Shapes::ShapeRef.new(shape: BudgetSchedule, required: true, location_name: "schedule"))
     GetBudgetResponse.add_member(:queue_stopped_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "queueStoppedAt"))
     GetBudgetResponse.struct_class = Types::GetBudgetResponse
 
@@ -1358,13 +1367,13 @@ module Aws::Deadline
 
     GetFarmResponse.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
     GetFarmResponse.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
-    GetFarmResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     GetFarmResponse.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
-    GetFarmResponse.add_member(:cost_scale_factor, Shapes::ShapeRef.new(shape: CostScaleFactor, required: true, location_name: "costScaleFactor"))
     GetFarmResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
     GetFarmResponse.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
     GetFarmResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
     GetFarmResponse.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
+    GetFarmResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    GetFarmResponse.add_member(:cost_scale_factor, Shapes::ShapeRef.new(shape: CostScaleFactor, required: true, location_name: "costScaleFactor"))
     GetFarmResponse.struct_class = Types::GetFarmResponse
 
     GetFleetRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
@@ -1374,7 +1383,6 @@ module Aws::Deadline
     GetFleetResponse.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location_name: "fleetId"))
     GetFleetResponse.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
     GetFleetResponse.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
-    GetFleetResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     GetFleetResponse.add_member(:status, Shapes::ShapeRef.new(shape: FleetStatus, required: true, location_name: "status"))
     GetFleetResponse.add_member(:status_message, Shapes::ShapeRef.new(shape: String, location_name: "statusMessage"))
     GetFleetResponse.add_member(:auto_scaling_status, Shapes::ShapeRef.new(shape: AutoScalingStatus, location_name: "autoScalingStatus"))
@@ -1383,13 +1391,14 @@ module Aws::Deadline
     GetFleetResponse.add_member(:min_worker_count, Shapes::ShapeRef.new(shape: MinZeroMaxInteger, required: true, location_name: "minWorkerCount"))
     GetFleetResponse.add_member(:max_worker_count, Shapes::ShapeRef.new(shape: MinZeroMaxInteger, required: true, location_name: "maxWorkerCount"))
     GetFleetResponse.add_member(:configuration, Shapes::ShapeRef.new(shape: FleetConfiguration, required: true, location_name: "configuration"))
-    GetFleetResponse.add_member(:host_configuration, Shapes::ShapeRef.new(shape: HostConfiguration, location_name: "hostConfiguration"))
-    GetFleetResponse.add_member(:capabilities, Shapes::ShapeRef.new(shape: FleetCapabilities, location_name: "capabilities"))
-    GetFleetResponse.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "roleArn"))
     GetFleetResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
     GetFleetResponse.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
     GetFleetResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
     GetFleetResponse.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
+    GetFleetResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    GetFleetResponse.add_member(:host_configuration, Shapes::ShapeRef.new(shape: HostConfiguration, location_name: "hostConfiguration"))
+    GetFleetResponse.add_member(:capabilities, Shapes::ShapeRef.new(shape: FleetCapabilities, location_name: "capabilities"))
+    GetFleetResponse.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "roleArn"))
     GetFleetResponse.struct_class = Types::GetFleetResponse
 
     GetJobEntityError.add_member(:job_details, Shapes::ShapeRef.new(shape: JobDetailsError, location_name: "jobDetails"))
@@ -1454,16 +1463,16 @@ module Aws::Deadline
     GetLimitRequest.add_member(:limit_id, Shapes::ShapeRef.new(shape: LimitId, required: true, location: "uri", location_name: "limitId"))
     GetLimitRequest.struct_class = Types::GetLimitRequest
 
-    GetLimitResponse.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
-    GetLimitResponse.add_member(:amount_requirement_name, Shapes::ShapeRef.new(shape: AmountRequirementName, required: true, location_name: "amountRequirementName"))
-    GetLimitResponse.add_member(:max_count, Shapes::ShapeRef.new(shape: MaxCount, required: true, location_name: "maxCount"))
+    GetLimitResponse.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    GetLimitResponse.add_member(:limit_id, Shapes::ShapeRef.new(shape: LimitId, required: true, location_name: "limitId"))
+    GetLimitResponse.add_member(:current_count, Shapes::ShapeRef.new(shape: MinZeroMaxInteger, required: true, location_name: "currentCount"))
     GetLimitResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
     GetLimitResponse.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
     GetLimitResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
     GetLimitResponse.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
-    GetLimitResponse.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
-    GetLimitResponse.add_member(:limit_id, Shapes::ShapeRef.new(shape: LimitId, required: true, location_name: "limitId"))
-    GetLimitResponse.add_member(:current_count, Shapes::ShapeRef.new(shape: MinZeroMaxInteger, required: true, location_name: "currentCount"))
+    GetLimitResponse.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
+    GetLimitResponse.add_member(:amount_requirement_name, Shapes::ShapeRef.new(shape: AmountRequirementName, required: true, location_name: "amountRequirementName"))
+    GetLimitResponse.add_member(:max_count, Shapes::ShapeRef.new(shape: MaxCount, required: true, location_name: "maxCount"))
     GetLimitResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     GetLimitResponse.struct_class = Types::GetLimitResponse
 
@@ -1518,35 +1527,35 @@ module Aws::Deadline
     GetQueueLimitAssociationRequest.add_member(:limit_id, Shapes::ShapeRef.new(shape: LimitId, required: true, location: "uri", location_name: "limitId"))
     GetQueueLimitAssociationRequest.struct_class = Types::GetQueueLimitAssociationRequest
 
+    GetQueueLimitAssociationResponse.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    GetQueueLimitAssociationResponse.add_member(:limit_id, Shapes::ShapeRef.new(shape: LimitId, required: true, location_name: "limitId"))
+    GetQueueLimitAssociationResponse.add_member(:status, Shapes::ShapeRef.new(shape: QueueLimitAssociationStatus, required: true, location_name: "status"))
     GetQueueLimitAssociationResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
     GetQueueLimitAssociationResponse.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
     GetQueueLimitAssociationResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
     GetQueueLimitAssociationResponse.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
-    GetQueueLimitAssociationResponse.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
-    GetQueueLimitAssociationResponse.add_member(:limit_id, Shapes::ShapeRef.new(shape: LimitId, required: true, location_name: "limitId"))
-    GetQueueLimitAssociationResponse.add_member(:status, Shapes::ShapeRef.new(shape: QueueLimitAssociationStatus, required: true, location_name: "status"))
     GetQueueLimitAssociationResponse.struct_class = Types::GetQueueLimitAssociationResponse
 
     GetQueueRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     GetQueueRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
     GetQueueRequest.struct_class = Types::GetQueueRequest
 
+    GetQueueResponse.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
     GetQueueResponse.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
     GetQueueResponse.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
-    GetQueueResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
-    GetQueueResponse.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
     GetQueueResponse.add_member(:status, Shapes::ShapeRef.new(shape: QueueStatus, required: true, location_name: "status"))
     GetQueueResponse.add_member(:default_budget_action, Shapes::ShapeRef.new(shape: DefaultQueueBudgetAction, required: true, location_name: "defaultBudgetAction"))
     GetQueueResponse.add_member(:blocked_reason, Shapes::ShapeRef.new(shape: QueueBlockedReason, location_name: "blockedReason"))
+    GetQueueResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
+    GetQueueResponse.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
+    GetQueueResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
+    GetQueueResponse.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
+    GetQueueResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     GetQueueResponse.add_member(:job_attachment_settings, Shapes::ShapeRef.new(shape: JobAttachmentSettings, location_name: "jobAttachmentSettings"))
     GetQueueResponse.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "roleArn"))
     GetQueueResponse.add_member(:required_file_system_location_names, Shapes::ShapeRef.new(shape: RequiredFileSystemLocationNames, location_name: "requiredFileSystemLocationNames"))
     GetQueueResponse.add_member(:allowed_storage_profile_ids, Shapes::ShapeRef.new(shape: AllowedStorageProfileIds, location_name: "allowedStorageProfileIds"))
     GetQueueResponse.add_member(:job_run_as_user, Shapes::ShapeRef.new(shape: JobRunAsUser, location_name: "jobRunAsUser"))
-    GetQueueResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
-    GetQueueResponse.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
-    GetQueueResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
-    GetQueueResponse.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
     GetQueueResponse.struct_class = Types::GetQueueResponse
 
     GetSessionActionRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
@@ -1561,12 +1570,12 @@ module Aws::Deadline
     GetSessionActionResponse.add_member(:ended_at, Shapes::ShapeRef.new(shape: EndedAt, location_name: "endedAt"))
     GetSessionActionResponse.add_member(:worker_updated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "workerUpdatedAt"))
     GetSessionActionResponse.add_member(:progress_percent, Shapes::ShapeRef.new(shape: SessionActionProgressPercent, location_name: "progressPercent"))
+    GetSessionActionResponse.add_member(:manifests, Shapes::ShapeRef.new(shape: TaskRunManifestPropertiesListResponse, location_name: "manifests"))
     GetSessionActionResponse.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location_name: "sessionId"))
     GetSessionActionResponse.add_member(:process_exit_code, Shapes::ShapeRef.new(shape: ProcessExitCode, location_name: "processExitCode"))
     GetSessionActionResponse.add_member(:progress_message, Shapes::ShapeRef.new(shape: SessionActionProgressMessage, location_name: "progressMessage"))
-    GetSessionActionResponse.add_member(:definition, Shapes::ShapeRef.new(shape: SessionActionDefinition, required: true, location_name: "definition"))
     GetSessionActionResponse.add_member(:acquired_limits, Shapes::ShapeRef.new(shape: AcquiredLimits, location_name: "acquiredLimits"))
-    GetSessionActionResponse.add_member(:manifests, Shapes::ShapeRef.new(shape: TaskRunManifestPropertiesListResponse, location_name: "manifests"))
+    GetSessionActionResponse.add_member(:definition, Shapes::ShapeRef.new(shape: SessionActionDefinition, required: true, location_name: "definition"))
     GetSessionActionResponse.struct_class = Types::GetSessionActionResponse
 
     GetSessionRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
@@ -1579,26 +1588,26 @@ module Aws::Deadline
     GetSessionResponse.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location_name: "fleetId"))
     GetSessionResponse.add_member(:worker_id, Shapes::ShapeRef.new(shape: WorkerId, required: true, location_name: "workerId"))
     GetSessionResponse.add_member(:started_at, Shapes::ShapeRef.new(shape: StartedAt, required: true, location_name: "startedAt"))
-    GetSessionResponse.add_member(:log, Shapes::ShapeRef.new(shape: LogConfiguration, required: true, location_name: "log"))
     GetSessionResponse.add_member(:lifecycle_status, Shapes::ShapeRef.new(shape: SessionLifecycleStatus, required: true, location_name: "lifecycleStatus"))
     GetSessionResponse.add_member(:ended_at, Shapes::ShapeRef.new(shape: EndedAt, location_name: "endedAt"))
+    GetSessionResponse.add_member(:target_lifecycle_status, Shapes::ShapeRef.new(shape: SessionLifecycleTargetStatus, location_name: "targetLifecycleStatus"))
     GetSessionResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
     GetSessionResponse.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
-    GetSessionResponse.add_member(:target_lifecycle_status, Shapes::ShapeRef.new(shape: SessionLifecycleTargetStatus, location_name: "targetLifecycleStatus"))
+    GetSessionResponse.add_member(:log, Shapes::ShapeRef.new(shape: LogConfiguration, required: true, location_name: "log"))
     GetSessionResponse.add_member(:host_properties, Shapes::ShapeRef.new(shape: HostPropertiesResponse, location_name: "hostProperties"))
     GetSessionResponse.add_member(:worker_log, Shapes::ShapeRef.new(shape: LogConfiguration, location_name: "workerLog"))
     GetSessionResponse.struct_class = Types::GetSessionResponse
 
     GetSessionsStatisticsAggregationRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
-    GetSessionsStatisticsAggregationRequest.add_member(:aggregation_id, Shapes::ShapeRef.new(shape: AggregationId, required: true, location: "querystring", location_name: "aggregationId"))
-    GetSessionsStatisticsAggregationRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
     GetSessionsStatisticsAggregationRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    GetSessionsStatisticsAggregationRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    GetSessionsStatisticsAggregationRequest.add_member(:aggregation_id, Shapes::ShapeRef.new(shape: AggregationId, required: true, location: "querystring", location_name: "aggregationId"))
     GetSessionsStatisticsAggregationRequest.struct_class = Types::GetSessionsStatisticsAggregationRequest
 
     GetSessionsStatisticsAggregationResponse.add_member(:statistics, Shapes::ShapeRef.new(shape: StatisticsList, location_name: "statistics"))
-    GetSessionsStatisticsAggregationResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     GetSessionsStatisticsAggregationResponse.add_member(:status, Shapes::ShapeRef.new(shape: SessionsStatisticsAggregationStatus, required: true, location_name: "status"))
     GetSessionsStatisticsAggregationResponse.add_member(:status_message, Shapes::ShapeRef.new(shape: String, location_name: "statusMessage"))
+    GetSessionsStatisticsAggregationResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     GetSessionsStatisticsAggregationResponse.struct_class = Types::GetSessionsStatisticsAggregationResponse
 
     GetStepRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
@@ -1665,12 +1674,12 @@ module Aws::Deadline
     GetTaskResponse.add_member(:run_status, Shapes::ShapeRef.new(shape: TaskRunStatus, required: true, location_name: "runStatus"))
     GetTaskResponse.add_member(:target_run_status, Shapes::ShapeRef.new(shape: TaskTargetRunStatus, location_name: "targetRunStatus"))
     GetTaskResponse.add_member(:failure_retry_count, Shapes::ShapeRef.new(shape: TaskRetryCount, location_name: "failureRetryCount"))
-    GetTaskResponse.add_member(:parameters, Shapes::ShapeRef.new(shape: TaskParameters, location_name: "parameters"))
     GetTaskResponse.add_member(:started_at, Shapes::ShapeRef.new(shape: StartedAt, location_name: "startedAt"))
     GetTaskResponse.add_member(:ended_at, Shapes::ShapeRef.new(shape: EndedAt, location_name: "endedAt"))
     GetTaskResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
     GetTaskResponse.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
     GetTaskResponse.add_member(:latest_session_action_id, Shapes::ShapeRef.new(shape: SessionActionId, location_name: "latestSessionActionId"))
+    GetTaskResponse.add_member(:parameters, Shapes::ShapeRef.new(shape: TaskParameters, location_name: "parameters"))
     GetTaskResponse.struct_class = Types::GetTaskResponse
 
     GetWorkerRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
@@ -1869,16 +1878,16 @@ module Aws::Deadline
 
     LimitSummaries.member = Shapes::ShapeRef.new(shape: LimitSummary)
 
-    LimitSummary.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
-    LimitSummary.add_member(:amount_requirement_name, Shapes::ShapeRef.new(shape: AmountRequirementName, required: true, location_name: "amountRequirementName"))
-    LimitSummary.add_member(:max_count, Shapes::ShapeRef.new(shape: MaxCount, required: true, location_name: "maxCount"))
+    LimitSummary.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    LimitSummary.add_member(:limit_id, Shapes::ShapeRef.new(shape: LimitId, required: true, location_name: "limitId"))
+    LimitSummary.add_member(:current_count, Shapes::ShapeRef.new(shape: MinZeroMaxInteger, required: true, location_name: "currentCount"))
     LimitSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
     LimitSummary.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
     LimitSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
     LimitSummary.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
-    LimitSummary.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
-    LimitSummary.add_member(:limit_id, Shapes::ShapeRef.new(shape: LimitId, required: true, location_name: "limitId"))
-    LimitSummary.add_member(:current_count, Shapes::ShapeRef.new(shape: MinZeroMaxInteger, required: true, location_name: "currentCount"))
+    LimitSummary.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
+    LimitSummary.add_member(:amount_requirement_name, Shapes::ShapeRef.new(shape: AmountRequirementName, required: true, location_name: "amountRequirementName"))
+    LimitSummary.add_member(:max_count, Shapes::ShapeRef.new(shape: MaxCount, required: true, location_name: "maxCount"))
     LimitSummary.struct_class = Types::LimitSummary
 
     ListAttributeCapabilityValue.member = Shapes::ShapeRef.new(shape: AttributeCapabilityValue)
@@ -1891,14 +1900,14 @@ module Aws::Deadline
     ListAvailableMeteredProductsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListAvailableMeteredProductsResponse.struct_class = Types::ListAvailableMeteredProductsResponse
 
-    ListBudgetsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
     ListBudgetsRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
+    ListBudgetsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
     ListBudgetsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
     ListBudgetsRequest.add_member(:status, Shapes::ShapeRef.new(shape: BudgetStatus, location: "querystring", location_name: "status"))
     ListBudgetsRequest.struct_class = Types::ListBudgetsRequest
 
-    ListBudgetsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListBudgetsResponse.add_member(:budgets, Shapes::ShapeRef.new(shape: BudgetSummaries, required: true, location_name: "budgets"))
+    ListBudgetsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListBudgetsResponse.struct_class = Types::ListBudgetsResponse
 
     ListFarmMembersRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
@@ -1911,12 +1920,12 @@ module Aws::Deadline
     ListFarmMembersResponse.struct_class = Types::ListFarmMembersResponse
 
     ListFarmsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
-    ListFarmsRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, location: "querystring", location_name: "principalId"))
     ListFarmsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListFarmsRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, location: "querystring", location_name: "principalId"))
     ListFarmsRequest.struct_class = Types::ListFarmsRequest
 
-    ListFarmsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListFarmsResponse.add_member(:farms, Shapes::ShapeRef.new(shape: FarmSummaries, required: true, location_name: "farms"))
+    ListFarmsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListFarmsResponse.struct_class = Types::ListFarmsResponse
 
     ListFleetMembersRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
@@ -1930,11 +1939,11 @@ module Aws::Deadline
     ListFleetMembersResponse.struct_class = Types::ListFleetMembersResponse
 
     ListFleetsRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
+    ListFleetsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListFleetsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
     ListFleetsRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, location: "querystring", location_name: "principalId"))
     ListFleetsRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, location: "querystring", location_name: "displayName"))
     ListFleetsRequest.add_member(:status, Shapes::ShapeRef.new(shape: FleetStatus, location: "querystring", location_name: "status"))
-    ListFleetsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
-    ListFleetsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
     ListFleetsRequest.struct_class = Types::ListFleetsRequest
 
     ListFleetsResponse.add_member(:fleets, Shapes::ShapeRef.new(shape: FleetSummaries, required: true, location_name: "fleets"))
@@ -1953,8 +1962,8 @@ module Aws::Deadline
     ListJobMembersResponse.struct_class = Types::ListJobMembersResponse
 
     ListJobParameterDefinitionsRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
-    ListJobParameterDefinitionsRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location: "uri", location_name: "jobId"))
     ListJobParameterDefinitionsRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
+    ListJobParameterDefinitionsRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location: "uri", location_name: "jobId"))
     ListJobParameterDefinitionsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
     ListJobParameterDefinitionsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
     ListJobParameterDefinitionsRequest.struct_class = Types::ListJobParameterDefinitionsRequest
@@ -1964,10 +1973,10 @@ module Aws::Deadline
     ListJobParameterDefinitionsResponse.struct_class = Types::ListJobParameterDefinitionsResponse
 
     ListJobsRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
-    ListJobsRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, location: "querystring", location_name: "principalId"))
     ListJobsRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
     ListJobsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
     ListJobsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListJobsRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, location: "querystring", location_name: "principalId"))
     ListJobsRequest.struct_class = Types::ListJobsRequest
 
     ListJobsResponse.add_member(:jobs, Shapes::ShapeRef.new(shape: JobSummaries, required: true, location_name: "jobs"))
@@ -2004,8 +2013,8 @@ module Aws::Deadline
     ListMonitorsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
     ListMonitorsRequest.struct_class = Types::ListMonitorsRequest
 
-    ListMonitorsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListMonitorsResponse.add_member(:monitors, Shapes::ShapeRef.new(shape: MonitorSummaries, required: true, location_name: "monitors"))
+    ListMonitorsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListMonitorsResponse.struct_class = Types::ListMonitorsResponse
 
     ListQueueEnvironmentsRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
@@ -2019,10 +2028,10 @@ module Aws::Deadline
     ListQueueEnvironmentsResponse.struct_class = Types::ListQueueEnvironmentsResponse
 
     ListQueueFleetAssociationsRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
-    ListQueueFleetAssociationsRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, location: "querystring", location_name: "queueId"))
-    ListQueueFleetAssociationsRequest.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, location: "querystring", location_name: "fleetId"))
     ListQueueFleetAssociationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
     ListQueueFleetAssociationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListQueueFleetAssociationsRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, location: "querystring", location_name: "queueId"))
+    ListQueueFleetAssociationsRequest.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, location: "querystring", location_name: "fleetId"))
     ListQueueFleetAssociationsRequest.struct_class = Types::ListQueueFleetAssociationsRequest
 
     ListQueueFleetAssociationsResponse.add_member(:queue_fleet_associations, Shapes::ShapeRef.new(shape: QueueFleetAssociationSummaries, required: true, location_name: "queueFleetAssociations"))
@@ -2030,10 +2039,10 @@ module Aws::Deadline
     ListQueueFleetAssociationsResponse.struct_class = Types::ListQueueFleetAssociationsResponse
 
     ListQueueLimitAssociationsRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
-    ListQueueLimitAssociationsRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, location: "querystring", location_name: "queueId"))
-    ListQueueLimitAssociationsRequest.add_member(:limit_id, Shapes::ShapeRef.new(shape: LimitId, location: "querystring", location_name: "limitId"))
     ListQueueLimitAssociationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
     ListQueueLimitAssociationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListQueueLimitAssociationsRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, location: "querystring", location_name: "queueId"))
+    ListQueueLimitAssociationsRequest.add_member(:limit_id, Shapes::ShapeRef.new(shape: LimitId, location: "querystring", location_name: "limitId"))
     ListQueueLimitAssociationsRequest.struct_class = Types::ListQueueLimitAssociationsRequest
 
     ListQueueLimitAssociationsResponse.add_member(:queue_limit_associations, Shapes::ShapeRef.new(shape: QueueLimitAssociationSummaries, required: true, location_name: "queueLimitAssociations"))
@@ -2051,10 +2060,10 @@ module Aws::Deadline
     ListQueueMembersResponse.struct_class = Types::ListQueueMembersResponse
 
     ListQueuesRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
-    ListQueuesRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, location: "querystring", location_name: "principalId"))
-    ListQueuesRequest.add_member(:status, Shapes::ShapeRef.new(shape: QueueStatus, location: "querystring", location_name: "status"))
     ListQueuesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
     ListQueuesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListQueuesRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, location: "querystring", location_name: "principalId"))
+    ListQueuesRequest.add_member(:status, Shapes::ShapeRef.new(shape: QueueStatus, location: "querystring", location_name: "status"))
     ListQueuesRequest.struct_class = Types::ListQueuesRequest
 
     ListQueuesResponse.add_member(:queues, Shapes::ShapeRef.new(shape: QueueSummaries, required: true, location_name: "queues"))
@@ -2064,10 +2073,10 @@ module Aws::Deadline
     ListSessionActionsRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     ListSessionActionsRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
     ListSessionActionsRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location: "uri", location_name: "jobId"))
-    ListSessionActionsRequest.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, location: "querystring", location_name: "sessionId"))
-    ListSessionActionsRequest.add_member(:task_id, Shapes::ShapeRef.new(shape: TaskId, location: "querystring", location_name: "taskId"))
     ListSessionActionsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
     ListSessionActionsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListSessionActionsRequest.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, location: "querystring", location_name: "sessionId"))
+    ListSessionActionsRequest.add_member(:task_id, Shapes::ShapeRef.new(shape: TaskId, location: "querystring", location_name: "taskId"))
     ListSessionActionsRequest.struct_class = Types::ListSessionActionsRequest
 
     ListSessionActionsResponse.add_member(:session_actions, Shapes::ShapeRef.new(shape: SessionActionSummaries, required: true, location_name: "sessionActions"))
@@ -2176,8 +2185,8 @@ module Aws::Deadline
     ListWorkersRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
     ListWorkersRequest.struct_class = Types::ListWorkersRequest
 
-    ListWorkersResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListWorkersResponse.add_member(:workers, Shapes::ShapeRef.new(shape: WorkerSummaries, required: true, location_name: "workers"))
+    ListWorkersResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListWorkersResponse.struct_class = Types::ListWorkersResponse
 
     LogConfiguration.add_member(:log_driver, Shapes::ShapeRef.new(shape: LogDriver, required: true, location_name: "logDriver"))
@@ -2281,13 +2290,13 @@ module Aws::Deadline
 
     QueueLimitAssociationSummaries.member = Shapes::ShapeRef.new(shape: QueueLimitAssociationSummary)
 
+    QueueLimitAssociationSummary.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    QueueLimitAssociationSummary.add_member(:limit_id, Shapes::ShapeRef.new(shape: LimitId, required: true, location_name: "limitId"))
+    QueueLimitAssociationSummary.add_member(:status, Shapes::ShapeRef.new(shape: QueueLimitAssociationStatus, required: true, location_name: "status"))
     QueueLimitAssociationSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
     QueueLimitAssociationSummary.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
     QueueLimitAssociationSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
     QueueLimitAssociationSummary.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
-    QueueLimitAssociationSummary.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
-    QueueLimitAssociationSummary.add_member(:limit_id, Shapes::ShapeRef.new(shape: LimitId, required: true, location_name: "limitId"))
-    QueueLimitAssociationSummary.add_member(:status, Shapes::ShapeRef.new(shape: QueueLimitAssociationStatus, required: true, location_name: "status"))
     QueueLimitAssociationSummary.struct_class = Types::QueueLimitAssociationSummary
 
     QueueMember.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
@@ -2356,11 +2365,11 @@ module Aws::Deadline
     SearchGroupedFilterExpressions.struct_class = Types::SearchGroupedFilterExpressions
 
     SearchJobsRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
-    SearchJobsRequest.add_member(:queue_ids, Shapes::ShapeRef.new(shape: SearchJobsRequestQueueIdsList, required: true, location_name: "queueIds"))
     SearchJobsRequest.add_member(:filter_expressions, Shapes::ShapeRef.new(shape: SearchGroupedFilterExpressions, location_name: "filterExpressions"))
     SearchJobsRequest.add_member(:sort_expressions, Shapes::ShapeRef.new(shape: SearchSortExpressions, location_name: "sortExpressions"))
     SearchJobsRequest.add_member(:item_offset, Shapes::ShapeRef.new(shape: SearchJobsRequestItemOffsetInteger, required: true, location_name: "itemOffset"))
     SearchJobsRequest.add_member(:page_size, Shapes::ShapeRef.new(shape: SearchJobsRequestPageSizeInteger, location_name: "pageSize"))
+    SearchJobsRequest.add_member(:queue_ids, Shapes::ShapeRef.new(shape: SearchJobsRequestQueueIdsList, required: true, location_name: "queueIds"))
     SearchJobsRequest.struct_class = Types::SearchJobsRequest
 
     SearchJobsRequestQueueIdsList.member = Shapes::ShapeRef.new(shape: QueueId)
@@ -2383,12 +2392,12 @@ module Aws::Deadline
     SearchSortExpressions.member = Shapes::ShapeRef.new(shape: SearchSortExpression)
 
     SearchStepsRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
-    SearchStepsRequest.add_member(:queue_ids, Shapes::ShapeRef.new(shape: SearchStepsRequestQueueIdsList, required: true, location_name: "queueIds"))
-    SearchStepsRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, location_name: "jobId"))
     SearchStepsRequest.add_member(:filter_expressions, Shapes::ShapeRef.new(shape: SearchGroupedFilterExpressions, location_name: "filterExpressions"))
     SearchStepsRequest.add_member(:sort_expressions, Shapes::ShapeRef.new(shape: SearchSortExpressions, location_name: "sortExpressions"))
     SearchStepsRequest.add_member(:item_offset, Shapes::ShapeRef.new(shape: SearchStepsRequestItemOffsetInteger, required: true, location_name: "itemOffset"))
     SearchStepsRequest.add_member(:page_size, Shapes::ShapeRef.new(shape: SearchStepsRequestPageSizeInteger, location_name: "pageSize"))
+    SearchStepsRequest.add_member(:queue_ids, Shapes::ShapeRef.new(shape: SearchStepsRequestQueueIdsList, required: true, location_name: "queueIds"))
+    SearchStepsRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, location_name: "jobId"))
     SearchStepsRequest.struct_class = Types::SearchStepsRequest
 
     SearchStepsRequestQueueIdsList.member = Shapes::ShapeRef.new(shape: QueueId)
@@ -2399,12 +2408,12 @@ module Aws::Deadline
     SearchStepsResponse.struct_class = Types::SearchStepsResponse
 
     SearchTasksRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
-    SearchTasksRequest.add_member(:queue_ids, Shapes::ShapeRef.new(shape: SearchTasksRequestQueueIdsList, required: true, location_name: "queueIds"))
-    SearchTasksRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, location_name: "jobId"))
     SearchTasksRequest.add_member(:filter_expressions, Shapes::ShapeRef.new(shape: SearchGroupedFilterExpressions, location_name: "filterExpressions"))
     SearchTasksRequest.add_member(:sort_expressions, Shapes::ShapeRef.new(shape: SearchSortExpressions, location_name: "sortExpressions"))
     SearchTasksRequest.add_member(:item_offset, Shapes::ShapeRef.new(shape: SearchTasksRequestItemOffsetInteger, required: true, location_name: "itemOffset"))
     SearchTasksRequest.add_member(:page_size, Shapes::ShapeRef.new(shape: SearchTasksRequestPageSizeInteger, location_name: "pageSize"))
+    SearchTasksRequest.add_member(:queue_ids, Shapes::ShapeRef.new(shape: SearchTasksRequestQueueIdsList, required: true, location_name: "queueIds"))
+    SearchTasksRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, location_name: "jobId"))
     SearchTasksRequest.struct_class = Types::SearchTasksRequest
 
     SearchTasksRequestQueueIdsList.member = Shapes::ShapeRef.new(shape: QueueId)
@@ -2419,11 +2428,11 @@ module Aws::Deadline
     SearchTermFilterExpression.struct_class = Types::SearchTermFilterExpression
 
     SearchWorkersRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
-    SearchWorkersRequest.add_member(:fleet_ids, Shapes::ShapeRef.new(shape: SearchWorkersRequestFleetIdsList, required: true, location_name: "fleetIds"))
     SearchWorkersRequest.add_member(:filter_expressions, Shapes::ShapeRef.new(shape: SearchGroupedFilterExpressions, location_name: "filterExpressions"))
     SearchWorkersRequest.add_member(:sort_expressions, Shapes::ShapeRef.new(shape: SearchSortExpressions, location_name: "sortExpressions"))
     SearchWorkersRequest.add_member(:item_offset, Shapes::ShapeRef.new(shape: SearchWorkersRequestItemOffsetInteger, required: true, location_name: "itemOffset"))
     SearchWorkersRequest.add_member(:page_size, Shapes::ShapeRef.new(shape: SearchWorkersRequestPageSizeInteger, location_name: "pageSize"))
+    SearchWorkersRequest.add_member(:fleet_ids, Shapes::ShapeRef.new(shape: SearchWorkersRequestFleetIdsList, required: true, location_name: "fleetIds"))
     SearchWorkersRequest.struct_class = Types::SearchWorkersRequest
 
     SearchWorkersRequestFleetIdsList.member = Shapes::ShapeRef.new(shape: FleetId)
@@ -2433,10 +2442,16 @@ module Aws::Deadline
     SearchWorkersResponse.add_member(:total_results, Shapes::ShapeRef.new(shape: TotalResults, required: true, location_name: "totalResults"))
     SearchWorkersResponse.struct_class = Types::SearchWorkersResponse
 
+    ServiceManagedEc2AutoScalingConfiguration.add_member(:standby_worker_count, Shapes::ShapeRef.new(shape: MinZeroMaxInteger, location_name: "standbyWorkerCount"))
+    ServiceManagedEc2AutoScalingConfiguration.add_member(:worker_idle_duration_seconds, Shapes::ShapeRef.new(shape: ServiceManagedEc2WorkerIdleDurationSeconds, location_name: "workerIdleDurationSeconds"))
+    ServiceManagedEc2AutoScalingConfiguration.add_member(:scale_out_workers_per_minute, Shapes::ShapeRef.new(shape: MinOneMaxInteger, location_name: "scaleOutWorkersPerMinute"))
+    ServiceManagedEc2AutoScalingConfiguration.struct_class = Types::ServiceManagedEc2AutoScalingConfiguration
+
     ServiceManagedEc2FleetConfiguration.add_member(:instance_capabilities, Shapes::ShapeRef.new(shape: ServiceManagedEc2InstanceCapabilities, required: true, location_name: "instanceCapabilities"))
     ServiceManagedEc2FleetConfiguration.add_member(:instance_market_options, Shapes::ShapeRef.new(shape: ServiceManagedEc2InstanceMarketOptions, required: true, location_name: "instanceMarketOptions"))
     ServiceManagedEc2FleetConfiguration.add_member(:vpc_configuration, Shapes::ShapeRef.new(shape: VpcConfiguration, location_name: "vpcConfiguration"))
     ServiceManagedEc2FleetConfiguration.add_member(:storage_profile_id, Shapes::ShapeRef.new(shape: StorageProfileId, location_name: "storageProfileId"))
+    ServiceManagedEc2FleetConfiguration.add_member(:auto_scaling_configuration, Shapes::ShapeRef.new(shape: ServiceManagedEc2AutoScalingConfiguration, location_name: "autoScalingConfiguration"))
     ServiceManagedEc2FleetConfiguration.struct_class = Types::ServiceManagedEc2FleetConfiguration
 
     ServiceManagedEc2InstanceCapabilities.add_member(:v_cpu_count, Shapes::ShapeRef.new(shape: VCpuCountRange, required: true, location_name: "vCpuCount"))
@@ -2497,8 +2512,8 @@ module Aws::Deadline
     SessionActionSummary.add_member(:ended_at, Shapes::ShapeRef.new(shape: EndedAt, location_name: "endedAt"))
     SessionActionSummary.add_member(:worker_updated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "workerUpdatedAt"))
     SessionActionSummary.add_member(:progress_percent, Shapes::ShapeRef.new(shape: SessionActionProgressPercent, location_name: "progressPercent"))
-    SessionActionSummary.add_member(:definition, Shapes::ShapeRef.new(shape: SessionActionDefinitionSummary, required: true, location_name: "definition"))
     SessionActionSummary.add_member(:manifests, Shapes::ShapeRef.new(shape: TaskRunManifestPropertiesListResponse, location_name: "manifests"))
+    SessionActionSummary.add_member(:definition, Shapes::ShapeRef.new(shape: SessionActionDefinitionSummary, required: true, location_name: "definition"))
     SessionActionSummary.struct_class = Types::SessionActionSummary
 
     SessionSummaries.member = Shapes::ShapeRef.new(shape: SessionSummary)
@@ -2509,9 +2524,9 @@ module Aws::Deadline
     SessionSummary.add_member(:started_at, Shapes::ShapeRef.new(shape: StartedAt, required: true, location_name: "startedAt"))
     SessionSummary.add_member(:lifecycle_status, Shapes::ShapeRef.new(shape: SessionLifecycleStatus, required: true, location_name: "lifecycleStatus"))
     SessionSummary.add_member(:ended_at, Shapes::ShapeRef.new(shape: EndedAt, location_name: "endedAt"))
+    SessionSummary.add_member(:target_lifecycle_status, Shapes::ShapeRef.new(shape: SessionLifecycleTargetStatus, location_name: "targetLifecycleStatus"))
     SessionSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
     SessionSummary.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
-    SessionSummary.add_member(:target_lifecycle_status, Shapes::ShapeRef.new(shape: SessionLifecycleTargetStatus, location_name: "targetLifecycleStatus"))
     SessionSummary.struct_class = Types::SessionSummary
 
     SessionsStatisticsResources.add_member(:queue_ids, Shapes::ShapeRef.new(shape: SessionsStatisticsResourcesQueueIdsList, location_name: "queueIds"))
@@ -2765,12 +2780,12 @@ module Aws::Deadline
     TaskSummary.add_member(:run_status, Shapes::ShapeRef.new(shape: TaskRunStatus, required: true, location_name: "runStatus"))
     TaskSummary.add_member(:target_run_status, Shapes::ShapeRef.new(shape: TaskTargetRunStatus, location_name: "targetRunStatus"))
     TaskSummary.add_member(:failure_retry_count, Shapes::ShapeRef.new(shape: TaskRetryCount, location_name: "failureRetryCount"))
-    TaskSummary.add_member(:parameters, Shapes::ShapeRef.new(shape: TaskParameters, location_name: "parameters"))
     TaskSummary.add_member(:started_at, Shapes::ShapeRef.new(shape: StartedAt, location_name: "startedAt"))
     TaskSummary.add_member(:ended_at, Shapes::ShapeRef.new(shape: EndedAt, location_name: "endedAt"))
     TaskSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
     TaskSummary.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
     TaskSummary.add_member(:latest_session_action_id, Shapes::ShapeRef.new(shape: SessionActionId, location_name: "latestSessionActionId"))
+    TaskSummary.add_member(:parameters, Shapes::ShapeRef.new(shape: TaskParameters, location_name: "parameters"))
     TaskSummary.struct_class = Types::TaskSummary
 
     ThrottlingException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
@@ -2786,9 +2801,9 @@ module Aws::Deadline
 
     UntagResourceResponse.struct_class = Types::UntagResourceResponse
 
-    UpdateBudgetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     UpdateBudgetRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     UpdateBudgetRequest.add_member(:budget_id, Shapes::ShapeRef.new(shape: BudgetId, required: true, location: "uri", location_name: "budgetId"))
+    UpdateBudgetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     UpdateBudgetRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "displayName"))
     UpdateBudgetRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     UpdateBudgetRequest.add_member(:status, Shapes::ShapeRef.new(shape: BudgetStatus, location_name: "status"))
@@ -2808,9 +2823,9 @@ module Aws::Deadline
 
     UpdateFarmResponse.struct_class = Types::UpdateFarmResponse
 
-    UpdateFleetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     UpdateFleetRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     UpdateFleetRequest.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location: "uri", location_name: "fleetId"))
+    UpdateFleetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     UpdateFleetRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "displayName"))
     UpdateFleetRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     UpdateFleetRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "roleArn"))
@@ -2822,6 +2837,9 @@ module Aws::Deadline
 
     UpdateFleetResponse.struct_class = Types::UpdateFleetResponse
 
+    UpdateJobRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
+    UpdateJobRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
+    UpdateJobRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location: "uri", location_name: "jobId"))
     UpdateJobRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     UpdateJobRequest.add_member(:target_task_run_status, Shapes::ShapeRef.new(shape: JobTargetTaskRunStatus, location_name: "targetTaskRunStatus"))
     UpdateJobRequest.add_member(:priority, Shapes::ShapeRef.new(shape: JobPriority, location_name: "priority"))
@@ -2831,9 +2849,6 @@ module Aws::Deadline
     UpdateJobRequest.add_member(:max_worker_count, Shapes::ShapeRef.new(shape: MaxWorkerCount, location_name: "maxWorkerCount"))
     UpdateJobRequest.add_member(:name, Shapes::ShapeRef.new(shape: JobName, location_name: "name"))
     UpdateJobRequest.add_member(:description, Shapes::ShapeRef.new(shape: JobDescriptionOverride, location_name: "description"))
-    UpdateJobRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
-    UpdateJobRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
-    UpdateJobRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location: "uri", location_name: "jobId"))
     UpdateJobRequest.struct_class = Types::UpdateJobRequest
 
     UpdateJobResponse.struct_class = Types::UpdateJobResponse
@@ -2855,10 +2870,10 @@ module Aws::Deadline
 
     UpdateMonitorResponse.struct_class = Types::UpdateMonitorResponse
 
-    UpdateQueueEnvironmentRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     UpdateQueueEnvironmentRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     UpdateQueueEnvironmentRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
     UpdateQueueEnvironmentRequest.add_member(:queue_environment_id, Shapes::ShapeRef.new(shape: QueueEnvironmentId, required: true, location: "uri", location_name: "queueEnvironmentId"))
+    UpdateQueueEnvironmentRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     UpdateQueueEnvironmentRequest.add_member(:priority, Shapes::ShapeRef.new(shape: Priority, location_name: "priority"))
     UpdateQueueEnvironmentRequest.add_member(:template_type, Shapes::ShapeRef.new(shape: EnvironmentTemplateType, location_name: "templateType"))
     UpdateQueueEnvironmentRequest.add_member(:template, Shapes::ShapeRef.new(shape: EnvironmentTemplate, location_name: "template"))
@@ -2882,9 +2897,9 @@ module Aws::Deadline
 
     UpdateQueueLimitAssociationResponse.struct_class = Types::UpdateQueueLimitAssociationResponse
 
-    UpdateQueueRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     UpdateQueueRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     UpdateQueueRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
+    UpdateQueueRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     UpdateQueueRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "displayName"))
     UpdateQueueRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     UpdateQueueRequest.add_member(:default_budget_action, Shapes::ShapeRef.new(shape: DefaultQueueBudgetAction, location_name: "defaultBudgetAction"))
@@ -2899,29 +2914,29 @@ module Aws::Deadline
 
     UpdateQueueResponse.struct_class = Types::UpdateQueueResponse
 
-    UpdateSessionRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
-    UpdateSessionRequest.add_member(:target_lifecycle_status, Shapes::ShapeRef.new(shape: SessionLifecycleTargetStatus, required: true, location_name: "targetLifecycleStatus"))
     UpdateSessionRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     UpdateSessionRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
     UpdateSessionRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location: "uri", location_name: "jobId"))
     UpdateSessionRequest.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location: "uri", location_name: "sessionId"))
+    UpdateSessionRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
+    UpdateSessionRequest.add_member(:target_lifecycle_status, Shapes::ShapeRef.new(shape: SessionLifecycleTargetStatus, required: true, location_name: "targetLifecycleStatus"))
     UpdateSessionRequest.struct_class = Types::UpdateSessionRequest
 
     UpdateSessionResponse.struct_class = Types::UpdateSessionResponse
 
-    UpdateStepRequest.add_member(:target_task_run_status, Shapes::ShapeRef.new(shape: StepTargetTaskRunStatus, required: true, location_name: "targetTaskRunStatus"))
-    UpdateStepRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     UpdateStepRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     UpdateStepRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
     UpdateStepRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location: "uri", location_name: "jobId"))
     UpdateStepRequest.add_member(:step_id, Shapes::ShapeRef.new(shape: StepId, required: true, location: "uri", location_name: "stepId"))
+    UpdateStepRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
+    UpdateStepRequest.add_member(:target_task_run_status, Shapes::ShapeRef.new(shape: StepTargetTaskRunStatus, required: true, location_name: "targetTaskRunStatus"))
     UpdateStepRequest.struct_class = Types::UpdateStepRequest
 
     UpdateStepResponse.struct_class = Types::UpdateStepResponse
 
-    UpdateStorageProfileRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     UpdateStorageProfileRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     UpdateStorageProfileRequest.add_member(:storage_profile_id, Shapes::ShapeRef.new(shape: StorageProfileId, required: true, location: "uri", location_name: "storageProfileId"))
+    UpdateStorageProfileRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     UpdateStorageProfileRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "displayName"))
     UpdateStorageProfileRequest.add_member(:os_family, Shapes::ShapeRef.new(shape: StorageProfileOperatingSystemFamily, location_name: "osFamily"))
     UpdateStorageProfileRequest.add_member(:file_system_locations_to_add, Shapes::ShapeRef.new(shape: FileSystemLocationsList, location_name: "fileSystemLocationsToAdd"))
@@ -2930,13 +2945,13 @@ module Aws::Deadline
 
     UpdateStorageProfileResponse.struct_class = Types::UpdateStorageProfileResponse
 
-    UpdateTaskRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
-    UpdateTaskRequest.add_member(:target_run_status, Shapes::ShapeRef.new(shape: TaskTargetRunStatus, required: true, location_name: "targetRunStatus"))
     UpdateTaskRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     UpdateTaskRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
     UpdateTaskRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location: "uri", location_name: "jobId"))
     UpdateTaskRequest.add_member(:step_id, Shapes::ShapeRef.new(shape: StepId, required: true, location: "uri", location_name: "stepId"))
     UpdateTaskRequest.add_member(:task_id, Shapes::ShapeRef.new(shape: TaskId, required: true, location: "uri", location_name: "taskId"))
+    UpdateTaskRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
+    UpdateTaskRequest.add_member(:target_run_status, Shapes::ShapeRef.new(shape: TaskTargetRunStatus, required: true, location_name: "targetRunStatus"))
     UpdateTaskRequest.struct_class = Types::UpdateTaskRequest
 
     UpdateTaskResponse.struct_class = Types::UpdateTaskResponse
@@ -3055,11 +3070,11 @@ module Aws::Deadline
 
     WorkerSummaries.member = Shapes::ShapeRef.new(shape: WorkerSummary)
 
-    WorkerSummary.add_member(:worker_id, Shapes::ShapeRef.new(shape: WorkerId, required: true, location_name: "workerId"))
     WorkerSummary.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
     WorkerSummary.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location_name: "fleetId"))
-    WorkerSummary.add_member(:status, Shapes::ShapeRef.new(shape: WorkerStatus, required: true, location_name: "status"))
+    WorkerSummary.add_member(:worker_id, Shapes::ShapeRef.new(shape: WorkerId, required: true, location_name: "workerId"))
     WorkerSummary.add_member(:host_properties, Shapes::ShapeRef.new(shape: HostPropertiesResponse, location_name: "hostProperties"))
+    WorkerSummary.add_member(:status, Shapes::ShapeRef.new(shape: WorkerStatus, required: true, location_name: "status"))
     WorkerSummary.add_member(:log, Shapes::ShapeRef.new(shape: LogConfiguration, location_name: "log"))
     WorkerSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
     WorkerSummary.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))

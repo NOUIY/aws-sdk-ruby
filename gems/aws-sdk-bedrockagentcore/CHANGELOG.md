@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.24.0 (2026-03-30)
+------------------
+
+* Feature - Adds Ground Truth support for AgentCore Evaluations (Evaluate)
+
 1.23.0 (2026-03-27)
 ------------------
 

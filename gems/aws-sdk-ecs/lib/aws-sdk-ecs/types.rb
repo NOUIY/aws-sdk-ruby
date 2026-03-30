@@ -6996,8 +6996,14 @@ module Aws::ECS
     #
     # @!attribute [rw] storage_configuration
     #   The storage configuration for Amazon ECS Managed Instances. This
-    #   defines the root volume size and type for the instances.
+    #   defines the data volume properties for the instances.
     #   @return [Types::ManagedInstancesStorageConfiguration]
+    #
+    # @!attribute [rw] local_storage_configuration
+    #   The local storage configuration for Amazon ECS Managed Instances.
+    #   This defines how ECS uses instance store volumes available on the
+    #   container instance.
+    #   @return [Types::ManagedInstancesLocalStorageConfiguration]
     #
     # @!attribute [rw] monitoring
     #   CloudWatch provides two categories of monitoring: basic monitoring
@@ -7105,6 +7111,7 @@ module Aws::ECS
       :ec2_instance_profile_arn,
       :network_configuration,
       :storage_configuration,
+      :local_storage_configuration,
       :monitoring,
       :capacity_option_type,
       :instance_metadata_tags_propagation,
@@ -7173,6 +7180,12 @@ module Aws::ECS
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#work-with-tags-in-IMDS
     #   @return [Boolean]
     #
+    # @!attribute [rw] local_storage_configuration
+    #   The updated local storage configuration for Amazon ECS Managed
+    #   Instances. Changes to local storage settings apply to new instances
+    #   launched after the update.
+    #   @return [Types::ManagedInstancesLocalStorageConfiguration]
+    #
     # @!attribute [rw] monitoring
     #   CloudWatch provides two categories of monitoring: basic monitoring
     #   and detailed monitoring. By default, your managed instance is
@@ -7207,6 +7220,7 @@ module Aws::ECS
       :network_configuration,
       :storage_configuration,
       :instance_metadata_tags_propagation,
+      :local_storage_configuration,
       :monitoring,
       :instance_requirements,
       :capacity_reservations)
@@ -9206,6 +9220,27 @@ module Aws::ECS
       include Aws::Structure
     end
 
+    # The local storage configuration for Amazon ECS Managed Instances. This
+    # defines how ECS uses and configures instance store volumes available
+    # on container instance.
+    #
+    # @!attribute [rw] use_local_storage
+    #   Use instance store volumes for data storage when available. EBS
+    #   volumes are not provisioned for data storage. If the container
+    #   instance has multiple instance store volumes, a single data volume
+    #   is created. Consider defining instance store requirements using the
+    #   `localStorage`, `localStorageTypes` and `totalLocalStorageGB`
+    #   properties.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/ManagedInstancesLocalStorageConfiguration AWS API Documentation
+    #
+    class ManagedInstancesLocalStorageConfiguration < Struct.new(
+      :use_local_storage)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The network configuration for Amazon ECS Managed Instances. This
     # specifies the VPC subnets and security groups that instances use for
     # network connectivity. Amazon ECS Managed Instances support multiple
@@ -9298,10 +9333,10 @@ module Aws::ECS
     end
 
     # The storage configuration for Amazon ECS Managed Instances. This
-    # defines the root volume configuration for the instances.
+    # defines the data volume configuration for the instances.
     #
     # @!attribute [rw] storage_size_gi_b
-    #   The size of the tasks volume.
+    #   The size of the data volume.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/ManagedInstancesStorageConfiguration AWS API Documentation

@@ -28799,6 +28799,40 @@ module Aws::SageMaker
       include Aws::Structure
     end
 
+    # Configuration for balancing inference component copies across
+    # Availability Zones.
+    #
+    # @!attribute [rw] enforcement_mode
+    #   Determines how strictly the Availability Zone balance constraint is
+    #   enforced.
+    #
+    #   PERMISSIVE
+    #
+    #   : The endpoint attempts to balance copies across Availability Zones
+    #     but proceeds with scheduling even if balance can't be achieved
+    #     due to available capacity or instance distribution across
+    #     Availability Zones.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_imbalance
+    #   The maximum allowed difference in the number of inference component
+    #   copies between any two Availability Zones. This parameter applies
+    #   only when the endpoint has instances across two or more Availability
+    #   Zones. A copy placement is allowed if it reduces imbalance or the
+    #   resulting imbalance is within this value.
+    #
+    #   Default value: `0`.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/InferenceComponentAvailabilityZoneBalance AWS API Documentation
+    #
+    class InferenceComponentAvailabilityZoneBalance < Struct.new(
+      :enforcement_mode,
+      :max_imbalance)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Specifies the type and size of the endpoint capacity to activate for a
     # rolling deployment or a rollback strategy. You can specify your
     # batches as either of the following:
@@ -29096,6 +29130,40 @@ module Aws::SageMaker
       include Aws::Structure
     end
 
+    # The scheduling configuration that determines how inference component
+    # copies are placed across available instances when copies are added or
+    # removed.
+    #
+    # @!attribute [rw] placement_strategy
+    #   The strategy for placing inference component copies across available
+    #   instances. If you also set `AvailabilityZoneBalance`, this strategy
+    #   applies to placement within each Availability Zone.
+    #
+    #   SPREAD
+    #
+    #   : Distributes copies evenly across available instances for better
+    #     resilience.
+    #
+    #   BINPACK
+    #
+    #   : Packs copies onto fewer instances to optimize resource
+    #     utilization.
+    #   @return [String]
+    #
+    # @!attribute [rw] availability_zone_balance
+    #   Configuration for balancing inference component copies across
+    #   Availability Zones.
+    #   @return [Types::InferenceComponentAvailabilityZoneBalance]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/InferenceComponentSchedulingConfig AWS API Documentation
+    #
+    class InferenceComponentSchedulingConfig < Struct.new(
+      :placement_strategy,
+      :availability_zone_balance)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Details about the resources to deploy with this inference component,
     # including the model, container, and compute resources.
     #
@@ -29149,6 +29217,12 @@ module Aws::SageMaker
     #   Settings that affect how the inference component caches data.
     #   @return [Types::InferenceComponentDataCacheConfig]
     #
+    # @!attribute [rw] scheduling_config
+    #   The scheduling configuration that determines how inference component
+    #   copies are placed across available instances when copies are added
+    #   or removed.
+    #   @return [Types::InferenceComponentSchedulingConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/InferenceComponentSpecification AWS API Documentation
     #
     class InferenceComponentSpecification < Struct.new(
@@ -29157,7 +29231,8 @@ module Aws::SageMaker
       :startup_parameters,
       :compute_resource_requirements,
       :base_inference_component_name,
-      :data_cache_config)
+      :data_cache_config,
+      :scheduling_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -29193,6 +29268,12 @@ module Aws::SageMaker
     #   Settings that affect how the inference component caches data.
     #   @return [Types::InferenceComponentDataCacheConfigSummary]
     #
+    # @!attribute [rw] scheduling_config
+    #   The scheduling configuration that determines how inference component
+    #   copies are placed across available instances when copies are added
+    #   or removed.
+    #   @return [Types::InferenceComponentSchedulingConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/InferenceComponentSpecificationSummary AWS API Documentation
     #
     class InferenceComponentSpecificationSummary < Struct.new(
@@ -29201,7 +29282,8 @@ module Aws::SageMaker
       :startup_parameters,
       :compute_resource_requirements,
       :base_inference_component_name,
-      :data_cache_config)
+      :data_cache_config,
+      :scheduling_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -43874,12 +43956,60 @@ module Aws::SageMaker
     #   it scales up to accommodate an increase in traffic.
     #   @return [Integer]
     #
+    # @!attribute [rw] scale_in_policy
+    #   Configures the scale-in behavior for managed instance scaling.
+    #   @return [Types::ProductionVariantManagedInstanceScalingScaleInPolicy]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ProductionVariantManagedInstanceScaling AWS API Documentation
     #
     class ProductionVariantManagedInstanceScaling < Struct.new(
       :status,
       :min_instance_count,
-      :max_instance_count)
+      :max_instance_count,
+      :scale_in_policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configures the scale-in behavior for managed instance scaling.
+    #
+    # @!attribute [rw] strategy
+    #   The strategy for scaling in instances.
+    #
+    #   IDLE\_RELEASE
+    #
+    #   : Releases instances that have no hosted inference component copies.
+    #
+    #   CONSOLIDATION
+    #
+    #   : Consolidates inference component copies onto fewer instances to
+    #     release more instances. Consolidation honors the scheduling
+    #     configuration of each inference component. For example, if an
+    #     inference component specifies Availability Zone balance,
+    #     consolidation only proceeds when the resulting distribution does
+    #     not increase the imbalance.
+    #   @return [String]
+    #
+    # @!attribute [rw] maximum_step_size
+    #   The maximum number of instances that the endpoint can terminate at a
+    #   time during a consolidation scale-in operation.
+    #
+    #   Default value: `1`.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] cooldown_in_minutes
+    #   The cooldown period, in minutes, after the last endpoint operation
+    #   before the endpoint evaluates consolidation scale-in opportunities.
+    #
+    #   Default value: `20`.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ProductionVariantManagedInstanceScalingScaleInPolicy AWS API Documentation
+    #
+    class ProductionVariantManagedInstanceScalingScaleInPolicy < Struct.new(
+      :strategy,
+      :maximum_step_size,
+      :cooldown_in_minutes)
       SENSITIVE = []
       include Aws::Structure
     end

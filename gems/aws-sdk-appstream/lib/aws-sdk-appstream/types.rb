@@ -880,6 +880,23 @@ module Aws::AppStream
       include Aws::Structure
     end
 
+    # Configuration for bidirectional URL redirection between the streaming
+    # session and the local client. Use HostToClient to redirect URLs from
+    # the remote desktop to the local browser.
+    #
+    # @!attribute [rw] host_to_client
+    #   Configuration for redirecting URLs from the remote desktop to the
+    #   local client browser.
+    #   @return [Types::UrlRedirectionConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/ContentRedirection AWS API Documentation
+    #
+    class ContentRedirection < Struct.new(
+      :host_to_client)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] source_image_name
     #   The name of the image to copy.
     #   @return [String]
@@ -2278,6 +2295,12 @@ module Aws::AppStream
     #   client.
     #   @return [Types::StreamingExperienceSettings]
     #
+    # @!attribute [rw] content_redirection
+    #   Configuration for bidirectional URL redirection between the
+    #   streaming session and the local client. Use HostToClient to redirect
+    #   URLs from the remote desktop to the local browser.
+    #   @return [Types::ContentRedirection]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateStackRequest AWS API Documentation
     #
     class CreateStackRequest < Struct.new(
@@ -2292,7 +2315,8 @@ module Aws::AppStream
       :tags,
       :access_endpoints,
       :embed_host_domains,
-      :streaming_experience_settings)
+      :streaming_experience_settings,
+      :content_redirection)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5787,6 +5811,12 @@ module Aws::AppStream
     #   client.
     #   @return [Types::StreamingExperienceSettings]
     #
+    # @!attribute [rw] content_redirection
+    #   Configuration for bidirectional URL redirection between the
+    #   streaming session and the local client. Use HostToClient to redirect
+    #   URLs from the remote desktop to the local browser.
+    #   @return [Types::ContentRedirection]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/Stack AWS API Documentation
     #
     class Stack < Struct.new(
@@ -5803,7 +5833,8 @@ module Aws::AppStream
       :application_settings,
       :access_endpoints,
       :embed_host_domains,
-      :streaming_experience_settings)
+      :streaming_experience_settings,
+      :content_redirection)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6940,6 +6971,36 @@ module Aws::AppStream
     #
     class UpdateThemeForStackResult < Struct.new(
       :theme)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for URL redirection in a specific direction
+    # (host-to-client or client-to-host). When enabled, URLs matching the
+    # allowed or denied patterns are redirected accordingly. The denied list
+    # takes precedence over the allowed list.
+    #
+    # @!attribute [rw] enabled
+    #   Whether URL redirection is enabled for this direction.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] allowed_urls
+    #   List of URL patterns that are allowed to be redirected. URLs
+    #   matching these patterns will be redirected unless they also match a
+    #   pattern in the denied list.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] denied_urls
+    #   List of URL patterns that are denied from redirection. This list
+    #   takes precedence over the allowed list.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/UrlRedirectionConfig AWS API Documentation
+    #
+    class UrlRedirectionConfig < Struct.new(
+      :enabled,
+      :allowed_urls,
+      :denied_urls)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -4412,6 +4412,11 @@ module Aws::SageMaker
     #           status: "ENABLED", # accepts ENABLED, DISABLED
     #           min_instance_count: 1,
     #           max_instance_count: 1,
+    #           scale_in_policy: {
+    #             strategy: "IDLE_RELEASE", # required, accepts IDLE_RELEASE, CONSOLIDATION
+    #             maximum_step_size: 1,
+    #             cooldown_in_minutes: 1,
+    #           },
     #         },
     #         routing_config: {
     #           routing_strategy: "LEAST_OUTSTANDING_REQUESTS", # required, accepts LEAST_OUTSTANDING_REQUESTS, RANDOM
@@ -4517,6 +4522,11 @@ module Aws::SageMaker
     #           status: "ENABLED", # accepts ENABLED, DISABLED
     #           min_instance_count: 1,
     #           max_instance_count: 1,
+    #           scale_in_policy: {
+    #             strategy: "IDLE_RELEASE", # required, accepts IDLE_RELEASE, CONSOLIDATION
+    #             maximum_step_size: 1,
+    #             cooldown_in_minutes: 1,
+    #           },
     #         },
     #         routing_config: {
     #           routing_strategy: "LEAST_OUTSTANDING_REQUESTS", # required, accepts LEAST_OUTSTANDING_REQUESTS, RANDOM
@@ -5962,6 +5972,13 @@ module Aws::SageMaker
     #       base_inference_component_name: "InferenceComponentName",
     #       data_cache_config: {
     #         enable_caching: false, # required
+    #       },
+    #       scheduling_config: {
+    #         placement_strategy: "SPREAD", # required, accepts SPREAD, BINPACK
+    #         availability_zone_balance: {
+    #           enforcement_mode: "PERMISSIVE", # required, accepts PERMISSIVE
+    #           max_imbalance: 1,
+    #         },
     #       },
     #     },
     #     runtime_config: {
@@ -15256,6 +15273,9 @@ module Aws::SageMaker
     #   resp.production_variants[0].managed_instance_scaling.status #=> String, one of "ENABLED", "DISABLED"
     #   resp.production_variants[0].managed_instance_scaling.min_instance_count #=> Integer
     #   resp.production_variants[0].managed_instance_scaling.max_instance_count #=> Integer
+    #   resp.production_variants[0].managed_instance_scaling.scale_in_policy.strategy #=> String, one of "IDLE_RELEASE", "CONSOLIDATION"
+    #   resp.production_variants[0].managed_instance_scaling.scale_in_policy.maximum_step_size #=> Integer
+    #   resp.production_variants[0].managed_instance_scaling.scale_in_policy.cooldown_in_minutes #=> Integer
     #   resp.production_variants[0].routing_config.routing_strategy #=> String, one of "LEAST_OUTSTANDING_REQUESTS", "RANDOM"
     #   resp.production_variants[0].capacity_reservation_config.ml_reservation_arn #=> String
     #   resp.production_variants[0].capacity_reservation_config.capacity_reservation_preference #=> String, one of "capacity-reservations-only"
@@ -15326,6 +15346,9 @@ module Aws::SageMaker
     #   resp.pending_deployment_summary.production_variants[0].managed_instance_scaling.status #=> String, one of "ENABLED", "DISABLED"
     #   resp.pending_deployment_summary.production_variants[0].managed_instance_scaling.min_instance_count #=> Integer
     #   resp.pending_deployment_summary.production_variants[0].managed_instance_scaling.max_instance_count #=> Integer
+    #   resp.pending_deployment_summary.production_variants[0].managed_instance_scaling.scale_in_policy.strategy #=> String, one of "IDLE_RELEASE", "CONSOLIDATION"
+    #   resp.pending_deployment_summary.production_variants[0].managed_instance_scaling.scale_in_policy.maximum_step_size #=> Integer
+    #   resp.pending_deployment_summary.production_variants[0].managed_instance_scaling.scale_in_policy.cooldown_in_minutes #=> Integer
     #   resp.pending_deployment_summary.production_variants[0].routing_config.routing_strategy #=> String, one of "LEAST_OUTSTANDING_REQUESTS", "RANDOM"
     #   resp.pending_deployment_summary.start_time #=> Time
     #   resp.pending_deployment_summary.shadow_production_variants #=> Array
@@ -15353,6 +15376,9 @@ module Aws::SageMaker
     #   resp.pending_deployment_summary.shadow_production_variants[0].managed_instance_scaling.status #=> String, one of "ENABLED", "DISABLED"
     #   resp.pending_deployment_summary.shadow_production_variants[0].managed_instance_scaling.min_instance_count #=> Integer
     #   resp.pending_deployment_summary.shadow_production_variants[0].managed_instance_scaling.max_instance_count #=> Integer
+    #   resp.pending_deployment_summary.shadow_production_variants[0].managed_instance_scaling.scale_in_policy.strategy #=> String, one of "IDLE_RELEASE", "CONSOLIDATION"
+    #   resp.pending_deployment_summary.shadow_production_variants[0].managed_instance_scaling.scale_in_policy.maximum_step_size #=> Integer
+    #   resp.pending_deployment_summary.shadow_production_variants[0].managed_instance_scaling.scale_in_policy.cooldown_in_minutes #=> Integer
     #   resp.pending_deployment_summary.shadow_production_variants[0].routing_config.routing_strategy #=> String, one of "LEAST_OUTSTANDING_REQUESTS", "RANDOM"
     #   resp.explainer_config.clarify_explainer_config.enable_explanations #=> String
     #   resp.explainer_config.clarify_explainer_config.inference_config.features_attribute #=> String
@@ -15400,6 +15426,9 @@ module Aws::SageMaker
     #   resp.shadow_production_variants[0].managed_instance_scaling.status #=> String, one of "ENABLED", "DISABLED"
     #   resp.shadow_production_variants[0].managed_instance_scaling.min_instance_count #=> Integer
     #   resp.shadow_production_variants[0].managed_instance_scaling.max_instance_count #=> Integer
+    #   resp.shadow_production_variants[0].managed_instance_scaling.scale_in_policy.strategy #=> String, one of "IDLE_RELEASE", "CONSOLIDATION"
+    #   resp.shadow_production_variants[0].managed_instance_scaling.scale_in_policy.maximum_step_size #=> Integer
+    #   resp.shadow_production_variants[0].managed_instance_scaling.scale_in_policy.cooldown_in_minutes #=> Integer
     #   resp.shadow_production_variants[0].routing_config.routing_strategy #=> String, one of "LEAST_OUTSTANDING_REQUESTS", "RANDOM"
     #   resp.shadow_production_variants[0].capacity_reservation_config.ml_reservation_arn #=> String
     #   resp.shadow_production_variants[0].capacity_reservation_config.capacity_reservation_preference #=> String, one of "capacity-reservations-only"
@@ -15480,6 +15509,9 @@ module Aws::SageMaker
     #   resp.production_variants[0].managed_instance_scaling.status #=> String, one of "ENABLED", "DISABLED"
     #   resp.production_variants[0].managed_instance_scaling.min_instance_count #=> Integer
     #   resp.production_variants[0].managed_instance_scaling.max_instance_count #=> Integer
+    #   resp.production_variants[0].managed_instance_scaling.scale_in_policy.strategy #=> String, one of "IDLE_RELEASE", "CONSOLIDATION"
+    #   resp.production_variants[0].managed_instance_scaling.scale_in_policy.maximum_step_size #=> Integer
+    #   resp.production_variants[0].managed_instance_scaling.scale_in_policy.cooldown_in_minutes #=> Integer
     #   resp.production_variants[0].routing_config.routing_strategy #=> String, one of "LEAST_OUTSTANDING_REQUESTS", "RANDOM"
     #   resp.production_variants[0].inference_ami_version #=> String, one of "al2-ami-sagemaker-inference-gpu-2", "al2-ami-sagemaker-inference-gpu-2-1", "al2-ami-sagemaker-inference-gpu-3-1", "al2-ami-sagemaker-inference-neuron-2", "al2023-ami-sagemaker-inference-gpu-4-1"
     #   resp.production_variants[0].capacity_reservation_config.capacity_reservation_preference #=> String, one of "capacity-reservations-only"
@@ -15546,6 +15578,9 @@ module Aws::SageMaker
     #   resp.shadow_production_variants[0].managed_instance_scaling.status #=> String, one of "ENABLED", "DISABLED"
     #   resp.shadow_production_variants[0].managed_instance_scaling.min_instance_count #=> Integer
     #   resp.shadow_production_variants[0].managed_instance_scaling.max_instance_count #=> Integer
+    #   resp.shadow_production_variants[0].managed_instance_scaling.scale_in_policy.strategy #=> String, one of "IDLE_RELEASE", "CONSOLIDATION"
+    #   resp.shadow_production_variants[0].managed_instance_scaling.scale_in_policy.maximum_step_size #=> Integer
+    #   resp.shadow_production_variants[0].managed_instance_scaling.scale_in_policy.cooldown_in_minutes #=> Integer
     #   resp.shadow_production_variants[0].routing_config.routing_strategy #=> String, one of "LEAST_OUTSTANDING_REQUESTS", "RANDOM"
     #   resp.shadow_production_variants[0].inference_ami_version #=> String, one of "al2-ami-sagemaker-inference-gpu-2", "al2-ami-sagemaker-inference-gpu-2-1", "al2-ami-sagemaker-inference-gpu-3-1", "al2-ami-sagemaker-inference-neuron-2", "al2023-ami-sagemaker-inference-gpu-4-1"
     #   resp.shadow_production_variants[0].capacity_reservation_config.capacity_reservation_preference #=> String, one of "capacity-reservations-only"
@@ -16470,6 +16505,9 @@ module Aws::SageMaker
     #   resp.specification.compute_resource_requirements.max_memory_required_in_mb #=> Integer
     #   resp.specification.base_inference_component_name #=> String
     #   resp.specification.data_cache_config.enable_caching #=> Boolean
+    #   resp.specification.scheduling_config.placement_strategy #=> String, one of "SPREAD", "BINPACK"
+    #   resp.specification.scheduling_config.availability_zone_balance.enforcement_mode #=> String, one of "PERMISSIVE"
+    #   resp.specification.scheduling_config.availability_zone_balance.max_imbalance #=> Integer
     #   resp.runtime_config.desired_copy_count #=> Integer
     #   resp.runtime_config.current_copy_count #=> Integer
     #   resp.creation_time #=> Time
@@ -30312,6 +30350,13 @@ module Aws::SageMaker
     #       data_cache_config: {
     #         enable_caching: false, # required
     #       },
+    #       scheduling_config: {
+    #         placement_strategy: "SPREAD", # required, accepts SPREAD, BINPACK
+    #         availability_zone_balance: {
+    #           enforcement_mode: "PERMISSIVE", # required, accepts PERMISSIVE
+    #           max_imbalance: 1,
+    #         },
+    #       },
     #     },
     #     runtime_config: {
     #       copy_count: 1, # required
@@ -32495,7 +32540,7 @@ module Aws::SageMaker
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemaker'
-      context[:gem_version] = '1.356.0'
+      context[:gem_version] = '1.357.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

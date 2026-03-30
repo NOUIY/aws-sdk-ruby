@@ -392,6 +392,9 @@
   "Detective": {
     "models": "detective/2018-10-26"
   },
+  "DevOpsAgent": {
+    "models": "devops-agent/2026-01-01"
+  },
   "DevOpsGuru": {
     "models": "devops-guru/2020-12-01"
   },

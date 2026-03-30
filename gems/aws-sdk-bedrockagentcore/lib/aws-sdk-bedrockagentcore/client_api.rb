@@ -95,13 +95,21 @@ module Aws::BedrockAgentCore
     DuplicateIdException = Shapes::StructureShape.new(name: 'DuplicateIdException')
     EvaluateRequest = Shapes::StructureShape.new(name: 'EvaluateRequest')
     EvaluateResponse = Shapes::StructureShape.new(name: 'EvaluateResponse')
+    EvaluationContent = Shapes::UnionShape.new(name: 'EvaluationContent')
+    EvaluationContentList = Shapes::ListShape.new(name: 'EvaluationContentList')
+    EvaluationContentTextString = Shapes::StringShape.new(name: 'EvaluationContentTextString')
     EvaluationErrorCode = Shapes::StringShape.new(name: 'EvaluationErrorCode')
     EvaluationErrorMessage = Shapes::StringShape.new(name: 'EvaluationErrorMessage')
+    EvaluationExpectedTrajectory = Shapes::StructureShape.new(name: 'EvaluationExpectedTrajectory')
     EvaluationExplanation = Shapes::StringShape.new(name: 'EvaluationExplanation')
     EvaluationInput = Shapes::UnionShape.new(name: 'EvaluationInput')
+    EvaluationReferenceInput = Shapes::StructureShape.new(name: 'EvaluationReferenceInput')
+    EvaluationReferenceInputs = Shapes::ListShape.new(name: 'EvaluationReferenceInputs')
     EvaluationResultContent = Shapes::StructureShape.new(name: 'EvaluationResultContent')
     EvaluationResults = Shapes::ListShape.new(name: 'EvaluationResults')
     EvaluationTarget = Shapes::UnionShape.new(name: 'EvaluationTarget')
+    EvaluationToolName = Shapes::StringShape.new(name: 'EvaluationToolName')
+    EvaluationToolNames = Shapes::ListShape.new(name: 'EvaluationToolNames')
     EvaluatorArn = Shapes::StringShape.new(name: 'EvaluatorArn')
     EvaluatorId = Shapes::StringShape.new(name: 'EvaluatorId')
     EvaluatorName = Shapes::StringShape.new(name: 'EvaluatorName')
@@ -141,6 +149,8 @@ module Aws::BedrockAgentCore
     GetWorkloadAccessTokenResponse = Shapes::StructureShape.new(name: 'GetWorkloadAccessTokenResponse')
     HostName = Shapes::StringShape.new(name: 'HostName')
     HttpResponseCode = Shapes::IntegerShape.new(name: 'HttpResponseCode')
+    IgnoredReferenceInputField = Shapes::StringShape.new(name: 'IgnoredReferenceInputField')
+    IgnoredReferenceInputFields = Shapes::ListShape.new(name: 'IgnoredReferenceInputFields')
     InputContentBlock = Shapes::StructureShape.new(name: 'InputContentBlock')
     InputContentBlockList = Shapes::ListShape.new(name: 'InputContentBlockList')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
@@ -526,16 +536,36 @@ module Aws::BedrockAgentCore
     EvaluateRequest.add_member(:evaluator_id, Shapes::ShapeRef.new(shape: EvaluatorId, required: true, location: "uri", location_name: "evaluatorId"))
     EvaluateRequest.add_member(:evaluation_input, Shapes::ShapeRef.new(shape: EvaluationInput, required: true, location_name: "evaluationInput"))
     EvaluateRequest.add_member(:evaluation_target, Shapes::ShapeRef.new(shape: EvaluationTarget, location_name: "evaluationTarget"))
+    EvaluateRequest.add_member(:evaluation_reference_inputs, Shapes::ShapeRef.new(shape: EvaluationReferenceInputs, location_name: "evaluationReferenceInputs"))
     EvaluateRequest.struct_class = Types::EvaluateRequest
 
     EvaluateResponse.add_member(:evaluation_results, Shapes::ShapeRef.new(shape: EvaluationResults, required: true, location_name: "evaluationResults"))
     EvaluateResponse.struct_class = Types::EvaluateResponse
+
+    EvaluationContent.add_member(:text, Shapes::ShapeRef.new(shape: EvaluationContentTextString, location_name: "text"))
+    EvaluationContent.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    EvaluationContent.add_member_subclass(:text, Types::EvaluationContent::Text)
+    EvaluationContent.add_member_subclass(:unknown, Types::EvaluationContent::Unknown)
+    EvaluationContent.struct_class = Types::EvaluationContent
+
+    EvaluationContentList.member = Shapes::ShapeRef.new(shape: EvaluationContent)
+
+    EvaluationExpectedTrajectory.add_member(:tool_names, Shapes::ShapeRef.new(shape: EvaluationToolNames, location_name: "toolNames"))
+    EvaluationExpectedTrajectory.struct_class = Types::EvaluationExpectedTrajectory
 
     EvaluationInput.add_member(:session_spans, Shapes::ShapeRef.new(shape: Spans, location_name: "sessionSpans"))
     EvaluationInput.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     EvaluationInput.add_member_subclass(:session_spans, Types::EvaluationInput::SessionSpans)
     EvaluationInput.add_member_subclass(:unknown, Types::EvaluationInput::Unknown)
     EvaluationInput.struct_class = Types::EvaluationInput
+
+    EvaluationReferenceInput.add_member(:context, Shapes::ShapeRef.new(shape: Context, required: true, location_name: "context"))
+    EvaluationReferenceInput.add_member(:expected_response, Shapes::ShapeRef.new(shape: EvaluationContent, location_name: "expectedResponse"))
+    EvaluationReferenceInput.add_member(:assertions, Shapes::ShapeRef.new(shape: EvaluationContentList, location_name: "assertions"))
+    EvaluationReferenceInput.add_member(:expected_trajectory, Shapes::ShapeRef.new(shape: EvaluationExpectedTrajectory, location_name: "expectedTrajectory"))
+    EvaluationReferenceInput.struct_class = Types::EvaluationReferenceInput
+
+    EvaluationReferenceInputs.member = Shapes::ShapeRef.new(shape: EvaluationReferenceInput)
 
     EvaluationResultContent.add_member(:evaluator_arn, Shapes::ShapeRef.new(shape: EvaluatorArn, required: true, location_name: "evaluatorArn"))
     EvaluationResultContent.add_member(:evaluator_id, Shapes::ShapeRef.new(shape: EvaluatorId, required: true, location_name: "evaluatorId"))
@@ -547,6 +577,7 @@ module Aws::BedrockAgentCore
     EvaluationResultContent.add_member(:token_usage, Shapes::ShapeRef.new(shape: TokenUsage, location_name: "tokenUsage"))
     EvaluationResultContent.add_member(:error_message, Shapes::ShapeRef.new(shape: EvaluationErrorMessage, location_name: "errorMessage"))
     EvaluationResultContent.add_member(:error_code, Shapes::ShapeRef.new(shape: EvaluationErrorCode, location_name: "errorCode"))
+    EvaluationResultContent.add_member(:ignored_reference_input_fields, Shapes::ShapeRef.new(shape: IgnoredReferenceInputFields, location_name: "ignoredReferenceInputFields"))
     EvaluationResultContent.struct_class = Types::EvaluationResultContent
 
     EvaluationResults.member = Shapes::ShapeRef.new(shape: EvaluationResultContent)
@@ -558,6 +589,8 @@ module Aws::BedrockAgentCore
     EvaluationTarget.add_member_subclass(:trace_ids, Types::EvaluationTarget::TraceIds)
     EvaluationTarget.add_member_subclass(:unknown, Types::EvaluationTarget::Unknown)
     EvaluationTarget.struct_class = Types::EvaluationTarget
+
+    EvaluationToolNames.member = Shapes::ShapeRef.new(shape: EvaluationToolName)
 
     Event.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location_name: "memoryId"))
     Event.add_member(:actor_id, Shapes::ShapeRef.new(shape: ActorId, required: true, location_name: "actorId"))
@@ -719,6 +752,8 @@ module Aws::BedrockAgentCore
 
     GetWorkloadAccessTokenResponse.add_member(:workload_access_token, Shapes::ShapeRef.new(shape: WorkloadIdentityTokenType, required: true, location_name: "workloadAccessToken"))
     GetWorkloadAccessTokenResponse.struct_class = Types::GetWorkloadAccessTokenResponse
+
+    IgnoredReferenceInputFields.member = Shapes::ShapeRef.new(shape: IgnoredReferenceInputField)
 
     InputContentBlock.add_member(:path, Shapes::ShapeRef.new(shape: MaxLenString, required: true, location_name: "path"))
     InputContentBlock.add_member(:text, Shapes::ShapeRef.new(shape: MaxLenString, location_name: "text"))

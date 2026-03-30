@@ -3203,6 +3203,53 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
+    # Describes the details of an existing insight for an Amazon OpenSearch
+    # Service domain. Returns detailed fields associated with the specified
+    # insight, such as text descriptions and metric data.
+    #
+    # @option params [required, Types::InsightEntity] :entity
+    #   The entity for which to retrieve insight details. Specifies the type
+    #   and value of the entity, such as a domain name or Amazon Web Services
+    #   account ID.
+    #
+    # @option params [required, String] :insight_id
+    #   The unique identifier of the insight to describe.
+    #
+    # @option params [Boolean] :show_html_content
+    #   Specifies whether to show response with HTML content in response or
+    #   not.
+    #
+    # @return [Types::DescribeInsightDetailsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeInsightDetailsResponse#fields #fields} => Array&lt;Types::InsightField&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_insight_details({
+    #     entity: { # required
+    #       type: "Account", # required, accepts Account, DomainName
+    #       value: "InsightEntityValue",
+    #     },
+    #     insight_id: "GUID", # required
+    #     show_html_content: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.fields #=> Array
+    #   resp.fields[0].name #=> String
+    #   resp.fields[0].type #=> String, one of "text", "metric"
+    #   resp.fields[0].value #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeInsightDetails AWS API Documentation
+    #
+    # @overload describe_insight_details(params = {})
+    # @param [Hash] params ({})
+    def describe_insight_details(params = {}, options = {})
+      req = build_request(:describe_insight_details, params)
+      req.send_request(options)
+    end
+
     # Describes the instance count, storage, and master node limits for a
     # given OpenSearch or Elasticsearch version and instance type.
     #
@@ -4395,6 +4442,75 @@ module Aws::OpenSearchService
     # @param [Hash] params ({})
     def list_domains_for_package(params = {}, options = {})
       req = build_request(:list_domains_for_package, params)
+      req.send_request(options)
+    end
+
+    # Lists insights for an Amazon OpenSearch Service domain or Amazon Web
+    # Services account. Returns a paginated list of insights based on the
+    # specified entity, filters, time range, and sort order.
+    #
+    # @option params [required, Types::InsightEntity] :entity
+    #   The entity for which to list insights. Specifies the type and value of
+    #   the entity, such as a domain name or Amazon Web Services account ID.
+    #
+    # @option params [Types::InsightTimeRange] :time_range
+    #   The time range for filtering insights, specified as epoch millisecond
+    #   timestamps.
+    #
+    # @option params [String] :sort_order
+    #   The sort order for the results. Possible values are `ASC` (ascending)
+    #   and `DESC` (descending).
+    #
+    # @option params [Integer] :max_results
+    #   An optional parameter that specifies the maximum number of results to
+    #   return. You can use `NextToken` to get the next page of results. Valid
+    #   values are 1 to 500.
+    #
+    # @option params [String] :next_token
+    #   If your initial `ListInsights` operation returns a `NextToken`,
+    #   include the returned `NextToken` in subsequent `ListInsights`
+    #   operations to retrieve the next page of results.
+    #
+    # @return [Types::ListInsightsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListInsightsResponse#insights #insights} => Array&lt;Types::Insight&gt;
+    #   * {Types::ListInsightsResponse#next_token #next_token} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_insights({
+    #     entity: { # required
+    #       type: "Account", # required, accepts Account, DomainName
+    #       value: "InsightEntityValue",
+    #     },
+    #     time_range: {
+    #       from: 1, # required
+    #       to: 1, # required
+    #     },
+    #     sort_order: "ASC", # accepts ASC, DESC
+    #     max_results: 1,
+    #     next_token: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.insights #=> Array
+    #   resp.insights[0].insight_id #=> String
+    #   resp.insights[0].display_name #=> String
+    #   resp.insights[0].type #=> String, one of "EVENT", "RECOMMENDATION"
+    #   resp.insights[0].priority #=> String, one of "CRITICAL", "HIGH", "MEDIUM", "LOW"
+    #   resp.insights[0].status #=> String, one of "ACTIVE", "RESOLVED", "DISMISSED"
+    #   resp.insights[0].creation_time #=> Time
+    #   resp.insights[0].update_time #=> Time
+    #   resp.insights[0].is_experimental #=> Boolean
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListInsights AWS API Documentation
+    #
+    # @overload list_insights(params = {})
+    # @param [Hash] params ({})
+    def list_insights(params = {}, options = {})
+      req = build_request(:list_insights, params)
       req.send_request(options)
     end
 
@@ -6180,7 +6296,7 @@ module Aws::OpenSearchService
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-opensearchservice'
-      context[:gem_version] = '1.91.0'
+      context[:gem_version] = '1.92.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

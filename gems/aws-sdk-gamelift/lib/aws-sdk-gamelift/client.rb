@@ -3629,6 +3629,17 @@ module Aws::GameLift
     #   valid values are `10.x | 24.x`. By default, `NodeJsVersion` is `10.x`.
     #   This value cannot be updated later.
     #
+    #   <note markdown="1"> Node.js 10 will reach end of support on September 30, 2026. See more
+    #   details in the [Node.js 10 FAQs][1]. For migration guidance, see [
+    #   Migrating from Node.js 10 to 24][2].
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: http://aws.amazon.com/gamelift/faq/nodejs10/
+    #   [2]: https://docs.aws.amazon.com/gamelift/latest/realtimeguide/realtime-script.html#realtime-script-nodejs-migration
+    #
     # @return [Types::CreateScriptOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateScriptOutput#script #script} => Types::Script
@@ -12720,7 +12731,7 @@ module Aws::GameLift
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-gamelift'
-      context[:gem_version] = '1.122.0'
+      context[:gem_version] = '1.123.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -77,6 +77,7 @@ module Aws::AppStream
     ComputeCapacity = Shapes::StructureShape.new(name: 'ComputeCapacity')
     ComputeCapacityStatus = Shapes::StructureShape.new(name: 'ComputeCapacityStatus')
     ConcurrentModificationException = Shapes::StructureShape.new(name: 'ConcurrentModificationException')
+    ContentRedirection = Shapes::StructureShape.new(name: 'ContentRedirection')
     CopyImageRequest = Shapes::StructureShape.new(name: 'CopyImageRequest')
     CopyImageResponse = Shapes::StructureShape.new(name: 'CopyImageResponse')
     CreateAppBlockBuilderRequest = Shapes::StructureShape.new(name: 'CreateAppBlockBuilderRequest')
@@ -383,6 +384,9 @@ module Aws::AppStream
     UpdateStackResult = Shapes::StructureShape.new(name: 'UpdateStackResult')
     UpdateThemeForStackRequest = Shapes::StructureShape.new(name: 'UpdateThemeForStackRequest')
     UpdateThemeForStackResult = Shapes::StructureShape.new(name: 'UpdateThemeForStackResult')
+    UrlPattern = Shapes::StringShape.new(name: 'UrlPattern')
+    UrlPatternList = Shapes::ListShape.new(name: 'UrlPatternList')
+    UrlRedirectionConfig = Shapes::StructureShape.new(name: 'UrlRedirectionConfig')
     UsageReportExecutionErrorCode = Shapes::StringShape.new(name: 'UsageReportExecutionErrorCode')
     UsageReportSchedule = Shapes::StringShape.new(name: 'UsageReportSchedule')
     UsageReportSubscription = Shapes::StructureShape.new(name: 'UsageReportSubscription')
@@ -585,6 +589,9 @@ module Aws::AppStream
     ConcurrentModificationException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "Message"))
     ConcurrentModificationException.struct_class = Types::ConcurrentModificationException
 
+    ContentRedirection.add_member(:host_to_client, Shapes::ShapeRef.new(shape: UrlRedirectionConfig, location_name: "HostToClient"))
+    ContentRedirection.struct_class = Types::ContentRedirection
+
     CopyImageRequest.add_member(:source_image_name, Shapes::ShapeRef.new(shape: Name, required: true, location_name: "SourceImageName"))
     CopyImageRequest.add_member(:destination_image_name, Shapes::ShapeRef.new(shape: Name, required: true, location_name: "DestinationImageName"))
     CopyImageRequest.add_member(:destination_region, Shapes::ShapeRef.new(shape: RegionName, required: true, location_name: "DestinationRegion"))
@@ -762,6 +769,7 @@ module Aws::AppStream
     CreateStackRequest.add_member(:access_endpoints, Shapes::ShapeRef.new(shape: AccessEndpointList, location_name: "AccessEndpoints"))
     CreateStackRequest.add_member(:embed_host_domains, Shapes::ShapeRef.new(shape: EmbedHostDomains, location_name: "EmbedHostDomains"))
     CreateStackRequest.add_member(:streaming_experience_settings, Shapes::ShapeRef.new(shape: StreamingExperienceSettings, location_name: "StreamingExperienceSettings"))
+    CreateStackRequest.add_member(:content_redirection, Shapes::ShapeRef.new(shape: ContentRedirection, location_name: "ContentRedirection"))
     CreateStackRequest.struct_class = Types::CreateStackRequest
 
     CreateStackResult.add_member(:stack, Shapes::ShapeRef.new(shape: Stack, location_name: "Stack"))
@@ -1459,6 +1467,7 @@ module Aws::AppStream
     Stack.add_member(:access_endpoints, Shapes::ShapeRef.new(shape: AccessEndpointList, location_name: "AccessEndpoints"))
     Stack.add_member(:embed_host_domains, Shapes::ShapeRef.new(shape: EmbedHostDomains, location_name: "EmbedHostDomains"))
     Stack.add_member(:streaming_experience_settings, Shapes::ShapeRef.new(shape: StreamingExperienceSettings, location_name: "StreamingExperienceSettings"))
+    Stack.add_member(:content_redirection, Shapes::ShapeRef.new(shape: ContentRedirection, location_name: "ContentRedirection"))
     Stack.struct_class = Types::Stack
 
     StackAttributes.member = Shapes::ShapeRef.new(shape: StackAttribute)
@@ -1677,6 +1686,13 @@ module Aws::AppStream
 
     UpdateThemeForStackResult.add_member(:theme, Shapes::ShapeRef.new(shape: Theme, location_name: "Theme"))
     UpdateThemeForStackResult.struct_class = Types::UpdateThemeForStackResult
+
+    UrlPatternList.member = Shapes::ShapeRef.new(shape: UrlPattern)
+
+    UrlRedirectionConfig.add_member(:enabled, Shapes::ShapeRef.new(shape: BooleanObject, required: true, location_name: "Enabled"))
+    UrlRedirectionConfig.add_member(:allowed_urls, Shapes::ShapeRef.new(shape: UrlPatternList, location_name: "AllowedUrls"))
+    UrlRedirectionConfig.add_member(:denied_urls, Shapes::ShapeRef.new(shape: UrlPatternList, location_name: "DeniedUrls"))
+    UrlRedirectionConfig.struct_class = Types::UrlRedirectionConfig
 
     UsageReportSubscription.add_member(:s3_bucket_name, Shapes::ShapeRef.new(shape: String, location_name: "S3BucketName"))
     UsageReportSubscription.add_member(:schedule, Shapes::ShapeRef.new(shape: UsageReportSchedule, location_name: "Schedule"))

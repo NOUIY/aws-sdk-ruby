@@ -228,7 +228,29 @@ module Aws
                       ?evaluation_target: {
                         span_ids: Array[::String]?,
                         trace_ids: Array[::String]?
-                      }
+                      },
+                      ?evaluation_reference_inputs: Array[
+                        {
+                          context: {
+                            span_context: {
+                              session_id: ::String,
+                              trace_id: ::String?,
+                              span_id: ::String?
+                            }?
+                          },
+                          expected_response: {
+                            text: ::String?
+                          }?,
+                          assertions: Array[
+                            {
+                              text: ::String?
+                            },
+                          ]?,
+                          expected_trajectory: {
+                            tool_names: Array[::String]?
+                          }?
+                        },
+                      ]
                     ) -> _EvaluateResponseSuccess
                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _EvaluateResponseSuccess
 

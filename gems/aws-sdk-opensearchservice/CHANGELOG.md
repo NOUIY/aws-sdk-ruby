@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.92.0 (2026-03-30)
+------------------
+
+* Feature - Added Cluster Insights API's In OpenSearch Service SDK.
+
 1.91.0 (2026-03-20)
 ------------------
 

@@ -1119,6 +1119,65 @@ module Aws::CloudWatchLogs
       include Aws::Structure
     end
 
+    # @!attribute [rw] lookup_table_name
+    #   The name of the lookup table. The name must be unique within your
+    #   account and Region. The name can contain only alphanumeric
+    #   characters and underscores, and can be up to 256 characters long.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the lookup table. The description can be up to 1024
+    #   characters long.
+    #   @return [String]
+    #
+    # @!attribute [rw] table_body
+    #   The CSV content of the lookup table. The first row must be a header
+    #   row with column names. The content must use UTF-8 encoding and not
+    #   exceed 10 MB.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_id
+    #   The ARN of the KMS key to use to encrypt the lookup table data. If
+    #   you don't specify a key, the data is encrypted with an Amazon Web
+    #   Services-owned key.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   A list of key-value pairs to associate with the lookup table. You
+    #   can associate as many as 50 tags with a lookup table. Tags can help
+    #   you organize and categorize your resources.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateLookupTableRequest AWS API Documentation
+    #
+    class CreateLookupTableRequest < Struct.new(
+      :lookup_table_name,
+      :description,
+      :table_body,
+      :kms_key_id,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] lookup_table_arn
+    #   The ARN of the lookup table that was created.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The time when the lookup table was created, expressed as the number
+    #   of milliseconds after `Jan 1, 1970 00:00:00 UTC`.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateLookupTableResponse AWS API Documentation
+    #
+    class CreateLookupTableResponse < Struct.new(
+      :lookup_table_arn,
+      :created_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] name
     #   The name of the scheduled query. The name must be unique within your
     #   account and region. Valid characters are alphanumeric characters,
@@ -1565,6 +1624,18 @@ module Aws::CloudWatchLogs
     class DeleteLogStreamRequest < Struct.new(
       :log_group_name,
       :log_stream_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] lookup_table_arn
+    #   The ARN of the lookup table to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteLookupTableRequest AWS API Documentation
+    #
+    class DeleteLookupTableRequest < Struct.new(
+      :lookup_table_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2678,6 +2749,50 @@ module Aws::CloudWatchLogs
     #
     class DescribeLogStreamsResponse < Struct.new(
       :log_streams,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] lookup_table_name_prefix
+    #   A prefix to filter lookup tables by name. Only tables whose names
+    #   start with this prefix are returned. If you don't specify a prefix,
+    #   all tables in the account and Region are returned.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of lookup tables to return in the response. The
+    #   default value is 50 and the maximum value is 100.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of items to return. (You received this
+    #   token from a previous call.)
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeLookupTablesRequest AWS API Documentation
+    #
+    class DescribeLookupTablesRequest < Struct.new(
+      :lookup_table_name_prefix,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] lookup_tables
+    #   An array of structures, where each structure contains metadata about
+    #   one lookup table.
+    #   @return [Array<Types::LookupTable>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use when requesting the next set of items.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeLookupTablesResponse AWS API Documentation
+    #
+    class DescribeLookupTablesResponse < Struct.new(
+      :lookup_tables,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -3993,6 +4108,62 @@ module Aws::CloudWatchLogs
     #
     class GetLogRecordResponse < Struct.new(
       :log_record)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] lookup_table_arn
+    #   The ARN of the lookup table to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLookupTableRequest AWS API Documentation
+    #
+    class GetLookupTableRequest < Struct.new(
+      :lookup_table_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] lookup_table_arn
+    #   The ARN of the lookup table.
+    #   @return [String]
+    #
+    # @!attribute [rw] lookup_table_name
+    #   The name of the lookup table.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the lookup table.
+    #   @return [String]
+    #
+    # @!attribute [rw] table_body
+    #   The full CSV content of the lookup table.
+    #   @return [String]
+    #
+    # @!attribute [rw] size_bytes
+    #   The size of the lookup table in bytes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] last_updated_time
+    #   The time when the lookup table was last updated, expressed as the
+    #   number of milliseconds after `Jan 1, 1970 00:00:00 UTC`.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] kms_key_id
+    #   The ARN of the KMS key used to encrypt the lookup table data, if
+    #   applicable.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLookupTableResponse AWS API Documentation
+    #
+    class GetLookupTableResponse < Struct.new(
+      :lookup_table_arn,
+      :lookup_table_name,
+      :description,
+      :table_body,
+      :size_bytes,
+      :last_updated_time,
+      :kms_key_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5715,6 +5886,59 @@ module Aws::CloudWatchLogs
       :upload_sequence_token,
       :arn,
       :stored_bytes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains metadata about a lookup table returned by
+    # `DescribeLookupTables`.
+    #
+    # @!attribute [rw] lookup_table_arn
+    #   The ARN of the lookup table.
+    #   @return [String]
+    #
+    # @!attribute [rw] lookup_table_name
+    #   The name of the lookup table.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the lookup table.
+    #   @return [String]
+    #
+    # @!attribute [rw] table_fields
+    #   The column headers from the first row of the CSV file.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] records_count
+    #   The number of data rows in the lookup table, excluding the header
+    #   row.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] size_bytes
+    #   The size of the lookup table in bytes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] last_updated_time
+    #   The time when the lookup table was last updated, expressed as the
+    #   number of milliseconds after `Jan 1, 1970 00:00:00 UTC`.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] kms_key_id
+    #   The ARN of the KMS key used to encrypt the lookup table data, if
+    #   applicable.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/LookupTable AWS API Documentation
+    #
+    class LookupTable < Struct.new(
+      :lookup_table_arn,
+      :lookup_table_name,
+      :description,
+      :table_fields,
+      :records_count,
+      :size_bytes,
+      :last_updated_time,
+      :kms_key_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9890,6 +10114,56 @@ module Aws::CloudWatchLogs
       :filter_pattern,
       :anomaly_visibility_time,
       :enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] lookup_table_arn
+    #   The ARN of the lookup table to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   An updated description of the lookup table.
+    #   @return [String]
+    #
+    # @!attribute [rw] table_body
+    #   The new CSV content to replace the existing data. The first row must
+    #   be a header row with column names. The content must use UTF-8
+    #   encoding and not exceed 10 MB.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_id
+    #   The ARN of the KMS key to use to encrypt the lookup table data. You
+    #   can use this parameter to add, update, or remove the KMS key. To
+    #   remove the KMS key and use an Amazon Web Services-owned key instead,
+    #   specify an empty string.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/UpdateLookupTableRequest AWS API Documentation
+    #
+    class UpdateLookupTableRequest < Struct.new(
+      :lookup_table_arn,
+      :description,
+      :table_body,
+      :kms_key_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] lookup_table_arn
+    #   The ARN of the lookup table that was updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_updated_time
+    #   The time when the lookup table was last updated, expressed as the
+    #   number of milliseconds after `Jan 1, 1970 00:00:00 UTC`.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/UpdateLookupTableResponse AWS API Documentation
+    #
+    class UpdateLookupTableResponse < Struct.new(
+      :lookup_table_arn,
+      :last_updated_time)
       SENSITIVE = []
       include Aws::Structure
     end

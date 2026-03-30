@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.88.0 (2026-03-30)
+------------------
+
+* Feature - Add setSourceIdentity to DataLakeSettings Parameters
+
 1.87.0 (2026-03-18)
 ------------------
 

@@ -643,14 +643,20 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
-    # Content event containing stdout or stderr output
+    # An event that contains incremental output from a command execution.
+    # This event streams standard output and standard error content as it
+    # becomes available during command execution.
     #
     # @!attribute [rw] stdout
-    #   Standard output content
+    #   The standard output content from the command execution. This field
+    #   contains the incremental output written to stdout by the executing
+    #   command.
     #   @return [String]
     #
     # @!attribute [rw] stderr
-    #   Standard error content
+    #   The standard error content from the command execution. This field
+    #   contains the incremental output written to stderr by the executing
+    #   command.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ContentDeltaEvent AWS API Documentation
@@ -662,20 +668,27 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
-    # First event indicating command execution has started
+    # An event that signals the start of content streaming from a command
+    # execution. This event is sent when the command begins producing
+    # output.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ContentStartEvent AWS API Documentation
     #
     class ContentStartEvent < Aws::EmptyStructure; end
 
-    # Final event indicating command execution has completed
+    # An event that signals the completion of a command execution. This
+    # event contains the final status and exit code of the executed command.
     #
     # @!attribute [rw] exit_code
-    #   Exit code: 0 = success, -1 = platform error, &gt;0 = command error
+    #   The exit code returned by the executed command. An exit code of 0
+    #   indicates successful execution, -1 indicates a platform error, and
+    #   values greater than 0 indicate command-specific errors.
     #   @return [Integer]
     #
     # @!attribute [rw] status
-    #   Execution status
+    #   The final status of the command execution. Valid values are
+    #   `COMPLETED` for successful completion or `TIMED_OUT` if the command
+    #   exceeded the specified timeout.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ContentStopEvent AWS API Documentation
@@ -690,6 +703,8 @@ module Aws::BedrockAgentCore
     # The contextual information associated with an evaluation, including
     # span context details that identify the specific traces and sessions
     # being evaluated within the agent's execution flow.
+    #
+    # @note Context is a union - when making an API calls you must set exactly one of the members.
     #
     # @note Context is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of Context corresponding to the set member.
     #
@@ -909,13 +924,23 @@ module Aws::BedrockAgentCore
     #   conversation sessions.
     #   @return [Types::EvaluationTarget]
     #
+    # @!attribute [rw] evaluation_reference_inputs
+    #   Ground truth data to compare against agent responses during
+    #   evaluation. Allows to provide expected responses, assertions, and
+    #   expected tool trajectories at different evaluation levels.
+    #   Session-level reference inputs apply to the entire conversation,
+    #   while trace-level reference inputs target specific request-response
+    #   interactions identified by trace ID.
+    #   @return [Array<Types::EvaluationReferenceInput>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/EvaluateRequest AWS API Documentation
     #
     class EvaluateRequest < Struct.new(
       :evaluator_id,
       :evaluation_input,
-      :evaluation_target)
-      SENSITIVE = []
+      :evaluation_target,
+      :evaluation_reference_inputs)
+      SENSITIVE = [:evaluation_reference_inputs]
       include Aws::Structure
     end
 
@@ -930,6 +955,43 @@ module Aws::BedrockAgentCore
     #
     class EvaluateResponse < Struct.new(
       :evaluation_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A content block for ground truth data in evaluation reference inputs.
+    # Supports text content for expected responses and assertions.
+    #
+    # @note EvaluationContent is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] text
+    #   The text content of the ground truth data. Used for expected
+    #   response text and assertion statements.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/EvaluationContent AWS API Documentation
+    #
+    class EvaluationContent < Struct.new(
+      :text,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Text < EvaluationContent; end
+      class Unknown < EvaluationContent; end
+    end
+
+    # The expected tool call trajectory for trajectory-based evaluation.
+    #
+    # @!attribute [rw] tool_names
+    #   The list of tool names representing the expected tool call sequence.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/EvaluationExpectedTrajectory AWS API Documentation
+    #
+    class EvaluationExpectedTrajectory < Struct.new(
+      :tool_names)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -959,6 +1021,47 @@ module Aws::BedrockAgentCore
 
       class SessionSpans < EvaluationInput; end
       class Unknown < EvaluationInput; end
+    end
+
+    # A reference input containing ground truth data for evaluation, scoped
+    # to a specific context level (session or trace) through its span
+    # context.
+    #
+    # @!attribute [rw] context
+    #   The contextual information associated with an evaluation, including
+    #   span context details that identify the specific traces and sessions
+    #   being evaluated within the agent's execution flow.
+    #   @return [Types::Context]
+    #
+    # @!attribute [rw] expected_response
+    #   The expected response for trace-level evaluation. Built-in
+    #   evaluators that support this field compare the agent's actual
+    #   response against this value for assessment. Custom evaluators can
+    #   access it through the `{expected_response}` placeholder in their
+    #   instructions.
+    #   @return [Types::EvaluationContent]
+    #
+    # @!attribute [rw] assertions
+    #   A list of assertion statements for session-level evaluation. Each
+    #   assertion describes an expected behavior or outcome the agent should
+    #   demonstrate during the session.
+    #   @return [Array<Types::EvaluationContent>]
+    #
+    # @!attribute [rw] expected_trajectory
+    #   The expected tool call sequence for session-level trajectory
+    #   evaluation. Contains a list of tool names representing the tools the
+    #   agent is expected to invoke.
+    #   @return [Types::EvaluationExpectedTrajectory]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/EvaluationReferenceInput AWS API Documentation
+    #
+    class EvaluationReferenceInput < Struct.new(
+      :context,
+      :expected_response,
+      :assertions,
+      :expected_trajectory)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # The comprehensive result of an evaluation containing the score,
@@ -1034,6 +1137,12 @@ module Aws::BedrockAgentCore
     #   categories of evaluation errors.
     #   @return [String]
     #
+    # @!attribute [rw] ignored_reference_input_fields
+    #   The list of reference input field names that were provided but not
+    #   used by the evaluator. Helps identify which ground truth data was
+    #   not consumed during evaluation.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/EvaluationResultContent AWS API Documentation
     #
     class EvaluationResultContent < Struct.new(
@@ -1046,7 +1155,8 @@ module Aws::BedrockAgentCore
       :label,
       :token_usage,
       :error_message,
-      :error_code)
+      :error_code,
+      :ignored_reference_input_fields)
       SENSITIVE = [:explanation]
       include Aws::Structure
     end
@@ -1892,7 +2002,7 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
-    # Request for InvokeAgentRuntimeCommand operation
+    # Request for InvokeAgentRuntimeCommand operation.
     #
     # @!attribute [rw] content_type
     #   The MIME type of the input data in the request payload. This tells
@@ -1907,7 +2017,9 @@ module Aws::BedrockAgentCore
     #   @return [String]
     #
     # @!attribute [rw] runtime_session_id
-    #   Runtime session identifier
+    #   The unique identifier of the runtime session in which to execute the
+    #   command. This session ID is used to maintain state and context
+    #   across multiple command invocations.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -1930,19 +2042,26 @@ module Aws::BedrockAgentCore
     #   @return [String]
     #
     # @!attribute [rw] agent_runtime_arn
-    #   ARN of the agent runtime
+    #   The Amazon Resource Name (ARN) of the agent runtime on which to
+    #   execute the command. This identifies the specific agent runtime
+    #   environment where the command will run.
     #   @return [String]
     #
     # @!attribute [rw] qualifier
-    #   Version or alias qualifier
+    #   The qualifier to use for the agent runtime. This is an endpoint name
+    #   that points to a specific version. If not specified, Amazon Bedrock
+    #   AgentCore uses the default endpoint of the agent runtime.
     #   @return [String]
     #
     # @!attribute [rw] account_id
-    #   Account ID (12 digits)
+    #   The identifier of the Amazon Web Services account for the agent
+    #   runtime resource. This parameter is required when you specify an
+    #   agent ID instead of the full ARN for `agentRuntimeArn`.
     #   @return [String]
     #
     # @!attribute [rw] body
-    #   Request body containing command and timeout
+    #   The request body containing the command to execute and optional
+    #   configuration parameters such as timeout settings.
     #   @return [Types::InvokeAgentRuntimeCommandRequestBody]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InvokeAgentRuntimeCommandRequest AWS API Documentation
@@ -1963,14 +2082,21 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
-    # Request body for InvokeAgentRuntimeCommand
+    # The request body structure for the `InvokeAgentRuntimeCommand`
+    # operation, containing the command to execute and optional
+    # configuration parameters.
     #
     # @!attribute [rw] command
-    #   The command to execute in the runtime container
+    #   The shell command to execute on the agent runtime. This command is
+    #   executed in the runtime environment and its output is streamed back
+    #   to the caller.
     #   @return [String]
     #
     # @!attribute [rw] timeout
-    #   Command timeout in seconds (default: 300, min:1, max: 3600)
+    #   The maximum duration in seconds to wait for the command to complete.
+    #   If the command execution exceeds this timeout, it will be
+    #   terminated. Default is 300 seconds. Minimum is 1 second. Maximum is
+    #   3600 seconds.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InvokeAgentRuntimeCommandRequestBody AWS API Documentation
@@ -1982,10 +2108,11 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
-    # Response for InvokeAgentRuntimeCommand operation
+    # Response for InvokeAgentRuntimeCommand operation.
     #
     # @!attribute [rw] runtime_session_id
-    #   Runtime session identifier
+    #   The unique identifier of the runtime session in which the command
+    #   was executed.
     #   @return [String]
     #
     # @!attribute [rw] trace_id
@@ -2017,7 +2144,9 @@ module Aws::BedrockAgentCore
     #   @return [Integer]
     #
     # @!attribute [rw] stream
-    #   Streaming output containing command execution events
+    #   The streaming output from the command execution. This stream
+    #   contains events that provide real-time updates including standard
+    #   output, standard error, and completion status.
     #   @return [Types::InvokeAgentRuntimeCommandStreamOutput]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InvokeAgentRuntimeCommandResponse AWS API Documentation
@@ -3175,19 +3304,24 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
-    # Response chunk containing exactly one of: contentStart, contentDelta,
-    # or contentStop
+    # A structure representing a response chunk that contains exactly one of
+    # the possible event types: `contentStart`, `contentDelta`, or
+    # `contentStop`.
     #
     # @!attribute [rw] content_start
-    #   First chunk - indicates command execution has started
+    #   An event indicating the start of content streaming from the command
+    #   execution. This is the first chunk received.
     #   @return [Types::ContentStartEvent]
     #
     # @!attribute [rw] content_delta
-    #   Middle chunks - stdout/stderr output
+    #   An event containing incremental output (stdout or stderr) from the
+    #   command execution. These are the middle chunks.
     #   @return [Types::ContentDeltaEvent]
     #
     # @!attribute [rw] content_stop
-    #   Last chunk - indicates command execution has completed
+    #   An event indicating the completion of the command execution,
+    #   including the exit code and final status. This is the last chunk
+    #   received.
     #   @return [Types::ContentStopEvent]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ResponseChunk AWS API Documentation
@@ -4356,9 +4490,9 @@ module Aws::BedrockAgentCore
 
     end
 
-    # Streaming output for InvokeAgentRuntimeCommand operation Delivers
-    # typed events: contentStart (first), contentDelta (middle), contentStop
-    # (last)
+    # The streaming output union for the `InvokeAgentRuntimeCommand`
+    # operation. This union delivers typed events: `contentStart` (first),
+    # `contentDelta` (middle), and `contentStop` (last).
     #
     # EventStream is an Enumerator of Events.
     #  #event_types #=> Array, returns all modeled event types in the stream

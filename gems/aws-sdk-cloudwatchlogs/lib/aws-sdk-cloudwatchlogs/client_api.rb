@@ -75,6 +75,8 @@ module Aws::CloudWatchLogs
     CreateLogAnomalyDetectorResponse = Shapes::StructureShape.new(name: 'CreateLogAnomalyDetectorResponse')
     CreateLogGroupRequest = Shapes::StructureShape.new(name: 'CreateLogGroupRequest')
     CreateLogStreamRequest = Shapes::StructureShape.new(name: 'CreateLogStreamRequest')
+    CreateLookupTableRequest = Shapes::StructureShape.new(name: 'CreateLookupTableRequest')
+    CreateLookupTableResponse = Shapes::StructureShape.new(name: 'CreateLookupTableResponse')
     CreateScheduledQueryRequest = Shapes::StructureShape.new(name: 'CreateScheduledQueryRequest')
     CreateScheduledQueryResponse = Shapes::StructureShape.new(name: 'CreateScheduledQueryResponse')
     DashboardViewerPrincipals = Shapes::ListShape.new(name: 'DashboardViewerPrincipals')
@@ -106,6 +108,7 @@ module Aws::CloudWatchLogs
     DeleteLogAnomalyDetectorRequest = Shapes::StructureShape.new(name: 'DeleteLogAnomalyDetectorRequest')
     DeleteLogGroupRequest = Shapes::StructureShape.new(name: 'DeleteLogGroupRequest')
     DeleteLogStreamRequest = Shapes::StructureShape.new(name: 'DeleteLogStreamRequest')
+    DeleteLookupTableRequest = Shapes::StructureShape.new(name: 'DeleteLookupTableRequest')
     DeleteMetricFilterRequest = Shapes::StructureShape.new(name: 'DeleteMetricFilterRequest')
     DeleteQueryDefinitionRequest = Shapes::StructureShape.new(name: 'DeleteQueryDefinitionRequest')
     DeleteQueryDefinitionResponse = Shapes::StructureShape.new(name: 'DeleteQueryDefinitionResponse')
@@ -163,6 +166,9 @@ module Aws::CloudWatchLogs
     DescribeLogGroupsResponse = Shapes::StructureShape.new(name: 'DescribeLogGroupsResponse')
     DescribeLogStreamsRequest = Shapes::StructureShape.new(name: 'DescribeLogStreamsRequest')
     DescribeLogStreamsResponse = Shapes::StructureShape.new(name: 'DescribeLogStreamsResponse')
+    DescribeLookupTablesMaxResults = Shapes::IntegerShape.new(name: 'DescribeLookupTablesMaxResults')
+    DescribeLookupTablesRequest = Shapes::StructureShape.new(name: 'DescribeLookupTablesRequest')
+    DescribeLookupTablesResponse = Shapes::StructureShape.new(name: 'DescribeLookupTablesResponse')
     DescribeMetricFiltersRequest = Shapes::StructureShape.new(name: 'DescribeMetricFiltersRequest')
     DescribeMetricFiltersResponse = Shapes::StructureShape.new(name: 'DescribeMetricFiltersResponse')
     DescribeQueriesMaxResults = Shapes::IntegerShape.new(name: 'DescribeQueriesMaxResults')
@@ -270,6 +276,8 @@ module Aws::CloudWatchLogs
     GetLogObjectResponseStream = Shapes::StructureShape.new(name: 'GetLogObjectResponseStream')
     GetLogRecordRequest = Shapes::StructureShape.new(name: 'GetLogRecordRequest')
     GetLogRecordResponse = Shapes::StructureShape.new(name: 'GetLogRecordResponse')
+    GetLookupTableRequest = Shapes::StructureShape.new(name: 'GetLookupTableRequest')
+    GetLookupTableResponse = Shapes::StructureShape.new(name: 'GetLookupTableResponse')
     GetQueryResultsRequest = Shapes::StructureShape.new(name: 'GetQueryResultsRequest')
     GetQueryResultsResponse = Shapes::StructureShape.new(name: 'GetQueryResultsResponse')
     GetScheduledQueryHistoryMaxResults = Shapes::IntegerShape.new(name: 'GetScheduledQueryHistoryMaxResults')
@@ -394,6 +402,10 @@ module Aws::CloudWatchLogs
     LogStreams = Shapes::ListShape.new(name: 'LogStreams')
     LogType = Shapes::StringShape.new(name: 'LogType')
     LogTypes = Shapes::ListShape.new(name: 'LogTypes')
+    LookupTable = Shapes::StructureShape.new(name: 'LookupTable')
+    LookupTableDescription = Shapes::StringShape.new(name: 'LookupTableDescription')
+    LookupTableName = Shapes::StringShape.new(name: 'LookupTableName')
+    LookupTables = Shapes::ListShape.new(name: 'LookupTables')
     LowerCaseString = Shapes::StructureShape.new(name: 'LowerCaseString')
     LowerCaseStringWithKeys = Shapes::ListShape.new(name: 'LowerCaseStringWithKeys')
     MalformedQueryException = Shapes::StructureShape.new(name: 'MalformedQueryException')
@@ -517,6 +529,7 @@ module Aws::CloudWatchLogs
     QuoteCharacter = Shapes::StringShape.new(name: 'QuoteCharacter')
     RecordField = Shapes::StructureShape.new(name: 'RecordField')
     RecordFields = Shapes::ListShape.new(name: 'RecordFields')
+    RecordsCount = Shapes::IntegerShape.new(name: 'RecordsCount')
     RejectedEntityInfo = Shapes::StructureShape.new(name: 'RejectedEntityInfo')
     RejectedLogEventsInfo = Shapes::StructureShape.new(name: 'RejectedLogEventsInfo')
     RenameKeyEntries = Shapes::ListShape.new(name: 'RenameKeyEntries')
@@ -599,6 +612,8 @@ module Aws::CloudWatchLogs
     SuppressionType = Shapes::StringShape.new(name: 'SuppressionType')
     SuppressionUnit = Shapes::StringShape.new(name: 'SuppressionUnit')
     SystemField = Shapes::StringShape.new(name: 'SystemField')
+    TableBody = Shapes::StringShape.new(name: 'TableBody')
+    TableFields = Shapes::ListShape.new(name: 'TableFields')
     TagKey = Shapes::StringShape.new(name: 'TagKey')
     TagKeyList = Shapes::ListShape.new(name: 'TagKeyList')
     TagList = Shapes::ListShape.new(name: 'TagList')
@@ -642,6 +657,8 @@ module Aws::CloudWatchLogs
     UpdateDeliveryConfigurationRequest = Shapes::StructureShape.new(name: 'UpdateDeliveryConfigurationRequest')
     UpdateDeliveryConfigurationResponse = Shapes::StructureShape.new(name: 'UpdateDeliveryConfigurationResponse')
     UpdateLogAnomalyDetectorRequest = Shapes::StructureShape.new(name: 'UpdateLogAnomalyDetectorRequest')
+    UpdateLookupTableRequest = Shapes::StructureShape.new(name: 'UpdateLookupTableRequest')
+    UpdateLookupTableResponse = Shapes::StructureShape.new(name: 'UpdateLookupTableResponse')
     UpdateScheduledQueryRequest = Shapes::StructureShape.new(name: 'UpdateScheduledQueryRequest')
     UpdateScheduledQueryResponse = Shapes::StructureShape.new(name: 'UpdateScheduledQueryResponse')
     UpperCaseString = Shapes::StructureShape.new(name: 'UpperCaseString')
@@ -843,6 +860,17 @@ module Aws::CloudWatchLogs
     CreateLogStreamRequest.add_member(:log_stream_name, Shapes::ShapeRef.new(shape: LogStreamName, required: true, location_name: "logStreamName"))
     CreateLogStreamRequest.struct_class = Types::CreateLogStreamRequest
 
+    CreateLookupTableRequest.add_member(:lookup_table_name, Shapes::ShapeRef.new(shape: LookupTableName, required: true, location_name: "lookupTableName"))
+    CreateLookupTableRequest.add_member(:description, Shapes::ShapeRef.new(shape: LookupTableDescription, location_name: "description"))
+    CreateLookupTableRequest.add_member(:table_body, Shapes::ShapeRef.new(shape: TableBody, required: true, location_name: "tableBody"))
+    CreateLookupTableRequest.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "kmsKeyId"))
+    CreateLookupTableRequest.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
+    CreateLookupTableRequest.struct_class = Types::CreateLookupTableRequest
+
+    CreateLookupTableResponse.add_member(:lookup_table_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "lookupTableArn"))
+    CreateLookupTableResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "createdAt"))
+    CreateLookupTableResponse.struct_class = Types::CreateLookupTableResponse
+
     CreateScheduledQueryRequest.add_member(:name, Shapes::ShapeRef.new(shape: ScheduledQueryName, required: true, location_name: "name"))
     CreateScheduledQueryRequest.add_member(:description, Shapes::ShapeRef.new(shape: ScheduledQueryDescription, location_name: "description"))
     CreateScheduledQueryRequest.add_member(:query_language, Shapes::ShapeRef.new(shape: QueryLanguage, required: true, location_name: "queryLanguage"))
@@ -932,6 +960,9 @@ module Aws::CloudWatchLogs
     DeleteLogStreamRequest.add_member(:log_group_name, Shapes::ShapeRef.new(shape: LogGroupName, required: true, location_name: "logGroupName"))
     DeleteLogStreamRequest.add_member(:log_stream_name, Shapes::ShapeRef.new(shape: LogStreamName, required: true, location_name: "logStreamName"))
     DeleteLogStreamRequest.struct_class = Types::DeleteLogStreamRequest
+
+    DeleteLookupTableRequest.add_member(:lookup_table_arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "lookupTableArn"))
+    DeleteLookupTableRequest.struct_class = Types::DeleteLookupTableRequest
 
     DeleteMetricFilterRequest.add_member(:log_group_name, Shapes::ShapeRef.new(shape: LogGroupName, required: true, location_name: "logGroupName"))
     DeleteMetricFilterRequest.add_member(:filter_name, Shapes::ShapeRef.new(shape: FilterName, required: true, location_name: "filterName"))
@@ -1139,6 +1170,15 @@ module Aws::CloudWatchLogs
     DescribeLogStreamsResponse.add_member(:log_streams, Shapes::ShapeRef.new(shape: LogStreams, location_name: "logStreams"))
     DescribeLogStreamsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     DescribeLogStreamsResponse.struct_class = Types::DescribeLogStreamsResponse
+
+    DescribeLookupTablesRequest.add_member(:lookup_table_name_prefix, Shapes::ShapeRef.new(shape: LookupTableName, location_name: "lookupTableNamePrefix"))
+    DescribeLookupTablesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: DescribeLookupTablesMaxResults, location_name: "maxResults"))
+    DescribeLookupTablesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    DescribeLookupTablesRequest.struct_class = Types::DescribeLookupTablesRequest
+
+    DescribeLookupTablesResponse.add_member(:lookup_tables, Shapes::ShapeRef.new(shape: LookupTables, location_name: "lookupTables"))
+    DescribeLookupTablesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    DescribeLookupTablesResponse.struct_class = Types::DescribeLookupTablesResponse
 
     DescribeMetricFiltersRequest.add_member(:log_group_name, Shapes::ShapeRef.new(shape: LogGroupName, location_name: "logGroupName"))
     DescribeMetricFiltersRequest.add_member(:filter_name_prefix, Shapes::ShapeRef.new(shape: FilterName, location_name: "filterNamePrefix"))
@@ -1405,6 +1445,18 @@ module Aws::CloudWatchLogs
 
     GetLogRecordResponse.add_member(:log_record, Shapes::ShapeRef.new(shape: LogRecord, location_name: "logRecord"))
     GetLogRecordResponse.struct_class = Types::GetLogRecordResponse
+
+    GetLookupTableRequest.add_member(:lookup_table_arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "lookupTableArn"))
+    GetLookupTableRequest.struct_class = Types::GetLookupTableRequest
+
+    GetLookupTableResponse.add_member(:lookup_table_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "lookupTableArn"))
+    GetLookupTableResponse.add_member(:lookup_table_name, Shapes::ShapeRef.new(shape: LookupTableName, location_name: "lookupTableName"))
+    GetLookupTableResponse.add_member(:description, Shapes::ShapeRef.new(shape: LookupTableDescription, location_name: "description"))
+    GetLookupTableResponse.add_member(:table_body, Shapes::ShapeRef.new(shape: TableBody, location_name: "tableBody"))
+    GetLookupTableResponse.add_member(:size_bytes, Shapes::ShapeRef.new(shape: StoredBytes, location_name: "sizeBytes"))
+    GetLookupTableResponse.add_member(:last_updated_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastUpdatedTime"))
+    GetLookupTableResponse.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "kmsKeyId"))
+    GetLookupTableResponse.struct_class = Types::GetLookupTableResponse
 
     GetQueryResultsRequest.add_member(:query_id, Shapes::ShapeRef.new(shape: QueryId, required: true, location_name: "queryId"))
     GetQueryResultsRequest.struct_class = Types::GetQueryResultsRequest
@@ -1745,6 +1797,18 @@ module Aws::CloudWatchLogs
     LogStreams.member = Shapes::ShapeRef.new(shape: LogStream)
 
     LogTypes.member = Shapes::ShapeRef.new(shape: LogType)
+
+    LookupTable.add_member(:lookup_table_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "lookupTableArn"))
+    LookupTable.add_member(:lookup_table_name, Shapes::ShapeRef.new(shape: LookupTableName, location_name: "lookupTableName"))
+    LookupTable.add_member(:description, Shapes::ShapeRef.new(shape: LookupTableDescription, location_name: "description"))
+    LookupTable.add_member(:table_fields, Shapes::ShapeRef.new(shape: TableFields, location_name: "tableFields"))
+    LookupTable.add_member(:records_count, Shapes::ShapeRef.new(shape: RecordsCount, location_name: "recordsCount"))
+    LookupTable.add_member(:size_bytes, Shapes::ShapeRef.new(shape: StoredBytes, location_name: "sizeBytes"))
+    LookupTable.add_member(:last_updated_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastUpdatedTime"))
+    LookupTable.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "kmsKeyId"))
+    LookupTable.struct_class = Types::LookupTable
+
+    LookupTables.member = Shapes::ShapeRef.new(shape: LookupTable)
 
     LowerCaseString.add_member(:with_keys, Shapes::ShapeRef.new(shape: LowerCaseStringWithKeys, required: true, location_name: "withKeys"))
     LowerCaseString.struct_class = Types::LowerCaseString
@@ -2313,6 +2377,8 @@ module Aws::CloudWatchLogs
     SuppressionPeriod.add_member(:suppression_unit, Shapes::ShapeRef.new(shape: SuppressionUnit, location_name: "suppressionUnit"))
     SuppressionPeriod.struct_class = Types::SuppressionPeriod
 
+    TableFields.member = Shapes::ShapeRef.new(shape: String)
+
     TagKeyList.member = Shapes::ShapeRef.new(shape: TagKey)
 
     TagList.member = Shapes::ShapeRef.new(shape: TagKey)
@@ -2412,6 +2478,16 @@ module Aws::CloudWatchLogs
     UpdateLogAnomalyDetectorRequest.add_member(:anomaly_visibility_time, Shapes::ShapeRef.new(shape: AnomalyVisibilityTime, location_name: "anomalyVisibilityTime"))
     UpdateLogAnomalyDetectorRequest.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "enabled"))
     UpdateLogAnomalyDetectorRequest.struct_class = Types::UpdateLogAnomalyDetectorRequest
+
+    UpdateLookupTableRequest.add_member(:lookup_table_arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "lookupTableArn"))
+    UpdateLookupTableRequest.add_member(:description, Shapes::ShapeRef.new(shape: LookupTableDescription, location_name: "description"))
+    UpdateLookupTableRequest.add_member(:table_body, Shapes::ShapeRef.new(shape: TableBody, required: true, location_name: "tableBody"))
+    UpdateLookupTableRequest.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "kmsKeyId"))
+    UpdateLookupTableRequest.struct_class = Types::UpdateLookupTableRequest
+
+    UpdateLookupTableResponse.add_member(:lookup_table_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "lookupTableArn"))
+    UpdateLookupTableResponse.add_member(:last_updated_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastUpdatedTime"))
+    UpdateLookupTableResponse.struct_class = Types::UpdateLookupTableResponse
 
     UpdateScheduledQueryRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: ScheduledQueryIdentifier, required: true, location_name: "identifier"))
     UpdateScheduledQueryRequest.add_member(:description, Shapes::ShapeRef.new(shape: ScheduledQueryDescription, location_name: "description"))
@@ -2607,6 +2683,20 @@ module Aws::CloudWatchLogs
         o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
       end)
 
+      api.add_operation(:create_lookup_table, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateLookupTable"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateLookupTableRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateLookupTableResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceAlreadyExistsException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+      end)
+
       api.add_operation(:create_scheduled_query, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateScheduledQuery"
         o.http_method = "POST"
@@ -2773,6 +2863,18 @@ module Aws::CloudWatchLogs
         o.errors << Shapes::ShapeRef.new(shape: OperationAbortedException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
+      api.add_operation(:delete_lookup_table, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteLookupTable"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteLookupTableRequest)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
       end)
 
       api.add_operation(:delete_metric_filter, Seahorse::Model::Operation.new.tap do |o|
@@ -3055,6 +3157,18 @@ module Aws::CloudWatchLogs
         )
       end)
 
+      api.add_operation(:describe_lookup_tables, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeLookupTables"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeLookupTablesRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeLookupTablesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+      end)
+
       api.add_operation(:describe_metric_filters, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DescribeMetricFilters"
         o.http_method = "POST"
@@ -3313,6 +3427,18 @@ module Aws::CloudWatchLogs
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+      end)
+
+      api.add_operation(:get_lookup_table, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetLookupTable"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetLookupTableRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetLookupTableResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
       end)
 
@@ -3895,6 +4021,19 @@ module Aws::CloudWatchLogs
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
         o.errors << Shapes::ShapeRef.new(shape: OperationAbortedException)
+      end)
+
+      api.add_operation(:update_lookup_table, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateLookupTable"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateLookupTableRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateLookupTableResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
       end)
 
       api.add_operation(:update_scheduled_query, Seahorse::Model::Operation.new.tap do |o|

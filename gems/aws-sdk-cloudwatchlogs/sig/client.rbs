@@ -208,6 +208,21 @@ module Aws
                              ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
+      interface _CreateLookupTableResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateLookupTableResponse]
+        def lookup_table_arn: () -> ::String
+        def created_at: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatchLogs/Client.html#create_lookup_table-instance_method
+      def create_lookup_table: (
+                                 lookup_table_name: ::String,
+                                 ?description: ::String,
+                                 table_body: ::String,
+                                 ?kms_key_id: ::String,
+                                 ?tags: Hash[::String, ::String]
+                               ) -> _CreateLookupTableResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateLookupTableResponseSuccess
+
       interface _CreateScheduledQueryResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateScheduledQueryResponse]
         def scheduled_query_arn: () -> ::String
@@ -319,6 +334,12 @@ module Aws
                                log_stream_name: ::String
                              ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatchLogs/Client.html#delete_lookup_table-instance_method
+      def delete_lookup_table: (
+                                 lookup_table_arn: ::String
+                               ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatchLogs/Client.html#delete_metric_filter-instance_method
       def delete_metric_filter: (
@@ -555,6 +576,19 @@ module Aws
                                   ?limit: ::Integer
                                 ) -> _DescribeLogStreamsResponseSuccess
                               | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeLogStreamsResponseSuccess
+
+      interface _DescribeLookupTablesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeLookupTablesResponse]
+        def lookup_tables: () -> ::Array[Types::LookupTable]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatchLogs/Client.html#describe_lookup_tables-instance_method
+      def describe_lookup_tables: (
+                                    ?lookup_table_name_prefix: ::String,
+                                    ?max_results: ::Integer,
+                                    ?next_token: ::String
+                                  ) -> _DescribeLookupTablesResponseSuccess
+                                | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeLookupTablesResponseSuccess
 
       interface _DescribeMetricFiltersResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeMetricFiltersResponse]
@@ -815,6 +849,22 @@ module Aws
                             ?unmask: bool
                           ) -> _GetLogRecordResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetLogRecordResponseSuccess
+
+      interface _GetLookupTableResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetLookupTableResponse]
+        def lookup_table_arn: () -> ::String
+        def lookup_table_name: () -> ::String
+        def description: () -> ::String
+        def table_body: () -> ::String
+        def size_bytes: () -> ::Integer
+        def last_updated_time: () -> ::Integer
+        def kms_key_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatchLogs/Client.html#get_lookup_table-instance_method
+      def get_lookup_table: (
+                              lookup_table_arn: ::String
+                            ) -> _GetLookupTableResponseSuccess
+                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetLookupTableResponseSuccess
 
       interface _GetQueryResultsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetQueryResultsResponse]
@@ -1677,6 +1727,20 @@ module Aws
                                          enabled: bool
                                        ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
+      interface _UpdateLookupTableResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateLookupTableResponse]
+        def lookup_table_arn: () -> ::String
+        def last_updated_time: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatchLogs/Client.html#update_lookup_table-instance_method
+      def update_lookup_table: (
+                                 lookup_table_arn: ::String,
+                                 ?description: ::String,
+                                 table_body: ::String,
+                                 ?kms_key_id: ::String
+                               ) -> _UpdateLookupTableResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateLookupTableResponseSuccess
 
       interface _UpdateScheduledQueryResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateScheduledQueryResponse]

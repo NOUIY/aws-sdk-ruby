@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.6.0 (2026-03-30)
+------------------
+
+* Feature - KYB Supplemental Form enables partners who fail business verification to submit additional details and supporting documentation through a self-service form, triggering an automated re-verification without requiring manual intervention from support teams.
+
 1.5.0 (2026-03-18)
 ------------------
 

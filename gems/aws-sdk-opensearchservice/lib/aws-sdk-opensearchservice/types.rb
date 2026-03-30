@@ -2896,6 +2896,50 @@ module Aws::OpenSearchService
       include Aws::Structure
     end
 
+    # Container for the parameters to the `DescribeInsightDetails`
+    # operation.
+    #
+    # @!attribute [rw] entity
+    #   The entity for which to retrieve insight details. Specifies the type
+    #   and value of the entity, such as a domain name or Amazon Web
+    #   Services account ID.
+    #   @return [Types::InsightEntity]
+    #
+    # @!attribute [rw] insight_id
+    #   The unique identifier of the insight to describe.
+    #   @return [String]
+    #
+    # @!attribute [rw] show_html_content
+    #   Specifies whether to show response with HTML content in response or
+    #   not.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeInsightDetailsRequest AWS API Documentation
+    #
+    class DescribeInsightDetailsRequest < Struct.new(
+      :entity,
+      :insight_id,
+      :show_html_content)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a `DescribeInsightDetails` request. Contains the
+    # detailed fields associated with the specified insight.
+    #
+    # @!attribute [rw] fields
+    #   The list of fields that contain detailed information about the
+    #   insight.
+    #   @return [Array<Types::InsightField>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeInsightDetailsResponse AWS API Documentation
+    #
+    class DescribeInsightDetailsResponse < Struct.new(
+      :fields)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Container for the parameters to the `DescribeInstanceTypeLimits`
     # operation.
     #
@@ -5054,6 +5098,128 @@ module Aws::OpenSearchService
       include Aws::Structure
     end
 
+    # Represents an insight returned by the `ListInsights` operation. An
+    # insight is a notification about a domain event or recommendation that
+    # helps you optimize your Amazon OpenSearch Service domain.
+    #
+    # @!attribute [rw] insight_id
+    #   The unique identifier of the insight.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the insight.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the insight. Possible values are `EVENT` and
+    #   `RECOMMENDATION`.
+    #   @return [String]
+    #
+    # @!attribute [rw] priority
+    #   The priority level of the insight. Possible values are `CRITICAL`,
+    #   `HIGH`, `MEDIUM`, and `LOW`.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the insight. Possible values are `ACTIVE`,
+    #   `RESOLVED`, and `DISMISSED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   The timestamp when the insight was created, in epoch milliseconds.
+    #   @return [Time]
+    #
+    # @!attribute [rw] update_time
+    #   The timestamp when the insight was last updated, in epoch
+    #   milliseconds.
+    #   @return [Time]
+    #
+    # @!attribute [rw] is_experimental
+    #   Indicates whether the insight is experimental.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/Insight AWS API Documentation
+    #
+    class Insight < Struct.new(
+      :insight_id,
+      :display_name,
+      :type,
+      :priority,
+      :status,
+      :creation_time,
+      :update_time,
+      :is_experimental)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the entity for which to retrieve insights. An entity can be
+    # an Amazon OpenSearch Service domain or an Amazon Web Services account.
+    #
+    # @!attribute [rw] type
+    #   The type of the entity. Possible values are `Account` and
+    #   `DomainName`.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value of the entity. For `DomainName`, this is the domain name.
+    #   For `Account`, this is the Amazon Web Services account ID.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/InsightEntity AWS API Documentation
+    #
+    class InsightEntity < Struct.new(
+      :type,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents a field in the detailed view of an insight, returned by the
+    # `DescribeInsightDetails` operation.
+    #
+    # @!attribute [rw] name
+    #   The name of the insight field.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the insight field. Possible values are `text` and
+    #   `metric`.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value of the insight field.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/InsightField AWS API Documentation
+    #
+    class InsightField < Struct.new(
+      :name,
+      :type,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the time range for filtering insights.
+    #
+    # @!attribute [rw] from
+    #   The start of the time range, in epoch milliseconds.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] to
+    #   The end of the time range, in epoch milliseconds.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/InsightTimeRange AWS API Documentation
+    #
+    class InsightTimeRange < Struct.new(
+      :from,
+      :to)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Limits on the number of instances that can be created in OpenSearch
     # Service for a given instance type.
     #
@@ -5530,6 +5696,71 @@ module Aws::OpenSearchService
     #
     class ListDomainsForPackageResponse < Struct.new(
       :domain_package_details_list,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Container for the parameters to the `ListInsights` operation.
+    #
+    # @!attribute [rw] entity
+    #   The entity for which to list insights. Specifies the type and value
+    #   of the entity, such as a domain name or Amazon Web Services account
+    #   ID.
+    #   @return [Types::InsightEntity]
+    #
+    # @!attribute [rw] time_range
+    #   The time range for filtering insights, specified as epoch
+    #   millisecond timestamps.
+    #   @return [Types::InsightTimeRange]
+    #
+    # @!attribute [rw] sort_order
+    #   The sort order for the results. Possible values are `ASC`
+    #   (ascending) and `DESC` (descending).
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   An optional parameter that specifies the maximum number of results
+    #   to return. You can use `NextToken` to get the next page of results.
+    #   Valid values are 1 to 500.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   If your initial `ListInsights` operation returns a `NextToken`,
+    #   include the returned `NextToken` in subsequent `ListInsights`
+    #   operations to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListInsightsRequest AWS API Documentation
+    #
+    class ListInsightsRequest < Struct.new(
+      :entity,
+      :time_range,
+      :sort_order,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a `ListInsights` request. Contains the list of insights
+    # and a pagination token for retrieving the next page of results.
+    #
+    # @!attribute [rw] insights
+    #   The list of insights returned for the specified entity.
+    #   @return [Array<Types::Insight>]
+    #
+    # @!attribute [rw] next_token
+    #   When `NextToken` is returned, there are more results available. The
+    #   value of `NextToken` is a unique pagination token for each page.
+    #   Send the request again using the returned token to retrieve the next
+    #   page.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListInsightsResponse AWS API Documentation
+    #
+    class ListInsightsResponse < Struct.new(
+      :insights,
       :next_token)
       SENSITIVE = []
       include Aws::Structure

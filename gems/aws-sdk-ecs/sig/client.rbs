@@ -110,6 +110,9 @@ module Aws
                                           storage_configuration: {
                                             storage_size_gi_b: ::Integer?
                                           }?,
+                                          local_storage_configuration: {
+                                            use_local_storage: bool?
+                                          }?,
                                           monitoring: ("BASIC" | "DETAILED")?,
                                           capacity_option_type: ("ON_DEMAND" | "SPOT" | "RESERVED")?,
                                           instance_metadata_tags_propagation: bool?,
@@ -1761,6 +1764,9 @@ module Aws
                                             storage_size_gi_b: ::Integer?
                                           }?,
                                           instance_metadata_tags_propagation: bool?,
+                                          local_storage_configuration: {
+                                            use_local_storage: bool?
+                                          }?,
                                           monitoring: ("BASIC" | "DETAILED")?,
                                           instance_requirements: {
                                             v_cpu_count: {

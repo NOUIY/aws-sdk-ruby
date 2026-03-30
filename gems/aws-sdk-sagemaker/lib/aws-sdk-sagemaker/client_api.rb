@@ -194,6 +194,8 @@ module Aws::SageMaker
     Autotune = Shapes::StructureShape.new(name: 'Autotune')
     AutotuneMode = Shapes::StringShape.new(name: 'AutotuneMode')
     AvailabilityZone = Shapes::StringShape.new(name: 'AvailabilityZone')
+    AvailabilityZoneBalanceEnforcementMode = Shapes::StringShape.new(name: 'AvailabilityZoneBalanceEnforcementMode')
+    AvailabilityZoneBalanceMaxImbalance = Shapes::IntegerShape.new(name: 'AvailabilityZoneBalanceMaxImbalance')
     AvailabilityZoneId = Shapes::StringShape.new(name: 'AvailabilityZoneId')
     AvailableInstanceCount = Shapes::IntegerShape.new(name: 'AvailableInstanceCount')
     AvailableSpareInstanceCount = Shapes::IntegerShape.new(name: 'AvailableSpareInstanceCount')
@@ -1332,6 +1334,7 @@ module Aws::SageMaker
     InUseInstanceCount = Shapes::IntegerShape.new(name: 'InUseInstanceCount')
     IncludeNodeLogicalIdsBoolean = Shapes::BooleanShape.new(name: 'IncludeNodeLogicalIdsBoolean')
     InferenceComponentArn = Shapes::StringShape.new(name: 'InferenceComponentArn')
+    InferenceComponentAvailabilityZoneBalance = Shapes::StructureShape.new(name: 'InferenceComponentAvailabilityZoneBalance')
     InferenceComponentCapacitySize = Shapes::StructureShape.new(name: 'InferenceComponentCapacitySize')
     InferenceComponentCapacitySizeType = Shapes::StringShape.new(name: 'InferenceComponentCapacitySizeType')
     InferenceComponentComputeResourceRequirements = Shapes::StructureShape.new(name: 'InferenceComponentComputeResourceRequirements')
@@ -1344,9 +1347,11 @@ module Aws::SageMaker
     InferenceComponentMetadata = Shapes::StructureShape.new(name: 'InferenceComponentMetadata')
     InferenceComponentName = Shapes::StringShape.new(name: 'InferenceComponentName')
     InferenceComponentNameContains = Shapes::StringShape.new(name: 'InferenceComponentNameContains')
+    InferenceComponentPlacementStrategy = Shapes::StringShape.new(name: 'InferenceComponentPlacementStrategy')
     InferenceComponentRollingUpdatePolicy = Shapes::StructureShape.new(name: 'InferenceComponentRollingUpdatePolicy')
     InferenceComponentRuntimeConfig = Shapes::StructureShape.new(name: 'InferenceComponentRuntimeConfig')
     InferenceComponentRuntimeConfigSummary = Shapes::StructureShape.new(name: 'InferenceComponentRuntimeConfigSummary')
+    InferenceComponentSchedulingConfig = Shapes::StructureShape.new(name: 'InferenceComponentSchedulingConfig')
     InferenceComponentSortKey = Shapes::StringShape.new(name: 'InferenceComponentSortKey')
     InferenceComponentSpecification = Shapes::StructureShape.new(name: 'InferenceComponentSpecification')
     InferenceComponentSpecificationSummary = Shapes::StructureShape.new(name: 'InferenceComponentSpecificationSummary')
@@ -1660,8 +1665,11 @@ module Aws::SageMaker
     MLflowConfiguration = Shapes::StructureShape.new(name: 'MLflowConfiguration')
     MaintenanceStatus = Shapes::StringShape.new(name: 'MaintenanceStatus')
     MajorMinorVersion = Shapes::StringShape.new(name: 'MajorMinorVersion')
+    ManagedInstanceScalingCooldownInMinutes = Shapes::IntegerShape.new(name: 'ManagedInstanceScalingCooldownInMinutes')
     ManagedInstanceScalingMaxInstanceCount = Shapes::IntegerShape.new(name: 'ManagedInstanceScalingMaxInstanceCount')
+    ManagedInstanceScalingMaximumStepSize = Shapes::IntegerShape.new(name: 'ManagedInstanceScalingMaximumStepSize')
     ManagedInstanceScalingMinInstanceCount = Shapes::IntegerShape.new(name: 'ManagedInstanceScalingMinInstanceCount')
+    ManagedInstanceScalingScaleInStrategy = Shapes::StringShape.new(name: 'ManagedInstanceScalingScaleInStrategy')
     ManagedInstanceScalingStatus = Shapes::StringShape.new(name: 'ManagedInstanceScalingStatus')
     MapString2048 = Shapes::MapShape.new(name: 'MapString2048')
     MaxAutoMLJobRuntimeInSeconds = Shapes::IntegerShape.new(name: 'MaxAutoMLJobRuntimeInSeconds')
@@ -2115,6 +2123,7 @@ module Aws::SageMaker
     ProductionVariantInstanceType = Shapes::StringShape.new(name: 'ProductionVariantInstanceType')
     ProductionVariantList = Shapes::ListShape.new(name: 'ProductionVariantList')
     ProductionVariantManagedInstanceScaling = Shapes::StructureShape.new(name: 'ProductionVariantManagedInstanceScaling')
+    ProductionVariantManagedInstanceScalingScaleInPolicy = Shapes::StructureShape.new(name: 'ProductionVariantManagedInstanceScalingScaleInPolicy')
     ProductionVariantModelDataDownloadTimeoutInSeconds = Shapes::IntegerShape.new(name: 'ProductionVariantModelDataDownloadTimeoutInSeconds')
     ProductionVariantRoutingConfig = Shapes::StructureShape.new(name: 'ProductionVariantRoutingConfig')
     ProductionVariantSSMAccess = Shapes::BooleanShape.new(name: 'ProductionVariantSSMAccess')
@@ -7683,6 +7692,10 @@ module Aws::SageMaker
     ImportHubContentResponse.add_member(:hub_content_arn, Shapes::ShapeRef.new(shape: HubContentArn, required: true, location_name: "HubContentArn"))
     ImportHubContentResponse.struct_class = Types::ImportHubContentResponse
 
+    InferenceComponentAvailabilityZoneBalance.add_member(:enforcement_mode, Shapes::ShapeRef.new(shape: AvailabilityZoneBalanceEnforcementMode, required: true, location_name: "EnforcementMode"))
+    InferenceComponentAvailabilityZoneBalance.add_member(:max_imbalance, Shapes::ShapeRef.new(shape: AvailabilityZoneBalanceMaxImbalance, location_name: "MaxImbalance"))
+    InferenceComponentAvailabilityZoneBalance.struct_class = Types::InferenceComponentAvailabilityZoneBalance
+
     InferenceComponentCapacitySize.add_member(:type, Shapes::ShapeRef.new(shape: InferenceComponentCapacitySizeType, required: true, location_name: "Type"))
     InferenceComponentCapacitySize.add_member(:value, Shapes::ShapeRef.new(shape: CapacitySizeValue, required: true, location_name: "Value"))
     InferenceComponentCapacitySize.struct_class = Types::InferenceComponentCapacitySize
@@ -7729,12 +7742,17 @@ module Aws::SageMaker
     InferenceComponentRuntimeConfigSummary.add_member(:current_copy_count, Shapes::ShapeRef.new(shape: InferenceComponentCopyCount, location_name: "CurrentCopyCount"))
     InferenceComponentRuntimeConfigSummary.struct_class = Types::InferenceComponentRuntimeConfigSummary
 
+    InferenceComponentSchedulingConfig.add_member(:placement_strategy, Shapes::ShapeRef.new(shape: InferenceComponentPlacementStrategy, required: true, location_name: "PlacementStrategy"))
+    InferenceComponentSchedulingConfig.add_member(:availability_zone_balance, Shapes::ShapeRef.new(shape: InferenceComponentAvailabilityZoneBalance, location_name: "AvailabilityZoneBalance"))
+    InferenceComponentSchedulingConfig.struct_class = Types::InferenceComponentSchedulingConfig
+
     InferenceComponentSpecification.add_member(:model_name, Shapes::ShapeRef.new(shape: ModelName, location_name: "ModelName"))
     InferenceComponentSpecification.add_member(:container, Shapes::ShapeRef.new(shape: InferenceComponentContainerSpecification, location_name: "Container"))
     InferenceComponentSpecification.add_member(:startup_parameters, Shapes::ShapeRef.new(shape: InferenceComponentStartupParameters, location_name: "StartupParameters"))
     InferenceComponentSpecification.add_member(:compute_resource_requirements, Shapes::ShapeRef.new(shape: InferenceComponentComputeResourceRequirements, location_name: "ComputeResourceRequirements"))
     InferenceComponentSpecification.add_member(:base_inference_component_name, Shapes::ShapeRef.new(shape: InferenceComponentName, location_name: "BaseInferenceComponentName"))
     InferenceComponentSpecification.add_member(:data_cache_config, Shapes::ShapeRef.new(shape: InferenceComponentDataCacheConfig, location_name: "DataCacheConfig"))
+    InferenceComponentSpecification.add_member(:scheduling_config, Shapes::ShapeRef.new(shape: InferenceComponentSchedulingConfig, location_name: "SchedulingConfig"))
     InferenceComponentSpecification.struct_class = Types::InferenceComponentSpecification
 
     InferenceComponentSpecificationSummary.add_member(:model_name, Shapes::ShapeRef.new(shape: ModelName, location_name: "ModelName"))
@@ -7743,6 +7761,7 @@ module Aws::SageMaker
     InferenceComponentSpecificationSummary.add_member(:compute_resource_requirements, Shapes::ShapeRef.new(shape: InferenceComponentComputeResourceRequirements, location_name: "ComputeResourceRequirements"))
     InferenceComponentSpecificationSummary.add_member(:base_inference_component_name, Shapes::ShapeRef.new(shape: InferenceComponentName, location_name: "BaseInferenceComponentName"))
     InferenceComponentSpecificationSummary.add_member(:data_cache_config, Shapes::ShapeRef.new(shape: InferenceComponentDataCacheConfigSummary, location_name: "DataCacheConfig"))
+    InferenceComponentSpecificationSummary.add_member(:scheduling_config, Shapes::ShapeRef.new(shape: InferenceComponentSchedulingConfig, location_name: "SchedulingConfig"))
     InferenceComponentSpecificationSummary.struct_class = Types::InferenceComponentSpecificationSummary
 
     InferenceComponentStartupParameters.add_member(:model_data_download_timeout_in_seconds, Shapes::ShapeRef.new(shape: ProductionVariantModelDataDownloadTimeoutInSeconds, location_name: "ModelDataDownloadTimeoutInSeconds"))
@@ -10446,7 +10465,13 @@ module Aws::SageMaker
     ProductionVariantManagedInstanceScaling.add_member(:status, Shapes::ShapeRef.new(shape: ManagedInstanceScalingStatus, location_name: "Status"))
     ProductionVariantManagedInstanceScaling.add_member(:min_instance_count, Shapes::ShapeRef.new(shape: ManagedInstanceScalingMinInstanceCount, location_name: "MinInstanceCount"))
     ProductionVariantManagedInstanceScaling.add_member(:max_instance_count, Shapes::ShapeRef.new(shape: ManagedInstanceScalingMaxInstanceCount, location_name: "MaxInstanceCount"))
+    ProductionVariantManagedInstanceScaling.add_member(:scale_in_policy, Shapes::ShapeRef.new(shape: ProductionVariantManagedInstanceScalingScaleInPolicy, location_name: "ScaleInPolicy"))
     ProductionVariantManagedInstanceScaling.struct_class = Types::ProductionVariantManagedInstanceScaling
+
+    ProductionVariantManagedInstanceScalingScaleInPolicy.add_member(:strategy, Shapes::ShapeRef.new(shape: ManagedInstanceScalingScaleInStrategy, required: true, location_name: "Strategy"))
+    ProductionVariantManagedInstanceScalingScaleInPolicy.add_member(:maximum_step_size, Shapes::ShapeRef.new(shape: ManagedInstanceScalingMaximumStepSize, location_name: "MaximumStepSize"))
+    ProductionVariantManagedInstanceScalingScaleInPolicy.add_member(:cooldown_in_minutes, Shapes::ShapeRef.new(shape: ManagedInstanceScalingCooldownInMinutes, location_name: "CooldownInMinutes"))
+    ProductionVariantManagedInstanceScalingScaleInPolicy.struct_class = Types::ProductionVariantManagedInstanceScalingScaleInPolicy
 
     ProductionVariantRoutingConfig.add_member(:routing_strategy, Shapes::ShapeRef.new(shape: RoutingStrategy, required: true, location_name: "RoutingStrategy"))
     ProductionVariantRoutingConfig.struct_class = Types::ProductionVariantRoutingConfig

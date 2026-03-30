@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.156.0 (2026-03-30)
+------------------
+
+* Feature - Adds support for new instance lifecycle states introduced by the instance lifecycle policy and replace root volume features.
+
 1.155.0 (2026-03-18)
 ------------------
 

@@ -900,6 +900,14 @@ module Aws::BedrockAgentCore
     #   calls, single request-response interactions (traces), or entire
     #   conversation sessions.
     #
+    # @option params [Array<Types::EvaluationReferenceInput>] :evaluation_reference_inputs
+    #   Ground truth data to compare against agent responses during
+    #   evaluation. Allows to provide expected responses, assertions, and
+    #   expected tool trajectories at different evaluation levels.
+    #   Session-level reference inputs apply to the entire conversation, while
+    #   trace-level reference inputs target specific request-response
+    #   interactions identified by trace ID.
+    #
     # @return [Types::EvaluateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::EvaluateResponse#evaluation_results #evaluation_results} => Array&lt;Types::EvaluationResultContent&gt;
@@ -918,6 +926,28 @@ module Aws::BedrockAgentCore
     #       span_ids: ["SpanId"],
     #       trace_ids: ["TraceId"],
     #     },
+    #     evaluation_reference_inputs: [
+    #       {
+    #         context: { # required
+    #           span_context: {
+    #             session_id: "String", # required
+    #             trace_id: "String",
+    #             span_id: "String",
+    #           },
+    #         },
+    #         expected_response: {
+    #           text: "EvaluationContentTextString",
+    #         },
+    #         assertions: [
+    #           {
+    #             text: "EvaluationContentTextString",
+    #           },
+    #         ],
+    #         expected_trajectory: {
+    #           tool_names: ["EvaluationToolName"],
+    #         },
+    #       },
+    #     ],
     #   })
     #
     # @example Response structure
@@ -937,6 +967,8 @@ module Aws::BedrockAgentCore
     #   resp.evaluation_results[0].token_usage.total_tokens #=> Integer
     #   resp.evaluation_results[0].error_message #=> String
     #   resp.evaluation_results[0].error_code #=> String
+    #   resp.evaluation_results[0].ignored_reference_input_fields #=> Array
+    #   resp.evaluation_results[0].ignored_reference_input_fields[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/Evaluate AWS API Documentation
     #
@@ -1611,8 +1643,18 @@ module Aws::BedrockAgentCore
       req.send_request(options, &block)
     end
 
-    # Executes a command in a runtime session container. Returns streaming
-    # output with contentStart, contentDelta, and contentStop events.
+    # Executes a command in a runtime session container and streams the
+    # output back to the caller. This operation allows you to run shell
+    # commands within the agent runtime environment and receive real-time
+    # streaming responses including standard output and standard error.
+    #
+    # To invoke a command, you must specify the agent runtime ARN and a
+    # runtime session ID. The command execution supports streaming
+    # responses, allowing you to receive output as it becomes available
+    # through `contentStart`, `contentDelta`, and `contentStop` events.
+    #
+    # To use this operation, you must have the
+    # `bedrock-agentcore:InvokeAgentRuntimeCommand` permission.
     #
     # @option params [String] :content_type
     #   The MIME type of the input data in the request payload. This tells the
@@ -1625,7 +1667,9 @@ module Aws::BedrockAgentCore
     #   Common values include application/json for JSON data.
     #
     # @option params [String] :runtime_session_id
-    #   Runtime session identifier
+    #   The unique identifier of the runtime session in which to execute the
+    #   command. This session ID is used to maintain state and context across
+    #   multiple command invocations.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
@@ -1643,16 +1687,23 @@ module Aws::BedrockAgentCore
     #   Additional context information for distributed tracing.
     #
     # @option params [required, String] :agent_runtime_arn
-    #   ARN of the agent runtime
+    #   The Amazon Resource Name (ARN) of the agent runtime on which to
+    #   execute the command. This identifies the specific agent runtime
+    #   environment where the command will run.
     #
     # @option params [String] :qualifier
-    #   Version or alias qualifier
+    #   The qualifier to use for the agent runtime. This is an endpoint name
+    #   that points to a specific version. If not specified, Amazon Bedrock
+    #   AgentCore uses the default endpoint of the agent runtime.
     #
     # @option params [String] :account_id
-    #   Account ID (12 digits)
+    #   The identifier of the Amazon Web Services account for the agent
+    #   runtime resource. This parameter is required when you specify an agent
+    #   ID instead of the full ARN for `agentRuntimeArn`.
     #
     # @option params [required, Types::InvokeAgentRuntimeCommandRequestBody] :body
-    #   Request body containing command and timeout
+    #   The request body containing the command to execute and optional
+    #   configuration parameters such as timeout settings.
     #
     # @return [Types::InvokeAgentRuntimeCommandResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3493,7 +3544,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.23.0'
+      context[:gem_version] = '1.24.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1594,6 +1594,14 @@ module Aws::AutoScaling
     #   `prevent-all-deletion`.
     #
     #   Default: `none`
+    #
+    #   For more information, see [ Configure deletion protection for your
+    #   Amazon EC2 Auto Scaling resources][1] in the *Amazon EC2 Auto Scaling
+    #   User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/resource-deletion-protection.html
     # @return [AutoScalingGroup]
     def update(options = {})
       options = options.merge(auto_scaling_group_name: @name)
@@ -1653,6 +1661,14 @@ module Aws::AutoScaling
     #     filter can only be used in combination with the
     #     `AutoScalingGroupName` parameter. For valid `StatusCode` values, see
     #     [Activity][1] in the *Amazon EC2 Auto Scaling API Reference*.
+    #
+    #   `StartTimeLowerBound` and `StartTimeUpperBound` accept ISO 8601
+    #   formatted timestamps. Timestamps without a timezone offset are assumed
+    #   to be UTC.
+    #
+    #   * `2000-01-18T08:15:00Z`
+    #
+    #   * `2000-01-18T16:15:00+08:00`
     #
     #
     #

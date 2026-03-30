@@ -308,6 +308,7 @@ module Aws::ECS
     ManagedDraining = Shapes::StringShape.new(name: 'ManagedDraining')
     ManagedIngressPath = Shapes::StructureShape.new(name: 'ManagedIngressPath')
     ManagedIngressPaths = Shapes::ListShape.new(name: 'ManagedIngressPaths')
+    ManagedInstancesLocalStorageConfiguration = Shapes::StructureShape.new(name: 'ManagedInstancesLocalStorageConfiguration')
     ManagedInstancesMonitoringOptions = Shapes::StringShape.new(name: 'ManagedInstancesMonitoringOptions')
     ManagedInstancesNetworkConfiguration = Shapes::StructureShape.new(name: 'ManagedInstancesNetworkConfiguration')
     ManagedInstancesProvider = Shapes::StructureShape.new(name: 'ManagedInstancesProvider')
@@ -1409,6 +1410,7 @@ module Aws::ECS
     InstanceLaunchTemplate.add_member(:ec2_instance_profile_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "ec2InstanceProfileArn"))
     InstanceLaunchTemplate.add_member(:network_configuration, Shapes::ShapeRef.new(shape: ManagedInstancesNetworkConfiguration, required: true, location_name: "networkConfiguration"))
     InstanceLaunchTemplate.add_member(:storage_configuration, Shapes::ShapeRef.new(shape: ManagedInstancesStorageConfiguration, location_name: "storageConfiguration"))
+    InstanceLaunchTemplate.add_member(:local_storage_configuration, Shapes::ShapeRef.new(shape: ManagedInstancesLocalStorageConfiguration, location_name: "localStorageConfiguration"))
     InstanceLaunchTemplate.add_member(:monitoring, Shapes::ShapeRef.new(shape: ManagedInstancesMonitoringOptions, location_name: "monitoring"))
     InstanceLaunchTemplate.add_member(:capacity_option_type, Shapes::ShapeRef.new(shape: CapacityOptionType, location_name: "capacityOptionType"))
     InstanceLaunchTemplate.add_member(:instance_metadata_tags_propagation, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "instanceMetadataTagsPropagation"))
@@ -1421,6 +1423,7 @@ module Aws::ECS
     InstanceLaunchTemplateUpdate.add_member(:network_configuration, Shapes::ShapeRef.new(shape: ManagedInstancesNetworkConfiguration, location_name: "networkConfiguration"))
     InstanceLaunchTemplateUpdate.add_member(:storage_configuration, Shapes::ShapeRef.new(shape: ManagedInstancesStorageConfiguration, location_name: "storageConfiguration"))
     InstanceLaunchTemplateUpdate.add_member(:instance_metadata_tags_propagation, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "instanceMetadataTagsPropagation"))
+    InstanceLaunchTemplateUpdate.add_member(:local_storage_configuration, Shapes::ShapeRef.new(shape: ManagedInstancesLocalStorageConfiguration, location_name: "localStorageConfiguration"))
     InstanceLaunchTemplateUpdate.add_member(:monitoring, Shapes::ShapeRef.new(shape: ManagedInstancesMonitoringOptions, location_name: "monitoring"))
     InstanceLaunchTemplateUpdate.add_member(:instance_requirements, Shapes::ShapeRef.new(shape: InstanceRequirementsRequest, location_name: "instanceRequirements"))
     InstanceLaunchTemplateUpdate.add_member(:capacity_reservations, Shapes::ShapeRef.new(shape: CapacityReservationRequest, location_name: "capacityReservations"))
@@ -1665,6 +1668,9 @@ module Aws::ECS
     ManagedIngressPath.struct_class = Types::ManagedIngressPath
 
     ManagedIngressPaths.member = Shapes::ShapeRef.new(shape: ManagedIngressPath)
+
+    ManagedInstancesLocalStorageConfiguration.add_member(:use_local_storage, Shapes::ShapeRef.new(shape: Boolean, location_name: "useLocalStorage"))
+    ManagedInstancesLocalStorageConfiguration.struct_class = Types::ManagedInstancesLocalStorageConfiguration
 
     ManagedInstancesNetworkConfiguration.add_member(:subnets, Shapes::ShapeRef.new(shape: StringList, location_name: "subnets"))
     ManagedInstancesNetworkConfiguration.add_member(:security_groups, Shapes::ShapeRef.new(shape: StringList, location_name: "securityGroups"))

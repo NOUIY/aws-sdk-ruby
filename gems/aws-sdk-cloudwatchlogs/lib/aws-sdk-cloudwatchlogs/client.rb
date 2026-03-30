@@ -1346,6 +1346,70 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
+    # Creates a lookup table by uploading CSV data. You can use lookup
+    # tables to enrich log data in CloudWatch Logs Insights queries with
+    # reference data such as user details, application names, or error
+    # descriptions.
+    #
+    # The table name must be unique within your account and Region. The CSV
+    # content must include a header row with column names, use UTF-8
+    # encoding, and not exceed 10 MB.
+    #
+    # @option params [required, String] :lookup_table_name
+    #   The name of the lookup table. The name must be unique within your
+    #   account and Region. The name can contain only alphanumeric characters
+    #   and underscores, and can be up to 256 characters long.
+    #
+    # @option params [String] :description
+    #   A description of the lookup table. The description can be up to 1024
+    #   characters long.
+    #
+    # @option params [required, String] :table_body
+    #   The CSV content of the lookup table. The first row must be a header
+    #   row with column names. The content must use UTF-8 encoding and not
+    #   exceed 10 MB.
+    #
+    # @option params [String] :kms_key_id
+    #   The ARN of the KMS key to use to encrypt the lookup table data. If you
+    #   don't specify a key, the data is encrypted with an Amazon Web
+    #   Services-owned key.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   A list of key-value pairs to associate with the lookup table. You can
+    #   associate as many as 50 tags with a lookup table. Tags can help you
+    #   organize and categorize your resources.
+    #
+    # @return [Types::CreateLookupTableResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateLookupTableResponse#lookup_table_arn #lookup_table_arn} => String
+    #   * {Types::CreateLookupTableResponse#created_at #created_at} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_lookup_table({
+    #     lookup_table_name: "LookupTableName", # required
+    #     description: "LookupTableDescription",
+    #     table_body: "TableBody", # required
+    #     kms_key_id: "KmsKeyId",
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.lookup_table_arn #=> String
+    #   resp.created_at #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateLookupTable AWS API Documentation
+    #
+    # @overload create_lookup_table(params = {})
+    # @param [Hash] params ({})
+    def create_lookup_table(params = {}, options = {})
+      req = build_request(:create_lookup_table, params)
+      req.send_request(options)
+    end
+
     # Creates a scheduled query that runs CloudWatch Logs Insights queries
     # at regular intervals. Scheduled queries enable proactive monitoring by
     # automatically executing queries to detect patterns and anomalies in
@@ -1861,6 +1925,32 @@ module Aws::CloudWatchLogs
     # @param [Hash] params ({})
     def delete_log_stream(params = {}, options = {})
       req = build_request(:delete_log_stream, params)
+      req.send_request(options)
+    end
+
+    # Deletes a lookup table permanently. This operation cannot be undone.
+    #
+    # Queries that reference a deleted table will return an error. Before
+    # deleting a lookup table, review any saved queries or dashboards that
+    # may reference it.
+    #
+    # @option params [required, String] :lookup_table_arn
+    #   The ARN of the lookup table to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_lookup_table({
+    #     lookup_table_arn: "Arn", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteLookupTable AWS API Documentation
+    #
+    # @overload delete_lookup_table(params = {})
+    # @param [Hash] params ({})
+    def delete_lookup_table(params = {}, options = {})
+      req = build_request(:delete_lookup_table, params)
       req.send_request(options)
     end
 
@@ -2990,6 +3080,59 @@ module Aws::CloudWatchLogs
     # @param [Hash] params ({})
     def describe_log_streams(params = {}, options = {})
       req = build_request(:describe_log_streams, params)
+      req.send_request(options)
+    end
+
+    # Retrieves metadata about lookup tables in your account. You can
+    # optionally filter the results by table name prefix. Results are sorted
+    # by table name in ascending order.
+    #
+    # @option params [String] :lookup_table_name_prefix
+    #   A prefix to filter lookup tables by name. Only tables whose names
+    #   start with this prefix are returned. If you don't specify a prefix,
+    #   all tables in the account and Region are returned.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of lookup tables to return in the response. The
+    #   default value is 50 and the maximum value is 100.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of items to return. (You received this
+    #   token from a previous call.)
+    #
+    # @return [Types::DescribeLookupTablesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeLookupTablesResponse#lookup_tables #lookup_tables} => Array&lt;Types::LookupTable&gt;
+    #   * {Types::DescribeLookupTablesResponse#next_token #next_token} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_lookup_tables({
+    #     lookup_table_name_prefix: "LookupTableName",
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.lookup_tables #=> Array
+    #   resp.lookup_tables[0].lookup_table_arn #=> String
+    #   resp.lookup_tables[0].lookup_table_name #=> String
+    #   resp.lookup_tables[0].description #=> String
+    #   resp.lookup_tables[0].table_fields #=> Array
+    #   resp.lookup_tables[0].table_fields[0] #=> String
+    #   resp.lookup_tables[0].records_count #=> Integer
+    #   resp.lookup_tables[0].size_bytes #=> Integer
+    #   resp.lookup_tables[0].last_updated_time #=> Integer
+    #   resp.lookup_tables[0].kms_key_id #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeLookupTables AWS API Documentation
+    #
+    # @overload describe_lookup_tables(params = {})
+    # @param [Hash] params ({})
+    def describe_lookup_tables(params = {}, options = {})
+      req = build_request(:describe_lookup_tables, params)
       req.send_request(options)
     end
 
@@ -4422,6 +4565,46 @@ module Aws::CloudWatchLogs
     # @param [Hash] params ({})
     def get_log_record(params = {}, options = {})
       req = build_request(:get_log_record, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the full content of a lookup table, including the CSV data.
+    #
+    # @option params [required, String] :lookup_table_arn
+    #   The ARN of the lookup table to retrieve.
+    #
+    # @return [Types::GetLookupTableResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetLookupTableResponse#lookup_table_arn #lookup_table_arn} => String
+    #   * {Types::GetLookupTableResponse#lookup_table_name #lookup_table_name} => String
+    #   * {Types::GetLookupTableResponse#description #description} => String
+    #   * {Types::GetLookupTableResponse#table_body #table_body} => String
+    #   * {Types::GetLookupTableResponse#size_bytes #size_bytes} => Integer
+    #   * {Types::GetLookupTableResponse#last_updated_time #last_updated_time} => Integer
+    #   * {Types::GetLookupTableResponse#kms_key_id #kms_key_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_lookup_table({
+    #     lookup_table_arn: "Arn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.lookup_table_arn #=> String
+    #   resp.lookup_table_name #=> String
+    #   resp.description #=> String
+    #   resp.table_body #=> String
+    #   resp.size_bytes #=> Integer
+    #   resp.last_updated_time #=> Integer
+    #   resp.kms_key_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLookupTable AWS API Documentation
+    #
+    # @overload get_lookup_table(params = {})
+    # @param [Hash] params ({})
+    def get_lookup_table(params = {}, options = {})
+      req = build_request(:get_lookup_table, params)
       req.send_request(options)
     end
 
@@ -8838,6 +9021,58 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
+    # Updates an existing lookup table by replacing all of its CSV content.
+    # After the update completes, queries that use this table will use the
+    # new data.
+    #
+    # This is a full replacement operation. All existing content is replaced
+    # with the new CSV data.
+    #
+    # @option params [required, String] :lookup_table_arn
+    #   The ARN of the lookup table to update.
+    #
+    # @option params [String] :description
+    #   An updated description of the lookup table.
+    #
+    # @option params [required, String] :table_body
+    #   The new CSV content to replace the existing data. The first row must
+    #   be a header row with column names. The content must use UTF-8 encoding
+    #   and not exceed 10 MB.
+    #
+    # @option params [String] :kms_key_id
+    #   The ARN of the KMS key to use to encrypt the lookup table data. You
+    #   can use this parameter to add, update, or remove the KMS key. To
+    #   remove the KMS key and use an Amazon Web Services-owned key instead,
+    #   specify an empty string.
+    #
+    # @return [Types::UpdateLookupTableResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateLookupTableResponse#lookup_table_arn #lookup_table_arn} => String
+    #   * {Types::UpdateLookupTableResponse#last_updated_time #last_updated_time} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_lookup_table({
+    #     lookup_table_arn: "Arn", # required
+    #     description: "LookupTableDescription",
+    #     table_body: "TableBody", # required
+    #     kms_key_id: "KmsKeyId",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.lookup_table_arn #=> String
+    #   resp.last_updated_time #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/UpdateLookupTable AWS API Documentation
+    #
+    # @overload update_lookup_table(params = {})
+    # @param [Hash] params ({})
+    def update_lookup_table(params = {}, options = {})
+      req = build_request(:update_lookup_table, params)
+      req.send_request(options)
+    end
+
     # Updates an existing scheduled query with new configuration. This
     # operation uses PUT semantics, allowing modification of query
     # parameters, schedule, and destinations.
@@ -8982,7 +9217,7 @@ module Aws::CloudWatchLogs
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatchlogs'
-      context[:gem_version] = '1.141.0'
+      context[:gem_version] = '1.142.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

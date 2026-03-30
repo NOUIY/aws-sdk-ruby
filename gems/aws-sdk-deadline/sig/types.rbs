@@ -102,10 +102,10 @@ module Aws::Deadline
 
     class AssociateMemberToFarmRequest
       attr_accessor farm_id: ::String
-      attr_accessor principal_id: ::String
       attr_accessor principal_type: ("USER" | "GROUP")
       attr_accessor identity_store_id: ::String
       attr_accessor membership_level: ("VIEWER" | "CONTRIBUTOR" | "OWNER" | "MANAGER")
+      attr_accessor principal_id: ::String
       SENSITIVE: []
     end
 
@@ -115,10 +115,10 @@ module Aws::Deadline
     class AssociateMemberToFleetRequest
       attr_accessor farm_id: ::String
       attr_accessor fleet_id: ::String
-      attr_accessor principal_id: ::String
       attr_accessor principal_type: ("USER" | "GROUP")
       attr_accessor identity_store_id: ::String
       attr_accessor membership_level: ("VIEWER" | "CONTRIBUTOR" | "OWNER" | "MANAGER")
+      attr_accessor principal_id: ::String
       SENSITIVE: []
     end
 
@@ -129,10 +129,10 @@ module Aws::Deadline
       attr_accessor farm_id: ::String
       attr_accessor queue_id: ::String
       attr_accessor job_id: ::String
-      attr_accessor principal_id: ::String
       attr_accessor principal_type: ("USER" | "GROUP")
       attr_accessor identity_store_id: ::String
       attr_accessor membership_level: ("VIEWER" | "CONTRIBUTOR" | "OWNER" | "MANAGER")
+      attr_accessor principal_id: ::String
       SENSITIVE: []
     end
 
@@ -142,10 +142,10 @@ module Aws::Deadline
     class AssociateMemberToQueueRequest
       attr_accessor farm_id: ::String
       attr_accessor queue_id: ::String
-      attr_accessor principal_id: ::String
       attr_accessor principal_type: ("USER" | "GROUP")
       attr_accessor identity_store_id: ::String
       attr_accessor membership_level: ("VIEWER" | "CONTRIBUTOR" | "OWNER" | "MANAGER")
+      attr_accessor principal_id: ::String
       SENSITIVE: []
     end
 
@@ -267,13 +267,13 @@ module Aws::Deadline
       attr_accessor usage_tracking_resource: Types::UsageTrackingResource
       attr_accessor status: ("ACTIVE" | "INACTIVE")
       attr_accessor display_name: ::String
-      attr_accessor description: ::String
       attr_accessor approximate_dollar_limit: ::Float
       attr_accessor usages: Types::ConsumedUsages
       attr_accessor created_by: ::String
       attr_accessor created_at: ::Time
       attr_accessor updated_by: ::String
       attr_accessor updated_at: ::Time
+      attr_accessor description: ::String
       SENSITIVE: [:description]
     end
 
@@ -293,8 +293,8 @@ module Aws::Deadline
 
     class CopyJobTemplateRequest
       attr_accessor farm_id: ::String
-      attr_accessor job_id: ::String
       attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
       attr_accessor target_s3_location: Types::S3Location
       SENSITIVE: []
     end
@@ -305,11 +305,11 @@ module Aws::Deadline
     end
 
     class CreateBudgetRequest
-      attr_accessor client_token: ::String
       attr_accessor farm_id: ::String
-      attr_accessor usage_tracking_resource: Types::UsageTrackingResource
       attr_accessor display_name: ::String
       attr_accessor description: ::String
+      attr_accessor client_token: ::String
+      attr_accessor usage_tracking_resource: Types::UsageTrackingResource
       attr_accessor approximate_dollar_limit: ::Float
       attr_accessor actions: ::Array[Types::BudgetActionToAdd]
       attr_accessor schedule: Types::BudgetSchedule
@@ -338,8 +338,8 @@ module Aws::Deadline
     end
 
     class CreateFleetRequest
-      attr_accessor client_token: ::String
       attr_accessor farm_id: ::String
+      attr_accessor client_token: ::String
       attr_accessor display_name: ::String
       attr_accessor description: ::String
       attr_accessor role_arn: ::String
@@ -397,11 +397,11 @@ module Aws::Deadline
     end
 
     class CreateLimitRequest
+      attr_accessor farm_id: ::String
       attr_accessor client_token: ::String
       attr_accessor display_name: ::String
       attr_accessor amount_requirement_name: ::String
       attr_accessor max_count: ::Integer
-      attr_accessor farm_id: ::String
       attr_accessor description: ::String
       SENSITIVE: [:description]
     end
@@ -428,9 +428,9 @@ module Aws::Deadline
     end
 
     class CreateQueueEnvironmentRequest
-      attr_accessor client_token: ::String
       attr_accessor farm_id: ::String
       attr_accessor queue_id: ::String
+      attr_accessor client_token: ::String
       attr_accessor priority: ::Integer
       attr_accessor template_type: ("JSON" | "YAML")
       attr_accessor template: ::String
@@ -463,8 +463,8 @@ module Aws::Deadline
     end
 
     class CreateQueueRequest
-      attr_accessor client_token: ::String
       attr_accessor farm_id: ::String
+      attr_accessor client_token: ::String
       attr_accessor display_name: ::String
       attr_accessor description: ::String
       attr_accessor default_budget_action: ("NONE" | "STOP_SCHEDULING_AND_COMPLETE_TASKS" | "STOP_SCHEDULING_AND_CANCEL_TASKS")
@@ -483,8 +483,8 @@ module Aws::Deadline
     end
 
     class CreateStorageProfileRequest
-      attr_accessor client_token: ::String
       attr_accessor farm_id: ::String
+      attr_accessor client_token: ::String
       attr_accessor display_name: ::String
       attr_accessor os_family: ("WINDOWS" | "LINUX" | "MACOS")
       attr_accessor file_system_locations: ::Array[Types::FileSystemLocation]
@@ -510,8 +510,16 @@ module Aws::Deadline
       SENSITIVE: []
     end
 
+    class CustomerManagedAutoScalingConfiguration
+      attr_accessor standby_worker_count: ::Integer
+      attr_accessor worker_idle_duration_seconds: ::Integer
+      attr_accessor scale_out_workers_per_minute: ::Integer
+      SENSITIVE: []
+    end
+
     class CustomerManagedFleetConfiguration
       attr_accessor mode: ("NO_SCALING" | "EVENT_BASED_AUTO_SCALING")
+      attr_accessor auto_scaling_configuration: Types::CustomerManagedAutoScalingConfiguration
       attr_accessor worker_capabilities: Types::CustomerManagedWorkerCapabilities
       attr_accessor storage_profile_id: ::String
       attr_accessor tag_propagation_mode: ("NO_PROPAGATION" | "PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH")
@@ -556,9 +564,9 @@ module Aws::Deadline
     end
 
     class DeleteFleetRequest
-      attr_accessor client_token: ::String
       attr_accessor farm_id: ::String
       attr_accessor fleet_id: ::String
+      attr_accessor client_token: ::String
       SENSITIVE: []
     end
 
@@ -866,15 +874,15 @@ module Aws::Deadline
       attr_accessor usage_tracking_resource: Types::UsageTrackingResource
       attr_accessor status: ("ACTIVE" | "INACTIVE")
       attr_accessor display_name: ::String
-      attr_accessor description: ::String
       attr_accessor approximate_dollar_limit: ::Float
       attr_accessor usages: Types::ConsumedUsages
-      attr_accessor actions: ::Array[Types::ResponseBudgetAction]
-      attr_accessor schedule: Types::BudgetSchedule
       attr_accessor created_by: ::String
       attr_accessor created_at: ::Time
       attr_accessor updated_by: ::String
       attr_accessor updated_at: ::Time
+      attr_accessor description: ::String
+      attr_accessor actions: ::Array[Types::ResponseBudgetAction]
+      attr_accessor schedule: Types::BudgetSchedule
       attr_accessor queue_stopped_at: ::Time
       SENSITIVE: [:description]
     end
@@ -887,13 +895,13 @@ module Aws::Deadline
     class GetFarmResponse
       attr_accessor farm_id: ::String
       attr_accessor display_name: ::String
-      attr_accessor description: ::String
       attr_accessor kms_key_arn: ::String
-      attr_accessor cost_scale_factor: ::Float
       attr_accessor created_at: ::Time
       attr_accessor created_by: ::String
       attr_accessor updated_at: ::Time
       attr_accessor updated_by: ::String
+      attr_accessor description: ::String
+      attr_accessor cost_scale_factor: ::Float
       SENSITIVE: [:description]
     end
 
@@ -907,7 +915,6 @@ module Aws::Deadline
       attr_accessor fleet_id: ::String
       attr_accessor farm_id: ::String
       attr_accessor display_name: ::String
-      attr_accessor description: ::String
       attr_accessor status: ("ACTIVE" | "CREATE_IN_PROGRESS" | "UPDATE_IN_PROGRESS" | "CREATE_FAILED" | "UPDATE_FAILED" | "SUSPENDED")
       attr_accessor status_message: ::String
       attr_accessor auto_scaling_status: ("GROWING" | "STEADY" | "SHRINKING")
@@ -916,13 +923,14 @@ module Aws::Deadline
       attr_accessor min_worker_count: ::Integer
       attr_accessor max_worker_count: ::Integer
       attr_accessor configuration: Types::FleetConfiguration
-      attr_accessor host_configuration: Types::HostConfiguration
-      attr_accessor capabilities: Types::FleetCapabilities
-      attr_accessor role_arn: ::String
       attr_accessor created_at: ::Time
       attr_accessor created_by: ::String
       attr_accessor updated_at: ::Time
       attr_accessor updated_by: ::String
+      attr_accessor description: ::String
+      attr_accessor host_configuration: Types::HostConfiguration
+      attr_accessor capabilities: Types::FleetCapabilities
+      attr_accessor role_arn: ::String
       SENSITIVE: [:description]
     end
 
@@ -1003,16 +1011,16 @@ module Aws::Deadline
     end
 
     class GetLimitResponse
-      attr_accessor display_name: ::String
-      attr_accessor amount_requirement_name: ::String
-      attr_accessor max_count: ::Integer
+      attr_accessor farm_id: ::String
+      attr_accessor limit_id: ::String
+      attr_accessor current_count: ::Integer
       attr_accessor created_at: ::Time
       attr_accessor created_by: ::String
       attr_accessor updated_at: ::Time
       attr_accessor updated_by: ::String
-      attr_accessor farm_id: ::String
-      attr_accessor limit_id: ::String
-      attr_accessor current_count: ::Integer
+      attr_accessor display_name: ::String
+      attr_accessor amount_requirement_name: ::String
+      attr_accessor max_count: ::Integer
       attr_accessor description: ::String
       SENSITIVE: [:description]
     end
@@ -1083,13 +1091,13 @@ module Aws::Deadline
     end
 
     class GetQueueLimitAssociationResponse
+      attr_accessor queue_id: ::String
+      attr_accessor limit_id: ::String
+      attr_accessor status: ("ACTIVE" | "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS" | "STOP_LIMIT_USAGE_AND_CANCEL_TASKS" | "STOPPED")
       attr_accessor created_at: ::Time
       attr_accessor created_by: ::String
       attr_accessor updated_at: ::Time
       attr_accessor updated_by: ::String
-      attr_accessor queue_id: ::String
-      attr_accessor limit_id: ::String
-      attr_accessor status: ("ACTIVE" | "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS" | "STOP_LIMIT_USAGE_AND_CANCEL_TASKS" | "STOPPED")
       SENSITIVE: []
     end
 
@@ -1100,22 +1108,22 @@ module Aws::Deadline
     end
 
     class GetQueueResponse
+      attr_accessor farm_id: ::String
       attr_accessor queue_id: ::String
       attr_accessor display_name: ::String
-      attr_accessor description: ::String
-      attr_accessor farm_id: ::String
       attr_accessor status: ("IDLE" | "SCHEDULING" | "SCHEDULING_BLOCKED")
       attr_accessor default_budget_action: ("NONE" | "STOP_SCHEDULING_AND_COMPLETE_TASKS" | "STOP_SCHEDULING_AND_CANCEL_TASKS")
       attr_accessor blocked_reason: ("NO_BUDGET_CONFIGURED" | "BUDGET_THRESHOLD_REACHED")
+      attr_accessor created_at: ::Time
+      attr_accessor created_by: ::String
+      attr_accessor updated_at: ::Time
+      attr_accessor updated_by: ::String
+      attr_accessor description: ::String
       attr_accessor job_attachment_settings: Types::JobAttachmentSettings
       attr_accessor role_arn: ::String
       attr_accessor required_file_system_location_names: ::Array[::String]
       attr_accessor allowed_storage_profile_ids: ::Array[::String]
       attr_accessor job_run_as_user: Types::JobRunAsUser
-      attr_accessor created_at: ::Time
-      attr_accessor created_by: ::String
-      attr_accessor updated_at: ::Time
-      attr_accessor updated_by: ::String
       SENSITIVE: [:description]
     end
 
@@ -1134,12 +1142,12 @@ module Aws::Deadline
       attr_accessor ended_at: ::Time
       attr_accessor worker_updated_at: ::Time
       attr_accessor progress_percent: ::Float
+      attr_accessor manifests: ::Array[Types::TaskRunManifestPropertiesResponse]
       attr_accessor session_id: ::String
       attr_accessor process_exit_code: ::Integer
       attr_accessor progress_message: ::String
-      attr_accessor definition: Types::SessionActionDefinition
       attr_accessor acquired_limits: ::Array[Types::AcquiredLimit]
-      attr_accessor manifests: ::Array[Types::TaskRunManifestPropertiesResponse]
+      attr_accessor definition: Types::SessionActionDefinition
       SENSITIVE: [:progress_message]
     end
 
@@ -1156,12 +1164,12 @@ module Aws::Deadline
       attr_accessor fleet_id: ::String
       attr_accessor worker_id: ::String
       attr_accessor started_at: ::Time
-      attr_accessor log: Types::LogConfiguration
       attr_accessor lifecycle_status: ("STARTED" | "UPDATE_IN_PROGRESS" | "UPDATE_SUCCEEDED" | "UPDATE_FAILED" | "ENDED")
       attr_accessor ended_at: ::Time
+      attr_accessor target_lifecycle_status: ("ENDED")
       attr_accessor updated_at: ::Time
       attr_accessor updated_by: ::String
-      attr_accessor target_lifecycle_status: ("ENDED")
+      attr_accessor log: Types::LogConfiguration
       attr_accessor host_properties: Types::HostPropertiesResponse
       attr_accessor worker_log: Types::LogConfiguration
       SENSITIVE: []
@@ -1169,17 +1177,17 @@ module Aws::Deadline
 
     class GetSessionsStatisticsAggregationRequest
       attr_accessor farm_id: ::String
-      attr_accessor aggregation_id: ::String
-      attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor aggregation_id: ::String
       SENSITIVE: []
     end
 
     class GetSessionsStatisticsAggregationResponse
       attr_accessor statistics: ::Array[Types::Statistics]
-      attr_accessor next_token: ::String
       attr_accessor status: ("IN_PROGRESS" | "TIMEOUT" | "FAILED" | "COMPLETED")
       attr_accessor status_message: ::String
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 
@@ -1262,12 +1270,12 @@ module Aws::Deadline
       attr_accessor run_status: ("PENDING" | "READY" | "ASSIGNED" | "STARTING" | "SCHEDULED" | "INTERRUPTING" | "RUNNING" | "SUSPENDED" | "CANCELED" | "FAILED" | "SUCCEEDED" | "NOT_COMPATIBLE")
       attr_accessor target_run_status: ("READY" | "FAILED" | "SUCCEEDED" | "CANCELED" | "SUSPENDED" | "PENDING")
       attr_accessor failure_retry_count: ::Integer
-      attr_accessor parameters: ::Hash[::String, Types::TaskParameterValue]
       attr_accessor started_at: ::Time
       attr_accessor ended_at: ::Time
       attr_accessor updated_at: ::Time
       attr_accessor updated_by: ::String
       attr_accessor latest_session_action_id: ::String
+      attr_accessor parameters: ::Hash[::String, Types::TaskParameterValue]
       SENSITIVE: [:parameters]
     end
 
@@ -1507,16 +1515,16 @@ module Aws::Deadline
     end
 
     class LimitSummary
-      attr_accessor display_name: ::String
-      attr_accessor amount_requirement_name: ::String
-      attr_accessor max_count: ::Integer
+      attr_accessor farm_id: ::String
+      attr_accessor limit_id: ::String
+      attr_accessor current_count: ::Integer
       attr_accessor created_at: ::Time
       attr_accessor created_by: ::String
       attr_accessor updated_at: ::Time
       attr_accessor updated_by: ::String
-      attr_accessor farm_id: ::String
-      attr_accessor limit_id: ::String
-      attr_accessor current_count: ::Integer
+      attr_accessor display_name: ::String
+      attr_accessor amount_requirement_name: ::String
+      attr_accessor max_count: ::Integer
       SENSITIVE: []
     end
 
@@ -1533,16 +1541,16 @@ module Aws::Deadline
     end
 
     class ListBudgetsRequest
-      attr_accessor next_token: ::String
       attr_accessor farm_id: ::String
+      attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
       attr_accessor status: ("ACTIVE" | "INACTIVE")
       SENSITIVE: []
     end
 
     class ListBudgetsResponse
-      attr_accessor next_token: ::String
       attr_accessor budgets: ::Array[Types::BudgetSummary]
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 
@@ -1561,14 +1569,14 @@ module Aws::Deadline
 
     class ListFarmsRequest
       attr_accessor next_token: ::String
-      attr_accessor principal_id: ::String
       attr_accessor max_results: ::Integer
+      attr_accessor principal_id: ::String
       SENSITIVE: []
     end
 
     class ListFarmsResponse
-      attr_accessor next_token: ::String
       attr_accessor farms: ::Array[Types::FarmSummary]
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 
@@ -1588,11 +1596,11 @@ module Aws::Deadline
 
     class ListFleetsRequest
       attr_accessor farm_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
       attr_accessor principal_id: ::String
       attr_accessor display_name: ::String
       attr_accessor status: ("ACTIVE" | "CREATE_IN_PROGRESS" | "UPDATE_IN_PROGRESS" | "CREATE_FAILED" | "UPDATE_FAILED" | "SUSPENDED")
-      attr_accessor next_token: ::String
-      attr_accessor max_results: ::Integer
       SENSITIVE: []
     end
 
@@ -1619,8 +1627,8 @@ module Aws::Deadline
 
     class ListJobParameterDefinitionsRequest
       attr_accessor farm_id: ::String
-      attr_accessor job_id: ::String
       attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
       SENSITIVE: []
@@ -1634,10 +1642,10 @@ module Aws::Deadline
 
     class ListJobsRequest
       attr_accessor farm_id: ::String
-      attr_accessor principal_id: ::String
       attr_accessor queue_id: ::String
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
+      attr_accessor principal_id: ::String
       SENSITIVE: []
     end
 
@@ -1692,8 +1700,8 @@ module Aws::Deadline
     end
 
     class ListMonitorsResponse
-      attr_accessor next_token: ::String
       attr_accessor monitors: ::Array[Types::MonitorSummary]
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 
@@ -1713,10 +1721,10 @@ module Aws::Deadline
 
     class ListQueueFleetAssociationsRequest
       attr_accessor farm_id: ::String
-      attr_accessor queue_id: ::String
-      attr_accessor fleet_id: ::String
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
+      attr_accessor queue_id: ::String
+      attr_accessor fleet_id: ::String
       SENSITIVE: []
     end
 
@@ -1728,10 +1736,10 @@ module Aws::Deadline
 
     class ListQueueLimitAssociationsRequest
       attr_accessor farm_id: ::String
-      attr_accessor queue_id: ::String
-      attr_accessor limit_id: ::String
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
+      attr_accessor queue_id: ::String
+      attr_accessor limit_id: ::String
       SENSITIVE: []
     end
 
@@ -1757,10 +1765,10 @@ module Aws::Deadline
 
     class ListQueuesRequest
       attr_accessor farm_id: ::String
-      attr_accessor principal_id: ::String
-      attr_accessor status: ("IDLE" | "SCHEDULING" | "SCHEDULING_BLOCKED")
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
+      attr_accessor principal_id: ::String
+      attr_accessor status: ("IDLE" | "SCHEDULING" | "SCHEDULING_BLOCKED")
       SENSITIVE: []
     end
 
@@ -1774,10 +1782,10 @@ module Aws::Deadline
       attr_accessor farm_id: ::String
       attr_accessor queue_id: ::String
       attr_accessor job_id: ::String
-      attr_accessor session_id: ::String
-      attr_accessor task_id: ::String
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
+      attr_accessor session_id: ::String
+      attr_accessor task_id: ::String
       SENSITIVE: []
     end
 
@@ -1926,8 +1934,8 @@ module Aws::Deadline
     end
 
     class ListWorkersResponse
-      attr_accessor next_token: ::String
       attr_accessor workers: ::Array[Types::WorkerSummary]
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 
@@ -2038,13 +2046,13 @@ module Aws::Deadline
     end
 
     class QueueLimitAssociationSummary
+      attr_accessor queue_id: ::String
+      attr_accessor limit_id: ::String
+      attr_accessor status: ("ACTIVE" | "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS" | "STOP_LIMIT_USAGE_AND_CANCEL_TASKS" | "STOPPED")
       attr_accessor created_at: ::Time
       attr_accessor created_by: ::String
       attr_accessor updated_at: ::Time
       attr_accessor updated_by: ::String
-      attr_accessor queue_id: ::String
-      attr_accessor limit_id: ::String
-      attr_accessor status: ("ACTIVE" | "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS" | "STOP_LIMIT_USAGE_AND_CANCEL_TASKS" | "STOPPED")
       SENSITIVE: []
     end
 
@@ -2127,11 +2135,11 @@ module Aws::Deadline
 
     class SearchJobsRequest
       attr_accessor farm_id: ::String
-      attr_accessor queue_ids: ::Array[::String]
       attr_accessor filter_expressions: Types::SearchGroupedFilterExpressions
       attr_accessor sort_expressions: ::Array[Types::SearchSortExpression]
       attr_accessor item_offset: ::Integer
       attr_accessor page_size: ::Integer
+      attr_accessor queue_ids: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -2161,12 +2169,12 @@ module Aws::Deadline
 
     class SearchStepsRequest
       attr_accessor farm_id: ::String
-      attr_accessor queue_ids: ::Array[::String]
-      attr_accessor job_id: ::String
       attr_accessor filter_expressions: Types::SearchGroupedFilterExpressions
       attr_accessor sort_expressions: ::Array[Types::SearchSortExpression]
       attr_accessor item_offset: ::Integer
       attr_accessor page_size: ::Integer
+      attr_accessor queue_ids: ::Array[::String]
+      attr_accessor job_id: ::String
       SENSITIVE: []
     end
 
@@ -2179,12 +2187,12 @@ module Aws::Deadline
 
     class SearchTasksRequest
       attr_accessor farm_id: ::String
-      attr_accessor queue_ids: ::Array[::String]
-      attr_accessor job_id: ::String
       attr_accessor filter_expressions: Types::SearchGroupedFilterExpressions
       attr_accessor sort_expressions: ::Array[Types::SearchSortExpression]
       attr_accessor item_offset: ::Integer
       attr_accessor page_size: ::Integer
+      attr_accessor queue_ids: ::Array[::String]
+      attr_accessor job_id: ::String
       SENSITIVE: []
     end
 
@@ -2203,11 +2211,11 @@ module Aws::Deadline
 
     class SearchWorkersRequest
       attr_accessor farm_id: ::String
-      attr_accessor fleet_ids: ::Array[::String]
       attr_accessor filter_expressions: Types::SearchGroupedFilterExpressions
       attr_accessor sort_expressions: ::Array[Types::SearchSortExpression]
       attr_accessor item_offset: ::Integer
       attr_accessor page_size: ::Integer
+      attr_accessor fleet_ids: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -2218,11 +2226,19 @@ module Aws::Deadline
       SENSITIVE: []
     end
 
+    class ServiceManagedEc2AutoScalingConfiguration
+      attr_accessor standby_worker_count: ::Integer
+      attr_accessor worker_idle_duration_seconds: ::Integer
+      attr_accessor scale_out_workers_per_minute: ::Integer
+      SENSITIVE: []
+    end
+
     class ServiceManagedEc2FleetConfiguration
       attr_accessor instance_capabilities: Types::ServiceManagedEc2InstanceCapabilities
       attr_accessor instance_market_options: Types::ServiceManagedEc2InstanceMarketOptions
       attr_accessor vpc_configuration: Types::VpcConfiguration
       attr_accessor storage_profile_id: ::String
+      attr_accessor auto_scaling_configuration: Types::ServiceManagedEc2AutoScalingConfiguration
       SENSITIVE: []
     end
 
@@ -2303,8 +2319,8 @@ module Aws::Deadline
       attr_accessor ended_at: ::Time
       attr_accessor worker_updated_at: ::Time
       attr_accessor progress_percent: ::Float
-      attr_accessor definition: Types::SessionActionDefinitionSummary
       attr_accessor manifests: ::Array[Types::TaskRunManifestPropertiesResponse]
+      attr_accessor definition: Types::SessionActionDefinitionSummary
       SENSITIVE: []
     end
 
@@ -2315,9 +2331,9 @@ module Aws::Deadline
       attr_accessor started_at: ::Time
       attr_accessor lifecycle_status: ("STARTED" | "UPDATE_IN_PROGRESS" | "UPDATE_SUCCEEDED" | "UPDATE_FAILED" | "ENDED")
       attr_accessor ended_at: ::Time
+      attr_accessor target_lifecycle_status: ("ENDED")
       attr_accessor updated_at: ::Time
       attr_accessor updated_by: ::String
-      attr_accessor target_lifecycle_status: ("ENDED")
       SENSITIVE: []
     end
 
@@ -2600,12 +2616,12 @@ module Aws::Deadline
       attr_accessor run_status: ("PENDING" | "READY" | "ASSIGNED" | "STARTING" | "SCHEDULED" | "INTERRUPTING" | "RUNNING" | "SUSPENDED" | "CANCELED" | "FAILED" | "SUCCEEDED" | "NOT_COMPATIBLE")
       attr_accessor target_run_status: ("READY" | "FAILED" | "SUCCEEDED" | "CANCELED" | "SUSPENDED" | "PENDING")
       attr_accessor failure_retry_count: ::Integer
-      attr_accessor parameters: ::Hash[::String, Types::TaskParameterValue]
       attr_accessor started_at: ::Time
       attr_accessor ended_at: ::Time
       attr_accessor updated_at: ::Time
       attr_accessor updated_by: ::String
       attr_accessor latest_session_action_id: ::String
+      attr_accessor parameters: ::Hash[::String, Types::TaskParameterValue]
       SENSITIVE: [:parameters]
     end
 
@@ -2628,9 +2644,9 @@ module Aws::Deadline
     end
 
     class UpdateBudgetRequest
-      attr_accessor client_token: ::String
       attr_accessor farm_id: ::String
       attr_accessor budget_id: ::String
+      attr_accessor client_token: ::String
       attr_accessor display_name: ::String
       attr_accessor description: ::String
       attr_accessor status: ("ACTIVE" | "INACTIVE")
@@ -2656,9 +2672,9 @@ module Aws::Deadline
     end
 
     class UpdateFleetRequest
-      attr_accessor client_token: ::String
       attr_accessor farm_id: ::String
       attr_accessor fleet_id: ::String
+      attr_accessor client_token: ::String
       attr_accessor display_name: ::String
       attr_accessor description: ::String
       attr_accessor role_arn: ::String
@@ -2673,6 +2689,9 @@ module Aws::Deadline
     end
 
     class UpdateJobRequest
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
       attr_accessor client_token: ::String
       attr_accessor target_task_run_status: ("READY" | "FAILED" | "SUCCEEDED" | "CANCELED" | "SUSPENDED" | "PENDING")
       attr_accessor priority: ::Integer
@@ -2682,9 +2701,6 @@ module Aws::Deadline
       attr_accessor max_worker_count: ::Integer
       attr_accessor name: ::String
       attr_accessor description: ::String
-      attr_accessor farm_id: ::String
-      attr_accessor queue_id: ::String
-      attr_accessor job_id: ::String
       SENSITIVE: [:description]
     end
 
@@ -2715,10 +2731,10 @@ module Aws::Deadline
     end
 
     class UpdateQueueEnvironmentRequest
-      attr_accessor client_token: ::String
       attr_accessor farm_id: ::String
       attr_accessor queue_id: ::String
       attr_accessor queue_environment_id: ::String
+      attr_accessor client_token: ::String
       attr_accessor priority: ::Integer
       attr_accessor template_type: ("JSON" | "YAML")
       attr_accessor template: ::String
@@ -2751,9 +2767,9 @@ module Aws::Deadline
     end
 
     class UpdateQueueRequest
-      attr_accessor client_token: ::String
       attr_accessor farm_id: ::String
       attr_accessor queue_id: ::String
+      attr_accessor client_token: ::String
       attr_accessor display_name: ::String
       attr_accessor description: ::String
       attr_accessor default_budget_action: ("NONE" | "STOP_SCHEDULING_AND_COMPLETE_TASKS" | "STOP_SCHEDULING_AND_CANCEL_TASKS")
@@ -2771,12 +2787,12 @@ module Aws::Deadline
     end
 
     class UpdateSessionRequest
-      attr_accessor client_token: ::String
-      attr_accessor target_lifecycle_status: ("ENDED")
       attr_accessor farm_id: ::String
       attr_accessor queue_id: ::String
       attr_accessor job_id: ::String
       attr_accessor session_id: ::String
+      attr_accessor client_token: ::String
+      attr_accessor target_lifecycle_status: ("ENDED")
       SENSITIVE: []
     end
 
@@ -2784,12 +2800,12 @@ module Aws::Deadline
     end
 
     class UpdateStepRequest
-      attr_accessor target_task_run_status: ("READY" | "FAILED" | "SUCCEEDED" | "CANCELED" | "SUSPENDED" | "PENDING")
-      attr_accessor client_token: ::String
       attr_accessor farm_id: ::String
       attr_accessor queue_id: ::String
       attr_accessor job_id: ::String
       attr_accessor step_id: ::String
+      attr_accessor client_token: ::String
+      attr_accessor target_task_run_status: ("READY" | "FAILED" | "SUCCEEDED" | "CANCELED" | "SUSPENDED" | "PENDING")
       SENSITIVE: []
     end
 
@@ -2797,9 +2813,9 @@ module Aws::Deadline
     end
 
     class UpdateStorageProfileRequest
-      attr_accessor client_token: ::String
       attr_accessor farm_id: ::String
       attr_accessor storage_profile_id: ::String
+      attr_accessor client_token: ::String
       attr_accessor display_name: ::String
       attr_accessor os_family: ("WINDOWS" | "LINUX" | "MACOS")
       attr_accessor file_system_locations_to_add: ::Array[Types::FileSystemLocation]
@@ -2811,13 +2827,13 @@ module Aws::Deadline
     end
 
     class UpdateTaskRequest
-      attr_accessor client_token: ::String
-      attr_accessor target_run_status: ("READY" | "FAILED" | "SUCCEEDED" | "CANCELED" | "SUSPENDED" | "PENDING")
       attr_accessor farm_id: ::String
       attr_accessor queue_id: ::String
       attr_accessor job_id: ::String
       attr_accessor step_id: ::String
       attr_accessor task_id: ::String
+      attr_accessor client_token: ::String
+      attr_accessor target_run_status: ("READY" | "FAILED" | "SUCCEEDED" | "CANCELED" | "SUSPENDED" | "PENDING")
       SENSITIVE: []
     end
 
@@ -2957,11 +2973,11 @@ module Aws::Deadline
     end
 
     class WorkerSummary
-      attr_accessor worker_id: ::String
       attr_accessor farm_id: ::String
       attr_accessor fleet_id: ::String
-      attr_accessor status: ("CREATED" | "STARTED" | "STOPPING" | "STOPPED" | "NOT_RESPONDING" | "NOT_COMPATIBLE" | "RUNNING" | "IDLE")
+      attr_accessor worker_id: ::String
       attr_accessor host_properties: Types::HostPropertiesResponse
+      attr_accessor status: ("CREATED" | "STARTED" | "STOPPING" | "STOPPED" | "NOT_RESPONDING" | "NOT_COMPATIBLE" | "RUNNING" | "IDLE")
       attr_accessor log: Types::LogConfiguration
       attr_accessor created_at: ::Time
       attr_accessor created_by: ::String

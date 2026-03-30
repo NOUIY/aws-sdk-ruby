@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.48.0 (2026-03-30)
+------------------
+
+* Feature - AWS Deadline Cloud now supports three new fleet auto scaling settings. With scale out rate, you can configure how quickly workers launch. With worker idle duration, you can set how long workers wait before shutting down. With standby worker count, you can keep idle workers ready for fast job start.
+
 1.47.0 (2026-03-18)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+3.258.0 (2026-03-30)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-devopsagent` gem.
+
 3.257.0 (2026-03-25)
 ------------------
 

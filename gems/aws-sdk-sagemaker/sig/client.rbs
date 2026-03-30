@@ -1815,7 +1815,12 @@ module Aws
                                         managed_instance_scaling: {
                                           status: ("ENABLED" | "DISABLED")?,
                                           min_instance_count: ::Integer?,
-                                          max_instance_count: ::Integer?
+                                          max_instance_count: ::Integer?,
+                                          scale_in_policy: {
+                                            strategy: ("IDLE_RELEASE" | "CONSOLIDATION"),
+                                            maximum_step_size: ::Integer?,
+                                            cooldown_in_minutes: ::Integer?
+                                          }?
                                         }?,
                                         routing_config: {
                                           routing_strategy: ("LEAST_OUTSTANDING_REQUESTS" | "RANDOM")
@@ -1920,7 +1925,12 @@ module Aws
                                         managed_instance_scaling: {
                                           status: ("ENABLED" | "DISABLED")?,
                                           min_instance_count: ::Integer?,
-                                          max_instance_count: ::Integer?
+                                          max_instance_count: ::Integer?,
+                                          scale_in_policy: {
+                                            strategy: ("IDLE_RELEASE" | "CONSOLIDATION"),
+                                            maximum_step_size: ::Integer?,
+                                            cooldown_in_minutes: ::Integer?
+                                          }?
                                         }?,
                                         routing_config: {
                                           routing_strategy: ("LEAST_OUTSTANDING_REQUESTS" | "RANDOM")
@@ -2606,6 +2616,13 @@ module Aws
                                           base_inference_component_name: ::String?,
                                           data_cache_config: {
                                             enable_caching: bool
+                                          }?,
+                                          scheduling_config: {
+                                            placement_strategy: ("SPREAD" | "BINPACK"),
+                                            availability_zone_balance: {
+                                              enforcement_mode: ("PERMISSIVE"),
+                                              max_imbalance: ::Integer?
+                                            }?
                                           }?
                                         },
                                         ?runtime_config: {
@@ -10156,6 +10173,13 @@ module Aws
                                           base_inference_component_name: ::String?,
                                           data_cache_config: {
                                             enable_caching: bool
+                                          }?,
+                                          scheduling_config: {
+                                            placement_strategy: ("SPREAD" | "BINPACK"),
+                                            availability_zone_balance: {
+                                              enforcement_mode: ("PERMISSIVE"),
+                                              max_imbalance: ::Integer?
+                                            }?
                                           }?
                                         },
                                         ?runtime_config: {

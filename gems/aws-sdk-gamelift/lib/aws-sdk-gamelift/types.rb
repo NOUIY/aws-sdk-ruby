@@ -3232,6 +3232,17 @@ module Aws::GameLift
     #   The Node.js version used for execution of your Realtime script. The
     #   valid values are `10.x | 24.x`. By default, `NodeJsVersion` is
     #   `10.x`. This value cannot be updated later.
+    #
+    #   <note markdown="1"> Node.js 10 will reach end of support on September 30, 2026. See more
+    #   details in the [Node.js 10 FAQs][1]. For migration guidance, see [
+    #   Migrating from Node.js 10 to 24][2].
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: http://aws.amazon.com/gamelift/faq/nodejs10/
+    #   [2]: https://docs.aws.amazon.com/gamelift/latest/realtimeguide/realtime-script.html#realtime-script-nodejs-migration
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/CreateScriptInput AWS API Documentation
@@ -9049,7 +9060,9 @@ module Aws::GameLift
     #   @return [String]
     #
     # @!attribute [rw] player_session_id
-    #   A unique identifier for a player session
+    #   A unique identifier for a player session. PlayerSessionId will only
+    #   be populated for player sessions that are in ACTIVE or RESERVED
+    #   status when the ticket is completed.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/MatchedPlayerSession AWS API Documentation
@@ -10763,6 +10776,17 @@ module Aws::GameLift
     #   The Node.js version used for execution of your Realtime script. The
     #   valid values are `10.x | 24.x`. By default, `NodeJsVersion` is
     #   `10.x`. This value cannot be updated later.
+    #
+    #   <note markdown="1"> Node.js 10 will reach end of support on September 30, 2026. See more
+    #   details in the [Node.js 10 FAQs][1]. For migration guidance, see [
+    #   Migrating from Node.js 10 to 24][2].
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: http://aws.amazon.com/gamelift/faq/nodejs10/
+    #   [2]: https://docs.aws.amazon.com/gamelift/latest/realtimeguide/realtime-script.html#realtime-script-nodejs-migration
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/Script AWS API Documentation

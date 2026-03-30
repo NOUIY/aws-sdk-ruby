@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.130.0 (2026-03-30)
+------------------
+
+* Feature - Add support for URL Redirection
+
 1.129.0 (2026-03-18)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.142.0 (2026-03-30)
+------------------
+
+* Feature - Adds Lookup Tables to CloudWatch Logs for log enrichment using CSV key-value data with KMS encryption support.
+
 1.141.0 (2026-03-26)
 ------------------
 

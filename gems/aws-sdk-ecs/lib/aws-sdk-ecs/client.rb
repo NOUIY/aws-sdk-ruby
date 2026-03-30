@@ -611,6 +611,9 @@ module Aws::ECS
     #         storage_configuration: {
     #           storage_size_gi_b: 1,
     #         },
+    #         local_storage_configuration: {
+    #           use_local_storage: false,
+    #         },
     #         monitoring: "BASIC", # accepts BASIC, DETAILED
     #         capacity_option_type: "ON_DEMAND", # accepts ON_DEMAND, SPOT, RESERVED
     #         instance_metadata_tags_propagation: false,
@@ -707,6 +710,7 @@ module Aws::ECS
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.network_configuration.security_groups #=> Array
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.network_configuration.security_groups[0] #=> String
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.storage_configuration.storage_size_gi_b #=> Integer
+    #   resp.capacity_provider.managed_instances_provider.instance_launch_template.local_storage_configuration.use_local_storage #=> Boolean
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.monitoring #=> String, one of "BASIC", "DETAILED"
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.capacity_option_type #=> String, one of "ON_DEMAND", "SPOT", "RESERVED"
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.instance_metadata_tags_propagation #=> Boolean
@@ -2989,6 +2993,7 @@ module Aws::ECS
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.network_configuration.security_groups #=> Array
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.network_configuration.security_groups[0] #=> String
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.storage_configuration.storage_size_gi_b #=> Integer
+    #   resp.capacity_provider.managed_instances_provider.instance_launch_template.local_storage_configuration.use_local_storage #=> Boolean
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.monitoring #=> String, one of "BASIC", "DETAILED"
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.capacity_option_type #=> String, one of "ON_DEMAND", "SPOT", "RESERVED"
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.instance_metadata_tags_propagation #=> Boolean
@@ -4528,6 +4533,7 @@ module Aws::ECS
     #   resp.capacity_providers[0].managed_instances_provider.instance_launch_template.network_configuration.security_groups #=> Array
     #   resp.capacity_providers[0].managed_instances_provider.instance_launch_template.network_configuration.security_groups[0] #=> String
     #   resp.capacity_providers[0].managed_instances_provider.instance_launch_template.storage_configuration.storage_size_gi_b #=> Integer
+    #   resp.capacity_providers[0].managed_instances_provider.instance_launch_template.local_storage_configuration.use_local_storage #=> Boolean
     #   resp.capacity_providers[0].managed_instances_provider.instance_launch_template.monitoring #=> String, one of "BASIC", "DETAILED"
     #   resp.capacity_providers[0].managed_instances_provider.instance_launch_template.capacity_option_type #=> String, one of "ON_DEMAND", "SPOT", "RESERVED"
     #   resp.capacity_providers[0].managed_instances_provider.instance_launch_template.instance_metadata_tags_propagation #=> Boolean
@@ -11478,6 +11484,9 @@ module Aws::ECS
     #           storage_size_gi_b: 1,
     #         },
     #         instance_metadata_tags_propagation: false,
+    #         local_storage_configuration: {
+    #           use_local_storage: false,
+    #         },
     #         monitoring: "BASIC", # accepts BASIC, DETAILED
     #         instance_requirements: {
     #           v_cpu_count: { # required
@@ -11565,6 +11574,7 @@ module Aws::ECS
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.network_configuration.security_groups #=> Array
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.network_configuration.security_groups[0] #=> String
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.storage_configuration.storage_size_gi_b #=> Integer
+    #   resp.capacity_provider.managed_instances_provider.instance_launch_template.local_storage_configuration.use_local_storage #=> Boolean
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.monitoring #=> String, one of "BASIC", "DETAILED"
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.capacity_option_type #=> String, one of "ON_DEMAND", "SPOT", "RESERVED"
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.instance_metadata_tags_propagation #=> Boolean
@@ -14068,7 +14078,7 @@ module Aws::ECS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ecs'
-      context[:gem_version] = '1.224.0'
+      context[:gem_version] = '1.225.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

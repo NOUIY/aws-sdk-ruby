@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.357.0 (2026-03-30)
+------------------
+
+* Feature - Added support for placement strategy and consolidation for SageMaker inference component endpoints. Customers can now configure how inference component copies are distributed across instances and availability zones (AZs), and enable automatic consolidation to optimizes resource utilization.
+
 1.356.0 (2026-03-26)
 ------------------
 

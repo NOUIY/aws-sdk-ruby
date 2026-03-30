@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.225.0 (2026-03-30)
+------------------
+
+* Feature - Adding Local Storage support for ECS Managed Instances by introducing a new field "localStorageConfiguration" for CreateCapacityProvider and UpdateCapacityProvider APIs.
+
 1.224.0 (2026-03-18)
 ------------------
 

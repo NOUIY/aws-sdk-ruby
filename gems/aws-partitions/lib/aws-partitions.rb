@@ -368,6 +368,7 @@ module Aws
             'DatabaseMigrationService' => 'dms',
             'Deadline' => 'deadline',
             'Detective' => 'api.detective',
+            'DevOpsAgent' => 'aidevops',
             'DevOpsGuru' => 'devops-guru',
             'DeviceFarm' => 'devicefarm',
             'DirectConnect' => 'directconnect',
