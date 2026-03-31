@@ -4404,6 +4404,21 @@ module Aws::S3
     # @!attribute [rw] bucket
     #   The name of the bucket containing the metrics configuration to
     #   delete.
+    #
+    #   <b>Directory buckets </b> - When you use this operation with a
+    #   directory bucket, you must use path-style requests in the format
+    #   `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+    #   Virtual-hosted-style requests aren't supported. Directory bucket
+    #   names must be unique in the chosen Zone (Availability Zone or Local
+    #   Zone). Bucket names must also follow the format `
+    #   bucket-base-name--zone-id--x-s3` (for example, `
+    #   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3`). For information about bucket
+    #   naming restrictions, see [Directory bucket naming rules][1] in the
+    #   *Amazon S3 User Guide*
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html
     #   @return [String]
     #
     # @!attribute [rw] id
@@ -4417,6 +4432,12 @@ module Aws::S3
     #   you provide does not match the actual owner of the bucket, the
     #   request fails with the HTTP status code `403 Forbidden` (access
     #   denied).
+    #
+    #   <note markdown="1"> For directory buckets, this header is not supported in this API
+    #   operation. If you specify this header, the request fails with the
+    #   HTTP status code `501 Not Implemented`.
+    #
+    #    </note>
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketMetricsConfigurationRequest AWS API Documentation
@@ -7177,6 +7198,21 @@ module Aws::S3
     # @!attribute [rw] bucket
     #   The name of the bucket containing the metrics configuration to
     #   retrieve.
+    #
+    #   <b>Directory buckets </b> - When you use this operation with a
+    #   directory bucket, you must use path-style requests in the format
+    #   `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+    #   Virtual-hosted-style requests aren't supported. Directory bucket
+    #   names must be unique in the chosen Zone (Availability Zone or Local
+    #   Zone). Bucket names must also follow the format `
+    #   bucket-base-name--zone-id--x-s3` (for example, `
+    #   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3`). For information about bucket
+    #   naming restrictions, see [Directory bucket naming rules][1] in the
+    #   *Amazon S3 User Guide*
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html
     #   @return [String]
     #
     # @!attribute [rw] id
@@ -7190,6 +7226,12 @@ module Aws::S3
     #   you provide does not match the actual owner of the bucket, the
     #   request fails with the HTTP status code `403 Forbidden` (access
     #   denied).
+    #
+    #   <note markdown="1"> For directory buckets, this header is not supported in this API
+    #   operation. If you specify this header, the request fails with the
+    #   HTTP status code `501 Not Implemented`.
+    #
+    #    </note>
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketMetricsConfigurationRequest AWS API Documentation
@@ -11267,6 +11309,21 @@ module Aws::S3
     # @!attribute [rw] bucket
     #   The name of the bucket containing the metrics configurations to
     #   retrieve.
+    #
+    #   <b>Directory buckets </b> - When you use this operation with a
+    #   directory bucket, you must use path-style requests in the format
+    #   `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+    #   Virtual-hosted-style requests aren't supported. Directory bucket
+    #   names must be unique in the chosen Zone (Availability Zone or Local
+    #   Zone). Bucket names must also follow the format `
+    #   bucket-base-name--zone-id--x-s3` (for example, `
+    #   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3`). For information about bucket
+    #   naming restrictions, see [Directory bucket naming rules][1] in the
+    #   *Amazon S3 User Guide*
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html
     #   @return [String]
     #
     # @!attribute [rw] continuation_token
@@ -11281,6 +11338,12 @@ module Aws::S3
     #   you provide does not match the actual owner of the bucket, the
     #   request fails with the HTTP status code `403 Forbidden` (access
     #   denied).
+    #
+    #   <note markdown="1"> For directory buckets, this header is not supported in this API
+    #   operation. If you specify this header, the request fails with the
+    #   HTTP status code `501 Not Implemented`.
+    #
+    #    </note>
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketMetricsConfigurationsRequest AWS API Documentation
@@ -13153,6 +13216,10 @@ module Aws::S3
     #
     # @!attribute [rw] tags
     #   The list of tags used when evaluating an AND predicate.
+    #
+    #   <note markdown="1"> `Tag` filters are not supported for directory buckets.
+    #
+    #    </note>
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] access_point_arn
@@ -13191,6 +13258,11 @@ module Aws::S3
     #   will only include objects that meet the filter's criteria. A filter
     #   must be a prefix, an object tag, an access point ARN, or a
     #   conjunction (MetricsAndOperator).
+    #
+    #   <note markdown="1"> Metrics configurations for directory buckets do not support tag
+    #   filters.
+    #
+    #    </note>
     #   @return [Types::MetricsFilter]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MetricsConfiguration AWS API Documentation
@@ -13218,6 +13290,10 @@ module Aws::S3
     #
     # @!attribute [rw] tag
     #   The tag used when evaluating a metrics filter.
+    #
+    #   <note markdown="1"> `Tag` filters are not supported for directory buckets.
+    #
+    #    </note>
     #   @return [Types::Tag]
     #
     # @!attribute [rw] access_point_arn
@@ -14969,6 +15045,21 @@ module Aws::S3
 
     # @!attribute [rw] bucket
     #   The name of the bucket for which the metrics configuration is set.
+    #
+    #   <b>Directory buckets </b> - When you use this operation with a
+    #   directory bucket, you must use path-style requests in the format
+    #   `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+    #   Virtual-hosted-style requests aren't supported. Directory bucket
+    #   names must be unique in the chosen Zone (Availability Zone or Local
+    #   Zone). Bucket names must also follow the format `
+    #   bucket-base-name--zone-id--x-s3` (for example, `
+    #   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3`). For information about bucket
+    #   naming restrictions, see [Directory bucket naming rules][1] in the
+    #   *Amazon S3 User Guide*
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html
     #   @return [String]
     #
     # @!attribute [rw] id
@@ -14986,6 +15077,12 @@ module Aws::S3
     #   you provide does not match the actual owner of the bucket, the
     #   request fails with the HTTP status code `403 Forbidden` (access
     #   denied).
+    #
+    #   <note markdown="1"> For directory buckets, this header is not supported in this API
+    #   operation. If you specify this header, the request fails with the
+    #   HTTP status code `501 Not Implemented`.
+    #
+    #    </note>
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketMetricsConfigurationRequest AWS API Documentation

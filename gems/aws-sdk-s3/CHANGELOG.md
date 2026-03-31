@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.218.0 (2026-03-31)
+------------------
+
+* Feature - Add Bucket Metrics configuration support to directory buckets
+
 1.217.1 (2026-03-30)
 ------------------
 

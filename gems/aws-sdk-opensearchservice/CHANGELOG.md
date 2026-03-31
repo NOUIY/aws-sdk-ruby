@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.93.0 (2026-03-31)
+------------------
+
+* Feature - Support RegisterCapability, GetCapability, DeregisterCapability API for AI Assistant feature management for OpenSearch UI Applications
+
 1.92.0 (2026-03-30)
 ------------------
 

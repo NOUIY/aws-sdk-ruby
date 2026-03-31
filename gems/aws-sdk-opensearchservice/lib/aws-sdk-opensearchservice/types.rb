@@ -10,6 +10,15 @@
 module Aws::OpenSearchService
   module Types
 
+    # Configuration settings for AI-powered capabilities of an OpenSearch UI
+    # application.
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/AIConfig AWS API Documentation
+    #
+    class AIConfig < Aws::EmptyStructure; end
+
     # Container for parameters required to enable all machine learning
     # features.
     #
@@ -1151,6 +1160,91 @@ module Aws::OpenSearchService
       :property_name,
       :cancelled_value,
       :active_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The base configuration for registering a capability. Contains
+    # capability-specific configuration such as AI settings.
+    #
+    # @note CapabilityBaseRequestConfig is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] ai_config
+    #   Configuration settings for AI-powered capabilities.
+    #   @return [Types::AIConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/CapabilityBaseRequestConfig AWS API Documentation
+    #
+    class CapabilityBaseRequestConfig < Struct.new(
+      :ai_config,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class AiConfig < CapabilityBaseRequestConfig; end
+      class Unknown < CapabilityBaseRequestConfig; end
+    end
+
+    # The base configuration returned for a registered capability.
+    #
+    # @note CapabilityBaseResponseConfig is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of CapabilityBaseResponseConfig corresponding to the set member.
+    #
+    # @!attribute [rw] ai_config
+    #   Configuration settings for AI-powered capabilities.
+    #   @return [Types::AIConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/CapabilityBaseResponseConfig AWS API Documentation
+    #
+    class CapabilityBaseResponseConfig < Struct.new(
+      :ai_config,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class AiConfig < CapabilityBaseResponseConfig; end
+      class Unknown < CapabilityBaseResponseConfig; end
+    end
+
+    # The extended configuration returned for a registered capability,
+    # including additional details beyond the base configuration.
+    #
+    # @note CapabilityExtendedResponseConfig is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of CapabilityExtendedResponseConfig corresponding to the set member.
+    #
+    # @!attribute [rw] ai_config
+    #   Configuration settings for AI-powered capabilities.
+    #   @return [Types::AIConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/CapabilityExtendedResponseConfig AWS API Documentation
+    #
+    class CapabilityExtendedResponseConfig < Struct.new(
+      :ai_config,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class AiConfig < CapabilityExtendedResponseConfig; end
+      class Unknown < CapabilityExtendedResponseConfig; end
+    end
+
+    # Information about a capability failure.
+    #
+    # @!attribute [rw] reason
+    #   The reason for the capability failure. Possible values:
+    #   `KMS_KEY_INSUFFICIENT_PERMISSION`.
+    #   @return [String]
+    #
+    # @!attribute [rw] details
+    #   Additional details about the capability failure.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/CapabilityFailure AWS API Documentation
+    #
+    class CapabilityFailure < Struct.new(
+      :reason,
+      :details)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2464,6 +2558,41 @@ module Aws::OpenSearchService
     #
     class DeploymentStrategyOptionsStatus < Struct.new(
       :options,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Container for the parameters to the `DeregisterCapability` operation.
+    #
+    # @!attribute [rw] application_id
+    #   The unique identifier of the OpenSearch UI application to deregister
+    #   the capability from.
+    #   @return [String]
+    #
+    # @!attribute [rw] capability_name
+    #   The name of the capability to deregister.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DeregisterCapabilityRequest AWS API Documentation
+    #
+    class DeregisterCapabilityRequest < Struct.new(
+      :application_id,
+      :capability_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a `DeregisterCapability` request.
+    #
+    # @!attribute [rw] status
+    #   The status of the deregistration operation. Returns `deleting` when
+    #   the capability is being removed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DeregisterCapabilityResponse AWS API Documentation
+    #
+    class DeregisterCapabilityResponse < Struct.new(
       :status)
       SENSITIVE = []
       include Aws::Structure
@@ -4359,6 +4488,64 @@ module Aws::OpenSearchService
       :created_at,
       :last_updated_at,
       :kms_key_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Container for the parameters to the `GetCapability` operation.
+    #
+    # @!attribute [rw] application_id
+    #   The unique identifier of the OpenSearch UI application.
+    #   @return [String]
+    #
+    # @!attribute [rw] capability_name
+    #   The name of the capability to retrieve information about.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/GetCapabilityRequest AWS API Documentation
+    #
+    class GetCapabilityRequest < Struct.new(
+      :application_id,
+      :capability_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a `GetCapability` request. Contains details about the
+    # capability.
+    #
+    # @!attribute [rw] capability_name
+    #   The name of the capability.
+    #   @return [String]
+    #
+    # @!attribute [rw] application_id
+    #   The unique identifier of the OpenSearch UI application.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the capability. Possible values: `creating`,
+    #   `create_failed`, `active`, `updating`, `update_failed`, `deleting`,
+    #   `delete_failed`.
+    #   @return [String]
+    #
+    # @!attribute [rw] capability_config
+    #   The configuration settings for the capability, including
+    #   capability-specific settings such as AI configuration.
+    #   @return [Types::CapabilityExtendedResponseConfig]
+    #
+    # @!attribute [rw] failures
+    #   A list of failures associated with the capability, if any. Each
+    #   failure includes a reason and details about what went wrong.
+    #   @return [Array<Types::CapabilityFailure>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/GetCapabilityResponse AWS API Documentation
+    #
+    class GetCapabilityResponse < Struct.new(
+      :capability_name,
+      :application_id,
+      :status,
+      :capability_config,
+      :failures)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6998,6 +7185,68 @@ module Aws::OpenSearchService
       include Aws::Structure
     end
 
+    # Container for the parameters to the `RegisterCapability` operation.
+    #
+    # @!attribute [rw] application_id
+    #   The unique identifier of the OpenSearch UI application to register
+    #   the capability for.
+    #   @return [String]
+    #
+    # @!attribute [rw] capability_name
+    #   The name of the capability to register. Must be between 3 and 30
+    #   characters and contain only alphanumeric characters and hyphens.
+    #   This identifies the type of capability being enabled for the
+    #   application. For registering AI Assistant capability, use
+    #   `ai-capability`
+    #   @return [String]
+    #
+    # @!attribute [rw] capability_config
+    #   The configuration settings for the capability being registered. This
+    #   includes capability-specific settings such as AI configuration.
+    #   @return [Types::CapabilityBaseRequestConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/RegisterCapabilityRequest AWS API Documentation
+    #
+    class RegisterCapabilityRequest < Struct.new(
+      :application_id,
+      :capability_name,
+      :capability_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a `RegisterCapability` request. Contains details about
+    # the registered capability.
+    #
+    # @!attribute [rw] capability_name
+    #   The name of the registered capability.
+    #   @return [String]
+    #
+    # @!attribute [rw] application_id
+    #   The unique identifier of the OpenSearch UI application.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the capability. Possible values: `creating`,
+    #   `create_failed`, `active`, `updating`, `update_failed`, `deleting`,
+    #   `delete_failed`.
+    #   @return [String]
+    #
+    # @!attribute [rw] capability_config
+    #   The configuration settings for the registered capability.
+    #   @return [Types::CapabilityBaseResponseConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/RegisterCapabilityResponse AWS API Documentation
+    #
+    class RegisterCapabilityResponse < Struct.new(
+      :capability_name,
+      :application_id,
+      :status,
+      :capability_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Container for the request parameters to the `RejectInboundConnection`
     # operation.
     #
@@ -7492,6 +7741,13 @@ module Aws::OpenSearchService
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # An exception for when a request would cause a service quota to be
+    # exceeded.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ServiceQuotaExceededException AWS API Documentation
+    #
+    class ServiceQuotaExceededException < Aws::EmptyStructure; end
 
     # The current status of the service software for an Amazon OpenSearch
     # Service domain. For more information, see [Service software updates in

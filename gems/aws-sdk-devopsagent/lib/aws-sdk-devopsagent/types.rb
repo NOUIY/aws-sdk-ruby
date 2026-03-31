@@ -102,10 +102,6 @@ module Aws::DevOpsAgent
     #   Pagerduty service details.
     #   @return [Types::RegisteredPagerDutyDetails]
     #
-    # @!attribute [rw] mcpserversigv4
-    #   SigV4-authenticated MCP server-specific service details.
-    #   @return [Types::RegisteredMCPServerSigV4Details]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AdditionalServiceDetails AWS API Documentation
     #
     class AdditionalServiceDetails < Struct.new(
@@ -121,7 +117,6 @@ module Aws::DevOpsAgent
       :azureidentity,
       :mcpservergrafana,
       :pagerduty,
-      :mcpserversigv4,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -139,7 +134,6 @@ module Aws::DevOpsAgent
       class Azureidentity < AdditionalServiceDetails; end
       class Mcpservergrafana < AdditionalServiceDetails; end
       class Pagerduty < AdditionalServiceDetails; end
-      class Mcpserversigv4 < AdditionalServiceDetails; end
       class Unknown < AdditionalServiceDetails; end
     end
 
@@ -431,32 +425,6 @@ module Aws::DevOpsAgent
       :created_at,
       :updated_at,
       :summary)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # Represents a chat participant connection with all its properties and
-    # metadata
-    #
-    # @!attribute [rw] initial_contact_id
-    #   The identifier of the contact in this instance of Amazon Connect
-    #   @return [String]
-    #
-    # @!attribute [rw] participant_id
-    #   The identifier for a chat participant
-    #   @return [String]
-    #
-    # @!attribute [rw] participant_token
-    #   The token used by the chat participant to call
-    #   CreateParticipantConnection
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ChatParticipantConnection AWS API Documentation
-    #
-    class ChatParticipantConnection < Struct.new(
-      :initial_contact_id,
-      :participant_id,
-      :participant_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -943,49 +911,6 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
-    # Request structure for desribing support level for an account
-    #
-    # @!attribute [rw] agent_space_id
-    #   The unique identifier for the agent space containing the task
-    #   @return [String]
-    #
-    # @!attribute [rw] task_id
-    #   The unique identifier for this task
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/DescribeSupportLevelRequest AWS API Documentation
-    #
-    class DescribeSupportLevelRequest < Struct.new(
-      :agent_space_id,
-      :task_id)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # Response structure containing detailed support level for an account
-    #
-    # @!attribute [rw] support_level
-    #   The account's support level
-    #   @return [Types::SupportLevel]
-    #
-    # @!attribute [rw] mosaic_support_level
-    #   The account's Mosaic equivalent support level
-    #   @return [Types::SupportLevel]
-    #
-    # @!attribute [rw] active_subscription
-    #   Whether or not the account's subscription is active
-    #   @return [Boolean]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/DescribeSupportLevelResponse AWS API Documentation
-    #
-    class DescribeSupportLevelResponse < Struct.new(
-      :support_level,
-      :mosaic_support_level,
-      :active_subscription)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
     # Input for disabling the Operator App for an AgentSpace.
     #
     # @!attribute [rw] agent_space_id
@@ -1201,69 +1126,6 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
-    # Request structure for ending a chat session
-    #
-    # @!attribute [rw] agent_space_id
-    #   The unique identifier for the agent space containing the task
-    #   @return [String]
-    #
-    # @!attribute [rw] task_id
-    #   The unique identifier for the task execution to end
-    #   @return [String]
-    #
-    # @!attribute [rw] reason
-    #   Reason for ending the chat session (optional, defaults to 'Chat
-    #   Ended by CloudSmith')
-    #   @return [String]
-    #
-    # @!attribute [rw] requester
-    #   Who initiated the chat end request (optional, defaults to
-    #   'CloudSmith')
-    #   @return [String]
-    #
-    # @!attribute [rw] client_token
-    #   Client-provided token for idempotent operations
-    #
-    #   **A suitable default value is auto-generated.** You should normally
-    #   not need to pass this option.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/EndChatForCaseRequest AWS API Documentation
-    #
-    class EndChatForCaseRequest < Struct.new(
-      :agent_space_id,
-      :task_id,
-      :reason,
-      :requester,
-      :client_token)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # Response structure for end chat operation
-    #
-    # @!attribute [rw] is_disconnected
-    #   Whether the chat session was successfully ended
-    #   @return [Boolean]
-    #
-    # @!attribute [rw] execution_id
-    #   The execution ID that was ended
-    #   @return [String]
-    #
-    # @!attribute [rw] error_message
-    #   Error message if the disconnect failed
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/EndChatForCaseResponse AWS API Documentation
-    #
-    class EndChatForCaseResponse < Struct.new(
-      :is_disconnected,
-      :execution_id,
-      :error_message)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
     # Configuration for Event Channel integration.
     #
     # @api private
@@ -1394,6 +1256,10 @@ module Aws::DevOpsAgent
     #   Monthly system learning hours usage and limit for an account
     #   @return [Types::UsageMetric]
     #
+    # @!attribute [rw] monthly_account_on_demand_hours
+    #   Monthly on-demand hours usage and limit for an account
+    #   @return [Types::UsageMetric]
+    #
     # @!attribute [rw] usage_period_start_time
     #   The start time of the usage tracking period
     #   @return [Time]
@@ -1408,6 +1274,7 @@ module Aws::DevOpsAgent
       :monthly_account_investigation_hours,
       :monthly_account_evaluation_hours,
       :monthly_account_system_learning_hours,
+      :monthly_account_on_demand_hours,
       :usage_period_start_time,
       :usage_period_end_time)
       SENSITIVE = []
@@ -1991,47 +1858,6 @@ module Aws::DevOpsAgent
       :provider,
       :created_at,
       :updated_at)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # Request structure for initiating a chat for support case
-    #
-    # @!attribute [rw] agent_space_id
-    #   The unique identifier for the agent space containing the task
-    #   @return [String]
-    #
-    # @!attribute [rw] task_id
-    #   The unique identifier for this task
-    #   @return [String]
-    #
-    # @!attribute [rw] client_token
-    #   Client-provided token for idempotent operations
-    #
-    #   **A suitable default value is auto-generated.** You should normally
-    #   not need to pass this option.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/InitiateChatForCaseRequest AWS API Documentation
-    #
-    class InitiateChatForCaseRequest < Struct.new(
-      :agent_space_id,
-      :task_id,
-      :client_token)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # Response structure containing the chat participant connection
-    #
-    # @!attribute [rw] chat_participant_connection
-    #   The newly created chat participant connection
-    #   @return [Types::ChatParticipantConnection]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/InitiateChatForCaseResponse AWS API Documentation
-    #
-    class InitiateChatForCaseResponse < Struct.new(
-      :chat_participant_connection)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3011,122 +2837,6 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
-    # Authorization configuration for SigV4-authenticated MCP server.
-    #
-    # @!attribute [rw] region
-    #   AWS region for SigV4 signing.
-    #   @return [String]
-    #
-    # @!attribute [rw] service
-    #   AWS service name for SigV4 signing.
-    #   @return [String]
-    #
-    # @!attribute [rw] role_arn
-    #   IAM role ARN to assume for SigV4 signing.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/MCPServerSigV4AuthorizationConfig AWS API Documentation
-    #
-    class MCPServerSigV4AuthorizationConfig < Struct.new(
-      :region,
-      :service,
-      :role_arn)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # Complete service details for SigV4-authenticated MCP server
-    # integration.
-    #
-    # @!attribute [rw] name
-    #   MCP server name.
-    #   @return [String]
-    #
-    # @!attribute [rw] endpoint
-    #   MCP server endpoint URL.
-    #   @return [String]
-    #
-    # @!attribute [rw] description
-    #   Optional description for the MCP server.
-    #   @return [String]
-    #
-    # @!attribute [rw] authorization_config
-    #   MCP Server SigV4 authorization configuration.
-    #   @return [Types::MCPServerSigV4AuthorizationConfig]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/MCPServerSigV4ServiceDetails AWS API Documentation
-    #
-    class MCPServerSigV4ServiceDetails < Struct.new(
-      :name,
-      :endpoint,
-      :description,
-      :authorization_config)
-      SENSITIVE = [:description]
-      include Aws::Structure
-    end
-
-    # Represents a Teams channel with its ID and name.
-    #
-    # @!attribute [rw] channel_name
-    #   MS Teams channel name
-    #   @return [String]
-    #
-    # @!attribute [rw] channel_id
-    #   MS Teams Channel ID
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/MSTeamsChannel AWS API Documentation
-    #
-    class MSTeamsChannel < Struct.new(
-      :channel_name,
-      :channel_id)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # Configuration for MS Teams workspace integration.
-    #
-    # @!attribute [rw] team_id
-    #   Associated MS Teams teams ID
-    #   @return [String]
-    #
-    # @!attribute [rw] team_name
-    #   Associated MS Teams team name
-    #   @return [String]
-    #
-    # @!attribute [rw] transmission_target
-    #   Transmission targets for agent notification
-    #   @return [Types::MSTeamsTransmissionTarget]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/MSTeamsConfiguration AWS API Documentation
-    #
-    class MSTeamsConfiguration < Struct.new(
-      :team_id,
-      :team_name,
-      :transmission_target)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # Defines MS Teams channels for different types of agent notifications.
-    #
-    # @!attribute [rw] ops_oncall_target
-    #   Destination for On-call Agent(Ops1)
-    #   @return [Types::MSTeamsChannel]
-    #
-    # @!attribute [rw] ops_sre_target
-    #   Destination for SRE Agent (Ops1.5)
-    #   @return [Types::MSTeamsChannel]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/MSTeamsTransmissionTarget AWS API Documentation
-    #
-    class MSTeamsTransmissionTarget < Struct.new(
-      :ops_oncall_target,
-      :ops_sre_target)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
     # A message in a conversation, either from the user or the assistant.
     #
     # @note Message is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of Message corresponding to the set member.
@@ -3817,45 +3527,6 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
-    # Details specific to a registered SigV4-authenticated MCP server.
-    #
-    # @!attribute [rw] name
-    #   MCP server name.
-    #   @return [String]
-    #
-    # @!attribute [rw] endpoint
-    #   MCP server endpoint URL.
-    #   @return [String]
-    #
-    # @!attribute [rw] description
-    #   Optional description for the MCP server.
-    #   @return [String]
-    #
-    # @!attribute [rw] region
-    #   AWS region for SigV4 signing.
-    #   @return [String]
-    #
-    # @!attribute [rw] service
-    #   AWS service name for SigV4 signing.
-    #   @return [String]
-    #
-    # @!attribute [rw] role_arn
-    #   IAM role ARN to assume for SigV4 signing.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/RegisteredMCPServerSigV4Details AWS API Documentation
-    #
-    class RegisteredMCPServerSigV4Details < Struct.new(
-      :name,
-      :endpoint,
-      :description,
-      :region,
-      :service,
-      :role_arn)
-      SENSITIVE = [:description]
-      include Aws::Structure
-    end
-
     # Details specific to a registered NewRelic instance.
     #
     # @!attribute [rw] account_id
@@ -4438,10 +4109,6 @@ module Aws::DevOpsAgent
     #   PagerDuty integration configuration
     #   @return [Types::PagerDutyConfiguration]
     #
-    # @!attribute [rw] msteams
-    #   MS Teams integration configuration
-    #   @return [Types::MSTeamsConfiguration]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ServiceConfiguration AWS API Documentation
     #
     class ServiceConfiguration < Struct.new(
@@ -4458,7 +4125,6 @@ module Aws::DevOpsAgent
       :azuredevops,
       :mcpservergrafana,
       :pagerduty,
-      :msteams,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -4477,7 +4143,6 @@ module Aws::DevOpsAgent
       class Azuredevops < ServiceConfiguration; end
       class Mcpservergrafana < ServiceConfiguration; end
       class Pagerduty < ServiceConfiguration; end
-      class Msteams < ServiceConfiguration; end
       class Unknown < ServiceConfiguration; end
     end
 
@@ -4531,10 +4196,6 @@ module Aws::DevOpsAgent
     #   service details.
     #   @return [Types::RegisteredAzureIdentityDetails]
     #
-    # @!attribute [rw] mcpserversigv4
-    #   SigV4-authenticated MCP server-specific service details.
-    #   @return [Types::MCPServerSigV4ServiceDetails]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ServiceDetails AWS API Documentation
     #
     class ServiceDetails < Struct.new(
@@ -4549,7 +4210,6 @@ module Aws::DevOpsAgent
       :mcpservergrafana,
       :pagerduty,
       :azureidentity,
-      :mcpserversigv4,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -4566,7 +4226,6 @@ module Aws::DevOpsAgent
       class Mcpservergrafana < ServiceDetails; end
       class Pagerduty < ServiceDetails; end
       class Azureidentity < ServiceDetails; end
-      class Mcpserversigv4 < ServiceDetails; end
       class Unknown < ServiceDetails; end
     end
 
@@ -4813,25 +4472,6 @@ module Aws::DevOpsAgent
       :account_type,
       :assumable_role_arn,
       :external_id)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # Represents a support level with all its properties and metadata
-    #
-    # @!attribute [rw] code
-    #   The support level code
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The support level name
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/SupportLevel AWS API Documentation
-    #
-    class SupportLevel < Struct.new(
-      :code,
-      :name)
       SENSITIVE = []
       include Aws::Structure
     end

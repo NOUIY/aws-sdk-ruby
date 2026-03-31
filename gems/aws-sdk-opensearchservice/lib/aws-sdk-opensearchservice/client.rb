@@ -2233,6 +2233,40 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
+    # Deregisters a capability from an OpenSearch UI application. This
+    # operation removes the capability and its associated configuration.
+    #
+    # @option params [required, String] :application_id
+    #   The unique identifier of the OpenSearch UI application to deregister
+    #   the capability from.
+    #
+    # @option params [required, String] :capability_name
+    #   The name of the capability to deregister.
+    #
+    # @return [Types::DeregisterCapabilityResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeregisterCapabilityResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.deregister_capability({
+    #     application_id: "ApplicationId", # required
+    #     capability_name: "CapabilityName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> String, one of "creating", "create_failed", "active", "updating", "update_failed", "deleting", "delete_failed"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DeregisterCapability AWS API Documentation
+    #
+    # @overload deregister_capability(params = {})
+    # @param [Hash] params ({})
+    def deregister_capability(params = {}, options = {})
+      req = build_request(:deregister_capability, params)
+      req.send_request(options)
+    end
+
     # Describes the domain configuration for the specified Amazon OpenSearch
     # Service domain, including the domain ID, domain service endpoint, and
     # domain ARN.
@@ -3787,6 +3821,48 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
+    # Retrieves information about a registered capability for an OpenSearch
+    # UI application, including its configuration and current status.
+    #
+    # @option params [required, String] :application_id
+    #   The unique identifier of the OpenSearch UI application.
+    #
+    # @option params [required, String] :capability_name
+    #   The name of the capability to retrieve information about.
+    #
+    # @return [Types::GetCapabilityResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetCapabilityResponse#capability_name #capability_name} => String
+    #   * {Types::GetCapabilityResponse#application_id #application_id} => String
+    #   * {Types::GetCapabilityResponse#status #status} => String
+    #   * {Types::GetCapabilityResponse#capability_config #capability_config} => Types::CapabilityExtendedResponseConfig
+    #   * {Types::GetCapabilityResponse#failures #failures} => Array&lt;Types::CapabilityFailure&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_capability({
+    #     application_id: "ApplicationId", # required
+    #     capability_name: "CapabilityName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.capability_name #=> String
+    #   resp.application_id #=> String
+    #   resp.status #=> String, one of "creating", "create_failed", "active", "updating", "update_failed", "deleting", "delete_failed"
+    #   resp.failures #=> Array
+    #   resp.failures[0].reason #=> String, one of "KMS_KEY_INSUFFICIENT_PERMISSION"
+    #   resp.failures[0].details #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/GetCapability AWS API Documentation
+    #
+    # @overload get_capability(params = {})
+    # @param [Hash] params ({})
+    def get_capability(params = {}, options = {})
+      req = build_request(:get_capability, params)
+      req.send_request(options)
+    end
+
     # Returns a map of OpenSearch or Elasticsearch versions and the versions
     # you can upgrade them to.
     #
@@ -4988,6 +5064,63 @@ module Aws::OpenSearchService
     # @param [Hash] params ({})
     def put_default_application_setting(params = {}, options = {})
       req = build_request(:put_default_application_setting, params)
+      req.send_request(options)
+    end
+
+    # Registers a capability for an OpenSearch UI application. Use this
+    # operation to enable specific capabilities, such as AI features, for a
+    # given application. The capability configuration defines the type and
+    # settings of the capability to register. For more information about the
+    # AI features, see [Agentic AI for OpenSearch UI][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/application-ai-assistant.html
+    #
+    # @option params [required, String] :application_id
+    #   The unique identifier of the OpenSearch UI application to register the
+    #   capability for.
+    #
+    # @option params [required, String] :capability_name
+    #   The name of the capability to register. Must be between 3 and 30
+    #   characters and contain only alphanumeric characters and hyphens. This
+    #   identifies the type of capability being enabled for the application.
+    #   For registering AI Assistant capability, use `ai-capability`
+    #
+    # @option params [required, Types::CapabilityBaseRequestConfig] :capability_config
+    #   The configuration settings for the capability being registered. This
+    #   includes capability-specific settings such as AI configuration.
+    #
+    # @return [Types::RegisterCapabilityResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::RegisterCapabilityResponse#capability_name #capability_name} => String
+    #   * {Types::RegisterCapabilityResponse#application_id #application_id} => String
+    #   * {Types::RegisterCapabilityResponse#status #status} => String
+    #   * {Types::RegisterCapabilityResponse#capability_config #capability_config} => Types::CapabilityBaseResponseConfig
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.register_capability({
+    #     application_id: "ApplicationId", # required
+    #     capability_name: "CapabilityName", # required
+    #     capability_config: { # required
+    #       ai_config: {
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.capability_name #=> String
+    #   resp.application_id #=> String
+    #   resp.status #=> String, one of "creating", "create_failed", "active", "updating", "update_failed", "deleting", "delete_failed"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/RegisterCapability AWS API Documentation
+    #
+    # @overload register_capability(params = {})
+    # @param [Hash] params ({})
+    def register_capability(params = {}, options = {})
+      req = build_request(:register_capability, params)
       req.send_request(options)
     end
 
@@ -6296,7 +6429,7 @@ module Aws::OpenSearchService
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-opensearchservice'
-      context[:gem_version] = '1.92.0'
+      context[:gem_version] = '1.93.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

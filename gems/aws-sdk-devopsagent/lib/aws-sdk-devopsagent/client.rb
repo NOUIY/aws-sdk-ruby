@@ -487,8 +487,7 @@ module Aws::DevOpsAgent
 
     # @!group API Operations
 
-    # Authorize Ingestion Hub subscription operation. Looks to see if the
-    # derived accountId from FAS has an AgentSpace.
+    # Authorize Ingestion Hub subscription operation.
     #
     # @option params [required, String] :resource_arn_being_authorized
     #   The ARN of the resource being authorized for vended log delivery.
@@ -617,20 +616,6 @@ module Aws::DevOpsAgent
     #         services: ["String"], # required
     #         customer_email: "EmailAddress", # required
     #       },
-    #       msteams: {
-    #         team_id: "Guid", # required
-    #         team_name: "String", # required
-    #         transmission_target: { # required
-    #           ops_oncall_target: {
-    #             channel_name: "String", # required
-    #             channel_id: "Guid", # required
-    #           },
-    #           ops_sre_target: {
-    #             channel_name: "String", # required
-    #             channel_id: "Guid", # required
-    #           },
-    #         },
-    #       },
     #     },
     #   })
     #
@@ -682,12 +667,6 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.pagerduty.services #=> Array
     #   resp.association.configuration.pagerduty.services[0] #=> String
     #   resp.association.configuration.pagerduty.customer_email #=> String
-    #   resp.association.configuration.msteams.team_id #=> String
-    #   resp.association.configuration.msteams.team_name #=> String
-    #   resp.association.configuration.msteams.transmission_target.ops_oncall_target.channel_name #=> String
-    #   resp.association.configuration.msteams.transmission_target.ops_oncall_target.channel_id #=> String
-    #   resp.association.configuration.msteams.transmission_target.ops_sre_target.channel_name #=> String
-    #   resp.association.configuration.msteams.transmission_target.ops_sre_target.channel_id #=> String
     #   resp.webhook.webhook_url #=> String
     #   resp.webhook.webhook_id #=> String
     #   resp.webhook.webhook_type #=> String, one of "hmac", "apikey", "gitlab", "pagerduty"
@@ -1081,44 +1060,6 @@ module Aws::DevOpsAgent
       req.send_request(options)
     end
 
-    # Describe the support level of a CloudSmith customer account.
-    #
-    # @option params [required, String] :agent_space_id
-    #   The unique identifier for the agent space containing the task
-    #
-    # @option params [required, String] :task_id
-    #   The unique identifier for this task
-    #
-    # @return [Types::DescribeSupportLevelResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
-    #
-    #   * {Types::DescribeSupportLevelResponse#support_level #support_level} => Types::SupportLevel
-    #   * {Types::DescribeSupportLevelResponse#mosaic_support_level #mosaic_support_level} => Types::SupportLevel
-    #   * {Types::DescribeSupportLevelResponse#active_subscription #active_subscription} => Boolean
-    #
-    # @example Request syntax with placeholder values
-    #
-    #   resp = client.describe_support_level({
-    #     agent_space_id: "AgentSpaceId", # required
-    #     task_id: "String", # required
-    #   })
-    #
-    # @example Response structure
-    #
-    #   resp.support_level.code #=> String
-    #   resp.support_level.name #=> String
-    #   resp.mosaic_support_level.code #=> String
-    #   resp.mosaic_support_level.name #=> String
-    #   resp.active_subscription #=> Boolean
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/DescribeSupportLevel AWS API Documentation
-    #
-    # @overload describe_support_level(params = {})
-    # @param [Hash] params ({})
-    def describe_support_level(params = {}, options = {})
-      req = build_request(:describe_support_level, params)
-      req.send_request(options)
-    end
-
     # Disable the Operator App for the specified AgentSpace
     #
     # @option params [required, String] :agent_space_id
@@ -1247,59 +1188,6 @@ module Aws::DevOpsAgent
       req.send_request(options)
     end
 
-    # End a chat session for a support case in the specified agent space
-    #
-    # @option params [required, String] :agent_space_id
-    #   The unique identifier for the agent space containing the task
-    #
-    # @option params [required, String] :task_id
-    #   The unique identifier for the task execution to end
-    #
-    # @option params [String] :reason
-    #   Reason for ending the chat session (optional, defaults to 'Chat Ended
-    #   by CloudSmith')
-    #
-    # @option params [String] :requester
-    #   Who initiated the chat end request (optional, defaults to
-    #   'CloudSmith')
-    #
-    # @option params [String] :client_token
-    #   Client-provided token for idempotent operations
-    #
-    #   **A suitable default value is auto-generated.** You should normally
-    #   not need to pass this option.**
-    #
-    # @return [Types::EndChatForCaseResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
-    #
-    #   * {Types::EndChatForCaseResponse#is_disconnected #is_disconnected} => Boolean
-    #   * {Types::EndChatForCaseResponse#execution_id #execution_id} => String
-    #   * {Types::EndChatForCaseResponse#error_message #error_message} => String
-    #
-    # @example Request syntax with placeholder values
-    #
-    #   resp = client.end_chat_for_case({
-    #     agent_space_id: "AgentSpaceId", # required
-    #     task_id: "String", # required
-    #     reason: "String",
-    #     requester: "String",
-    #     client_token: "String",
-    #   })
-    #
-    # @example Response structure
-    #
-    #   resp.is_disconnected #=> Boolean
-    #   resp.execution_id #=> String
-    #   resp.error_message #=> String
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/EndChatForCase AWS API Documentation
-    #
-    # @overload end_chat_for_case(params = {})
-    # @param [Hash] params ({})
-    def end_chat_for_case(params = {}, options = {})
-      req = build_request(:end_chat_for_case, params)
-      req.send_request(options)
-    end
-
     # Retrieves monthly account usage metrics and limits for the AWS
     # account.
     #
@@ -1308,6 +1196,7 @@ module Aws::DevOpsAgent
     #   * {Types::GetAccountUsageOutput#monthly_account_investigation_hours #monthly_account_investigation_hours} => Types::UsageMetric
     #   * {Types::GetAccountUsageOutput#monthly_account_evaluation_hours #monthly_account_evaluation_hours} => Types::UsageMetric
     #   * {Types::GetAccountUsageOutput#monthly_account_system_learning_hours #monthly_account_system_learning_hours} => Types::UsageMetric
+    #   * {Types::GetAccountUsageOutput#monthly_account_on_demand_hours #monthly_account_on_demand_hours} => Types::UsageMetric
     #   * {Types::GetAccountUsageOutput#usage_period_start_time #usage_period_start_time} => Time
     #   * {Types::GetAccountUsageOutput#usage_period_end_time #usage_period_end_time} => Time
     #
@@ -1319,6 +1208,8 @@ module Aws::DevOpsAgent
     #   resp.monthly_account_evaluation_hours.usage #=> Float
     #   resp.monthly_account_system_learning_hours.limit #=> Integer
     #   resp.monthly_account_system_learning_hours.usage #=> Float
+    #   resp.monthly_account_on_demand_hours.limit #=> Integer
+    #   resp.monthly_account_on_demand_hours.usage #=> Float
     #   resp.usage_period_start_time #=> Time
     #   resp.usage_period_end_time #=> Time
     #
@@ -1435,12 +1326,6 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.pagerduty.services #=> Array
     #   resp.association.configuration.pagerduty.services[0] #=> String
     #   resp.association.configuration.pagerduty.customer_email #=> String
-    #   resp.association.configuration.msteams.team_id #=> String
-    #   resp.association.configuration.msteams.team_name #=> String
-    #   resp.association.configuration.msteams.transmission_target.ops_oncall_target.channel_name #=> String
-    #   resp.association.configuration.msteams.transmission_target.ops_oncall_target.channel_id #=> String
-    #   resp.association.configuration.msteams.transmission_target.ops_sre_target.channel_name #=> String
-    #   resp.association.configuration.msteams.transmission_target.ops_sre_target.channel_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetAssociation AWS API Documentation
     #
@@ -1615,7 +1500,7 @@ module Aws::DevOpsAgent
     # @example Response structure
     #
     #   resp.service.service_id #=> String
-    #   resp.service.service_type #=> String, one of "github", "slack", "azure", "azuredevops", "msteams", "dynatrace", "servicenow", "pagerduty", "gitlab", "eventChannel", "mcpservernewrelic", "mcpservergrafana", "mcpserverdatadog", "mcpserver", "mcpserversplunk", "azureidentity", "mcpserversigv4"
+    #   resp.service.service_type #=> String, one of "github", "slack", "azure", "azuredevops", "dynatrace", "servicenow", "pagerduty", "gitlab", "eventChannel", "mcpservernewrelic", "mcpservergrafana", "mcpserverdatadog", "mcpserver", "mcpserversplunk", "azureidentity"
     #   resp.service.name #=> String
     #   resp.service.accessible_resources #=> Array
     #   resp.service.additional_service_details.github.owner #=> String
@@ -1655,12 +1540,6 @@ module Aws::DevOpsAgent
     #   resp.service.additional_service_details.mcpservergrafana.authorization_method #=> String, one of "oauth-client-credentials", "oauth-3lo", "api-key", "bearer-token"
     #   resp.service.additional_service_details.pagerduty.scopes #=> Array
     #   resp.service.additional_service_details.pagerduty.scopes[0] #=> String
-    #   resp.service.additional_service_details.mcpserversigv4.name #=> String
-    #   resp.service.additional_service_details.mcpserversigv4.endpoint #=> String
-    #   resp.service.additional_service_details.mcpserversigv4.description #=> String
-    #   resp.service.additional_service_details.mcpserversigv4.region #=> String
-    #   resp.service.additional_service_details.mcpserversigv4.service #=> String
-    #   resp.service.additional_service_details.mcpserversigv4.role_arn #=> String
     #   resp.service.kms_key_arn #=> String
     #   resp.service.private_connection_name #=> String
     #   resp.tags #=> Hash
@@ -1672,47 +1551,6 @@ module Aws::DevOpsAgent
     # @param [Hash] params ({})
     def get_service(params = {}, options = {})
       req = build_request(:get_service, params)
-      req.send_request(options)
-    end
-
-    # Initiate a chat for support case in the specified agent space
-    #
-    # @option params [required, String] :agent_space_id
-    #   The unique identifier for the agent space containing the task
-    #
-    # @option params [required, String] :task_id
-    #   The unique identifier for this task
-    #
-    # @option params [String] :client_token
-    #   Client-provided token for idempotent operations
-    #
-    #   **A suitable default value is auto-generated.** You should normally
-    #   not need to pass this option.**
-    #
-    # @return [Types::InitiateChatForCaseResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
-    #
-    #   * {Types::InitiateChatForCaseResponse#chat_participant_connection #chat_participant_connection} => Types::ChatParticipantConnection
-    #
-    # @example Request syntax with placeholder values
-    #
-    #   resp = client.initiate_chat_for_case({
-    #     agent_space_id: "AgentSpaceId", # required
-    #     task_id: "String", # required
-    #     client_token: "String",
-    #   })
-    #
-    # @example Response structure
-    #
-    #   resp.chat_participant_connection.initial_contact_id #=> String
-    #   resp.chat_participant_connection.participant_id #=> String
-    #   resp.chat_participant_connection.participant_token #=> String
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/InitiateChatForCase AWS API Documentation
-    #
-    # @overload initiate_chat_for_case(params = {})
-    # @param [Hash] params ({})
-    def initiate_chat_for_case(params = {}, options = {})
-      req = build_request(:initiate_chat_for_case, params)
       req.send_request(options)
     end
 
@@ -1840,12 +1678,6 @@ module Aws::DevOpsAgent
     #   resp.associations[0].configuration.pagerduty.services #=> Array
     #   resp.associations[0].configuration.pagerduty.services[0] #=> String
     #   resp.associations[0].configuration.pagerduty.customer_email #=> String
-    #   resp.associations[0].configuration.msteams.team_id #=> String
-    #   resp.associations[0].configuration.msteams.team_name #=> String
-    #   resp.associations[0].configuration.msteams.transmission_target.ops_oncall_target.channel_name #=> String
-    #   resp.associations[0].configuration.msteams.transmission_target.ops_oncall_target.channel_id #=> String
-    #   resp.associations[0].configuration.msteams.transmission_target.ops_sre_target.channel_name #=> String
-    #   resp.associations[0].configuration.msteams.transmission_target.ops_sre_target.channel_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListAssociations AWS API Documentation
     #
@@ -2339,7 +2171,7 @@ module Aws::DevOpsAgent
     #   resp = client.list_services({
     #     max_results: 1,
     #     next_token: "NextToken",
-    #     filter_service_type: "github", # accepts github, slack, azure, azuredevops, msteams, dynatrace, servicenow, pagerduty, gitlab, eventChannel, mcpservernewrelic, mcpservergrafana, mcpserverdatadog, mcpserver, mcpserversplunk, azureidentity, mcpserversigv4
+    #     filter_service_type: "github", # accepts github, slack, azure, azuredevops, dynatrace, servicenow, pagerduty, gitlab, eventChannel, mcpservernewrelic, mcpservergrafana, mcpserverdatadog, mcpserver, mcpserversplunk, azureidentity
     #   })
     #
     # @example Response structure
@@ -2347,7 +2179,7 @@ module Aws::DevOpsAgent
     #   resp.next_token #=> String
     #   resp.services #=> Array
     #   resp.services[0].service_id #=> String
-    #   resp.services[0].service_type #=> String, one of "github", "slack", "azure", "azuredevops", "msteams", "dynatrace", "servicenow", "pagerduty", "gitlab", "eventChannel", "mcpservernewrelic", "mcpservergrafana", "mcpserverdatadog", "mcpserver", "mcpserversplunk", "azureidentity", "mcpserversigv4"
+    #   resp.services[0].service_type #=> String, one of "github", "slack", "azure", "azuredevops", "dynatrace", "servicenow", "pagerduty", "gitlab", "eventChannel", "mcpservernewrelic", "mcpservergrafana", "mcpserverdatadog", "mcpserver", "mcpserversplunk", "azureidentity"
     #   resp.services[0].name #=> String
     #   resp.services[0].accessible_resources #=> Array
     #   resp.services[0].additional_service_details.github.owner #=> String
@@ -2387,12 +2219,6 @@ module Aws::DevOpsAgent
     #   resp.services[0].additional_service_details.mcpservergrafana.authorization_method #=> String, one of "oauth-client-credentials", "oauth-3lo", "api-key", "bearer-token"
     #   resp.services[0].additional_service_details.pagerduty.scopes #=> Array
     #   resp.services[0].additional_service_details.pagerduty.scopes[0] #=> String
-    #   resp.services[0].additional_service_details.mcpserversigv4.name #=> String
-    #   resp.services[0].additional_service_details.mcpserversigv4.endpoint #=> String
-    #   resp.services[0].additional_service_details.mcpserversigv4.description #=> String
-    #   resp.services[0].additional_service_details.mcpserversigv4.region #=> String
-    #   resp.services[0].additional_service_details.mcpserversigv4.service #=> String
-    #   resp.services[0].additional_service_details.mcpserversigv4.role_arn #=> String
     #   resp.services[0].kms_key_arn #=> String
     #   resp.services[0].private_connection_name #=> String
     #
@@ -2501,7 +2327,7 @@ module Aws::DevOpsAgent
     # @example Request syntax with placeholder values
     #
     #   resp = client.register_service({
-    #     service: "dynatrace", # required, accepts dynatrace, servicenow, pagerduty, gitlab, eventChannel, mcpservernewrelic, mcpservergrafana, mcpserverdatadog, mcpserver, mcpserversplunk, azureidentity, mcpserversigv4
+    #     service: "dynatrace", # required, accepts dynatrace, servicenow, pagerduty, gitlab, eventChannel, mcpservernewrelic, mcpservergrafana, mcpserverdatadog, mcpserver, mcpserversplunk, azureidentity
     #     service_details: { # required
     #       dynatrace: {
     #         account_urn: "DynatraceServiceDetailsAccountUrnString", # required
@@ -2707,16 +2533,6 @@ module Aws::DevOpsAgent
     #         client_id: "Guid", # required
     #         web_identity_role_arn: "RoleArn", # required
     #         web_identity_token_audiences: ["String"], # required
-    #       },
-    #       mcpserversigv4: {
-    #         name: "MCPServerSigV4ServiceDetailsNameString", # required
-    #         endpoint: "MCPServerSigV4ServiceDetailsEndpointString", # required
-    #         description: "MCPServerSigV4ServiceDetailsDescriptionString",
-    #         authorization_config: { # required
-    #           region: "AwsRegion", # required
-    #           service: "MCPServerSigV4AuthorizationConfigServiceString", # required
-    #           role_arn: "RoleArn", # required
-    #         },
     #       },
     #     },
     #     kms_key_arn: "KmsKeyArn",
@@ -3215,20 +3031,6 @@ module Aws::DevOpsAgent
     #         services: ["String"], # required
     #         customer_email: "EmailAddress", # required
     #       },
-    #       msteams: {
-    #         team_id: "Guid", # required
-    #         team_name: "String", # required
-    #         transmission_target: { # required
-    #           ops_oncall_target: {
-    #             channel_name: "String", # required
-    #             channel_id: "Guid", # required
-    #           },
-    #           ops_sre_target: {
-    #             channel_name: "String", # required
-    #             channel_id: "Guid", # required
-    #           },
-    #         },
-    #       },
     #     },
     #   })
     #
@@ -3280,12 +3082,6 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.pagerduty.services #=> Array
     #   resp.association.configuration.pagerduty.services[0] #=> String
     #   resp.association.configuration.pagerduty.customer_email #=> String
-    #   resp.association.configuration.msteams.team_id #=> String
-    #   resp.association.configuration.msteams.team_name #=> String
-    #   resp.association.configuration.msteams.transmission_target.ops_oncall_target.channel_name #=> String
-    #   resp.association.configuration.msteams.transmission_target.ops_oncall_target.channel_id #=> String
-    #   resp.association.configuration.msteams.transmission_target.ops_sre_target.channel_name #=> String
-    #   resp.association.configuration.msteams.transmission_target.ops_sre_target.channel_id #=> String
     #   resp.webhook.webhook_url #=> String
     #   resp.webhook.webhook_id #=> String
     #   resp.webhook.webhook_type #=> String, one of "hmac", "apikey", "gitlab", "pagerduty"
@@ -3610,7 +3406,7 @@ module Aws::DevOpsAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-devopsagent'
-      context[:gem_version] = '1.0.0'
+      context[:gem_version] = '1.1.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.82.0 (2026-03-31)
+------------------
+
+* Feature - Support Tags for AWS Data Exchange resource Assets
+
 1.81.0 (2026-03-18)
 ------------------
 

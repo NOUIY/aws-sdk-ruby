@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.24.0 (2026-03-31)
+------------------
+
+* Feature - This release adds the Bedrock and Security Hub resource types for Omnia Enablement launch for March 31.
+
 1.23.0 (2026-03-19)
 ------------------
 

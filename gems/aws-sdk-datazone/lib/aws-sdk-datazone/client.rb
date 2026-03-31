@@ -2889,6 +2889,9 @@ module Aws::DataZone
     # @option params [String] :environment_configuration_id
     #   The configuration ID of the environment.
     #
+    # @option params [String] :environment_configuration_name
+    #   The configuration name of the environment.
+    #
     # @return [Types::CreateEnvironmentOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateEnvironmentOutput#project_id #project_id} => String
@@ -2913,6 +2916,7 @@ module Aws::DataZone
     #   * {Types::CreateEnvironmentOutput#deployment_properties #deployment_properties} => Types::DeploymentProperties
     #   * {Types::CreateEnvironmentOutput#environment_blueprint_id #environment_blueprint_id} => String
     #   * {Types::CreateEnvironmentOutput#environment_configuration_id #environment_configuration_id} => String
+    #   * {Types::CreateEnvironmentOutput#environment_configuration_name #environment_configuration_name} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -2934,6 +2938,7 @@ module Aws::DataZone
     #     environment_blueprint_identifier: "String",
     #     deployment_order: 1,
     #     environment_configuration_id: "String",
+    #     environment_configuration_name: "EnvironmentConfigurationName",
     #   })
     #
     # @example Response structure
@@ -2985,6 +2990,7 @@ module Aws::DataZone
     #   resp.deployment_properties.end_timeout_minutes #=> Integer
     #   resp.environment_blueprint_id #=> String
     #   resp.environment_configuration_id #=> String
+    #   resp.environment_configuration_name #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/CreateEnvironment AWS API Documentation
     #
@@ -6560,6 +6566,7 @@ module Aws::DataZone
     #   * {Types::GetEnvironmentOutput#deployment_properties #deployment_properties} => Types::DeploymentProperties
     #   * {Types::GetEnvironmentOutput#environment_blueprint_id #environment_blueprint_id} => String
     #   * {Types::GetEnvironmentOutput#environment_configuration_id #environment_configuration_id} => String
+    #   * {Types::GetEnvironmentOutput#environment_configuration_name #environment_configuration_name} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -6617,6 +6624,7 @@ module Aws::DataZone
     #   resp.deployment_properties.end_timeout_minutes #=> Integer
     #   resp.environment_blueprint_id #=> String
     #   resp.environment_configuration_id #=> String
+    #   resp.environment_configuration_name #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/GetEnvironment AWS API Documentation
     #
@@ -9520,6 +9528,7 @@ module Aws::DataZone
     #   resp.items[0].provider #=> String
     #   resp.items[0].status #=> String, one of "ACTIVE", "CREATING", "UPDATING", "DELETING", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED", "VALIDATION_FAILED", "SUSPENDED", "DISABLED", "EXPIRED", "DELETED", "INACCESSIBLE"
     #   resp.items[0].environment_configuration_id #=> String
+    #   resp.items[0].environment_configuration_name #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ListEnvironments AWS API Documentation
@@ -13630,6 +13639,9 @@ module Aws::DataZone
     # @option params [Array<Types::EnvironmentParameter>] :user_parameters
     #   The user parameters of the environment.
     #
+    # @option params [String] :environment_configuration_name
+    #   The configuration name of the environment.
+    #
     # @return [Types::UpdateEnvironmentOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateEnvironmentOutput#project_id #project_id} => String
@@ -13654,6 +13666,7 @@ module Aws::DataZone
     #   * {Types::UpdateEnvironmentOutput#deployment_properties #deployment_properties} => Types::DeploymentProperties
     #   * {Types::UpdateEnvironmentOutput#environment_blueprint_id #environment_blueprint_id} => String
     #   * {Types::UpdateEnvironmentOutput#environment_configuration_id #environment_configuration_id} => String
+    #   * {Types::UpdateEnvironmentOutput#environment_configuration_name #environment_configuration_name} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -13670,6 +13683,7 @@ module Aws::DataZone
     #         value: "String",
     #       },
     #     ],
+    #     environment_configuration_name: "EnvironmentConfigurationName",
     #   })
     #
     # @example Response structure
@@ -13721,6 +13735,7 @@ module Aws::DataZone
     #   resp.deployment_properties.end_timeout_minutes #=> Integer
     #   resp.environment_blueprint_id #=> String
     #   resp.environment_configuration_id #=> String
+    #   resp.environment_configuration_name #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/UpdateEnvironment AWS API Documentation
     #
@@ -15027,7 +15042,7 @@ module Aws::DataZone
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-datazone'
-      context[:gem_version] = '1.70.0'
+      context[:gem_version] = '1.71.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -4112,10 +4112,16 @@ module Aws::EC2
     # During bundling, only the root device volume (C:\\) is bundled. Data
     # on other instance store volumes is not preserved.
     #
-    # <note markdown="1"> This action is not applicable for Linux/Unix instances or Windows
-    # instances that are backed by Amazon EBS.
+    # <note markdown="1"> This action is no longer supported. To create an AMI, use
+    # [CreateImage][1]. For more information, see [ Create an Amazon
+    # EBS-backed AMI][2] in the *Amazon EC2 User Guide*.
     #
     #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateImage.html
+    # [2]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html
     #
     # @option params [required, String] :instance_id
     #   The ID of the instance to bundle.
@@ -73088,7 +73094,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.609.0'
+      context[:gem_version] = '1.610.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

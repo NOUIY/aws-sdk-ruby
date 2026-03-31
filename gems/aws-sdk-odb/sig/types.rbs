@@ -1091,6 +1091,7 @@ module Aws::Odb
       attr_accessor created_at: ::Time
       attr_accessor percent_progress: ::Float
       attr_accessor managed_services: Types::ManagedServices
+      attr_accessor ec2_placement_group_ids: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -1116,6 +1117,7 @@ module Aws::Odb
       attr_accessor created_at: ::Time
       attr_accessor percent_progress: ::Float
       attr_accessor managed_services: Types::ManagedServices
+      attr_accessor ec2_placement_group_ids: ::Array[::String]
       SENSITIVE: []
     end
 

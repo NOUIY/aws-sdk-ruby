@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.610.0 (2026-03-31)
+------------------
+
+* Feature - This release updates the examples in the documentation for DescribeRegions and DescribeAvailabilityZones.
+
 1.609.0 (2026-03-19)
 ------------------
 

@@ -1116,7 +1116,8 @@ module Aws::DataZone
       attr_accessor environment_blueprint_identifier: ::String
       attr_accessor deployment_order: ::Integer
       attr_accessor environment_configuration_id: ::String
-      SENSITIVE: []
+      attr_accessor environment_configuration_name: ::String
+      SENSITIVE: [:environment_configuration_name]
     end
 
     class CreateEnvironmentOutput
@@ -1142,7 +1143,8 @@ module Aws::DataZone
       attr_accessor deployment_properties: Types::DeploymentProperties
       attr_accessor environment_blueprint_id: ::String
       attr_accessor environment_configuration_id: ::String
-      SENSITIVE: [:name, :description, :environment_configuration_id]
+      attr_accessor environment_configuration_name: ::String
+      SENSITIVE: [:name, :description, :environment_configuration_id, :environment_configuration_name]
     end
 
     class CreateEnvironmentProfileInput
@@ -2218,7 +2220,8 @@ module Aws::DataZone
       attr_accessor provider: ::String
       attr_accessor status: ("ACTIVE" | "CREATING" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED" | "VALIDATION_FAILED" | "SUSPENDED" | "DISABLED" | "EXPIRED" | "DELETED" | "INACCESSIBLE")
       attr_accessor environment_configuration_id: ::String
-      SENSITIVE: [:name, :description, :environment_configuration_id]
+      attr_accessor environment_configuration_name: ::String
+      SENSITIVE: [:name, :description, :environment_configuration_id, :environment_configuration_name]
     end
 
     class EqualToExpression
@@ -2681,7 +2684,8 @@ module Aws::DataZone
       attr_accessor deployment_properties: Types::DeploymentProperties
       attr_accessor environment_blueprint_id: ::String
       attr_accessor environment_configuration_id: ::String
-      SENSITIVE: [:name, :description, :environment_configuration_id]
+      attr_accessor environment_configuration_name: ::String
+      SENSITIVE: [:name, :description, :environment_configuration_id, :environment_configuration_name]
     end
 
     class GetEnvironmentProfileInput
@@ -5933,7 +5937,8 @@ module Aws::DataZone
       attr_accessor glossary_terms: ::Array[::String]
       attr_accessor blueprint_version: ::String
       attr_accessor user_parameters: ::Array[Types::EnvironmentParameter]
-      SENSITIVE: []
+      attr_accessor environment_configuration_name: ::String
+      SENSITIVE: [:environment_configuration_name]
     end
 
     class UpdateEnvironmentOutput
@@ -5959,7 +5964,8 @@ module Aws::DataZone
       attr_accessor deployment_properties: Types::DeploymentProperties
       attr_accessor environment_blueprint_id: ::String
       attr_accessor environment_configuration_id: ::String
-      SENSITIVE: [:name, :description, :environment_configuration_id]
+      attr_accessor environment_configuration_name: ::String
+      SENSITIVE: [:name, :description, :environment_configuration_id, :environment_configuration_name]
     end
 
     class UpdateEnvironmentProfileInput

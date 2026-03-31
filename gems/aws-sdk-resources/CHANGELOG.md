@@ -1,6 +1,13 @@
 Unreleased Changes
 ------------------
 
+3.259.0 (2026-03-31)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-sustainability` gem.
+
+* Feature - Added a dependency on the new `aws-sdk-securityagent` gem.
+
 3.258.0 (2026-03-30)
 ------------------
 

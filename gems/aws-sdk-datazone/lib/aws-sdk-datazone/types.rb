@@ -4029,6 +4029,10 @@ module Aws::DataZone
     #   The configuration ID of the environment.
     #   @return [String]
     #
+    # @!attribute [rw] environment_configuration_name
+    #   The configuration name of the environment.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/CreateEnvironmentInput AWS API Documentation
     #
     class CreateEnvironmentInput < Struct.new(
@@ -4043,8 +4047,9 @@ module Aws::DataZone
       :environment_account_region,
       :environment_blueprint_identifier,
       :deployment_order,
-      :environment_configuration_id)
-      SENSITIVE = []
+      :environment_configuration_id,
+      :environment_configuration_name)
+      SENSITIVE = [:environment_configuration_name]
       include Aws::Structure
     end
 
@@ -4144,6 +4149,10 @@ module Aws::DataZone
     #   The configuration ID of the environment.
     #   @return [String]
     #
+    # @!attribute [rw] environment_configuration_name
+    #   The configuration name of the environment.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/CreateEnvironmentOutput AWS API Documentation
     #
     class CreateEnvironmentOutput < Struct.new(
@@ -4168,8 +4177,9 @@ module Aws::DataZone
       :provisioning_properties,
       :deployment_properties,
       :environment_blueprint_id,
-      :environment_configuration_id)
-      SENSITIVE = [:name, :description, :environment_configuration_id]
+      :environment_configuration_id,
+      :environment_configuration_name)
+      SENSITIVE = [:name, :description, :environment_configuration_id, :environment_configuration_name]
       include Aws::Structure
     end
 
@@ -8076,6 +8086,10 @@ module Aws::DataZone
     #   The configuration ID with which the environment is created.
     #   @return [String]
     #
+    # @!attribute [rw] environment_configuration_name
+    #   The configuration name with which the environment is created.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/EnvironmentSummary AWS API Documentation
     #
     class EnvironmentSummary < Struct.new(
@@ -8092,8 +8106,9 @@ module Aws::DataZone
       :aws_account_region,
       :provider,
       :status,
-      :environment_configuration_id)
-      SENSITIVE = [:name, :description, :environment_configuration_id]
+      :environment_configuration_id,
+      :environment_configuration_name)
+      SENSITIVE = [:name, :description, :environment_configuration_id, :environment_configuration_name]
       include Aws::Structure
     end
 
@@ -9827,6 +9842,10 @@ module Aws::DataZone
     #   The configuration ID that is used to create the environment.
     #   @return [String]
     #
+    # @!attribute [rw] environment_configuration_name
+    #   The configuration name that is used to create the environment.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/GetEnvironmentOutput AWS API Documentation
     #
     class GetEnvironmentOutput < Struct.new(
@@ -9851,8 +9870,9 @@ module Aws::DataZone
       :provisioning_properties,
       :deployment_properties,
       :environment_blueprint_id,
-      :environment_configuration_id)
-      SENSITIVE = [:name, :description, :environment_configuration_id]
+      :environment_configuration_id,
+      :environment_configuration_name)
+      SENSITIVE = [:name, :description, :environment_configuration_id, :environment_configuration_name]
       include Aws::Structure
     end
 
@@ -21633,6 +21653,10 @@ module Aws::DataZone
     #   The user parameters of the environment.
     #   @return [Array<Types::EnvironmentParameter>]
     #
+    # @!attribute [rw] environment_configuration_name
+    #   The configuration name of the environment.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/UpdateEnvironmentInput AWS API Documentation
     #
     class UpdateEnvironmentInput < Struct.new(
@@ -21642,8 +21666,9 @@ module Aws::DataZone
       :description,
       :glossary_terms,
       :blueprint_version,
-      :user_parameters)
-      SENSITIVE = []
+      :user_parameters,
+      :environment_configuration_name)
+      SENSITIVE = [:environment_configuration_name]
       include Aws::Structure
     end
 
@@ -21744,6 +21769,10 @@ module Aws::DataZone
     #   The configuration ID of the environment.
     #   @return [String]
     #
+    # @!attribute [rw] environment_configuration_name
+    #   The configuration name of the environment.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/UpdateEnvironmentOutput AWS API Documentation
     #
     class UpdateEnvironmentOutput < Struct.new(
@@ -21768,8 +21797,9 @@ module Aws::DataZone
       :provisioning_properties,
       :deployment_properties,
       :environment_blueprint_id,
-      :environment_configuration_id)
-      SENSITIVE = [:name, :description, :environment_configuration_id]
+      :environment_configuration_id,
+      :environment_configuration_name)
+      SENSITIVE = [:name, :description, :environment_configuration_id, :environment_configuration_name]
       include Aws::Structure
     end
 

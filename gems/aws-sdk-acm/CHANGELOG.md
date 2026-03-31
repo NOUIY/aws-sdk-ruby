@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.102.0 (2026-03-31)
+------------------
+
+* Feature - Adds support for searching for ACM certificates using the new SearchCertificates API.
+
 1.101.0 (2026-03-18)
 ------------------
 

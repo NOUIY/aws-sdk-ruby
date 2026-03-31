@@ -14,6 +14,7 @@ module Aws::OpenSearchService
 
     include Seahorse::Model
 
+    AIConfig = Shapes::StructureShape.new(name: 'AIConfig')
     AIMLOptionsInput = Shapes::StructureShape.new(name: 'AIMLOptionsInput')
     AIMLOptionsOutput = Shapes::StructureShape.new(name: 'AIMLOptionsOutput')
     AIMLOptionsStatus = Shapes::StructureShape.new(name: 'AIMLOptionsStatus')
@@ -45,6 +46,7 @@ module Aws::OpenSearchService
     AppConfigType = Shapes::StringShape.new(name: 'AppConfigType')
     AppConfigValue = Shapes::StringShape.new(name: 'AppConfigValue')
     AppConfigs = Shapes::ListShape.new(name: 'AppConfigs')
+    ApplicationId = Shapes::StringShape.new(name: 'ApplicationId')
     ApplicationName = Shapes::StringShape.new(name: 'ApplicationName')
     ApplicationStatus = Shapes::StringShape.new(name: 'ApplicationStatus')
     ApplicationStatuses = Shapes::ListShape.new(name: 'ApplicationStatuses')
@@ -85,6 +87,15 @@ module Aws::OpenSearchService
     CancelServiceSoftwareUpdateResponse = Shapes::StructureShape.new(name: 'CancelServiceSoftwareUpdateResponse')
     CancelledChangeProperty = Shapes::StructureShape.new(name: 'CancelledChangeProperty')
     CancelledChangePropertyList = Shapes::ListShape.new(name: 'CancelledChangePropertyList')
+    CapabilityBaseRequestConfig = Shapes::UnionShape.new(name: 'CapabilityBaseRequestConfig')
+    CapabilityBaseResponseConfig = Shapes::UnionShape.new(name: 'CapabilityBaseResponseConfig')
+    CapabilityExtendedResponseConfig = Shapes::UnionShape.new(name: 'CapabilityExtendedResponseConfig')
+    CapabilityFailure = Shapes::StructureShape.new(name: 'CapabilityFailure')
+    CapabilityFailureDetails = Shapes::StringShape.new(name: 'CapabilityFailureDetails')
+    CapabilityFailureReason = Shapes::StringShape.new(name: 'CapabilityFailureReason')
+    CapabilityFailures = Shapes::ListShape.new(name: 'CapabilityFailures')
+    CapabilityName = Shapes::StringShape.new(name: 'CapabilityName')
+    CapabilityStatus = Shapes::StringShape.new(name: 'CapabilityStatus')
     ChangeProgressDetails = Shapes::StructureShape.new(name: 'ChangeProgressDetails')
     ChangeProgressStage = Shapes::StructureShape.new(name: 'ChangeProgressStage')
     ChangeProgressStageList = Shapes::ListShape.new(name: 'ChangeProgressStageList')
@@ -155,6 +166,8 @@ module Aws::OpenSearchService
     DeploymentStrategyOptions = Shapes::StructureShape.new(name: 'DeploymentStrategyOptions')
     DeploymentStrategyOptionsStatus = Shapes::StructureShape.new(name: 'DeploymentStrategyOptionsStatus')
     DeploymentType = Shapes::StringShape.new(name: 'DeploymentType')
+    DeregisterCapabilityRequest = Shapes::StructureShape.new(name: 'DeregisterCapabilityRequest')
+    DeregisterCapabilityResponse = Shapes::StructureShape.new(name: 'DeregisterCapabilityResponse')
     DescribeDomainAutoTunesRequest = Shapes::StructureShape.new(name: 'DescribeDomainAutoTunesRequest')
     DescribeDomainAutoTunesResponse = Shapes::StructureShape.new(name: 'DescribeDomainAutoTunesResponse')
     DescribeDomainChangeProgressRequest = Shapes::StructureShape.new(name: 'DescribeDomainChangeProgressRequest')
@@ -255,6 +268,8 @@ module Aws::OpenSearchService
     GUIDList = Shapes::ListShape.new(name: 'GUIDList')
     GetApplicationRequest = Shapes::StructureShape.new(name: 'GetApplicationRequest')
     GetApplicationResponse = Shapes::StructureShape.new(name: 'GetApplicationResponse')
+    GetCapabilityRequest = Shapes::StructureShape.new(name: 'GetCapabilityRequest')
+    GetCapabilityResponse = Shapes::StructureShape.new(name: 'GetCapabilityResponse')
     GetCompatibleVersionsRequest = Shapes::StructureShape.new(name: 'GetCompatibleVersionsRequest')
     GetCompatibleVersionsResponse = Shapes::StructureShape.new(name: 'GetCompatibleVersionsResponse')
     GetDataSourceRequest = Shapes::StructureShape.new(name: 'GetDataSourceRequest')
@@ -457,6 +472,8 @@ module Aws::OpenSearchService
     RecurringChargeList = Shapes::ListShape.new(name: 'RecurringChargeList')
     ReferencePath = Shapes::StringShape.new(name: 'ReferencePath')
     Region = Shapes::StringShape.new(name: 'Region')
+    RegisterCapabilityRequest = Shapes::StructureShape.new(name: 'RegisterCapabilityRequest')
+    RegisterCapabilityResponse = Shapes::StructureShape.new(name: 'RegisterCapabilityResponse')
     RejectInboundConnectionRequest = Shapes::StructureShape.new(name: 'RejectInboundConnectionRequest')
     RejectInboundConnectionResponse = Shapes::StructureShape.new(name: 'RejectInboundConnectionResponse')
     RemoveTagsRequest = Shapes::StructureShape.new(name: 'RemoveTagsRequest')
@@ -495,6 +512,7 @@ module Aws::OpenSearchService
     ScheduledBy = Shapes::StringShape.new(name: 'ScheduledBy')
     SecurityLakeDirectQueryDataSource = Shapes::StructureShape.new(name: 'SecurityLakeDirectQueryDataSource')
     ServerlessVectorAcceleration = Shapes::StructureShape.new(name: 'ServerlessVectorAcceleration')
+    ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     ServiceSoftwareOptions = Shapes::StructureShape.new(name: 'ServiceSoftwareOptions')
     ServiceUrl = Shapes::StringShape.new(name: 'ServiceUrl')
     SkipUnavailableStatus = Shapes::StringShape.new(name: 'SkipUnavailableStatus')
@@ -588,6 +606,8 @@ module Aws::OpenSearchService
     WindowStartTime = Shapes::StructureShape.new(name: 'WindowStartTime')
     ZoneAwarenessConfig = Shapes::StructureShape.new(name: 'ZoneAwarenessConfig')
     ZoneStatus = Shapes::StringShape.new(name: 'ZoneStatus')
+
+    AIConfig.struct_class = Types::AIConfig
 
     AIMLOptionsInput.add_member(:natural_language_query_generation_options, Shapes::ShapeRef.new(shape: NaturalLanguageQueryGenerationOptionsInput, location_name: "NaturalLanguageQueryGenerationOptions"))
     AIMLOptionsInput.add_member(:s3_vectors_engine, Shapes::ShapeRef.new(shape: S3VectorsEngine, location_name: "S3VectorsEngine"))
@@ -808,6 +828,30 @@ module Aws::OpenSearchService
     CancelledChangeProperty.struct_class = Types::CancelledChangeProperty
 
     CancelledChangePropertyList.member = Shapes::ShapeRef.new(shape: CancelledChangeProperty)
+
+    CapabilityBaseRequestConfig.add_member(:ai_config, Shapes::ShapeRef.new(shape: AIConfig, location_name: "aiConfig"))
+    CapabilityBaseRequestConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    CapabilityBaseRequestConfig.add_member_subclass(:ai_config, Types::CapabilityBaseRequestConfig::AiConfig)
+    CapabilityBaseRequestConfig.add_member_subclass(:unknown, Types::CapabilityBaseRequestConfig::Unknown)
+    CapabilityBaseRequestConfig.struct_class = Types::CapabilityBaseRequestConfig
+
+    CapabilityBaseResponseConfig.add_member(:ai_config, Shapes::ShapeRef.new(shape: AIConfig, location_name: "aiConfig"))
+    CapabilityBaseResponseConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    CapabilityBaseResponseConfig.add_member_subclass(:ai_config, Types::CapabilityBaseResponseConfig::AiConfig)
+    CapabilityBaseResponseConfig.add_member_subclass(:unknown, Types::CapabilityBaseResponseConfig::Unknown)
+    CapabilityBaseResponseConfig.struct_class = Types::CapabilityBaseResponseConfig
+
+    CapabilityExtendedResponseConfig.add_member(:ai_config, Shapes::ShapeRef.new(shape: AIConfig, location_name: "aiConfig"))
+    CapabilityExtendedResponseConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    CapabilityExtendedResponseConfig.add_member_subclass(:ai_config, Types::CapabilityExtendedResponseConfig::AiConfig)
+    CapabilityExtendedResponseConfig.add_member_subclass(:unknown, Types::CapabilityExtendedResponseConfig::Unknown)
+    CapabilityExtendedResponseConfig.struct_class = Types::CapabilityExtendedResponseConfig
+
+    CapabilityFailure.add_member(:reason, Shapes::ShapeRef.new(shape: CapabilityFailureReason, location_name: "reason"))
+    CapabilityFailure.add_member(:details, Shapes::ShapeRef.new(shape: CapabilityFailureDetails, location_name: "details"))
+    CapabilityFailure.struct_class = Types::CapabilityFailure
+
+    CapabilityFailures.member = Shapes::ShapeRef.new(shape: CapabilityFailure)
 
     ChangeProgressDetails.add_member(:change_id, Shapes::ShapeRef.new(shape: GUID, location_name: "ChangeId"))
     ChangeProgressDetails.add_member(:message, Shapes::ShapeRef.new(shape: Message, location_name: "Message"))
@@ -1060,6 +1104,13 @@ module Aws::OpenSearchService
     DeploymentStrategyOptionsStatus.add_member(:options, Shapes::ShapeRef.new(shape: DeploymentStrategyOptions, required: true, location_name: "Options"))
     DeploymentStrategyOptionsStatus.add_member(:status, Shapes::ShapeRef.new(shape: OptionStatus, required: true, location_name: "Status"))
     DeploymentStrategyOptionsStatus.struct_class = Types::DeploymentStrategyOptionsStatus
+
+    DeregisterCapabilityRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: ApplicationId, required: true, location: "uri", location_name: "ApplicationId"))
+    DeregisterCapabilityRequest.add_member(:capability_name, Shapes::ShapeRef.new(shape: CapabilityName, required: true, location: "uri", location_name: "CapabilityName"))
+    DeregisterCapabilityRequest.struct_class = Types::DeregisterCapabilityRequest
+
+    DeregisterCapabilityResponse.add_member(:status, Shapes::ShapeRef.new(shape: CapabilityStatus, location_name: "status"))
+    DeregisterCapabilityResponse.struct_class = Types::DeregisterCapabilityResponse
 
     DescribeDomainAutoTunesRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: DomainName, required: true, location: "uri", location_name: "DomainName"))
     DescribeDomainAutoTunesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
@@ -1436,6 +1487,17 @@ module Aws::OpenSearchService
     GetApplicationResponse.add_member(:last_updated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastUpdatedAt"))
     GetApplicationResponse.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     GetApplicationResponse.struct_class = Types::GetApplicationResponse
+
+    GetCapabilityRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: ApplicationId, required: true, location: "uri", location_name: "ApplicationId"))
+    GetCapabilityRequest.add_member(:capability_name, Shapes::ShapeRef.new(shape: CapabilityName, required: true, location: "uri", location_name: "CapabilityName"))
+    GetCapabilityRequest.struct_class = Types::GetCapabilityRequest
+
+    GetCapabilityResponse.add_member(:capability_name, Shapes::ShapeRef.new(shape: CapabilityName, location_name: "capabilityName"))
+    GetCapabilityResponse.add_member(:application_id, Shapes::ShapeRef.new(shape: ApplicationId, location_name: "applicationId"))
+    GetCapabilityResponse.add_member(:status, Shapes::ShapeRef.new(shape: CapabilityStatus, location_name: "status"))
+    GetCapabilityResponse.add_member(:capability_config, Shapes::ShapeRef.new(shape: CapabilityExtendedResponseConfig, location_name: "capabilityConfig"))
+    GetCapabilityResponse.add_member(:failures, Shapes::ShapeRef.new(shape: CapabilityFailures, location_name: "failures"))
+    GetCapabilityResponse.struct_class = Types::GetCapabilityResponse
 
     GetCompatibleVersionsRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: DomainName, location: "querystring", location_name: "domainName"))
     GetCompatibleVersionsRequest.struct_class = Types::GetCompatibleVersionsRequest
@@ -1956,6 +2018,17 @@ module Aws::OpenSearchService
 
     RecurringChargeList.member = Shapes::ShapeRef.new(shape: RecurringCharge)
 
+    RegisterCapabilityRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: ApplicationId, required: true, location: "uri", location_name: "ApplicationId"))
+    RegisterCapabilityRequest.add_member(:capability_name, Shapes::ShapeRef.new(shape: CapabilityName, required: true, location_name: "capabilityName"))
+    RegisterCapabilityRequest.add_member(:capability_config, Shapes::ShapeRef.new(shape: CapabilityBaseRequestConfig, required: true, location_name: "capabilityConfig"))
+    RegisterCapabilityRequest.struct_class = Types::RegisterCapabilityRequest
+
+    RegisterCapabilityResponse.add_member(:capability_name, Shapes::ShapeRef.new(shape: CapabilityName, location_name: "capabilityName"))
+    RegisterCapabilityResponse.add_member(:application_id, Shapes::ShapeRef.new(shape: ApplicationId, location_name: "applicationId"))
+    RegisterCapabilityResponse.add_member(:status, Shapes::ShapeRef.new(shape: CapabilityStatus, location_name: "status"))
+    RegisterCapabilityResponse.add_member(:capability_config, Shapes::ShapeRef.new(shape: CapabilityBaseResponseConfig, location_name: "capabilityConfig"))
+    RegisterCapabilityResponse.struct_class = Types::RegisterCapabilityResponse
+
     RejectInboundConnectionRequest.add_member(:connection_id, Shapes::ShapeRef.new(shape: ConnectionId, required: true, location: "uri", location_name: "ConnectionId"))
     RejectInboundConnectionRequest.struct_class = Types::RejectInboundConnectionRequest
 
@@ -2057,6 +2130,8 @@ module Aws::OpenSearchService
 
     ServerlessVectorAcceleration.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "Enabled"))
     ServerlessVectorAcceleration.struct_class = Types::ServerlessVectorAcceleration
+
+    ServiceQuotaExceededException.struct_class = Types::ServiceQuotaExceededException
 
     ServiceSoftwareOptions.add_member(:current_version, Shapes::ShapeRef.new(shape: String, location_name: "CurrentVersion"))
     ServiceSoftwareOptions.add_member(:new_version, Shapes::ShapeRef.new(shape: String, location_name: "NewVersion"))
@@ -2668,6 +2743,20 @@ module Aws::OpenSearchService
         o.errors << Shapes::ShapeRef.new(shape: BaseException)
       end)
 
+      api.add_operation(:deregister_capability, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeregisterCapability"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/2021-01-01/opensearch/application/{ApplicationId}/capability/deregister/{CapabilityName}"
+        o.input = Shapes::ShapeRef.new(shape: DeregisterCapabilityRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeregisterCapabilityResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
+      end)
+
       api.add_operation(:describe_domain, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DescribeDomain"
         o.http_method = "GET"
@@ -2939,6 +3028,19 @@ module Aws::OpenSearchService
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
+      end)
+
+      api.add_operation(:get_capability, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetCapability"
+        o.http_method = "GET"
+        o.http_request_uri = "/2021-01-01/opensearch/application/{ApplicationId}/capability/{CapabilityName}"
+        o.input = Shapes::ShapeRef.new(shape: GetCapabilityRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetCapabilityResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
       end)
 
@@ -3327,6 +3429,21 @@ module Aws::OpenSearchService
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:register_capability, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "RegisterCapability"
+        o.http_method = "POST"
+        o.http_request_uri = "/2021-01-01/opensearch/application/{ApplicationId}/capability/register"
+        o.input = Shapes::ShapeRef.new(shape: RegisterCapabilityRequest)
+        o.output = Shapes::ShapeRef.new(shape: RegisterCapabilityResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
       end)
 
       api.add_operation(:reject_inbound_connection, Seahorse::Model::Operation.new.tap do |o|

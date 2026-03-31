@@ -614,6 +614,17 @@ module Aws
                                ) -> _DeleteVpcEndpointResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteVpcEndpointResponseSuccess
 
+      interface _DeregisterCapabilityResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeregisterCapabilityResponse]
+        def status: () -> ("creating" | "create_failed" | "active" | "updating" | "update_failed" | "deleting" | "delete_failed")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/OpenSearchService/Client.html#deregister_capability-instance_method
+      def deregister_capability: (
+                                   application_id: ::String,
+                                   capability_name: ::String
+                                 ) -> _DeregisterCapabilityResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeregisterCapabilityResponseSuccess
+
       interface _DescribeDomainResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeDomainResponse]
         def domain_status: () -> Types::DomainStatus
@@ -873,6 +884,21 @@ module Aws
                              id: ::String
                            ) -> _GetApplicationResponseSuccess
                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetApplicationResponseSuccess
+
+      interface _GetCapabilityResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetCapabilityResponse]
+        def capability_name: () -> ::String
+        def application_id: () -> ::String
+        def status: () -> ("creating" | "create_failed" | "active" | "updating" | "update_failed" | "deleting" | "delete_failed")
+        def capability_config: () -> Types::CapabilityExtendedResponseConfig
+        def failures: () -> ::Array[Types::CapabilityFailure]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/OpenSearchService/Client.html#get_capability-instance_method
+      def get_capability: (
+                            application_id: ::String,
+                            capability_name: ::String
+                          ) -> _GetCapabilityResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetCapabilityResponseSuccess
 
       interface _GetCompatibleVersionsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetCompatibleVersionsResponse]
@@ -1203,6 +1229,24 @@ module Aws
                                              set_as_default: bool
                                            ) -> _PutDefaultApplicationSettingResponseSuccess
                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutDefaultApplicationSettingResponseSuccess
+
+      interface _RegisterCapabilityResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::RegisterCapabilityResponse]
+        def capability_name: () -> ::String
+        def application_id: () -> ::String
+        def status: () -> ("creating" | "create_failed" | "active" | "updating" | "update_failed" | "deleting" | "delete_failed")
+        def capability_config: () -> Types::CapabilityBaseResponseConfig
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/OpenSearchService/Client.html#register_capability-instance_method
+      def register_capability: (
+                                 application_id: ::String,
+                                 capability_name: ::String,
+                                 capability_config: {
+                                   ai_config: {
+                                   }?
+                                 }
+                               ) -> _RegisterCapabilityResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RegisterCapabilityResponseSuccess
 
       interface _RejectInboundConnectionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::RejectInboundConnectionResponse]

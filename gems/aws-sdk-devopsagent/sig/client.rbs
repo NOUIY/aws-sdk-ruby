@@ -170,20 +170,6 @@ module Aws
                                  pagerduty: {
                                    services: Array[::String],
                                    customer_email: ::String
-                                 }?,
-                                 msteams: {
-                                   team_id: ::String,
-                                   team_name: ::String,
-                                   transmission_target: {
-                                     ops_oncall_target: {
-                                       channel_name: ::String,
-                                       channel_id: ::String
-                                     }?,
-                                     ops_sre_target: {
-                                       channel_name: ::String,
-                                       channel_id: ::String
-                                     }?
-                                   }
                                  }?
                                }
                              ) -> _AssociateServiceResponseSuccess
@@ -322,19 +308,6 @@ module Aws
                                        ) -> _DescribePrivateConnectionResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribePrivateConnectionResponseSuccess
 
-      interface _DescribeSupportLevelResponseSuccess
-        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeSupportLevelResponse]
-        def support_level: () -> Types::SupportLevel
-        def mosaic_support_level: () -> Types::SupportLevel
-        def active_subscription: () -> bool
-      end
-      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#describe_support_level-instance_method
-      def describe_support_level: (
-                                    agent_space_id: ::String,
-                                    task_id: ::String
-                                  ) -> _DescribeSupportLevelResponseSuccess
-                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeSupportLevelResponseSuccess
-
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#disable_operator_app-instance_method
       def disable_operator_app: (
                                   agent_space_id: ::String,
@@ -372,27 +345,12 @@ module Aws
                                ) -> _EnableOperatorAppResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _EnableOperatorAppResponseSuccess
 
-      interface _EndChatForCaseResponseSuccess
-        include ::Seahorse::Client::_ResponseSuccess[Types::EndChatForCaseResponse]
-        def is_disconnected: () -> bool
-        def execution_id: () -> ::String
-        def error_message: () -> ::String
-      end
-      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#end_chat_for_case-instance_method
-      def end_chat_for_case: (
-                               agent_space_id: ::String,
-                               task_id: ::String,
-                               ?reason: ::String,
-                               ?requester: ::String,
-                               ?client_token: ::String
-                             ) -> _EndChatForCaseResponseSuccess
-                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _EndChatForCaseResponseSuccess
-
       interface _GetAccountUsageResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetAccountUsageOutput]
         def monthly_account_investigation_hours: () -> Types::UsageMetric
         def monthly_account_evaluation_hours: () -> Types::UsageMetric
         def monthly_account_system_learning_hours: () -> Types::UsageMetric
+        def monthly_account_on_demand_hours: () -> Types::UsageMetric
         def usage_period_start_time: () -> ::Time
         def usage_period_end_time: () -> ::Time
       end
@@ -468,18 +426,6 @@ module Aws
                          service_id: ::String
                        ) -> _GetServiceResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetServiceResponseSuccess
-
-      interface _InitiateChatForCaseResponseSuccess
-        include ::Seahorse::Client::_ResponseSuccess[Types::InitiateChatForCaseResponse]
-        def chat_participant_connection: () -> Types::ChatParticipantConnection
-      end
-      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#initiate_chat_for_case-instance_method
-      def initiate_chat_for_case: (
-                                    agent_space_id: ::String,
-                                    task_id: ::String,
-                                    ?client_token: ::String
-                                  ) -> _InitiateChatForCaseResponseSuccess
-                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _InitiateChatForCaseResponseSuccess
 
       interface _ListAgentSpacesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListAgentSpacesOutput]
@@ -638,7 +584,7 @@ module Aws
       def list_services: (
                            ?max_results: ::Integer,
                            ?next_token: ::String,
-                           ?filter_service_type: ("github" | "slack" | "azure" | "azuredevops" | "msteams" | "dynatrace" | "servicenow" | "pagerduty" | "gitlab" | "eventChannel" | "mcpservernewrelic" | "mcpservergrafana" | "mcpserverdatadog" | "mcpserver" | "mcpserversplunk" | "azureidentity" | "mcpserversigv4")
+                           ?filter_service_type: ("github" | "slack" | "azure" | "azuredevops" | "dynatrace" | "servicenow" | "pagerduty" | "gitlab" | "eventChannel" | "mcpservernewrelic" | "mcpservergrafana" | "mcpserverdatadog" | "mcpserver" | "mcpserversplunk" | "azureidentity")
                          ) -> _ListServicesResponseSuccess
                        | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListServicesResponseSuccess
 
@@ -672,7 +618,7 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#register_service-instance_method
       def register_service: (
-                              service: ("dynatrace" | "servicenow" | "pagerduty" | "gitlab" | "eventChannel" | "mcpservernewrelic" | "mcpservergrafana" | "mcpserverdatadog" | "mcpserver" | "mcpserversplunk" | "azureidentity" | "mcpserversigv4"),
+                              service: ("dynatrace" | "servicenow" | "pagerduty" | "gitlab" | "eventChannel" | "mcpservernewrelic" | "mcpservergrafana" | "mcpserverdatadog" | "mcpserver" | "mcpserversplunk" | "azureidentity"),
                               service_details: {
                                 dynatrace: {
                                   account_urn: ::String,
@@ -860,16 +806,6 @@ module Aws
                                   client_id: ::String,
                                   web_identity_role_arn: ::String,
                                   web_identity_token_audiences: Array[::String]
-                                }?,
-                                mcpserversigv4: {
-                                  name: ::String,
-                                  endpoint: ::String,
-                                  description: ::String?,
-                                  authorization_config: {
-                                    region: ::String,
-                                    service: ::String,
-                                    role_arn: ::String
-                                  }
                                 }?
                               },
                               ?kms_key_arn: ::String,
@@ -1007,20 +943,6 @@ module Aws
                                   pagerduty: {
                                     services: Array[::String],
                                     customer_email: ::String
-                                  }?,
-                                  msteams: {
-                                    team_id: ::String,
-                                    team_name: ::String,
-                                    transmission_target: {
-                                      ops_oncall_target: {
-                                        channel_name: ::String,
-                                        channel_id: ::String
-                                      }?,
-                                      ops_sre_target: {
-                                        channel_name: ::String,
-                                        channel_id: ::String
-                                      }?
-                                    }
                                   }?
                                 }
                               ) -> _UpdateAssociationResponseSuccess

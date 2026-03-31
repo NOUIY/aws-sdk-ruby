@@ -4784,6 +4784,12 @@ module Aws::S3
     # For information about the Amazon S3 inventory feature, see [Amazon S3
     # Inventory][3].
     #
+    # <note markdown="1"> After deleting a configuration, Amazon S3 might still deliver one
+    # additional inventory report during a brief transition period while the
+    # system processes the deletion.
+    #
+    #  </note>
+    #
     # Operations related to `DeleteBucketInventoryConfiguration` include:
     #
     # * [GetBucketInventoryConfiguration][4]
@@ -5105,34 +5111,66 @@ module Aws::S3
       req.send_request(options)
     end
 
-    # <note markdown="1"> This operation is not supported for directory buckets.
-    #
-    #  </note>
-    #
     # Deletes a metrics configuration for the Amazon CloudWatch request
     # metrics (specified by the metrics configuration ID) from the bucket.
     # Note that this doesn't include the daily storage metrics.
     #
-    # To use this operation, you must have permissions to perform the
-    # `s3:PutMetricsConfiguration` action. The bucket owner has this
-    # permission by default. The bucket owner can grant this permission to
-    # others. For more information about permissions, see [Permissions
-    # Related to Bucket Subresource Operations][1] and [Managing Access
-    # Permissions to Your Amazon S3 Resources][2].
+    # <note markdown="1"> <b>Directory buckets </b> - For directory buckets, you must make
+    # requests for this API operation to the Regional endpoint. These
+    # endpoints support path-style requests in the format
+    # `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+    # Virtual-hosted-style requests aren't supported. For more information
+    # about endpoints in Availability Zones, see [Regional and Zonal
+    # endpoints for directory buckets in Availability Zones][1] in the
+    # *Amazon S3 User Guide*. For more information about endpoints in Local
+    # Zones, see [Concepts for directory buckets in Local Zones][2] in the
+    # *Amazon S3 User Guide*.
+    #
+    #  </note>
+    #
+    # Permissions
+    #
+    # : To use this operation, you must have permissions to perform the
+    #   `s3:PutMetricsConfiguration` action. The bucket owner has this
+    #   permission by default. The bucket owner can grant this permission to
+    #   others. For more information about permissions, see [Permissions
+    #   Related to Bucket Subresource Operations][3] and [Managing Access
+    #   Permissions to Your Amazon S3 Resources][4].
+    #
+    #   * **General purpose bucket permissions** - The
+    #     `s3:PutMetricsConfiguration` permission is required in a policy.
+    #     For more information about general purpose buckets permissions,
+    #     see [Using Bucket Policies and User Policies][5] in the *Amazon S3
+    #     User Guide*.
+    #
+    #   * **Directory bucket permissions** - To grant access to this API
+    #     operation, you must have the `s3express:PutMetricsConfiguration`
+    #     permission in an IAM identity-based policy instead of a bucket
+    #     policy. Cross-account access to this API operation isn't
+    #     supported. This operation can only be performed by the Amazon Web
+    #     Services account that owns the resource. For more information
+    #     about directory bucket policies and permissions, see [Amazon Web
+    #     Services Identity and Access Management (IAM) for S3 Express One
+    #     Zone][6] in the *Amazon S3 User Guide*.
+    #
+    # HTTP Host header syntax
+    #
+    # : <b>Directory buckets </b> - The HTTP Host header syntax is
+    #   `s3express-control.region-code.amazonaws.com`.
     #
     # For information about CloudWatch request metrics for Amazon S3, see
-    # [Monitoring Metrics with Amazon CloudWatch][3].
+    # [Monitoring Metrics with Amazon CloudWatch][7].
     #
     # The following operations are related to
     # `DeleteBucketMetricsConfiguration`:
     #
-    # * [GetBucketMetricsConfiguration][4]
+    # * [GetBucketMetricsConfiguration][8]
     #
-    # * [PutBucketMetricsConfiguration][5]
+    # * [PutBucketMetricsConfiguration][9]
     #
-    # * [ListBucketMetricsConfigurations][6]
+    # * [ListBucketMetricsConfigurations][10]
     #
-    # * [Monitoring Metrics with Amazon CloudWatch][3]
+    # * [Monitoring Metrics with Amazon CloudWatch][7]
     #
     # You must URL encode any signed header values that contain spaces. For
     # example, if your header value is `my file.txt`, containing two spaces
@@ -5140,15 +5178,34 @@ module Aws::S3
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources
-    # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
-    # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html
-    # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetricsConfiguration.html
-    # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html
-    # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketMetricsConfigurations.html
+    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html
+    # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+    # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources
+    # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
+    # [5]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html
+    # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
+    # [7]: https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html
+    # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetricsConfiguration.html
+    # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html
+    # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketMetricsConfigurations.html
     #
     # @option params [required, String] :bucket
     #   The name of the bucket containing the metrics configuration to delete.
+    #
+    #   <b>Directory buckets </b> - When you use this operation with a
+    #   directory bucket, you must use path-style requests in the format
+    #   `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+    #   Virtual-hosted-style requests aren't supported. Directory bucket
+    #   names must be unique in the chosen Zone (Availability Zone or Local
+    #   Zone). Bucket names must also follow the format `
+    #   bucket-base-name--zone-id--x-s3` (for example, `
+    #   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3`). For information about bucket
+    #   naming restrictions, see [Directory bucket naming rules][1] in the
+    #   *Amazon S3 User Guide*
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html
     #
     # @option params [required, String] :id
     #   The ID used to identify the metrics configuration. The ID has a 64
@@ -5159,6 +5216,12 @@ module Aws::S3
     #   The account ID of the expected bucket owner. If the account ID that
     #   you provide does not match the actual owner of the bucket, the request
     #   fails with the HTTP status code `403 Forbidden` (access denied).
+    #
+    #   <note markdown="1"> For directory buckets, this header is not supported in this API
+    #   operation. If you specify this header, the request fails with the HTTP
+    #   status code `501 Not Implemented`.
+    #
+    #    </note>
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -7929,34 +7992,66 @@ module Aws::S3
       req.send_request(options)
     end
 
-    # <note markdown="1"> This operation is not supported for directory buckets.
-    #
-    #  </note>
-    #
     # Gets a metrics configuration (specified by the metrics configuration
     # ID) from the bucket. Note that this doesn't include the daily storage
     # metrics.
     #
-    # To use this operation, you must have permissions to perform the
-    # `s3:GetMetricsConfiguration` action. The bucket owner has this
-    # permission by default. The bucket owner can grant this permission to
-    # others. For more information about permissions, see [Permissions
-    # Related to Bucket Subresource Operations][1] and [Managing Access
-    # Permissions to Your Amazon S3 Resources][2].
+    # <note markdown="1"> <b>Directory buckets </b> - For directory buckets, you must make
+    # requests for this API operation to the Regional endpoint. These
+    # endpoints support path-style requests in the format
+    # `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+    # Virtual-hosted-style requests aren't supported. For more information
+    # about endpoints in Availability Zones, see [Regional and Zonal
+    # endpoints for directory buckets in Availability Zones][1] in the
+    # *Amazon S3 User Guide*. For more information about endpoints in Local
+    # Zones, see [Concepts for directory buckets in Local Zones][2] in the
+    # *Amazon S3 User Guide*.
+    #
+    #  </note>
+    #
+    # Permissions
+    #
+    # : To use this operation, you must have permissions to perform the
+    #   `s3:GetMetricsConfiguration` action. The bucket owner has this
+    #   permission by default. The bucket owner can grant this permission to
+    #   others. For more information about permissions, see [Permissions
+    #   Related to Bucket Subresource Operations][3] and [Managing Access
+    #   Permissions to Your Amazon S3 Resources][4].
+    #
+    #   * **General purpose bucket permissions** - The
+    #     `s3:GetMetricsConfiguration` permission is required in a policy.
+    #     For more information about general purpose buckets permissions,
+    #     see [Using Bucket Policies and User Policies][5] in the *Amazon S3
+    #     User Guide*.
+    #
+    #   * **Directory bucket permissions** - To grant access to this API
+    #     operation, you must have the `s3express:GetMetricsConfiguration`
+    #     permission in an IAM identity-based policy instead of a bucket
+    #     policy. Cross-account access to this API operation isn't
+    #     supported. This operation can only be performed by the Amazon Web
+    #     Services account that owns the resource. For more information
+    #     about directory bucket policies and permissions, see [Amazon Web
+    #     Services Identity and Access Management (IAM) for S3 Express One
+    #     Zone][6] in the *Amazon S3 User Guide*.
+    #
+    # HTTP Host header syntax
+    #
+    # : <b>Directory buckets </b> - The HTTP Host header syntax is
+    #   `s3express-control.region-code.amazonaws.com`.
     #
     # For information about CloudWatch request metrics for Amazon S3, see
-    # [Monitoring Metrics with Amazon CloudWatch][3].
+    # [Monitoring Metrics with Amazon CloudWatch][7].
     #
     # The following operations are related to
     # `GetBucketMetricsConfiguration`:
     #
-    # * [PutBucketMetricsConfiguration][4]
+    # * [PutBucketMetricsConfiguration][8]
     #
-    # * [DeleteBucketMetricsConfiguration][5]
+    # * [DeleteBucketMetricsConfiguration][9]
     #
-    # * [ListBucketMetricsConfigurations][6]
+    # * [ListBucketMetricsConfigurations][10]
     #
-    # * [Monitoring Metrics with Amazon CloudWatch][3]
+    # * [Monitoring Metrics with Amazon CloudWatch][7]
     #
     # You must URL encode any signed header values that contain spaces. For
     # example, if your header value is `my file.txt`, containing two spaces
@@ -7964,16 +8059,35 @@ module Aws::S3
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources
-    # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
-    # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html
-    # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html
-    # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetricsConfiguration.html
-    # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketMetricsConfigurations.html
+    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html
+    # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+    # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources
+    # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
+    # [5]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html
+    # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
+    # [7]: https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html
+    # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html
+    # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetricsConfiguration.html
+    # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketMetricsConfigurations.html
     #
     # @option params [required, String] :bucket
     #   The name of the bucket containing the metrics configuration to
     #   retrieve.
+    #
+    #   <b>Directory buckets </b> - When you use this operation with a
+    #   directory bucket, you must use path-style requests in the format
+    #   `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+    #   Virtual-hosted-style requests aren't supported. Directory bucket
+    #   names must be unique in the chosen Zone (Availability Zone or Local
+    #   Zone). Bucket names must also follow the format `
+    #   bucket-base-name--zone-id--x-s3` (for example, `
+    #   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3`). For information about bucket
+    #   naming restrictions, see [Directory bucket naming rules][1] in the
+    #   *Amazon S3 User Guide*
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html
     #
     # @option params [required, String] :id
     #   The ID used to identify the metrics configuration. The ID has a 64
@@ -7984,6 +8098,12 @@ module Aws::S3
     #   The account ID of the expected bucket owner. If the account ID that
     #   you provide does not match the actual owner of the bucket, the request
     #   fails with the HTTP status code `403 Forbidden` (access denied).
+    #
+    #   <note markdown="1"> For directory buckets, this header is not supported in this API
+    #   operation. If you specify this header, the request fails with the HTTP
+    #   status code `501 Not Implemented`.
+    #
+    #    </note>
     #
     # @return [Types::GetBucketMetricsConfigurationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -11993,14 +12113,23 @@ module Aws::S3
       req.send_request(options)
     end
 
-    # <note markdown="1"> This operation is not supported for directory buckets.
-    #
-    #  </note>
-    #
     # Lists the metrics configurations for the bucket. The metrics
     # configurations are only for the request metrics of the bucket and do
     # not provide information on daily storage metrics. You can have up to
     # 1,000 configurations per bucket.
+    #
+    # <note markdown="1"> <b>Directory buckets </b> - For directory buckets, you must make
+    # requests for this API operation to the Regional endpoint. These
+    # endpoints support path-style requests in the format
+    # `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+    # Virtual-hosted-style requests aren't supported. For more information
+    # about endpoints in Availability Zones, see [Regional and Zonal
+    # endpoints for directory buckets in Availability Zones][1] in the
+    # *Amazon S3 User Guide*. For more information about endpoints in Local
+    # Zones, see [Concepts for directory buckets in Local Zones][2] in the
+    # *Amazon S3 User Guide*.
+    #
+    #  </note>
     #
     # This action supports list pagination and does not return more than 100
     # configurations at a time. Always check the `IsTruncated` element in
@@ -12011,24 +12140,47 @@ module Aws::S3
     # continue the pagination of the list by passing the value in
     # `continuation-token` in the request to `GET` the next page.
     #
-    # To use this operation, you must have permissions to perform the
-    # `s3:GetMetricsConfiguration` action. The bucket owner has this
-    # permission by default. The bucket owner can grant this permission to
-    # others. For more information about permissions, see [Permissions
-    # Related to Bucket Subresource Operations][1] and [Managing Access
-    # Permissions to Your Amazon S3 Resources][2].
+    # Permissions
+    #
+    # : To use this operation, you must have permissions to perform the
+    #   `s3:GetMetricsConfiguration` action. The bucket owner has this
+    #   permission by default. The bucket owner can grant this permission to
+    #   others. For more information about permissions, see [Permissions
+    #   Related to Bucket Subresource Operations][3] and [Managing Access
+    #   Permissions to Your Amazon S3 Resources][4].
+    #
+    #   * **General purpose bucket permissions** - The
+    #     `s3:GetMetricsConfiguration` permission is required in a policy.
+    #     For more information about general purpose buckets permissions,
+    #     see [Using Bucket Policies and User Policies][5] in the *Amazon S3
+    #     User Guide*.
+    #
+    #   * **Directory bucket permissions** - To grant access to this API
+    #     operation, you must have the `s3express:GetMetricsConfiguration`
+    #     permission in an IAM identity-based policy instead of a bucket
+    #     policy. Cross-account access to this API operation isn't
+    #     supported. This operation can only be performed by the Amazon Web
+    #     Services account that owns the resource. For more information
+    #     about directory bucket policies and permissions, see [Amazon Web
+    #     Services Identity and Access Management (IAM) for S3 Express One
+    #     Zone][6] in the *Amazon S3 User Guide*.
+    #
+    # HTTP Host header syntax
+    #
+    # : <b>Directory buckets </b> - The HTTP Host header syntax is
+    #   `s3express-control.region-code.amazonaws.com`.
     #
     # For more information about metrics configurations and CloudWatch
-    # request metrics, see [Monitoring Metrics with Amazon CloudWatch][3].
+    # request metrics, see [Monitoring Metrics with Amazon CloudWatch][7].
     #
     # The following operations are related to
     # `ListBucketMetricsConfigurations`:
     #
-    # * [PutBucketMetricsConfiguration][4]
+    # * [PutBucketMetricsConfiguration][8]
     #
-    # * [GetBucketMetricsConfiguration][5]
+    # * [GetBucketMetricsConfiguration][9]
     #
-    # * [DeleteBucketMetricsConfiguration][6]
+    # * [DeleteBucketMetricsConfiguration][10]
     #
     # You must URL encode any signed header values that contain spaces. For
     # example, if your header value is `my file.txt`, containing two spaces
@@ -12036,16 +12188,35 @@ module Aws::S3
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources
-    # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
-    # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html
-    # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html
-    # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetricsConfiguration.html
-    # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetricsConfiguration.html
+    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html
+    # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+    # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources
+    # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
+    # [5]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html
+    # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
+    # [7]: https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html
+    # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html
+    # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetricsConfiguration.html
+    # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetricsConfiguration.html
     #
     # @option params [required, String] :bucket
     #   The name of the bucket containing the metrics configurations to
     #   retrieve.
+    #
+    #   <b>Directory buckets </b> - When you use this operation with a
+    #   directory bucket, you must use path-style requests in the format
+    #   `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+    #   Virtual-hosted-style requests aren't supported. Directory bucket
+    #   names must be unique in the chosen Zone (Availability Zone or Local
+    #   Zone). Bucket names must also follow the format `
+    #   bucket-base-name--zone-id--x-s3` (for example, `
+    #   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3`). For information about bucket
+    #   naming restrictions, see [Directory bucket naming rules][1] in the
+    #   *Amazon S3 User Guide*
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html
     #
     # @option params [String] :continuation_token
     #   The marker that is used to continue a metrics configuration listing
@@ -12057,6 +12228,12 @@ module Aws::S3
     #   The account ID of the expected bucket owner. If the account ID that
     #   you provide does not match the actual owner of the bucket, the request
     #   fails with the HTTP status code `403 Forbidden` (access denied).
+    #
+    #   <note markdown="1"> For directory buckets, this header is not supported in this API
+    #   operation. If you specify this header, the request fails with the HTTP
+    #   status code `501 Not Implemented`.
+    #
+    #    </note>
     #
     # @return [Types::ListBucketMetricsConfigurationsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -15977,10 +16154,6 @@ module Aws::S3
       req.send_request(options)
     end
 
-    # <note markdown="1"> This operation is not supported for directory buckets.
-    #
-    #  </note>
-    #
     # Sets a metrics configuration (specified by the metrics configuration
     # ID) for the bucket. You can have up to 1,000 metrics configurations
     # per bucket. If you're updating an existing metrics configuration,
@@ -15988,24 +16161,60 @@ module Aws::S3
     # configuration. If you don't include the elements you want to keep,
     # they are erased.
     #
-    # To use this operation, you must have permissions to perform the
-    # `s3:PutMetricsConfiguration` action. The bucket owner has this
-    # permission by default. The bucket owner can grant this permission to
-    # others. For more information about permissions, see [Permissions
-    # Related to Bucket Subresource Operations][1] and [Managing Access
-    # Permissions to Your Amazon S3 Resources][2].
+    # <note markdown="1"> <b>Directory buckets </b> - For directory buckets, you must make
+    # requests for this API operation to the Regional endpoint. These
+    # endpoints support path-style requests in the format
+    # `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+    # Virtual-hosted-style requests aren't supported. For more information
+    # about endpoints in Availability Zones, see [Regional and Zonal
+    # endpoints for directory buckets in Availability Zones][1] in the
+    # *Amazon S3 User Guide*. For more information about endpoints in Local
+    # Zones, see [Concepts for directory buckets in Local Zones][2] in the
+    # *Amazon S3 User Guide*.
+    #
+    #  </note>
+    #
+    # Permissions
+    #
+    # : To use this operation, you must have permissions to perform the
+    #   `s3:PutMetricsConfiguration` action. The bucket owner has this
+    #   permission by default. The bucket owner can grant this permission to
+    #   others. For more information about permissions, see [Permissions
+    #   Related to Bucket Subresource Operations][3] and [Managing Access
+    #   Permissions to Your Amazon S3 Resources][4].
+    #
+    #   * **General purpose bucket permissions** - The
+    #     `s3:PutMetricsConfiguration` permission is required in a policy.
+    #     For more information about general purpose buckets permissions,
+    #     see [Using Bucket Policies and User Policies][5] in the *Amazon S3
+    #     User Guide*.
+    #
+    #   * **Directory bucket permissions** - To grant access to this API
+    #     operation, you must have the `s3express:PutMetricsConfiguration`
+    #     permission in an IAM identity-based policy instead of a bucket
+    #     policy. Cross-account access to this API operation isn't
+    #     supported. This operation can only be performed by the Amazon Web
+    #     Services account that owns the resource. For more information
+    #     about directory bucket policies and permissions, see [Amazon Web
+    #     Services Identity and Access Management (IAM) for S3 Express One
+    #     Zone][6] in the *Amazon S3 User Guide*.
+    #
+    # HTTP Host header syntax
+    #
+    # : <b>Directory buckets </b> - The HTTP Host header syntax is
+    #   `s3express-control.region-code.amazonaws.com`.
     #
     # For information about CloudWatch request metrics for Amazon S3, see
-    # [Monitoring Metrics with Amazon CloudWatch][3].
+    # [Monitoring Metrics with Amazon CloudWatch][7].
     #
     # The following operations are related to
     # `PutBucketMetricsConfiguration`:
     #
-    # * [DeleteBucketMetricsConfiguration][4]
+    # * [DeleteBucketMetricsConfiguration][8]
     #
-    # * [GetBucketMetricsConfiguration][5]
+    # * [GetBucketMetricsConfiguration][9]
     #
-    # * [ListBucketMetricsConfigurations][6]
+    # * [ListBucketMetricsConfigurations][10]
     #
     # `PutBucketMetricsConfiguration` has the following special error:
     #
@@ -16022,15 +16231,34 @@ module Aws::S3
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources
-    # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
-    # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html
-    # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetricsConfiguration.html
-    # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetricsConfiguration.html
-    # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketMetricsConfigurations.html
+    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html
+    # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+    # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources
+    # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
+    # [5]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html
+    # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
+    # [7]: https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html
+    # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetricsConfiguration.html
+    # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetricsConfiguration.html
+    # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketMetricsConfigurations.html
     #
     # @option params [required, String] :bucket
     #   The name of the bucket for which the metrics configuration is set.
+    #
+    #   <b>Directory buckets </b> - When you use this operation with a
+    #   directory bucket, you must use path-style requests in the format
+    #   `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+    #   Virtual-hosted-style requests aren't supported. Directory bucket
+    #   names must be unique in the chosen Zone (Availability Zone or Local
+    #   Zone). Bucket names must also follow the format `
+    #   bucket-base-name--zone-id--x-s3` (for example, `
+    #   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3`). For information about bucket
+    #   naming restrictions, see [Directory bucket naming rules][1] in the
+    #   *Amazon S3 User Guide*
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html
     #
     # @option params [required, String] :id
     #   The ID used to identify the metrics configuration. The ID has a 64
@@ -16044,6 +16272,12 @@ module Aws::S3
     #   The account ID of the expected bucket owner. If the account ID that
     #   you provide does not match the actual owner of the bucket, the request
     #   fails with the HTTP status code `403 Forbidden` (access denied).
+    #
+    #   <note markdown="1"> For directory buckets, this header is not supported in this API
+    #   operation. If you specify this header, the request fails with the HTTP
+    #   status code `501 Not Implemented`.
+    #
+    #    </note>
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -22600,7 +22834,7 @@ module Aws::S3
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-s3'
-      context[:gem_version] = '1.217.1'
+      context[:gem_version] = '1.218.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

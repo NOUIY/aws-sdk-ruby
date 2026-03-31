@@ -2410,8 +2410,11 @@ module Aws::QuickSight
     #       build_calculated_field_with_q: "DENY", # accepts DENY
     #       create_dashboard_executive_summary_with_q: "DENY", # accepts DENY
     #       space: "DENY", # accepts DENY
+    #       create_spaces: "DENY", # accepts DENY
+    #       share_spaces: "DENY", # accepts DENY
     #       chat_agent: "DENY", # accepts DENY
     #       create_chat_agents: "DENY", # accepts DENY
+    #       share_chat_agents: "DENY", # accepts DENY
     #       research: "DENY", # accepts DENY
     #       self_upgrade_user_role: "DENY", # accepts DENY
     #       extension: "DENY", # accepts DENY
@@ -3549,7 +3552,7 @@ module Aws::QuickSight
     #         host: "Host", # required
     #         database: "Database", # required
     #         warehouse: "Warehouse", # required
-    #         authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #         authentication_type: "PASSWORD", # accepts PASSWORD, KEYPAIR, TOKEN, X509
     #         database_access_control_role: "DatabaseAccessControlRole",
     #         o_auth_parameters: {
     #           token_provider_url: "TokenProviderUrl", # required
@@ -3596,7 +3599,7 @@ module Aws::QuickSight
     #         catalog: "Catalog", # required
     #         product_type: "GALAXY", # accepts GALAXY, ENTERPRISE
     #         database_access_control_role: "DatabaseAccessControlRole",
-    #         authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #         authentication_type: "PASSWORD", # accepts PASSWORD, KEYPAIR, TOKEN, X509
     #         o_auth_parameters: {
     #           token_provider_url: "TokenProviderUrl", # required
     #           o_auth_scope: "OAuthScope",
@@ -3737,7 +3740,7 @@ module Aws::QuickSight
     #               host: "Host", # required
     #               database: "Database", # required
     #               warehouse: "Warehouse", # required
-    #               authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #               authentication_type: "PASSWORD", # accepts PASSWORD, KEYPAIR, TOKEN, X509
     #               database_access_control_role: "DatabaseAccessControlRole",
     #               o_auth_parameters: {
     #                 token_provider_url: "TokenProviderUrl", # required
@@ -3784,7 +3787,7 @@ module Aws::QuickSight
     #               catalog: "Catalog", # required
     #               product_type: "GALAXY", # accepts GALAXY, ENTERPRISE
     #               database_access_control_role: "DatabaseAccessControlRole",
-    #               authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #               authentication_type: "PASSWORD", # accepts PASSWORD, KEYPAIR, TOKEN, X509
     #               o_auth_parameters: {
     #                 token_provider_url: "TokenProviderUrl", # required
     #                 o_auth_scope: "OAuthScope",
@@ -3841,6 +3844,11 @@ module Aws::QuickSight
     #       web_proxy_credentials: {
     #         web_proxy_username: "DbUsername", # required
     #         web_proxy_password: "Password", # required
+    #       },
+    #       o_auth_client_credentials: {
+    #         client_id: "OAuthClientId",
+    #         client_secret: "OAuthClientSecret",
+    #         username: "OAuthUsername",
     #       },
     #     },
     #     permissions: [
@@ -7490,7 +7498,7 @@ module Aws::QuickSight
     #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.host #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.database #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.warehouse #=> String
-    #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.authentication_type #=> String, one of "PASSWORD", "KEYPAIR", "TOKEN", "X509"
     #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.database_access_control_role #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.o_auth_parameters.token_provider_url #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.o_auth_parameters.o_auth_scope #=> String
@@ -7517,7 +7525,7 @@ module Aws::QuickSight
     #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.catalog #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.product_type #=> String, one of "GALAXY", "ENTERPRISE"
     #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.database_access_control_role #=> String
-    #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.authentication_type #=> String, one of "PASSWORD", "KEYPAIR", "TOKEN", "X509"
     #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.o_auth_parameters.token_provider_url #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.o_auth_parameters.o_auth_scope #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.o_auth_parameters.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
@@ -7669,6 +7677,75 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def describe_asset_bundle_import_job(params = {}, options = {})
       req = build_request(:describe_asset_bundle_import_job, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the status and details of a specified automation job,
+    # including its status and outputs.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the automation
+    #   job.
+    #
+    # @option params [required, String] :automation_group_id
+    #   The ID of the automation group that contains the automation.
+    #
+    # @option params [required, String] :automation_id
+    #   The ID of the automation that the job belongs to.
+    #
+    # @option params [Boolean] :include_input_payload
+    #   A Boolean value that indicates whether to include the input payload in
+    #   the response. If set to `true`, the input payload will be included. If
+    #   set to `false`, the input payload will be returned as `null`.
+    #
+    # @option params [Boolean] :include_output_payload
+    #   A Boolean value that indicates whether to include the output payload
+    #   in the response. If set to `true`, the output payload will be
+    #   included. If set to `false`, the output payload will be returned as
+    #   `null`.
+    #
+    # @option params [required, String] :job_id
+    #   The ID of the automation job to describe.
+    #
+    # @return [Types::DescribeAutomationJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeAutomationJobResponse#arn #arn} => String
+    #   * {Types::DescribeAutomationJobResponse#created_at #created_at} => Time
+    #   * {Types::DescribeAutomationJobResponse#started_at #started_at} => Time
+    #   * {Types::DescribeAutomationJobResponse#ended_at #ended_at} => Time
+    #   * {Types::DescribeAutomationJobResponse#job_status #job_status} => String
+    #   * {Types::DescribeAutomationJobResponse#input_payload #input_payload} => String
+    #   * {Types::DescribeAutomationJobResponse#output_payload #output_payload} => String
+    #   * {Types::DescribeAutomationJobResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_automation_job({
+    #     aws_account_id: "AwsAccountId", # required
+    #     automation_group_id: "AutomateId", # required
+    #     automation_id: "AutomateId", # required
+    #     include_input_payload: false,
+    #     include_output_payload: false,
+    #     job_id: "AutomateId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.created_at #=> Time
+    #   resp.started_at #=> Time
+    #   resp.ended_at #=> Time
+    #   resp.job_status #=> String, one of "FAILED", "RUNNING", "SUCCEEDED", "QUEUED", "STOPPED"
+    #   resp.input_payload #=> String
+    #   resp.output_payload #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeAutomationJob AWS API Documentation
+    #
+    # @overload describe_automation_job(params = {})
+    # @param [Hash] params ({})
+    def describe_automation_job(params = {}, options = {})
+      req = build_request(:describe_automation_job, params)
       req.send_request(options)
     end
 
@@ -8144,8 +8221,11 @@ module Aws::QuickSight
     #   resp.custom_permissions.capabilities.build_calculated_field_with_q #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.create_dashboard_executive_summary_with_q #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.space #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.create_spaces #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.share_spaces #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.chat_agent #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.create_chat_agents #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.share_chat_agents #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.research #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.self_upgrade_user_role #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.extension #=> String, one of "DENY"
@@ -9196,7 +9276,7 @@ module Aws::QuickSight
     #   resp.data_source.data_source_parameters.snowflake_parameters.host #=> String
     #   resp.data_source.data_source_parameters.snowflake_parameters.database #=> String
     #   resp.data_source.data_source_parameters.snowflake_parameters.warehouse #=> String
-    #   resp.data_source.data_source_parameters.snowflake_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_source.data_source_parameters.snowflake_parameters.authentication_type #=> String, one of "PASSWORD", "KEYPAIR", "TOKEN", "X509"
     #   resp.data_source.data_source_parameters.snowflake_parameters.database_access_control_role #=> String
     #   resp.data_source.data_source_parameters.snowflake_parameters.o_auth_parameters.token_provider_url #=> String
     #   resp.data_source.data_source_parameters.snowflake_parameters.o_auth_parameters.o_auth_scope #=> String
@@ -9223,7 +9303,7 @@ module Aws::QuickSight
     #   resp.data_source.data_source_parameters.starburst_parameters.catalog #=> String
     #   resp.data_source.data_source_parameters.starburst_parameters.product_type #=> String, one of "GALAXY", "ENTERPRISE"
     #   resp.data_source.data_source_parameters.starburst_parameters.database_access_control_role #=> String
-    #   resp.data_source.data_source_parameters.starburst_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_source.data_source_parameters.starburst_parameters.authentication_type #=> String, one of "PASSWORD", "KEYPAIR", "TOKEN", "X509"
     #   resp.data_source.data_source_parameters.starburst_parameters.o_auth_parameters.token_provider_url #=> String
     #   resp.data_source.data_source_parameters.starburst_parameters.o_auth_parameters.o_auth_scope #=> String
     #   resp.data_source.data_source_parameters.starburst_parameters.o_auth_parameters.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
@@ -9299,7 +9379,7 @@ module Aws::QuickSight
     #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.host #=> String
     #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.database #=> String
     #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.warehouse #=> String
-    #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.authentication_type #=> String, one of "PASSWORD", "KEYPAIR", "TOKEN", "X509"
     #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.database_access_control_role #=> String
     #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.o_auth_parameters.token_provider_url #=> String
     #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.o_auth_parameters.o_auth_scope #=> String
@@ -9326,7 +9406,7 @@ module Aws::QuickSight
     #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.catalog #=> String
     #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.product_type #=> String, one of "GALAXY", "ENTERPRISE"
     #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.database_access_control_role #=> String
-    #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.authentication_type #=> String, one of "PASSWORD", "KEYPAIR", "TOKEN", "X509"
     #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.o_auth_parameters.token_provider_url #=> String
     #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.o_auth_parameters.o_auth_scope #=> String
     #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.o_auth_parameters.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
@@ -12557,8 +12637,11 @@ module Aws::QuickSight
     #   resp.custom_permissions_list[0].capabilities.build_calculated_field_with_q #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.create_dashboard_executive_summary_with_q #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.space #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.create_spaces #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.share_spaces #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.chat_agent #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.create_chat_agents #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.share_chat_agents #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.research #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.self_upgrade_user_role #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.extension #=> String, one of "DENY"
@@ -12844,7 +12927,7 @@ module Aws::QuickSight
     #   resp.data_sources[0].data_source_parameters.snowflake_parameters.host #=> String
     #   resp.data_sources[0].data_source_parameters.snowflake_parameters.database #=> String
     #   resp.data_sources[0].data_source_parameters.snowflake_parameters.warehouse #=> String
-    #   resp.data_sources[0].data_source_parameters.snowflake_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_sources[0].data_source_parameters.snowflake_parameters.authentication_type #=> String, one of "PASSWORD", "KEYPAIR", "TOKEN", "X509"
     #   resp.data_sources[0].data_source_parameters.snowflake_parameters.database_access_control_role #=> String
     #   resp.data_sources[0].data_source_parameters.snowflake_parameters.o_auth_parameters.token_provider_url #=> String
     #   resp.data_sources[0].data_source_parameters.snowflake_parameters.o_auth_parameters.o_auth_scope #=> String
@@ -12871,7 +12954,7 @@ module Aws::QuickSight
     #   resp.data_sources[0].data_source_parameters.starburst_parameters.catalog #=> String
     #   resp.data_sources[0].data_source_parameters.starburst_parameters.product_type #=> String, one of "GALAXY", "ENTERPRISE"
     #   resp.data_sources[0].data_source_parameters.starburst_parameters.database_access_control_role #=> String
-    #   resp.data_sources[0].data_source_parameters.starburst_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_sources[0].data_source_parameters.starburst_parameters.authentication_type #=> String, one of "PASSWORD", "KEYPAIR", "TOKEN", "X509"
     #   resp.data_sources[0].data_source_parameters.starburst_parameters.o_auth_parameters.token_provider_url #=> String
     #   resp.data_sources[0].data_source_parameters.starburst_parameters.o_auth_parameters.o_auth_scope #=> String
     #   resp.data_sources[0].data_source_parameters.starburst_parameters.o_auth_parameters.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
@@ -12947,7 +13030,7 @@ module Aws::QuickSight
     #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.host #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.database #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.warehouse #=> String
-    #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.authentication_type #=> String, one of "PASSWORD", "KEYPAIR", "TOKEN", "X509"
     #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.database_access_control_role #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.o_auth_parameters.token_provider_url #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.o_auth_parameters.o_auth_scope #=> String
@@ -12974,7 +13057,7 @@ module Aws::QuickSight
     #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.catalog #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.product_type #=> String, one of "GALAXY", "ENTERPRISE"
     #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.database_access_control_role #=> String
-    #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.authentication_type #=> String, one of "PASSWORD", "KEYPAIR", "TOKEN", "X509"
     #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.o_auth_parameters.token_provider_url #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.o_auth_parameters.o_auth_scope #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.o_auth_parameters.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
@@ -16299,7 +16382,7 @@ module Aws::QuickSight
     #               host: "Host", # required
     #               database: "Database", # required
     #               warehouse: "Warehouse", # required
-    #               authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #               authentication_type: "PASSWORD", # accepts PASSWORD, KEYPAIR, TOKEN, X509
     #               database_access_control_role: "DatabaseAccessControlRole",
     #               o_auth_parameters: {
     #                 token_provider_url: "TokenProviderUrl", # required
@@ -16346,7 +16429,7 @@ module Aws::QuickSight
     #               catalog: "Catalog", # required
     #               product_type: "GALAXY", # accepts GALAXY, ENTERPRISE
     #               database_access_control_role: "DatabaseAccessControlRole",
-    #               authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #               authentication_type: "PASSWORD", # accepts PASSWORD, KEYPAIR, TOKEN, X509
     #               o_auth_parameters: {
     #                 token_provider_url: "TokenProviderUrl", # required
     #                 o_auth_scope: "OAuthScope",
@@ -16614,6 +16697,54 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def start_asset_bundle_import_job(params = {}, options = {})
       req = build_request(:start_asset_bundle_import_job, params)
+      req.send_request(options)
+    end
+
+    # Starts a new job for a specified automation. The job runs the
+    # automation with the provided input payload.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the
+    #   automation.
+    #
+    # @option params [required, String] :automation_group_id
+    #   The ID of the automation group that contains the automation to run.
+    #
+    # @option params [required, String] :automation_id
+    #   The ID of the automation to run.
+    #
+    # @option params [String] :input_payload
+    #   The input payload for the automation job, provided as a JSON string.
+    #
+    # @return [Types::StartAutomationJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartAutomationJobResponse#arn #arn} => String
+    #   * {Types::StartAutomationJobResponse#job_id #job_id} => String
+    #   * {Types::StartAutomationJobResponse#status #status} => Integer
+    #   * {Types::StartAutomationJobResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_automation_job({
+    #     aws_account_id: "AwsAccountId", # required
+    #     automation_group_id: "AutomateId", # required
+    #     automation_id: "AutomateId", # required
+    #     input_payload: "SensitiveIOPayload",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.job_id #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/StartAutomationJob AWS API Documentation
+    #
+    # @overload start_automation_job(params = {})
+    # @param [Hash] params ({})
+    def start_automation_job(params = {}, options = {})
+      req = build_request(:start_automation_job, params)
       req.send_request(options)
     end
 
@@ -18075,8 +18206,11 @@ module Aws::QuickSight
     #       build_calculated_field_with_q: "DENY", # accepts DENY
     #       create_dashboard_executive_summary_with_q: "DENY", # accepts DENY
     #       space: "DENY", # accepts DENY
+    #       create_spaces: "DENY", # accepts DENY
+    #       share_spaces: "DENY", # accepts DENY
     #       chat_agent: "DENY", # accepts DENY
     #       create_chat_agents: "DENY", # accepts DENY
+    #       share_chat_agents: "DENY", # accepts DENY
     #       research: "DENY", # accepts DENY
     #       self_upgrade_user_role: "DENY", # accepts DENY
     #       extension: "DENY", # accepts DENY
@@ -19402,7 +19536,7 @@ module Aws::QuickSight
     #         host: "Host", # required
     #         database: "Database", # required
     #         warehouse: "Warehouse", # required
-    #         authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #         authentication_type: "PASSWORD", # accepts PASSWORD, KEYPAIR, TOKEN, X509
     #         database_access_control_role: "DatabaseAccessControlRole",
     #         o_auth_parameters: {
     #           token_provider_url: "TokenProviderUrl", # required
@@ -19449,7 +19583,7 @@ module Aws::QuickSight
     #         catalog: "Catalog", # required
     #         product_type: "GALAXY", # accepts GALAXY, ENTERPRISE
     #         database_access_control_role: "DatabaseAccessControlRole",
-    #         authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #         authentication_type: "PASSWORD", # accepts PASSWORD, KEYPAIR, TOKEN, X509
     #         o_auth_parameters: {
     #           token_provider_url: "TokenProviderUrl", # required
     #           o_auth_scope: "OAuthScope",
@@ -19590,7 +19724,7 @@ module Aws::QuickSight
     #               host: "Host", # required
     #               database: "Database", # required
     #               warehouse: "Warehouse", # required
-    #               authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #               authentication_type: "PASSWORD", # accepts PASSWORD, KEYPAIR, TOKEN, X509
     #               database_access_control_role: "DatabaseAccessControlRole",
     #               o_auth_parameters: {
     #                 token_provider_url: "TokenProviderUrl", # required
@@ -19637,7 +19771,7 @@ module Aws::QuickSight
     #               catalog: "Catalog", # required
     #               product_type: "GALAXY", # accepts GALAXY, ENTERPRISE
     #               database_access_control_role: "DatabaseAccessControlRole",
-    #               authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #               authentication_type: "PASSWORD", # accepts PASSWORD, KEYPAIR, TOKEN, X509
     #               o_auth_parameters: {
     #                 token_provider_url: "TokenProviderUrl", # required
     #                 o_auth_scope: "OAuthScope",
@@ -19694,6 +19828,11 @@ module Aws::QuickSight
     #       web_proxy_credentials: {
     #         web_proxy_username: "DbUsername", # required
     #         web_proxy_password: "Password", # required
+    #       },
+    #       o_auth_client_credentials: {
+    #         client_id: "OAuthClientId",
+    #         client_secret: "OAuthClientSecret",
+    #         username: "OAuthUsername",
     #       },
     #     },
     #     vpc_connection_properties: {
@@ -21890,7 +22029,7 @@ module Aws::QuickSight
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.176.0'
+      context[:gem_version] = '1.177.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

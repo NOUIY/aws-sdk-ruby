@@ -708,9 +708,7 @@ module Aws::GeoMaps
     #   Style specifies the desired map style for the `Sprites` APIs.
     #
     # @option params [required, String] :color_scheme
-    #   Sets color tone for map such as dark and light for specific map
-    #   styles. It applies to only vector map styles such as Standard and
-    #   Monochrome.
+    #   Sets the color tone for the map sprites, such as dark and light.
     #
     #   Example: `Light`
     #
@@ -814,8 +812,7 @@ module Aws::GeoMaps
     #   Example: 49.295,-123.108
     #
     # @option params [String] :color_scheme
-    #   Sets color tone for map, such as dark and light for specific map
-    #   styles. It only applies to vector map styles, such as Standard.
+    #   Sets the color tone for the map, such as dark and light.
     #
     #   Example: `Light`
     #
@@ -1161,9 +1158,7 @@ module Aws::GeoMaps
     #   Style specifies the desired map style.
     #
     # @option params [String] :color_scheme
-    #   Sets color tone for map such as dark and light for specific map
-    #   styles. It applies to only vector map styles such as Standard and
-    #   Monochrome.
+    #   Sets the color tone for the map, such as dark and light.
     #
     #   Example: `Light`
     #
@@ -1229,14 +1224,13 @@ module Aws::GeoMaps
     #   lines. The density value controls how densely the available contour
     #   line information is rendered on the map.
     #
-    #   This parameter is valid only for the `Standard`, `Monochrome`, and
-    #   `Hybrid` map styles.
+    #   This parameter is valid for all map styles except `Satellite`.
     #
     # @option params [String] :traffic
     #   Displays real-time traffic information overlay on map, such as
     #   incident events and flow events.
     #
-    #   This parameter is valid only for the `Standard` map style.
+    #   This parameter is valid for all map styles except `Satellite`.
     #
     # @option params [Array<String>] :travel_modes
     #   Renders additional map information relevant to selected travel modes.
@@ -1244,7 +1238,7 @@ module Aws::GeoMaps
     #   although this increases the overall information density rendered on
     #   the map.
     #
-    #   This parameter is valid only for the `Standard` map style.
+    #   This parameter is valid for all map styles except `Satellite`.
     #
     # @option params [String] :buildings
     #   Adjusts how building details are rendered on the map.
@@ -1277,8 +1271,8 @@ module Aws::GeoMaps
     #     color_scheme: "Light", # accepts Light, Dark
     #     political_view: "CountryCode",
     #     terrain: "Hillshade", # accepts Hillshade, Terrain3D
-    #     contour_density: "Medium", # accepts Medium
-    #     traffic: "All", # accepts All
+    #     contour_density: "Low", # accepts Low, Medium, High
+    #     traffic: "All", # accepts All, Congestion
     #     travel_modes: ["Transit"], # accepts Transit, Truck
     #     buildings: "Buildings3D", # accepts Buildings3D
     #     key: "ApiKey",
@@ -1388,7 +1382,7 @@ module Aws::GeoMaps
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-geomaps'
-      context[:gem_version] = '1.22.0'
+      context[:gem_version] = '1.23.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

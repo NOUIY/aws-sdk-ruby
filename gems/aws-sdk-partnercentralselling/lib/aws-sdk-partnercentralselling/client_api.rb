@@ -69,7 +69,6 @@ module Aws::PartnerCentralSelling
     AwsProductIdentifier = Shapes::StringShape.new(name: 'AwsProductIdentifier')
     AwsProductIdentifiers = Shapes::ListShape.new(name: 'AwsProductIdentifiers')
     AwsProductInsights = Shapes::StructureShape.new(name: 'AwsProductInsights')
-    AwsProductInsightsCurrencyCodeEnum = Shapes::StringShape.new(name: 'AwsProductInsightsCurrencyCodeEnum')
     AwsProductOptimization = Shapes::StructureShape.new(name: 'AwsProductOptimization')
     AwsProductOptimizationsList = Shapes::ListShape.new(name: 'AwsProductOptimizationsList')
     AwsProductsList = Shapes::ListShape.new(name: 'AwsProductsList')
@@ -163,7 +162,6 @@ module Aws::PartnerCentralSelling
     EngagementUseCase = Shapes::StringShape.new(name: 'EngagementUseCase')
     EstimationUrl = Shapes::StringShape.new(name: 'EstimationUrl')
     ExpectedCustomerSpend = Shapes::StructureShape.new(name: 'ExpectedCustomerSpend')
-    ExpectedCustomerSpendCurrencyCodeEnum = Shapes::StringShape.new(name: 'ExpectedCustomerSpendCurrencyCodeEnum')
     ExpectedCustomerSpendList = Shapes::ListShape.new(name: 'ExpectedCustomerSpendList')
     ExpectedCustomerSpendTargetCompanyString = Shapes::StringShape.new(name: 'ExpectedCustomerSpendTargetCompanyString')
     GetAwsOpportunitySummaryRequest = Shapes::StructureShape.new(name: 'GetAwsOpportunitySummaryRequest')
@@ -521,7 +519,7 @@ module Aws::PartnerCentralSelling
 
     AwsProductIdentifiers.member = Shapes::ShapeRef.new(shape: AwsProductIdentifier)
 
-    AwsProductInsights.add_member(:currency_code, Shapes::ShapeRef.new(shape: AwsProductInsightsCurrencyCodeEnum, required: true, location_name: "CurrencyCode"))
+    AwsProductInsights.add_member(:currency_code, Shapes::ShapeRef.new(shape: CurrencyCode, required: true, location_name: "CurrencyCode"))
     AwsProductInsights.add_member(:frequency, Shapes::ShapeRef.new(shape: PaymentFrequency, required: true, location_name: "Frequency"))
     AwsProductInsights.add_member(:total_amount, Shapes::ShapeRef.new(shape: MonetaryAmount, location_name: "TotalAmount"))
     AwsProductInsights.add_member(:total_optimized_amount, Shapes::ShapeRef.new(shape: MonetaryAmount, location_name: "TotalOptimizedAmount"))
@@ -767,7 +765,7 @@ module Aws::PartnerCentralSelling
     EngagementSummaryList.member = Shapes::ShapeRef.new(shape: EngagementSummary)
 
     ExpectedCustomerSpend.add_member(:amount, Shapes::ShapeRef.new(shape: Amount, location_name: "Amount"))
-    ExpectedCustomerSpend.add_member(:currency_code, Shapes::ShapeRef.new(shape: ExpectedCustomerSpendCurrencyCodeEnum, required: true, location_name: "CurrencyCode"))
+    ExpectedCustomerSpend.add_member(:currency_code, Shapes::ShapeRef.new(shape: CurrencyCode, required: true, location_name: "CurrencyCode"))
     ExpectedCustomerSpend.add_member(:frequency, Shapes::ShapeRef.new(shape: PaymentFrequency, required: true, location_name: "Frequency"))
     ExpectedCustomerSpend.add_member(:target_company, Shapes::ShapeRef.new(shape: ExpectedCustomerSpendTargetCompanyString, required: true, location_name: "TargetCompany"))
     ExpectedCustomerSpend.add_member(:estimation_url, Shapes::ShapeRef.new(shape: EstimationUrl, location_name: "EstimationUrl"))

@@ -249,9 +249,7 @@ module Aws::GeoMaps
     #   @return [String]
     #
     # @!attribute [rw] color_scheme
-    #   Sets color tone for map such as dark and light for specific map
-    #   styles. It applies to only vector map styles such as Standard and
-    #   Monochrome.
+    #   Sets the color tone for the map sprites, such as dark and light.
     #
     #   Example: `Light`
     #
@@ -349,8 +347,7 @@ module Aws::GeoMaps
     #   @return [String]
     #
     # @!attribute [rw] color_scheme
-    #   Sets color tone for map, such as dark and light for specific map
-    #   styles. It only applies to vector map styles, such as Standard.
+    #   Sets the color tone for the map, such as dark and light.
     #
     #   Example: `Light`
     #
@@ -717,9 +714,7 @@ module Aws::GeoMaps
     #   @return [String]
     #
     # @!attribute [rw] color_scheme
-    #   Sets color tone for map such as dark and light for specific map
-    #   styles. It applies to only vector map styles such as Standard and
-    #   Monochrome.
+    #   Sets the color tone for the map, such as dark and light.
     #
     #   Example: `Light`
     #
@@ -788,15 +783,14 @@ module Aws::GeoMaps
     #   lines. The density value controls how densely the available contour
     #   line information is rendered on the map.
     #
-    #   This parameter is valid only for the `Standard`, `Monochrome`, and
-    #   `Hybrid` map styles.
+    #   This parameter is valid for all map styles except `Satellite`.
     #   @return [String]
     #
     # @!attribute [rw] traffic
     #   Displays real-time traffic information overlay on map, such as
     #   incident events and flow events.
     #
-    #   This parameter is valid only for the `Standard` map style.
+    #   This parameter is valid for all map styles except `Satellite`.
     #   @return [String]
     #
     # @!attribute [rw] travel_modes
@@ -805,7 +799,7 @@ module Aws::GeoMaps
     #   simultaneously, although this increases the overall information
     #   density rendered on the map.
     #
-    #   This parameter is valid only for the `Standard` map style.
+    #   This parameter is valid for all map styles except `Satellite`.
     #   @return [Array<String>]
     #
     # @!attribute [rw] buildings

@@ -447,6 +447,7 @@ RubyGems.org page under "LINKS" section.
 | AWS SSO OIDC                                          | Aws::SSOOIDC                             | aws-sdk-core                                | 2019-06-10  |
 | AWS Savings Plans                                     | Aws::SavingsPlans                        | aws-sdk-savingsplans                        | 2019-06-28  |
 | AWS Secrets Manager                                   | Aws::SecretsManager                      | aws-sdk-secretsmanager                      | 2017-10-17  |
+| AWS Security Agent                                    | Aws::SecurityAgent                       | aws-sdk-securityagent                       | 2025-09-06  |
 | AWS Security Token Service                            | Aws::STS                                 | aws-sdk-core                                | 2011-06-15  |
 | AWS SecurityHub                                       | Aws::SecurityHub                         | aws-sdk-securityhub                         | 2018-10-26  |
 | AWS Service Catalog                                   | Aws::ServiceCatalog                      | aws-sdk-servicecatalog                      | 2015-12-10  |
@@ -464,6 +465,7 @@ RubyGems.org page under "LINKS" section.
 | AWS Supply Chain                                      | Aws::SupplyChain                         | aws-sdk-supplychain                         | 2024-01-01  |
 | AWS Support                                           | Aws::Support                             | aws-sdk-support                             | 2013-04-15  |
 | AWS Support App                                       | Aws::SupportApp                          | aws-sdk-supportapp                          | 2021-08-20  |
+| AWS Sustainability                                    | Aws::Sustainability                      | aws-sdk-sustainability                      | 2018-05-10  |
 | AWS Systems Manager Incident Manager                  | Aws::SSMIncidents                        | aws-sdk-ssmincidents                        | 2018-05-10  |
 | AWS Systems Manager Incident Manager Contacts         | Aws::SSMContacts                         | aws-sdk-ssmcontacts                         | 2021-05-03  |
 | AWS Systems Manager QuickSetup                        | Aws::SSMQuickSetup                       | aws-sdk-ssmquicksetup                       | 2018-05-10  |

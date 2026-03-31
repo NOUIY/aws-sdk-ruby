@@ -8,6 +8,9 @@
 module Aws::OpenSearchService
   module Types
 
+    class AIConfig < Aws::EmptyStructure
+    end
+
     class AIMLOptionsInput
       attr_accessor natural_language_query_generation_options: Types::NaturalLanguageQueryGenerationOptionsInput
       attr_accessor s3_vectors_engine: Types::S3VectorsEngine
@@ -285,6 +288,45 @@ module Aws::OpenSearchService
       attr_accessor property_name: ::String
       attr_accessor cancelled_value: ::String
       attr_accessor active_value: ::String
+      SENSITIVE: []
+    end
+
+    class CapabilityBaseRequestConfig
+      attr_accessor ai_config: Types::AIConfig
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class AiConfig < CapabilityBaseRequestConfig
+      end
+      class Unknown < CapabilityBaseRequestConfig
+      end
+    end
+
+    class CapabilityBaseResponseConfig
+      attr_accessor ai_config: Types::AIConfig
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class AiConfig < CapabilityBaseResponseConfig
+      end
+      class Unknown < CapabilityBaseResponseConfig
+      end
+    end
+
+    class CapabilityExtendedResponseConfig
+      attr_accessor ai_config: Types::AIConfig
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class AiConfig < CapabilityExtendedResponseConfig
+      end
+      class Unknown < CapabilityExtendedResponseConfig
+      end
+    end
+
+    class CapabilityFailure
+      attr_accessor reason: ("KMS_KEY_INSUFFICIENT_PERMISSION")
+      attr_accessor details: ::String
       SENSITIVE: []
     end
 
@@ -625,6 +667,17 @@ module Aws::OpenSearchService
     class DeploymentStrategyOptionsStatus
       attr_accessor options: Types::DeploymentStrategyOptions
       attr_accessor status: Types::OptionStatus
+      SENSITIVE: []
+    end
+
+    class DeregisterCapabilityRequest
+      attr_accessor application_id: ::String
+      attr_accessor capability_name: ::String
+      SENSITIVE: []
+    end
+
+    class DeregisterCapabilityResponse
+      attr_accessor status: ("creating" | "create_failed" | "active" | "updating" | "update_failed" | "deleting" | "delete_failed")
       SENSITIVE: []
     end
 
@@ -1098,6 +1151,21 @@ module Aws::OpenSearchService
       attr_accessor created_at: ::Time
       attr_accessor last_updated_at: ::Time
       attr_accessor kms_key_arn: ::String
+      SENSITIVE: []
+    end
+
+    class GetCapabilityRequest
+      attr_accessor application_id: ::String
+      attr_accessor capability_name: ::String
+      SENSITIVE: []
+    end
+
+    class GetCapabilityResponse
+      attr_accessor capability_name: ::String
+      attr_accessor application_id: ::String
+      attr_accessor status: ("creating" | "create_failed" | "active" | "updating" | "update_failed" | "deleting" | "delete_failed")
+      attr_accessor capability_config: Types::CapabilityExtendedResponseConfig
+      attr_accessor failures: ::Array[Types::CapabilityFailure]
       SENSITIVE: []
     end
 
@@ -1785,6 +1853,21 @@ module Aws::OpenSearchService
       SENSITIVE: []
     end
 
+    class RegisterCapabilityRequest
+      attr_accessor application_id: ::String
+      attr_accessor capability_name: ::String
+      attr_accessor capability_config: Types::CapabilityBaseRequestConfig
+      SENSITIVE: []
+    end
+
+    class RegisterCapabilityResponse
+      attr_accessor capability_name: ::String
+      attr_accessor application_id: ::String
+      attr_accessor status: ("creating" | "create_failed" | "active" | "updating" | "update_failed" | "deleting" | "delete_failed")
+      attr_accessor capability_config: Types::CapabilityBaseResponseConfig
+      SENSITIVE: []
+    end
+
     class RejectInboundConnectionRequest
       attr_accessor connection_id: ::String
       SENSITIVE: []
@@ -1912,6 +1995,9 @@ module Aws::OpenSearchService
     class ServerlessVectorAcceleration
       attr_accessor enabled: bool
       SENSITIVE: []
+    end
+
+    class ServiceQuotaExceededException < Aws::EmptyStructure
     end
 
     class ServiceSoftwareOptions

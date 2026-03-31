@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.17.0 (2026-03-31)
+------------------
+
+* Feature - Adds support for EC2 Placement Group integration with ODB Network. The GetOdbNetwork and ListOdbNetworks API responses now include the ec2PlacementGroupIds field.
+
 1.16.0 (2026-03-18)
 ------------------
 

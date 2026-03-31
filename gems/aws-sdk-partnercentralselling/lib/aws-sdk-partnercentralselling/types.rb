@@ -684,7 +684,9 @@ module Aws::PartnerCentralSelling
     # breakdowns, and detailed product-level insights.
     #
     # @!attribute [rw] currency_code
-    #   ISO 4217 currency code.
+    #   ISO 4217 currency code. Supported values are `USD` and `EUR`.
+    #   Returns `EUR` when the opportunity is in the `aws-eusc` (AWS
+    #   European Sovereign Cloud) partition.
     #   @return [String]
     #
     # @!attribute [rw] frequency
@@ -2038,9 +2040,8 @@ module Aws::PartnerCentralSelling
     #   @return [String]
     #
     # @!attribute [rw] currency_code
-    #   Indicates the currency in which the revenue estimate is provided.
-    #   This helps in understanding the financial impact across different
-    #   markets.
+    #   Currency code for the expected customer spend. Supported currencies:
+    #   USD, EUR
     #   @return [String]
     #
     # @!attribute [rw] frequency
@@ -4839,7 +4840,9 @@ module Aws::PartnerCentralSelling
     #   @return [String]
     #
     # @!attribute [rw] currency_code
-    #   Specifies the payment currency.
+    #   Specifies the payment currency. Accepted values are `USD` (US
+    #   Dollars) and `EUR` (Euros). If the AWS Partition is `aws-eusc` (AWS
+    #   European Sovereign Cloud), the currency code must be `EUR`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/MonetaryValue AWS API Documentation

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.143.0 (2026-03-31)
+------------------
+
+* Feature - This release adds bring your own IP (BYOIP) IPv6 support to CloudFront's CreateAnycastIpList and UpdateAnycastIpList API through the IpamCidrConfigs field.
+
 1.142.0 (2026-03-18)
 ------------------
 

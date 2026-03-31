@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.23.0 (2026-03-31)
+------------------
+
+* Feature - This release expands map customization options with adjustable contour line density, dark mode support for Hybrid and Satellite views, enhanced traffic information across multiple map styles, and transit and truck travel modes for Monochrome and Hybrid map styles.
+
 1.22.0 (2026-03-18)
 ------------------
 

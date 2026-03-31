@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.29.0 (2026-03-31)
+------------------
+
+* Feature - Adding EURO Currency for MRR Amount
+
 1.28.0 (2026-03-18)
 ------------------
 

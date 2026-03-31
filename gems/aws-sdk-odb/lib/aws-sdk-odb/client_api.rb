@@ -251,6 +251,7 @@ module Aws::Odb
     ResourceArn = Shapes::StringShape.new(name: 'ResourceArn')
     ResourceDisplayName = Shapes::StringShape.new(name: 'ResourceDisplayName')
     ResourceId = Shapes::StringShape.new(name: 'ResourceId')
+    ResourceIdList = Shapes::ListShape.new(name: 'ResourceIdList')
     ResourceIdOrArn = Shapes::StringShape.new(name: 'ResourceIdOrArn')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResourceStatus = Shapes::StringShape.new(name: 'ResourceStatus')
@@ -1215,6 +1216,7 @@ module Aws::Odb
     OdbNetwork.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
     OdbNetwork.add_member(:percent_progress, Shapes::ShapeRef.new(shape: Float, location_name: "percentProgress"))
     OdbNetwork.add_member(:managed_services, Shapes::ShapeRef.new(shape: ManagedServices, location_name: "managedServices"))
+    OdbNetwork.add_member(:ec2_placement_group_ids, Shapes::ShapeRef.new(shape: ResourceIdList, location_name: "ec2PlacementGroupIds"))
     OdbNetwork.struct_class = Types::OdbNetwork
 
     OdbNetworkList.member = Shapes::ShapeRef.new(shape: OdbNetworkSummary)
@@ -1240,6 +1242,7 @@ module Aws::Odb
     OdbNetworkSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
     OdbNetworkSummary.add_member(:percent_progress, Shapes::ShapeRef.new(shape: Float, location_name: "percentProgress"))
     OdbNetworkSummary.add_member(:managed_services, Shapes::ShapeRef.new(shape: ManagedServices, location_name: "managedServices"))
+    OdbNetworkSummary.add_member(:ec2_placement_group_ids, Shapes::ShapeRef.new(shape: ResourceIdList, location_name: "ec2PlacementGroupIds"))
     OdbNetworkSummary.struct_class = Types::OdbNetworkSummary
 
     OdbPeeringConnection.add_member(:odb_peering_connection_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "odbPeeringConnectionId"))
@@ -1285,6 +1288,8 @@ module Aws::Odb
 
     RequestTagMap.key = Shapes::ShapeRef.new(shape: TagKey)
     RequestTagMap.value = Shapes::ShapeRef.new(shape: TagValue)
+
+    ResourceIdList.member = Shapes::ShapeRef.new(shape: ResourceId)
 
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ResourceNotFoundException.add_member(:resource_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "resourceId"))

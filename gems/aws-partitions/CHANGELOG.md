@@ -1,6 +1,13 @@
 Unreleased Changes
 ------------------
 
+1.1233.0 (2026-03-31)
+------------------
+
+* Feature - Added support for enumerating regions for  `Aws::Sustainability`.
+
+* Feature - Added support for enumerating regions for  `Aws::SecurityAgent`.
+
 1.1232.0 (2026-03-30)
 ------------------
 

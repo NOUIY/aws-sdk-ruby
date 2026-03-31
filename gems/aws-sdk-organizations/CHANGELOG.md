@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.137.0 (2026-03-31)
+------------------
+
+* Feature - Added Path field to Account and OrganizationalUnit objects in AWS Organizations API responses.
+
 1.136.0 (2026-03-18)
 ------------------
 

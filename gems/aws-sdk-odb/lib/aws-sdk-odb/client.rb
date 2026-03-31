@@ -1889,6 +1889,8 @@ module Aws::Odb
     #   resp.odb_network.managed_services.cross_region_s3_restore_sources_access[0].ipv4_addresses #=> Array
     #   resp.odb_network.managed_services.cross_region_s3_restore_sources_access[0].ipv4_addresses[0] #=> String
     #   resp.odb_network.managed_services.cross_region_s3_restore_sources_access[0].status #=> String, one of "ENABLED", "ENABLING", "DISABLED", "DISABLING"
+    #   resp.odb_network.ec2_placement_group_ids #=> Array
+    #   resp.odb_network.ec2_placement_group_ids[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/GetOdbNetwork AWS API Documentation
     #
@@ -2681,6 +2683,8 @@ module Aws::Odb
     #   resp.odb_networks[0].managed_services.cross_region_s3_restore_sources_access[0].ipv4_addresses #=> Array
     #   resp.odb_networks[0].managed_services.cross_region_s3_restore_sources_access[0].ipv4_addresses[0] #=> String
     #   resp.odb_networks[0].managed_services.cross_region_s3_restore_sources_access[0].status #=> String, one of "ENABLED", "ENABLING", "DISABLED", "DISABLING"
+    #   resp.odb_networks[0].ec2_placement_group_ids #=> Array
+    #   resp.odb_networks[0].ec2_placement_group_ids[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListOdbNetworks AWS API Documentation
     #
@@ -3226,7 +3230,7 @@ module Aws::Odb
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-odb'
-      context[:gem_version] = '1.16.0'
+      context[:gem_version] = '1.17.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

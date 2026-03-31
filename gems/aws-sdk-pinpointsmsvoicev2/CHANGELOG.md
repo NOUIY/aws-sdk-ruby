@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.54.0 (2026-03-31)
+------------------
+
+* Feature - This release adds RCS for Business messaging and Notify support. RCS lets you create and manage agents, send and receive messages in the US and Canada via SendTextMessage API, and configure SMS fallback. Notify lets you send templated OTP messages globally in minutes with no phone number required.
+
 1.53.0 (2026-03-18)
 ------------------
 

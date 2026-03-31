@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.177.0 (2026-03-31)
+------------------
+
+* Feature - Adds StartAutomationJob and DescribeAutomationJob APIs for automation jobs. Adds three custom permission capabilities that allow admins to control whether users can manage Spaces and chat agents. Adds an OAuthClientCredentials structure to provide OAuth 2.0 client credentials inline to data sources.
+
 1.176.0 (2026-03-18)
 ------------------
 

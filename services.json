@@ -1210,6 +1210,9 @@
   "SecretsManager": {
     "models": "secretsmanager/2017-10-17"
   },
+  "SecurityAgent": {
+    "models": "securityagent/2025-09-06"
+  },
   "SecurityHub": {
     "models": "securityhub/2018-10-26"
   },
@@ -1280,6 +1283,9 @@
   },
   "SupportApp": {
     "models": "support-app/2021-08-20"
+  },
+  "Sustainability": {
+    "models": "sustainability/2018-05-10"
   },
   "Synthetics": {
     "models": "synthetics/2017-10-11"

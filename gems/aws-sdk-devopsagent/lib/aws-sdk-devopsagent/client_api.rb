@@ -35,7 +35,6 @@ module Aws::DevOpsAgent
     AssociationId = Shapes::StringShape.new(name: 'AssociationId')
     AssociationsList = Shapes::ListShape.new(name: 'AssociationsList')
     AuthFlow = Shapes::StringShape.new(name: 'AuthFlow')
-    AwsRegion = Shapes::StringShape.new(name: 'AwsRegion')
     AzureConfiguration = Shapes::StructureShape.new(name: 'AzureConfiguration')
     AzureDevOpsConfiguration = Shapes::StructureShape.new(name: 'AzureDevOpsConfiguration')
     BackLogTimestamp = Shapes::TimestampShape.new(name: 'BackLogTimestamp', timestampFormat: "iso8601")
@@ -45,7 +44,6 @@ module Aws::DevOpsAgent
     CertificateString = Shapes::StringShape.new(name: 'CertificateString')
     ChatExecution = Shapes::StructureShape.new(name: 'ChatExecution')
     ChatExecutionList = Shapes::ListShape.new(name: 'ChatExecutionList')
-    ChatParticipantConnection = Shapes::StructureShape.new(name: 'ChatParticipantConnection')
     ClientId = Shapes::StringShape.new(name: 'ClientId')
     ClientSecret = Shapes::StringShape.new(name: 'ClientSecret')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
@@ -73,8 +71,6 @@ module Aws::DevOpsAgent
     DeregisterServiceOutput = Shapes::StructureShape.new(name: 'DeregisterServiceOutput')
     DescribePrivateConnectionInput = Shapes::StructureShape.new(name: 'DescribePrivateConnectionInput')
     DescribePrivateConnectionOutput = Shapes::StructureShape.new(name: 'DescribePrivateConnectionOutput')
-    DescribeSupportLevelRequest = Shapes::StructureShape.new(name: 'DescribeSupportLevelRequest')
-    DescribeSupportLevelResponse = Shapes::StructureShape.new(name: 'DescribeSupportLevelResponse')
     Description = Shapes::StringShape.new(name: 'Description')
     DisableOperatorAppInput = Shapes::StructureShape.new(name: 'DisableOperatorAppInput')
     DisassociateServiceInput = Shapes::StructureShape.new(name: 'DisassociateServiceInput')
@@ -92,8 +88,6 @@ module Aws::DevOpsAgent
     EmailAddress = Shapes::StringShape.new(name: 'EmailAddress')
     EnableOperatorAppInput = Shapes::StructureShape.new(name: 'EnableOperatorAppInput')
     EnableOperatorAppOutput = Shapes::StructureShape.new(name: 'EnableOperatorAppOutput')
-    EndChatForCaseRequest = Shapes::StructureShape.new(name: 'EndChatForCaseRequest')
-    EndChatForCaseResponse = Shapes::StructureShape.new(name: 'EndChatForCaseResponse')
     EventChannelConfiguration = Shapes::StructureShape.new(name: 'EventChannelConfiguration')
     EventChannelDetails = Shapes::StructureShape.new(name: 'EventChannelDetails')
     EventChannelType = Shapes::StringShape.new(name: 'EventChannelType')
@@ -142,8 +136,6 @@ module Aws::DevOpsAgent
     IdpAuthConfiguration = Shapes::StructureShape.new(name: 'IdpAuthConfiguration')
     IdpClientId = Shapes::StringShape.new(name: 'IdpClientId')
     IdpClientSecret = Shapes::StringShape.new(name: 'IdpClientSecret')
-    InitiateChatForCaseRequest = Shapes::StructureShape.new(name: 'InitiateChatForCaseRequest')
-    InitiateChatForCaseResponse = Shapes::StructureShape.new(name: 'InitiateChatForCaseResponse')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
     InvalidParameterException = Shapes::StructureShape.new(name: 'InvalidParameterException')
@@ -223,17 +215,8 @@ module Aws::DevOpsAgent
     MCPServerOAuthClientCredentialsConfig = Shapes::StructureShape.new(name: 'MCPServerOAuthClientCredentialsConfig')
     MCPServerOAuthClientCredentialsConfigClientNameString = Shapes::StringShape.new(name: 'MCPServerOAuthClientCredentialsConfigClientNameString')
     MCPServerOAuthClientCredentialsConfigExchangeUrlString = Shapes::StringShape.new(name: 'MCPServerOAuthClientCredentialsConfigExchangeUrlString')
-    MCPServerSigV4AuthorizationConfig = Shapes::StructureShape.new(name: 'MCPServerSigV4AuthorizationConfig')
-    MCPServerSigV4AuthorizationConfigServiceString = Shapes::StringShape.new(name: 'MCPServerSigV4AuthorizationConfigServiceString')
-    MCPServerSigV4ServiceDetails = Shapes::StructureShape.new(name: 'MCPServerSigV4ServiceDetails')
-    MCPServerSigV4ServiceDetailsDescriptionString = Shapes::StringShape.new(name: 'MCPServerSigV4ServiceDetailsDescriptionString')
-    MCPServerSigV4ServiceDetailsEndpointString = Shapes::StringShape.new(name: 'MCPServerSigV4ServiceDetailsEndpointString')
-    MCPServerSigV4ServiceDetailsNameString = Shapes::StringShape.new(name: 'MCPServerSigV4ServiceDetailsNameString')
     MCPToolsList = Shapes::ListShape.new(name: 'MCPToolsList')
     MCPToolsListMemberString = Shapes::StringShape.new(name: 'MCPToolsListMemberString')
-    MSTeamsChannel = Shapes::StructureShape.new(name: 'MSTeamsChannel')
-    MSTeamsConfiguration = Shapes::StructureShape.new(name: 'MSTeamsConfiguration')
-    MSTeamsTransmissionTarget = Shapes::StructureShape.new(name: 'MSTeamsTransmissionTarget')
     MaxIpv4AddressesPerEni = Shapes::IntegerShape.new(name: 'MaxIpv4AddressesPerEni')
     Message = Shapes::UnionShape.new(name: 'Message')
     MessageContent = Shapes::StringShape.new(name: 'MessageContent')
@@ -293,11 +276,6 @@ module Aws::DevOpsAgent
     RegisteredGrafanaServerDetails = Shapes::StructureShape.new(name: 'RegisteredGrafanaServerDetails')
     RegisteredGrafanaServerDetailsEndpointString = Shapes::StringShape.new(name: 'RegisteredGrafanaServerDetailsEndpointString')
     RegisteredMCPServerDetails = Shapes::StructureShape.new(name: 'RegisteredMCPServerDetails')
-    RegisteredMCPServerSigV4Details = Shapes::StructureShape.new(name: 'RegisteredMCPServerSigV4Details')
-    RegisteredMCPServerSigV4DetailsDescriptionString = Shapes::StringShape.new(name: 'RegisteredMCPServerSigV4DetailsDescriptionString')
-    RegisteredMCPServerSigV4DetailsEndpointString = Shapes::StringShape.new(name: 'RegisteredMCPServerSigV4DetailsEndpointString')
-    RegisteredMCPServerSigV4DetailsNameString = Shapes::StringShape.new(name: 'RegisteredMCPServerSigV4DetailsNameString')
-    RegisteredMCPServerSigV4DetailsServiceString = Shapes::StringShape.new(name: 'RegisteredMCPServerSigV4DetailsServiceString')
     RegisteredNewRelicDetails = Shapes::StructureShape.new(name: 'RegisteredNewRelicDetails')
     RegisteredPagerDutyDetails = Shapes::StructureShape.new(name: 'RegisteredPagerDutyDetails')
     RegisteredService = Shapes::StructureShape.new(name: 'RegisteredService')
@@ -354,7 +332,6 @@ module Aws::DevOpsAgent
     SourceAwsConfigurationAccountIdString = Shapes::StringShape.new(name: 'SourceAwsConfigurationAccountIdString')
     String = Shapes::StringShape.new(name: 'String')
     SubnetId = Shapes::StringShape.new(name: 'SubnetId')
-    SupportLevel = Shapes::StructureShape.new(name: 'SupportLevel')
     SyntheticTimestamp_date_time = Shapes::TimestampShape.new(name: 'SyntheticTimestamp_date_time', timestampFormat: "iso8601")
     TagKey = Shapes::StringShape.new(name: 'TagKey')
     TagKeyList = Shapes::ListShape.new(name: 'TagKeyList')
@@ -432,7 +409,6 @@ module Aws::DevOpsAgent
     AdditionalServiceDetails.add_member(:azureidentity, Shapes::ShapeRef.new(shape: RegisteredAzureIdentityDetails, location_name: "azureidentity"))
     AdditionalServiceDetails.add_member(:mcpservergrafana, Shapes::ShapeRef.new(shape: RegisteredGrafanaServerDetails, location_name: "mcpservergrafana"))
     AdditionalServiceDetails.add_member(:pagerduty, Shapes::ShapeRef.new(shape: RegisteredPagerDutyDetails, location_name: "pagerduty"))
-    AdditionalServiceDetails.add_member(:mcpserversigv4, Shapes::ShapeRef.new(shape: RegisteredMCPServerSigV4Details, location_name: "mcpserversigv4"))
     AdditionalServiceDetails.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     AdditionalServiceDetails.add_member_subclass(:github, Types::AdditionalServiceDetails::Github)
     AdditionalServiceDetails.add_member_subclass(:slack, Types::AdditionalServiceDetails::Slack)
@@ -446,7 +422,6 @@ module Aws::DevOpsAgent
     AdditionalServiceDetails.add_member_subclass(:azureidentity, Types::AdditionalServiceDetails::Azureidentity)
     AdditionalServiceDetails.add_member_subclass(:mcpservergrafana, Types::AdditionalServiceDetails::Mcpservergrafana)
     AdditionalServiceDetails.add_member_subclass(:pagerduty, Types::AdditionalServiceDetails::Pagerduty)
-    AdditionalServiceDetails.add_member_subclass(:mcpserversigv4, Types::AdditionalServiceDetails::Mcpserversigv4)
     AdditionalServiceDetails.add_member_subclass(:unknown, Types::AdditionalServiceDetails::Unknown)
     AdditionalServiceDetails.struct_class = Types::AdditionalServiceDetails
 
@@ -520,11 +495,6 @@ module Aws::DevOpsAgent
     ChatExecution.struct_class = Types::ChatExecution
 
     ChatExecutionList.member = Shapes::ShapeRef.new(shape: ChatExecution)
-
-    ChatParticipantConnection.add_member(:initial_contact_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "initialContactId"))
-    ChatParticipantConnection.add_member(:participant_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "participantId"))
-    ChatParticipantConnection.add_member(:participant_token, Shapes::ShapeRef.new(shape: String, required: true, location_name: "participantToken"))
-    ChatParticipantConnection.struct_class = Types::ChatParticipantConnection
 
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ConflictException.struct_class = Types::ConflictException
@@ -624,15 +594,6 @@ module Aws::DevOpsAgent
     DescribePrivateConnectionOutput.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
     DescribePrivateConnectionOutput.struct_class = Types::DescribePrivateConnectionOutput
 
-    DescribeSupportLevelRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
-    DescribeSupportLevelRequest.add_member(:task_id, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "taskId"))
-    DescribeSupportLevelRequest.struct_class = Types::DescribeSupportLevelRequest
-
-    DescribeSupportLevelResponse.add_member(:support_level, Shapes::ShapeRef.new(shape: SupportLevel, required: true, location_name: "supportLevel"))
-    DescribeSupportLevelResponse.add_member(:mosaic_support_level, Shapes::ShapeRef.new(shape: SupportLevel, location_name: "mosaicSupportLevel"))
-    DescribeSupportLevelResponse.add_member(:active_subscription, Shapes::ShapeRef.new(shape: Boolean, location_name: "activeSubscription"))
-    DescribeSupportLevelResponse.struct_class = Types::DescribeSupportLevelResponse
-
     DisableOperatorAppInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
     DisableOperatorAppInput.add_member(:auth_flow, Shapes::ShapeRef.new(shape: AuthFlow, location: "header", location_name: "x-amzn-app-auth-flow"))
     DisableOperatorAppInput.struct_class = Types::DisableOperatorAppInput
@@ -683,18 +644,6 @@ module Aws::DevOpsAgent
     EnableOperatorAppOutput.add_member(:idp, Shapes::ShapeRef.new(shape: IdpAuthConfiguration, location_name: "idp"))
     EnableOperatorAppOutput.struct_class = Types::EnableOperatorAppOutput
 
-    EndChatForCaseRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
-    EndChatForCaseRequest.add_member(:task_id, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "taskId"))
-    EndChatForCaseRequest.add_member(:reason, Shapes::ShapeRef.new(shape: String, location_name: "reason"))
-    EndChatForCaseRequest.add_member(:requester, Shapes::ShapeRef.new(shape: String, location_name: "requester"))
-    EndChatForCaseRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
-    EndChatForCaseRequest.struct_class = Types::EndChatForCaseRequest
-
-    EndChatForCaseResponse.add_member(:is_disconnected, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "isDisconnected"))
-    EndChatForCaseResponse.add_member(:execution_id, Shapes::ShapeRef.new(shape: String, location_name: "executionId"))
-    EndChatForCaseResponse.add_member(:error_message, Shapes::ShapeRef.new(shape: String, location_name: "errorMessage"))
-    EndChatForCaseResponse.struct_class = Types::EndChatForCaseResponse
-
     EventChannelConfiguration.struct_class = Types::EventChannelConfiguration
 
     EventChannelDetails.add_member(:type, Shapes::ShapeRef.new(shape: EventChannelType, location_name: "type"))
@@ -728,6 +677,7 @@ module Aws::DevOpsAgent
     GetAccountUsageOutput.add_member(:monthly_account_investigation_hours, Shapes::ShapeRef.new(shape: UsageMetric, location_name: "monthlyAccountInvestigationHours"))
     GetAccountUsageOutput.add_member(:monthly_account_evaluation_hours, Shapes::ShapeRef.new(shape: UsageMetric, location_name: "monthlyAccountEvaluationHours"))
     GetAccountUsageOutput.add_member(:monthly_account_system_learning_hours, Shapes::ShapeRef.new(shape: UsageMetric, location_name: "monthlyAccountSystemLearningHours"))
+    GetAccountUsageOutput.add_member(:monthly_account_on_demand_hours, Shapes::ShapeRef.new(shape: UsageMetric, location_name: "monthlyAccountOnDemandHours"))
     GetAccountUsageOutput.add_member(:usage_period_start_time, Shapes::ShapeRef.new(shape: DateTime, required: true, location_name: "usagePeriodStartTime"))
     GetAccountUsageOutput.add_member(:usage_period_end_time, Shapes::ShapeRef.new(shape: DateTime, required: true, location_name: "usagePeriodEndTime"))
     GetAccountUsageOutput.struct_class = Types::GetAccountUsageOutput
@@ -851,14 +801,6 @@ module Aws::DevOpsAgent
     IdpAuthConfiguration.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
     IdpAuthConfiguration.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
     IdpAuthConfiguration.struct_class = Types::IdpAuthConfiguration
-
-    InitiateChatForCaseRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
-    InitiateChatForCaseRequest.add_member(:task_id, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "taskId"))
-    InitiateChatForCaseRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
-    InitiateChatForCaseRequest.struct_class = Types::InitiateChatForCaseRequest
-
-    InitiateChatForCaseResponse.add_member(:chat_participant_connection, Shapes::ShapeRef.new(shape: ChatParticipantConnection, required: true, location_name: "chatParticipantConnection"))
-    InitiateChatForCaseResponse.struct_class = Types::InitiateChatForCaseResponse
 
     InternalServerException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     InternalServerException.struct_class = Types::InternalServerException
@@ -1065,31 +1007,7 @@ module Aws::DevOpsAgent
     MCPServerOAuthClientCredentialsConfig.add_member(:scopes, Shapes::ShapeRef.new(shape: Scopes, location_name: "scopes"))
     MCPServerOAuthClientCredentialsConfig.struct_class = Types::MCPServerOAuthClientCredentialsConfig
 
-    MCPServerSigV4AuthorizationConfig.add_member(:region, Shapes::ShapeRef.new(shape: AwsRegion, required: true, location_name: "region"))
-    MCPServerSigV4AuthorizationConfig.add_member(:service, Shapes::ShapeRef.new(shape: MCPServerSigV4AuthorizationConfigServiceString, required: true, location_name: "service"))
-    MCPServerSigV4AuthorizationConfig.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "roleArn"))
-    MCPServerSigV4AuthorizationConfig.struct_class = Types::MCPServerSigV4AuthorizationConfig
-
-    MCPServerSigV4ServiceDetails.add_member(:name, Shapes::ShapeRef.new(shape: MCPServerSigV4ServiceDetailsNameString, required: true, location_name: "name"))
-    MCPServerSigV4ServiceDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: MCPServerSigV4ServiceDetailsEndpointString, required: true, location_name: "endpoint"))
-    MCPServerSigV4ServiceDetails.add_member(:description, Shapes::ShapeRef.new(shape: MCPServerSigV4ServiceDetailsDescriptionString, location_name: "description"))
-    MCPServerSigV4ServiceDetails.add_member(:authorization_config, Shapes::ShapeRef.new(shape: MCPServerSigV4AuthorizationConfig, required: true, location_name: "authorizationConfig"))
-    MCPServerSigV4ServiceDetails.struct_class = Types::MCPServerSigV4ServiceDetails
-
     MCPToolsList.member = Shapes::ShapeRef.new(shape: MCPToolsListMemberString)
-
-    MSTeamsChannel.add_member(:channel_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "channelName"))
-    MSTeamsChannel.add_member(:channel_id, Shapes::ShapeRef.new(shape: Guid, required: true, location_name: "channelId"))
-    MSTeamsChannel.struct_class = Types::MSTeamsChannel
-
-    MSTeamsConfiguration.add_member(:team_id, Shapes::ShapeRef.new(shape: Guid, required: true, location_name: "teamId"))
-    MSTeamsConfiguration.add_member(:team_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "teamName"))
-    MSTeamsConfiguration.add_member(:transmission_target, Shapes::ShapeRef.new(shape: MSTeamsTransmissionTarget, required: true, location_name: "transmissionTarget"))
-    MSTeamsConfiguration.struct_class = Types::MSTeamsConfiguration
-
-    MSTeamsTransmissionTarget.add_member(:ops_oncall_target, Shapes::ShapeRef.new(shape: MSTeamsChannel, location_name: "opsOncallTarget"))
-    MSTeamsTransmissionTarget.add_member(:ops_sre_target, Shapes::ShapeRef.new(shape: MSTeamsChannel, location_name: "opsSRETarget"))
-    MSTeamsTransmissionTarget.struct_class = Types::MSTeamsTransmissionTarget
 
     Message.add_member(:user_message, Shapes::ShapeRef.new(shape: UserMessage, location_name: "userMessage"))
     Message.add_member(:assistant_message, Shapes::ShapeRef.new(shape: AssistantMessage, location_name: "assistantMessage"))
@@ -1258,14 +1176,6 @@ module Aws::DevOpsAgent
     RegisteredMCPServerDetails.add_member(:api_key_header, Shapes::ShapeRef.new(shape: String, location_name: "apiKeyHeader"))
     RegisteredMCPServerDetails.struct_class = Types::RegisteredMCPServerDetails
 
-    RegisteredMCPServerSigV4Details.add_member(:name, Shapes::ShapeRef.new(shape: RegisteredMCPServerSigV4DetailsNameString, required: true, location_name: "name"))
-    RegisteredMCPServerSigV4Details.add_member(:endpoint, Shapes::ShapeRef.new(shape: RegisteredMCPServerSigV4DetailsEndpointString, required: true, location_name: "endpoint"))
-    RegisteredMCPServerSigV4Details.add_member(:description, Shapes::ShapeRef.new(shape: RegisteredMCPServerSigV4DetailsDescriptionString, location_name: "description"))
-    RegisteredMCPServerSigV4Details.add_member(:region, Shapes::ShapeRef.new(shape: AwsRegion, required: true, location_name: "region"))
-    RegisteredMCPServerSigV4Details.add_member(:service, Shapes::ShapeRef.new(shape: RegisteredMCPServerSigV4DetailsServiceString, required: true, location_name: "service"))
-    RegisteredMCPServerSigV4Details.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "roleArn"))
-    RegisteredMCPServerSigV4Details.struct_class = Types::RegisteredMCPServerSigV4Details
-
     RegisteredNewRelicDetails.add_member(:account_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "accountId"))
     RegisteredNewRelicDetails.add_member(:region, Shapes::ShapeRef.new(shape: NewRelicRegion, required: true, location_name: "region"))
     RegisteredNewRelicDetails.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
@@ -1405,7 +1315,6 @@ module Aws::DevOpsAgent
     ServiceConfiguration.add_member(:azuredevops, Shapes::ShapeRef.new(shape: AzureDevOpsConfiguration, location_name: "azuredevops"))
     ServiceConfiguration.add_member(:mcpservergrafana, Shapes::ShapeRef.new(shape: MCPServerGrafanaConfiguration, location_name: "mcpservergrafana"))
     ServiceConfiguration.add_member(:pagerduty, Shapes::ShapeRef.new(shape: PagerDutyConfiguration, location_name: "pagerduty"))
-    ServiceConfiguration.add_member(:msteams, Shapes::ShapeRef.new(shape: MSTeamsConfiguration, location_name: "msteams"))
     ServiceConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     ServiceConfiguration.add_member_subclass(:source_aws, Types::ServiceConfiguration::SourceAws)
     ServiceConfiguration.add_member_subclass(:aws, Types::ServiceConfiguration::Aws)
@@ -1420,7 +1329,6 @@ module Aws::DevOpsAgent
     ServiceConfiguration.add_member_subclass(:azuredevops, Types::ServiceConfiguration::Azuredevops)
     ServiceConfiguration.add_member_subclass(:mcpservergrafana, Types::ServiceConfiguration::Mcpservergrafana)
     ServiceConfiguration.add_member_subclass(:pagerduty, Types::ServiceConfiguration::Pagerduty)
-    ServiceConfiguration.add_member_subclass(:msteams, Types::ServiceConfiguration::Msteams)
     ServiceConfiguration.add_member_subclass(:unknown, Types::ServiceConfiguration::Unknown)
     ServiceConfiguration.struct_class = Types::ServiceConfiguration
 
@@ -1435,7 +1343,6 @@ module Aws::DevOpsAgent
     ServiceDetails.add_member(:mcpservergrafana, Shapes::ShapeRef.new(shape: GrafanaServiceDetails, location_name: "mcpservergrafana"))
     ServiceDetails.add_member(:pagerduty, Shapes::ShapeRef.new(shape: PagerDutyDetails, location_name: "pagerduty"))
     ServiceDetails.add_member(:azureidentity, Shapes::ShapeRef.new(shape: RegisteredAzureIdentityDetails, location_name: "azureidentity"))
-    ServiceDetails.add_member(:mcpserversigv4, Shapes::ShapeRef.new(shape: MCPServerSigV4ServiceDetails, location_name: "mcpserversigv4"))
     ServiceDetails.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     ServiceDetails.add_member_subclass(:dynatrace, Types::ServiceDetails::Dynatrace)
     ServiceDetails.add_member_subclass(:servicenow, Types::ServiceDetails::Servicenow)
@@ -1448,7 +1355,6 @@ module Aws::DevOpsAgent
     ServiceDetails.add_member_subclass(:mcpservergrafana, Types::ServiceDetails::Mcpservergrafana)
     ServiceDetails.add_member_subclass(:pagerduty, Types::ServiceDetails::Pagerduty)
     ServiceDetails.add_member_subclass(:azureidentity, Types::ServiceDetails::Azureidentity)
-    ServiceDetails.add_member_subclass(:mcpserversigv4, Types::ServiceDetails::Mcpserversigv4)
     ServiceDetails.add_member_subclass(:unknown, Types::ServiceDetails::Unknown)
     ServiceDetails.struct_class = Types::ServiceDetails
 
@@ -1505,10 +1411,6 @@ module Aws::DevOpsAgent
     SourceAwsConfiguration.add_member(:assumable_role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "assumableRoleArn"))
     SourceAwsConfiguration.add_member(:external_id, Shapes::ShapeRef.new(shape: String, location_name: "externalId"))
     SourceAwsConfiguration.struct_class = Types::SourceAwsConfiguration
-
-    SupportLevel.add_member(:code, Shapes::ShapeRef.new(shape: String, required: true, location_name: "code"))
-    SupportLevel.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
-    SupportLevel.struct_class = Types::SupportLevel
 
     TagKeyList.member = Shapes::ShapeRef.new(shape: TagKey)
 
@@ -1893,26 +1795,6 @@ module Aws::DevOpsAgent
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
       end)
 
-      api.add_operation(:describe_support_level, Seahorse::Model::Operation.new.tap do |o|
-        o.name = "DescribeSupportLevel"
-        o.http_method = "POST"
-        o.http_request_uri = "/support/agent-space/{agentSpaceId}/tasks/{taskId}/supportLevel"
-        o.endpoint_pattern = {
-          "hostPrefix" => "dp.",
-        }
-        o.input = Shapes::ShapeRef.new(shape: DescribeSupportLevelRequest)
-        o.output = Shapes::ShapeRef.new(shape: DescribeSupportLevelResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
-        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
-      end)
-
       api.add_operation(:disable_operator_app, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DisableOperatorApp"
         o.http_method = "DELETE"
@@ -1972,26 +1854,6 @@ module Aws::DevOpsAgent
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
-      end)
-
-      api.add_operation(:end_chat_for_case, Seahorse::Model::Operation.new.tap do |o|
-        o.name = "EndChatForCase"
-        o.http_method = "POST"
-        o.http_request_uri = "/support/agent-space/{agentSpaceId}/tasks/{taskId}/end-chat-for-case"
-        o.endpoint_pattern = {
-          "hostPrefix" => "dp.",
-        }
-        o.input = Shapes::ShapeRef.new(shape: EndChatForCaseRequest)
-        o.output = Shapes::ShapeRef.new(shape: EndChatForCaseResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
-        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
       end)
 
@@ -2124,26 +1986,6 @@ module Aws::DevOpsAgent
         }
         o.input = Shapes::ShapeRef.new(shape: GetServiceInput)
         o.output = Shapes::ShapeRef.new(shape: GetServiceOutput)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
-        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
-      end)
-
-      api.add_operation(:initiate_chat_for_case, Seahorse::Model::Operation.new.tap do |o|
-        o.name = "InitiateChatForCase"
-        o.http_method = "POST"
-        o.http_request_uri = "/support/agent-space/{agentSpaceId}/tasks/{taskId}/chats"
-        o.endpoint_pattern = {
-          "hostPrefix" => "dp.",
-        }
-        o.input = Shapes::ShapeRef.new(shape: InitiateChatForCaseRequest)
-        o.output = Shapes::ShapeRef.new(shape: InitiateChatForCaseResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.71.0 (2026-03-31)
+------------------
+
+* Feature - Adds environmentConfigurationName field to CreateEnvironmentInput and UpdateEnvironmentInput, so that Domain Owners can now recover orphaned environments by recreating deleted configurations with the same name, and will auto-recover orphaned environments
+
 1.70.0 (2026-03-18)
 ------------------
 

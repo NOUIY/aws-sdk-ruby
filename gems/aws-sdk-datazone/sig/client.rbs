@@ -1017,6 +1017,7 @@ module Aws
         def deployment_properties: () -> Types::DeploymentProperties
         def environment_blueprint_id: () -> ::String
         def environment_configuration_id: () -> ::String
+        def environment_configuration_name: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#create_environment-instance_method
       def create_environment: (
@@ -1036,7 +1037,8 @@ module Aws
                                 ?environment_account_region: ::String,
                                 ?environment_blueprint_identifier: ::String,
                                 ?deployment_order: ::Integer,
-                                ?environment_configuration_id: ::String
+                                ?environment_configuration_id: ::String,
+                                ?environment_configuration_name: ::String
                               ) -> _CreateEnvironmentResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateEnvironmentResponseSuccess
 
@@ -2192,6 +2194,7 @@ module Aws
         def deployment_properties: () -> Types::DeploymentProperties
         def environment_blueprint_id: () -> ::String
         def environment_configuration_id: () -> ::String
+        def environment_configuration_name: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#get_environment-instance_method
       def get_environment: (
@@ -4123,6 +4126,7 @@ module Aws
         def deployment_properties: () -> Types::DeploymentProperties
         def environment_blueprint_id: () -> ::String
         def environment_configuration_id: () -> ::String
+        def environment_configuration_name: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#update_environment-instance_method
       def update_environment: (
@@ -4137,7 +4141,8 @@ module Aws
                                     name: ::String?,
                                     value: ::String?
                                   },
-                                ]
+                                ],
+                                ?environment_configuration_name: ::String
                               ) -> _UpdateEnvironmentResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateEnvironmentResponseSuccess
 

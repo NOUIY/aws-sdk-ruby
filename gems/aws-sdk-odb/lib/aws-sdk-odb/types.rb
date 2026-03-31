@@ -4712,6 +4712,11 @@ module Aws::Odb
     #   The managed services configuration for the ODB network.
     #   @return [Types::ManagedServices]
     #
+    # @!attribute [rw] ec2_placement_group_ids
+    #   The list of EC2 Placement Group IDs associated with your ODB
+    #   network.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/OdbNetwork AWS API Documentation
     #
     class OdbNetwork < Struct.new(
@@ -4735,7 +4740,8 @@ module Aws::Odb
       :oci_dns_forwarding_configs,
       :created_at,
       :percent_progress,
-      :managed_services)
+      :managed_services,
+      :ec2_placement_group_ids)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4832,6 +4838,11 @@ module Aws::Odb
     #   The managed services configuration for the ODB network.
     #   @return [Types::ManagedServices]
     #
+    # @!attribute [rw] ec2_placement_group_ids
+    #   The list of EC2 Placement Group IDs associated with your ODB
+    #   network.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/OdbNetworkSummary AWS API Documentation
     #
     class OdbNetworkSummary < Struct.new(
@@ -4855,7 +4866,8 @@ module Aws::Odb
       :oci_dns_forwarding_configs,
       :created_at,
       :percent_progress,
-      :managed_services)
+      :managed_services,
+      :ec2_placement_group_ids)
       SENSITIVE = []
       include Aws::Structure
     end

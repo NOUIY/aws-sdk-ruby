@@ -754,6 +754,12 @@ module Aws::QuickSight
     #   this analysis.
     #   @return [Array<Types::SheetDefinition>]
     #
+    # @!attribute [rw] tooltip_sheets
+    #   An array of tooltip sheet definitions for an analysis. Each
+    #   `TooltipSheetDefinition` provides detailed information about a
+    #   tooltip sheet within this analysis.
+    #   @return [Array<Types::TooltipSheetDefinition>]
+    #
     # @!attribute [rw] calculated_fields
     #   An array of calculated field definitions for the analysis.
     #   @return [Array<Types::CalculatedField>]
@@ -810,6 +816,7 @@ module Aws::QuickSight
     class AnalysisDefinition < Struct.new(
       :data_set_identifier_declarations,
       :sheets,
+      :tooltip_sheets,
       :calculated_fields,
       :parameter_declarations,
       :filter_groups,
@@ -5395,12 +5402,24 @@ module Aws::QuickSight
     #   The ability to perform space-related actions.
     #   @return [String]
     #
+    # @!attribute [rw] create_spaces
+    #   The ability to create spaces.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_spaces
+    #   The ability to share spaces with other users and groups.
+    #   @return [String]
+    #
     # @!attribute [rw] chat_agent
     #   The ability to perform chat-related actions.
     #   @return [String]
     #
     # @!attribute [rw] create_chat_agents
     #   The ability to create chat agents.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_chat_agents
+    #   The ability to share chat agents with other users and groups.
     #   @return [String]
     #
     # @!attribute [rw] research
@@ -5638,8 +5657,11 @@ module Aws::QuickSight
       :build_calculated_field_with_q,
       :create_dashboard_executive_summary_with_q,
       :space,
+      :create_spaces,
+      :share_spaces,
       :chat_agent,
       :create_chat_agents,
+      :share_chat_agents,
       :research,
       :self_upgrade_user_role,
       :extension,
@@ -10485,6 +10507,10 @@ module Aws::QuickSight
     #   An array of sheet definitions for a dashboard.
     #   @return [Array<Types::SheetDefinition>]
     #
+    # @!attribute [rw] tooltip_sheets
+    #   An array of tooltip sheet definitions for a dashboard.
+    #   @return [Array<Types::TooltipSheetDefinition>]
+    #
     # @!attribute [rw] calculated_fields
     #   An array of calculated field definitions for the dashboard.
     #   @return [Array<Types::CalculatedField>]
@@ -10536,6 +10562,7 @@ module Aws::QuickSight
     class DashboardVersionDefinition < Struct.new(
       :data_set_identifier_declarations,
       :sheets,
+      :tooltip_sheets,
       :calculated_fields,
       :parameter_declarations,
       :filter_groups,
@@ -12060,6 +12087,12 @@ module Aws::QuickSight
     #   The credentials for connecting through a web proxy server.
     #   @return [Types::WebProxyCredentials]
     #
+    # @!attribute [rw] o_auth_client_credentials
+    #   The OAuth client credentials for connecting to a data source using
+    #   OAuth 2.0 client credentials (2LO) authentication. For more
+    #   information, see ` OAuthClientCredentials `.
+    #   @return [Types::OAuthClientCredentials]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DataSourceCredentials AWS API Documentation
     #
     class DataSourceCredentials < Struct.new(
@@ -12067,7 +12100,8 @@ module Aws::QuickSight
       :copy_source_arn,
       :secret_arn,
       :key_pair_credentials,
-      :web_proxy_credentials)
+      :web_proxy_credentials,
+      :o_auth_client_credentials)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -15699,6 +15733,101 @@ module Aws::QuickSight
       :override_validation_strategy,
       :warnings)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the
+    #   automation job.
+    #   @return [String]
+    #
+    # @!attribute [rw] automation_group_id
+    #   The ID of the automation group that contains the automation.
+    #   @return [String]
+    #
+    # @!attribute [rw] automation_id
+    #   The ID of the automation that the job belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] include_input_payload
+    #   A Boolean value that indicates whether to include the input payload
+    #   in the response. If set to `true`, the input payload will be
+    #   included. If set to `false`, the input payload will be returned as
+    #   `null`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] include_output_payload
+    #   A Boolean value that indicates whether to include the output payload
+    #   in the response. If set to `true`, the output payload will be
+    #   included. If set to `false`, the output payload will be returned as
+    #   `null`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] job_id
+    #   The ID of the automation job to describe.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeAutomationJobRequest AWS API Documentation
+    #
+    class DescribeAutomationJobRequest < Struct.new(
+      :aws_account_id,
+      :automation_group_id,
+      :automation_id,
+      :include_input_payload,
+      :include_output_payload,
+      :job_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the automation job.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The time that the automation job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] started_at
+    #   The time that the automation job started running.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ended_at
+    #   The time that the automation job finished running.
+    #   @return [Time]
+    #
+    # @!attribute [rw] job_status
+    #   The current status of the automation job.
+    #   @return [String]
+    #
+    # @!attribute [rw] input_payload
+    #   The input payload that was provided when the automation job was
+    #   started. This field is only included when `IncludeInputPayload` is
+    #   set to `true` in the request.
+    #   @return [String]
+    #
+    # @!attribute [rw] output_payload
+    #   The output payload that was generated by the automation job. This
+    #   field is only included when `IncludeOutputPayload` is set to `true`
+    #   in the request.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeAutomationJobResponse AWS API Documentation
+    #
+    class DescribeAutomationJobResponse < Struct.new(
+      :arn,
+      :created_at,
+      :started_at,
+      :ended_at,
+      :job_status,
+      :input_payload,
+      :output_payload,
+      :request_id)
+      SENSITIVE = [:input_payload, :output_payload]
       include Aws::Structure
     end
 
@@ -28747,6 +28876,37 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # The OAuth 2.0 client credentials used for authenticating a data source
+    # connection. Use this structure to provide a client ID, client secret,
+    # and username directly instead of referencing a secret stored in Amazon
+    # Secrets Manager. This structure supports data sources that use
+    # two-legged OAuth (2LO) authentication, such as Snowflake.
+    #
+    # @!attribute [rw] client_id
+    #   The client ID of the OAuth 2.0 application that is registered with
+    #   the data source provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_secret
+    #   The client secret of the OAuth 2.0 application that is registered
+    #   with the data source provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] username
+    #   The username of the account that is used for OAuth 2.0 client
+    #   credentials authentication with the data source provider.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/OAuthClientCredentials AWS API Documentation
+    #
+    class OAuthClientCredentials < Struct.new(
+      :client_id,
+      :client_secret,
+      :username)
+      SENSITIVE = [:client_id, :client_secret, :username]
+      include Aws::Structure
+    end
+
     # An object that contains information needed to create a data source
     # connection that uses OAuth client credentials. This option is
     # available for data source connections that are made with Snowflake and
@@ -30079,6 +30239,10 @@ module Aws::QuickSight
     #   The paginated report options for a pivot table visual.
     #   @return [Types::PivotTablePaginatedReportOptions]
     #
+    # @!attribute [rw] tooltip
+    #   The display options for the visual tooltip.
+    #   @return [Types::TooltipOptions]
+    #
     # @!attribute [rw] dashboard_customization_visual_options
     #   The options that define customizations available to dashboard
     #   readers for a specific visual
@@ -30097,6 +30261,7 @@ module Aws::QuickSight
       :total_options,
       :field_options,
       :paginated_report_options,
+      :tooltip,
       :dashboard_customization_visual_options,
       :interactions)
       SENSITIVE = []
@@ -35495,6 +35660,20 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # The configuration of the sheet tooltip.
+    #
+    # @!attribute [rw] sheet_id
+    #   The sheet ID of the tooltip sheet that is used by the tooltip.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SheetTooltip AWS API Documentation
+    #
+    class SheetTooltip < Struct.new(
+      :sheet_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The filter that is applied to the options.
     #
     # @!attribute [rw] sheet_id
@@ -36163,6 +36342,61 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # The options for sparklines in a table.
+    #
+    # @!attribute [rw] field_id
+    #   The field ID of the value column that the sparkline is applied to.
+    #   @return [String]
+    #
+    # @!attribute [rw] x_axis_field
+    #   The dimension type field.
+    #   @return [Types::DimensionField]
+    #
+    # @!attribute [rw] y_axis_behavior
+    #   Determines whether the Y axis is shared across all sparklines or
+    #   independent for each sparkline.
+    #   @return [String]
+    #
+    # @!attribute [rw] visual_type
+    #   The type of the sparkline. Valid values are `LINE` and `AREA_LINE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] line_color
+    #   The color of the sparkline line.
+    #   @return [String]
+    #
+    # @!attribute [rw] line_interpolation
+    #   The interpolation style for the sparkline line.
+    #   @return [String]
+    #
+    # @!attribute [rw] all_points_marker
+    #   Marker styles options for a line series in `LineChartVisual`.
+    #   @return [Types::LineChartMarkerStyleSettings]
+    #
+    # @!attribute [rw] max_value_marker
+    #   Marker styles options for a line series in `LineChartVisual`.
+    #   @return [Types::LineChartMarkerStyleSettings]
+    #
+    # @!attribute [rw] min_value_marker
+    #   Marker styles options for a line series in `LineChartVisual`.
+    #   @return [Types::LineChartMarkerStyleSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SparklinesOptions AWS API Documentation
+    #
+    class SparklinesOptions < Struct.new(
+      :field_id,
+      :x_axis_field,
+      :y_axis_behavior,
+      :visual_type,
+      :line_color,
+      :line_interpolation,
+      :all_points_marker,
+      :max_value_marker,
+      :min_value_marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A static file that contains the geospatial data.
     #
     # @!attribute [rw] static_file_id
@@ -36485,6 +36719,61 @@ module Aws::QuickSight
       :asset_bundle_import_job_id,
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the
+    #   automation.
+    #   @return [String]
+    #
+    # @!attribute [rw] automation_group_id
+    #   The ID of the automation group that contains the automation to run.
+    #   @return [String]
+    #
+    # @!attribute [rw] automation_id
+    #   The ID of the automation to run.
+    #   @return [String]
+    #
+    # @!attribute [rw] input_payload
+    #   The input payload for the automation job, provided as a JSON string.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/StartAutomationJobRequest AWS API Documentation
+    #
+    class StartAutomationJobRequest < Struct.new(
+      :aws_account_id,
+      :automation_group_id,
+      :automation_id,
+      :input_payload)
+      SENSITIVE = [:input_payload]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the automation job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The ID of the automation job that was started.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/StartAutomationJobResponse AWS API Documentation
+    #
+    class StartAutomationJobResponse < Struct.new(
+      :arn,
+      :job_id,
+      :status,
+      :request_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -37146,6 +37435,10 @@ module Aws::QuickSight
     #   A collection of inline visualizations to display within a chart.
     #   @return [Array<Types::TableInlineVisualization>]
     #
+    # @!attribute [rw] tooltip
+    #   The display options for the visual tooltip.
+    #   @return [Types::TooltipOptions]
+    #
     # @!attribute [rw] dashboard_customization_visual_options
     #   The options that define customizations available to dashboard
     #   readers for a specific visual
@@ -37165,6 +37458,7 @@ module Aws::QuickSight
       :field_options,
       :paginated_report_options,
       :table_inline_visualizations,
+      :tooltip,
       :dashboard_customization_visual_options,
       :interactions)
       SENSITIVE = []
@@ -37374,10 +37668,16 @@ module Aws::QuickSight
     #   within a chart.
     #   @return [Types::DataBarsOptions]
     #
+    # @!attribute [rw] sparklines
+    #   The configuration of the inline visualization of the sparklines
+    #   within a chart.
+    #   @return [Types::SparklinesOptions]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TableInlineVisualization AWS API Documentation
     #
     class TableInlineVisualization < Struct.new(
-      :data_bars)
+      :data_bars,
+      :sparklines)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -37982,6 +38282,10 @@ module Aws::QuickSight
     #   An array of sheet definitions for a template.
     #   @return [Array<Types::SheetDefinition>]
     #
+    # @!attribute [rw] tooltip_sheets
+    #   An array of tooltip sheet definitions for a template.
+    #   @return [Array<Types::TooltipSheetDefinition>]
+    #
     # @!attribute [rw] calculated_fields
     #   An array of calculated field definitions for the template.
     #   @return [Array<Types::CalculatedField>]
@@ -38038,6 +38342,7 @@ module Aws::QuickSight
     class TemplateVersionDefinition < Struct.new(
       :data_set_configurations,
       :sheets,
+      :tooltip_sheets,
       :calculated_fields,
       :parameter_declarations,
       :filter_groups,
@@ -38849,12 +39154,66 @@ module Aws::QuickSight
     #   saved. The display type is decided based on the tooltip type.
     #   @return [Types::FieldBasedTooltip]
     #
+    # @!attribute [rw] sheet_tooltip
+    #   The configuration of the sheet tooltip.
+    #   @return [Types::SheetTooltip]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TooltipOptions AWS API Documentation
     #
     class TooltipOptions < Struct.new(
       :tooltip_visibility,
       :selected_tooltip_type,
-      :field_based_tooltip)
+      :field_based_tooltip,
+      :sheet_tooltip)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A tooltip sheet is an object that contains a set of visuals that are
+    # used as a tooltip. Every analysis and dashboard must contain at least
+    # one non-tooltip sheet.
+    #
+    # @!attribute [rw] sheet_id
+    #   The unique identifier of a tooltip sheet.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the tooltip sheet. This name is displayed on the
+    #   sheet's tab in the Quick console.
+    #   @return [String]
+    #
+    # @!attribute [rw] visuals
+    #   A list of the visuals that are on a tooltip sheet.
+    #   @return [Array<Types::Visual>]
+    #
+    # @!attribute [rw] text_boxes
+    #   The text boxes that are on a tooltip sheet.
+    #   @return [Array<Types::SheetTextBox>]
+    #
+    # @!attribute [rw] images
+    #   A list of images on a tooltip sheet.
+    #   @return [Array<Types::SheetImage>]
+    #
+    # @!attribute [rw] layouts
+    #   Layouts define how the components of a tooltip sheet are arranged.
+    #
+    #   For more information, see [Types of layout][1] in the *Amazon Quick
+    #   Suite User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/quicksight/latest/user/types-of-layout.html
+    #   @return [Array<Types::Layout>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TooltipSheetDefinition AWS API Documentation
+    #
+    class TooltipSheetDefinition < Struct.new(
+      :sheet_id,
+      :name,
+      :visuals,
+      :text_boxes,
+      :images,
+      :layouts)
       SENSITIVE = []
       include Aws::Structure
     end
