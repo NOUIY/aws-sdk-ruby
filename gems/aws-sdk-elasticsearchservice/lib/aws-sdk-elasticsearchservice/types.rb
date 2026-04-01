@@ -1857,6 +1857,8 @@ module Aws::ElasticsearchService
     #   * <b>Policy-Min-TLS-1-2-PFS-2023-10: </b> TLS security policy that
     #     supports TLS version 1.2 to TLS version 1.3 with perfect forward
     #     secrecy cipher suites
+    #   * <b>Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08: </b> TLS security
+    #     policy that supports TLS version 1.3 with FIPS
     #   @return [String]
     #
     # @!attribute [rw] custom_endpoint_enabled

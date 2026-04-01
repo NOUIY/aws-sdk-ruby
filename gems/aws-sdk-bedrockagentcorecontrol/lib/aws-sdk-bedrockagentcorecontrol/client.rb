@@ -1384,6 +1384,10 @@ module Aws::BedrockAgentCoreControl
     #   Optional configuration for HTTP header and query parameter propagation
     #   to and from the gateway target.
     #
+    # @option params [Types::PrivateEndpoint] :private_endpoint
+    #   The private endpoint configuration for the gateway target. Use this to
+    #   connect the gateway to private resources in your VPC.
+    #
     # @return [Types::CreateGatewayTargetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateGatewayTargetResponse#gateway_arn #gateway_arn} => String
@@ -1398,6 +1402,8 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::CreateGatewayTargetResponse#credential_provider_configurations #credential_provider_configurations} => Array&lt;Types::CredentialProviderConfiguration&gt;
     #   * {Types::CreateGatewayTargetResponse#last_synchronized_at #last_synchronized_at} => Time
     #   * {Types::CreateGatewayTargetResponse#metadata_configuration #metadata_configuration} => Types::MetadataConfiguration
+    #   * {Types::CreateGatewayTargetResponse#private_endpoint #private_endpoint} => Types::PrivateEndpoint
+    #   * {Types::CreateGatewayTargetResponse#private_endpoint_managed_resources #private_endpoint_managed_resources} => Array&lt;Types::ManagedResourceDetails&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -1507,6 +1513,10 @@ module Aws::BedrockAgentCoreControl
     #             credential_prefix: "ApiKeyCredentialPrefix",
     #             credential_location: "HEADER", # accepts HEADER, QUERY_PARAMETER
     #           },
+    #           iam_credential_provider: {
+    #             service: "IamCredentialProviderServiceString", # required
+    #             region: "IamCredentialProviderRegionString",
+    #           },
     #         },
     #       },
     #     ],
@@ -1514,6 +1524,21 @@ module Aws::BedrockAgentCoreControl
     #       allowed_request_headers: ["HttpHeaderName"],
     #       allowed_query_parameters: ["HttpQueryParameterName"],
     #       allowed_response_headers: ["HttpHeaderName"],
+    #     },
+    #     private_endpoint: {
+    #       self_managed_lattice_resource: {
+    #         resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #       },
+    #       managed_lattice_resource: {
+    #         vpc_identifier: "VpcIdentifier", # required
+    #         subnet_ids: ["SubnetId"], # required
+    #         endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #         security_group_ids: ["SecurityGroupIdentifier"],
+    #         tags: {
+    #           "TagKey" => "TagValue",
+    #         },
+    #         routing_domain: "RoutingDomain",
+    #       },
     #     },
     #   })
     #
@@ -1579,6 +1604,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_parameter_name #=> String
     #   resp.credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_prefix #=> String
     #   resp.credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_location #=> String, one of "HEADER", "QUERY_PARAMETER"
+    #   resp.credential_provider_configurations[0].credential_provider.iam_credential_provider.service #=> String
+    #   resp.credential_provider_configurations[0].credential_provider.iam_credential_provider.region #=> String
     #   resp.last_synchronized_at #=> Time
     #   resp.metadata_configuration.allowed_request_headers #=> Array
     #   resp.metadata_configuration.allowed_request_headers[0] #=> String
@@ -1586,6 +1613,20 @@ module Aws::BedrockAgentCoreControl
     #   resp.metadata_configuration.allowed_query_parameters[0] #=> String
     #   resp.metadata_configuration.allowed_response_headers #=> Array
     #   resp.metadata_configuration.allowed_response_headers[0] #=> String
+    #   resp.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.private_endpoint.managed_lattice_resource.vpc_identifier #=> String
+    #   resp.private_endpoint.managed_lattice_resource.subnet_ids #=> Array
+    #   resp.private_endpoint.managed_lattice_resource.subnet_ids[0] #=> String
+    #   resp.private_endpoint.managed_lattice_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.private_endpoint.managed_lattice_resource.security_group_ids #=> Array
+    #   resp.private_endpoint.managed_lattice_resource.security_group_ids[0] #=> String
+    #   resp.private_endpoint.managed_lattice_resource.tags #=> Hash
+    #   resp.private_endpoint.managed_lattice_resource.tags["TagKey"] #=> String
+    #   resp.private_endpoint.managed_lattice_resource.routing_domain #=> String
+    #   resp.private_endpoint_managed_resources #=> Array
+    #   resp.private_endpoint_managed_resources[0].domain #=> String
+    #   resp.private_endpoint_managed_resources[0].resource_gateway_arn #=> String
+    #   resp.private_endpoint_managed_resources[0].resource_association_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateGatewayTarget AWS API Documentation
     #
@@ -3530,6 +3571,8 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetGatewayTargetResponse#credential_provider_configurations #credential_provider_configurations} => Array&lt;Types::CredentialProviderConfiguration&gt;
     #   * {Types::GetGatewayTargetResponse#last_synchronized_at #last_synchronized_at} => Time
     #   * {Types::GetGatewayTargetResponse#metadata_configuration #metadata_configuration} => Types::MetadataConfiguration
+    #   * {Types::GetGatewayTargetResponse#private_endpoint #private_endpoint} => Types::PrivateEndpoint
+    #   * {Types::GetGatewayTargetResponse#private_endpoint_managed_resources #private_endpoint_managed_resources} => Array&lt;Types::ManagedResourceDetails&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -3600,6 +3643,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_parameter_name #=> String
     #   resp.credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_prefix #=> String
     #   resp.credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_location #=> String, one of "HEADER", "QUERY_PARAMETER"
+    #   resp.credential_provider_configurations[0].credential_provider.iam_credential_provider.service #=> String
+    #   resp.credential_provider_configurations[0].credential_provider.iam_credential_provider.region #=> String
     #   resp.last_synchronized_at #=> Time
     #   resp.metadata_configuration.allowed_request_headers #=> Array
     #   resp.metadata_configuration.allowed_request_headers[0] #=> String
@@ -3607,6 +3652,20 @@ module Aws::BedrockAgentCoreControl
     #   resp.metadata_configuration.allowed_query_parameters[0] #=> String
     #   resp.metadata_configuration.allowed_response_headers #=> Array
     #   resp.metadata_configuration.allowed_response_headers[0] #=> String
+    #   resp.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.private_endpoint.managed_lattice_resource.vpc_identifier #=> String
+    #   resp.private_endpoint.managed_lattice_resource.subnet_ids #=> Array
+    #   resp.private_endpoint.managed_lattice_resource.subnet_ids[0] #=> String
+    #   resp.private_endpoint.managed_lattice_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.private_endpoint.managed_lattice_resource.security_group_ids #=> Array
+    #   resp.private_endpoint.managed_lattice_resource.security_group_ids[0] #=> String
+    #   resp.private_endpoint.managed_lattice_resource.tags #=> Hash
+    #   resp.private_endpoint.managed_lattice_resource.tags["TagKey"] #=> String
+    #   resp.private_endpoint.managed_lattice_resource.routing_domain #=> String
+    #   resp.private_endpoint_managed_resources #=> Array
+    #   resp.private_endpoint_managed_resources[0].domain #=> String
+    #   resp.private_endpoint_managed_resources[0].resource_gateway_arn #=> String
+    #   resp.private_endpoint_managed_resources[0].resource_association_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetGatewayTarget AWS API Documentation
     #
@@ -5396,6 +5455,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_parameter_name #=> String
     #   resp.targets[0].credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_prefix #=> String
     #   resp.targets[0].credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_location #=> String, one of "HEADER", "QUERY_PARAMETER"
+    #   resp.targets[0].credential_provider_configurations[0].credential_provider.iam_credential_provider.service #=> String
+    #   resp.targets[0].credential_provider_configurations[0].credential_provider.iam_credential_provider.region #=> String
     #   resp.targets[0].last_synchronized_at #=> Time
     #   resp.targets[0].metadata_configuration.allowed_request_headers #=> Array
     #   resp.targets[0].metadata_configuration.allowed_request_headers[0] #=> String
@@ -5403,6 +5464,20 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].metadata_configuration.allowed_query_parameters[0] #=> String
     #   resp.targets[0].metadata_configuration.allowed_response_headers #=> Array
     #   resp.targets[0].metadata_configuration.allowed_response_headers[0] #=> String
+    #   resp.targets[0].private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.targets[0].private_endpoint.managed_lattice_resource.vpc_identifier #=> String
+    #   resp.targets[0].private_endpoint.managed_lattice_resource.subnet_ids #=> Array
+    #   resp.targets[0].private_endpoint.managed_lattice_resource.subnet_ids[0] #=> String
+    #   resp.targets[0].private_endpoint.managed_lattice_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.targets[0].private_endpoint.managed_lattice_resource.security_group_ids #=> Array
+    #   resp.targets[0].private_endpoint.managed_lattice_resource.security_group_ids[0] #=> String
+    #   resp.targets[0].private_endpoint.managed_lattice_resource.tags #=> Hash
+    #   resp.targets[0].private_endpoint.managed_lattice_resource.tags["TagKey"] #=> String
+    #   resp.targets[0].private_endpoint.managed_lattice_resource.routing_domain #=> String
+    #   resp.targets[0].private_endpoint_managed_resources #=> Array
+    #   resp.targets[0].private_endpoint_managed_resources[0].domain #=> String
+    #   resp.targets[0].private_endpoint_managed_resources[0].resource_gateway_arn #=> String
+    #   resp.targets[0].private_endpoint_managed_resources[0].resource_association_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SynchronizeGatewayTargets AWS API Documentation
     #
@@ -6052,6 +6127,10 @@ module Aws::BedrockAgentCoreControl
     #   Configuration for HTTP header and query parameter propagation to the
     #   gateway target.
     #
+    # @option params [Types::PrivateEndpoint] :private_endpoint
+    #   The private endpoint configuration for the gateway target. Use this to
+    #   connect the gateway to private resources in your VPC.
+    #
     # @return [Types::UpdateGatewayTargetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateGatewayTargetResponse#gateway_arn #gateway_arn} => String
@@ -6066,6 +6145,8 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::UpdateGatewayTargetResponse#credential_provider_configurations #credential_provider_configurations} => Array&lt;Types::CredentialProviderConfiguration&gt;
     #   * {Types::UpdateGatewayTargetResponse#last_synchronized_at #last_synchronized_at} => Time
     #   * {Types::UpdateGatewayTargetResponse#metadata_configuration #metadata_configuration} => Types::MetadataConfiguration
+    #   * {Types::UpdateGatewayTargetResponse#private_endpoint #private_endpoint} => Types::PrivateEndpoint
+    #   * {Types::UpdateGatewayTargetResponse#private_endpoint_managed_resources #private_endpoint_managed_resources} => Array&lt;Types::ManagedResourceDetails&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -6175,6 +6256,10 @@ module Aws::BedrockAgentCoreControl
     #             credential_prefix: "ApiKeyCredentialPrefix",
     #             credential_location: "HEADER", # accepts HEADER, QUERY_PARAMETER
     #           },
+    #           iam_credential_provider: {
+    #             service: "IamCredentialProviderServiceString", # required
+    #             region: "IamCredentialProviderRegionString",
+    #           },
     #         },
     #       },
     #     ],
@@ -6182,6 +6267,21 @@ module Aws::BedrockAgentCoreControl
     #       allowed_request_headers: ["HttpHeaderName"],
     #       allowed_query_parameters: ["HttpQueryParameterName"],
     #       allowed_response_headers: ["HttpHeaderName"],
+    #     },
+    #     private_endpoint: {
+    #       self_managed_lattice_resource: {
+    #         resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #       },
+    #       managed_lattice_resource: {
+    #         vpc_identifier: "VpcIdentifier", # required
+    #         subnet_ids: ["SubnetId"], # required
+    #         endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #         security_group_ids: ["SecurityGroupIdentifier"],
+    #         tags: {
+    #           "TagKey" => "TagValue",
+    #         },
+    #         routing_domain: "RoutingDomain",
+    #       },
     #     },
     #   })
     #
@@ -6247,6 +6347,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_parameter_name #=> String
     #   resp.credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_prefix #=> String
     #   resp.credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_location #=> String, one of "HEADER", "QUERY_PARAMETER"
+    #   resp.credential_provider_configurations[0].credential_provider.iam_credential_provider.service #=> String
+    #   resp.credential_provider_configurations[0].credential_provider.iam_credential_provider.region #=> String
     #   resp.last_synchronized_at #=> Time
     #   resp.metadata_configuration.allowed_request_headers #=> Array
     #   resp.metadata_configuration.allowed_request_headers[0] #=> String
@@ -6254,6 +6356,20 @@ module Aws::BedrockAgentCoreControl
     #   resp.metadata_configuration.allowed_query_parameters[0] #=> String
     #   resp.metadata_configuration.allowed_response_headers #=> Array
     #   resp.metadata_configuration.allowed_response_headers[0] #=> String
+    #   resp.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.private_endpoint.managed_lattice_resource.vpc_identifier #=> String
+    #   resp.private_endpoint.managed_lattice_resource.subnet_ids #=> Array
+    #   resp.private_endpoint.managed_lattice_resource.subnet_ids[0] #=> String
+    #   resp.private_endpoint.managed_lattice_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.private_endpoint.managed_lattice_resource.security_group_ids #=> Array
+    #   resp.private_endpoint.managed_lattice_resource.security_group_ids[0] #=> String
+    #   resp.private_endpoint.managed_lattice_resource.tags #=> Hash
+    #   resp.private_endpoint.managed_lattice_resource.tags["TagKey"] #=> String
+    #   resp.private_endpoint.managed_lattice_resource.routing_domain #=> String
+    #   resp.private_endpoint_managed_resources #=> Array
+    #   resp.private_endpoint_managed_resources[0].domain #=> String
+    #   resp.private_endpoint_managed_resources[0].resource_gateway_arn #=> String
+    #   resp.private_endpoint_managed_resources[0].resource_association_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateGatewayTarget AWS API Documentation
     #
@@ -7085,7 +7201,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.33.0'
+      context[:gem_version] = '1.34.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

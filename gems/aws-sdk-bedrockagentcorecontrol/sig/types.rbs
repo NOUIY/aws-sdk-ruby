@@ -518,6 +518,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor target_configuration: Types::TargetConfiguration
       attr_accessor credential_provider_configurations: ::Array[Types::CredentialProviderConfiguration]
       attr_accessor metadata_configuration: Types::MetadataConfiguration
+      attr_accessor private_endpoint: Types::PrivateEndpoint
       SENSITIVE: [:name, :description]
     end
 
@@ -534,6 +535,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor credential_provider_configurations: ::Array[Types::CredentialProviderConfiguration]
       attr_accessor last_synchronized_at: ::Time
       attr_accessor metadata_configuration: Types::MetadataConfiguration
+      attr_accessor private_endpoint: Types::PrivateEndpoint
+      attr_accessor private_endpoint_managed_resources: ::Array[Types::ManagedResourceDetails]
       SENSITIVE: [:name, :description]
     end
 
@@ -659,12 +662,15 @@ module Aws::BedrockAgentCoreControl
     class CredentialProvider
       attr_accessor oauth_credential_provider: Types::OAuthCredentialProvider
       attr_accessor api_key_credential_provider: Types::ApiKeyCredentialProvider
+      attr_accessor iam_credential_provider: Types::IamCredentialProvider
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class OauthCredentialProvider < CredentialProvider
       end
       class ApiKeyCredentialProvider < CredentialProvider
+      end
+      class IamCredentialProvider < CredentialProvider
       end
       class Unknown < CredentialProvider
       end
@@ -1277,6 +1283,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor credential_provider_configurations: ::Array[Types::CredentialProviderConfiguration]
       attr_accessor last_synchronized_at: ::Time
       attr_accessor metadata_configuration: Types::MetadataConfiguration
+      attr_accessor private_endpoint: Types::PrivateEndpoint
+      attr_accessor private_endpoint_managed_resources: ::Array[Types::ManagedResourceDetails]
       SENSITIVE: [:name, :description]
     end
 
@@ -1473,6 +1481,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor credential_provider_configurations: ::Array[Types::CredentialProviderConfiguration]
       attr_accessor last_synchronized_at: ::Time
       attr_accessor metadata_configuration: Types::MetadataConfiguration
+      attr_accessor private_endpoint: Types::PrivateEndpoint
+      attr_accessor private_endpoint_managed_resources: ::Array[Types::ManagedResourceDetails]
       SENSITIVE: [:name, :description]
     end
 
@@ -1642,6 +1652,12 @@ module Aws::BedrockAgentCoreControl
     class GoogleOauth2ProviderConfigOutput
       attr_accessor oauth_discovery: Types::Oauth2Discovery
       attr_accessor client_id: ::String
+      SENSITIVE: []
+    end
+
+    class IamCredentialProvider
+      attr_accessor service: ::String
+      attr_accessor region: ::String
       SENSITIVE: []
     end
 
@@ -1990,6 +2006,23 @@ module Aws::BedrockAgentCoreControl
       attr_accessor supported_versions: ::Array[::String]
       attr_accessor instructions: ::String
       attr_accessor search_type: ("SEMANTIC")
+      SENSITIVE: []
+    end
+
+    class ManagedLatticeResource
+      attr_accessor vpc_identifier: ::String
+      attr_accessor subnet_ids: ::Array[::String]
+      attr_accessor endpoint_ip_address_type: ("IPV4" | "IPV6")
+      attr_accessor security_group_ids: ::Array[::String]
+      attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor routing_domain: ::String
+      SENSITIVE: []
+    end
+
+    class ManagedResourceDetails
+      attr_accessor domain: ::String
+      attr_accessor resource_gateway_arn: ::String
+      attr_accessor resource_association_arn: ::String
       SENSITIVE: []
     end
 
@@ -2404,6 +2437,20 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class PrivateEndpoint
+      attr_accessor self_managed_lattice_resource: Types::SelfManagedLatticeResource
+      attr_accessor managed_lattice_resource: Types::ManagedLatticeResource
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class SelfManagedLatticeResource < PrivateEndpoint
+      end
+      class ManagedLatticeResource < PrivateEndpoint
+      end
+      class Unknown < PrivateEndpoint
+      end
+    end
+
     class ProtocolConfiguration
       attr_accessor server_protocol: ("MCP" | "HTTP" | "A2A" | "AGUI")
       SENSITIVE: []
@@ -2570,6 +2617,17 @@ module Aws::BedrockAgentCoreControl
       attr_accessor invocation_configuration: Types::InvocationConfigurationInput
       attr_accessor historical_context_window_size: ::Integer
       SENSITIVE: []
+    end
+
+    class SelfManagedLatticeResource
+      attr_accessor resource_configuration_identifier: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class ResourceConfigurationIdentifier < SelfManagedLatticeResource
+      end
+      class Unknown < SelfManagedLatticeResource
+      end
     end
 
     class SemanticConsolidationOverride
@@ -2996,6 +3054,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor target_configuration: Types::TargetConfiguration
       attr_accessor credential_provider_configurations: ::Array[Types::CredentialProviderConfiguration]
       attr_accessor metadata_configuration: Types::MetadataConfiguration
+      attr_accessor private_endpoint: Types::PrivateEndpoint
       SENSITIVE: [:name, :description]
     end
 
@@ -3012,6 +3071,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor credential_provider_configurations: ::Array[Types::CredentialProviderConfiguration]
       attr_accessor last_synchronized_at: ::Time
       attr_accessor metadata_configuration: Types::MetadataConfiguration
+      attr_accessor private_endpoint: Types::PrivateEndpoint
+      attr_accessor private_endpoint_managed_resources: ::Array[Types::ManagedResourceDetails]
       SENSITIVE: [:name, :description]
     end
 

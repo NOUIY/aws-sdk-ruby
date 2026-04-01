@@ -4854,6 +4854,10 @@ module Aws::Bedrock
     #   * {Types::GetModelInvocationJobResponse#timeout_duration_in_hours #timeout_duration_in_hours} => Integer
     #   * {Types::GetModelInvocationJobResponse#job_expiration_time #job_expiration_time} => Time
     #   * {Types::GetModelInvocationJobResponse#model_invocation_type #model_invocation_type} => String
+    #   * {Types::GetModelInvocationJobResponse#total_record_count #total_record_count} => Integer
+    #   * {Types::GetModelInvocationJobResponse#processed_record_count #processed_record_count} => Integer
+    #   * {Types::GetModelInvocationJobResponse#success_record_count #success_record_count} => Integer
+    #   * {Types::GetModelInvocationJobResponse#error_record_count #error_record_count} => Integer
     #
     # @example Request syntax with placeholder values
     #
@@ -4886,6 +4890,10 @@ module Aws::Bedrock
     #   resp.timeout_duration_in_hours #=> Integer
     #   resp.job_expiration_time #=> Time
     #   resp.model_invocation_type #=> String, one of "InvokeModel", "Converse"
+    #   resp.total_record_count #=> Integer
+    #   resp.processed_record_count #=> Integer
+    #   resp.success_record_count #=> Integer
+    #   resp.error_record_count #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/GetModelInvocationJob AWS API Documentation
     #
@@ -6508,6 +6516,10 @@ module Aws::Bedrock
     #   resp.invocation_job_summaries[0].timeout_duration_in_hours #=> Integer
     #   resp.invocation_job_summaries[0].job_expiration_time #=> Time
     #   resp.invocation_job_summaries[0].model_invocation_type #=> String, one of "InvokeModel", "Converse"
+    #   resp.invocation_job_summaries[0].total_record_count #=> Integer
+    #   resp.invocation_job_summaries[0].processed_record_count #=> Integer
+    #   resp.invocation_job_summaries[0].success_record_count #=> Integer
+    #   resp.invocation_job_summaries[0].error_record_count #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/ListModelInvocationJobs AWS API Documentation
     #
@@ -7903,7 +7915,7 @@ module Aws::Bedrock
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrock'
-      context[:gem_version] = '1.79.0'
+      context[:gem_version] = '1.80.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

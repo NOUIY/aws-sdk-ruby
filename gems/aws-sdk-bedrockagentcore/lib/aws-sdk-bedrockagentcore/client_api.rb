@@ -114,6 +114,7 @@ module Aws::BedrockAgentCore
     EvaluatorId = Shapes::StringShape.new(name: 'EvaluatorId')
     EvaluatorName = Shapes::StringShape.new(name: 'EvaluatorName')
     Event = Shapes::StructureShape.new(name: 'Event')
+    EventFilterCondition = Shapes::StringShape.new(name: 'EventFilterCondition')
     EventId = Shapes::StringShape.new(name: 'EventId')
     EventList = Shapes::ListShape.new(name: 'EventList')
     EventMetadataFilterExpression = Shapes::StructureShape.new(name: 'EventMetadataFilterExpression')
@@ -272,6 +273,7 @@ module Aws::BedrockAgentCore
     SecretsManagerLocation = Shapes::StructureShape.new(name: 'SecretsManagerLocation')
     ServiceException = Shapes::StructureShape.new(name: 'ServiceException')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
+    SessionFilter = Shapes::StructureShape.new(name: 'SessionFilter')
     SessionId = Shapes::StringShape.new(name: 'SessionId')
     SessionStatus = Shapes::StringShape.new(name: 'SessionStatus')
     SessionSummary = Shapes::StructureShape.new(name: 'SessionSummary')
@@ -928,6 +930,7 @@ module Aws::BedrockAgentCore
     ListSessionsInput.add_member(:actor_id, Shapes::ShapeRef.new(shape: ActorId, required: true, location: "uri", location_name: "actorId"))
     ListSessionsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
     ListSessionsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
+    ListSessionsInput.add_member(:filter, Shapes::ShapeRef.new(shape: SessionFilter, location_name: "filter"))
     ListSessionsInput.struct_class = Types::ListSessionsInput
 
     ListSessionsOutput.add_member(:session_summaries, Shapes::ShapeRef.new(shape: SessionSummaryList, required: true, location_name: "sessionSummaries"))
@@ -1128,6 +1131,9 @@ module Aws::BedrockAgentCore
 
     ServiceQuotaExceededException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     ServiceQuotaExceededException.struct_class = Types::ServiceQuotaExceededException
+
+    SessionFilter.add_member(:event_filter, Shapes::ShapeRef.new(shape: EventFilterCondition, location_name: "eventFilter"))
+    SessionFilter.struct_class = Types::SessionFilter
 
     SessionSummary.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location_name: "sessionId"))
     SessionSummary.add_member(:actor_id, Shapes::ShapeRef.new(shape: ActorId, required: true, location_name: "actorId"))

@@ -702,6 +702,7 @@ module Aws::Bedrock
     ModelSourceIdentifier = Shapes::StringShape.new(name: 'ModelSourceIdentifier')
     ModelStatus = Shapes::StringShape.new(name: 'ModelStatus')
     NonBlankString = Shapes::StringShape.new(name: 'NonBlankString')
+    NonNegativeLong = Shapes::IntegerShape.new(name: 'NonNegativeLong')
     Offer = Shapes::StructureShape.new(name: 'Offer')
     OfferId = Shapes::StringShape.new(name: 'OfferId')
     OfferToken = Shapes::StringShape.new(name: 'OfferToken')
@@ -2382,6 +2383,10 @@ module Aws::Bedrock
     GetModelInvocationJobResponse.add_member(:timeout_duration_in_hours, Shapes::ShapeRef.new(shape: ModelInvocationJobTimeoutDurationInHours, location_name: "timeoutDurationInHours"))
     GetModelInvocationJobResponse.add_member(:job_expiration_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "jobExpirationTime"))
     GetModelInvocationJobResponse.add_member(:model_invocation_type, Shapes::ShapeRef.new(shape: ModelInvocationType, location_name: "modelInvocationType"))
+    GetModelInvocationJobResponse.add_member(:total_record_count, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "totalRecordCount"))
+    GetModelInvocationJobResponse.add_member(:processed_record_count, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "processedRecordCount"))
+    GetModelInvocationJobResponse.add_member(:success_record_count, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "successRecordCount"))
+    GetModelInvocationJobResponse.add_member(:error_record_count, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "errorRecordCount"))
     GetModelInvocationJobResponse.struct_class = Types::GetModelInvocationJobResponse
 
     GetModelInvocationLoggingConfigurationRequest.struct_class = Types::GetModelInvocationLoggingConfigurationRequest
@@ -3152,6 +3157,10 @@ module Aws::Bedrock
     ModelInvocationJobSummary.add_member(:timeout_duration_in_hours, Shapes::ShapeRef.new(shape: ModelInvocationJobTimeoutDurationInHours, location_name: "timeoutDurationInHours"))
     ModelInvocationJobSummary.add_member(:job_expiration_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "jobExpirationTime"))
     ModelInvocationJobSummary.add_member(:model_invocation_type, Shapes::ShapeRef.new(shape: ModelInvocationType, location_name: "modelInvocationType"))
+    ModelInvocationJobSummary.add_member(:total_record_count, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "totalRecordCount"))
+    ModelInvocationJobSummary.add_member(:processed_record_count, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "processedRecordCount"))
+    ModelInvocationJobSummary.add_member(:success_record_count, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "successRecordCount"))
+    ModelInvocationJobSummary.add_member(:error_record_count, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "errorRecordCount"))
     ModelInvocationJobSummary.struct_class = Types::ModelInvocationJobSummary
 
     ModelModalityList.member = Shapes::ShapeRef.new(shape: ModelModality)

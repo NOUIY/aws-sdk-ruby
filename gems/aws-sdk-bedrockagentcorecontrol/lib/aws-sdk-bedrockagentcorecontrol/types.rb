@@ -1921,6 +1921,11 @@ module Aws::BedrockAgentCoreControl
     #   propagation to and from the gateway target.
     #   @return [Types::MetadataConfiguration]
     #
+    # @!attribute [rw] private_endpoint
+    #   The private endpoint configuration for the gateway target. Use this
+    #   to connect the gateway to private resources in your VPC.
+    #   @return [Types::PrivateEndpoint]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateGatewayTargetRequest AWS API Documentation
     #
     class CreateGatewayTargetRequest < Struct.new(
@@ -1930,7 +1935,8 @@ module Aws::BedrockAgentCoreControl
       :client_token,
       :target_configuration,
       :credential_provider_configurations,
-      :metadata_configuration)
+      :metadata_configuration,
+      :private_endpoint)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -1984,6 +1990,15 @@ module Aws::BedrockAgentCoreControl
     #   target.
     #   @return [Types::MetadataConfiguration]
     #
+    # @!attribute [rw] private_endpoint
+    #   The private endpoint configuration for the gateway target.
+    #   @return [Types::PrivateEndpoint]
+    #
+    # @!attribute [rw] private_endpoint_managed_resources
+    #   The managed resources created by the gateway for private endpoint
+    #   connectivity.
+    #   @return [Array<Types::ManagedResourceDetails>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateGatewayTargetResponse AWS API Documentation
     #
     class CreateGatewayTargetResponse < Struct.new(
@@ -1998,7 +2013,9 @@ module Aws::BedrockAgentCoreControl
       :target_configuration,
       :credential_provider_configurations,
       :last_synchronized_at,
-      :metadata_configuration)
+      :metadata_configuration,
+      :private_endpoint,
+      :private_endpoint_managed_resources)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -2594,11 +2611,17 @@ module Aws::BedrockAgentCoreControl
     #   authenticate with the target endpoint.
     #   @return [Types::ApiKeyCredentialProvider]
     #
+    # @!attribute [rw] iam_credential_provider
+    #   The IAM credential provider. This provider uses IAM authentication
+    #   with SigV4 signing to access the target endpoint.
+    #   @return [Types::IamCredentialProvider]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CredentialProvider AWS API Documentation
     #
     class CredentialProvider < Struct.new(
       :oauth_credential_provider,
       :api_key_credential_provider,
+      :iam_credential_provider,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -2606,6 +2629,7 @@ module Aws::BedrockAgentCoreControl
 
       class OauthCredentialProvider < CredentialProvider; end
       class ApiKeyCredentialProvider < CredentialProvider; end
+      class IamCredentialProvider < CredentialProvider; end
       class Unknown < CredentialProvider; end
     end
 
@@ -4474,6 +4498,17 @@ module Aws::BedrockAgentCoreControl
     #   propagation to and from this gateway target.
     #   @return [Types::MetadataConfiguration]
     #
+    # @!attribute [rw] private_endpoint
+    #   The private endpoint configuration for a gateway target. Defines how
+    #   the gateway connects to private resources in your VPC.
+    #   @return [Types::PrivateEndpoint]
+    #
+    # @!attribute [rw] private_endpoint_managed_resources
+    #   A list of managed resources created by the gateway for private
+    #   endpoint connectivity. These resources are created in your account
+    #   when you use a managed VPC Lattice resource configuration.
+    #   @return [Array<Types::ManagedResourceDetails>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GatewayTarget AWS API Documentation
     #
     class GatewayTarget < Struct.new(
@@ -4488,7 +4523,9 @@ module Aws::BedrockAgentCoreControl
       :target_configuration,
       :credential_provider_configurations,
       :last_synchronized_at,
-      :metadata_configuration)
+      :metadata_configuration,
+      :private_endpoint,
+      :private_endpoint_managed_resources)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -5252,6 +5289,15 @@ module Aws::BedrockAgentCoreControl
     #   propagation for the retrieved gateway target.
     #   @return [Types::MetadataConfiguration]
     #
+    # @!attribute [rw] private_endpoint
+    #   The private endpoint configuration for the gateway target.
+    #   @return [Types::PrivateEndpoint]
+    #
+    # @!attribute [rw] private_endpoint_managed_resources
+    #   The managed resources created by the gateway for private endpoint
+    #   connectivity.
+    #   @return [Array<Types::ManagedResourceDetails>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetGatewayTargetResponse AWS API Documentation
     #
     class GetGatewayTargetResponse < Struct.new(
@@ -5266,7 +5312,9 @@ module Aws::BedrockAgentCoreControl
       :target_configuration,
       :credential_provider_configurations,
       :last_synchronized_at,
-      :metadata_configuration)
+      :metadata_configuration,
+      :private_endpoint,
+      :private_endpoint_managed_resources)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -5903,6 +5951,30 @@ module Aws::BedrockAgentCoreControl
     class GoogleOauth2ProviderConfigOutput < Struct.new(
       :oauth_discovery,
       :client_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An IAM credential provider for gateway authentication. This structure
+    # contains the configuration for authenticating with the target endpoint
+    # using IAM credentials and SigV4 signing.
+    #
+    # @!attribute [rw] service
+    #   The target Amazon Web Services service name used for SigV4 signing.
+    #   This value identifies the service that the gateway authenticates
+    #   with when making requests to the target endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] region
+    #   The Amazon Web Services Region used for SigV4 signing. If not
+    #   specified, defaults to the gateway's Region.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/IamCredentialProvider AWS API Documentation
+    #
+    class IamCredentialProvider < Struct.new(
+      :service,
+      :region)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7088,6 +7160,77 @@ module Aws::BedrockAgentCoreControl
       :supported_versions,
       :instructions,
       :search_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for a managed VPC Lattice resource. The gateway creates
+    # and manages the VPC Lattice resource gateway and resource
+    # configuration on your behalf using a service-linked role.
+    #
+    # @!attribute [rw] vpc_identifier
+    #   The ID of the VPC that contains your private resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] subnet_ids
+    #   The subnet IDs within the VPC where the VPC Lattice resource gateway
+    #   is placed.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] endpoint_ip_address_type
+    #   The IP address type for the resource configuration endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] security_group_ids
+    #   The security group IDs to associate with the VPC Lattice resource
+    #   gateway. If not specified, the default security group for the VPC is
+    #   used.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] tags
+    #   Tags to apply to the managed VPC Lattice resource gateway.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] routing_domain
+    #   An intermediate publicly resolvable domain used as the VPC Lattice
+    #   resource configuration endpoint. Required when your private endpoint
+    #   uses a domain that is not publicly resolvable.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ManagedLatticeResource AWS API Documentation
+    #
+    class ManagedLatticeResource < Struct.new(
+      :vpc_identifier,
+      :subnet_ids,
+      :endpoint_ip_address_type,
+      :security_group_ids,
+      :tags,
+      :routing_domain)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details of a resource created and managed by the gateway for private
+    # endpoint connectivity.
+    #
+    # @!attribute [rw] domain
+    #   The domain associated with this managed resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_gateway_arn
+    #   The ARN of the VPC Lattice resource gateway created in your account.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_association_arn
+    #   The ARN of the service network resource association.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ManagedResourceDetails AWS API Documentation
+    #
+    class ManagedResourceDetails < Struct.new(
+      :domain,
+      :resource_gateway_arn,
+      :resource_association_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8469,6 +8612,39 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The private endpoint configuration for a gateway target. Defines how
+    # the gateway connects to private resources in your VPC.
+    #
+    # @note PrivateEndpoint is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note PrivateEndpoint is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of PrivateEndpoint corresponding to the set member.
+    #
+    # @!attribute [rw] self_managed_lattice_resource
+    #   Configuration for connecting to a private resource using a
+    #   self-managed VPC Lattice resource configuration.
+    #   @return [Types::SelfManagedLatticeResource]
+    #
+    # @!attribute [rw] managed_lattice_resource
+    #   Configuration for connecting to a private resource using a managed
+    #   VPC Lattice resource. The gateway creates and manages the VPC
+    #   Lattice resources on your behalf.
+    #   @return [Types::ManagedLatticeResource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PrivateEndpoint AWS API Documentation
+    #
+    class PrivateEndpoint < Struct.new(
+      :self_managed_lattice_resource,
+      :managed_lattice_resource,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class SelfManagedLatticeResource < PrivateEndpoint; end
+      class ManagedLatticeResource < PrivateEndpoint; end
+      class Unknown < PrivateEndpoint; end
+    end
+
     # The protocol configuration for an agent runtime. This structure
     # defines how the agent runtime communicates with clients.
     #
@@ -8963,6 +9139,31 @@ module Aws::BedrockAgentCoreControl
       :historical_context_window_size)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # Configuration for a self-managed VPC Lattice resource. You create and
+    # manage the VPC Lattice resource gateway and resource configuration,
+    # then provide the resource configuration identifier.
+    #
+    # @note SelfManagedLatticeResource is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note SelfManagedLatticeResource is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of SelfManagedLatticeResource corresponding to the set member.
+    #
+    # @!attribute [rw] resource_configuration_identifier
+    #   The ARN or ID of the VPC Lattice resource configuration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SelfManagedLatticeResource AWS API Documentation
+    #
+    class SelfManagedLatticeResource < Struct.new(
+      :resource_configuration_identifier,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class ResourceConfigurationIdentifier < SelfManagedLatticeResource; end
+      class Unknown < SelfManagedLatticeResource; end
     end
 
     # Contains semantic consolidation override configuration.
@@ -10407,6 +10608,11 @@ module Aws::BedrockAgentCoreControl
     #   gateway target.
     #   @return [Types::MetadataConfiguration]
     #
+    # @!attribute [rw] private_endpoint
+    #   The private endpoint configuration for the gateway target. Use this
+    #   to connect the gateway to private resources in your VPC.
+    #   @return [Types::PrivateEndpoint]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateGatewayTargetRequest AWS API Documentation
     #
     class UpdateGatewayTargetRequest < Struct.new(
@@ -10416,7 +10622,8 @@ module Aws::BedrockAgentCoreControl
       :description,
       :target_configuration,
       :credential_provider_configurations,
-      :metadata_configuration)
+      :metadata_configuration,
+      :private_endpoint)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -10471,6 +10678,15 @@ module Aws::BedrockAgentCoreControl
     #   The metadata configuration that was applied to the gateway target.
     #   @return [Types::MetadataConfiguration]
     #
+    # @!attribute [rw] private_endpoint
+    #   The private endpoint configuration for the gateway target.
+    #   @return [Types::PrivateEndpoint]
+    #
+    # @!attribute [rw] private_endpoint_managed_resources
+    #   The managed resources created by the gateway for private endpoint
+    #   connectivity.
+    #   @return [Array<Types::ManagedResourceDetails>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateGatewayTargetResponse AWS API Documentation
     #
     class UpdateGatewayTargetResponse < Struct.new(
@@ -10485,7 +10701,9 @@ module Aws::BedrockAgentCoreControl
       :target_configuration,
       :credential_provider_configurations,
       :last_synchronized_at,
-      :metadata_configuration)
+      :metadata_configuration,
+      :private_endpoint,
+      :private_endpoint_managed_resources)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end

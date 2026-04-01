@@ -450,6 +450,8 @@ module Aws
         def credential_provider_configurations: () -> ::Array[Types::CredentialProviderConfiguration]
         def last_synchronized_at: () -> ::Time
         def metadata_configuration: () -> Types::MetadataConfiguration
+        def private_endpoint: () -> Types::PrivateEndpoint
+        def private_endpoint_managed_resources: () -> ::Array[Types::ManagedResourceDetails]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#create_gateway_target-instance_method
       def create_gateway_target: (
@@ -543,6 +545,10 @@ module Aws
                                            credential_parameter_name: ::String?,
                                            credential_prefix: ::String?,
                                            credential_location: ("HEADER" | "QUERY_PARAMETER")?
+                                         }?,
+                                         iam_credential_provider: {
+                                           service: ::String,
+                                           region: ::String?
                                          }?
                                        }?
                                      },
@@ -551,6 +557,19 @@ module Aws
                                      allowed_request_headers: Array[::String]?,
                                      allowed_query_parameters: Array[::String]?,
                                      allowed_response_headers: Array[::String]?
+                                   },
+                                   ?private_endpoint: {
+                                     self_managed_lattice_resource: {
+                                       resource_configuration_identifier: ::String?
+                                     }?,
+                                     managed_lattice_resource: {
+                                       vpc_identifier: ::String,
+                                       subnet_ids: Array[::String],
+                                       endpoint_ip_address_type: ("IPV4" | "IPV6"),
+                                       security_group_ids: Array[::String]?,
+                                       tags: Hash[::String, ::String]?,
+                                       routing_domain: ::String?
+                                     }?
                                    }
                                  ) -> _CreateGatewayTargetResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateGatewayTargetResponseSuccess
@@ -1266,6 +1285,8 @@ module Aws
         def credential_provider_configurations: () -> ::Array[Types::CredentialProviderConfiguration]
         def last_synchronized_at: () -> ::Time
         def metadata_configuration: () -> Types::MetadataConfiguration
+        def private_endpoint: () -> Types::PrivateEndpoint
+        def private_endpoint_managed_resources: () -> ::Array[Types::ManagedResourceDetails]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_gateway_target-instance_method
       def get_gateway_target: (
@@ -2009,6 +2030,8 @@ module Aws
         def credential_provider_configurations: () -> ::Array[Types::CredentialProviderConfiguration]
         def last_synchronized_at: () -> ::Time
         def metadata_configuration: () -> Types::MetadataConfiguration
+        def private_endpoint: () -> Types::PrivateEndpoint
+        def private_endpoint_managed_resources: () -> ::Array[Types::ManagedResourceDetails]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#update_gateway_target-instance_method
       def update_gateway_target: (
@@ -2102,6 +2125,10 @@ module Aws
                                            credential_parameter_name: ::String?,
                                            credential_prefix: ::String?,
                                            credential_location: ("HEADER" | "QUERY_PARAMETER")?
+                                         }?,
+                                         iam_credential_provider: {
+                                           service: ::String,
+                                           region: ::String?
                                          }?
                                        }?
                                      },
@@ -2110,6 +2137,19 @@ module Aws
                                      allowed_request_headers: Array[::String]?,
                                      allowed_query_parameters: Array[::String]?,
                                      allowed_response_headers: Array[::String]?
+                                   },
+                                   ?private_endpoint: {
+                                     self_managed_lattice_resource: {
+                                       resource_configuration_identifier: ::String?
+                                     }?,
+                                     managed_lattice_resource: {
+                                       vpc_identifier: ::String,
+                                       subnet_ids: Array[::String],
+                                       endpoint_ip_address_type: ("IPV4" | "IPV6"),
+                                       security_group_ids: Array[::String]?,
+                                       tags: Hash[::String, ::String]?,
+                                       routing_domain: ::String?
+                                     }?
                                    }
                                  ) -> _UpdateGatewayTargetResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateGatewayTargetResponseSuccess

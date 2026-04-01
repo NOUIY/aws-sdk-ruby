@@ -7218,6 +7218,25 @@ module Aws::Bedrock
     #   The invocation endpoint for ModelInvocationJob
     #   @return [String]
     #
+    # @!attribute [rw] total_record_count
+    #   The total number of records in the batch inference job.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] processed_record_count
+    #   The number of records that have been processed in the batch
+    #   inference job.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] success_record_count
+    #   The number of records that were successfully processed in the batch
+    #   inference job.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] error_record_count
+    #   The number of records that failed to process in the batch inference
+    #   job.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/GetModelInvocationJobResponse AWS API Documentation
     #
     class GetModelInvocationJobResponse < Struct.new(
@@ -7236,7 +7255,11 @@ module Aws::Bedrock
       :vpc_config,
       :timeout_duration_in_hours,
       :job_expiration_time,
-      :model_invocation_type)
+      :model_invocation_type,
+      :total_record_count,
+      :processed_record_count,
+      :success_record_count,
+      :error_record_count)
       SENSITIVE = [:message]
       include Aws::Structure
     end
@@ -11565,6 +11588,25 @@ module Aws::Bedrock
     #   The invocation endpoint for ModelInvocationJob
     #   @return [String]
     #
+    # @!attribute [rw] total_record_count
+    #   The total number of records in the batch inference job.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] processed_record_count
+    #   The number of records that have been processed in the batch
+    #   inference job.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] success_record_count
+    #   The number of records that were successfully processed in the batch
+    #   inference job.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] error_record_count
+    #   The number of records that failed to process in the batch inference
+    #   job.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/ModelInvocationJobSummary AWS API Documentation
     #
     class ModelInvocationJobSummary < Struct.new(
@@ -11583,7 +11625,11 @@ module Aws::Bedrock
       :vpc_config,
       :timeout_duration_in_hours,
       :job_expiration_time,
-      :model_invocation_type)
+      :model_invocation_type,
+      :total_record_count,
+      :processed_record_count,
+      :success_record_count,
+      :error_record_count)
       SENSITIVE = [:message]
       include Aws::Structure
     end

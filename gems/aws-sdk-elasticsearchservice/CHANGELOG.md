@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.118.0 (2026-04-01)
+------------------
+
+* Feature - Adding Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08 as TLS Policy in Supported Regions
+
 1.117.0 (2026-03-18)
 ------------------
 

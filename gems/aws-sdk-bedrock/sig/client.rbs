@@ -1588,6 +1588,10 @@ module Aws
         def timeout_duration_in_hours: () -> ::Integer
         def job_expiration_time: () -> ::Time
         def model_invocation_type: () -> ("InvokeModel" | "Converse")
+        def total_record_count: () -> ::Integer
+        def processed_record_count: () -> ::Integer
+        def success_record_count: () -> ::Integer
+        def error_record_count: () -> ::Integer
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Bedrock/Client.html#get_model_invocation_job-instance_method
       def get_model_invocation_job: (

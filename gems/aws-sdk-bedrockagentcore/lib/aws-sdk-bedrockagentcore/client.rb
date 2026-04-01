@@ -2735,6 +2735,9 @@ module Aws::BedrockAgentCore
     #   previous response in the next request to retrieve the next set of
     #   results.
     #
+    # @option params [Types::SessionFilter] :filter
+    #   Filter criteria to apply when listing sessions.
+    #
     # @return [Types::ListSessionsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ListSessionsOutput#session_summaries #session_summaries} => Array&lt;Types::SessionSummary&gt;
@@ -2749,6 +2752,9 @@ module Aws::BedrockAgentCore
     #     actor_id: "ActorId", # required
     #     max_results: 1,
     #     next_token: "PaginationToken",
+    #     filter: {
+    #       event_filter: "HAS_EVENTS", # accepts HAS_EVENTS
+    #     },
     #   })
     #
     # @example Response structure
@@ -3544,7 +3550,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.24.0'
+      context[:gem_version] = '1.25.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

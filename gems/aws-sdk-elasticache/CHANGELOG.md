@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.141.0 (2026-04-01)
+------------------
+
+* Feature - Updated SnapshotRetentionLimit documentation for ServerlessCache to correctly describe the parameter as number of days (max 35) instead of number of snapshots.
+
 1.140.0 (2026-03-18)
 ------------------
 

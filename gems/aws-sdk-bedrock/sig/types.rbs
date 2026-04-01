@@ -1958,6 +1958,10 @@ module Aws::Bedrock
       attr_accessor timeout_duration_in_hours: ::Integer
       attr_accessor job_expiration_time: ::Time
       attr_accessor model_invocation_type: ("InvokeModel" | "Converse")
+      attr_accessor total_record_count: ::Integer
+      attr_accessor processed_record_count: ::Integer
+      attr_accessor success_record_count: ::Integer
+      attr_accessor error_record_count: ::Integer
       SENSITIVE: [:message]
     end
 
@@ -2913,6 +2917,10 @@ module Aws::Bedrock
       attr_accessor timeout_duration_in_hours: ::Integer
       attr_accessor job_expiration_time: ::Time
       attr_accessor model_invocation_type: ("InvokeModel" | "Converse")
+      attr_accessor total_record_count: ::Integer
+      attr_accessor processed_record_count: ::Integer
+      attr_accessor success_record_count: ::Integer
+      attr_accessor error_record_count: ::Integer
       SENSITIVE: [:message]
     end
 

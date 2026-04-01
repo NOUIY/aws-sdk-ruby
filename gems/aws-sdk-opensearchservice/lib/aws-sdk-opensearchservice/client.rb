@@ -1267,7 +1267,7 @@ module Aws::OpenSearchService
     #     },
     #     domain_endpoint_options: {
     #       enforce_https: false,
-    #       tls_security_policy: "Policy-Min-TLS-1-0-2019-07", # accepts Policy-Min-TLS-1-0-2019-07, Policy-Min-TLS-1-2-2019-07, Policy-Min-TLS-1-2-PFS-2023-10
+    #       tls_security_policy: "Policy-Min-TLS-1-0-2019-07", # accepts Policy-Min-TLS-1-0-2019-07, Policy-Min-TLS-1-2-2019-07, Policy-Min-TLS-1-2-PFS-2023-10, Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08
     #       custom_endpoint_enabled: false,
     #       custom_endpoint: "DomainNameFqdn",
     #       custom_endpoint_certificate_arn: "ARN",
@@ -1427,7 +1427,7 @@ module Aws::OpenSearchService
     #   resp.domain_status.service_software_options.automated_update_date #=> Time
     #   resp.domain_status.service_software_options.optional_deployment #=> Boolean
     #   resp.domain_status.domain_endpoint_options.enforce_https #=> Boolean
-    #   resp.domain_status.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10"
+    #   resp.domain_status.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10", "Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08"
     #   resp.domain_status.domain_endpoint_options.custom_endpoint_enabled #=> Boolean
     #   resp.domain_status.domain_endpoint_options.custom_endpoint #=> String
     #   resp.domain_status.domain_endpoint_options.custom_endpoint_certificate_arn #=> String
@@ -1956,7 +1956,7 @@ module Aws::OpenSearchService
     #   resp.domain_status.service_software_options.automated_update_date #=> Time
     #   resp.domain_status.service_software_options.optional_deployment #=> Boolean
     #   resp.domain_status.domain_endpoint_options.enforce_https #=> Boolean
-    #   resp.domain_status.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10"
+    #   resp.domain_status.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10", "Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08"
     #   resp.domain_status.domain_endpoint_options.custom_endpoint_enabled #=> Boolean
     #   resp.domain_status.domain_endpoint_options.custom_endpoint #=> String
     #   resp.domain_status.domain_endpoint_options.custom_endpoint_certificate_arn #=> String
@@ -2352,7 +2352,7 @@ module Aws::OpenSearchService
     #   resp.domain_status.service_software_options.automated_update_date #=> Time
     #   resp.domain_status.service_software_options.optional_deployment #=> Boolean
     #   resp.domain_status.domain_endpoint_options.enforce_https #=> Boolean
-    #   resp.domain_status.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10"
+    #   resp.domain_status.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10", "Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08"
     #   resp.domain_status.domain_endpoint_options.custom_endpoint_enabled #=> Boolean
     #   resp.domain_status.domain_endpoint_options.custom_endpoint #=> String
     #   resp.domain_status.domain_endpoint_options.custom_endpoint_certificate_arn #=> String
@@ -2647,7 +2647,7 @@ module Aws::OpenSearchService
     #   resp.domain_config.log_publishing_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
     #   resp.domain_config.log_publishing_options.status.pending_deletion #=> Boolean
     #   resp.domain_config.domain_endpoint_options.options.enforce_https #=> Boolean
-    #   resp.domain_config.domain_endpoint_options.options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10"
+    #   resp.domain_config.domain_endpoint_options.options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10", "Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08"
     #   resp.domain_config.domain_endpoint_options.options.custom_endpoint_enabled #=> Boolean
     #   resp.domain_config.domain_endpoint_options.options.custom_endpoint #=> String
     #   resp.domain_config.domain_endpoint_options.options.custom_endpoint_certificate_arn #=> String
@@ -2938,7 +2938,7 @@ module Aws::OpenSearchService
     #   resp.domain_status_list[0].service_software_options.automated_update_date #=> Time
     #   resp.domain_status_list[0].service_software_options.optional_deployment #=> Boolean
     #   resp.domain_status_list[0].domain_endpoint_options.enforce_https #=> Boolean
-    #   resp.domain_status_list[0].domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10"
+    #   resp.domain_status_list[0].domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10", "Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08"
     #   resp.domain_status_list[0].domain_endpoint_options.custom_endpoint_enabled #=> Boolean
     #   resp.domain_status_list[0].domain_endpoint_options.custom_endpoint #=> String
     #   resp.domain_status_list[0].domain_endpoint_options.custom_endpoint_certificate_arn #=> String
@@ -3107,7 +3107,7 @@ module Aws::OpenSearchService
     #   resp.dry_run_config.service_software_options.automated_update_date #=> Time
     #   resp.dry_run_config.service_software_options.optional_deployment #=> Boolean
     #   resp.dry_run_config.domain_endpoint_options.enforce_https #=> Boolean
-    #   resp.dry_run_config.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10"
+    #   resp.dry_run_config.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10", "Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08"
     #   resp.dry_run_config.domain_endpoint_options.custom_endpoint_enabled #=> Boolean
     #   resp.dry_run_config.domain_endpoint_options.custom_endpoint #=> String
     #   resp.dry_run_config.domain_endpoint_options.custom_endpoint_certificate_arn #=> String
@@ -5718,7 +5718,7 @@ module Aws::OpenSearchService
     #     },
     #     domain_endpoint_options: {
     #       enforce_https: false,
-    #       tls_security_policy: "Policy-Min-TLS-1-0-2019-07", # accepts Policy-Min-TLS-1-0-2019-07, Policy-Min-TLS-1-2-2019-07, Policy-Min-TLS-1-2-PFS-2023-10
+    #       tls_security_policy: "Policy-Min-TLS-1-0-2019-07", # accepts Policy-Min-TLS-1-0-2019-07, Policy-Min-TLS-1-2-2019-07, Policy-Min-TLS-1-2-PFS-2023-10, Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08
     #       custom_endpoint_enabled: false,
     #       custom_endpoint: "DomainNameFqdn",
     #       custom_endpoint_certificate_arn: "ARN",
@@ -5918,7 +5918,7 @@ module Aws::OpenSearchService
     #   resp.domain_config.log_publishing_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
     #   resp.domain_config.log_publishing_options.status.pending_deletion #=> Boolean
     #   resp.domain_config.domain_endpoint_options.options.enforce_https #=> Boolean
-    #   resp.domain_config.domain_endpoint_options.options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10"
+    #   resp.domain_config.domain_endpoint_options.options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10", "Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08"
     #   resp.domain_config.domain_endpoint_options.options.custom_endpoint_enabled #=> Boolean
     #   resp.domain_config.domain_endpoint_options.options.custom_endpoint #=> String
     #   resp.domain_config.domain_endpoint_options.options.custom_endpoint_certificate_arn #=> String
@@ -6429,7 +6429,7 @@ module Aws::OpenSearchService
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-opensearchservice'
-      context[:gem_version] = '1.93.0'
+      context[:gem_version] = '1.94.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

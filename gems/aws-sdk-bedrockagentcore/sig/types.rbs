@@ -758,6 +758,7 @@ module Aws::BedrockAgentCore
       attr_accessor actor_id: ::String
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
+      attr_accessor filter: Types::SessionFilter
       SENSITIVE: []
     end
 
@@ -1024,6 +1025,11 @@ module Aws::BedrockAgentCore
     class ServiceQuotaExceededException
       attr_accessor message: ::String
       attr_accessor event_type: untyped
+      SENSITIVE: []
+    end
+
+    class SessionFilter
+      attr_accessor event_filter: ("HAS_EVENTS")
       SENSITIVE: []
     end
 

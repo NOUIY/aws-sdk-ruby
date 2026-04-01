@@ -2754,13 +2754,18 @@ module Aws::BedrockAgentCore
     #   results.
     #   @return [String]
     #
+    # @!attribute [rw] filter
+    #   Filter criteria to apply when listing sessions.
+    #   @return [Types::SessionFilter]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ListSessionsInput AWS API Documentation
     #
     class ListSessionsInput < Struct.new(
       :memory_id,
       :actor_id,
       :max_results,
-      :next_token)
+      :next_token,
+      :filter)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3623,6 +3628,21 @@ module Aws::BedrockAgentCore
     class ServiceQuotaExceededException < Struct.new(
       :message,
       :event_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains filter criteria for listing sessions.
+    #
+    # @!attribute [rw] event_filter
+    #   The event filter condition to apply. Use this to filter sessions
+    #   based on event presence.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/SessionFilter AWS API Documentation
+    #
+    class SessionFilter < Struct.new(
+      :event_filter)
       SENSITIVE = []
       include Aws::Structure
     end

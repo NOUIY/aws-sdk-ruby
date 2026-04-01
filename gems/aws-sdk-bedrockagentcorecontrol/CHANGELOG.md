@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.34.0 (2026-04-01)
+------------------
+
+* Feature - Adds support for VPC egress private endpoints for Amazon Bedrock AgentCore gateway targets, enabling private connectivity through managed VPC Lattice resources. Also adds IAM credential provider for gateway targets, enabling IAM-based authentication to target endpoints
+
 1.33.0 (2026-03-27)
 ------------------
 

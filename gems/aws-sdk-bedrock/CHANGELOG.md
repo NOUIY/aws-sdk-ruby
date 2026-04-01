@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.80.0 (2026-04-01)
+------------------
+
+* Feature - Adds support for Bedrock Batch Inference Job Progress Monitoring
+
 1.79.0 (2026-03-18)
 ------------------
 

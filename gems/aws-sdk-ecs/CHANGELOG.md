@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.226.0 (2026-04-01)
+------------------
+
+* Feature - Amazon ECS now supports Managed Daemons with dedicated APIs for registering daemon task definitions, creating daemons, and managing daemon deployments.
+
 1.225.0 (2026-03-30)
 ------------------
 

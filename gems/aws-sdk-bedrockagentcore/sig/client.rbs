@@ -613,7 +613,10 @@ module Aws
                            memory_id: ::String,
                            actor_id: ::String,
                            ?max_results: ::Integer,
-                           ?next_token: ::String
+                           ?next_token: ::String,
+                           ?filter: {
+                             event_filter: ("HAS_EVENTS")?
+                           }
                          ) -> _ListSessionsResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListSessionsResponseSuccess
 
