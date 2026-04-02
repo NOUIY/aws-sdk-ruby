@@ -1105,6 +1105,10 @@ module Aws::CloudWatch
     #   resp.metric_alarms[0].threshold_metric_id #=> String
     #   resp.metric_alarms[0].evaluation_state #=> String, one of "PARTIAL_DATA", "EVALUATION_FAILURE", "EVALUATION_ERROR"
     #   resp.metric_alarms[0].state_transitioned_timestamp #=> Time
+    #   resp.metric_alarms[0].evaluation_criteria.prom_ql_criteria.query #=> String
+    #   resp.metric_alarms[0].evaluation_criteria.prom_ql_criteria.pending_period #=> Integer
+    #   resp.metric_alarms[0].evaluation_criteria.prom_ql_criteria.recovery_period #=> Integer
+    #   resp.metric_alarms[0].evaluation_interval #=> Integer
     #   resp.next_token #=> String
     #
     #
@@ -1227,6 +1231,10 @@ module Aws::CloudWatch
     #   resp.metric_alarms[0].threshold_metric_id #=> String
     #   resp.metric_alarms[0].evaluation_state #=> String, one of "PARTIAL_DATA", "EVALUATION_FAILURE", "EVALUATION_ERROR"
     #   resp.metric_alarms[0].state_transitioned_timestamp #=> Time
+    #   resp.metric_alarms[0].evaluation_criteria.prom_ql_criteria.query #=> String
+    #   resp.metric_alarms[0].evaluation_criteria.prom_ql_criteria.pending_period #=> Integer
+    #   resp.metric_alarms[0].evaluation_criteria.prom_ql_criteria.recovery_period #=> Integer
+    #   resp.metric_alarms[0].evaluation_interval #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DescribeAlarmsForMetric AWS API Documentation
     #
@@ -2365,6 +2373,33 @@ module Aws::CloudWatch
       req.send_request(options)
     end
 
+    # Returns the current status of vended metric enrichment for the
+    # account, including whether CloudWatch vended metrics are enriched with
+    # resource ARN and resource tag labels and queryable using PromQL. For
+    # the list of supported resources, see [Supported AWS infrastructure
+    # metrics][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingResourceTagsForTelemetry.html
+    #
+    # @return [Types::GetOTelEnrichmentOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetOTelEnrichmentOutput#status #status} => String
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> String, one of "Running", "Stopped"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/GetOTelEnrichment AWS API Documentation
+    #
+    # @overload get_o_tel_enrichment(params = {})
+    # @param [Hash] params ({})
+    def get_o_tel_enrichment(params = {}, options = {})
+      req = build_request(:get_o_tel_enrichment, params)
+      req.send_request(options)
+    end
+
     # Lists alarm mute rules in your Amazon Web Services account and region.
     #
     # You can filter the results by alarm name to find all mute rules
@@ -2758,9 +2793,9 @@ module Aws::CloudWatch
     # "DatabaseConnectionAlarm", you would create an IAM policy with one
     # statement granting `cloudwatch:PutAlarmMuteRule` on the alarm mute
     # rule resource
-    # (`arn:aws:cloudwatch:[REGION]:123456789012:alarm-mute:*`), and another
-    # statement granting `cloudwatch:PutAlarmMuteRule` on the targeted alarm
-    # resources
+    # (`arn:aws:cloudwatch:[REGION]:123456789012:alarm-mute-rule:*`), and
+    # another statement granting `cloudwatch:PutAlarmMuteRule` on the
+    # targeted alarm resources
     # (`arn:aws:cloudwatch:[REGION]:123456789012:alarm:WebServerCPUAlarm`
     # and
     # `arn:aws:cloudwatch:[REGION]:123456789012:alarm:DatabaseConnectionAlarm`).
@@ -3494,18 +3529,19 @@ module Aws::CloudWatch
     end
 
     # Creates or updates an alarm and associates it with the specified
-    # metric, metric math expression, anomaly detection model, or Metrics
-    # Insights query. For more information about using a Metrics Insights
-    # query for an alarm, see [Create alarms on Metrics Insights
-    # queries][1].
+    # metric, metric math expression, anomaly detection model, Metrics
+    # Insights query, or PromQL query. For more information about using a
+    # Metrics Insights query for an alarm, see [Create alarms on Metrics
+    # Insights queries][1].
     #
     # Alarms based on anomaly detection models cannot have Auto Scaling
     # actions.
     #
     # When this operation creates an alarm, the alarm state is immediately
-    # set to `INSUFFICIENT_DATA`. The alarm is then evaluated and its state
-    # is set appropriately. Any actions associated with the new state are
-    # then executed.
+    # set to `INSUFFICIENT_DATA`. For PromQL alarms, the alarm state is
+    # instead immediately set to `OK`. The alarm is then evaluated and its
+    # state is set appropriately. Any actions associated with the new state
+    # are then executed.
     #
     # When you update an existing alarm, its state is left unchanged, but
     # the update completely overwrites the previous configuration of the
@@ -3746,8 +3782,8 @@ module Aws::CloudWatch
     #
     # @option params [String] :metric_name
     #   The name for the metric associated with the alarm. For each
-    #   `PutMetricAlarm` operation, you must specify either `MetricName` or a
-    #   `Metrics` array.
+    #   `PutMetricAlarm` operation, you must specify either `MetricName`, a
+    #   `Metrics` array, or an `EvaluationCriteria`.
     #
     #   If you are creating an alarm based on a math expression, you cannot
     #   specify this parameter, or any of the `Namespace`, `Dimensions`,
@@ -3856,7 +3892,7 @@ module Aws::CloudWatch
     #   an incorrect unit that is not published for this metric. Doing so
     #   causes the alarm to be stuck in the `INSUFFICIENT DATA` state.
     #
-    # @option params [required, Integer] :evaluation_periods
+    # @option params [Integer] :evaluation_periods
     #   The number of periods over which data is compared to the specified
     #   threshold. If you are setting an alarm that requires that a number of
     #   consecutive data points be breaching to trigger the alarm, this value
@@ -3879,7 +3915,7 @@ module Aws::CloudWatch
     #   This parameter is required for alarms based on static thresholds, but
     #   should not be used for alarms based on anomaly detection models.
     #
-    # @option params [required, String] :comparison_operator
+    # @option params [String] :comparison_operator
     #   The arithmetic operation to use when comparing the specified statistic
     #   and threshold. The specified statistic value is used as the first
     #   operand.
@@ -3900,6 +3936,10 @@ module Aws::CloudWatch
     #   `ignore` missing data even if you choose a different option for
     #   `TreatMissingData`. When an `AWS/DynamoDB` metric has missing data,
     #   alarms that evaluate that metric remain in their current state.
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> This parameter is not applicable to PromQL alarms.
     #
     #    </note>
     #
@@ -3925,8 +3965,8 @@ module Aws::CloudWatch
     # @option params [Array<Types::MetricDataQuery>] :metrics
     #   An array of `MetricDataQuery` structures that enable you to create an
     #   alarm based on the result of a metric math expression. For each
-    #   `PutMetricAlarm` operation, you must specify either `MetricName` or a
-    #   `Metrics` array.
+    #   `PutMetricAlarm` operation, you must specify either `MetricName`, a
+    #   `Metrics` array, or an `EvaluationCriteria`.
     #
     #   Each item in the `Metrics` array either retrieves a metric or performs
     #   a math expression.
@@ -3979,6 +4019,30 @@ module Aws::CloudWatch
     #   If your alarm uses this parameter, it cannot have Auto Scaling
     #   actions.
     #
+    # @option params [Types::EvaluationCriteria] :evaluation_criteria
+    #   The evaluation criteria for the alarm. For each `PutMetricAlarm`
+    #   operation, you must specify either `MetricName`, a `Metrics` array, or
+    #   an `EvaluationCriteria`.
+    #
+    #   If you use the `EvaluationCriteria` parameter, you cannot include the
+    #   `Namespace`, `MetricName`, `Dimensions`, `Period`, `Unit`,
+    #   `Statistic`, `ExtendedStatistic`, `Metrics`, `Threshold`,
+    #   `ComparisonOperator`, `ThresholdMetricId`, `EvaluationPeriods`, or
+    #   `DatapointsToAlarm` parameters of `PutMetricAlarm` in the same
+    #   operation. Instead, all evaluation parameters are defined within this
+    #   structure.
+    #
+    #   For an example of how to use this parameter, see the **PromQL alarm**
+    #   example on this page.
+    #
+    # @option params [Integer] :evaluation_interval
+    #   The frequency, in seconds, at which the alarm is evaluated. Valid
+    #   values are 10, 20, 30, and any multiple of 60.
+    #
+    #   This parameter is required for alarms that use `EvaluationCriteria`,
+    #   and cannot be specified for alarms configured with `MetricName` or
+    #   `Metrics`.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -4002,10 +4066,10 @@ module Aws::CloudWatch
     #     ],
     #     period: 1,
     #     unit: "Seconds", # accepts Seconds, Microseconds, Milliseconds, Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes, Bits, Kilobits, Megabits, Gigabits, Terabits, Percent, Count, Bytes/Second, Kilobytes/Second, Megabytes/Second, Gigabytes/Second, Terabytes/Second, Bits/Second, Kilobits/Second, Megabits/Second, Gigabits/Second, Terabits/Second, Count/Second, None
-    #     evaluation_periods: 1, # required
+    #     evaluation_periods: 1,
     #     datapoints_to_alarm: 1,
     #     threshold: 1.0,
-    #     comparison_operator: "GreaterThanOrEqualToThreshold", # required, accepts GreaterThanOrEqualToThreshold, GreaterThanThreshold, LessThanThreshold, LessThanOrEqualToThreshold, LessThanLowerOrGreaterThanUpperThreshold, LessThanLowerThreshold, GreaterThanUpperThreshold
+    #     comparison_operator: "GreaterThanOrEqualToThreshold", # accepts GreaterThanOrEqualToThreshold, GreaterThanThreshold, LessThanThreshold, LessThanOrEqualToThreshold, LessThanLowerOrGreaterThanUpperThreshold, LessThanLowerThreshold, GreaterThanUpperThreshold
     #     treat_missing_data: "TreatMissingData",
     #     evaluate_low_sample_count_percentile: "EvaluateLowSampleCountPercentile",
     #     metrics: [
@@ -4040,6 +4104,14 @@ module Aws::CloudWatch
     #       },
     #     ],
     #     threshold_metric_id: "MetricId",
+    #     evaluation_criteria: {
+    #       prom_ql_criteria: {
+    #         query: "Query", # required
+    #         pending_period: 1,
+    #         recovery_period: 1,
+    #       },
+    #     },
+    #     evaluation_interval: 1,
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/PutMetricAlarm AWS API Documentation
@@ -4539,6 +4611,33 @@ module Aws::CloudWatch
       req.send_request(options)
     end
 
+    # Enables enrichment and PromQL access for CloudWatch vended metrics for
+    # [supported AWS resources][1] in the account. Once enabled, metrics
+    # that contain a resource identifier dimension (for example, EC2
+    # `CPUUtilization` with an `InstanceId` dimension) are enriched with
+    # resource ARN and resource tag labels and become queryable using
+    # PromQL.
+    #
+    # Before calling this operation, you must enable resource tags on
+    # telemetry for your account. For more information, see [Enable resource
+    # tags on telemetry][2].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingResourceTagsForTelemetry.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/EnableResourceTagsOnTelemetry.html
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/StartOTelEnrichment AWS API Documentation
+    #
+    # @overload start_o_tel_enrichment(params = {})
+    # @param [Hash] params ({})
+    def start_o_tel_enrichment(params = {}, options = {})
+      req = build_request(:start_o_tel_enrichment, params)
+      req.send_request(options)
+    end
+
     # Stops the streaming of metrics for one or more of your metric streams.
     #
     # @option params [required, Array<String>] :names
@@ -4562,6 +4661,26 @@ module Aws::CloudWatch
     # @param [Hash] params ({})
     def stop_metric_streams(params = {}, options = {})
       req = build_request(:stop_metric_streams, params)
+      req.send_request(options)
+    end
+
+    # Disables enrichment and PromQL access for CloudWatch vended metrics
+    # for [supported AWS resources][1] in the account. After disabling,
+    # these metrics are no longer enriched with resource ARN and resource
+    # tag labels, and cannot be queried using PromQL.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingResourceTagsForTelemetry.html
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/StopOTelEnrichment AWS API Documentation
+    #
+    # @overload stop_o_tel_enrichment(params = {})
+    # @param [Hash] params ({})
+    def stop_o_tel_enrichment(params = {}, options = {})
+      req = build_request(:stop_o_tel_enrichment, params)
       req.send_request(options)
     end
 
@@ -4683,7 +4802,7 @@ module Aws::CloudWatch
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatch'
-      context[:gem_version] = '1.132.0'
+      context[:gem_version] = '1.133.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

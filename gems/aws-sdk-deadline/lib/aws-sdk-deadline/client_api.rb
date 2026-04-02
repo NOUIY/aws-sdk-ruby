@@ -432,6 +432,8 @@ module Aws::Deadline
     PosixUserUserString = Shapes::StringShape.new(name: 'PosixUserUserString')
     PrincipalType = Shapes::StringShape.new(name: 'PrincipalType')
     Priority = Shapes::IntegerShape.new(name: 'Priority')
+    PriorityBalancedSchedulingConfiguration = Shapes::StructureShape.new(name: 'PriorityBalancedSchedulingConfiguration')
+    PriorityFifoSchedulingConfiguration = Shapes::StructureShape.new(name: 'PriorityFifoSchedulingConfiguration')
     ProcessExitCode = Shapes::IntegerShape.new(name: 'ProcessExitCode')
     PutMeteredProductRequest = Shapes::StructureShape.new(name: 'PutMeteredProductRequest')
     PutMeteredProductResponse = Shapes::StructureShape.new(name: 'PutMeteredProductResponse')
@@ -462,6 +464,16 @@ module Aws::Deadline
     S3Key = Shapes::StringShape.new(name: 'S3Key')
     S3Location = Shapes::StructureShape.new(name: 'S3Location')
     S3Prefix = Shapes::StringShape.new(name: 'S3Prefix')
+    SchedulingConfiguration = Shapes::UnionShape.new(name: 'SchedulingConfiguration')
+    SchedulingErrorWeight = Shapes::FloatShape.new(name: 'SchedulingErrorWeight')
+    SchedulingMaxPriorityOverride = Shapes::UnionShape.new(name: 'SchedulingMaxPriorityOverride')
+    SchedulingMaxPriorityOverrideAlwaysScheduleFirst = Shapes::StructureShape.new(name: 'SchedulingMaxPriorityOverrideAlwaysScheduleFirst')
+    SchedulingMinPriorityOverride = Shapes::UnionShape.new(name: 'SchedulingMinPriorityOverride')
+    SchedulingMinPriorityOverrideAlwaysScheduleLast = Shapes::StructureShape.new(name: 'SchedulingMinPriorityOverrideAlwaysScheduleLast')
+    SchedulingPriorityWeight = Shapes::FloatShape.new(name: 'SchedulingPriorityWeight')
+    SchedulingRenderingTaskBuffer = Shapes::IntegerShape.new(name: 'SchedulingRenderingTaskBuffer')
+    SchedulingRenderingTaskWeight = Shapes::FloatShape.new(name: 'SchedulingRenderingTaskWeight')
+    SchedulingSubmissionTimeWeight = Shapes::FloatShape.new(name: 'SchedulingSubmissionTimeWeight')
     SearchFilterExpression = Shapes::UnionShape.new(name: 'SearchFilterExpression')
     SearchFilterExpressions = Shapes::ListShape.new(name: 'SearchFilterExpressions')
     SearchGroupedFilterExpressions = Shapes::StructureShape.new(name: 'SearchGroupedFilterExpressions')
@@ -660,6 +672,7 @@ module Aws::Deadline
     VpcId = Shapes::StringShape.new(name: 'VpcId')
     VpcResourceConfigurationArn = Shapes::StringShape.new(name: 'VpcResourceConfigurationArn')
     VpcResourceConfigurationArns = Shapes::ListShape.new(name: 'VpcResourceConfigurationArns')
+    WeightedBalancedSchedulingConfiguration = Shapes::StructureShape.new(name: 'WeightedBalancedSchedulingConfiguration')
     WindowsUser = Shapes::StructureShape.new(name: 'WindowsUser')
     WindowsUserPasswordArnString = Shapes::StringShape.new(name: 'WindowsUserPasswordArnString')
     WindowsUserUserString = Shapes::StringShape.new(name: 'WindowsUserUserString')
@@ -1044,6 +1057,7 @@ module Aws::Deadline
     CreateQueueRequest.add_member(:required_file_system_location_names, Shapes::ShapeRef.new(shape: RequiredFileSystemLocationNames, location_name: "requiredFileSystemLocationNames"))
     CreateQueueRequest.add_member(:allowed_storage_profile_ids, Shapes::ShapeRef.new(shape: AllowedStorageProfileIds, location_name: "allowedStorageProfileIds"))
     CreateQueueRequest.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
+    CreateQueueRequest.add_member(:scheduling_configuration, Shapes::ShapeRef.new(shape: SchedulingConfiguration, location_name: "schedulingConfiguration"))
     CreateQueueRequest.struct_class = Types::CreateQueueRequest
 
     CreateQueueResponse.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
@@ -1556,6 +1570,7 @@ module Aws::Deadline
     GetQueueResponse.add_member(:required_file_system_location_names, Shapes::ShapeRef.new(shape: RequiredFileSystemLocationNames, location_name: "requiredFileSystemLocationNames"))
     GetQueueResponse.add_member(:allowed_storage_profile_ids, Shapes::ShapeRef.new(shape: AllowedStorageProfileIds, location_name: "allowedStorageProfileIds"))
     GetQueueResponse.add_member(:job_run_as_user, Shapes::ShapeRef.new(shape: JobRunAsUser, location_name: "jobRunAsUser"))
+    GetQueueResponse.add_member(:scheduling_configuration, Shapes::ShapeRef.new(shape: SchedulingConfiguration, location_name: "schedulingConfiguration"))
     GetQueueResponse.struct_class = Types::GetQueueResponse
 
     GetSessionActionRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
@@ -2264,6 +2279,11 @@ module Aws::Deadline
     PosixUser.add_member(:group, Shapes::ShapeRef.new(shape: PosixUserGroupString, required: true, location_name: "group"))
     PosixUser.struct_class = Types::PosixUser
 
+    PriorityBalancedSchedulingConfiguration.add_member(:rendering_task_buffer, Shapes::ShapeRef.new(shape: SchedulingRenderingTaskBuffer, location_name: "renderingTaskBuffer"))
+    PriorityBalancedSchedulingConfiguration.struct_class = Types::PriorityBalancedSchedulingConfiguration
+
+    PriorityFifoSchedulingConfiguration.struct_class = Types::PriorityFifoSchedulingConfiguration
+
     PutMeteredProductRequest.add_member(:license_endpoint_id, Shapes::ShapeRef.new(shape: LicenseEndpointId, required: true, location: "uri", location_name: "licenseEndpointId"))
     PutMeteredProductRequest.add_member(:product_id, Shapes::ShapeRef.new(shape: MeteredProductId, required: true, location: "uri", location_name: "productId"))
     PutMeteredProductRequest.struct_class = Types::PutMeteredProductRequest
@@ -2341,6 +2361,32 @@ module Aws::Deadline
     S3Location.add_member(:bucket_name, Shapes::ShapeRef.new(shape: S3BucketName, required: true, location_name: "bucketName"))
     S3Location.add_member(:key, Shapes::ShapeRef.new(shape: S3Key, required: true, location_name: "key"))
     S3Location.struct_class = Types::S3Location
+
+    SchedulingConfiguration.add_member(:priority_fifo, Shapes::ShapeRef.new(shape: PriorityFifoSchedulingConfiguration, location_name: "priorityFifo"))
+    SchedulingConfiguration.add_member(:priority_balanced, Shapes::ShapeRef.new(shape: PriorityBalancedSchedulingConfiguration, location_name: "priorityBalanced"))
+    SchedulingConfiguration.add_member(:weighted_balanced, Shapes::ShapeRef.new(shape: WeightedBalancedSchedulingConfiguration, location_name: "weightedBalanced"))
+    SchedulingConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    SchedulingConfiguration.add_member_subclass(:priority_fifo, Types::SchedulingConfiguration::PriorityFifo)
+    SchedulingConfiguration.add_member_subclass(:priority_balanced, Types::SchedulingConfiguration::PriorityBalanced)
+    SchedulingConfiguration.add_member_subclass(:weighted_balanced, Types::SchedulingConfiguration::WeightedBalanced)
+    SchedulingConfiguration.add_member_subclass(:unknown, Types::SchedulingConfiguration::Unknown)
+    SchedulingConfiguration.struct_class = Types::SchedulingConfiguration
+
+    SchedulingMaxPriorityOverride.add_member(:always_schedule_first, Shapes::ShapeRef.new(shape: SchedulingMaxPriorityOverrideAlwaysScheduleFirst, location_name: "alwaysScheduleFirst"))
+    SchedulingMaxPriorityOverride.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    SchedulingMaxPriorityOverride.add_member_subclass(:always_schedule_first, Types::SchedulingMaxPriorityOverride::AlwaysScheduleFirst)
+    SchedulingMaxPriorityOverride.add_member_subclass(:unknown, Types::SchedulingMaxPriorityOverride::Unknown)
+    SchedulingMaxPriorityOverride.struct_class = Types::SchedulingMaxPriorityOverride
+
+    SchedulingMaxPriorityOverrideAlwaysScheduleFirst.struct_class = Types::SchedulingMaxPriorityOverrideAlwaysScheduleFirst
+
+    SchedulingMinPriorityOverride.add_member(:always_schedule_last, Shapes::ShapeRef.new(shape: SchedulingMinPriorityOverrideAlwaysScheduleLast, location_name: "alwaysScheduleLast"))
+    SchedulingMinPriorityOverride.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    SchedulingMinPriorityOverride.add_member_subclass(:always_schedule_last, Types::SchedulingMinPriorityOverride::AlwaysScheduleLast)
+    SchedulingMinPriorityOverride.add_member_subclass(:unknown, Types::SchedulingMinPriorityOverride::Unknown)
+    SchedulingMinPriorityOverride.struct_class = Types::SchedulingMinPriorityOverride
+
+    SchedulingMinPriorityOverrideAlwaysScheduleLast.struct_class = Types::SchedulingMinPriorityOverrideAlwaysScheduleLast
 
     SearchFilterExpression.add_member(:date_time_filter, Shapes::ShapeRef.new(shape: DateTimeFilterExpression, location_name: "dateTimeFilter"))
     SearchFilterExpression.add_member(:parameter_filter, Shapes::ShapeRef.new(shape: ParameterFilterExpression, location_name: "parameterFilter"))
@@ -2910,6 +2956,7 @@ module Aws::Deadline
     UpdateQueueRequest.add_member(:required_file_system_location_names_to_remove, Shapes::ShapeRef.new(shape: RequiredFileSystemLocationNames, location_name: "requiredFileSystemLocationNamesToRemove"))
     UpdateQueueRequest.add_member(:allowed_storage_profile_ids_to_add, Shapes::ShapeRef.new(shape: AllowedStorageProfileIds, location_name: "allowedStorageProfileIdsToAdd"))
     UpdateQueueRequest.add_member(:allowed_storage_profile_ids_to_remove, Shapes::ShapeRef.new(shape: AllowedStorageProfileIds, location_name: "allowedStorageProfileIdsToRemove"))
+    UpdateQueueRequest.add_member(:scheduling_configuration, Shapes::ShapeRef.new(shape: SchedulingConfiguration, location_name: "schedulingConfiguration"))
     UpdateQueueRequest.struct_class = Types::UpdateQueueRequest
 
     UpdateQueueResponse.struct_class = Types::UpdateQueueResponse
@@ -3026,6 +3073,15 @@ module Aws::Deadline
     VpcConfiguration.struct_class = Types::VpcConfiguration
 
     VpcResourceConfigurationArns.member = Shapes::ShapeRef.new(shape: VpcResourceConfigurationArn)
+
+    WeightedBalancedSchedulingConfiguration.add_member(:priority_weight, Shapes::ShapeRef.new(shape: SchedulingPriorityWeight, location_name: "priorityWeight"))
+    WeightedBalancedSchedulingConfiguration.add_member(:error_weight, Shapes::ShapeRef.new(shape: SchedulingErrorWeight, location_name: "errorWeight"))
+    WeightedBalancedSchedulingConfiguration.add_member(:submission_time_weight, Shapes::ShapeRef.new(shape: SchedulingSubmissionTimeWeight, location_name: "submissionTimeWeight"))
+    WeightedBalancedSchedulingConfiguration.add_member(:rendering_task_weight, Shapes::ShapeRef.new(shape: SchedulingRenderingTaskWeight, location_name: "renderingTaskWeight"))
+    WeightedBalancedSchedulingConfiguration.add_member(:rendering_task_buffer, Shapes::ShapeRef.new(shape: SchedulingRenderingTaskBuffer, location_name: "renderingTaskBuffer"))
+    WeightedBalancedSchedulingConfiguration.add_member(:max_priority_override, Shapes::ShapeRef.new(shape: SchedulingMaxPriorityOverride, location_name: "maxPriorityOverride"))
+    WeightedBalancedSchedulingConfiguration.add_member(:min_priority_override, Shapes::ShapeRef.new(shape: SchedulingMinPriorityOverride, location_name: "minPriorityOverride"))
+    WeightedBalancedSchedulingConfiguration.struct_class = Types::WeightedBalancedSchedulingConfiguration
 
     WindowsUser.add_member(:user, Shapes::ShapeRef.new(shape: WindowsUserUserString, required: true, location_name: "user"))
     WindowsUser.add_member(:password_arn, Shapes::ShapeRef.new(shape: WindowsUserPasswordArnString, required: true, location_name: "passwordArn"))

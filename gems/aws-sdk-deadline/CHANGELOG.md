@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.49.0 (2026-04-02)
+------------------
+
+* Feature - AWS Deadline Cloud now supports configurable scheduling on each queue. The scheduling configuration controls how workers are distributed across jobs.
+
 1.48.0 (2026-03-30)
 ------------------
 

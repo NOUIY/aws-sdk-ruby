@@ -4869,6 +4869,7 @@ module Aws::CloudWatchLogs
     #   resp.transformer_config[0].csv.columns #=> Array
     #   resp.transformer_config[0].csv.columns[0] #=> String
     #   resp.transformer_config[0].csv.source #=> String
+    #   resp.transformer_config[0].csv.destination #=> String
     #   resp.transformer_config[0].date_time_converter.source #=> String
     #   resp.transformer_config[0].date_time_converter.target #=> String
     #   resp.transformer_config[0].date_time_converter.target_format #=> String
@@ -6602,6 +6603,8 @@ module Aws::CloudWatchLogs
     #
     #   * For CloudFront, the valid value is `ACCESS_LOGS`.
     #
+    #   * For DevOps Agent, the valid value is `APPLICATION_LOGS`.
+    #
     #   * For Amazon CodeWhisperer, the valid value is `EVENT_LOGS`.
     #
     #   * For Elemental MediaPackage, the valid values are
@@ -7805,6 +7808,7 @@ module Aws::CloudWatchLogs
     #           delimiter: "Delimiter",
     #           columns: ["Column"],
     #           source: "Source",
+    #           destination: "DestinationField",
     #         },
     #         date_time_converter: {
     #           source: "Source", # required
@@ -8629,6 +8633,7 @@ module Aws::CloudWatchLogs
     #           delimiter: "Delimiter",
     #           columns: ["Column"],
     #           source: "Source",
+    #           destination: "DestinationField",
     #         },
     #         date_time_converter: {
     #           source: "Source", # required
@@ -9217,7 +9222,7 @@ module Aws::CloudWatchLogs
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatchlogs'
-      context[:gem_version] = '1.142.0'
+      context[:gem_version] = '1.143.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

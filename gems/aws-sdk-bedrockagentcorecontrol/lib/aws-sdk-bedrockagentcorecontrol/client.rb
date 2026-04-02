@@ -1404,6 +1404,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::CreateGatewayTargetResponse#metadata_configuration #metadata_configuration} => Types::MetadataConfiguration
     #   * {Types::CreateGatewayTargetResponse#private_endpoint #private_endpoint} => Types::PrivateEndpoint
     #   * {Types::CreateGatewayTargetResponse#private_endpoint_managed_resources #private_endpoint_managed_resources} => Array&lt;Types::ManagedResourceDetails&gt;
+    #   * {Types::CreateGatewayTargetResponse#authorization_data #authorization_data} => Types::AuthorizationData
     #
     # @example Request syntax with placeholder values
     #
@@ -1471,6 +1472,13 @@ module Aws::BedrockAgentCoreControl
     #         },
     #         mcp_server: {
     #           endpoint: "McpServerTargetConfigurationEndpointString", # required
+    #           mcp_tool_schema: {
+    #             s3: {
+    #               uri: "S3BucketUri",
+    #               bucket_owner_account_id: "AwsAccountId",
+    #             },
+    #             inline_payload: "InlinePayload",
+    #           },
     #         },
     #         api_gateway: {
     #           rest_api_id: "String", # required
@@ -1548,7 +1556,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_id #=> String
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
-    #   resp.status #=> String, one of "CREATING", "UPDATING", "UPDATE_UNSUCCESSFUL", "DELETING", "READY", "FAILED", "SYNCHRONIZING", "SYNCHRONIZE_UNSUCCESSFUL"
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "UPDATE_UNSUCCESSFUL", "DELETING", "READY", "FAILED", "SYNCHRONIZING", "SYNCHRONIZE_UNSUCCESSFUL", "CREATE_PENDING_AUTH", "UPDATE_PENDING_AUTH", "SYNCHRONIZE_PENDING_AUTH"
     #   resp.status_reasons #=> Array
     #   resp.status_reasons[0] #=> String
     #   resp.name #=> String
@@ -1580,6 +1588,9 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.lambda.tool_schema.inline_payload[0].output_schema.items #=> Types::SchemaDefinition
     #   resp.target_configuration.mcp.lambda.tool_schema.inline_payload[0].output_schema.description #=> String
     #   resp.target_configuration.mcp.mcp_server.endpoint #=> String
+    #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
+    #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
+    #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
     #   resp.target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.target_configuration.mcp.api_gateway.stage #=> String
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_overrides #=> Array
@@ -1627,6 +1638,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.private_endpoint_managed_resources[0].domain #=> String
     #   resp.private_endpoint_managed_resources[0].resource_gateway_arn #=> String
     #   resp.private_endpoint_managed_resources[0].resource_association_arn #=> String
+    #   resp.authorization_data.oauth2.authorization_url #=> String
+    #   resp.authorization_data.oauth2.user_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateGatewayTarget AWS API Documentation
     #
@@ -2755,6 +2768,11 @@ module Aws::BedrockAgentCoreControl
 
     # Deletes a gateway target.
     #
+    # You cannot delete a target that is in a pending authorization state
+    # (`CREATE_PENDING_AUTH`, `UPDATE_PENDING_AUTH`, or
+    # `SYNCHRONIZE_PENDING_AUTH`). Wait for the authorization to complete or
+    # fail before deleting the target.
+    #
     # @option params [required, String] :gateway_identifier
     #   The unique identifier of the gateway associated with the target.
     #
@@ -2779,7 +2797,7 @@ module Aws::BedrockAgentCoreControl
     #
     #   resp.gateway_arn #=> String
     #   resp.target_id #=> String
-    #   resp.status #=> String, one of "CREATING", "UPDATING", "UPDATE_UNSUCCESSFUL", "DELETING", "READY", "FAILED", "SYNCHRONIZING", "SYNCHRONIZE_UNSUCCESSFUL"
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "UPDATE_UNSUCCESSFUL", "DELETING", "READY", "FAILED", "SYNCHRONIZING", "SYNCHRONIZE_UNSUCCESSFUL", "CREATE_PENDING_AUTH", "UPDATE_PENDING_AUTH", "SYNCHRONIZE_PENDING_AUTH"
     #   resp.status_reasons #=> Array
     #   resp.status_reasons[0] #=> String
     #
@@ -3573,6 +3591,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetGatewayTargetResponse#metadata_configuration #metadata_configuration} => Types::MetadataConfiguration
     #   * {Types::GetGatewayTargetResponse#private_endpoint #private_endpoint} => Types::PrivateEndpoint
     #   * {Types::GetGatewayTargetResponse#private_endpoint_managed_resources #private_endpoint_managed_resources} => Array&lt;Types::ManagedResourceDetails&gt;
+    #   * {Types::GetGatewayTargetResponse#authorization_data #authorization_data} => Types::AuthorizationData
     #
     # @example Request syntax with placeholder values
     #
@@ -3587,7 +3606,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_id #=> String
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
-    #   resp.status #=> String, one of "CREATING", "UPDATING", "UPDATE_UNSUCCESSFUL", "DELETING", "READY", "FAILED", "SYNCHRONIZING", "SYNCHRONIZE_UNSUCCESSFUL"
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "UPDATE_UNSUCCESSFUL", "DELETING", "READY", "FAILED", "SYNCHRONIZING", "SYNCHRONIZE_UNSUCCESSFUL", "CREATE_PENDING_AUTH", "UPDATE_PENDING_AUTH", "SYNCHRONIZE_PENDING_AUTH"
     #   resp.status_reasons #=> Array
     #   resp.status_reasons[0] #=> String
     #   resp.name #=> String
@@ -3619,6 +3638,9 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.lambda.tool_schema.inline_payload[0].output_schema.items #=> Types::SchemaDefinition
     #   resp.target_configuration.mcp.lambda.tool_schema.inline_payload[0].output_schema.description #=> String
     #   resp.target_configuration.mcp.mcp_server.endpoint #=> String
+    #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
+    #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
+    #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
     #   resp.target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.target_configuration.mcp.api_gateway.stage #=> String
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_overrides #=> Array
@@ -3666,6 +3688,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.private_endpoint_managed_resources[0].domain #=> String
     #   resp.private_endpoint_managed_resources[0].resource_gateway_arn #=> String
     #   resp.private_endpoint_managed_resources[0].resource_association_arn #=> String
+    #   resp.authorization_data.oauth2.authorization_url #=> String
+    #   resp.authorization_data.oauth2.user_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetGatewayTarget AWS API Documentation
     #
@@ -4665,7 +4689,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.items #=> Array
     #   resp.items[0].target_id #=> String
     #   resp.items[0].name #=> String
-    #   resp.items[0].status #=> String, one of "CREATING", "UPDATING", "UPDATE_UNSUCCESSFUL", "DELETING", "READY", "FAILED", "SYNCHRONIZING", "SYNCHRONIZE_UNSUCCESSFUL"
+    #   resp.items[0].status #=> String, one of "CREATING", "UPDATING", "UPDATE_UNSUCCESSFUL", "DELETING", "READY", "FAILED", "SYNCHRONIZING", "SYNCHRONIZE_UNSUCCESSFUL", "CREATE_PENDING_AUTH", "UPDATE_PENDING_AUTH", "SYNCHRONIZE_PENDING_AUTH"
     #   resp.items[0].description #=> String
     #   resp.items[0].created_at #=> Time
     #   resp.items[0].updated_at #=> Time
@@ -5373,7 +5397,17 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
-    # The gateway targets.
+    # Synchronizes the gateway targets by fetching the latest tool
+    # definitions from the target endpoints.
+    #
+    # You cannot synchronize a target that is in a pending authorization
+    # state (`CREATE_PENDING_AUTH`, `UPDATE_PENDING_AUTH`, or
+    # `SYNCHRONIZE_PENDING_AUTH`). Wait for the authorization to complete or
+    # fail before synchronizing.
+    #
+    # You cannot synchronize a target that has a static tool schema
+    # (`mcpToolSchema`) configured. Remove the static schema through an
+    # `UpdateGatewayTarget` call to enable dynamic tool synchronization.
     #
     # @option params [required, String] :gateway_identifier
     #   The gateway Identifier.
@@ -5399,7 +5433,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].target_id #=> String
     #   resp.targets[0].created_at #=> Time
     #   resp.targets[0].updated_at #=> Time
-    #   resp.targets[0].status #=> String, one of "CREATING", "UPDATING", "UPDATE_UNSUCCESSFUL", "DELETING", "READY", "FAILED", "SYNCHRONIZING", "SYNCHRONIZE_UNSUCCESSFUL"
+    #   resp.targets[0].status #=> String, one of "CREATING", "UPDATING", "UPDATE_UNSUCCESSFUL", "DELETING", "READY", "FAILED", "SYNCHRONIZING", "SYNCHRONIZE_UNSUCCESSFUL", "CREATE_PENDING_AUTH", "UPDATE_PENDING_AUTH", "SYNCHRONIZE_PENDING_AUTH"
     #   resp.targets[0].status_reasons #=> Array
     #   resp.targets[0].status_reasons[0] #=> String
     #   resp.targets[0].name #=> String
@@ -5431,6 +5465,9 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].target_configuration.mcp.lambda.tool_schema.inline_payload[0].output_schema.items #=> Types::SchemaDefinition
     #   resp.targets[0].target_configuration.mcp.lambda.tool_schema.inline_payload[0].output_schema.description #=> String
     #   resp.targets[0].target_configuration.mcp.mcp_server.endpoint #=> String
+    #   resp.targets[0].target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
+    #   resp.targets[0].target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
+    #   resp.targets[0].target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
     #   resp.targets[0].target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.targets[0].target_configuration.mcp.api_gateway.stage #=> String
     #   resp.targets[0].target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_overrides #=> Array
@@ -5478,6 +5515,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].private_endpoint_managed_resources[0].domain #=> String
     #   resp.targets[0].private_endpoint_managed_resources[0].resource_gateway_arn #=> String
     #   resp.targets[0].private_endpoint_managed_resources[0].resource_association_arn #=> String
+    #   resp.targets[0].authorization_data.oauth2.authorization_url #=> String
+    #   resp.targets[0].authorization_data.oauth2.user_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SynchronizeGatewayTargets AWS API Documentation
     #
@@ -6104,6 +6143,11 @@ module Aws::BedrockAgentCoreControl
 
     # Updates an existing gateway target.
     #
+    # You cannot update a target that is in a pending authorization state
+    # (`CREATE_PENDING_AUTH`, `UPDATE_PENDING_AUTH`, or
+    # `SYNCHRONIZE_PENDING_AUTH`). Wait for the authorization to complete or
+    # fail before updating the target.
+    #
     # @option params [required, String] :gateway_identifier
     #   The unique identifier of the gateway associated with the target.
     #
@@ -6147,6 +6191,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::UpdateGatewayTargetResponse#metadata_configuration #metadata_configuration} => Types::MetadataConfiguration
     #   * {Types::UpdateGatewayTargetResponse#private_endpoint #private_endpoint} => Types::PrivateEndpoint
     #   * {Types::UpdateGatewayTargetResponse#private_endpoint_managed_resources #private_endpoint_managed_resources} => Array&lt;Types::ManagedResourceDetails&gt;
+    #   * {Types::UpdateGatewayTargetResponse#authorization_data #authorization_data} => Types::AuthorizationData
     #
     # @example Request syntax with placeholder values
     #
@@ -6214,6 +6259,13 @@ module Aws::BedrockAgentCoreControl
     #         },
     #         mcp_server: {
     #           endpoint: "McpServerTargetConfigurationEndpointString", # required
+    #           mcp_tool_schema: {
+    #             s3: {
+    #               uri: "S3BucketUri",
+    #               bucket_owner_account_id: "AwsAccountId",
+    #             },
+    #             inline_payload: "InlinePayload",
+    #           },
     #         },
     #         api_gateway: {
     #           rest_api_id: "String", # required
@@ -6291,7 +6343,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_id #=> String
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
-    #   resp.status #=> String, one of "CREATING", "UPDATING", "UPDATE_UNSUCCESSFUL", "DELETING", "READY", "FAILED", "SYNCHRONIZING", "SYNCHRONIZE_UNSUCCESSFUL"
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "UPDATE_UNSUCCESSFUL", "DELETING", "READY", "FAILED", "SYNCHRONIZING", "SYNCHRONIZE_UNSUCCESSFUL", "CREATE_PENDING_AUTH", "UPDATE_PENDING_AUTH", "SYNCHRONIZE_PENDING_AUTH"
     #   resp.status_reasons #=> Array
     #   resp.status_reasons[0] #=> String
     #   resp.name #=> String
@@ -6323,6 +6375,9 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.lambda.tool_schema.inline_payload[0].output_schema.items #=> Types::SchemaDefinition
     #   resp.target_configuration.mcp.lambda.tool_schema.inline_payload[0].output_schema.description #=> String
     #   resp.target_configuration.mcp.mcp_server.endpoint #=> String
+    #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
+    #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
+    #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
     #   resp.target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.target_configuration.mcp.api_gateway.stage #=> String
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_overrides #=> Array
@@ -6370,6 +6425,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.private_endpoint_managed_resources[0].domain #=> String
     #   resp.private_endpoint_managed_resources[0].resource_gateway_arn #=> String
     #   resp.private_endpoint_managed_resources[0].resource_association_arn #=> String
+    #   resp.authorization_data.oauth2.authorization_url #=> String
+    #   resp.authorization_data.oauth2.user_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateGatewayTarget AWS API Documentation
     #
@@ -7201,7 +7258,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.34.0'
+      context[:gem_version] = '1.35.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

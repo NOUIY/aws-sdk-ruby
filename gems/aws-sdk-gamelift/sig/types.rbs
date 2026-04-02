@@ -1259,6 +1259,7 @@ module Aws::GameLift
       attr_accessor game_session_data: ::String
       attr_accessor matchmaker_data: ::String
       attr_accessor location: ::String
+      attr_accessor compute_name: ::String
       attr_accessor player_gateway_status: ("DISABLED" | "ENABLED")
       SENSITIVE: [:ip_address, :port]
     end

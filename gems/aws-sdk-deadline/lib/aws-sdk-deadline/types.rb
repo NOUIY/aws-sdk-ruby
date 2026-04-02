@@ -1822,6 +1822,14 @@ module Aws::Deadline
     #   are both required, but tag values can be empty strings.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] scheduling_configuration
+    #   The scheduling configuration for the queue. This configuration
+    #   determines how workers are assigned to jobs in the queue.
+    #
+    #   If not specified, the queue defaults to the `priorityFifo`
+    #   scheduling configuration.
+    #   @return [Types::SchedulingConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/CreateQueueRequest AWS API Documentation
     #
     class CreateQueueRequest < Struct.new(
@@ -1835,7 +1843,8 @@ module Aws::Deadline
       :job_run_as_user,
       :required_file_system_location_names,
       :allowed_storage_profile_ids,
-      :tags)
+      :tags,
+      :scheduling_configuration)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -1961,19 +1970,22 @@ module Aws::Deadline
       include Aws::Structure
     end
 
-    # The auto scaling configuration options for a customer managed fleet.
+    # The auto scaling configuration settings for a customer managed fleet.
     #
     # @!attribute [rw] standby_worker_count
-    #   The number of standby workers to maintain for the fleet.
+    #   The number of idle workers maintained and ready to process incoming
+    #   tasks. The default is 0.
     #   @return [Integer]
     #
     # @!attribute [rw] worker_idle_duration_seconds
-    #   The duration in seconds that a worker can be idle before it is
-    #   scaled down.
+    #   The number of seconds that a worker can remain idle before it is
+    #   shut down. The default is 300 seconds (5 minutes).
     #   @return [Integer]
     #
     # @!attribute [rw] scale_out_workers_per_minute
-    #   The number of workers that can be scaled out per minute.
+    #   The number of workers that can be added per minute to the fleet. The
+    #   default is a service-defined value that balances efficiency with
+    #   cost.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/CustomerManagedAutoScalingConfiguration AWS API Documentation
@@ -1993,7 +2005,7 @@ module Aws::Deadline
     #   @return [String]
     #
     # @!attribute [rw] auto_scaling_configuration
-    #   The auto scaling configuration options for the customer managed
+    #   The auto scaling configuration settings for the customer managed
     #   fleet.
     #   @return [Types::CustomerManagedAutoScalingConfiguration]
     #
@@ -4138,6 +4150,11 @@ module Aws::Deadline
     #   The jobs in the queue ran as this specified POSIX user.
     #   @return [Types::JobRunAsUser]
     #
+    # @!attribute [rw] scheduling_configuration
+    #   The scheduling configuration for the queue. This configuration
+    #   determines how workers are assigned to jobs in the queue.
+    #   @return [Types::SchedulingConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/GetQueueResponse AWS API Documentation
     #
     class GetQueueResponse < Struct.new(
@@ -4156,7 +4173,8 @@ module Aws::Deadline
       :role_arn,
       :required_file_system_location_names,
       :allowed_storage_profile_ids,
-      :job_run_as_user)
+      :job_run_as_user,
+      :scheduling_configuration)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -7710,6 +7728,36 @@ module Aws::Deadline
       include Aws::Structure
     end
 
+    # Configuration for priority balanced scheduling. Workers are
+    # distributed evenly across all jobs at the highest priority level.
+    #
+    # @!attribute [rw] rendering_task_buffer
+    #   The rendering task buffer controls worker stickiness. A worker only
+    #   switches from its current job to another job at the same priority if
+    #   the other job has fewer rendering tasks by more than this buffer
+    #   value. Higher values make workers stickier to their current jobs.
+    #   The default value is `1`.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/PriorityBalancedSchedulingConfiguration AWS API Documentation
+    #
+    class PriorityBalancedSchedulingConfiguration < Struct.new(
+      :rendering_task_buffer)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for priority first-in, first-out (FIFO) scheduling.
+    # Workers are assigned to the highest-priority job first. When multiple
+    # jobs share the same priority, the job submitted earliest receives
+    # workers first.
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/PriorityFifoSchedulingConfiguration AWS API Documentation
+    #
+    class PriorityFifoSchedulingConfiguration < Aws::EmptyStructure; end
+
     # @!attribute [rw] license_endpoint_id
     #   The license endpoint ID to add to the metered product.
     #   @return [String]
@@ -8045,6 +8093,124 @@ module Aws::Deadline
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # The scheduling configuration for a queue. Defines the strategy used to
+    # assign workers to jobs.
+    #
+    # @note SchedulingConfiguration is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note SchedulingConfiguration is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of SchedulingConfiguration corresponding to the set member.
+    #
+    # @!attribute [rw] priority_fifo
+    #   Workers are assigned to the highest-priority job first. When
+    #   multiple jobs share the same priority, the job submitted earliest
+    #   receives workers first. This is the default scheduling configuration
+    #   for new queues.
+    #   @return [Types::PriorityFifoSchedulingConfiguration]
+    #
+    # @!attribute [rw] priority_balanced
+    #   Workers are distributed evenly across all jobs at the highest
+    #   priority level. When workers cannot be evenly divided, the extra
+    #   workers are assigned to the jobs submitted earliest. If a job has
+    #   fewer remaining tasks than its share of workers, the surplus workers
+    #   are redistributed to other jobs at the same priority level.
+    #   @return [Types::PriorityBalancedSchedulingConfiguration]
+    #
+    # @!attribute [rw] weighted_balanced
+    #   Workers are assigned to jobs based on a weighted formula that
+    #   considers job priority, error count, submission time, and the number
+    #   of tasks currently rendering. Each factor has a configurable weight
+    #   that determines its influence on scheduling decisions.
+    #   @return [Types::WeightedBalancedSchedulingConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/SchedulingConfiguration AWS API Documentation
+    #
+    class SchedulingConfiguration < Struct.new(
+      :priority_fifo,
+      :priority_balanced,
+      :weighted_balanced,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class PriorityFifo < SchedulingConfiguration; end
+      class PriorityBalanced < SchedulingConfiguration; end
+      class WeightedBalanced < SchedulingConfiguration; end
+      class Unknown < SchedulingConfiguration; end
+    end
+
+    # Defines the override behavior for jobs at the maximum priority (100)
+    # in weighted balanced scheduling.
+    #
+    # @note SchedulingMaxPriorityOverride is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note SchedulingMaxPriorityOverride is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of SchedulingMaxPriorityOverride corresponding to the set member.
+    #
+    # @!attribute [rw] always_schedule_first
+    #   Jobs at the maximum priority (100) are always scheduled before other
+    #   jobs, regardless of the weighted scheduling formula. If multiple
+    #   jobs have priority 100, ties are broken using the standard weighted
+    #   formula.
+    #   @return [Types::SchedulingMaxPriorityOverrideAlwaysScheduleFirst]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/SchedulingMaxPriorityOverride AWS API Documentation
+    #
+    class SchedulingMaxPriorityOverride < Struct.new(
+      :always_schedule_first,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class AlwaysScheduleFirst < SchedulingMaxPriorityOverride; end
+      class Unknown < SchedulingMaxPriorityOverride; end
+    end
+
+    # Specifies that jobs at the maximum priority (100) are always scheduled
+    # first.
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/SchedulingMaxPriorityOverrideAlwaysScheduleFirst AWS API Documentation
+    #
+    class SchedulingMaxPriorityOverrideAlwaysScheduleFirst < Aws::EmptyStructure; end
+
+    # Defines the override behavior for jobs at the minimum priority (0) in
+    # weighted balanced scheduling.
+    #
+    # @note SchedulingMinPriorityOverride is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note SchedulingMinPriorityOverride is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of SchedulingMinPriorityOverride corresponding to the set member.
+    #
+    # @!attribute [rw] always_schedule_last
+    #   Jobs at the minimum priority (0) are always scheduled after all
+    #   other jobs, regardless of the weighted scheduling formula. If
+    #   multiple jobs have priority 0, ties are broken using the standard
+    #   weighted formula.
+    #   @return [Types::SchedulingMinPriorityOverrideAlwaysScheduleLast]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/SchedulingMinPriorityOverride AWS API Documentation
+    #
+    class SchedulingMinPriorityOverride < Struct.new(
+      :always_schedule_last,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class AlwaysScheduleLast < SchedulingMinPriorityOverride; end
+      class Unknown < SchedulingMinPriorityOverride; end
+    end
+
+    # Specifies that jobs at the minimum priority (0) are always scheduled
+    # last.
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/SchedulingMinPriorityOverrideAlwaysScheduleLast AWS API Documentation
+    #
+    class SchedulingMinPriorityOverrideAlwaysScheduleLast < Aws::EmptyStructure; end
 
     # The type of search filter to apply.
     #
@@ -8446,20 +8612,23 @@ module Aws::Deadline
       include Aws::Structure
     end
 
-    # The auto scaling configuration options for a service managed EC2
+    # The auto scaling configuration settings for a service managed EC2
     # fleet.
     #
     # @!attribute [rw] standby_worker_count
-    #   The number of standby workers to maintain for the fleet.
+    #   The number of idle workers maintained and ready to process incoming
+    #   tasks. The default is 0.
     #   @return [Integer]
     #
     # @!attribute [rw] worker_idle_duration_seconds
-    #   The duration in seconds that a worker can be idle before it is
-    #   scaled down.
+    #   The number of seconds that a worker can remain idle before it is
+    #   shut down. The default is 300 seconds (5 minutes).
     #   @return [Integer]
     #
     # @!attribute [rw] scale_out_workers_per_minute
-    #   The number of workers that can be scaled out per minute.
+    #   The number of workers that can be added per minute to the fleet. The
+    #   default is a service-defined value that balances efficiency with
+    #   cost.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/ServiceManagedEc2AutoScalingConfiguration AWS API Documentation
@@ -8491,7 +8660,7 @@ module Aws::Deadline
     #   @return [String]
     #
     # @!attribute [rw] auto_scaling_configuration
-    #   The auto scaling configuration options for the service managed EC2
+    #   The auto scaling configuration settings for the service managed EC2
     #   fleet.
     #   @return [Types::ServiceManagedEc2AutoScalingConfiguration]
     #
@@ -10503,6 +10672,17 @@ module Aws::Deadline
     #   The storage profile ID to remove.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] scheduling_configuration
+    #   The scheduling configuration for the queue. This configuration
+    #   determines how workers are assigned to jobs in the queue.
+    #
+    #   When updating the scheduling configuration, the entire configuration
+    #   is replaced.
+    #
+    #   In-progress tasks run to completion before the new scheduling
+    #   configuration takes effect.
+    #   @return [Types::SchedulingConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/UpdateQueueRequest AWS API Documentation
     #
     class UpdateQueueRequest < Struct.new(
@@ -10518,7 +10698,8 @@ module Aws::Deadline
       :required_file_system_location_names_to_add,
       :required_file_system_location_names_to_remove,
       :allowed_storage_profile_ids_to_add,
-      :allowed_storage_profile_ids_to_remove)
+      :allowed_storage_profile_ids_to_remove,
+      :scheduling_configuration)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -10998,6 +11179,78 @@ module Aws::Deadline
     #
     class VpcConfiguration < Struct.new(
       :resource_configuration_arns)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for weighted balanced scheduling. Workers are assigned
+    # to jobs based on a weighted formula:
+    #
+    # `weight = (priority * priorityWeight) + (errors * errorWeight) +
+    # ((currentTime - submissionTime) * submissionTimeWeight) +
+    # ((renderingTasks - renderingTaskBuffer) * renderingTaskWeight)`
+    #
+    # The job with the highest calculated weight is scheduled first. Workers
+    # are distributed evenly amongst jobs with the same weight.
+    #
+    # @!attribute [rw] priority_weight
+    #   The weight applied to job priority in the scheduling formula. Higher
+    #   values give more influence to job priority. A value of `0` means
+    #   priority is ignored. The default value is `100.0`.
+    #   @return [Float]
+    #
+    # @!attribute [rw] error_weight
+    #   The weight applied to the number of errors on a job. A negative
+    #   value means jobs without errors are scheduled first. A value of `0`
+    #   means errors are ignored. The default value is `-10.0`.
+    #   @return [Float]
+    #
+    # @!attribute [rw] submission_time_weight
+    #   The weight applied to job submission time. A positive value means
+    #   earlier jobs are scheduled first. A value of `0` means submission
+    #   time is ignored. The default value is `3.0`.
+    #   @return [Float]
+    #
+    # @!attribute [rw] rendering_task_weight
+    #   The weight applied to the number of tasks currently rendering on a
+    #   job. A negative value means jobs that are not already rendering are
+    #   scheduled next. A value of `0` means the rendering state is ignored.
+    #   The default value is `-100.0`.
+    #   @return [Float]
+    #
+    # @!attribute [rw] rendering_task_buffer
+    #   The rendering task buffer is subtracted from the number of rendering
+    #   tasks before applying the rendering task weight. This creates a
+    #   stickiness effect where workers prefer to stay with their current
+    #   job. Higher values make workers stickier. The default value is `1`.
+    #   The buffer is only applied in the weight calculation for a job if
+    #   the worker is currently assigned to that job.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_priority_override
+    #   Overrides the weighted scheduling formula for jobs at the maximum
+    #   priority (100). When set, jobs with priority 100 are always
+    #   scheduled first regardless of their calculated weight. When absent,
+    #   maximum priority jobs use the standard weighted formula.
+    #   @return [Types::SchedulingMaxPriorityOverride]
+    #
+    # @!attribute [rw] min_priority_override
+    #   Overrides the weighted scheduling formula for jobs at the minimum
+    #   priority (0). When set, jobs with priority 0 are always scheduled
+    #   last regardless of their calculated weight. When absent, minimum
+    #   priority jobs use the standard weighted formula.
+    #   @return [Types::SchedulingMinPriorityOverride]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/WeightedBalancedSchedulingConfiguration AWS API Documentation
+    #
+    class WeightedBalancedSchedulingConfiguration < Struct.new(
+      :priority_weight,
+      :error_weight,
+      :submission_time_weight,
+      :rendering_task_weight,
+      :rendering_task_buffer,
+      :max_priority_override,
+      :min_priority_override)
       SENSITIVE = []
       include Aws::Structure
     end

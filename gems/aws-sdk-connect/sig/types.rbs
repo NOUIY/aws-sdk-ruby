@@ -3130,7 +3130,7 @@ module Aws::Connect
     end
 
     class EvaluationContactParticipant
-      attr_accessor contact_participant_role: ("AGENT" | "SYSTEM" | "CUSTOM_BOT")
+      attr_accessor contact_participant_role: ("AGENT" | "SYSTEM" | "CUSTOM_BOT" | "CUSTOMER")
       attr_accessor contact_participant_id: ::String
       SENSITIVE: []
     end
@@ -3238,7 +3238,7 @@ module Aws::Connect
     end
 
     class EvaluationFormLanguageConfiguration
-      attr_accessor form_language: ("de-DE" | "en-US" | "es-ES" | "fr-FR" | "it-IT" | "pt-BR")
+      attr_accessor form_language: ("de-DE" | "en-US" | "es-ES" | "fr-FR" | "it-IT" | "pt-BR" | "ja-JP" | "ko-KR" | "zh-CN")
       SENSITIVE: []
     end
 
@@ -3377,8 +3377,8 @@ module Aws::Connect
       attr_accessor latest_version: ::Integer
       attr_accessor active_version: ::Integer
       attr_accessor auto_evaluation_enabled: bool
-      attr_accessor evaluation_form_language: ("de-DE" | "en-US" | "es-ES" | "fr-FR" | "it-IT" | "pt-BR")
-      attr_accessor contact_interaction_type: ("AGENT" | "AUTOMATED")
+      attr_accessor evaluation_form_language: ("de-DE" | "en-US" | "es-ES" | "fr-FR" | "it-IT" | "pt-BR" | "ja-JP" | "ko-KR" | "zh-CN")
+      attr_accessor contact_interaction_type: ("AGENT" | "AUTOMATED" | "CUSTOMER")
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
@@ -3442,7 +3442,7 @@ module Aws::Connect
     end
 
     class EvaluationFormTargetConfiguration
-      attr_accessor contact_interaction_type: ("AGENT" | "AUTOMATED")
+      attr_accessor contact_interaction_type: ("AGENT" | "AUTOMATED" | "CUSTOMER")
       SENSITIVE: []
     end
 
@@ -3586,7 +3586,7 @@ module Aws::Connect
       attr_accessor acknowledger_comment: ::String
       attr_accessor sampling_job_id: ::String
       attr_accessor review_id: ::String
-      attr_accessor contact_participant_role: ("AGENT" | "SYSTEM" | "CUSTOM_BOT")
+      attr_accessor contact_participant_role: ("AGENT" | "SYSTEM" | "CUSTOM_BOT" | "CUSTOMER")
       attr_accessor contact_participant_id: ::String
       SENSITIVE: []
     end

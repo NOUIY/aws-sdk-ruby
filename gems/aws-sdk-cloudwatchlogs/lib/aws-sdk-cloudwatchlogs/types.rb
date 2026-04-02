@@ -483,13 +483,20 @@ module Aws::CloudWatchLogs
     #   is processed.
     #   @return [String]
     #
+    # @!attribute [rw] destination
+    #   The path to the parent field to put transformed key value pairs
+    #   under. If you omit this value, the key value pairs will be placed
+    #   under the root node.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CSV AWS API Documentation
     #
     class CSV < Struct.new(
       :quote_character,
       :delimiter,
       :columns,
-      :source)
+      :source,
+      :destination)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7739,6 +7746,8 @@ module Aws::CloudWatchLogs
     #
     #   * For CloudFront, the valid value is `ACCESS_LOGS`.
     #
+    #   * For DevOps Agent, the valid value is `APPLICATION_LOGS`.
+    #
     #   * For Amazon CodeWhisperer, the valid value is `EVENT_LOGS`.
     #
     #   * For Elemental MediaPackage, the valid values are
@@ -8992,12 +9001,13 @@ module Aws::CloudWatchLogs
     #   @return [String]
     #
     # @!attribute [rw] owner_account_id
-    #   The AWS accountId for the bucket owning account.
+    #   The Amazon Web Services accountId for the bucket owning account.
     #   @return [String]
     #
     # @!attribute [rw] kms_key_id
     #   The Amazon Resource Name (ARN) of the KMS encryption key. Must
-    #   belong to the same AWS Region as the destination Amazon S3 bucket.
+    #   belong to the same Amazon Web Services Region as the destination
+    #   Amazon S3 bucket.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/S3Configuration AWS API Documentation

@@ -37,6 +37,13 @@ module Aws::CloudWatch
       SENSITIVE: []
     end
 
+    class AlarmPromQLCriteria
+      attr_accessor query: ::String
+      attr_accessor pending_period: ::Integer
+      attr_accessor recovery_period: ::Integer
+      SENSITIVE: []
+    end
+
     class AnomalyDetector
       attr_accessor namespace: ::String
       attr_accessor metric_name: ::String
@@ -322,6 +329,17 @@ module Aws::CloudWatch
       SENSITIVE: []
     end
 
+    class EvaluationCriteria
+      attr_accessor prom_ql_criteria: Types::AlarmPromQLCriteria
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class PromQlCriteria < EvaluationCriteria
+      end
+      class Unknown < EvaluationCriteria
+      end
+    end
+
     class GetAlarmMuteRuleInput
       attr_accessor alarm_mute_rule_name: ::String
       SENSITIVE: []
@@ -440,6 +458,14 @@ module Aws::CloudWatch
 
     class GetMetricWidgetImageOutput
       attr_accessor metric_widget_image: ::String
+      SENSITIVE: []
+    end
+
+    class GetOTelEnrichmentInput < Aws::EmptyStructure
+    end
+
+    class GetOTelEnrichmentOutput
+      attr_accessor status: ("Running" | "Stopped")
       SENSITIVE: []
     end
 
@@ -658,6 +684,8 @@ module Aws::CloudWatch
       attr_accessor threshold_metric_id: ::String
       attr_accessor evaluation_state: ("PARTIAL_DATA" | "EVALUATION_FAILURE" | "EVALUATION_ERROR")
       attr_accessor state_transitioned_timestamp: ::Time
+      attr_accessor evaluation_criteria: Types::EvaluationCriteria
+      attr_accessor evaluation_interval: ::Integer
       SENSITIVE: []
     end
 
@@ -857,6 +885,8 @@ module Aws::CloudWatch
       attr_accessor metrics: ::Array[Types::MetricDataQuery]
       attr_accessor tags: ::Array[Types::Tag]
       attr_accessor threshold_metric_id: ::String
+      attr_accessor evaluation_criteria: Types::EvaluationCriteria
+      attr_accessor evaluation_interval: ::Integer
       SENSITIVE: []
     end
 
@@ -940,6 +970,12 @@ module Aws::CloudWatch
     class StartMetricStreamsOutput < Aws::EmptyStructure
     end
 
+    class StartOTelEnrichmentInput < Aws::EmptyStructure
+    end
+
+    class StartOTelEnrichmentOutput < Aws::EmptyStructure
+    end
+
     class StatisticSet
       attr_accessor sample_count: ::Float
       attr_accessor sum: ::Float
@@ -954,6 +990,12 @@ module Aws::CloudWatch
     end
 
     class StopMetricStreamsOutput < Aws::EmptyStructure
+    end
+
+    class StopOTelEnrichmentInput < Aws::EmptyStructure
+    end
+
+    class StopOTelEnrichmentOutput < Aws::EmptyStructure
     end
 
     class Tag

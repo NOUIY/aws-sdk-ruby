@@ -442,7 +442,7 @@ module Aws
         def target_id: () -> ::String
         def created_at: () -> ::Time
         def updated_at: () -> ::Time
-        def status: () -> ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL")
+        def status: () -> ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL" | "CREATE_PENDING_AUTH" | "UPDATE_PENDING_AUTH" | "SYNCHRONIZE_PENDING_AUTH")
         def status_reasons: () -> ::Array[::String]
         def name: () -> ::String
         def description: () -> ::String
@@ -452,6 +452,7 @@ module Aws
         def metadata_configuration: () -> Types::MetadataConfiguration
         def private_endpoint: () -> Types::PrivateEndpoint
         def private_endpoint_managed_resources: () -> ::Array[Types::ManagedResourceDetails]
+        def authorization_data: () -> Types::AuthorizationData
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#create_gateway_target-instance_method
       def create_gateway_target: (
@@ -505,7 +506,14 @@ module Aws
                                          }
                                        }?,
                                        mcp_server: {
-                                         endpoint: ::String
+                                         endpoint: ::String,
+                                         mcp_tool_schema: {
+                                           s3: {
+                                             uri: ::String?,
+                                             bucket_owner_account_id: ::String?
+                                           }?,
+                                           inline_payload: ::String?
+                                         }?
                                        }?,
                                        api_gateway: {
                                          rest_api_id: ::String,
@@ -998,7 +1006,7 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteGatewayTargetResponse]
         def gateway_arn: () -> ::String
         def target_id: () -> ::String
-        def status: () -> ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL")
+        def status: () -> ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL" | "CREATE_PENDING_AUTH" | "UPDATE_PENDING_AUTH" | "SYNCHRONIZE_PENDING_AUTH")
         def status_reasons: () -> ::Array[::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#delete_gateway_target-instance_method
@@ -1277,7 +1285,7 @@ module Aws
         def target_id: () -> ::String
         def created_at: () -> ::Time
         def updated_at: () -> ::Time
-        def status: () -> ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL")
+        def status: () -> ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL" | "CREATE_PENDING_AUTH" | "UPDATE_PENDING_AUTH" | "SYNCHRONIZE_PENDING_AUTH")
         def status_reasons: () -> ::Array[::String]
         def name: () -> ::String
         def description: () -> ::String
@@ -1287,6 +1295,7 @@ module Aws
         def metadata_configuration: () -> Types::MetadataConfiguration
         def private_endpoint: () -> Types::PrivateEndpoint
         def private_endpoint_managed_resources: () -> ::Array[Types::ManagedResourceDetails]
+        def authorization_data: () -> Types::AuthorizationData
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_gateway_target-instance_method
       def get_gateway_target: (
@@ -2022,7 +2031,7 @@ module Aws
         def target_id: () -> ::String
         def created_at: () -> ::Time
         def updated_at: () -> ::Time
-        def status: () -> ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL")
+        def status: () -> ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL" | "CREATE_PENDING_AUTH" | "UPDATE_PENDING_AUTH" | "SYNCHRONIZE_PENDING_AUTH")
         def status_reasons: () -> ::Array[::String]
         def name: () -> ::String
         def description: () -> ::String
@@ -2032,6 +2041,7 @@ module Aws
         def metadata_configuration: () -> Types::MetadataConfiguration
         def private_endpoint: () -> Types::PrivateEndpoint
         def private_endpoint_managed_resources: () -> ::Array[Types::ManagedResourceDetails]
+        def authorization_data: () -> Types::AuthorizationData
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#update_gateway_target-instance_method
       def update_gateway_target: (
@@ -2085,7 +2095,14 @@ module Aws
                                          }
                                        }?,
                                        mcp_server: {
-                                         endpoint: ::String
+                                         endpoint: ::String,
+                                         mcp_tool_schema: {
+                                           s3: {
+                                             uri: ::String?,
+                                             bucket_owner_account_id: ::String?
+                                           }?,
+                                           inline_payload: ::String?
+                                         }?
                                        }?,
                                        api_gateway: {
                                          rest_api_id: ::String,

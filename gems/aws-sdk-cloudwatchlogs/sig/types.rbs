@@ -100,6 +100,7 @@ module Aws::CloudWatchLogs
       attr_accessor delimiter: ::String
       attr_accessor columns: ::Array[::String]
       attr_accessor source: ::String
+      attr_accessor destination: ::String
       SENSITIVE: []
     end
 

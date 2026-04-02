@@ -211,6 +211,9 @@ module Aws::AppStream
       attr_accessor available_user_sessions: ::Integer
       attr_accessor active_user_sessions: ::Integer
       attr_accessor actual_user_sessions: ::Integer
+      attr_accessor draining: ::Integer
+      attr_accessor drain_mode_active_user_sessions: ::Integer
+      attr_accessor drain_mode_unused_user_sessions: ::Integer
       SENSITIVE: []
     end
 
@@ -961,6 +964,14 @@ module Aws::AppStream
       SENSITIVE: []
     end
 
+    class DrainSessionInstanceRequest
+      attr_accessor session_id: ::String
+      SENSITIVE: []
+    end
+
+    class DrainSessionInstanceResult < Aws::EmptyStructure
+    end
+
     class DryRunOperationException
       attr_accessor message: ::String
       SENSITIVE: []
@@ -1330,6 +1341,7 @@ module Aws::AppStream
       attr_accessor authentication_type: ("API" | "SAML" | "USERPOOL" | "AWS_AD")
       attr_accessor network_access_configuration: Types::NetworkAccessConfiguration
       attr_accessor instance_id: ::String
+      attr_accessor instance_drain_status: ("ACTIVE" | "DRAINING" | "NOT_APPLICABLE")
       SENSITIVE: []
     end
 

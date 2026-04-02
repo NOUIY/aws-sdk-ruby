@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.35.0 (2026-04-02)
+------------------
+
+* Feature - Adds support for three-legged (Authorization Code grant type) OAuth along with predefined MCP tool schema configuration for Amazon Bedrock AgentCore gateway MCP server targets.
+
 1.34.0 (2026-04-01)
 ------------------
 

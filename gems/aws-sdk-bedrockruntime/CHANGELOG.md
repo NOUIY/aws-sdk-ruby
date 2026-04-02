@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.75.0 (2026-04-02)
+------------------
+
+* Feature - Relax ToolUseId pattern to allow dots and colons
+
 1.74.0 (2026-03-18)
 ------------------
 

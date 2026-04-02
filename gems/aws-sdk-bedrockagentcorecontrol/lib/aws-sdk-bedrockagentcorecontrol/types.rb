@@ -402,6 +402,28 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # Contains the authorization data that is returned when a gateway target
+    # requires user authorization through an authorization code grant type.
+    #
+    # @note AuthorizationData is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of AuthorizationData corresponding to the set member.
+    #
+    # @!attribute [rw] oauth2
+    #   OAuth2 authorization data for the gateway target.
+    #   @return [Types::OAuth2AuthorizationData]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/AuthorizationData AWS API Documentation
+    #
+    class AuthorizationData < Struct.new(
+      :oauth2,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Oauth2 < AuthorizationData; end
+      class Unknown < AuthorizationData; end
+    end
+
     # Represents inbound authorization configuration options used to
     # authenticate incoming requests.
     #
@@ -1999,6 +2021,12 @@ module Aws::BedrockAgentCoreControl
     #   connectivity.
     #   @return [Array<Types::ManagedResourceDetails>]
     #
+    # @!attribute [rw] authorization_data
+    #   OAuth2 authorization data for the created gateway target. This data
+    #   is returned when the target requires user authorization through an
+    #   authorization code grant type.
+    #   @return [Types::AuthorizationData]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateGatewayTargetResponse AWS API Documentation
     #
     class CreateGatewayTargetResponse < Struct.new(
@@ -2015,7 +2043,8 @@ module Aws::BedrockAgentCoreControl
       :last_synchronized_at,
       :metadata_configuration,
       :private_endpoint,
-      :private_endpoint_managed_resources)
+      :private_endpoint_managed_resources,
+      :authorization_data)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -4509,6 +4538,12 @@ module Aws::BedrockAgentCoreControl
     #   when you use a managed VPC Lattice resource configuration.
     #   @return [Array<Types::ManagedResourceDetails>]
     #
+    # @!attribute [rw] authorization_data
+    #   OAuth2 authorization data for the gateway target. This data is
+    #   returned when a target is configured with a credential provider with
+    #   authorization code grant type and requires user federation.
+    #   @return [Types::AuthorizationData]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GatewayTarget AWS API Documentation
     #
     class GatewayTarget < Struct.new(
@@ -4525,7 +4560,8 @@ module Aws::BedrockAgentCoreControl
       :last_synchronized_at,
       :metadata_configuration,
       :private_endpoint,
-      :private_endpoint_managed_resources)
+      :private_endpoint_managed_resources,
+      :authorization_data)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -5298,6 +5334,12 @@ module Aws::BedrockAgentCoreControl
     #   connectivity.
     #   @return [Array<Types::ManagedResourceDetails>]
     #
+    # @!attribute [rw] authorization_data
+    #   OAuth2 authorization data for the gateway target. This data is
+    #   returned when the target requires user authorization through an
+    #   authorization code grant type.
+    #   @return [Types::AuthorizationData]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetGatewayTargetResponse AWS API Documentation
     #
     class GetGatewayTargetResponse < Struct.new(
@@ -5314,7 +5356,8 @@ module Aws::BedrockAgentCoreControl
       :last_synchronized_at,
       :metadata_configuration,
       :private_endpoint,
-      :private_endpoint_managed_resources)
+      :private_endpoint_managed_resources,
+      :authorization_data)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -7264,10 +7307,19 @@ module Aws::BedrockAgentCoreControl
     #   The endpoint for the MCP server target configuration.
     #   @return [String]
     #
+    # @!attribute [rw] mcp_tool_schema
+    #   The tool schema configuration for the MCP server target. Supported
+    #   only when the credential provider is configured with an
+    #   authorization code grant type. Dynamic tool
+    #   discovery/synchronization will be disabled when target is configured
+    #   with mcpToolSchema.
+    #   @return [Types::McpToolSchemaConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/McpServerTargetConfiguration AWS API Documentation
     #
     class McpServerTargetConfiguration < Struct.new(
-      :endpoint)
+      :endpoint,
+      :mcp_tool_schema)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7324,6 +7376,37 @@ module Aws::BedrockAgentCoreControl
       class McpServer < McpTargetConfiguration; end
       class ApiGateway < McpTargetConfiguration; end
       class Unknown < McpTargetConfiguration; end
+    end
+
+    # The MCP tool schema configuration for an MCP server target. The tool
+    # schema must be aligned with the MCP specification.
+    #
+    # @note McpToolSchemaConfiguration is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note McpToolSchemaConfiguration is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of McpToolSchemaConfiguration corresponding to the set member.
+    #
+    # @!attribute [rw] s3
+    #   The Amazon S3 location of the tool schema. This location contains
+    #   the schema definition file.
+    #   @return [Types::S3Configuration]
+    #
+    # @!attribute [rw] inline_payload
+    #   The inline payload containing the MCP tool schema definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/McpToolSchemaConfiguration AWS API Documentation
+    #
+    class McpToolSchemaConfiguration < Struct.new(
+      :s3,
+      :inline_payload,
+      :unknown)
+      SENSITIVE = [:inline_payload]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class S3 < McpToolSchemaConfiguration; end
+      class InlinePayload < McpToolSchemaConfiguration; end
+      class Unknown < McpToolSchemaConfiguration; end
     end
 
     # Contains information about a memory resource.
@@ -7882,6 +7965,28 @@ module Aws::BedrockAgentCoreControl
       :definition,
       :value,
       :label)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # OAuth2-specific authorization data, including the authorization URL
+    # and user identifier for the authorization session.
+    #
+    # @!attribute [rw] authorization_url
+    #   The URL to initiate the authorization process. This URL is provided
+    #   when the OAuth2 access token requires user authorization.
+    #   @return [String]
+    #
+    # @!attribute [rw] user_id
+    #   The user identifier associated with the OAuth2 authorization session
+    #   that is defined by AgentCore Gateway.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/OAuth2AuthorizationData AWS API Documentation
+    #
+    class OAuth2AuthorizationData < Struct.new(
+      :authorization_url,
+      :user_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10687,6 +10792,12 @@ module Aws::BedrockAgentCoreControl
     #   connectivity.
     #   @return [Array<Types::ManagedResourceDetails>]
     #
+    # @!attribute [rw] authorization_data
+    #   OAuth2 authorization data for the updated gateway target. This data
+    #   is returned when the target requires user authorization through an
+    #   authorization code grant type.
+    #   @return [Types::AuthorizationData]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateGatewayTargetResponse AWS API Documentation
     #
     class UpdateGatewayTargetResponse < Struct.new(
@@ -10703,7 +10814,8 @@ module Aws::BedrockAgentCoreControl
       :last_synchronized_at,
       :metadata_configuration,
       :private_endpoint,
-      :private_endpoint_managed_resources)
+      :private_endpoint_managed_resources,
+      :authorization_data)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end

@@ -1607,6 +1607,7 @@ module Aws::GameLift
     GameSession.add_member(:game_session_data, Shapes::ShapeRef.new(shape: LargeGameSessionData, location_name: "GameSessionData"))
     GameSession.add_member(:matchmaker_data, Shapes::ShapeRef.new(shape: MatchmakerData, location_name: "MatchmakerData"))
     GameSession.add_member(:location, Shapes::ShapeRef.new(shape: LocationStringModel, location_name: "Location"))
+    GameSession.add_member(:compute_name, Shapes::ShapeRef.new(shape: ComputeName, location_name: "ComputeName"))
     GameSession.add_member(:player_gateway_status, Shapes::ShapeRef.new(shape: PlayerGatewayStatus, location_name: "PlayerGatewayStatus"))
     GameSession.struct_class = Types::GameSession
 

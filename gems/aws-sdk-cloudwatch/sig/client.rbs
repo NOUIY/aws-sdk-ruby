@@ -464,6 +464,15 @@ module Aws
                                    ) -> _GetMetricWidgetImageResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetMetricWidgetImageResponseSuccess
 
+      interface _GetOTelEnrichmentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetOTelEnrichmentOutput]
+        def status: () -> ("Running" | "Stopped")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatch/Client.html#get_o_tel_enrichment-instance_method
+      def get_o_tel_enrichment: (
+                                ) -> _GetOTelEnrichmentResponseSuccess
+                              | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetOTelEnrichmentResponseSuccess
+
       interface _ListAlarmMuteRulesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListAlarmMuteRulesOutput]
         def alarm_mute_rule_summaries: () -> ::Array[Types::AlarmMuteRuleSummary]
@@ -732,10 +741,10 @@ module Aws
                               ],
                               ?period: ::Integer,
                               ?unit: ("Seconds" | "Microseconds" | "Milliseconds" | "Bytes" | "Kilobytes" | "Megabytes" | "Gigabytes" | "Terabytes" | "Bits" | "Kilobits" | "Megabits" | "Gigabits" | "Terabits" | "Percent" | "Count" | "Bytes/Second" | "Kilobytes/Second" | "Megabytes/Second" | "Gigabytes/Second" | "Terabytes/Second" | "Bits/Second" | "Kilobits/Second" | "Megabits/Second" | "Gigabits/Second" | "Terabits/Second" | "Count/Second" | "None"),
-                              evaluation_periods: ::Integer,
+                              ?evaluation_periods: ::Integer,
                               ?datapoints_to_alarm: ::Integer,
                               ?threshold: ::Float,
-                              comparison_operator: ("GreaterThanOrEqualToThreshold" | "GreaterThanThreshold" | "LessThanThreshold" | "LessThanOrEqualToThreshold" | "LessThanLowerOrGreaterThanUpperThreshold" | "LessThanLowerThreshold" | "GreaterThanUpperThreshold"),
+                              ?comparison_operator: ("GreaterThanOrEqualToThreshold" | "GreaterThanThreshold" | "LessThanThreshold" | "LessThanOrEqualToThreshold" | "LessThanLowerOrGreaterThanUpperThreshold" | "LessThanLowerThreshold" | "GreaterThanUpperThreshold"),
                               ?treat_missing_data: ::String,
                               ?evaluate_low_sample_count_percentile: ::String,
                               ?metrics: Array[
@@ -769,7 +778,15 @@ module Aws
                                   value: ::String
                                 },
                               ],
-                              ?threshold_metric_id: ::String
+                              ?threshold_metric_id: ::String,
+                              ?evaluation_criteria: {
+                                prom_ql_criteria: {
+                                  query: ::String,
+                                  pending_period: ::Integer?,
+                                  recovery_period: ::Integer?
+                                }?
+                              },
+                              ?evaluation_interval: ::Integer
                             ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
@@ -895,6 +912,14 @@ module Aws
                                 ) -> _StartMetricStreamsResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartMetricStreamsResponseSuccess
 
+      interface _StartOTelEnrichmentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StartOTelEnrichmentOutput]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatch/Client.html#start_o_tel_enrichment-instance_method
+      def start_o_tel_enrichment: (
+                                  ) -> _StartOTelEnrichmentResponseSuccess
+                                | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartOTelEnrichmentResponseSuccess
+
       interface _StopMetricStreamsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StopMetricStreamsOutput]
       end
@@ -903,6 +928,14 @@ module Aws
                                  names: Array[::String]
                                ) -> _StopMetricStreamsResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StopMetricStreamsResponseSuccess
+
+      interface _StopOTelEnrichmentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StopOTelEnrichmentOutput]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatch/Client.html#stop_o_tel_enrichment-instance_method
+      def stop_o_tel_enrichment: (
+                                 ) -> _StopOTelEnrichmentResponseSuccess
+                               | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StopOTelEnrichmentResponseSuccess
 
       interface _TagResourceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::TagResourceOutput]

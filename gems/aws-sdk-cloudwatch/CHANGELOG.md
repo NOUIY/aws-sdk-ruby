@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.133.0 (2026-04-02)
+------------------
+
+* Feature - CloudWatch now supports OTel enrichment to make vended metrics for supported AWS resources queryable via PromQL with resource ARN and tag labels, and PromQL alarms for metrics ingested via the OTLP endpoint with multi-contributor evaluation.
+
 1.132.0 (2026-03-18)
 ------------------
 

@@ -6923,6 +6923,14 @@ module Aws::GameLift
     #   `us-west-2`.
     #   @return [String]
     #
+    # @!attribute [rw] compute_name
+    #   A descriptive label for the compute resource. The compute resource
+    #   that is hosting the game session. For EC2 fleets, this is the EC2
+    #   instance ID. For Container fleets, each game server container group
+    #   on a fleet instance is assigned a compute name. For Anywhere fleets,
+    #   this is the custom compute name.
+    #   @return [String]
+    #
     # @!attribute [rw] player_gateway_status
     #   Indicates whether player gateway is available for use for this game
     #   session. Note, even if a fleet has PlayerGatewayMode configured as
@@ -6965,6 +6973,7 @@ module Aws::GameLift
       :game_session_data,
       :matchmaker_data,
       :location,
+      :compute_name,
       :player_gateway_status)
       SENSITIVE = [:ip_address, :port]
       include Aws::Structure

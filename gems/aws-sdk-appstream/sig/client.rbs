@@ -1028,6 +1028,15 @@ module Aws
                                                     ) -> _DisassociateSoftwareFromImageBuilderResponseSuccess
                                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DisassociateSoftwareFromImageBuilderResponseSuccess
 
+      interface _DrainSessionInstanceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DrainSessionInstanceResult]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AppStream/Client.html#drain_session_instance-instance_method
+      def drain_session_instance: (
+                                    session_id: ::String
+                                  ) -> _DrainSessionInstanceResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DrainSessionInstanceResponseSuccess
+
       interface _EnableUserResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::EnableUserResult]
       end

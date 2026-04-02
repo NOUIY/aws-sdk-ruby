@@ -121,6 +121,17 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class AuthorizationData
+      attr_accessor oauth2: Types::OAuth2AuthorizationData
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Oauth2 < AuthorizationData
+      end
+      class Unknown < AuthorizationData
+      end
+    end
+
     class AuthorizerConfiguration
       attr_accessor custom_jwt_authorizer: Types::CustomJWTAuthorizerConfiguration
       attr_accessor unknown: untyped
@@ -527,7 +538,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor target_id: ::String
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
-      attr_accessor status: ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL")
+      attr_accessor status: ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL" | "CREATE_PENDING_AUTH" | "UPDATE_PENDING_AUTH" | "SYNCHRONIZE_PENDING_AUTH")
       attr_accessor status_reasons: ::Array[::String]
       attr_accessor name: ::String
       attr_accessor description: ::String
@@ -537,6 +548,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor metadata_configuration: Types::MetadataConfiguration
       attr_accessor private_endpoint: Types::PrivateEndpoint
       attr_accessor private_endpoint_managed_resources: ::Array[Types::ManagedResourceDetails]
+      attr_accessor authorization_data: Types::AuthorizationData
       SENSITIVE: [:name, :description]
     end
 
@@ -963,7 +975,7 @@ module Aws::BedrockAgentCoreControl
     class DeleteGatewayTargetResponse
       attr_accessor gateway_arn: ::String
       attr_accessor target_id: ::String
-      attr_accessor status: ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL")
+      attr_accessor status: ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL" | "CREATE_PENDING_AUTH" | "UPDATE_PENDING_AUTH" | "SYNCHRONIZE_PENDING_AUTH")
       attr_accessor status_reasons: ::Array[::String]
       SENSITIVE: []
     end
@@ -1275,7 +1287,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor target_id: ::String
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
-      attr_accessor status: ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL")
+      attr_accessor status: ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL" | "CREATE_PENDING_AUTH" | "UPDATE_PENDING_AUTH" | "SYNCHRONIZE_PENDING_AUTH")
       attr_accessor status_reasons: ::Array[::String]
       attr_accessor name: ::String
       attr_accessor description: ::String
@@ -1285,6 +1297,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor metadata_configuration: Types::MetadataConfiguration
       attr_accessor private_endpoint: Types::PrivateEndpoint
       attr_accessor private_endpoint_managed_resources: ::Array[Types::ManagedResourceDetails]
+      attr_accessor authorization_data: Types::AuthorizationData
       SENSITIVE: [:name, :description]
     end
 
@@ -1473,7 +1486,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor target_id: ::String
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
-      attr_accessor status: ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL")
+      attr_accessor status: ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL" | "CREATE_PENDING_AUTH" | "UPDATE_PENDING_AUTH" | "SYNCHRONIZE_PENDING_AUTH")
       attr_accessor status_reasons: ::Array[::String]
       attr_accessor name: ::String
       attr_accessor description: ::String
@@ -1483,6 +1496,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor metadata_configuration: Types::MetadataConfiguration
       attr_accessor private_endpoint: Types::PrivateEndpoint
       attr_accessor private_endpoint_managed_resources: ::Array[Types::ManagedResourceDetails]
+      attr_accessor authorization_data: Types::AuthorizationData
       SENSITIVE: [:name, :description]
     end
 
@@ -2034,6 +2048,7 @@ module Aws::BedrockAgentCoreControl
 
     class McpServerTargetConfiguration
       attr_accessor endpoint: ::String
+      attr_accessor mcp_tool_schema: Types::McpToolSchemaConfiguration
       SENSITIVE: []
     end
 
@@ -2057,6 +2072,20 @@ module Aws::BedrockAgentCoreControl
       class ApiGateway < McpTargetConfiguration
       end
       class Unknown < McpTargetConfiguration
+      end
+    end
+
+    class McpToolSchemaConfiguration
+      attr_accessor s3: Types::S3Configuration
+      attr_accessor inline_payload: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: [:inline_payload]
+
+      class S3 < McpToolSchemaConfiguration
+      end
+      class InlinePayload < McpToolSchemaConfiguration
+      end
+      class Unknown < McpToolSchemaConfiguration
       end
     end
 
@@ -2236,6 +2265,12 @@ module Aws::BedrockAgentCoreControl
       attr_accessor definition: ::String
       attr_accessor value: ::Float
       attr_accessor label: ::String
+      SENSITIVE: []
+    end
+
+    class OAuth2AuthorizationData
+      attr_accessor authorization_url: ::String
+      attr_accessor user_id: ::String
       SENSITIVE: []
     end
 
@@ -2820,7 +2855,7 @@ module Aws::BedrockAgentCoreControl
     class TargetSummary
       attr_accessor target_id: ::String
       attr_accessor name: ::String
-      attr_accessor status: ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL")
+      attr_accessor status: ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL" | "CREATE_PENDING_AUTH" | "UPDATE_PENDING_AUTH" | "SYNCHRONIZE_PENDING_AUTH")
       attr_accessor description: ::String
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
@@ -3063,7 +3098,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor target_id: ::String
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
-      attr_accessor status: ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL")
+      attr_accessor status: ("CREATING" | "UPDATING" | "UPDATE_UNSUCCESSFUL" | "DELETING" | "READY" | "FAILED" | "SYNCHRONIZING" | "SYNCHRONIZE_UNSUCCESSFUL" | "CREATE_PENDING_AUTH" | "UPDATE_PENDING_AUTH" | "SYNCHRONIZE_PENDING_AUTH")
       attr_accessor status_reasons: ::Array[::String]
       attr_accessor name: ::String
       attr_accessor description: ::String
@@ -3073,6 +3108,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor metadata_configuration: Types::MetadataConfiguration
       attr_accessor private_endpoint: Types::PrivateEndpoint
       attr_accessor private_endpoint_managed_resources: ::Array[Types::ManagedResourceDetails]
+      attr_accessor authorization_data: Types::AuthorizationData
       SENSITIVE: [:name, :description]
     end
 

@@ -2754,6 +2754,7 @@ module Aws::GameLift
     #   resp.game_session.game_session_data #=> String
     #   resp.game_session.matchmaker_data #=> String
     #   resp.game_session.location #=> String
+    #   resp.game_session.compute_name #=> String
     #   resp.game_session.player_gateway_status #=> String, one of "DISABLED", "ENABLED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/CreateGameSession AWS API Documentation
@@ -6254,6 +6255,7 @@ module Aws::GameLift
     #   resp.game_session_details[0].game_session.game_session_data #=> String
     #   resp.game_session_details[0].game_session.matchmaker_data #=> String
     #   resp.game_session_details[0].game_session.location #=> String
+    #   resp.game_session_details[0].game_session.compute_name #=> String
     #   resp.game_session_details[0].game_session.player_gateway_status #=> String, one of "DISABLED", "ENABLED"
     #   resp.game_session_details[0].protection_policy #=> String, one of "NoProtection", "FullProtection"
     #   resp.next_token #=> String
@@ -6548,6 +6550,7 @@ module Aws::GameLift
     #   resp.game_sessions[0].game_session_data #=> String
     #   resp.game_sessions[0].matchmaker_data #=> String
     #   resp.game_sessions[0].location #=> String
+    #   resp.game_sessions[0].compute_name #=> String
     #   resp.game_sessions[0].player_gateway_status #=> String, one of "DISABLED", "ENABLED"
     #   resp.next_token #=> String
     #
@@ -9701,6 +9704,7 @@ module Aws::GameLift
     #   resp.game_sessions[0].game_session_data #=> String
     #   resp.game_sessions[0].matchmaker_data #=> String
     #   resp.game_sessions[0].location #=> String
+    #   resp.game_sessions[0].compute_name #=> String
     #   resp.game_sessions[0].player_gateway_status #=> String, one of "DISABLED", "ENABLED"
     #   resp.next_token #=> String
     #
@@ -10764,6 +10768,7 @@ module Aws::GameLift
     #   resp.game_session.game_session_data #=> String
     #   resp.game_session.matchmaker_data #=> String
     #   resp.game_session.location #=> String
+    #   resp.game_session.compute_name #=> String
     #   resp.game_session.player_gateway_status #=> String, one of "DISABLED", "ENABLED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/TerminateGameSession AWS API Documentation
@@ -12142,6 +12147,7 @@ module Aws::GameLift
     #   resp.game_session.game_session_data #=> String
     #   resp.game_session.matchmaker_data #=> String
     #   resp.game_session.location #=> String
+    #   resp.game_session.compute_name #=> String
     #   resp.game_session.player_gateway_status #=> String, one of "DISABLED", "ENABLED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/UpdateGameSession AWS API Documentation
@@ -12731,7 +12737,7 @@ module Aws::GameLift
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-gamelift'
-      context[:gem_version] = '1.123.0'
+      context[:gem_version] = '1.124.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

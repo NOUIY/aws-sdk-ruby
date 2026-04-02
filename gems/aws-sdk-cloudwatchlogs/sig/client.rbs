@@ -1345,7 +1345,8 @@ module Aws
                                    quote_character: ::String?,
                                    delimiter: ::String?,
                                    columns: Array[::String]?,
-                                   source: ::String?
+                                   source: ::String?,
+                                   destination: ::String?
                                  }?,
                                  date_time_converter: {
                                    source: ::String,
@@ -1557,7 +1558,8 @@ module Aws
                                     quote_character: ::String?,
                                     delimiter: ::String?,
                                     columns: Array[::String]?,
-                                    source: ::String?
+                                    source: ::String?,
+                                    destination: ::String?
                                   }?,
                                   date_time_converter: {
                                     source: ::String,

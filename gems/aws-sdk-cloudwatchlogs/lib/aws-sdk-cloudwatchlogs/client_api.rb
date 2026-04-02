@@ -756,6 +756,7 @@ module Aws::CloudWatchLogs
     CSV.add_member(:delimiter, Shapes::ShapeRef.new(shape: Delimiter, location_name: "delimiter"))
     CSV.add_member(:columns, Shapes::ShapeRef.new(shape: Columns, location_name: "columns"))
     CSV.add_member(:source, Shapes::ShapeRef.new(shape: Source, location_name: "source"))
+    CSV.add_member(:destination, Shapes::ShapeRef.new(shape: DestinationField, location_name: "destination"))
     CSV.struct_class = Types::CSV
 
     CancelExportTaskRequest.add_member(:task_id, Shapes::ShapeRef.new(shape: ExportTaskId, required: true, location_name: "taskId"))

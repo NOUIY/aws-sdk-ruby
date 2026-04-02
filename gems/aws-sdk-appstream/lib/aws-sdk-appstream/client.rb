@@ -1768,6 +1768,9 @@ module Aws::AppStream
     #   resp.fleet.compute_capacity_status.available_user_sessions #=> Integer
     #   resp.fleet.compute_capacity_status.active_user_sessions #=> Integer
     #   resp.fleet.compute_capacity_status.actual_user_sessions #=> Integer
+    #   resp.fleet.compute_capacity_status.draining #=> Integer
+    #   resp.fleet.compute_capacity_status.drain_mode_active_user_sessions #=> Integer
+    #   resp.fleet.compute_capacity_status.drain_mode_unused_user_sessions #=> Integer
     #   resp.fleet.max_user_duration_in_seconds #=> Integer
     #   resp.fleet.disconnect_timeout_in_seconds #=> Integer
     #   resp.fleet.state #=> String, one of "STARTING", "RUNNING", "STOPPING", "STOPPED"
@@ -3768,6 +3771,9 @@ module Aws::AppStream
     #   resp.fleets[0].compute_capacity_status.available_user_sessions #=> Integer
     #   resp.fleets[0].compute_capacity_status.active_user_sessions #=> Integer
     #   resp.fleets[0].compute_capacity_status.actual_user_sessions #=> Integer
+    #   resp.fleets[0].compute_capacity_status.draining #=> Integer
+    #   resp.fleets[0].compute_capacity_status.drain_mode_active_user_sessions #=> Integer
+    #   resp.fleets[0].compute_capacity_status.drain_mode_unused_user_sessions #=> Integer
     #   resp.fleets[0].max_user_duration_in_seconds #=> Integer
     #   resp.fleets[0].disconnect_timeout_in_seconds #=> Integer
     #   resp.fleets[0].state #=> String, one of "STARTING", "RUNNING", "STOPPING", "STOPPED"
@@ -4104,6 +4110,7 @@ module Aws::AppStream
     #   resp.sessions[0].network_access_configuration.eni_ipv_6_addresses[0] #=> String
     #   resp.sessions[0].network_access_configuration.eni_id #=> String
     #   resp.sessions[0].instance_id #=> String
+    #   resp.sessions[0].instance_drain_status #=> String, one of "ACTIVE", "DRAINING", "NOT_APPLICABLE"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeSessions AWS API Documentation
@@ -4643,6 +4650,31 @@ module Aws::AppStream
     # @param [Hash] params ({})
     def disassociate_software_from_image_builder(params = {}, options = {})
       req = build_request(:disassociate_software_from_image_builder, params)
+      req.send_request(options)
+    end
+
+    # Drains the instance hosting the specified streaming session. The
+    # instance stops accepting new sessions while existing sessions continue
+    # uninterrupted. Once all sessions end, the instance is reclaimed and
+    # replaced. This only applies to multi-session fleets.
+    #
+    # @option params [required, String] :session_id
+    #   The identifier of the streaming session.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.drain_session_instance({
+    #     session_id: "String", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DrainSessionInstance AWS API Documentation
+    #
+    # @overload drain_session_instance(params = {})
+    # @param [Hash] params ({})
+    def drain_session_instance(params = {}, options = {})
+      req = build_request(:drain_session_instance, params)
       req.send_request(options)
     end
 
@@ -6050,6 +6082,9 @@ module Aws::AppStream
     #   resp.fleet.compute_capacity_status.available_user_sessions #=> Integer
     #   resp.fleet.compute_capacity_status.active_user_sessions #=> Integer
     #   resp.fleet.compute_capacity_status.actual_user_sessions #=> Integer
+    #   resp.fleet.compute_capacity_status.draining #=> Integer
+    #   resp.fleet.compute_capacity_status.drain_mode_active_user_sessions #=> Integer
+    #   resp.fleet.compute_capacity_status.drain_mode_unused_user_sessions #=> Integer
     #   resp.fleet.max_user_duration_in_seconds #=> Integer
     #   resp.fleet.disconnect_timeout_in_seconds #=> Integer
     #   resp.fleet.state #=> String, one of "STARTING", "RUNNING", "STOPPING", "STOPPED"
@@ -6370,7 +6405,7 @@ module Aws::AppStream
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-appstream'
-      context[:gem_version] = '1.130.0'
+      context[:gem_version] = '1.131.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

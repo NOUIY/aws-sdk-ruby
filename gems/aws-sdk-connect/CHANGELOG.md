@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.249.0 (2026-04-02)
+------------------
+
+* Feature - Include CUSTOMER to evaluation target and participant role. Support Korean, Japanese and Simplified Chinese in evaluation forms.
+
 1.248.0 (2026-03-18)
 ------------------
 

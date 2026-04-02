@@ -851,6 +851,22 @@ module Aws::AppStream
     #   This only applies to multi-session fleets.
     #   @return [Integer]
     #
+    # @!attribute [rw] draining
+    #   The number of instances in drain mode. This only applies to
+    #   multi-session fleets.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] drain_mode_active_user_sessions
+    #   The number of active user sessions on instances in drain mode. This
+    #   only applies to multi-session fleets.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] drain_mode_unused_user_sessions
+    #   The number of unused session slots on instances in drain mode that
+    #   cannot be used for user session provisioning. This only applies to
+    #   multi-session fleets.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/ComputeCapacityStatus AWS API Documentation
     #
     class ComputeCapacityStatus < Struct.new(
@@ -861,7 +877,10 @@ module Aws::AppStream
       :desired_user_sessions,
       :available_user_sessions,
       :active_user_sessions,
-      :actual_user_sessions)
+      :actual_user_sessions,
+      :draining,
+      :drain_mode_active_user_sessions,
+      :drain_mode_unused_user_sessions)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3954,6 +3973,22 @@ module Aws::AppStream
       include Aws::Structure
     end
 
+    # @!attribute [rw] session_id
+    #   The identifier of the streaming session.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DrainSessionInstanceRequest AWS API Documentation
+    #
+    class DrainSessionInstanceRequest < Struct.new(
+      :session_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DrainSessionInstanceResult AWS API Documentation
+    #
+    class DrainSessionInstanceResult < Aws::EmptyStructure; end
+
     # The exception that is thrown when a dry run operation is requested.
     # This indicates that the validation checks have been performed
     # successfully, but no actual resources were created or modified.
@@ -5629,6 +5664,11 @@ module Aws::AppStream
     #   The identifier for the instance hosting the session.
     #   @return [String]
     #
+    # @!attribute [rw] instance_drain_status
+    #   The drain status of the instance hosting the streaming session. This
+    #   only applies to multi-session fleets.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/Session AWS API Documentation
     #
     class Session < Struct.new(
@@ -5642,7 +5682,8 @@ module Aws::AppStream
       :max_expiration_time,
       :authentication_type,
       :network_access_configuration,
-      :instance_id)
+      :instance_id,
+      :instance_drain_status)
       SENSITIVE = []
       include Aws::Structure
     end

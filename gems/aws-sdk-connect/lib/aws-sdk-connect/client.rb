@@ -3509,10 +3509,10 @@ module Aws::Connect
     #       eligibility_days: 1,
     #     },
     #     target_configuration: {
-    #       contact_interaction_type: "AGENT", # required, accepts AGENT, AUTOMATED
+    #       contact_interaction_type: "AGENT", # required, accepts AGENT, AUTOMATED, CUSTOMER
     #     },
     #     language_configuration: {
-    #       form_language: "de-DE", # accepts de-DE, en-US, es-ES, fr-FR, it-IT, pt-BR
+    #       form_language: "de-DE", # accepts de-DE, en-US, es-ES, fr-FR, it-IT, pt-BR, ja-JP, ko-KR, zh-CN
     #     },
     #   })
     #
@@ -7735,7 +7735,7 @@ module Aws::Connect
     #   resp.evaluation.metadata.review.review_request_comments[0].comment #=> String
     #   resp.evaluation.metadata.review.review_request_comments[0].created_time #=> Time
     #   resp.evaluation.metadata.review.review_request_comments[0].created_by #=> String
-    #   resp.evaluation.metadata.contact_participant.contact_participant_role #=> String, one of "AGENT", "SYSTEM", "CUSTOM_BOT"
+    #   resp.evaluation.metadata.contact_participant.contact_participant_role #=> String, one of "AGENT", "SYSTEM", "CUSTOM_BOT", "CUSTOMER"
     #   resp.evaluation.metadata.contact_participant.contact_participant_id #=> String
     #   resp.evaluation.metadata.sampling_job_id #=> String
     #   resp.evaluation.answers #=> Hash
@@ -7851,8 +7851,8 @@ module Aws::Connect
     #   resp.evaluation_form.scoring_strategy.mode #=> String, one of "QUESTION_ONLY", "SECTION_ONLY"
     #   resp.evaluation_form.scoring_strategy.status #=> String, one of "ENABLED", "DISABLED"
     #   resp.evaluation_form.auto_evaluation_configuration.enabled #=> Boolean
-    #   resp.evaluation_form.target_configuration.contact_interaction_type #=> String, one of "AGENT", "AUTOMATED"
-    #   resp.evaluation_form.language_configuration.form_language #=> String, one of "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "pt-BR"
+    #   resp.evaluation_form.target_configuration.contact_interaction_type #=> String, one of "AGENT", "AUTOMATED", "CUSTOMER"
+    #   resp.evaluation_form.language_configuration.form_language #=> String, one of "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "pt-BR", "ja-JP", "ko-KR", "zh-CN"
     #   resp.evaluation_form.review_configuration.review_notification_recipients #=> Array
     #   resp.evaluation_form.review_configuration.review_notification_recipients[0].type #=> String, one of "USER_ID"
     #   resp.evaluation_form.review_configuration.review_notification_recipients[0].value.user_id #=> String
@@ -8324,8 +8324,8 @@ module Aws::Connect
     #   resp.evaluation_form.review_configuration.eligibility_days #=> Integer
     #   resp.evaluation_form.tags #=> Hash
     #   resp.evaluation_form.tags["TagKey"] #=> String
-    #   resp.evaluation_form.target_configuration.contact_interaction_type #=> String, one of "AGENT", "AUTOMATED"
-    #   resp.evaluation_form.language_configuration.form_language #=> String, one of "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "pt-BR"
+    #   resp.evaluation_form.target_configuration.contact_interaction_type #=> String, one of "AGENT", "AUTOMATED", "CUSTOMER"
+    #   resp.evaluation_form.language_configuration.form_language #=> String, one of "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "pt-BR", "ja-JP", "ko-KR", "zh-CN"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeEvaluationForm AWS API Documentation
     #
@@ -14952,7 +14952,7 @@ module Aws::Connect
     #   resp.evaluation_summary_list[0].evaluation_type #=> String, one of "STANDARD", "CALIBRATION"
     #   resp.evaluation_summary_list[0].created_time #=> Time
     #   resp.evaluation_summary_list[0].last_modified_time #=> Time
-    #   resp.evaluation_summary_list[0].contact_participant.contact_participant_role #=> String, one of "AGENT", "SYSTEM", "CUSTOM_BOT"
+    #   resp.evaluation_summary_list[0].contact_participant.contact_participant_role #=> String, one of "AGENT", "SYSTEM", "CUSTOM_BOT", "CUSTOMER"
     #   resp.evaluation_summary_list[0].contact_participant.contact_participant_id #=> String
     #   resp.next_token #=> String
     #
@@ -19331,7 +19331,7 @@ module Aws::Connect
     #   resp.evaluation_search_summary_list[0].metadata.acknowledger_comment #=> String
     #   resp.evaluation_search_summary_list[0].metadata.sampling_job_id #=> String
     #   resp.evaluation_search_summary_list[0].metadata.review_id #=> String
-    #   resp.evaluation_search_summary_list[0].metadata.contact_participant_role #=> String, one of "AGENT", "SYSTEM", "CUSTOM_BOT"
+    #   resp.evaluation_search_summary_list[0].metadata.contact_participant_role #=> String, one of "AGENT", "SYSTEM", "CUSTOM_BOT", "CUSTOMER"
     #   resp.evaluation_search_summary_list[0].metadata.contact_participant_id #=> String
     #   resp.evaluation_search_summary_list[0].status #=> String, one of "DRAFT", "SUBMITTED", "REVIEW_REQUESTED", "UNDER_REVIEW"
     #   resp.evaluation_search_summary_list[0].evaluation_type #=> String, one of "STANDARD", "CALIBRATION"
@@ -20183,8 +20183,8 @@ module Aws::Connect
     #   resp.evaluation_form_search_summary_list[0].latest_version #=> Integer
     #   resp.evaluation_form_search_summary_list[0].active_version #=> Integer
     #   resp.evaluation_form_search_summary_list[0].auto_evaluation_enabled #=> Boolean
-    #   resp.evaluation_form_search_summary_list[0].evaluation_form_language #=> String, one of "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "pt-BR"
-    #   resp.evaluation_form_search_summary_list[0].contact_interaction_type #=> String, one of "AGENT", "AUTOMATED"
+    #   resp.evaluation_form_search_summary_list[0].evaluation_form_language #=> String, one of "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "pt-BR", "ja-JP", "ko-KR", "zh-CN"
+    #   resp.evaluation_form_search_summary_list[0].contact_interaction_type #=> String, one of "AGENT", "AUTOMATED", "CUSTOMER"
     #   resp.evaluation_form_search_summary_list[0].tags #=> Hash
     #   resp.evaluation_form_search_summary_list[0].tags["TagKey"] #=> String
     #   resp.next_token #=> String
@@ -26113,10 +26113,10 @@ module Aws::Connect
     #     as_draft: false,
     #     client_token: "ClientToken",
     #     target_configuration: {
-    #       contact_interaction_type: "AGENT", # required, accepts AGENT, AUTOMATED
+    #       contact_interaction_type: "AGENT", # required, accepts AGENT, AUTOMATED, CUSTOMER
     #     },
     #     language_configuration: {
-    #       form_language: "de-DE", # accepts de-DE, en-US, es-ES, fr-FR, it-IT, pt-BR
+    #       form_language: "de-DE", # accepts de-DE, en-US, es-ES, fr-FR, it-IT, pt-BR, ja-JP, ko-KR, zh-CN
     #     },
     #   })
     #
@@ -27914,6 +27914,13 @@ module Aws::Connect
     # [Update telephony traffic distribution across Amazon Web Services
     # Regions ][2] in the *Amazon Connect Administrator Guide*.
     #
+    # **Important things to know**
+    #
+    # * Invoke the UpdateTrafficDistribution API in the region that should
+    #   handle traffic.
+    #
+    # ^
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_TrafficDistributionGroup.html
@@ -28841,7 +28848,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.248.0'
+      context[:gem_version] = '1.249.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -200,6 +200,8 @@ module Aws::AppStream
     Domain = Shapes::StringShape.new(name: 'Domain')
     DomainJoinInfo = Shapes::StructureShape.new(name: 'DomainJoinInfo')
     DomainList = Shapes::ListShape.new(name: 'DomainList')
+    DrainSessionInstanceRequest = Shapes::StructureShape.new(name: 'DrainSessionInstanceRequest')
+    DrainSessionInstanceResult = Shapes::StructureShape.new(name: 'DrainSessionInstanceResult')
     DryRunOperationException = Shapes::StructureShape.new(name: 'DryRunOperationException')
     DynamicAppProvidersEnabled = Shapes::StringShape.new(name: 'DynamicAppProvidersEnabled')
     EmbedHostDomain = Shapes::StringShape.new(name: 'EmbedHostDomain')
@@ -256,6 +258,7 @@ module Aws::AppStream
     ImageStateChangeReasonCode = Shapes::StringShape.new(name: 'ImageStateChangeReasonCode')
     ImageType = Shapes::StringShape.new(name: 'ImageType')
     IncompatibleImageException = Shapes::StructureShape.new(name: 'IncompatibleImageException')
+    InstanceDrainStatus = Shapes::StringShape.new(name: 'InstanceDrainStatus')
     InstanceType = Shapes::StringShape.new(name: 'InstanceType')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     InvalidAccountStatusException = Shapes::StructureShape.new(name: 'InvalidAccountStatusException')
@@ -584,6 +587,9 @@ module Aws::AppStream
     ComputeCapacityStatus.add_member(:available_user_sessions, Shapes::ShapeRef.new(shape: Integer, location_name: "AvailableUserSessions"))
     ComputeCapacityStatus.add_member(:active_user_sessions, Shapes::ShapeRef.new(shape: Integer, location_name: "ActiveUserSessions"))
     ComputeCapacityStatus.add_member(:actual_user_sessions, Shapes::ShapeRef.new(shape: Integer, location_name: "ActualUserSessions"))
+    ComputeCapacityStatus.add_member(:draining, Shapes::ShapeRef.new(shape: Integer, location_name: "Draining"))
+    ComputeCapacityStatus.add_member(:drain_mode_active_user_sessions, Shapes::ShapeRef.new(shape: Integer, location_name: "DrainModeActiveUserSessions"))
+    ComputeCapacityStatus.add_member(:drain_mode_unused_user_sessions, Shapes::ShapeRef.new(shape: Integer, location_name: "DrainModeUnusedUserSessions"))
     ComputeCapacityStatus.struct_class = Types::ComputeCapacityStatus
 
     ConcurrentModificationException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "Message"))
@@ -1127,6 +1133,11 @@ module Aws::AppStream
 
     DomainList.member = Shapes::ShapeRef.new(shape: Domain)
 
+    DrainSessionInstanceRequest.add_member(:session_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "SessionId"))
+    DrainSessionInstanceRequest.struct_class = Types::DrainSessionInstanceRequest
+
+    DrainSessionInstanceResult.struct_class = Types::DrainSessionInstanceResult
+
     DryRunOperationException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "Message"))
     DryRunOperationException.struct_class = Types::DryRunOperationException
 
@@ -1436,6 +1447,7 @@ module Aws::AppStream
     Session.add_member(:authentication_type, Shapes::ShapeRef.new(shape: AuthenticationType, location_name: "AuthenticationType"))
     Session.add_member(:network_access_configuration, Shapes::ShapeRef.new(shape: NetworkAccessConfiguration, location_name: "NetworkAccessConfiguration"))
     Session.add_member(:instance_id, Shapes::ShapeRef.new(shape: String, location_name: "InstanceId"))
+    Session.add_member(:instance_drain_status, Shapes::ShapeRef.new(shape: InstanceDrainStatus, location_name: "InstanceDrainStatus"))
     Session.struct_class = Types::Session
 
     SessionList.member = Shapes::ShapeRef.new(shape: Session)
@@ -2526,6 +2538,17 @@ module Aws::AppStream
         o.errors << Shapes::ShapeRef.new(shape: OperationNotPermittedException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterCombinationException)
         o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+      end)
+
+      api.add_operation(:drain_session_instance, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DrainSessionInstance"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DrainSessionInstanceRequest)
+        o.output = Shapes::ShapeRef.new(shape: DrainSessionInstanceResult)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: OperationNotPermittedException)
       end)
 
       api.add_operation(:enable_user, Seahorse::Model::Operation.new.tap do |o|

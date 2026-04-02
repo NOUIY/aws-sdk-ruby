@@ -135,6 +135,36 @@ module Aws::CloudWatch
       include Aws::Structure
     end
 
+    # Contains the configuration that determines how a PromQL alarm
+    # evaluates its contributors, including the query to run and the
+    # durations that define when contributors transition between states.
+    #
+    # @!attribute [rw] query
+    #   The PromQL query that the alarm evaluates. The query must return a
+    #   result of vector type. Each entry in the vector result represents an
+    #   alarm contributor.
+    #   @return [String]
+    #
+    # @!attribute [rw] pending_period
+    #   The duration, in seconds, that a contributor must be continuously
+    #   breaching before it transitions to the `ALARM` state.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] recovery_period
+    #   The duration, in seconds, that a contributor must continuously not
+    #   be breaching before it transitions back to the `OK` state.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/AlarmPromQLCriteria AWS API Documentation
+    #
+    class AlarmPromQLCriteria < Struct.new(
+      :query,
+      :pending_period,
+      :recovery_period)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An anomaly detection model associated with a particular CloudWatch
     # metric, statistic, or metric math expression. You can use the model to
     # display a band of expected, normal values when the metric is graphed.
@@ -1294,6 +1324,30 @@ module Aws::CloudWatch
       include Aws::Structure
     end
 
+    # The evaluation criteria for an alarm. This is a union type that
+    # currently supports `PromQLCriteria`.
+    #
+    # @note EvaluationCriteria is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note EvaluationCriteria is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of EvaluationCriteria corresponding to the set member.
+    #
+    # @!attribute [rw] prom_ql_criteria
+    #   The PromQL criteria for the alarm evaluation.
+    #   @return [Types::AlarmPromQLCriteria]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/EvaluationCriteria AWS API Documentation
+    #
+    class EvaluationCriteria < Struct.new(
+      :prom_ql_criteria,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class PromQlCriteria < EvaluationCriteria; end
+      class Unknown < EvaluationCriteria; end
+    end
+
     # @!attribute [rw] alarm_mute_rule_name
     #   The name of the alarm mute rule to retrieve.
     #   @return [String]
@@ -1982,6 +2036,26 @@ module Aws::CloudWatch
     #
     class GetMetricWidgetImageOutput < Struct.new(
       :metric_widget_image)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/GetOTelEnrichmentInput AWS API Documentation
+    #
+    class GetOTelEnrichmentInput < Aws::EmptyStructure; end
+
+    # @!attribute [rw] status
+    #   The status of OTel enrichment for the account. Valid values are
+    #   `Running` (enrichment is enabled) and `Stopped` (enrichment is
+    #   disabled).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/GetOTelEnrichmentOutput AWS API Documentation
+    #
+    class GetOTelEnrichmentOutput < Struct.new(
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2867,6 +2941,10 @@ module Aws::CloudWatch
     #   If this parameter is omitted, the default behavior of `missing` is
     #   used.
     #
+    #   <note markdown="1"> This parameter is not applicable to PromQL alarms.
+    #
+    #    </note>
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data
@@ -2919,6 +2997,14 @@ module Aws::CloudWatch
     #   changed.
     #   @return [Time]
     #
+    # @!attribute [rw] evaluation_criteria
+    #   The evaluation criteria for the alarm.
+    #   @return [Types::EvaluationCriteria]
+    #
+    # @!attribute [rw] evaluation_interval
+    #   The frequency, in seconds, at which the alarm is evaluated.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/MetricAlarm AWS API Documentation
     #
     class MetricAlarm < Struct.new(
@@ -2950,7 +3036,9 @@ module Aws::CloudWatch
       :metrics,
       :threshold_metric_id,
       :evaluation_state,
-      :state_transitioned_timestamp)
+      :state_transitioned_timestamp,
+      :evaluation_criteria,
+      :evaluation_interval)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4289,8 +4377,8 @@ module Aws::CloudWatch
     #
     # @!attribute [rw] metric_name
     #   The name for the metric associated with the alarm. For each
-    #   `PutMetricAlarm` operation, you must specify either `MetricName` or
-    #   a `Metrics` array.
+    #   `PutMetricAlarm` operation, you must specify either `MetricName`, a
+    #   `Metrics` array, or an `EvaluationCriteria`.
     #
     #   If you are creating an alarm based on a math expression, you cannot
     #   specify this parameter, or any of the `Namespace`, `Dimensions`,
@@ -4460,6 +4548,10 @@ module Aws::CloudWatch
     #
     #    </note>
     #
+    #   <note markdown="1"> This parameter is not applicable to PromQL alarms.
+    #
+    #    </note>
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data
@@ -4484,8 +4576,8 @@ module Aws::CloudWatch
     # @!attribute [rw] metrics
     #   An array of `MetricDataQuery` structures that enable you to create
     #   an alarm based on the result of a metric math expression. For each
-    #   `PutMetricAlarm` operation, you must specify either `MetricName` or
-    #   a `Metrics` array.
+    #   `PutMetricAlarm` operation, you must specify either `MetricName`, a
+    #   `Metrics` array, or an `EvaluationCriteria`.
     #
     #   Each item in the `Metrics` array either retrieves a metric or
     #   performs a math expression.
@@ -4542,6 +4634,32 @@ module Aws::CloudWatch
     #   actions.
     #   @return [String]
     #
+    # @!attribute [rw] evaluation_criteria
+    #   The evaluation criteria for the alarm. For each `PutMetricAlarm`
+    #   operation, you must specify either `MetricName`, a `Metrics` array,
+    #   or an `EvaluationCriteria`.
+    #
+    #   If you use the `EvaluationCriteria` parameter, you cannot include
+    #   the `Namespace`, `MetricName`, `Dimensions`, `Period`, `Unit`,
+    #   `Statistic`, `ExtendedStatistic`, `Metrics`, `Threshold`,
+    #   `ComparisonOperator`, `ThresholdMetricId`, `EvaluationPeriods`, or
+    #   `DatapointsToAlarm` parameters of `PutMetricAlarm` in the same
+    #   operation. Instead, all evaluation parameters are defined within
+    #   this structure.
+    #
+    #   For an example of how to use this parameter, see the **PromQL
+    #   alarm** example on this page.
+    #   @return [Types::EvaluationCriteria]
+    #
+    # @!attribute [rw] evaluation_interval
+    #   The frequency, in seconds, at which the alarm is evaluated. Valid
+    #   values are 10, 20, 30, and any multiple of 60.
+    #
+    #   This parameter is required for alarms that use `EvaluationCriteria`,
+    #   and cannot be specified for alarms configured with `MetricName` or
+    #   `Metrics`.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/PutMetricAlarmInput AWS API Documentation
     #
     class PutMetricAlarmInput < Struct.new(
@@ -4566,7 +4684,9 @@ module Aws::CloudWatch
       :evaluate_low_sample_count_percentile,
       :metrics,
       :tags,
-      :threshold_metric_id)
+      :threshold_metric_id,
+      :evaluation_criteria,
+      :evaluation_interval)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5057,6 +5177,16 @@ module Aws::CloudWatch
     #
     class StartMetricStreamsOutput < Aws::EmptyStructure; end
 
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/StartOTelEnrichmentInput AWS API Documentation
+    #
+    class StartOTelEnrichmentInput < Aws::EmptyStructure; end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/StartOTelEnrichmentOutput AWS API Documentation
+    #
+    class StartOTelEnrichmentOutput < Aws::EmptyStructure; end
+
     # Represents a set of statistics that describes a specific metric.
     #
     # @!attribute [rw] sample_count
@@ -5106,6 +5236,16 @@ module Aws::CloudWatch
     # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/StopMetricStreamsOutput AWS API Documentation
     #
     class StopMetricStreamsOutput < Aws::EmptyStructure; end
+
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/StopOTelEnrichmentInput AWS API Documentation
+    #
+    class StopOTelEnrichmentInput < Aws::EmptyStructure; end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/StopOTelEnrichmentOutput AWS API Documentation
+    #
+    class StopOTelEnrichmentOutput < Aws::EmptyStructure; end
 
     # A key-value pair associated with a CloudWatch resource.
     #

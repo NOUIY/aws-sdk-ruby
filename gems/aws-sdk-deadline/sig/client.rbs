@@ -527,7 +527,29 @@ module Aws
                           },
                           ?required_file_system_location_names: Array[::String],
                           ?allowed_storage_profile_ids: Array[::String],
-                          ?tags: Hash[::String, ::String]
+                          ?tags: Hash[::String, ::String],
+                          ?scheduling_configuration: {
+                            priority_fifo: {
+                            }?,
+                            priority_balanced: {
+                              rendering_task_buffer: ::Integer?
+                            }?,
+                            weighted_balanced: {
+                              priority_weight: ::Float?,
+                              error_weight: ::Float?,
+                              submission_time_weight: ::Float?,
+                              rendering_task_weight: ::Float?,
+                              rendering_task_buffer: ::Integer?,
+                              max_priority_override: {
+                                always_schedule_first: {
+                                }?
+                              }?,
+                              min_priority_override: {
+                                always_schedule_last: {
+                                }?
+                              }?
+                            }?
+                          }
                         ) -> _CreateQueueResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateQueueResponseSuccess
 
@@ -964,6 +986,7 @@ module Aws
         def required_file_system_location_names: () -> ::Array[::String]
         def allowed_storage_profile_ids: () -> ::Array[::String]
         def job_run_as_user: () -> Types::JobRunAsUser
+        def scheduling_configuration: () -> Types::SchedulingConfiguration
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Deadline/Client.html#get_queue-instance_method
       def get_queue: (
@@ -2157,7 +2180,29 @@ module Aws
                           ?required_file_system_location_names_to_add: Array[::String],
                           ?required_file_system_location_names_to_remove: Array[::String],
                           ?allowed_storage_profile_ids_to_add: Array[::String],
-                          ?allowed_storage_profile_ids_to_remove: Array[::String]
+                          ?allowed_storage_profile_ids_to_remove: Array[::String],
+                          ?scheduling_configuration: {
+                            priority_fifo: {
+                            }?,
+                            priority_balanced: {
+                              rendering_task_buffer: ::Integer?
+                            }?,
+                            weighted_balanced: {
+                              priority_weight: ::Float?,
+                              error_weight: ::Float?,
+                              submission_time_weight: ::Float?,
+                              rendering_task_weight: ::Float?,
+                              rendering_task_buffer: ::Integer?,
+                              max_priority_override: {
+                                always_schedule_first: {
+                                }?
+                              }?,
+                              min_priority_override: {
+                                always_schedule_last: {
+                                }?
+                              }?
+                            }?
+                          }
                         ) -> _UpdateQueueResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateQueueResponseSuccess
 

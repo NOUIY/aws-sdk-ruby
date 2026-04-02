@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.143.0 (2026-04-02)
+------------------
+
+* Feature - We are pleased to announce that our logs transformation csv processor now has a destination field, allowing you to specify under which parent node parsed columns be placed under.
+
 1.142.0 (2026-03-30)
 ------------------
 

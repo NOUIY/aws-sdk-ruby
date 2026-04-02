@@ -474,6 +474,7 @@ module Aws::Deadline
       attr_accessor required_file_system_location_names: ::Array[::String]
       attr_accessor allowed_storage_profile_ids: ::Array[::String]
       attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor scheduling_configuration: Types::SchedulingConfiguration
       SENSITIVE: [:description]
     end
 
@@ -1124,6 +1125,7 @@ module Aws::Deadline
       attr_accessor required_file_system_location_names: ::Array[::String]
       attr_accessor allowed_storage_profile_ids: ::Array[::String]
       attr_accessor job_run_as_user: Types::JobRunAsUser
+      attr_accessor scheduling_configuration: Types::SchedulingConfiguration
       SENSITIVE: [:description]
     end
 
@@ -2018,6 +2020,14 @@ module Aws::Deadline
       SENSITIVE: []
     end
 
+    class PriorityBalancedSchedulingConfiguration
+      attr_accessor rendering_task_buffer: ::Integer
+      SENSITIVE: []
+    end
+
+    class PriorityFifoSchedulingConfiguration < Aws::EmptyStructure
+    end
+
     class PutMeteredProductRequest
       attr_accessor license_endpoint_id: ::String
       attr_accessor product_id: ::String
@@ -2099,6 +2109,51 @@ module Aws::Deadline
       attr_accessor bucket_name: ::String
       attr_accessor key: ::String
       SENSITIVE: []
+    end
+
+    class SchedulingConfiguration
+      attr_accessor priority_fifo: Types::PriorityFifoSchedulingConfiguration
+      attr_accessor priority_balanced: Types::PriorityBalancedSchedulingConfiguration
+      attr_accessor weighted_balanced: Types::WeightedBalancedSchedulingConfiguration
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class PriorityFifo < SchedulingConfiguration
+      end
+      class PriorityBalanced < SchedulingConfiguration
+      end
+      class WeightedBalanced < SchedulingConfiguration
+      end
+      class Unknown < SchedulingConfiguration
+      end
+    end
+
+    class SchedulingMaxPriorityOverride
+      attr_accessor always_schedule_first: Types::SchedulingMaxPriorityOverrideAlwaysScheduleFirst
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class AlwaysScheduleFirst < SchedulingMaxPriorityOverride
+      end
+      class Unknown < SchedulingMaxPriorityOverride
+      end
+    end
+
+    class SchedulingMaxPriorityOverrideAlwaysScheduleFirst < Aws::EmptyStructure
+    end
+
+    class SchedulingMinPriorityOverride
+      attr_accessor always_schedule_last: Types::SchedulingMinPriorityOverrideAlwaysScheduleLast
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class AlwaysScheduleLast < SchedulingMinPriorityOverride
+      end
+      class Unknown < SchedulingMinPriorityOverride
+      end
+    end
+
+    class SchedulingMinPriorityOverrideAlwaysScheduleLast < Aws::EmptyStructure
     end
 
     class SearchFilterExpression
@@ -2780,6 +2835,7 @@ module Aws::Deadline
       attr_accessor required_file_system_location_names_to_remove: ::Array[::String]
       attr_accessor allowed_storage_profile_ids_to_add: ::Array[::String]
       attr_accessor allowed_storage_profile_ids_to_remove: ::Array[::String]
+      attr_accessor scheduling_configuration: Types::SchedulingConfiguration
       SENSITIVE: [:description]
     end
 
@@ -2922,6 +2978,17 @@ module Aws::Deadline
 
     class VpcConfiguration
       attr_accessor resource_configuration_arns: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class WeightedBalancedSchedulingConfiguration
+      attr_accessor priority_weight: ::Float
+      attr_accessor error_weight: ::Float
+      attr_accessor submission_time_weight: ::Float
+      attr_accessor rendering_task_weight: ::Float
+      attr_accessor rendering_task_buffer: ::Integer
+      attr_accessor max_priority_override: Types::SchedulingMaxPriorityOverride
+      attr_accessor min_priority_override: Types::SchedulingMinPriorityOverride
       SENSITIVE: []
     end
 

@@ -32,6 +32,7 @@ module Aws::CloudWatch
     AlarmName = Shapes::StringShape.new(name: 'AlarmName')
     AlarmNamePrefix = Shapes::StringShape.new(name: 'AlarmNamePrefix')
     AlarmNames = Shapes::ListShape.new(name: 'AlarmNames')
+    AlarmPromQLCriteria = Shapes::StructureShape.new(name: 'AlarmPromQLCriteria')
     AlarmRule = Shapes::StringShape.new(name: 'AlarmRule')
     AlarmType = Shapes::StringShape.new(name: 'AlarmType')
     AlarmTypes = Shapes::ListShape.new(name: 'AlarmTypes')
@@ -123,6 +124,8 @@ module Aws::CloudWatch
     EntityMetricDataList = Shapes::ListShape.new(name: 'EntityMetricDataList')
     ErrorMessage = Shapes::StringShape.new(name: 'ErrorMessage')
     EvaluateLowSampleCountPercentile = Shapes::StringShape.new(name: 'EvaluateLowSampleCountPercentile')
+    EvaluationCriteria = Shapes::UnionShape.new(name: 'EvaluationCriteria')
+    EvaluationInterval = Shapes::IntegerShape.new(name: 'EvaluationInterval')
     EvaluationPeriods = Shapes::IntegerShape.new(name: 'EvaluationPeriods')
     EvaluationState = Shapes::StringShape.new(name: 'EvaluationState')
     ExceptionType = Shapes::StringShape.new(name: 'ExceptionType')
@@ -149,6 +152,8 @@ module Aws::CloudWatch
     GetMetricStreamOutput = Shapes::StructureShape.new(name: 'GetMetricStreamOutput')
     GetMetricWidgetImageInput = Shapes::StructureShape.new(name: 'GetMetricWidgetImageInput')
     GetMetricWidgetImageOutput = Shapes::StructureShape.new(name: 'GetMetricWidgetImageOutput')
+    GetOTelEnrichmentInput = Shapes::StructureShape.new(name: 'GetOTelEnrichmentInput')
+    GetOTelEnrichmentOutput = Shapes::StructureShape.new(name: 'GetOTelEnrichmentOutput')
     HistoryData = Shapes::StringShape.new(name: 'HistoryData')
     HistoryItemType = Shapes::StringShape.new(name: 'HistoryItemType')
     HistorySummary = Shapes::StringShape.new(name: 'HistorySummary')
@@ -256,9 +261,11 @@ module Aws::CloudWatch
     Name = Shapes::StringShape.new(name: 'Name')
     Namespace = Shapes::StringShape.new(name: 'Namespace')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
+    OTelEnrichmentStatus = Shapes::StringShape.new(name: 'OTelEnrichmentStatus')
     OutputFormat = Shapes::StringShape.new(name: 'OutputFormat')
     OwningAccounts = Shapes::ListShape.new(name: 'OwningAccounts')
     PartialFailure = Shapes::StructureShape.new(name: 'PartialFailure')
+    PendingPeriod = Shapes::IntegerShape.new(name: 'PendingPeriod')
     Period = Shapes::IntegerShape.new(name: 'Period')
     PeriodicSpikes = Shapes::BooleanShape.new(name: 'PeriodicSpikes')
     PutAlarmMuteRuleInput = Shapes::StructureShape.new(name: 'PutAlarmMuteRuleInput')
@@ -275,8 +282,10 @@ module Aws::CloudWatch
     PutMetricDataInput = Shapes::StructureShape.new(name: 'PutMetricDataInput')
     PutMetricStreamInput = Shapes::StructureShape.new(name: 'PutMetricStreamInput')
     PutMetricStreamOutput = Shapes::StructureShape.new(name: 'PutMetricStreamOutput')
+    Query = Shapes::StringShape.new(name: 'Query')
     Range = Shapes::StructureShape.new(name: 'Range')
     RecentlyActive = Shapes::StringShape.new(name: 'RecentlyActive')
+    RecoveryPeriod = Shapes::IntegerShape.new(name: 'RecoveryPeriod')
     ResourceId = Shapes::StringShape.new(name: 'ResourceId')
     ResourceList = Shapes::ListShape.new(name: 'ResourceList')
     ResourceName = Shapes::StringShape.new(name: 'ResourceName')
@@ -293,6 +302,8 @@ module Aws::CloudWatch
     StandardUnit = Shapes::StringShape.new(name: 'StandardUnit')
     StartMetricStreamsInput = Shapes::StructureShape.new(name: 'StartMetricStreamsInput')
     StartMetricStreamsOutput = Shapes::StructureShape.new(name: 'StartMetricStreamsOutput')
+    StartOTelEnrichmentInput = Shapes::StructureShape.new(name: 'StartOTelEnrichmentInput')
+    StartOTelEnrichmentOutput = Shapes::StructureShape.new(name: 'StartOTelEnrichmentOutput')
     Stat = Shapes::StringShape.new(name: 'Stat')
     StateReason = Shapes::StringShape.new(name: 'StateReason')
     StateReasonData = Shapes::StringShape.new(name: 'StateReasonData')
@@ -303,6 +314,8 @@ module Aws::CloudWatch
     StatusCode = Shapes::StringShape.new(name: 'StatusCode')
     StopMetricStreamsInput = Shapes::StructureShape.new(name: 'StopMetricStreamsInput')
     StopMetricStreamsOutput = Shapes::StructureShape.new(name: 'StopMetricStreamsOutput')
+    StopOTelEnrichmentInput = Shapes::StructureShape.new(name: 'StopOTelEnrichmentInput')
+    StopOTelEnrichmentOutput = Shapes::StructureShape.new(name: 'StopOTelEnrichmentOutput')
     StorageResolution = Shapes::IntegerShape.new(name: 'StorageResolution')
     StrictEntityValidation = Shapes::BooleanShape.new(name: 'StrictEntityValidation')
     SuppressorPeriod = Shapes::IntegerShape.new(name: 'SuppressorPeriod')
@@ -355,6 +368,11 @@ module Aws::CloudWatch
     AlarmMuteRuleSummary.struct_class = Types::AlarmMuteRuleSummary
 
     AlarmNames.member = Shapes::ShapeRef.new(shape: AlarmName)
+
+    AlarmPromQLCriteria.add_member(:query, Shapes::ShapeRef.new(shape: Query, required: true, location_name: "Query"))
+    AlarmPromQLCriteria.add_member(:pending_period, Shapes::ShapeRef.new(shape: PendingPeriod, location_name: "PendingPeriod"))
+    AlarmPromQLCriteria.add_member(:recovery_period, Shapes::ShapeRef.new(shape: RecoveryPeriod, location_name: "RecoveryPeriod"))
+    AlarmPromQLCriteria.struct_class = Types::AlarmPromQLCriteria
 
     AlarmTypes.member = Shapes::ShapeRef.new(shape: AlarmType)
 
@@ -603,6 +621,12 @@ module Aws::CloudWatch
 
     EntityMetricDataList.member = Shapes::ShapeRef.new(shape: EntityMetricData)
 
+    EvaluationCriteria.add_member(:prom_ql_criteria, Shapes::ShapeRef.new(shape: AlarmPromQLCriteria, location_name: "PromQLCriteria"))
+    EvaluationCriteria.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    EvaluationCriteria.add_member_subclass(:prom_ql_criteria, Types::EvaluationCriteria::PromQlCriteria)
+    EvaluationCriteria.add_member_subclass(:unknown, Types::EvaluationCriteria::Unknown)
+    EvaluationCriteria.struct_class = Types::EvaluationCriteria
+
     ExtendedStatistics.member = Shapes::ShapeRef.new(shape: ExtendedStatistic)
 
     GetAlarmMuteRuleInput.add_member(:alarm_mute_rule_name, Shapes::ShapeRef.new(shape: Name, required: true, location_name: "AlarmMuteRuleName"))
@@ -697,6 +721,11 @@ module Aws::CloudWatch
 
     GetMetricWidgetImageOutput.add_member(:metric_widget_image, Shapes::ShapeRef.new(shape: MetricWidgetImage, location_name: "MetricWidgetImage"))
     GetMetricWidgetImageOutput.struct_class = Types::GetMetricWidgetImageOutput
+
+    GetOTelEnrichmentInput.struct_class = Types::GetOTelEnrichmentInput
+
+    GetOTelEnrichmentOutput.add_member(:status, Shapes::ShapeRef.new(shape: OTelEnrichmentStatus, required: true, location_name: "Status"))
+    GetOTelEnrichmentOutput.struct_class = Types::GetOTelEnrichmentOutput
 
     InsightRule.add_member(:name, Shapes::ShapeRef.new(shape: InsightRuleName, required: true, location_name: "Name"))
     InsightRule.add_member(:state, Shapes::ShapeRef.new(shape: InsightRuleState, required: true, location_name: "State"))
@@ -875,6 +904,8 @@ module Aws::CloudWatch
     MetricAlarm.add_member(:threshold_metric_id, Shapes::ShapeRef.new(shape: MetricId, location_name: "ThresholdMetricId"))
     MetricAlarm.add_member(:evaluation_state, Shapes::ShapeRef.new(shape: EvaluationState, location_name: "EvaluationState"))
     MetricAlarm.add_member(:state_transitioned_timestamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "StateTransitionedTimestamp"))
+    MetricAlarm.add_member(:evaluation_criteria, Shapes::ShapeRef.new(shape: EvaluationCriteria, location_name: "EvaluationCriteria"))
+    MetricAlarm.add_member(:evaluation_interval, Shapes::ShapeRef.new(shape: EvaluationInterval, location_name: "EvaluationInterval"))
     MetricAlarm.struct_class = Types::MetricAlarm
 
     MetricAlarms.member = Shapes::ShapeRef.new(shape: MetricAlarm)
@@ -1049,15 +1080,17 @@ module Aws::CloudWatch
     PutMetricAlarmInput.add_member(:dimensions, Shapes::ShapeRef.new(shape: Dimensions, location_name: "Dimensions"))
     PutMetricAlarmInput.add_member(:period, Shapes::ShapeRef.new(shape: Period, location_name: "Period"))
     PutMetricAlarmInput.add_member(:unit, Shapes::ShapeRef.new(shape: StandardUnit, location_name: "Unit"))
-    PutMetricAlarmInput.add_member(:evaluation_periods, Shapes::ShapeRef.new(shape: EvaluationPeriods, required: true, location_name: "EvaluationPeriods"))
+    PutMetricAlarmInput.add_member(:evaluation_periods, Shapes::ShapeRef.new(shape: EvaluationPeriods, location_name: "EvaluationPeriods"))
     PutMetricAlarmInput.add_member(:datapoints_to_alarm, Shapes::ShapeRef.new(shape: DatapointsToAlarm, location_name: "DatapointsToAlarm"))
     PutMetricAlarmInput.add_member(:threshold, Shapes::ShapeRef.new(shape: Threshold, location_name: "Threshold"))
-    PutMetricAlarmInput.add_member(:comparison_operator, Shapes::ShapeRef.new(shape: ComparisonOperator, required: true, location_name: "ComparisonOperator"))
+    PutMetricAlarmInput.add_member(:comparison_operator, Shapes::ShapeRef.new(shape: ComparisonOperator, location_name: "ComparisonOperator"))
     PutMetricAlarmInput.add_member(:treat_missing_data, Shapes::ShapeRef.new(shape: TreatMissingData, location_name: "TreatMissingData"))
     PutMetricAlarmInput.add_member(:evaluate_low_sample_count_percentile, Shapes::ShapeRef.new(shape: EvaluateLowSampleCountPercentile, location_name: "EvaluateLowSampleCountPercentile"))
     PutMetricAlarmInput.add_member(:metrics, Shapes::ShapeRef.new(shape: MetricDataQueries, location_name: "Metrics"))
     PutMetricAlarmInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     PutMetricAlarmInput.add_member(:threshold_metric_id, Shapes::ShapeRef.new(shape: MetricId, location_name: "ThresholdMetricId"))
+    PutMetricAlarmInput.add_member(:evaluation_criteria, Shapes::ShapeRef.new(shape: EvaluationCriteria, location_name: "EvaluationCriteria"))
+    PutMetricAlarmInput.add_member(:evaluation_interval, Shapes::ShapeRef.new(shape: EvaluationInterval, location_name: "EvaluationInterval"))
     PutMetricAlarmInput.struct_class = Types::PutMetricAlarmInput
 
     PutMetricDataInput.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, required: true, location_name: "Namespace"))
@@ -1119,6 +1152,10 @@ module Aws::CloudWatch
 
     StartMetricStreamsOutput.struct_class = Types::StartMetricStreamsOutput
 
+    StartOTelEnrichmentInput.struct_class = Types::StartOTelEnrichmentInput
+
+    StartOTelEnrichmentOutput.struct_class = Types::StartOTelEnrichmentOutput
+
     StatisticSet.add_member(:sample_count, Shapes::ShapeRef.new(shape: DatapointValue, required: true, location_name: "SampleCount"))
     StatisticSet.add_member(:sum, Shapes::ShapeRef.new(shape: DatapointValue, required: true, location_name: "Sum"))
     StatisticSet.add_member(:minimum, Shapes::ShapeRef.new(shape: DatapointValue, required: true, location_name: "Minimum"))
@@ -1131,6 +1168,10 @@ module Aws::CloudWatch
     StopMetricStreamsInput.struct_class = Types::StopMetricStreamsInput
 
     StopMetricStreamsOutput.struct_class = Types::StopMetricStreamsOutput
+
+    StopOTelEnrichmentInput.struct_class = Types::StopOTelEnrichmentInput
+
+    StopOTelEnrichmentOutput.struct_class = Types::StopOTelEnrichmentOutput
 
     Tag.add_member(:key, Shapes::ShapeRef.new(shape: TagKey, required: true, location_name: "Key"))
     Tag.add_member(:value, Shapes::ShapeRef.new(shape: TagValue, required: true, location_name: "Value"))
@@ -1439,6 +1480,14 @@ module Aws::CloudWatch
         o.output = Shapes::ShapeRef.new(shape: GetMetricWidgetImageOutput)
       end)
 
+      api.add_operation(:get_o_tel_enrichment, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetOTelEnrichment"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetOTelEnrichmentInput)
+        o.output = Shapes::ShapeRef.new(shape: GetOTelEnrichmentOutput)
+      end)
+
       api.add_operation(:list_alarm_mute_rules, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListAlarmMuteRules"
         o.http_method = "POST"
@@ -1652,6 +1701,14 @@ module Aws::CloudWatch
         o.errors << Shapes::ShapeRef.new(shape: MissingRequiredParameterException)
       end)
 
+      api.add_operation(:start_o_tel_enrichment, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartOTelEnrichment"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: StartOTelEnrichmentInput)
+        o.output = Shapes::ShapeRef.new(shape: StartOTelEnrichmentOutput)
+      end)
+
       api.add_operation(:stop_metric_streams, Seahorse::Model::Operation.new.tap do |o|
         o.name = "StopMetricStreams"
         o.http_method = "POST"
@@ -1661,6 +1718,14 @@ module Aws::CloudWatch
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceFault)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
         o.errors << Shapes::ShapeRef.new(shape: MissingRequiredParameterException)
+      end)
+
+      api.add_operation(:stop_o_tel_enrichment, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StopOTelEnrichment"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: StopOTelEnrichmentInput)
+        o.output = Shapes::ShapeRef.new(shape: StopOTelEnrichmentOutput)
       end)
 
       api.add_operation(:tag_resource, Seahorse::Model::Operation.new.tap do |o|

@@ -59,6 +59,7 @@ module Aws::BedrockAgentCoreControl
     Arn = Shapes::StringShape.new(name: 'Arn')
     AtlassianOauth2ProviderConfigInput = Shapes::StructureShape.new(name: 'AtlassianOauth2ProviderConfigInput')
     AtlassianOauth2ProviderConfigOutput = Shapes::StructureShape.new(name: 'AtlassianOauth2ProviderConfigOutput')
+    AuthorizationData = Shapes::UnionShape.new(name: 'AuthorizationData')
     AuthorizationEndpointType = Shapes::StringShape.new(name: 'AuthorizationEndpointType')
     AuthorizerConfiguration = Shapes::UnionShape.new(name: 'AuthorizerConfiguration')
     AuthorizerType = Shapes::StringShape.new(name: 'AuthorizerType')
@@ -421,6 +422,7 @@ module Aws::BedrockAgentCoreControl
     McpServerTargetConfigurationEndpointString = Shapes::StringShape.new(name: 'McpServerTargetConfigurationEndpointString')
     McpSupportedVersions = Shapes::ListShape.new(name: 'McpSupportedVersions')
     McpTargetConfiguration = Shapes::UnionShape.new(name: 'McpTargetConfiguration')
+    McpToolSchemaConfiguration = Shapes::UnionShape.new(name: 'McpToolSchemaConfiguration')
     McpVersion = Shapes::StringShape.new(name: 'McpVersion')
     Memory = Shapes::StructureShape.new(name: 'Memory')
     MemoryArn = Shapes::StringShape.new(name: 'MemoryArn')
@@ -469,6 +471,9 @@ module Aws::BedrockAgentCoreControl
     NumericalScaleDefinitionLabelString = Shapes::StringShape.new(name: 'NumericalScaleDefinitionLabelString')
     NumericalScaleDefinitionValueDouble = Shapes::FloatShape.new(name: 'NumericalScaleDefinitionValueDouble')
     NumericalScaleDefinitions = Shapes::ListShape.new(name: 'NumericalScaleDefinitions')
+    OAuth2AuthorizationData = Shapes::StructureShape.new(name: 'OAuth2AuthorizationData')
+    OAuth2AuthorizationDataAuthorizationUrlString = Shapes::StringShape.new(name: 'OAuth2AuthorizationDataAuthorizationUrlString')
+    OAuth2AuthorizationDataUserIdString = Shapes::StringShape.new(name: 'OAuth2AuthorizationDataUserIdString')
     OAuthCredentialProvider = Shapes::StructureShape.new(name: 'OAuthCredentialProvider')
     OAuthCredentialProviderArn = Shapes::StringShape.new(name: 'OAuthCredentialProviderArn')
     OAuthCustomParameters = Shapes::MapShape.new(name: 'OAuthCustomParameters')
@@ -798,6 +803,12 @@ module Aws::BedrockAgentCoreControl
     AtlassianOauth2ProviderConfigOutput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, location_name: "clientId"))
     AtlassianOauth2ProviderConfigOutput.struct_class = Types::AtlassianOauth2ProviderConfigOutput
 
+    AuthorizationData.add_member(:oauth2, Shapes::ShapeRef.new(shape: OAuth2AuthorizationData, location_name: "oauth2"))
+    AuthorizationData.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    AuthorizationData.add_member_subclass(:oauth2, Types::AuthorizationData::Oauth2)
+    AuthorizationData.add_member_subclass(:unknown, Types::AuthorizationData::Unknown)
+    AuthorizationData.struct_class = Types::AuthorizationData
+
     AuthorizerConfiguration.add_member(:custom_jwt_authorizer, Shapes::ShapeRef.new(shape: CustomJWTAuthorizerConfiguration, location_name: "customJWTAuthorizer"))
     AuthorizerConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     AuthorizerConfiguration.add_member_subclass(:custom_jwt_authorizer, Types::AuthorizerConfiguration::CustomJwtAuthorizer)
@@ -1121,6 +1132,7 @@ module Aws::BedrockAgentCoreControl
     CreateGatewayTargetResponse.add_member(:metadata_configuration, Shapes::ShapeRef.new(shape: MetadataConfiguration, location_name: "metadataConfiguration"))
     CreateGatewayTargetResponse.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, location_name: "privateEndpoint"))
     CreateGatewayTargetResponse.add_member(:private_endpoint_managed_resources, Shapes::ShapeRef.new(shape: PrivateEndpointManagedResources, location_name: "privateEndpointManagedResources"))
+    CreateGatewayTargetResponse.add_member(:authorization_data, Shapes::ShapeRef.new(shape: AuthorizationData, location_name: "authorizationData"))
     CreateGatewayTargetResponse.struct_class = Types::CreateGatewayTargetResponse
 
     CreateMemoryInput.add_member(:client_token, Shapes::ShapeRef.new(shape: CreateMemoryInputClientTokenString, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
@@ -1659,6 +1671,7 @@ module Aws::BedrockAgentCoreControl
     GatewayTarget.add_member(:metadata_configuration, Shapes::ShapeRef.new(shape: MetadataConfiguration, location_name: "metadataConfiguration"))
     GatewayTarget.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, location_name: "privateEndpoint"))
     GatewayTarget.add_member(:private_endpoint_managed_resources, Shapes::ShapeRef.new(shape: PrivateEndpointManagedResources, location_name: "privateEndpointManagedResources"))
+    GatewayTarget.add_member(:authorization_data, Shapes::ShapeRef.new(shape: AuthorizationData, location_name: "authorizationData"))
     GatewayTarget.struct_class = Types::GatewayTarget
 
     GatewayTargetList.member = Shapes::ShapeRef.new(shape: GatewayTarget)
@@ -1823,6 +1836,7 @@ module Aws::BedrockAgentCoreControl
     GetGatewayTargetResponse.add_member(:metadata_configuration, Shapes::ShapeRef.new(shape: MetadataConfiguration, location_name: "metadataConfiguration"))
     GetGatewayTargetResponse.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, location_name: "privateEndpoint"))
     GetGatewayTargetResponse.add_member(:private_endpoint_managed_resources, Shapes::ShapeRef.new(shape: PrivateEndpointManagedResources, location_name: "privateEndpointManagedResources"))
+    GetGatewayTargetResponse.add_member(:authorization_data, Shapes::ShapeRef.new(shape: AuthorizationData, location_name: "authorizationData"))
     GetGatewayTargetResponse.struct_class = Types::GetGatewayTargetResponse
 
     GetMemoryInput.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location: "uri", location_name: "memoryId"))
@@ -2213,6 +2227,7 @@ module Aws::BedrockAgentCoreControl
     McpLambdaTargetConfiguration.struct_class = Types::McpLambdaTargetConfiguration
 
     McpServerTargetConfiguration.add_member(:endpoint, Shapes::ShapeRef.new(shape: McpServerTargetConfigurationEndpointString, required: true, location_name: "endpoint"))
+    McpServerTargetConfiguration.add_member(:mcp_tool_schema, Shapes::ShapeRef.new(shape: McpToolSchemaConfiguration, location_name: "mcpToolSchema"))
     McpServerTargetConfiguration.struct_class = Types::McpServerTargetConfiguration
 
     McpSupportedVersions.member = Shapes::ShapeRef.new(shape: McpVersion)
@@ -2230,6 +2245,14 @@ module Aws::BedrockAgentCoreControl
     McpTargetConfiguration.add_member_subclass(:api_gateway, Types::McpTargetConfiguration::ApiGateway)
     McpTargetConfiguration.add_member_subclass(:unknown, Types::McpTargetConfiguration::Unknown)
     McpTargetConfiguration.struct_class = Types::McpTargetConfiguration
+
+    McpToolSchemaConfiguration.add_member(:s3, Shapes::ShapeRef.new(shape: S3Configuration, location_name: "s3"))
+    McpToolSchemaConfiguration.add_member(:inline_payload, Shapes::ShapeRef.new(shape: InlinePayload, location_name: "inlinePayload"))
+    McpToolSchemaConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    McpToolSchemaConfiguration.add_member_subclass(:s3, Types::McpToolSchemaConfiguration::S3)
+    McpToolSchemaConfiguration.add_member_subclass(:inline_payload, Types::McpToolSchemaConfiguration::InlinePayload)
+    McpToolSchemaConfiguration.add_member_subclass(:unknown, Types::McpToolSchemaConfiguration::Unknown)
+    McpToolSchemaConfiguration.struct_class = Types::McpToolSchemaConfiguration
 
     Memory.add_member(:arn, Shapes::ShapeRef.new(shape: MemoryArn, required: true, location_name: "arn"))
     Memory.add_member(:id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location_name: "id"))
@@ -2366,6 +2389,10 @@ module Aws::BedrockAgentCoreControl
     NumericalScaleDefinition.struct_class = Types::NumericalScaleDefinition
 
     NumericalScaleDefinitions.member = Shapes::ShapeRef.new(shape: NumericalScaleDefinition)
+
+    OAuth2AuthorizationData.add_member(:authorization_url, Shapes::ShapeRef.new(shape: OAuth2AuthorizationDataAuthorizationUrlString, required: true, location_name: "authorizationUrl"))
+    OAuth2AuthorizationData.add_member(:user_id, Shapes::ShapeRef.new(shape: OAuth2AuthorizationDataUserIdString, location_name: "userId"))
+    OAuth2AuthorizationData.struct_class = Types::OAuth2AuthorizationData
 
     OAuthCredentialProvider.add_member(:provider_arn, Shapes::ShapeRef.new(shape: OAuthCredentialProviderArn, required: true, location_name: "providerArn"))
     OAuthCredentialProvider.add_member(:scopes, Shapes::ShapeRef.new(shape: OAuthScopes, required: true, location_name: "scopes"))
@@ -3007,6 +3034,7 @@ module Aws::BedrockAgentCoreControl
     UpdateGatewayTargetResponse.add_member(:metadata_configuration, Shapes::ShapeRef.new(shape: MetadataConfiguration, location_name: "metadataConfiguration"))
     UpdateGatewayTargetResponse.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, location_name: "privateEndpoint"))
     UpdateGatewayTargetResponse.add_member(:private_endpoint_managed_resources, Shapes::ShapeRef.new(shape: PrivateEndpointManagedResources, location_name: "privateEndpointManagedResources"))
+    UpdateGatewayTargetResponse.add_member(:authorization_data, Shapes::ShapeRef.new(shape: AuthorizationData, location_name: "authorizationData"))
     UpdateGatewayTargetResponse.struct_class = Types::UpdateGatewayTargetResponse
 
     UpdateMemoryInput.add_member(:client_token, Shapes::ShapeRef.new(shape: UpdateMemoryInputClientTokenString, location_name: "clientToken", metadata: {"idempotencyToken" => true}))

@@ -1741,6 +1741,13 @@ module Aws::Deadline
     #   Each tag consists of a tag key and a tag value. Tag keys and values
     #   are both required, but tag values can be empty strings.
     #
+    # @option params [Types::SchedulingConfiguration] :scheduling_configuration
+    #   The scheduling configuration for the queue. This configuration
+    #   determines how workers are assigned to jobs in the queue.
+    #
+    #   If not specified, the queue defaults to the `priorityFifo` scheduling
+    #   configuration.
+    #
     # @return [Types::CreateQueueResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateQueueResponse#queue_id #queue_id} => String
@@ -1773,6 +1780,28 @@ module Aws::Deadline
     #     allowed_storage_profile_ids: ["StorageProfileId"],
     #     tags: {
     #       "String" => "String",
+    #     },
+    #     scheduling_configuration: {
+    #       priority_fifo: {
+    #       },
+    #       priority_balanced: {
+    #         rendering_task_buffer: 1,
+    #       },
+    #       weighted_balanced: {
+    #         priority_weight: 1.0,
+    #         error_weight: 1.0,
+    #         submission_time_weight: 1.0,
+    #         rendering_task_weight: 1.0,
+    #         rendering_task_buffer: 1,
+    #         max_priority_override: {
+    #           always_schedule_first: {
+    #           },
+    #         },
+    #         min_priority_override: {
+    #           always_schedule_last: {
+    #           },
+    #         },
+    #       },
     #     },
     #   })
     #
@@ -3045,6 +3074,7 @@ module Aws::Deadline
     #   * {Types::GetQueueResponse#required_file_system_location_names #required_file_system_location_names} => Array&lt;String&gt;
     #   * {Types::GetQueueResponse#allowed_storage_profile_ids #allowed_storage_profile_ids} => Array&lt;String&gt;
     #   * {Types::GetQueueResponse#job_run_as_user #job_run_as_user} => Types::JobRunAsUser
+    #   * {Types::GetQueueResponse#scheduling_configuration #scheduling_configuration} => Types::SchedulingConfiguration
     #
     # @example Request syntax with placeholder values
     #
@@ -3078,6 +3108,12 @@ module Aws::Deadline
     #   resp.job_run_as_user.windows.user #=> String
     #   resp.job_run_as_user.windows.password_arn #=> String
     #   resp.job_run_as_user.run_as #=> String, one of "QUEUE_CONFIGURED_USER", "WORKER_AGENT_USER"
+    #   resp.scheduling_configuration.priority_balanced.rendering_task_buffer #=> Integer
+    #   resp.scheduling_configuration.weighted_balanced.priority_weight #=> Float
+    #   resp.scheduling_configuration.weighted_balanced.error_weight #=> Float
+    #   resp.scheduling_configuration.weighted_balanced.submission_time_weight #=> Float
+    #   resp.scheduling_configuration.weighted_balanced.rendering_task_weight #=> Float
+    #   resp.scheduling_configuration.weighted_balanced.rendering_task_buffer #=> Integer
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -6674,6 +6710,16 @@ module Aws::Deadline
     # @option params [Array<String>] :allowed_storage_profile_ids_to_remove
     #   The storage profile ID to remove.
     #
+    # @option params [Types::SchedulingConfiguration] :scheduling_configuration
+    #   The scheduling configuration for the queue. This configuration
+    #   determines how workers are assigned to jobs in the queue.
+    #
+    #   When updating the scheduling configuration, the entire configuration
+    #   is replaced.
+    #
+    #   In-progress tasks run to completion before the new scheduling
+    #   configuration takes effect.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -6705,6 +6751,28 @@ module Aws::Deadline
     #     required_file_system_location_names_to_remove: ["FileSystemLocationName"],
     #     allowed_storage_profile_ids_to_add: ["StorageProfileId"],
     #     allowed_storage_profile_ids_to_remove: ["StorageProfileId"],
+    #     scheduling_configuration: {
+    #       priority_fifo: {
+    #       },
+    #       priority_balanced: {
+    #         rendering_task_buffer: 1,
+    #       },
+    #       weighted_balanced: {
+    #         priority_weight: 1.0,
+    #         error_weight: 1.0,
+    #         submission_time_weight: 1.0,
+    #         rendering_task_weight: 1.0,
+    #         rendering_task_buffer: 1,
+    #         max_priority_override: {
+    #           always_schedule_first: {
+    #           },
+    #         },
+    #         min_priority_override: {
+    #           always_schedule_last: {
+    #           },
+    #         },
+    #       },
+    #     },
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/UpdateQueue AWS API Documentation
@@ -7225,7 +7293,7 @@ module Aws::Deadline
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-deadline'
-      context[:gem_version] = '1.48.0'
+      context[:gem_version] = '1.49.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
