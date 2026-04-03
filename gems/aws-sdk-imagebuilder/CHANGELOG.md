@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.100.0 (2026-04-03)
+------------------
+
+* Feature - Updated pagination token validation for ListContainerRecipes API to support maximum size of 65K characters
+
 1.99.0 (2026-03-18)
 ------------------
 

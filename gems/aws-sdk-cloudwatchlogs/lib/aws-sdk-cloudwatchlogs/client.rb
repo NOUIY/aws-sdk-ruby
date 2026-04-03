@@ -3267,6 +3267,9 @@ module Aws::CloudWatchLogs
     #   resp.queries[0].status #=> String, one of "Scheduled", "Running", "Complete", "Failed", "Cancelled", "Timeout", "Unknown"
     #   resp.queries[0].create_time #=> Integer
     #   resp.queries[0].log_group_name #=> String
+    #   resp.queries[0].query_duration #=> Integer
+    #   resp.queries[0].bytes_scanned #=> Float
+    #   resp.queries[0].user_identity #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeQueries AWS API Documentation
@@ -6577,6 +6580,10 @@ module Aws::CloudWatchLogs
     #   sending logs. For example,
     #   `arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234`
     #
+    #   For the `SECURITY_FINDING_LOGS` logType, use a wildcard ARN for the
+    #   hub resource. For example,
+    #   `arn:aws:securityhub:us-east-1:111122223333:hub/*`
+    #
     # @option params [required, String] :log_type
     #   Defines the type of log that the source is sending.
     #
@@ -6636,6 +6643,9 @@ module Aws::CloudWatchLogs
     #     `APPLICATION_LOGS`.
     #
     #   * For Amazon Q, the valid values are `EVENT_LOGS` and `SYNC_JOB_LOGS`.
+    #
+    #   * For Amazon Web Services Security Hub CSPM, the valid value is
+    #     `SECURITY_FINDING_LOGS`.
     #
     #   * For Amazon SES mail manager, the valid values are `APPLICATION_LOGS`
     #     and `TRAFFIC_POLICY_DEBUG_LOGS`.
@@ -9222,7 +9232,7 @@ module Aws::CloudWatchLogs
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatchlogs'
-      context[:gem_version] = '1.143.0'
+      context[:gem_version] = '1.144.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

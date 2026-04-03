@@ -16,7 +16,7 @@ module Aws::Bedrock
     class AccountEnforcedGuardrailInferenceInputConfiguration
       attr_accessor guardrail_identifier: ::String
       attr_accessor guardrail_version: ::String
-      attr_accessor input_tags: ("HONOR" | "IGNORE")
+      attr_accessor selective_content_guarding: Types::SelectiveContentGuarding
       attr_accessor model_enforcement: Types::ModelEnforcement
       SENSITIVE: []
     end
@@ -26,6 +26,7 @@ module Aws::Bedrock
       attr_accessor guardrail_arn: ::String
       attr_accessor guardrail_id: ::String
       attr_accessor input_tags: ("HONOR" | "IGNORE")
+      attr_accessor selective_content_guarding: Types::SelectiveContentGuarding
       attr_accessor guardrail_version: ::String
       attr_accessor created_at: ::Time
       attr_accessor created_by: ::String
@@ -1318,6 +1319,14 @@ module Aws::Bedrock
     class DeleteProvisionedModelThroughputResponse < Aws::EmptyStructure
     end
 
+    class DeleteResourcePolicyRequest
+      attr_accessor resource_arn: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteResourcePolicyResponse < Aws::EmptyStructure
+    end
+
     class DeregisterMarketplaceModelEndpointRequest
       attr_accessor endpoint_arn: ::String
       SENSITIVE: []
@@ -2011,6 +2020,16 @@ module Aws::Bedrock
       attr_accessor failure_message: ::String
       attr_accessor commitment_duration: ("OneMonth" | "SixMonths")
       attr_accessor commitment_expiration_time: ::Time
+      SENSITIVE: []
+    end
+
+    class GetResourcePolicyRequest
+      attr_accessor resource_arn: ::String
+      SENSITIVE: []
+    end
+
+    class GetResourcePolicyResponse
+      attr_accessor resource_policy: ::String
       SENSITIVE: []
     end
 
@@ -3012,6 +3031,17 @@ module Aws::Bedrock
     class PutModelInvocationLoggingConfigurationResponse < Aws::EmptyStructure
     end
 
+    class PutResourcePolicyRequest
+      attr_accessor resource_arn: ::String
+      attr_accessor resource_policy: ::String
+      SENSITIVE: []
+    end
+
+    class PutResourcePolicyResponse
+      attr_accessor resource_arn: ::String
+      SENSITIVE: []
+    end
+
     class PutUseCaseForModelAccessRequest
       attr_accessor form_data: ::String
       SENSITIVE: []
@@ -3225,6 +3255,12 @@ module Aws::Bedrock
       attr_accessor execution_role: ::String
       attr_accessor kms_encryption_key: ::String
       attr_accessor vpc: Types::VpcConfig
+      SENSITIVE: []
+    end
+
+    class SelectiveContentGuarding
+      attr_accessor system: ("SELECTIVE" | "COMPREHENSIVE")
+      attr_accessor messages: ("SELECTIVE" | "COMPREHENSIVE")
       SENSITIVE: []
     end
 

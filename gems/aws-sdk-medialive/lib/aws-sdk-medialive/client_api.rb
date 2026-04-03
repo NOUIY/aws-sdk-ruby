@@ -1450,6 +1450,7 @@ module Aws::MediaLive
     Av1ColorSpaceSettings.add_member(:hdr_10_settings, Shapes::ShapeRef.new(shape: Hdr10Settings, location_name: "hdr10Settings"))
     Av1ColorSpaceSettings.add_member(:rec_601_settings, Shapes::ShapeRef.new(shape: Rec601Settings, location_name: "rec601Settings"))
     Av1ColorSpaceSettings.add_member(:rec_709_settings, Shapes::ShapeRef.new(shape: Rec709Settings, location_name: "rec709Settings"))
+    Av1ColorSpaceSettings.add_member(:hlg_2020_settings, Shapes::ShapeRef.new(shape: Hlg2020Settings, location_name: "hlg2020Settings"))
     Av1ColorSpaceSettings.struct_class = Types::Av1ColorSpaceSettings
 
     Av1Settings.add_member(:afd_signaling, Shapes::ShapeRef.new(shape: AfdSignaling, location_name: "afdSignaling"))

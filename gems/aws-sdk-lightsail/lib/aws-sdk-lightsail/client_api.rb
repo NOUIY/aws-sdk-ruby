@@ -767,6 +767,7 @@ module Aws::Lightsail
     Alarm.add_member(:contact_protocols, Shapes::ShapeRef.new(shape: ContactProtocolsList, location_name: "contactProtocols"))
     Alarm.add_member(:notification_triggers, Shapes::ShapeRef.new(shape: NotificationTriggerList, location_name: "notificationTriggers"))
     Alarm.add_member(:notification_enabled, Shapes::ShapeRef.new(shape: boolean, location_name: "notificationEnabled"))
+    Alarm.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
     Alarm.struct_class = Types::Alarm
 
     AlarmsList.member = Shapes::ShapeRef.new(shape: Alarm)
@@ -2681,6 +2682,7 @@ module Aws::Lightsail
     PutAlarmRequest.add_member(:contact_protocols, Shapes::ShapeRef.new(shape: ContactProtocolsList, location_name: "contactProtocols"))
     PutAlarmRequest.add_member(:notification_triggers, Shapes::ShapeRef.new(shape: NotificationTriggerList, location_name: "notificationTriggers"))
     PutAlarmRequest.add_member(:notification_enabled, Shapes::ShapeRef.new(shape: boolean, location_name: "notificationEnabled"))
+    PutAlarmRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
     PutAlarmRequest.struct_class = Types::PutAlarmRequest
 
     PutAlarmResult.add_member(:operations, Shapes::ShapeRef.new(shape: OperationList, location_name: "operations"))

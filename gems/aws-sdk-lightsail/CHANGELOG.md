@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.127.0 (2026-04-03)
+------------------
+
+* Feature - Add support for tagging of Alarm resource type
+
 1.126.0 (2026-03-23)
 ------------------
 

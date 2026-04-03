@@ -403,7 +403,8 @@ module Aws::BedrockAgentCoreControl
     end
 
     # Contains the authorization data that is returned when a gateway target
-    # requires user authorization through an authorization code grant type.
+    # is configured with a credential provider with authorization code grant
+    # type and requires user federation.
     #
     # @note AuthorizationData is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of AuthorizationData corresponding to the set member.
     #
@@ -2023,8 +2024,8 @@ module Aws::BedrockAgentCoreControl
     #
     # @!attribute [rw] authorization_data
     #   OAuth2 authorization data for the created gateway target. This data
-    #   is returned when the target requires user authorization through an
-    #   authorization code grant type.
+    #   is returned when a target is configured with a credential provider
+    #   with authorization code grant type and requires user federation.
     #   @return [Types::AuthorizationData]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateGatewayTargetResponse AWS API Documentation
@@ -5336,8 +5337,8 @@ module Aws::BedrockAgentCoreControl
     #
     # @!attribute [rw] authorization_data
     #   OAuth2 authorization data for the gateway target. This data is
-    #   returned when the target requires user authorization through an
-    #   authorization code grant type.
+    #   returned when a target is configured with a credential provider with
+    #   authorization code grant type and requires user federation.
     #   @return [Types::AuthorizationData]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetGatewayTargetResponse AWS API Documentation
@@ -10794,8 +10795,8 @@ module Aws::BedrockAgentCoreControl
     #
     # @!attribute [rw] authorization_data
     #   OAuth2 authorization data for the updated gateway target. This data
-    #   is returned when the target requires user authorization through an
-    #   authorization code grant type.
+    #   is returned when a target is configured with a credential provider
+    #   with authorization code grant type and requires user federation.
     #   @return [Types::AuthorizationData]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateGatewayTargetResponse AWS API Documentation

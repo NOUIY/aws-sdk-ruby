@@ -578,6 +578,16 @@ module Aws::Lightsail
     #   Indicates whether the alarm is enabled.
     #   @return [Boolean]
     #
+    # @!attribute [rw] tags
+    #   The tag keys and optional values for the resource. For more
+    #   information about tags in Lightsail, see the [Amazon Lightsail
+    #   Developer Guide][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags
+    #   @return [Array<Types::Tag>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/Alarm AWS API Documentation
     #
     class Alarm < Struct.new(
@@ -600,7 +610,8 @@ module Aws::Lightsail
       :unit,
       :contact_protocols,
       :notification_triggers,
-      :notification_enabled)
+      :notification_enabled,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -12655,6 +12666,12 @@ module Aws::Lightsail
     #   parameter.
     #   @return [Boolean]
     #
+    # @!attribute [rw] tags
+    #   The tag keys and optional values to add to the alarm during create.
+    #
+    #   Use the `TagResource` action to tag a resource after it's created.
+    #   @return [Array<Types::Tag>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/PutAlarmRequest AWS API Documentation
     #
     class PutAlarmRequest < Struct.new(
@@ -12668,7 +12685,8 @@ module Aws::Lightsail
       :treat_missing_data,
       :contact_protocols,
       :notification_triggers,
-      :notification_enabled)
+      :notification_enabled,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end

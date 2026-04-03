@@ -3183,6 +3183,28 @@ module Aws::Bedrock
       req.send_request(options)
     end
 
+    # Deletes a previously created Bedrock resource policy.
+    #
+    # @option params [required, String] :resource_arn
+    #   The ARN of the Bedrock resource to which this resource policy applies.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_resource_policy({
+    #     resource_arn: "ResourcePolicyResourceArn", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/DeleteResourcePolicy AWS API Documentation
+    #
+    # @overload delete_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def delete_resource_policy(params = {}, options = {})
+      req = build_request(:delete_resource_policy, params)
+      req.send_request(options)
+    end
+
     # Deregisters an endpoint for a model from Amazon Bedrock Marketplace.
     # This operation removes the endpoint's association with Amazon Bedrock
     # but does not delete the underlying Amazon SageMaker endpoint.
@@ -5038,6 +5060,34 @@ module Aws::Bedrock
       req.send_request(options)
     end
 
+    # Gets the resource policy document for a Bedrock resource
+    #
+    # @option params [required, String] :resource_arn
+    #   The ARN of the Bedrock resource to which this resource policy applies.
+    #
+    # @return [Types::GetResourcePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetResourcePolicyResponse#resource_policy #resource_policy} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_resource_policy({
+    #     resource_arn: "ResourcePolicyResourceArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.resource_policy #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/GetResourcePolicy AWS API Documentation
+    #
+    # @overload get_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def get_resource_policy(params = {}, options = {})
+      req = build_request(:get_resource_policy, params)
+      req.send_request(options)
+    end
+
     # Get usecase for model access.
     #
     # @return [Types::GetUseCaseForModelAccessResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
@@ -5609,6 +5659,8 @@ module Aws::Bedrock
     #   resp.guardrails_config[0].guardrail_arn #=> String
     #   resp.guardrails_config[0].guardrail_id #=> String
     #   resp.guardrails_config[0].input_tags #=> String, one of "HONOR", "IGNORE"
+    #   resp.guardrails_config[0].selective_content_guarding.system #=> String, one of "SELECTIVE", "COMPREHENSIVE"
+    #   resp.guardrails_config[0].selective_content_guarding.messages #=> String, one of "SELECTIVE", "COMPREHENSIVE"
     #   resp.guardrails_config[0].guardrail_version #=> String
     #   resp.guardrails_config[0].created_at #=> Time
     #   resp.guardrails_config[0].created_by #=> String
@@ -6736,7 +6788,10 @@ module Aws::Bedrock
     #     guardrail_inference_config: { # required
     #       guardrail_identifier: "GuardrailIdentifier", # required
     #       guardrail_version: "GuardrailNumericalVersion", # required
-    #       input_tags: "HONOR", # required, accepts HONOR, IGNORE
+    #       selective_content_guarding: {
+    #         system: "SELECTIVE", # accepts SELECTIVE, COMPREHENSIVE
+    #         messages: "SELECTIVE", # accepts SELECTIVE, COMPREHENSIVE
+    #       },
     #       model_enforcement: {
     #         included_models: ["IncludedModelId"], # required
     #         excluded_models: ["ExcludedModelId"], # required
@@ -6796,6 +6851,38 @@ module Aws::Bedrock
     # @param [Hash] params ({})
     def put_model_invocation_logging_configuration(params = {}, options = {})
       req = build_request(:put_model_invocation_logging_configuration, params)
+      req.send_request(options)
+    end
+
+    # Adds a resource policy for a Bedrock resource.
+    #
+    # @option params [required, String] :resource_arn
+    #   The ARN of the Bedrock resource to which this resource policy applies.
+    #
+    # @option params [required, String] :resource_policy
+    #   The JSON string representing the Bedrock resource policy.
+    #
+    # @return [Types::PutResourcePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutResourcePolicyResponse#resource_arn #resource_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_resource_policy({
+    #     resource_arn: "ResourcePolicyResourceArn", # required
+    #     resource_policy: "ResourcePolicyDocument", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.resource_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/PutResourcePolicy AWS API Documentation
+    #
+    # @overload put_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def put_resource_policy(params = {}, options = {})
+      req = build_request(:put_resource_policy, params)
       req.send_request(options)
     end
 
@@ -7915,7 +8002,7 @@ module Aws::Bedrock
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrock'
-      context[:gem_version] = '1.80.0'
+      context[:gem_version] = '1.81.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

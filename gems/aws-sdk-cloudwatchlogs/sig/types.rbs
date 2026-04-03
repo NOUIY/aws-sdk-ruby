@@ -1891,6 +1891,9 @@ module Aws::CloudWatchLogs
       attr_accessor status: ("Scheduled" | "Running" | "Complete" | "Failed" | "Cancelled" | "Timeout" | "Unknown")
       attr_accessor create_time: ::Integer
       attr_accessor log_group_name: ::String
+      attr_accessor query_duration: ::Integer
+      attr_accessor bytes_scanned: ::Float
+      attr_accessor user_identity: ::String
       SENSITIVE: []
     end
 

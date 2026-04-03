@@ -92,6 +92,7 @@ module Aws::Lightsail
       attr_accessor contact_protocols: ::Array[("Email" | "SMS")]
       attr_accessor notification_triggers: ::Array[("OK" | "ALARM" | "INSUFFICIENT_DATA")]
       attr_accessor notification_enabled: bool
+      attr_accessor tags: ::Array[Types::Tag]
       SENSITIVE: []
     end
 
@@ -2543,6 +2544,7 @@ module Aws::Lightsail
       attr_accessor contact_protocols: ::Array[("Email" | "SMS")]
       attr_accessor notification_triggers: ::Array[("OK" | "ALARM" | "INSUFFICIENT_DATA")]
       attr_accessor notification_enabled: bool
+      attr_accessor tags: ::Array[Types::Tag]
       SENSITIVE: []
     end
 

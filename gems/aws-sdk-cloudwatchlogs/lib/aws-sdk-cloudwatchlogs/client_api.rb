@@ -49,6 +49,7 @@ module Aws::CloudWatchLogs
     BatchId = Shapes::StringShape.new(name: 'BatchId')
     BearerTokenAuthenticationEnabled = Shapes::BooleanShape.new(name: 'BearerTokenAuthenticationEnabled')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
+    BytesScannedValue = Shapes::FloatShape.new(name: 'BytesScannedValue')
     CSV = Shapes::StructureShape.new(name: 'CSV')
     CancelExportTaskRequest = Shapes::StructureShape.new(name: 'CancelExportTaskRequest')
     CancelImportTaskRequest = Shapes::StructureShape.new(name: 'CancelImportTaskRequest')
@@ -512,6 +513,7 @@ module Aws::CloudWatchLogs
     QueryDefinitionList = Shapes::ListShape.new(name: 'QueryDefinitionList')
     QueryDefinitionName = Shapes::StringShape.new(name: 'QueryDefinitionName')
     QueryDefinitionString = Shapes::StringShape.new(name: 'QueryDefinitionString')
+    QueryDuration = Shapes::IntegerShape.new(name: 'QueryDuration')
     QueryId = Shapes::StringShape.new(name: 'QueryId')
     QueryInfo = Shapes::StructureShape.new(name: 'QueryInfo')
     QueryInfoList = Shapes::ListShape.new(name: 'QueryInfoList')
@@ -663,6 +665,7 @@ module Aws::CloudWatchLogs
     UpdateScheduledQueryResponse = Shapes::StructureShape.new(name: 'UpdateScheduledQueryResponse')
     UpperCaseString = Shapes::StructureShape.new(name: 'UpperCaseString')
     UpperCaseStringWithKeys = Shapes::ListShape.new(name: 'UpperCaseStringWithKeys')
+    UserIdentity = Shapes::StringShape.new(name: 'UserIdentity')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
     Value = Shapes::StringShape.new(name: 'Value')
     ValueKey = Shapes::StringShape.new(name: 'ValueKey')
@@ -2170,6 +2173,9 @@ module Aws::CloudWatchLogs
     QueryInfo.add_member(:status, Shapes::ShapeRef.new(shape: QueryStatus, location_name: "status"))
     QueryInfo.add_member(:create_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "createTime"))
     QueryInfo.add_member(:log_group_name, Shapes::ShapeRef.new(shape: LogGroupName, location_name: "logGroupName"))
+    QueryInfo.add_member(:query_duration, Shapes::ShapeRef.new(shape: QueryDuration, location_name: "queryDuration"))
+    QueryInfo.add_member(:bytes_scanned, Shapes::ShapeRef.new(shape: BytesScannedValue, location_name: "bytesScanned"))
+    QueryInfo.add_member(:user_identity, Shapes::ShapeRef.new(shape: UserIdentity, location_name: "userIdentity"))
     QueryInfo.struct_class = Types::QueryInfo
 
     QueryInfoList.member = Shapes::ShapeRef.new(shape: QueryInfo)

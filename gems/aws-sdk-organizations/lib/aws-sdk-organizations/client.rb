@@ -878,12 +878,13 @@ module Aws::Organizations
     #   Support to reopen the account. After 90 days, you can't reopen an
     #   account. You might still receive a [bill after account closure][3].
     #
-    # * You can close only 10% of member accounts, between 10 and 1000,
-    #   within a rolling 30 day period. This quota is not bound by a
-    #   calendar month, but starts when you close an account. After you
-    #   reach this limit, you can't close additional accounts. For more
-    #   information, see [Closing a member account in your organization][4]
-    #   and [Quotas for Organizations][5] in the *Organizations User Guide*.
+    # * Within a rolling 30 day period you can close the higher of either
+    #   250 or 20% of the member accounts in your organization, up to a
+    #   maximum of 1,000. This quota is not bound by a calendar month, but
+    #   starts when you close an account. After you reach this limit, you
+    #   can't close additional accounts. For more information, see [Closing
+    #   a member account in your organization][4] and [Quotas for
+    #   Organizations][5] in the *Organizations User Guide*.
     #
     # * To reinstate a closed account, contact Amazon Web Services Support
     #   within the 90-day grace period while the account is in SUSPENDED
@@ -6743,7 +6744,7 @@ module Aws::Organizations
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-organizations'
-      context[:gem_version] = '1.137.0'
+      context[:gem_version] = '1.138.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.138.0 (2026-04-03)
+------------------
+
+* Feature - Updates close Account quota for member accounts in an Organization.
+
 1.137.0 (2026-03-31)
 ------------------
 

@@ -7718,6 +7718,10 @@ module Aws::CloudWatchLogs
     #   The ARN of the Amazon Web Services resource that is generating and
     #   sending logs. For example,
     #   `arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234`
+    #
+    #   For the `SECURITY_FINDING_LOGS` logType, use a wildcard ARN for the
+    #   hub resource. For example,
+    #   `arn:aws:securityhub:us-east-1:111122223333:hub/*`
     #   @return [String]
     #
     # @!attribute [rw] log_type
@@ -7780,6 +7784,9 @@ module Aws::CloudWatchLogs
     #
     #   * For Amazon Q, the valid values are `EVENT_LOGS` and
     #     `SYNC_JOB_LOGS`.
+    #
+    #   * For Amazon Web Services Security Hub CSPM, the valid value is
+    #     `SECURITY_FINDING_LOGS`.
     #
     #   * For Amazon SES mail manager, the valid values are
     #     `APPLICATION_LOGS` and `TRAFFIC_POLICY_DEBUG_LOGS`.
@@ -8640,6 +8647,19 @@ module Aws::CloudWatchLogs
     #   The name of the log group scanned by this query.
     #   @return [String]
     #
+    # @!attribute [rw] query_duration
+    #   The duration in milliseconds that the query took to execute.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] bytes_scanned
+    #   The total number of bytes scanned by the query. This indicates the
+    #   cost associated with the query.
+    #   @return [Float]
+    #
+    # @!attribute [rw] user_identity
+    #   The ARN of the user who ran the query.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/QueryInfo AWS API Documentation
     #
     class QueryInfo < Struct.new(
@@ -8648,7 +8668,10 @@ module Aws::CloudWatchLogs
       :query_string,
       :status,
       :create_time,
-      :log_group_name)
+      :log_group_name,
+      :query_duration,
+      :bytes_scanned,
+      :user_identity)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.182.0 (2026-04-03)
+------------------
+
+* Feature - AWS Elemental MediaLive released a new features that allows customers to use HLG 2020 as a color space for AV1 video codec.
+
 1.181.0 (2026-03-18)
 ------------------
 

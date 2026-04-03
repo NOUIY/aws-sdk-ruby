@@ -1437,9 +1437,14 @@ module Aws::Lightsail
     # countries/regions. For more information, see [Notifications in Amazon
     # Lightsail][1].
     #
+    # The `create contact method` operation supports tag-based access
+    # control via request tags. For more information, see the [Lightsail
+    # Developer Guide][2].
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications
+    # [2]: https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags
     #
     # @option params [required, String] :protocol
     #   The protocol of the contact method, such as `Email` or `SMS` (text
@@ -5555,6 +5560,9 @@ module Aws::Lightsail
     #   resp.alarms[0].notification_triggers #=> Array
     #   resp.alarms[0].notification_triggers[0] #=> String, one of "OK", "ALARM", "INSUFFICIENT_DATA"
     #   resp.alarms[0].notification_enabled #=> Boolean
+    #   resp.alarms[0].tags #=> Array
+    #   resp.alarms[0].tags[0].key #=> String
+    #   resp.alarms[0].tags[0].value #=> String
     #   resp.next_page_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetAlarms AWS API Documentation
@@ -10140,9 +10148,14 @@ module Aws::Lightsail
     # the update completely overwrites the previous configuration of the
     # alarm. The alarm is then evaluated with the updated configuration.
     #
+    # The `put alarm` operation supports tag-based access control via
+    # request tags. For more information, see the [Lightsail Developer
+    # Guide][2].
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms
+    # [2]: https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags
     #
     # @option params [required, String] :alarm_name
     #   The name for the alarm. Specify the name of an existing alarm to
@@ -10284,6 +10297,11 @@ module Aws::Lightsail
     #   Notifications are enabled by default if you don't specify this
     #   parameter.
     #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tag keys and optional values to add to the alarm during create.
+    #
+    #   Use the `TagResource` action to tag a resource after it's created.
+    #
     # @return [Types::PutAlarmResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::PutAlarmResult#operations #operations} => Array&lt;Types::Operation&gt;
@@ -10302,6 +10320,12 @@ module Aws::Lightsail
     #     contact_protocols: ["Email"], # accepts Email, SMS
     #     notification_triggers: ["OK"], # accepts OK, ALARM, INSUFFICIENT_DATA
     #     notification_enabled: false,
+    #     tags: [
+    #       {
+    #         key: "TagKey",
+    #         value: "TagValue",
+    #       },
+    #     ],
     #   })
     #
     # @example Response structure
@@ -12576,7 +12600,7 @@ module Aws::Lightsail
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-lightsail'
-      context[:gem_version] = '1.126.0'
+      context[:gem_version] = '1.127.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

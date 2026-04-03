@@ -1892,7 +1892,13 @@ module Aws
                        ?treat_missing_data: ("breaching" | "notBreaching" | "ignore" | "missing"),
                        ?contact_protocols: Array[("Email" | "SMS")],
                        ?notification_triggers: Array[("OK" | "ALARM" | "INSUFFICIENT_DATA")],
-                       ?notification_enabled: bool
+                       ?notification_enabled: bool,
+                       ?tags: Array[
+                         {
+                           key: ::String?,
+                           value: ::String?
+                         },
+                       ]
                      ) -> _PutAlarmResponseSuccess
                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutAlarmResponseSuccess
 

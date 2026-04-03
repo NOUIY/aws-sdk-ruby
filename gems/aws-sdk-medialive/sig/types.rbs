@@ -4798,6 +4798,7 @@ module Aws::MediaLive
       attr_accessor hdr_10_settings: Types::Hdr10Settings
       attr_accessor rec_601_settings: Types::Rec601Settings
       attr_accessor rec_709_settings: Types::Rec709Settings
+      attr_accessor hlg_2020_settings: Types::Hlg2020Settings
       SENSITIVE: []
     end
 

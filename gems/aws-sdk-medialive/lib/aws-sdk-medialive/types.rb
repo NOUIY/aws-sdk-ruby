@@ -18570,13 +18570,18 @@ module Aws::MediaLive
     #   Rec709 Settings
     #   @return [Types::Rec709Settings]
     #
+    # @!attribute [rw] hlg_2020_settings
+    #   Hlg2020 Settings
+    #   @return [Types::Hlg2020Settings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/Av1ColorSpaceSettings AWS API Documentation
     #
     class Av1ColorSpaceSettings < Struct.new(
       :color_space_passthrough_settings,
       :hdr_10_settings,
       :rec_601_settings,
-      :rec_709_settings)
+      :rec_709_settings,
+      :hlg_2020_settings)
       SENSITIVE = []
       include Aws::Structure
     end

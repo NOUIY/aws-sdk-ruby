@@ -3769,7 +3769,7 @@ module Aws::Imagebuilder
     #       },
     #     ],
     #     max_results: 1,
-    #     next_token: "NonEmptyString",
+    #     next_token: "PaginationToken",
     #   })
     #
     # @example Response structure
@@ -6096,7 +6096,7 @@ module Aws::Imagebuilder
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-imagebuilder'
-      context[:gem_version] = '1.99.0'
+      context[:gem_version] = '1.100.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

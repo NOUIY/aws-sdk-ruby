@@ -322,6 +322,8 @@ module Aws::Bedrock
     DeletePromptRouterResponse = Shapes::StructureShape.new(name: 'DeletePromptRouterResponse')
     DeleteProvisionedModelThroughputRequest = Shapes::StructureShape.new(name: 'DeleteProvisionedModelThroughputRequest')
     DeleteProvisionedModelThroughputResponse = Shapes::StructureShape.new(name: 'DeleteProvisionedModelThroughputResponse')
+    DeleteResourcePolicyRequest = Shapes::StructureShape.new(name: 'DeleteResourcePolicyRequest')
+    DeleteResourcePolicyResponse = Shapes::StructureShape.new(name: 'DeleteResourcePolicyResponse')
     DeregisterMarketplaceModelEndpointRequest = Shapes::StructureShape.new(name: 'DeregisterMarketplaceModelEndpointRequest')
     DeregisterMarketplaceModelEndpointResponse = Shapes::StructureShape.new(name: 'DeregisterMarketplaceModelEndpointResponse')
     DimensionalPriceRate = Shapes::StructureShape.new(name: 'DimensionalPriceRate')
@@ -447,6 +449,8 @@ module Aws::Bedrock
     GetPromptRouterResponse = Shapes::StructureShape.new(name: 'GetPromptRouterResponse')
     GetProvisionedModelThroughputRequest = Shapes::StructureShape.new(name: 'GetProvisionedModelThroughputRequest')
     GetProvisionedModelThroughputResponse = Shapes::StructureShape.new(name: 'GetProvisionedModelThroughputResponse')
+    GetResourcePolicyRequest = Shapes::StructureShape.new(name: 'GetResourcePolicyRequest')
+    GetResourcePolicyResponse = Shapes::StructureShape.new(name: 'GetResourcePolicyResponse')
     GetUseCaseForModelAccessRequest = Shapes::StructureShape.new(name: 'GetUseCaseForModelAccessRequest')
     GetUseCaseForModelAccessResponse = Shapes::StructureShape.new(name: 'GetUseCaseForModelAccessResponse')
     GraderConfig = Shapes::UnionShape.new(name: 'GraderConfig')
@@ -737,6 +741,8 @@ module Aws::Bedrock
     PutEnforcedGuardrailConfigurationResponse = Shapes::StructureShape.new(name: 'PutEnforcedGuardrailConfigurationResponse')
     PutModelInvocationLoggingConfigurationRequest = Shapes::StructureShape.new(name: 'PutModelInvocationLoggingConfigurationRequest')
     PutModelInvocationLoggingConfigurationResponse = Shapes::StructureShape.new(name: 'PutModelInvocationLoggingConfigurationResponse')
+    PutResourcePolicyRequest = Shapes::StructureShape.new(name: 'PutResourcePolicyRequest')
+    PutResourcePolicyResponse = Shapes::StructureShape.new(name: 'PutResourcePolicyResponse')
     PutUseCaseForModelAccessRequest = Shapes::StructureShape.new(name: 'PutUseCaseForModelAccessRequest')
     PutUseCaseForModelAccessResponse = Shapes::StructureShape.new(name: 'PutUseCaseForModelAccessResponse')
     QueryTransformationConfiguration = Shapes::StructureShape.new(name: 'QueryTransformationConfiguration')
@@ -773,6 +779,8 @@ module Aws::Bedrock
     RerankingMetadataSelectiveModeConfiguration = Shapes::UnionShape.new(name: 'RerankingMetadataSelectiveModeConfiguration')
     ResourceInUseException = Shapes::StructureShape.new(name: 'ResourceInUseException')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
+    ResourcePolicyDocument = Shapes::StringShape.new(name: 'ResourcePolicyDocument')
+    ResourcePolicyResourceArn = Shapes::StringShape.new(name: 'ResourcePolicyResourceArn')
     RetrievalFilter = Shapes::UnionShape.new(name: 'RetrievalFilter')
     RetrievalFilterList = Shapes::ListShape.new(name: 'RetrievalFilterList')
     RetrieveAndGenerateConfiguration = Shapes::StructureShape.new(name: 'RetrieveAndGenerateConfiguration')
@@ -791,6 +799,8 @@ module Aws::Bedrock
     SearchType = Shapes::StringShape.new(name: 'SearchType')
     SecurityGroupId = Shapes::StringShape.new(name: 'SecurityGroupId')
     SecurityGroupIds = Shapes::ListShape.new(name: 'SecurityGroupIds')
+    SelectiveContentGuarding = Shapes::StructureShape.new(name: 'SelectiveContentGuarding')
+    SelectiveGuardingMode = Shapes::StringShape.new(name: 'SelectiveGuardingMode')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     ServiceUnavailableException = Shapes::StructureShape.new(name: 'ServiceUnavailableException')
     SortByProvisionedModels = Shapes::StringShape.new(name: 'SortByProvisionedModels')
@@ -872,14 +882,15 @@ module Aws::Bedrock
 
     AccountEnforcedGuardrailInferenceInputConfiguration.add_member(:guardrail_identifier, Shapes::ShapeRef.new(shape: GuardrailIdentifier, required: true, location_name: "guardrailIdentifier"))
     AccountEnforcedGuardrailInferenceInputConfiguration.add_member(:guardrail_version, Shapes::ShapeRef.new(shape: GuardrailNumericalVersion, required: true, location_name: "guardrailVersion"))
-    AccountEnforcedGuardrailInferenceInputConfiguration.add_member(:input_tags, Shapes::ShapeRef.new(shape: InputTags, required: true, location_name: "inputTags"))
+    AccountEnforcedGuardrailInferenceInputConfiguration.add_member(:selective_content_guarding, Shapes::ShapeRef.new(shape: SelectiveContentGuarding, location_name: "selectiveContentGuarding"))
     AccountEnforcedGuardrailInferenceInputConfiguration.add_member(:model_enforcement, Shapes::ShapeRef.new(shape: ModelEnforcement, location_name: "modelEnforcement"))
     AccountEnforcedGuardrailInferenceInputConfiguration.struct_class = Types::AccountEnforcedGuardrailInferenceInputConfiguration
 
     AccountEnforcedGuardrailOutputConfiguration.add_member(:config_id, Shapes::ShapeRef.new(shape: AccountEnforcedGuardrailConfigurationId, location_name: "configId"))
     AccountEnforcedGuardrailOutputConfiguration.add_member(:guardrail_arn, Shapes::ShapeRef.new(shape: GuardrailArn, location_name: "guardrailArn"))
     AccountEnforcedGuardrailOutputConfiguration.add_member(:guardrail_id, Shapes::ShapeRef.new(shape: GuardrailId, location_name: "guardrailId"))
-    AccountEnforcedGuardrailOutputConfiguration.add_member(:input_tags, Shapes::ShapeRef.new(shape: InputTags, location_name: "inputTags"))
+    AccountEnforcedGuardrailOutputConfiguration.add_member(:input_tags, Shapes::ShapeRef.new(shape: InputTags, deprecated: true, location_name: "inputTags", metadata: {"deprecatedMessage" => "This field is being deprecated and will be removed once customers transition their existing policies to the new schema.", "deprecatedSince" => "2026-04-03"}))
+    AccountEnforcedGuardrailOutputConfiguration.add_member(:selective_content_guarding, Shapes::ShapeRef.new(shape: SelectiveContentGuarding, location_name: "selectiveContentGuarding"))
     AccountEnforcedGuardrailOutputConfiguration.add_member(:guardrail_version, Shapes::ShapeRef.new(shape: GuardrailNumericalVersion, location_name: "guardrailVersion"))
     AccountEnforcedGuardrailOutputConfiguration.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "createdAt"))
     AccountEnforcedGuardrailOutputConfiguration.add_member(:created_by, Shapes::ShapeRef.new(shape: String, location_name: "createdBy"))
@@ -1878,6 +1889,11 @@ module Aws::Bedrock
 
     DeleteProvisionedModelThroughputResponse.struct_class = Types::DeleteProvisionedModelThroughputResponse
 
+    DeleteResourcePolicyRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourcePolicyResourceArn, required: true, location: "uri", location_name: "resourceArn"))
+    DeleteResourcePolicyRequest.struct_class = Types::DeleteResourcePolicyRequest
+
+    DeleteResourcePolicyResponse.struct_class = Types::DeleteResourcePolicyResponse
+
     DeregisterMarketplaceModelEndpointRequest.add_member(:endpoint_arn, Shapes::ShapeRef.new(shape: Arn, required: true, location: "uri", location_name: "endpointArn"))
     DeregisterMarketplaceModelEndpointRequest.struct_class = Types::DeregisterMarketplaceModelEndpointRequest
 
@@ -2426,6 +2442,12 @@ module Aws::Bedrock
     GetProvisionedModelThroughputResponse.add_member(:commitment_duration, Shapes::ShapeRef.new(shape: CommitmentDuration, location_name: "commitmentDuration"))
     GetProvisionedModelThroughputResponse.add_member(:commitment_expiration_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "commitmentExpirationTime"))
     GetProvisionedModelThroughputResponse.struct_class = Types::GetProvisionedModelThroughputResponse
+
+    GetResourcePolicyRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourcePolicyResourceArn, required: true, location: "uri", location_name: "resourceArn"))
+    GetResourcePolicyRequest.struct_class = Types::GetResourcePolicyRequest
+
+    GetResourcePolicyResponse.add_member(:resource_policy, Shapes::ShapeRef.new(shape: ResourcePolicyDocument, location_name: "resourcePolicy"))
+    GetResourcePolicyResponse.struct_class = Types::GetResourcePolicyResponse
 
     GetUseCaseForModelAccessRequest.struct_class = Types::GetUseCaseForModelAccessRequest
 
@@ -3236,6 +3258,13 @@ module Aws::Bedrock
 
     PutModelInvocationLoggingConfigurationResponse.struct_class = Types::PutModelInvocationLoggingConfigurationResponse
 
+    PutResourcePolicyRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourcePolicyResourceArn, required: true, location_name: "resourceArn"))
+    PutResourcePolicyRequest.add_member(:resource_policy, Shapes::ShapeRef.new(shape: ResourcePolicyDocument, required: true, location_name: "resourcePolicy"))
+    PutResourcePolicyRequest.struct_class = Types::PutResourcePolicyRequest
+
+    PutResourcePolicyResponse.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourcePolicyResourceArn, location_name: "resourceArn"))
+    PutResourcePolicyResponse.struct_class = Types::PutResourcePolicyResponse
+
     PutUseCaseForModelAccessRequest.add_member(:form_data, Shapes::ShapeRef.new(shape: AcknowledgementFormDataBody, required: true, location_name: "formData"))
     PutUseCaseForModelAccessRequest.struct_class = Types::PutUseCaseForModelAccessRequest
 
@@ -3390,6 +3419,10 @@ module Aws::Bedrock
     SageMakerEndpoint.struct_class = Types::SageMakerEndpoint
 
     SecurityGroupIds.member = Shapes::ShapeRef.new(shape: SecurityGroupId)
+
+    SelectiveContentGuarding.add_member(:system, Shapes::ShapeRef.new(shape: SelectiveGuardingMode, location_name: "system"))
+    SelectiveContentGuarding.add_member(:messages, Shapes::ShapeRef.new(shape: SelectiveGuardingMode, location_name: "messages"))
+    SelectiveContentGuarding.struct_class = Types::SelectiveContentGuarding
 
     ServiceQuotaExceededException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     ServiceQuotaExceededException.struct_class = Types::ServiceQuotaExceededException
@@ -4119,6 +4152,19 @@ module Aws::Bedrock
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 
+      api.add_operation(:delete_resource_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteResourcePolicy"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/resource-policy/{resourceArn}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteResourcePolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteResourcePolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
       api.add_operation(:deregister_marketplace_model_endpoint, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeregisterMarketplaceModelEndpoint"
         o.http_method = "DELETE"
@@ -4436,6 +4482,19 @@ module Aws::Bedrock
         o.http_request_uri = "/provisioned-model-throughput/{provisionedModelId}"
         o.input = Shapes::ShapeRef.new(shape: GetProvisionedModelThroughputRequest)
         o.output = Shapes::ShapeRef.new(shape: GetProvisionedModelThroughputResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:get_resource_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetResourcePolicy"
+        o.http_method = "GET"
+        o.http_request_uri = "/resource-policy/{resourceArn}"
+        o.input = Shapes::ShapeRef.new(shape: GetResourcePolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetResourcePolicyResponse)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
@@ -4847,6 +4906,19 @@ module Aws::Bedrock
         o.output = Shapes::ShapeRef.new(shape: PutModelInvocationLoggingConfigurationResponse)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:put_resource_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutResourcePolicy"
+        o.http_method = "POST"
+        o.http_request_uri = "/resource-policy"
+        o.input = Shapes::ShapeRef.new(shape: PutResourcePolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: PutResourcePolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)

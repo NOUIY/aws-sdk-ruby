@@ -33,9 +33,9 @@ module Aws::Bedrock
     #   Numerical guardrail version.
     #   @return [String]
     #
-    # @!attribute [rw] input_tags
-    #   Whether to honor or ignore input tags at runtime.
-    #   @return [String]
+    # @!attribute [rw] selective_content_guarding
+    #   Selective content guarding controls for enforced guardrails.
+    #   @return [Types::SelectiveContentGuarding]
     #
     # @!attribute [rw] model_enforcement
     #   Model-specific information for the enforced guardrail configuration.
@@ -47,7 +47,7 @@ module Aws::Bedrock
     class AccountEnforcedGuardrailInferenceInputConfiguration < Struct.new(
       :guardrail_identifier,
       :guardrail_version,
-      :input_tags,
+      :selective_content_guarding,
       :model_enforcement)
       SENSITIVE = []
       include Aws::Structure
@@ -70,6 +70,10 @@ module Aws::Bedrock
     # @!attribute [rw] input_tags
     #   Whether to honor or ignore input tags at runtime.
     #   @return [String]
+    #
+    # @!attribute [rw] selective_content_guarding
+    #   Selective content guarding controls for enforced guardrails.
+    #   @return [Types::SelectiveContentGuarding]
     #
     # @!attribute [rw] guardrail_version
     #   Numerical guardrail version.
@@ -106,6 +110,7 @@ module Aws::Bedrock
       :guardrail_arn,
       :guardrail_id,
       :input_tags,
+      :selective_content_guarding,
       :guardrail_version,
       :created_at,
       :created_by,
@@ -4759,6 +4764,23 @@ module Aws::Bedrock
     #
     class DeleteProvisionedModelThroughputResponse < Aws::EmptyStructure; end
 
+    # @!attribute [rw] resource_arn
+    #   The ARN of the Bedrock resource to which this resource policy
+    #   applies.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/DeleteResourcePolicyRequest AWS API Documentation
+    #
+    class DeleteResourcePolicyRequest < Struct.new(
+      :resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/DeleteResourcePolicyResponse AWS API Documentation
+    #
+    class DeleteResourcePolicyResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] endpoint_arn
     #   The Amazon Resource Name (ARN) of the endpoint you want to
     #   deregister.
@@ -7442,6 +7464,31 @@ module Aws::Bedrock
       :failure_message,
       :commitment_duration,
       :commitment_expiration_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_arn
+    #   The ARN of the Bedrock resource to which this resource policy
+    #   applies.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/GetResourcePolicyRequest AWS API Documentation
+    #
+    class GetResourcePolicyRequest < Struct.new(
+      :resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_policy
+    #   The JSON string representing the Bedrock resource policy.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/GetResourcePolicyResponse AWS API Documentation
+    #
+    class GetResourcePolicyResponse < Struct.new(
+      :resource_policy)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11958,6 +12005,37 @@ module Aws::Bedrock
     #
     class PutModelInvocationLoggingConfigurationResponse < Aws::EmptyStructure; end
 
+    # @!attribute [rw] resource_arn
+    #   The ARN of the Bedrock resource to which this resource policy
+    #   applies.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_policy
+    #   The JSON string representing the Bedrock resource policy.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/PutResourcePolicyRequest AWS API Documentation
+    #
+    class PutResourcePolicyRequest < Struct.new(
+      :resource_arn,
+      :resource_policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_arn
+    #   The ARN of the Bedrock resource to which this resource policy
+    #   applies.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/PutResourcePolicyResponse AWS API Documentation
+    #
+    class PutResourcePolicyResponse < Struct.new(
+      :resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] form_data
     #   Put customer profile Request.
     #   @return [String]
@@ -12638,6 +12716,25 @@ module Aws::Bedrock
       :execution_role,
       :kms_encryption_key,
       :vpc)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Selective content guarding controls for enforced guardrails.
+    #
+    # @!attribute [rw] system
+    #   Selective guarding mode for system prompts."
+    #   @return [String]
+    #
+    # @!attribute [rw] messages
+    #   Selective guarding mode for user messages.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/SelectiveContentGuarding AWS API Documentation
+    #
+    class SelectiveContentGuarding < Struct.new(
+      :system,
+      :messages)
       SENSITIVE = []
       include Aws::Structure
     end
