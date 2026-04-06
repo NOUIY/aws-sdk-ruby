@@ -196,6 +196,7 @@ module Aws
         def recurring_prefetch_configuration: () -> Types::RecurringPrefetchConfiguration
         def schedule_type: () -> ("SINGLE" | "RECURRING")
         def stream_id: () -> ::String
+        def tags: () -> ::Hash[::String, ::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/MediaTailor/Client.html#create_prefetch_schedule-instance_method
       def create_prefetch_schedule: (
@@ -250,7 +251,8 @@ module Aws
                                         }
                                       },
                                       ?schedule_type: ("SINGLE" | "RECURRING"),
-                                      ?stream_id: ::String
+                                      ?stream_id: ::String,
+                                      ?tags: Hash[::String, ::String]
                                     ) -> _CreatePrefetchScheduleResponseSuccess
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreatePrefetchScheduleResponseSuccess
 
@@ -268,6 +270,7 @@ module Aws
         def clip_range: () -> Types::ClipRange
         def duration_millis: () -> ::Integer
         def audience_media: () -> ::Array[Types::AudienceMedia]
+        def tags: () -> ::Hash[::String, ::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/MediaTailor/Client.html#create_program-instance_method
       def create_program: (
@@ -378,7 +381,8 @@ module Aws
                                   },
                                 ]?
                               },
-                            ]
+                            ],
+                            ?tags: Hash[::String, ::String]
                           ) -> _CreateProgramResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateProgramResponseSuccess
 
@@ -575,6 +579,7 @@ module Aws
         def clip_range: () -> Types::ClipRange
         def duration_millis: () -> ::Integer
         def audience_media: () -> ::Array[Types::AudienceMedia]
+        def tags: () -> ::Hash[::String, ::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/MediaTailor/Client.html#describe_program-instance_method
       def describe_program: (
@@ -685,6 +690,7 @@ module Aws
         def schedule_type: () -> ("SINGLE" | "RECURRING")
         def recurring_prefetch_configuration: () -> Types::RecurringPrefetchConfiguration
         def stream_id: () -> ::String
+        def tags: () -> ::Hash[::String, ::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/MediaTailor/Client.html#get_prefetch_schedule-instance_method
       def get_prefetch_schedule: (
@@ -994,6 +1000,7 @@ module Aws
         def duration_millis: () -> ::Integer
         def scheduled_start_time: () -> ::Time
         def audience_media: () -> ::Array[Types::AudienceMedia]
+        def tags: () -> ::Hash[::String, ::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/MediaTailor/Client.html#update_program-instance_method
       def update_program: (

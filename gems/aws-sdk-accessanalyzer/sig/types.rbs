@@ -161,6 +161,14 @@ module Aws::AccessAnalyzer
     class CancelPolicyGenerationResponse < Aws::EmptyStructure
     end
 
+    class CancelPolicyPreviewJobRequest
+      attr_accessor job_id: ::String
+      SENSITIVE: []
+    end
+
+    class CancelPolicyPreviewJobResponse < Aws::EmptyStructure
+    end
+
     class CheckAccessNotGrantedRequest
       attr_accessor policy_document: ::String
       attr_accessor access: ::Array[Types::Access]
@@ -309,6 +317,17 @@ module Aws::AccessAnalyzer
       SENSITIVE: []
     end
 
+    class CreatePolicyPreviewConfigurationRequest
+      attr_accessor client_token: ::String
+      attr_accessor scope: ("GLOBAL")
+      SENSITIVE: []
+    end
+
+    class CreatePolicyPreviewConfigurationResponse
+      attr_accessor status: ("ACTIVE" | "PENDING_CREATION" | "FAILED")
+      SENSITIVE: []
+    end
+
     class Criterion
       attr_accessor eq: ::Array[::String]
       attr_accessor neq: ::Array[::String]
@@ -328,6 +347,14 @@ module Aws::AccessAnalyzer
       attr_accessor rule_name: ::String
       attr_accessor client_token: ::String
       SENSITIVE: []
+    end
+
+    class DeletePolicyPreviewConfigurationRequest
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class DeletePolicyPreviewConfigurationResponse < Aws::EmptyStructure
     end
 
     class DynamodbStreamConfiguration
@@ -635,6 +662,27 @@ module Aws::AccessAnalyzer
       SENSITIVE: []
     end
 
+    class GetPolicyPreviewConfigurationRequest < Aws::EmptyStructure
+    end
+
+    class GetPolicyPreviewConfigurationResponse
+      attr_accessor policy_preview_configurations: ::Array[Types::PolicyPreviewConfiguration]
+      SENSITIVE: []
+    end
+
+    class GetPolicyPreviewJobRequest
+      attr_accessor job_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetPolicyPreviewJobResponse
+      attr_accessor job_id: ::String
+      attr_accessor job_parameters: Types::PolicyPreviewJobParameters
+      attr_accessor job_details: Types::PolicyPreviewJobDetails
+      attr_accessor output_s3_uri: ::String
+      SENSITIVE: []
+    end
+
     class IamRoleConfiguration
       attr_accessor trust_policy: ::String
       SENSITIVE: []
@@ -715,7 +763,7 @@ module Aws::AccessAnalyzer
     end
 
     class JobError
-      attr_accessor code: ("AUTHORIZATION_ERROR" | "RESOURCE_NOT_FOUND_ERROR" | "SERVICE_QUOTA_EXCEEDED_ERROR" | "SERVICE_ERROR")
+      attr_accessor code: ("AUTHORIZATION_ERROR" | "RESOURCE_NOT_FOUND_ERROR" | "SERVICE_QUOTA_EXCEEDED_ERROR" | "SERVICE_ERROR" | "CANCELED_JOB_ERROR" | "INVALID_SERVICE_LINKED_ROLE" | "INSUFFICIENT_PERMISSIONS_ERROR" | "ORGANIZATION_ACCESS_DENIED_ERROR" | "INVALID_TARGET_ERROR" | "INVALID_POLICY_PREVIEW_CONFIGURATION" | "INVALID_ORGANIZATION_CONFIGURATION" | "S3_BUCKET_NOT_FOUND_ERROR" | "S3_BUCKET_PERMISSION_ERROR")
       attr_accessor message: ::String
       SENSITIVE: []
     end
@@ -852,6 +900,19 @@ module Aws::AccessAnalyzer
       SENSITIVE: []
     end
 
+    class ListPolicyPreviewJobsRequest
+      attr_accessor filters: ::Hash[("jobStatus" | "targetId"), ::String]
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListPolicyPreviewJobsResponse
+      attr_accessor analysis_reports: ::Array[Types::PolicyPreviewAnalysisReport]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListTagsForResourceRequest
       attr_accessor resource_arn: ::String
       SENSITIVE: []
@@ -902,6 +963,13 @@ module Aws::AccessAnalyzer
       end
     end
 
+    class PolicyConfiguration
+      attr_accessor job_type: ("SCP")
+      attr_accessor target_id: ::String
+      attr_accessor policy_documents_list: ::Array[::String]
+      SENSITIVE: []
+    end
+
     class PolicyGeneration
       attr_accessor job_id: ::String
       attr_accessor principal_arn: ::String
@@ -913,6 +981,40 @@ module Aws::AccessAnalyzer
 
     class PolicyGenerationDetails
       attr_accessor principal_arn: ::String
+      SENSITIVE: []
+    end
+
+    class PolicyPreviewAnalysisReport
+      attr_accessor job_id: ::String
+      attr_accessor status: ("SUBMITTED" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | "CANCELED")
+      attr_accessor submitted_at: ::Time
+      attr_accessor started_at: ::Time
+      attr_accessor completed_at: ::Time
+      attr_accessor output_s3_uri: ::String
+      SENSITIVE: []
+    end
+
+    class PolicyPreviewConfiguration
+      attr_accessor scope: ("GLOBAL")
+      attr_accessor status: ("ACTIVE" | "PENDING_CREATION" | "FAILED")
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
+    class PolicyPreviewJobDetails
+      attr_accessor job_status: ("SUBMITTED" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | "CANCELED")
+      attr_accessor submitted_at: ::Time
+      attr_accessor started_at: ::Time
+      attr_accessor completed_at: ::Time
+      attr_accessor job_error: Types::JobError
+      SENSITIVE: []
+    end
+
+    class PolicyPreviewJobParameters
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor policy_configurations: ::Array[Types::PolicyConfiguration]
       SENSITIVE: []
     end
 
@@ -1077,6 +1179,20 @@ module Aws::AccessAnalyzer
     end
 
     class StartPolicyGenerationResponse
+      attr_accessor job_id: ::String
+      SENSITIVE: []
+    end
+
+    class StartPolicyPreviewJobRequest
+      attr_accessor policy_configurations: ::Array[Types::PolicyConfiguration]
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor output_s3_uri: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class StartPolicyPreviewJobResponse
       attr_accessor job_id: ::String
       SENSITIVE: []
     end

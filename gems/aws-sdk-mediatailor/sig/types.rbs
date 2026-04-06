@@ -214,6 +214,7 @@ module Aws::MediaTailor
       attr_accessor recurring_prefetch_configuration: Types::RecurringPrefetchConfiguration
       attr_accessor schedule_type: ("SINGLE" | "RECURRING")
       attr_accessor stream_id: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 
@@ -226,6 +227,7 @@ module Aws::MediaTailor
       attr_accessor recurring_prefetch_configuration: Types::RecurringPrefetchConfiguration
       attr_accessor schedule_type: ("SINGLE" | "RECURRING")
       attr_accessor stream_id: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 
@@ -238,6 +240,7 @@ module Aws::MediaTailor
       attr_accessor source_location_name: ::String
       attr_accessor vod_source_name: ::String
       attr_accessor audience_media: ::Array[Types::AudienceMedia]
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 
@@ -254,6 +257,7 @@ module Aws::MediaTailor
       attr_accessor clip_range: Types::ClipRange
       attr_accessor duration_millis: ::Integer
       attr_accessor audience_media: ::Array[Types::AudienceMedia]
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 
@@ -451,6 +455,7 @@ module Aws::MediaTailor
       attr_accessor clip_range: Types::ClipRange
       attr_accessor duration_millis: ::Integer
       attr_accessor audience_media: ::Array[Types::AudienceMedia]
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 
@@ -561,6 +566,7 @@ module Aws::MediaTailor
       attr_accessor schedule_type: ("SINGLE" | "RECURRING")
       attr_accessor recurring_prefetch_configuration: Types::RecurringPrefetchConfiguration
       attr_accessor stream_id: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 
@@ -793,6 +799,7 @@ module Aws::MediaTailor
       attr_accessor schedule_type: ("SINGLE" | "RECURRING")
       attr_accessor recurring_prefetch_configuration: Types::RecurringPrefetchConfiguration
       attr_accessor stream_id: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 
@@ -1096,6 +1103,7 @@ module Aws::MediaTailor
       attr_accessor duration_millis: ::Integer
       attr_accessor scheduled_start_time: ::Time
       attr_accessor audience_media: ::Array[Types::AudienceMedia]
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 

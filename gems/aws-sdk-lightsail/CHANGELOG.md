@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.128.0 (2026-04-06)
+------------------
+
+* Feature - This release adds support for the Asia Pacific (Malaysia) (ap-southeast-5) Region.
+
 1.127.0 (2026-04-03)
 ------------------
 

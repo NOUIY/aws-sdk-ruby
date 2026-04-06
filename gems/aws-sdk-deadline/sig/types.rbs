@@ -238,6 +238,371 @@ module Aws::Deadline
       SENSITIVE: []
     end
 
+    class BatchGetJobError
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor code: ("InternalServerErrorException" | "ResourceNotFoundException" | "ValidationException" | "AccessDeniedException" | "ThrottlingException")
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class BatchGetJobIdentifier
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      SENSITIVE: []
+    end
+
+    class BatchGetJobItem
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor name: ::String
+      attr_accessor lifecycle_status: ("CREATE_IN_PROGRESS" | "CREATE_FAILED" | "CREATE_COMPLETE" | "UPLOAD_IN_PROGRESS" | "UPLOAD_FAILED" | "UPDATE_IN_PROGRESS" | "UPDATE_FAILED" | "UPDATE_SUCCEEDED" | "ARCHIVED")
+      attr_accessor lifecycle_status_message: ::String
+      attr_accessor priority: ::Integer
+      attr_accessor created_at: ::Time
+      attr_accessor created_by: ::String
+      attr_accessor updated_at: ::Time
+      attr_accessor updated_by: ::String
+      attr_accessor started_at: ::Time
+      attr_accessor ended_at: ::Time
+      attr_accessor task_run_status: ("PENDING" | "READY" | "ASSIGNED" | "STARTING" | "SCHEDULED" | "INTERRUPTING" | "RUNNING" | "SUSPENDED" | "CANCELED" | "FAILED" | "SUCCEEDED" | "NOT_COMPATIBLE")
+      attr_accessor target_task_run_status: ("READY" | "FAILED" | "SUCCEEDED" | "CANCELED" | "SUSPENDED" | "PENDING")
+      attr_accessor task_run_status_counts: ::Hash[("PENDING" | "READY" | "ASSIGNED" | "STARTING" | "SCHEDULED" | "INTERRUPTING" | "RUNNING" | "SUSPENDED" | "CANCELED" | "FAILED" | "SUCCEEDED" | "NOT_COMPATIBLE"), ::Integer]
+      attr_accessor task_failure_retry_count: ::Integer
+      attr_accessor storage_profile_id: ::String
+      attr_accessor max_failed_tasks_count: ::Integer
+      attr_accessor max_retries_per_task: ::Integer
+      attr_accessor parameters: ::Hash[::String, Types::JobParameter]
+      attr_accessor attachments: Types::Attachments
+      attr_accessor description: ::String
+      attr_accessor max_worker_count: ::Integer
+      attr_accessor source_job_id: ::String
+      SENSITIVE: [:parameters, :description]
+    end
+
+    class BatchGetJobRequest
+      attr_accessor identifiers: ::Array[Types::BatchGetJobIdentifier]
+      SENSITIVE: []
+    end
+
+    class BatchGetJobResponse
+      attr_accessor jobs: ::Array[Types::BatchGetJobItem]
+      attr_accessor errors: ::Array[Types::BatchGetJobError]
+      SENSITIVE: []
+    end
+
+    class BatchGetSessionActionError
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor session_action_id: ::String
+      attr_accessor code: ("InternalServerErrorException" | "ResourceNotFoundException" | "ValidationException")
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class BatchGetSessionActionIdentifier
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor session_action_id: ::String
+      SENSITIVE: []
+    end
+
+    class BatchGetSessionActionItem
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor session_action_id: ::String
+      attr_accessor status: ("ASSIGNED" | "RUNNING" | "CANCELING" | "SUCCEEDED" | "FAILED" | "INTERRUPTED" | "CANCELED" | "NEVER_ATTEMPTED" | "SCHEDULED" | "RECLAIMING" | "RECLAIMED")
+      attr_accessor started_at: ::Time
+      attr_accessor ended_at: ::Time
+      attr_accessor worker_updated_at: ::Time
+      attr_accessor progress_percent: ::Float
+      attr_accessor manifests: ::Array[Types::TaskRunManifestPropertiesResponse]
+      attr_accessor session_id: ::String
+      attr_accessor process_exit_code: ::Integer
+      attr_accessor progress_message: ::String
+      attr_accessor acquired_limits: ::Array[Types::AcquiredLimit]
+      attr_accessor definition: Types::SessionActionDefinition
+      SENSITIVE: [:progress_message]
+    end
+
+    class BatchGetSessionActionRequest
+      attr_accessor identifiers: ::Array[Types::BatchGetSessionActionIdentifier]
+      SENSITIVE: []
+    end
+
+    class BatchGetSessionActionResponse
+      attr_accessor session_actions: ::Array[Types::BatchGetSessionActionItem]
+      attr_accessor errors: ::Array[Types::BatchGetSessionActionError]
+      SENSITIVE: []
+    end
+
+    class BatchGetSessionError
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor session_id: ::String
+      attr_accessor code: ("InternalServerErrorException" | "ResourceNotFoundException" | "ValidationException")
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class BatchGetSessionIdentifier
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor session_id: ::String
+      SENSITIVE: []
+    end
+
+    class BatchGetSessionItem
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor session_id: ::String
+      attr_accessor fleet_id: ::String
+      attr_accessor worker_id: ::String
+      attr_accessor started_at: ::Time
+      attr_accessor lifecycle_status: ("STARTED" | "UPDATE_IN_PROGRESS" | "UPDATE_SUCCEEDED" | "UPDATE_FAILED" | "ENDED")
+      attr_accessor ended_at: ::Time
+      attr_accessor target_lifecycle_status: ("ENDED")
+      attr_accessor updated_at: ::Time
+      attr_accessor updated_by: ::String
+      attr_accessor log: Types::LogConfiguration
+      attr_accessor host_properties: Types::HostPropertiesResponse
+      attr_accessor worker_log: Types::LogConfiguration
+      SENSITIVE: []
+    end
+
+    class BatchGetSessionRequest
+      attr_accessor identifiers: ::Array[Types::BatchGetSessionIdentifier]
+      SENSITIVE: []
+    end
+
+    class BatchGetSessionResponse
+      attr_accessor sessions: ::Array[Types::BatchGetSessionItem]
+      attr_accessor errors: ::Array[Types::BatchGetSessionError]
+      SENSITIVE: []
+    end
+
+    class BatchGetStepError
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor step_id: ::String
+      attr_accessor code: ("InternalServerErrorException" | "ResourceNotFoundException" | "ValidationException" | "AccessDeniedException" | "ThrottlingException")
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class BatchGetStepIdentifier
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor step_id: ::String
+      SENSITIVE: []
+    end
+
+    class BatchGetStepItem
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor step_id: ::String
+      attr_accessor name: ::String
+      attr_accessor lifecycle_status: ("CREATE_COMPLETE" | "UPDATE_IN_PROGRESS" | "UPDATE_FAILED" | "UPDATE_SUCCEEDED")
+      attr_accessor lifecycle_status_message: ::String
+      attr_accessor task_run_status: ("PENDING" | "READY" | "ASSIGNED" | "STARTING" | "SCHEDULED" | "INTERRUPTING" | "RUNNING" | "SUSPENDED" | "CANCELED" | "FAILED" | "SUCCEEDED" | "NOT_COMPATIBLE")
+      attr_accessor task_run_status_counts: ::Hash[("PENDING" | "READY" | "ASSIGNED" | "STARTING" | "SCHEDULED" | "INTERRUPTING" | "RUNNING" | "SUSPENDED" | "CANCELED" | "FAILED" | "SUCCEEDED" | "NOT_COMPATIBLE"), ::Integer]
+      attr_accessor task_failure_retry_count: ::Integer
+      attr_accessor target_task_run_status: ("READY" | "FAILED" | "SUCCEEDED" | "CANCELED" | "SUSPENDED" | "PENDING")
+      attr_accessor created_at: ::Time
+      attr_accessor created_by: ::String
+      attr_accessor updated_at: ::Time
+      attr_accessor updated_by: ::String
+      attr_accessor started_at: ::Time
+      attr_accessor ended_at: ::Time
+      attr_accessor dependency_counts: Types::DependencyCounts
+      attr_accessor required_capabilities: Types::StepRequiredCapabilities
+      attr_accessor parameter_space: Types::ParameterSpace
+      attr_accessor description: ::String
+      SENSITIVE: [:description]
+    end
+
+    class BatchGetStepRequest
+      attr_accessor identifiers: ::Array[Types::BatchGetStepIdentifier]
+      SENSITIVE: []
+    end
+
+    class BatchGetStepResponse
+      attr_accessor steps: ::Array[Types::BatchGetStepItem]
+      attr_accessor errors: ::Array[Types::BatchGetStepError]
+      SENSITIVE: []
+    end
+
+    class BatchGetTaskError
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor step_id: ::String
+      attr_accessor task_id: ::String
+      attr_accessor code: ("InternalServerErrorException" | "ResourceNotFoundException" | "ValidationException" | "AccessDeniedException" | "ThrottlingException")
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class BatchGetTaskIdentifier
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor step_id: ::String
+      attr_accessor task_id: ::String
+      SENSITIVE: []
+    end
+
+    class BatchGetTaskItem
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor step_id: ::String
+      attr_accessor task_id: ::String
+      attr_accessor created_at: ::Time
+      attr_accessor created_by: ::String
+      attr_accessor run_status: ("PENDING" | "READY" | "ASSIGNED" | "STARTING" | "SCHEDULED" | "INTERRUPTING" | "RUNNING" | "SUSPENDED" | "CANCELED" | "FAILED" | "SUCCEEDED" | "NOT_COMPATIBLE")
+      attr_accessor target_run_status: ("READY" | "FAILED" | "SUCCEEDED" | "CANCELED" | "SUSPENDED" | "PENDING")
+      attr_accessor failure_retry_count: ::Integer
+      attr_accessor started_at: ::Time
+      attr_accessor ended_at: ::Time
+      attr_accessor updated_at: ::Time
+      attr_accessor updated_by: ::String
+      attr_accessor latest_session_action_id: ::String
+      attr_accessor parameters: ::Hash[::String, Types::TaskParameterValue]
+      SENSITIVE: [:parameters]
+    end
+
+    class BatchGetTaskRequest
+      attr_accessor identifiers: ::Array[Types::BatchGetTaskIdentifier]
+      SENSITIVE: []
+    end
+
+    class BatchGetTaskResponse
+      attr_accessor tasks: ::Array[Types::BatchGetTaskItem]
+      attr_accessor errors: ::Array[Types::BatchGetTaskError]
+      SENSITIVE: []
+    end
+
+    class BatchGetWorkerError
+      attr_accessor farm_id: ::String
+      attr_accessor fleet_id: ::String
+      attr_accessor worker_id: ::String
+      attr_accessor code: ("InternalServerErrorException" | "ResourceNotFoundException" | "ValidationException")
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class BatchGetWorkerIdentifier
+      attr_accessor farm_id: ::String
+      attr_accessor fleet_id: ::String
+      attr_accessor worker_id: ::String
+      SENSITIVE: []
+    end
+
+    class BatchGetWorkerItem
+      attr_accessor farm_id: ::String
+      attr_accessor fleet_id: ::String
+      attr_accessor worker_id: ::String
+      attr_accessor host_properties: Types::HostPropertiesResponse
+      attr_accessor status: ("CREATED" | "STARTED" | "STOPPING" | "STOPPED" | "NOT_RESPONDING" | "NOT_COMPATIBLE" | "RUNNING" | "IDLE")
+      attr_accessor log: Types::LogConfiguration
+      attr_accessor created_at: ::Time
+      attr_accessor created_by: ::String
+      attr_accessor updated_at: ::Time
+      attr_accessor updated_by: ::String
+      SENSITIVE: []
+    end
+
+    class BatchGetWorkerRequest
+      attr_accessor identifiers: ::Array[Types::BatchGetWorkerIdentifier]
+      SENSITIVE: []
+    end
+
+    class BatchGetWorkerResponse
+      attr_accessor workers: ::Array[Types::BatchGetWorkerItem]
+      attr_accessor errors: ::Array[Types::BatchGetWorkerError]
+      SENSITIVE: []
+    end
+
+    class BatchUpdateJobError
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor code: ("ConflictException" | "InternalServerErrorException" | "ResourceNotFoundException" | "ValidationException" | "AccessDeniedException" | "ThrottlingException")
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class BatchUpdateJobItem
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor target_task_run_status: ("READY" | "FAILED" | "SUCCEEDED" | "CANCELED" | "SUSPENDED" | "PENDING")
+      attr_accessor priority: ::Integer
+      attr_accessor max_failed_tasks_count: ::Integer
+      attr_accessor max_retries_per_task: ::Integer
+      attr_accessor lifecycle_status: ("ARCHIVED")
+      attr_accessor max_worker_count: ::Integer
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      SENSITIVE: [:description]
+    end
+
+    class BatchUpdateJobRequest
+      attr_accessor client_token: ::String
+      attr_accessor jobs: ::Array[Types::BatchUpdateJobItem]
+      SENSITIVE: []
+    end
+
+    class BatchUpdateJobResponse
+      attr_accessor errors: ::Array[Types::BatchUpdateJobError]
+      SENSITIVE: []
+    end
+
+    class BatchUpdateTaskError
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor step_id: ::String
+      attr_accessor task_id: ::String
+      attr_accessor code: ("ConflictException" | "InternalServerErrorException" | "ResourceNotFoundException" | "ValidationException" | "AccessDeniedException" | "ThrottlingException")
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class BatchUpdateTaskItem
+      attr_accessor farm_id: ::String
+      attr_accessor queue_id: ::String
+      attr_accessor job_id: ::String
+      attr_accessor step_id: ::String
+      attr_accessor task_id: ::String
+      attr_accessor target_run_status: ("READY" | "FAILED" | "SUCCEEDED" | "CANCELED" | "SUSPENDED" | "PENDING")
+      SENSITIVE: []
+    end
+
+    class BatchUpdateTaskRequest
+      attr_accessor client_token: ::String
+      attr_accessor tasks: ::Array[Types::BatchUpdateTaskItem]
+      SENSITIVE: []
+    end
+
+    class BatchUpdateTaskResponse
+      attr_accessor errors: ::Array[Types::BatchUpdateTaskError]
+      SENSITIVE: []
+    end
+
     class BudgetActionToAdd
       attr_accessor type: ("STOP_SCHEDULING_AND_COMPLETE_TASKS" | "STOP_SCHEDULING_AND_CANCEL_TASKS")
       attr_accessor threshold_percentage: ::Float
@@ -415,6 +780,7 @@ module Aws::Deadline
       attr_accessor client_token: ::String
       attr_accessor display_name: ::String
       attr_accessor identity_center_instance_arn: ::String
+      attr_accessor identity_center_region: ::String
       attr_accessor subdomain: ::String
       attr_accessor role_arn: ::String
       attr_accessor tags: ::Hash[::String, ::String]
@@ -1038,6 +1404,7 @@ module Aws::Deadline
       attr_accessor url: ::String
       attr_accessor role_arn: ::String
       attr_accessor identity_center_instance_arn: ::String
+      attr_accessor identity_center_region: ::String
       attr_accessor identity_center_application_arn: ::String
       attr_accessor created_at: ::Time
       attr_accessor created_by: ::String
@@ -1980,6 +2347,7 @@ module Aws::Deadline
       attr_accessor url: ::String
       attr_accessor role_arn: ::String
       attr_accessor identity_center_instance_arn: ::String
+      attr_accessor identity_center_region: ::String
       attr_accessor identity_center_application_arn: ::String
       attr_accessor created_at: ::Time
       attr_accessor created_by: ::String

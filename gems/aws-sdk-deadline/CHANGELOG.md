@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.50.0 (2026-04-06)
+------------------
+
+* Feature - Added 8 batch APIs (BatchGetJob, BatchGetStep, BatchGetTask, BatchGetSession, BatchGetSessionAction, BatchGetWorker, BatchUpdateJob, BatchUpdateTask) for bulk operations. Monitors can now use an Identity Center instance in a different region via the identityCenterRegion parameter.
+
 1.49.0 (2026-04-02)
 ------------------
 

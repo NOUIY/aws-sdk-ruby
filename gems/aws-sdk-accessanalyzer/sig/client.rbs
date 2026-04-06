@@ -95,6 +95,15 @@ module Aws
                                     ) -> _CancelPolicyGenerationResponseSuccess
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CancelPolicyGenerationResponseSuccess
 
+      interface _CancelPolicyPreviewJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CancelPolicyPreviewJobResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AccessAnalyzer/Client.html#cancel_policy_preview_job-instance_method
+      def cancel_policy_preview_job: (
+                                       job_id: ::String
+                                     ) -> _CancelPolicyPreviewJobResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CancelPolicyPreviewJobResponseSuccess
+
       interface _CheckAccessNotGrantedResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CheckAccessNotGrantedResponse]
         def result: () -> ("PASS" | "FAIL")
@@ -318,6 +327,17 @@ module Aws
                                ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
+      interface _CreatePolicyPreviewConfigurationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreatePolicyPreviewConfigurationResponse]
+        def status: () -> ("ACTIVE" | "PENDING_CREATION" | "FAILED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AccessAnalyzer/Client.html#create_policy_preview_configuration-instance_method
+      def create_policy_preview_configuration: (
+                                                 ?client_token: ::String,
+                                                 ?scope: ("GLOBAL")
+                                               ) -> _CreatePolicyPreviewConfigurationResponseSuccess
+                                             | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreatePolicyPreviewConfigurationResponseSuccess
+
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AccessAnalyzer/Client.html#delete_analyzer-instance_method
       def delete_analyzer: (
                              analyzer_name: ::String,
@@ -332,6 +352,15 @@ module Aws
                                  ?client_token: ::String
                                ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
+      interface _DeletePolicyPreviewConfigurationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeletePolicyPreviewConfigurationResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AccessAnalyzer/Client.html#delete_policy_preview_configuration-instance_method
+      def delete_policy_preview_configuration: (
+                                                 ?client_token: ::String
+                                               ) -> _DeletePolicyPreviewConfigurationResponseSuccess
+                                             | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeletePolicyPreviewConfigurationResponseSuccess
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AccessAnalyzer/Client.html#generate_finding_recommendation-instance_method
       def generate_finding_recommendation: (
@@ -459,6 +488,28 @@ module Aws
                                   ?include_service_level_template: bool
                                 ) -> _GetGeneratedPolicyResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetGeneratedPolicyResponseSuccess
+
+      interface _GetPolicyPreviewConfigurationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetPolicyPreviewConfigurationResponse]
+        def policy_preview_configurations: () -> ::Array[Types::PolicyPreviewConfiguration]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AccessAnalyzer/Client.html#get_policy_preview_configuration-instance_method
+      def get_policy_preview_configuration: (
+                                            ) -> _GetPolicyPreviewConfigurationResponseSuccess
+                                          | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetPolicyPreviewConfigurationResponseSuccess
+
+      interface _GetPolicyPreviewJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetPolicyPreviewJobResponse]
+        def job_id: () -> ::String
+        def job_parameters: () -> Types::PolicyPreviewJobParameters
+        def job_details: () -> Types::PolicyPreviewJobDetails
+        def output_s3_uri: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AccessAnalyzer/Client.html#get_policy_preview_job-instance_method
+      def get_policy_preview_job: (
+                                    job_id: ::String
+                                  ) -> _GetPolicyPreviewJobResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetPolicyPreviewJobResponseSuccess
 
       interface _ListAccessPreviewFindingsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListAccessPreviewFindingsResponse]
@@ -592,6 +643,19 @@ module Aws
                                    ) -> _ListPolicyGenerationsResponseSuccess
                                  | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListPolicyGenerationsResponseSuccess
 
+      interface _ListPolicyPreviewJobsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListPolicyPreviewJobsResponse]
+        def analysis_reports: () -> ::Array[Types::PolicyPreviewAnalysisReport]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AccessAnalyzer/Client.html#list_policy_preview_jobs-instance_method
+      def list_policy_preview_jobs: (
+                                      ?filters: Hash[("jobStatus" | "targetId"), ::String],
+                                      ?max_results: ::Integer,
+                                      ?next_token: ::String
+                                    ) -> _ListPolicyPreviewJobsResponseSuccess
+                                  | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListPolicyPreviewJobsResponseSuccess
+
       interface _ListTagsForResourceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListTagsForResourceResponse]
         def tags: () -> ::Hash[::String, ::String]
@@ -626,6 +690,26 @@ module Aws
                                      ?client_token: ::String
                                    ) -> _StartPolicyGenerationResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartPolicyGenerationResponseSuccess
+
+      interface _StartPolicyPreviewJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StartPolicyPreviewJobResponse]
+        def job_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AccessAnalyzer/Client.html#start_policy_preview_job-instance_method
+      def start_policy_preview_job: (
+                                      policy_configurations: Array[
+                                        {
+                                          job_type: ("SCP"),
+                                          target_id: ::String,
+                                          policy_documents_list: Array[::String]
+                                        },
+                                      ],
+                                      start_time: ::Time,
+                                      ?end_time: ::Time,
+                                      output_s3_uri: ::String,
+                                      ?client_token: ::String
+                                    ) -> _StartPolicyPreviewJobResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartPolicyPreviewJobResponseSuccess
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AccessAnalyzer/Client.html#start_resource_scan-instance_method
       def start_resource_scan: (
@@ -730,6 +814,15 @@ module Aws
                              ?validate_policy_resource_type: ("AWS::S3::Bucket" | "AWS::S3::AccessPoint" | "AWS::S3::MultiRegionAccessPoint" | "AWS::S3ObjectLambda::AccessPoint" | "AWS::IAM::AssumeRolePolicyDocument" | "AWS::DynamoDB::Table")
                            ) -> _ValidatePolicyResponseSuccess
                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ValidatePolicyResponseSuccess
+
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AccessAnalyzer/Client.html#wait_until-instance_method
+      def wait_until: (:policy_preview_configuration_active waiter_name, 
+                  ) -> Client::_GetPolicyPreviewConfigurationResponseSuccess
+                    | (:policy_preview_configuration_active waiter_name, ?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_GetPolicyPreviewConfigurationResponseSuccess
+                    | (:policy_preview_job_completed waiter_name, 
+                    job_id: ::String
+                  ) -> Client::_GetPolicyPreviewJobResponseSuccess
+                    | (:policy_preview_job_completed waiter_name, Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_GetPolicyPreviewJobResponseSuccess
     end
   end
 end

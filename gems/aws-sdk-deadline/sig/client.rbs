@@ -192,6 +192,23 @@ module Aws
                                         ) -> _AssumeQueueRoleForWorkerResponseSuccess
                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AssumeQueueRoleForWorkerResponseSuccess
 
+      interface _BatchGetJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetJobResponse]
+        def jobs: () -> ::Array[Types::BatchGetJobItem]
+        def errors: () -> ::Array[Types::BatchGetJobError]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Deadline/Client.html#batch_get_job-instance_method
+      def batch_get_job: (
+                           identifiers: Array[
+                             {
+                               farm_id: ::String,
+                               queue_id: ::String,
+                               job_id: ::String
+                             },
+                           ]
+                         ) -> _BatchGetJobResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetJobResponseSuccess
+
       interface _BatchGetJobEntityResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetJobEntityResponse]
         def entities: () -> ::Array[Types::JobEntity]
@@ -222,6 +239,141 @@ module Aws
                                   ]
                                 ) -> _BatchGetJobEntityResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetJobEntityResponseSuccess
+
+      interface _BatchGetSessionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetSessionResponse]
+        def sessions: () -> ::Array[Types::BatchGetSessionItem]
+        def errors: () -> ::Array[Types::BatchGetSessionError]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Deadline/Client.html#batch_get_session-instance_method
+      def batch_get_session: (
+                               identifiers: Array[
+                                 {
+                                   farm_id: ::String,
+                                   queue_id: ::String,
+                                   job_id: ::String,
+                                   session_id: ::String
+                                 },
+                               ]
+                             ) -> _BatchGetSessionResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetSessionResponseSuccess
+
+      interface _BatchGetSessionActionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetSessionActionResponse]
+        def session_actions: () -> ::Array[Types::BatchGetSessionActionItem]
+        def errors: () -> ::Array[Types::BatchGetSessionActionError]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Deadline/Client.html#batch_get_session_action-instance_method
+      def batch_get_session_action: (
+                                      identifiers: Array[
+                                        {
+                                          farm_id: ::String,
+                                          queue_id: ::String,
+                                          job_id: ::String,
+                                          session_action_id: ::String
+                                        },
+                                      ]
+                                    ) -> _BatchGetSessionActionResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetSessionActionResponseSuccess
+
+      interface _BatchGetStepResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetStepResponse]
+        def steps: () -> ::Array[Types::BatchGetStepItem]
+        def errors: () -> ::Array[Types::BatchGetStepError]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Deadline/Client.html#batch_get_step-instance_method
+      def batch_get_step: (
+                            identifiers: Array[
+                              {
+                                farm_id: ::String,
+                                queue_id: ::String,
+                                job_id: ::String,
+                                step_id: ::String
+                              },
+                            ]
+                          ) -> _BatchGetStepResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetStepResponseSuccess
+
+      interface _BatchGetTaskResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetTaskResponse]
+        def tasks: () -> ::Array[Types::BatchGetTaskItem]
+        def errors: () -> ::Array[Types::BatchGetTaskError]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Deadline/Client.html#batch_get_task-instance_method
+      def batch_get_task: (
+                            identifiers: Array[
+                              {
+                                farm_id: ::String,
+                                queue_id: ::String,
+                                job_id: ::String,
+                                step_id: ::String,
+                                task_id: ::String
+                              },
+                            ]
+                          ) -> _BatchGetTaskResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetTaskResponseSuccess
+
+      interface _BatchGetWorkerResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetWorkerResponse]
+        def workers: () -> ::Array[Types::BatchGetWorkerItem]
+        def errors: () -> ::Array[Types::BatchGetWorkerError]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Deadline/Client.html#batch_get_worker-instance_method
+      def batch_get_worker: (
+                              identifiers: Array[
+                                {
+                                  farm_id: ::String,
+                                  fleet_id: ::String,
+                                  worker_id: ::String
+                                },
+                              ]
+                            ) -> _BatchGetWorkerResponseSuccess
+                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetWorkerResponseSuccess
+
+      interface _BatchUpdateJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchUpdateJobResponse]
+        def errors: () -> ::Array[Types::BatchUpdateJobError]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Deadline/Client.html#batch_update_job-instance_method
+      def batch_update_job: (
+                              ?client_token: ::String,
+                              jobs: Array[
+                                {
+                                  farm_id: ::String,
+                                  queue_id: ::String,
+                                  job_id: ::String,
+                                  target_task_run_status: ("READY" | "FAILED" | "SUCCEEDED" | "CANCELED" | "SUSPENDED" | "PENDING")?,
+                                  priority: ::Integer?,
+                                  max_failed_tasks_count: ::Integer?,
+                                  max_retries_per_task: ::Integer?,
+                                  lifecycle_status: ("ARCHIVED")?,
+                                  max_worker_count: ::Integer?,
+                                  name: ::String?,
+                                  description: ::String?
+                                },
+                              ]
+                            ) -> _BatchUpdateJobResponseSuccess
+                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchUpdateJobResponseSuccess
+
+      interface _BatchUpdateTaskResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchUpdateTaskResponse]
+        def errors: () -> ::Array[Types::BatchUpdateTaskError]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Deadline/Client.html#batch_update_task-instance_method
+      def batch_update_task: (
+                               ?client_token: ::String,
+                               tasks: Array[
+                                 {
+                                   farm_id: ::String,
+                                   queue_id: ::String,
+                                   job_id: ::String,
+                                   step_id: ::String,
+                                   task_id: ::String,
+                                   target_run_status: ("READY" | "FAILED" | "SUCCEEDED" | "CANCELED" | "SUSPENDED" | "PENDING")
+                                 },
+                               ]
+                             ) -> _BatchUpdateTaskResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchUpdateTaskResponseSuccess
 
       interface _CopyJobTemplateResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CopyJobTemplateResponse]
@@ -492,6 +644,7 @@ module Aws
                             ?client_token: ::String,
                             display_name: ::String,
                             identity_center_instance_arn: ::String,
+                            ?identity_center_region: ::String,
                             subdomain: ::String,
                             role_arn: ::String,
                             ?tags: Hash[::String, ::String]
@@ -956,6 +1109,7 @@ module Aws
         def url: () -> ::String
         def role_arn: () -> ::String
         def identity_center_instance_arn: () -> ::String
+        def identity_center_region: () -> ::String
         def identity_center_application_arn: () -> ::String
         def created_at: () -> ::Time
         def created_by: () -> ::String

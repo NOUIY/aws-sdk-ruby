@@ -69,6 +69,74 @@ module Aws::Deadline
     BatchGetJobEntityList = Shapes::ListShape.new(name: 'BatchGetJobEntityList')
     BatchGetJobEntityRequest = Shapes::StructureShape.new(name: 'BatchGetJobEntityRequest')
     BatchGetJobEntityResponse = Shapes::StructureShape.new(name: 'BatchGetJobEntityResponse')
+    BatchGetJobError = Shapes::StructureShape.new(name: 'BatchGetJobError')
+    BatchGetJobErrorCode = Shapes::StringShape.new(name: 'BatchGetJobErrorCode')
+    BatchGetJobErrors = Shapes::ListShape.new(name: 'BatchGetJobErrors')
+    BatchGetJobIdentifier = Shapes::StructureShape.new(name: 'BatchGetJobIdentifier')
+    BatchGetJobIdentifiers = Shapes::ListShape.new(name: 'BatchGetJobIdentifiers')
+    BatchGetJobItem = Shapes::StructureShape.new(name: 'BatchGetJobItem')
+    BatchGetJobItems = Shapes::ListShape.new(name: 'BatchGetJobItems')
+    BatchGetJobRequest = Shapes::StructureShape.new(name: 'BatchGetJobRequest')
+    BatchGetJobResponse = Shapes::StructureShape.new(name: 'BatchGetJobResponse')
+    BatchGetSessionActionError = Shapes::StructureShape.new(name: 'BatchGetSessionActionError')
+    BatchGetSessionActionErrorCode = Shapes::StringShape.new(name: 'BatchGetSessionActionErrorCode')
+    BatchGetSessionActionErrors = Shapes::ListShape.new(name: 'BatchGetSessionActionErrors')
+    BatchGetSessionActionIdentifier = Shapes::StructureShape.new(name: 'BatchGetSessionActionIdentifier')
+    BatchGetSessionActionIdentifiers = Shapes::ListShape.new(name: 'BatchGetSessionActionIdentifiers')
+    BatchGetSessionActionItem = Shapes::StructureShape.new(name: 'BatchGetSessionActionItem')
+    BatchGetSessionActionItems = Shapes::ListShape.new(name: 'BatchGetSessionActionItems')
+    BatchGetSessionActionRequest = Shapes::StructureShape.new(name: 'BatchGetSessionActionRequest')
+    BatchGetSessionActionResponse = Shapes::StructureShape.new(name: 'BatchGetSessionActionResponse')
+    BatchGetSessionError = Shapes::StructureShape.new(name: 'BatchGetSessionError')
+    BatchGetSessionErrorCode = Shapes::StringShape.new(name: 'BatchGetSessionErrorCode')
+    BatchGetSessionErrors = Shapes::ListShape.new(name: 'BatchGetSessionErrors')
+    BatchGetSessionIdentifier = Shapes::StructureShape.new(name: 'BatchGetSessionIdentifier')
+    BatchGetSessionIdentifiers = Shapes::ListShape.new(name: 'BatchGetSessionIdentifiers')
+    BatchGetSessionItem = Shapes::StructureShape.new(name: 'BatchGetSessionItem')
+    BatchGetSessionItems = Shapes::ListShape.new(name: 'BatchGetSessionItems')
+    BatchGetSessionRequest = Shapes::StructureShape.new(name: 'BatchGetSessionRequest')
+    BatchGetSessionResponse = Shapes::StructureShape.new(name: 'BatchGetSessionResponse')
+    BatchGetStepError = Shapes::StructureShape.new(name: 'BatchGetStepError')
+    BatchGetStepErrorCode = Shapes::StringShape.new(name: 'BatchGetStepErrorCode')
+    BatchGetStepErrors = Shapes::ListShape.new(name: 'BatchGetStepErrors')
+    BatchGetStepIdentifier = Shapes::StructureShape.new(name: 'BatchGetStepIdentifier')
+    BatchGetStepIdentifiers = Shapes::ListShape.new(name: 'BatchGetStepIdentifiers')
+    BatchGetStepItem = Shapes::StructureShape.new(name: 'BatchGetStepItem')
+    BatchGetStepItems = Shapes::ListShape.new(name: 'BatchGetStepItems')
+    BatchGetStepRequest = Shapes::StructureShape.new(name: 'BatchGetStepRequest')
+    BatchGetStepResponse = Shapes::StructureShape.new(name: 'BatchGetStepResponse')
+    BatchGetTaskError = Shapes::StructureShape.new(name: 'BatchGetTaskError')
+    BatchGetTaskErrorCode = Shapes::StringShape.new(name: 'BatchGetTaskErrorCode')
+    BatchGetTaskErrors = Shapes::ListShape.new(name: 'BatchGetTaskErrors')
+    BatchGetTaskIdentifier = Shapes::StructureShape.new(name: 'BatchGetTaskIdentifier')
+    BatchGetTaskIdentifiers = Shapes::ListShape.new(name: 'BatchGetTaskIdentifiers')
+    BatchGetTaskItem = Shapes::StructureShape.new(name: 'BatchGetTaskItem')
+    BatchGetTaskItems = Shapes::ListShape.new(name: 'BatchGetTaskItems')
+    BatchGetTaskRequest = Shapes::StructureShape.new(name: 'BatchGetTaskRequest')
+    BatchGetTaskResponse = Shapes::StructureShape.new(name: 'BatchGetTaskResponse')
+    BatchGetWorkerError = Shapes::StructureShape.new(name: 'BatchGetWorkerError')
+    BatchGetWorkerErrorCode = Shapes::StringShape.new(name: 'BatchGetWorkerErrorCode')
+    BatchGetWorkerErrors = Shapes::ListShape.new(name: 'BatchGetWorkerErrors')
+    BatchGetWorkerIdentifier = Shapes::StructureShape.new(name: 'BatchGetWorkerIdentifier')
+    BatchGetWorkerIdentifiers = Shapes::ListShape.new(name: 'BatchGetWorkerIdentifiers')
+    BatchGetWorkerItem = Shapes::StructureShape.new(name: 'BatchGetWorkerItem')
+    BatchGetWorkerItems = Shapes::ListShape.new(name: 'BatchGetWorkerItems')
+    BatchGetWorkerRequest = Shapes::StructureShape.new(name: 'BatchGetWorkerRequest')
+    BatchGetWorkerResponse = Shapes::StructureShape.new(name: 'BatchGetWorkerResponse')
+    BatchUpdateJobError = Shapes::StructureShape.new(name: 'BatchUpdateJobError')
+    BatchUpdateJobErrorCode = Shapes::StringShape.new(name: 'BatchUpdateJobErrorCode')
+    BatchUpdateJobErrors = Shapes::ListShape.new(name: 'BatchUpdateJobErrors')
+    BatchUpdateJobItem = Shapes::StructureShape.new(name: 'BatchUpdateJobItem')
+    BatchUpdateJobItems = Shapes::ListShape.new(name: 'BatchUpdateJobItems')
+    BatchUpdateJobRequest = Shapes::StructureShape.new(name: 'BatchUpdateJobRequest')
+    BatchUpdateJobResponse = Shapes::StructureShape.new(name: 'BatchUpdateJobResponse')
+    BatchUpdateTaskError = Shapes::StructureShape.new(name: 'BatchUpdateTaskError')
+    BatchUpdateTaskErrorCode = Shapes::StringShape.new(name: 'BatchUpdateTaskErrorCode')
+    BatchUpdateTaskErrors = Shapes::ListShape.new(name: 'BatchUpdateTaskErrors')
+    BatchUpdateTaskItem = Shapes::StructureShape.new(name: 'BatchUpdateTaskItem')
+    BatchUpdateTaskItems = Shapes::ListShape.new(name: 'BatchUpdateTaskItems')
+    BatchUpdateTaskRequest = Shapes::StructureShape.new(name: 'BatchUpdateTaskRequest')
+    BatchUpdateTaskResponse = Shapes::StructureShape.new(name: 'BatchUpdateTaskResponse')
     BoundedString = Shapes::StringShape.new(name: 'BoundedString')
     BudgetActionToAdd = Shapes::StructureShape.new(name: 'BudgetActionToAdd')
     BudgetActionToRemove = Shapes::StructureShape.new(name: 'BudgetActionToRemove')
@@ -454,6 +522,7 @@ module Aws::Deadline
     QueueSummaries = Shapes::ListShape.new(name: 'QueueSummaries')
     QueueSummary = Shapes::StructureShape.new(name: 'QueueSummary')
     RangeConstraint = Shapes::StringShape.new(name: 'RangeConstraint')
+    Region = Shapes::StringShape.new(name: 'Region')
     RequiredFileSystemLocationNames = Shapes::ListShape.new(name: 'RequiredFileSystemLocationNames')
     ResourceName = Shapes::StringShape.new(name: 'ResourceName')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
@@ -866,6 +935,339 @@ module Aws::Deadline
     BatchGetJobEntityResponse.add_member(:errors, Shapes::ShapeRef.new(shape: BatchGetJobEntityErrors, required: true, location_name: "errors"))
     BatchGetJobEntityResponse.struct_class = Types::BatchGetJobEntityResponse
 
+    BatchGetJobError.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetJobError.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchGetJobError.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchGetJobError.add_member(:code, Shapes::ShapeRef.new(shape: BatchGetJobErrorCode, required: true, location_name: "code"))
+    BatchGetJobError.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    BatchGetJobError.struct_class = Types::BatchGetJobError
+
+    BatchGetJobErrors.member = Shapes::ShapeRef.new(shape: BatchGetJobError)
+
+    BatchGetJobIdentifier.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetJobIdentifier.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchGetJobIdentifier.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchGetJobIdentifier.struct_class = Types::BatchGetJobIdentifier
+
+    BatchGetJobIdentifiers.member = Shapes::ShapeRef.new(shape: BatchGetJobIdentifier)
+
+    BatchGetJobItem.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetJobItem.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchGetJobItem.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchGetJobItem.add_member(:name, Shapes::ShapeRef.new(shape: JobName, required: true, location_name: "name"))
+    BatchGetJobItem.add_member(:lifecycle_status, Shapes::ShapeRef.new(shape: JobLifecycleStatus, required: true, location_name: "lifecycleStatus"))
+    BatchGetJobItem.add_member(:lifecycle_status_message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "lifecycleStatusMessage"))
+    BatchGetJobItem.add_member(:priority, Shapes::ShapeRef.new(shape: JobPriority, required: true, location_name: "priority"))
+    BatchGetJobItem.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
+    BatchGetJobItem.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
+    BatchGetJobItem.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
+    BatchGetJobItem.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
+    BatchGetJobItem.add_member(:started_at, Shapes::ShapeRef.new(shape: StartedAt, location_name: "startedAt"))
+    BatchGetJobItem.add_member(:ended_at, Shapes::ShapeRef.new(shape: EndedAt, location_name: "endedAt"))
+    BatchGetJobItem.add_member(:task_run_status, Shapes::ShapeRef.new(shape: TaskRunStatus, location_name: "taskRunStatus"))
+    BatchGetJobItem.add_member(:target_task_run_status, Shapes::ShapeRef.new(shape: JobTargetTaskRunStatus, location_name: "targetTaskRunStatus"))
+    BatchGetJobItem.add_member(:task_run_status_counts, Shapes::ShapeRef.new(shape: TaskRunStatusCounts, location_name: "taskRunStatusCounts"))
+    BatchGetJobItem.add_member(:task_failure_retry_count, Shapes::ShapeRef.new(shape: TaskFailureRetryCount, location_name: "taskFailureRetryCount"))
+    BatchGetJobItem.add_member(:storage_profile_id, Shapes::ShapeRef.new(shape: StorageProfileId, location_name: "storageProfileId"))
+    BatchGetJobItem.add_member(:max_failed_tasks_count, Shapes::ShapeRef.new(shape: MaxFailedTasksCount, location_name: "maxFailedTasksCount"))
+    BatchGetJobItem.add_member(:max_retries_per_task, Shapes::ShapeRef.new(shape: MaxRetriesPerTask, location_name: "maxRetriesPerTask"))
+    BatchGetJobItem.add_member(:parameters, Shapes::ShapeRef.new(shape: JobParameters, location_name: "parameters"))
+    BatchGetJobItem.add_member(:attachments, Shapes::ShapeRef.new(shape: Attachments, location_name: "attachments"))
+    BatchGetJobItem.add_member(:description, Shapes::ShapeRef.new(shape: JobDescription, location_name: "description"))
+    BatchGetJobItem.add_member(:max_worker_count, Shapes::ShapeRef.new(shape: MaxWorkerCount, location_name: "maxWorkerCount"))
+    BatchGetJobItem.add_member(:source_job_id, Shapes::ShapeRef.new(shape: JobId, location_name: "sourceJobId"))
+    BatchGetJobItem.struct_class = Types::BatchGetJobItem
+
+    BatchGetJobItems.member = Shapes::ShapeRef.new(shape: BatchGetJobItem)
+
+    BatchGetJobRequest.add_member(:identifiers, Shapes::ShapeRef.new(shape: BatchGetJobIdentifiers, required: true, location_name: "identifiers"))
+    BatchGetJobRequest.struct_class = Types::BatchGetJobRequest
+
+    BatchGetJobResponse.add_member(:jobs, Shapes::ShapeRef.new(shape: BatchGetJobItems, required: true, location_name: "jobs"))
+    BatchGetJobResponse.add_member(:errors, Shapes::ShapeRef.new(shape: BatchGetJobErrors, required: true, location_name: "errors"))
+    BatchGetJobResponse.struct_class = Types::BatchGetJobResponse
+
+    BatchGetSessionActionError.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetSessionActionError.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchGetSessionActionError.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchGetSessionActionError.add_member(:session_action_id, Shapes::ShapeRef.new(shape: SessionActionId, required: true, location_name: "sessionActionId"))
+    BatchGetSessionActionError.add_member(:code, Shapes::ShapeRef.new(shape: BatchGetSessionActionErrorCode, required: true, location_name: "code"))
+    BatchGetSessionActionError.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    BatchGetSessionActionError.struct_class = Types::BatchGetSessionActionError
+
+    BatchGetSessionActionErrors.member = Shapes::ShapeRef.new(shape: BatchGetSessionActionError)
+
+    BatchGetSessionActionIdentifier.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetSessionActionIdentifier.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchGetSessionActionIdentifier.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchGetSessionActionIdentifier.add_member(:session_action_id, Shapes::ShapeRef.new(shape: SessionActionId, required: true, location_name: "sessionActionId"))
+    BatchGetSessionActionIdentifier.struct_class = Types::BatchGetSessionActionIdentifier
+
+    BatchGetSessionActionIdentifiers.member = Shapes::ShapeRef.new(shape: BatchGetSessionActionIdentifier)
+
+    BatchGetSessionActionItem.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetSessionActionItem.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchGetSessionActionItem.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchGetSessionActionItem.add_member(:session_action_id, Shapes::ShapeRef.new(shape: SessionActionId, required: true, location_name: "sessionActionId"))
+    BatchGetSessionActionItem.add_member(:status, Shapes::ShapeRef.new(shape: SessionActionStatus, required: true, location_name: "status"))
+    BatchGetSessionActionItem.add_member(:started_at, Shapes::ShapeRef.new(shape: StartedAt, location_name: "startedAt"))
+    BatchGetSessionActionItem.add_member(:ended_at, Shapes::ShapeRef.new(shape: EndedAt, location_name: "endedAt"))
+    BatchGetSessionActionItem.add_member(:worker_updated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "workerUpdatedAt"))
+    BatchGetSessionActionItem.add_member(:progress_percent, Shapes::ShapeRef.new(shape: SessionActionProgressPercent, location_name: "progressPercent"))
+    BatchGetSessionActionItem.add_member(:manifests, Shapes::ShapeRef.new(shape: TaskRunManifestPropertiesListResponse, location_name: "manifests"))
+    BatchGetSessionActionItem.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location_name: "sessionId"))
+    BatchGetSessionActionItem.add_member(:process_exit_code, Shapes::ShapeRef.new(shape: ProcessExitCode, location_name: "processExitCode"))
+    BatchGetSessionActionItem.add_member(:progress_message, Shapes::ShapeRef.new(shape: SessionActionProgressMessage, location_name: "progressMessage"))
+    BatchGetSessionActionItem.add_member(:acquired_limits, Shapes::ShapeRef.new(shape: AcquiredLimits, location_name: "acquiredLimits"))
+    BatchGetSessionActionItem.add_member(:definition, Shapes::ShapeRef.new(shape: SessionActionDefinition, required: true, location_name: "definition"))
+    BatchGetSessionActionItem.struct_class = Types::BatchGetSessionActionItem
+
+    BatchGetSessionActionItems.member = Shapes::ShapeRef.new(shape: BatchGetSessionActionItem)
+
+    BatchGetSessionActionRequest.add_member(:identifiers, Shapes::ShapeRef.new(shape: BatchGetSessionActionIdentifiers, required: true, location_name: "identifiers"))
+    BatchGetSessionActionRequest.struct_class = Types::BatchGetSessionActionRequest
+
+    BatchGetSessionActionResponse.add_member(:session_actions, Shapes::ShapeRef.new(shape: BatchGetSessionActionItems, required: true, location_name: "sessionActions"))
+    BatchGetSessionActionResponse.add_member(:errors, Shapes::ShapeRef.new(shape: BatchGetSessionActionErrors, required: true, location_name: "errors"))
+    BatchGetSessionActionResponse.struct_class = Types::BatchGetSessionActionResponse
+
+    BatchGetSessionError.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetSessionError.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchGetSessionError.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchGetSessionError.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location_name: "sessionId"))
+    BatchGetSessionError.add_member(:code, Shapes::ShapeRef.new(shape: BatchGetSessionErrorCode, required: true, location_name: "code"))
+    BatchGetSessionError.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    BatchGetSessionError.struct_class = Types::BatchGetSessionError
+
+    BatchGetSessionErrors.member = Shapes::ShapeRef.new(shape: BatchGetSessionError)
+
+    BatchGetSessionIdentifier.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetSessionIdentifier.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchGetSessionIdentifier.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchGetSessionIdentifier.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location_name: "sessionId"))
+    BatchGetSessionIdentifier.struct_class = Types::BatchGetSessionIdentifier
+
+    BatchGetSessionIdentifiers.member = Shapes::ShapeRef.new(shape: BatchGetSessionIdentifier)
+
+    BatchGetSessionItem.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetSessionItem.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchGetSessionItem.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchGetSessionItem.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location_name: "sessionId"))
+    BatchGetSessionItem.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location_name: "fleetId"))
+    BatchGetSessionItem.add_member(:worker_id, Shapes::ShapeRef.new(shape: WorkerId, required: true, location_name: "workerId"))
+    BatchGetSessionItem.add_member(:started_at, Shapes::ShapeRef.new(shape: StartedAt, required: true, location_name: "startedAt"))
+    BatchGetSessionItem.add_member(:lifecycle_status, Shapes::ShapeRef.new(shape: SessionLifecycleStatus, required: true, location_name: "lifecycleStatus"))
+    BatchGetSessionItem.add_member(:ended_at, Shapes::ShapeRef.new(shape: EndedAt, location_name: "endedAt"))
+    BatchGetSessionItem.add_member(:target_lifecycle_status, Shapes::ShapeRef.new(shape: SessionLifecycleTargetStatus, location_name: "targetLifecycleStatus"))
+    BatchGetSessionItem.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
+    BatchGetSessionItem.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
+    BatchGetSessionItem.add_member(:log, Shapes::ShapeRef.new(shape: LogConfiguration, required: true, location_name: "log"))
+    BatchGetSessionItem.add_member(:host_properties, Shapes::ShapeRef.new(shape: HostPropertiesResponse, location_name: "hostProperties"))
+    BatchGetSessionItem.add_member(:worker_log, Shapes::ShapeRef.new(shape: LogConfiguration, location_name: "workerLog"))
+    BatchGetSessionItem.struct_class = Types::BatchGetSessionItem
+
+    BatchGetSessionItems.member = Shapes::ShapeRef.new(shape: BatchGetSessionItem)
+
+    BatchGetSessionRequest.add_member(:identifiers, Shapes::ShapeRef.new(shape: BatchGetSessionIdentifiers, required: true, location_name: "identifiers"))
+    BatchGetSessionRequest.struct_class = Types::BatchGetSessionRequest
+
+    BatchGetSessionResponse.add_member(:sessions, Shapes::ShapeRef.new(shape: BatchGetSessionItems, required: true, location_name: "sessions"))
+    BatchGetSessionResponse.add_member(:errors, Shapes::ShapeRef.new(shape: BatchGetSessionErrors, required: true, location_name: "errors"))
+    BatchGetSessionResponse.struct_class = Types::BatchGetSessionResponse
+
+    BatchGetStepError.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetStepError.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchGetStepError.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchGetStepError.add_member(:step_id, Shapes::ShapeRef.new(shape: StepId, required: true, location_name: "stepId"))
+    BatchGetStepError.add_member(:code, Shapes::ShapeRef.new(shape: BatchGetStepErrorCode, required: true, location_name: "code"))
+    BatchGetStepError.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    BatchGetStepError.struct_class = Types::BatchGetStepError
+
+    BatchGetStepErrors.member = Shapes::ShapeRef.new(shape: BatchGetStepError)
+
+    BatchGetStepIdentifier.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetStepIdentifier.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchGetStepIdentifier.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchGetStepIdentifier.add_member(:step_id, Shapes::ShapeRef.new(shape: StepId, required: true, location_name: "stepId"))
+    BatchGetStepIdentifier.struct_class = Types::BatchGetStepIdentifier
+
+    BatchGetStepIdentifiers.member = Shapes::ShapeRef.new(shape: BatchGetStepIdentifier)
+
+    BatchGetStepItem.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetStepItem.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchGetStepItem.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchGetStepItem.add_member(:step_id, Shapes::ShapeRef.new(shape: StepId, required: true, location_name: "stepId"))
+    BatchGetStepItem.add_member(:name, Shapes::ShapeRef.new(shape: StepName, required: true, location_name: "name"))
+    BatchGetStepItem.add_member(:lifecycle_status, Shapes::ShapeRef.new(shape: StepLifecycleStatus, required: true, location_name: "lifecycleStatus"))
+    BatchGetStepItem.add_member(:lifecycle_status_message, Shapes::ShapeRef.new(shape: String, location_name: "lifecycleStatusMessage"))
+    BatchGetStepItem.add_member(:task_run_status, Shapes::ShapeRef.new(shape: TaskRunStatus, required: true, location_name: "taskRunStatus"))
+    BatchGetStepItem.add_member(:task_run_status_counts, Shapes::ShapeRef.new(shape: TaskRunStatusCounts, required: true, location_name: "taskRunStatusCounts"))
+    BatchGetStepItem.add_member(:task_failure_retry_count, Shapes::ShapeRef.new(shape: TaskFailureRetryCount, location_name: "taskFailureRetryCount"))
+    BatchGetStepItem.add_member(:target_task_run_status, Shapes::ShapeRef.new(shape: StepTargetTaskRunStatus, location_name: "targetTaskRunStatus"))
+    BatchGetStepItem.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
+    BatchGetStepItem.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
+    BatchGetStepItem.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
+    BatchGetStepItem.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
+    BatchGetStepItem.add_member(:started_at, Shapes::ShapeRef.new(shape: StartedAt, location_name: "startedAt"))
+    BatchGetStepItem.add_member(:ended_at, Shapes::ShapeRef.new(shape: EndedAt, location_name: "endedAt"))
+    BatchGetStepItem.add_member(:dependency_counts, Shapes::ShapeRef.new(shape: DependencyCounts, location_name: "dependencyCounts"))
+    BatchGetStepItem.add_member(:required_capabilities, Shapes::ShapeRef.new(shape: StepRequiredCapabilities, location_name: "requiredCapabilities"))
+    BatchGetStepItem.add_member(:parameter_space, Shapes::ShapeRef.new(shape: ParameterSpace, location_name: "parameterSpace"))
+    BatchGetStepItem.add_member(:description, Shapes::ShapeRef.new(shape: StepDescription, location_name: "description"))
+    BatchGetStepItem.struct_class = Types::BatchGetStepItem
+
+    BatchGetStepItems.member = Shapes::ShapeRef.new(shape: BatchGetStepItem)
+
+    BatchGetStepRequest.add_member(:identifiers, Shapes::ShapeRef.new(shape: BatchGetStepIdentifiers, required: true, location_name: "identifiers"))
+    BatchGetStepRequest.struct_class = Types::BatchGetStepRequest
+
+    BatchGetStepResponse.add_member(:steps, Shapes::ShapeRef.new(shape: BatchGetStepItems, required: true, location_name: "steps"))
+    BatchGetStepResponse.add_member(:errors, Shapes::ShapeRef.new(shape: BatchGetStepErrors, required: true, location_name: "errors"))
+    BatchGetStepResponse.struct_class = Types::BatchGetStepResponse
+
+    BatchGetTaskError.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetTaskError.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchGetTaskError.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchGetTaskError.add_member(:step_id, Shapes::ShapeRef.new(shape: StepId, required: true, location_name: "stepId"))
+    BatchGetTaskError.add_member(:task_id, Shapes::ShapeRef.new(shape: TaskId, required: true, location_name: "taskId"))
+    BatchGetTaskError.add_member(:code, Shapes::ShapeRef.new(shape: BatchGetTaskErrorCode, required: true, location_name: "code"))
+    BatchGetTaskError.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    BatchGetTaskError.struct_class = Types::BatchGetTaskError
+
+    BatchGetTaskErrors.member = Shapes::ShapeRef.new(shape: BatchGetTaskError)
+
+    BatchGetTaskIdentifier.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetTaskIdentifier.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchGetTaskIdentifier.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchGetTaskIdentifier.add_member(:step_id, Shapes::ShapeRef.new(shape: StepId, required: true, location_name: "stepId"))
+    BatchGetTaskIdentifier.add_member(:task_id, Shapes::ShapeRef.new(shape: TaskId, required: true, location_name: "taskId"))
+    BatchGetTaskIdentifier.struct_class = Types::BatchGetTaskIdentifier
+
+    BatchGetTaskIdentifiers.member = Shapes::ShapeRef.new(shape: BatchGetTaskIdentifier)
+
+    BatchGetTaskItem.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetTaskItem.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchGetTaskItem.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchGetTaskItem.add_member(:step_id, Shapes::ShapeRef.new(shape: StepId, required: true, location_name: "stepId"))
+    BatchGetTaskItem.add_member(:task_id, Shapes::ShapeRef.new(shape: TaskId, required: true, location_name: "taskId"))
+    BatchGetTaskItem.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
+    BatchGetTaskItem.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
+    BatchGetTaskItem.add_member(:run_status, Shapes::ShapeRef.new(shape: TaskRunStatus, required: true, location_name: "runStatus"))
+    BatchGetTaskItem.add_member(:target_run_status, Shapes::ShapeRef.new(shape: TaskTargetRunStatus, location_name: "targetRunStatus"))
+    BatchGetTaskItem.add_member(:failure_retry_count, Shapes::ShapeRef.new(shape: TaskRetryCount, location_name: "failureRetryCount"))
+    BatchGetTaskItem.add_member(:started_at, Shapes::ShapeRef.new(shape: StartedAt, location_name: "startedAt"))
+    BatchGetTaskItem.add_member(:ended_at, Shapes::ShapeRef.new(shape: EndedAt, location_name: "endedAt"))
+    BatchGetTaskItem.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
+    BatchGetTaskItem.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
+    BatchGetTaskItem.add_member(:latest_session_action_id, Shapes::ShapeRef.new(shape: SessionActionId, location_name: "latestSessionActionId"))
+    BatchGetTaskItem.add_member(:parameters, Shapes::ShapeRef.new(shape: TaskParameters, location_name: "parameters"))
+    BatchGetTaskItem.struct_class = Types::BatchGetTaskItem
+
+    BatchGetTaskItems.member = Shapes::ShapeRef.new(shape: BatchGetTaskItem)
+
+    BatchGetTaskRequest.add_member(:identifiers, Shapes::ShapeRef.new(shape: BatchGetTaskIdentifiers, required: true, location_name: "identifiers"))
+    BatchGetTaskRequest.struct_class = Types::BatchGetTaskRequest
+
+    BatchGetTaskResponse.add_member(:tasks, Shapes::ShapeRef.new(shape: BatchGetTaskItems, required: true, location_name: "tasks"))
+    BatchGetTaskResponse.add_member(:errors, Shapes::ShapeRef.new(shape: BatchGetTaskErrors, required: true, location_name: "errors"))
+    BatchGetTaskResponse.struct_class = Types::BatchGetTaskResponse
+
+    BatchGetWorkerError.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetWorkerError.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location_name: "fleetId"))
+    BatchGetWorkerError.add_member(:worker_id, Shapes::ShapeRef.new(shape: WorkerId, required: true, location_name: "workerId"))
+    BatchGetWorkerError.add_member(:code, Shapes::ShapeRef.new(shape: BatchGetWorkerErrorCode, required: true, location_name: "code"))
+    BatchGetWorkerError.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    BatchGetWorkerError.struct_class = Types::BatchGetWorkerError
+
+    BatchGetWorkerErrors.member = Shapes::ShapeRef.new(shape: BatchGetWorkerError)
+
+    BatchGetWorkerIdentifier.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetWorkerIdentifier.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location_name: "fleetId"))
+    BatchGetWorkerIdentifier.add_member(:worker_id, Shapes::ShapeRef.new(shape: WorkerId, required: true, location_name: "workerId"))
+    BatchGetWorkerIdentifier.struct_class = Types::BatchGetWorkerIdentifier
+
+    BatchGetWorkerIdentifiers.member = Shapes::ShapeRef.new(shape: BatchGetWorkerIdentifier)
+
+    BatchGetWorkerItem.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchGetWorkerItem.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location_name: "fleetId"))
+    BatchGetWorkerItem.add_member(:worker_id, Shapes::ShapeRef.new(shape: WorkerId, required: true, location_name: "workerId"))
+    BatchGetWorkerItem.add_member(:host_properties, Shapes::ShapeRef.new(shape: HostPropertiesResponse, location_name: "hostProperties"))
+    BatchGetWorkerItem.add_member(:status, Shapes::ShapeRef.new(shape: WorkerStatus, required: true, location_name: "status"))
+    BatchGetWorkerItem.add_member(:log, Shapes::ShapeRef.new(shape: LogConfiguration, location_name: "log"))
+    BatchGetWorkerItem.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
+    BatchGetWorkerItem.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
+    BatchGetWorkerItem.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
+    BatchGetWorkerItem.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
+    BatchGetWorkerItem.struct_class = Types::BatchGetWorkerItem
+
+    BatchGetWorkerItems.member = Shapes::ShapeRef.new(shape: BatchGetWorkerItem)
+
+    BatchGetWorkerRequest.add_member(:identifiers, Shapes::ShapeRef.new(shape: BatchGetWorkerIdentifiers, required: true, location_name: "identifiers"))
+    BatchGetWorkerRequest.struct_class = Types::BatchGetWorkerRequest
+
+    BatchGetWorkerResponse.add_member(:workers, Shapes::ShapeRef.new(shape: BatchGetWorkerItems, required: true, location_name: "workers"))
+    BatchGetWorkerResponse.add_member(:errors, Shapes::ShapeRef.new(shape: BatchGetWorkerErrors, required: true, location_name: "errors"))
+    BatchGetWorkerResponse.struct_class = Types::BatchGetWorkerResponse
+
+    BatchUpdateJobError.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchUpdateJobError.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchUpdateJobError.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchUpdateJobError.add_member(:code, Shapes::ShapeRef.new(shape: BatchUpdateJobErrorCode, required: true, location_name: "code"))
+    BatchUpdateJobError.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    BatchUpdateJobError.struct_class = Types::BatchUpdateJobError
+
+    BatchUpdateJobErrors.member = Shapes::ShapeRef.new(shape: BatchUpdateJobError)
+
+    BatchUpdateJobItem.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchUpdateJobItem.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchUpdateJobItem.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchUpdateJobItem.add_member(:target_task_run_status, Shapes::ShapeRef.new(shape: JobTargetTaskRunStatus, location_name: "targetTaskRunStatus"))
+    BatchUpdateJobItem.add_member(:priority, Shapes::ShapeRef.new(shape: JobPriority, location_name: "priority"))
+    BatchUpdateJobItem.add_member(:max_failed_tasks_count, Shapes::ShapeRef.new(shape: MaxFailedTasksCount, location_name: "maxFailedTasksCount"))
+    BatchUpdateJobItem.add_member(:max_retries_per_task, Shapes::ShapeRef.new(shape: MaxRetriesPerTask, location_name: "maxRetriesPerTask"))
+    BatchUpdateJobItem.add_member(:lifecycle_status, Shapes::ShapeRef.new(shape: UpdateJobLifecycleStatus, location_name: "lifecycleStatus"))
+    BatchUpdateJobItem.add_member(:max_worker_count, Shapes::ShapeRef.new(shape: MaxWorkerCount, location_name: "maxWorkerCount"))
+    BatchUpdateJobItem.add_member(:name, Shapes::ShapeRef.new(shape: JobName, location_name: "name"))
+    BatchUpdateJobItem.add_member(:description, Shapes::ShapeRef.new(shape: JobDescriptionOverride, location_name: "description"))
+    BatchUpdateJobItem.struct_class = Types::BatchUpdateJobItem
+
+    BatchUpdateJobItems.member = Shapes::ShapeRef.new(shape: BatchUpdateJobItem)
+
+    BatchUpdateJobRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
+    BatchUpdateJobRequest.add_member(:jobs, Shapes::ShapeRef.new(shape: BatchUpdateJobItems, required: true, location_name: "jobs"))
+    BatchUpdateJobRequest.struct_class = Types::BatchUpdateJobRequest
+
+    BatchUpdateJobResponse.add_member(:errors, Shapes::ShapeRef.new(shape: BatchUpdateJobErrors, required: true, location_name: "errors"))
+    BatchUpdateJobResponse.struct_class = Types::BatchUpdateJobResponse
+
+    BatchUpdateTaskError.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchUpdateTaskError.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchUpdateTaskError.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchUpdateTaskError.add_member(:step_id, Shapes::ShapeRef.new(shape: StepId, required: true, location_name: "stepId"))
+    BatchUpdateTaskError.add_member(:task_id, Shapes::ShapeRef.new(shape: TaskId, required: true, location_name: "taskId"))
+    BatchUpdateTaskError.add_member(:code, Shapes::ShapeRef.new(shape: BatchUpdateTaskErrorCode, required: true, location_name: "code"))
+    BatchUpdateTaskError.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    BatchUpdateTaskError.struct_class = Types::BatchUpdateTaskError
+
+    BatchUpdateTaskErrors.member = Shapes::ShapeRef.new(shape: BatchUpdateTaskError)
+
+    BatchUpdateTaskItem.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    BatchUpdateTaskItem.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location_name: "queueId"))
+    BatchUpdateTaskItem.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
+    BatchUpdateTaskItem.add_member(:step_id, Shapes::ShapeRef.new(shape: StepId, required: true, location_name: "stepId"))
+    BatchUpdateTaskItem.add_member(:task_id, Shapes::ShapeRef.new(shape: TaskId, required: true, location_name: "taskId"))
+    BatchUpdateTaskItem.add_member(:target_run_status, Shapes::ShapeRef.new(shape: TaskTargetRunStatus, required: true, location_name: "targetRunStatus"))
+    BatchUpdateTaskItem.struct_class = Types::BatchUpdateTaskItem
+
+    BatchUpdateTaskItems.member = Shapes::ShapeRef.new(shape: BatchUpdateTaskItem)
+
+    BatchUpdateTaskRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
+    BatchUpdateTaskRequest.add_member(:tasks, Shapes::ShapeRef.new(shape: BatchUpdateTaskItems, required: true, location_name: "tasks"))
+    BatchUpdateTaskRequest.struct_class = Types::BatchUpdateTaskRequest
+
+    BatchUpdateTaskResponse.add_member(:errors, Shapes::ShapeRef.new(shape: BatchUpdateTaskErrors, required: true, location_name: "errors"))
+    BatchUpdateTaskResponse.struct_class = Types::BatchUpdateTaskResponse
+
     BudgetActionToAdd.add_member(:type, Shapes::ShapeRef.new(shape: BudgetActionType, required: true, location_name: "type"))
     BudgetActionToAdd.add_member(:threshold_percentage, Shapes::ShapeRef.new(shape: ThresholdPercentage, required: true, location_name: "thresholdPercentage"))
     BudgetActionToAdd.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
@@ -1012,6 +1414,7 @@ module Aws::Deadline
     CreateMonitorRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location: "header", location_name: "X-Amz-Client-Token", metadata: {"idempotencyToken" => true}))
     CreateMonitorRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "displayName"))
     CreateMonitorRequest.add_member(:identity_center_instance_arn, Shapes::ShapeRef.new(shape: IdentityCenterInstanceArn, required: true, location_name: "identityCenterInstanceArn"))
+    CreateMonitorRequest.add_member(:identity_center_region, Shapes::ShapeRef.new(shape: Region, location_name: "identityCenterRegion"))
     CreateMonitorRequest.add_member(:subdomain, Shapes::ShapeRef.new(shape: Subdomain, required: true, location_name: "subdomain"))
     CreateMonitorRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "roleArn"))
     CreateMonitorRequest.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
@@ -1499,6 +1902,7 @@ module Aws::Deadline
     GetMonitorResponse.add_member(:url, Shapes::ShapeRef.new(shape: Url, required: true, location_name: "url"))
     GetMonitorResponse.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "roleArn"))
     GetMonitorResponse.add_member(:identity_center_instance_arn, Shapes::ShapeRef.new(shape: IdentityCenterInstanceArn, required: true, location_name: "identityCenterInstanceArn"))
+    GetMonitorResponse.add_member(:identity_center_region, Shapes::ShapeRef.new(shape: Region, location_name: "identityCenterRegion"))
     GetMonitorResponse.add_member(:identity_center_application_arn, Shapes::ShapeRef.new(shape: IdentityCenterApplicationArn, required: true, location_name: "identityCenterApplicationArn"))
     GetMonitorResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
     GetMonitorResponse.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
@@ -2246,6 +2650,7 @@ module Aws::Deadline
     MonitorSummary.add_member(:url, Shapes::ShapeRef.new(shape: Url, required: true, location_name: "url"))
     MonitorSummary.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "roleArn"))
     MonitorSummary.add_member(:identity_center_instance_arn, Shapes::ShapeRef.new(shape: IdentityCenterInstanceArn, required: true, location_name: "identityCenterInstanceArn"))
+    MonitorSummary.add_member(:identity_center_region, Shapes::ShapeRef.new(shape: Region, location_name: "identityCenterRegion"))
     MonitorSummary.add_member(:identity_center_application_arn, Shapes::ShapeRef.new(shape: IdentityCenterApplicationArn, required: true, location_name: "identityCenterApplicationArn"))
     MonitorSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
     MonitorSummary.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, required: true, location_name: "createdBy"))
@@ -3307,6 +3712,21 @@ module Aws::Deadline
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
       end)
 
+      api.add_operation(:batch_get_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchGetJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/2023-10-12/batch-get-job"
+        o.endpoint_pattern = {
+          "hostPrefix" => "management.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: BatchGetJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: BatchGetJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
       api.add_operation(:batch_get_job_entity, Seahorse::Model::Operation.new.tap do |o|
         o.name = "BatchGetJobEntity"
         o.http_method = "POST"
@@ -3319,6 +3739,111 @@ module Aws::Deadline
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
+      api.add_operation(:batch_get_session, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchGetSession"
+        o.http_method = "POST"
+        o.http_request_uri = "/2023-10-12/batch-get-session"
+        o.endpoint_pattern = {
+          "hostPrefix" => "management.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: BatchGetSessionRequest)
+        o.output = Shapes::ShapeRef.new(shape: BatchGetSessionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
+      api.add_operation(:batch_get_session_action, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchGetSessionAction"
+        o.http_method = "POST"
+        o.http_request_uri = "/2023-10-12/batch-get-session-action"
+        o.endpoint_pattern = {
+          "hostPrefix" => "management.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: BatchGetSessionActionRequest)
+        o.output = Shapes::ShapeRef.new(shape: BatchGetSessionActionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
+      api.add_operation(:batch_get_step, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchGetStep"
+        o.http_method = "POST"
+        o.http_request_uri = "/2023-10-12/batch-get-step"
+        o.endpoint_pattern = {
+          "hostPrefix" => "management.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: BatchGetStepRequest)
+        o.output = Shapes::ShapeRef.new(shape: BatchGetStepResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
+      api.add_operation(:batch_get_task, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchGetTask"
+        o.http_method = "POST"
+        o.http_request_uri = "/2023-10-12/batch-get-task"
+        o.endpoint_pattern = {
+          "hostPrefix" => "management.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: BatchGetTaskRequest)
+        o.output = Shapes::ShapeRef.new(shape: BatchGetTaskResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
+      api.add_operation(:batch_get_worker, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchGetWorker"
+        o.http_method = "POST"
+        o.http_request_uri = "/2023-10-12/batch-get-worker"
+        o.endpoint_pattern = {
+          "hostPrefix" => "management.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: BatchGetWorkerRequest)
+        o.output = Shapes::ShapeRef.new(shape: BatchGetWorkerResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
+      api.add_operation(:batch_update_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchUpdateJob"
+        o.http_method = "PATCH"
+        o.http_request_uri = "/2023-10-12/batch-update-job"
+        o.endpoint_pattern = {
+          "hostPrefix" => "management.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: BatchUpdateJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: BatchUpdateJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
+      api.add_operation(:batch_update_task, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchUpdateTask"
+        o.http_method = "PATCH"
+        o.http_request_uri = "/2023-10-12/batch-update-task"
+        o.endpoint_pattern = {
+          "hostPrefix" => "management.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: BatchUpdateTaskRequest)
+        o.output = Shapes::ShapeRef.new(shape: BatchUpdateTaskResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
       end)

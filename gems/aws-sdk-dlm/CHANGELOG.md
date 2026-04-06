@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.101.0 (2026-04-06)
+------------------
+
+* Feature - This release adds support for Fast Snapshot Restore AvailabilityZone Ids in Amazon Data Lifecycle Manager EBS snapshot lifecycle policies.
+
 1.100.0 (2026-03-18)
 ------------------
 

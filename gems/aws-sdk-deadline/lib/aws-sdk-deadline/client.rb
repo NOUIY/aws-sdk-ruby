@@ -835,6 +835,110 @@ module Aws::Deadline
       req.send_request(options)
     end
 
+    # Retrieves multiple jobs in a single request. This is a batch version
+    # of the `GetJob` API.
+    #
+    # The result of getting each job is reported individually in the
+    # response. Because the batch request can result in a combination of
+    # successful and unsuccessful actions, you should check for batch errors
+    # even when the call returns an HTTP status code of 200.
+    #
+    # @option params [required, Array<Types::BatchGetJobIdentifier>] :identifiers
+    #   The list of job identifiers to retrieve. You can specify up to 100
+    #   identifiers per request.
+    #
+    # @return [Types::BatchGetJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchGetJobResponse#jobs #jobs} => Array&lt;Types::BatchGetJobItem&gt;
+    #   * {Types::BatchGetJobResponse#errors #errors} => Array&lt;Types::BatchGetJobError&gt;
+    #
+    #
+    # @example Example: Get multiple jobs in a single request
+    #
+    #   resp = client.batch_get_job({
+    #     identifiers: [
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         job_id: "job-1234567890abcdef1234567890abcdef", 
+    #         queue_id: "queue-1234567890abcdef1234567890abcdef", 
+    #       }, 
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         job_id: "job-234567890abcdef1234567890abcdef1", 
+    #         queue_id: "queue-1234567890abcdef1234567890abcdef", 
+    #       }, 
+    #     ], 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_get_job({
+    #     identifiers: [ # required
+    #       {
+    #         farm_id: "FarmId", # required
+    #         queue_id: "QueueId", # required
+    #         job_id: "JobId", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.jobs #=> Array
+    #   resp.jobs[0].farm_id #=> String
+    #   resp.jobs[0].queue_id #=> String
+    #   resp.jobs[0].job_id #=> String
+    #   resp.jobs[0].name #=> String
+    #   resp.jobs[0].lifecycle_status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_FAILED", "CREATE_COMPLETE", "UPLOAD_IN_PROGRESS", "UPLOAD_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_FAILED", "UPDATE_SUCCEEDED", "ARCHIVED"
+    #   resp.jobs[0].lifecycle_status_message #=> String
+    #   resp.jobs[0].priority #=> Integer
+    #   resp.jobs[0].created_at #=> Time
+    #   resp.jobs[0].created_by #=> String
+    #   resp.jobs[0].updated_at #=> Time
+    #   resp.jobs[0].updated_by #=> String
+    #   resp.jobs[0].started_at #=> Time
+    #   resp.jobs[0].ended_at #=> Time
+    #   resp.jobs[0].task_run_status #=> String, one of "PENDING", "READY", "ASSIGNED", "STARTING", "SCHEDULED", "INTERRUPTING", "RUNNING", "SUSPENDED", "CANCELED", "FAILED", "SUCCEEDED", "NOT_COMPATIBLE"
+    #   resp.jobs[0].target_task_run_status #=> String, one of "READY", "FAILED", "SUCCEEDED", "CANCELED", "SUSPENDED", "PENDING"
+    #   resp.jobs[0].task_run_status_counts #=> Hash
+    #   resp.jobs[0].task_run_status_counts["TaskRunStatus"] #=> Integer
+    #   resp.jobs[0].task_failure_retry_count #=> Integer
+    #   resp.jobs[0].storage_profile_id #=> String
+    #   resp.jobs[0].max_failed_tasks_count #=> Integer
+    #   resp.jobs[0].max_retries_per_task #=> Integer
+    #   resp.jobs[0].parameters #=> Hash
+    #   resp.jobs[0].parameters["JobParametersKeyString"].int #=> String
+    #   resp.jobs[0].parameters["JobParametersKeyString"].float #=> String
+    #   resp.jobs[0].parameters["JobParametersKeyString"].string #=> String
+    #   resp.jobs[0].parameters["JobParametersKeyString"].path #=> String
+    #   resp.jobs[0].attachments.manifests #=> Array
+    #   resp.jobs[0].attachments.manifests[0].file_system_location_name #=> String
+    #   resp.jobs[0].attachments.manifests[0].root_path #=> String
+    #   resp.jobs[0].attachments.manifests[0].root_path_format #=> String, one of "windows", "posix"
+    #   resp.jobs[0].attachments.manifests[0].output_relative_directories #=> Array
+    #   resp.jobs[0].attachments.manifests[0].output_relative_directories[0] #=> String
+    #   resp.jobs[0].attachments.manifests[0].input_manifest_path #=> String
+    #   resp.jobs[0].attachments.manifests[0].input_manifest_hash #=> String
+    #   resp.jobs[0].attachments.file_system #=> String, one of "COPIED", "VIRTUAL"
+    #   resp.jobs[0].description #=> String
+    #   resp.jobs[0].max_worker_count #=> Integer
+    #   resp.jobs[0].source_job_id #=> String
+    #   resp.errors #=> Array
+    #   resp.errors[0].farm_id #=> String
+    #   resp.errors[0].queue_id #=> String
+    #   resp.errors[0].job_id #=> String
+    #   resp.errors[0].code #=> String, one of "InternalServerErrorException", "ResourceNotFoundException", "ValidationException", "AccessDeniedException", "ThrottlingException"
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetJob AWS API Documentation
+    #
+    # @overload batch_get_job(params = {})
+    # @param [Hash] params ({})
+    def batch_get_job(params = {}, options = {})
+      req = build_request(:batch_get_job, params)
+      req.send_request(options)
+    end
+
     # Get batched job details for a worker.
     #
     # @option params [required, String] :farm_id
@@ -945,6 +1049,670 @@ module Aws::Deadline
     # @param [Hash] params ({})
     def batch_get_job_entity(params = {}, options = {})
       req = build_request(:batch_get_job_entity, params)
+      req.send_request(options)
+    end
+
+    # Retrieves multiple sessions in a single request. This is a batch
+    # version of the `GetSession` API.
+    #
+    # The result of getting each session is reported individually in the
+    # response. Because the batch request can result in a combination of
+    # successful and unsuccessful actions, you should check for batch errors
+    # even when the call returns an HTTP status code of 200.
+    #
+    # @option params [required, Array<Types::BatchGetSessionIdentifier>] :identifiers
+    #   The list of session identifiers to retrieve. You can specify up to 100
+    #   identifiers per request.
+    #
+    # @return [Types::BatchGetSessionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchGetSessionResponse#sessions #sessions} => Array&lt;Types::BatchGetSessionItem&gt;
+    #   * {Types::BatchGetSessionResponse#errors #errors} => Array&lt;Types::BatchGetSessionError&gt;
+    #
+    #
+    # @example Example: Get multiple sessions in a single request
+    #
+    #   resp = client.batch_get_session({
+    #     identifiers: [
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         job_id: "job-1234567890abcdef1234567890abcdef", 
+    #         queue_id: "queue-1234567890abcdef1234567890abcdef", 
+    #         session_id: "session-1234567890abcdef1234567890abcdef", 
+    #       }, 
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         job_id: "job-1234567890abcdef1234567890abcdef", 
+    #         queue_id: "queue-1234567890abcdef1234567890abcdef", 
+    #         session_id: "session-234567890abcdef1234567890abcdef1", 
+    #       }, 
+    #     ], 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_get_session({
+    #     identifiers: [ # required
+    #       {
+    #         farm_id: "FarmId", # required
+    #         queue_id: "QueueId", # required
+    #         job_id: "JobId", # required
+    #         session_id: "SessionId", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.sessions #=> Array
+    #   resp.sessions[0].farm_id #=> String
+    #   resp.sessions[0].queue_id #=> String
+    #   resp.sessions[0].job_id #=> String
+    #   resp.sessions[0].session_id #=> String
+    #   resp.sessions[0].fleet_id #=> String
+    #   resp.sessions[0].worker_id #=> String
+    #   resp.sessions[0].started_at #=> Time
+    #   resp.sessions[0].lifecycle_status #=> String, one of "STARTED", "UPDATE_IN_PROGRESS", "UPDATE_SUCCEEDED", "UPDATE_FAILED", "ENDED"
+    #   resp.sessions[0].ended_at #=> Time
+    #   resp.sessions[0].target_lifecycle_status #=> String, one of "ENDED"
+    #   resp.sessions[0].updated_at #=> Time
+    #   resp.sessions[0].updated_by #=> String
+    #   resp.sessions[0].log.log_driver #=> String
+    #   resp.sessions[0].log.options #=> Hash
+    #   resp.sessions[0].log.options["String"] #=> String
+    #   resp.sessions[0].log.parameters #=> Hash
+    #   resp.sessions[0].log.parameters["String"] #=> String
+    #   resp.sessions[0].log.error #=> String
+    #   resp.sessions[0].host_properties.ip_addresses.ip_v4_addresses #=> Array
+    #   resp.sessions[0].host_properties.ip_addresses.ip_v4_addresses[0] #=> String
+    #   resp.sessions[0].host_properties.ip_addresses.ip_v6_addresses #=> Array
+    #   resp.sessions[0].host_properties.ip_addresses.ip_v6_addresses[0] #=> String
+    #   resp.sessions[0].host_properties.host_name #=> String
+    #   resp.sessions[0].host_properties.ec2_instance_arn #=> String
+    #   resp.sessions[0].host_properties.ec2_instance_type #=> String
+    #   resp.sessions[0].worker_log.log_driver #=> String
+    #   resp.sessions[0].worker_log.options #=> Hash
+    #   resp.sessions[0].worker_log.options["String"] #=> String
+    #   resp.sessions[0].worker_log.parameters #=> Hash
+    #   resp.sessions[0].worker_log.parameters["String"] #=> String
+    #   resp.sessions[0].worker_log.error #=> String
+    #   resp.errors #=> Array
+    #   resp.errors[0].farm_id #=> String
+    #   resp.errors[0].queue_id #=> String
+    #   resp.errors[0].job_id #=> String
+    #   resp.errors[0].session_id #=> String
+    #   resp.errors[0].code #=> String, one of "InternalServerErrorException", "ResourceNotFoundException", "ValidationException"
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetSession AWS API Documentation
+    #
+    # @overload batch_get_session(params = {})
+    # @param [Hash] params ({})
+    def batch_get_session(params = {}, options = {})
+      req = build_request(:batch_get_session, params)
+      req.send_request(options)
+    end
+
+    # Retrieves multiple session actions in a single request. This is a
+    # batch version of the `GetSessionAction` API.
+    #
+    # The result of getting each session action is reported individually in
+    # the response. Because the batch request can result in a combination of
+    # successful and unsuccessful actions, you should check for batch errors
+    # even when the call returns an HTTP status code of 200.
+    #
+    # @option params [required, Array<Types::BatchGetSessionActionIdentifier>] :identifiers
+    #   The list of session action identifiers to retrieve. You can specify up
+    #   to 100 identifiers per request.
+    #
+    # @return [Types::BatchGetSessionActionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchGetSessionActionResponse#session_actions #session_actions} => Array&lt;Types::BatchGetSessionActionItem&gt;
+    #   * {Types::BatchGetSessionActionResponse#errors #errors} => Array&lt;Types::BatchGetSessionActionError&gt;
+    #
+    #
+    # @example Example: Get multiple session actions in a single request
+    #
+    #   resp = client.batch_get_session_action({
+    #     identifiers: [
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         job_id: "job-1234567890abcdef1234567890abcdef", 
+    #         queue_id: "queue-1234567890abcdef1234567890abcdef", 
+    #         session_action_id: "sessionaction-1234567890abcdef1234567890abcdef-0", 
+    #       }, 
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         job_id: "job-1234567890abcdef1234567890abcdef", 
+    #         queue_id: "queue-1234567890abcdef1234567890abcdef", 
+    #         session_action_id: "sessionaction-1234567890abcdef1234567890abcdef-1", 
+    #       }, 
+    #     ], 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_get_session_action({
+    #     identifiers: [ # required
+    #       {
+    #         farm_id: "FarmId", # required
+    #         queue_id: "QueueId", # required
+    #         job_id: "JobId", # required
+    #         session_action_id: "SessionActionId", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.session_actions #=> Array
+    #   resp.session_actions[0].farm_id #=> String
+    #   resp.session_actions[0].queue_id #=> String
+    #   resp.session_actions[0].job_id #=> String
+    #   resp.session_actions[0].session_action_id #=> String
+    #   resp.session_actions[0].status #=> String, one of "ASSIGNED", "RUNNING", "CANCELING", "SUCCEEDED", "FAILED", "INTERRUPTED", "CANCELED", "NEVER_ATTEMPTED", "SCHEDULED", "RECLAIMING", "RECLAIMED"
+    #   resp.session_actions[0].started_at #=> Time
+    #   resp.session_actions[0].ended_at #=> Time
+    #   resp.session_actions[0].worker_updated_at #=> Time
+    #   resp.session_actions[0].progress_percent #=> Float
+    #   resp.session_actions[0].manifests #=> Array
+    #   resp.session_actions[0].manifests[0].output_manifest_path #=> String
+    #   resp.session_actions[0].manifests[0].output_manifest_hash #=> String
+    #   resp.session_actions[0].session_id #=> String
+    #   resp.session_actions[0].process_exit_code #=> Integer
+    #   resp.session_actions[0].progress_message #=> String
+    #   resp.session_actions[0].acquired_limits #=> Array
+    #   resp.session_actions[0].acquired_limits[0].limit_id #=> String
+    #   resp.session_actions[0].acquired_limits[0].count #=> Integer
+    #   resp.session_actions[0].definition.env_enter.environment_id #=> String
+    #   resp.session_actions[0].definition.env_exit.environment_id #=> String
+    #   resp.session_actions[0].definition.task_run.task_id #=> String
+    #   resp.session_actions[0].definition.task_run.step_id #=> String
+    #   resp.session_actions[0].definition.task_run.parameters #=> Hash
+    #   resp.session_actions[0].definition.task_run.parameters["String"].int #=> String
+    #   resp.session_actions[0].definition.task_run.parameters["String"].float #=> String
+    #   resp.session_actions[0].definition.task_run.parameters["String"].string #=> String
+    #   resp.session_actions[0].definition.task_run.parameters["String"].path #=> String
+    #   resp.session_actions[0].definition.task_run.parameters["String"].chunk_int #=> String
+    #   resp.session_actions[0].definition.sync_input_job_attachments.step_id #=> String
+    #   resp.errors #=> Array
+    #   resp.errors[0].farm_id #=> String
+    #   resp.errors[0].queue_id #=> String
+    #   resp.errors[0].job_id #=> String
+    #   resp.errors[0].session_action_id #=> String
+    #   resp.errors[0].code #=> String, one of "InternalServerErrorException", "ResourceNotFoundException", "ValidationException"
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetSessionAction AWS API Documentation
+    #
+    # @overload batch_get_session_action(params = {})
+    # @param [Hash] params ({})
+    def batch_get_session_action(params = {}, options = {})
+      req = build_request(:batch_get_session_action, params)
+      req.send_request(options)
+    end
+
+    # Retrieves multiple steps in a single request. This is a batch version
+    # of the `GetStep` API.
+    #
+    # The result of getting each step is reported individually in the
+    # response. Because the batch request can result in a combination of
+    # successful and unsuccessful actions, you should check for batch errors
+    # even when the call returns an HTTP status code of 200.
+    #
+    # @option params [required, Array<Types::BatchGetStepIdentifier>] :identifiers
+    #   The list of step identifiers to retrieve. You can specify up to 100
+    #   identifiers per request.
+    #
+    # @return [Types::BatchGetStepResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchGetStepResponse#steps #steps} => Array&lt;Types::BatchGetStepItem&gt;
+    #   * {Types::BatchGetStepResponse#errors #errors} => Array&lt;Types::BatchGetStepError&gt;
+    #
+    #
+    # @example Example: Get multiple steps in a single request
+    #
+    #   resp = client.batch_get_step({
+    #     identifiers: [
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         job_id: "job-1234567890abcdef1234567890abcdef", 
+    #         queue_id: "queue-1234567890abcdef1234567890abcdef", 
+    #         step_id: "step-1234567890abcdef1234567890abcdef", 
+    #       }, 
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         job_id: "job-1234567890abcdef1234567890abcdef", 
+    #         queue_id: "queue-1234567890abcdef1234567890abcdef", 
+    #         step_id: "step-234567890abcdef1234567890abcdef1", 
+    #       }, 
+    #     ], 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_get_step({
+    #     identifiers: [ # required
+    #       {
+    #         farm_id: "FarmId", # required
+    #         queue_id: "QueueId", # required
+    #         job_id: "JobId", # required
+    #         step_id: "StepId", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.steps #=> Array
+    #   resp.steps[0].farm_id #=> String
+    #   resp.steps[0].queue_id #=> String
+    #   resp.steps[0].job_id #=> String
+    #   resp.steps[0].step_id #=> String
+    #   resp.steps[0].name #=> String
+    #   resp.steps[0].lifecycle_status #=> String, one of "CREATE_COMPLETE", "UPDATE_IN_PROGRESS", "UPDATE_FAILED", "UPDATE_SUCCEEDED"
+    #   resp.steps[0].lifecycle_status_message #=> String
+    #   resp.steps[0].task_run_status #=> String, one of "PENDING", "READY", "ASSIGNED", "STARTING", "SCHEDULED", "INTERRUPTING", "RUNNING", "SUSPENDED", "CANCELED", "FAILED", "SUCCEEDED", "NOT_COMPATIBLE"
+    #   resp.steps[0].task_run_status_counts #=> Hash
+    #   resp.steps[0].task_run_status_counts["TaskRunStatus"] #=> Integer
+    #   resp.steps[0].task_failure_retry_count #=> Integer
+    #   resp.steps[0].target_task_run_status #=> String, one of "READY", "FAILED", "SUCCEEDED", "CANCELED", "SUSPENDED", "PENDING"
+    #   resp.steps[0].created_at #=> Time
+    #   resp.steps[0].created_by #=> String
+    #   resp.steps[0].updated_at #=> Time
+    #   resp.steps[0].updated_by #=> String
+    #   resp.steps[0].started_at #=> Time
+    #   resp.steps[0].ended_at #=> Time
+    #   resp.steps[0].dependency_counts.dependencies_resolved #=> Integer
+    #   resp.steps[0].dependency_counts.dependencies_unresolved #=> Integer
+    #   resp.steps[0].dependency_counts.consumers_resolved #=> Integer
+    #   resp.steps[0].dependency_counts.consumers_unresolved #=> Integer
+    #   resp.steps[0].required_capabilities.attributes #=> Array
+    #   resp.steps[0].required_capabilities.attributes[0].name #=> String
+    #   resp.steps[0].required_capabilities.attributes[0].any_of #=> Array
+    #   resp.steps[0].required_capabilities.attributes[0].any_of[0] #=> String
+    #   resp.steps[0].required_capabilities.attributes[0].all_of #=> Array
+    #   resp.steps[0].required_capabilities.attributes[0].all_of[0] #=> String
+    #   resp.steps[0].required_capabilities.amounts #=> Array
+    #   resp.steps[0].required_capabilities.amounts[0].name #=> String
+    #   resp.steps[0].required_capabilities.amounts[0].min #=> Float
+    #   resp.steps[0].required_capabilities.amounts[0].max #=> Float
+    #   resp.steps[0].required_capabilities.amounts[0].value #=> Float
+    #   resp.steps[0].parameter_space.parameters #=> Array
+    #   resp.steps[0].parameter_space.parameters[0].name #=> String
+    #   resp.steps[0].parameter_space.parameters[0].type #=> String, one of "INT", "FLOAT", "STRING", "PATH", "CHUNK_INT"
+    #   resp.steps[0].parameter_space.parameters[0].chunks.default_task_count #=> Integer
+    #   resp.steps[0].parameter_space.parameters[0].chunks.target_runtime_seconds #=> Integer
+    #   resp.steps[0].parameter_space.parameters[0].chunks.range_constraint #=> String, one of "CONTIGUOUS", "NONCONTIGUOUS"
+    #   resp.steps[0].parameter_space.combination #=> String
+    #   resp.steps[0].description #=> String
+    #   resp.errors #=> Array
+    #   resp.errors[0].farm_id #=> String
+    #   resp.errors[0].queue_id #=> String
+    #   resp.errors[0].job_id #=> String
+    #   resp.errors[0].step_id #=> String
+    #   resp.errors[0].code #=> String, one of "InternalServerErrorException", "ResourceNotFoundException", "ValidationException", "AccessDeniedException", "ThrottlingException"
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetStep AWS API Documentation
+    #
+    # @overload batch_get_step(params = {})
+    # @param [Hash] params ({})
+    def batch_get_step(params = {}, options = {})
+      req = build_request(:batch_get_step, params)
+      req.send_request(options)
+    end
+
+    # Retrieves multiple tasks in a single request. This is a batch version
+    # of the `GetTask` API.
+    #
+    # The result of getting each task is reported individually in the
+    # response. Because the batch request can result in a combination of
+    # successful and unsuccessful actions, you should check for batch errors
+    # even when the call returns an HTTP status code of 200.
+    #
+    # @option params [required, Array<Types::BatchGetTaskIdentifier>] :identifiers
+    #   The list of task identifiers to retrieve. You can specify up to 100
+    #   identifiers per request.
+    #
+    # @return [Types::BatchGetTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchGetTaskResponse#tasks #tasks} => Array&lt;Types::BatchGetTaskItem&gt;
+    #   * {Types::BatchGetTaskResponse#errors #errors} => Array&lt;Types::BatchGetTaskError&gt;
+    #
+    #
+    # @example Example: Get multiple tasks in a single request
+    #
+    #   resp = client.batch_get_task({
+    #     identifiers: [
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         job_id: "job-1234567890abcdef1234567890abcdef", 
+    #         queue_id: "queue-1234567890abcdef1234567890abcdef", 
+    #         step_id: "step-1234567890abcdef1234567890abcdef", 
+    #         task_id: "task-1234567890abcdef1234567890abcdef-0", 
+    #       }, 
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         job_id: "job-1234567890abcdef1234567890abcdef", 
+    #         queue_id: "queue-1234567890abcdef1234567890abcdef", 
+    #         step_id: "step-1234567890abcdef1234567890abcdef", 
+    #         task_id: "task-1234567890abcdef1234567890abcdef-1", 
+    #       }, 
+    #     ], 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_get_task({
+    #     identifiers: [ # required
+    #       {
+    #         farm_id: "FarmId", # required
+    #         queue_id: "QueueId", # required
+    #         job_id: "JobId", # required
+    #         step_id: "StepId", # required
+    #         task_id: "TaskId", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.tasks #=> Array
+    #   resp.tasks[0].farm_id #=> String
+    #   resp.tasks[0].queue_id #=> String
+    #   resp.tasks[0].job_id #=> String
+    #   resp.tasks[0].step_id #=> String
+    #   resp.tasks[0].task_id #=> String
+    #   resp.tasks[0].created_at #=> Time
+    #   resp.tasks[0].created_by #=> String
+    #   resp.tasks[0].run_status #=> String, one of "PENDING", "READY", "ASSIGNED", "STARTING", "SCHEDULED", "INTERRUPTING", "RUNNING", "SUSPENDED", "CANCELED", "FAILED", "SUCCEEDED", "NOT_COMPATIBLE"
+    #   resp.tasks[0].target_run_status #=> String, one of "READY", "FAILED", "SUCCEEDED", "CANCELED", "SUSPENDED", "PENDING"
+    #   resp.tasks[0].failure_retry_count #=> Integer
+    #   resp.tasks[0].started_at #=> Time
+    #   resp.tasks[0].ended_at #=> Time
+    #   resp.tasks[0].updated_at #=> Time
+    #   resp.tasks[0].updated_by #=> String
+    #   resp.tasks[0].latest_session_action_id #=> String
+    #   resp.tasks[0].parameters #=> Hash
+    #   resp.tasks[0].parameters["String"].int #=> String
+    #   resp.tasks[0].parameters["String"].float #=> String
+    #   resp.tasks[0].parameters["String"].string #=> String
+    #   resp.tasks[0].parameters["String"].path #=> String
+    #   resp.tasks[0].parameters["String"].chunk_int #=> String
+    #   resp.errors #=> Array
+    #   resp.errors[0].farm_id #=> String
+    #   resp.errors[0].queue_id #=> String
+    #   resp.errors[0].job_id #=> String
+    #   resp.errors[0].step_id #=> String
+    #   resp.errors[0].task_id #=> String
+    #   resp.errors[0].code #=> String, one of "InternalServerErrorException", "ResourceNotFoundException", "ValidationException", "AccessDeniedException", "ThrottlingException"
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetTask AWS API Documentation
+    #
+    # @overload batch_get_task(params = {})
+    # @param [Hash] params ({})
+    def batch_get_task(params = {}, options = {})
+      req = build_request(:batch_get_task, params)
+      req.send_request(options)
+    end
+
+    # Retrieves multiple workers in a single request. This is a batch
+    # version of the `GetWorker` API.
+    #
+    # The result of getting each worker is reported individually in the
+    # response. Because the batch request can result in a combination of
+    # successful and unsuccessful actions, you should check for batch errors
+    # even when the call returns an HTTP status code of 200.
+    #
+    # @option params [required, Array<Types::BatchGetWorkerIdentifier>] :identifiers
+    #   The list of worker identifiers to retrieve. You can specify up to 100
+    #   identifiers per request.
+    #
+    # @return [Types::BatchGetWorkerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchGetWorkerResponse#workers #workers} => Array&lt;Types::BatchGetWorkerItem&gt;
+    #   * {Types::BatchGetWorkerResponse#errors #errors} => Array&lt;Types::BatchGetWorkerError&gt;
+    #
+    #
+    # @example Example: Get multiple workers in a single request
+    #
+    #   resp = client.batch_get_worker({
+    #     identifiers: [
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         fleet_id: "fleet-1234567890abcdef1234567890abcdef", 
+    #         worker_id: "worker-1234567890abcdef1234567890abcdef", 
+    #       }, 
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         fleet_id: "fleet-1234567890abcdef1234567890abcdef", 
+    #         worker_id: "worker-234567890abcdef1234567890abcdef1", 
+    #       }, 
+    #     ], 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_get_worker({
+    #     identifiers: [ # required
+    #       {
+    #         farm_id: "FarmId", # required
+    #         fleet_id: "FleetId", # required
+    #         worker_id: "WorkerId", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.workers #=> Array
+    #   resp.workers[0].farm_id #=> String
+    #   resp.workers[0].fleet_id #=> String
+    #   resp.workers[0].worker_id #=> String
+    #   resp.workers[0].host_properties.ip_addresses.ip_v4_addresses #=> Array
+    #   resp.workers[0].host_properties.ip_addresses.ip_v4_addresses[0] #=> String
+    #   resp.workers[0].host_properties.ip_addresses.ip_v6_addresses #=> Array
+    #   resp.workers[0].host_properties.ip_addresses.ip_v6_addresses[0] #=> String
+    #   resp.workers[0].host_properties.host_name #=> String
+    #   resp.workers[0].host_properties.ec2_instance_arn #=> String
+    #   resp.workers[0].host_properties.ec2_instance_type #=> String
+    #   resp.workers[0].status #=> String, one of "CREATED", "STARTED", "STOPPING", "STOPPED", "NOT_RESPONDING", "NOT_COMPATIBLE", "RUNNING", "IDLE"
+    #   resp.workers[0].log.log_driver #=> String
+    #   resp.workers[0].log.options #=> Hash
+    #   resp.workers[0].log.options["String"] #=> String
+    #   resp.workers[0].log.parameters #=> Hash
+    #   resp.workers[0].log.parameters["String"] #=> String
+    #   resp.workers[0].log.error #=> String
+    #   resp.workers[0].created_at #=> Time
+    #   resp.workers[0].created_by #=> String
+    #   resp.workers[0].updated_at #=> Time
+    #   resp.workers[0].updated_by #=> String
+    #   resp.errors #=> Array
+    #   resp.errors[0].farm_id #=> String
+    #   resp.errors[0].fleet_id #=> String
+    #   resp.errors[0].worker_id #=> String
+    #   resp.errors[0].code #=> String, one of "InternalServerErrorException", "ResourceNotFoundException", "ValidationException"
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetWorker AWS API Documentation
+    #
+    # @overload batch_get_worker(params = {})
+    # @param [Hash] params ({})
+    def batch_get_worker(params = {}, options = {})
+      req = build_request(:batch_get_worker, params)
+      req.send_request(options)
+    end
+
+    # Updates multiple jobs in a single request. This is a batch version of
+    # the `UpdateJob` API.
+    #
+    # The result of updating each job is reported individually in the
+    # response. Because the batch request can result in a combination of
+    # successful and unsuccessful actions, you should check for batch errors
+    # even when the call returns an HTTP status code of 200.
+    #
+    # When you change the status of a job to `ARCHIVED`, the job can't be
+    # scheduled or archived.
+    #
+    # An archived job and its steps and tasks are deleted after 120 days.
+    # The job can't be recovered.
+    #
+    # @option params [String] :client_token
+    #   The unique token which the server uses to recognize retries of the
+    #   same request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, Array<Types::BatchUpdateJobItem>] :jobs
+    #   The list of jobs to update. You can specify up to 100 jobs per
+    #   request.
+    #
+    # @return [Types::BatchUpdateJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchUpdateJobResponse#errors #errors} => Array&lt;Types::BatchUpdateJobError&gt;
+    #
+    #
+    # @example Example: Update multiple jobs in a single request
+    #
+    #   resp = client.batch_update_job({
+    #     jobs: [
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         job_id: "job-1234567890abcdef1234567890abcdef", 
+    #         queue_id: "queue-1234567890abcdef1234567890abcdef", 
+    #         target_task_run_status: "FAILED", 
+    #       }, 
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         job_id: "job-234567890abcdef1234567890abcdef1", 
+    #         queue_id: "queue-1234567890abcdef1234567890abcdef", 
+    #         target_task_run_status: "FAILED", 
+    #       }, 
+    #     ], 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_update_job({
+    #     client_token: "ClientToken",
+    #     jobs: [ # required
+    #       {
+    #         farm_id: "FarmId", # required
+    #         queue_id: "QueueId", # required
+    #         job_id: "JobId", # required
+    #         target_task_run_status: "READY", # accepts READY, FAILED, SUCCEEDED, CANCELED, SUSPENDED, PENDING
+    #         priority: 1,
+    #         max_failed_tasks_count: 1,
+    #         max_retries_per_task: 1,
+    #         lifecycle_status: "ARCHIVED", # accepts ARCHIVED
+    #         max_worker_count: 1,
+    #         name: "JobName",
+    #         description: "JobDescriptionOverride",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.errors #=> Array
+    #   resp.errors[0].farm_id #=> String
+    #   resp.errors[0].queue_id #=> String
+    #   resp.errors[0].job_id #=> String
+    #   resp.errors[0].code #=> String, one of "ConflictException", "InternalServerErrorException", "ResourceNotFoundException", "ValidationException", "AccessDeniedException", "ThrottlingException"
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchUpdateJob AWS API Documentation
+    #
+    # @overload batch_update_job(params = {})
+    # @param [Hash] params ({})
+    def batch_update_job(params = {}, options = {})
+      req = build_request(:batch_update_job, params)
+      req.send_request(options)
+    end
+
+    # Updates multiple tasks in a single request. This is a batch version of
+    # the `UpdateTask` API.
+    #
+    # The result of updating each task is reported individually in the
+    # response. Because the batch request can result in a combination of
+    # successful and unsuccessful actions, you should check for batch errors
+    # even when the call returns an HTTP status code of 200.
+    #
+    # @option params [String] :client_token
+    #   The unique token which the server uses to recognize retries of the
+    #   same request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, Array<Types::BatchUpdateTaskItem>] :tasks
+    #   The list of tasks to update. You can specify up to 100 tasks per
+    #   request.
+    #
+    # @return [Types::BatchUpdateTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchUpdateTaskResponse#errors #errors} => Array&lt;Types::BatchUpdateTaskError&gt;
+    #
+    #
+    # @example Example: Update multiple tasks in a single request
+    #
+    #   resp = client.batch_update_task({
+    #     tasks: [
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         job_id: "job-1234567890abcdef1234567890abcdef", 
+    #         queue_id: "queue-1234567890abcdef1234567890abcdef", 
+    #         step_id: "step-1234567890abcdef1234567890abcdef", 
+    #         target_run_status: "FAILED", 
+    #         task_id: "task-1234567890abcdef1234567890abcdef-0", 
+    #       }, 
+    #       {
+    #         farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #         job_id: "job-1234567890abcdef1234567890abcdef", 
+    #         queue_id: "queue-1234567890abcdef1234567890abcdef", 
+    #         step_id: "step-1234567890abcdef1234567890abcdef", 
+    #         target_run_status: "FAILED", 
+    #         task_id: "task-1234567890abcdef1234567890abcdef-1", 
+    #       }, 
+    #     ], 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_update_task({
+    #     client_token: "ClientToken",
+    #     tasks: [ # required
+    #       {
+    #         farm_id: "FarmId", # required
+    #         queue_id: "QueueId", # required
+    #         job_id: "JobId", # required
+    #         step_id: "StepId", # required
+    #         task_id: "TaskId", # required
+    #         target_run_status: "READY", # required, accepts READY, FAILED, SUCCEEDED, CANCELED, SUSPENDED, PENDING
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.errors #=> Array
+    #   resp.errors[0].farm_id #=> String
+    #   resp.errors[0].queue_id #=> String
+    #   resp.errors[0].job_id #=> String
+    #   resp.errors[0].step_id #=> String
+    #   resp.errors[0].task_id #=> String
+    #   resp.errors[0].code #=> String, one of "ConflictException", "InternalServerErrorException", "ResourceNotFoundException", "ValidationException", "AccessDeniedException", "ThrottlingException"
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchUpdateTask AWS API Documentation
+    #
+    # @overload batch_update_task(params = {})
+    # @param [Hash] params ({})
+    def batch_update_task(params = {}, options = {})
+      req = build_request(:batch_update_task, params)
       req.send_request(options)
     end
 
@@ -1642,6 +2410,10 @@ module Aws::Deadline
     #   The Amazon Resource Name of the IAM Identity Center instance that
     #   authenticates monitor users.
     #
+    # @option params [String] :identity_center_region
+    #   The AWS region where IAM Identity Center is enabled. Required when
+    #   Identity Center is in a different region than the monitor.
+    #
     # @option params [required, String] :subdomain
     #   The subdomain to use when creating the monitor URL. The full URL of
     #   the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
@@ -1668,6 +2440,7 @@ module Aws::Deadline
     #     client_token: "ClientToken",
     #     display_name: "ResourceName", # required
     #     identity_center_instance_arn: "IdentityCenterInstanceArn", # required
+    #     identity_center_region: "Region",
     #     subdomain: "Subdomain", # required
     #     role_arn: "IamRoleArn", # required
     #     tags: {
@@ -3013,6 +3786,7 @@ module Aws::Deadline
     #   * {Types::GetMonitorResponse#url #url} => String
     #   * {Types::GetMonitorResponse#role_arn #role_arn} => String
     #   * {Types::GetMonitorResponse#identity_center_instance_arn #identity_center_instance_arn} => String
+    #   * {Types::GetMonitorResponse#identity_center_region #identity_center_region} => String
     #   * {Types::GetMonitorResponse#identity_center_application_arn #identity_center_application_arn} => String
     #   * {Types::GetMonitorResponse#created_at #created_at} => Time
     #   * {Types::GetMonitorResponse#created_by #created_by} => String
@@ -3033,6 +3807,7 @@ module Aws::Deadline
     #   resp.url #=> String
     #   resp.role_arn #=> String
     #   resp.identity_center_instance_arn #=> String
+    #   resp.identity_center_region #=> String
     #   resp.identity_center_application_arn #=> String
     #   resp.created_at #=> Time
     #   resp.created_by #=> String
@@ -4571,6 +5346,7 @@ module Aws::Deadline
     #   resp.monitors[0].url #=> String
     #   resp.monitors[0].role_arn #=> String
     #   resp.monitors[0].identity_center_instance_arn #=> String
+    #   resp.monitors[0].identity_center_region #=> String
     #   resp.monitors[0].identity_center_application_arn #=> String
     #   resp.monitors[0].created_at #=> Time
     #   resp.monitors[0].created_by #=> String
@@ -7293,7 +8069,7 @@ module Aws::Deadline
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-deadline'
-      context[:gem_version] = '1.49.0'
+      context[:gem_version] = '1.50.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

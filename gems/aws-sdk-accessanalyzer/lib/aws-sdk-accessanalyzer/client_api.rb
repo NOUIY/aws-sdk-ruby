@@ -58,6 +58,8 @@ module Aws::AccessAnalyzer
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
     CancelPolicyGenerationRequest = Shapes::StructureShape.new(name: 'CancelPolicyGenerationRequest')
     CancelPolicyGenerationResponse = Shapes::StructureShape.new(name: 'CancelPolicyGenerationResponse')
+    CancelPolicyPreviewJobRequest = Shapes::StructureShape.new(name: 'CancelPolicyPreviewJobRequest')
+    CancelPolicyPreviewJobResponse = Shapes::StructureShape.new(name: 'CancelPolicyPreviewJobResponse')
     CheckAccessNotGrantedRequest = Shapes::StructureShape.new(name: 'CheckAccessNotGrantedRequest')
     CheckAccessNotGrantedRequestAccessList = Shapes::ListShape.new(name: 'CheckAccessNotGrantedRequestAccessList')
     CheckAccessNotGrantedResponse = Shapes::StructureShape.new(name: 'CheckAccessNotGrantedResponse')
@@ -81,9 +83,13 @@ module Aws::AccessAnalyzer
     CreateAnalyzerRequest = Shapes::StructureShape.new(name: 'CreateAnalyzerRequest')
     CreateAnalyzerResponse = Shapes::StructureShape.new(name: 'CreateAnalyzerResponse')
     CreateArchiveRuleRequest = Shapes::StructureShape.new(name: 'CreateArchiveRuleRequest')
+    CreatePolicyPreviewConfigurationRequest = Shapes::StructureShape.new(name: 'CreatePolicyPreviewConfigurationRequest')
+    CreatePolicyPreviewConfigurationResponse = Shapes::StructureShape.new(name: 'CreatePolicyPreviewConfigurationResponse')
     Criterion = Shapes::StructureShape.new(name: 'Criterion')
     DeleteAnalyzerRequest = Shapes::StructureShape.new(name: 'DeleteAnalyzerRequest')
     DeleteArchiveRuleRequest = Shapes::StructureShape.new(name: 'DeleteArchiveRuleRequest')
+    DeletePolicyPreviewConfigurationRequest = Shapes::StructureShape.new(name: 'DeletePolicyPreviewConfigurationRequest')
+    DeletePolicyPreviewConfigurationResponse = Shapes::StructureShape.new(name: 'DeletePolicyPreviewConfigurationResponse')
     DynamodbStreamConfiguration = Shapes::StructureShape.new(name: 'DynamodbStreamConfiguration')
     DynamodbStreamPolicy = Shapes::StringShape.new(name: 'DynamodbStreamPolicy')
     DynamodbTableConfiguration = Shapes::StructureShape.new(name: 'DynamodbTableConfiguration')
@@ -148,9 +154,15 @@ module Aws::AccessAnalyzer
     GetFindingsStatisticsResponse = Shapes::StructureShape.new(name: 'GetFindingsStatisticsResponse')
     GetGeneratedPolicyRequest = Shapes::StructureShape.new(name: 'GetGeneratedPolicyRequest')
     GetGeneratedPolicyResponse = Shapes::StructureShape.new(name: 'GetGeneratedPolicyResponse')
+    GetPolicyPreviewConfigurationRequest = Shapes::StructureShape.new(name: 'GetPolicyPreviewConfigurationRequest')
+    GetPolicyPreviewConfigurationResponse = Shapes::StructureShape.new(name: 'GetPolicyPreviewConfigurationResponse')
+    GetPolicyPreviewJobRequest = Shapes::StructureShape.new(name: 'GetPolicyPreviewJobRequest')
+    GetPolicyPreviewJobResponse = Shapes::StructureShape.new(name: 'GetPolicyPreviewJobResponse')
     GranteePrincipal = Shapes::StringShape.new(name: 'GranteePrincipal')
     IamRoleConfiguration = Shapes::StructureShape.new(name: 'IamRoleConfiguration')
     IamTrustPolicy = Shapes::StringShape.new(name: 'IamTrustPolicy')
+    ImpactAnalysisJobStatus = Shapes::StringShape.new(name: 'ImpactAnalysisJobStatus')
+    ImpactAnalysisJobType = Shapes::StringShape.new(name: 'ImpactAnalysisJobType')
     InlineArchiveRule = Shapes::StructureShape.new(name: 'InlineArchiveRule')
     InlineArchiveRulesList = Shapes::ListShape.new(name: 'InlineArchiveRulesList')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
@@ -202,6 +214,9 @@ module Aws::AccessAnalyzer
     ListPolicyGenerationsRequest = Shapes::StructureShape.new(name: 'ListPolicyGenerationsRequest')
     ListPolicyGenerationsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListPolicyGenerationsRequestMaxResultsInteger')
     ListPolicyGenerationsResponse = Shapes::StructureShape.new(name: 'ListPolicyGenerationsResponse')
+    ListPolicyPreviewJobsRequest = Shapes::StructureShape.new(name: 'ListPolicyPreviewJobsRequest')
+    ListPolicyPreviewJobsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListPolicyPreviewJobsRequestMaxResultsInteger')
+    ListPolicyPreviewJobsResponse = Shapes::StructureShape.new(name: 'ListPolicyPreviewJobsResponse')
     ListTagsForResourceRequest = Shapes::StructureShape.new(name: 'ListTagsForResourceRequest')
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
     Locale = Shapes::StringShape.new(name: 'Locale')
@@ -212,11 +227,26 @@ module Aws::AccessAnalyzer
     OrderBy = Shapes::StringShape.new(name: 'OrderBy')
     PathElement = Shapes::UnionShape.new(name: 'PathElement')
     PathElementList = Shapes::ListShape.new(name: 'PathElementList')
+    PolicyConfiguration = Shapes::StructureShape.new(name: 'PolicyConfiguration')
+    PolicyConfigurationsList = Shapes::ListShape.new(name: 'PolicyConfigurationsList')
     PolicyDocument = Shapes::StringShape.new(name: 'PolicyDocument')
+    PolicyDocumentList = Shapes::ListShape.new(name: 'PolicyDocumentList')
     PolicyGeneration = Shapes::StructureShape.new(name: 'PolicyGeneration')
     PolicyGenerationDetails = Shapes::StructureShape.new(name: 'PolicyGenerationDetails')
     PolicyGenerationList = Shapes::ListShape.new(name: 'PolicyGenerationList')
     PolicyName = Shapes::StringShape.new(name: 'PolicyName')
+    PolicyPreviewAnalysisReport = Shapes::StructureShape.new(name: 'PolicyPreviewAnalysisReport')
+    PolicyPreviewAnalysisReports = Shapes::ListShape.new(name: 'PolicyPreviewAnalysisReports')
+    PolicyPreviewConfiguration = Shapes::StructureShape.new(name: 'PolicyPreviewConfiguration')
+    PolicyPreviewConfigurationList = Shapes::ListShape.new(name: 'PolicyPreviewConfigurationList')
+    PolicyPreviewJobDetails = Shapes::StructureShape.new(name: 'PolicyPreviewJobDetails')
+    PolicyPreviewJobFilterName = Shapes::StringShape.new(name: 'PolicyPreviewJobFilterName')
+    PolicyPreviewJobFiltersMap = Shapes::MapShape.new(name: 'PolicyPreviewJobFiltersMap')
+    PolicyPreviewJobId = Shapes::StringShape.new(name: 'PolicyPreviewJobId')
+    PolicyPreviewJobParameters = Shapes::StructureShape.new(name: 'PolicyPreviewJobParameters')
+    PolicyPreviewScope = Shapes::StringShape.new(name: 'PolicyPreviewScope')
+    PolicyPreviewStatus = Shapes::StringShape.new(name: 'PolicyPreviewStatus')
+    PolicyPreviewTargetId = Shapes::StringShape.new(name: 'PolicyPreviewTargetId')
     PolicyType = Shapes::StringShape.new(name: 'PolicyType')
     Position = Shapes::StructureShape.new(name: 'Position')
     PrincipalArn = Shapes::StringShape.new(name: 'PrincipalArn')
@@ -268,6 +298,7 @@ module Aws::AccessAnalyzer
     S3ExpressDirectoryBucketConfiguration = Shapes::StructureShape.new(name: 'S3ExpressDirectoryBucketConfiguration')
     S3ExpressDirectoryBucketPolicy = Shapes::StringShape.new(name: 'S3ExpressDirectoryBucketPolicy')
     S3PublicAccessBlockConfiguration = Shapes::StructureShape.new(name: 'S3PublicAccessBlockConfiguration')
+    S3Uri = Shapes::StringShape.new(name: 'S3Uri')
     SecretsManagerSecretConfiguration = Shapes::StructureShape.new(name: 'SecretsManagerSecretConfiguration')
     SecretsManagerSecretKmsId = Shapes::StringShape.new(name: 'SecretsManagerSecretKmsId')
     SecretsManagerSecretPolicy = Shapes::StringShape.new(name: 'SecretsManagerSecretPolicy')
@@ -282,6 +313,8 @@ module Aws::AccessAnalyzer
     SqsQueuePolicy = Shapes::StringShape.new(name: 'SqsQueuePolicy')
     StartPolicyGenerationRequest = Shapes::StructureShape.new(name: 'StartPolicyGenerationRequest')
     StartPolicyGenerationResponse = Shapes::StructureShape.new(name: 'StartPolicyGenerationResponse')
+    StartPolicyPreviewJobRequest = Shapes::StructureShape.new(name: 'StartPolicyPreviewJobRequest')
+    StartPolicyPreviewJobResponse = Shapes::StructureShape.new(name: 'StartPolicyPreviewJobResponse')
     StartResourceScanRequest = Shapes::StructureShape.new(name: 'StartResourceScanRequest')
     Status = Shapes::StringShape.new(name: 'Status')
     StatusReason = Shapes::StructureShape.new(name: 'StatusReason')
@@ -466,6 +499,11 @@ module Aws::AccessAnalyzer
 
     CancelPolicyGenerationResponse.struct_class = Types::CancelPolicyGenerationResponse
 
+    CancelPolicyPreviewJobRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: PolicyPreviewJobId, required: true, location: "uri", location_name: "jobId"))
+    CancelPolicyPreviewJobRequest.struct_class = Types::CancelPolicyPreviewJobRequest
+
+    CancelPolicyPreviewJobResponse.struct_class = Types::CancelPolicyPreviewJobResponse
+
     CheckAccessNotGrantedRequest.add_member(:policy_document, Shapes::ShapeRef.new(shape: AccessCheckPolicyDocument, required: true, location_name: "policyDocument"))
     CheckAccessNotGrantedRequest.add_member(:access, Shapes::ShapeRef.new(shape: CheckAccessNotGrantedRequestAccessList, required: true, location_name: "access"))
     CheckAccessNotGrantedRequest.add_member(:policy_type, Shapes::ShapeRef.new(shape: AccessCheckPolicyType, required: true, location_name: "policyType"))
@@ -576,6 +614,13 @@ module Aws::AccessAnalyzer
     CreateArchiveRuleRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     CreateArchiveRuleRequest.struct_class = Types::CreateArchiveRuleRequest
 
+    CreatePolicyPreviewConfigurationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreatePolicyPreviewConfigurationRequest.add_member(:scope, Shapes::ShapeRef.new(shape: PolicyPreviewScope, location_name: "scope"))
+    CreatePolicyPreviewConfigurationRequest.struct_class = Types::CreatePolicyPreviewConfigurationRequest
+
+    CreatePolicyPreviewConfigurationResponse.add_member(:status, Shapes::ShapeRef.new(shape: PolicyPreviewStatus, required: true, location_name: "status"))
+    CreatePolicyPreviewConfigurationResponse.struct_class = Types::CreatePolicyPreviewConfigurationResponse
+
     Criterion.add_member(:eq, Shapes::ShapeRef.new(shape: ValueList, location_name: "eq"))
     Criterion.add_member(:neq, Shapes::ShapeRef.new(shape: ValueList, location_name: "neq"))
     Criterion.add_member(:contains, Shapes::ShapeRef.new(shape: ValueList, location_name: "contains"))
@@ -590,6 +635,11 @@ module Aws::AccessAnalyzer
     DeleteArchiveRuleRequest.add_member(:rule_name, Shapes::ShapeRef.new(shape: Name, required: true, location: "uri", location_name: "ruleName"))
     DeleteArchiveRuleRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     DeleteArchiveRuleRequest.struct_class = Types::DeleteArchiveRuleRequest
+
+    DeletePolicyPreviewConfigurationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    DeletePolicyPreviewConfigurationRequest.struct_class = Types::DeletePolicyPreviewConfigurationRequest
+
+    DeletePolicyPreviewConfigurationResponse.struct_class = Types::DeletePolicyPreviewConfigurationResponse
 
     DynamodbStreamConfiguration.add_member(:stream_policy, Shapes::ShapeRef.new(shape: DynamodbStreamPolicy, location_name: "streamPolicy"))
     DynamodbStreamConfiguration.struct_class = Types::DynamodbStreamConfiguration
@@ -833,6 +883,20 @@ module Aws::AccessAnalyzer
     GetGeneratedPolicyResponse.add_member(:generated_policy_result, Shapes::ShapeRef.new(shape: GeneratedPolicyResult, required: true, location_name: "generatedPolicyResult"))
     GetGeneratedPolicyResponse.struct_class = Types::GetGeneratedPolicyResponse
 
+    GetPolicyPreviewConfigurationRequest.struct_class = Types::GetPolicyPreviewConfigurationRequest
+
+    GetPolicyPreviewConfigurationResponse.add_member(:policy_preview_configurations, Shapes::ShapeRef.new(shape: PolicyPreviewConfigurationList, location_name: "policyPreviewConfigurations"))
+    GetPolicyPreviewConfigurationResponse.struct_class = Types::GetPolicyPreviewConfigurationResponse
+
+    GetPolicyPreviewJobRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: PolicyPreviewJobId, required: true, location: "uri", location_name: "jobId"))
+    GetPolicyPreviewJobRequest.struct_class = Types::GetPolicyPreviewJobRequest
+
+    GetPolicyPreviewJobResponse.add_member(:job_id, Shapes::ShapeRef.new(shape: PolicyPreviewJobId, required: true, location_name: "jobId"))
+    GetPolicyPreviewJobResponse.add_member(:job_parameters, Shapes::ShapeRef.new(shape: PolicyPreviewJobParameters, location_name: "jobParameters"))
+    GetPolicyPreviewJobResponse.add_member(:job_details, Shapes::ShapeRef.new(shape: PolicyPreviewJobDetails, location_name: "jobDetails"))
+    GetPolicyPreviewJobResponse.add_member(:output_s3_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "outputS3Uri"))
+    GetPolicyPreviewJobResponse.struct_class = Types::GetPolicyPreviewJobResponse
+
     IamRoleConfiguration.add_member(:trust_policy, Shapes::ShapeRef.new(shape: IamTrustPolicy, location_name: "trustPolicy"))
     IamRoleConfiguration.struct_class = Types::IamRoleConfiguration
 
@@ -1004,6 +1068,15 @@ module Aws::AccessAnalyzer
     ListPolicyGenerationsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location_name: "nextToken"))
     ListPolicyGenerationsResponse.struct_class = Types::ListPolicyGenerationsResponse
 
+    ListPolicyPreviewJobsRequest.add_member(:filters, Shapes::ShapeRef.new(shape: PolicyPreviewJobFiltersMap, location: "querystring", location_name: "filters"))
+    ListPolicyPreviewJobsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListPolicyPreviewJobsRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
+    ListPolicyPreviewJobsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location: "querystring", location_name: "nextToken"))
+    ListPolicyPreviewJobsRequest.struct_class = Types::ListPolicyPreviewJobsRequest
+
+    ListPolicyPreviewJobsResponse.add_member(:analysis_reports, Shapes::ShapeRef.new(shape: PolicyPreviewAnalysisReports, required: true, location_name: "analysisReports"))
+    ListPolicyPreviewJobsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location_name: "nextToken"))
+    ListPolicyPreviewJobsResponse.struct_class = Types::ListPolicyPreviewJobsResponse
+
     ListTagsForResourceRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "resourceArn"))
     ListTagsForResourceRequest.struct_class = Types::ListTagsForResourceRequest
 
@@ -1038,6 +1111,15 @@ module Aws::AccessAnalyzer
 
     PathElementList.member = Shapes::ShapeRef.new(shape: PathElement)
 
+    PolicyConfiguration.add_member(:job_type, Shapes::ShapeRef.new(shape: ImpactAnalysisJobType, required: true, location_name: "jobType"))
+    PolicyConfiguration.add_member(:target_id, Shapes::ShapeRef.new(shape: PolicyPreviewTargetId, required: true, location_name: "targetId"))
+    PolicyConfiguration.add_member(:policy_documents_list, Shapes::ShapeRef.new(shape: PolicyDocumentList, required: true, location_name: "policyDocumentsList"))
+    PolicyConfiguration.struct_class = Types::PolicyConfiguration
+
+    PolicyConfigurationsList.member = Shapes::ShapeRef.new(shape: PolicyConfiguration)
+
+    PolicyDocumentList.member = Shapes::ShapeRef.new(shape: String)
+
     PolicyGeneration.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
     PolicyGeneration.add_member(:principal_arn, Shapes::ShapeRef.new(shape: PrincipalArn, required: true, location_name: "principalArn"))
     PolicyGeneration.add_member(:status, Shapes::ShapeRef.new(shape: JobStatus, required: true, location_name: "status"))
@@ -1049,6 +1131,39 @@ module Aws::AccessAnalyzer
     PolicyGenerationDetails.struct_class = Types::PolicyGenerationDetails
 
     PolicyGenerationList.member = Shapes::ShapeRef.new(shape: PolicyGeneration)
+
+    PolicyPreviewAnalysisReport.add_member(:job_id, Shapes::ShapeRef.new(shape: PolicyPreviewJobId, required: true, location_name: "jobId"))
+    PolicyPreviewAnalysisReport.add_member(:status, Shapes::ShapeRef.new(shape: ImpactAnalysisJobStatus, required: true, location_name: "status"))
+    PolicyPreviewAnalysisReport.add_member(:submitted_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "submittedAt"))
+    PolicyPreviewAnalysisReport.add_member(:started_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "startedAt"))
+    PolicyPreviewAnalysisReport.add_member(:completed_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "completedAt"))
+    PolicyPreviewAnalysisReport.add_member(:output_s3_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "outputS3Uri"))
+    PolicyPreviewAnalysisReport.struct_class = Types::PolicyPreviewAnalysisReport
+
+    PolicyPreviewAnalysisReports.member = Shapes::ShapeRef.new(shape: PolicyPreviewAnalysisReport)
+
+    PolicyPreviewConfiguration.add_member(:scope, Shapes::ShapeRef.new(shape: PolicyPreviewScope, required: true, location_name: "scope"))
+    PolicyPreviewConfiguration.add_member(:status, Shapes::ShapeRef.new(shape: PolicyPreviewStatus, required: true, location_name: "status"))
+    PolicyPreviewConfiguration.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
+    PolicyPreviewConfiguration.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "updatedAt"))
+    PolicyPreviewConfiguration.struct_class = Types::PolicyPreviewConfiguration
+
+    PolicyPreviewConfigurationList.member = Shapes::ShapeRef.new(shape: PolicyPreviewConfiguration)
+
+    PolicyPreviewJobDetails.add_member(:job_status, Shapes::ShapeRef.new(shape: ImpactAnalysisJobStatus, required: true, location_name: "jobStatus"))
+    PolicyPreviewJobDetails.add_member(:submitted_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "submittedAt"))
+    PolicyPreviewJobDetails.add_member(:started_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "startedAt"))
+    PolicyPreviewJobDetails.add_member(:completed_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "completedAt"))
+    PolicyPreviewJobDetails.add_member(:job_error, Shapes::ShapeRef.new(shape: JobError, location_name: "jobError"))
+    PolicyPreviewJobDetails.struct_class = Types::PolicyPreviewJobDetails
+
+    PolicyPreviewJobFiltersMap.key = Shapes::ShapeRef.new(shape: PolicyPreviewJobFilterName)
+    PolicyPreviewJobFiltersMap.value = Shapes::ShapeRef.new(shape: String)
+
+    PolicyPreviewJobParameters.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "startTime"))
+    PolicyPreviewJobParameters.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "endTime"))
+    PolicyPreviewJobParameters.add_member(:policy_configurations, Shapes::ShapeRef.new(shape: PolicyConfigurationsList, required: true, location_name: "policyConfigurations"))
+    PolicyPreviewJobParameters.struct_class = Types::PolicyPreviewJobParameters
 
     Position.add_member(:line, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "line"))
     Position.add_member(:column, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "column"))
@@ -1193,6 +1308,16 @@ module Aws::AccessAnalyzer
 
     StartPolicyGenerationResponse.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "jobId"))
     StartPolicyGenerationResponse.struct_class = Types::StartPolicyGenerationResponse
+
+    StartPolicyPreviewJobRequest.add_member(:policy_configurations, Shapes::ShapeRef.new(shape: PolicyConfigurationsList, required: true, location_name: "policyConfigurations"))
+    StartPolicyPreviewJobRequest.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "startTime"))
+    StartPolicyPreviewJobRequest.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "endTime"))
+    StartPolicyPreviewJobRequest.add_member(:output_s3_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "outputS3Uri"))
+    StartPolicyPreviewJobRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    StartPolicyPreviewJobRequest.struct_class = Types::StartPolicyPreviewJobRequest
+
+    StartPolicyPreviewJobResponse.add_member(:job_id, Shapes::ShapeRef.new(shape: PolicyPreviewJobId, required: true, location_name: "jobId"))
+    StartPolicyPreviewJobResponse.struct_class = Types::StartPolicyPreviewJobResponse
 
     StartResourceScanRequest.add_member(:analyzer_arn, Shapes::ShapeRef.new(shape: AnalyzerArn, required: true, location_name: "analyzerArn"))
     StartResourceScanRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location_name: "resourceArn"))
@@ -1391,6 +1516,19 @@ module Aws::AccessAnalyzer
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
+      api.add_operation(:cancel_policy_preview_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CancelPolicyPreviewJob"
+        o.http_method = "PUT"
+        o.http_request_uri = "/policy/preview/{jobId}"
+        o.input = Shapes::ShapeRef.new(shape: CancelPolicyPreviewJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: CancelPolicyPreviewJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:check_access_not_granted, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CheckAccessNotGranted"
         o.http_method = "POST"
@@ -1477,6 +1615,20 @@ module Aws::AccessAnalyzer
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
+      api.add_operation(:create_policy_preview_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreatePolicyPreviewConfiguration"
+        o.http_method = "PUT"
+        o.http_request_uri = "/policy/preview-configuration"
+        o.input = Shapes::ShapeRef.new(shape: CreatePolicyPreviewConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreatePolicyPreviewConfigurationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:delete_analyzer, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteAnalyzer"
         o.http_method = "DELETE"
@@ -1499,6 +1651,19 @@ module Aws::AccessAnalyzer
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:delete_policy_preview_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeletePolicyPreviewConfiguration"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/policy/preview-configuration"
+        o.input = Shapes::ShapeRef.new(shape: DeletePolicyPreviewConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeletePolicyPreviewConfigurationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
@@ -1637,6 +1802,32 @@ module Aws::AccessAnalyzer
         o.http_request_uri = "/policy/generation/{jobId}"
         o.input = Shapes::ShapeRef.new(shape: GetGeneratedPolicyRequest)
         o.output = Shapes::ShapeRef.new(shape: GetGeneratedPolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:get_policy_preview_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetPolicyPreviewConfiguration"
+        o.http_method = "GET"
+        o.http_request_uri = "/policy/preview-configuration"
+        o.input = Shapes::ShapeRef.new(shape: GetPolicyPreviewConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetPolicyPreviewConfigurationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:get_policy_preview_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetPolicyPreviewJob"
+        o.http_method = "GET"
+        o.http_request_uri = "/policy/preview/{jobId}"
+        o.input = Shapes::ShapeRef.new(shape: GetPolicyPreviewJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetPolicyPreviewJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
@@ -1793,6 +1984,24 @@ module Aws::AccessAnalyzer
         )
       end)
 
+      api.add_operation(:list_policy_preview_jobs, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListPolicyPreviewJobs"
+        o.http_method = "GET"
+        o.http_request_uri = "/policy/preview"
+        o.input = Shapes::ShapeRef.new(shape: ListPolicyPreviewJobsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListPolicyPreviewJobsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_tags_for_resource, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListTagsForResource"
         o.http_method = "GET"
@@ -1812,6 +2021,20 @@ module Aws::AccessAnalyzer
         o.http_request_uri = "/policy/generation"
         o.input = Shapes::ShapeRef.new(shape: StartPolicyGenerationRequest)
         o.output = Shapes::ShapeRef.new(shape: StartPolicyGenerationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:start_policy_preview_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartPolicyPreviewJob"
+        o.http_method = "PUT"
+        o.http_request_uri = "/policy/preview"
+        o.input = Shapes::ShapeRef.new(shape: StartPolicyPreviewJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: StartPolicyPreviewJobResponse)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)

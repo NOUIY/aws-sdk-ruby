@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.87.0 (2026-04-06)
+------------------
+
+* Feature - Brookie helps customers preview the impact of SCPs before deployment using historical access activity. It evaluates attached policies and proposed policy updates using collected access activity through CloudTrail authorization events and reports where currently allowed access will be denied.
+
 1.86.0 (2026-03-18)
 ------------------
 

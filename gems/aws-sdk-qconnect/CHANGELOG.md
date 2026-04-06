@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.52.0 (2026-04-06)
+------------------
+
+* Feature - Added optional originRequestId parameter to SendMessageRequest and ListSpans response in Amazon Q in Connect to support request tracing across service boundaries.
+
 1.51.0 (2026-03-18)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.24.0 (2026-04-06)
+------------------
+
+* Feature - This release updates API reference documentation for Amazon Location Service Maps APIs to reflect regional restrictions for Grab Maps users
+
 1.23.0 (2026-03-31)
 ------------------
 

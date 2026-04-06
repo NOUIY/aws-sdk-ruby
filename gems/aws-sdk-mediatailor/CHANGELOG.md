@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.117.0 (2026-04-06)
+------------------
+
+* Feature - This change adds support for Tagging the resource types Programs and Prefetch Schedules
+
 1.116.0 (2026-03-18)
 ------------------
 

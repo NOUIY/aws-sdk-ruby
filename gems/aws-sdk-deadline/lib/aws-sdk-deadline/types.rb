@@ -822,6 +822,1414 @@ module Aws::Deadline
       include Aws::Structure
     end
 
+    # The error details for a job that could not be retrieved in a batch get
+    # operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the job that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the job that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the job that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   The error code.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The error message.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetJobError AWS API Documentation
+    #
+    class BatchGetJobError < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The identifiers for a job.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetJobIdentifier AWS API Documentation
+    #
+    class BatchGetJobIdentifier < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of a job returned in a batch get operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] lifecycle_status
+    #   The life cycle status of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] lifecycle_status_message
+    #   A message that communicates the status of the life cycle.
+    #   @return [String]
+    #
+    # @!attribute [rw] priority
+    #   The job priority.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the resource was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_by
+    #   The user or system that created this resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the resource was updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_by
+    #   The user or system that updated this resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] started_at
+    #   The date and time the resource started running.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ended_at
+    #   The date and time the resource ended running.
+    #   @return [Time]
+    #
+    # @!attribute [rw] task_run_status
+    #   The task run status for the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_task_run_status
+    #   The task status to start with on the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_run_status_counts
+    #   The number of tasks for each run status for the job.
+    #   @return [Hash<String,Integer>]
+    #
+    # @!attribute [rw] task_failure_retry_count
+    #   The number of times that tasks failed and were retried.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] storage_profile_id
+    #   The storage profile ID associated with the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_failed_tasks_count
+    #   The number of task failures before the job stops running and is
+    #   marked as `FAILED`.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_retries_per_task
+    #   The maximum number of retries per failed tasks.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] parameters
+    #   The parameters for the job.
+    #   @return [Hash<String,Types::JobParameter>]
+    #
+    # @!attribute [rw] attachments
+    #   The attachments for the job.
+    #   @return [Types::Attachments]
+    #
+    # @!attribute [rw] description
+    #   The description of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_worker_count
+    #   The maximum number of worker hosts that can concurrently process a
+    #   job.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] source_job_id
+    #   The job ID for the source job.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetJobItem AWS API Documentation
+    #
+    class BatchGetJobItem < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :name,
+      :lifecycle_status,
+      :lifecycle_status_message,
+      :priority,
+      :created_at,
+      :created_by,
+      :updated_at,
+      :updated_by,
+      :started_at,
+      :ended_at,
+      :task_run_status,
+      :target_task_run_status,
+      :task_run_status_counts,
+      :task_failure_retry_count,
+      :storage_profile_id,
+      :max_failed_tasks_count,
+      :max_retries_per_task,
+      :parameters,
+      :attachments,
+      :description,
+      :max_worker_count,
+      :source_job_id)
+      SENSITIVE = [:parameters, :description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifiers
+    #   The list of job identifiers to retrieve. You can specify up to 100
+    #   identifiers per request.
+    #   @return [Array<Types::BatchGetJobIdentifier>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetJobRequest AWS API Documentation
+    #
+    class BatchGetJobRequest < Struct.new(
+      :identifiers)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] jobs
+    #   A list of jobs that were successfully retrieved.
+    #   @return [Array<Types::BatchGetJobItem>]
+    #
+    # @!attribute [rw] errors
+    #   A list of errors for jobs that could not be retrieved.
+    #   @return [Array<Types::BatchGetJobError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetJobResponse AWS API Documentation
+    #
+    class BatchGetJobResponse < Struct.new(
+      :jobs,
+      :errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The error details for a session action that could not be retrieved in
+    # a batch get operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the session action that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the session action that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the session action that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_action_id
+    #   The session action ID of the session action that could not be
+    #   retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   The error code.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The error message.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetSessionActionError AWS API Documentation
+    #
+    class BatchGetSessionActionError < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :session_action_id,
+      :code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The identifiers for a session action.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the session action.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the session action.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the session action.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_action_id
+    #   The session action ID.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetSessionActionIdentifier AWS API Documentation
+    #
+    class BatchGetSessionActionIdentifier < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :session_action_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of a session action returned in a batch get operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the session action.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the session action.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the session action.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_action_id
+    #   The session action ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the session action.
+    #   @return [String]
+    #
+    # @!attribute [rw] started_at
+    #   The date and time the resource started running.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ended_at
+    #   The date and time the resource ended running.
+    #   @return [Time]
+    #
+    # @!attribute [rw] worker_updated_at
+    #   The date and time the resource was updated by a worker.
+    #   @return [Time]
+    #
+    # @!attribute [rw] progress_percent
+    #   The completion percentage for the session action.
+    #   @return [Float]
+    #
+    # @!attribute [rw] manifests
+    #   The manifests for the session action.
+    #   @return [Array<Types::TaskRunManifestPropertiesResponse>]
+    #
+    # @!attribute [rw] session_id
+    #   The session ID for the session action.
+    #   @return [String]
+    #
+    # @!attribute [rw] process_exit_code
+    #   The exit code to apply to the session action.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] progress_message
+    #   The message that communicates the progress of the session action.
+    #   @return [String]
+    #
+    # @!attribute [rw] acquired_limits
+    #   The limits that were acquired for the session action.
+    #   @return [Array<Types::AcquiredLimit>]
+    #
+    # @!attribute [rw] definition
+    #   The session action definition.
+    #   @return [Types::SessionActionDefinition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetSessionActionItem AWS API Documentation
+    #
+    class BatchGetSessionActionItem < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :session_action_id,
+      :status,
+      :started_at,
+      :ended_at,
+      :worker_updated_at,
+      :progress_percent,
+      :manifests,
+      :session_id,
+      :process_exit_code,
+      :progress_message,
+      :acquired_limits,
+      :definition)
+      SENSITIVE = [:progress_message]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifiers
+    #   The list of session action identifiers to retrieve. You can specify
+    #   up to 100 identifiers per request.
+    #   @return [Array<Types::BatchGetSessionActionIdentifier>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetSessionActionRequest AWS API Documentation
+    #
+    class BatchGetSessionActionRequest < Struct.new(
+      :identifiers)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] session_actions
+    #   A list of session actions that were successfully retrieved.
+    #   @return [Array<Types::BatchGetSessionActionItem>]
+    #
+    # @!attribute [rw] errors
+    #   A list of errors for session actions that could not be retrieved.
+    #   @return [Array<Types::BatchGetSessionActionError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetSessionActionResponse AWS API Documentation
+    #
+    class BatchGetSessionActionResponse < Struct.new(
+      :session_actions,
+      :errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The error details for a session that could not be retrieved in a batch
+    # get operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the session that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the session that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the session that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The session ID of the session that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   The error code.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The error message.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetSessionError AWS API Documentation
+    #
+    class BatchGetSessionError < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :session_id,
+      :code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The identifiers for a session.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The session ID.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetSessionIdentifier AWS API Documentation
+    #
+    class BatchGetSessionIdentifier < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :session_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of a session returned in a batch get operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The session ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] fleet_id
+    #   The fleet ID of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] worker_id
+    #   The worker ID of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] started_at
+    #   The date and time the resource started running.
+    #   @return [Time]
+    #
+    # @!attribute [rw] lifecycle_status
+    #   The life cycle status of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] ended_at
+    #   The date and time the resource ended running.
+    #   @return [Time]
+    #
+    # @!attribute [rw] target_lifecycle_status
+    #   The target life cycle status for the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the resource was updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_by
+    #   The user or system that updated this resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] log
+    #   The session log.
+    #   @return [Types::LogConfiguration]
+    #
+    # @!attribute [rw] host_properties
+    #   The host properties for the session.
+    #   @return [Types::HostPropertiesResponse]
+    #
+    # @!attribute [rw] worker_log
+    #   The worker log for the session.
+    #   @return [Types::LogConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetSessionItem AWS API Documentation
+    #
+    class BatchGetSessionItem < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :session_id,
+      :fleet_id,
+      :worker_id,
+      :started_at,
+      :lifecycle_status,
+      :ended_at,
+      :target_lifecycle_status,
+      :updated_at,
+      :updated_by,
+      :log,
+      :host_properties,
+      :worker_log)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifiers
+    #   The list of session identifiers to retrieve. You can specify up to
+    #   100 identifiers per request.
+    #   @return [Array<Types::BatchGetSessionIdentifier>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetSessionRequest AWS API Documentation
+    #
+    class BatchGetSessionRequest < Struct.new(
+      :identifiers)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] sessions
+    #   A list of sessions that were successfully retrieved.
+    #   @return [Array<Types::BatchGetSessionItem>]
+    #
+    # @!attribute [rw] errors
+    #   A list of errors for sessions that could not be retrieved.
+    #   @return [Array<Types::BatchGetSessionError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetSessionResponse AWS API Documentation
+    #
+    class BatchGetSessionResponse < Struct.new(
+      :sessions,
+      :errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The error details for a step that could not be retrieved in a batch
+    # get operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the step that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the step that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the step that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] step_id
+    #   The step ID of the step that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   The error code.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The error message.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetStepError AWS API Documentation
+    #
+    class BatchGetStepError < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :step_id,
+      :code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The identifiers for a step.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the step.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the step.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the step.
+    #   @return [String]
+    #
+    # @!attribute [rw] step_id
+    #   The step ID.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetStepIdentifier AWS API Documentation
+    #
+    class BatchGetStepIdentifier < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :step_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of a step returned in a batch get operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the step.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the step.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the step.
+    #   @return [String]
+    #
+    # @!attribute [rw] step_id
+    #   The step ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the step.
+    #   @return [String]
+    #
+    # @!attribute [rw] lifecycle_status
+    #   The life cycle status of the step.
+    #   @return [String]
+    #
+    # @!attribute [rw] lifecycle_status_message
+    #   A message that communicates the status of the life cycle.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_run_status
+    #   The task run status for the step.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_run_status_counts
+    #   The number of tasks for each run status for the step.
+    #   @return [Hash<String,Integer>]
+    #
+    # @!attribute [rw] task_failure_retry_count
+    #   The number of times that tasks failed and were retried.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] target_task_run_status
+    #   The task status to start with on the step.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the resource was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_by
+    #   The user or system that created this resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the resource was updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_by
+    #   The user or system that updated this resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] started_at
+    #   The date and time the resource started running.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ended_at
+    #   The date and time the resource ended running.
+    #   @return [Time]
+    #
+    # @!attribute [rw] dependency_counts
+    #   The number of dependencies for the step.
+    #   @return [Types::DependencyCounts]
+    #
+    # @!attribute [rw] required_capabilities
+    #   The required capabilities for the step.
+    #   @return [Types::StepRequiredCapabilities]
+    #
+    # @!attribute [rw] parameter_space
+    #   The parameter space for the step.
+    #   @return [Types::ParameterSpace]
+    #
+    # @!attribute [rw] description
+    #   The description of the step.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetStepItem AWS API Documentation
+    #
+    class BatchGetStepItem < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :step_id,
+      :name,
+      :lifecycle_status,
+      :lifecycle_status_message,
+      :task_run_status,
+      :task_run_status_counts,
+      :task_failure_retry_count,
+      :target_task_run_status,
+      :created_at,
+      :created_by,
+      :updated_at,
+      :updated_by,
+      :started_at,
+      :ended_at,
+      :dependency_counts,
+      :required_capabilities,
+      :parameter_space,
+      :description)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifiers
+    #   The list of step identifiers to retrieve. You can specify up to 100
+    #   identifiers per request.
+    #   @return [Array<Types::BatchGetStepIdentifier>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetStepRequest AWS API Documentation
+    #
+    class BatchGetStepRequest < Struct.new(
+      :identifiers)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] steps
+    #   A list of steps that were successfully retrieved.
+    #   @return [Array<Types::BatchGetStepItem>]
+    #
+    # @!attribute [rw] errors
+    #   A list of errors for steps that could not be retrieved.
+    #   @return [Array<Types::BatchGetStepError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetStepResponse AWS API Documentation
+    #
+    class BatchGetStepResponse < Struct.new(
+      :steps,
+      :errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The error details for a task that could not be retrieved in a batch
+    # get operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the task that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the task that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the task that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] step_id
+    #   The step ID of the task that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_id
+    #   The task ID of the task that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   The error code.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The error message.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetTaskError AWS API Documentation
+    #
+    class BatchGetTaskError < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :step_id,
+      :task_id,
+      :code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The identifiers for a task.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] step_id
+    #   The step ID of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_id
+    #   The task ID.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetTaskIdentifier AWS API Documentation
+    #
+    class BatchGetTaskIdentifier < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :step_id,
+      :task_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of a task returned in a batch get operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] step_id
+    #   The step ID of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_id
+    #   The task ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the resource was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_by
+    #   The user or system that created this resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] run_status
+    #   The run status of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_run_status
+    #   The run status with which to start the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_retry_count
+    #   The number of times the task failed and was retried.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] started_at
+    #   The date and time the resource started running.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ended_at
+    #   The date and time the resource ended running.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the resource was updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_by
+    #   The user or system that updated this resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] latest_session_action_id
+    #   The latest session action for the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] parameters
+    #   The parameters for the task.
+    #   @return [Hash<String,Types::TaskParameterValue>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetTaskItem AWS API Documentation
+    #
+    class BatchGetTaskItem < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :step_id,
+      :task_id,
+      :created_at,
+      :created_by,
+      :run_status,
+      :target_run_status,
+      :failure_retry_count,
+      :started_at,
+      :ended_at,
+      :updated_at,
+      :updated_by,
+      :latest_session_action_id,
+      :parameters)
+      SENSITIVE = [:parameters]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifiers
+    #   The list of task identifiers to retrieve. You can specify up to 100
+    #   identifiers per request.
+    #   @return [Array<Types::BatchGetTaskIdentifier>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetTaskRequest AWS API Documentation
+    #
+    class BatchGetTaskRequest < Struct.new(
+      :identifiers)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] tasks
+    #   A list of tasks that were successfully retrieved.
+    #   @return [Array<Types::BatchGetTaskItem>]
+    #
+    # @!attribute [rw] errors
+    #   A list of errors for tasks that could not be retrieved.
+    #   @return [Array<Types::BatchGetTaskError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetTaskResponse AWS API Documentation
+    #
+    class BatchGetTaskResponse < Struct.new(
+      :tasks,
+      :errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The error details for a worker that could not be retrieved in a batch
+    # get operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the worker that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] fleet_id
+    #   The fleet ID of the worker that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] worker_id
+    #   The worker ID of the worker that could not be retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   The error code.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The error message.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetWorkerError AWS API Documentation
+    #
+    class BatchGetWorkerError < Struct.new(
+      :farm_id,
+      :fleet_id,
+      :worker_id,
+      :code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The identifiers for a worker.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the worker.
+    #   @return [String]
+    #
+    # @!attribute [rw] fleet_id
+    #   The fleet ID of the worker.
+    #   @return [String]
+    #
+    # @!attribute [rw] worker_id
+    #   The worker ID.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetWorkerIdentifier AWS API Documentation
+    #
+    class BatchGetWorkerIdentifier < Struct.new(
+      :farm_id,
+      :fleet_id,
+      :worker_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of a worker returned in a batch get operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the worker.
+    #   @return [String]
+    #
+    # @!attribute [rw] fleet_id
+    #   The fleet ID of the worker.
+    #   @return [String]
+    #
+    # @!attribute [rw] worker_id
+    #   The worker ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] host_properties
+    #   The host properties for the worker.
+    #   @return [Types::HostPropertiesResponse]
+    #
+    # @!attribute [rw] status
+    #   The status of the worker.
+    #   @return [String]
+    #
+    # @!attribute [rw] log
+    #   The log configuration for the worker.
+    #   @return [Types::LogConfiguration]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the resource was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_by
+    #   The user or system that created this resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the resource was updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_by
+    #   The user or system that updated this resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetWorkerItem AWS API Documentation
+    #
+    class BatchGetWorkerItem < Struct.new(
+      :farm_id,
+      :fleet_id,
+      :worker_id,
+      :host_properties,
+      :status,
+      :log,
+      :created_at,
+      :created_by,
+      :updated_at,
+      :updated_by)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifiers
+    #   The list of worker identifiers to retrieve. You can specify up to
+    #   100 identifiers per request.
+    #   @return [Array<Types::BatchGetWorkerIdentifier>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetWorkerRequest AWS API Documentation
+    #
+    class BatchGetWorkerRequest < Struct.new(
+      :identifiers)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] workers
+    #   A list of workers that were successfully retrieved.
+    #   @return [Array<Types::BatchGetWorkerItem>]
+    #
+    # @!attribute [rw] errors
+    #   A list of errors for workers that could not be retrieved.
+    #   @return [Array<Types::BatchGetWorkerError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchGetWorkerResponse AWS API Documentation
+    #
+    class BatchGetWorkerResponse < Struct.new(
+      :workers,
+      :errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The error details for a job that could not be updated in a batch
+    # update operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the job that could not be updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the job that could not be updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the job that could not be updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   The error code.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The error message.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchUpdateJobError AWS API Documentation
+    #
+    class BatchUpdateJobError < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of a job to update in a batch update operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the job to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the job to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the job to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_task_run_status
+    #   The task status to update the job's tasks to.
+    #   @return [String]
+    #
+    # @!attribute [rw] priority
+    #   The job priority to update.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_failed_tasks_count
+    #   The number of task failures before the job stops running and is
+    #   marked as `FAILED`.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_retries_per_task
+    #   The maximum number of retries per failed tasks.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] lifecycle_status
+    #   The status of a job in its lifecycle. When you change the status of
+    #   the job to `ARCHIVED`, the job can't be scheduled or archived.
+    #
+    #   An archived job and its steps and tasks are deleted after 120 days.
+    #   The job can't be recovered.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_worker_count
+    #   The maximum number of worker hosts that can concurrently process a
+    #   job.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] name
+    #   The name of the job to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the job to update.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchUpdateJobItem AWS API Documentation
+    #
+    class BatchUpdateJobItem < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :target_task_run_status,
+      :priority,
+      :max_failed_tasks_count,
+      :max_retries_per_task,
+      :lifecycle_status,
+      :max_worker_count,
+      :name,
+      :description)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_token
+    #   The unique token which the server uses to recognize retries of the
+    #   same request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] jobs
+    #   The list of jobs to update. You can specify up to 100 jobs per
+    #   request.
+    #   @return [Array<Types::BatchUpdateJobItem>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchUpdateJobRequest AWS API Documentation
+    #
+    class BatchUpdateJobRequest < Struct.new(
+      :client_token,
+      :jobs)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] errors
+    #   A list of errors for jobs that could not be updated.
+    #   @return [Array<Types::BatchUpdateJobError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchUpdateJobResponse AWS API Documentation
+    #
+    class BatchUpdateJobResponse < Struct.new(
+      :errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The error details for a task that could not be updated in a batch
+    # update operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the task that could not be updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the task that could not be updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the task that could not be updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] step_id
+    #   The step ID of the task that could not be updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_id
+    #   The task ID of the task that could not be updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   The error code.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The error message.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchUpdateTaskError AWS API Documentation
+    #
+    class BatchUpdateTaskError < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :step_id,
+      :task_id,
+      :code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of a task to update in a batch update operation.
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the task to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_id
+    #   The queue ID of the task to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   The job ID of the task to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] step_id
+    #   The step ID of the task to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_id
+    #   The task ID of the task to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_run_status
+    #   The run status with which to start the task.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchUpdateTaskItem AWS API Documentation
+    #
+    class BatchUpdateTaskItem < Struct.new(
+      :farm_id,
+      :queue_id,
+      :job_id,
+      :step_id,
+      :task_id,
+      :target_run_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_token
+    #   The unique token which the server uses to recognize retries of the
+    #   same request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] tasks
+    #   The list of tasks to update. You can specify up to 100 tasks per
+    #   request.
+    #   @return [Array<Types::BatchUpdateTaskItem>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchUpdateTaskRequest AWS API Documentation
+    #
+    class BatchUpdateTaskRequest < Struct.new(
+      :client_token,
+      :tasks)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] errors
+    #   A list of errors for tasks that could not be updated.
+    #   @return [Array<Types::BatchUpdateTaskError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/BatchUpdateTaskResponse AWS API Documentation
+    #
+    class BatchUpdateTaskResponse < Struct.new(
+      :errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The budget action to add.
     #
     # @!attribute [rw] type
@@ -1597,6 +3005,11 @@ module Aws::Deadline
     #   authenticates monitor users.
     #   @return [String]
     #
+    # @!attribute [rw] identity_center_region
+    #   The AWS region where IAM Identity Center is enabled. Required when
+    #   Identity Center is in a different region than the monitor.
+    #   @return [String]
+    #
     # @!attribute [rw] subdomain
     #   The subdomain to use when creating the monitor URL. The full URL of
     #   the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
@@ -1621,6 +3034,7 @@ module Aws::Deadline
       :client_token,
       :display_name,
       :identity_center_instance_arn,
+      :identity_center_region,
       :subdomain,
       :role_arn,
       :tags)
@@ -3795,6 +5209,10 @@ module Aws::Deadline
     #   responsible for authenticating monitor users.
     #   @return [String]
     #
+    # @!attribute [rw] identity_center_region
+    #   The AWS region where IAM Identity Center is enabled.
+    #   @return [String]
+    #
     # @!attribute [rw] identity_center_application_arn
     #   The Amazon Resource Name that the IAM Identity Center assigned to
     #   the monitor when it was created.
@@ -3827,6 +5245,7 @@ module Aws::Deadline
       :url,
       :role_arn,
       :identity_center_instance_arn,
+      :identity_center_region,
       :identity_center_application_arn,
       :created_at,
       :created_by,
@@ -7582,6 +9001,10 @@ module Aws::Deadline
     #   responsible for authenticating monitor users.
     #   @return [String]
     #
+    # @!attribute [rw] identity_center_region
+    #   The AWS region where IAM Identity Center is enabled.
+    #   @return [String]
+    #
     # @!attribute [rw] identity_center_application_arn
     #   The Amazon Resource Name that the IAM Identity Center assigned to
     #   the monitor when it was created.
@@ -7614,6 +9037,7 @@ module Aws::Deadline
       :url,
       :role_arn,
       :identity_center_instance_arn,
+      :identity_center_region,
       :identity_center_application_arn,
       :created_at,
       :created_by,
