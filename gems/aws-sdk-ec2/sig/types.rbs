@@ -1348,6 +1348,7 @@ module Aws::EC2
       attr_accessor resource_region: ::String
       attr_accessor availability_zone_id: ::String
       attr_accessor account_id: ::String
+      attr_accessor account_name: ::String
       attr_accessor instance_family: ::String
       attr_accessor instance_type: ::String
       attr_accessor instance_platform: ::String
@@ -1362,6 +1363,22 @@ module Aws::EC2
       attr_accessor reservation_state: ("active" | "expired" | "cancelled" | "scheduled" | "pending" | "failed" | "delayed" | "unsupported" | "payment-pending" | "payment-failed" | "retired")
       attr_accessor reservation_instance_match_criteria: ::String
       attr_accessor reservation_unused_financial_owner: ::String
+      attr_accessor tags: ::Array[Types::CapacityManagerTagDimension]
+      SENSITIVE: []
+    end
+
+    class CapacityManagerMonitoredTagKey
+      attr_accessor tag_key: ::String
+      attr_accessor status: ("activating" | "activated" | "deactivating" | "suspended")
+      attr_accessor status_message: ::String
+      attr_accessor capacity_manager_provided: bool
+      attr_accessor earliest_datapoint_timestamp: ::Time
+      SENSITIVE: []
+    end
+
+    class CapacityManagerTagDimension
+      attr_accessor key: ::String
+      attr_accessor value: ::String
       SENSITIVE: []
     end
 
@@ -7815,7 +7832,7 @@ module Aws::EC2
     end
 
     class DimensionCondition
-      attr_accessor dimension: ("resource-region" | "availability-zone-id" | "account-id" | "instance-family" | "instance-type" | "instance-platform" | "reservation-arn" | "reservation-id" | "reservation-type" | "reservation-create-timestamp" | "reservation-start-timestamp" | "reservation-end-timestamp" | "reservation-end-date-type" | "tenancy" | "reservation-state" | "reservation-instance-match-criteria" | "reservation-unused-financial-owner")
+      attr_accessor dimension: ("resource-region" | "availability-zone-id" | "account-id" | "account-name" | "instance-family" | "instance-type" | "instance-platform" | "reservation-arn" | "reservation-id" | "reservation-type" | "reservation-create-timestamp" | "reservation-start-timestamp" | "reservation-end-timestamp" | "reservation-end-date-type" | "tenancy" | "reservation-state" | "reservation-instance-match-criteria" | "reservation-unused-financial-owner")
       attr_accessor comparison: ("equals" | "in")
       attr_accessor values: ::Array[::String]
       SENSITIVE: []
@@ -9475,7 +9492,7 @@ module Aws::EC2
       attr_accessor start_time: ::Time
       attr_accessor end_time: ::Time
       attr_accessor period: ::Integer
-      attr_accessor group_by: ::Array[("resource-region" | "availability-zone-id" | "account-id" | "instance-family" | "instance-type" | "instance-platform" | "reservation-arn" | "reservation-id" | "reservation-type" | "reservation-create-timestamp" | "reservation-start-timestamp" | "reservation-end-timestamp" | "reservation-end-date-type" | "tenancy" | "reservation-state" | "reservation-instance-match-criteria" | "reservation-unused-financial-owner")]
+      attr_accessor group_by: ::Array[("resource-region" | "availability-zone-id" | "account-id" | "account-name" | "instance-family" | "instance-type" | "instance-platform" | "reservation-arn" | "reservation-id" | "reservation-type" | "reservation-create-timestamp" | "reservation-start-timestamp" | "reservation-end-timestamp" | "reservation-end-date-type" | "tenancy" | "reservation-state" | "reservation-instance-match-criteria" | "reservation-unused-financial-owner")]
       attr_accessor filter_by: ::Array[Types::CapacityManagerCondition]
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
@@ -9490,7 +9507,7 @@ module Aws::EC2
     end
 
     class GetCapacityManagerMetricDimensionsRequest
-      attr_accessor group_by: ::Array[("resource-region" | "availability-zone-id" | "account-id" | "instance-family" | "instance-type" | "instance-platform" | "reservation-arn" | "reservation-id" | "reservation-type" | "reservation-create-timestamp" | "reservation-start-timestamp" | "reservation-end-timestamp" | "reservation-end-date-type" | "tenancy" | "reservation-state" | "reservation-instance-match-criteria" | "reservation-unused-financial-owner")]
+      attr_accessor group_by: ::Array[("resource-region" | "availability-zone-id" | "account-id" | "account-name" | "instance-family" | "instance-type" | "instance-platform" | "reservation-arn" | "reservation-id" | "reservation-type" | "reservation-create-timestamp" | "reservation-start-timestamp" | "reservation-end-timestamp" | "reservation-end-date-type" | "tenancy" | "reservation-state" | "reservation-instance-match-criteria" | "reservation-unused-financial-owner")]
       attr_accessor filter_by: ::Array[Types::CapacityManagerCondition]
       attr_accessor start_time: ::Time
       attr_accessor end_time: ::Time
@@ -9503,6 +9520,19 @@ module Aws::EC2
 
     class GetCapacityManagerMetricDimensionsResult
       attr_accessor metric_dimension_results: ::Array[Types::CapacityManagerDimension]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class GetCapacityManagerMonitoredTagKeysRequest
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      attr_accessor dry_run: bool
+      SENSITIVE: []
+    end
+
+    class GetCapacityManagerMonitoredTagKeysResult
+      attr_accessor capacity_manager_tag_keys: ::Array[Types::CapacityManagerMonitoredTagKey]
       attr_accessor next_token: ::String
       SENSITIVE: []
     end
@@ -17958,6 +17988,19 @@ module Aws::EC2
     class UnsuccessfulItemError
       attr_accessor code: ::String
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateCapacityManagerMonitoredTagKeysRequest
+      attr_accessor activate_tag_keys: ::Array[::String]
+      attr_accessor deactivate_tag_keys: ::Array[::String]
+      attr_accessor dry_run: bool
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateCapacityManagerMonitoredTagKeysResult
+      attr_accessor capacity_manager_tag_keys: ::Array[Types::CapacityManagerMonitoredTagKey]
       SENSITIVE: []
     end
 

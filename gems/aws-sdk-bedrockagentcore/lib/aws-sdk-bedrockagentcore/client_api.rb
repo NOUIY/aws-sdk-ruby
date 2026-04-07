@@ -38,6 +38,9 @@ module Aws::BedrockAgentCore
     Branch = Shapes::StructureShape.new(name: 'Branch')
     BranchFilter = Shapes::StructureShape.new(name: 'BranchFilter')
     BranchName = Shapes::StringShape.new(name: 'BranchName')
+    BrowserAction = Shapes::UnionShape.new(name: 'BrowserAction')
+    BrowserActionResult = Shapes::UnionShape.new(name: 'BrowserActionResult')
+    BrowserActionStatus = Shapes::StringShape.new(name: 'BrowserActionStatus')
     BrowserEnterprisePolicies = Shapes::ListShape.new(name: 'BrowserEnterprisePolicies')
     BrowserEnterprisePolicy = Shapes::StructureShape.new(name: 'BrowserEnterprisePolicy')
     BrowserEnterprisePolicyType = Shapes::StringShape.new(name: 'BrowserEnterprisePolicyType')
@@ -174,10 +177,21 @@ module Aws::BedrockAgentCore
     InvokeAgentRuntimeRequestTraceParentString = Shapes::StringShape.new(name: 'InvokeAgentRuntimeRequestTraceParentString')
     InvokeAgentRuntimeRequestTraceStateString = Shapes::StringShape.new(name: 'InvokeAgentRuntimeRequestTraceStateString')
     InvokeAgentRuntimeResponse = Shapes::StructureShape.new(name: 'InvokeAgentRuntimeResponse')
+    InvokeBrowserRequest = Shapes::StructureShape.new(name: 'InvokeBrowserRequest')
+    InvokeBrowserResponse = Shapes::StructureShape.new(name: 'InvokeBrowserResponse')
     InvokeCodeInterpreterRequest = Shapes::StructureShape.new(name: 'InvokeCodeInterpreterRequest')
     InvokeCodeInterpreterRequestTraceIdString = Shapes::StringShape.new(name: 'InvokeCodeInterpreterRequestTraceIdString')
     InvokeCodeInterpreterRequestTraceParentString = Shapes::StringShape.new(name: 'InvokeCodeInterpreterRequestTraceParentString')
     InvokeCodeInterpreterResponse = Shapes::StructureShape.new(name: 'InvokeCodeInterpreterResponse')
+    KeyList = Shapes::ListShape.new(name: 'KeyList')
+    KeyPressArguments = Shapes::StructureShape.new(name: 'KeyPressArguments')
+    KeyPressArgumentsPressesInteger = Shapes::IntegerShape.new(name: 'KeyPressArgumentsPressesInteger')
+    KeyPressResult = Shapes::StructureShape.new(name: 'KeyPressResult')
+    KeyShortcutArguments = Shapes::StructureShape.new(name: 'KeyShortcutArguments')
+    KeyShortcutResult = Shapes::StructureShape.new(name: 'KeyShortcutResult')
+    KeyTypeArguments = Shapes::StructureShape.new(name: 'KeyTypeArguments')
+    KeyTypeArgumentsTextString = Shapes::StringShape.new(name: 'KeyTypeArgumentsTextString')
+    KeyTypeResult = Shapes::StructureShape.new(name: 'KeyTypeResult')
     LanguageRuntime = Shapes::StringShape.new(name: 'LanguageRuntime')
     LeftExpression = Shapes::UnionShape.new(name: 'LeftExpression')
     ListActorsInput = Shapes::StructureShape.new(name: 'ListActorsInput')
@@ -225,6 +239,18 @@ module Aws::BedrockAgentCore
     MetadataValue = Shapes::UnionShape.new(name: 'MetadataValue')
     MetadataValueStringValueString = Shapes::StringShape.new(name: 'MetadataValueStringValueString')
     MimeType = Shapes::StringShape.new(name: 'MimeType')
+    MouseButton = Shapes::StringShape.new(name: 'MouseButton')
+    MouseClickArguments = Shapes::StructureShape.new(name: 'MouseClickArguments')
+    MouseClickArgumentsClickCountInteger = Shapes::IntegerShape.new(name: 'MouseClickArgumentsClickCountInteger')
+    MouseClickResult = Shapes::StructureShape.new(name: 'MouseClickResult')
+    MouseDragArguments = Shapes::StructureShape.new(name: 'MouseDragArguments')
+    MouseDragResult = Shapes::StructureShape.new(name: 'MouseDragResult')
+    MouseMoveArguments = Shapes::StructureShape.new(name: 'MouseMoveArguments')
+    MouseMoveResult = Shapes::StructureShape.new(name: 'MouseMoveResult')
+    MouseScrollArguments = Shapes::StructureShape.new(name: 'MouseScrollArguments')
+    MouseScrollArgumentsDeltaXInteger = Shapes::IntegerShape.new(name: 'MouseScrollArgumentsDeltaXInteger')
+    MouseScrollArgumentsDeltaYInteger = Shapes::IntegerShape.new(name: 'MouseScrollArgumentsDeltaYInteger')
+    MouseScrollResult = Shapes::StructureShape.new(name: 'MouseScrollResult')
     Name = Shapes::StringShape.new(name: 'Name')
     Namespace = Shapes::StringShape.new(name: 'Namespace')
     NamespacesList = Shapes::ListShape.new(name: 'NamespacesList')
@@ -266,6 +292,9 @@ module Aws::BedrockAgentCore
     SaveBrowserSessionProfileResponse = Shapes::StructureShape.new(name: 'SaveBrowserSessionProfileResponse')
     ScopeType = Shapes::StringShape.new(name: 'ScopeType')
     ScopesListType = Shapes::ListShape.new(name: 'ScopesListType')
+    ScreenshotArguments = Shapes::StructureShape.new(name: 'ScreenshotArguments')
+    ScreenshotFormat = Shapes::StringShape.new(name: 'ScreenshotFormat')
+    ScreenshotResult = Shapes::StructureShape.new(name: 'ScreenshotResult')
     SearchCriteria = Shapes::StructureShape.new(name: 'SearchCriteria')
     SearchCriteriaSearchQueryString = Shapes::StringShape.new(name: 'SearchCriteriaSearchQueryString')
     SearchCriteriaTopKInteger = Shapes::IntegerShape.new(name: 'SearchCriteriaTopKInteger')
@@ -385,6 +414,46 @@ module Aws::BedrockAgentCore
     BranchFilter.add_member(:name, Shapes::ShapeRef.new(shape: BranchName, required: true, location_name: "name"))
     BranchFilter.add_member(:include_parent_branches, Shapes::ShapeRef.new(shape: Boolean, location_name: "includeParentBranches"))
     BranchFilter.struct_class = Types::BranchFilter
+
+    BrowserAction.add_member(:mouse_click, Shapes::ShapeRef.new(shape: MouseClickArguments, location_name: "mouseClick"))
+    BrowserAction.add_member(:mouse_move, Shapes::ShapeRef.new(shape: MouseMoveArguments, location_name: "mouseMove"))
+    BrowserAction.add_member(:mouse_drag, Shapes::ShapeRef.new(shape: MouseDragArguments, location_name: "mouseDrag"))
+    BrowserAction.add_member(:mouse_scroll, Shapes::ShapeRef.new(shape: MouseScrollArguments, location_name: "mouseScroll"))
+    BrowserAction.add_member(:key_type, Shapes::ShapeRef.new(shape: KeyTypeArguments, location_name: "keyType"))
+    BrowserAction.add_member(:key_press, Shapes::ShapeRef.new(shape: KeyPressArguments, location_name: "keyPress"))
+    BrowserAction.add_member(:key_shortcut, Shapes::ShapeRef.new(shape: KeyShortcutArguments, location_name: "keyShortcut"))
+    BrowserAction.add_member(:screenshot, Shapes::ShapeRef.new(shape: ScreenshotArguments, location_name: "screenshot"))
+    BrowserAction.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    BrowserAction.add_member_subclass(:mouse_click, Types::BrowserAction::MouseClick)
+    BrowserAction.add_member_subclass(:mouse_move, Types::BrowserAction::MouseMove)
+    BrowserAction.add_member_subclass(:mouse_drag, Types::BrowserAction::MouseDrag)
+    BrowserAction.add_member_subclass(:mouse_scroll, Types::BrowserAction::MouseScroll)
+    BrowserAction.add_member_subclass(:key_type, Types::BrowserAction::KeyType)
+    BrowserAction.add_member_subclass(:key_press, Types::BrowserAction::KeyPress)
+    BrowserAction.add_member_subclass(:key_shortcut, Types::BrowserAction::KeyShortcut)
+    BrowserAction.add_member_subclass(:screenshot, Types::BrowserAction::Screenshot)
+    BrowserAction.add_member_subclass(:unknown, Types::BrowserAction::Unknown)
+    BrowserAction.struct_class = Types::BrowserAction
+
+    BrowserActionResult.add_member(:mouse_click, Shapes::ShapeRef.new(shape: MouseClickResult, location_name: "mouseClick"))
+    BrowserActionResult.add_member(:mouse_move, Shapes::ShapeRef.new(shape: MouseMoveResult, location_name: "mouseMove"))
+    BrowserActionResult.add_member(:mouse_drag, Shapes::ShapeRef.new(shape: MouseDragResult, location_name: "mouseDrag"))
+    BrowserActionResult.add_member(:mouse_scroll, Shapes::ShapeRef.new(shape: MouseScrollResult, location_name: "mouseScroll"))
+    BrowserActionResult.add_member(:key_type, Shapes::ShapeRef.new(shape: KeyTypeResult, location_name: "keyType"))
+    BrowserActionResult.add_member(:key_press, Shapes::ShapeRef.new(shape: KeyPressResult, location_name: "keyPress"))
+    BrowserActionResult.add_member(:key_shortcut, Shapes::ShapeRef.new(shape: KeyShortcutResult, location_name: "keyShortcut"))
+    BrowserActionResult.add_member(:screenshot, Shapes::ShapeRef.new(shape: ScreenshotResult, location_name: "screenshot"))
+    BrowserActionResult.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    BrowserActionResult.add_member_subclass(:mouse_click, Types::BrowserActionResult::MouseClick)
+    BrowserActionResult.add_member_subclass(:mouse_move, Types::BrowserActionResult::MouseMove)
+    BrowserActionResult.add_member_subclass(:mouse_drag, Types::BrowserActionResult::MouseDrag)
+    BrowserActionResult.add_member_subclass(:mouse_scroll, Types::BrowserActionResult::MouseScroll)
+    BrowserActionResult.add_member_subclass(:key_type, Types::BrowserActionResult::KeyType)
+    BrowserActionResult.add_member_subclass(:key_press, Types::BrowserActionResult::KeyPress)
+    BrowserActionResult.add_member_subclass(:key_shortcut, Types::BrowserActionResult::KeyShortcut)
+    BrowserActionResult.add_member_subclass(:screenshot, Types::BrowserActionResult::Screenshot)
+    BrowserActionResult.add_member_subclass(:unknown, Types::BrowserActionResult::Unknown)
+    BrowserActionResult.struct_class = Types::BrowserActionResult
 
     BrowserEnterprisePolicies.member = Shapes::ShapeRef.new(shape: BrowserEnterprisePolicy)
 
@@ -843,6 +912,15 @@ module Aws::BedrockAgentCore
     InvokeAgentRuntimeResponse[:payload] = :response
     InvokeAgentRuntimeResponse[:payload_member] = InvokeAgentRuntimeResponse.member(:response)
 
+    InvokeBrowserRequest.add_member(:browser_identifier, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "browserIdentifier"))
+    InvokeBrowserRequest.add_member(:session_id, Shapes::ShapeRef.new(shape: BrowserSessionId, required: true, location: "header", location_name: "x-amzn-browser-session-id"))
+    InvokeBrowserRequest.add_member(:action, Shapes::ShapeRef.new(shape: BrowserAction, required: true, location_name: "action"))
+    InvokeBrowserRequest.struct_class = Types::InvokeBrowserRequest
+
+    InvokeBrowserResponse.add_member(:result, Shapes::ShapeRef.new(shape: BrowserActionResult, required: true, location_name: "result"))
+    InvokeBrowserResponse.add_member(:session_id, Shapes::ShapeRef.new(shape: BrowserSessionId, required: true, location: "header", location_name: "x-amzn-browser-session-id"))
+    InvokeBrowserResponse.struct_class = Types::InvokeBrowserResponse
+
     InvokeCodeInterpreterRequest.add_member(:code_interpreter_identifier, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "codeInterpreterIdentifier"))
     InvokeCodeInterpreterRequest.add_member(:session_id, Shapes::ShapeRef.new(shape: CodeInterpreterSessionId, location: "header", location_name: "x-amzn-code-interpreter-session-id"))
     InvokeCodeInterpreterRequest.add_member(:trace_id, Shapes::ShapeRef.new(shape: InvokeCodeInterpreterRequestTraceIdString, location: "header", location_name: "X-Amzn-Trace-Id"))
@@ -856,6 +934,30 @@ module Aws::BedrockAgentCore
     InvokeCodeInterpreterResponse.struct_class = Types::InvokeCodeInterpreterResponse
     InvokeCodeInterpreterResponse[:payload] = :stream
     InvokeCodeInterpreterResponse[:payload_member] = InvokeCodeInterpreterResponse.member(:stream)
+
+    KeyList.member = Shapes::ShapeRef.new(shape: String)
+
+    KeyPressArguments.add_member(:key, Shapes::ShapeRef.new(shape: String, required: true, location_name: "key"))
+    KeyPressArguments.add_member(:presses, Shapes::ShapeRef.new(shape: KeyPressArgumentsPressesInteger, location_name: "presses"))
+    KeyPressArguments.struct_class = Types::KeyPressArguments
+
+    KeyPressResult.add_member(:status, Shapes::ShapeRef.new(shape: BrowserActionStatus, required: true, location_name: "status"))
+    KeyPressResult.add_member(:error, Shapes::ShapeRef.new(shape: String, location_name: "error"))
+    KeyPressResult.struct_class = Types::KeyPressResult
+
+    KeyShortcutArguments.add_member(:keys, Shapes::ShapeRef.new(shape: KeyList, required: true, location_name: "keys"))
+    KeyShortcutArguments.struct_class = Types::KeyShortcutArguments
+
+    KeyShortcutResult.add_member(:status, Shapes::ShapeRef.new(shape: BrowserActionStatus, required: true, location_name: "status"))
+    KeyShortcutResult.add_member(:error, Shapes::ShapeRef.new(shape: String, location_name: "error"))
+    KeyShortcutResult.struct_class = Types::KeyShortcutResult
+
+    KeyTypeArguments.add_member(:text, Shapes::ShapeRef.new(shape: KeyTypeArgumentsTextString, required: true, location_name: "text"))
+    KeyTypeArguments.struct_class = Types::KeyTypeArguments
+
+    KeyTypeResult.add_member(:status, Shapes::ShapeRef.new(shape: BrowserActionStatus, required: true, location_name: "status"))
+    KeyTypeResult.add_member(:error, Shapes::ShapeRef.new(shape: String, location_name: "error"))
+    KeyTypeResult.struct_class = Types::KeyTypeResult
 
     LeftExpression.add_member(:metadata_key, Shapes::ShapeRef.new(shape: MetadataKey, location_name: "metadataKey"))
     LeftExpression.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
@@ -1019,6 +1121,45 @@ module Aws::BedrockAgentCore
     MetadataValue.add_member_subclass(:unknown, Types::MetadataValue::Unknown)
     MetadataValue.struct_class = Types::MetadataValue
 
+    MouseClickArguments.add_member(:x, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "x"))
+    MouseClickArguments.add_member(:y, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "y"))
+    MouseClickArguments.add_member(:button, Shapes::ShapeRef.new(shape: MouseButton, location_name: "button"))
+    MouseClickArguments.add_member(:click_count, Shapes::ShapeRef.new(shape: MouseClickArgumentsClickCountInteger, location_name: "clickCount"))
+    MouseClickArguments.struct_class = Types::MouseClickArguments
+
+    MouseClickResult.add_member(:status, Shapes::ShapeRef.new(shape: BrowserActionStatus, required: true, location_name: "status"))
+    MouseClickResult.add_member(:error, Shapes::ShapeRef.new(shape: String, location_name: "error"))
+    MouseClickResult.struct_class = Types::MouseClickResult
+
+    MouseDragArguments.add_member(:end_x, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "endX"))
+    MouseDragArguments.add_member(:end_y, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "endY"))
+    MouseDragArguments.add_member(:start_x, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "startX"))
+    MouseDragArguments.add_member(:start_y, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "startY"))
+    MouseDragArguments.add_member(:button, Shapes::ShapeRef.new(shape: MouseButton, location_name: "button"))
+    MouseDragArguments.struct_class = Types::MouseDragArguments
+
+    MouseDragResult.add_member(:status, Shapes::ShapeRef.new(shape: BrowserActionStatus, required: true, location_name: "status"))
+    MouseDragResult.add_member(:error, Shapes::ShapeRef.new(shape: String, location_name: "error"))
+    MouseDragResult.struct_class = Types::MouseDragResult
+
+    MouseMoveArguments.add_member(:x, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "x"))
+    MouseMoveArguments.add_member(:y, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "y"))
+    MouseMoveArguments.struct_class = Types::MouseMoveArguments
+
+    MouseMoveResult.add_member(:status, Shapes::ShapeRef.new(shape: BrowserActionStatus, required: true, location_name: "status"))
+    MouseMoveResult.add_member(:error, Shapes::ShapeRef.new(shape: String, location_name: "error"))
+    MouseMoveResult.struct_class = Types::MouseMoveResult
+
+    MouseScrollArguments.add_member(:x, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "x"))
+    MouseScrollArguments.add_member(:y, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "y"))
+    MouseScrollArguments.add_member(:delta_x, Shapes::ShapeRef.new(shape: MouseScrollArgumentsDeltaXInteger, location_name: "deltaX"))
+    MouseScrollArguments.add_member(:delta_y, Shapes::ShapeRef.new(shape: MouseScrollArgumentsDeltaYInteger, location_name: "deltaY"))
+    MouseScrollArguments.struct_class = Types::MouseScrollArguments
+
+    MouseScrollResult.add_member(:status, Shapes::ShapeRef.new(shape: BrowserActionStatus, required: true, location_name: "status"))
+    MouseScrollResult.add_member(:error, Shapes::ShapeRef.new(shape: String, location_name: "error"))
+    MouseScrollResult.struct_class = Types::MouseScrollResult
+
     NamespacesList.member = Shapes::ShapeRef.new(shape: Namespace)
 
     PayloadType.add_member(:conversational, Shapes::ShapeRef.new(shape: Conversational, location_name: "conversational"))
@@ -1116,6 +1257,14 @@ module Aws::BedrockAgentCore
     SaveBrowserSessionProfileResponse.struct_class = Types::SaveBrowserSessionProfileResponse
 
     ScopesListType.member = Shapes::ShapeRef.new(shape: ScopeType)
+
+    ScreenshotArguments.add_member(:format, Shapes::ShapeRef.new(shape: ScreenshotFormat, location_name: "format"))
+    ScreenshotArguments.struct_class = Types::ScreenshotArguments
+
+    ScreenshotResult.add_member(:status, Shapes::ShapeRef.new(shape: BrowserActionStatus, required: true, location_name: "status"))
+    ScreenshotResult.add_member(:error, Shapes::ShapeRef.new(shape: String, location_name: "error"))
+    ScreenshotResult.add_member(:data, Shapes::ShapeRef.new(shape: Blob, location_name: "data"))
+    ScreenshotResult.struct_class = Types::ScreenshotResult
 
     SearchCriteria.add_member(:search_query, Shapes::ShapeRef.new(shape: SearchCriteriaSearchQueryString, required: true, location_name: "searchQuery"))
     SearchCriteria.add_member(:memory_strategy_id, Shapes::ShapeRef.new(shape: MemoryStrategyId, location_name: "memoryStrategyId"))
@@ -1612,6 +1761,20 @@ module Aws::BedrockAgentCore
         o.errors << Shapes::ShapeRef.new(shape: RuntimeClientError)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:invoke_browser, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "InvokeBrowser"
+        o.http_method = "POST"
+        o.http_request_uri = "/browsers/{browserIdentifier}/sessions/invoke"
+        o.input = Shapes::ShapeRef.new(shape: InvokeBrowserRequest)
+        o.output = Shapes::ShapeRef.new(shape: InvokeBrowserResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 

@@ -5531,6 +5531,12 @@ module Aws::EC2
     #   The Amazon Web Services account ID that owns the capacity resource.
     #   @return [String]
     #
+    # @!attribute [rw] account_name
+    #   The name of the Amazon Web Services account that owns the capacity
+    #   resource. This dimension is only available when Organizations access
+    #   is enabled for Capacity Manager.
+    #   @return [String]
+    #
     # @!attribute [rw] instance_family
     #   The EC2 instance family of the capacity resource.
     #   @return [String]
@@ -5602,12 +5608,19 @@ module Aws::EC2
     #   for unused capacity reservation costs.
     #   @return [String]
     #
+    # @!attribute [rw] tags
+    #   The tags associated with the capacity resource, represented as
+    #   key-value pairs. Only tags that have been activated for monitoring
+    #   via `UpdateCapacityManagerMonitoredTagKeys` are included.
+    #   @return [Array<Types::CapacityManagerTagDimension>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CapacityManagerDimension AWS API Documentation
     #
     class CapacityManagerDimension < Struct.new(
       :resource_region,
       :availability_zone_id,
       :account_id,
+      :account_name,
       :instance_family,
       :instance_type,
       :instance_platform,
@@ -5621,7 +5634,67 @@ module Aws::EC2
       :tenancy,
       :reservation_state,
       :reservation_instance_match_criteria,
-      :reservation_unused_financial_owner)
+      :reservation_unused_financial_owner,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes a tag key that is being monitored by Capacity Manager,
+    # including its activation status and the earliest available data point.
+    #
+    # @!attribute [rw] tag_key
+    #   The tag key being monitored.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the monitored tag key. Valid values are
+    #   `activating`, `activated`, `deactivating`, and `suspended`.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   A message providing additional details about the current status of
+    #   the monitored tag key.
+    #   @return [String]
+    #
+    # @!attribute [rw] capacity_manager_provided
+    #   Indicates whether this tag key is provided by Capacity Manager by
+    #   default, rather than being user-activated.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] earliest_datapoint_timestamp
+    #   The earliest timestamp from which tag data is available for queries,
+    #   in UTC ISO 8601 format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CapacityManagerMonitoredTagKey AWS API Documentation
+    #
+    class CapacityManagerMonitoredTagKey < Struct.new(
+      :tag_key,
+      :status,
+      :status_message,
+      :capacity_manager_provided,
+      :earliest_datapoint_timestamp)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A key-value pair representing a tag associated with a capacity
+    # resource in Capacity Manager.
+    #
+    # @!attribute [rw] key
+    #   The tag key.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The tag value.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CapacityManagerTagDimension AWS API Documentation
+    #
+    class CapacityManagerTagDimension < Struct.new(
+      :key,
+      :value)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -43471,6 +43544,54 @@ module Aws::EC2
     #
     class GetCapacityManagerMetricDimensionsResult < Struct.new(
       :metric_dimension_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call. To
+    #   retrieve the remaining results, make another call with the returned
+    #   `NextToken` value. If not specified, up to 1000 results are
+    #   returned.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results. Use the value returned from
+    #   a previous call to retrieve additional results.
+    #   @return [String]
+    #
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetCapacityManagerMonitoredTagKeysRequest AWS API Documentation
+    #
+    class GetCapacityManagerMonitoredTagKeysRequest < Struct.new(
+      :max_results,
+      :next_token,
+      :dry_run)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] capacity_manager_tag_keys
+    #   The list of tag keys being monitored by Capacity Manager, including
+    #   their current status and metadata.
+    #   @return [Array<Types::CapacityManagerMonitoredTagKey>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use to retrieve the next page of results. This value is
+    #   null when there are no more results to return.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetCapacityManagerMonitoredTagKeysResult AWS API Documentation
+    #
+    class GetCapacityManagerMonitoredTagKeysResult < Struct.new(
+      :capacity_manager_tag_keys,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -83454,6 +83575,55 @@ module Aws::EC2
     class UnsuccessfulItemError < Struct.new(
       :code,
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] activate_tag_keys
+    #   The tag keys to activate for monitoring. Once activated, these tag
+    #   keys will be included as dimensions in capacity metric data.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] deactivate_tag_keys
+    #   The tag keys to deactivate. Deactivated tag keys will no longer be
+    #   included as dimensions in capacity metric data.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] client_token
+    #   Unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/UpdateCapacityManagerMonitoredTagKeysRequest AWS API Documentation
+    #
+    class UpdateCapacityManagerMonitoredTagKeysRequest < Struct.new(
+      :activate_tag_keys,
+      :deactivate_tag_keys,
+      :dry_run,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] capacity_manager_tag_keys
+    #   The list of tag keys affected by the update, including their current
+    #   status and metadata.
+    #   @return [Array<Types::CapacityManagerMonitoredTagKey>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/UpdateCapacityManagerMonitoredTagKeysResult AWS API Documentation
+    #
+    class UpdateCapacityManagerMonitoredTagKeysResult < Struct.new(
+      :capacity_manager_tag_keys)
       SENSITIVE = []
       include Aws::Structure
     end

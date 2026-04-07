@@ -13740,6 +13740,69 @@ module Aws::ECS
       include Aws::Structure
     end
 
+    # This parameter is specified when you're using an Amazon S3 Files file
+    # system for task storage. For more information, see [Amazon S3 Files
+    # volumes][1] in the *Amazon Elastic Container Service Developer Guide*.
+    #
+    # Your task definition must include a Task IAM Role. See [ IAM role for
+    # attaching your file system to AWS compute resources][2] for required
+    # permissions.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/s3files-volumes.html
+    # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-files-prereq-policies.html#s3-files-prereq-iam-compute-role
+    #
+    # @!attribute [rw] file_system_arn
+    #   The full ARN of the S3 Files file system to mount.
+    #   @return [String]
+    #
+    # @!attribute [rw] root_directory
+    #   The directory within the Amazon S3 Files file system to mount as the
+    #   root directory. If this parameter is omitted, the root of the Amazon
+    #   S3 Files file system will be used. Specifying `/` will have the same
+    #   effect as omitting this parameter.
+    #
+    #   If a S3 Files access point is specified in the `accessPointArn`, the
+    #   root directory parameter must either be omitted or set to `/` which
+    #   will enforce the path set on the S3 Files access point.
+    #   @return [String]
+    #
+    # @!attribute [rw] transit_encryption_port
+    #   The port to use for sending encrypted data between the ECS host and
+    #   the S3 Files file system. If you do not specify a transit encryption
+    #   port, it will use the port selection strategy that the Amazon S3
+    #   Files mount helper uses. For more information, see [S3 Files mount
+    #   helper][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-files-mounting.html
+    #   @return [Integer]
+    #
+    # @!attribute [rw] access_point_arn
+    #   The full ARN of the S3 Files access point to use. If an access point
+    #   is specified, the root directory value specified in the
+    #   `S3FilesVolumeConfiguration` must either be omitted or set to `/`
+    #   which will enforce the path set on the S3 Files access point. For
+    #   more information, see [Creating S3 Files access points][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-files-access-points-creating.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/S3FilesVolumeConfiguration AWS API Documentation
+    #
+    class S3FilesVolumeConfiguration < Struct.new(
+      :file_system_arn,
+      :root_directory,
+      :transit_encryption_port,
+      :access_point_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A floating-point percentage of the desired number of tasks to place
     # and keep running in the task set.
     #
@@ -19024,10 +19087,10 @@ module Aws::ECS
     # only one volume configured at launch is supported. Each volume defined
     # in the volume configuration may only specify a `name` and one of
     # either `configuredAtLaunch`, `dockerVolumeConfiguration`,
-    # `efsVolumeConfiguration`, `fsxWindowsFileServerVolumeConfiguration`,
-    # or `host`. If an empty volume configuration is specified, by default
-    # Amazon ECS uses a host volume. For more information, see [Using data
-    # volumes in tasks][1].
+    # `efsVolumeConfiguration`, `s3filesVolumeConfiguration`,
+    # `fsxWindowsFileServerVolumeConfiguration`, or `host`. If an empty
+    # volume configuration is specified, by default Amazon ECS uses a host
+    # volume. For more information, see [Using data volumes in tasks][1].
     #
     #
     #
@@ -19047,6 +19110,9 @@ module Aws::ECS
     #   container definition.
     #
     #   When a volume is using the `efsVolumeConfiguration`, the name is
+    #   required.
+    #
+    #   When a volume is using the `s3filesVolumeConfiguration`, the name is
     #   required.
     #   @return [String]
     #
@@ -19082,6 +19148,11 @@ module Aws::ECS
     #   System file system for task storage.
     #   @return [Types::EFSVolumeConfiguration]
     #
+    # @!attribute [rw] s3files_volume_configuration
+    #   This parameter is specified when you use an Amazon S3 Files file
+    #   system for task storage.
+    #   @return [Types::S3FilesVolumeConfiguration]
+    #
     # @!attribute [rw] fsx_windows_file_server_volume_configuration
     #   This parameter is specified when you use Amazon FSx for Windows File
     #   Server file system for task storage.
@@ -19106,6 +19177,7 @@ module Aws::ECS
       :host,
       :docker_volume_configuration,
       :efs_volume_configuration,
+      :s3files_volume_configuration,
       :fsx_windows_file_server_volume_configuration,
       :configured_at_launch)
       SENSITIVE = []

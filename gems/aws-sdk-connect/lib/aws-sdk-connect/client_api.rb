@@ -2205,6 +2205,7 @@ module Aws::Connect
     AgentInfo.add_member(:after_contact_work_end_timestamp, Shapes::ShapeRef.new(shape: timestamp, location_name: "AfterContactWorkEndTimestamp"))
     AgentInfo.add_member(:agent_initiated_hold_duration, Shapes::ShapeRef.new(shape: Duration, location_name: "AgentInitiatedHoldDuration"))
     AgentInfo.add_member(:state_transitions, Shapes::ShapeRef.new(shape: StateTransitions, location_name: "StateTransitions"))
+    AgentInfo.add_member(:voice_enhancement_mode, Shapes::ShapeRef.new(shape: VoiceEnhancementMode, location_name: "VoiceEnhancementMode"))
     AgentInfo.struct_class = Types::AgentInfo
 
     AgentQualityMetrics.add_member(:audio, Shapes::ShapeRef.new(shape: AudioQualityMetricsInfo, location_name: "Audio"))

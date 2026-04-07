@@ -360,6 +360,13 @@ module Aws::Connect
     #   List of `StateTransition` for a supervisor.
     #   @return [Array<Types::StateTransition>]
     #
+    # @!attribute [rw] voice_enhancement_mode
+    #   The voice enhancement mode used by the agent as the call is ending.
+    #   Valid values: VOICE\_ISOLATION \| NOISE\_SUPPRESSION \| NONE. A
+    #   value of null indicates this mode has not yet been set for this
+    #   user.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/AgentInfo AWS API Documentation
     #
     class AgentInfo < Struct.new(
@@ -375,7 +382,8 @@ module Aws::Connect
       :after_contact_work_start_timestamp,
       :after_contact_work_end_timestamp,
       :agent_initiated_hold_duration,
-      :state_transitions)
+      :state_transitions,
+      :voice_enhancement_mode)
       SENSITIVE = []
       include Aws::Structure
     end

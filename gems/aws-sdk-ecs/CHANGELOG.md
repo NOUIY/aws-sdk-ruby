@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.227.0 (2026-04-07)
+------------------
+
+* Feature - This release provides the functionality of mounting Amazon S3 Files to Amazon ECS tasks by adding support for the new S3FilesVolumeConfiguration parameter in ECS RegisterTaskDefinition API.
+
 1.226.0 (2026-04-01)
 ------------------
 

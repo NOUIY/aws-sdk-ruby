@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.611.0 (2026-04-07)
+------------------
+
+* Feature - EC2 Capacity Manager adds new dimensions for grouping and filtering capacity metrics, including tag-based dimensions and Account Name.
+
 1.610.0 (2026-03-31)
 ------------------
 

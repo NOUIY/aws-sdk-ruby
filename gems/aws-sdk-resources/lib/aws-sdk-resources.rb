@@ -346,6 +346,7 @@ module Aws
   autoload :Route53Resolver, 'aws-sdk-route53resolver'
   autoload :S3, 'aws-sdk-s3'
   autoload :S3Control, 'aws-sdk-s3control'
+  autoload :S3Files, 'aws-sdk-s3files'
   autoload :S3Outposts, 'aws-sdk-s3outposts'
   autoload :S3Tables, 'aws-sdk-s3tables'
   autoload :S3Vectors, 'aws-sdk-s3vectors'

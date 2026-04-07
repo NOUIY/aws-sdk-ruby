@@ -629,6 +629,7 @@ RubyGems.org page under "LINKS" section.
 | Amazon Route 53 Domains                               | Aws::Route53Domains                      | aws-sdk-route53domains                      | 2014-05-15  |
 | Amazon Route 53 Global Resolver                       | Aws::Route53GlobalResolver               | aws-sdk-route53globalresolver               | 2022-09-27  |
 | Amazon Route 53 Resolver                              | Aws::Route53Resolver                     | aws-sdk-route53resolver                     | 2018-04-01  |
+| Amazon S3 Files                                       | Aws::S3Files                             | aws-sdk-s3files                             | 2025-05-05  |
 | Amazon S3 Tables                                      | Aws::S3Tables                            | aws-sdk-s3tables                            | 2018-05-10  |
 | Amazon S3 Vectors                                     | Aws::S3Vectors                           | aws-sdk-s3vectors                           | 2025-07-15  |
 | Amazon S3 on Outposts                                 | Aws::S3Outposts                          | aws-sdk-s3outposts                          | 2017-07-25  |

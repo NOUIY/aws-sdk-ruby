@@ -597,6 +597,7 @@ module Aws
       interface _CreateConnectionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateConnectionOutput]
         def connection_id: () -> ::String
+        def configurations: () -> ::Array[Types::Configuration]
         def description: () -> ::String
         def domain_id: () -> ::String
         def domain_unit_id: () -> ::String
@@ -617,6 +618,12 @@ module Aws
                                  iam_connection_id: ::String?
                                },
                                ?client_token: ::String,
+                               ?configurations: Array[
+                                 {
+                                   classification: ::String?,
+                                   properties: Hash[::String, ::String]?
+                                 },
+                               ],
                                ?description: ::String,
                                domain_identifier: ::String,
                                ?environment_identifier: ::String,
@@ -717,6 +724,7 @@ module Aws
                                      connection: ::String?
                                    }?,
                                    glue_connection_name: ::String?,
+                                   glue_connection_names: Array[::String]?,
                                    glue_version: ::String?,
                                    idle_timeout: ::Integer?,
                                    java_virtual_env: ::String?,
@@ -726,7 +734,8 @@ module Aws
                                  }?,
                                  s3_properties: {
                                    s3_uri: ::String,
-                                   s3_access_grant_location_id: ::String?
+                                   s3_access_grant_location_id: ::String?,
+                                   register_s3_access_grant_location: bool?
                                  }?,
                                  amazon_q_properties: {
                                    is_enabled: bool,
@@ -2008,6 +2017,7 @@ module Aws
       interface _GetConnectionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetConnectionOutput]
         def connection_credentials: () -> Types::ConnectionCredentials
+        def configurations: () -> ::Array[Types::Configuration]
         def connection_id: () -> ::String
         def description: () -> ::String
         def domain_id: () -> ::String
@@ -3861,6 +3871,7 @@ module Aws
 
       interface _UpdateConnectionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateConnectionOutput]
+        def configurations: () -> ::Array[Types::Configuration]
         def connection_id: () -> ::String
         def description: () -> ::String
         def domain_id: () -> ::String
@@ -3875,6 +3886,12 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#update_connection-instance_method
       def update_connection: (
+                               ?configurations: Array[
+                                 {
+                                   classification: ::String?,
+                                   properties: Hash[::String, ::String]?
+                                 },
+                               ],
                                domain_identifier: ::String,
                                identifier: ::String,
                                ?description: ::String,
@@ -3938,7 +3955,8 @@ module Aws
                                  }?,
                                  s3_properties: {
                                    s3_uri: ::String,
-                                   s3_access_grant_location_id: ::String?
+                                   s3_access_grant_location_id: ::String?,
+                                   register_s3_access_grant_location: bool?
                                  }?,
                                  amazon_q_properties: {
                                    is_enabled: bool,

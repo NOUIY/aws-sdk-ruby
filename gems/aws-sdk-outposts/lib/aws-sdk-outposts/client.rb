@@ -1395,6 +1395,20 @@ module Aws::Outposts
     # @option params [Array<String>] :status_filter
     #   Filters the results by state.
     #
+    # @option params [Array<String>] :asset_type_filter
+    #   Filters the results by asset type.
+    #
+    #   * COMPUTE - Server asset used for customer compute
+    #
+    #   * STORAGE - Server asset used by storage services
+    #
+    #   * POWERSHELF - Powershelf assets
+    #
+    #   * SWITCH - Switch assets
+    #
+    #   * NETWORKING - Asset managed by Amazon Web Services for networking
+    #     purposes
+    #
     # @return [Types::ListAssetsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ListAssetsOutput#assets #assets} => Array&lt;Types::AssetInfo&gt;
@@ -1409,7 +1423,8 @@ module Aws::Outposts
     #     host_id_filter: ["HostId"],
     #     max_results: 1,
     #     next_token: "Token",
-    #     status_filter: ["ACTIVE"], # accepts ACTIVE, RETIRING, ISOLATED
+    #     status_filter: ["ACTIVE"], # accepts ACTIVE, RETIRING, ISOLATED, INSTALLING
+    #     asset_type_filter: ["COMPUTE"], # accepts COMPUTE, STORAGE, POWERSHELF, SWITCH, NETWORKING
     #   })
     #
     # @example Response structure
@@ -1417,9 +1432,9 @@ module Aws::Outposts
     #   resp.assets #=> Array
     #   resp.assets[0].asset_id #=> String
     #   resp.assets[0].rack_id #=> String
-    #   resp.assets[0].asset_type #=> String, one of "COMPUTE"
+    #   resp.assets[0].asset_type #=> String, one of "COMPUTE", "STORAGE", "POWERSHELF", "SWITCH", "NETWORKING"
     #   resp.assets[0].compute_attributes.host_id #=> String
-    #   resp.assets[0].compute_attributes.state #=> String, one of "ACTIVE", "ISOLATED", "RETIRING"
+    #   resp.assets[0].compute_attributes.state #=> String, one of "ACTIVE", "ISOLATED", "RETIRING", "INSTALLING"
     #   resp.assets[0].compute_attributes.instance_families #=> Array
     #   resp.assets[0].compute_attributes.instance_families[0] #=> String
     #   resp.assets[0].compute_attributes.instance_type_capacities #=> Array
@@ -2445,7 +2460,7 @@ module Aws::Outposts
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-outposts'
-      context[:gem_version] = '1.97.0'
+      context[:gem_version] = '1.98.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

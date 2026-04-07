@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.177.0 (2026-04-07)
+------------------
+
+* Feature - Launching Lambda integration with S3 Files as a new file system configuration.
+
 1.176.0 (2026-03-18)
 ------------------
 

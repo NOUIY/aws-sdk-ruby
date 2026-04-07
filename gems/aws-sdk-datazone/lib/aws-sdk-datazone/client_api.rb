@@ -161,7 +161,10 @@ module Aws::DataZone
     ConfigurableActionParameterList = Shapes::ListShape.new(name: 'ConfigurableActionParameterList')
     ConfigurableActionTypeAuthorization = Shapes::StringShape.new(name: 'ConfigurableActionTypeAuthorization')
     ConfigurableEnvironmentAction = Shapes::StructureShape.new(name: 'ConfigurableEnvironmentAction')
+    Configuration = Shapes::StructureShape.new(name: 'Configuration')
+    ConfigurationClassificationString = Shapes::StringShape.new(name: 'ConfigurationClassificationString')
     ConfigurationStatus = Shapes::StringShape.new(name: 'ConfigurationStatus')
+    Configurations = Shapes::ListShape.new(name: 'Configurations')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     ConnectionCredentials = Shapes::StructureShape.new(name: 'ConnectionCredentials')
     ConnectionId = Shapes::StringShape.new(name: 'ConnectionId')
@@ -563,6 +566,8 @@ module Aws::DataZone
     GlueConnectionInput = Shapes::StructureShape.new(name: 'GlueConnectionInput')
     GlueConnectionInputMatchCriteriaString = Shapes::StringShape.new(name: 'GlueConnectionInputMatchCriteriaString')
     GlueConnectionInputNameString = Shapes::StringShape.new(name: 'GlueConnectionInputNameString')
+    GlueConnectionName = Shapes::StringShape.new(name: 'GlueConnectionName')
+    GlueConnectionNames = Shapes::ListShape.new(name: 'GlueConnectionNames')
     GlueConnectionPatch = Shapes::StructureShape.new(name: 'GlueConnectionPatch')
     GlueConnectionStatusReasonString = Shapes::StringShape.new(name: 'GlueConnectionStatusReasonString')
     GlueConnectionType = Shapes::StringShape.new(name: 'GlueConnectionType')
@@ -1666,6 +1671,12 @@ module Aws::DataZone
     ConfigurableEnvironmentAction.add_member(:parameters, Shapes::ShapeRef.new(shape: ConfigurableActionParameterList, required: true, location_name: "parameters"))
     ConfigurableEnvironmentAction.struct_class = Types::ConfigurableEnvironmentAction
 
+    Configuration.add_member(:classification, Shapes::ShapeRef.new(shape: ConfigurationClassificationString, location_name: "classification"))
+    Configuration.add_member(:properties, Shapes::ShapeRef.new(shape: PropertyMap, location_name: "properties"))
+    Configuration.struct_class = Types::Configuration
+
+    Configurations.member = Shapes::ShapeRef.new(shape: Configuration)
+
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, required: true, location_name: "message"))
     ConflictException.struct_class = Types::ConflictException
 
@@ -1756,6 +1767,7 @@ module Aws::DataZone
 
     ConnectionSummaries.member = Shapes::ShapeRef.new(shape: ConnectionSummary)
 
+    ConnectionSummary.add_member(:configurations, Shapes::ShapeRef.new(shape: Configurations, location_name: "configurations"))
     ConnectionSummary.add_member(:connection_id, Shapes::ShapeRef.new(shape: ConnectionId, required: true, location_name: "connectionId"))
     ConnectionSummary.add_member(:domain_id, Shapes::ShapeRef.new(shape: DomainId, required: true, location_name: "domainId"))
     ConnectionSummary.add_member(:domain_unit_id, Shapes::ShapeRef.new(shape: DomainUnitId, required: true, location_name: "domainUnitId"))
@@ -1907,6 +1919,7 @@ module Aws::DataZone
 
     CreateConnectionInput.add_member(:aws_location, Shapes::ShapeRef.new(shape: AwsLocation, location_name: "awsLocation"))
     CreateConnectionInput.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateConnectionInput.add_member(:configurations, Shapes::ShapeRef.new(shape: Configurations, location_name: "configurations"))
     CreateConnectionInput.add_member(:description, Shapes::ShapeRef.new(shape: CreateConnectionInputDescriptionString, location_name: "description"))
     CreateConnectionInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
     CreateConnectionInput.add_member(:environment_identifier, Shapes::ShapeRef.new(shape: EnvironmentId, location_name: "environmentIdentifier"))
@@ -1917,6 +1930,7 @@ module Aws::DataZone
     CreateConnectionInput.struct_class = Types::CreateConnectionInput
 
     CreateConnectionOutput.add_member(:connection_id, Shapes::ShapeRef.new(shape: ConnectionId, required: true, location_name: "connectionId"))
+    CreateConnectionOutput.add_member(:configurations, Shapes::ShapeRef.new(shape: Configurations, location_name: "configurations"))
     CreateConnectionOutput.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     CreateConnectionOutput.add_member(:domain_id, Shapes::ShapeRef.new(shape: DomainId, required: true, location_name: "domainId"))
     CreateConnectionOutput.add_member(:domain_unit_id, Shapes::ShapeRef.new(shape: DomainUnitId, required: true, location_name: "domainUnitId"))
@@ -3208,6 +3222,7 @@ module Aws::DataZone
     GetConnectionInput.struct_class = Types::GetConnectionInput
 
     GetConnectionOutput.add_member(:connection_credentials, Shapes::ShapeRef.new(shape: ConnectionCredentials, location_name: "connectionCredentials"))
+    GetConnectionOutput.add_member(:configurations, Shapes::ShapeRef.new(shape: Configurations, location_name: "configurations"))
     GetConnectionOutput.add_member(:connection_id, Shapes::ShapeRef.new(shape: ConnectionId, required: true, location_name: "connectionId"))
     GetConnectionOutput.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     GetConnectionOutput.add_member(:domain_id, Shapes::ShapeRef.new(shape: DomainId, required: true, location_name: "domainId"))
@@ -3853,6 +3868,8 @@ module Aws::DataZone
     GlueConnectionInput.add_member(:python_properties, Shapes::ShapeRef.new(shape: PropertyMap, location_name: "pythonProperties"))
     GlueConnectionInput.add_member(:authentication_configuration, Shapes::ShapeRef.new(shape: AuthenticationConfigurationInput, location_name: "authenticationConfiguration"))
     GlueConnectionInput.struct_class = Types::GlueConnectionInput
+
+    GlueConnectionNames.member = Shapes::ShapeRef.new(shape: GlueConnectionName)
 
     GlueConnectionPatch.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
     GlueConnectionPatch.add_member(:connection_properties, Shapes::ShapeRef.new(shape: ConnectionProperties, location_name: "connectionProperties"))
@@ -4756,6 +4773,7 @@ module Aws::DataZone
 
     PhysicalEndpoint.add_member(:aws_location, Shapes::ShapeRef.new(shape: AwsLocation, location_name: "awsLocation"))
     PhysicalEndpoint.add_member(:glue_connection_name, Shapes::ShapeRef.new(shape: String, location_name: "glueConnectionName"))
+    PhysicalEndpoint.add_member(:glue_connection_names, Shapes::ShapeRef.new(shape: GlueConnectionNames, location_name: "glueConnectionNames"))
     PhysicalEndpoint.add_member(:glue_connection, Shapes::ShapeRef.new(shape: GlueConnection, location_name: "glueConnection"))
     PhysicalEndpoint.add_member(:enable_trusted_identity_propagation, Shapes::ShapeRef.new(shape: Boolean, location_name: "enableTrustedIdentityPropagation"))
     PhysicalEndpoint.add_member(:host, Shapes::ShapeRef.new(shape: String, location_name: "host"))
@@ -5293,16 +5311,19 @@ module Aws::DataZone
 
     S3PropertiesInput.add_member(:s3_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "s3Uri"))
     S3PropertiesInput.add_member(:s3_access_grant_location_id, Shapes::ShapeRef.new(shape: S3AccessGrantLocationId, location_name: "s3AccessGrantLocationId"))
+    S3PropertiesInput.add_member(:register_s3_access_grant_location, Shapes::ShapeRef.new(shape: Boolean, location_name: "registerS3AccessGrantLocation"))
     S3PropertiesInput.struct_class = Types::S3PropertiesInput
 
     S3PropertiesOutput.add_member(:s3_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "s3Uri"))
     S3PropertiesOutput.add_member(:s3_access_grant_location_id, Shapes::ShapeRef.new(shape: S3AccessGrantLocationId, location_name: "s3AccessGrantLocationId"))
+    S3PropertiesOutput.add_member(:register_s3_access_grant_location, Shapes::ShapeRef.new(shape: Boolean, location_name: "registerS3AccessGrantLocation"))
     S3PropertiesOutput.add_member(:status, Shapes::ShapeRef.new(shape: ConnectionStatus, location_name: "status"))
     S3PropertiesOutput.add_member(:error_message, Shapes::ShapeRef.new(shape: String, location_name: "errorMessage"))
     S3PropertiesOutput.struct_class = Types::S3PropertiesOutput
 
     S3PropertiesPatch.add_member(:s3_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "s3Uri"))
     S3PropertiesPatch.add_member(:s3_access_grant_location_id, Shapes::ShapeRef.new(shape: S3AccessGrantLocationId, location_name: "s3AccessGrantLocationId"))
+    S3PropertiesPatch.add_member(:register_s3_access_grant_location, Shapes::ShapeRef.new(shape: Boolean, location_name: "registerS3AccessGrantLocation"))
     S3PropertiesPatch.struct_class = Types::S3PropertiesPatch
 
     SageMakerRunConfigurationInput.add_member(:tracking_assets, Shapes::ShapeRef.new(shape: TrackingAssets, required: true, location_name: "trackingAssets"))
@@ -5503,6 +5524,7 @@ module Aws::DataZone
 
     SparkGluePropertiesInput.add_member(:additional_args, Shapes::ShapeRef.new(shape: SparkGlueArgs, location_name: "additionalArgs"))
     SparkGluePropertiesInput.add_member(:glue_connection_name, Shapes::ShapeRef.new(shape: SparkGluePropertiesInputGlueConnectionNameString, location_name: "glueConnectionName"))
+    SparkGluePropertiesInput.add_member(:glue_connection_names, Shapes::ShapeRef.new(shape: GlueConnectionNames, location_name: "glueConnectionNames"))
     SparkGluePropertiesInput.add_member(:glue_version, Shapes::ShapeRef.new(shape: SparkGluePropertiesInputGlueVersionString, location_name: "glueVersion"))
     SparkGluePropertiesInput.add_member(:idle_timeout, Shapes::ShapeRef.new(shape: Integer, location_name: "idleTimeout"))
     SparkGluePropertiesInput.add_member(:java_virtual_env, Shapes::ShapeRef.new(shape: SparkGluePropertiesInputJavaVirtualEnvString, location_name: "javaVirtualEnv"))
@@ -5513,6 +5535,7 @@ module Aws::DataZone
 
     SparkGluePropertiesOutput.add_member(:additional_args, Shapes::ShapeRef.new(shape: SparkGlueArgs, location_name: "additionalArgs"))
     SparkGluePropertiesOutput.add_member(:glue_connection_name, Shapes::ShapeRef.new(shape: String, location_name: "glueConnectionName"))
+    SparkGluePropertiesOutput.add_member(:glue_connection_names, Shapes::ShapeRef.new(shape: GlueConnectionNames, location_name: "glueConnectionNames"))
     SparkGluePropertiesOutput.add_member(:glue_version, Shapes::ShapeRef.new(shape: String, location_name: "glueVersion"))
     SparkGluePropertiesOutput.add_member(:idle_timeout, Shapes::ShapeRef.new(shape: Integer, location_name: "idleTimeout"))
     SparkGluePropertiesOutput.add_member(:java_virtual_env, Shapes::ShapeRef.new(shape: String, location_name: "javaVirtualEnv"))
@@ -5876,6 +5899,7 @@ module Aws::DataZone
     UpdateAssetFilterOutput.add_member(:effective_row_filter, Shapes::ShapeRef.new(shape: String, location_name: "effectiveRowFilter"))
     UpdateAssetFilterOutput.struct_class = Types::UpdateAssetFilterOutput
 
+    UpdateConnectionInput.add_member(:configurations, Shapes::ShapeRef.new(shape: Configurations, location_name: "configurations"))
     UpdateConnectionInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
     UpdateConnectionInput.add_member(:identifier, Shapes::ShapeRef.new(shape: ConnectionId, required: true, location: "uri", location_name: "identifier"))
     UpdateConnectionInput.add_member(:description, Shapes::ShapeRef.new(shape: UpdateConnectionInputDescriptionString, location_name: "description"))
@@ -5883,6 +5907,7 @@ module Aws::DataZone
     UpdateConnectionInput.add_member(:props, Shapes::ShapeRef.new(shape: ConnectionPropertiesPatch, location_name: "props"))
     UpdateConnectionInput.struct_class = Types::UpdateConnectionInput
 
+    UpdateConnectionOutput.add_member(:configurations, Shapes::ShapeRef.new(shape: Configurations, location_name: "configurations"))
     UpdateConnectionOutput.add_member(:connection_id, Shapes::ShapeRef.new(shape: ConnectionId, required: true, location_name: "connectionId"))
     UpdateConnectionOutput.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     UpdateConnectionOutput.add_member(:domain_id, Shapes::ShapeRef.new(shape: DomainId, required: true, location_name: "domainId"))

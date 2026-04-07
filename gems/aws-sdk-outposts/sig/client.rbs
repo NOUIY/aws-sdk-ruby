@@ -358,7 +358,8 @@ module Aws
                          ?host_id_filter: Array[::String],
                          ?max_results: ::Integer,
                          ?next_token: ::String,
-                         ?status_filter: Array[("ACTIVE" | "RETIRING" | "ISOLATED")]
+                         ?status_filter: Array[("ACTIVE" | "RETIRING" | "ISOLATED" | "INSTALLING")],
+                         ?asset_type_filter: Array[("COMPUTE" | "STORAGE" | "POWERSHELF" | "SWITCH" | "NETWORKING")]
                        ) -> _ListAssetsResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAssetsResponseSuccess
 

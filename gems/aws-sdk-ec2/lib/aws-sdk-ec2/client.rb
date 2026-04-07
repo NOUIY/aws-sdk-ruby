@@ -51421,13 +51421,13 @@ module Aws::EC2
     #     start_time: Time.now, # required
     #     end_time: Time.now, # required
     #     period: 1, # required
-    #     group_by: ["resource-region"], # accepts resource-region, availability-zone-id, account-id, instance-family, instance-type, instance-platform, reservation-arn, reservation-id, reservation-type, reservation-create-timestamp, reservation-start-timestamp, reservation-end-timestamp, reservation-end-date-type, tenancy, reservation-state, reservation-instance-match-criteria, reservation-unused-financial-owner
+    #     group_by: ["resource-region"], # accepts resource-region, availability-zone-id, account-id, account-name, instance-family, instance-type, instance-platform, reservation-arn, reservation-id, reservation-type, reservation-create-timestamp, reservation-start-timestamp, reservation-end-timestamp, reservation-end-date-type, tenancy, reservation-state, reservation-instance-match-criteria, reservation-unused-financial-owner
     #     filter_by: [
     #       {
     #         dimension_condition: {
-    #           dimension: "resource-region", # accepts resource-region, availability-zone-id, account-id, instance-family, instance-type, instance-platform, reservation-arn, reservation-id, reservation-type, reservation-create-timestamp, reservation-start-timestamp, reservation-end-timestamp, reservation-end-date-type, tenancy, reservation-state, reservation-instance-match-criteria, reservation-unused-financial-owner
+    #           dimension: "resource-region", # accepts resource-region, availability-zone-id, account-id, account-name, instance-family, instance-type, instance-platform, reservation-arn, reservation-id, reservation-type, reservation-create-timestamp, reservation-start-timestamp, reservation-end-timestamp, reservation-end-date-type, tenancy, reservation-state, reservation-instance-match-criteria, reservation-unused-financial-owner
     #           comparison: "equals", # accepts equals, in
-    #           values: ["String"],
+    #           values: ["ConditionValue"],
     #         },
     #       },
     #     ],
@@ -51442,6 +51442,7 @@ module Aws::EC2
     #   resp.metric_data_results[0].dimension.resource_region #=> String
     #   resp.metric_data_results[0].dimension.availability_zone_id #=> String
     #   resp.metric_data_results[0].dimension.account_id #=> String
+    #   resp.metric_data_results[0].dimension.account_name #=> String
     #   resp.metric_data_results[0].dimension.instance_family #=> String
     #   resp.metric_data_results[0].dimension.instance_type #=> String
     #   resp.metric_data_results[0].dimension.instance_platform #=> String
@@ -51456,6 +51457,9 @@ module Aws::EC2
     #   resp.metric_data_results[0].dimension.reservation_state #=> String, one of "active", "expired", "cancelled", "scheduled", "pending", "failed", "delayed", "unsupported", "payment-pending", "payment-failed", "retired"
     #   resp.metric_data_results[0].dimension.reservation_instance_match_criteria #=> String
     #   resp.metric_data_results[0].dimension.reservation_unused_financial_owner #=> String
+    #   resp.metric_data_results[0].dimension.tags #=> Array
+    #   resp.metric_data_results[0].dimension.tags[0].key #=> String
+    #   resp.metric_data_results[0].dimension.tags[0].value #=> String
     #   resp.metric_data_results[0].timestamp #=> Time
     #   resp.metric_data_results[0].metric_values #=> Array
     #   resp.metric_data_results[0].metric_values[0].metric #=> String, one of "reservation-total-capacity-hrs-vcpu", "reservation-total-capacity-hrs-inst", "reservation-max-size-vcpu", "reservation-max-size-inst", "reservation-min-size-vcpu", "reservation-min-size-inst", "reservation-unused-total-capacity-hrs-vcpu", "reservation-unused-total-capacity-hrs-inst", "reservation-unused-total-estimated-cost", "reservation-max-unused-size-vcpu", "reservation-max-unused-size-inst", "reservation-min-unused-size-vcpu", "reservation-min-unused-size-inst", "reservation-max-utilization", "reservation-min-utilization", "reservation-avg-utilization-vcpu", "reservation-avg-utilization-inst", "reservation-total-count", "reservation-total-estimated-cost", "reservation-avg-future-size-vcpu", "reservation-avg-future-size-inst", "reservation-min-future-size-vcpu", "reservation-min-future-size-inst", "reservation-max-future-size-vcpu", "reservation-max-future-size-inst", "reservation-avg-committed-size-vcpu", "reservation-avg-committed-size-inst", "reservation-max-committed-size-vcpu", "reservation-max-committed-size-inst", "reservation-min-committed-size-vcpu", "reservation-min-committed-size-inst", "reserved-total-usage-hrs-vcpu", "reserved-total-usage-hrs-inst", "reserved-total-estimated-cost", "unreserved-total-usage-hrs-vcpu", "unreserved-total-usage-hrs-inst", "unreserved-total-estimated-cost", "spot-total-usage-hrs-vcpu", "spot-total-usage-hrs-inst", "spot-total-estimated-cost", "spot-avg-run-time-before-interruption-inst", "spot-max-run-time-before-interruption-inst", "spot-min-run-time-before-interruption-inst", "spot-total-interruptions-inst", "spot-total-interruptions-vcpu", "spot-total-count-inst", "spot-total-count-vcpu", "spot-interruption-rate-inst", "spot-interruption-rate-vcpu"
@@ -51523,13 +51527,13 @@ module Aws::EC2
     # @example Request syntax with placeholder values
     #
     #   resp = client.get_capacity_manager_metric_dimensions({
-    #     group_by: ["resource-region"], # required, accepts resource-region, availability-zone-id, account-id, instance-family, instance-type, instance-platform, reservation-arn, reservation-id, reservation-type, reservation-create-timestamp, reservation-start-timestamp, reservation-end-timestamp, reservation-end-date-type, tenancy, reservation-state, reservation-instance-match-criteria, reservation-unused-financial-owner
+    #     group_by: ["resource-region"], # required, accepts resource-region, availability-zone-id, account-id, account-name, instance-family, instance-type, instance-platform, reservation-arn, reservation-id, reservation-type, reservation-create-timestamp, reservation-start-timestamp, reservation-end-timestamp, reservation-end-date-type, tenancy, reservation-state, reservation-instance-match-criteria, reservation-unused-financial-owner
     #     filter_by: [
     #       {
     #         dimension_condition: {
-    #           dimension: "resource-region", # accepts resource-region, availability-zone-id, account-id, instance-family, instance-type, instance-platform, reservation-arn, reservation-id, reservation-type, reservation-create-timestamp, reservation-start-timestamp, reservation-end-timestamp, reservation-end-date-type, tenancy, reservation-state, reservation-instance-match-criteria, reservation-unused-financial-owner
+    #           dimension: "resource-region", # accepts resource-region, availability-zone-id, account-id, account-name, instance-family, instance-type, instance-platform, reservation-arn, reservation-id, reservation-type, reservation-create-timestamp, reservation-start-timestamp, reservation-end-timestamp, reservation-end-date-type, tenancy, reservation-state, reservation-instance-match-criteria, reservation-unused-financial-owner
     #           comparison: "equals", # accepts equals, in
-    #           values: ["String"],
+    #           values: ["ConditionValue"],
     #         },
     #       },
     #     ],
@@ -51547,6 +51551,7 @@ module Aws::EC2
     #   resp.metric_dimension_results[0].resource_region #=> String
     #   resp.metric_dimension_results[0].availability_zone_id #=> String
     #   resp.metric_dimension_results[0].account_id #=> String
+    #   resp.metric_dimension_results[0].account_name #=> String
     #   resp.metric_dimension_results[0].instance_family #=> String
     #   resp.metric_dimension_results[0].instance_type #=> String
     #   resp.metric_dimension_results[0].instance_platform #=> String
@@ -51561,6 +51566,9 @@ module Aws::EC2
     #   resp.metric_dimension_results[0].reservation_state #=> String, one of "active", "expired", "cancelled", "scheduled", "pending", "failed", "delayed", "unsupported", "payment-pending", "payment-failed", "retired"
     #   resp.metric_dimension_results[0].reservation_instance_match_criteria #=> String
     #   resp.metric_dimension_results[0].reservation_unused_financial_owner #=> String
+    #   resp.metric_dimension_results[0].tags #=> Array
+    #   resp.metric_dimension_results[0].tags[0].key #=> String
+    #   resp.metric_dimension_results[0].tags[0].value #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetCapacityManagerMetricDimensions AWS API Documentation
@@ -51569,6 +51577,60 @@ module Aws::EC2
     # @param [Hash] params ({})
     def get_capacity_manager_metric_dimensions(params = {}, options = {})
       req = build_request(:get_capacity_manager_metric_dimensions, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the tag keys that are currently being monitored by EC2
+    # Capacity Manager. Monitored tag keys are included as dimensions in
+    # capacity metric data, enabling you to group and filter metrics by tag
+    # values.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call. To retrieve
+    #   the remaining results, make another call with the returned `NextToken`
+    #   value. If not specified, up to 1000 results are returned.
+    #
+    # @option params [String] :next_token
+    #   The token for the next page of results. Use the value returned from a
+    #   previous call to retrieve additional results.
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @return [Types::GetCapacityManagerMonitoredTagKeysResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetCapacityManagerMonitoredTagKeysResult#capacity_manager_tag_keys #capacity_manager_tag_keys} => Array&lt;Types::CapacityManagerMonitoredTagKey&gt;
+    #   * {Types::GetCapacityManagerMonitoredTagKeysResult#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_capacity_manager_monitored_tag_keys({
+    #     max_results: 1,
+    #     next_token: "String",
+    #     dry_run: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.capacity_manager_tag_keys #=> Array
+    #   resp.capacity_manager_tag_keys[0].tag_key #=> String
+    #   resp.capacity_manager_tag_keys[0].status #=> String, one of "activating", "activated", "deactivating", "suspended"
+    #   resp.capacity_manager_tag_keys[0].status_message #=> String
+    #   resp.capacity_manager_tag_keys[0].capacity_manager_provided #=> Boolean
+    #   resp.capacity_manager_tag_keys[0].earliest_datapoint_timestamp #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetCapacityManagerMonitoredTagKeys AWS API Documentation
+    #
+    # @overload get_capacity_manager_monitored_tag_keys(params = {})
+    # @param [Hash] params ({})
+    def get_capacity_manager_monitored_tag_keys(params = {}, options = {})
+      req = build_request(:get_capacity_manager_monitored_tag_keys, params)
       req.send_request(options)
     end
 
@@ -72676,6 +72738,62 @@ module Aws::EC2
       req.send_request(options)
     end
 
+    # Activates or deactivates tag keys for monitoring by EC2 Capacity
+    # Manager. Activated tag keys are included as dimensions in capacity
+    # metric data, enabling you to group and filter metrics by tag values.
+    #
+    # @option params [Array<String>] :activate_tag_keys
+    #   The tag keys to activate for monitoring. Once activated, these tag
+    #   keys will be included as dimensions in capacity metric data.
+    #
+    # @option params [Array<String>] :deactivate_tag_keys
+    #   The tag keys to deactivate. Deactivated tag keys will no longer be
+    #   included as dimensions in capacity metric data.
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @option params [String] :client_token
+    #   Unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::UpdateCapacityManagerMonitoredTagKeysResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateCapacityManagerMonitoredTagKeysResult#capacity_manager_tag_keys #capacity_manager_tag_keys} => Array&lt;Types::CapacityManagerMonitoredTagKey&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_capacity_manager_monitored_tag_keys({
+    #     activate_tag_keys: ["String"],
+    #     deactivate_tag_keys: ["String"],
+    #     dry_run: false,
+    #     client_token: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.capacity_manager_tag_keys #=> Array
+    #   resp.capacity_manager_tag_keys[0].tag_key #=> String
+    #   resp.capacity_manager_tag_keys[0].status #=> String, one of "activating", "activated", "deactivating", "suspended"
+    #   resp.capacity_manager_tag_keys[0].status_message #=> String
+    #   resp.capacity_manager_tag_keys[0].capacity_manager_provided #=> Boolean
+    #   resp.capacity_manager_tag_keys[0].earliest_datapoint_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/UpdateCapacityManagerMonitoredTagKeys AWS API Documentation
+    #
+    # @overload update_capacity_manager_monitored_tag_keys(params = {})
+    # @param [Hash] params ({})
+    def update_capacity_manager_monitored_tag_keys(params = {}, options = {})
+      req = build_request(:update_capacity_manager_monitored_tag_keys, params)
+      req.send_request(options)
+    end
+
     # Updates the Organizations access setting for EC2 Capacity Manager.
     # This controls whether Capacity Manager can aggregate data from all
     # accounts in your Amazon Web Services Organization or only from the
@@ -73094,7 +73212,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.610.0'
+      context[:gem_version] = '1.611.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -4058,6 +4058,10 @@ module Aws::ECS
     #   resp.task_definitions[0].volumes[0].efs_volume_configuration.transit_encryption_port #=> Integer
     #   resp.task_definitions[0].volumes[0].efs_volume_configuration.authorization_config.access_point_id #=> String
     #   resp.task_definitions[0].volumes[0].efs_volume_configuration.authorization_config.iam #=> String, one of "ENABLED", "DISABLED"
+    #   resp.task_definitions[0].volumes[0].s3files_volume_configuration.file_system_arn #=> String
+    #   resp.task_definitions[0].volumes[0].s3files_volume_configuration.root_directory #=> String
+    #   resp.task_definitions[0].volumes[0].s3files_volume_configuration.transit_encryption_port #=> Integer
+    #   resp.task_definitions[0].volumes[0].s3files_volume_configuration.access_point_arn #=> String
     #   resp.task_definitions[0].volumes[0].fsx_windows_file_server_volume_configuration.file_system_id #=> String
     #   resp.task_definitions[0].volumes[0].fsx_windows_file_server_volume_configuration.root_directory #=> String
     #   resp.task_definitions[0].volumes[0].fsx_windows_file_server_volume_configuration.authorization_config.credentials_parameter #=> String
@@ -4611,6 +4615,10 @@ module Aws::ECS
     #   resp.task_definition.volumes[0].efs_volume_configuration.transit_encryption_port #=> Integer
     #   resp.task_definition.volumes[0].efs_volume_configuration.authorization_config.access_point_id #=> String
     #   resp.task_definition.volumes[0].efs_volume_configuration.authorization_config.iam #=> String, one of "ENABLED", "DISABLED"
+    #   resp.task_definition.volumes[0].s3files_volume_configuration.file_system_arn #=> String
+    #   resp.task_definition.volumes[0].s3files_volume_configuration.root_directory #=> String
+    #   resp.task_definition.volumes[0].s3files_volume_configuration.transit_encryption_port #=> Integer
+    #   resp.task_definition.volumes[0].s3files_volume_configuration.access_point_arn #=> String
     #   resp.task_definition.volumes[0].fsx_windows_file_server_volume_configuration.file_system_id #=> String
     #   resp.task_definition.volumes[0].fsx_windows_file_server_volume_configuration.root_directory #=> String
     #   resp.task_definition.volumes[0].fsx_windows_file_server_volume_configuration.authorization_config.credentials_parameter #=> String
@@ -6725,6 +6733,10 @@ module Aws::ECS
     #   resp.task_definition.volumes[0].efs_volume_configuration.transit_encryption_port #=> Integer
     #   resp.task_definition.volumes[0].efs_volume_configuration.authorization_config.access_point_id #=> String
     #   resp.task_definition.volumes[0].efs_volume_configuration.authorization_config.iam #=> String, one of "ENABLED", "DISABLED"
+    #   resp.task_definition.volumes[0].s3files_volume_configuration.file_system_arn #=> String
+    #   resp.task_definition.volumes[0].s3files_volume_configuration.root_directory #=> String
+    #   resp.task_definition.volumes[0].s3files_volume_configuration.transit_encryption_port #=> Integer
+    #   resp.task_definition.volumes[0].s3files_volume_configuration.access_point_arn #=> String
     #   resp.task_definition.volumes[0].fsx_windows_file_server_volume_configuration.file_system_id #=> String
     #   resp.task_definition.volumes[0].fsx_windows_file_server_volume_configuration.root_directory #=> String
     #   resp.task_definition.volumes[0].fsx_windows_file_server_volume_configuration.authorization_config.credentials_parameter #=> String
@@ -10838,6 +10850,12 @@ module Aws::ECS
     #             iam: "ENABLED", # accepts ENABLED, DISABLED
     #           },
     #         },
+    #         s3files_volume_configuration: {
+    #           file_system_arn: "String", # required
+    #           root_directory: "String",
+    #           transit_encryption_port: 1,
+    #           access_point_arn: "String",
+    #         },
     #         fsx_windows_file_server_volume_configuration: {
     #           file_system_id: "String", # required
     #           root_directory: "String", # required
@@ -11027,6 +11045,10 @@ module Aws::ECS
     #   resp.task_definition.volumes[0].efs_volume_configuration.transit_encryption_port #=> Integer
     #   resp.task_definition.volumes[0].efs_volume_configuration.authorization_config.access_point_id #=> String
     #   resp.task_definition.volumes[0].efs_volume_configuration.authorization_config.iam #=> String, one of "ENABLED", "DISABLED"
+    #   resp.task_definition.volumes[0].s3files_volume_configuration.file_system_arn #=> String
+    #   resp.task_definition.volumes[0].s3files_volume_configuration.root_directory #=> String
+    #   resp.task_definition.volumes[0].s3files_volume_configuration.transit_encryption_port #=> Integer
+    #   resp.task_definition.volumes[0].s3files_volume_configuration.access_point_arn #=> String
     #   resp.task_definition.volumes[0].fsx_windows_file_server_volume_configuration.file_system_id #=> String
     #   resp.task_definition.volumes[0].fsx_windows_file_server_volume_configuration.root_directory #=> String
     #   resp.task_definition.volumes[0].fsx_windows_file_server_volume_configuration.authorization_config.credentials_parameter #=> String
@@ -15608,7 +15630,7 @@ module Aws::ECS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ecs'
-      context[:gem_version] = '1.226.0'
+      context[:gem_version] = '1.227.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

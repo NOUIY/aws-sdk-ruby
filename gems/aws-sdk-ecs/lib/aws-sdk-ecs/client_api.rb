@@ -464,6 +464,7 @@ module Aws::ECS
     RunTaskRequest = Shapes::StructureShape.new(name: 'RunTaskRequest')
     RunTaskResponse = Shapes::StructureShape.new(name: 'RunTaskResponse')
     RuntimePlatform = Shapes::StructureShape.new(name: 'RuntimePlatform')
+    S3FilesVolumeConfiguration = Shapes::StructureShape.new(name: 'S3FilesVolumeConfiguration')
     Scale = Shapes::StructureShape.new(name: 'Scale')
     ScaleUnit = Shapes::StringShape.new(name: 'ScaleUnit')
     SchedulingStrategy = Shapes::StringShape.new(name: 'SchedulingStrategy')
@@ -2380,6 +2381,12 @@ module Aws::ECS
     RuntimePlatform.add_member(:operating_system_family, Shapes::ShapeRef.new(shape: OSFamily, location_name: "operatingSystemFamily"))
     RuntimePlatform.struct_class = Types::RuntimePlatform
 
+    S3FilesVolumeConfiguration.add_member(:file_system_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "fileSystemArn"))
+    S3FilesVolumeConfiguration.add_member(:root_directory, Shapes::ShapeRef.new(shape: String, location_name: "rootDirectory"))
+    S3FilesVolumeConfiguration.add_member(:transit_encryption_port, Shapes::ShapeRef.new(shape: BoxedInteger, location_name: "transitEncryptionPort"))
+    S3FilesVolumeConfiguration.add_member(:access_point_arn, Shapes::ShapeRef.new(shape: String, location_name: "accessPointArn"))
+    S3FilesVolumeConfiguration.struct_class = Types::S3FilesVolumeConfiguration
+
     Scale.add_member(:value, Shapes::ShapeRef.new(shape: Double, location_name: "value"))
     Scale.add_member(:unit, Shapes::ShapeRef.new(shape: ScaleUnit, location_name: "unit"))
     Scale.struct_class = Types::Scale
@@ -3076,6 +3083,7 @@ module Aws::ECS
     Volume.add_member(:host, Shapes::ShapeRef.new(shape: HostVolumeProperties, location_name: "host"))
     Volume.add_member(:docker_volume_configuration, Shapes::ShapeRef.new(shape: DockerVolumeConfiguration, location_name: "dockerVolumeConfiguration"))
     Volume.add_member(:efs_volume_configuration, Shapes::ShapeRef.new(shape: EFSVolumeConfiguration, location_name: "efsVolumeConfiguration"))
+    Volume.add_member(:s3files_volume_configuration, Shapes::ShapeRef.new(shape: S3FilesVolumeConfiguration, location_name: "s3filesVolumeConfiguration"))
     Volume.add_member(:fsx_windows_file_server_volume_configuration, Shapes::ShapeRef.new(shape: FSxWindowsFileServerVolumeConfiguration, location_name: "fsxWindowsFileServerVolumeConfiguration"))
     Volume.add_member(:configured_at_launch, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "configuredAtLaunch"))
     Volume.struct_class = Types::Volume

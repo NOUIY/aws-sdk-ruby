@@ -7523,6 +7523,7 @@ module Aws::Connect
     #   resp.contact.agent_info.state_transitions[0].state #=> String, one of "INITIAL", "CONNECTED", "DISCONNECTED", "MISSED"
     #   resp.contact.agent_info.state_transitions[0].state_start_timestamp #=> Time
     #   resp.contact.agent_info.state_transitions[0].state_end_timestamp #=> Time
+    #   resp.contact.agent_info.voice_enhancement_mode #=> String, one of "VOICE_ISOLATION", "NOISE_SUPPRESSION", "NONE"
     #   resp.contact.initiation_timestamp #=> Time
     #   resp.contact.disconnect_timestamp #=> Time
     #   resp.contact.last_update_timestamp #=> Time
@@ -28848,7 +28849,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.249.0'
+      context[:gem_version] = '1.250.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

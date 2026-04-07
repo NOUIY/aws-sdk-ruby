@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.122.0 (2026-04-07)
+------------------
+
+* Feature - Allow IAM role ARNs with IAM Paths for "SecretAccessRoleArn" field in "CustomSecretConfig"
+
 1.121.0 (2026-03-18)
 ------------------
 

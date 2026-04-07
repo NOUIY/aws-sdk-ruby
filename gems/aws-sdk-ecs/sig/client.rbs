@@ -1596,6 +1596,12 @@ module Aws
                                               iam: ("ENABLED" | "DISABLED")?
                                             }?
                                           }?,
+                                          s3files_volume_configuration: {
+                                            file_system_arn: ::String,
+                                            root_directory: ::String?,
+                                            transit_encryption_port: ::Integer?,
+                                            access_point_arn: ::String?
+                                          }?,
                                           fsx_windows_file_server_volume_configuration: {
                                             file_system_id: ::String,
                                             root_directory: ::String,

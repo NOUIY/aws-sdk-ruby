@@ -31,7 +31,7 @@ module Aws::Outposts
     class AssetInfo
       attr_accessor asset_id: ::String
       attr_accessor rack_id: ::String
-      attr_accessor asset_type: ("COMPUTE")
+      attr_accessor asset_type: ("COMPUTE" | "STORAGE" | "POWERSHELF" | "SWITCH" | "NETWORKING")
       attr_accessor compute_attributes: Types::ComputeAttributes
       attr_accessor asset_location: Types::AssetLocation
       SENSITIVE: []
@@ -112,7 +112,7 @@ module Aws::Outposts
 
     class ComputeAttributes
       attr_accessor host_id: ::String
-      attr_accessor state: ("ACTIVE" | "ISOLATED" | "RETIRING")
+      attr_accessor state: ("ACTIVE" | "ISOLATED" | "RETIRING" | "INSTALLING")
       attr_accessor instance_families: ::Array[::String]
       attr_accessor instance_type_capacities: ::Array[Types::AssetInstanceTypeCapacity]
       attr_accessor max_vcpus: ::Integer
@@ -405,7 +405,8 @@ module Aws::Outposts
       attr_accessor host_id_filter: ::Array[::String]
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
-      attr_accessor status_filter: ::Array[("ACTIVE" | "RETIRING" | "ISOLATED")]
+      attr_accessor status_filter: ::Array[("ACTIVE" | "RETIRING" | "ISOLATED" | "INSTALLING")]
+      attr_accessor asset_type_filter: ::Array[("COMPUTE" | "STORAGE" | "POWERSHELF" | "SWITCH" | "NETWORKING")]
       SENSITIVE: []
     end
 

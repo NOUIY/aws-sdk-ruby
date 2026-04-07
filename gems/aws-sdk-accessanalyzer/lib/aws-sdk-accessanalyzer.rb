@@ -49,13 +49,12 @@ module Aws::AccessAnalyzer
   end
   autoload :Client, 'aws-sdk-accessanalyzer/client'
   autoload :Errors, 'aws-sdk-accessanalyzer/errors'
-  autoload :Waiters, 'aws-sdk-accessanalyzer/waiters'
   autoload :Resource, 'aws-sdk-accessanalyzer/resource'
   autoload :EndpointParameters, 'aws-sdk-accessanalyzer/endpoint_parameters'
   autoload :EndpointProvider, 'aws-sdk-accessanalyzer/endpoint_provider'
   autoload :Endpoints, 'aws-sdk-accessanalyzer/endpoints'
 
-  GEM_VERSION = '1.87.0'
+  GEM_VERSION = '1.88.0'
 
 end
 

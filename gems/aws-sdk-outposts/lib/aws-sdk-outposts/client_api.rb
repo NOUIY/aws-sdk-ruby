@@ -37,6 +37,7 @@ module Aws::Outposts
     AssetLocation = Shapes::StructureShape.new(name: 'AssetLocation')
     AssetState = Shapes::StringShape.new(name: 'AssetState')
     AssetType = Shapes::StringShape.new(name: 'AssetType')
+    AssetTypeList = Shapes::ListShape.new(name: 'AssetTypeList')
     AvailabilityZone = Shapes::StringShape.new(name: 'AvailabilityZone')
     AvailabilityZoneId = Shapes::StringShape.new(name: 'AvailabilityZoneId')
     AvailabilityZoneIdList = Shapes::ListShape.new(name: 'AvailabilityZoneIdList')
@@ -309,6 +310,8 @@ module Aws::Outposts
 
     AssetLocation.add_member(:rack_elevation, Shapes::ShapeRef.new(shape: RackElevation, location_name: "RackElevation"))
     AssetLocation.struct_class = Types::AssetLocation
+
+    AssetTypeList.member = Shapes::ShapeRef.new(shape: AssetType)
 
     AvailabilityZoneIdList.member = Shapes::ShapeRef.new(shape: AvailabilityZoneId)
 
@@ -605,6 +608,7 @@ module Aws::Outposts
     ListAssetsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults1000, location: "querystring", location_name: "MaxResults"))
     ListAssetsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location: "querystring", location_name: "NextToken"))
     ListAssetsInput.add_member(:status_filter, Shapes::ShapeRef.new(shape: StatusList, location: "querystring", location_name: "StatusFilter"))
+    ListAssetsInput.add_member(:asset_type_filter, Shapes::ShapeRef.new(shape: AssetTypeList, location: "querystring", location_name: "AssetTypeFilter"))
     ListAssetsInput.struct_class = Types::ListAssetsInput
 
     ListAssetsOutput.add_member(:assets, Shapes::ShapeRef.new(shape: AssetListDefinition, location_name: "Assets"))

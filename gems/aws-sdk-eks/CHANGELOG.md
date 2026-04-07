@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.163.0 (2026-04-07)
+------------------
+
+* Feature - EKS MNG WarmPool feature to support ASG WarmPool feature.
+
 1.162.0 (2026-03-18)
 ------------------
 

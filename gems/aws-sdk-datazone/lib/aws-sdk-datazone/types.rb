@@ -1975,6 +1975,25 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # The configuration of a connection.
+    #
+    # @!attribute [rw] classification
+    #   The classification of the connection configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] properties
+    #   The properties of the connection configuration.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/Configuration AWS API Documentation
+    #
+    class Configuration < Struct.new(
+      :classification,
+      :properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # There is a conflict while performing this action.
     #
     # @!attribute [rw] message
@@ -2257,6 +2276,10 @@ module Aws::DataZone
 
     # The summary of a connection.
     #
+    # @!attribute [rw] configurations
+    #   The configurations of a connection summary.
+    #   @return [Array<Types::Configuration>]
+    #
     # @!attribute [rw] connection_id
     #   The ID of a connection.
     #   @return [String]
@@ -2300,6 +2323,7 @@ module Aws::DataZone
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ConnectionSummary AWS API Documentation
     #
     class ConnectionSummary < Struct.new(
+      :configurations,
       :connection_id,
       :domain_id,
       :domain_unit_id,
@@ -3001,6 +3025,10 @@ module Aws::DataZone
     #   not need to pass this option.
     #   @return [String]
     #
+    # @!attribute [rw] configurations
+    #   The configurations of the connection.
+    #   @return [Array<Types::Configuration>]
+    #
     # @!attribute [rw] description
     #   A connection description.
     #   @return [String]
@@ -3034,6 +3062,7 @@ module Aws::DataZone
     class CreateConnectionInput < Struct.new(
       :aws_location,
       :client_token,
+      :configurations,
       :description,
       :domain_identifier,
       :environment_identifier,
@@ -3048,6 +3077,10 @@ module Aws::DataZone
     # @!attribute [rw] connection_id
     #   The ID of the connection.
     #   @return [String]
+    #
+    # @!attribute [rw] configurations
+    #   The configurations of the connection.
+    #   @return [Array<Types::Configuration>]
     #
     # @!attribute [rw] description
     #   The connection description.
@@ -3093,6 +3126,7 @@ module Aws::DataZone
     #
     class CreateConnectionOutput < Struct.new(
       :connection_id,
+      :configurations,
       :description,
       :domain_id,
       :domain_unit_id,
@@ -8843,6 +8877,10 @@ module Aws::DataZone
     #   Connection credentials.
     #   @return [Types::ConnectionCredentials]
     #
+    # @!attribute [rw] configurations
+    #   The configurations of the connection.
+    #   @return [Array<Types::Configuration>]
+    #
     # @!attribute [rw] connection_id
     #   The ID of the connection.
     #   @return [String]
@@ -8895,6 +8933,7 @@ module Aws::DataZone
     #
     class GetConnectionOutput < Struct.new(
       :connection_credentials,
+      :configurations,
       :connection_id,
       :description,
       :domain_id,
@@ -16305,6 +16344,11 @@ module Aws::DataZone
     #   The Amazon Web Services Glue connection name.
     #   @return [String]
     #
+    # @!attribute [rw] glue_connection_names
+    #   The Amazon Web Services Glue connection names in the physical
+    #   endpoint.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] glue_connection
     #   The Amazon Web Services Glue connection.
     #   @return [Types::GlueConnection]
@@ -16335,6 +16379,7 @@ module Aws::DataZone
     class PhysicalEndpoint < Struct.new(
       :aws_location,
       :glue_connection_name,
+      :glue_connection_names,
       :glue_connection,
       :enable_trusted_identity_propagation,
       :host,
@@ -18468,11 +18513,16 @@ module Aws::DataZone
     #   properties of a connection.
     #   @return [String]
     #
+    # @!attribute [rw] register_s3_access_grant_location
+    #   Specifies whether to register the Amazon S3 Access Grant location.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/S3PropertiesInput AWS API Documentation
     #
     class S3PropertiesInput < Struct.new(
       :s3_uri,
-      :s3_access_grant_location_id)
+      :s3_access_grant_location_id,
+      :register_s3_access_grant_location)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -18489,6 +18539,10 @@ module Aws::DataZone
     #   properties of a connection.
     #   @return [String]
     #
+    # @!attribute [rw] register_s3_access_grant_location
+    #   Specifies whether to register the Amazon S3 Access Grant location.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] status
     #   The status of the Amazon S3 connection.
     #   @return [String]
@@ -18502,6 +18556,7 @@ module Aws::DataZone
     class S3PropertiesOutput < Struct.new(
       :s3_uri,
       :s3_access_grant_location_id,
+      :register_s3_access_grant_location,
       :status,
       :error_message)
       SENSITIVE = []
@@ -18520,11 +18575,16 @@ module Aws::DataZone
     #   properties patch of a connection.
     #   @return [String]
     #
+    # @!attribute [rw] register_s3_access_grant_location
+    #   Specifies whether to register the Amazon S3 Access Grant location.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/S3PropertiesPatch AWS API Documentation
     #
     class S3PropertiesPatch < Struct.new(
       :s3_uri,
-      :s3_access_grant_location_id)
+      :s3_access_grant_location_id,
+      :register_s3_access_grant_location)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -19418,8 +19478,15 @@ module Aws::DataZone
     #
     # @!attribute [rw] glue_connection_name
     #   The Amazon Web Services Glue connection name in the Spark Amazon Web
-    #   Services Glue properties.
+    #   Services Glue properties. Specify either `glueConnectionName` or
+    #   `glueConnectionNames`, but not both.
     #   @return [String]
+    #
+    # @!attribute [rw] glue_connection_names
+    #   The Amazon Web Services Glue connection names in the Spark Amazon
+    #   Web Services Glue properties. Specify either `glueConnectionName` or
+    #   `glueConnectionNames`, but not both.
+    #   @return [Array<String>]
     #
     # @!attribute [rw] glue_version
     #   The Amazon Web Services Glue version in the Spark Amazon Web
@@ -19454,6 +19521,7 @@ module Aws::DataZone
     class SparkGluePropertiesInput < Struct.new(
       :additional_args,
       :glue_connection_name,
+      :glue_connection_names,
       :glue_version,
       :idle_timeout,
       :java_virtual_env,
@@ -19475,6 +19543,11 @@ module Aws::DataZone
     #   The Amazon Web Services Glue connection name in the Spark Amazon Web
     #   Services Glue properties.
     #   @return [String]
+    #
+    # @!attribute [rw] glue_connection_names
+    #   The Amazon Web Services Glue connection names in the Spark Amazon
+    #   Web Services Glue properties.
+    #   @return [Array<String>]
     #
     # @!attribute [rw] glue_version
     #   The Amazon Web Services Glue version in the Spark Amazon Web
@@ -19509,6 +19582,7 @@ module Aws::DataZone
     class SparkGluePropertiesOutput < Struct.new(
       :additional_args,
       :glue_connection_name,
+      :glue_connection_names,
       :glue_version,
       :idle_timeout,
       :java_virtual_env,
@@ -20971,6 +21045,10 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # @!attribute [rw] configurations
+    #   The configurations of the connection.
+    #   @return [Array<Types::Configuration>]
+    #
     # @!attribute [rw] domain_identifier
     #   The ID of the domain where a connection is to be updated.
     #   @return [String]
@@ -20994,6 +21072,7 @@ module Aws::DataZone
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/UpdateConnectionInput AWS API Documentation
     #
     class UpdateConnectionInput < Struct.new(
+      :configurations,
       :domain_identifier,
       :identifier,
       :description,
@@ -21003,6 +21082,10 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # @!attribute [rw] configurations
+    #   The configurations of the connection.
+    #   @return [Array<Types::Configuration>]
+    #
     # @!attribute [rw] connection_id
     #   The ID of the connection.
     #   @return [String]
@@ -21050,6 +21133,7 @@ module Aws::DataZone
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/UpdateConnectionOutput AWS API Documentation
     #
     class UpdateConnectionOutput < Struct.new(
+      :configurations,
       :connection_id,
       :description,
       :domain_id,

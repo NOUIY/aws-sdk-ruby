@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.88.0 (2026-04-07)
+------------------
+
+* Feature - Revert previous additions of API changes.
+
 1.87.0 (2026-04-06)
 ------------------
 

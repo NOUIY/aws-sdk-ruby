@@ -571,6 +571,12 @@ module Aws::DataZone
       SENSITIVE: []
     end
 
+    class Configuration
+      attr_accessor classification: ::String
+      attr_accessor properties: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
     class ConflictException
       attr_accessor message: ::String
       SENSITIVE: []
@@ -705,6 +711,7 @@ module Aws::DataZone
     end
 
     class ConnectionSummary
+      attr_accessor configurations: ::Array[Types::Configuration]
       attr_accessor connection_id: ::String
       attr_accessor domain_id: ::String
       attr_accessor domain_unit_id: ::String
@@ -876,6 +883,7 @@ module Aws::DataZone
     class CreateConnectionInput
       attr_accessor aws_location: Types::AwsLocation
       attr_accessor client_token: ::String
+      attr_accessor configurations: ::Array[Types::Configuration]
       attr_accessor description: ::String
       attr_accessor domain_identifier: ::String
       attr_accessor environment_identifier: ::String
@@ -888,6 +896,7 @@ module Aws::DataZone
 
     class CreateConnectionOutput
       attr_accessor connection_id: ::String
+      attr_accessor configurations: ::Array[Types::Configuration]
       attr_accessor description: ::String
       attr_accessor domain_id: ::String
       attr_accessor domain_unit_id: ::String
@@ -2428,6 +2437,7 @@ module Aws::DataZone
 
     class GetConnectionOutput
       attr_accessor connection_credentials: Types::ConnectionCredentials
+      attr_accessor configurations: ::Array[Types::Configuration]
       attr_accessor connection_id: ::String
       attr_accessor description: ::String
       attr_accessor domain_id: ::String
@@ -4391,6 +4401,7 @@ module Aws::DataZone
     class PhysicalEndpoint
       attr_accessor aws_location: Types::AwsLocation
       attr_accessor glue_connection_name: ::String
+      attr_accessor glue_connection_names: ::Array[::String]
       attr_accessor glue_connection: Types::GlueConnection
       attr_accessor enable_trusted_identity_propagation: bool
       attr_accessor host: ::String
@@ -5076,12 +5087,14 @@ module Aws::DataZone
     class S3PropertiesInput
       attr_accessor s3_uri: ::String
       attr_accessor s3_access_grant_location_id: ::String
+      attr_accessor register_s3_access_grant_location: bool
       SENSITIVE: []
     end
 
     class S3PropertiesOutput
       attr_accessor s3_uri: ::String
       attr_accessor s3_access_grant_location_id: ::String
+      attr_accessor register_s3_access_grant_location: bool
       attr_accessor status: ("CREATING" | "CREATE_FAILED" | "DELETING" | "DELETE_FAILED" | "READY" | "UPDATING" | "UPDATE_FAILED" | "DELETED")
       attr_accessor error_message: ::String
       SENSITIVE: []
@@ -5090,6 +5103,7 @@ module Aws::DataZone
     class S3PropertiesPatch
       attr_accessor s3_uri: ::String
       attr_accessor s3_access_grant_location_id: ::String
+      attr_accessor register_s3_access_grant_location: bool
       SENSITIVE: []
     end
 
@@ -5349,6 +5363,7 @@ module Aws::DataZone
     class SparkGluePropertiesInput
       attr_accessor additional_args: Types::SparkGlueArgs
       attr_accessor glue_connection_name: ::String
+      attr_accessor glue_connection_names: ::Array[::String]
       attr_accessor glue_version: ::String
       attr_accessor idle_timeout: ::Integer
       attr_accessor java_virtual_env: ::String
@@ -5361,6 +5376,7 @@ module Aws::DataZone
     class SparkGluePropertiesOutput
       attr_accessor additional_args: Types::SparkGlueArgs
       attr_accessor glue_connection_name: ::String
+      attr_accessor glue_connection_names: ::Array[::String]
       attr_accessor glue_version: ::String
       attr_accessor idle_timeout: ::Integer
       attr_accessor java_virtual_env: ::String
@@ -5776,6 +5792,7 @@ module Aws::DataZone
     end
 
     class UpdateConnectionInput
+      attr_accessor configurations: ::Array[Types::Configuration]
       attr_accessor domain_identifier: ::String
       attr_accessor identifier: ::String
       attr_accessor description: ::String
@@ -5785,6 +5802,7 @@ module Aws::DataZone
     end
 
     class UpdateConnectionOutput
+      attr_accessor configurations: ::Array[Types::Configuration]
       attr_accessor connection_id: ::String
       attr_accessor description: ::String
       attr_accessor domain_id: ::String

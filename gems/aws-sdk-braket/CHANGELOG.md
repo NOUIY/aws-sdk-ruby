@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.69.0 (2026-04-07)
+------------------
+
+* Feature - Added support for t3, g6, and g6e instance types for Hybrid Jobs.
+
 1.68.0 (2026-03-18)
 ------------------
 

@@ -1885,6 +1885,9 @@ module Aws::DataZone
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
     #
+    # @option params [Array<Types::Configuration>] :configurations
+    #   The configurations of the connection.
+    #
     # @option params [String] :description
     #   A connection description.
     #
@@ -1909,6 +1912,7 @@ module Aws::DataZone
     # @return [Types::CreateConnectionOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateConnectionOutput#connection_id #connection_id} => String
+    #   * {Types::CreateConnectionOutput#configurations #configurations} => Array&lt;Types::Configuration&gt;
     #   * {Types::CreateConnectionOutput#description #description} => String
     #   * {Types::CreateConnectionOutput#domain_id #domain_id} => String
     #   * {Types::CreateConnectionOutput#domain_unit_id #domain_unit_id} => String
@@ -1930,6 +1934,14 @@ module Aws::DataZone
     #       iam_connection_id: "ConnectionId",
     #     },
     #     client_token: "String",
+    #     configurations: [
+    #       {
+    #         classification: "ConfigurationClassificationString",
+    #         properties: {
+    #           "PropertyMapKeyString" => "PropertyMapValueString",
+    #         },
+    #       },
+    #     ],
     #     description: "CreateConnectionInputDescriptionString",
     #     domain_identifier: "DomainId", # required
     #     environment_identifier: "EnvironmentId",
@@ -2042,6 +2054,7 @@ module Aws::DataZone
     #           connection: "String",
     #         },
     #         glue_connection_name: "SparkGluePropertiesInputGlueConnectionNameString",
+    #         glue_connection_names: ["GlueConnectionName"],
     #         glue_version: "SparkGluePropertiesInputGlueVersionString",
     #         idle_timeout: 1,
     #         java_virtual_env: "SparkGluePropertiesInputJavaVirtualEnvString",
@@ -2052,6 +2065,7 @@ module Aws::DataZone
     #       s3_properties: {
     #         s3_uri: "S3Uri", # required
     #         s3_access_grant_location_id: "S3AccessGrantLocationId",
+    #         register_s3_access_grant_location: false,
     #       },
     #       amazon_q_properties: {
     #         is_enabled: false, # required
@@ -2074,6 +2088,10 @@ module Aws::DataZone
     # @example Response structure
     #
     #   resp.connection_id #=> String
+    #   resp.configurations #=> Array
+    #   resp.configurations[0].classification #=> String
+    #   resp.configurations[0].properties #=> Hash
+    #   resp.configurations[0].properties["PropertyMapKeyString"] #=> String
     #   resp.description #=> String
     #   resp.domain_id #=> String
     #   resp.domain_unit_id #=> String
@@ -2085,6 +2103,8 @@ module Aws::DataZone
     #   resp.physical_endpoints[0].aws_location.aws_region #=> String
     #   resp.physical_endpoints[0].aws_location.iam_connection_id #=> String
     #   resp.physical_endpoints[0].glue_connection_name #=> String
+    #   resp.physical_endpoints[0].glue_connection_names #=> Array
+    #   resp.physical_endpoints[0].glue_connection_names[0] #=> String
     #   resp.physical_endpoints[0].glue_connection.name #=> String
     #   resp.physical_endpoints[0].glue_connection.description #=> String
     #   resp.physical_endpoints[0].glue_connection.connection_type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
@@ -2173,6 +2193,8 @@ module Aws::DataZone
     #   resp.props.spark_emr_properties.managed_endpoint_credentials.token #=> String
     #   resp.props.spark_glue_properties.additional_args.connection #=> String
     #   resp.props.spark_glue_properties.glue_connection_name #=> String
+    #   resp.props.spark_glue_properties.glue_connection_names #=> Array
+    #   resp.props.spark_glue_properties.glue_connection_names[0] #=> String
     #   resp.props.spark_glue_properties.glue_version #=> String
     #   resp.props.spark_glue_properties.idle_timeout #=> Integer
     #   resp.props.spark_glue_properties.java_virtual_env #=> String
@@ -2181,6 +2203,7 @@ module Aws::DataZone
     #   resp.props.spark_glue_properties.worker_type #=> String
     #   resp.props.s3_properties.s3_uri #=> String
     #   resp.props.s3_properties.s3_access_grant_location_id #=> String
+    #   resp.props.s3_properties.register_s3_access_grant_location #=> Boolean
     #   resp.props.s3_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
     #   resp.props.s3_properties.error_message #=> String
     #   resp.props.amazon_q_properties.is_enabled #=> Boolean
@@ -5966,6 +5989,7 @@ module Aws::DataZone
     # @return [Types::GetConnectionOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetConnectionOutput#connection_credentials #connection_credentials} => Types::ConnectionCredentials
+    #   * {Types::GetConnectionOutput#configurations #configurations} => Array&lt;Types::Configuration&gt;
     #   * {Types::GetConnectionOutput#connection_id #connection_id} => String
     #   * {Types::GetConnectionOutput#description #description} => String
     #   * {Types::GetConnectionOutput#domain_id #domain_id} => String
@@ -5993,6 +6017,10 @@ module Aws::DataZone
     #   resp.connection_credentials.secret_access_key #=> String
     #   resp.connection_credentials.session_token #=> String
     #   resp.connection_credentials.expiration #=> Time
+    #   resp.configurations #=> Array
+    #   resp.configurations[0].classification #=> String
+    #   resp.configurations[0].properties #=> Hash
+    #   resp.configurations[0].properties["PropertyMapKeyString"] #=> String
     #   resp.connection_id #=> String
     #   resp.description #=> String
     #   resp.domain_id #=> String
@@ -6006,6 +6034,8 @@ module Aws::DataZone
     #   resp.physical_endpoints[0].aws_location.aws_region #=> String
     #   resp.physical_endpoints[0].aws_location.iam_connection_id #=> String
     #   resp.physical_endpoints[0].glue_connection_name #=> String
+    #   resp.physical_endpoints[0].glue_connection_names #=> Array
+    #   resp.physical_endpoints[0].glue_connection_names[0] #=> String
     #   resp.physical_endpoints[0].glue_connection.name #=> String
     #   resp.physical_endpoints[0].glue_connection.description #=> String
     #   resp.physical_endpoints[0].glue_connection.connection_type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
@@ -6094,6 +6124,8 @@ module Aws::DataZone
     #   resp.props.spark_emr_properties.managed_endpoint_credentials.token #=> String
     #   resp.props.spark_glue_properties.additional_args.connection #=> String
     #   resp.props.spark_glue_properties.glue_connection_name #=> String
+    #   resp.props.spark_glue_properties.glue_connection_names #=> Array
+    #   resp.props.spark_glue_properties.glue_connection_names[0] #=> String
     #   resp.props.spark_glue_properties.glue_version #=> String
     #   resp.props.spark_glue_properties.idle_timeout #=> Integer
     #   resp.props.spark_glue_properties.java_virtual_env #=> String
@@ -6102,6 +6134,7 @@ module Aws::DataZone
     #   resp.props.spark_glue_properties.worker_type #=> String
     #   resp.props.s3_properties.s3_uri #=> String
     #   resp.props.s3_properties.s3_access_grant_location_id #=> String
+    #   resp.props.s3_properties.register_s3_access_grant_location #=> Boolean
     #   resp.props.s3_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
     #   resp.props.s3_properties.error_message #=> String
     #   resp.props.amazon_q_properties.is_enabled #=> Boolean
@@ -8557,6 +8590,10 @@ module Aws::DataZone
     # @example Response structure
     #
     #   resp.items #=> Array
+    #   resp.items[0].configurations #=> Array
+    #   resp.items[0].configurations[0].classification #=> String
+    #   resp.items[0].configurations[0].properties #=> Hash
+    #   resp.items[0].configurations[0].properties["PropertyMapKeyString"] #=> String
     #   resp.items[0].connection_id #=> String
     #   resp.items[0].domain_id #=> String
     #   resp.items[0].domain_unit_id #=> String
@@ -8568,6 +8605,8 @@ module Aws::DataZone
     #   resp.items[0].physical_endpoints[0].aws_location.aws_region #=> String
     #   resp.items[0].physical_endpoints[0].aws_location.iam_connection_id #=> String
     #   resp.items[0].physical_endpoints[0].glue_connection_name #=> String
+    #   resp.items[0].physical_endpoints[0].glue_connection_names #=> Array
+    #   resp.items[0].physical_endpoints[0].glue_connection_names[0] #=> String
     #   resp.items[0].physical_endpoints[0].glue_connection.name #=> String
     #   resp.items[0].physical_endpoints[0].glue_connection.description #=> String
     #   resp.items[0].physical_endpoints[0].glue_connection.connection_type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
@@ -8656,6 +8695,8 @@ module Aws::DataZone
     #   resp.items[0].props.spark_emr_properties.managed_endpoint_credentials.token #=> String
     #   resp.items[0].props.spark_glue_properties.additional_args.connection #=> String
     #   resp.items[0].props.spark_glue_properties.glue_connection_name #=> String
+    #   resp.items[0].props.spark_glue_properties.glue_connection_names #=> Array
+    #   resp.items[0].props.spark_glue_properties.glue_connection_names[0] #=> String
     #   resp.items[0].props.spark_glue_properties.glue_version #=> String
     #   resp.items[0].props.spark_glue_properties.idle_timeout #=> Integer
     #   resp.items[0].props.spark_glue_properties.java_virtual_env #=> String
@@ -8664,6 +8705,7 @@ module Aws::DataZone
     #   resp.items[0].props.spark_glue_properties.worker_type #=> String
     #   resp.items[0].props.s3_properties.s3_uri #=> String
     #   resp.items[0].props.s3_properties.s3_access_grant_location_id #=> String
+    #   resp.items[0].props.s3_properties.register_s3_access_grant_location #=> Boolean
     #   resp.items[0].props.s3_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
     #   resp.items[0].props.s3_properties.error_message #=> String
     #   resp.items[0].props.amazon_q_properties.is_enabled #=> Boolean
@@ -13012,6 +13054,9 @@ module Aws::DataZone
     # connect your resources (domains, projects, and environments) to
     # external resources and services.
     #
+    # @option params [Array<Types::Configuration>] :configurations
+    #   The configurations of the connection.
+    #
     # @option params [required, String] :domain_identifier
     #   The ID of the domain where a connection is to be updated.
     #
@@ -13029,6 +13074,7 @@ module Aws::DataZone
     #
     # @return [Types::UpdateConnectionOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
+    #   * {Types::UpdateConnectionOutput#configurations #configurations} => Array&lt;Types::Configuration&gt;
     #   * {Types::UpdateConnectionOutput#connection_id #connection_id} => String
     #   * {Types::UpdateConnectionOutput#description #description} => String
     #   * {Types::UpdateConnectionOutput#domain_id #domain_id} => String
@@ -13044,6 +13090,14 @@ module Aws::DataZone
     # @example Request syntax with placeholder values
     #
     #   resp = client.update_connection({
+    #     configurations: [
+    #       {
+    #         classification: "ConfigurationClassificationString",
+    #         properties: {
+    #           "PropertyMapKeyString" => "PropertyMapValueString",
+    #         },
+    #       },
+    #     ],
     #     domain_identifier: "DomainId", # required
     #     identifier: "ConnectionId", # required
     #     description: "UpdateConnectionInputDescriptionString",
@@ -13110,6 +13164,7 @@ module Aws::DataZone
     #       s3_properties: {
     #         s3_uri: "S3Uri", # required
     #         s3_access_grant_location_id: "S3AccessGrantLocationId",
+    #         register_s3_access_grant_location: false,
     #       },
     #       amazon_q_properties: {
     #         is_enabled: false, # required
@@ -13124,6 +13179,10 @@ module Aws::DataZone
     #
     # @example Response structure
     #
+    #   resp.configurations #=> Array
+    #   resp.configurations[0].classification #=> String
+    #   resp.configurations[0].properties #=> Hash
+    #   resp.configurations[0].properties["PropertyMapKeyString"] #=> String
     #   resp.connection_id #=> String
     #   resp.description #=> String
     #   resp.domain_id #=> String
@@ -13136,6 +13195,8 @@ module Aws::DataZone
     #   resp.physical_endpoints[0].aws_location.aws_region #=> String
     #   resp.physical_endpoints[0].aws_location.iam_connection_id #=> String
     #   resp.physical_endpoints[0].glue_connection_name #=> String
+    #   resp.physical_endpoints[0].glue_connection_names #=> Array
+    #   resp.physical_endpoints[0].glue_connection_names[0] #=> String
     #   resp.physical_endpoints[0].glue_connection.name #=> String
     #   resp.physical_endpoints[0].glue_connection.description #=> String
     #   resp.physical_endpoints[0].glue_connection.connection_type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
@@ -13224,6 +13285,8 @@ module Aws::DataZone
     #   resp.props.spark_emr_properties.managed_endpoint_credentials.token #=> String
     #   resp.props.spark_glue_properties.additional_args.connection #=> String
     #   resp.props.spark_glue_properties.glue_connection_name #=> String
+    #   resp.props.spark_glue_properties.glue_connection_names #=> Array
+    #   resp.props.spark_glue_properties.glue_connection_names[0] #=> String
     #   resp.props.spark_glue_properties.glue_version #=> String
     #   resp.props.spark_glue_properties.idle_timeout #=> Integer
     #   resp.props.spark_glue_properties.java_virtual_env #=> String
@@ -13232,6 +13295,7 @@ module Aws::DataZone
     #   resp.props.spark_glue_properties.worker_type #=> String
     #   resp.props.s3_properties.s3_uri #=> String
     #   resp.props.s3_properties.s3_access_grant_location_id #=> String
+    #   resp.props.s3_properties.register_s3_access_grant_location #=> Boolean
     #   resp.props.s3_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
     #   resp.props.s3_properties.error_message #=> String
     #   resp.props.amazon_q_properties.is_enabled #=> Boolean
@@ -15042,7 +15106,7 @@ module Aws::DataZone
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-datazone'
-      context[:gem_version] = '1.71.0'
+      context[:gem_version] = '1.72.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

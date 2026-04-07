@@ -99,6 +99,7 @@ module Aws::Connect
       attr_accessor after_contact_work_end_timestamp: ::Time
       attr_accessor agent_initiated_hold_duration: ::Integer
       attr_accessor state_transitions: ::Array[Types::StateTransition]
+      attr_accessor voice_enhancement_mode: ("VOICE_ISOLATION" | "NOISE_SUPPRESSION" | "NONE")
       SENSITIVE: []
     end
 

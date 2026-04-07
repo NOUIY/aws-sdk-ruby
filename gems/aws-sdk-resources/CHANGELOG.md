@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+3.260.0 (2026-04-07)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-s3files` gem.
+
 3.259.0 (2026-03-31)
 ------------------
 

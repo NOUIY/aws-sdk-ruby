@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1236.0 (2026-04-07)
+------------------
+
+* Feature - Added support for enumerating regions for  `Aws::S3Files`.
+
 1.1235.0 (2026-04-06)
 ------------------
 

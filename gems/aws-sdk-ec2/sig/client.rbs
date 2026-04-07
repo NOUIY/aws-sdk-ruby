@@ -10553,11 +10553,11 @@ module Aws
                                               start_time: ::Time,
                                               end_time: ::Time,
                                               period: ::Integer,
-                                              ?group_by: Array[("resource-region" | "availability-zone-id" | "account-id" | "instance-family" | "instance-type" | "instance-platform" | "reservation-arn" | "reservation-id" | "reservation-type" | "reservation-create-timestamp" | "reservation-start-timestamp" | "reservation-end-timestamp" | "reservation-end-date-type" | "tenancy" | "reservation-state" | "reservation-instance-match-criteria" | "reservation-unused-financial-owner")],
+                                              ?group_by: Array[("resource-region" | "availability-zone-id" | "account-id" | "account-name" | "instance-family" | "instance-type" | "instance-platform" | "reservation-arn" | "reservation-id" | "reservation-type" | "reservation-create-timestamp" | "reservation-start-timestamp" | "reservation-end-timestamp" | "reservation-end-date-type" | "tenancy" | "reservation-state" | "reservation-instance-match-criteria" | "reservation-unused-financial-owner")],
                                               ?filter_by: Array[
                                                 {
                                                   dimension_condition: {
-                                                    dimension: ("resource-region" | "availability-zone-id" | "account-id" | "instance-family" | "instance-type" | "instance-platform" | "reservation-arn" | "reservation-id" | "reservation-type" | "reservation-create-timestamp" | "reservation-start-timestamp" | "reservation-end-timestamp" | "reservation-end-date-type" | "tenancy" | "reservation-state" | "reservation-instance-match-criteria" | "reservation-unused-financial-owner")?,
+                                                    dimension: ("resource-region" | "availability-zone-id" | "account-id" | "account-name" | "instance-family" | "instance-type" | "instance-platform" | "reservation-arn" | "reservation-id" | "reservation-type" | "reservation-create-timestamp" | "reservation-start-timestamp" | "reservation-end-timestamp" | "reservation-end-date-type" | "tenancy" | "reservation-state" | "reservation-instance-match-criteria" | "reservation-unused-financial-owner")?,
                                                     comparison: ("equals" | "in")?,
                                                     values: Array[::String]?
                                                   }?
@@ -10576,11 +10576,11 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#get_capacity_manager_metric_dimensions-instance_method
       def get_capacity_manager_metric_dimensions: (
-                                                    group_by: Array[("resource-region" | "availability-zone-id" | "account-id" | "instance-family" | "instance-type" | "instance-platform" | "reservation-arn" | "reservation-id" | "reservation-type" | "reservation-create-timestamp" | "reservation-start-timestamp" | "reservation-end-timestamp" | "reservation-end-date-type" | "tenancy" | "reservation-state" | "reservation-instance-match-criteria" | "reservation-unused-financial-owner")],
+                                                    group_by: Array[("resource-region" | "availability-zone-id" | "account-id" | "account-name" | "instance-family" | "instance-type" | "instance-platform" | "reservation-arn" | "reservation-id" | "reservation-type" | "reservation-create-timestamp" | "reservation-start-timestamp" | "reservation-end-timestamp" | "reservation-end-date-type" | "tenancy" | "reservation-state" | "reservation-instance-match-criteria" | "reservation-unused-financial-owner")],
                                                     ?filter_by: Array[
                                                       {
                                                         dimension_condition: {
-                                                          dimension: ("resource-region" | "availability-zone-id" | "account-id" | "instance-family" | "instance-type" | "instance-platform" | "reservation-arn" | "reservation-id" | "reservation-type" | "reservation-create-timestamp" | "reservation-start-timestamp" | "reservation-end-timestamp" | "reservation-end-date-type" | "tenancy" | "reservation-state" | "reservation-instance-match-criteria" | "reservation-unused-financial-owner")?,
+                                                          dimension: ("resource-region" | "availability-zone-id" | "account-id" | "account-name" | "instance-family" | "instance-type" | "instance-platform" | "reservation-arn" | "reservation-id" | "reservation-type" | "reservation-create-timestamp" | "reservation-start-timestamp" | "reservation-end-timestamp" | "reservation-end-date-type" | "tenancy" | "reservation-state" | "reservation-instance-match-criteria" | "reservation-unused-financial-owner")?,
                                                           comparison: ("equals" | "in")?,
                                                           values: Array[::String]?
                                                         }?
@@ -10594,6 +10594,19 @@ module Aws
                                                     ?dry_run: bool
                                                   ) -> _GetCapacityManagerMetricDimensionsResponseSuccess
                                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetCapacityManagerMetricDimensionsResponseSuccess
+
+      interface _GetCapacityManagerMonitoredTagKeysResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetCapacityManagerMonitoredTagKeysResult]
+        def capacity_manager_tag_keys: () -> ::Array[Types::CapacityManagerMonitoredTagKey]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#get_capacity_manager_monitored_tag_keys-instance_method
+      def get_capacity_manager_monitored_tag_keys: (
+                                                     ?max_results: ::Integer,
+                                                     ?next_token: ::String,
+                                                     ?dry_run: bool
+                                                   ) -> _GetCapacityManagerMonitoredTagKeysResponseSuccess
+                                                 | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetCapacityManagerMonitoredTagKeysResponseSuccess
 
       interface _GetCapacityReservationUsageResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetCapacityReservationUsageResult]
@@ -15645,6 +15658,19 @@ module Aws
                                  ?dry_run: bool
                                ) -> _UnmonitorInstancesResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UnmonitorInstancesResponseSuccess
+
+      interface _UpdateCapacityManagerMonitoredTagKeysResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateCapacityManagerMonitoredTagKeysResult]
+        def capacity_manager_tag_keys: () -> ::Array[Types::CapacityManagerMonitoredTagKey]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#update_capacity_manager_monitored_tag_keys-instance_method
+      def update_capacity_manager_monitored_tag_keys: (
+                                                        ?activate_tag_keys: Array[::String],
+                                                        ?deactivate_tag_keys: Array[::String],
+                                                        ?dry_run: bool,
+                                                        ?client_token: ::String
+                                                      ) -> _UpdateCapacityManagerMonitoredTagKeysResponseSuccess
+                                                    | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateCapacityManagerMonitoredTagKeysResponseSuccess
 
       interface _UpdateCapacityManagerOrganizationsAccessResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateCapacityManagerOrganizationsAccessResult]

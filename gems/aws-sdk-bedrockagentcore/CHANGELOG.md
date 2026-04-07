@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.26.0 (2026-04-07)
+------------------
+
+* Feature - This release includes support for 1) InvokeBrowser API, enabling OS-level control of AgentCore Browser Tool sessions through mouse actions, keyboard input, and screenshots. 2) Added documentation noting that empty sessions are automatically deleted after one day in the ListSessions API.
+
 1.25.0 (2026-04-01)
 ------------------
 

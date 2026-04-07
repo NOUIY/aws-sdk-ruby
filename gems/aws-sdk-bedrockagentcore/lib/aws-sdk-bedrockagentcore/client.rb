@@ -1958,6 +1958,125 @@ module Aws::BedrockAgentCore
       req.send_request(options, &block)
     end
 
+    # Invokes an operating system-level action on a browser session in
+    # Amazon Bedrock AgentCore. This operation provides direct OS-level
+    # control over browser sessions, enabling mouse actions, keyboard input,
+    # and screenshots that the WebSocket-based Chrome DevTools Protocol
+    # (CDP) cannot handle — such as interacting with print dialogs, context
+    # menus, and JavaScript alerts.
+    #
+    # You send a request with exactly one action in the `BrowserAction`
+    # union, and receive a corresponding result in the `BrowserActionResult`
+    # union.
+    #
+    # The following operations are related to `InvokeBrowser`:
+    #
+    # * [StartBrowserSession][1]
+    #
+    # * [GetBrowserSession][2]
+    #
+    # * [StopBrowserSession][3]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartBrowserSession.html
+    # [2]: https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_GetBrowserSession.html
+    # [3]: https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StopBrowserSession.html
+    #
+    # @option params [required, String] :browser_identifier
+    #   The unique identifier of the browser associated with the session. This
+    #   must match the identifier used when creating the session with
+    #   `StartBrowserSession`.
+    #
+    # @option params [required, String] :session_id
+    #   The unique identifier of the browser session on which to perform the
+    #   action. This must be an active session created with
+    #   `StartBrowserSession`.
+    #
+    # @option params [required, Types::BrowserAction] :action
+    #   The browser action to perform. Exactly one member of the
+    #   `BrowserAction` union must be set per request.
+    #
+    # @return [Types::InvokeBrowserResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::InvokeBrowserResponse#result #result} => Types::BrowserActionResult
+    #   * {Types::InvokeBrowserResponse#session_id #session_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.invoke_browser({
+    #     browser_identifier: "String", # required
+    #     session_id: "BrowserSessionId", # required
+    #     action: { # required
+    #       mouse_click: {
+    #         x: 1, # required
+    #         y: 1, # required
+    #         button: "LEFT", # accepts LEFT, RIGHT, MIDDLE
+    #         click_count: 1,
+    #       },
+    #       mouse_move: {
+    #         x: 1, # required
+    #         y: 1, # required
+    #       },
+    #       mouse_drag: {
+    #         end_x: 1, # required
+    #         end_y: 1, # required
+    #         start_x: 1, # required
+    #         start_y: 1, # required
+    #         button: "LEFT", # accepts LEFT, RIGHT, MIDDLE
+    #       },
+    #       mouse_scroll: {
+    #         x: 1, # required
+    #         y: 1, # required
+    #         delta_x: 1,
+    #         delta_y: 1,
+    #       },
+    #       key_type: {
+    #         text: "KeyTypeArgumentsTextString", # required
+    #       },
+    #       key_press: {
+    #         key: "String", # required
+    #         presses: 1,
+    #       },
+    #       key_shortcut: {
+    #         keys: ["String"], # required
+    #       },
+    #       screenshot: {
+    #         format: "PNG", # accepts PNG
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.result.mouse_click.status #=> String, one of "SUCCESS", "FAILED"
+    #   resp.result.mouse_click.error #=> String
+    #   resp.result.mouse_move.status #=> String, one of "SUCCESS", "FAILED"
+    #   resp.result.mouse_move.error #=> String
+    #   resp.result.mouse_drag.status #=> String, one of "SUCCESS", "FAILED"
+    #   resp.result.mouse_drag.error #=> String
+    #   resp.result.mouse_scroll.status #=> String, one of "SUCCESS", "FAILED"
+    #   resp.result.mouse_scroll.error #=> String
+    #   resp.result.key_type.status #=> String, one of "SUCCESS", "FAILED"
+    #   resp.result.key_type.error #=> String
+    #   resp.result.key_press.status #=> String, one of "SUCCESS", "FAILED"
+    #   resp.result.key_press.error #=> String
+    #   resp.result.key_shortcut.status #=> String, one of "SUCCESS", "FAILED"
+    #   resp.result.key_shortcut.error #=> String
+    #   resp.result.screenshot.status #=> String, one of "SUCCESS", "FAILED"
+    #   resp.result.screenshot.error #=> String
+    #   resp.result.screenshot.data #=> String
+    #   resp.session_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InvokeBrowser AWS API Documentation
+    #
+    # @overload invoke_browser(params = {})
+    # @param [Hash] params ({})
+    def invoke_browser(params = {}, options = {})
+      req = build_request(:invoke_browser, params)
+      req.send_request(options)
+    end
+
     # Executes code within an active code interpreter session in Amazon
     # Bedrock AgentCore. This operation processes the provided code, runs it
     # in a secure environment, and returns the execution results including
@@ -2716,6 +2835,8 @@ module Aws::BedrockAgentCore
     # criteria. We recommend using pagination to ensure that the operation
     # returns quickly and successfully.
     #
+    # Empty sessions are automatically deleted after one day.
+    #
     # To use this operation, you must have the
     # `bedrock-agentcore:ListSessions` permission.
     #
@@ -2971,12 +3092,15 @@ module Aws::BedrockAgentCore
     #
     # * [StopBrowserSession][4]
     #
+    # * [InvokeBrowser][5]
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_GetBrowserSession.html
     # [2]: https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_UpdateBrowserStream.html
     # [3]: https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_SaveBrowserSessionProfile.html
     # [4]: https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StopBrowserSession.html
+    # [5]: https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeBrowser.html
     #
     # @option params [String] :trace_id
     #   The trace identifier for request tracking.
@@ -3550,7 +3674,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.25.0'
+      context[:gem_version] = '1.26.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

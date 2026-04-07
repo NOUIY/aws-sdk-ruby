@@ -657,22 +657,6 @@ module Aws::AccessAnalyzer
     #
     class CancelPolicyGenerationResponse < Aws::EmptyStructure; end
 
-    # @!attribute [rw] job_id
-    #   The unique identifier of the policy preview job to cancel.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/CancelPolicyPreviewJobRequest AWS API Documentation
-    #
-    class CancelPolicyPreviewJobRequest < Struct.new(
-      :job_id)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/CancelPolicyPreviewJobResponse AWS API Documentation
-    #
-    class CancelPolicyPreviewJobResponse < Aws::EmptyStructure; end
-
     # @!attribute [rw] policy_document
     #   The JSON policy document to use as the content for the policy.
     #   @return [String]
@@ -1185,47 +1169,6 @@ module Aws::AccessAnalyzer
       include Aws::Structure
     end
 
-    # @!attribute [rw] client_token
-    #   A unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. Idempotency ensures that an API request
-    #   completes only once. With an idempotent request, if the original
-    #   request completes successfully, subsequent retries with the same
-    #   client token return the result from the original successful request
-    #   and have no additional effect.
-    #
-    #   **A suitable default value is auto-generated.** You should normally
-    #   not need to pass this option.
-    #   @return [String]
-    #
-    # @!attribute [rw] scope
-    #   The scope of the policy preview configuration. Currently only
-    #   `GLOBAL` is supported.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/CreatePolicyPreviewConfigurationRequest AWS API Documentation
-    #
-    class CreatePolicyPreviewConfigurationRequest < Struct.new(
-      :client_token,
-      :scope)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # @!attribute [rw] status
-    #   The status of the policy preview configuration after creation. The
-    #   status is `PENDING_CREATION` until the configuration is fully
-    #   provisioned and becomes `ACTIVE`. If provisioning fails, the status
-    #   is `FAILED`.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/CreatePolicyPreviewConfigurationResponse AWS API Documentation
-    #
-    class CreatePolicyPreviewConfigurationResponse < Struct.new(
-      :status)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
     # The criteria to use in the filter that defines the archive rule. For
     # more information on available filter keys, see [IAM Access Analyzer
     # filter keys][1].
@@ -1314,30 +1257,6 @@ module Aws::AccessAnalyzer
       SENSITIVE = []
       include Aws::Structure
     end
-
-    # @!attribute [rw] client_token
-    #   A unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. Idempotency ensures that an API request
-    #   completes only once. With an idempotent request, if the original
-    #   request completes successfully, subsequent retries with the same
-    #   client token return the result from the original successful request
-    #   and have no additional effect.
-    #
-    #   **A suitable default value is auto-generated.** You should normally
-    #   not need to pass this option.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/DeletePolicyPreviewConfigurationRequest AWS API Documentation
-    #
-    class DeletePolicyPreviewConfigurationRequest < Struct.new(
-      :client_token)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/DeletePolicyPreviewConfigurationResponse AWS API Documentation
-    #
-    class DeletePolicyPreviewConfigurationResponse < Aws::EmptyStructure; end
 
     # The proposed access control configuration for a DynamoDB stream. You
     # can propose a configuration for a new DynamoDB stream or an existing
@@ -2606,69 +2525,6 @@ module Aws::AccessAnalyzer
       include Aws::Structure
     end
 
-    # @api private
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/GetPolicyPreviewConfigurationRequest AWS API Documentation
-    #
-    class GetPolicyPreviewConfigurationRequest < Aws::EmptyStructure; end
-
-    # @!attribute [rw] policy_preview_configurations
-    #   A list of policy preview configurations for the account.
-    #   @return [Array<Types::PolicyPreviewConfiguration>]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/GetPolicyPreviewConfigurationResponse AWS API Documentation
-    #
-    class GetPolicyPreviewConfigurationResponse < Struct.new(
-      :policy_preview_configurations)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # @!attribute [rw] job_id
-    #   The unique identifier of the policy preview job to retrieve. This is
-    #   the job ID returned by `StartPolicyPreviewJob`.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/GetPolicyPreviewJobRequest AWS API Documentation
-    #
-    class GetPolicyPreviewJobRequest < Struct.new(
-      :job_id)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # @!attribute [rw] job_id
-    #   The unique identifier of the policy preview job.
-    #   @return [String]
-    #
-    # @!attribute [rw] job_parameters
-    #   The original parameters used to create the policy preview job,
-    #   including the analysis time window and policy configurations.
-    #   @return [Types::PolicyPreviewJobParameters]
-    #
-    # @!attribute [rw] job_details
-    #   Details about the job execution, including current status,
-    #   submission time, start time, completion time, and any errors that
-    #   occurred.
-    #   @return [Types::PolicyPreviewJobDetails]
-    #
-    # @!attribute [rw] output_s3_uri
-    #   The Amazon S3 URI where the analysis report is stored. The report
-    #   contains metadata for CloudTrail events that would be denied by the
-    #   proposed policy.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/GetPolicyPreviewJobResponse AWS API Documentation
-    #
-    class GetPolicyPreviewJobResponse < Struct.new(
-      :job_id,
-      :job_parameters,
-      :job_details,
-      :output_s3_uri)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
     # The proposed access control configuration for an IAM role. You can
     # propose a configuration for a new IAM role or an existing IAM role
     # that you own by specifying the trust policy. If the configuration is
@@ -3595,52 +3451,6 @@ module Aws::AccessAnalyzer
       include Aws::Structure
     end
 
-    # @!attribute [rw] filters
-    #   Optional filter criteria to narrow the list of returned jobs. You
-    #   can filter by job status or target ID. Maximum of one filter can be
-    #   specified.
-    #   @return [Hash<String,String>]
-    #
-    # @!attribute [rw] max_results
-    #   The maximum number of results to return in a single page. Minimum
-    #   value is 1.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] next_token
-    #   A token used for pagination of results. Use the token returned in
-    #   the previous response to retrieve the next page of results.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/ListPolicyPreviewJobsRequest AWS API Documentation
-    #
-    class ListPolicyPreviewJobsRequest < Struct.new(
-      :filters,
-      :max_results,
-      :next_token)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # @!attribute [rw] analysis_reports
-    #   A list of policy preview job summaries that match the specified
-    #   filter criteria.
-    #   @return [Array<Types::PolicyPreviewAnalysisReport>]
-    #
-    # @!attribute [rw] next_token
-    #   A token used for pagination. If present, indicates there are more
-    #   results available. Pass this token to the next request to retrieve
-    #   the next page.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/ListPolicyPreviewJobsResponse AWS API Documentation
-    #
-    class ListPolicyPreviewJobsResponse < Struct.new(
-      :analysis_reports,
-      :next_token)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
     # Retrieves a list of tags applied to the specified resource.
     #
     # @!attribute [rw] resource_arn
@@ -3775,38 +3585,6 @@ module Aws::AccessAnalyzer
       class Unknown < PathElement; end
     end
 
-    # Specifies the configuration for a policy preview analysis, including
-    # the type of analysis, the target resource, and the policy documents to
-    # evaluate.
-    #
-    # @!attribute [rw] job_type
-    #   The type of impact analysis job. Currently only `SCP` (Service
-    #   Control Policy) is supported.
-    #   @return [String]
-    #
-    # @!attribute [rw] target_id
-    #   The identifier of the target resource for the policy analysis. This
-    #   can be an Amazon Web Services account ID (12-digit number), an
-    #   organization root ID (format: `r-[0-9a-z]{4,32}`), or an
-    #   organizational unit ID (format: `ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}`).
-    #   @return [String]
-    #
-    # @!attribute [rw] policy_documents_list
-    #   A list of SCP policy documents to test. Each policy document is a
-    #   JSON string with a maximum length of 5,120 characters. The analysis
-    #   evaluates how these policies would affect access to resources.
-    #   @return [Array<String>]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/PolicyConfiguration AWS API Documentation
-    #
-    class PolicyConfiguration < Struct.new(
-      :job_type,
-      :target_id,
-      :policy_documents_list)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
     # Contains details about the policy generation status and properties.
     #
     # @!attribute [rw] job_id
@@ -3857,150 +3635,6 @@ module Aws::AccessAnalyzer
     #
     class PolicyGenerationDetails < Struct.new(
       :principal_arn)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # Contains summary information about a policy preview job.
-    #
-    # @!attribute [rw] job_id
-    #   The unique identifier of the policy preview job.
-    #   @return [String]
-    #
-    # @!attribute [rw] status
-    #   The current status of the job.
-    #   @return [String]
-    #
-    # @!attribute [rw] submitted_at
-    #   The time at which the job was submitted.
-    #   @return [Time]
-    #
-    # @!attribute [rw] started_at
-    #   The time at which the job execution started.
-    #   @return [Time]
-    #
-    # @!attribute [rw] completed_at
-    #   The time at which the job completed.
-    #   @return [Time]
-    #
-    # @!attribute [rw] output_s3_uri
-    #   The Amazon S3 URI where the analysis report is stored.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/PolicyPreviewAnalysisReport AWS API Documentation
-    #
-    class PolicyPreviewAnalysisReport < Struct.new(
-      :job_id,
-      :status,
-      :submitted_at,
-      :started_at,
-      :completed_at,
-      :output_s3_uri)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # Contains the configuration details for policy preview, including the
-    # scope, status, and timestamps.
-    #
-    # @!attribute [rw] scope
-    #   The scope of the policy preview configuration. Currently only
-    #   `GLOBAL` is supported.
-    #   @return [String]
-    #
-    # @!attribute [rw] status
-    #   The status of the policy preview configuration. A value of `ACTIVE`
-    #   indicates the configuration is enabled and CloudTrail authorization
-    #   events are being collected.
-    #   @return [String]
-    #
-    # @!attribute [rw] created_at
-    #   The time at which the policy preview configuration was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] updated_at
-    #   The time at which the policy preview configuration was last updated.
-    #   @return [Time]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/PolicyPreviewConfiguration AWS API Documentation
-    #
-    class PolicyPreviewConfiguration < Struct.new(
-      :scope,
-      :status,
-      :created_at,
-      :updated_at)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # Contains details about the execution of a policy preview job.
-    #
-    # @!attribute [rw] job_status
-    #   The current status of the job. Possible values are:
-    #
-    #   * `SUBMITTED` - The job has been submitted but not yet started.
-    #
-    #   * `IN_PROGRESS` - The job is currently executing.
-    #
-    #   * `COMPLETED` - The job completed successfully.
-    #
-    #   * `FAILED` - The job failed with an error.
-    #
-    #   * `CANCELED` - The job was canceled by the user.
-    #   @return [String]
-    #
-    # @!attribute [rw] submitted_at
-    #   The time at which the job was submitted.
-    #   @return [Time]
-    #
-    # @!attribute [rw] started_at
-    #   The time at which the job execution started. This field is not
-    #   populated until the job begins processing.
-    #   @return [Time]
-    #
-    # @!attribute [rw] completed_at
-    #   The time at which the job completed. This field is populated only
-    #   when the job reaches a terminal state (COMPLETED, FAILED, or
-    #   CANCELED).
-    #   @return [Time]
-    #
-    # @!attribute [rw] job_error
-    #   Detailed information about the error that caused the job to fail.
-    #   This field is populated only when the job status is FAILED.
-    #   @return [Types::JobError]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/PolicyPreviewJobDetails AWS API Documentation
-    #
-    class PolicyPreviewJobDetails < Struct.new(
-      :job_status,
-      :submitted_at,
-      :started_at,
-      :completed_at,
-      :job_error)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # Contains the parameters used to create a policy preview job.
-    #
-    # @!attribute [rw] start_time
-    #   The start of the CloudTrail event analysis window.
-    #   @return [Time]
-    #
-    # @!attribute [rw] end_time
-    #   The end of the CloudTrail event analysis window.
-    #   @return [Time]
-    #
-    # @!attribute [rw] policy_configurations
-    #   The list of policy configurations that were analyzed.
-    #   @return [Array<Types::PolicyConfiguration>]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/PolicyPreviewJobParameters AWS API Documentation
-    #
-    class PolicyPreviewJobParameters < Struct.new(
-      :start_time,
-      :end_time,
-      :policy_configurations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4758,68 +4392,6 @@ module Aws::AccessAnalyzer
     # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/StartPolicyGenerationResponse AWS API Documentation
     #
     class StartPolicyGenerationResponse < Struct.new(
-      :job_id)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # @!attribute [rw] policy_configurations
-    #   A list of policy configurations to analyze. Currently limited to one
-    #   configuration per request. Each configuration specifies the job
-    #   type, target ID, and policy documents to test.
-    #   @return [Array<Types::PolicyConfiguration>]
-    #
-    # @!attribute [rw] start_time
-    #   The start of the CloudTrail event analysis window. The analysis will
-    #   evaluate events from this time forward.
-    #   @return [Time]
-    #
-    # @!attribute [rw] end_time
-    #   The end of the analysis window. If not specified, defaults to the
-    #   time of the request. The analysis will evaluate CloudTrail events up
-    #   to this time.
-    #   @return [Time]
-    #
-    # @!attribute [rw] output_s3_uri
-    #   The Amazon S3 URI where the completed analysis report will be
-    #   stored. The Amazon S3 bucket must grant access to the IAM Access
-    #   Analyzer service principal in its resource policy. The report will
-    #   be stored at the path: `outputS3Uri/jobId/timestamp/`.
-    #   @return [String]
-    #
-    # @!attribute [rw] client_token
-    #   A unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. Idempotency ensures that an API request
-    #   completes only once. With an idempotent request, if the original
-    #   request completes successfully, subsequent retries with the same
-    #   client token return the result from the original successful request
-    #   and have no additional effect.
-    #
-    #   **A suitable default value is auto-generated.** You should normally
-    #   not need to pass this option.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/StartPolicyPreviewJobRequest AWS API Documentation
-    #
-    class StartPolicyPreviewJobRequest < Struct.new(
-      :policy_configurations,
-      :start_time,
-      :end_time,
-      :output_s3_uri,
-      :client_token)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # @!attribute [rw] job_id
-    #   The unique identifier for the created policy preview job. Use this
-    #   ID with `GetPolicyPreviewJob` to retrieve job status and details, or
-    #   with `CancelPolicyPreviewJob` to cancel the job.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/StartPolicyPreviewJobResponse AWS API Documentation
-    #
-    class StartPolicyPreviewJobResponse < Struct.new(
       :job_id)
       SENSITIVE = []
       include Aws::Structure

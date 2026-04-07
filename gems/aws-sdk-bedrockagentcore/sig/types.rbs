@@ -84,6 +84,70 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class BrowserAction
+      attr_accessor mouse_click: Types::MouseClickArguments
+      attr_accessor mouse_move: Types::MouseMoveArguments
+      attr_accessor mouse_drag: Types::MouseDragArguments
+      attr_accessor mouse_scroll: Types::MouseScrollArguments
+      attr_accessor key_type: Types::KeyTypeArguments
+      attr_accessor key_press: Types::KeyPressArguments
+      attr_accessor key_shortcut: Types::KeyShortcutArguments
+      attr_accessor screenshot: Types::ScreenshotArguments
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class MouseClick < BrowserAction
+      end
+      class MouseMove < BrowserAction
+      end
+      class MouseDrag < BrowserAction
+      end
+      class MouseScroll < BrowserAction
+      end
+      class KeyType < BrowserAction
+      end
+      class KeyPress < BrowserAction
+      end
+      class KeyShortcut < BrowserAction
+      end
+      class Screenshot < BrowserAction
+      end
+      class Unknown < BrowserAction
+      end
+    end
+
+    class BrowserActionResult
+      attr_accessor mouse_click: Types::MouseClickResult
+      attr_accessor mouse_move: Types::MouseMoveResult
+      attr_accessor mouse_drag: Types::MouseDragResult
+      attr_accessor mouse_scroll: Types::MouseScrollResult
+      attr_accessor key_type: Types::KeyTypeResult
+      attr_accessor key_press: Types::KeyPressResult
+      attr_accessor key_shortcut: Types::KeyShortcutResult
+      attr_accessor screenshot: Types::ScreenshotResult
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class MouseClick < BrowserActionResult
+      end
+      class MouseMove < BrowserActionResult
+      end
+      class MouseDrag < BrowserActionResult
+      end
+      class MouseScroll < BrowserActionResult
+      end
+      class KeyType < BrowserActionResult
+      end
+      class KeyPress < BrowserActionResult
+      end
+      class KeyShortcut < BrowserActionResult
+      end
+      class Screenshot < BrowserActionResult
+      end
+      class Unknown < BrowserActionResult
+      end
+    end
+
     class BrowserEnterprisePolicy
       attr_accessor location: Types::ResourceLocation
       attr_accessor type: ("MANAGED" | "RECOMMENDED")
@@ -639,6 +703,19 @@ module Aws::BedrockAgentCore
       SENSITIVE: [:response]
     end
 
+    class InvokeBrowserRequest
+      attr_accessor browser_identifier: ::String
+      attr_accessor session_id: ::String
+      attr_accessor action: Types::BrowserAction
+      SENSITIVE: []
+    end
+
+    class InvokeBrowserResponse
+      attr_accessor result: Types::BrowserActionResult
+      attr_accessor session_id: ::String
+      SENSITIVE: []
+    end
+
     class InvokeCodeInterpreterRequest
       attr_accessor code_interpreter_identifier: ::String
       attr_accessor session_id: ::String
@@ -652,6 +729,40 @@ module Aws::BedrockAgentCore
     class InvokeCodeInterpreterResponse
       attr_accessor session_id: ::String
       attr_accessor stream: Types::CodeInterpreterStreamOutput
+      SENSITIVE: []
+    end
+
+    class KeyPressArguments
+      attr_accessor key: ::String
+      attr_accessor presses: ::Integer
+      SENSITIVE: []
+    end
+
+    class KeyPressResult
+      attr_accessor status: ("SUCCESS" | "FAILED")
+      attr_accessor error: ::String
+      SENSITIVE: []
+    end
+
+    class KeyShortcutArguments
+      attr_accessor keys: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class KeyShortcutResult
+      attr_accessor status: ("SUCCESS" | "FAILED")
+      attr_accessor error: ::String
+      SENSITIVE: []
+    end
+
+    class KeyTypeArguments
+      attr_accessor text: ::String
+      SENSITIVE: []
+    end
+
+    class KeyTypeResult
+      attr_accessor status: ("SUCCESS" | "FAILED")
+      attr_accessor error: ::String
       SENSITIVE: []
     end
 
@@ -861,6 +972,61 @@ module Aws::BedrockAgentCore
       end
     end
 
+    class MouseClickArguments
+      attr_accessor x: ::Integer
+      attr_accessor y: ::Integer
+      attr_accessor button: ("LEFT" | "RIGHT" | "MIDDLE")
+      attr_accessor click_count: ::Integer
+      SENSITIVE: []
+    end
+
+    class MouseClickResult
+      attr_accessor status: ("SUCCESS" | "FAILED")
+      attr_accessor error: ::String
+      SENSITIVE: []
+    end
+
+    class MouseDragArguments
+      attr_accessor end_x: ::Integer
+      attr_accessor end_y: ::Integer
+      attr_accessor start_x: ::Integer
+      attr_accessor start_y: ::Integer
+      attr_accessor button: ("LEFT" | "RIGHT" | "MIDDLE")
+      SENSITIVE: []
+    end
+
+    class MouseDragResult
+      attr_accessor status: ("SUCCESS" | "FAILED")
+      attr_accessor error: ::String
+      SENSITIVE: []
+    end
+
+    class MouseMoveArguments
+      attr_accessor x: ::Integer
+      attr_accessor y: ::Integer
+      SENSITIVE: []
+    end
+
+    class MouseMoveResult
+      attr_accessor status: ("SUCCESS" | "FAILED")
+      attr_accessor error: ::String
+      SENSITIVE: []
+    end
+
+    class MouseScrollArguments
+      attr_accessor x: ::Integer
+      attr_accessor y: ::Integer
+      attr_accessor delta_x: ::Integer
+      attr_accessor delta_y: ::Integer
+      SENSITIVE: []
+    end
+
+    class MouseScrollResult
+      attr_accessor status: ("SUCCESS" | "FAILED")
+      attr_accessor error: ::String
+      SENSITIVE: []
+    end
+
     class PayloadType
       attr_accessor conversational: Types::Conversational
       attr_accessor blob: untyped
@@ -1001,6 +1167,18 @@ module Aws::BedrockAgentCore
       attr_accessor browser_identifier: ::String
       attr_accessor session_id: ::String
       attr_accessor last_updated_at: ::Time
+      SENSITIVE: []
+    end
+
+    class ScreenshotArguments
+      attr_accessor format: ("PNG")
+      SENSITIVE: []
+    end
+
+    class ScreenshotResult
+      attr_accessor status: ("SUCCESS" | "FAILED")
+      attr_accessor error: ::String
+      attr_accessor data: ::String
       SENSITIVE: []
     end
 

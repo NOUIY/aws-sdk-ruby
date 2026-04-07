@@ -389,6 +389,9 @@ module Aws::Outposts
     #     Capacity for new compute resources is reduced. Amazon Web Services
     #     sends notifications for resources that must be stopped before the
     #     asset can be replaced.
+    #
+    #   * INSTALLING - The asset is being installed and can't yet provide
+    #     capacity for new compute resources.
     #   @return [String]
     #
     # @!attribute [rw] instance_families
@@ -1376,6 +1379,21 @@ module Aws::Outposts
     #   Filters the results by state.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] asset_type_filter
+    #   Filters the results by asset type.
+    #
+    #   * COMPUTE - Server asset used for customer compute
+    #
+    #   * STORAGE - Server asset used by storage services
+    #
+    #   * POWERSHELF - Powershelf assets
+    #
+    #   * SWITCH - Switch assets
+    #
+    #   * NETWORKING - Asset managed by Amazon Web Services for networking
+    #     purposes
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/ListAssetsInput AWS API Documentation
     #
     class ListAssetsInput < Struct.new(
@@ -1383,7 +1401,8 @@ module Aws::Outposts
       :host_id_filter,
       :max_results,
       :next_token,
-      :status_filter)
+      :status_filter,
+      :asset_type_filter)
       SENSITIVE = []
       include Aws::Structure
     end

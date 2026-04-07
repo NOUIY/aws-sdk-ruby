@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.219.0 (2026-04-07)
+------------------
+
+* Feature - Updated list of the valid AWS Region values for the LocationConstraint parameter for general purpose buckets.
+
 1.218.0 (2026-03-31)
 ------------------
 

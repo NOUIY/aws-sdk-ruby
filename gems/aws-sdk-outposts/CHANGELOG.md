@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.98.0 (2026-04-07)
+------------------
+
+* Feature - This change allows listAssets to surface pending and non-compute asset information. Adds the INSTALLING asset state enum and the STORAGE, POWERSHELF, SWITCH, and NETWORKING AssetTypes.
+
 1.97.0 (2026-03-18)
 ------------------
 

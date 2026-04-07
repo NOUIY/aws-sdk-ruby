@@ -8,25 +8,6 @@
 module Aws
   module AccessAnalyzer
     module Waiters
-
-      class PolicyPreviewConfigurationActive
-        def initialize: (?client: Client, ?max_attempts: Integer, ?delay: Integer, ?before_attempt: Proc, ?before_wait: Proc) -> void
-                      | (?Hash[Symbol, untyped]) -> void
-
-        def wait: (
-                  ) -> Client::_GetPolicyPreviewConfigurationResponseSuccess
-                | (?Hash[Symbol, untyped]) -> Client::_GetPolicyPreviewConfigurationResponseSuccess
-      end
-
-      class PolicyPreviewJobCompleted
-        def initialize: (?client: Client, ?max_attempts: Integer, ?delay: Integer, ?before_attempt: Proc, ?before_wait: Proc) -> void
-                      | (?Hash[Symbol, untyped]) -> void
-
-        def wait: (
-                    job_id: ::String
-                  ) -> Client::_GetPolicyPreviewJobResponseSuccess
-                | (Hash[Symbol, untyped]) -> Client::_GetPolicyPreviewJobResponseSuccess
-      end
     end
   end
 end

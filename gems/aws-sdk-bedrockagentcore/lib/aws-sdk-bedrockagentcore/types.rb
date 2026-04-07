@@ -269,6 +269,134 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # The browser action to perform. Exactly one member must be set per
+    # request.
+    #
+    # @note BrowserAction is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] mouse_click
+    #   Click at the specified coordinates.
+    #   @return [Types::MouseClickArguments]
+    #
+    # @!attribute [rw] mouse_move
+    #   Move the cursor to the specified coordinates.
+    #   @return [Types::MouseMoveArguments]
+    #
+    # @!attribute [rw] mouse_drag
+    #   Drag from a start position to an end position.
+    #   @return [Types::MouseDragArguments]
+    #
+    # @!attribute [rw] mouse_scroll
+    #   Scroll at the specified position.
+    #   @return [Types::MouseScrollArguments]
+    #
+    # @!attribute [rw] key_type
+    #   Type a string of text.
+    #   @return [Types::KeyTypeArguments]
+    #
+    # @!attribute [rw] key_press
+    #   Press a key one or more times.
+    #   @return [Types::KeyPressArguments]
+    #
+    # @!attribute [rw] key_shortcut
+    #   Press a key combination.
+    #   @return [Types::KeyShortcutArguments]
+    #
+    # @!attribute [rw] screenshot
+    #   Capture a full-screen screenshot.
+    #   @return [Types::ScreenshotArguments]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/BrowserAction AWS API Documentation
+    #
+    class BrowserAction < Struct.new(
+      :mouse_click,
+      :mouse_move,
+      :mouse_drag,
+      :mouse_scroll,
+      :key_type,
+      :key_press,
+      :key_shortcut,
+      :screenshot,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class MouseClick < BrowserAction; end
+      class MouseMove < BrowserAction; end
+      class MouseDrag < BrowserAction; end
+      class MouseScroll < BrowserAction; end
+      class KeyType < BrowserAction; end
+      class KeyPress < BrowserAction; end
+      class KeyShortcut < BrowserAction; end
+      class Screenshot < BrowserAction; end
+      class Unknown < BrowserAction; end
+    end
+
+    # The result of a browser action execution. Exactly one member is set,
+    # matching the action that was performed.
+    #
+    # @note BrowserActionResult is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of BrowserActionResult corresponding to the set member.
+    #
+    # @!attribute [rw] mouse_click
+    #   The result of a mouse click action.
+    #   @return [Types::MouseClickResult]
+    #
+    # @!attribute [rw] mouse_move
+    #   The result of a mouse move action.
+    #   @return [Types::MouseMoveResult]
+    #
+    # @!attribute [rw] mouse_drag
+    #   The result of a mouse drag action.
+    #   @return [Types::MouseDragResult]
+    #
+    # @!attribute [rw] mouse_scroll
+    #   The result of a mouse scroll action.
+    #   @return [Types::MouseScrollResult]
+    #
+    # @!attribute [rw] key_type
+    #   The result of a key type action.
+    #   @return [Types::KeyTypeResult]
+    #
+    # @!attribute [rw] key_press
+    #   The result of a key press action.
+    #   @return [Types::KeyPressResult]
+    #
+    # @!attribute [rw] key_shortcut
+    #   The result of a key shortcut action.
+    #   @return [Types::KeyShortcutResult]
+    #
+    # @!attribute [rw] screenshot
+    #   The result of a screenshot action.
+    #   @return [Types::ScreenshotResult]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/BrowserActionResult AWS API Documentation
+    #
+    class BrowserActionResult < Struct.new(
+      :mouse_click,
+      :mouse_move,
+      :mouse_drag,
+      :mouse_scroll,
+      :key_type,
+      :key_press,
+      :key_shortcut,
+      :screenshot,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class MouseClick < BrowserActionResult; end
+      class MouseMove < BrowserActionResult; end
+      class MouseDrag < BrowserActionResult; end
+      class MouseScroll < BrowserActionResult; end
+      class KeyType < BrowserActionResult; end
+      class KeyPress < BrowserActionResult; end
+      class KeyShortcut < BrowserActionResult; end
+      class Screenshot < BrowserActionResult; end
+      class Unknown < BrowserActionResult; end
+    end
+
     # Browser enterprise policy configuration.
     #
     # @!attribute [rw] location
@@ -2322,6 +2450,56 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # Request for the InvokeBrowser operation.
+    #
+    # @!attribute [rw] browser_identifier
+    #   The unique identifier of the browser associated with the session.
+    #   This must match the identifier used when creating the session with
+    #   `StartBrowserSession`.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The unique identifier of the browser session on which to perform the
+    #   action. This must be an active session created with
+    #   `StartBrowserSession`.
+    #   @return [String]
+    #
+    # @!attribute [rw] action
+    #   The browser action to perform. Exactly one member of the
+    #   `BrowserAction` union must be set per request.
+    #   @return [Types::BrowserAction]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InvokeBrowserRequest AWS API Documentation
+    #
+    class InvokeBrowserRequest < Struct.new(
+      :browser_identifier,
+      :session_id,
+      :action)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response for the InvokeBrowser operation.
+    #
+    # @!attribute [rw] result
+    #   The result of the browser action. The member set in the result
+    #   corresponds to the action that was performed.
+    #   @return [Types::BrowserActionResult]
+    #
+    # @!attribute [rw] session_id
+    #   The unique identifier of the browser session on which the action was
+    #   performed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InvokeBrowserResponse AWS API Documentation
+    #
+    class InvokeBrowserResponse < Struct.new(
+      :result,
+      :session_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] code_interpreter_identifier
     #   The unique identifier of the code interpreter associated with the
     #   session. This must match the identifier used when creating the
@@ -2382,6 +2560,112 @@ module Aws::BedrockAgentCore
     class InvokeCodeInterpreterResponse < Struct.new(
       :session_id,
       :stream)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Arguments for a key press action.
+    #
+    # @!attribute [rw] key
+    #   The key name to press (for example, `enter`, `tab`, `escape`).
+    #   @return [String]
+    #
+    # @!attribute [rw] presses
+    #   The number of times to press the key. Valid range: 1–100. Defaults
+    #   to 1.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/KeyPressArguments AWS API Documentation
+    #
+    class KeyPressArguments < Struct.new(
+      :key,
+      :presses)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a key press action.
+    #
+    # @!attribute [rw] status
+    #   The status of the action execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] error
+    #   The error message. Present only when the action failed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/KeyPressResult AWS API Documentation
+    #
+    class KeyPressResult < Struct.new(
+      :status,
+      :error)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Arguments for a key shortcut action.
+    #
+    # @!attribute [rw] keys
+    #   The key combination to press (for example, `["ctrl", "s"]`). Maximum
+    #   5 keys.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/KeyShortcutArguments AWS API Documentation
+    #
+    class KeyShortcutArguments < Struct.new(
+      :keys)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a key shortcut action.
+    #
+    # @!attribute [rw] status
+    #   The status of the action execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] error
+    #   The error message. Present only when the action failed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/KeyShortcutResult AWS API Documentation
+    #
+    class KeyShortcutResult < Struct.new(
+      :status,
+      :error)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Arguments for a key type action.
+    #
+    # @!attribute [rw] text
+    #   The text string to type. Maximum length: 10,000 characters.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/KeyTypeArguments AWS API Documentation
+    #
+    class KeyTypeArguments < Struct.new(
+      :text)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a key type action.
+    #
+    # @!attribute [rw] status
+    #   The status of the action execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] error
+    #   The error message. Present only when the action failed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/KeyTypeResult AWS API Documentation
+    #
+    class KeyTypeResult < Struct.new(
+      :status,
+      :error)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3112,6 +3396,194 @@ module Aws::BedrockAgentCore
       class Unknown < MetadataValue; end
     end
 
+    # Arguments for a mouse click action.
+    #
+    # @!attribute [rw] x
+    #   The X coordinate on screen where the click occurs.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] y
+    #   The Y coordinate on screen where the click occurs.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] button
+    #   The mouse button to use. Defaults to `LEFT`.
+    #   @return [String]
+    #
+    # @!attribute [rw] click_count
+    #   The number of clicks to perform. Valid range: 1–10. Defaults to 1.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MouseClickArguments AWS API Documentation
+    #
+    class MouseClickArguments < Struct.new(
+      :x,
+      :y,
+      :button,
+      :click_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a mouse click action.
+    #
+    # @!attribute [rw] status
+    #   The status of the action execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] error
+    #   The error message. Present only when the action failed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MouseClickResult AWS API Documentation
+    #
+    class MouseClickResult < Struct.new(
+      :status,
+      :error)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Arguments for a mouse drag action.
+    #
+    # @!attribute [rw] end_x
+    #   The ending X coordinate for the drag.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] end_y
+    #   The ending Y coordinate for the drag.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] start_x
+    #   The starting X coordinate for the drag.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] start_y
+    #   The starting Y coordinate for the drag.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] button
+    #   The mouse button to use for the drag. Defaults to `LEFT`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MouseDragArguments AWS API Documentation
+    #
+    class MouseDragArguments < Struct.new(
+      :end_x,
+      :end_y,
+      :start_x,
+      :start_y,
+      :button)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a mouse drag action.
+    #
+    # @!attribute [rw] status
+    #   The status of the action execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] error
+    #   The error message. Present only when the action failed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MouseDragResult AWS API Documentation
+    #
+    class MouseDragResult < Struct.new(
+      :status,
+      :error)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Arguments for a mouse move action.
+    #
+    # @!attribute [rw] x
+    #   The target X coordinate on screen.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] y
+    #   The target Y coordinate on screen.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MouseMoveArguments AWS API Documentation
+    #
+    class MouseMoveArguments < Struct.new(
+      :x,
+      :y)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a mouse move action.
+    #
+    # @!attribute [rw] status
+    #   The status of the action execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] error
+    #   The error message. Present only when the action failed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MouseMoveResult AWS API Documentation
+    #
+    class MouseMoveResult < Struct.new(
+      :status,
+      :error)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Arguments for a mouse scroll action.
+    #
+    # @!attribute [rw] x
+    #   The X coordinate on screen where the scroll occurs.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] y
+    #   The Y coordinate on screen where the scroll occurs.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] delta_x
+    #   The horizontal scroll delta. Valid range: -1000 to 1000.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] delta_y
+    #   The vertical scroll delta. Valid range: -1000 to 1000. Negative
+    #   values scroll down.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MouseScrollArguments AWS API Documentation
+    #
+    class MouseScrollArguments < Struct.new(
+      :x,
+      :y,
+      :delta_x,
+      :delta_y)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a mouse scroll action.
+    #
+    # @!attribute [rw] status
+    #   The status of the action execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] error
+    #   The error message. Present only when the action failed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MouseScrollResult AWS API Documentation
+    #
+    class MouseScrollResult < Struct.new(
+      :status,
+      :error)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains the payload content for an event.
     #
     # @note PayloadType is a union - when making an API calls you must set exactly one of the members.
@@ -3553,6 +4025,45 @@ module Aws::BedrockAgentCore
       :browser_identifier,
       :session_id,
       :last_updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Arguments for a screenshot action.
+    #
+    # @!attribute [rw] format
+    #   The image format for the screenshot. Defaults to `PNG`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ScreenshotArguments AWS API Documentation
+    #
+    class ScreenshotArguments < Struct.new(
+      :format)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a screenshot action.
+    #
+    # @!attribute [rw] status
+    #   The status of the action execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] error
+    #   The error message. Present only when the action failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] data
+    #   The base64-encoded image data. Present only when the action
+    #   succeeded.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ScreenshotResult AWS API Documentation
+    #
+    class ScreenshotResult < Struct.new(
+      :status,
+      :error,
+      :data)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -460,6 +460,56 @@ module Aws
                                         ) ?{ (*untyped) -> void } -> _InvokeAgentRuntimeCommandResponseSuccess
                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _InvokeAgentRuntimeCommandResponseSuccess
 
+      interface _InvokeBrowserResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::InvokeBrowserResponse]
+        def result: () -> Types::BrowserActionResult
+        def session_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#invoke_browser-instance_method
+      def invoke_browser: (
+                            browser_identifier: ::String,
+                            session_id: ::String,
+                            action: {
+                              mouse_click: {
+                                x: ::Integer,
+                                y: ::Integer,
+                                button: ("LEFT" | "RIGHT" | "MIDDLE")?,
+                                click_count: ::Integer?
+                              }?,
+                              mouse_move: {
+                                x: ::Integer,
+                                y: ::Integer
+                              }?,
+                              mouse_drag: {
+                                end_x: ::Integer,
+                                end_y: ::Integer,
+                                start_x: ::Integer,
+                                start_y: ::Integer,
+                                button: ("LEFT" | "RIGHT" | "MIDDLE")?
+                              }?,
+                              mouse_scroll: {
+                                x: ::Integer,
+                                y: ::Integer,
+                                delta_x: ::Integer?,
+                                delta_y: ::Integer?
+                              }?,
+                              key_type: {
+                                text: ::String
+                              }?,
+                              key_press: {
+                                key: ::String,
+                                presses: ::Integer?
+                              }?,
+                              key_shortcut: {
+                                keys: Array[::String]
+                              }?,
+                              screenshot: {
+                                format: ("PNG")?
+                              }?
+                            }
+                          ) -> _InvokeBrowserResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _InvokeBrowserResponseSuccess
+
       interface _InvokeCodeInterpreterResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::InvokeCodeInterpreterResponse]
         def session_id: () -> ::String

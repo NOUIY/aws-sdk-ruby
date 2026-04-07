@@ -2132,6 +2132,14 @@ module Aws::ECS
       SENSITIVE: []
     end
 
+    class S3FilesVolumeConfiguration
+      attr_accessor file_system_arn: ::String
+      attr_accessor root_directory: ::String
+      attr_accessor transit_encryption_port: ::Integer
+      attr_accessor access_point_arn: ::String
+      SENSITIVE: []
+    end
+
     class Scale
       attr_accessor value: ::Float
       attr_accessor unit: ("PERCENT")
@@ -2946,6 +2954,7 @@ module Aws::ECS
       attr_accessor host: Types::HostVolumeProperties
       attr_accessor docker_volume_configuration: Types::DockerVolumeConfiguration
       attr_accessor efs_volume_configuration: Types::EFSVolumeConfiguration
+      attr_accessor s3files_volume_configuration: Types::S3FilesVolumeConfiguration
       attr_accessor fsx_windows_file_server_volume_configuration: Types::FSxWindowsFileServerVolumeConfiguration
       attr_accessor configured_at_launch: bool
       SENSITIVE: []

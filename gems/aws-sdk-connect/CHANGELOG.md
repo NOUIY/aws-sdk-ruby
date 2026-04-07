@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.250.0 (2026-04-07)
+------------------
+
+* Feature - The voice enhancement mode used by the agent can now be viewed on the contact record via the DescribeContact api.
+
 1.249.0 (2026-04-02)
 ------------------
 

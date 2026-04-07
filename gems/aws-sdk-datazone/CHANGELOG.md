@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.72.0 (2026-04-07)
+------------------
+
+* Feature - Update Configurations and registerS3AccessGrantLocation as public attributes for cfn
+
 1.71.0 (2026-03-31)
 ------------------
 
