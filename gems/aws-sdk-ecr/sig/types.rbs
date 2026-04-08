@@ -1339,6 +1339,11 @@ module Aws::ECR
       SENSITIVE: []
     end
 
+    class UnableToListUpstreamImageReferrersException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
     class UnsupportedImageTypeException
       attr_accessor message: ::String
       SENSITIVE: []

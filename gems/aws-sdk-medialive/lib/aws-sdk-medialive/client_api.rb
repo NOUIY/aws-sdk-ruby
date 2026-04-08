@@ -706,6 +706,12 @@ module Aws::MediaLive
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
     MediaConnectFlow = Shapes::StructureShape.new(name: 'MediaConnectFlow')
     MediaConnectFlowRequest = Shapes::StructureShape.new(name: 'MediaConnectFlowRequest')
+    MediaConnectRouterContainerSettings = Shapes::StructureShape.new(name: 'MediaConnectRouterContainerSettings')
+    MediaConnectRouterGroupSettings = Shapes::StructureShape.new(name: 'MediaConnectRouterGroupSettings')
+    MediaConnectRouterOutputConnectionMap = Shapes::StructureShape.new(name: 'MediaConnectRouterOutputConnectionMap')
+    MediaConnectRouterOutputDestinationSettings = Shapes::StructureShape.new(name: 'MediaConnectRouterOutputDestinationSettings')
+    MediaConnectRouterOutputEncryptionType = Shapes::StringShape.new(name: 'MediaConnectRouterOutputEncryptionType')
+    MediaConnectRouterOutputSettings = Shapes::StructureShape.new(name: 'MediaConnectRouterOutputSettings')
     MediaPackageAdditionalDestinations = Shapes::StructureShape.new(name: 'MediaPackageAdditionalDestinations')
     MediaPackageGroupSettings = Shapes::StructureShape.new(name: 'MediaPackageGroupSettings')
     MediaPackageOutputDestinationSettings = Shapes::StructureShape.new(name: 'MediaPackageOutputDestinationSettings')
@@ -1213,6 +1219,7 @@ module Aws::MediaLive
     __listOfIpPoolUpdateRequest = Shapes::ListShape.new(name: '__listOfIpPoolUpdateRequest')
     __listOfMediaConnectFlow = Shapes::ListShape.new(name: '__listOfMediaConnectFlow')
     __listOfMediaConnectFlowRequest = Shapes::ListShape.new(name: '__listOfMediaConnectFlowRequest')
+    __listOfMediaConnectRouterOutputDestinationSettings = Shapes::ListShape.new(name: '__listOfMediaConnectRouterOutputDestinationSettings')
     __listOfMediaPackageAdditionalDestinations = Shapes::ListShape.new(name: '__listOfMediaPackageAdditionalDestinations')
     __listOfMediaPackageOutputDestinationSettings = Shapes::ListShape.new(name: '__listOfMediaPackageOutputDestinationSettings')
     __listOfMediaResourceNeighbor = Shapes::ListShape.new(name: '__listOfMediaResourceNeighbor')
@@ -4176,6 +4183,25 @@ module Aws::MediaLive
     MediaConnectFlowRequest.add_member(:flow_arn, Shapes::ShapeRef.new(shape: __string, location_name: "flowArn"))
     MediaConnectFlowRequest.struct_class = Types::MediaConnectFlowRequest
 
+    MediaConnectRouterContainerSettings.add_member(:m2ts_settings, Shapes::ShapeRef.new(shape: M2tsSettings, location_name: "m2tsSettings"))
+    MediaConnectRouterContainerSettings.struct_class = Types::MediaConnectRouterContainerSettings
+
+    MediaConnectRouterGroupSettings.add_member(:availability_zones, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "availabilityZones"))
+    MediaConnectRouterGroupSettings.struct_class = Types::MediaConnectRouterGroupSettings
+
+    MediaConnectRouterOutputConnectionMap.add_member(:pipeline_0, Shapes::ShapeRef.new(shape: __string, location_name: "pipeline0"))
+    MediaConnectRouterOutputConnectionMap.add_member(:pipeline_1, Shapes::ShapeRef.new(shape: __string, location_name: "pipeline1"))
+    MediaConnectRouterOutputConnectionMap.struct_class = Types::MediaConnectRouterOutputConnectionMap
+
+    MediaConnectRouterOutputDestinationSettings.add_member(:encryption_type, Shapes::ShapeRef.new(shape: MediaConnectRouterOutputEncryptionType, location_name: "encryptionType"))
+    MediaConnectRouterOutputDestinationSettings.add_member(:secret_arn, Shapes::ShapeRef.new(shape: __string, location_name: "secretArn"))
+    MediaConnectRouterOutputDestinationSettings.struct_class = Types::MediaConnectRouterOutputDestinationSettings
+
+    MediaConnectRouterOutputSettings.add_member(:connected_router_inputs, Shapes::ShapeRef.new(shape: MediaConnectRouterOutputConnectionMap, location_name: "connectedRouterInputs"))
+    MediaConnectRouterOutputSettings.add_member(:container_settings, Shapes::ShapeRef.new(shape: MediaConnectRouterContainerSettings, required: true, location_name: "containerSettings"))
+    MediaConnectRouterOutputSettings.add_member(:destination, Shapes::ShapeRef.new(shape: OutputLocationRef, required: true, location_name: "destination"))
+    MediaConnectRouterOutputSettings.struct_class = Types::MediaConnectRouterOutputSettings
+
     MediaPackageAdditionalDestinations.add_member(:destination, Shapes::ShapeRef.new(shape: OutputLocationRef, required: true, location_name: "destination"))
     MediaPackageAdditionalDestinations.struct_class = Types::MediaPackageAdditionalDestinations
 
@@ -4527,6 +4553,7 @@ module Aws::MediaLive
     OutputDestination.add_member(:settings, Shapes::ShapeRef.new(shape: __listOfOutputDestinationSettings, location_name: "settings"))
     OutputDestination.add_member(:srt_settings, Shapes::ShapeRef.new(shape: __listOfSrtOutputDestinationSettings, location_name: "srtSettings"))
     OutputDestination.add_member(:logical_interface_names, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "logicalInterfaceNames"))
+    OutputDestination.add_member(:media_connect_router_settings, Shapes::ShapeRef.new(shape: __listOfMediaConnectRouterOutputDestinationSettings, location_name: "mediaConnectRouterSettings"))
     OutputDestination.struct_class = Types::OutputDestination
 
     OutputDestinationSettings.add_member(:password_param, Shapes::ShapeRef.new(shape: __string, location_name: "passwordParam"))
@@ -4550,6 +4577,7 @@ module Aws::MediaLive
     OutputGroupSettings.add_member(:udp_group_settings, Shapes::ShapeRef.new(shape: UdpGroupSettings, location_name: "udpGroupSettings"))
     OutputGroupSettings.add_member(:cmaf_ingest_group_settings, Shapes::ShapeRef.new(shape: CmafIngestGroupSettings, location_name: "cmafIngestGroupSettings"))
     OutputGroupSettings.add_member(:srt_group_settings, Shapes::ShapeRef.new(shape: SrtGroupSettings, location_name: "srtGroupSettings"))
+    OutputGroupSettings.add_member(:media_connect_router_group_settings, Shapes::ShapeRef.new(shape: MediaConnectRouterGroupSettings, location_name: "mediaConnectRouterGroupSettings"))
     OutputGroupSettings.struct_class = Types::OutputGroupSettings
 
     OutputLocationRef.add_member(:destination_ref_id, Shapes::ShapeRef.new(shape: __string, location_name: "destinationRefId"))
@@ -4570,6 +4598,7 @@ module Aws::MediaLive
     OutputSettings.add_member(:udp_output_settings, Shapes::ShapeRef.new(shape: UdpOutputSettings, location_name: "udpOutputSettings"))
     OutputSettings.add_member(:cmaf_ingest_output_settings, Shapes::ShapeRef.new(shape: CmafIngestOutputSettings, location_name: "cmafIngestOutputSettings"))
     OutputSettings.add_member(:srt_output_settings, Shapes::ShapeRef.new(shape: SrtOutputSettings, location_name: "srtOutputSettings"))
+    OutputSettings.add_member(:media_connect_router_output_settings, Shapes::ShapeRef.new(shape: MediaConnectRouterOutputSettings, location_name: "mediaConnectRouterOutputSettings"))
     OutputSettings.struct_class = Types::OutputSettings
 
     PassThroughSettings.struct_class = Types::PassThroughSettings
@@ -5404,6 +5433,7 @@ module Aws::MediaLive
     UpdateChannel.add_member(:linked_channel_settings, Shapes::ShapeRef.new(shape: LinkedChannelSettings, location_name: "linkedChannelSettings"))
     UpdateChannel.add_member(:channel_security_groups, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "channelSecurityGroups"))
     UpdateChannel.add_member(:inference_settings, Shapes::ShapeRef.new(shape: InferenceSettings, location_name: "inferenceSettings"))
+    UpdateChannel.add_member(:special_router_settings, Shapes::ShapeRef.new(shape: SpecialRouterSettings, location_name: "specialRouterSettings"))
     UpdateChannel.struct_class = Types::UpdateChannel
 
     UpdateChannelClass.add_member(:channel_class, Shapes::ShapeRef.new(shape: ChannelClass, required: true, location_name: "channelClass"))
@@ -5449,6 +5479,7 @@ module Aws::MediaLive
     UpdateChannelRequest.add_member(:linked_channel_settings, Shapes::ShapeRef.new(shape: LinkedChannelSettings, location_name: "linkedChannelSettings"))
     UpdateChannelRequest.add_member(:channel_security_groups, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "channelSecurityGroups"))
     UpdateChannelRequest.add_member(:inference_settings, Shapes::ShapeRef.new(shape: InferenceSettings, location_name: "inferenceSettings"))
+    UpdateChannelRequest.add_member(:special_router_settings, Shapes::ShapeRef.new(shape: SpecialRouterSettings, location_name: "specialRouterSettings"))
     UpdateChannelRequest.struct_class = Types::UpdateChannelRequest
 
     UpdateChannelResponse.add_member(:channel, Shapes::ShapeRef.new(shape: Channel, location_name: "channel"))
@@ -6005,6 +6036,8 @@ module Aws::MediaLive
     __listOfMediaConnectFlow.member = Shapes::ShapeRef.new(shape: MediaConnectFlow)
 
     __listOfMediaConnectFlowRequest.member = Shapes::ShapeRef.new(shape: MediaConnectFlowRequest)
+
+    __listOfMediaConnectRouterOutputDestinationSettings.member = Shapes::ShapeRef.new(shape: MediaConnectRouterOutputDestinationSettings)
 
     __listOfMediaPackageAdditionalDestinations.member = Shapes::ShapeRef.new(shape: MediaPackageAdditionalDestinations)
 

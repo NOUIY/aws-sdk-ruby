@@ -800,6 +800,9 @@
   "MarketplaceDeployment": {
     "models": "marketplace-deployment/2023-01-25"
   },
+  "MarketplaceDiscovery": {
+    "models": "marketplace-discovery/2026-02-05"
+  },
   "MarketplaceEntitlementService": {
     "models": "entitlement.marketplace/2017-01-11"
   },

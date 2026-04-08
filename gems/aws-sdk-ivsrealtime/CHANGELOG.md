@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.61.0 (2026-04-08)
+------------------
+
+* Feature - Adds support for Amazon IVS real-time streaming redundant ingest.
+
 1.60.0 (2026-03-18)
 ------------------
 

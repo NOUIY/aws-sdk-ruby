@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.183.0 (2026-04-08)
+------------------
+
+* Feature - MediaLive is adding support for MediaConnect Router by supporting a new output type called MEDIACONNECT ROUTER. This new output type will provide seamless encrypted transport between your MediaLive channel and MediaConnect Router.
+
 1.182.0 (2026-04-03)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1237.0 (2026-04-08)
+------------------
+
+* Feature - Added support for enumerating regions for  `Aws::MarketplaceDiscovery`.
+
 1.1236.0 (2026-04-07)
 ------------------
 

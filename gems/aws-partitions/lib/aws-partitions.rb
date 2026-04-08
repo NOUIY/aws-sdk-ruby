@@ -493,6 +493,7 @@ module Aws
             'MarketplaceCatalog' => 'catalog.marketplace',
             'MarketplaceCommerceAnalytics' => 'marketplacecommerceanalytics',
             'MarketplaceDeployment' => 'deployment-marketplace',
+            'MarketplaceDiscovery' => 'discovery-marketplace',
             'MarketplaceEntitlementService' => 'entitlement.marketplace',
             'MarketplaceMetering' => 'metering.marketplace',
             'MarketplaceReporting' => 'reporting-marketplace',

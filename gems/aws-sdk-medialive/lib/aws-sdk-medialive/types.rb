@@ -10428,6 +10428,11 @@ module Aws::MediaLive
     #   Only applies to on premises channels.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] media_connect_router_settings
+    #   Destination settings for a MediaConnect Router output; one
+    #   destination for each redundant encoder.
+    #   @return [Array<Types::MediaConnectRouterOutputDestinationSettings>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/OutputDestination AWS API Documentation
     #
     class OutputDestination < Struct.new(
@@ -10436,7 +10441,8 @@ module Aws::MediaLive
       :multiplex_settings,
       :settings,
       :srt_settings,
-      :logical_interface_names)
+      :logical_interface_names,
+      :media_connect_router_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10534,6 +10540,10 @@ module Aws::MediaLive
     #   Srt Group Settings
     #   @return [Types::SrtGroupSettings]
     #
+    # @!attribute [rw] media_connect_router_group_settings
+    #   Media Connect Router Group Settings
+    #   @return [Types::MediaConnectRouterGroupSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/OutputGroupSettings AWS API Documentation
     #
     class OutputGroupSettings < Struct.new(
@@ -10546,7 +10556,8 @@ module Aws::MediaLive
       :rtmp_group_settings,
       :udp_group_settings,
       :cmaf_ingest_group_settings,
-      :srt_group_settings)
+      :srt_group_settings,
+      :media_connect_router_group_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10630,6 +10641,10 @@ module Aws::MediaLive
     #   Srt Output Settings
     #   @return [Types::SrtOutputSettings]
     #
+    # @!attribute [rw] media_connect_router_output_settings
+    #   Media Connect Router Output Settings
+    #   @return [Types::MediaConnectRouterOutputSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/OutputSettings AWS API Documentation
     #
     class OutputSettings < Struct.new(
@@ -10642,7 +10657,8 @@ module Aws::MediaLive
       :rtmp_output_settings,
       :udp_output_settings,
       :cmaf_ingest_output_settings,
-      :srt_output_settings)
+      :srt_output_settings,
+      :media_connect_router_output_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13025,6 +13041,14 @@ module Aws::MediaLive
     #   channel.
     #   @return [Types::InferenceSettings]
     #
+    # @!attribute [rw] special_router_settings
+    #   When using MediaConnect Router as the source of a MediaLive input
+    #   there's a special handoff that occurs when a router output is
+    #   created. This group of settings is set on your behalf by the
+    #   MediaConnect Router service using this set of settings. This setting
+    #   object can only by used by that service.
+    #   @return [Types::SpecialRouterSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateChannel AWS API Documentation
     #
     class UpdateChannel < Struct.new(
@@ -13042,7 +13066,8 @@ module Aws::MediaLive
       :anywhere_settings,
       :linked_channel_settings,
       :channel_security_groups,
-      :inference_settings)
+      :inference_settings,
+      :special_router_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13149,6 +13174,14 @@ module Aws::MediaLive
     #   Configures Elemental Inference features in a channel.
     #   @return [Types::InferenceSettings]
     #
+    # @!attribute [rw] special_router_settings
+    #   When using MediaConnect Router as the source of a MediaLive input
+    #   there's a special handoff that occurs when a router output is
+    #   created. This group of settings is set on your behalf by the
+    #   MediaConnect Router service using this set of settings. This setting
+    #   object can only by used by that service.
+    #   @return [Types::SpecialRouterSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateChannelRequest AWS API Documentation
     #
     class UpdateChannelRequest < Struct.new(
@@ -13167,7 +13200,8 @@ module Aws::MediaLive
       :anywhere_settings,
       :linked_channel_settings,
       :channel_security_groups,
-      :inference_settings)
+      :inference_settings,
+      :special_router_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -22961,6 +22995,106 @@ module Aws::MediaLive
     #
     class InferenceSettings < Struct.new(
       :feed_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Media Connect Router Container Settings
+    #
+    # @!attribute [rw] m2ts_settings
+    #   M2ts Settings
+    #   @return [Types::M2tsSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/MediaConnectRouterContainerSettings AWS API Documentation
+    #
+    class MediaConnectRouterContainerSettings < Struct.new(
+      :m2ts_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Media Connect Router Group Settings
+    #
+    # @!attribute [rw] availability_zones
+    #   The names of the Availability Zones in which to write output to
+    #   MediaConnect Router.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/MediaConnectRouterGroupSettings AWS API Documentation
+    #
+    class MediaConnectRouterGroupSettings < Struct.new(
+      :availability_zones)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Map of MediaLive pipeline IDs to the ARNs of the MediaConnect Router
+    # Inputs to which this Output is connected.
+    #
+    # @!attribute [rw] pipeline_0
+    #   The ARN of the MediaConnect Router Input connected to pipeline 0.
+    #   @return [String]
+    #
+    # @!attribute [rw] pipeline_1
+    #   The ARN of the MediaConnect Router Input connected to pipeline 1.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/MediaConnectRouterOutputConnectionMap AWS API Documentation
+    #
+    class MediaConnectRouterOutputConnectionMap < Struct.new(
+      :pipeline_0,
+      :pipeline_1)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # MediaConnect Router Output Destination Settings
+    #
+    # @!attribute [rw] encryption_type
+    #   Encryption configuration for MediaConnect router. When using
+    #   SECRETS\_MANAGER encryption, you must provide the ARN of the secret
+    #   used to encrypt data in transit. When using AUTOMATIC encryption, a
+    #   service-managed secret will be used instead.
+    #   @return [String]
+    #
+    # @!attribute [rw] secret_arn
+    #   ARN of the secret used to encrypt this input. Used only with the
+    #   SECRETS\_MANAGER encryption type.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/MediaConnectRouterOutputDestinationSettings AWS API Documentation
+    #
+    class MediaConnectRouterOutputDestinationSettings < Struct.new(
+      :encryption_type,
+      :secret_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Media Connect Router Output Settings
+    #
+    # @!attribute [rw] connected_router_inputs
+    #   Shows the MediaConnect Router Inputs that are connected to this
+    #   output. This parameter is purely informative, and editing it will
+    #   have no effect. To connect or disconnect MediaConnect Router Inputs,
+    #   go to MediaConnect.
+    #   @return [Types::MediaConnectRouterOutputConnectionMap]
+    #
+    # @!attribute [rw] container_settings
+    #   Media Connect Router Container Settings
+    #   @return [Types::MediaConnectRouterContainerSettings]
+    #
+    # @!attribute [rw] destination
+    #   Destination for this MediaConnect Router Output. The referenced
+    #   OutputDestination must have MediaConnect Router settings configured.
+    #   @return [Types::OutputLocationRef]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/MediaConnectRouterOutputSettings AWS API Documentation
+    #
+    class MediaConnectRouterOutputSettings < Struct.new(
+      :connected_router_inputs,
+      :container_settings,
+      :destination)
       SENSITIVE = []
       include Aws::Structure
     end

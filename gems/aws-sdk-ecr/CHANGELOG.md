@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.125.0 (2026-04-08)
+------------------
+
+* Feature - Add UnableToListUpstreamImageReferrersException in ListImageReferrers
+
 1.124.0 (2026-03-18)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.99.0 (2026-04-08)
+------------------
+
+* Feature - Add AWS Outposts APIs to view renewal pricing options and submit renewal requests for Outpost contracts
+
 1.98.0 (2026-04-07)
 ------------------
 

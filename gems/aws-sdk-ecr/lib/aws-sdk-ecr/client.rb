@@ -2892,7 +2892,7 @@ module Aws::ECR
     #   of the initial request can be seen by sending another
     #   `ListImageReferrers` request with the returned `nextToken` value. This
     #   value can be between 1 and 50. If this parameter is not used, then
-    #   `ListImageReferrers` returns up to 50 results and a `nextToken` value,
+    #   `ListImageReferrers` returns up to 20 results and a `nextToken` value,
     #   if applicable.
     #
     # @return [Types::ListImageReferrersResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
@@ -4527,7 +4527,7 @@ module Aws::ECR
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ecr'
-      context[:gem_version] = '1.124.0'
+      context[:gem_version] = '1.125.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

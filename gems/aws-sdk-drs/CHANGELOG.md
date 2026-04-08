@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.61.0 (2026-04-08)
+------------------
+
+* Feature - This changes adds support for modifying the replication configuration to support data replication using IPv6.
+
 1.60.0 (2026-03-18)
 ------------------
 

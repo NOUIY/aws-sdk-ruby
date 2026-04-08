@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+3.261.0 (2026-04-08)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-marketplacediscovery` gem.
+
 3.260.0 (2026-04-07)
 ------------------
 

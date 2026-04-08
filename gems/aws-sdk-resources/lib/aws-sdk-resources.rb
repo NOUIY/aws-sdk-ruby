@@ -255,6 +255,7 @@ module Aws
   autoload :MarketplaceCatalog, 'aws-sdk-marketplacecatalog'
   autoload :MarketplaceCommerceAnalytics, 'aws-sdk-marketplacecommerceanalytics'
   autoload :MarketplaceDeployment, 'aws-sdk-marketplacedeployment'
+  autoload :MarketplaceDiscovery, 'aws-sdk-marketplacediscovery'
   autoload :MarketplaceEntitlementService, 'aws-sdk-marketplaceentitlementservice'
   autoload :MarketplaceMetering, 'aws-sdk-marketplacemetering'
   autoload :MarketplaceReporting, 'aws-sdk-marketplacereporting'
