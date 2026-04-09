@@ -8,6 +8,11 @@
 module Aws::BedrockAgentCore
   module Types
 
+    class A2aDescriptor
+      attr_accessor agent_card: Types::AgentCardDefinition
+      SENSITIVE: []
+    end
+
     class AccessDeniedException
       attr_accessor message: ::String
       attr_accessor event_type: untyped
@@ -16,6 +21,18 @@ module Aws::BedrockAgentCore
 
     class ActorSummary
       attr_accessor actor_id: ::String
+      SENSITIVE: []
+    end
+
+    class AgentCardDefinition
+      attr_accessor schema_version: ::String
+      attr_accessor inline_content: ::String
+      SENSITIVE: []
+    end
+
+    class AgentSkillsDescriptor
+      attr_accessor skill_md: Types::SkillMdDefinition
+      attr_accessor skill_definition: Types::SkillDefinition
       SENSITIVE: []
     end
 
@@ -302,6 +319,11 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class CustomDescriptor
+      attr_accessor inline_content: ::String
+      SENSITIVE: []
+    end
+
     class DeleteEventInput
       attr_accessor memory_id: ::String
       attr_accessor session_id: ::String
@@ -323,6 +345,14 @@ module Aws::BedrockAgentCore
 
     class DeleteMemoryRecordOutput
       attr_accessor memory_record_id: ::String
+      SENSITIVE: []
+    end
+
+    class Descriptors
+      attr_accessor mcp: Types::McpDescriptor
+      attr_accessor a2a: Types::A2aDescriptor
+      attr_accessor custom: Types::CustomDescriptor
+      attr_accessor agent_skills: Types::AgentSkillsDescriptor
       SENSITIVE: []
     end
 
@@ -884,6 +914,12 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class McpDescriptor
+      attr_accessor server: Types::ServerDefinition
+      attr_accessor tools: Types::ToolsDefinition
+      SENSITIVE: []
+    end
+
     class MemoryContent
       attr_accessor text: ::String
       attr_accessor unknown: untyped
@@ -1074,6 +1110,21 @@ module Aws::BedrockAgentCore
       end
     end
 
+    class RegistryRecordSummary
+      attr_accessor registry_arn: ::String
+      attr_accessor record_arn: ::String
+      attr_accessor record_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor descriptor_type: ("MCP" | "A2A" | "CUSTOM" | "AGENT_SKILLS")
+      attr_accessor descriptors: Types::Descriptors
+      attr_accessor version: ::String
+      attr_accessor status: ("DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "DEPRECATED")
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      SENSITIVE: [:description]
+    end
+
     class ResourceContent
       attr_accessor type: ("text" | "blob")
       attr_accessor uri: ::String
@@ -1190,8 +1241,27 @@ module Aws::BedrockAgentCore
       SENSITIVE: [:search_query]
     end
 
+    class SearchRegistryRecordsRequest
+      attr_accessor search_query: ::String
+      attr_accessor registry_ids: ::Array[::String]
+      attr_accessor max_results: ::Integer
+      attr_accessor filters: untyped
+      SENSITIVE: []
+    end
+
+    class SearchRegistryRecordsResponse
+      attr_accessor registry_records: ::Array[Types::RegistryRecordSummary]
+      SENSITIVE: []
+    end
+
     class SecretsManagerLocation
       attr_accessor secret_arn: ::String
+      SENSITIVE: []
+    end
+
+    class ServerDefinition
+      attr_accessor schema_version: ::String
+      attr_accessor inline_content: ::String
       SENSITIVE: []
     end
 
@@ -1215,6 +1285,17 @@ module Aws::BedrockAgentCore
       attr_accessor session_id: ::String
       attr_accessor actor_id: ::String
       attr_accessor created_at: ::Time
+      SENSITIVE: []
+    end
+
+    class SkillDefinition
+      attr_accessor schema_version: ::String
+      attr_accessor inline_content: ::String
+      SENSITIVE: []
+    end
+
+    class SkillMdDefinition
+      attr_accessor inline_content: ::String
       SENSITIVE: []
     end
 
@@ -1375,6 +1456,12 @@ module Aws::BedrockAgentCore
       attr_accessor stderr: ::String
       attr_accessor exit_code: ::Integer
       attr_accessor execution_time: ::Float
+      SENSITIVE: []
+    end
+
+    class ToolsDefinition
+      attr_accessor protocol_version: ::String
+      attr_accessor inline_content: ::String
       SENSITIVE: []
     end
 

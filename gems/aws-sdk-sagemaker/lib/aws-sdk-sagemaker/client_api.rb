@@ -3739,7 +3739,7 @@ module Aws::SageMaker
     ClusterInstanceGroupSpecification.add_member(:instance_count, Shapes::ShapeRef.new(shape: ClusterInstanceCount, required: true, location_name: "InstanceCount"))
     ClusterInstanceGroupSpecification.add_member(:min_instance_count, Shapes::ShapeRef.new(shape: ClusterInstanceCount, location_name: "MinInstanceCount"))
     ClusterInstanceGroupSpecification.add_member(:instance_group_name, Shapes::ShapeRef.new(shape: ClusterInstanceGroupName, required: true, location_name: "InstanceGroupName"))
-    ClusterInstanceGroupSpecification.add_member(:instance_type, Shapes::ShapeRef.new(shape: ClusterInstanceType, required: true, location_name: "InstanceType"))
+    ClusterInstanceGroupSpecification.add_member(:instance_type, Shapes::ShapeRef.new(shape: ClusterInstanceType, location_name: "InstanceType"))
     ClusterInstanceGroupSpecification.add_member(:life_cycle_config, Shapes::ShapeRef.new(shape: ClusterLifeCycleConfig, required: true, location_name: "LifeCycleConfig"))
     ClusterInstanceGroupSpecification.add_member(:execution_role, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "ExecutionRole"))
     ClusterInstanceGroupSpecification.add_member(:threads_per_core, Shapes::ShapeRef.new(shape: ClusterThreadsPerCore, location_name: "ThreadsPerCore"))

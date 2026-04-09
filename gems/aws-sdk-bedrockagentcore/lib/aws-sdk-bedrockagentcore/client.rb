@@ -3072,6 +3072,84 @@ module Aws::BedrockAgentCore
       req.send_request(options)
     end
 
+    # Searches for registry records using semantic, lexical, or hybrid
+    # queries. Returns metadata for matching records ordered by relevance
+    # within the specified registry.
+    #
+    # @option params [required, String] :search_query
+    #   The search query to find matching registry records.
+    #
+    # @option params [required, Array<String>] :registry_ids
+    #   The list of registry identifiers to search within. Currently, you can
+    #   specify exactly one registry identifier. You can provide either the
+    #   full Amazon Web Services Resource Name (ARN) or the 12-character
+    #   alphanumeric registry ID.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of records to return in a single call. Valid values
+    #   are 1 through 20. The default value is 10.
+    #
+    # @option params [Hash,Array,String,Numeric,Boolean] :filters
+    #   A metadata filter expression to narrow search results. Uses structured
+    #   JSON operators including field-level operators (`$eq`, `$ne`, `$in`)
+    #   and logical operators (`$and`, `$or`) on filterable fields (`name`,
+    #   `descriptorType`, `version`). For example, to filter by descriptor
+    #   type: `{"descriptorType": {"$eq": "MCP"}}`. To combine filters:
+    #   `{"$and": [{"descriptorType": {"$eq": "MCP"}}, {"name": {"$eq":
+    #   "my-tool"}}]}`.
+    #
+    #   Document type used to carry open content
+    #   (Hash,Array,String,Numeric,Boolean). A document type value is
+    #   serialized using the same format as its surroundings and requires no
+    #   additional encoding or escaping.
+    #
+    # @return [Types::SearchRegistryRecordsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SearchRegistryRecordsResponse#registry_records #registry_records} => Array&lt;Types::RegistryRecordSummary&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.search_registry_records({
+    #     search_query: "SearchRegistryRecordsRequestSearchQueryString", # required
+    #     registry_ids: ["RegistryIdentifier"], # required
+    #     max_results: 1,
+    #     filters: {
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.registry_records #=> Array
+    #   resp.registry_records[0].registry_arn #=> String
+    #   resp.registry_records[0].record_arn #=> String
+    #   resp.registry_records[0].record_id #=> String
+    #   resp.registry_records[0].name #=> String
+    #   resp.registry_records[0].description #=> String
+    #   resp.registry_records[0].descriptor_type #=> String, one of "MCP", "A2A", "CUSTOM", "AGENT_SKILLS"
+    #   resp.registry_records[0].descriptors.mcp.server.schema_version #=> String
+    #   resp.registry_records[0].descriptors.mcp.server.inline_content #=> String
+    #   resp.registry_records[0].descriptors.mcp.tools.protocol_version #=> String
+    #   resp.registry_records[0].descriptors.mcp.tools.inline_content #=> String
+    #   resp.registry_records[0].descriptors.a2a.agent_card.schema_version #=> String
+    #   resp.registry_records[0].descriptors.a2a.agent_card.inline_content #=> String
+    #   resp.registry_records[0].descriptors.custom.inline_content #=> String
+    #   resp.registry_records[0].descriptors.agent_skills.skill_md.inline_content #=> String
+    #   resp.registry_records[0].descriptors.agent_skills.skill_definition.schema_version #=> String
+    #   resp.registry_records[0].descriptors.agent_skills.skill_definition.inline_content #=> String
+    #   resp.registry_records[0].version #=> String
+    #   resp.registry_records[0].status #=> String, one of "DRAFT", "PENDING_APPROVAL", "APPROVED", "REJECTED", "DEPRECATED"
+    #   resp.registry_records[0].created_at #=> Time
+    #   resp.registry_records[0].updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/SearchRegistryRecords AWS API Documentation
+    #
+    # @overload search_registry_records(params = {})
+    # @param [Hash] params ({})
+    def search_registry_records(params = {}, options = {})
+      req = build_request(:search_registry_records, params)
+      req.send_request(options)
+    end
+
     # Creates and initializes a browser session in Amazon Bedrock AgentCore.
     # The session enables agents to navigate and interact with web content,
     # extract information from websites, and perform web-based tasks as part
@@ -3674,7 +3752,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.26.0'
+      context[:gem_version] = '1.27.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

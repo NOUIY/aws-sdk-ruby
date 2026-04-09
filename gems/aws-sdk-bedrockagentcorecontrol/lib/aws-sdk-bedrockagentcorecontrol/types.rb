@@ -10,6 +10,23 @@
 module Aws::BedrockAgentCoreControl
   module Types
 
+    # The Agent-to-Agent (A2A) protocol descriptor for a registry record.
+    # Contains the agent card definition as defined by the A2A protocol
+    # specification.
+    #
+    # @!attribute [rw] agent_card
+    #   The agent card definition for the A2A agent, as defined by the A2A
+    #   protocol specification.
+    #   @return [Types::AgentCardDefinition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/A2aDescriptor AWS API Documentation
+    #
+    class A2aDescriptor < Struct.new(
+      :agent_card)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # This exception is thrown when a request is denied per access
     # permissions
     #
@@ -20,6 +37,28 @@ module Aws::BedrockAgentCoreControl
     #
     class AccessDeniedException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The agent card definition for an A2A descriptor. Contains the schema
+    # version and inline content for the agent card.
+    #
+    # @!attribute [rw] schema_version
+    #   The schema version of the agent card based on the A2A protocol
+    #   specification.
+    #   @return [String]
+    #
+    # @!attribute [rw] inline_content
+    #   The JSON content containing the A2A agent card definition,
+    #   conforming to the A2A protocol specification.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/AgentCardDefinition AWS API Documentation
+    #
+    class AgentCardDefinition < Struct.new(
+      :schema_version,
+      :inline_content)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -159,6 +198,28 @@ module Aws::BedrockAgentCoreControl
       :created_at,
       :last_updated_at)
       SENSITIVE = [:name]
+      include Aws::Structure
+    end
+
+    # The agent skills descriptor for a registry record. Contains an
+    # optional skill markdown definition in human-readable format and an
+    # optional structured skill definition.
+    #
+    # @!attribute [rw] skill_md
+    #   The optional skill markdown definition describing the agent's
+    #   skills in a human-readable format.
+    #   @return [Types::SkillMdDefinition]
+    #
+    # @!attribute [rw] skill_definition
+    #   The structured skill definition with schema version and content.
+    #   @return [Types::SkillDefinition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/AgentSkillsDescriptor AWS API Documentation
+    #
+    class AgentSkillsDescriptor < Struct.new(
+      :skill_md,
+      :skill_definition)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -356,6 +417,25 @@ module Aws::BedrockAgentCoreControl
       class S3 < ApiSchemaConfiguration; end
       class InlinePayload < ApiSchemaConfiguration; end
       class Unknown < ApiSchemaConfiguration; end
+    end
+
+    # Configuration for the registry record approval workflow. Controls
+    # whether records added to the registry require explicit approval before
+    # becoming active.
+    #
+    # @!attribute [rw] auto_approval
+    #   Whether registry records are auto-approved. When set to `true`,
+    #   records are automatically approved upon creation. When set to
+    #   `false` (the default), records require explicit approval for
+    #   security purposes.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ApprovalConfiguration AWS API Documentation
+    #
+    class ApprovalConfiguration < Struct.new(
+      :auto_approval)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # Configuration settings for connecting to Atlassian services using
@@ -2574,6 +2654,183 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # @!attribute [rw] registry_id
+    #   The identifier of the registry where the record will be created. You
+    #   can specify either the Amazon Resource Name (ARN) or the ID of the
+    #   registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] descriptor_type
+    #   The descriptor type of the registry record.
+    #
+    #   * `MCP` - Model Context Protocol descriptor for MCP-compatible
+    #     servers and tools.
+    #
+    #   * `A2A` - Agent-to-Agent protocol descriptor.
+    #
+    #   * `CUSTOM` - Custom descriptor type for resources such as APIs,
+    #     Lambda functions, or servers not conforming to a standard
+    #     protocol.
+    #
+    #   * `AGENT_SKILLS` - Agent skills descriptor for defining agent skill
+    #     definitions.
+    #   @return [String]
+    #
+    # @!attribute [rw] descriptors
+    #   The descriptor-type-specific configuration containing the resource
+    #   schema and metadata. The structure of this field depends on the
+    #   `descriptorType` you specify.
+    #   @return [Types::Descriptors]
+    #
+    # @!attribute [rw] record_version
+    #   The version of the registry record. Use this to track different
+    #   versions of the record's content.
+    #   @return [String]
+    #
+    # @!attribute [rw] synchronization_type
+    #   The type of synchronization to use for keeping the record metadata
+    #   up to date from an external source. Possible values include
+    #   `FROM_URL` and `NONE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] synchronization_configuration
+    #   The configuration for synchronizing registry record metadata from an
+    #   external source, such as a URL-based MCP server.
+    #   @return [Types::SynchronizationConfiguration]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a
+    #   previous request, the service ignores the request, but doesn't
+    #   return an error. For more information, see [Ensuring
+    #   idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateRegistryRecordRequest AWS API Documentation
+    #
+    class CreateRegistryRecordRequest < Struct.new(
+      :registry_id,
+      :name,
+      :description,
+      :descriptor_type,
+      :descriptors,
+      :record_version,
+      :synchronization_type,
+      :synchronization_configuration,
+      :client_token)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] record_arn
+    #   The Amazon Resource Name (ARN) of the created registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the registry record. Set to `CREATING` while the
+    #   asynchronous workflow is in progress.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateRegistryRecordResponse AWS API Documentation
+    #
+    class CreateRegistryRecordResponse < Struct.new(
+      :record_arn,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the registry. The name must be unique within your
+    #   account and can contain alphanumeric characters and underscores.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorizer_type
+    #   The type of authorizer to use for the registry. This controls the
+    #   authorization method for the Search and Invoke APIs used by
+    #   consumers, and does not affect the standard CRUDL APIs for registry
+    #   and registry record management used by administrators.
+    #
+    #   * `CUSTOM_JWT` - Authorize with a bearer token.
+    #
+    #   * `AWS_IAM` - Authorize with your Amazon Web Services IAM
+    #     credentials.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorizer_configuration
+    #   The authorizer configuration for the registry. Required if
+    #   `authorizerType` is `CUSTOM_JWT`. For details, see the
+    #   `AuthorizerConfiguration` data type.
+    #   @return [Types::AuthorizerConfiguration]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a
+    #   previous request, the service ignores the request, but doesn't
+    #   return an error. For more information, see [Ensuring
+    #   idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #   @return [String]
+    #
+    # @!attribute [rw] approval_configuration
+    #   The approval configuration for registry records. Controls whether
+    #   records require explicit approval before becoming active. See the
+    #   `ApprovalConfiguration` data type for supported configuration
+    #   options.
+    #   @return [Types::ApprovalConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateRegistryRequest AWS API Documentation
+    #
+    class CreateRegistryRequest < Struct.new(
+      :name,
+      :description,
+      :authorizer_type,
+      :authorizer_configuration,
+      :client_token,
+      :approval_configuration)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] registry_arn
+    #   The Amazon Resource Name (ARN) of the created registry.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateRegistryResponse AWS API Documentation
+    #
+    class CreateRegistryResponse < Struct.new(
+      :registry_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] name
     #   The name of the workload identity. The name must be unique within
     #   your account.
@@ -2842,6 +3099,23 @@ module Aws::BedrockAgentCoreControl
       class UserPreferenceConsolidationOverride < CustomConsolidationConfigurationInput; end
       class EpisodicConsolidationOverride < CustomConsolidationConfigurationInput; end
       class Unknown < CustomConsolidationConfigurationInput; end
+    end
+
+    # A custom descriptor for a registry record. Use this for resources such
+    # as APIs, Lambda functions, or servers that do not conform to a
+    # standard protocol like MCP or A2A.
+    #
+    # @!attribute [rw] inline_content
+    #   The custom descriptor content as a valid JSON document. You can
+    #   define any custom schema that describes your resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CustomDescriptor AWS API Documentation
+    #
+    class CustomDescriptor < Struct.new(
+      :inline_content)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # Contains custom extraction configuration information.
@@ -3740,6 +4014,57 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # @!attribute [rw] registry_id
+    #   The identifier of the registry containing the record. You can
+    #   specify either the Amazon Resource Name (ARN) or the ID of the
+    #   registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_id
+    #   The identifier of the registry record to delete. You can specify
+    #   either the Amazon Resource Name (ARN) or the ID of the record.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteRegistryRecordRequest AWS API Documentation
+    #
+    class DeleteRegistryRecordRequest < Struct.new(
+      :registry_id,
+      :record_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteRegistryRecordResponse AWS API Documentation
+    #
+    class DeleteRegistryRecordResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] registry_id
+    #   The identifier of the registry to delete. You can specify either the
+    #   Amazon Resource Name (ARN) or the ID of the registry.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteRegistryRequest AWS API Documentation
+    #
+    class DeleteRegistryRequest < Struct.new(
+      :registry_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] status
+    #   The current status of the registry, set to `DELETING` when deletion
+    #   is initiated. For a list of all possible registry statuses, see the
+    #   `RegistryStatus` data type.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteRegistryResponse AWS API Documentation
+    #
+    class DeleteRegistryResponse < Struct.new(
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] resource_arn
     #   The Amazon Resource Name (ARN) of the resource for which to delete
     #   the resource policy.
@@ -3772,6 +4097,41 @@ module Aws::BedrockAgentCoreControl
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteWorkloadIdentityResponse AWS API Documentation
     #
     class DeleteWorkloadIdentityResponse < Aws::EmptyStructure; end
+
+    # Contains descriptor-type-specific configurations for a registry
+    # record. Only the descriptor matching the record's `descriptorType`
+    # should be populated.
+    #
+    # @!attribute [rw] mcp
+    #   The Model Context Protocol (MCP) descriptor configuration. Use this
+    #   when the `descriptorType` is `MCP`.
+    #   @return [Types::McpDescriptor]
+    #
+    # @!attribute [rw] a2a
+    #   The Agent-to-Agent (A2A) protocol descriptor configuration. Use this
+    #   when the `descriptorType` is `A2A`.
+    #   @return [Types::A2aDescriptor]
+    #
+    # @!attribute [rw] custom
+    #   The custom descriptor configuration. Use this when the
+    #   `descriptorType` is `CUSTOM`.
+    #   @return [Types::CustomDescriptor]
+    #
+    # @!attribute [rw] agent_skills
+    #   The agent skills descriptor configuration. Use this when the
+    #   `descriptorType` is `AGENT_SKILLS`.
+    #   @return [Types::AgentSkillsDescriptor]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/Descriptors AWS API Documentation
+    #
+    class Descriptors < Struct.new(
+      :mcp,
+      :a2a,
+      :custom,
+      :agent_skills)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # Exception thrown when encryption of a secret fails.
     #
@@ -4331,6 +4691,27 @@ module Aws::BedrockAgentCoreControl
     class Finding < Struct.new(
       :type,
       :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for synchronizing from a URL-based MCP server.
+    #
+    # @!attribute [rw] url
+    #   The HTTPS URL of the MCP server to synchronize from.
+    #   @return [String]
+    #
+    # @!attribute [rw] credential_provider_configurations
+    #   Optional list of credential provider configurations for
+    #   authenticating with the MCP server. At most one credential provider
+    #   configuration can be specified.
+    #   @return [Array<Types::RegistryRecordCredentialProviderConfiguration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/FromUrlSynchronizationConfiguration AWS API Documentation
+    #
+    class FromUrlSynchronizationConfiguration < Struct.new(
+      :url,
+      :credential_provider_configurations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5819,6 +6200,200 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # @!attribute [rw] registry_id
+    #   The identifier of the registry containing the record. You can
+    #   specify either the Amazon Resource Name (ARN) or the ID of the
+    #   registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_id
+    #   The identifier of the registry record to retrieve. You can specify
+    #   either the Amazon Resource Name (ARN) or the ID of the record.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetRegistryRecordRequest AWS API Documentation
+    #
+    class GetRegistryRecordRequest < Struct.new(
+      :registry_id,
+      :record_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] registry_arn
+    #   The Amazon Resource Name (ARN) of the registry that contains the
+    #   record.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_arn
+    #   The Amazon Resource Name (ARN) of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_id
+    #   The unique identifier of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] descriptor_type
+    #   The descriptor type of the registry record. Possible values are
+    #   `MCP`, `A2A`, `CUSTOM`, and `AGENT_SKILLS`.
+    #   @return [String]
+    #
+    # @!attribute [rw] descriptors
+    #   The descriptor-type-specific configuration containing the resource
+    #   schema and metadata. For details, see the `Descriptors` data type.
+    #   @return [Types::Descriptors]
+    #
+    # @!attribute [rw] record_version
+    #   The version of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the registry record. Possible values include
+    #   `CREATING`, `DRAFT`, `APPROVED`, `PENDING_APPROVAL`, `REJECTED`,
+    #   `DEPRECATED`, `UPDATING`, `CREATE_FAILED`, and `UPDATE_FAILED`. A
+    #   record transitions from `CREATING` to `DRAFT`, then to
+    #   `PENDING_APPROVAL` (via `SubmitRegistryRecordForApproval`), and
+    #   finally to `APPROVED` upon approval.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the registry record was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the registry record was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status_reason
+    #   The reason for the current status, typically set when the status is
+    #   a failure state.
+    #   @return [String]
+    #
+    # @!attribute [rw] synchronization_type
+    #   The type of synchronization used for this record.
+    #   @return [String]
+    #
+    # @!attribute [rw] synchronization_configuration
+    #   The configuration for synchronizing registry record metadata from an
+    #   external source.
+    #   @return [Types::SynchronizationConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetRegistryRecordResponse AWS API Documentation
+    #
+    class GetRegistryRecordResponse < Struct.new(
+      :registry_arn,
+      :record_arn,
+      :record_id,
+      :name,
+      :description,
+      :descriptor_type,
+      :descriptors,
+      :record_version,
+      :status,
+      :created_at,
+      :updated_at,
+      :status_reason,
+      :synchronization_type,
+      :synchronization_configuration)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] registry_id
+    #   The identifier of the registry to retrieve. You can specify either
+    #   the Amazon Resource Name (ARN) or the ID of the registry.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetRegistryRequest AWS API Documentation
+    #
+    class GetRegistryRequest < Struct.new(
+      :registry_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] registry_id
+    #   The unique identifier of the registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] registry_arn
+    #   The Amazon Resource Name (ARN) of the registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorizer_type
+    #   The type of authorizer used by the registry. This controls the
+    #   authorization method for the Search and Invoke APIs used by
+    #   consumers.
+    #
+    #   * `CUSTOM_JWT` - Authorize with a bearer token.
+    #
+    #   * `AWS_IAM` - Authorize with your Amazon Web Services IAM
+    #     credentials.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorizer_configuration
+    #   The authorizer configuration for the registry. For details, see the
+    #   `AuthorizerConfiguration` data type.
+    #   @return [Types::AuthorizerConfiguration]
+    #
+    # @!attribute [rw] approval_configuration
+    #   The approval configuration for registry records. For details, see
+    #   the `ApprovalConfiguration` data type.
+    #   @return [Types::ApprovalConfiguration]
+    #
+    # @!attribute [rw] status
+    #   The current status of the registry. Possible values include
+    #   `CREATING`, `READY`, `UPDATING`, `CREATE_FAILED`, `UPDATE_FAILED`,
+    #   `DELETING`, and `DELETE_FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   The reason for the current status, typically set when the status is
+    #   a failure state.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the registry was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the registry was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetRegistryResponse AWS API Documentation
+    #
+    class GetRegistryResponse < Struct.new(
+      :name,
+      :description,
+      :registry_id,
+      :registry_arn,
+      :authorizer_type,
+      :authorizer_configuration,
+      :approval_configuration,
+      :status,
+      :status_reason,
+      :created_at,
+      :updated_at)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
     # @!attribute [rw] resource_arn
     #   The Amazon Resource Name (ARN) of the resource for which to retrieve
     #   the resource policy.
@@ -7091,6 +7666,126 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in the response. If the
+    #   total number of results is greater than this value, use the token
+    #   returned in the response in the `nextToken` field when making
+    #   another request to return the next batch of results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   If the total number of results is greater than the `maxResults`
+    #   value provided in the request, enter the token returned in the
+    #   `nextToken` field in the response in this field to return the next
+    #   batch of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Filter registries by their current status. Possible values include
+    #   `CREATING`, `READY`, `UPDATING`, `CREATE_FAILED`, `UPDATE_FAILED`,
+    #   `DELETING`, and `DELETE_FAILED`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListRegistriesRequest AWS API Documentation
+    #
+    class ListRegistriesRequest < Struct.new(
+      :max_results,
+      :next_token,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] registries
+    #   The list of registry summaries. For details about the fields in each
+    #   summary, see the `RegistrySummary` data type.
+    #   @return [Array<Types::RegistrySummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If the total number of results is greater than the `maxResults`
+    #   value provided in the request, use this token when making another
+    #   request in the `nextToken` field to return the next batch of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListRegistriesResponse AWS API Documentation
+    #
+    class ListRegistriesResponse < Struct.new(
+      :registries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] registry_id
+    #   The identifier of the registry to list records from. You can specify
+    #   either the Amazon Resource Name (ARN) or the ID of the registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in the response. If the
+    #   total number of results is greater than this value, use the token
+    #   returned in the response in the `nextToken` field when making
+    #   another request to return the next batch of results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   If the total number of results is greater than the `maxResults`
+    #   value provided in the request, enter the token returned in the
+    #   `nextToken` field in the response in this field to return the next
+    #   batch of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Filter registry records by name.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Filter registry records by their current status. Possible values
+    #   include `CREATING`, `DRAFT`, `APPROVED`, `PENDING_APPROVAL`,
+    #   `REJECTED`, `DEPRECATED`, `UPDATING`, `CREATE_FAILED`, and
+    #   `UPDATE_FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] descriptor_type
+    #   Filter registry records by their descriptor type. Possible values
+    #   are `MCP`, `A2A`, `CUSTOM`, and `AGENT_SKILLS`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListRegistryRecordsRequest AWS API Documentation
+    #
+    class ListRegistryRecordsRequest < Struct.new(
+      :registry_id,
+      :max_results,
+      :next_token,
+      :name,
+      :status,
+      :descriptor_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] registry_records
+    #   The list of registry record summaries. For details about the fields
+    #   in each summary, see the `RegistryRecordSummary` data type.
+    #   @return [Array<Types::RegistryRecordSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If the total number of results is greater than the `maxResults`
+    #   value provided in the request, use this token when making another
+    #   request in the `nextToken` field to return the next batch of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListRegistryRecordsResponse AWS API Documentation
+    #
+    class ListRegistryRecordsResponse < Struct.new(
+      :registry_records,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] resource_arn
     #   The Amazon Resource Name (ARN) of the resource for which you want to
     #   list tags.
@@ -7176,7 +7871,7 @@ module Aws::BedrockAgentCoreControl
       :instructions,
       :rating_scale,
       :model_config)
-      SENSITIVE = [:instructions]
+      SENSITIVE = [:instructions, :rating_scale]
       include Aws::Structure
     end
 
@@ -7275,6 +7970,30 @@ module Aws::BedrockAgentCoreControl
       :domain,
       :resource_gateway_arn,
       :resource_association_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Model Context Protocol (MCP) descriptor for a registry record.
+    # Contains the server definition and tools definition for an
+    # MCP-compatible server. The schema is validated against the MCP
+    # protocol specification.
+    #
+    # @!attribute [rw] server
+    #   The MCP server definition, containing the server configuration and
+    #   schema as defined by the MCP protocol specification.
+    #   @return [Types::ServerDefinition]
+    #
+    # @!attribute [rw] tools
+    #   The MCP tools definition, containing the tools available on the MCP
+    #   server as defined by the MCP protocol specification.
+    #   @return [Types::ToolsDefinition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/McpDescriptor AWS API Documentation
+    #
+    class McpDescriptor < Struct.new(
+      :server,
+      :tools)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8878,6 +9597,252 @@ module Aws::BedrockAgentCoreControl
       class Unknown < ReflectionConfiguration; end
     end
 
+    # A pairing of a credential provider type with its corresponding
+    # provider details for authenticating with external sources.
+    #
+    # @!attribute [rw] credential_provider_type
+    #   The type of credential provider.
+    #
+    #   * `OAUTH` - OAuth-based authentication.
+    #
+    #   * `IAM` - Amazon Web Services IAM-based authentication using SigV4
+    #     signing.
+    #   @return [String]
+    #
+    # @!attribute [rw] credential_provider
+    #   The credential provider configuration details. The structure depends
+    #   on the `credentialProviderType`.
+    #   @return [Types::RegistryRecordCredentialProviderUnion]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/RegistryRecordCredentialProviderConfiguration AWS API Documentation
+    #
+    class RegistryRecordCredentialProviderConfiguration < Struct.new(
+      :credential_provider_type,
+      :credential_provider)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Union of supported credential provider types for registry record
+    # synchronization.
+    #
+    # @note RegistryRecordCredentialProviderUnion is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note RegistryRecordCredentialProviderUnion is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of RegistryRecordCredentialProviderUnion corresponding to the set member.
+    #
+    # @!attribute [rw] oauth_credential_provider
+    #   The OAuth credential provider configuration for authenticating with
+    #   the external source.
+    #   @return [Types::RegistryRecordOAuthCredentialProvider]
+    #
+    # @!attribute [rw] iam_credential_provider
+    #   The IAM credential provider configuration for authenticating with
+    #   the external source using SigV4 signing.
+    #   @return [Types::RegistryRecordIamCredentialProvider]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/RegistryRecordCredentialProviderUnion AWS API Documentation
+    #
+    class RegistryRecordCredentialProviderUnion < Struct.new(
+      :oauth_credential_provider,
+      :iam_credential_provider,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class OauthCredentialProvider < RegistryRecordCredentialProviderUnion; end
+      class IamCredentialProvider < RegistryRecordCredentialProviderUnion; end
+      class Unknown < RegistryRecordCredentialProviderUnion; end
+    end
+
+    # IAM credential provider configuration for authenticating with an
+    # external source using SigV4 signing during synchronization.
+    #
+    # @!attribute [rw] role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role to assume for SigV4
+    #   signing.
+    #   @return [String]
+    #
+    # @!attribute [rw] service
+    #   The SigV4 signing service name (for example, `execute-api` or
+    #   `bedrock-agentcore`).
+    #   @return [String]
+    #
+    # @!attribute [rw] region
+    #   The Amazon Web Services region for SigV4 signing (for example,
+    #   `us-west-2`). If not specified, the region is extracted from the MCP
+    #   server URL hostname, with fallback to the service's own region.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/RegistryRecordIamCredentialProvider AWS API Documentation
+    #
+    class RegistryRecordIamCredentialProvider < Struct.new(
+      :role_arn,
+      :service,
+      :region)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # OAuth credential provider configuration for authenticating with an
+    # external source during synchronization.
+    #
+    # @!attribute [rw] provider_arn
+    #   The Amazon Resource Name (ARN) of the OAuth credential provider
+    #   resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] grant_type
+    #   The OAuth grant type. Currently only `CLIENT_CREDENTIALS` is
+    #   supported.
+    #   @return [String]
+    #
+    # @!attribute [rw] scopes
+    #   The OAuth scopes to request during authentication.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] custom_parameters
+    #   Additional custom parameters for the OAuth flow.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/RegistryRecordOAuthCredentialProvider AWS API Documentation
+    #
+    class RegistryRecordOAuthCredentialProvider < Struct.new(
+      :provider_arn,
+      :grant_type,
+      :scopes,
+      :custom_parameters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains summary information about a registry record.
+    #
+    # @!attribute [rw] registry_arn
+    #   The Amazon Resource Name (ARN) of the registry that contains the
+    #   record.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_arn
+    #   The Amazon Resource Name (ARN) of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_id
+    #   The unique identifier of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] descriptor_type
+    #   The descriptor type of the registry record. Possible values are
+    #   `MCP`, `A2A`, `CUSTOM`, and `AGENT_SKILLS`.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_version
+    #   The version of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the registry record. Possible values include
+    #   `CREATING`, `DRAFT`, `APPROVED`, `PENDING_APPROVAL`, `REJECTED`,
+    #   `DEPRECATED`, `UPDATING`, `CREATE_FAILED`, and `UPDATE_FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the registry record was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the registry record was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/RegistryRecordSummary AWS API Documentation
+    #
+    class RegistryRecordSummary < Struct.new(
+      :registry_arn,
+      :record_arn,
+      :record_id,
+      :name,
+      :description,
+      :descriptor_type,
+      :record_version,
+      :status,
+      :created_at,
+      :updated_at)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # Contains summary information about a registry.
+    #
+    # @!attribute [rw] name
+    #   The name of the registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] registry_id
+    #   The unique identifier of the registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] registry_arn
+    #   The Amazon Resource Name (ARN) of the registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorizer_type
+    #   The type of authorizer used by the registry. This controls the
+    #   authorization method for the Search and Invoke APIs used by
+    #   consumers.
+    #
+    #   * `CUSTOM_JWT` - Authorize with a bearer token.
+    #
+    #   * `AWS_IAM` - Authorize with your Amazon Web Services IAM
+    #     credentials.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the registry. Possible values include
+    #   `CREATING`, `READY`, `UPDATING`, `CREATE_FAILED`, `UPDATE_FAILED`,
+    #   `DELETING`, and `DELETE_FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   The reason for the current status, typically set when the status is
+    #   a failure state.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the registry was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the registry was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/RegistrySummary AWS API Documentation
+    #
+    class RegistrySummary < Struct.new(
+      :name,
+      :description,
+      :registry_id,
+      :registry_arn,
+      :authorizer_type,
+      :status,
+      :status_reason,
+      :created_at,
+      :updated_at)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
     # Configuration for HTTP request headers that will be passed through to
     # the runtime.
     #
@@ -9398,6 +10363,29 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The server definition for an MCP descriptor. Contains the schema
+    # version and inline content for the MCP server configuration.
+    #
+    # @!attribute [rw] schema_version
+    #   The schema version of the server definition based on the MCP
+    #   protocol specification. If not specified, the version is
+    #   auto-detected from the content.
+    #   @return [String]
+    #
+    # @!attribute [rw] inline_content
+    #   The JSON content containing the MCP server definition, conforming to
+    #   the MCP protocol specification.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ServerDefinition AWS API Documentation
+    #
+    class ServerDefinition < Struct.new(
+      :schema_version,
+      :inline_content)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An internal error occurred.
     #
     # @!attribute [rw] message
@@ -9495,6 +10483,40 @@ module Aws::BedrockAgentCoreControl
       :token_vault_id,
       :kms_configuration,
       :last_modified_date)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The structured skill definition with schema version and content.
+    #
+    # @!attribute [rw] schema_version
+    #   The version of the skill definition schema.
+    #   @return [String]
+    #
+    # @!attribute [rw] inline_content
+    #   The JSON content containing the structured skill definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SkillDefinition AWS API Documentation
+    #
+    class SkillDefinition < Struct.new(
+      :schema_version,
+      :inline_content)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The skill markdown definition for an agent skills descriptor.
+    #
+    # @!attribute [rw] inline_content
+    #   The markdown content describing the agent's skills in a
+    #   human-readable format.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SkillMdDefinition AWS API Documentation
+    #
+    class SkillMdDefinition < Struct.new(
+      :inline_content)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9715,6 +10737,60 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # @!attribute [rw] registry_id
+    #   The identifier of the registry containing the record. You can
+    #   specify either the Amazon Resource Name (ARN) or the ID of the
+    #   registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_id
+    #   The identifier of the registry record to submit for approval. You
+    #   can specify either the Amazon Resource Name (ARN) or the ID of the
+    #   record.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SubmitRegistryRecordForApprovalRequest AWS API Documentation
+    #
+    class SubmitRegistryRecordForApprovalRequest < Struct.new(
+      :registry_id,
+      :record_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] registry_arn
+    #   The Amazon Resource Name (ARN) of the registry that contains the
+    #   record.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_arn
+    #   The Amazon Resource Name (ARN) of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_id
+    #   The unique identifier of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The resulting status of the registry record after submission.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the record was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SubmitRegistryRecordForApprovalResponse AWS API Documentation
+    #
+    class SubmitRegistryRecordForApprovalResponse < Struct.new(
+      :registry_arn,
+      :record_arn,
+      :record_id,
+      :status,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains summary consolidation override configuration.
     #
     # @!attribute [rw] append_to_prompt
@@ -9794,6 +10870,21 @@ module Aws::BedrockAgentCoreControl
       :append_to_prompt,
       :model_id)
       SENSITIVE = [:append_to_prompt]
+      include Aws::Structure
+    end
+
+    # Configuration for synchronizing registry record metadata from an
+    # external source.
+    #
+    # @!attribute [rw] from_url
+    #   Configuration for synchronizing from a URL-based source.
+    #   @return [Types::FromUrlSynchronizationConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SynchronizationConfiguration AWS API Documentation
+    #
+    class SynchronizationConfiguration < Struct.new(
+      :from_url)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -10059,6 +11150,29 @@ module Aws::BedrockAgentCoreControl
       class S3 < ToolSchema; end
       class InlinePayload < ToolSchema; end
       class Unknown < ToolSchema; end
+    end
+
+    # The tools definition for an MCP descriptor. Contains the protocol
+    # version and inline content describing the available tools.
+    #
+    # @!attribute [rw] protocol_version
+    #   The protocol version of the tools definition based on the MCP
+    #   protocol specification. If not specified, the version is
+    #   auto-detected from the content.
+    #   @return [String]
+    #
+    # @!attribute [rw] inline_content
+    #   The JSON content containing the MCP tools definition, conforming to
+    #   the MCP protocol specification.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ToolsDefinition AWS API Documentation
+    #
+    class ToolsDefinition < Struct.new(
+      :protocol_version,
+      :inline_content)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # Condition that triggers memory processing.
@@ -11234,6 +12348,343 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # @!attribute [rw] registry_id
+    #   The identifier of the registry containing the record. You can
+    #   specify either the Amazon Resource Name (ARN) or the ID of the
+    #   registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_id
+    #   The identifier of the registry record to update. You can specify
+    #   either the Amazon Resource Name (ARN) or the ID of the record.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The updated name for the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The updated description for the registry record. To clear the
+    #   description, include the `UpdatedDescription` wrapper with
+    #   `optionalValue` not specified.
+    #   @return [Types::UpdatedDescription]
+    #
+    # @!attribute [rw] descriptor_type
+    #   The updated descriptor type for the registry record. Changing the
+    #   descriptor type may require updating the `descriptors` field to
+    #   match the new type's schema requirements.
+    #   @return [String]
+    #
+    # @!attribute [rw] descriptors
+    #   The updated descriptor-type-specific configuration containing the
+    #   resource schema and metadata. Uses PATCH semantics where individual
+    #   descriptor fields can be updated independently.
+    #   @return [Types::UpdatedDescriptors]
+    #
+    # @!attribute [rw] record_version
+    #   The version of the registry record for optimistic locking. If
+    #   provided, it must match the current version of the record. The
+    #   service automatically increments the version after a successful
+    #   update.
+    #   @return [String]
+    #
+    # @!attribute [rw] synchronization_type
+    #   The updated synchronization type for the registry record.
+    #   @return [Types::UpdatedSynchronizationType]
+    #
+    # @!attribute [rw] synchronization_configuration
+    #   The updated synchronization configuration for the registry record.
+    #   @return [Types::UpdatedSynchronizationConfiguration]
+    #
+    # @!attribute [rw] trigger_synchronization
+    #   Whether to trigger synchronization using the stored or provided
+    #   configuration. When set to `true`, the service will synchronize the
+    #   record metadata from the configured external source.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateRegistryRecordRequest AWS API Documentation
+    #
+    class UpdateRegistryRecordRequest < Struct.new(
+      :registry_id,
+      :record_id,
+      :name,
+      :description,
+      :descriptor_type,
+      :descriptors,
+      :record_version,
+      :synchronization_type,
+      :synchronization_configuration,
+      :trigger_synchronization)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] registry_arn
+    #   The Amazon Resource Name (ARN) of the registry that contains the
+    #   updated record.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_arn
+    #   The Amazon Resource Name (ARN) of the updated registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_id
+    #   The unique identifier of the updated registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the updated registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the updated registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] descriptor_type
+    #   The descriptor type of the updated registry record. Possible values
+    #   are `MCP`, `A2A`, `CUSTOM`, and `AGENT_SKILLS`.
+    #   @return [String]
+    #
+    # @!attribute [rw] descriptors
+    #   The descriptor-type-specific configuration of the updated registry
+    #   record. For details, see the `Descriptors` data type.
+    #   @return [Types::Descriptors]
+    #
+    # @!attribute [rw] record_version
+    #   The version of the updated registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the updated registry record. Possible values
+    #   include `CREATING`, `DRAFT`, `APPROVED`, `PENDING_APPROVAL`,
+    #   `REJECTED`, `DEPRECATED`, `UPDATING`, `CREATE_FAILED`, and
+    #   `UPDATE_FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the registry record was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the registry record was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status_reason
+    #   The reason for the current status of the updated registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] synchronization_type
+    #   The synchronization type of the updated registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] synchronization_configuration
+    #   The synchronization configuration of the updated registry record.
+    #   @return [Types::SynchronizationConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateRegistryRecordResponse AWS API Documentation
+    #
+    class UpdateRegistryRecordResponse < Struct.new(
+      :registry_arn,
+      :record_arn,
+      :record_id,
+      :name,
+      :description,
+      :descriptor_type,
+      :descriptors,
+      :record_version,
+      :status,
+      :created_at,
+      :updated_at,
+      :status_reason,
+      :synchronization_type,
+      :synchronization_configuration)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] registry_id
+    #   The identifier of the registry containing the record. You can
+    #   specify either the Amazon Resource Name (ARN) or the ID of the
+    #   registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_id
+    #   The identifier of the registry record to update the status for. You
+    #   can specify either the Amazon Resource Name (ARN) or the ID of the
+    #   record.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The target status for the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   The reason for the status change, such as why the record was
+    #   approved or rejected.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateRegistryRecordStatusRequest AWS API Documentation
+    #
+    class UpdateRegistryRecordStatusRequest < Struct.new(
+      :registry_id,
+      :record_id,
+      :status,
+      :status_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] registry_arn
+    #   The Amazon Resource Name (ARN) of the registry that contains the
+    #   record.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_arn
+    #   The Amazon Resource Name (ARN) of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_id
+    #   The unique identifier of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The resulting status of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   The reason for the status change.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the record was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateRegistryRecordStatusResponse AWS API Documentation
+    #
+    class UpdateRegistryRecordStatusResponse < Struct.new(
+      :registry_arn,
+      :record_arn,
+      :record_id,
+      :status,
+      :status_reason,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] registry_id
+    #   The identifier of the registry to update. You can specify either the
+    #   Amazon Resource Name (ARN) or the ID of the registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The updated name of the registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The updated description of the registry. To clear the description,
+    #   include the `UpdatedDescription` wrapper with `optionalValue` not
+    #   specified.
+    #   @return [Types::UpdatedDescription]
+    #
+    # @!attribute [rw] authorizer_configuration
+    #   The updated authorizer configuration for the registry. Changing the
+    #   authorizer configuration can break existing consumers of the
+    #   registry who are using the authorization type prior to the update.
+    #   @return [Types::UpdatedAuthorizerConfiguration]
+    #
+    # @!attribute [rw] approval_configuration
+    #   The updated approval configuration for registry records. The updated
+    #   configuration only affects new records that move to
+    #   `PENDING_APPROVAL` status after the change. Existing records already
+    #   in `PENDING_APPROVAL` status are not affected.
+    #   @return [Types::UpdatedApprovalConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateRegistryRequest AWS API Documentation
+    #
+    class UpdateRegistryRequest < Struct.new(
+      :registry_id,
+      :name,
+      :description,
+      :authorizer_configuration,
+      :approval_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the updated registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the updated registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] registry_id
+    #   The unique identifier of the updated registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] registry_arn
+    #   The Amazon Resource Name (ARN) of the updated registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorizer_type
+    #   The type of authorizer used by the updated registry. This controls
+    #   the authorization method for the Search and Invoke APIs used by
+    #   consumers.
+    #
+    #   * `CUSTOM_JWT` - Authorize with a bearer token.
+    #
+    #   * `AWS_IAM` - Authorize with your Amazon Web Services IAM
+    #     credentials.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorizer_configuration
+    #   The authorizer configuration for the updated registry. For details,
+    #   see the `AuthorizerConfiguration` data type.
+    #   @return [Types::AuthorizerConfiguration]
+    #
+    # @!attribute [rw] approval_configuration
+    #   The approval configuration for the updated registry. For details,
+    #   see the `ApprovalConfiguration` data type.
+    #   @return [Types::ApprovalConfiguration]
+    #
+    # @!attribute [rw] status
+    #   The current status of the updated registry. Possible values include
+    #   `CREATING`, `READY`, `UPDATING`, `CREATE_FAILED`, `UPDATE_FAILED`,
+    #   `DELETING`, and `DELETE_FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   The reason for the current status of the updated registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the registry was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the registry was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateRegistryResponse AWS API Documentation
+    #
+    class UpdateRegistryResponse < Struct.new(
+      :name,
+      :description,
+      :registry_id,
+      :registry_arn,
+      :authorizer_type,
+      :authorizer_configuration,
+      :approval_configuration,
+      :status,
+      :status_reason,
+      :created_at,
+      :updated_at)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
     # @!attribute [rw] name
     #   The name of the workload identity to update.
     #   @return [String]
@@ -11285,6 +12736,115 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # Wrapper for updating an A2A descriptor with PATCH semantics. When
+    # present, the A2A descriptor is replaced with the provided value. When
+    # absent, the A2A descriptor is left unchanged. To unset, include the
+    # wrapper with the value set to null.
+    #
+    # @!attribute [rw] optional_value
+    #   The updated A2A descriptor value.
+    #   @return [Types::A2aDescriptor]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedA2aDescriptor AWS API Documentation
+    #
+    class UpdatedA2aDescriptor < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Wrapper for updating an agent skills descriptor with PATCH semantics.
+    # When present with a value, individual fields can be updated
+    # independently. When present with a null value, the entire agent skills
+    # descriptor is unset. When absent, the agent skills descriptor is left
+    # unchanged.
+    #
+    # @!attribute [rw] optional_value
+    #   The updated agent skills descriptor fields.
+    #   @return [Types::UpdatedAgentSkillsDescriptorFields]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedAgentSkillsDescriptor AWS API Documentation
+    #
+    class UpdatedAgentSkillsDescriptor < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Individual agent skills descriptor fields that can be updated
+    # independently.
+    #
+    # @!attribute [rw] skill_md
+    #   The updated skill markdown definition.
+    #   @return [Types::UpdatedSkillMdDefinition]
+    #
+    # @!attribute [rw] skill_definition
+    #   The updated skill definition.
+    #   @return [Types::UpdatedSkillDefinition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedAgentSkillsDescriptorFields AWS API Documentation
+    #
+    class UpdatedAgentSkillsDescriptorFields < Struct.new(
+      :skill_md,
+      :skill_definition)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Wrapper for updating an optional approval configuration field with
+    # PATCH semantics. When present in an update request, the approval
+    # configuration is replaced with the provided value. When absent, the
+    # approval configuration is left unchanged.
+    #
+    # @!attribute [rw] optional_value
+    #   The updated approval configuration value. Set to `null` to unset the
+    #   approval configuration.
+    #   @return [Types::ApprovalConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedApprovalConfiguration AWS API Documentation
+    #
+    class UpdatedApprovalConfiguration < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Wrapper for updating an optional AuthorizerConfiguration field with
+    # PATCH semantics. When present in an update request, the authorizer
+    # configuration is replaced with optionalValue. When absent, the
+    # authorizer configuration is left unchanged. To unset, include the
+    # wrapper with optionalValue not specified.
+    #
+    # @!attribute [rw] optional_value
+    #   The updated authorizer configuration value. If not specified, it
+    #   will clear the current authorizer configuration of the resource.
+    #   @return [Types::AuthorizerConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedAuthorizerConfiguration AWS API Documentation
+    #
+    class UpdatedAuthorizerConfiguration < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Wrapper for updating a custom descriptor with PATCH semantics. When
+    # present, the custom descriptor is replaced with the provided value.
+    # When absent, the custom descriptor is left unchanged. To unset,
+    # include the wrapper with the value set to null.
+    #
+    # @!attribute [rw] optional_value
+    #   The updated custom descriptor value.
+    #   @return [Types::CustomDescriptor]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedCustomDescriptor AWS API Documentation
+    #
+    class UpdatedCustomDescriptor < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Wrapper for updating an optional Description field with PATCH
     # semantics. When present in an update request, the description is
     # replaced with optionalValue. When absent, the description is left
@@ -11302,6 +12862,183 @@ module Aws::BedrockAgentCoreControl
     class UpdatedDescription < Struct.new(
       :optional_value)
       SENSITIVE = [:optional_value]
+      include Aws::Structure
+    end
+
+    # Wrapper for updating an optional descriptors field with PATCH
+    # semantics. When present with a value, individual descriptors can be
+    # updated. When present with a null value, all descriptors are unset.
+    # When absent, descriptors are left unchanged.
+    #
+    # @!attribute [rw] optional_value
+    #   The updated descriptors value. Contains per-descriptor-type wrappers
+    #   that are each independently updatable.
+    #   @return [Types::UpdatedDescriptorsUnion]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedDescriptors AWS API Documentation
+    #
+    class UpdatedDescriptors < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains per-descriptor-type wrappers for updating descriptors. Each
+    # descriptor type can be updated independently.
+    #
+    # @!attribute [rw] mcp
+    #   The updated MCP descriptor.
+    #   @return [Types::UpdatedMcpDescriptor]
+    #
+    # @!attribute [rw] a2a
+    #   The updated A2A descriptor.
+    #   @return [Types::UpdatedA2aDescriptor]
+    #
+    # @!attribute [rw] custom
+    #   The updated custom descriptor.
+    #   @return [Types::UpdatedCustomDescriptor]
+    #
+    # @!attribute [rw] agent_skills
+    #   The updated agent skills descriptor.
+    #   @return [Types::UpdatedAgentSkillsDescriptor]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedDescriptorsUnion AWS API Documentation
+    #
+    class UpdatedDescriptorsUnion < Struct.new(
+      :mcp,
+      :a2a,
+      :custom,
+      :agent_skills)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Wrapper for updating an MCP descriptor with PATCH semantics. When
+    # present with a value, individual MCP fields can be updated
+    # independently. When present with a null value, the entire MCP
+    # descriptor is unset. When absent, the MCP descriptor is left
+    # unchanged.
+    #
+    # @!attribute [rw] optional_value
+    #   The updated MCP descriptor fields.
+    #   @return [Types::UpdatedMcpDescriptorFields]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedMcpDescriptor AWS API Documentation
+    #
+    class UpdatedMcpDescriptor < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Individual MCP descriptor fields that can be updated independently.
+    #
+    # @!attribute [rw] server
+    #   The updated server definition for the MCP descriptor.
+    #   @return [Types::UpdatedServerDefinition]
+    #
+    # @!attribute [rw] tools
+    #   The updated tools definition for the MCP descriptor.
+    #   @return [Types::UpdatedToolsDefinition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedMcpDescriptorFields AWS API Documentation
+    #
+    class UpdatedMcpDescriptorFields < Struct.new(
+      :server,
+      :tools)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Wrapper for updating a server definition with PATCH semantics. When
+    # present, the server definition is replaced with the provided value.
+    # When absent, the server definition is left unchanged. To unset,
+    # include the wrapper with the value set to null.
+    #
+    # @!attribute [rw] optional_value
+    #   The updated server definition value.
+    #   @return [Types::ServerDefinition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedServerDefinition AWS API Documentation
+    #
+    class UpdatedServerDefinition < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Wrapper for updating a skill definition with PATCH semantics.
+    #
+    # @!attribute [rw] optional_value
+    #   The updated skill definition value.
+    #   @return [Types::SkillDefinition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedSkillDefinition AWS API Documentation
+    #
+    class UpdatedSkillDefinition < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Wrapper for updating a skill markdown definition with PATCH semantics.
+    #
+    # @!attribute [rw] optional_value
+    #   The updated skill markdown definition value.
+    #   @return [Types::SkillMdDefinition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedSkillMdDefinition AWS API Documentation
+    #
+    class UpdatedSkillMdDefinition < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Wrapper for updating the synchronization configuration with PATCH
+    # semantics. Must be matched with `UpdatedSynchronizationType`.
+    #
+    # @!attribute [rw] optional_value
+    #   The updated synchronization configuration value.
+    #   @return [Types::SynchronizationConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedSynchronizationConfiguration AWS API Documentation
+    #
+    class UpdatedSynchronizationConfiguration < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Wrapper for updating the synchronization type with PATCH semantics.
+    # Must be matched with `UpdatedSynchronizationConfiguration`.
+    #
+    # @!attribute [rw] optional_value
+    #   The updated synchronization type value.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedSynchronizationType AWS API Documentation
+    #
+    class UpdatedSynchronizationType < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Wrapper for updating a tools definition with PATCH semantics. When
+    # present, the tools definition is replaced with the provided value.
+    # When absent, the tools definition is left unchanged. To unset, include
+    # the wrapper with the value set to null.
+    #
+    # @!attribute [rw] optional_value
+    #   The updated tools definition value.
+    #   @return [Types::ToolsDefinition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedToolsDefinition AWS API Documentation
+    #
+    class UpdatedToolsDefinition < Struct.new(
+      :optional_value)
+      SENSITIVE = []
       include Aws::Structure
     end
 

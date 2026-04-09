@@ -2422,6 +2422,255 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
+    # Creates a new registry in your Amazon Web Services account. A registry
+    # serves as a centralized catalog for organizing and managing registry
+    # records, including MCP servers, A2A agents, agent skills, and custom
+    # resource types.
+    #
+    # If you specify `CUSTOM_JWT` as the `authorizerType`, you must provide
+    # an `authorizerConfiguration`.
+    #
+    # @option params [required, String] :name
+    #   The name of the registry. The name must be unique within your account
+    #   and can contain alphanumeric characters and underscores.
+    #
+    # @option params [String] :description
+    #   A description of the registry.
+    #
+    # @option params [String] :authorizer_type
+    #   The type of authorizer to use for the registry. This controls the
+    #   authorization method for the Search and Invoke APIs used by consumers,
+    #   and does not affect the standard CRUDL APIs for registry and registry
+    #   record management used by administrators.
+    #
+    #   * `CUSTOM_JWT` - Authorize with a bearer token.
+    #
+    #   * `AWS_IAM` - Authorize with your Amazon Web Services IAM credentials.
+    #
+    # @option params [Types::AuthorizerConfiguration] :authorizer_configuration
+    #   The authorizer configuration for the registry. Required if
+    #   `authorizerType` is `CUSTOM_JWT`. For details, see the
+    #   `AuthorizerConfiguration` data type.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a previous
+    #   request, the service ignores the request, but doesn't return an
+    #   error. For more information, see [Ensuring idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #
+    # @option params [Types::ApprovalConfiguration] :approval_configuration
+    #   The approval configuration for registry records. Controls whether
+    #   records require explicit approval before becoming active. See the
+    #   `ApprovalConfiguration` data type for supported configuration options.
+    #
+    # @return [Types::CreateRegistryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateRegistryResponse#registry_arn #registry_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_registry({
+    #     name: "RegistryName", # required
+    #     description: "Description",
+    #     authorizer_type: "CUSTOM_JWT", # accepts CUSTOM_JWT, AWS_IAM
+    #     authorizer_configuration: {
+    #       custom_jwt_authorizer: {
+    #         discovery_url: "DiscoveryUrl", # required
+    #         allowed_audience: ["AllowedAudience"],
+    #         allowed_clients: ["AllowedClient"],
+    #         allowed_scopes: ["AllowedScopeType"],
+    #         custom_claims: [
+    #           {
+    #             inbound_token_claim_name: "InboundTokenClaimNameType", # required
+    #             inbound_token_claim_value_type: "STRING", # required, accepts STRING, STRING_ARRAY
+    #             authorizing_claim_match_value: { # required
+    #               claim_match_value: { # required
+    #                 match_value_string: "MatchValueString",
+    #                 match_value_string_list: ["MatchValueString"],
+    #               },
+    #               claim_match_operator: "EQUALS", # required, accepts EQUALS, CONTAINS, CONTAINS_ANY
+    #             },
+    #           },
+    #         ],
+    #       },
+    #     },
+    #     client_token: "ClientToken",
+    #     approval_configuration: {
+    #       auto_approval: false,
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.registry_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateRegistry AWS API Documentation
+    #
+    # @overload create_registry(params = {})
+    # @param [Hash] params ({})
+    def create_registry(params = {}, options = {})
+      req = build_request(:create_registry, params)
+      req.send_request(options)
+    end
+
+    # Creates a new registry record within the specified registry. A
+    # registry record represents an individual AI resource's metadata in
+    # the registry. This could be an MCP server (and associated tools), A2A
+    # agent, agent skill, or a custom resource with a custom schema.
+    #
+    # The record is processed asynchronously and returns HTTP 202 Accepted.
+    #
+    # @option params [required, String] :registry_id
+    #   The identifier of the registry where the record will be created. You
+    #   can specify either the Amazon Resource Name (ARN) or the ID of the
+    #   registry.
+    #
+    # @option params [required, String] :name
+    #   The name of the registry record.
+    #
+    # @option params [String] :description
+    #   A description of the registry record.
+    #
+    # @option params [required, String] :descriptor_type
+    #   The descriptor type of the registry record.
+    #
+    #   * `MCP` - Model Context Protocol descriptor for MCP-compatible servers
+    #     and tools.
+    #
+    #   * `A2A` - Agent-to-Agent protocol descriptor.
+    #
+    #   * `CUSTOM` - Custom descriptor type for resources such as APIs, Lambda
+    #     functions, or servers not conforming to a standard protocol.
+    #
+    #   * `AGENT_SKILLS` - Agent skills descriptor for defining agent skill
+    #     definitions.
+    #
+    # @option params [Types::Descriptors] :descriptors
+    #   The descriptor-type-specific configuration containing the resource
+    #   schema and metadata. The structure of this field depends on the
+    #   `descriptorType` you specify.
+    #
+    # @option params [String] :record_version
+    #   The version of the registry record. Use this to track different
+    #   versions of the record's content.
+    #
+    # @option params [String] :synchronization_type
+    #   The type of synchronization to use for keeping the record metadata up
+    #   to date from an external source. Possible values include `FROM_URL`
+    #   and `NONE`.
+    #
+    # @option params [Types::SynchronizationConfiguration] :synchronization_configuration
+    #   The configuration for synchronizing registry record metadata from an
+    #   external source, such as a URL-based MCP server.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a previous
+    #   request, the service ignores the request, but doesn't return an
+    #   error. For more information, see [Ensuring idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #
+    # @return [Types::CreateRegistryRecordResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateRegistryRecordResponse#record_arn #record_arn} => String
+    #   * {Types::CreateRegistryRecordResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_registry_record({
+    #     registry_id: "RegistryIdentifier", # required
+    #     name: "RegistryRecordName", # required
+    #     description: "Description",
+    #     descriptor_type: "MCP", # required, accepts MCP, A2A, CUSTOM, AGENT_SKILLS
+    #     descriptors: {
+    #       mcp: {
+    #         server: {
+    #           schema_version: "SchemaVersion",
+    #           inline_content: "InlineContent",
+    #         },
+    #         tools: {
+    #           protocol_version: "SchemaVersion",
+    #           inline_content: "InlineContent",
+    #         },
+    #       },
+    #       a2a: {
+    #         agent_card: {
+    #           schema_version: "SchemaVersion",
+    #           inline_content: "InlineContent",
+    #         },
+    #       },
+    #       custom: {
+    #         inline_content: "InlineContent",
+    #       },
+    #       agent_skills: {
+    #         skill_md: {
+    #           inline_content: "InlineContent",
+    #         },
+    #         skill_definition: {
+    #           schema_version: "SchemaVersion",
+    #           inline_content: "InlineContent",
+    #         },
+    #       },
+    #     },
+    #     record_version: "RegistryRecordVersion",
+    #     synchronization_type: "URL", # accepts URL
+    #     synchronization_configuration: {
+    #       from_url: {
+    #         url: "McpServerUrl", # required
+    #         credential_provider_configurations: [
+    #           {
+    #             credential_provider_type: "OAUTH", # required, accepts OAUTH, IAM
+    #             credential_provider: { # required
+    #               oauth_credential_provider: {
+    #                 provider_arn: "CredentialProviderArn", # required
+    #                 grant_type: "CLIENT_CREDENTIALS", # accepts CLIENT_CREDENTIALS
+    #                 scopes: ["String"],
+    #                 custom_parameters: {
+    #                   "String" => "String",
+    #                 },
+    #               },
+    #               iam_credential_provider: {
+    #                 role_arn: "IamRoleArn",
+    #                 service: "IamSigningServiceName",
+    #                 region: "IamSigningRegion",
+    #               },
+    #             },
+    #           },
+    #         ],
+    #       },
+    #     },
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.record_arn #=> String
+    #   resp.status #=> String, one of "DRAFT", "PENDING_APPROVAL", "APPROVED", "REJECTED", "DEPRECATED", "CREATING", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateRegistryRecord AWS API Documentation
+    #
+    # @overload create_registry_record(params = {})
+    # @param [Hash] params ({})
+    def create_registry_record(params = {}, options = {})
+      req = build_request(:create_registry_record, params)
+      req.send_request(options)
+    end
+
     # Creates a new workload identity.
     #
     # @option params [required, String] :name
@@ -3013,6 +3262,66 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def delete_policy_engine(params = {}, options = {})
       req = build_request(:delete_policy_engine, params)
+      req.send_request(options)
+    end
+
+    # Deletes a registry. The registry must contain zero records before it
+    # can be deleted. This operation initiates the deletion process
+    # asynchronously.
+    #
+    # @option params [required, String] :registry_id
+    #   The identifier of the registry to delete. You can specify either the
+    #   Amazon Resource Name (ARN) or the ID of the registry.
+    #
+    # @return [Types::DeleteRegistryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteRegistryResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_registry({
+    #     registry_id: "RegistryIdentifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> String, one of "CREATING", "READY", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED", "DELETING", "DELETE_FAILED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteRegistry AWS API Documentation
+    #
+    # @overload delete_registry(params = {})
+    # @param [Hash] params ({})
+    def delete_registry(params = {}, options = {})
+      req = build_request(:delete_registry, params)
+      req.send_request(options)
+    end
+
+    # Deletes a registry record. The record's status transitions to
+    # `DELETING` and the record is removed asynchronously.
+    #
+    # @option params [required, String] :registry_id
+    #   The identifier of the registry containing the record. You can specify
+    #   either the Amazon Resource Name (ARN) or the ID of the registry.
+    #
+    # @option params [required, String] :record_id
+    #   The identifier of the registry record to delete. You can specify
+    #   either the Amazon Resource Name (ARN) or the ID of the record.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_registry_record({
+    #     registry_id: "RegistryIdentifier", # required
+    #     record_id: "RecordIdentifier", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteRegistryRecord AWS API Documentation
+    #
+    # @overload delete_registry_record(params = {})
+    # @param [Hash] params ({})
+    def delete_registry_record(params = {}, options = {})
+      req = build_request(:delete_registry_record, params)
       req.send_request(options)
     end
 
@@ -4172,6 +4481,148 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
+    # Retrieves information about a specific registry.
+    #
+    # @option params [required, String] :registry_id
+    #   The identifier of the registry to retrieve. You can specify either the
+    #   Amazon Resource Name (ARN) or the ID of the registry.
+    #
+    # @return [Types::GetRegistryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetRegistryResponse#name #name} => String
+    #   * {Types::GetRegistryResponse#description #description} => String
+    #   * {Types::GetRegistryResponse#registry_id #registry_id} => String
+    #   * {Types::GetRegistryResponse#registry_arn #registry_arn} => String
+    #   * {Types::GetRegistryResponse#authorizer_type #authorizer_type} => String
+    #   * {Types::GetRegistryResponse#authorizer_configuration #authorizer_configuration} => Types::AuthorizerConfiguration
+    #   * {Types::GetRegistryResponse#approval_configuration #approval_configuration} => Types::ApprovalConfiguration
+    #   * {Types::GetRegistryResponse#status #status} => String
+    #   * {Types::GetRegistryResponse#status_reason #status_reason} => String
+    #   * {Types::GetRegistryResponse#created_at #created_at} => Time
+    #   * {Types::GetRegistryResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_registry({
+    #     registry_id: "RegistryIdentifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.registry_id #=> String
+    #   resp.registry_arn #=> String
+    #   resp.authorizer_type #=> String, one of "CUSTOM_JWT", "AWS_IAM"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.discovery_url #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_audience #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_audience[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_clients #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_clients[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_scopes #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_scopes[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].inbound_token_claim_name #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].inbound_token_claim_value_type #=> String, one of "STRING", "STRING_ARRAY"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.approval_configuration.auto_approval #=> Boolean
+    #   resp.status #=> String, one of "CREATING", "READY", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED", "DELETING", "DELETE_FAILED"
+    #   resp.status_reason #=> String
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetRegistry AWS API Documentation
+    #
+    # @overload get_registry(params = {})
+    # @param [Hash] params ({})
+    def get_registry(params = {}, options = {})
+      req = build_request(:get_registry, params)
+      req.send_request(options)
+    end
+
+    # Retrieves information about a specific registry record.
+    #
+    # @option params [required, String] :registry_id
+    #   The identifier of the registry containing the record. You can specify
+    #   either the Amazon Resource Name (ARN) or the ID of the registry.
+    #
+    # @option params [required, String] :record_id
+    #   The identifier of the registry record to retrieve. You can specify
+    #   either the Amazon Resource Name (ARN) or the ID of the record.
+    #
+    # @return [Types::GetRegistryRecordResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetRegistryRecordResponse#registry_arn #registry_arn} => String
+    #   * {Types::GetRegistryRecordResponse#record_arn #record_arn} => String
+    #   * {Types::GetRegistryRecordResponse#record_id #record_id} => String
+    #   * {Types::GetRegistryRecordResponse#name #name} => String
+    #   * {Types::GetRegistryRecordResponse#description #description} => String
+    #   * {Types::GetRegistryRecordResponse#descriptor_type #descriptor_type} => String
+    #   * {Types::GetRegistryRecordResponse#descriptors #descriptors} => Types::Descriptors
+    #   * {Types::GetRegistryRecordResponse#record_version #record_version} => String
+    #   * {Types::GetRegistryRecordResponse#status #status} => String
+    #   * {Types::GetRegistryRecordResponse#created_at #created_at} => Time
+    #   * {Types::GetRegistryRecordResponse#updated_at #updated_at} => Time
+    #   * {Types::GetRegistryRecordResponse#status_reason #status_reason} => String
+    #   * {Types::GetRegistryRecordResponse#synchronization_type #synchronization_type} => String
+    #   * {Types::GetRegistryRecordResponse#synchronization_configuration #synchronization_configuration} => Types::SynchronizationConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_registry_record({
+    #     registry_id: "RegistryIdentifier", # required
+    #     record_id: "RecordIdentifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.registry_arn #=> String
+    #   resp.record_arn #=> String
+    #   resp.record_id #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.descriptor_type #=> String, one of "MCP", "A2A", "CUSTOM", "AGENT_SKILLS"
+    #   resp.descriptors.mcp.server.schema_version #=> String
+    #   resp.descriptors.mcp.server.inline_content #=> String
+    #   resp.descriptors.mcp.tools.protocol_version #=> String
+    #   resp.descriptors.mcp.tools.inline_content #=> String
+    #   resp.descriptors.a2a.agent_card.schema_version #=> String
+    #   resp.descriptors.a2a.agent_card.inline_content #=> String
+    #   resp.descriptors.custom.inline_content #=> String
+    #   resp.descriptors.agent_skills.skill_md.inline_content #=> String
+    #   resp.descriptors.agent_skills.skill_definition.schema_version #=> String
+    #   resp.descriptors.agent_skills.skill_definition.inline_content #=> String
+    #   resp.record_version #=> String
+    #   resp.status #=> String, one of "DRAFT", "PENDING_APPROVAL", "APPROVED", "REJECTED", "DEPRECATED", "CREATING", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED"
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #   resp.status_reason #=> String
+    #   resp.synchronization_type #=> String, one of "URL"
+    #   resp.synchronization_configuration.from_url.url #=> String
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations #=> Array
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider_type #=> String, one of "OAUTH", "IAM"
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.oauth_credential_provider.provider_arn #=> String
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.oauth_credential_provider.grant_type #=> String, one of "CLIENT_CREDENTIALS"
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes #=> Array
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes[0] #=> String
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.oauth_credential_provider.custom_parameters #=> Hash
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.oauth_credential_provider.custom_parameters["String"] #=> String
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.iam_credential_provider.role_arn #=> String
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.iam_credential_provider.service #=> String
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.iam_credential_provider.region #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetRegistryRecord AWS API Documentation
+    #
+    # @overload get_registry_record(params = {})
+    # @param [Hash] params ({})
+    def get_registry_record(params = {}, options = {})
+      req = build_request(:get_registry_record, params)
+      req.send_request(options)
+    end
+
     # Retrieves the resource-based policy for a specified resource.
     #
     # <note markdown="1"> This feature is currently available only for AgentCore Runtime and
@@ -5148,6 +5599,140 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
+    # Lists all registries in the account. You can optionally filter results
+    # by status using the `status` parameter.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response. If the total
+    #   number of results is greater than this value, use the token returned
+    #   in the response in the `nextToken` field when making another request
+    #   to return the next batch of results.
+    #
+    # @option params [String] :next_token
+    #   If the total number of results is greater than the `maxResults` value
+    #   provided in the request, enter the token returned in the `nextToken`
+    #   field in the response in this field to return the next batch of
+    #   results.
+    #
+    # @option params [String] :status
+    #   Filter registries by their current status. Possible values include
+    #   `CREATING`, `READY`, `UPDATING`, `CREATE_FAILED`, `UPDATE_FAILED`,
+    #   `DELETING`, and `DELETE_FAILED`.
+    #
+    # @return [Types::ListRegistriesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListRegistriesResponse#registries #registries} => Array&lt;Types::RegistrySummary&gt;
+    #   * {Types::ListRegistriesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_registries({
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #     status: "CREATING", # accepts CREATING, READY, UPDATING, CREATE_FAILED, UPDATE_FAILED, DELETING, DELETE_FAILED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.registries #=> Array
+    #   resp.registries[0].name #=> String
+    #   resp.registries[0].description #=> String
+    #   resp.registries[0].registry_id #=> String
+    #   resp.registries[0].registry_arn #=> String
+    #   resp.registries[0].authorizer_type #=> String, one of "CUSTOM_JWT", "AWS_IAM"
+    #   resp.registries[0].status #=> String, one of "CREATING", "READY", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED", "DELETING", "DELETE_FAILED"
+    #   resp.registries[0].status_reason #=> String
+    #   resp.registries[0].created_at #=> Time
+    #   resp.registries[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListRegistries AWS API Documentation
+    #
+    # @overload list_registries(params = {})
+    # @param [Hash] params ({})
+    def list_registries(params = {}, options = {})
+      req = build_request(:list_registries, params)
+      req.send_request(options)
+    end
+
+    # Lists registry records within a registry. You can optionally filter
+    # results using the `name`, `status`, and `descriptorType` parameters.
+    # When multiple filters are specified, they are combined using AND
+    # logic.
+    #
+    # @option params [required, String] :registry_id
+    #   The identifier of the registry to list records from. You can specify
+    #   either the Amazon Resource Name (ARN) or the ID of the registry.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response. If the total
+    #   number of results is greater than this value, use the token returned
+    #   in the response in the `nextToken` field when making another request
+    #   to return the next batch of results.
+    #
+    # @option params [String] :next_token
+    #   If the total number of results is greater than the `maxResults` value
+    #   provided in the request, enter the token returned in the `nextToken`
+    #   field in the response in this field to return the next batch of
+    #   results.
+    #
+    # @option params [String] :name
+    #   Filter registry records by name.
+    #
+    # @option params [String] :status
+    #   Filter registry records by their current status. Possible values
+    #   include `CREATING`, `DRAFT`, `APPROVED`, `PENDING_APPROVAL`,
+    #   `REJECTED`, `DEPRECATED`, `UPDATING`, `CREATE_FAILED`, and
+    #   `UPDATE_FAILED`.
+    #
+    # @option params [String] :descriptor_type
+    #   Filter registry records by their descriptor type. Possible values are
+    #   `MCP`, `A2A`, `CUSTOM`, and `AGENT_SKILLS`.
+    #
+    # @return [Types::ListRegistryRecordsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListRegistryRecordsResponse#registry_records #registry_records} => Array&lt;Types::RegistryRecordSummary&gt;
+    #   * {Types::ListRegistryRecordsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_registry_records({
+    #     registry_id: "RegistryIdentifier", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #     name: "RegistryRecordName",
+    #     status: "DRAFT", # accepts DRAFT, PENDING_APPROVAL, APPROVED, REJECTED, DEPRECATED, CREATING, UPDATING, CREATE_FAILED, UPDATE_FAILED
+    #     descriptor_type: "MCP", # accepts MCP, A2A, CUSTOM, AGENT_SKILLS
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.registry_records #=> Array
+    #   resp.registry_records[0].registry_arn #=> String
+    #   resp.registry_records[0].record_arn #=> String
+    #   resp.registry_records[0].record_id #=> String
+    #   resp.registry_records[0].name #=> String
+    #   resp.registry_records[0].description #=> String
+    #   resp.registry_records[0].descriptor_type #=> String, one of "MCP", "A2A", "CUSTOM", "AGENT_SKILLS"
+    #   resp.registry_records[0].record_version #=> String
+    #   resp.registry_records[0].status #=> String, one of "DRAFT", "PENDING_APPROVAL", "APPROVED", "REJECTED", "DEPRECATED", "CREATING", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED"
+    #   resp.registry_records[0].created_at #=> Time
+    #   resp.registry_records[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListRegistryRecords AWS API Documentation
+    #
+    # @overload list_registry_records(params = {})
+    # @param [Hash] params ({})
+    def list_registry_records(params = {}, options = {})
+      req = build_request(:list_registry_records, params)
+      req.send_request(options)
+    end
+
     # Lists the tags associated with the specified resource.
     #
     # <note markdown="1"> This feature is currently available only for AgentCore Runtime,
@@ -5394,6 +5979,50 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def start_policy_generation(params = {}, options = {})
       req = build_request(:start_policy_generation, params)
+      req.send_request(options)
+    end
+
+    # Submits a registry record for approval. This transitions the record
+    # from `DRAFT` status to `PENDING_APPROVAL` status. If the registry has
+    # auto-approval enabled, the record is automatically approved.
+    #
+    # @option params [required, String] :registry_id
+    #   The identifier of the registry containing the record. You can specify
+    #   either the Amazon Resource Name (ARN) or the ID of the registry.
+    #
+    # @option params [required, String] :record_id
+    #   The identifier of the registry record to submit for approval. You can
+    #   specify either the Amazon Resource Name (ARN) or the ID of the record.
+    #
+    # @return [Types::SubmitRegistryRecordForApprovalResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SubmitRegistryRecordForApprovalResponse#registry_arn #registry_arn} => String
+    #   * {Types::SubmitRegistryRecordForApprovalResponse#record_arn #record_arn} => String
+    #   * {Types::SubmitRegistryRecordForApprovalResponse#record_id #record_id} => String
+    #   * {Types::SubmitRegistryRecordForApprovalResponse#status #status} => String
+    #   * {Types::SubmitRegistryRecordForApprovalResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.submit_registry_record_for_approval({
+    #     registry_id: "RegistryIdentifier", # required
+    #     record_id: "RecordIdentifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.registry_arn #=> String
+    #   resp.record_arn #=> String
+    #   resp.record_id #=> String
+    #   resp.status #=> String, one of "DRAFT", "PENDING_APPROVAL", "APPROVED", "REJECTED", "DEPRECATED", "CREATING", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED"
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SubmitRegistryRecordForApproval AWS API Documentation
+    #
+    # @overload submit_registry_record_for_approval(params = {})
+    # @param [Hash] params ({})
+    def submit_registry_record_for_approval(params = {}, options = {})
+      req = build_request(:submit_registry_record_for_approval, params)
       req.send_request(options)
     end
 
@@ -7198,6 +7827,376 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
+    # Updates an existing registry. This operation uses PATCH semantics, so
+    # you only need to specify the fields you want to change.
+    #
+    # @option params [required, String] :registry_id
+    #   The identifier of the registry to update. You can specify either the
+    #   Amazon Resource Name (ARN) or the ID of the registry.
+    #
+    # @option params [String] :name
+    #   The updated name of the registry.
+    #
+    # @option params [Types::UpdatedDescription] :description
+    #   The updated description of the registry. To clear the description,
+    #   include the `UpdatedDescription` wrapper with `optionalValue` not
+    #   specified.
+    #
+    # @option params [Types::UpdatedAuthorizerConfiguration] :authorizer_configuration
+    #   The updated authorizer configuration for the registry. Changing the
+    #   authorizer configuration can break existing consumers of the registry
+    #   who are using the authorization type prior to the update.
+    #
+    # @option params [Types::UpdatedApprovalConfiguration] :approval_configuration
+    #   The updated approval configuration for registry records. The updated
+    #   configuration only affects new records that move to `PENDING_APPROVAL`
+    #   status after the change. Existing records already in
+    #   `PENDING_APPROVAL` status are not affected.
+    #
+    # @return [Types::UpdateRegistryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateRegistryResponse#name #name} => String
+    #   * {Types::UpdateRegistryResponse#description #description} => String
+    #   * {Types::UpdateRegistryResponse#registry_id #registry_id} => String
+    #   * {Types::UpdateRegistryResponse#registry_arn #registry_arn} => String
+    #   * {Types::UpdateRegistryResponse#authorizer_type #authorizer_type} => String
+    #   * {Types::UpdateRegistryResponse#authorizer_configuration #authorizer_configuration} => Types::AuthorizerConfiguration
+    #   * {Types::UpdateRegistryResponse#approval_configuration #approval_configuration} => Types::ApprovalConfiguration
+    #   * {Types::UpdateRegistryResponse#status #status} => String
+    #   * {Types::UpdateRegistryResponse#status_reason #status_reason} => String
+    #   * {Types::UpdateRegistryResponse#created_at #created_at} => Time
+    #   * {Types::UpdateRegistryResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_registry({
+    #     registry_id: "RegistryIdentifier", # required
+    #     name: "RegistryName",
+    #     description: {
+    #       optional_value: "Description",
+    #     },
+    #     authorizer_configuration: {
+    #       optional_value: {
+    #         custom_jwt_authorizer: {
+    #           discovery_url: "DiscoveryUrl", # required
+    #           allowed_audience: ["AllowedAudience"],
+    #           allowed_clients: ["AllowedClient"],
+    #           allowed_scopes: ["AllowedScopeType"],
+    #           custom_claims: [
+    #             {
+    #               inbound_token_claim_name: "InboundTokenClaimNameType", # required
+    #               inbound_token_claim_value_type: "STRING", # required, accepts STRING, STRING_ARRAY
+    #               authorizing_claim_match_value: { # required
+    #                 claim_match_value: { # required
+    #                   match_value_string: "MatchValueString",
+    #                   match_value_string_list: ["MatchValueString"],
+    #                 },
+    #                 claim_match_operator: "EQUALS", # required, accepts EQUALS, CONTAINS, CONTAINS_ANY
+    #               },
+    #             },
+    #           ],
+    #         },
+    #       },
+    #     },
+    #     approval_configuration: {
+    #       optional_value: {
+    #         auto_approval: false,
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.registry_id #=> String
+    #   resp.registry_arn #=> String
+    #   resp.authorizer_type #=> String, one of "CUSTOM_JWT", "AWS_IAM"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.discovery_url #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_audience #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_audience[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_clients #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_clients[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_scopes #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_scopes[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].inbound_token_claim_name #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].inbound_token_claim_value_type #=> String, one of "STRING", "STRING_ARRAY"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.approval_configuration.auto_approval #=> Boolean
+    #   resp.status #=> String, one of "CREATING", "READY", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED", "DELETING", "DELETE_FAILED"
+    #   resp.status_reason #=> String
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateRegistry AWS API Documentation
+    #
+    # @overload update_registry(params = {})
+    # @param [Hash] params ({})
+    def update_registry(params = {}, options = {})
+      req = build_request(:update_registry, params)
+      req.send_request(options)
+    end
+
+    # Updates an existing registry record. This operation uses PATCH
+    # semantics, so you only need to specify the fields you want to change.
+    # The update is processed asynchronously and returns HTTP 202 Accepted.
+    #
+    # @option params [required, String] :registry_id
+    #   The identifier of the registry containing the record. You can specify
+    #   either the Amazon Resource Name (ARN) or the ID of the registry.
+    #
+    # @option params [required, String] :record_id
+    #   The identifier of the registry record to update. You can specify
+    #   either the Amazon Resource Name (ARN) or the ID of the record.
+    #
+    # @option params [String] :name
+    #   The updated name for the registry record.
+    #
+    # @option params [Types::UpdatedDescription] :description
+    #   The updated description for the registry record. To clear the
+    #   description, include the `UpdatedDescription` wrapper with
+    #   `optionalValue` not specified.
+    #
+    # @option params [String] :descriptor_type
+    #   The updated descriptor type for the registry record. Changing the
+    #   descriptor type may require updating the `descriptors` field to match
+    #   the new type's schema requirements.
+    #
+    # @option params [Types::UpdatedDescriptors] :descriptors
+    #   The updated descriptor-type-specific configuration containing the
+    #   resource schema and metadata. Uses PATCH semantics where individual
+    #   descriptor fields can be updated independently.
+    #
+    # @option params [String] :record_version
+    #   The version of the registry record for optimistic locking. If
+    #   provided, it must match the current version of the record. The service
+    #   automatically increments the version after a successful update.
+    #
+    # @option params [Types::UpdatedSynchronizationType] :synchronization_type
+    #   The updated synchronization type for the registry record.
+    #
+    # @option params [Types::UpdatedSynchronizationConfiguration] :synchronization_configuration
+    #   The updated synchronization configuration for the registry record.
+    #
+    # @option params [Boolean] :trigger_synchronization
+    #   Whether to trigger synchronization using the stored or provided
+    #   configuration. When set to `true`, the service will synchronize the
+    #   record metadata from the configured external source.
+    #
+    # @return [Types::UpdateRegistryRecordResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateRegistryRecordResponse#registry_arn #registry_arn} => String
+    #   * {Types::UpdateRegistryRecordResponse#record_arn #record_arn} => String
+    #   * {Types::UpdateRegistryRecordResponse#record_id #record_id} => String
+    #   * {Types::UpdateRegistryRecordResponse#name #name} => String
+    #   * {Types::UpdateRegistryRecordResponse#description #description} => String
+    #   * {Types::UpdateRegistryRecordResponse#descriptor_type #descriptor_type} => String
+    #   * {Types::UpdateRegistryRecordResponse#descriptors #descriptors} => Types::Descriptors
+    #   * {Types::UpdateRegistryRecordResponse#record_version #record_version} => String
+    #   * {Types::UpdateRegistryRecordResponse#status #status} => String
+    #   * {Types::UpdateRegistryRecordResponse#created_at #created_at} => Time
+    #   * {Types::UpdateRegistryRecordResponse#updated_at #updated_at} => Time
+    #   * {Types::UpdateRegistryRecordResponse#status_reason #status_reason} => String
+    #   * {Types::UpdateRegistryRecordResponse#synchronization_type #synchronization_type} => String
+    #   * {Types::UpdateRegistryRecordResponse#synchronization_configuration #synchronization_configuration} => Types::SynchronizationConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_registry_record({
+    #     registry_id: "RegistryIdentifier", # required
+    #     record_id: "RecordIdentifier", # required
+    #     name: "RegistryRecordName",
+    #     description: {
+    #       optional_value: "Description",
+    #     },
+    #     descriptor_type: "MCP", # accepts MCP, A2A, CUSTOM, AGENT_SKILLS
+    #     descriptors: {
+    #       optional_value: {
+    #         mcp: {
+    #           optional_value: {
+    #             server: {
+    #               optional_value: {
+    #                 schema_version: "SchemaVersion",
+    #                 inline_content: "InlineContent",
+    #               },
+    #             },
+    #             tools: {
+    #               optional_value: {
+    #                 protocol_version: "SchemaVersion",
+    #                 inline_content: "InlineContent",
+    #               },
+    #             },
+    #           },
+    #         },
+    #         a2a: {
+    #           optional_value: {
+    #             agent_card: {
+    #               schema_version: "SchemaVersion",
+    #               inline_content: "InlineContent",
+    #             },
+    #           },
+    #         },
+    #         custom: {
+    #           optional_value: {
+    #             inline_content: "InlineContent",
+    #           },
+    #         },
+    #         agent_skills: {
+    #           optional_value: {
+    #             skill_md: {
+    #               optional_value: {
+    #                 inline_content: "InlineContent",
+    #               },
+    #             },
+    #             skill_definition: {
+    #               optional_value: {
+    #                 schema_version: "SchemaVersion",
+    #                 inline_content: "InlineContent",
+    #               },
+    #             },
+    #           },
+    #         },
+    #       },
+    #     },
+    #     record_version: "RegistryRecordVersion",
+    #     synchronization_type: {
+    #       optional_value: "URL", # accepts URL
+    #     },
+    #     synchronization_configuration: {
+    #       optional_value: {
+    #         from_url: {
+    #           url: "McpServerUrl", # required
+    #           credential_provider_configurations: [
+    #             {
+    #               credential_provider_type: "OAUTH", # required, accepts OAUTH, IAM
+    #               credential_provider: { # required
+    #                 oauth_credential_provider: {
+    #                   provider_arn: "CredentialProviderArn", # required
+    #                   grant_type: "CLIENT_CREDENTIALS", # accepts CLIENT_CREDENTIALS
+    #                   scopes: ["String"],
+    #                   custom_parameters: {
+    #                     "String" => "String",
+    #                   },
+    #                 },
+    #                 iam_credential_provider: {
+    #                   role_arn: "IamRoleArn",
+    #                   service: "IamSigningServiceName",
+    #                   region: "IamSigningRegion",
+    #                 },
+    #               },
+    #             },
+    #           ],
+    #         },
+    #       },
+    #     },
+    #     trigger_synchronization: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.registry_arn #=> String
+    #   resp.record_arn #=> String
+    #   resp.record_id #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.descriptor_type #=> String, one of "MCP", "A2A", "CUSTOM", "AGENT_SKILLS"
+    #   resp.descriptors.mcp.server.schema_version #=> String
+    #   resp.descriptors.mcp.server.inline_content #=> String
+    #   resp.descriptors.mcp.tools.protocol_version #=> String
+    #   resp.descriptors.mcp.tools.inline_content #=> String
+    #   resp.descriptors.a2a.agent_card.schema_version #=> String
+    #   resp.descriptors.a2a.agent_card.inline_content #=> String
+    #   resp.descriptors.custom.inline_content #=> String
+    #   resp.descriptors.agent_skills.skill_md.inline_content #=> String
+    #   resp.descriptors.agent_skills.skill_definition.schema_version #=> String
+    #   resp.descriptors.agent_skills.skill_definition.inline_content #=> String
+    #   resp.record_version #=> String
+    #   resp.status #=> String, one of "DRAFT", "PENDING_APPROVAL", "APPROVED", "REJECTED", "DEPRECATED", "CREATING", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED"
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #   resp.status_reason #=> String
+    #   resp.synchronization_type #=> String, one of "URL"
+    #   resp.synchronization_configuration.from_url.url #=> String
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations #=> Array
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider_type #=> String, one of "OAUTH", "IAM"
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.oauth_credential_provider.provider_arn #=> String
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.oauth_credential_provider.grant_type #=> String, one of "CLIENT_CREDENTIALS"
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes #=> Array
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes[0] #=> String
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.oauth_credential_provider.custom_parameters #=> Hash
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.oauth_credential_provider.custom_parameters["String"] #=> String
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.iam_credential_provider.role_arn #=> String
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.iam_credential_provider.service #=> String
+    #   resp.synchronization_configuration.from_url.credential_provider_configurations[0].credential_provider.iam_credential_provider.region #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateRegistryRecord AWS API Documentation
+    #
+    # @overload update_registry_record(params = {})
+    # @param [Hash] params ({})
+    def update_registry_record(params = {}, options = {})
+      req = build_request(:update_registry_record, params)
+      req.send_request(options)
+    end
+
+    # Updates the status of a registry record. Use this operation to
+    # approve, reject, or deprecate a registry record.
+    #
+    # @option params [required, String] :registry_id
+    #   The identifier of the registry containing the record. You can specify
+    #   either the Amazon Resource Name (ARN) or the ID of the registry.
+    #
+    # @option params [required, String] :record_id
+    #   The identifier of the registry record to update the status for. You
+    #   can specify either the Amazon Resource Name (ARN) or the ID of the
+    #   record.
+    #
+    # @option params [required, String] :status
+    #   The target status for the registry record.
+    #
+    # @option params [required, String] :status_reason
+    #   The reason for the status change, such as why the record was approved
+    #   or rejected.
+    #
+    # @return [Types::UpdateRegistryRecordStatusResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateRegistryRecordStatusResponse#registry_arn #registry_arn} => String
+    #   * {Types::UpdateRegistryRecordStatusResponse#record_arn #record_arn} => String
+    #   * {Types::UpdateRegistryRecordStatusResponse#record_id #record_id} => String
+    #   * {Types::UpdateRegistryRecordStatusResponse#status #status} => String
+    #   * {Types::UpdateRegistryRecordStatusResponse#status_reason #status_reason} => String
+    #   * {Types::UpdateRegistryRecordStatusResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_registry_record_status({
+    #     registry_id: "RegistryIdentifier", # required
+    #     record_id: "RecordIdentifier", # required
+    #     status: "DRAFT", # required, accepts DRAFT, PENDING_APPROVAL, APPROVED, REJECTED, DEPRECATED, CREATING, UPDATING, CREATE_FAILED, UPDATE_FAILED
+    #     status_reason: "UpdateRegistryRecordStatusRequestStatusReasonString", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.registry_arn #=> String
+    #   resp.record_arn #=> String
+    #   resp.record_id #=> String
+    #   resp.status #=> String, one of "DRAFT", "PENDING_APPROVAL", "APPROVED", "REJECTED", "DEPRECATED", "CREATING", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED"
+    #   resp.status_reason #=> String
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateRegistryRecordStatus AWS API Documentation
+    #
+    # @overload update_registry_record_status(params = {})
+    # @param [Hash] params ({})
+    def update_registry_record_status(params = {}, options = {})
+      req = build_request(:update_registry_record_status, params)
+      req.send_request(options)
+    end
+
     # Updates an existing workload identity.
     #
     # @option params [required, String] :name
@@ -7258,7 +8257,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.36.0'
+      context[:gem_version] = '1.37.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

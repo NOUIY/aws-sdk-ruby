@@ -888,6 +888,113 @@ module Aws
                                 ) -> _CreatePolicyEngineResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreatePolicyEngineResponseSuccess
 
+      interface _CreateRegistryResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateRegistryResponse]
+        def registry_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#create_registry-instance_method
+      def create_registry: (
+                             name: ::String,
+                             ?description: ::String,
+                             ?authorizer_type: ("CUSTOM_JWT" | "AWS_IAM"),
+                             ?authorizer_configuration: {
+                               custom_jwt_authorizer: {
+                                 discovery_url: ::String,
+                                 allowed_audience: Array[::String]?,
+                                 allowed_clients: Array[::String]?,
+                                 allowed_scopes: Array[::String]?,
+                                 custom_claims: Array[
+                                   {
+                                     inbound_token_claim_name: ::String,
+                                     inbound_token_claim_value_type: ("STRING" | "STRING_ARRAY"),
+                                     authorizing_claim_match_value: {
+                                       claim_match_value: {
+                                         match_value_string: ::String?,
+                                         match_value_string_list: Array[::String]?
+                                       },
+                                       claim_match_operator: ("EQUALS" | "CONTAINS" | "CONTAINS_ANY")
+                                     }
+                                   },
+                                 ]?
+                               }?
+                             },
+                             ?client_token: ::String,
+                             ?approval_configuration: {
+                               auto_approval: bool?
+                             }
+                           ) -> _CreateRegistryResponseSuccess
+                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateRegistryResponseSuccess
+
+      interface _CreateRegistryRecordResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateRegistryRecordResponse]
+        def record_arn: () -> ::String
+        def status: () -> ("DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "DEPRECATED" | "CREATING" | "UPDATING" | "CREATE_FAILED" | "UPDATE_FAILED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#create_registry_record-instance_method
+      def create_registry_record: (
+                                    registry_id: ::String,
+                                    name: ::String,
+                                    ?description: ::String,
+                                    descriptor_type: ("MCP" | "A2A" | "CUSTOM" | "AGENT_SKILLS"),
+                                    ?descriptors: {
+                                      mcp: {
+                                        server: {
+                                          schema_version: ::String?,
+                                          inline_content: ::String?
+                                        }?,
+                                        tools: {
+                                          protocol_version: ::String?,
+                                          inline_content: ::String?
+                                        }?
+                                      }?,
+                                      a2a: {
+                                        agent_card: {
+                                          schema_version: ::String?,
+                                          inline_content: ::String?
+                                        }?
+                                      }?,
+                                      custom: {
+                                        inline_content: ::String?
+                                      }?,
+                                      agent_skills: {
+                                        skill_md: {
+                                          inline_content: ::String?
+                                        }?,
+                                        skill_definition: {
+                                          schema_version: ::String?,
+                                          inline_content: ::String?
+                                        }?
+                                      }?
+                                    },
+                                    ?record_version: ::String,
+                                    ?synchronization_type: ("URL"),
+                                    ?synchronization_configuration: {
+                                      from_url: {
+                                        url: ::String,
+                                        credential_provider_configurations: Array[
+                                          {
+                                            credential_provider_type: ("OAUTH" | "IAM"),
+                                            credential_provider: {
+                                              oauth_credential_provider: {
+                                                provider_arn: ::String,
+                                                grant_type: ("CLIENT_CREDENTIALS")?,
+                                                scopes: Array[::String]?,
+                                                custom_parameters: Hash[::String, ::String]?
+                                              }?,
+                                              iam_credential_provider: {
+                                                role_arn: ::String?,
+                                                service: ::String?,
+                                                region: ::String?
+                                              }?
+                                            }
+                                          },
+                                        ]?
+                                      }?
+                                    },
+                                    ?client_token: ::String
+                                  ) -> _CreateRegistryRecordResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateRegistryRecordResponseSuccess
+
       interface _CreateWorkloadIdentityResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateWorkloadIdentityResponse]
         def name: () -> ::String
@@ -1086,6 +1193,26 @@ module Aws
                                   policy_engine_id: ::String
                                 ) -> _DeletePolicyEngineResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeletePolicyEngineResponseSuccess
+
+      interface _DeleteRegistryResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteRegistryResponse]
+        def status: () -> ("CREATING" | "READY" | "UPDATING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#delete_registry-instance_method
+      def delete_registry: (
+                             registry_id: ::String
+                           ) -> _DeleteRegistryResponseSuccess
+                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteRegistryResponseSuccess
+
+      interface _DeleteRegistryRecordResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteRegistryRecordResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#delete_registry_record-instance_method
+      def delete_registry_record: (
+                                    registry_id: ::String,
+                                    record_id: ::String
+                                  ) -> _DeleteRegistryRecordResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteRegistryRecordResponseSuccess
 
       interface _DeleteResourcePolicyResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteResourcePolicyResponse]
@@ -1413,6 +1540,50 @@ module Aws
                                  ) -> _GetPolicyGenerationResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetPolicyGenerationResponseSuccess
 
+      interface _GetRegistryResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetRegistryResponse]
+        def name: () -> ::String
+        def description: () -> ::String
+        def registry_id: () -> ::String
+        def registry_arn: () -> ::String
+        def authorizer_type: () -> ("CUSTOM_JWT" | "AWS_IAM")
+        def authorizer_configuration: () -> Types::AuthorizerConfiguration
+        def approval_configuration: () -> Types::ApprovalConfiguration
+        def status: () -> ("CREATING" | "READY" | "UPDATING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED")
+        def status_reason: () -> ::String
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_registry-instance_method
+      def get_registry: (
+                          registry_id: ::String
+                        ) -> _GetRegistryResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetRegistryResponseSuccess
+
+      interface _GetRegistryRecordResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetRegistryRecordResponse]
+        def registry_arn: () -> ::String
+        def record_arn: () -> ::String
+        def record_id: () -> ::String
+        def name: () -> ::String
+        def description: () -> ::String
+        def descriptor_type: () -> ("MCP" | "A2A" | "CUSTOM" | "AGENT_SKILLS")
+        def descriptors: () -> Types::Descriptors
+        def record_version: () -> ::String
+        def status: () -> ("DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "DEPRECATED" | "CREATING" | "UPDATING" | "CREATE_FAILED" | "UPDATE_FAILED")
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+        def status_reason: () -> ::String
+        def synchronization_type: () -> ("URL")
+        def synchronization_configuration: () -> Types::SynchronizationConfiguration
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_registry_record-instance_method
+      def get_registry_record: (
+                                 registry_id: ::String,
+                                 record_id: ::String
+                               ) -> _GetRegistryRecordResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetRegistryRecordResponseSuccess
+
       interface _GetResourcePolicyResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetResourcePolicyResponse]
         def policy: () -> ::String
@@ -1664,6 +1835,35 @@ module Aws
                                    ) -> _ListPolicyGenerationsResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListPolicyGenerationsResponseSuccess
 
+      interface _ListRegistriesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListRegistriesResponse]
+        def registries: () -> ::Array[Types::RegistrySummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#list_registries-instance_method
+      def list_registries: (
+                             ?max_results: ::Integer,
+                             ?next_token: ::String,
+                             ?status: ("CREATING" | "READY" | "UPDATING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED")
+                           ) -> _ListRegistriesResponseSuccess
+                         | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListRegistriesResponseSuccess
+
+      interface _ListRegistryRecordsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListRegistryRecordsResponse]
+        def registry_records: () -> ::Array[Types::RegistryRecordSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#list_registry_records-instance_method
+      def list_registry_records: (
+                                   registry_id: ::String,
+                                   ?max_results: ::Integer,
+                                   ?next_token: ::String,
+                                   ?name: ::String,
+                                   ?status: ("DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "DEPRECATED" | "CREATING" | "UPDATING" | "CREATE_FAILED" | "UPDATE_FAILED"),
+                                   ?descriptor_type: ("MCP" | "A2A" | "CUSTOM" | "AGENT_SKILLS")
+                                 ) -> _ListRegistryRecordsResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListRegistryRecordsResponseSuccess
+
       interface _ListTagsForResourceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListTagsForResourceResponse]
         def tags: () -> ::Hash[::String, ::String]
@@ -1739,6 +1939,21 @@ module Aws
                                      ?client_token: ::String
                                    ) -> _StartPolicyGenerationResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartPolicyGenerationResponseSuccess
+
+      interface _SubmitRegistryRecordForApprovalResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::SubmitRegistryRecordForApprovalResponse]
+        def registry_arn: () -> ::String
+        def record_arn: () -> ::String
+        def record_id: () -> ::String
+        def status: () -> ("DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "DEPRECATED" | "CREATING" | "UPDATING" | "CREATE_FAILED" | "UPDATE_FAILED")
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#submit_registry_record_for_approval-instance_method
+      def submit_registry_record_for_approval: (
+                                                 registry_id: ::String,
+                                                 record_id: ::String
+                                               ) -> _SubmitRegistryRecordForApprovalResponseSuccess
+                                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SubmitRegistryRecordForApprovalResponseSuccess
 
       interface _SynchronizeGatewayTargetsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::SynchronizeGatewayTargetsResponse]
@@ -2561,6 +2776,183 @@ module Aws
                                   }
                                 ) -> _UpdatePolicyEngineResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdatePolicyEngineResponseSuccess
+
+      interface _UpdateRegistryResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateRegistryResponse]
+        def name: () -> ::String
+        def description: () -> ::String
+        def registry_id: () -> ::String
+        def registry_arn: () -> ::String
+        def authorizer_type: () -> ("CUSTOM_JWT" | "AWS_IAM")
+        def authorizer_configuration: () -> Types::AuthorizerConfiguration
+        def approval_configuration: () -> Types::ApprovalConfiguration
+        def status: () -> ("CREATING" | "READY" | "UPDATING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED")
+        def status_reason: () -> ::String
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#update_registry-instance_method
+      def update_registry: (
+                             registry_id: ::String,
+                             ?name: ::String,
+                             ?description: {
+                               optional_value: ::String?
+                             },
+                             ?authorizer_configuration: {
+                               optional_value: {
+                                 custom_jwt_authorizer: {
+                                   discovery_url: ::String,
+                                   allowed_audience: Array[::String]?,
+                                   allowed_clients: Array[::String]?,
+                                   allowed_scopes: Array[::String]?,
+                                   custom_claims: Array[
+                                     {
+                                       inbound_token_claim_name: ::String,
+                                       inbound_token_claim_value_type: ("STRING" | "STRING_ARRAY"),
+                                       authorizing_claim_match_value: {
+                                         claim_match_value: {
+                                           match_value_string: ::String?,
+                                           match_value_string_list: Array[::String]?
+                                         },
+                                         claim_match_operator: ("EQUALS" | "CONTAINS" | "CONTAINS_ANY")
+                                       }
+                                     },
+                                   ]?
+                                 }?
+                               }?
+                             },
+                             ?approval_configuration: {
+                               optional_value: {
+                                 auto_approval: bool?
+                               }?
+                             }
+                           ) -> _UpdateRegistryResponseSuccess
+                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateRegistryResponseSuccess
+
+      interface _UpdateRegistryRecordResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateRegistryRecordResponse]
+        def registry_arn: () -> ::String
+        def record_arn: () -> ::String
+        def record_id: () -> ::String
+        def name: () -> ::String
+        def description: () -> ::String
+        def descriptor_type: () -> ("MCP" | "A2A" | "CUSTOM" | "AGENT_SKILLS")
+        def descriptors: () -> Types::Descriptors
+        def record_version: () -> ::String
+        def status: () -> ("DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "DEPRECATED" | "CREATING" | "UPDATING" | "CREATE_FAILED" | "UPDATE_FAILED")
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+        def status_reason: () -> ::String
+        def synchronization_type: () -> ("URL")
+        def synchronization_configuration: () -> Types::SynchronizationConfiguration
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#update_registry_record-instance_method
+      def update_registry_record: (
+                                    registry_id: ::String,
+                                    record_id: ::String,
+                                    ?name: ::String,
+                                    ?description: {
+                                      optional_value: ::String?
+                                    },
+                                    ?descriptor_type: ("MCP" | "A2A" | "CUSTOM" | "AGENT_SKILLS"),
+                                    ?descriptors: {
+                                      optional_value: {
+                                        mcp: {
+                                          optional_value: {
+                                            server: {
+                                              optional_value: {
+                                                schema_version: ::String?,
+                                                inline_content: ::String?
+                                              }?
+                                            }?,
+                                            tools: {
+                                              optional_value: {
+                                                protocol_version: ::String?,
+                                                inline_content: ::String?
+                                              }?
+                                            }?
+                                          }?
+                                        }?,
+                                        a2a: {
+                                          optional_value: {
+                                            agent_card: {
+                                              schema_version: ::String?,
+                                              inline_content: ::String?
+                                            }?
+                                          }?
+                                        }?,
+                                        custom: {
+                                          optional_value: {
+                                            inline_content: ::String?
+                                          }?
+                                        }?,
+                                        agent_skills: {
+                                          optional_value: {
+                                            skill_md: {
+                                              optional_value: {
+                                                inline_content: ::String?
+                                              }?
+                                            }?,
+                                            skill_definition: {
+                                              optional_value: {
+                                                schema_version: ::String?,
+                                                inline_content: ::String?
+                                              }?
+                                            }?
+                                          }?
+                                        }?
+                                      }?
+                                    },
+                                    ?record_version: ::String,
+                                    ?synchronization_type: {
+                                      optional_value: ("URL")?
+                                    },
+                                    ?synchronization_configuration: {
+                                      optional_value: {
+                                        from_url: {
+                                          url: ::String,
+                                          credential_provider_configurations: Array[
+                                            {
+                                              credential_provider_type: ("OAUTH" | "IAM"),
+                                              credential_provider: {
+                                                oauth_credential_provider: {
+                                                  provider_arn: ::String,
+                                                  grant_type: ("CLIENT_CREDENTIALS")?,
+                                                  scopes: Array[::String]?,
+                                                  custom_parameters: Hash[::String, ::String]?
+                                                }?,
+                                                iam_credential_provider: {
+                                                  role_arn: ::String?,
+                                                  service: ::String?,
+                                                  region: ::String?
+                                                }?
+                                              }
+                                            },
+                                          ]?
+                                        }?
+                                      }?
+                                    },
+                                    ?trigger_synchronization: bool
+                                  ) -> _UpdateRegistryRecordResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateRegistryRecordResponseSuccess
+
+      interface _UpdateRegistryRecordStatusResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateRegistryRecordStatusResponse]
+        def registry_arn: () -> ::String
+        def record_arn: () -> ::String
+        def record_id: () -> ::String
+        def status: () -> ("DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "DEPRECATED" | "CREATING" | "UPDATING" | "CREATE_FAILED" | "UPDATE_FAILED")
+        def status_reason: () -> ::String
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#update_registry_record_status-instance_method
+      def update_registry_record_status: (
+                                           registry_id: ::String,
+                                           record_id: ::String,
+                                           status: ("DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "DEPRECATED" | "CREATING" | "UPDATING" | "CREATE_FAILED" | "UPDATE_FAILED"),
+                                           status_reason: ::String
+                                         ) -> _UpdateRegistryRecordStatusResponseSuccess
+                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateRegistryRecordStatusResponseSuccess
 
       interface _UpdateWorkloadIdentityResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateWorkloadIdentityResponse]

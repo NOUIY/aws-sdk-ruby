@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.10.0 (2026-04-09)
+------------------
+
+* Feature - Scheduled email reports of Billing and Cost Management Dashboards
+
 1.9.0 (2026-03-18)
 ------------------
 

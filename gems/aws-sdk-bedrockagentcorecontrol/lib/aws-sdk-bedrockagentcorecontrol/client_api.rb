@@ -14,8 +14,10 @@ module Aws::BedrockAgentCoreControl
 
     include Seahorse::Model
 
+    A2aDescriptor = Shapes::StructureShape.new(name: 'A2aDescriptor')
     AccessDeniedException = Shapes::StructureShape.new(name: 'AccessDeniedException')
     AdditionalModelRequestFields = Shapes::DocumentShape.new(name: 'AdditionalModelRequestFields', document: true)
+    AgentCardDefinition = Shapes::StructureShape.new(name: 'AgentCardDefinition')
     AgentEndpointDescription = Shapes::StringShape.new(name: 'AgentEndpointDescription')
     AgentManagedRuntimeType = Shapes::StringShape.new(name: 'AgentManagedRuntimeType')
     AgentRuntime = Shapes::StructureShape.new(name: 'AgentRuntime')
@@ -31,6 +33,7 @@ module Aws::BedrockAgentCoreControl
     AgentRuntimeStatus = Shapes::StringShape.new(name: 'AgentRuntimeStatus')
     AgentRuntimeVersion = Shapes::StringShape.new(name: 'AgentRuntimeVersion')
     AgentRuntimes = Shapes::ListShape.new(name: 'AgentRuntimes')
+    AgentSkillsDescriptor = Shapes::StructureShape.new(name: 'AgentSkillsDescriptor')
     AllowedAudience = Shapes::StringShape.new(name: 'AllowedAudience')
     AllowedAudienceList = Shapes::ListShape.new(name: 'AllowedAudienceList')
     AllowedClient = Shapes::StringShape.new(name: 'AllowedClient')
@@ -56,6 +59,7 @@ module Aws::BedrockAgentCoreControl
     ApiKeyCredentialProviders = Shapes::ListShape.new(name: 'ApiKeyCredentialProviders')
     ApiKeyType = Shapes::StringShape.new(name: 'ApiKeyType')
     ApiSchemaConfiguration = Shapes::UnionShape.new(name: 'ApiSchemaConfiguration')
+    ApprovalConfiguration = Shapes::StructureShape.new(name: 'ApprovalConfiguration')
     Arn = Shapes::StringShape.new(name: 'Arn')
     AtlassianOauth2ProviderConfigInput = Shapes::StructureShape.new(name: 'AtlassianOauth2ProviderConfigInput')
     AtlassianOauth2ProviderConfigOutput = Shapes::StructureShape.new(name: 'AtlassianOauth2ProviderConfigOutput')
@@ -152,9 +156,14 @@ module Aws::BedrockAgentCoreControl
     CreatePolicyEngineResponse = Shapes::StructureShape.new(name: 'CreatePolicyEngineResponse')
     CreatePolicyRequest = Shapes::StructureShape.new(name: 'CreatePolicyRequest')
     CreatePolicyResponse = Shapes::StructureShape.new(name: 'CreatePolicyResponse')
+    CreateRegistryRecordRequest = Shapes::StructureShape.new(name: 'CreateRegistryRecordRequest')
+    CreateRegistryRecordResponse = Shapes::StructureShape.new(name: 'CreateRegistryRecordResponse')
+    CreateRegistryRequest = Shapes::StructureShape.new(name: 'CreateRegistryRequest')
+    CreateRegistryResponse = Shapes::StructureShape.new(name: 'CreateRegistryResponse')
     CreateWorkloadIdentityRequest = Shapes::StructureShape.new(name: 'CreateWorkloadIdentityRequest')
     CreateWorkloadIdentityResponse = Shapes::StructureShape.new(name: 'CreateWorkloadIdentityResponse')
     CredentialProvider = Shapes::UnionShape.new(name: 'CredentialProvider')
+    CredentialProviderArn = Shapes::StringShape.new(name: 'CredentialProviderArn')
     CredentialProviderArnType = Shapes::StringShape.new(name: 'CredentialProviderArnType')
     CredentialProviderConfiguration = Shapes::StructureShape.new(name: 'CredentialProviderConfiguration')
     CredentialProviderConfigurations = Shapes::ListShape.new(name: 'CredentialProviderConfigurations')
@@ -166,6 +175,7 @@ module Aws::BedrockAgentCoreControl
     CustomConfigurationInput = Shapes::UnionShape.new(name: 'CustomConfigurationInput')
     CustomConsolidationConfiguration = Shapes::UnionShape.new(name: 'CustomConsolidationConfiguration')
     CustomConsolidationConfigurationInput = Shapes::UnionShape.new(name: 'CustomConsolidationConfigurationInput')
+    CustomDescriptor = Shapes::StructureShape.new(name: 'CustomDescriptor')
     CustomEvaluatorArn = Shapes::StringShape.new(name: 'CustomEvaluatorArn')
     CustomEvaluatorName = Shapes::StringShape.new(name: 'CustomEvaluatorName')
     CustomExtractionConfiguration = Shapes::UnionShape.new(name: 'CustomExtractionConfiguration')
@@ -174,6 +184,7 @@ module Aws::BedrockAgentCoreControl
     CustomMemoryStrategyInput = Shapes::StructureShape.new(name: 'CustomMemoryStrategyInput')
     CustomOauth2ProviderConfigInput = Shapes::StructureShape.new(name: 'CustomOauth2ProviderConfigInput')
     CustomOauth2ProviderConfigOutput = Shapes::StructureShape.new(name: 'CustomOauth2ProviderConfigOutput')
+    CustomParameterMap = Shapes::MapShape.new(name: 'CustomParameterMap')
     CustomReflectionConfiguration = Shapes::UnionShape.new(name: 'CustomReflectionConfiguration')
     CustomReflectionConfigurationInput = Shapes::UnionShape.new(name: 'CustomReflectionConfigurationInput')
     DataSourceConfig = Shapes::UnionShape.new(name: 'DataSourceConfig')
@@ -210,11 +221,17 @@ module Aws::BedrockAgentCoreControl
     DeletePolicyEngineResponse = Shapes::StructureShape.new(name: 'DeletePolicyEngineResponse')
     DeletePolicyRequest = Shapes::StructureShape.new(name: 'DeletePolicyRequest')
     DeletePolicyResponse = Shapes::StructureShape.new(name: 'DeletePolicyResponse')
+    DeleteRegistryRecordRequest = Shapes::StructureShape.new(name: 'DeleteRegistryRecordRequest')
+    DeleteRegistryRecordResponse = Shapes::StructureShape.new(name: 'DeleteRegistryRecordResponse')
+    DeleteRegistryRequest = Shapes::StructureShape.new(name: 'DeleteRegistryRequest')
+    DeleteRegistryResponse = Shapes::StructureShape.new(name: 'DeleteRegistryResponse')
     DeleteResourcePolicyRequest = Shapes::StructureShape.new(name: 'DeleteResourcePolicyRequest')
     DeleteResourcePolicyResponse = Shapes::StructureShape.new(name: 'DeleteResourcePolicyResponse')
     DeleteWorkloadIdentityRequest = Shapes::StructureShape.new(name: 'DeleteWorkloadIdentityRequest')
     DeleteWorkloadIdentityResponse = Shapes::StructureShape.new(name: 'DeleteWorkloadIdentityResponse')
     Description = Shapes::StringShape.new(name: 'Description')
+    DescriptorType = Shapes::StringShape.new(name: 'DescriptorType')
+    Descriptors = Shapes::StructureShape.new(name: 'Descriptors')
     DiscoveryUrl = Shapes::StringShape.new(name: 'DiscoveryUrl')
     DiscoveryUrlType = Shapes::StringShape.new(name: 'DiscoveryUrlType')
     DomainName = Shapes::StringShape.new(name: 'DomainName')
@@ -264,6 +281,7 @@ module Aws::BedrockAgentCoreControl
     Finding = Shapes::StructureShape.new(name: 'Finding')
     FindingType = Shapes::StringShape.new(name: 'FindingType')
     Findings = Shapes::ListShape.new(name: 'Findings')
+    FromUrlSynchronizationConfiguration = Shapes::StructureShape.new(name: 'FromUrlSynchronizationConfiguration')
     GatewayArn = Shapes::StringShape.new(name: 'GatewayArn')
     GatewayDescription = Shapes::StringShape.new(name: 'GatewayDescription')
     GatewayId = Shapes::StringShape.new(name: 'GatewayId')
@@ -316,6 +334,10 @@ module Aws::BedrockAgentCoreControl
     GetPolicyGenerationResponse = Shapes::StructureShape.new(name: 'GetPolicyGenerationResponse')
     GetPolicyRequest = Shapes::StructureShape.new(name: 'GetPolicyRequest')
     GetPolicyResponse = Shapes::StructureShape.new(name: 'GetPolicyResponse')
+    GetRegistryRecordRequest = Shapes::StructureShape.new(name: 'GetRegistryRecordRequest')
+    GetRegistryRecordResponse = Shapes::StructureShape.new(name: 'GetRegistryRecordResponse')
+    GetRegistryRequest = Shapes::StructureShape.new(name: 'GetRegistryRequest')
+    GetRegistryResponse = Shapes::StructureShape.new(name: 'GetRegistryResponse')
     GetResourcePolicyRequest = Shapes::StructureShape.new(name: 'GetResourcePolicyRequest')
     GetResourcePolicyResponse = Shapes::StructureShape.new(name: 'GetResourcePolicyResponse')
     GetTokenVaultRequest = Shapes::StructureShape.new(name: 'GetTokenVaultRequest')
@@ -332,6 +354,9 @@ module Aws::BedrockAgentCoreControl
     IamCredentialProvider = Shapes::StructureShape.new(name: 'IamCredentialProvider')
     IamCredentialProviderRegionString = Shapes::StringShape.new(name: 'IamCredentialProviderRegionString')
     IamCredentialProviderServiceString = Shapes::StringShape.new(name: 'IamCredentialProviderServiceString')
+    IamRoleArn = Shapes::StringShape.new(name: 'IamRoleArn')
+    IamSigningRegion = Shapes::StringShape.new(name: 'IamSigningRegion')
+    IamSigningServiceName = Shapes::StringShape.new(name: 'IamSigningServiceName')
     InboundTokenClaimNameType = Shapes::StringShape.new(name: 'InboundTokenClaimNameType')
     InboundTokenClaimValueType = Shapes::StringShape.new(name: 'InboundTokenClaimValueType')
     IncludedOauth2ProviderConfigInput = Shapes::StructureShape.new(name: 'IncludedOauth2ProviderConfigInput')
@@ -341,6 +366,7 @@ module Aws::BedrockAgentCoreControl
     InferenceConfigurationStopSequencesList = Shapes::ListShape.new(name: 'InferenceConfigurationStopSequencesList')
     InferenceConfigurationTemperatureFloat = Shapes::FloatShape.new(name: 'InferenceConfigurationTemperatureFloat')
     InferenceConfigurationTopPFloat = Shapes::FloatShape.new(name: 'InferenceConfigurationTopPFloat')
+    InlineContent = Shapes::StringShape.new(name: 'InlineContent')
     InlinePayload = Shapes::StringShape.new(name: 'InlinePayload')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     InterceptorConfiguration = Shapes::UnionShape.new(name: 'InterceptorConfiguration')
@@ -403,6 +429,10 @@ module Aws::BedrockAgentCoreControl
     ListPolicyGenerationAssetsResponse = Shapes::StructureShape.new(name: 'ListPolicyGenerationAssetsResponse')
     ListPolicyGenerationsRequest = Shapes::StructureShape.new(name: 'ListPolicyGenerationsRequest')
     ListPolicyGenerationsResponse = Shapes::StructureShape.new(name: 'ListPolicyGenerationsResponse')
+    ListRegistriesRequest = Shapes::StructureShape.new(name: 'ListRegistriesRequest')
+    ListRegistriesResponse = Shapes::StructureShape.new(name: 'ListRegistriesResponse')
+    ListRegistryRecordsRequest = Shapes::StructureShape.new(name: 'ListRegistryRecordsRequest')
+    ListRegistryRecordsResponse = Shapes::StructureShape.new(name: 'ListRegistryRecordsResponse')
     ListTagsForResourceRequest = Shapes::StructureShape.new(name: 'ListTagsForResourceRequest')
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
     ListWorkloadIdentitiesRequest = Shapes::StructureShape.new(name: 'ListWorkloadIdentitiesRequest')
@@ -416,10 +446,12 @@ module Aws::BedrockAgentCoreControl
     MatchValueString = Shapes::StringShape.new(name: 'MatchValueString')
     MatchValueStringList = Shapes::ListShape.new(name: 'MatchValueStringList')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
+    McpDescriptor = Shapes::StructureShape.new(name: 'McpDescriptor')
     McpInstructions = Shapes::StringShape.new(name: 'McpInstructions')
     McpLambdaTargetConfiguration = Shapes::StructureShape.new(name: 'McpLambdaTargetConfiguration')
     McpServerTargetConfiguration = Shapes::StructureShape.new(name: 'McpServerTargetConfiguration')
     McpServerTargetConfigurationEndpointString = Shapes::StringShape.new(name: 'McpServerTargetConfigurationEndpointString')
+    McpServerUrl = Shapes::StringShape.new(name: 'McpServerUrl')
     McpSupportedVersions = Shapes::ListShape.new(name: 'McpSupportedVersions')
     McpTargetConfiguration = Shapes::UnionShape.new(name: 'McpTargetConfiguration')
     McpToolSchemaConfiguration = Shapes::UnionShape.new(name: 'McpToolSchemaConfiguration')
@@ -525,8 +557,31 @@ module Aws::BedrockAgentCoreControl
     PutResourcePolicyRequest = Shapes::StructureShape.new(name: 'PutResourcePolicyRequest')
     PutResourcePolicyResponse = Shapes::StructureShape.new(name: 'PutResourcePolicyResponse')
     RatingScale = Shapes::UnionShape.new(name: 'RatingScale')
+    RecordIdentifier = Shapes::StringShape.new(name: 'RecordIdentifier')
     RecordingConfig = Shapes::StructureShape.new(name: 'RecordingConfig')
     ReflectionConfiguration = Shapes::UnionShape.new(name: 'ReflectionConfiguration')
+    RegistryArn = Shapes::StringShape.new(name: 'RegistryArn')
+    RegistryAuthorizerType = Shapes::StringShape.new(name: 'RegistryAuthorizerType')
+    RegistryId = Shapes::StringShape.new(name: 'RegistryId')
+    RegistryIdentifier = Shapes::StringShape.new(name: 'RegistryIdentifier')
+    RegistryName = Shapes::StringShape.new(name: 'RegistryName')
+    RegistryRecordArn = Shapes::StringShape.new(name: 'RegistryRecordArn')
+    RegistryRecordCredentialProviderConfiguration = Shapes::StructureShape.new(name: 'RegistryRecordCredentialProviderConfiguration')
+    RegistryRecordCredentialProviderConfigurationList = Shapes::ListShape.new(name: 'RegistryRecordCredentialProviderConfigurationList')
+    RegistryRecordCredentialProviderType = Shapes::StringShape.new(name: 'RegistryRecordCredentialProviderType')
+    RegistryRecordCredentialProviderUnion = Shapes::UnionShape.new(name: 'RegistryRecordCredentialProviderUnion')
+    RegistryRecordIamCredentialProvider = Shapes::StructureShape.new(name: 'RegistryRecordIamCredentialProvider')
+    RegistryRecordId = Shapes::StringShape.new(name: 'RegistryRecordId')
+    RegistryRecordName = Shapes::StringShape.new(name: 'RegistryRecordName')
+    RegistryRecordOAuthCredentialProvider = Shapes::StructureShape.new(name: 'RegistryRecordOAuthCredentialProvider')
+    RegistryRecordOAuthGrantType = Shapes::StringShape.new(name: 'RegistryRecordOAuthGrantType')
+    RegistryRecordStatus = Shapes::StringShape.new(name: 'RegistryRecordStatus')
+    RegistryRecordSummary = Shapes::StructureShape.new(name: 'RegistryRecordSummary')
+    RegistryRecordSummaryList = Shapes::ListShape.new(name: 'RegistryRecordSummaryList')
+    RegistryRecordVersion = Shapes::StringShape.new(name: 'RegistryRecordVersion')
+    RegistryStatus = Shapes::StringShape.new(name: 'RegistryStatus')
+    RegistrySummary = Shapes::StructureShape.new(name: 'RegistrySummary')
+    RegistrySummaryList = Shapes::ListShape.new(name: 'RegistrySummaryList')
     RequestHeaderAllowlist = Shapes::ListShape.new(name: 'RequestHeaderAllowlist')
     RequestHeaderConfiguration = Shapes::UnionShape.new(name: 'RequestHeaderConfiguration')
     RequiredProperties = Shapes::ListShape.new(name: 'RequiredProperties')
@@ -565,6 +620,8 @@ module Aws::BedrockAgentCoreControl
     SchemaDefinition = Shapes::StructureShape.new(name: 'SchemaDefinition')
     SchemaProperties = Shapes::MapShape.new(name: 'SchemaProperties')
     SchemaType = Shapes::StringShape.new(name: 'SchemaType')
+    SchemaVersion = Shapes::StringShape.new(name: 'SchemaVersion')
+    ScopeList = Shapes::ListShape.new(name: 'ScopeList')
     SearchType = Shapes::StringShape.new(name: 'SearchType')
     Secret = Shapes::StructureShape.new(name: 'Secret')
     SecretArn = Shapes::StringShape.new(name: 'SecretArn')
@@ -583,6 +640,7 @@ module Aws::BedrockAgentCoreControl
     SemanticOverrideConfigurationInput = Shapes::StructureShape.new(name: 'SemanticOverrideConfigurationInput')
     SemanticOverrideConsolidationConfigurationInput = Shapes::StructureShape.new(name: 'SemanticOverrideConsolidationConfigurationInput')
     SemanticOverrideExtractionConfigurationInput = Shapes::StructureShape.new(name: 'SemanticOverrideExtractionConfigurationInput')
+    ServerDefinition = Shapes::StructureShape.new(name: 'ServerDefinition')
     ServerProtocol = Shapes::StringShape.new(name: 'ServerProtocol')
     ServiceException = Shapes::StructureShape.new(name: 'ServiceException')
     ServiceName = Shapes::StringShape.new(name: 'ServiceName')
@@ -592,6 +650,8 @@ module Aws::BedrockAgentCoreControl
     SessionStorageConfiguration = Shapes::StructureShape.new(name: 'SessionStorageConfiguration')
     SetTokenVaultCMKRequest = Shapes::StructureShape.new(name: 'SetTokenVaultCMKRequest')
     SetTokenVaultCMKResponse = Shapes::StructureShape.new(name: 'SetTokenVaultCMKResponse')
+    SkillDefinition = Shapes::StructureShape.new(name: 'SkillDefinition')
+    SkillMdDefinition = Shapes::StructureShape.new(name: 'SkillMdDefinition')
     SlackOauth2ProviderConfigInput = Shapes::StructureShape.new(name: 'SlackOauth2ProviderConfigInput')
     SlackOauth2ProviderConfigOutput = Shapes::StructureShape.new(name: 'SlackOauth2ProviderConfigOutput')
     StartPolicyGenerationRequest = Shapes::StructureShape.new(name: 'StartPolicyGenerationRequest')
@@ -604,6 +664,8 @@ module Aws::BedrockAgentCoreControl
     StreamDeliveryResources = Shapes::StructureShape.new(name: 'StreamDeliveryResources')
     StreamDeliveryResourcesList = Shapes::ListShape.new(name: 'StreamDeliveryResourcesList')
     String = Shapes::StringShape.new(name: 'String')
+    SubmitRegistryRecordForApprovalRequest = Shapes::StructureShape.new(name: 'SubmitRegistryRecordForApprovalRequest')
+    SubmitRegistryRecordForApprovalResponse = Shapes::StructureShape.new(name: 'SubmitRegistryRecordForApprovalResponse')
     SubnetId = Shapes::StringShape.new(name: 'SubnetId')
     SubnetIds = Shapes::ListShape.new(name: 'SubnetIds')
     Subnets = Shapes::ListShape.new(name: 'Subnets')
@@ -611,6 +673,8 @@ module Aws::BedrockAgentCoreControl
     SummaryMemoryStrategyInput = Shapes::StructureShape.new(name: 'SummaryMemoryStrategyInput')
     SummaryOverrideConfigurationInput = Shapes::StructureShape.new(name: 'SummaryOverrideConfigurationInput')
     SummaryOverrideConsolidationConfigurationInput = Shapes::StructureShape.new(name: 'SummaryOverrideConsolidationConfigurationInput')
+    SynchronizationConfiguration = Shapes::StructureShape.new(name: 'SynchronizationConfiguration')
+    SynchronizationType = Shapes::StringShape.new(name: 'SynchronizationType')
     SynchronizeGatewayTargetsRequest = Shapes::StructureShape.new(name: 'SynchronizeGatewayTargetsRequest')
     SynchronizeGatewayTargetsResponse = Shapes::StructureShape.new(name: 'SynchronizeGatewayTargetsResponse')
     TagKey = Shapes::StringShape.new(name: 'TagKey')
@@ -648,6 +712,7 @@ module Aws::BedrockAgentCoreControl
     ToolDefinitions = Shapes::ListShape.new(name: 'ToolDefinitions')
     ToolSchema = Shapes::UnionShape.new(name: 'ToolSchema')
     ToolSecretArn = Shapes::StringShape.new(name: 'ToolSecretArn')
+    ToolsDefinition = Shapes::StructureShape.new(name: 'ToolsDefinition')
     TriggerCondition = Shapes::UnionShape.new(name: 'TriggerCondition')
     TriggerConditionInput = Shapes::UnionShape.new(name: 'TriggerConditionInput')
     TriggerConditionInputList = Shapes::ListShape.new(name: 'TriggerConditionInputList')
@@ -679,9 +744,32 @@ module Aws::BedrockAgentCoreControl
     UpdatePolicyEngineResponse = Shapes::StructureShape.new(name: 'UpdatePolicyEngineResponse')
     UpdatePolicyRequest = Shapes::StructureShape.new(name: 'UpdatePolicyRequest')
     UpdatePolicyResponse = Shapes::StructureShape.new(name: 'UpdatePolicyResponse')
+    UpdateRegistryRecordRequest = Shapes::StructureShape.new(name: 'UpdateRegistryRecordRequest')
+    UpdateRegistryRecordResponse = Shapes::StructureShape.new(name: 'UpdateRegistryRecordResponse')
+    UpdateRegistryRecordStatusRequest = Shapes::StructureShape.new(name: 'UpdateRegistryRecordStatusRequest')
+    UpdateRegistryRecordStatusRequestStatusReasonString = Shapes::StringShape.new(name: 'UpdateRegistryRecordStatusRequestStatusReasonString')
+    UpdateRegistryRecordStatusResponse = Shapes::StructureShape.new(name: 'UpdateRegistryRecordStatusResponse')
+    UpdateRegistryRequest = Shapes::StructureShape.new(name: 'UpdateRegistryRequest')
+    UpdateRegistryResponse = Shapes::StructureShape.new(name: 'UpdateRegistryResponse')
     UpdateWorkloadIdentityRequest = Shapes::StructureShape.new(name: 'UpdateWorkloadIdentityRequest')
     UpdateWorkloadIdentityResponse = Shapes::StructureShape.new(name: 'UpdateWorkloadIdentityResponse')
+    UpdatedA2aDescriptor = Shapes::StructureShape.new(name: 'UpdatedA2aDescriptor')
+    UpdatedAgentSkillsDescriptor = Shapes::StructureShape.new(name: 'UpdatedAgentSkillsDescriptor')
+    UpdatedAgentSkillsDescriptorFields = Shapes::StructureShape.new(name: 'UpdatedAgentSkillsDescriptorFields')
+    UpdatedApprovalConfiguration = Shapes::StructureShape.new(name: 'UpdatedApprovalConfiguration')
+    UpdatedAuthorizerConfiguration = Shapes::StructureShape.new(name: 'UpdatedAuthorizerConfiguration')
+    UpdatedCustomDescriptor = Shapes::StructureShape.new(name: 'UpdatedCustomDescriptor')
     UpdatedDescription = Shapes::StructureShape.new(name: 'UpdatedDescription')
+    UpdatedDescriptors = Shapes::StructureShape.new(name: 'UpdatedDescriptors')
+    UpdatedDescriptorsUnion = Shapes::StructureShape.new(name: 'UpdatedDescriptorsUnion')
+    UpdatedMcpDescriptor = Shapes::StructureShape.new(name: 'UpdatedMcpDescriptor')
+    UpdatedMcpDescriptorFields = Shapes::StructureShape.new(name: 'UpdatedMcpDescriptorFields')
+    UpdatedServerDefinition = Shapes::StructureShape.new(name: 'UpdatedServerDefinition')
+    UpdatedSkillDefinition = Shapes::StructureShape.new(name: 'UpdatedSkillDefinition')
+    UpdatedSkillMdDefinition = Shapes::StructureShape.new(name: 'UpdatedSkillMdDefinition')
+    UpdatedSynchronizationConfiguration = Shapes::StructureShape.new(name: 'UpdatedSynchronizationConfiguration')
+    UpdatedSynchronizationType = Shapes::StructureShape.new(name: 'UpdatedSynchronizationType')
+    UpdatedToolsDefinition = Shapes::StructureShape.new(name: 'UpdatedToolsDefinition')
     UserPreferenceConsolidationOverride = Shapes::StructureShape.new(name: 'UserPreferenceConsolidationOverride')
     UserPreferenceExtractionOverride = Shapes::StructureShape.new(name: 'UserPreferenceExtractionOverride')
     UserPreferenceMemoryStrategyInput = Shapes::StructureShape.new(name: 'UserPreferenceMemoryStrategyInput')
@@ -702,8 +790,15 @@ module Aws::BedrockAgentCoreControl
     WorkloadIdentityType = Shapes::StructureShape.new(name: 'WorkloadIdentityType')
     entryPoint = Shapes::StringShape.new(name: 'entryPoint')
 
+    A2aDescriptor.add_member(:agent_card, Shapes::ShapeRef.new(shape: AgentCardDefinition, location_name: "agentCard"))
+    A2aDescriptor.struct_class = Types::A2aDescriptor
+
     AccessDeniedException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     AccessDeniedException.struct_class = Types::AccessDeniedException
+
+    AgentCardDefinition.add_member(:schema_version, Shapes::ShapeRef.new(shape: SchemaVersion, location_name: "schemaVersion"))
+    AgentCardDefinition.add_member(:inline_content, Shapes::ShapeRef.new(shape: InlineContent, location_name: "inlineContent"))
+    AgentCardDefinition.struct_class = Types::AgentCardDefinition
 
     AgentRuntime.add_member(:agent_runtime_arn, Shapes::ShapeRef.new(shape: AgentRuntimeArn, required: true, location_name: "agentRuntimeArn"))
     AgentRuntime.add_member(:agent_runtime_id, Shapes::ShapeRef.new(shape: AgentRuntimeId, required: true, location_name: "agentRuntimeId"))
@@ -737,6 +832,10 @@ module Aws::BedrockAgentCoreControl
     AgentRuntimeEndpoints.member = Shapes::ShapeRef.new(shape: AgentRuntimeEndpoint)
 
     AgentRuntimes.member = Shapes::ShapeRef.new(shape: AgentRuntime)
+
+    AgentSkillsDescriptor.add_member(:skill_md, Shapes::ShapeRef.new(shape: SkillMdDefinition, location_name: "skillMd"))
+    AgentSkillsDescriptor.add_member(:skill_definition, Shapes::ShapeRef.new(shape: SkillDefinition, location_name: "skillDefinition"))
+    AgentSkillsDescriptor.struct_class = Types::AgentSkillsDescriptor
 
     AllowedAudienceList.member = Shapes::ShapeRef.new(shape: AllowedAudience)
 
@@ -794,6 +893,9 @@ module Aws::BedrockAgentCoreControl
     ApiSchemaConfiguration.add_member_subclass(:inline_payload, Types::ApiSchemaConfiguration::InlinePayload)
     ApiSchemaConfiguration.add_member_subclass(:unknown, Types::ApiSchemaConfiguration::Unknown)
     ApiSchemaConfiguration.struct_class = Types::ApiSchemaConfiguration
+
+    ApprovalConfiguration.add_member(:auto_approval, Shapes::ShapeRef.new(shape: Boolean, location_name: "autoApproval"))
+    ApprovalConfiguration.struct_class = Types::ApprovalConfiguration
 
     AtlassianOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, required: true, location_name: "clientId"))
     AtlassianOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecretType, required: true, location_name: "clientSecret"))
@@ -1220,6 +1322,32 @@ module Aws::BedrockAgentCoreControl
     CreatePolicyResponse.add_member(:status_reasons, Shapes::ShapeRef.new(shape: PolicyStatusReasons, required: true, location_name: "statusReasons"))
     CreatePolicyResponse.struct_class = Types::CreatePolicyResponse
 
+    CreateRegistryRecordRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryIdentifier, required: true, location: "uri", location_name: "registryId"))
+    CreateRegistryRecordRequest.add_member(:name, Shapes::ShapeRef.new(shape: RegistryRecordName, required: true, location_name: "name"))
+    CreateRegistryRecordRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    CreateRegistryRecordRequest.add_member(:descriptor_type, Shapes::ShapeRef.new(shape: DescriptorType, required: true, location_name: "descriptorType"))
+    CreateRegistryRecordRequest.add_member(:descriptors, Shapes::ShapeRef.new(shape: Descriptors, location_name: "descriptors"))
+    CreateRegistryRecordRequest.add_member(:record_version, Shapes::ShapeRef.new(shape: RegistryRecordVersion, location_name: "recordVersion"))
+    CreateRegistryRecordRequest.add_member(:synchronization_type, Shapes::ShapeRef.new(shape: SynchronizationType, location_name: "synchronizationType"))
+    CreateRegistryRecordRequest.add_member(:synchronization_configuration, Shapes::ShapeRef.new(shape: SynchronizationConfiguration, location_name: "synchronizationConfiguration"))
+    CreateRegistryRecordRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateRegistryRecordRequest.struct_class = Types::CreateRegistryRecordRequest
+
+    CreateRegistryRecordResponse.add_member(:record_arn, Shapes::ShapeRef.new(shape: RegistryRecordArn, required: true, location_name: "recordArn"))
+    CreateRegistryRecordResponse.add_member(:status, Shapes::ShapeRef.new(shape: RegistryRecordStatus, required: true, location_name: "status"))
+    CreateRegistryRecordResponse.struct_class = Types::CreateRegistryRecordResponse
+
+    CreateRegistryRequest.add_member(:name, Shapes::ShapeRef.new(shape: RegistryName, required: true, location_name: "name"))
+    CreateRegistryRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    CreateRegistryRequest.add_member(:authorizer_type, Shapes::ShapeRef.new(shape: RegistryAuthorizerType, location_name: "authorizerType"))
+    CreateRegistryRequest.add_member(:authorizer_configuration, Shapes::ShapeRef.new(shape: AuthorizerConfiguration, location_name: "authorizerConfiguration"))
+    CreateRegistryRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateRegistryRequest.add_member(:approval_configuration, Shapes::ShapeRef.new(shape: ApprovalConfiguration, location_name: "approvalConfiguration"))
+    CreateRegistryRequest.struct_class = Types::CreateRegistryRequest
+
+    CreateRegistryResponse.add_member(:registry_arn, Shapes::ShapeRef.new(shape: RegistryArn, required: true, location_name: "registryArn"))
+    CreateRegistryResponse.struct_class = Types::CreateRegistryResponse
+
     CreateWorkloadIdentityRequest.add_member(:name, Shapes::ShapeRef.new(shape: WorkloadIdentityNameType, required: true, location_name: "name"))
     CreateWorkloadIdentityRequest.add_member(:allowed_resource_oauth_2_return_urls, Shapes::ShapeRef.new(shape: ResourceOauth2ReturnUrlListType, location_name: "allowedResourceOauth2ReturnUrls"))
     CreateWorkloadIdentityRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
@@ -1291,6 +1419,9 @@ module Aws::BedrockAgentCoreControl
     CustomConsolidationConfigurationInput.add_member_subclass(:unknown, Types::CustomConsolidationConfigurationInput::Unknown)
     CustomConsolidationConfigurationInput.struct_class = Types::CustomConsolidationConfigurationInput
 
+    CustomDescriptor.add_member(:inline_content, Shapes::ShapeRef.new(shape: InlineContent, location_name: "inlineContent"))
+    CustomDescriptor.struct_class = Types::CustomDescriptor
+
     CustomExtractionConfiguration.add_member(:semantic_extraction_override, Shapes::ShapeRef.new(shape: SemanticExtractionOverride, location_name: "semanticExtractionOverride"))
     CustomExtractionConfiguration.add_member(:user_preference_extraction_override, Shapes::ShapeRef.new(shape: UserPreferenceExtractionOverride, location_name: "userPreferenceExtractionOverride"))
     CustomExtractionConfiguration.add_member(:episodic_extraction_override, Shapes::ShapeRef.new(shape: EpisodicExtractionOverride, location_name: "episodicExtractionOverride"))
@@ -1333,6 +1464,9 @@ module Aws::BedrockAgentCoreControl
     CustomOauth2ProviderConfigOutput.add_member(:oauth_discovery, Shapes::ShapeRef.new(shape: Oauth2Discovery, required: true, location_name: "oauthDiscovery"))
     CustomOauth2ProviderConfigOutput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, location_name: "clientId"))
     CustomOauth2ProviderConfigOutput.struct_class = Types::CustomOauth2ProviderConfigOutput
+
+    CustomParameterMap.key = Shapes::ShapeRef.new(shape: String)
+    CustomParameterMap.value = Shapes::ShapeRef.new(shape: String)
 
     CustomReflectionConfiguration.add_member(:episodic_reflection_override, Shapes::ShapeRef.new(shape: EpisodicReflectionOverride, location_name: "episodicReflectionOverride"))
     CustomReflectionConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
@@ -1489,6 +1623,18 @@ module Aws::BedrockAgentCoreControl
     DeletePolicyResponse.add_member(:status_reasons, Shapes::ShapeRef.new(shape: PolicyStatusReasons, required: true, location_name: "statusReasons"))
     DeletePolicyResponse.struct_class = Types::DeletePolicyResponse
 
+    DeleteRegistryRecordRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryIdentifier, required: true, location: "uri", location_name: "registryId"))
+    DeleteRegistryRecordRequest.add_member(:record_id, Shapes::ShapeRef.new(shape: RecordIdentifier, required: true, location: "uri", location_name: "recordId"))
+    DeleteRegistryRecordRequest.struct_class = Types::DeleteRegistryRecordRequest
+
+    DeleteRegistryRecordResponse.struct_class = Types::DeleteRegistryRecordResponse
+
+    DeleteRegistryRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryIdentifier, required: true, location: "uri", location_name: "registryId"))
+    DeleteRegistryRequest.struct_class = Types::DeleteRegistryRequest
+
+    DeleteRegistryResponse.add_member(:status, Shapes::ShapeRef.new(shape: RegistryStatus, required: true, location_name: "status"))
+    DeleteRegistryResponse.struct_class = Types::DeleteRegistryResponse
+
     DeleteResourcePolicyRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: BedrockAgentcoreResourceArn, required: true, location: "uri", location_name: "resourceArn"))
     DeleteResourcePolicyRequest.struct_class = Types::DeleteResourcePolicyRequest
 
@@ -1498,6 +1644,12 @@ module Aws::BedrockAgentCoreControl
     DeleteWorkloadIdentityRequest.struct_class = Types::DeleteWorkloadIdentityRequest
 
     DeleteWorkloadIdentityResponse.struct_class = Types::DeleteWorkloadIdentityResponse
+
+    Descriptors.add_member(:mcp, Shapes::ShapeRef.new(shape: McpDescriptor, location_name: "mcp"))
+    Descriptors.add_member(:a2a, Shapes::ShapeRef.new(shape: A2aDescriptor, location_name: "a2a"))
+    Descriptors.add_member(:custom, Shapes::ShapeRef.new(shape: CustomDescriptor, location_name: "custom"))
+    Descriptors.add_member(:agent_skills, Shapes::ShapeRef.new(shape: AgentSkillsDescriptor, location_name: "agentSkills"))
+    Descriptors.struct_class = Types::Descriptors
 
     EncryptionFailure.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     EncryptionFailure.struct_class = Types::EncryptionFailure
@@ -1625,6 +1777,10 @@ module Aws::BedrockAgentCoreControl
     Finding.struct_class = Types::Finding
 
     Findings.member = Shapes::ShapeRef.new(shape: Finding)
+
+    FromUrlSynchronizationConfiguration.add_member(:url, Shapes::ShapeRef.new(shape: McpServerUrl, required: true, location_name: "url"))
+    FromUrlSynchronizationConfiguration.add_member(:credential_provider_configurations, Shapes::ShapeRef.new(shape: RegistryRecordCredentialProviderConfigurationList, location_name: "credentialProviderConfigurations"))
+    FromUrlSynchronizationConfiguration.struct_class = Types::FromUrlSynchronizationConfiguration
 
     GatewayInterceptionPoints.member = Shapes::ShapeRef.new(shape: GatewayInterceptionPoint)
 
@@ -1924,6 +2080,42 @@ module Aws::BedrockAgentCoreControl
     GetPolicyResponse.add_member(:status_reasons, Shapes::ShapeRef.new(shape: PolicyStatusReasons, required: true, location_name: "statusReasons"))
     GetPolicyResponse.struct_class = Types::GetPolicyResponse
 
+    GetRegistryRecordRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryIdentifier, required: true, location: "uri", location_name: "registryId"))
+    GetRegistryRecordRequest.add_member(:record_id, Shapes::ShapeRef.new(shape: RecordIdentifier, required: true, location: "uri", location_name: "recordId"))
+    GetRegistryRecordRequest.struct_class = Types::GetRegistryRecordRequest
+
+    GetRegistryRecordResponse.add_member(:registry_arn, Shapes::ShapeRef.new(shape: RegistryArn, required: true, location_name: "registryArn"))
+    GetRegistryRecordResponse.add_member(:record_arn, Shapes::ShapeRef.new(shape: RegistryRecordArn, required: true, location_name: "recordArn"))
+    GetRegistryRecordResponse.add_member(:record_id, Shapes::ShapeRef.new(shape: RegistryRecordId, required: true, location_name: "recordId"))
+    GetRegistryRecordResponse.add_member(:name, Shapes::ShapeRef.new(shape: RegistryRecordName, required: true, location_name: "name"))
+    GetRegistryRecordResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    GetRegistryRecordResponse.add_member(:descriptor_type, Shapes::ShapeRef.new(shape: DescriptorType, required: true, location_name: "descriptorType"))
+    GetRegistryRecordResponse.add_member(:descriptors, Shapes::ShapeRef.new(shape: Descriptors, required: true, location_name: "descriptors"))
+    GetRegistryRecordResponse.add_member(:record_version, Shapes::ShapeRef.new(shape: RegistryRecordVersion, location_name: "recordVersion"))
+    GetRegistryRecordResponse.add_member(:status, Shapes::ShapeRef.new(shape: RegistryRecordStatus, required: true, location_name: "status"))
+    GetRegistryRecordResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "createdAt"))
+    GetRegistryRecordResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "updatedAt"))
+    GetRegistryRecordResponse.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    GetRegistryRecordResponse.add_member(:synchronization_type, Shapes::ShapeRef.new(shape: SynchronizationType, location_name: "synchronizationType"))
+    GetRegistryRecordResponse.add_member(:synchronization_configuration, Shapes::ShapeRef.new(shape: SynchronizationConfiguration, location_name: "synchronizationConfiguration"))
+    GetRegistryRecordResponse.struct_class = Types::GetRegistryRecordResponse
+
+    GetRegistryRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryIdentifier, required: true, location: "uri", location_name: "registryId"))
+    GetRegistryRequest.struct_class = Types::GetRegistryRequest
+
+    GetRegistryResponse.add_member(:name, Shapes::ShapeRef.new(shape: RegistryName, required: true, location_name: "name"))
+    GetRegistryResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    GetRegistryResponse.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, required: true, location_name: "registryId"))
+    GetRegistryResponse.add_member(:registry_arn, Shapes::ShapeRef.new(shape: RegistryArn, required: true, location_name: "registryArn"))
+    GetRegistryResponse.add_member(:authorizer_type, Shapes::ShapeRef.new(shape: RegistryAuthorizerType, location_name: "authorizerType"))
+    GetRegistryResponse.add_member(:authorizer_configuration, Shapes::ShapeRef.new(shape: AuthorizerConfiguration, location_name: "authorizerConfiguration"))
+    GetRegistryResponse.add_member(:approval_configuration, Shapes::ShapeRef.new(shape: ApprovalConfiguration, location_name: "approvalConfiguration"))
+    GetRegistryResponse.add_member(:status, Shapes::ShapeRef.new(shape: RegistryStatus, required: true, location_name: "status"))
+    GetRegistryResponse.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    GetRegistryResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "createdAt"))
+    GetRegistryResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "updatedAt"))
+    GetRegistryResponse.struct_class = Types::GetRegistryResponse
+
     GetResourcePolicyRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: BedrockAgentcoreResourceArn, required: true, location: "uri", location_name: "resourceArn"))
     GetResourcePolicyRequest.struct_class = Types::GetResourcePolicyRequest
 
@@ -2183,6 +2375,27 @@ module Aws::BedrockAgentCoreControl
     ListPolicyGenerationsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListPolicyGenerationsResponse.struct_class = Types::ListPolicyGenerationsResponse
 
+    ListRegistriesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListRegistriesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListRegistriesRequest.add_member(:status, Shapes::ShapeRef.new(shape: RegistryStatus, location: "querystring", location_name: "status"))
+    ListRegistriesRequest.struct_class = Types::ListRegistriesRequest
+
+    ListRegistriesResponse.add_member(:registries, Shapes::ShapeRef.new(shape: RegistrySummaryList, required: true, location_name: "registries"))
+    ListRegistriesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListRegistriesResponse.struct_class = Types::ListRegistriesResponse
+
+    ListRegistryRecordsRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryIdentifier, required: true, location: "uri", location_name: "registryId"))
+    ListRegistryRecordsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListRegistryRecordsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListRegistryRecordsRequest.add_member(:name, Shapes::ShapeRef.new(shape: RegistryRecordName, location: "querystring", location_name: "name"))
+    ListRegistryRecordsRequest.add_member(:status, Shapes::ShapeRef.new(shape: RegistryRecordStatus, location: "querystring", location_name: "status"))
+    ListRegistryRecordsRequest.add_member(:descriptor_type, Shapes::ShapeRef.new(shape: DescriptorType, location: "querystring", location_name: "descriptorType"))
+    ListRegistryRecordsRequest.struct_class = Types::ListRegistryRecordsRequest
+
+    ListRegistryRecordsResponse.add_member(:registry_records, Shapes::ShapeRef.new(shape: RegistryRecordSummaryList, required: true, location_name: "registryRecords"))
+    ListRegistryRecordsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListRegistryRecordsResponse.struct_class = Types::ListRegistryRecordsResponse
+
     ListTagsForResourceRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: TaggableResourcesArn, required: true, location: "uri", location_name: "resourceArn"))
     ListTagsForResourceRequest.struct_class = Types::ListTagsForResourceRequest
 
@@ -2221,6 +2434,10 @@ module Aws::BedrockAgentCoreControl
     ManagedResourceDetails.struct_class = Types::ManagedResourceDetails
 
     MatchValueStringList.member = Shapes::ShapeRef.new(shape: MatchValueString)
+
+    McpDescriptor.add_member(:server, Shapes::ShapeRef.new(shape: ServerDefinition, location_name: "server"))
+    McpDescriptor.add_member(:tools, Shapes::ShapeRef.new(shape: ToolsDefinition, location_name: "tools"))
+    McpDescriptor.struct_class = Types::McpDescriptor
 
     McpLambdaTargetConfiguration.add_member(:lambda_arn, Shapes::ShapeRef.new(shape: LambdaFunctionArn, required: true, location_name: "lambdaArn"))
     McpLambdaTargetConfiguration.add_member(:tool_schema, Shapes::ShapeRef.new(shape: ToolSchema, required: true, location_name: "toolSchema"))
@@ -2593,6 +2810,58 @@ module Aws::BedrockAgentCoreControl
     ReflectionConfiguration.add_member_subclass(:unknown, Types::ReflectionConfiguration::Unknown)
     ReflectionConfiguration.struct_class = Types::ReflectionConfiguration
 
+    RegistryRecordCredentialProviderConfiguration.add_member(:credential_provider_type, Shapes::ShapeRef.new(shape: RegistryRecordCredentialProviderType, required: true, location_name: "credentialProviderType"))
+    RegistryRecordCredentialProviderConfiguration.add_member(:credential_provider, Shapes::ShapeRef.new(shape: RegistryRecordCredentialProviderUnion, required: true, location_name: "credentialProvider"))
+    RegistryRecordCredentialProviderConfiguration.struct_class = Types::RegistryRecordCredentialProviderConfiguration
+
+    RegistryRecordCredentialProviderConfigurationList.member = Shapes::ShapeRef.new(shape: RegistryRecordCredentialProviderConfiguration)
+
+    RegistryRecordCredentialProviderUnion.add_member(:oauth_credential_provider, Shapes::ShapeRef.new(shape: RegistryRecordOAuthCredentialProvider, location_name: "oauthCredentialProvider"))
+    RegistryRecordCredentialProviderUnion.add_member(:iam_credential_provider, Shapes::ShapeRef.new(shape: RegistryRecordIamCredentialProvider, location_name: "iamCredentialProvider"))
+    RegistryRecordCredentialProviderUnion.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    RegistryRecordCredentialProviderUnion.add_member_subclass(:oauth_credential_provider, Types::RegistryRecordCredentialProviderUnion::OauthCredentialProvider)
+    RegistryRecordCredentialProviderUnion.add_member_subclass(:iam_credential_provider, Types::RegistryRecordCredentialProviderUnion::IamCredentialProvider)
+    RegistryRecordCredentialProviderUnion.add_member_subclass(:unknown, Types::RegistryRecordCredentialProviderUnion::Unknown)
+    RegistryRecordCredentialProviderUnion.struct_class = Types::RegistryRecordCredentialProviderUnion
+
+    RegistryRecordIamCredentialProvider.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "roleArn"))
+    RegistryRecordIamCredentialProvider.add_member(:service, Shapes::ShapeRef.new(shape: IamSigningServiceName, location_name: "service"))
+    RegistryRecordIamCredentialProvider.add_member(:region, Shapes::ShapeRef.new(shape: IamSigningRegion, location_name: "region"))
+    RegistryRecordIamCredentialProvider.struct_class = Types::RegistryRecordIamCredentialProvider
+
+    RegistryRecordOAuthCredentialProvider.add_member(:provider_arn, Shapes::ShapeRef.new(shape: CredentialProviderArn, required: true, location_name: "providerArn"))
+    RegistryRecordOAuthCredentialProvider.add_member(:grant_type, Shapes::ShapeRef.new(shape: RegistryRecordOAuthGrantType, location_name: "grantType"))
+    RegistryRecordOAuthCredentialProvider.add_member(:scopes, Shapes::ShapeRef.new(shape: ScopeList, location_name: "scopes"))
+    RegistryRecordOAuthCredentialProvider.add_member(:custom_parameters, Shapes::ShapeRef.new(shape: CustomParameterMap, location_name: "customParameters"))
+    RegistryRecordOAuthCredentialProvider.struct_class = Types::RegistryRecordOAuthCredentialProvider
+
+    RegistryRecordSummary.add_member(:registry_arn, Shapes::ShapeRef.new(shape: RegistryArn, required: true, location_name: "registryArn"))
+    RegistryRecordSummary.add_member(:record_arn, Shapes::ShapeRef.new(shape: RegistryRecordArn, required: true, location_name: "recordArn"))
+    RegistryRecordSummary.add_member(:record_id, Shapes::ShapeRef.new(shape: RegistryRecordId, required: true, location_name: "recordId"))
+    RegistryRecordSummary.add_member(:name, Shapes::ShapeRef.new(shape: RegistryRecordName, required: true, location_name: "name"))
+    RegistryRecordSummary.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    RegistryRecordSummary.add_member(:descriptor_type, Shapes::ShapeRef.new(shape: DescriptorType, required: true, location_name: "descriptorType"))
+    RegistryRecordSummary.add_member(:record_version, Shapes::ShapeRef.new(shape: RegistryRecordVersion, required: true, location_name: "recordVersion"))
+    RegistryRecordSummary.add_member(:status, Shapes::ShapeRef.new(shape: RegistryRecordStatus, required: true, location_name: "status"))
+    RegistryRecordSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "createdAt"))
+    RegistryRecordSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "updatedAt"))
+    RegistryRecordSummary.struct_class = Types::RegistryRecordSummary
+
+    RegistryRecordSummaryList.member = Shapes::ShapeRef.new(shape: RegistryRecordSummary)
+
+    RegistrySummary.add_member(:name, Shapes::ShapeRef.new(shape: RegistryName, required: true, location_name: "name"))
+    RegistrySummary.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    RegistrySummary.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, required: true, location_name: "registryId"))
+    RegistrySummary.add_member(:registry_arn, Shapes::ShapeRef.new(shape: RegistryArn, required: true, location_name: "registryArn"))
+    RegistrySummary.add_member(:authorizer_type, Shapes::ShapeRef.new(shape: RegistryAuthorizerType, location_name: "authorizerType"))
+    RegistrySummary.add_member(:status, Shapes::ShapeRef.new(shape: RegistryStatus, required: true, location_name: "status"))
+    RegistrySummary.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    RegistrySummary.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "createdAt"))
+    RegistrySummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "updatedAt"))
+    RegistrySummary.struct_class = Types::RegistrySummary
+
+    RegistrySummaryList.member = Shapes::ShapeRef.new(shape: RegistrySummary)
+
     RequestHeaderAllowlist.member = Shapes::ShapeRef.new(shape: HeaderName)
 
     RequestHeaderConfiguration.add_member(:request_header_allowlist, Shapes::ShapeRef.new(shape: RequestHeaderAllowlist, location_name: "requestHeaderAllowlist"))
@@ -2665,6 +2934,8 @@ module Aws::BedrockAgentCoreControl
     SchemaProperties.key = Shapes::ShapeRef.new(shape: String)
     SchemaProperties.value = Shapes::ShapeRef.new(shape: SchemaDefinition)
 
+    ScopeList.member = Shapes::ShapeRef.new(shape: String)
+
     Secret.add_member(:secret_arn, Shapes::ShapeRef.new(shape: SecretArn, required: true, location_name: "secretArn"))
     Secret.struct_class = Types::Secret
 
@@ -2717,6 +2988,10 @@ module Aws::BedrockAgentCoreControl
     SemanticOverrideExtractionConfigurationInput.add_member(:model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "modelId"))
     SemanticOverrideExtractionConfigurationInput.struct_class = Types::SemanticOverrideExtractionConfigurationInput
 
+    ServerDefinition.add_member(:schema_version, Shapes::ShapeRef.new(shape: SchemaVersion, location_name: "schemaVersion"))
+    ServerDefinition.add_member(:inline_content, Shapes::ShapeRef.new(shape: InlineContent, location_name: "inlineContent"))
+    ServerDefinition.struct_class = Types::ServerDefinition
+
     ServiceException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
     ServiceException.struct_class = Types::ServiceException
 
@@ -2737,6 +3012,13 @@ module Aws::BedrockAgentCoreControl
     SetTokenVaultCMKResponse.add_member(:kms_configuration, Shapes::ShapeRef.new(shape: KmsConfiguration, required: true, location_name: "kmsConfiguration"))
     SetTokenVaultCMKResponse.add_member(:last_modified_date, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "lastModifiedDate"))
     SetTokenVaultCMKResponse.struct_class = Types::SetTokenVaultCMKResponse
+
+    SkillDefinition.add_member(:schema_version, Shapes::ShapeRef.new(shape: SchemaVersion, location_name: "schemaVersion"))
+    SkillDefinition.add_member(:inline_content, Shapes::ShapeRef.new(shape: InlineContent, location_name: "inlineContent"))
+    SkillDefinition.struct_class = Types::SkillDefinition
+
+    SkillMdDefinition.add_member(:inline_content, Shapes::ShapeRef.new(shape: InlineContent, location_name: "inlineContent"))
+    SkillMdDefinition.struct_class = Types::SkillMdDefinition
 
     SlackOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, required: true, location_name: "clientId"))
     SlackOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecretType, required: true, location_name: "clientSecret"))
@@ -2785,6 +3067,17 @@ module Aws::BedrockAgentCoreControl
 
     StreamDeliveryResourcesList.member = Shapes::ShapeRef.new(shape: StreamDeliveryResource)
 
+    SubmitRegistryRecordForApprovalRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryIdentifier, required: true, location: "uri", location_name: "registryId"))
+    SubmitRegistryRecordForApprovalRequest.add_member(:record_id, Shapes::ShapeRef.new(shape: RecordIdentifier, required: true, location: "uri", location_name: "recordId"))
+    SubmitRegistryRecordForApprovalRequest.struct_class = Types::SubmitRegistryRecordForApprovalRequest
+
+    SubmitRegistryRecordForApprovalResponse.add_member(:registry_arn, Shapes::ShapeRef.new(shape: RegistryArn, required: true, location_name: "registryArn"))
+    SubmitRegistryRecordForApprovalResponse.add_member(:record_arn, Shapes::ShapeRef.new(shape: RegistryRecordArn, required: true, location_name: "recordArn"))
+    SubmitRegistryRecordForApprovalResponse.add_member(:record_id, Shapes::ShapeRef.new(shape: RegistryRecordId, required: true, location_name: "recordId"))
+    SubmitRegistryRecordForApprovalResponse.add_member(:status, Shapes::ShapeRef.new(shape: RegistryRecordStatus, required: true, location_name: "status"))
+    SubmitRegistryRecordForApprovalResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "updatedAt"))
+    SubmitRegistryRecordForApprovalResponse.struct_class = Types::SubmitRegistryRecordForApprovalResponse
+
     SubnetIds.member = Shapes::ShapeRef.new(shape: SubnetId)
 
     Subnets.member = Shapes::ShapeRef.new(shape: SubnetId)
@@ -2805,6 +3098,9 @@ module Aws::BedrockAgentCoreControl
     SummaryOverrideConsolidationConfigurationInput.add_member(:append_to_prompt, Shapes::ShapeRef.new(shape: Prompt, required: true, location_name: "appendToPrompt"))
     SummaryOverrideConsolidationConfigurationInput.add_member(:model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "modelId"))
     SummaryOverrideConsolidationConfigurationInput.struct_class = Types::SummaryOverrideConsolidationConfigurationInput
+
+    SynchronizationConfiguration.add_member(:from_url, Shapes::ShapeRef.new(shape: FromUrlSynchronizationConfiguration, location_name: "fromUrl"))
+    SynchronizationConfiguration.struct_class = Types::SynchronizationConfiguration
 
     SynchronizeGatewayTargetsRequest.add_member(:gateway_identifier, Shapes::ShapeRef.new(shape: GatewayIdentifier, required: true, location: "uri", location_name: "gatewayIdentifier"))
     SynchronizeGatewayTargetsRequest.add_member(:target_id_list, Shapes::ShapeRef.new(shape: TargetIdList, required: true, location_name: "targetIdList"))
@@ -2877,6 +3173,10 @@ module Aws::BedrockAgentCoreControl
     ToolSchema.add_member_subclass(:inline_payload, Types::ToolSchema::InlinePayload)
     ToolSchema.add_member_subclass(:unknown, Types::ToolSchema::Unknown)
     ToolSchema.struct_class = Types::ToolSchema
+
+    ToolsDefinition.add_member(:protocol_version, Shapes::ShapeRef.new(shape: SchemaVersion, location_name: "protocolVersion"))
+    ToolsDefinition.add_member(:inline_content, Shapes::ShapeRef.new(shape: InlineContent, location_name: "inlineContent"))
+    ToolsDefinition.struct_class = Types::ToolsDefinition
 
     TriggerCondition.add_member(:message_based_trigger, Shapes::ShapeRef.new(shape: MessageBasedTrigger, location_name: "messageBasedTrigger"))
     TriggerCondition.add_member(:token_based_trigger, Shapes::ShapeRef.new(shape: TokenBasedTrigger, location_name: "tokenBasedTrigger"))
@@ -3116,6 +3416,68 @@ module Aws::BedrockAgentCoreControl
     UpdatePolicyResponse.add_member(:status_reasons, Shapes::ShapeRef.new(shape: PolicyStatusReasons, required: true, location_name: "statusReasons"))
     UpdatePolicyResponse.struct_class = Types::UpdatePolicyResponse
 
+    UpdateRegistryRecordRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryIdentifier, required: true, location: "uri", location_name: "registryId"))
+    UpdateRegistryRecordRequest.add_member(:record_id, Shapes::ShapeRef.new(shape: RecordIdentifier, required: true, location: "uri", location_name: "recordId"))
+    UpdateRegistryRecordRequest.add_member(:name, Shapes::ShapeRef.new(shape: RegistryRecordName, location_name: "name"))
+    UpdateRegistryRecordRequest.add_member(:description, Shapes::ShapeRef.new(shape: UpdatedDescription, location_name: "description"))
+    UpdateRegistryRecordRequest.add_member(:descriptor_type, Shapes::ShapeRef.new(shape: DescriptorType, location_name: "descriptorType"))
+    UpdateRegistryRecordRequest.add_member(:descriptors, Shapes::ShapeRef.new(shape: UpdatedDescriptors, location_name: "descriptors"))
+    UpdateRegistryRecordRequest.add_member(:record_version, Shapes::ShapeRef.new(shape: RegistryRecordVersion, location_name: "recordVersion"))
+    UpdateRegistryRecordRequest.add_member(:synchronization_type, Shapes::ShapeRef.new(shape: UpdatedSynchronizationType, location_name: "synchronizationType"))
+    UpdateRegistryRecordRequest.add_member(:synchronization_configuration, Shapes::ShapeRef.new(shape: UpdatedSynchronizationConfiguration, location_name: "synchronizationConfiguration"))
+    UpdateRegistryRecordRequest.add_member(:trigger_synchronization, Shapes::ShapeRef.new(shape: Boolean, location_name: "triggerSynchronization"))
+    UpdateRegistryRecordRequest.struct_class = Types::UpdateRegistryRecordRequest
+
+    UpdateRegistryRecordResponse.add_member(:registry_arn, Shapes::ShapeRef.new(shape: RegistryArn, required: true, location_name: "registryArn"))
+    UpdateRegistryRecordResponse.add_member(:record_arn, Shapes::ShapeRef.new(shape: RegistryRecordArn, required: true, location_name: "recordArn"))
+    UpdateRegistryRecordResponse.add_member(:record_id, Shapes::ShapeRef.new(shape: RegistryRecordId, required: true, location_name: "recordId"))
+    UpdateRegistryRecordResponse.add_member(:name, Shapes::ShapeRef.new(shape: RegistryRecordName, required: true, location_name: "name"))
+    UpdateRegistryRecordResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    UpdateRegistryRecordResponse.add_member(:descriptor_type, Shapes::ShapeRef.new(shape: DescriptorType, required: true, location_name: "descriptorType"))
+    UpdateRegistryRecordResponse.add_member(:descriptors, Shapes::ShapeRef.new(shape: Descriptors, required: true, location_name: "descriptors"))
+    UpdateRegistryRecordResponse.add_member(:record_version, Shapes::ShapeRef.new(shape: RegistryRecordVersion, location_name: "recordVersion"))
+    UpdateRegistryRecordResponse.add_member(:status, Shapes::ShapeRef.new(shape: RegistryRecordStatus, required: true, location_name: "status"))
+    UpdateRegistryRecordResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "createdAt"))
+    UpdateRegistryRecordResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "updatedAt"))
+    UpdateRegistryRecordResponse.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    UpdateRegistryRecordResponse.add_member(:synchronization_type, Shapes::ShapeRef.new(shape: SynchronizationType, location_name: "synchronizationType"))
+    UpdateRegistryRecordResponse.add_member(:synchronization_configuration, Shapes::ShapeRef.new(shape: SynchronizationConfiguration, location_name: "synchronizationConfiguration"))
+    UpdateRegistryRecordResponse.struct_class = Types::UpdateRegistryRecordResponse
+
+    UpdateRegistryRecordStatusRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryIdentifier, required: true, location: "uri", location_name: "registryId"))
+    UpdateRegistryRecordStatusRequest.add_member(:record_id, Shapes::ShapeRef.new(shape: RecordIdentifier, required: true, location: "uri", location_name: "recordId"))
+    UpdateRegistryRecordStatusRequest.add_member(:status, Shapes::ShapeRef.new(shape: RegistryRecordStatus, required: true, location_name: "status"))
+    UpdateRegistryRecordStatusRequest.add_member(:status_reason, Shapes::ShapeRef.new(shape: UpdateRegistryRecordStatusRequestStatusReasonString, required: true, location_name: "statusReason"))
+    UpdateRegistryRecordStatusRequest.struct_class = Types::UpdateRegistryRecordStatusRequest
+
+    UpdateRegistryRecordStatusResponse.add_member(:registry_arn, Shapes::ShapeRef.new(shape: RegistryArn, required: true, location_name: "registryArn"))
+    UpdateRegistryRecordStatusResponse.add_member(:record_arn, Shapes::ShapeRef.new(shape: RegistryRecordArn, required: true, location_name: "recordArn"))
+    UpdateRegistryRecordStatusResponse.add_member(:record_id, Shapes::ShapeRef.new(shape: RegistryRecordId, required: true, location_name: "recordId"))
+    UpdateRegistryRecordStatusResponse.add_member(:status, Shapes::ShapeRef.new(shape: RegistryRecordStatus, required: true, location_name: "status"))
+    UpdateRegistryRecordStatusResponse.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, required: true, location_name: "statusReason"))
+    UpdateRegistryRecordStatusResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "updatedAt"))
+    UpdateRegistryRecordStatusResponse.struct_class = Types::UpdateRegistryRecordStatusResponse
+
+    UpdateRegistryRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryIdentifier, required: true, location: "uri", location_name: "registryId"))
+    UpdateRegistryRequest.add_member(:name, Shapes::ShapeRef.new(shape: RegistryName, location_name: "name"))
+    UpdateRegistryRequest.add_member(:description, Shapes::ShapeRef.new(shape: UpdatedDescription, location_name: "description"))
+    UpdateRegistryRequest.add_member(:authorizer_configuration, Shapes::ShapeRef.new(shape: UpdatedAuthorizerConfiguration, location_name: "authorizerConfiguration"))
+    UpdateRegistryRequest.add_member(:approval_configuration, Shapes::ShapeRef.new(shape: UpdatedApprovalConfiguration, location_name: "approvalConfiguration"))
+    UpdateRegistryRequest.struct_class = Types::UpdateRegistryRequest
+
+    UpdateRegistryResponse.add_member(:name, Shapes::ShapeRef.new(shape: RegistryName, required: true, location_name: "name"))
+    UpdateRegistryResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    UpdateRegistryResponse.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, required: true, location_name: "registryId"))
+    UpdateRegistryResponse.add_member(:registry_arn, Shapes::ShapeRef.new(shape: RegistryArn, required: true, location_name: "registryArn"))
+    UpdateRegistryResponse.add_member(:authorizer_type, Shapes::ShapeRef.new(shape: RegistryAuthorizerType, location_name: "authorizerType"))
+    UpdateRegistryResponse.add_member(:authorizer_configuration, Shapes::ShapeRef.new(shape: AuthorizerConfiguration, location_name: "authorizerConfiguration"))
+    UpdateRegistryResponse.add_member(:approval_configuration, Shapes::ShapeRef.new(shape: ApprovalConfiguration, location_name: "approvalConfiguration"))
+    UpdateRegistryResponse.add_member(:status, Shapes::ShapeRef.new(shape: RegistryStatus, required: true, location_name: "status"))
+    UpdateRegistryResponse.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    UpdateRegistryResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "createdAt"))
+    UpdateRegistryResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "updatedAt"))
+    UpdateRegistryResponse.struct_class = Types::UpdateRegistryResponse
+
     UpdateWorkloadIdentityRequest.add_member(:name, Shapes::ShapeRef.new(shape: WorkloadIdentityNameType, required: true, location_name: "name"))
     UpdateWorkloadIdentityRequest.add_member(:allowed_resource_oauth_2_return_urls, Shapes::ShapeRef.new(shape: ResourceOauth2ReturnUrlListType, location_name: "allowedResourceOauth2ReturnUrls"))
     UpdateWorkloadIdentityRequest.struct_class = Types::UpdateWorkloadIdentityRequest
@@ -3127,8 +3489,61 @@ module Aws::BedrockAgentCoreControl
     UpdateWorkloadIdentityResponse.add_member(:last_updated_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "lastUpdatedTime"))
     UpdateWorkloadIdentityResponse.struct_class = Types::UpdateWorkloadIdentityResponse
 
+    UpdatedA2aDescriptor.add_member(:optional_value, Shapes::ShapeRef.new(shape: A2aDescriptor, location_name: "optionalValue"))
+    UpdatedA2aDescriptor.struct_class = Types::UpdatedA2aDescriptor
+
+    UpdatedAgentSkillsDescriptor.add_member(:optional_value, Shapes::ShapeRef.new(shape: UpdatedAgentSkillsDescriptorFields, location_name: "optionalValue"))
+    UpdatedAgentSkillsDescriptor.struct_class = Types::UpdatedAgentSkillsDescriptor
+
+    UpdatedAgentSkillsDescriptorFields.add_member(:skill_md, Shapes::ShapeRef.new(shape: UpdatedSkillMdDefinition, location_name: "skillMd"))
+    UpdatedAgentSkillsDescriptorFields.add_member(:skill_definition, Shapes::ShapeRef.new(shape: UpdatedSkillDefinition, location_name: "skillDefinition"))
+    UpdatedAgentSkillsDescriptorFields.struct_class = Types::UpdatedAgentSkillsDescriptorFields
+
+    UpdatedApprovalConfiguration.add_member(:optional_value, Shapes::ShapeRef.new(shape: ApprovalConfiguration, location_name: "optionalValue"))
+    UpdatedApprovalConfiguration.struct_class = Types::UpdatedApprovalConfiguration
+
+    UpdatedAuthorizerConfiguration.add_member(:optional_value, Shapes::ShapeRef.new(shape: AuthorizerConfiguration, location_name: "optionalValue"))
+    UpdatedAuthorizerConfiguration.struct_class = Types::UpdatedAuthorizerConfiguration
+
+    UpdatedCustomDescriptor.add_member(:optional_value, Shapes::ShapeRef.new(shape: CustomDescriptor, location_name: "optionalValue"))
+    UpdatedCustomDescriptor.struct_class = Types::UpdatedCustomDescriptor
+
     UpdatedDescription.add_member(:optional_value, Shapes::ShapeRef.new(shape: Description, location_name: "optionalValue"))
     UpdatedDescription.struct_class = Types::UpdatedDescription
+
+    UpdatedDescriptors.add_member(:optional_value, Shapes::ShapeRef.new(shape: UpdatedDescriptorsUnion, location_name: "optionalValue"))
+    UpdatedDescriptors.struct_class = Types::UpdatedDescriptors
+
+    UpdatedDescriptorsUnion.add_member(:mcp, Shapes::ShapeRef.new(shape: UpdatedMcpDescriptor, location_name: "mcp"))
+    UpdatedDescriptorsUnion.add_member(:a2a, Shapes::ShapeRef.new(shape: UpdatedA2aDescriptor, location_name: "a2a"))
+    UpdatedDescriptorsUnion.add_member(:custom, Shapes::ShapeRef.new(shape: UpdatedCustomDescriptor, location_name: "custom"))
+    UpdatedDescriptorsUnion.add_member(:agent_skills, Shapes::ShapeRef.new(shape: UpdatedAgentSkillsDescriptor, location_name: "agentSkills"))
+    UpdatedDescriptorsUnion.struct_class = Types::UpdatedDescriptorsUnion
+
+    UpdatedMcpDescriptor.add_member(:optional_value, Shapes::ShapeRef.new(shape: UpdatedMcpDescriptorFields, location_name: "optionalValue"))
+    UpdatedMcpDescriptor.struct_class = Types::UpdatedMcpDescriptor
+
+    UpdatedMcpDescriptorFields.add_member(:server, Shapes::ShapeRef.new(shape: UpdatedServerDefinition, location_name: "server"))
+    UpdatedMcpDescriptorFields.add_member(:tools, Shapes::ShapeRef.new(shape: UpdatedToolsDefinition, location_name: "tools"))
+    UpdatedMcpDescriptorFields.struct_class = Types::UpdatedMcpDescriptorFields
+
+    UpdatedServerDefinition.add_member(:optional_value, Shapes::ShapeRef.new(shape: ServerDefinition, location_name: "optionalValue"))
+    UpdatedServerDefinition.struct_class = Types::UpdatedServerDefinition
+
+    UpdatedSkillDefinition.add_member(:optional_value, Shapes::ShapeRef.new(shape: SkillDefinition, location_name: "optionalValue"))
+    UpdatedSkillDefinition.struct_class = Types::UpdatedSkillDefinition
+
+    UpdatedSkillMdDefinition.add_member(:optional_value, Shapes::ShapeRef.new(shape: SkillMdDefinition, location_name: "optionalValue"))
+    UpdatedSkillMdDefinition.struct_class = Types::UpdatedSkillMdDefinition
+
+    UpdatedSynchronizationConfiguration.add_member(:optional_value, Shapes::ShapeRef.new(shape: SynchronizationConfiguration, location_name: "optionalValue"))
+    UpdatedSynchronizationConfiguration.struct_class = Types::UpdatedSynchronizationConfiguration
+
+    UpdatedSynchronizationType.add_member(:optional_value, Shapes::ShapeRef.new(shape: SynchronizationType, location_name: "optionalValue"))
+    UpdatedSynchronizationType.struct_class = Types::UpdatedSynchronizationType
+
+    UpdatedToolsDefinition.add_member(:optional_value, Shapes::ShapeRef.new(shape: ToolsDefinition, location_name: "optionalValue"))
+    UpdatedToolsDefinition.struct_class = Types::UpdatedToolsDefinition
 
     UserPreferenceConsolidationOverride.add_member(:append_to_prompt, Shapes::ShapeRef.new(shape: Prompt, required: true, location_name: "appendToPrompt"))
     UserPreferenceConsolidationOverride.add_member(:model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "modelId"))
@@ -3409,6 +3824,35 @@ module Aws::BedrockAgentCoreControl
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
+      api.add_operation(:create_registry, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateRegistry"
+        o.http_method = "POST"
+        o.http_request_uri = "/registries"
+        o.input = Shapes::ShapeRef.new(shape: CreateRegistryRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateRegistryResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:create_registry_record, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateRegistryRecord"
+        o.http_method = "POST"
+        o.http_request_uri = "/registries/{registryId}/records"
+        o.input = Shapes::ShapeRef.new(shape: CreateRegistryRecordRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateRegistryRecordResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:create_workload_identity, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateWorkloadIdentity"
         o.http_method = "POST"
@@ -3614,6 +4058,34 @@ module Aws::BedrockAgentCoreControl
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:delete_registry, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteRegistry"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/registries/{registryId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteRegistryRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteRegistryResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:delete_registry_record, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteRegistryRecord"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/registries/{registryId}/records/{recordId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteRegistryRecordRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteRegistryRecordResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
@@ -3842,6 +4314,33 @@ module Aws::BedrockAgentCoreControl
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:get_registry, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetRegistry"
+        o.http_method = "GET"
+        o.http_request_uri = "/registries/{registryId}"
+        o.input = Shapes::ShapeRef.new(shape: GetRegistryRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetRegistryResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:get_registry_record, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetRegistryRecord"
+        o.http_method = "GET"
+        o.http_request_uri = "/registries/{registryId}/records/{recordId}"
+        o.input = Shapes::ShapeRef.new(shape: GetRegistryRecordRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetRegistryRecordResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
@@ -4201,6 +4700,44 @@ module Aws::BedrockAgentCoreControl
         )
       end)
 
+      api.add_operation(:list_registries, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListRegistries"
+        o.http_method = "GET"
+        o.http_request_uri = "/registries"
+        o.input = Shapes::ShapeRef.new(shape: ListRegistriesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListRegistriesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_registry_records, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListRegistryRecords"
+        o.http_method = "GET"
+        o.http_request_uri = "/registries/{registryId}/records"
+        o.input = Shapes::ShapeRef.new(shape: ListRegistryRecordsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListRegistryRecordsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_tags_for_resource, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListTagsForResource"
         o.http_method = "GET"
@@ -4269,6 +4806,20 @@ module Aws::BedrockAgentCoreControl
         o.input = Shapes::ShapeRef.new(shape: StartPolicyGenerationRequest)
         o.output = Shapes::ShapeRef.new(shape: StartPolicyGenerationResponse)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:submit_registry_record_for_approval, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "SubmitRegistryRecordForApproval"
+        o.http_method = "POST"
+        o.http_request_uri = "/registries/{registryId}/records/{recordId}/submit-for-approval"
+        o.input = Shapes::ShapeRef.new(shape: SubmitRegistryRecordForApprovalRequest)
+        o.output = Shapes::ShapeRef.new(shape: SubmitRegistryRecordForApprovalResponse)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
@@ -4485,6 +5036,49 @@ module Aws::BedrockAgentCoreControl
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:update_registry, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateRegistry"
+        o.http_method = "PATCH"
+        o.http_request_uri = "/registries/{registryId}"
+        o.input = Shapes::ShapeRef.new(shape: UpdateRegistryRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateRegistryResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:update_registry_record, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateRegistryRecord"
+        o.http_method = "PATCH"
+        o.http_request_uri = "/registries/{registryId}/records/{recordId}"
+        o.input = Shapes::ShapeRef.new(shape: UpdateRegistryRecordRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateRegistryRecordResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:update_registry_record_status, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateRegistryRecordStatus"
+        o.http_method = "PATCH"
+        o.http_request_uri = "/registries/{registryId}/records/{recordId}/status"
+        o.input = Shapes::ShapeRef.new(shape: UpdateRegistryRecordStatusRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateRegistryRecordStatusResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 

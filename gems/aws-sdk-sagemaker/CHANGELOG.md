@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.358.0 (2026-04-09)
+------------------
+
+* Feature - Release support for g7e instance types for SageMaker HyperPod
+
 1.357.0 (2026-03-30)
 ------------------
 

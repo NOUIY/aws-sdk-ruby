@@ -14,12 +14,15 @@ module Aws::BedrockAgentCore
 
     include Seahorse::Model
 
+    A2aDescriptor = Shapes::StructureShape.new(name: 'A2aDescriptor')
     AccessDeniedException = Shapes::StructureShape.new(name: 'AccessDeniedException')
     AccessTokenType = Shapes::StringShape.new(name: 'AccessTokenType')
     ActorId = Shapes::StringShape.new(name: 'ActorId')
     ActorSummary = Shapes::StructureShape.new(name: 'ActorSummary')
     ActorSummaryList = Shapes::ListShape.new(name: 'ActorSummaryList')
     AgentCard = Shapes::DocumentShape.new(name: 'AgentCard', document: true)
+    AgentCardDefinition = Shapes::StructureShape.new(name: 'AgentCardDefinition')
+    AgentSkillsDescriptor = Shapes::StructureShape.new(name: 'AgentSkillsDescriptor')
     ApiKeyType = Shapes::StringShape.new(name: 'ApiKeyType')
     AuthorizationUrlType = Shapes::StringShape.new(name: 'AuthorizationUrlType')
     AutomationStream = Shapes::StructureShape.new(name: 'AutomationStream')
@@ -83,6 +86,7 @@ module Aws::BedrockAgentCore
     CreateEventInput = Shapes::StructureShape.new(name: 'CreateEventInput')
     CreateEventOutput = Shapes::StructureShape.new(name: 'CreateEventOutput')
     CredentialProviderName = Shapes::StringShape.new(name: 'CredentialProviderName')
+    CustomDescriptor = Shapes::StructureShape.new(name: 'CustomDescriptor')
     CustomRequestKeyType = Shapes::StringShape.new(name: 'CustomRequestKeyType')
     CustomRequestParametersType = Shapes::MapShape.new(name: 'CustomRequestParametersType')
     CustomRequestValueType = Shapes::StringShape.new(name: 'CustomRequestValueType')
@@ -91,6 +95,9 @@ module Aws::BedrockAgentCore
     DeleteEventOutput = Shapes::StructureShape.new(name: 'DeleteEventOutput')
     DeleteMemoryRecordInput = Shapes::StructureShape.new(name: 'DeleteMemoryRecordInput')
     DeleteMemoryRecordOutput = Shapes::StructureShape.new(name: 'DeleteMemoryRecordOutput')
+    Description = Shapes::StringShape.new(name: 'Description')
+    DescriptorType = Shapes::StringShape.new(name: 'DescriptorType')
+    Descriptors = Shapes::StructureShape.new(name: 'Descriptors')
     Document = Shapes::DocumentShape.new(name: 'Document', document: true)
     DomainPattern = Shapes::StringShape.new(name: 'DomainPattern')
     DomainPatterns = Shapes::ListShape.new(name: 'DomainPatterns')
@@ -155,6 +162,7 @@ module Aws::BedrockAgentCore
     HttpResponseCode = Shapes::IntegerShape.new(name: 'HttpResponseCode')
     IgnoredReferenceInputField = Shapes::StringShape.new(name: 'IgnoredReferenceInputField')
     IgnoredReferenceInputFields = Shapes::ListShape.new(name: 'IgnoredReferenceInputFields')
+    InlineContent = Shapes::StringShape.new(name: 'InlineContent')
     InputContentBlock = Shapes::StructureShape.new(name: 'InputContentBlock')
     InputContentBlockList = Shapes::ListShape.new(name: 'InputContentBlockList')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
@@ -213,6 +221,7 @@ module Aws::BedrockAgentCore
     Long = Shapes::IntegerShape.new(name: 'Long')
     MaxLenString = Shapes::StringShape.new(name: 'MaxLenString')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
+    McpDescriptor = Shapes::StructureShape.new(name: 'McpDescriptor')
     MemoryContent = Shapes::UnionShape.new(name: 'MemoryContent')
     MemoryContentTextString = Shapes::StringShape.new(name: 'MemoryContentTextString')
     MemoryId = Shapes::StringShape.new(name: 'MemoryId')
@@ -234,6 +243,7 @@ module Aws::BedrockAgentCore
     MemoryStrategyId = Shapes::StringShape.new(name: 'MemoryStrategyId')
     MessageMetadata = Shapes::StructureShape.new(name: 'MessageMetadata')
     MessagesList = Shapes::ListShape.new(name: 'MessagesList')
+    MetadataFilterExpression = Shapes::DocumentShape.new(name: 'MetadataFilterExpression', document: true)
     MetadataKey = Shapes::StringShape.new(name: 'MetadataKey')
     MetadataMap = Shapes::MapShape.new(name: 'MetadataMap')
     MetadataValue = Shapes::UnionShape.new(name: 'MetadataValue')
@@ -267,6 +277,15 @@ module Aws::BedrockAgentCore
     ProxyConfiguration = Shapes::StructureShape.new(name: 'ProxyConfiguration')
     ProxyConfigurationProxiesList = Shapes::ListShape.new(name: 'ProxyConfigurationProxiesList')
     ProxyCredentials = Shapes::UnionShape.new(name: 'ProxyCredentials')
+    RegistryArn = Shapes::StringShape.new(name: 'RegistryArn')
+    RegistryIdentifier = Shapes::StringShape.new(name: 'RegistryIdentifier')
+    RegistryRecordArn = Shapes::StringShape.new(name: 'RegistryRecordArn')
+    RegistryRecordId = Shapes::StringShape.new(name: 'RegistryRecordId')
+    RegistryRecordName = Shapes::StringShape.new(name: 'RegistryRecordName')
+    RegistryRecordStatus = Shapes::StringShape.new(name: 'RegistryRecordStatus')
+    RegistryRecordSummary = Shapes::StructureShape.new(name: 'RegistryRecordSummary')
+    RegistryRecordSummaryList = Shapes::ListShape.new(name: 'RegistryRecordSummaryList')
+    RegistryRecordVersion = Shapes::StringShape.new(name: 'RegistryRecordVersion')
     RequestIdentifier = Shapes::StringShape.new(name: 'RequestIdentifier')
     RequestUri = Shapes::StringShape.new(name: 'RequestUri')
     ResourceContent = Shapes::StructureShape.new(name: 'ResourceContent')
@@ -290,6 +309,7 @@ module Aws::BedrockAgentCore
     SaveBrowserSessionProfileRequestTraceIdString = Shapes::StringShape.new(name: 'SaveBrowserSessionProfileRequestTraceIdString')
     SaveBrowserSessionProfileRequestTraceParentString = Shapes::StringShape.new(name: 'SaveBrowserSessionProfileRequestTraceParentString')
     SaveBrowserSessionProfileResponse = Shapes::StructureShape.new(name: 'SaveBrowserSessionProfileResponse')
+    SchemaVersion = Shapes::StringShape.new(name: 'SchemaVersion')
     ScopeType = Shapes::StringShape.new(name: 'ScopeType')
     ScopesListType = Shapes::ListShape.new(name: 'ScopesListType')
     ScreenshotArguments = Shapes::StructureShape.new(name: 'ScreenshotArguments')
@@ -298,8 +318,14 @@ module Aws::BedrockAgentCore
     SearchCriteria = Shapes::StructureShape.new(name: 'SearchCriteria')
     SearchCriteriaSearchQueryString = Shapes::StringShape.new(name: 'SearchCriteriaSearchQueryString')
     SearchCriteriaTopKInteger = Shapes::IntegerShape.new(name: 'SearchCriteriaTopKInteger')
+    SearchRegistryRecordsRequest = Shapes::StructureShape.new(name: 'SearchRegistryRecordsRequest')
+    SearchRegistryRecordsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'SearchRegistryRecordsRequestMaxResultsInteger')
+    SearchRegistryRecordsRequestRegistryIdsList = Shapes::ListShape.new(name: 'SearchRegistryRecordsRequestRegistryIdsList')
+    SearchRegistryRecordsRequestSearchQueryString = Shapes::StringShape.new(name: 'SearchRegistryRecordsRequestSearchQueryString')
+    SearchRegistryRecordsResponse = Shapes::StructureShape.new(name: 'SearchRegistryRecordsResponse')
     SecretArn = Shapes::StringShape.new(name: 'SecretArn')
     SecretsManagerLocation = Shapes::StructureShape.new(name: 'SecretsManagerLocation')
+    ServerDefinition = Shapes::StructureShape.new(name: 'ServerDefinition')
     ServiceException = Shapes::StructureShape.new(name: 'ServiceException')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     SessionFilter = Shapes::StructureShape.new(name: 'SessionFilter')
@@ -308,6 +334,8 @@ module Aws::BedrockAgentCore
     SessionSummary = Shapes::StructureShape.new(name: 'SessionSummary')
     SessionSummaryList = Shapes::ListShape.new(name: 'SessionSummaryList')
     SessionType = Shapes::StringShape.new(name: 'SessionType')
+    SkillDefinition = Shapes::StructureShape.new(name: 'SkillDefinition')
+    SkillMdDefinition = Shapes::StructureShape.new(name: 'SkillMdDefinition')
     Span = Shapes::DocumentShape.new(name: 'Span', document: true)
     SpanContext = Shapes::StructureShape.new(name: 'SpanContext')
     SpanId = Shapes::StringShape.new(name: 'SpanId')
@@ -346,6 +374,7 @@ module Aws::BedrockAgentCore
     ToolArguments = Shapes::StructureShape.new(name: 'ToolArguments')
     ToolName = Shapes::StringShape.new(name: 'ToolName')
     ToolResultStructuredContent = Shapes::StructureShape.new(name: 'ToolResultStructuredContent')
+    ToolsDefinition = Shapes::StructureShape.new(name: 'ToolsDefinition')
     TraceId = Shapes::StringShape.new(name: 'TraceId')
     TraceIds = Shapes::ListShape.new(name: 'TraceIds')
     UnauthorizedException = Shapes::StructureShape.new(name: 'UnauthorizedException')
@@ -364,6 +393,9 @@ module Aws::BedrockAgentCore
     WorkloadIdentityNameType = Shapes::StringShape.new(name: 'WorkloadIdentityNameType')
     WorkloadIdentityTokenType = Shapes::StringShape.new(name: 'WorkloadIdentityTokenType')
 
+    A2aDescriptor.add_member(:agent_card, Shapes::ShapeRef.new(shape: AgentCardDefinition, required: true, location_name: "agentCard"))
+    A2aDescriptor.struct_class = Types::A2aDescriptor
+
     AccessDeniedException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     AccessDeniedException.struct_class = Types::AccessDeniedException
 
@@ -371,6 +403,14 @@ module Aws::BedrockAgentCore
     ActorSummary.struct_class = Types::ActorSummary
 
     ActorSummaryList.member = Shapes::ShapeRef.new(shape: ActorSummary)
+
+    AgentCardDefinition.add_member(:schema_version, Shapes::ShapeRef.new(shape: SchemaVersion, location_name: "schemaVersion"))
+    AgentCardDefinition.add_member(:inline_content, Shapes::ShapeRef.new(shape: InlineContent, location_name: "inlineContent"))
+    AgentCardDefinition.struct_class = Types::AgentCardDefinition
+
+    AgentSkillsDescriptor.add_member(:skill_md, Shapes::ShapeRef.new(shape: SkillMdDefinition, required: true, location_name: "skillMd"))
+    AgentSkillsDescriptor.add_member(:skill_definition, Shapes::ShapeRef.new(shape: SkillDefinition, location_name: "skillDefinition"))
+    AgentSkillsDescriptor.struct_class = Types::AgentSkillsDescriptor
 
     AutomationStream.add_member(:stream_endpoint, Shapes::ShapeRef.new(shape: BrowserStreamEndpoint, required: true, location_name: "streamEndpoint"))
     AutomationStream.add_member(:stream_status, Shapes::ShapeRef.new(shape: AutomationStreamStatus, required: true, location_name: "streamStatus"))
@@ -580,6 +620,9 @@ module Aws::BedrockAgentCore
     CreateEventOutput.add_member(:event, Shapes::ShapeRef.new(shape: Event, required: true, location_name: "event"))
     CreateEventOutput.struct_class = Types::CreateEventOutput
 
+    CustomDescriptor.add_member(:inline_content, Shapes::ShapeRef.new(shape: InlineContent, location_name: "inlineContent"))
+    CustomDescriptor.struct_class = Types::CustomDescriptor
+
     CustomRequestParametersType.key = Shapes::ShapeRef.new(shape: CustomRequestKeyType)
     CustomRequestParametersType.value = Shapes::ShapeRef.new(shape: CustomRequestValueType)
 
@@ -598,6 +641,12 @@ module Aws::BedrockAgentCore
 
     DeleteMemoryRecordOutput.add_member(:memory_record_id, Shapes::ShapeRef.new(shape: MemoryRecordId, required: true, location_name: "memoryRecordId"))
     DeleteMemoryRecordOutput.struct_class = Types::DeleteMemoryRecordOutput
+
+    Descriptors.add_member(:mcp, Shapes::ShapeRef.new(shape: McpDescriptor, location_name: "mcp"))
+    Descriptors.add_member(:a2a, Shapes::ShapeRef.new(shape: A2aDescriptor, location_name: "a2a"))
+    Descriptors.add_member(:custom, Shapes::ShapeRef.new(shape: CustomDescriptor, location_name: "custom"))
+    Descriptors.add_member(:agent_skills, Shapes::ShapeRef.new(shape: AgentSkillsDescriptor, location_name: "agentSkills"))
+    Descriptors.struct_class = Types::Descriptors
 
     DomainPatterns.member = Shapes::ShapeRef.new(shape: DomainPattern)
 
@@ -1042,6 +1091,10 @@ module Aws::BedrockAgentCore
     LiveViewStream.add_member(:stream_endpoint, Shapes::ShapeRef.new(shape: BrowserStreamEndpoint, location_name: "streamEndpoint"))
     LiveViewStream.struct_class = Types::LiveViewStream
 
+    McpDescriptor.add_member(:server, Shapes::ShapeRef.new(shape: ServerDefinition, required: true, location_name: "server"))
+    McpDescriptor.add_member(:tools, Shapes::ShapeRef.new(shape: ToolsDefinition, required: true, location_name: "tools"))
+    McpDescriptor.struct_class = Types::McpDescriptor
+
     MemoryContent.add_member(:text, Shapes::ShapeRef.new(shape: MemoryContentTextString, location_name: "text"))
     MemoryContent.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     MemoryContent.add_member_subclass(:text, Types::MemoryContent::Text)
@@ -1193,6 +1246,21 @@ module Aws::BedrockAgentCore
     ProxyCredentials.add_member_subclass(:unknown, Types::ProxyCredentials::Unknown)
     ProxyCredentials.struct_class = Types::ProxyCredentials
 
+    RegistryRecordSummary.add_member(:registry_arn, Shapes::ShapeRef.new(shape: RegistryArn, required: true, location_name: "registryArn"))
+    RegistryRecordSummary.add_member(:record_arn, Shapes::ShapeRef.new(shape: RegistryRecordArn, required: true, location_name: "recordArn"))
+    RegistryRecordSummary.add_member(:record_id, Shapes::ShapeRef.new(shape: RegistryRecordId, required: true, location_name: "recordId"))
+    RegistryRecordSummary.add_member(:name, Shapes::ShapeRef.new(shape: RegistryRecordName, required: true, location_name: "name"))
+    RegistryRecordSummary.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    RegistryRecordSummary.add_member(:descriptor_type, Shapes::ShapeRef.new(shape: DescriptorType, required: true, location_name: "descriptorType"))
+    RegistryRecordSummary.add_member(:descriptors, Shapes::ShapeRef.new(shape: Descriptors, required: true, location_name: "descriptors"))
+    RegistryRecordSummary.add_member(:version, Shapes::ShapeRef.new(shape: RegistryRecordVersion, required: true, location_name: "version"))
+    RegistryRecordSummary.add_member(:status, Shapes::ShapeRef.new(shape: RegistryRecordStatus, required: true, location_name: "status"))
+    RegistryRecordSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "createdAt"))
+    RegistryRecordSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "updatedAt"))
+    RegistryRecordSummary.struct_class = Types::RegistryRecordSummary
+
+    RegistryRecordSummaryList.member = Shapes::ShapeRef.new(shape: RegistryRecordSummary)
+
     ResourceContent.add_member(:type, Shapes::ShapeRef.new(shape: ResourceContentType, required: true, location_name: "type"))
     ResourceContent.add_member(:uri, Shapes::ShapeRef.new(shape: String, location_name: "uri"))
     ResourceContent.add_member(:mime_type, Shapes::ShapeRef.new(shape: String, location_name: "mimeType"))
@@ -1272,8 +1340,23 @@ module Aws::BedrockAgentCore
     SearchCriteria.add_member(:metadata_filters, Shapes::ShapeRef.new(shape: MemoryMetadataFilterList, location_name: "metadataFilters"))
     SearchCriteria.struct_class = Types::SearchCriteria
 
+    SearchRegistryRecordsRequest.add_member(:search_query, Shapes::ShapeRef.new(shape: SearchRegistryRecordsRequestSearchQueryString, required: true, location_name: "searchQuery"))
+    SearchRegistryRecordsRequest.add_member(:registry_ids, Shapes::ShapeRef.new(shape: SearchRegistryRecordsRequestRegistryIdsList, required: true, location_name: "registryIds"))
+    SearchRegistryRecordsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: SearchRegistryRecordsRequestMaxResultsInteger, location_name: "maxResults"))
+    SearchRegistryRecordsRequest.add_member(:filters, Shapes::ShapeRef.new(shape: MetadataFilterExpression, location_name: "filters"))
+    SearchRegistryRecordsRequest.struct_class = Types::SearchRegistryRecordsRequest
+
+    SearchRegistryRecordsRequestRegistryIdsList.member = Shapes::ShapeRef.new(shape: RegistryIdentifier)
+
+    SearchRegistryRecordsResponse.add_member(:registry_records, Shapes::ShapeRef.new(shape: RegistryRecordSummaryList, required: true, location_name: "registryRecords"))
+    SearchRegistryRecordsResponse.struct_class = Types::SearchRegistryRecordsResponse
+
     SecretsManagerLocation.add_member(:secret_arn, Shapes::ShapeRef.new(shape: SecretArn, required: true, location_name: "secretArn"))
     SecretsManagerLocation.struct_class = Types::SecretsManagerLocation
+
+    ServerDefinition.add_member(:schema_version, Shapes::ShapeRef.new(shape: SchemaVersion, location_name: "schemaVersion"))
+    ServerDefinition.add_member(:inline_content, Shapes::ShapeRef.new(shape: InlineContent, location_name: "inlineContent"))
+    ServerDefinition.struct_class = Types::ServerDefinition
 
     ServiceException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ServiceException.struct_class = Types::ServiceException
@@ -1290,6 +1373,13 @@ module Aws::BedrockAgentCore
     SessionSummary.struct_class = Types::SessionSummary
 
     SessionSummaryList.member = Shapes::ShapeRef.new(shape: SessionSummary)
+
+    SkillDefinition.add_member(:schema_version, Shapes::ShapeRef.new(shape: SchemaVersion, location_name: "schemaVersion"))
+    SkillDefinition.add_member(:inline_content, Shapes::ShapeRef.new(shape: InlineContent, location_name: "inlineContent"))
+    SkillDefinition.struct_class = Types::SkillDefinition
+
+    SkillMdDefinition.add_member(:inline_content, Shapes::ShapeRef.new(shape: InlineContent, location_name: "inlineContent"))
+    SkillMdDefinition.struct_class = Types::SkillMdDefinition
 
     SpanContext.add_member(:session_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "sessionId"))
     SpanContext.add_member(:trace_id, Shapes::ShapeRef.new(shape: String, location_name: "traceId"))
@@ -1414,6 +1504,10 @@ module Aws::BedrockAgentCore
     ToolResultStructuredContent.add_member(:exit_code, Shapes::ShapeRef.new(shape: Integer, location_name: "exitCode"))
     ToolResultStructuredContent.add_member(:execution_time, Shapes::ShapeRef.new(shape: Double, location_name: "executionTime"))
     ToolResultStructuredContent.struct_class = Types::ToolResultStructuredContent
+
+    ToolsDefinition.add_member(:protocol_version, Shapes::ShapeRef.new(shape: SchemaVersion, location_name: "protocolVersion"))
+    ToolsDefinition.add_member(:inline_content, Shapes::ShapeRef.new(shape: InlineContent, location_name: "inlineContent"))
+    ToolsDefinition.struct_class = Types::ToolsDefinition
 
     TraceIds.member = Shapes::ShapeRef.new(shape: TraceId)
 
@@ -1952,6 +2046,20 @@ module Aws::BedrockAgentCore
         o.output = Shapes::ShapeRef.new(shape: SaveBrowserSessionProfileResponse)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:search_registry_records, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "SearchRegistryRecords"
+        o.http_method = "POST"
+        o.http_request_uri = "/registry-records/search"
+        o.input = Shapes::ShapeRef.new(shape: SearchRegistryRecordsRequest)
+        o.output = Shapes::ShapeRef.new(shape: SearchRegistryRecordsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)

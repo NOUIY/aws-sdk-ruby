@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.27.0 (2026-04-09)
+------------------
+
+* Feature - Introducing support for SearchRegistryRecords API on AgentCoreRegistry
+
 1.26.0 (2026-04-07)
 ------------------
 

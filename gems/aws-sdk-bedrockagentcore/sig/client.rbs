@@ -720,6 +720,20 @@ module Aws
                                         ) -> _SaveBrowserSessionProfileResponseSuccess
                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SaveBrowserSessionProfileResponseSuccess
 
+      interface _SearchRegistryRecordsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::SearchRegistryRecordsResponse]
+        def registry_records: () -> ::Array[Types::RegistryRecordSummary]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#search_registry_records-instance_method
+      def search_registry_records: (
+                                     search_query: ::String,
+                                     registry_ids: Array[::String],
+                                     ?max_results: ::Integer,
+                                     ?filters: {
+                                     }
+                                   ) -> _SearchRegistryRecordsResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchRegistryRecordsResponseSuccess
+
       interface _StartBrowserSessionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StartBrowserSessionResponse]
         def browser_identifier: () -> ::String

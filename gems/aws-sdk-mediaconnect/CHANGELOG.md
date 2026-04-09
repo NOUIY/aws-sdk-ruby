@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.98.0 (2026-04-09)
+------------------
+
+* Feature - Adds support for MediaLive Channel-type Router Inputs.
+
 1.97.0 (2026-03-18)
 ------------------
 

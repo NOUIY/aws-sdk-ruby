@@ -10,6 +10,22 @@
 module Aws::BedrockAgentCore
   module Types
 
+    # The A2A (Agent-to-Agent) descriptor configuration for a registry
+    # record.
+    #
+    # @!attribute [rw] agent_card
+    #   The agent card definition that describes the agent's capabilities
+    #   and interface.
+    #   @return [Types::AgentCardDefinition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/A2aDescriptor AWS API Documentation
+    #
+    class A2aDescriptor < Struct.new(
+      :agent_card)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The exception that occurs when you do not have sufficient permissions
     # to perform an action. Verify that your IAM policy includes the
     # necessary permissions for the operation you are trying to perform.
@@ -37,6 +53,45 @@ module Aws::BedrockAgentCore
     #
     class ActorSummary < Struct.new(
       :actor_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The agent card definition for A2A descriptors, including the schema
+    # version and inline content that describes the agent's capabilities.
+    #
+    # @!attribute [rw] schema_version
+    #   The schema version of the agent card definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] inline_content
+    #   The inline content of the agent card definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/AgentCardDefinition AWS API Documentation
+    #
+    class AgentCardDefinition < Struct.new(
+      :schema_version,
+      :inline_content)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The agent skills descriptor configuration for a registry record.
+    #
+    # @!attribute [rw] skill_md
+    #   The skill description in markdown format.
+    #   @return [Types::SkillMdDefinition]
+    #
+    # @!attribute [rw] skill_definition
+    #   The structured skill definition with a schema version and content.
+    #   @return [Types::SkillDefinition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/AgentSkillsDescriptor AWS API Documentation
+    #
+    class AgentSkillsDescriptor < Struct.new(
+      :skill_md,
+      :skill_definition)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -947,6 +1002,20 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # A custom descriptor configuration for a registry record.
+    #
+    # @!attribute [rw] inline_content
+    #   The inline content of the custom descriptor.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CustomDescriptor AWS API Documentation
+    #
+    class CustomDescriptor < Struct.new(
+      :inline_content)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] memory_id
     #   The identifier of the AgentCore Memory resource from which to delete
     #   the event.
@@ -1013,6 +1082,40 @@ module Aws::BedrockAgentCore
     #
     class DeleteMemoryRecordOutput < Struct.new(
       :memory_record_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the descriptor configuration for a registry record. Only the
+    # field that matches the record's `descriptorType` is populated.
+    #
+    # @!attribute [rw] mcp
+    #   The MCP (Model Context Protocol) descriptor configuration. Populated
+    #   when the record's `descriptorType` is `MCP`.
+    #   @return [Types::McpDescriptor]
+    #
+    # @!attribute [rw] a2a
+    #   The A2A (Agent-to-Agent) descriptor configuration. Populated when
+    #   the record's `descriptorType` is `A2A`.
+    #   @return [Types::A2aDescriptor]
+    #
+    # @!attribute [rw] custom
+    #   The custom descriptor configuration. Populated when the record's
+    #   `descriptorType` is `CUSTOM`.
+    #   @return [Types::CustomDescriptor]
+    #
+    # @!attribute [rw] agent_skills
+    #   The agent skills descriptor configuration. Populated when the
+    #   record's `descriptorType` is `AGENT_SKILLS`.
+    #   @return [Types::AgentSkillsDescriptor]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/Descriptors AWS API Documentation
+    #
+    class Descriptors < Struct.new(
+      :mcp,
+      :a2a,
+      :custom,
+      :agent_skills)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3092,6 +3195,26 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # The MCP (Model Context Protocol) descriptor configuration for a
+    # registry record. Contains the server definition and tools definition.
+    #
+    # @!attribute [rw] server
+    #   The MCP server definition that describes the server configuration.
+    #   @return [Types::ServerDefinition]
+    #
+    # @!attribute [rw] tools
+    #   The MCP tools definition that describes the available tools.
+    #   @return [Types::ToolsDefinition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/McpDescriptor AWS API Documentation
+    #
+    class McpDescriptor < Struct.new(
+      :server,
+      :tools)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains the content of a memory record.
     #
     # @note MemoryContent is a union - when making an API calls you must set exactly one of the members.
@@ -3707,6 +3830,71 @@ module Aws::BedrockAgentCore
       class Unknown < ProxyCredentials; end
     end
 
+    # Summary information about a registry record.
+    #
+    # @!attribute [rw] registry_arn
+    #   The Amazon Resource Name (ARN) of the registry that this record
+    #   belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_arn
+    #   The Amazon Resource Name (ARN) of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_id
+    #   The unique identifier of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] descriptor_type
+    #   The type of descriptor associated with this registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] descriptors
+    #   The descriptor configurations for this registry record.
+    #   @return [Types::Descriptors]
+    #
+    # @!attribute [rw] version
+    #   The version of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the registry record.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time when the registry record was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time when the registry record was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/RegistryRecordSummary AWS API Documentation
+    #
+    class RegistryRecordSummary < Struct.new(
+      :registry_arn,
+      :record_arn,
+      :record_id,
+      :name,
+      :description,
+      :descriptor_type,
+      :descriptors,
+      :version,
+      :status,
+      :created_at,
+      :updated_at)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
     # Contains information about resource content.
     #
     # @!attribute [rw] type
@@ -4098,6 +4286,56 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # @!attribute [rw] search_query
+    #   The search query to find matching registry records.
+    #   @return [String]
+    #
+    # @!attribute [rw] registry_ids
+    #   The list of registry identifiers to search within. Currently, you
+    #   can specify exactly one registry identifier. You can provide either
+    #   the full Amazon Web Services Resource Name (ARN) or the 12-character
+    #   alphanumeric registry ID.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of records to return in a single call. Valid
+    #   values are 1 through 20. The default value is 10.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] filters
+    #   A metadata filter expression to narrow search results. Uses
+    #   structured JSON operators including field-level operators (`$eq`,
+    #   `$ne`, `$in`) and logical operators (`$and`, `$or`) on filterable
+    #   fields (`name`, `descriptorType`, `version`). For example, to filter
+    #   by descriptor type: `{"descriptorType": {"$eq": "MCP"}}`. To combine
+    #   filters: `{"$and": [{"descriptorType": {"$eq": "MCP"}}, {"name":
+    #   {"$eq": "my-tool"}}]}`.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/SearchRegistryRecordsRequest AWS API Documentation
+    #
+    class SearchRegistryRecordsRequest < Struct.new(
+      :search_query,
+      :registry_ids,
+      :max_results,
+      :filters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] registry_records
+    #   The list of registry records that match the search query, ordered by
+    #   relevance.
+    #   @return [Array<Types::RegistryRecordSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/SearchRegistryRecordsResponse AWS API Documentation
+    #
+    class SearchRegistryRecordsResponse < Struct.new(
+      :registry_records)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The Amazon Web Services Secrets Manager location configuration.
     #
     # @!attribute [rw] secret_arn
@@ -4109,6 +4347,28 @@ module Aws::BedrockAgentCore
     #
     class SecretsManagerLocation < Struct.new(
       :secret_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The MCP server definition with a schema version and inline content.
+    # The `schemaVersion` identifies the version of the MCP server
+    # configuration schema.
+    #
+    # @!attribute [rw] schema_version
+    #   The schema version of the MCP server configuration. The schema
+    #   version identifies the format of the server definition content.
+    #   @return [String]
+    #
+    # @!attribute [rw] inline_content
+    #   The inline content of the server definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ServerDefinition AWS API Documentation
+    #
+    class ServerDefinition < Struct.new(
+      :schema_version,
+      :inline_content)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4179,6 +4439,41 @@ module Aws::BedrockAgentCore
       :session_id,
       :actor_id,
       :created_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The structured skill definition with a schema version and inline
+    # content.
+    #
+    # @!attribute [rw] schema_version
+    #   The schema version of the skill definition. If you don't specify a
+    #   version, the service detects it automatically.
+    #   @return [String]
+    #
+    # @!attribute [rw] inline_content
+    #   The inline content of the skill definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/SkillDefinition AWS API Documentation
+    #
+    class SkillDefinition < Struct.new(
+      :schema_version,
+      :inline_content)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The skill markdown definition for agent skills descriptors.
+    #
+    # @!attribute [rw] inline_content
+    #   The inline markdown content of the skill definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/SkillMdDefinition AWS API Documentation
+    #
+    class SkillMdDefinition < Struct.new(
+      :inline_content)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4812,6 +5107,30 @@ module Aws::BedrockAgentCore
       :stderr,
       :exit_code,
       :execution_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The MCP tools definition with a protocol version and inline content.
+    # The `protocolVersion` identifies the MCP protocol version that the
+    # tools conform to. This differs from `schemaVersion` in the server
+    # definition, which identifies the server configuration schema format.
+    #
+    # @!attribute [rw] protocol_version
+    #   The MCP protocol version that the tools conform to. This differs
+    #   from the `schemaVersion` field in the server definition, which
+    #   identifies the server configuration schema format.
+    #   @return [String]
+    #
+    # @!attribute [rw] inline_content
+    #   The inline content of the tools definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ToolsDefinition AWS API Documentation
+    #
+    class ToolsDefinition < Struct.new(
+      :protocol_version,
+      :inline_content)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.37.0 (2026-04-09)
+------------------
+
+* Feature - Initial release for CRUDL in AgentCore Registry Service
+
 1.36.0 (2026-04-03)
 ------------------
 
