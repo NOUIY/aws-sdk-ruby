@@ -2665,6 +2665,28 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Configuration for Model Context Protocol (MCP) server integration.
+    #
+    # @!attribute [rw] tools
+    #   List of MCP tools can be used with the association.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/MCPServerConfiguration AWS API Documentation
+    #
+    class MCPServerConfiguration < Struct.new(
+      :tools)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Mixin for webhook update support.
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/MCPServerDatadogConfiguration AWS API Documentation
+    #
+    class MCPServerDatadogConfiguration < Aws::EmptyStructure; end
+
     # Complete service details for MCP server integration.
     #
     # @!attribute [rw] name
@@ -2836,6 +2858,14 @@ module Aws::DevOpsAgent
       SENSITIVE = [:client_id, :exchange_parameters, :client_secret]
       include Aws::Structure
     end
+
+    # Mixin for webhook update support.
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/MCPServerSplunkConfiguration AWS API Documentation
+    #
+    class MCPServerSplunkConfiguration < Aws::EmptyStructure; end
 
     # A message in a conversation, either from the user or the assistant.
     #
@@ -3661,7 +3691,7 @@ module Aws::DevOpsAgent
     # Configuration for a self-managed Private Connection.
     #
     # @!attribute [rw] resource_configuration_id
-    #   The ARN of the Resource Configuration.
+    #   The ID or ARN of the resource configuration.
     #   @return [String]
     #
     # @!attribute [rw] certificate
@@ -4085,9 +4115,21 @@ module Aws::DevOpsAgent
     #   NewRelic instance integration configuration.
     #   @return [Types::MCPServerNewRelicConfiguration]
     #
+    # @!attribute [rw] mcpserverdatadog
+    #   Datadog MCP server integration configuration.
+    #   @return [Types::MCPServerDatadogConfiguration]
+    #
+    # @!attribute [rw] mcpserver
+    #   MCP (Model Context Protocol) server integration configuration.
+    #   @return [Types::MCPServerConfiguration]
+    #
     # @!attribute [rw] gitlab
     #   GitLab project integration configuration.
     #   @return [Types::GitLabConfiguration]
+    #
+    # @!attribute [rw] mcpserversplunk
+    #   Splunk MCP server integration configuration.
+    #   @return [Types::MCPServerSplunkConfiguration]
     #
     # @!attribute [rw] event_channel
     #   Event Channel instance integration configuration.
@@ -4119,7 +4161,10 @@ module Aws::DevOpsAgent
       :dynatrace,
       :servicenow,
       :mcpservernewrelic,
+      :mcpserverdatadog,
+      :mcpserver,
       :gitlab,
+      :mcpserversplunk,
       :event_channel,
       :azure,
       :azuredevops,
@@ -4137,7 +4182,10 @@ module Aws::DevOpsAgent
       class Dynatrace < ServiceConfiguration; end
       class Servicenow < ServiceConfiguration; end
       class Mcpservernewrelic < ServiceConfiguration; end
+      class Mcpserverdatadog < ServiceConfiguration; end
+      class Mcpserver < ServiceConfiguration; end
       class Gitlab < ServiceConfiguration; end
+      class Mcpserversplunk < ServiceConfiguration; end
       class EventChannel < ServiceConfiguration; end
       class Azure < ServiceConfiguration; end
       class Azuredevops < ServiceConfiguration; end

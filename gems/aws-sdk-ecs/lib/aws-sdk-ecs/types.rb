@@ -2210,7 +2210,7 @@ module Aws::ECS
       :resource_requirements,
       :firelens_configuration,
       :credential_specs)
-      SENSITIVE = [:repository_credentials]
+      SENSITIVE = [:repository_credentials, :environment]
       include Aws::Structure
     end
 
@@ -2620,7 +2620,7 @@ module Aws::ECS
       :memory,
       :memory_reservation,
       :resource_requirements)
-      SENSITIVE = []
+      SENSITIVE = [:environment]
       include Aws::Structure
     end
 
@@ -4235,7 +4235,7 @@ module Aws::ECS
       :interactive,
       :pseudo_terminal,
       :restart_policy)
-      SENSITIVE = [:repository_credentials]
+      SENSITIVE = [:repository_credentials, :environment]
       include Aws::Structure
     end
 
@@ -4614,6 +4614,7 @@ module Aws::ECS
     # [1]: https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateDaemon.html
     #
     # @!attribute [rw] message
+    #   Message that describes the cause of the exception.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/DaemonNotActiveException AWS API Documentation
@@ -4633,6 +4634,7 @@ module Aws::ECS
     # [1]: https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListDaemons.html
     #
     # @!attribute [rw] message
+    #   Message that describes the cause of the exception.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/DaemonNotFoundException AWS API Documentation
@@ -7505,7 +7507,7 @@ module Aws::ECS
       :command,
       :environment,
       :secrets)
-      SENSITIVE = []
+      SENSITIVE = [:environment]
       include Aws::Structure
     end
 
@@ -8976,11 +8978,6 @@ module Aws::ECS
     # @!attribute [rw] tmpfs
     #   The container path, mount options, and size (in MiB) of the tmpfs
     #   mount. This parameter maps to the `--tmpfs` option to docker run.
-    #
-    #   <note markdown="1"> If you're using tasks that use the Fargate launch type, the `tmpfs`
-    #   parameter isn't supported.
-    #
-    #    </note>
     #   @return [Array<Types::Tmpfs>]
     #
     # @!attribute [rw] max_swap

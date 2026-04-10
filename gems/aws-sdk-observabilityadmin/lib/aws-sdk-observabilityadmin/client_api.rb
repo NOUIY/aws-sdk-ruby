@@ -22,6 +22,7 @@ module Aws::ObservabilityAdmin
     AdvancedEventSelector = Shapes::StructureShape.new(name: 'AdvancedEventSelector')
     AdvancedEventSelectors = Shapes::ListShape.new(name: 'AdvancedEventSelectors')
     AdvancedFieldSelector = Shapes::StructureShape.new(name: 'AdvancedFieldSelector')
+    AllRegions = Shapes::BooleanShape.new(name: 'AllRegions')
     AwsResourceExplorerManagedViewArn = Shapes::StringShape.new(name: 'AwsResourceExplorerManagedViewArn')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
     CentralizationFailureReason = Shapes::StringShape.new(name: 'CentralizationFailureReason')
@@ -88,6 +89,7 @@ module Aws::ObservabilityAdmin
     IntegrationSummary = Shapes::StructureShape.new(name: 'IntegrationSummary')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
     InvalidStateException = Shapes::StructureShape.new(name: 'InvalidStateException')
+    IsReplicated = Shapes::BooleanShape.new(name: 'IsReplicated')
     LabelNameCondition = Shapes::StructureShape.new(name: 'LabelNameCondition')
     LabelNameConditionLabelNameString = Shapes::StringShape.new(name: 'LabelNameConditionLabelNameString')
     ListCentralizationRulesForOrganizationInput = Shapes::StructureShape.new(name: 'ListCentralizationRulesForOrganizationInput')
@@ -137,6 +139,8 @@ module Aws::ObservabilityAdmin
     Records = Shapes::ListShape.new(name: 'Records')
     RedactedFields = Shapes::ListShape.new(name: 'RedactedFields')
     Region = Shapes::StringShape.new(name: 'Region')
+    RegionStatus = Shapes::StructureShape.new(name: 'RegionStatus')
+    RegionStatuses = Shapes::ListShape.new(name: 'RegionStatuses')
     Regions = Shapes::ListShape.new(name: 'Regions')
     ResourceArn = Shapes::StringShape.new(name: 'ResourceArn')
     ResourceIdentifier = Shapes::StringShape.new(name: 'ResourceIdentifier')
@@ -158,6 +162,8 @@ module Aws::ObservabilityAdmin
     SourceLogsConfiguration = Shapes::StructureShape.new(name: 'SourceLogsConfiguration')
     Sources = Shapes::ListShape.new(name: 'Sources')
     StartTelemetryEnrichmentOutput = Shapes::StructureShape.new(name: 'StartTelemetryEnrichmentOutput')
+    StartTelemetryEvaluationForOrganizationInput = Shapes::StructureShape.new(name: 'StartTelemetryEvaluationForOrganizationInput')
+    StartTelemetryEvaluationInput = Shapes::StructureShape.new(name: 'StartTelemetryEvaluationInput')
     Status = Shapes::StringShape.new(name: 'Status')
     StopTelemetryEnrichmentOutput = Shapes::StructureShape.new(name: 'StopTelemetryEnrichmentOutput')
     String = Shapes::StringShape.new(name: 'String')
@@ -408,10 +414,14 @@ module Aws::ObservabilityAdmin
 
     GetTelemetryEvaluationStatusForOrganizationOutput.add_member(:status, Shapes::ShapeRef.new(shape: Status, location_name: "Status"))
     GetTelemetryEvaluationStatusForOrganizationOutput.add_member(:failure_reason, Shapes::ShapeRef.new(shape: FailureReason, location_name: "FailureReason"))
+    GetTelemetryEvaluationStatusForOrganizationOutput.add_member(:home_region, Shapes::ShapeRef.new(shape: Region, location_name: "HomeRegion"))
+    GetTelemetryEvaluationStatusForOrganizationOutput.add_member(:region_statuses, Shapes::ShapeRef.new(shape: RegionStatuses, location_name: "RegionStatuses"))
     GetTelemetryEvaluationStatusForOrganizationOutput.struct_class = Types::GetTelemetryEvaluationStatusForOrganizationOutput
 
     GetTelemetryEvaluationStatusOutput.add_member(:status, Shapes::ShapeRef.new(shape: Status, location_name: "Status"))
     GetTelemetryEvaluationStatusOutput.add_member(:failure_reason, Shapes::ShapeRef.new(shape: FailureReason, location_name: "FailureReason"))
+    GetTelemetryEvaluationStatusOutput.add_member(:home_region, Shapes::ShapeRef.new(shape: Region, location_name: "HomeRegion"))
+    GetTelemetryEvaluationStatusOutput.add_member(:region_statuses, Shapes::ShapeRef.new(shape: RegionStatuses, location_name: "RegionStatuses"))
     GetTelemetryEvaluationStatusOutput.struct_class = Types::GetTelemetryEvaluationStatusOutput
 
     GetTelemetryPipelineInput.add_member(:pipeline_identifier, Shapes::ShapeRef.new(shape: TelemetryPipelineIdentifier, required: true, location_name: "PipelineIdentifier"))
@@ -428,6 +438,9 @@ module Aws::ObservabilityAdmin
     GetTelemetryRuleForOrganizationOutput.add_member(:created_time_stamp, Shapes::ShapeRef.new(shape: Long, location_name: "CreatedTimeStamp"))
     GetTelemetryRuleForOrganizationOutput.add_member(:last_update_time_stamp, Shapes::ShapeRef.new(shape: Long, location_name: "LastUpdateTimeStamp"))
     GetTelemetryRuleForOrganizationOutput.add_member(:telemetry_rule, Shapes::ShapeRef.new(shape: TelemetryRule, location_name: "TelemetryRule"))
+    GetTelemetryRuleForOrganizationOutput.add_member(:home_region, Shapes::ShapeRef.new(shape: Region, location_name: "HomeRegion"))
+    GetTelemetryRuleForOrganizationOutput.add_member(:is_replicated, Shapes::ShapeRef.new(shape: IsReplicated, location_name: "IsReplicated"))
+    GetTelemetryRuleForOrganizationOutput.add_member(:region_statuses, Shapes::ShapeRef.new(shape: RegionStatuses, location_name: "RegionStatuses"))
     GetTelemetryRuleForOrganizationOutput.struct_class = Types::GetTelemetryRuleForOrganizationOutput
 
     GetTelemetryRuleInput.add_member(:rule_identifier, Shapes::ShapeRef.new(shape: RuleIdentifier, required: true, location_name: "RuleIdentifier"))
@@ -438,6 +451,9 @@ module Aws::ObservabilityAdmin
     GetTelemetryRuleOutput.add_member(:created_time_stamp, Shapes::ShapeRef.new(shape: Long, location_name: "CreatedTimeStamp"))
     GetTelemetryRuleOutput.add_member(:last_update_time_stamp, Shapes::ShapeRef.new(shape: Long, location_name: "LastUpdateTimeStamp"))
     GetTelemetryRuleOutput.add_member(:telemetry_rule, Shapes::ShapeRef.new(shape: TelemetryRule, location_name: "TelemetryRule"))
+    GetTelemetryRuleOutput.add_member(:home_region, Shapes::ShapeRef.new(shape: Region, location_name: "HomeRegion"))
+    GetTelemetryRuleOutput.add_member(:is_replicated, Shapes::ShapeRef.new(shape: IsReplicated, location_name: "IsReplicated"))
+    GetTelemetryRuleOutput.add_member(:region_statuses, Shapes::ShapeRef.new(shape: RegionStatuses, location_name: "RegionStatuses"))
     GetTelemetryRuleOutput.struct_class = Types::GetTelemetryRuleOutput
 
     IntegrationSummaries.member = Shapes::ShapeRef.new(shape: IntegrationSummary)
@@ -576,6 +592,14 @@ module Aws::ObservabilityAdmin
 
     RedactedFields.member = Shapes::ShapeRef.new(shape: FieldToMatch)
 
+    RegionStatus.add_member(:region, Shapes::ShapeRef.new(shape: Region, location_name: "Region"))
+    RegionStatus.add_member(:status, Shapes::ShapeRef.new(shape: String, location_name: "Status"))
+    RegionStatus.add_member(:failure_reason, Shapes::ShapeRef.new(shape: String, location_name: "FailureReason"))
+    RegionStatus.add_member(:rule_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "RuleArn"))
+    RegionStatus.struct_class = Types::RegionStatus
+
+    RegionStatuses.member = Shapes::ShapeRef.new(shape: RegionStatus)
+
     Regions.member = Shapes::ShapeRef.new(shape: Region)
 
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
@@ -611,6 +635,14 @@ module Aws::ObservabilityAdmin
     StartTelemetryEnrichmentOutput.add_member(:status, Shapes::ShapeRef.new(shape: TelemetryEnrichmentStatus, location_name: "Status"))
     StartTelemetryEnrichmentOutput.add_member(:aws_resource_explorer_managed_view_arn, Shapes::ShapeRef.new(shape: AwsResourceExplorerManagedViewArn, location_name: "AwsResourceExplorerManagedViewArn"))
     StartTelemetryEnrichmentOutput.struct_class = Types::StartTelemetryEnrichmentOutput
+
+    StartTelemetryEvaluationForOrganizationInput.add_member(:regions, Shapes::ShapeRef.new(shape: Regions, location_name: "Regions"))
+    StartTelemetryEvaluationForOrganizationInput.add_member(:all_regions, Shapes::ShapeRef.new(shape: AllRegions, location_name: "AllRegions"))
+    StartTelemetryEvaluationForOrganizationInput.struct_class = Types::StartTelemetryEvaluationForOrganizationInput
+
+    StartTelemetryEvaluationInput.add_member(:regions, Shapes::ShapeRef.new(shape: Regions, location_name: "Regions"))
+    StartTelemetryEvaluationInput.add_member(:all_regions, Shapes::ShapeRef.new(shape: AllRegions, location_name: "AllRegions"))
+    StartTelemetryEvaluationInput.struct_class = Types::StartTelemetryEvaluationInput
 
     StopTelemetryEnrichmentOutput.add_member(:status, Shapes::ShapeRef.new(shape: TelemetryEnrichmentStatus, location_name: "Status"))
     StopTelemetryEnrichmentOutput.struct_class = Types::StopTelemetryEnrichmentOutput
@@ -686,6 +718,8 @@ module Aws::ObservabilityAdmin
     TelemetryRule.add_member(:destination_configuration, Shapes::ShapeRef.new(shape: TelemetryDestinationConfiguration, location_name: "DestinationConfiguration"))
     TelemetryRule.add_member(:scope, Shapes::ShapeRef.new(shape: String, location_name: "Scope"))
     TelemetryRule.add_member(:selection_criteria, Shapes::ShapeRef.new(shape: String, location_name: "SelectionCriteria"))
+    TelemetryRule.add_member(:regions, Shapes::ShapeRef.new(shape: Regions, location_name: "Regions"))
+    TelemetryRule.add_member(:all_regions, Shapes::ShapeRef.new(shape: AllRegions, location_name: "AllRegions"))
     TelemetryRule.struct_class = Types::TelemetryRule
 
     TelemetryRuleSummaries.member = Shapes::ShapeRef.new(shape: TelemetryRuleSummary)
@@ -1180,7 +1214,7 @@ module Aws::ObservabilityAdmin
         o.name = "StartTelemetryEvaluation"
         o.http_method = "POST"
         o.http_request_uri = "/StartTelemetryEvaluation"
-        o.input = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.input = Shapes::ShapeRef.new(shape: StartTelemetryEvaluationInput)
         o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
@@ -1192,7 +1226,7 @@ module Aws::ObservabilityAdmin
         o.name = "StartTelemetryEvaluationForOrganization"
         o.http_method = "POST"
         o.http_request_uri = "/StartTelemetryEvaluationForOrganization"
-        o.input = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.input = Shapes::ShapeRef.new(shape: StartTelemetryEvaluationForOrganizationInput)
         o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)

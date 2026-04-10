@@ -4458,6 +4458,7 @@ module Aws::MediaConvert
     #   resp.probe_results #=> Array
     #   resp.probe_results[0].container.duration #=> Float
     #   resp.probe_results[0].container.format #=> String, one of "mp4", "quicktime", "matroska", "webm", "mxf", "wave", "avi", "mpegts"
+    #   resp.probe_results[0].container.start_timecode #=> String
     #   resp.probe_results[0].container.tracks #=> Array
     #   resp.probe_results[0].container.tracks[0].audio_properties.bit_depth #=> Integer
     #   resp.probe_results[0].container.tracks[0].audio_properties.bit_rate #=> Integer
@@ -6465,7 +6466,7 @@ module Aws::MediaConvert
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-mediaconvert'
-      context[:gem_version] = '1.181.0'
+      context[:gem_version] = '1.182.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

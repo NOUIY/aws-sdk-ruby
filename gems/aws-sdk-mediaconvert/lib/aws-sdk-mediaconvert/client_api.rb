@@ -551,6 +551,8 @@ module Aws::MediaConvert
     MsSmoothFragmentLengthControl = Shapes::StringShape.new(name: 'MsSmoothFragmentLengthControl')
     MsSmoothGroupSettings = Shapes::StructureShape.new(name: 'MsSmoothGroupSettings')
     MsSmoothManifestEncoding = Shapes::StringShape.new(name: 'MsSmoothManifestEncoding')
+    MultiViewInput = Shapes::StructureShape.new(name: 'MultiViewInput')
+    MultiViewSettings = Shapes::StructureShape.new(name: 'MultiViewSettings')
     MxfAfdSignaling = Shapes::StringShape.new(name: 'MxfAfdSignaling')
     MxfProfile = Shapes::StringShape.new(name: 'MxfProfile')
     MxfSettings = Shapes::StructureShape.new(name: 'MxfSettings')
@@ -911,6 +913,7 @@ module Aws::MediaConvert
     __listOfJobTemplate = Shapes::ListShape.new(name: '__listOfJobTemplate')
     __listOfJobsQueryFilter = Shapes::ListShape.new(name: '__listOfJobsQueryFilter')
     __listOfMsSmoothAdditionalManifest = Shapes::ListShape.new(name: '__listOfMsSmoothAdditionalManifest')
+    __listOfMultiViewSettings = Shapes::ListShape.new(name: '__listOfMultiViewSettings')
     __listOfOutput = Shapes::ListShape.new(name: '__listOfOutput')
     __listOfOutputChannelMapping = Shapes::ListShape.new(name: '__listOfOutputChannelMapping')
     __listOfOutputDetail = Shapes::ListShape.new(name: '__listOfOutputDetail')
@@ -1404,6 +1407,7 @@ module Aws::MediaConvert
 
     Container.add_member(:duration, Shapes::ShapeRef.new(shape: __double, location_name: "duration"))
     Container.add_member(:format, Shapes::ShapeRef.new(shape: Format, location_name: "format"))
+    Container.add_member(:start_timecode, Shapes::ShapeRef.new(shape: __string, location_name: "startTimecode"))
     Container.add_member(:tracks, Shapes::ShapeRef.new(shape: __listOfTrack, location_name: "tracks"))
     Container.struct_class = Types::Container
 
@@ -2029,6 +2033,7 @@ module Aws::MediaConvert
     Input.add_member(:image_inserter, Shapes::ShapeRef.new(shape: ImageInserter, location_name: "imageInserter"))
     Input.add_member(:input_clippings, Shapes::ShapeRef.new(shape: __listOfInputClipping, location_name: "inputClippings"))
     Input.add_member(:input_scan_type, Shapes::ShapeRef.new(shape: InputScanType, location_name: "inputScanType"))
+    Input.add_member(:multi_view_settings, Shapes::ShapeRef.new(shape: __listOfMultiViewSettings, location_name: "multiViewSettings"))
     Input.add_member(:position, Shapes::ShapeRef.new(shape: Rectangle, location_name: "position"))
     Input.add_member(:program_number, Shapes::ShapeRef.new(shape: __integerMin1Max2147483647, location_name: "programNumber"))
     Input.add_member(:psi_control, Shapes::ShapeRef.new(shape: InputPsiControl, location_name: "psiControl"))
@@ -2072,6 +2077,7 @@ module Aws::MediaConvert
     InputTemplate.add_member(:image_inserter, Shapes::ShapeRef.new(shape: ImageInserter, location_name: "imageInserter"))
     InputTemplate.add_member(:input_clippings, Shapes::ShapeRef.new(shape: __listOfInputClipping, location_name: "inputClippings"))
     InputTemplate.add_member(:input_scan_type, Shapes::ShapeRef.new(shape: InputScanType, location_name: "inputScanType"))
+    InputTemplate.add_member(:multi_view_settings, Shapes::ShapeRef.new(shape: __listOfMultiViewSettings, location_name: "multiViewSettings"))
     InputTemplate.add_member(:position, Shapes::ShapeRef.new(shape: Rectangle, location_name: "position"))
     InputTemplate.add_member(:program_number, Shapes::ShapeRef.new(shape: __integerMin1Max2147483647, location_name: "programNumber"))
     InputTemplate.add_member(:psi_control, Shapes::ShapeRef.new(shape: InputPsiControl, location_name: "psiControl"))
@@ -2474,6 +2480,12 @@ module Aws::MediaConvert
     MsSmoothGroupSettings.add_member(:fragment_length_control, Shapes::ShapeRef.new(shape: MsSmoothFragmentLengthControl, location_name: "fragmentLengthControl"))
     MsSmoothGroupSettings.add_member(:manifest_encoding, Shapes::ShapeRef.new(shape: MsSmoothManifestEncoding, location_name: "manifestEncoding"))
     MsSmoothGroupSettings.struct_class = Types::MsSmoothGroupSettings
+
+    MultiViewInput.add_member(:file_input, Shapes::ShapeRef.new(shape: __stringPatternS3Https, location_name: "fileInput"))
+    MultiViewInput.struct_class = Types::MultiViewInput
+
+    MultiViewSettings.add_member(:input, Shapes::ShapeRef.new(shape: MultiViewInput, location_name: "input"))
+    MultiViewSettings.struct_class = Types::MultiViewSettings
 
     MxfSettings.add_member(:afd_signaling, Shapes::ShapeRef.new(shape: MxfAfdSignaling, location_name: "afdSignaling"))
     MxfSettings.add_member(:profile, Shapes::ShapeRef.new(shape: MxfProfile, location_name: "profile"))
@@ -3148,6 +3160,8 @@ module Aws::MediaConvert
     __listOfJobsQueryFilter.member = Shapes::ShapeRef.new(shape: JobsQueryFilter)
 
     __listOfMsSmoothAdditionalManifest.member = Shapes::ShapeRef.new(shape: MsSmoothAdditionalManifest)
+
+    __listOfMultiViewSettings.member = Shapes::ShapeRef.new(shape: MultiViewSettings)
 
     __listOfOutput.member = Shapes::ShapeRef.new(shape: Output)
 

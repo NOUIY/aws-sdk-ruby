@@ -2494,10 +2494,10 @@ module Aws::MediaConvert
     #   fragment. This feature is supported exclusively for CMAF HLS (fMP4)
     #   outputs and is compatible with all existing key provider
     #   integrations (SPEKE v1, SPEKE v2, and Static Key encryption).
-    #   Supported codecs: H.264 and H.265 video codecs, and AAC audio codec.
-    #   Choose Enabled to activate Clear Lead DRM optimization. Choose
-    #   Disabled to use standard encryption where all segments are encrypted
-    #   from the beginning.
+    #   Supported codecs: H.264, H.265, and AV1 video codecs, and AAC audio
+    #   codec. Choose Enabled to activate Clear Lead DRM optimization.
+    #   Choose Disabled to use standard encryption where all segments are
+    #   encrypted from the beginning.
     #   @return [String]
     #
     # @!attribute [rw] constant_initialization_vector
@@ -3405,6 +3405,12 @@ module Aws::MediaConvert
     #   Probe operation does not recognize.
     #   @return [String]
     #
+    # @!attribute [rw] start_timecode
+    #   The start timecode of the media file, in HH:MM:SS:FF format (or
+    #   HH:MM:SS;FF for drop frame timecode). Note that this field is null
+    #   when the container does not include an embedded start timecode.
+    #   @return [String]
+    #
     # @!attribute [rw] tracks
     #   Details about each track (video, audio, or data) in the media file.
     #   @return [Array<Types::Track>]
@@ -3414,6 +3420,7 @@ module Aws::MediaConvert
     class Container < Struct.new(
       :duration,
       :format,
+      :start_timecode,
       :tracks)
       SENSITIVE = []
       include Aws::Structure
@@ -8394,6 +8401,16 @@ module Aws::MediaConvert
     #   interlaced. Doing so creates horizontal interlacing artifacts.
     #   @return [String]
     #
+    # @!attribute [rw] multi_view_settings
+    #   Specify the enhancement layer input video file path for Multi View
+    #   outputs. The base layer input is treated as the left eye and this
+    #   Multi View input is treated as the right eye. Only one Multi View
+    #   input is currently supported. MediaConvert encodes both views into a
+    #   single MV-HEVC output codec. When you add MultiViewSettings to your
+    #   job, you can only produce Multi View outputs. Adding any other codec
+    #   output to the same job is not supported.
+    #   @return [Array<Types::MultiViewSettings>]
+    #
     # @!attribute [rw] position
     #   Use Selection placement to define the video area in your output
     #   frame. The area outside of the rectangle that you specify here is
@@ -8504,6 +8521,7 @@ module Aws::MediaConvert
       :image_inserter,
       :input_clippings,
       :input_scan_type,
+      :multi_view_settings,
       :position,
       :program_number,
       :psi_control,
@@ -8806,6 +8824,16 @@ module Aws::MediaConvert
     #   interlaced. Doing so creates horizontal interlacing artifacts.
     #   @return [String]
     #
+    # @!attribute [rw] multi_view_settings
+    #   Specify the enhancement layer input video file path for Multi View
+    #   outputs. The base layer input is treated as the left eye and this
+    #   Multi View input is treated as the right eye. Only one Multi View
+    #   input is currently supported. MediaConvert encodes both views into a
+    #   single MV-HEVC output codec. When you add MultiViewSettings to your
+    #   job, you can only produce Multi View outputs. Adding any other codec
+    #   output to the same job is not supported.
+    #   @return [Array<Types::MultiViewSettings>]
+    #
     # @!attribute [rw] position
     #   Use Selection placement to define the video area in your output
     #   frame. The area outside of the rectangle that you specify here is
@@ -8880,6 +8908,7 @@ module Aws::MediaConvert
       :image_inserter,
       :input_clippings,
       :input_scan_type,
+      :multi_view_settings,
       :position,
       :program_number,
       :psi_control,
@@ -11826,6 +11855,43 @@ module Aws::MediaConvert
       :fragment_length,
       :fragment_length_control,
       :manifest_encoding)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input settings for MultiView Settings. You can include exactly one
+    # input as enhancement layer.
+    #
+    # @!attribute [rw] file_input
+    #   Specify the input file S3, HTTP, or HTTPS URL for your right eye
+    #   view video.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/MultiViewInput AWS API Documentation
+    #
+    class MultiViewInput < Struct.new(
+      :file_input)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specify the enhancement layer input video file path for Multi View
+    # outputs. The base layer input is treated as the left eye and this
+    # Multi View input is treated as the right eye. Only one Multi View
+    # input is currently supported. MediaConvert encodes both views into a
+    # single MV-HEVC output codec. When you add MultiViewSettings to your
+    # job, you can only produce Multi View outputs. Adding any other codec
+    # output to the same job is not supported.
+    #
+    # @!attribute [rw] input
+    #   Input settings for MultiView Settings. You can include exactly one
+    #   input as enhancement layer.
+    #   @return [Types::MultiViewInput]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/MultiViewSettings AWS API Documentation
+    #
+    class MultiViewSettings < Struct.new(
+      :input)
       SENSITIVE = []
       include Aws::Structure
     end

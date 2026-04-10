@@ -162,11 +162,17 @@ module Aws::RTBFabric
     #   The role ARN of the auto scaling group.
     #   @return [String]
     #
+    # @!attribute [rw] health_check_config
+    #   The health check configuration for the Auto Scaling group managed
+    #   endpoint.
+    #   @return [Types::HealthCheckConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/rtbfabric-2023-05-15/AutoScalingGroupsConfiguration AWS API Documentation
     #
     class AutoScalingGroupsConfiguration < Struct.new(
       :auto_scaling_group_names,
-      :role_arn)
+      :role_arn,
+      :health_check_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1311,6 +1317,65 @@ module Aws::RTBFabric
     class HeaderTagAction < Struct.new(
       :name,
       :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The health check configuration for a managed endpoint. Defines how the
+    # service probes instances in the Auto Scaling group to determine their
+    # health status.
+    #
+    # @!attribute [rw] port
+    #   The port to use for health check probes. Valid range is 80 to 65535.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] path
+    #   The destination path for the health check request. Must start with
+    #   `/`.
+    #   @return [String]
+    #
+    # @!attribute [rw] protocol
+    #   The protocol to use for health check probes.
+    #   @return [String]
+    #
+    # @!attribute [rw] timeout_ms
+    #   The timeout for each health check probe, in milliseconds. Valid
+    #   range is 100 to 5000.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] interval_seconds
+    #   The interval between health check probes, in seconds. Valid range is
+    #   5 to 60.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] status_code_matcher
+    #   The expected HTTP status code or status code pattern from healthy
+    #   instances. Supports a single code (for example, `200`), a range (for
+    #   example, `200-299`), or a comma-separated list (for example,
+    #   `200,204`).
+    #   @return [String]
+    #
+    # @!attribute [rw] healthy_threshold_count
+    #   The number of consecutive successful health checks required before
+    #   an instance is considered healthy. Valid range is 2 to 10.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] unhealthy_threshold_count
+    #   The number of consecutive failed health checks required before an
+    #   instance is considered unhealthy. Valid range is 2 to 10.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/rtbfabric-2023-05-15/HealthCheckConfig AWS API Documentation
+    #
+    class HealthCheckConfig < Struct.new(
+      :port,
+      :path,
+      :protocol,
+      :timeout_ms,
+      :interval_seconds,
+      :status_code_matcher,
+      :healthy_threshold_count,
+      :unhealthy_threshold_count)
       SENSITIVE = []
       include Aws::Structure
     end

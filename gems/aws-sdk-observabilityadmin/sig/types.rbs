@@ -267,12 +267,16 @@ module Aws::ObservabilityAdmin
     class GetTelemetryEvaluationStatusForOrganizationOutput
       attr_accessor status: ("NOT_STARTED" | "STARTING" | "FAILED_START" | "RUNNING" | "STOPPING" | "FAILED_STOP" | "STOPPED")
       attr_accessor failure_reason: ::String
+      attr_accessor home_region: ::String
+      attr_accessor region_statuses: ::Array[Types::RegionStatus]
       SENSITIVE: []
     end
 
     class GetTelemetryEvaluationStatusOutput
       attr_accessor status: ("NOT_STARTED" | "STARTING" | "FAILED_START" | "RUNNING" | "STOPPING" | "FAILED_STOP" | "STOPPED")
       attr_accessor failure_reason: ::String
+      attr_accessor home_region: ::String
+      attr_accessor region_statuses: ::Array[Types::RegionStatus]
       SENSITIVE: []
     end
 
@@ -297,6 +301,9 @@ module Aws::ObservabilityAdmin
       attr_accessor created_time_stamp: ::Integer
       attr_accessor last_update_time_stamp: ::Integer
       attr_accessor telemetry_rule: Types::TelemetryRule
+      attr_accessor home_region: ::String
+      attr_accessor is_replicated: bool
+      attr_accessor region_statuses: ::Array[Types::RegionStatus]
       SENSITIVE: []
     end
 
@@ -311,6 +318,9 @@ module Aws::ObservabilityAdmin
       attr_accessor created_time_stamp: ::Integer
       attr_accessor last_update_time_stamp: ::Integer
       attr_accessor telemetry_rule: Types::TelemetryRule
+      attr_accessor home_region: ::String
+      attr_accessor is_replicated: bool
+      attr_accessor region_statuses: ::Array[Types::RegionStatus]
       SENSITIVE: []
     end
 
@@ -492,6 +502,14 @@ module Aws::ObservabilityAdmin
       SENSITIVE: []
     end
 
+    class RegionStatus
+      attr_accessor region: ::String
+      attr_accessor status: ::String
+      attr_accessor failure_reason: ::String
+      attr_accessor rule_arn: ::String
+      SENSITIVE: []
+    end
+
     class ResourceNotFoundException
       attr_accessor message: ::String
       attr_accessor resource_id: ::String
@@ -529,6 +547,18 @@ module Aws::ObservabilityAdmin
     class StartTelemetryEnrichmentOutput
       attr_accessor status: ("Running" | "Stopped" | "Impaired")
       attr_accessor aws_resource_explorer_managed_view_arn: ::String
+      SENSITIVE: []
+    end
+
+    class StartTelemetryEvaluationForOrganizationInput
+      attr_accessor regions: ::Array[::String]
+      attr_accessor all_regions: bool
+      SENSITIVE: []
+    end
+
+    class StartTelemetryEvaluationInput
+      attr_accessor regions: ::Array[::String]
+      attr_accessor all_regions: bool
       SENSITIVE: []
     end
 
@@ -606,6 +636,8 @@ module Aws::ObservabilityAdmin
       attr_accessor destination_configuration: Types::TelemetryDestinationConfiguration
       attr_accessor scope: ::String
       attr_accessor selection_criteria: ::String
+      attr_accessor regions: ::Array[::String]
+      attr_accessor all_regions: bool
       SENSITIVE: []
     end
 

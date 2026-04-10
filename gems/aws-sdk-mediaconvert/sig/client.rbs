@@ -285,6 +285,13 @@ module Aws
                                 },
                               ]?,
                               input_scan_type: ("AUTO" | "PSF")?,
+                              multi_view_settings: Array[
+                                {
+                                  input: {
+                                    file_input: ::String?
+                                  }?
+                                },
+                              ]?,
                               position: {
                                 height: ::Integer?,
                                 width: ::Integer?,
@@ -1867,6 +1874,13 @@ module Aws
                                          },
                                        ]?,
                                        input_scan_type: ("AUTO" | "PSF")?,
+                                       multi_view_settings: Array[
+                                         {
+                                           input: {
+                                             file_input: ::String?
+                                           }?
+                                         },
+                                       ]?,
                                        position: {
                                          height: ::Integer?,
                                          width: ::Integer?,
@@ -4615,6 +4629,13 @@ module Aws
                                          },
                                        ]?,
                                        input_scan_type: ("AUTO" | "PSF")?,
+                                       multi_view_settings: Array[
+                                         {
+                                           input: {
+                                             file_input: ::String?
+                                           }?
+                                         },
+                                       ]?,
                                        position: {
                                          height: ::Integer?,
                                          width: ::Integer?,

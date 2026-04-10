@@ -55,6 +55,7 @@ module Aws::RTBFabric
     class AutoScalingGroupsConfiguration
       attr_accessor auto_scaling_group_names: ::Array[::String]
       attr_accessor role_arn: ::String
+      attr_accessor health_check_config: Types::HealthCheckConfig
       SENSITIVE: []
     end
 
@@ -368,6 +369,18 @@ module Aws::RTBFabric
     class HeaderTagAction
       attr_accessor name: ::String
       attr_accessor value: ::String
+      SENSITIVE: []
+    end
+
+    class HealthCheckConfig
+      attr_accessor port: ::Integer
+      attr_accessor path: ::String
+      attr_accessor protocol: ("HTTP" | "HTTPS")
+      attr_accessor timeout_ms: ::Integer
+      attr_accessor interval_seconds: ::Integer
+      attr_accessor status_code_matcher: ::String
+      attr_accessor healthy_threshold_count: ::Integer
+      attr_accessor unhealthy_threshold_count: ::Integer
       SENSITIVE: []
     end
 

@@ -807,6 +807,14 @@ module Aws::DevOpsAgent
       SENSITIVE: [:token_value]
     end
 
+    class MCPServerConfiguration
+      attr_accessor tools: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class MCPServerDatadogConfiguration < Aws::EmptyStructure
+    end
+
     class MCPServerDetails
       attr_accessor name: ::String
       attr_accessor endpoint: ::String
@@ -849,6 +857,9 @@ module Aws::DevOpsAgent
       attr_accessor exchange_url: ::String
       attr_accessor scopes: ::Array[::String]
       SENSITIVE: [:client_id, :client_secret]
+    end
+
+    class MCPServerSplunkConfiguration < Aws::EmptyStructure
     end
 
     class Message
@@ -1236,7 +1247,10 @@ module Aws::DevOpsAgent
       attr_accessor dynatrace: Types::DynatraceConfiguration
       attr_accessor servicenow: Types::ServiceNowConfiguration
       attr_accessor mcpservernewrelic: Types::MCPServerNewRelicConfiguration
+      attr_accessor mcpserverdatadog: Types::MCPServerDatadogConfiguration
+      attr_accessor mcpserver: Types::MCPServerConfiguration
       attr_accessor gitlab: Types::GitLabConfiguration
+      attr_accessor mcpserversplunk: Types::MCPServerSplunkConfiguration
       attr_accessor event_channel: Types::EventChannelConfiguration
       attr_accessor azure: Types::AzureConfiguration
       attr_accessor azuredevops: Types::AzureDevOpsConfiguration
@@ -1259,7 +1273,13 @@ module Aws::DevOpsAgent
       end
       class Mcpservernewrelic < ServiceConfiguration
       end
+      class Mcpserverdatadog < ServiceConfiguration
+      end
+      class Mcpserver < ServiceConfiguration
+      end
       class Gitlab < ServiceConfiguration
+      end
+      class Mcpserversplunk < ServiceConfiguration
       end
       class EventChannel < ServiceConfiguration
       end

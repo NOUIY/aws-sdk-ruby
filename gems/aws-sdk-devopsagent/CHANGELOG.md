@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.2.0 (2026-04-10)
+------------------
+
+* Feature - Devops Agent now supports associate Splunk, Datadog and custom MCP server to an Agent Space.
+
 1.1.0 (2026-03-31)
 ------------------
 

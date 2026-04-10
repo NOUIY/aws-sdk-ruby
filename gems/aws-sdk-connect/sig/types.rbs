@@ -424,7 +424,7 @@ module Aws::Connect
       attr_accessor file_size_in_bytes: ::Integer
       attr_accessor file_status: ("APPROVED" | "REJECTED" | "PROCESSING" | "FAILED")
       attr_accessor created_by: Types::CreatedByInfo
-      attr_accessor file_use_case_type: ("EMAIL_MESSAGE" | "ATTACHMENT")
+      attr_accessor file_use_case_type: ("CONTACT_ANALYSIS" | "EMAIL_MESSAGE" | "EMAIL_MESSAGE_PLAIN_TEXT" | "EMAIL_MESSAGE_REDACTED" | "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED" | "ATTACHMENT")
       attr_accessor associated_resource_arn: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
@@ -3779,7 +3779,7 @@ module Aws::Connect
       attr_accessor file_name: ::String
       attr_accessor file_size_in_bytes: ::Integer
       attr_accessor associated_resource_arn: ::String
-      attr_accessor file_use_case_type: ("EMAIL_MESSAGE" | "ATTACHMENT")
+      attr_accessor file_use_case_type: ("CONTACT_ANALYSIS" | "EMAIL_MESSAGE" | "EMAIL_MESSAGE_PLAIN_TEXT" | "EMAIL_MESSAGE_REDACTED" | "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED" | "ATTACHMENT")
       attr_accessor created_by: Types::CreatedByInfo
       attr_accessor download_url_metadata: Types::DownloadUrlMetadata
       attr_accessor tags: ::Hash[::String, ::String]
@@ -4618,7 +4618,7 @@ module Aws::Connect
     class ListContactReferencesRequest
       attr_accessor instance_id: ::String
       attr_accessor contact_id: ::String
-      attr_accessor reference_types: ::Array[("URL" | "ATTACHMENT" | "CONTACT_ANALYSIS" | "NUMBER" | "STRING" | "DATE" | "EMAIL" | "EMAIL_MESSAGE" | "EMAIL_MESSAGE_PLAIN_TEXT")]
+      attr_accessor reference_types: ::Array[("URL" | "ATTACHMENT" | "CONTACT_ANALYSIS" | "NUMBER" | "STRING" | "DATE" | "EMAIL" | "EMAIL_MESSAGE" | "EMAIL_MESSAGE_PLAIN_TEXT" | "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED" | "EMAIL_MESSAGE_REDACTED")]
       attr_accessor next_token: ::String
       SENSITIVE: []
     end
@@ -6273,7 +6273,7 @@ module Aws::Connect
 
     class Reference
       attr_accessor value: ::String
-      attr_accessor type: ("URL" | "ATTACHMENT" | "CONTACT_ANALYSIS" | "NUMBER" | "STRING" | "DATE" | "EMAIL" | "EMAIL_MESSAGE" | "EMAIL_MESSAGE_PLAIN_TEXT")
+      attr_accessor type: ("URL" | "ATTACHMENT" | "CONTACT_ANALYSIS" | "NUMBER" | "STRING" | "DATE" | "EMAIL" | "EMAIL_MESSAGE" | "EMAIL_MESSAGE_PLAIN_TEXT" | "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED" | "EMAIL_MESSAGE_REDACTED")
       attr_accessor status: ("AVAILABLE" | "DELETED" | "APPROVED" | "REJECTED" | "PROCESSING" | "FAILED")
       attr_accessor arn: ::String
       attr_accessor status_reason: ::String
@@ -6284,7 +6284,9 @@ module Aws::Connect
       attr_accessor url: Types::UrlReference
       attr_accessor attachment: Types::AttachmentReference
       attr_accessor email_message: Types::EmailMessageReference
+      attr_accessor email_message_redacted: Types::EmailMessageReference
       attr_accessor email_message_plain_text: Types::EmailMessageReference
+      attr_accessor email_message_plain_text_redacted: Types::EmailMessageReference
       attr_accessor string: Types::StringReference
       attr_accessor number: Types::NumberReference
       attr_accessor date: Types::DateReference
@@ -6298,7 +6300,11 @@ module Aws::Connect
       end
       class EmailMessage < ReferenceSummary
       end
+      class EmailMessageRedacted < ReferenceSummary
+      end
       class EmailMessagePlainText < ReferenceSummary
+      end
+      class EmailMessagePlainTextRedacted < ReferenceSummary
       end
       class String < ReferenceSummary
       end
@@ -7220,7 +7226,7 @@ module Aws::Connect
       attr_accessor file_name: ::String
       attr_accessor file_size_in_bytes: ::Integer
       attr_accessor url_expiry_in_seconds: ::Integer
-      attr_accessor file_use_case_type: ("EMAIL_MESSAGE" | "ATTACHMENT")
+      attr_accessor file_use_case_type: ("CONTACT_ANALYSIS" | "EMAIL_MESSAGE" | "EMAIL_MESSAGE_PLAIN_TEXT" | "EMAIL_MESSAGE_REDACTED" | "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED" | "ATTACHMENT")
       attr_accessor associated_resource_arn: ::String
       attr_accessor created_by: Types::CreatedByInfo
       attr_accessor tags: ::Hash[::String, ::String]

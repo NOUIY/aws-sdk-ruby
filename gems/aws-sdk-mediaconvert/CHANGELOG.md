@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.182.0 (2026-04-10)
+------------------
+
+* Feature - Adds support for MV-HEVC video output and clear lead for AV1 DRM output.
+
 1.181.0 (2026-03-18)
 ------------------
 

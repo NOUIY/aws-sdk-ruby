@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.228.0 (2026-04-10)
+------------------
+
+* Feature - Minor updates to exceptions for completeness
+
 1.227.0 (2026-04-07)
 ------------------
 

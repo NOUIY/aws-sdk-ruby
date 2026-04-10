@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.10.0 (2026-04-10)
+------------------
+
+* Feature - Adds optional health check configuration for Responder Gateways with ASG Managed Endpoints. When provided, RTB Fabric continuously probes customers' instance IPs and routes traffic only to healthy ones, reducing errors during deployments, scaling events, and instance failures.
+
 1.9.0 (2026-04-07)
 ------------------
 

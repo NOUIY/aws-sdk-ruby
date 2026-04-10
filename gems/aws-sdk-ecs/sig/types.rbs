@@ -268,7 +268,7 @@ module Aws::ECS
       attr_accessor resource_requirements: ::Array[Types::ResourceRequirement]
       attr_accessor firelens_configuration: Types::FirelensConfiguration
       attr_accessor credential_specs: ::Array[::String]
-      SENSITIVE: [:repository_credentials]
+      SENSITIVE: [:repository_credentials, :environment]
     end
 
     class ContainerDependency
@@ -321,7 +321,7 @@ module Aws::ECS
       attr_accessor memory: ::Integer
       attr_accessor memory_reservation: ::Integer
       attr_accessor resource_requirements: ::Array[Types::ResourceRequirement]
-      SENSITIVE: []
+      SENSITIVE: [:environment]
     end
 
     class ContainerRestartPolicy
@@ -535,7 +535,7 @@ module Aws::ECS
       attr_accessor interactive: bool
       attr_accessor pseudo_terminal: bool
       attr_accessor restart_policy: Types::ContainerRestartPolicy
-      SENSITIVE: [:repository_credentials]
+      SENSITIVE: [:repository_credentials, :environment]
     end
 
     class DaemonContainerImage
@@ -1203,7 +1203,7 @@ module Aws::ECS
       attr_accessor command: ::Array[::String]
       attr_accessor environment: ::Array[Types::KeyValuePair]
       attr_accessor secrets: ::Array[Types::Secret]
-      SENSITIVE: []
+      SENSITIVE: [:environment]
     end
 
     class ExpressGatewayRepositoryCredentials

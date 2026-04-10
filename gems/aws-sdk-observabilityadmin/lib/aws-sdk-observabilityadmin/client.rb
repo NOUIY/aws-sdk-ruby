@@ -747,6 +747,8 @@ module Aws::ObservabilityAdmin
     #       },
     #       scope: "String",
     #       selection_criteria: "String",
+    #       regions: ["Region"],
+    #       all_regions: false,
     #     },
     #     tags: {
     #       "TagKey" => "TagValue",
@@ -864,6 +866,8 @@ module Aws::ObservabilityAdmin
     #       },
     #       scope: "String",
     #       selection_criteria: "String",
+    #       regions: ["Region"],
+    #       all_regions: false,
     #     },
     #     tags: {
     #       "TagKey" => "TagValue",
@@ -1137,11 +1141,19 @@ module Aws::ObservabilityAdmin
     #
     #   * {Types::GetTelemetryEvaluationStatusOutput#status #status} => String
     #   * {Types::GetTelemetryEvaluationStatusOutput#failure_reason #failure_reason} => String
+    #   * {Types::GetTelemetryEvaluationStatusOutput#home_region #home_region} => String
+    #   * {Types::GetTelemetryEvaluationStatusOutput#region_statuses #region_statuses} => Array&lt;Types::RegionStatus&gt;
     #
     # @example Response structure
     #
     #   resp.status #=> String, one of "NOT_STARTED", "STARTING", "FAILED_START", "RUNNING", "STOPPING", "FAILED_STOP", "STOPPED"
     #   resp.failure_reason #=> String
+    #   resp.home_region #=> String
+    #   resp.region_statuses #=> Array
+    #   resp.region_statuses[0].region #=> String
+    #   resp.region_statuses[0].status #=> String
+    #   resp.region_statuses[0].failure_reason #=> String
+    #   resp.region_statuses[0].rule_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/GetTelemetryEvaluationStatus AWS API Documentation
     #
@@ -1161,11 +1173,19 @@ module Aws::ObservabilityAdmin
     #
     #   * {Types::GetTelemetryEvaluationStatusForOrganizationOutput#status #status} => String
     #   * {Types::GetTelemetryEvaluationStatusForOrganizationOutput#failure_reason #failure_reason} => String
+    #   * {Types::GetTelemetryEvaluationStatusForOrganizationOutput#home_region #home_region} => String
+    #   * {Types::GetTelemetryEvaluationStatusForOrganizationOutput#region_statuses #region_statuses} => Array&lt;Types::RegionStatus&gt;
     #
     # @example Response structure
     #
     #   resp.status #=> String, one of "NOT_STARTED", "STARTING", "FAILED_START", "RUNNING", "STOPPING", "FAILED_STOP", "STOPPED"
     #   resp.failure_reason #=> String
+    #   resp.home_region #=> String
+    #   resp.region_statuses #=> Array
+    #   resp.region_statuses[0].region #=> String
+    #   resp.region_statuses[0].status #=> String
+    #   resp.region_statuses[0].failure_reason #=> String
+    #   resp.region_statuses[0].rule_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/GetTelemetryEvaluationStatusForOrganization AWS API Documentation
     #
@@ -1225,6 +1245,9 @@ module Aws::ObservabilityAdmin
     #   * {Types::GetTelemetryRuleOutput#created_time_stamp #created_time_stamp} => Integer
     #   * {Types::GetTelemetryRuleOutput#last_update_time_stamp #last_update_time_stamp} => Integer
     #   * {Types::GetTelemetryRuleOutput#telemetry_rule #telemetry_rule} => Types::TelemetryRule
+    #   * {Types::GetTelemetryRuleOutput#home_region #home_region} => String
+    #   * {Types::GetTelemetryRuleOutput#is_replicated #is_replicated} => Boolean
+    #   * {Types::GetTelemetryRuleOutput#region_statuses #region_statuses} => Array&lt;Types::RegionStatus&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -1283,6 +1306,16 @@ module Aws::ObservabilityAdmin
     #   resp.telemetry_rule.destination_configuration.log_delivery_parameters.log_types[0] #=> String, one of "APPLICATION_LOGS", "USAGE_LOGS", "SECURITY_FINDING_LOGS", "ACCESS_LOGS", "CONNECTION_LOGS"
     #   resp.telemetry_rule.scope #=> String
     #   resp.telemetry_rule.selection_criteria #=> String
+    #   resp.telemetry_rule.regions #=> Array
+    #   resp.telemetry_rule.regions[0] #=> String
+    #   resp.telemetry_rule.all_regions #=> Boolean
+    #   resp.home_region #=> String
+    #   resp.is_replicated #=> Boolean
+    #   resp.region_statuses #=> Array
+    #   resp.region_statuses[0].region #=> String
+    #   resp.region_statuses[0].status #=> String
+    #   resp.region_statuses[0].failure_reason #=> String
+    #   resp.region_statuses[0].rule_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/GetTelemetryRule AWS API Documentation
     #
@@ -1308,6 +1341,9 @@ module Aws::ObservabilityAdmin
     #   * {Types::GetTelemetryRuleForOrganizationOutput#created_time_stamp #created_time_stamp} => Integer
     #   * {Types::GetTelemetryRuleForOrganizationOutput#last_update_time_stamp #last_update_time_stamp} => Integer
     #   * {Types::GetTelemetryRuleForOrganizationOutput#telemetry_rule #telemetry_rule} => Types::TelemetryRule
+    #   * {Types::GetTelemetryRuleForOrganizationOutput#home_region #home_region} => String
+    #   * {Types::GetTelemetryRuleForOrganizationOutput#is_replicated #is_replicated} => Boolean
+    #   * {Types::GetTelemetryRuleForOrganizationOutput#region_statuses #region_statuses} => Array&lt;Types::RegionStatus&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -1366,6 +1402,16 @@ module Aws::ObservabilityAdmin
     #   resp.telemetry_rule.destination_configuration.log_delivery_parameters.log_types[0] #=> String, one of "APPLICATION_LOGS", "USAGE_LOGS", "SECURITY_FINDING_LOGS", "ACCESS_LOGS", "CONNECTION_LOGS"
     #   resp.telemetry_rule.scope #=> String
     #   resp.telemetry_rule.selection_criteria #=> String
+    #   resp.telemetry_rule.regions #=> Array
+    #   resp.telemetry_rule.regions[0] #=> String
+    #   resp.telemetry_rule.all_regions #=> Boolean
+    #   resp.home_region #=> String
+    #   resp.is_replicated #=> Boolean
+    #   resp.region_statuses #=> Array
+    #   resp.region_statuses[0].region #=> String
+    #   resp.region_statuses[0].status #=> String
+    #   resp.region_statuses[0].failure_reason #=> String
+    #   resp.region_statuses[0].rule_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/GetTelemetryRuleForOrganization AWS API Documentation
     #
@@ -1874,7 +1920,31 @@ module Aws::ObservabilityAdmin
     # This action begins onboarding the caller Amazon Web Services account
     # to the telemetry config feature.
     #
+    # @option params [Array<String>] :regions
+    #   An optional list of Amazon Web Services Regions to include in
+    #   multi-region telemetry evaluation. The current region is always
+    #   implicitly included and must not be specified in this list. When
+    #   provided, telemetry evaluation starts in the current region and
+    #   propagates to all specified regions. Mutually exclusive with
+    #   `AllRegions`. If neither `Regions` nor `AllRegions` is provided, the
+    #   operation applies only to the current region.
+    #
+    # @option params [Boolean] :all_regions
+    #   If set to `true`, telemetry evaluation starts in all Amazon Web
+    #   Services Regions where Amazon CloudWatch Observability Admin is
+    #   available in the current partition. The current region becomes the
+    #   home region for managing multi-region evaluation. When new regions
+    #   become available, evaluation automatically expands to include them.
+    #   Mutually exclusive with `Regions`.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_telemetry_evaluation({
+    #     regions: ["Region"],
+    #     all_regions: false,
+    #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/StartTelemetryEvaluation AWS API Documentation
     #
@@ -1888,7 +1958,32 @@ module Aws::ObservabilityAdmin
     # This actions begins onboarding the organization and all member
     # accounts to the telemetry config feature.
     #
+    # @option params [Array<String>] :regions
+    #   An optional list of Amazon Web Services Regions to include in
+    #   multi-region telemetry evaluation for the organization. The current
+    #   region is always implicitly included and must not be specified in this
+    #   list. When provided, telemetry evaluation starts in the current region
+    #   and propagates to all specified regions for the organization. Mutually
+    #   exclusive with `AllRegions`. If neither `Regions` nor `AllRegions` is
+    #   provided, the operation applies only to the current region.
+    #
+    # @option params [Boolean] :all_regions
+    #   If set to `true`, telemetry evaluation for the organization starts in
+    #   all Amazon Web Services Regions where Amazon CloudWatch Observability
+    #   Admin is available in the current partition. The current region
+    #   becomes the home region for managing multi-region evaluation for the
+    #   organization. When new regions become available, evaluation
+    #   automatically expands to include them. Mutually exclusive with
+    #   `Regions`.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_telemetry_evaluation_for_organization({
+    #     regions: ["Region"],
+    #     all_regions: false,
+    #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/StartTelemetryEvaluationForOrganization AWS API Documentation
     #
@@ -2306,6 +2401,8 @@ module Aws::ObservabilityAdmin
     #       },
     #       scope: "String",
     #       selection_criteria: "String",
+    #       regions: ["Region"],
+    #       all_regions: false,
     #     },
     #   })
     #
@@ -2417,6 +2514,8 @@ module Aws::ObservabilityAdmin
     #       },
     #       scope: "String",
     #       selection_criteria: "String",
+    #       regions: ["Region"],
+    #       all_regions: false,
     #     },
     #   })
     #
@@ -2487,7 +2586,7 @@ module Aws::ObservabilityAdmin
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-observabilityadmin'
-      context[:gem_version] = '1.24.0'
+      context[:gem_version] = '1.25.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

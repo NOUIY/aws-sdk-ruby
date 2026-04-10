@@ -1720,9 +1720,9 @@ module Aws::ECS
     InferenceAcceleratorOverride.add_member(:device_type, Shapes::ShapeRef.new(shape: String, location_name: "deviceType"))
     InferenceAcceleratorOverride.struct_class = Types::InferenceAcceleratorOverride
 
-    InferenceAcceleratorOverrides.member = Shapes::ShapeRef.new(shape: InferenceAcceleratorOverride)
+    InferenceAcceleratorOverrides.member = Shapes::ShapeRef.new(shape: InferenceAcceleratorOverride, deprecated: true)
 
-    InferenceAccelerators.member = Shapes::ShapeRef.new(shape: InferenceAccelerator)
+    InferenceAccelerators.member = Shapes::ShapeRef.new(shape: InferenceAccelerator, deprecated: true)
 
     InfrastructureOptimization.add_member(:scale_in_after, Shapes::ShapeRef.new(shape: BoxedInteger, location_name: "scaleInAfter"))
     InfrastructureOptimization.struct_class = Types::InfrastructureOptimization
@@ -2305,7 +2305,7 @@ module Aws::ECS
     RegisterTaskDefinitionRequest.add_member(:pid_mode, Shapes::ShapeRef.new(shape: PidMode, location_name: "pidMode"))
     RegisterTaskDefinitionRequest.add_member(:ipc_mode, Shapes::ShapeRef.new(shape: IpcMode, location_name: "ipcMode"))
     RegisterTaskDefinitionRequest.add_member(:proxy_configuration, Shapes::ShapeRef.new(shape: ProxyConfiguration, location_name: "proxyConfiguration"))
-    RegisterTaskDefinitionRequest.add_member(:inference_accelerators, Shapes::ShapeRef.new(shape: InferenceAccelerators, location_name: "inferenceAccelerators"))
+    RegisterTaskDefinitionRequest.add_member(:inference_accelerators, Shapes::ShapeRef.new(shape: InferenceAccelerators, deprecated: true, location_name: "inferenceAccelerators", metadata: {"deprecatedMessage" => "This feature is no longer available.", "deprecatedSince" => "2023-04-15"}))
     RegisterTaskDefinitionRequest.add_member(:ephemeral_storage, Shapes::ShapeRef.new(shape: EphemeralStorage, location_name: "ephemeralStorage"))
     RegisterTaskDefinitionRequest.add_member(:runtime_platform, Shapes::ShapeRef.new(shape: RuntimePlatform, location_name: "runtimePlatform"))
     RegisterTaskDefinitionRequest.add_member(:enable_fault_injection, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "enableFaultInjection"))
@@ -2761,7 +2761,7 @@ module Aws::ECS
     Task.add_member(:execution_stopped_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "executionStoppedAt"))
     Task.add_member(:group, Shapes::ShapeRef.new(shape: String, location_name: "group"))
     Task.add_member(:health_status, Shapes::ShapeRef.new(shape: HealthStatus, location_name: "healthStatus"))
-    Task.add_member(:inference_accelerators, Shapes::ShapeRef.new(shape: InferenceAccelerators, location_name: "inferenceAccelerators"))
+    Task.add_member(:inference_accelerators, Shapes::ShapeRef.new(shape: InferenceAccelerators, deprecated: true, location_name: "inferenceAccelerators"))
     Task.add_member(:last_status, Shapes::ShapeRef.new(shape: String, location_name: "lastStatus"))
     Task.add_member(:launch_type, Shapes::ShapeRef.new(shape: LaunchType, location_name: "launchType"))
     Task.add_member(:memory, Shapes::ShapeRef.new(shape: String, location_name: "memory"))
@@ -2800,7 +2800,7 @@ module Aws::ECS
     TaskDefinition.add_member(:requires_compatibilities, Shapes::ShapeRef.new(shape: CompatibilityList, location_name: "requiresCompatibilities"))
     TaskDefinition.add_member(:cpu, Shapes::ShapeRef.new(shape: String, location_name: "cpu"))
     TaskDefinition.add_member(:memory, Shapes::ShapeRef.new(shape: String, location_name: "memory"))
-    TaskDefinition.add_member(:inference_accelerators, Shapes::ShapeRef.new(shape: InferenceAccelerators, location_name: "inferenceAccelerators"))
+    TaskDefinition.add_member(:inference_accelerators, Shapes::ShapeRef.new(shape: InferenceAccelerators, deprecated: true, location_name: "inferenceAccelerators"))
     TaskDefinition.add_member(:pid_mode, Shapes::ShapeRef.new(shape: PidMode, location_name: "pidMode"))
     TaskDefinition.add_member(:ipc_mode, Shapes::ShapeRef.new(shape: IpcMode, location_name: "ipcMode"))
     TaskDefinition.add_member(:proxy_configuration, Shapes::ShapeRef.new(shape: ProxyConfiguration, location_name: "proxyConfiguration"))
@@ -2847,7 +2847,7 @@ module Aws::ECS
 
     TaskOverride.add_member(:container_overrides, Shapes::ShapeRef.new(shape: ContainerOverrides, location_name: "containerOverrides"))
     TaskOverride.add_member(:cpu, Shapes::ShapeRef.new(shape: String, location_name: "cpu"))
-    TaskOverride.add_member(:inference_accelerator_overrides, Shapes::ShapeRef.new(shape: InferenceAcceleratorOverrides, location_name: "inferenceAcceleratorOverrides"))
+    TaskOverride.add_member(:inference_accelerator_overrides, Shapes::ShapeRef.new(shape: InferenceAcceleratorOverrides, deprecated: true, location_name: "inferenceAcceleratorOverrides"))
     TaskOverride.add_member(:execution_role_arn, Shapes::ShapeRef.new(shape: String, location_name: "executionRoleArn"))
     TaskOverride.add_member(:memory, Shapes::ShapeRef.new(shape: String, location_name: "memory"))
     TaskOverride.add_member(:task_role_arn, Shapes::ShapeRef.new(shape: String, location_name: "taskRoleArn"))
@@ -3131,6 +3131,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: CreateCapacityProviderRequest)
         o.output = Shapes::ShapeRef.new(shape: CreateCapacityProviderResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: UpdateInProgressException)
@@ -3146,6 +3147,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: CreateClusterRequest)
         o.output = Shapes::ShapeRef.new(shape: CreateClusterResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: NamespaceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
@@ -3207,6 +3209,7 @@ module Aws::ECS
         o.input = Shapes::ShapeRef.new(shape: CreateTaskSetRequest)
         o.output = Shapes::ShapeRef.new(shape: CreateTaskSetResponse)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: PlatformUnknownException)
         o.errors << Shapes::ShapeRef.new(shape: NamespaceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceNotActiveException)
@@ -3225,6 +3228,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DeleteAccountSettingRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteAccountSettingResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3236,8 +3240,11 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DeleteAttributesRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteAttributesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: TargetNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ClientException)
         o.errors << Shapes::ShapeRef.new(shape: ClusterNotFoundException)
       end)
 
@@ -3247,7 +3254,9 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DeleteCapacityProviderRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteCapacityProviderResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: UpdateInProgressException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
         o.errors << Shapes::ShapeRef.new(shape: ClusterNotFoundException)
@@ -3261,6 +3270,7 @@ module Aws::ECS
         o.input = Shapes::ShapeRef.new(shape: DeleteClusterRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteClusterResponse)
         o.errors << Shapes::ShapeRef.new(shape: ClusterContainsContainerInstancesException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ClusterContainsServicesException)
         o.errors << Shapes::ShapeRef.new(shape: ClusterContainsCapacityProviderException)
         o.errors << Shapes::ShapeRef.new(shape: ClusterContainsTasksException)
@@ -3321,6 +3331,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DeleteServiceRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteServiceResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3347,6 +3358,7 @@ module Aws::ECS
         o.input = Shapes::ShapeRef.new(shape: DeleteTaskSetRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteTaskSetResponse)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceNotActiveException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
@@ -3363,6 +3375,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DeregisterContainerInstanceRequest)
         o.output = Shapes::ShapeRef.new(shape: DeregisterContainerInstanceResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3375,6 +3388,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DeregisterTaskDefinitionRequest)
         o.output = Shapes::ShapeRef.new(shape: DeregisterTaskDefinitionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3386,6 +3400,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DescribeCapacityProvidersRequest)
         o.output = Shapes::ShapeRef.new(shape: DescribeCapacityProvidersResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3399,6 +3414,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DescribeClustersRequest)
         o.output = Shapes::ShapeRef.new(shape: DescribeClustersResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3410,6 +3426,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DescribeContainerInstancesRequest)
         o.output = Shapes::ShapeRef.new(shape: DescribeContainerInstancesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3522,6 +3539,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DescribeServicesRequest)
         o.output = Shapes::ShapeRef.new(shape: DescribeServicesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3534,6 +3552,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DescribeTaskDefinitionRequest)
         o.output = Shapes::ShapeRef.new(shape: DescribeTaskDefinitionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3561,6 +3580,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DescribeTasksRequest)
         o.output = Shapes::ShapeRef.new(shape: DescribeTasksResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3573,7 +3593,9 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DiscoverPollEndpointRequest)
         o.output = Shapes::ShapeRef.new(shape: DiscoverPollEndpointResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
       end)
 
@@ -3612,6 +3634,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ListAccountSettingsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListAccountSettingsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3629,7 +3652,10 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ListAttributesRequest)
         o.output = Shapes::ShapeRef.new(shape: ListAttributesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ClientException)
         o.errors << Shapes::ShapeRef.new(shape: ClusterNotFoundException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
@@ -3645,6 +3671,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ListClustersRequest)
         o.output = Shapes::ShapeRef.new(shape: ListClustersResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3662,6 +3689,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ListContainerInstancesRequest)
         o.output = Shapes::ShapeRef.new(shape: ListContainerInstancesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3725,6 +3753,7 @@ module Aws::ECS
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ClusterNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: UnsupportedFeatureException)
       end)
 
@@ -3734,6 +3763,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ListServicesRequest)
         o.output = Shapes::ShapeRef.new(shape: ListServicesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3752,6 +3782,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ListServicesByNamespaceRequest)
         o.output = Shapes::ShapeRef.new(shape: ListServicesByNamespaceResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: NamespaceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
@@ -3770,6 +3801,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ListTagsForResourceRequest)
         o.output = Shapes::ShapeRef.new(shape: ListTagsForResourceResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3782,6 +3814,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ListTaskDefinitionFamiliesRequest)
         o.output = Shapes::ShapeRef.new(shape: ListTaskDefinitionFamiliesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3799,6 +3832,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ListTaskDefinitionsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListTaskDefinitionsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3816,6 +3850,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ListTasksRequest)
         o.output = Shapes::ShapeRef.new(shape: ListTasksResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3835,6 +3870,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: PutAccountSettingRequest)
         o.output = Shapes::ShapeRef.new(shape: PutAccountSettingResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3846,6 +3882,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: PutAccountSettingDefaultRequest)
         o.output = Shapes::ShapeRef.new(shape: PutAccountSettingDefaultResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3857,9 +3894,12 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: PutAttributesRequest)
         o.output = Shapes::ShapeRef.new(shape: PutAttributesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: TargetNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: AttributeLimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ClientException)
         o.errors << Shapes::ShapeRef.new(shape: ClusterNotFoundException)
       end)
 
@@ -3869,6 +3909,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: PutClusterCapacityProvidersRequest)
         o.output = Shapes::ShapeRef.new(shape: PutClusterCapacityProvidersResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: UpdateInProgressException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
@@ -3883,9 +3924,11 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: RegisterContainerInstanceRequest)
         o.output = Shapes::ShapeRef.new(shape: RegisterContainerInstanceResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
+        o.errors << Shapes::ShapeRef.new(shape: ClusterNotFoundException)
       end)
 
       api.add_operation(:register_daemon_task_definition, Seahorse::Model::Operation.new.tap do |o|
@@ -3907,6 +3950,8 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: RegisterTaskDefinitionRequest)
         o.output = Shapes::ShapeRef.new(shape: RegisterTaskDefinitionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3936,6 +3981,8 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: StartTaskRequest)
         o.output = Shapes::ShapeRef.new(shape: StartTaskResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: NamespaceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3964,6 +4011,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: StopTaskRequest)
         o.output = Shapes::ShapeRef.new(shape: StopTaskResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -3980,6 +4028,7 @@ module Aws::ECS
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
+        o.errors << Shapes::ShapeRef.new(shape: ClusterNotFoundException)
       end)
 
       api.add_operation(:submit_container_state_change, Seahorse::Model::Operation.new.tap do |o|
@@ -3990,7 +4039,9 @@ module Aws::ECS
         o.output = Shapes::ShapeRef.new(shape: SubmitContainerStateChangeResponse)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
+        o.errors << Shapes::ShapeRef.new(shape: ClusterNotFoundException)
       end)
 
       api.add_operation(:submit_task_state_change, Seahorse::Model::Operation.new.tap do |o|
@@ -4003,6 +4054,7 @@ module Aws::ECS
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
+        o.errors << Shapes::ShapeRef.new(shape: ClusterNotFoundException)
       end)
 
       api.add_operation(:tag_resource, Seahorse::Model::Operation.new.tap do |o|
@@ -4011,6 +4063,8 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: TagResourceRequest)
         o.output = Shapes::ShapeRef.new(shape: TagResourceResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
@@ -4024,6 +4078,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: UntagResourceRequest)
         o.output = Shapes::ShapeRef.new(shape: UntagResourceResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
@@ -4037,6 +4092,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: UpdateCapacityProviderRequest)
         o.output = Shapes::ShapeRef.new(shape: UpdateCapacityProviderResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -4050,6 +4106,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: UpdateClusterRequest)
         o.output = Shapes::ShapeRef.new(shape: UpdateClusterResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: NamespaceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
@@ -4063,7 +4120,9 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: UpdateClusterSettingsRequest)
         o.output = Shapes::ShapeRef.new(shape: UpdateClusterSettingsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: UpdateInProgressException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
         o.errors << Shapes::ShapeRef.new(shape: ClusterNotFoundException)
@@ -4075,6 +4134,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: UpdateContainerAgentRequest)
         o.output = Shapes::ShapeRef.new(shape: UpdateContainerAgentResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: NoUpdateAvailableException)
         o.errors << Shapes::ShapeRef.new(shape: MissingVersionException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
@@ -4090,6 +4150,7 @@ module Aws::ECS
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: UpdateContainerInstancesStateRequest)
         o.output = Shapes::ShapeRef.new(shape: UpdateContainerInstancesStateResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
@@ -4187,6 +4248,7 @@ module Aws::ECS
         o.input = Shapes::ShapeRef.new(shape: UpdateTaskSetRequest)
         o.output = Shapes::ShapeRef.new(shape: UpdateTaskSetResponse)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceNotActiveException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)

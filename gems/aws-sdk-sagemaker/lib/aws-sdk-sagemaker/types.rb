@@ -175,11 +175,24 @@ module Aws::SageMaker
     #   cannot exceed 50.
     #   @return [Integer]
     #
+    # @!attribute [rw] availability_zones
+    #   The availability zones in which to add nodes. Use this to target
+    #   node placement in specific availability zones within a flexible
+    #   instance group.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] instance_types
+    #   The instance types to use when adding nodes. Use this to target
+    #   specific instance types within a flexible instance group.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AddClusterNodeSpecification AWS API Documentation
     #
     class AddClusterNodeSpecification < Struct.new(
       :instance_group_name,
-      :increment_target_count_by)
+      :increment_target_count_by,
+      :availability_zones,
+      :instance_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3191,6 +3204,15 @@ module Aws::SageMaker
     #   instance group.
     #   @return [Integer]
     #
+    # @!attribute [rw] availability_zones
+    #   The availability zones associated with the failed node addition
+    #   request.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] instance_types
+    #   The instance types associated with the failed node addition request.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] message
     #   A descriptive message providing additional details about the error.
     #   @return [String]
@@ -3201,6 +3223,8 @@ module Aws::SageMaker
       :instance_group_name,
       :error_code,
       :failed_count,
+      :availability_zones,
+      :instance_types,
       :message)
       SENSITIVE = []
       include Aws::Structure
@@ -5519,6 +5543,19 @@ module Aws::SageMaker
     #   cluster.
     #   @return [String]
     #
+    # @!attribute [rw] instance_requirements
+    #   The instance requirements for the instance group, including the
+    #   current and desired instance types. This field is present for
+    #   flexible instance groups that support multiple instance types.
+    #   @return [Types::ClusterInstanceRequirementDetails]
+    #
+    # @!attribute [rw] instance_type_details
+    #   Details about the instance types in the instance group, including
+    #   the count and configuration of each instance type. This field is
+    #   present for flexible instance groups that support multiple instance
+    #   types.
+    #   @return [Array<Types::ClusterInstanceTypeDetail>]
+    #
     # @!attribute [rw] life_cycle_config
     #   Details of LifeCycle configuration for the instance group.
     #   @return [Types::ClusterLifeCycleConfig]
@@ -5669,6 +5706,8 @@ module Aws::SageMaker
       :min_count,
       :instance_group_name,
       :instance_type,
+      :instance_requirements,
+      :instance_type_details,
       :life_cycle_config,
       :execution_role,
       :threads_per_core,
@@ -5716,6 +5755,13 @@ module Aws::SageMaker
     # @!attribute [rw] instance_type
     #   Specifies the instance type of the instance group.
     #   @return [String]
+    #
+    # @!attribute [rw] instance_requirements
+    #   The instance requirements for the instance group, including the
+    #   instance types to use. Use this to create a flexible instance group
+    #   that supports multiple instance types. The `InstanceType` and
+    #   `InstanceRequirements` properties are mutually exclusive.
+    #   @return [Types::ClusterInstanceRequirements]
     #
     # @!attribute [rw] life_cycle_config
     #   Specifies the LifeCycle configuration for the instance group.
@@ -5858,6 +5904,7 @@ module Aws::SageMaker
       :min_instance_count,
       :instance_group_name,
       :instance_type,
+      :instance_requirements,
       :life_cycle_config,
       :execution_role,
       :threads_per_core,
@@ -5893,6 +5940,47 @@ module Aws::SageMaker
     class ClusterInstancePlacement < Struct.new(
       :availability_zone,
       :availability_zone_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The instance requirement details for a flexible instance group,
+    # including the current and desired instance types.
+    #
+    # @!attribute [rw] current_instance_types
+    #   The instance types currently in use by the instance group.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] desired_instance_types
+    #   The desired instance types for the instance group, as specified in
+    #   the most recent update request.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterInstanceRequirementDetails AWS API Documentation
+    #
+    class ClusterInstanceRequirementDetails < Struct.new(
+      :current_instance_types,
+      :desired_instance_types)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The instance requirements for a flexible instance group. Use this to
+    # specify multiple instance types that the instance group can use. The
+    # order of instance types in the list determines the priority for
+    # instance provisioning.
+    #
+    # @!attribute [rw] instance_types
+    #   The list of instance types that the instance group can use. The
+    #   order of instance types determines the priority—HyperPod attempts to
+    #   provision instances using the first instance type in the list and
+    #   falls back to subsequent types if capacity is unavailable.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterInstanceRequirements AWS API Documentation
+    #
+    class ClusterInstanceRequirements < Struct.new(
+      :instance_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5963,6 +6051,32 @@ module Aws::SageMaker
       class FsxLustreConfig < ClusterInstanceStorageConfig; end
       class FsxOpenZfsConfig < ClusterInstanceStorageConfig; end
       class Unknown < ClusterInstanceStorageConfig; end
+    end
+
+    # Details about a specific instance type within a flexible instance
+    # group, including the count and configuration.
+    #
+    # @!attribute [rw] instance_type
+    #   The instance type.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_count
+    #   The number of instances of this type currently running in the
+    #   instance group.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] threads_per_core
+    #   The number of threads per CPU core for this instance type.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterInstanceTypeDetail AWS API Documentation
+    #
+    class ClusterInstanceTypeDetail < Struct.new(
+      :instance_type,
+      :current_count,
+      :threads_per_core)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # Kubernetes configuration that specifies labels and taints to be
@@ -30002,6 +30116,41 @@ module Aws::SageMaker
       include Aws::Structure
     end
 
+    # The configuration of deep health checks for an instance group.
+    #
+    # <note markdown="1"> Overlapping deep health check configurations will be merged into a
+    # single operation.
+    #
+    #  </note>
+    #
+    # @!attribute [rw] instance_group_name
+    #   The name of the instance group.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_ids
+    #   A list of Amazon Elastic Compute Cloud (EC2) instance IDs on which
+    #   to perform deep health checks.
+    #
+    #   <note markdown="1"> Leave this field blank to perform deep health checks on the entire
+    #   instance group.
+    #
+    #    </note>
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] deep_health_checks
+    #   A list of deep health checks to be performed.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/InstanceGroupHealthCheckConfiguration AWS API Documentation
+    #
+    class InstanceGroupHealthCheckConfiguration < Struct.new(
+      :instance_group_name,
+      :instance_ids,
+      :deep_health_checks)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Metadata information about an instance group in a HyperPod cluster.
     #
     # @!attribute [rw] failure_message
@@ -40787,12 +40936,22 @@ module Aws::SageMaker
     #   `DeepHealthCheckInProgress`, and `NotFound`.
     #   @return [String]
     #
+    # @!attribute [rw] availability_zones
+    #   The availability zones associated with the successfully added node.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] instance_types
+    #   The instance types associated with the successfully added node.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/NodeAdditionResult AWS API Documentation
     #
     class NodeAdditionResult < Struct.new(
       :node_logical_id,
       :instance_group_name,
-      :status)
+      :status,
+      :availability_zones,
+      :instance_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -48563,6 +48722,38 @@ module Aws::SageMaker
       :duration_in_seconds,
       :number_of_steps,
       :users_per_step)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] cluster_name
+    #   The string name or the Amazon Resource Name (ARN) of the SageMaker
+    #   HyperPod cluster.
+    #   @return [String]
+    #
+    # @!attribute [rw] deep_health_check_configurations
+    #   A list of configurations containing instance group names, EC2
+    #   instance IDs, and deep health checks to perform.
+    #   @return [Array<Types::InstanceGroupHealthCheckConfiguration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/StartClusterHealthCheckRequest AWS API Documentation
+    #
+    class StartClusterHealthCheckRequest < Struct.new(
+      :cluster_name,
+      :deep_health_check_configurations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] cluster_arn
+    #   The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on
+    #   which the deep health checks were initiated.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/StartClusterHealthCheckResponse AWS API Documentation
+    #
+    class StartClusterHealthCheckResponse < Struct.new(
+      :cluster_arn)
       SENSITIVE = []
       include Aws::Structure
     end

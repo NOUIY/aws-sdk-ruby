@@ -1187,6 +1187,16 @@ module Aws::RTBFabric
     #       auto_scaling_groups: {
     #         auto_scaling_group_names: ["AutoScalingGroupName"], # required
     #         role_arn: "AutoScalingGroupsConfigurationRoleArnString", # required
+    #         health_check_config: {
+    #           port: 1, # required
+    #           path: "HealthCheckConfigPathString", # required
+    #           protocol: "HTTP", # accepts HTTP, HTTPS
+    #           timeout_ms: 1,
+    #           interval_seconds: 1,
+    #           status_code_matcher: "StatusCodeMatcher",
+    #           healthy_threshold_count: 1,
+    #           unhealthy_threshold_count: 1,
+    #         },
     #       },
     #       eks_endpoints: {
     #         endpoints_resource_name: "KubernetesEndpointsResourceName", # required
@@ -2021,6 +2031,14 @@ module Aws::RTBFabric
     #   resp.managed_endpoint_configuration.auto_scaling_groups.auto_scaling_group_names #=> Array
     #   resp.managed_endpoint_configuration.auto_scaling_groups.auto_scaling_group_names[0] #=> String
     #   resp.managed_endpoint_configuration.auto_scaling_groups.role_arn #=> String
+    #   resp.managed_endpoint_configuration.auto_scaling_groups.health_check_config.port #=> Integer
+    #   resp.managed_endpoint_configuration.auto_scaling_groups.health_check_config.path #=> String
+    #   resp.managed_endpoint_configuration.auto_scaling_groups.health_check_config.protocol #=> String, one of "HTTP", "HTTPS"
+    #   resp.managed_endpoint_configuration.auto_scaling_groups.health_check_config.timeout_ms #=> Integer
+    #   resp.managed_endpoint_configuration.auto_scaling_groups.health_check_config.interval_seconds #=> Integer
+    #   resp.managed_endpoint_configuration.auto_scaling_groups.health_check_config.status_code_matcher #=> String
+    #   resp.managed_endpoint_configuration.auto_scaling_groups.health_check_config.healthy_threshold_count #=> Integer
+    #   resp.managed_endpoint_configuration.auto_scaling_groups.health_check_config.unhealthy_threshold_count #=> Integer
     #   resp.managed_endpoint_configuration.eks_endpoints.endpoints_resource_name #=> String
     #   resp.managed_endpoint_configuration.eks_endpoints.endpoints_resource_namespace #=> String
     #   resp.managed_endpoint_configuration.eks_endpoints.cluster_api_server_endpoint_uri #=> String
@@ -2928,6 +2946,16 @@ module Aws::RTBFabric
     #       auto_scaling_groups: {
     #         auto_scaling_group_names: ["AutoScalingGroupName"], # required
     #         role_arn: "AutoScalingGroupsConfigurationRoleArnString", # required
+    #         health_check_config: {
+    #           port: 1, # required
+    #           path: "HealthCheckConfigPathString", # required
+    #           protocol: "HTTP", # accepts HTTP, HTTPS
+    #           timeout_ms: 1,
+    #           interval_seconds: 1,
+    #           status_code_matcher: "StatusCodeMatcher",
+    #           healthy_threshold_count: 1,
+    #           unhealthy_threshold_count: 1,
+    #         },
     #       },
     #       eks_endpoints: {
     #         endpoints_resource_name: "KubernetesEndpointsResourceName", # required
@@ -2975,7 +3003,7 @@ module Aws::RTBFabric
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-rtbfabric'
-      context[:gem_version] = '1.9.0'
+      context[:gem_version] = '1.10.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

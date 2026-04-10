@@ -147,10 +147,17 @@ module Aws
                                    account_id: ::String,
                                    endpoint: ::String
                                  }?,
+                                 mcpserverdatadog: {
+                                 }?,
+                                 mcpserver: {
+                                   tools: Array[::String]
+                                 }?,
                                  gitlab: {
                                    project_id: ::String,
                                    project_path: ::String,
                                    instance_identifier: ::String?
+                                 }?,
+                                 mcpserversplunk: {
                                  }?,
                                  event_channel: {
                                  }?,
@@ -920,10 +927,17 @@ module Aws
                                     account_id: ::String,
                                     endpoint: ::String
                                   }?,
+                                  mcpserverdatadog: {
+                                  }?,
+                                  mcpserver: {
+                                    tools: Array[::String]
+                                  }?,
                                   gitlab: {
                                     project_id: ::String,
                                     project_path: ::String,
                                     instance_identifier: ::String?
+                                  }?,
+                                  mcpserversplunk: {
                                   }?,
                                   event_channel: {
                                   }?,

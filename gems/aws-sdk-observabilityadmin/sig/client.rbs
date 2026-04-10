@@ -226,7 +226,9 @@ module Aws
                                        }?
                                      }?,
                                      scope: ::String?,
-                                     selection_criteria: ::String?
+                                     selection_criteria: ::String?,
+                                     regions: Array[::String]?,
+                                     all_regions: bool?
                                    },
                                    ?tags: Hash[::String, ::String]
                                  ) -> _CreateTelemetryRuleResponseSuccess
@@ -311,7 +313,9 @@ module Aws
                                                         }?
                                                       }?,
                                                       scope: ::String?,
-                                                      selection_criteria: ::String?
+                                                      selection_criteria: ::String?,
+                                                      regions: Array[::String]?,
+                                                      all_regions: bool?
                                                     },
                                                     ?tags: Hash[::String, ::String]
                                                   ) -> _CreateTelemetryRuleForOrganizationResponseSuccess
@@ -396,6 +400,8 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::GetTelemetryEvaluationStatusOutput]
         def status: () -> ("NOT_STARTED" | "STARTING" | "FAILED_START" | "RUNNING" | "STOPPING" | "FAILED_STOP" | "STOPPED")
         def failure_reason: () -> ::String
+        def home_region: () -> ::String
+        def region_statuses: () -> ::Array[Types::RegionStatus]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ObservabilityAdmin/Client.html#get_telemetry_evaluation_status-instance_method
       def get_telemetry_evaluation_status: () -> _GetTelemetryEvaluationStatusResponseSuccess
@@ -405,6 +411,8 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::GetTelemetryEvaluationStatusForOrganizationOutput]
         def status: () -> ("NOT_STARTED" | "STARTING" | "FAILED_START" | "RUNNING" | "STOPPING" | "FAILED_STOP" | "STOPPED")
         def failure_reason: () -> ::String
+        def home_region: () -> ::String
+        def region_statuses: () -> ::Array[Types::RegionStatus]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ObservabilityAdmin/Client.html#get_telemetry_evaluation_status_for_organization-instance_method
       def get_telemetry_evaluation_status_for_organization: () -> _GetTelemetryEvaluationStatusForOrganizationResponseSuccess
@@ -427,6 +435,9 @@ module Aws
         def created_time_stamp: () -> ::Integer
         def last_update_time_stamp: () -> ::Integer
         def telemetry_rule: () -> Types::TelemetryRule
+        def home_region: () -> ::String
+        def is_replicated: () -> bool
+        def region_statuses: () -> ::Array[Types::RegionStatus]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ObservabilityAdmin/Client.html#get_telemetry_rule-instance_method
       def get_telemetry_rule: (
@@ -441,6 +452,9 @@ module Aws
         def created_time_stamp: () -> ::Integer
         def last_update_time_stamp: () -> ::Integer
         def telemetry_rule: () -> Types::TelemetryRule
+        def home_region: () -> ::String
+        def is_replicated: () -> bool
+        def region_statuses: () -> ::Array[Types::RegionStatus]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ObservabilityAdmin/Client.html#get_telemetry_rule_for_organization-instance_method
       def get_telemetry_rule_for_organization: (
@@ -567,11 +581,17 @@ module Aws
                                     | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartTelemetryEnrichmentResponseSuccess
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ObservabilityAdmin/Client.html#start_telemetry_evaluation-instance_method
-      def start_telemetry_evaluation: () -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+      def start_telemetry_evaluation: (
+                                        ?regions: Array[::String],
+                                        ?all_regions: bool
+                                      ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                     | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ObservabilityAdmin/Client.html#start_telemetry_evaluation_for_organization-instance_method
-      def start_telemetry_evaluation_for_organization: () -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+      def start_telemetry_evaluation_for_organization: (
+                                                         ?regions: Array[::String],
+                                                         ?all_regions: bool
+                                                       ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                                      | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
       interface _StopTelemetryEnrichmentResponseSuccess
@@ -752,7 +772,9 @@ module Aws
                                        }?
                                      }?,
                                      scope: ::String?,
-                                     selection_criteria: ::String?
+                                     selection_criteria: ::String?,
+                                     regions: Array[::String]?,
+                                     all_regions: bool?
                                    }
                                  ) -> _UpdateTelemetryRuleResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateTelemetryRuleResponseSuccess
@@ -836,7 +858,9 @@ module Aws
                                                         }?
                                                       }?,
                                                       scope: ::String?,
-                                                      selection_criteria: ::String?
+                                                      selection_criteria: ::String?,
+                                                      regions: Array[::String]?,
+                                                      all_regions: bool?
                                                     }
                                                   ) -> _UpdateTelemetryRuleForOrganizationResponseSuccess
                                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateTelemetryRuleForOrganizationResponseSuccess

@@ -274,7 +274,17 @@ module Aws
                                       ?managed_endpoint_configuration: {
                                         auto_scaling_groups: {
                                           auto_scaling_group_names: Array[::String],
-                                          role_arn: ::String
+                                          role_arn: ::String,
+                                          health_check_config: {
+                                            port: ::Integer,
+                                            path: ::String,
+                                            protocol: ("HTTP" | "HTTPS")?,
+                                            timeout_ms: ::Integer?,
+                                            interval_seconds: ::Integer?,
+                                            status_code_matcher: ::String?,
+                                            healthy_threshold_count: ::Integer?,
+                                            unhealthy_threshold_count: ::Integer?
+                                          }?
                                         }?,
                                         eks_endpoints: {
                                           endpoints_resource_name: ::String,
@@ -665,7 +675,17 @@ module Aws
                                       ?managed_endpoint_configuration: {
                                         auto_scaling_groups: {
                                           auto_scaling_group_names: Array[::String],
-                                          role_arn: ::String
+                                          role_arn: ::String,
+                                          health_check_config: {
+                                            port: ::Integer,
+                                            path: ::String,
+                                            protocol: ("HTTP" | "HTTPS")?,
+                                            timeout_ms: ::Integer?,
+                                            interval_seconds: ::Integer?,
+                                            status_code_matcher: ::String?,
+                                            healthy_threshold_count: ::Integer?,
+                                            unhealthy_threshold_count: ::Integer?
+                                          }?
                                         }?,
                                         eks_endpoints: {
                                           endpoints_resource_name: ::String,

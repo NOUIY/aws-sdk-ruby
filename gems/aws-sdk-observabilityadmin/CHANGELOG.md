@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.25.0 (2026-04-10)
+------------------
+
+* Feature - CloudWatch Observability Admin adds support for multi-region telemetry evaluation and telemetry enablement rules.
+
 1.24.0 (2026-03-31)
 ------------------
 

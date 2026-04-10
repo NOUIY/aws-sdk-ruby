@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.101.0 (2026-04-10)
+------------------
+
+* Feature - Image pipelines can now automatically apply tags to images they create. Set the imageTags property when creating or updating your pipelines to get started.
+
 1.100.0 (2026-04-03)
 ------------------
 

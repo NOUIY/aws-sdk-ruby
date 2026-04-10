@@ -89,6 +89,13 @@ module Aws::RTBFabric
     GetResponderGatewayResponseSecurityGroupIdsList = Shapes::ListShape.new(name: 'GetResponderGatewayResponseSecurityGroupIdsList')
     GetResponderGatewayResponseSubnetIdsList = Shapes::ListShape.new(name: 'GetResponderGatewayResponseSubnetIdsList')
     HeaderTagAction = Shapes::StructureShape.new(name: 'HeaderTagAction')
+    HealthCheckConfig = Shapes::StructureShape.new(name: 'HealthCheckConfig')
+    HealthCheckConfigHealthyThresholdCountInteger = Shapes::IntegerShape.new(name: 'HealthCheckConfigHealthyThresholdCountInteger')
+    HealthCheckConfigIntervalSecondsInteger = Shapes::IntegerShape.new(name: 'HealthCheckConfigIntervalSecondsInteger')
+    HealthCheckConfigPathString = Shapes::StringShape.new(name: 'HealthCheckConfigPathString')
+    HealthCheckConfigPortInteger = Shapes::IntegerShape.new(name: 'HealthCheckConfigPortInteger')
+    HealthCheckConfigTimeoutMsInteger = Shapes::IntegerShape.new(name: 'HealthCheckConfigTimeoutMsInteger')
+    HealthCheckConfigUnhealthyThresholdCountInteger = Shapes::IntegerShape.new(name: 'HealthCheckConfigUnhealthyThresholdCountInteger')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
     KubernetesClusterName = Shapes::StringShape.new(name: 'KubernetesClusterName')
@@ -147,6 +154,7 @@ module Aws::RTBFabric
     RtbTaggableResourceArn = Shapes::StringShape.new(name: 'RtbTaggableResourceArn')
     SecurityGroupId = Shapes::StringShape.new(name: 'SecurityGroupId')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
+    StatusCodeMatcher = Shapes::StringShape.new(name: 'StatusCodeMatcher')
     String = Shapes::StringShape.new(name: 'String')
     SubnetId = Shapes::StringShape.new(name: 'SubnetId')
     TagKey = Shapes::StringShape.new(name: 'TagKey')
@@ -213,6 +221,7 @@ module Aws::RTBFabric
 
     AutoScalingGroupsConfiguration.add_member(:auto_scaling_group_names, Shapes::ShapeRef.new(shape: AutoScalingGroupNameList, required: true, location_name: "autoScalingGroupNames"))
     AutoScalingGroupsConfiguration.add_member(:role_arn, Shapes::ShapeRef.new(shape: AutoScalingGroupsConfigurationRoleArnString, required: true, location_name: "roleArn"))
+    AutoScalingGroupsConfiguration.add_member(:health_check_config, Shapes::ShapeRef.new(shape: HealthCheckConfig, location_name: "healthCheckConfig"))
     AutoScalingGroupsConfiguration.struct_class = Types::AutoScalingGroupsConfiguration
 
     CertificateAuthorityCertificates.member = Shapes::ShapeRef.new(shape: Base64EncodedCertificateChain)
@@ -485,6 +494,16 @@ module Aws::RTBFabric
     HeaderTagAction.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
     HeaderTagAction.add_member(:value, Shapes::ShapeRef.new(shape: String, required: true, location_name: "value"))
     HeaderTagAction.struct_class = Types::HeaderTagAction
+
+    HealthCheckConfig.add_member(:port, Shapes::ShapeRef.new(shape: HealthCheckConfigPortInteger, required: true, location_name: "port"))
+    HealthCheckConfig.add_member(:path, Shapes::ShapeRef.new(shape: HealthCheckConfigPathString, required: true, location_name: "path"))
+    HealthCheckConfig.add_member(:protocol, Shapes::ShapeRef.new(shape: Protocol, location_name: "protocol"))
+    HealthCheckConfig.add_member(:timeout_ms, Shapes::ShapeRef.new(shape: HealthCheckConfigTimeoutMsInteger, location_name: "timeoutMs"))
+    HealthCheckConfig.add_member(:interval_seconds, Shapes::ShapeRef.new(shape: HealthCheckConfigIntervalSecondsInteger, location_name: "intervalSeconds"))
+    HealthCheckConfig.add_member(:status_code_matcher, Shapes::ShapeRef.new(shape: StatusCodeMatcher, location_name: "statusCodeMatcher"))
+    HealthCheckConfig.add_member(:healthy_threshold_count, Shapes::ShapeRef.new(shape: HealthCheckConfigHealthyThresholdCountInteger, location_name: "healthyThresholdCount"))
+    HealthCheckConfig.add_member(:unhealthy_threshold_count, Shapes::ShapeRef.new(shape: HealthCheckConfigUnhealthyThresholdCountInteger, location_name: "unhealthyThresholdCount"))
+    HealthCheckConfig.struct_class = Types::HealthCheckConfig
 
     InternalServerException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     InternalServerException.struct_class = Types::InternalServerException

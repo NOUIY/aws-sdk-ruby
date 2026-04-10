@@ -197,6 +197,8 @@ module Aws::DevOpsAgent
     MCPServerBearerTokenConfigAuthorizationHeaderString = Shapes::StringShape.new(name: 'MCPServerBearerTokenConfigAuthorizationHeaderString')
     MCPServerBearerTokenConfigTokenNameString = Shapes::StringShape.new(name: 'MCPServerBearerTokenConfigTokenNameString')
     MCPServerBearerTokenConfigTokenValueString = Shapes::StringShape.new(name: 'MCPServerBearerTokenConfigTokenValueString')
+    MCPServerConfiguration = Shapes::StructureShape.new(name: 'MCPServerConfiguration')
+    MCPServerDatadogConfiguration = Shapes::StructureShape.new(name: 'MCPServerDatadogConfiguration')
     MCPServerDetails = Shapes::StructureShape.new(name: 'MCPServerDetails')
     MCPServerDetailsDescriptionString = Shapes::StringShape.new(name: 'MCPServerDetailsDescriptionString')
     MCPServerDetailsEndpointString = Shapes::StringShape.new(name: 'MCPServerDetailsEndpointString')
@@ -215,6 +217,7 @@ module Aws::DevOpsAgent
     MCPServerOAuthClientCredentialsConfig = Shapes::StructureShape.new(name: 'MCPServerOAuthClientCredentialsConfig')
     MCPServerOAuthClientCredentialsConfigClientNameString = Shapes::StringShape.new(name: 'MCPServerOAuthClientCredentialsConfigClientNameString')
     MCPServerOAuthClientCredentialsConfigExchangeUrlString = Shapes::StringShape.new(name: 'MCPServerOAuthClientCredentialsConfigExchangeUrlString')
+    MCPServerSplunkConfiguration = Shapes::StructureShape.new(name: 'MCPServerSplunkConfiguration')
     MCPToolsList = Shapes::ListShape.new(name: 'MCPToolsList')
     MCPToolsListMemberString = Shapes::StringShape.new(name: 'MCPToolsListMemberString')
     MaxIpv4AddressesPerEni = Shapes::IntegerShape.new(name: 'MaxIpv4AddressesPerEni')
@@ -973,6 +976,11 @@ module Aws::DevOpsAgent
     MCPServerBearerTokenConfig.add_member(:authorization_header, Shapes::ShapeRef.new(shape: MCPServerBearerTokenConfigAuthorizationHeaderString, location_name: "authorizationHeader"))
     MCPServerBearerTokenConfig.struct_class = Types::MCPServerBearerTokenConfig
 
+    MCPServerConfiguration.add_member(:tools, Shapes::ShapeRef.new(shape: MCPToolsList, required: true, location_name: "tools"))
+    MCPServerConfiguration.struct_class = Types::MCPServerConfiguration
+
+    MCPServerDatadogConfiguration.struct_class = Types::MCPServerDatadogConfiguration
+
     MCPServerDetails.add_member(:name, Shapes::ShapeRef.new(shape: MCPServerDetailsNameString, required: true, location_name: "name"))
     MCPServerDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: MCPServerDetailsEndpointString, required: true, location_name: "endpoint"))
     MCPServerDetails.add_member(:description, Shapes::ShapeRef.new(shape: MCPServerDetailsDescriptionString, location_name: "description"))
@@ -1006,6 +1014,8 @@ module Aws::DevOpsAgent
     MCPServerOAuthClientCredentialsConfig.add_member(:exchange_url, Shapes::ShapeRef.new(shape: MCPServerOAuthClientCredentialsConfigExchangeUrlString, required: true, location_name: "exchangeUrl"))
     MCPServerOAuthClientCredentialsConfig.add_member(:scopes, Shapes::ShapeRef.new(shape: Scopes, location_name: "scopes"))
     MCPServerOAuthClientCredentialsConfig.struct_class = Types::MCPServerOAuthClientCredentialsConfig
+
+    MCPServerSplunkConfiguration.struct_class = Types::MCPServerSplunkConfiguration
 
     MCPToolsList.member = Shapes::ShapeRef.new(shape: MCPToolsListMemberString)
 
@@ -1309,7 +1319,10 @@ module Aws::DevOpsAgent
     ServiceConfiguration.add_member(:dynatrace, Shapes::ShapeRef.new(shape: DynatraceConfiguration, location_name: "dynatrace"))
     ServiceConfiguration.add_member(:servicenow, Shapes::ShapeRef.new(shape: ServiceNowConfiguration, location_name: "servicenow"))
     ServiceConfiguration.add_member(:mcpservernewrelic, Shapes::ShapeRef.new(shape: MCPServerNewRelicConfiguration, location_name: "mcpservernewrelic"))
+    ServiceConfiguration.add_member(:mcpserverdatadog, Shapes::ShapeRef.new(shape: MCPServerDatadogConfiguration, location_name: "mcpserverdatadog"))
+    ServiceConfiguration.add_member(:mcpserver, Shapes::ShapeRef.new(shape: MCPServerConfiguration, location_name: "mcpserver"))
     ServiceConfiguration.add_member(:gitlab, Shapes::ShapeRef.new(shape: GitLabConfiguration, location_name: "gitlab"))
+    ServiceConfiguration.add_member(:mcpserversplunk, Shapes::ShapeRef.new(shape: MCPServerSplunkConfiguration, location_name: "mcpserversplunk"))
     ServiceConfiguration.add_member(:event_channel, Shapes::ShapeRef.new(shape: EventChannelConfiguration, location_name: "eventChannel"))
     ServiceConfiguration.add_member(:azure, Shapes::ShapeRef.new(shape: AzureConfiguration, location_name: "azure"))
     ServiceConfiguration.add_member(:azuredevops, Shapes::ShapeRef.new(shape: AzureDevOpsConfiguration, location_name: "azuredevops"))
@@ -1323,7 +1336,10 @@ module Aws::DevOpsAgent
     ServiceConfiguration.add_member_subclass(:dynatrace, Types::ServiceConfiguration::Dynatrace)
     ServiceConfiguration.add_member_subclass(:servicenow, Types::ServiceConfiguration::Servicenow)
     ServiceConfiguration.add_member_subclass(:mcpservernewrelic, Types::ServiceConfiguration::Mcpservernewrelic)
+    ServiceConfiguration.add_member_subclass(:mcpserverdatadog, Types::ServiceConfiguration::Mcpserverdatadog)
+    ServiceConfiguration.add_member_subclass(:mcpserver, Types::ServiceConfiguration::Mcpserver)
     ServiceConfiguration.add_member_subclass(:gitlab, Types::ServiceConfiguration::Gitlab)
+    ServiceConfiguration.add_member_subclass(:mcpserversplunk, Types::ServiceConfiguration::Mcpserversplunk)
     ServiceConfiguration.add_member_subclass(:event_channel, Types::ServiceConfiguration::EventChannel)
     ServiceConfiguration.add_member_subclass(:azure, Types::ServiceConfiguration::Azure)
     ServiceConfiguration.add_member_subclass(:azuredevops, Types::ServiceConfiguration::Azuredevops)

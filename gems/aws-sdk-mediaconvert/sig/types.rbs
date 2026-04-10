@@ -500,6 +500,7 @@ module Aws::MediaConvert
     class Container
       attr_accessor duration: ::Float
       attr_accessor format: ("mp4" | "quicktime" | "matroska" | "webm" | "mxf" | "wave" | "avi" | "mpegts")
+      attr_accessor start_timecode: ::String
       attr_accessor tracks: ::Array[Types::Track]
       SENSITIVE: []
     end
@@ -1293,6 +1294,7 @@ module Aws::MediaConvert
       attr_accessor image_inserter: Types::ImageInserter
       attr_accessor input_clippings: ::Array[Types::InputClipping]
       attr_accessor input_scan_type: ("AUTO" | "PSF")
+      attr_accessor multi_view_settings: ::Array[Types::MultiViewSettings]
       attr_accessor position: Types::Rectangle
       attr_accessor program_number: ::Integer
       attr_accessor psi_control: ("IGNORE_PSI" | "USE_PSI")
@@ -1344,6 +1346,7 @@ module Aws::MediaConvert
       attr_accessor image_inserter: Types::ImageInserter
       attr_accessor input_clippings: ::Array[Types::InputClipping]
       attr_accessor input_scan_type: ("AUTO" | "PSF")
+      attr_accessor multi_view_settings: ::Array[Types::MultiViewSettings]
       attr_accessor position: Types::Rectangle
       attr_accessor program_number: ::Integer
       attr_accessor psi_control: ("IGNORE_PSI" | "USE_PSI")
@@ -1827,6 +1830,16 @@ module Aws::MediaConvert
       attr_accessor fragment_length: ::Integer
       attr_accessor fragment_length_control: ("EXACT" | "GOP_MULTIPLE")
       attr_accessor manifest_encoding: ("UTF8" | "UTF16")
+      SENSITIVE: []
+    end
+
+    class MultiViewInput
+      attr_accessor file_input: ::String
+      SENSITIVE: []
+    end
+
+    class MultiViewSettings
+      attr_accessor input: Types::MultiViewInput
       SENSITIVE: []
     end
 

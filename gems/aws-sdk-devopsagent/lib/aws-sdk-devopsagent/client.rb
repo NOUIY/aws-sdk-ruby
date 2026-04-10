@@ -592,10 +592,17 @@ module Aws::DevOpsAgent
     #         account_id: "MCPServerNewRelicConfigurationAccountIdString", # required
     #         endpoint: "MCPServerNewRelicConfigurationEndpointString", # required
     #       },
+    #       mcpserverdatadog: {
+    #       },
+    #       mcpserver: {
+    #         tools: ["MCPToolsListMemberString"], # required
+    #       },
     #       gitlab: {
     #         project_id: "String", # required
     #         project_path: "String", # required
     #         instance_identifier: "String",
+    #       },
+    #       mcpserversplunk: {
     #       },
     #       event_channel: {
     #       },
@@ -653,6 +660,8 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.servicenow.auth_scopes[0] #=> String
     #   resp.association.configuration.mcpservernewrelic.account_id #=> String
     #   resp.association.configuration.mcpservernewrelic.endpoint #=> String
+    #   resp.association.configuration.mcpserver.tools #=> Array
+    #   resp.association.configuration.mcpserver.tools[0] #=> String
     #   resp.association.configuration.gitlab.project_id #=> String
     #   resp.association.configuration.gitlab.project_path #=> String
     #   resp.association.configuration.gitlab.instance_identifier #=> String
@@ -1312,6 +1321,8 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.servicenow.auth_scopes[0] #=> String
     #   resp.association.configuration.mcpservernewrelic.account_id #=> String
     #   resp.association.configuration.mcpservernewrelic.endpoint #=> String
+    #   resp.association.configuration.mcpserver.tools #=> Array
+    #   resp.association.configuration.mcpserver.tools[0] #=> String
     #   resp.association.configuration.gitlab.project_id #=> String
     #   resp.association.configuration.gitlab.project_path #=> String
     #   resp.association.configuration.gitlab.instance_identifier #=> String
@@ -1664,6 +1675,8 @@ module Aws::DevOpsAgent
     #   resp.associations[0].configuration.servicenow.auth_scopes[0] #=> String
     #   resp.associations[0].configuration.mcpservernewrelic.account_id #=> String
     #   resp.associations[0].configuration.mcpservernewrelic.endpoint #=> String
+    #   resp.associations[0].configuration.mcpserver.tools #=> Array
+    #   resp.associations[0].configuration.mcpserver.tools[0] #=> String
     #   resp.associations[0].configuration.gitlab.project_id #=> String
     #   resp.associations[0].configuration.gitlab.project_path #=> String
     #   resp.associations[0].configuration.gitlab.instance_identifier #=> String
@@ -3007,10 +3020,17 @@ module Aws::DevOpsAgent
     #         account_id: "MCPServerNewRelicConfigurationAccountIdString", # required
     #         endpoint: "MCPServerNewRelicConfigurationEndpointString", # required
     #       },
+    #       mcpserverdatadog: {
+    #       },
+    #       mcpserver: {
+    #         tools: ["MCPToolsListMemberString"], # required
+    #       },
     #       gitlab: {
     #         project_id: "String", # required
     #         project_path: "String", # required
     #         instance_identifier: "String",
+    #       },
+    #       mcpserversplunk: {
     #       },
     #       event_channel: {
     #       },
@@ -3068,6 +3088,8 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.servicenow.auth_scopes[0] #=> String
     #   resp.association.configuration.mcpservernewrelic.account_id #=> String
     #   resp.association.configuration.mcpservernewrelic.endpoint #=> String
+    #   resp.association.configuration.mcpserver.tools #=> Array
+    #   resp.association.configuration.mcpserver.tools[0] #=> String
     #   resp.association.configuration.gitlab.project_id #=> String
     #   resp.association.configuration.gitlab.project_path #=> String
     #   resp.association.configuration.gitlab.instance_identifier #=> String
@@ -3406,7 +3428,7 @@ module Aws::DevOpsAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-devopsagent'
-      context[:gem_version] = '1.1.0'
+      context[:gem_version] = '1.2.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
