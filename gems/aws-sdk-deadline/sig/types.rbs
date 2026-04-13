@@ -1413,6 +1413,16 @@ module Aws::Deadline
       SENSITIVE: []
     end
 
+    class GetMonitorSettingsRequest
+      attr_accessor monitor_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetMonitorSettingsResponse
+      attr_accessor settings: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
     class GetQueueEnvironmentRequest
       attr_accessor farm_id: ::String
       attr_accessor queue_id: ::String
@@ -3151,6 +3161,15 @@ module Aws::Deadline
     end
 
     class UpdateMonitorResponse < Aws::EmptyStructure
+    end
+
+    class UpdateMonitorSettingsRequest
+      attr_accessor monitor_id: ::String
+      attr_accessor settings: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class UpdateMonitorSettingsResponse < Aws::EmptyStructure
     end
 
     class UpdateQueueEnvironmentRequest

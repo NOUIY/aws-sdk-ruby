@@ -1909,6 +1909,10 @@ module Aws::CustomerProfiles
     #   The segment SQL query.
     #   @return [String]
     #
+    # @!attribute [rw] segment_sort
+    #   The segment sort.
+    #   @return [Types::SegmentSort]
+    #
     # @!attribute [rw] tags
     #   The tags used to organize, track, or control access for this
     #   resource.
@@ -1923,8 +1927,9 @@ module Aws::CustomerProfiles
       :description,
       :segment_groups,
       :segment_sql_query,
+      :segment_sort,
       :tags)
-      SENSITIVE = [:description, :segment_groups, :segment_sql_query]
+      SENSITIVE = [:description, :segment_groups, :segment_sql_query, :segment_sort]
       include Aws::Structure
     end
 
@@ -4815,6 +4820,10 @@ module Aws::CustomerProfiles
     #   The segment criteria associated with this definition.
     #   @return [Types::SegmentGroup]
     #
+    # @!attribute [rw] segment_sort
+    #   The segment sort.
+    #   @return [Types::SegmentSort]
+    #
     # @!attribute [rw] segment_definition_arn
     #   The arn of the segment definition.
     #   @return [String]
@@ -4847,12 +4856,13 @@ module Aws::CustomerProfiles
       :display_name,
       :description,
       :segment_groups,
+      :segment_sort,
       :segment_definition_arn,
       :created_at,
       :tags,
       :segment_sql_query,
       :segment_type)
-      SENSITIVE = [:description, :segment_groups, :segment_sql_query]
+      SENSITIVE = [:description, :segment_groups, :segment_sort, :segment_sql_query]
       include Aws::Structure
     end
 
@@ -9246,6 +9256,21 @@ module Aws::CustomerProfiles
       include Aws::Structure
     end
 
+    # Defines how segments should be sorted and ordered in the results.
+    #
+    # @!attribute [rw] attributes
+    #   A list of attributes used to sort the segments and their ordering
+    #   preferences.
+    #   @return [Array<Types::SortAttribute>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/SegmentSort AWS API Documentation
+    #
+    class SegmentSort < Struct.new(
+      :attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The properties that are applied when ServiceNow is being used as a
     # source.
     #
@@ -9257,6 +9282,36 @@ module Aws::CustomerProfiles
     #
     class ServiceNowSourceProperties < Struct.new(
       :object)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines the characteristics and rules for sorting by a specific
+    # attribute.
+    #
+    # @!attribute [rw] name
+    #   The name of the attribute to sort by.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_type
+    #   The data type of the sort attribute (e.g., string, number, date).
+    #   @return [String]
+    #
+    # @!attribute [rw] order
+    #   The sort order for the attribute (ascending or descending).
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of attribute (e.g., profile, calculated).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/SortAttribute AWS API Documentation
+    #
+    class SortAttribute < Struct.new(
+      :name,
+      :data_type,
+      :order,
+      :type)
       SENSITIVE = []
       include Aws::Structure
     end

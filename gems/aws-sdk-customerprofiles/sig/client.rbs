@@ -813,6 +813,16 @@ module Aws
                                          include: ("ALL" | "ANY" | "NONE")?
                                        },
                                        ?segment_sql_query: ::String,
+                                       ?segment_sort: {
+                                         attributes: Array[
+                                           {
+                                             name: ::String,
+                                             data_type: ("STRING" | "NUMBER" | "DATE")?,
+                                             order: ("ASC" | "DESC"),
+                                             type: ("PROFILE" | "CALCULATED")?
+                                           },
+                                         ]
+                                       },
                                        ?tags: Hash[::String, ::String]
                                      ) -> _CreateSegmentDefinitionResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateSegmentDefinitionResponseSuccess
@@ -1607,6 +1617,7 @@ module Aws
         def display_name: () -> ::String
         def description: () -> ::String
         def segment_groups: () -> Types::SegmentGroup
+        def segment_sort: () -> Types::SegmentSort
         def segment_definition_arn: () -> ::String
         def created_at: () -> ::Time
         def tags: () -> ::Hash[::String, ::String]

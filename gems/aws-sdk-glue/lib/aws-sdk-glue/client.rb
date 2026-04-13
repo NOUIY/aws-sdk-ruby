@@ -3375,7 +3375,7 @@ module Aws::Glue
     #   developer guide.
     #
     #   Jobs that are created without specifying a Glue version default to
-    #   Glue 0.9.
+    #   Glue 5.1.
     #
     #
     #
@@ -19018,7 +19018,7 @@ module Aws::Glue
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-glue'
-      context[:gem_version] = '1.252.0'
+      context[:gem_version] = '1.253.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

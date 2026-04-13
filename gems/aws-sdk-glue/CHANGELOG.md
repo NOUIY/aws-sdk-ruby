@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.253.0 (2026-04-13)
+------------------
+
+* Feature - AWS Glue now defaults to Glue version 5.1 for newly created jobs if the Glue version is not specified in the request, and UpdateJob now preserves the existing Glue version of a job when the Glue version is not specified in the update request.
+
 1.252.0 (2026-03-18)
 ------------------
 

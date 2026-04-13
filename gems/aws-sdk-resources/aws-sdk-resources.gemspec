@@ -205,6 +205,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency('aws-sdk-inspector', '~> 1')
   spec.add_dependency('aws-sdk-inspector2', '~> 1')
   spec.add_dependency('aws-sdk-inspectorscan', '~> 1')
+  spec.add_dependency('aws-sdk-interconnect', '~> 1')
   spec.add_dependency('aws-sdk-internetmonitor', '~> 1')
   spec.add_dependency('aws-sdk-invoicing', '~> 1')
   spec.add_dependency('aws-sdk-iot', '~> 1')

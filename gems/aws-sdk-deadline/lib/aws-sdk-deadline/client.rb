@@ -3823,6 +3823,44 @@ module Aws::Deadline
       req.send_request(options)
     end
 
+    # Gets the settings for a Deadline Cloud monitor.
+    #
+    # @option params [required, String] :monitor_id
+    #   The unique identifier of the monitor. This ID is returned by the
+    #   `CreateMonitor` operation, and is included in the response to the
+    #   `GetMonitor` operation.
+    #
+    # @return [Types::GetMonitorSettingsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetMonitorSettingsResponse#settings #settings} => Hash&lt;String,String&gt;
+    #
+    #
+    # @example Example: Get monitor settings
+    #
+    #   resp = client.get_monitor_settings({
+    #     monitor_id: "monitor-1234567890abcdef1234567890abcdef", 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_monitor_settings({
+    #     monitor_id: "MonitorId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.settings #=> Hash
+    #   resp.settings["SettingKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/GetMonitorSettings AWS API Documentation
+    #
+    # @overload get_monitor_settings(params = {})
+    # @param [Hash] params ({})
+    def get_monitor_settings(params = {}, options = {})
+      req = build_request(:get_monitor_settings, params)
+      req.send_request(options)
+    end
+
     # Gets a queue.
     #
     # @option params [required, String] :farm_id
@@ -7433,6 +7471,48 @@ module Aws::Deadline
       req.send_request(options)
     end
 
+    # Updates the settings for a Deadline Cloud monitor. Keys present in the
+    # request are upserted; keys absent are left unchanged. Send an empty
+    # string value to delete a key.
+    #
+    # @option params [required, String] :monitor_id
+    #   The unique identifier of the monitor to update settings for.
+    #
+    # @option params [required, Hash<String,String>] :settings
+    #   Monitor settings as key-value pairs. Keys present in the request are
+    #   upserted; keys absent are left unchanged. Send an empty string value
+    #   to delete a key.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    #
+    # @example Example: Update monitor settings
+    #
+    #   resp = client.update_monitor_settings({
+    #     monitor_id: "monitor-1234567890abcdef1234567890abcdef", 
+    #     settings: {
+    #       "idcApplicationArn" => "arn:aws:sso::123456789012:application/ins-1234567890abcdef/apl-1234567890abcdef", 
+    #     }, 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_monitor_settings({
+    #     monitor_id: "MonitorId", # required
+    #     settings: { # required
+    #       "SettingKey" => "SettingValue",
+    #     },
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/UpdateMonitorSettings AWS API Documentation
+    #
+    # @overload update_monitor_settings(params = {})
+    # @param [Hash] params ({})
+    def update_monitor_settings(params = {}, options = {})
+      req = build_request(:update_monitor_settings, params)
+      req.send_request(options)
+    end
+
     # Updates a queue.
     #
     # @option params [required, String] :farm_id
@@ -8069,7 +8149,7 @@ module Aws::Deadline
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-deadline'
-      context[:gem_version] = '1.50.0'
+      context[:gem_version] = '1.51.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

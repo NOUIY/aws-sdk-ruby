@@ -6620,7 +6620,7 @@ module Aws::Glue
     #   the developer guide.
     #
     #   Jobs that are created without specifying a Glue version default to
-    #   Glue 0.9.
+    #   Glue 5.1.
     #
     #
     #
@@ -18210,7 +18210,7 @@ module Aws::Glue
     #   the developer guide.
     #
     #   Jobs that are created without specifying a Glue version default to
-    #   Glue 0.9.
+    #   Glue 5.1.
     #
     #
     #
@@ -18678,7 +18678,7 @@ module Aws::Glue
     #   the developer guide.
     #
     #   Jobs that are created without specifying a Glue version default to
-    #   Glue 0.9.
+    #   Glue 5.1.
     #
     #
     #
@@ -18984,8 +18984,8 @@ module Aws::Glue
     #   corresponding Spark and Python versions, see [Glue version][1] in
     #   the developer guide.
     #
-    #   Jobs that are created without specifying a Glue version default to
-    #   Glue 0.9.
+    #   If not provided in the update request, the Glue version retains the
+    #   value from the existing job definition.
     #
     #
     #

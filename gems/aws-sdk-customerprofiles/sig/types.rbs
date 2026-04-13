@@ -464,8 +464,9 @@ module Aws::CustomerProfiles
       attr_accessor description: ::String
       attr_accessor segment_groups: Types::SegmentGroup
       attr_accessor segment_sql_query: ::String
+      attr_accessor segment_sort: Types::SegmentSort
       attr_accessor tags: ::Hash[::String, ::String]
-      SENSITIVE: [:description, :segment_groups, :segment_sql_query]
+      SENSITIVE: [:description, :segment_groups, :segment_sql_query, :segment_sort]
     end
 
     class CreateSegmentDefinitionResponse
@@ -1271,12 +1272,13 @@ module Aws::CustomerProfiles
       attr_accessor display_name: ::String
       attr_accessor description: ::String
       attr_accessor segment_groups: Types::SegmentGroup
+      attr_accessor segment_sort: Types::SegmentSort
       attr_accessor segment_definition_arn: ::String
       attr_accessor created_at: ::Time
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor segment_sql_query: ::String
       attr_accessor segment_type: ("CLASSIC" | "ENHANCED")
-      SENSITIVE: [:description, :segment_groups, :segment_sql_query]
+      SENSITIVE: [:description, :segment_groups, :segment_sort, :segment_sql_query]
     end
 
     class GetSegmentEstimateRequest
@@ -2388,8 +2390,21 @@ module Aws::CustomerProfiles
       SENSITIVE: []
     end
 
+    class SegmentSort
+      attr_accessor attributes: ::Array[Types::SortAttribute]
+      SENSITIVE: []
+    end
+
     class ServiceNowSourceProperties
       attr_accessor object: ::String
+      SENSITIVE: []
+    end
+
+    class SortAttribute
+      attr_accessor name: ::String
+      attr_accessor data_type: ("STRING" | "NUMBER" | "DATE")
+      attr_accessor order: ("ASC" | "DESC")
+      attr_accessor type: ("PROFILE" | "CALCULATED")
       SENSITIVE: []
     end
 

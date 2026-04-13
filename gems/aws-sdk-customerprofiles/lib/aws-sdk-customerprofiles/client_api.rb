@@ -475,9 +475,15 @@ module Aws::CustomerProfiles
     SegmentGroupList = Shapes::ListShape.new(name: 'SegmentGroupList')
     SegmentGroupStructure = Shapes::StructureShape.new(name: 'SegmentGroupStructure')
     SegmentSnapshotStatus = Shapes::StringShape.new(name: 'SegmentSnapshotStatus')
+    SegmentSort = Shapes::StructureShape.new(name: 'SegmentSort')
+    SegmentSortDataType = Shapes::StringShape.new(name: 'SegmentSortDataType')
+    SegmentSortOrder = Shapes::StringShape.new(name: 'SegmentSortOrder')
     SegmentType = Shapes::StringShape.new(name: 'SegmentType')
     ServiceNowConnectorOperator = Shapes::StringShape.new(name: 'ServiceNowConnectorOperator')
     ServiceNowSourceProperties = Shapes::StructureShape.new(name: 'ServiceNowSourceProperties')
+    SortAttribute = Shapes::StructureShape.new(name: 'SortAttribute')
+    SortAttributeList = Shapes::ListShape.new(name: 'SortAttributeList')
+    SortAttributeType = Shapes::StringShape.new(name: 'SortAttributeType')
     SourceConnectorProperties = Shapes::StructureShape.new(name: 'SourceConnectorProperties')
     SourceConnectorType = Shapes::StringShape.new(name: 'SourceConnectorType')
     SourceFields = Shapes::ListShape.new(name: 'SourceFields')
@@ -992,6 +998,7 @@ module Aws::CustomerProfiles
     CreateSegmentDefinitionRequest.add_member(:description, Shapes::ShapeRef.new(shape: sensitiveString1To4000, location_name: "Description"))
     CreateSegmentDefinitionRequest.add_member(:segment_groups, Shapes::ShapeRef.new(shape: SegmentGroup, location_name: "SegmentGroups"))
     CreateSegmentDefinitionRequest.add_member(:segment_sql_query, Shapes::ShapeRef.new(shape: sensitiveString1To50000, location_name: "SegmentSqlQuery"))
+    CreateSegmentDefinitionRequest.add_member(:segment_sort, Shapes::ShapeRef.new(shape: SegmentSort, location_name: "SegmentSort"))
     CreateSegmentDefinitionRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
     CreateSegmentDefinitionRequest.struct_class = Types::CreateSegmentDefinitionRequest
 
@@ -1034,7 +1041,7 @@ module Aws::CustomerProfiles
     CreateUploadJobResponse.add_member(:job_id, Shapes::ShapeRef.new(shape: uuid, required: true, location_name: "JobId"))
     CreateUploadJobResponse.struct_class = Types::CreateUploadJobResponse
 
-    CustomAttributes.key = Shapes::ShapeRef.new(shape: typeName)
+    CustomAttributes.key = Shapes::ShapeRef.new(shape: string1To255)
     CustomAttributes.value = Shapes::ShapeRef.new(shape: AttributeDimension)
 
     DataStoreRequest.add_member(:enabled, Shapes::ShapeRef.new(shape: optionalBoolean, location_name: "Enabled"))
@@ -1631,6 +1638,7 @@ module Aws::CustomerProfiles
     GetSegmentDefinitionResponse.add_member(:display_name, Shapes::ShapeRef.new(shape: string1To255, location_name: "DisplayName"))
     GetSegmentDefinitionResponse.add_member(:description, Shapes::ShapeRef.new(shape: sensitiveString1To4000, location_name: "Description"))
     GetSegmentDefinitionResponse.add_member(:segment_groups, Shapes::ShapeRef.new(shape: SegmentGroup, location_name: "SegmentGroups"))
+    GetSegmentDefinitionResponse.add_member(:segment_sort, Shapes::ShapeRef.new(shape: SegmentSort, location_name: "SegmentSort"))
     GetSegmentDefinitionResponse.add_member(:segment_definition_arn, Shapes::ShapeRef.new(shape: SegmentDefinitionArn, required: true, location_name: "SegmentDefinitionArn"))
     GetSegmentDefinitionResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: timestamp, location_name: "CreatedAt"))
     GetSegmentDefinitionResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
@@ -2560,8 +2568,19 @@ module Aws::CustomerProfiles
     SegmentGroupStructure.add_member(:include, Shapes::ShapeRef.new(shape: IncludeOptions, location_name: "Include"))
     SegmentGroupStructure.struct_class = Types::SegmentGroupStructure
 
+    SegmentSort.add_member(:attributes, Shapes::ShapeRef.new(shape: SortAttributeList, required: true, location_name: "Attributes"))
+    SegmentSort.struct_class = Types::SegmentSort
+
     ServiceNowSourceProperties.add_member(:object, Shapes::ShapeRef.new(shape: Object, required: true, location_name: "Object"))
     ServiceNowSourceProperties.struct_class = Types::ServiceNowSourceProperties
+
+    SortAttribute.add_member(:name, Shapes::ShapeRef.new(shape: fieldName, required: true, location_name: "Name"))
+    SortAttribute.add_member(:data_type, Shapes::ShapeRef.new(shape: SegmentSortDataType, location_name: "DataType"))
+    SortAttribute.add_member(:order, Shapes::ShapeRef.new(shape: SegmentSortOrder, required: true, location_name: "Order"))
+    SortAttribute.add_member(:type, Shapes::ShapeRef.new(shape: SortAttributeType, location_name: "Type"))
+    SortAttribute.struct_class = Types::SortAttribute
+
+    SortAttributeList.member = Shapes::ShapeRef.new(shape: SortAttribute)
 
     SourceConnectorProperties.add_member(:marketo, Shapes::ShapeRef.new(shape: MarketoSourceProperties, location_name: "Marketo"))
     SourceConnectorProperties.add_member(:s3, Shapes::ShapeRef.new(shape: S3SourceProperties, location_name: "S3"))

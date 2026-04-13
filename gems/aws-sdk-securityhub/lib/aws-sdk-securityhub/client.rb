@@ -2131,17 +2131,30 @@ module Aws::SecurityHub
       req.send_request(options)
     end
 
-    # Used by customers to update information about their investigation into
-    # a finding. Requested by delegated administrator accounts or member
-    # accounts. Delegated administrator accounts can update findings for
-    # their account and their member accounts. Member accounts can update
-    # findings for their account. `BatchUpdateFindings` and
-    # `BatchUpdateFindingV2` both use `securityhub:BatchUpdateFindings` in
-    # the `Action` element of an IAM policy statement. You must have
-    # permission to perform the `securityhub:BatchUpdateFindings` action.
+    # Updates information about a customer's investigation into a finding.
+    # Delegated administrator accounts can update findings for their account
+    # and their member accounts. Member accounts can update findings for
+    # their own account.
+    #
+    # `BatchUpdateFindings` and `BatchUpdateFindingsV2` both use
+    # `securityhub:BatchUpdateFindings` in the `Action` element of an IAM
+    # policy statement. You must have permission to perform the
+    # `securityhub:BatchUpdateFindings` action. You can configure IAM
+    # policies to restrict access to specific finding fields or field values
+    # by using the `securityhub:OCSFSyntaxPath/<fieldName>` condition key,
+    # where `<fieldName>` is one of the following supported fields:
+    # `SeverityId`, `StatusId`, or `Comment`.
+    #
+    # To prevent a user from updating a specific field, use a `Null`
+    # condition with `securityhub:OCSFSyntaxPath/<fieldName>` set to
+    # `"false"`. To prevent a user from setting a field to a specific value,
+    # use a `StringEquals` condition with
+    # `securityhub:OCSFSyntaxPath/<fieldName>` set to the disallowed value
+    # or list of values.
+    #
     # Updates from `BatchUpdateFindingsV2` don't affect the value of
-    # f`inding_info.modified_time`, `finding_info.modified_time_dt`, `time`,
-    # `time_dt for a finding`.
+    # `finding_info.modified_time`, `finding_info.modified_time_dt`, `time`,
+    # or `time_dt` for a finding.
     #
     # @option params [Array<String>] :metadata_uids
     #   The list of finding `metadata.uid` to indicate findings to update.
@@ -2158,14 +2171,14 @@ module Aws::SecurityHub
     #
     # @option params [Integer] :severity_id
     #   The updated value for the normalized severity identifier. The severity
-    #   ID is an integer with the allowed enum values \[0, 1, 2, 3, 4, 5,
+    #   ID is an integer with the allowed enum values \[0, 1, 2, 3, 4, 5, 6,
     #   99\]. When customer provides the updated severity ID, the string
     #   sibling severity will automatically be updated in the finding.
     #
     # @option params [Integer] :status_id
     #   The updated value for the normalized status identifier. The status ID
-    #   is an integer with the allowed enum values \[0, 1, 2, 3, 4, 5, 6,
-    #   99\]. When customer provides the updated status ID, the string sibling
+    #   is an integer with the allowed enum values \[0, 1, 2, 3, 4, 5, 99\].
+    #   When customer provides the updated status ID, the string sibling
     #   status will automatically be updated in the finding.
     #
     # @return [Types::BatchUpdateFindingsV2Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
@@ -6400,14 +6413,36 @@ module Aws::SecurityHub
     end
 
     # Returns aggregated statistical data about findings.
-    # `GetFindingStatisticsV2` use `securityhub:GetAdhocInsightResults` in
+    #
+    # You can use the `Scopes` parameter to define the data boundary for the
+    # query. Currently, `Scopes` supports `AwsOrganizations`, which lets you
+    # aggregate findings from your entire organization or from specific
+    # organizational units. Only the delegated administrator account can use
+    # `Scopes`.
+    #
+    # `GetFindingStatisticsV2` uses `securityhub:GetAdhocInsightResults` in
     # the `Action` element of an IAM policy statement. You must have
-    # permission to perform the `s` action.
+    # permission to perform the `securityhub:GetAdhocInsightResults` action.
     #
     # @option params [required, Array<Types::GroupByRule>] :group_by_rules
     #   Specifies how security findings should be aggregated and organized in
     #   the statistical analysis. It can accept up to 5 `groupBy` fields in a
     #   single call.
+    #
+    # @option params [Types::FindingScopes] :scopes
+    #   Limits the results to findings from specific organizational units or
+    #   from the delegated administrator's organization. Only the delegated
+    #   administrator account can use this parameter. Other accounts receive
+    #   an `AccessDeniedException`.
+    #
+    #   This parameter is optional. If you omit it, the delegated
+    #   administrator sees statistics from all accounts across the entire
+    #   organization. Other accounts see only statistics for their own
+    #   findings.
+    #
+    #   You can specify up to 10 entries in `Scopes.AwsOrganizations`. If
+    #   multiple entries are specified, the entries are combined using OR
+    #   logic.
     #
     # @option params [String] :sort_order
     #   Orders the aggregation count in descending or ascending order.
@@ -6499,6 +6534,14 @@ module Aws::SecurityHub
     #         group_by_field: "activity_name", # required, accepts activity_name, cloud.account.uid, cloud.provider, cloud.region, compliance.assessments.name, compliance.status, compliance.control, finding_info.title, finding_info.related_events.traits.category, finding_info.types, metadata.product.name, metadata.product.uid, resources.type, resources.uid, severity, status, vulnerabilities.fix_coverage, class_name, vulnerabilities.affected_packages.name, finding_info.analytic.name, compliance.standards, cloud.account.name, vendor_attributes.severity, metadata.product.vendor_name
     #       },
     #     ],
+    #     scopes: {
+    #       aws_organizations: [
+    #         {
+    #           organization_id: "NonEmptyString",
+    #           organizational_unit_id: "NonEmptyString",
+    #         },
+    #       ],
+    #     },
     #     sort_order: "asc", # accepts asc, desc
     #     max_statistic_results: 1,
     #   })
@@ -7469,7 +7512,19 @@ module Aws::SecurityHub
       req.send_request(options)
     end
 
-    # Return a list of findings that match the specified criteria.
+    # Returns a list of findings that match the specified criteria.
+    #
+    # You can use the `Scopes` parameter to define the data boundary for the
+    # query. Currently, `Scopes` supports `AwsOrganizations`, which lets you
+    # retrieve findings from your entire organization or from specific
+    # organizational units. Only the delegated administrator account can use
+    # `Scopes`.
+    #
+    # You can use the `Filters` parameter to refine results based on finding
+    # attributes. You can use `Scopes` and `Filters` independently or
+    # together. When both are provided, `Scopes` narrows the data set first,
+    # and then `Filters` refines results within that scoped data set.
+    #
     # `GetFindings` and `GetFindingsV2` both use `securityhub:GetFindings`
     # in the `Action` element of an IAM policy statement. You must have
     # permission to perform the `securityhub:GetFindings` action.
@@ -7479,6 +7534,20 @@ module Aws::SecurityHub
     #   returned OCSF findings. You can filter up to 10 composite filters. For
     #   each filter type inside of a composite filter, you can provide up to
     #   20 filters.
+    #
+    # @option params [Types::FindingScopes] :scopes
+    #   Limits the results to findings from specific organizational units or
+    #   from the delegated administrator's organization. Only the delegated
+    #   administrator account can use this parameter. Other accounts receive
+    #   an `AccessDeniedException`.
+    #
+    #   This parameter is optional. If you omit it, the delegated
+    #   administrator sees findings from all accounts across the entire
+    #   organization. Other accounts see only their own findings.
+    #
+    #   You can specify up to 10 entries in `Scopes.AwsOrganizations`. If
+    #   multiple entries are specified, the entries are combined using OR
+    #   logic.
     #
     # @option params [Array<Types::SortCriterion>] :sort_criteria
     #   The finding attributes used to sort the list of returned findings.
@@ -7572,6 +7641,14 @@ module Aws::SecurityHub
     #         },
     #       ],
     #       composite_operator: "AND", # accepts AND, OR
+    #     },
+    #     scopes: {
+    #       aws_organizations: [
+    #         {
+    #           organization_id: "NonEmptyString",
+    #           organizational_unit_id: "NonEmptyString",
+    #         },
+    #       ],
     #     },
     #     sort_criteria: [
     #       {
@@ -8274,9 +8351,30 @@ module Aws::SecurityHub
     # Retrieves statistical information about Amazon Web Services resources
     # and their associated security findings.
     #
+    # You can use the `Scopes` parameter to define the data boundary for the
+    # query. Currently, `Scopes` supports `AwsOrganizations`, which lets you
+    # aggregate resources from your entire organization or from specific
+    # organizational units. Only the delegated administrator account can use
+    # `Scopes`.
+    #
     # @option params [required, Array<Types::ResourceGroupByRule>] :group_by_rules
     #   How resource statistics should be aggregated and organized in the
     #   response.
+    #
+    # @option params [Types::ResourceScopes] :scopes
+    #   Limits the results to resources from specific organizational units or
+    #   from the delegated administrator's organization. Only the delegated
+    #   administrator account can use this parameter. Other accounts receive
+    #   an `AccessDeniedException`.
+    #
+    #   This parameter is optional. If you omit it, the delegated
+    #   administrator sees statistics from all accounts across the entire
+    #   organization. Other accounts see only statistics for their own
+    #   resources.
+    #
+    #   You can specify up to 10 entries in `Scopes.AwsOrganizations`. If
+    #   multiple entries are specified, the entries are combined using OR
+    #   logic.
     #
     # @option params [String] :sort_order
     #   Sorts aggregated statistics.
@@ -8351,6 +8449,14 @@ module Aws::SecurityHub
     #         },
     #       },
     #     ],
+    #     scopes: {
+    #       aws_organizations: [
+    #         {
+    #           organization_id: "NonEmptyString",
+    #           organizational_unit_id: "NonEmptyString",
+    #         },
+    #       ],
+    #     },
     #     sort_order: "asc", # accepts asc, desc
     #     max_statistic_results: 1,
     #   })
@@ -8451,11 +8557,36 @@ module Aws::SecurityHub
 
     # Returns a list of resources.
     #
+    # You can use the `Scopes` parameter to define the data boundary for the
+    # query. Currently, `Scopes` supports `AwsOrganizations`, which lets you
+    # retrieve resources from your entire organization or from specific
+    # organizational units. Only the delegated administrator account can use
+    # `Scopes`.
+    #
+    # You can use the `Filters` parameter to refine results based on
+    # resource attributes. You can use `Scopes` and `Filters` independently
+    # or together. When both are provided, `Scopes` narrows the data set
+    # first, and then `Filters` refines results within that scoped data set.
+    #
     # @option params [Types::ResourcesFilters] :filters
     #   Filters resources based on a set of criteria.
     #
+    # @option params [Types::ResourceScopes] :scopes
+    #   Limits the results to resources from specific organizational units or
+    #   from the delegated administrator's organization. Only the delegated
+    #   administrator account can use this parameter. Other accounts receive
+    #   an `AccessDeniedException`.
+    #
+    #   This parameter is optional. If you omit it, the delegated
+    #   administrator sees resources from all accounts across the entire
+    #   organization. Other accounts see only their own resources.
+    #
+    #   You can specify up to 10 entries in `Scopes.AwsOrganizations`. If
+    #   multiple entries are specified, the entries are combined using OR
+    #   logic.
+    #
     # @option params [Array<Types::SortCriterion>] :sort_criteria
-    #   The finding attributes used to sort the list of returned findings.
+    #   The resource attributes used to sort the list of returned resources.
     #
     # @option params [String] :next_token
     #   The token required for pagination. On your first call, set the value
@@ -8530,6 +8661,14 @@ module Aws::SecurityHub
     #         },
     #       ],
     #       composite_operator: "AND", # accepts AND, OR
+    #     },
+    #     scopes: {
+    #       aws_organizations: [
+    #         {
+    #           organization_id: "NonEmptyString",
+    #           organizational_unit_id: "NonEmptyString",
+    #         },
+    #       ],
     #     },
     #     sort_criteria: [
     #       {
@@ -12409,7 +12548,7 @@ module Aws::SecurityHub
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-securityhub'
-      context[:gem_version] = '1.153.0'
+      context[:gem_version] = '1.154.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

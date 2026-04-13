@@ -3367,6 +3367,12 @@ module Aws::SecurityHub
       SENSITIVE: []
     end
 
+    class AwsOrganizationScope
+      attr_accessor organization_id: ::String
+      attr_accessor organizational_unit_id: ::String
+      SENSITIVE: []
+    end
+
     class AwsRdsDbClusterAssociatedRole
       attr_accessor role_arn: ::String
       attr_accessor status: ::String
@@ -5596,6 +5602,11 @@ module Aws::SecurityHub
       SENSITIVE: []
     end
 
+    class FindingScopes
+      attr_accessor aws_organizations: ::Array[Types::AwsOrganizationScope]
+      SENSITIVE: []
+    end
+
     class FindingsTrendsCompositeFilter
       attr_accessor string_filters: ::Array[Types::FindingsTrendsStringFilter]
       attr_accessor nested_composite_filters: ::Array[Types::FindingsTrendsCompositeFilter]
@@ -5787,6 +5798,7 @@ module Aws::SecurityHub
 
     class GetFindingStatisticsV2Request
       attr_accessor group_by_rules: ::Array[Types::GroupByRule]
+      attr_accessor scopes: Types::FindingScopes
       attr_accessor sort_order: ("asc" | "desc")
       attr_accessor max_statistic_results: ::Integer
       SENSITIVE: []
@@ -5829,6 +5841,7 @@ module Aws::SecurityHub
 
     class GetFindingsV2Request
       attr_accessor filters: Types::OcsfFindingFilters
+      attr_accessor scopes: Types::FindingScopes
       attr_accessor sort_criteria: ::Array[Types::SortCriterion]
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
@@ -5893,6 +5906,7 @@ module Aws::SecurityHub
 
     class GetResourcesStatisticsV2Request
       attr_accessor group_by_rules: ::Array[Types::ResourceGroupByRule]
+      attr_accessor scopes: Types::ResourceScopes
       attr_accessor sort_order: ("asc" | "desc")
       attr_accessor max_statistic_results: ::Integer
       SENSITIVE: []
@@ -5921,6 +5935,7 @@ module Aws::SecurityHub
 
     class GetResourcesV2Request
       attr_accessor filters: Types::ResourcesFilters
+      attr_accessor scopes: Types::ResourceScopes
       attr_accessor sort_criteria: ::Array[Types::SortCriterion]
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
@@ -6487,6 +6502,18 @@ module Aws::SecurityHub
       SENSITIVE: []
     end
 
+    class OrganizationNotFoundException
+      attr_accessor message: ::String
+      attr_accessor code: ::String
+      SENSITIVE: []
+    end
+
+    class OrganizationalUnitNotFoundException
+      attr_accessor message: ::String
+      attr_accessor code: ::String
+      SENSITIVE: []
+    end
+
     class Page
       attr_accessor page_number: ::Integer
       attr_accessor line_range: Types::Range
@@ -6882,6 +6909,11 @@ module Aws::SecurityHub
       attr_accessor findings_summary: ::Array[Types::ResourceFindingsSummary]
       attr_accessor resource_tags: ::Array[Types::ResourceTag]
       attr_accessor resource_config: untyped
+      SENSITIVE: []
+    end
+
+    class ResourceScopes
+      attr_accessor aws_organizations: ::Array[Types::AwsOrganizationScope]
       SENSITIVE: []
     end
 

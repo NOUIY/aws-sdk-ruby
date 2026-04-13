@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.154.0 (2026-04-13)
+------------------
+
+* Feature - Provide organizational unit scoping capability for GetFindingsV2, GetFindingStatisticsV2, GetResourcesV2, GetResourcesStatisticsV2 APIs.
+
 1.153.0 (2026-03-18)
 ------------------
 

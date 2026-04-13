@@ -1807,6 +1807,9 @@ module Aws::CustomerProfiles
     # @option params [String] :segment_sql_query
     #   The segment SQL query.
     #
+    # @option params [Types::SegmentSort] :segment_sort
+    #   The segment sort.
+    #
     # @option params [Hash<String,String>] :tags
     #   The tags used to organize, track, or control access for this resource.
     #
@@ -2001,7 +2004,7 @@ module Aws::CustomerProfiles
     #                   },
     #                 },
     #                 attributes: {
-    #                   "typeName" => {
+    #                   "string1To255" => {
     #                     dimension_type: "INCLUSIVE", # required, accepts INCLUSIVE, EXCLUSIVE, CONTAINS, BEGINS_WITH, ENDS_WITH, BEFORE, AFTER, BETWEEN, NOT_BETWEEN, ON, GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN_OR_EQUAL, EQUAL
     #                     values: ["string1To255"], # required
     #                   },
@@ -2038,6 +2041,16 @@ module Aws::CustomerProfiles
     #       include: "ALL", # accepts ALL, ANY, NONE
     #     },
     #     segment_sql_query: "sensitiveString1To50000",
+    #     segment_sort: {
+    #       attributes: [ # required
+    #         {
+    #           name: "fieldName", # required
+    #           data_type: "STRING", # accepts STRING, NUMBER, DATE
+    #           order: "ASC", # required, accepts ASC, DESC
+    #           type: "PROFILE", # accepts PROFILE, CALCULATED
+    #         },
+    #       ],
+    #     },
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
@@ -2258,7 +2271,7 @@ module Aws::CustomerProfiles
     #                   },
     #                 },
     #                 attributes: {
-    #                   "typeName" => {
+    #                   "string1To255" => {
     #                     dimension_type: "INCLUSIVE", # required, accepts INCLUSIVE, EXCLUSIVE, CONTAINS, BEGINS_WITH, ENDS_WITH, BEFORE, AFTER, BETWEEN, NOT_BETWEEN, ON, GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN_OR_EQUAL, EQUAL
     #                     values: ["string1To255"], # required
     #                   },
@@ -4129,6 +4142,7 @@ module Aws::CustomerProfiles
     #   * {Types::GetSegmentDefinitionResponse#display_name #display_name} => String
     #   * {Types::GetSegmentDefinitionResponse#description #description} => String
     #   * {Types::GetSegmentDefinitionResponse#segment_groups #segment_groups} => Types::SegmentGroup
+    #   * {Types::GetSegmentDefinitionResponse#segment_sort #segment_sort} => Types::SegmentSort
     #   * {Types::GetSegmentDefinitionResponse#segment_definition_arn #segment_definition_arn} => String
     #   * {Types::GetSegmentDefinitionResponse#created_at #created_at} => Time
     #   * {Types::GetSegmentDefinitionResponse#tags #tags} => Hash&lt;String,String&gt;
@@ -4270,9 +4284,9 @@ module Aws::CustomerProfiles
     #   resp.segment_groups.groups[0].dimensions[0].profile_attributes.billing_address.state.values #=> Array
     #   resp.segment_groups.groups[0].dimensions[0].profile_attributes.billing_address.state.values[0] #=> String
     #   resp.segment_groups.groups[0].dimensions[0].profile_attributes.attributes #=> Hash
-    #   resp.segment_groups.groups[0].dimensions[0].profile_attributes.attributes["typeName"].dimension_type #=> String, one of "INCLUSIVE", "EXCLUSIVE", "CONTAINS", "BEGINS_WITH", "ENDS_WITH", "BEFORE", "AFTER", "BETWEEN", "NOT_BETWEEN", "ON", "GREATER_THAN", "LESS_THAN", "GREATER_THAN_OR_EQUAL", "LESS_THAN_OR_EQUAL", "EQUAL"
-    #   resp.segment_groups.groups[0].dimensions[0].profile_attributes.attributes["typeName"].values #=> Array
-    #   resp.segment_groups.groups[0].dimensions[0].profile_attributes.attributes["typeName"].values[0] #=> String
+    #   resp.segment_groups.groups[0].dimensions[0].profile_attributes.attributes["string1To255"].dimension_type #=> String, one of "INCLUSIVE", "EXCLUSIVE", "CONTAINS", "BEGINS_WITH", "ENDS_WITH", "BEFORE", "AFTER", "BETWEEN", "NOT_BETWEEN", "ON", "GREATER_THAN", "LESS_THAN", "GREATER_THAN_OR_EQUAL", "LESS_THAN_OR_EQUAL", "EQUAL"
+    #   resp.segment_groups.groups[0].dimensions[0].profile_attributes.attributes["string1To255"].values #=> Array
+    #   resp.segment_groups.groups[0].dimensions[0].profile_attributes.attributes["string1To255"].values[0] #=> String
     #   resp.segment_groups.groups[0].dimensions[0].profile_attributes.profile_type.dimension_type #=> String, one of "INCLUSIVE", "EXCLUSIVE"
     #   resp.segment_groups.groups[0].dimensions[0].profile_attributes.profile_type.values #=> Array
     #   resp.segment_groups.groups[0].dimensions[0].profile_attributes.profile_type.values[0] #=> String, one of "ACCOUNT_PROFILE", "PROFILE"
@@ -4288,6 +4302,11 @@ module Aws::CustomerProfiles
     #   resp.segment_groups.groups[0].source_type #=> String, one of "ALL", "ANY", "NONE"
     #   resp.segment_groups.groups[0].type #=> String, one of "ALL", "ANY", "NONE"
     #   resp.segment_groups.include #=> String, one of "ALL", "ANY", "NONE"
+    #   resp.segment_sort.attributes #=> Array
+    #   resp.segment_sort.attributes[0].name #=> String
+    #   resp.segment_sort.attributes[0].data_type #=> String, one of "STRING", "NUMBER", "DATE"
+    #   resp.segment_sort.attributes[0].order #=> String, one of "ASC", "DESC"
+    #   resp.segment_sort.attributes[0].type #=> String, one of "PROFILE", "CALCULATED"
     #   resp.segment_definition_arn #=> String
     #   resp.created_at #=> Time
     #   resp.tags #=> Hash
@@ -7702,7 +7721,7 @@ module Aws::CustomerProfiles
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-customerprofiles'
-      context[:gem_version] = '1.82.0'
+      context[:gem_version] = '1.83.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

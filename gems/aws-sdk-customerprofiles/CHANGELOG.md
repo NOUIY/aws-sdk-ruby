@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.83.0 (2026-04-13)
+------------------
+
+* Feature - This release introduces changes to SegmentDefinition APIs to support sorting by attributes.
+
 1.82.0 (2026-03-18)
 ------------------
 

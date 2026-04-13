@@ -1122,6 +1122,16 @@ module Aws
                        ) -> _GetMonitorResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetMonitorResponseSuccess
 
+      interface _GetMonitorSettingsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetMonitorSettingsResponse]
+        def settings: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Deadline/Client.html#get_monitor_settings-instance_method
+      def get_monitor_settings: (
+                                  monitor_id: ::String
+                                ) -> _GetMonitorSettingsResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetMonitorSettingsResponseSuccess
+
       interface _GetQueueResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetQueueResponse]
         def farm_id: () -> ::String
@@ -2303,6 +2313,16 @@ module Aws
                             ?role_arn: ::String
                           ) -> _UpdateMonitorResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateMonitorResponseSuccess
+
+      interface _UpdateMonitorSettingsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateMonitorSettingsResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Deadline/Client.html#update_monitor_settings-instance_method
+      def update_monitor_settings: (
+                                     monitor_id: ::String,
+                                     settings: Hash[::String, ::String]
+                                   ) -> _UpdateMonitorSettingsResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateMonitorSettingsResponseSuccess
 
       interface _UpdateQueueResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateQueueResponse]

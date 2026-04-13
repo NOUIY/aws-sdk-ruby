@@ -5255,6 +5255,32 @@ module Aws::Deadline
       include Aws::Structure
     end
 
+    # @!attribute [rw] monitor_id
+    #   The unique identifier of the monitor. This ID is returned by the
+    #   `CreateMonitor` operation, and is included in the response to the
+    #   `GetMonitor` operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/GetMonitorSettingsRequest AWS API Documentation
+    #
+    class GetMonitorSettingsRequest < Struct.new(
+      :monitor_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] settings
+    #   Monitor settings as key-value pairs.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/GetMonitorSettingsResponse AWS API Documentation
+    #
+    class GetMonitorSettingsResponse < Struct.new(
+      :settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] farm_id
     #   The farm ID for the queue environment.
     #   @return [String]
@@ -11913,6 +11939,29 @@ module Aws::Deadline
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/UpdateMonitorResponse AWS API Documentation
     #
     class UpdateMonitorResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] monitor_id
+    #   The unique identifier of the monitor to update settings for.
+    #   @return [String]
+    #
+    # @!attribute [rw] settings
+    #   Monitor settings as key-value pairs. Keys present in the request are
+    #   upserted; keys absent are left unchanged. Send an empty string value
+    #   to delete a key.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/UpdateMonitorSettingsRequest AWS API Documentation
+    #
+    class UpdateMonitorSettingsRequest < Struct.new(
+      :monitor_id,
+      :settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/UpdateMonitorSettingsResponse AWS API Documentation
+    #
+    class UpdateMonitorSettingsResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] farm_id
     #   The farm ID of the queue environment to update.

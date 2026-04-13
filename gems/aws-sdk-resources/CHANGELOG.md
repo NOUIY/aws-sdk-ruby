@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+3.262.0 (2026-04-13)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-interconnect` gem.
+
 3.261.0 (2026-04-08)
 ------------------
 

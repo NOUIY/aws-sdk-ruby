@@ -15220,6 +15220,47 @@ module Aws::SecurityHub
       include Aws::Structure
     end
 
+    # Specifies an Organizations scope. Data from the specified organization
+    # or organizational unit is included in the response.
+    #
+    # To scope to a specific organizational unit, provide
+    # `OrganizationalUnitId`. You can optionally include `OrganizationId`.
+    # If you omit `OrganizationId`, Security Hub uses the caller's
+    # organization ID. To scope to the delegated administrator's entire
+    # organization, provide only `OrganizationId`.
+    #
+    # The organization ID and organizational unit must belong to the
+    # delegated administrator's own organization. Each request must use one
+    # scoping approach: either scope to the entire organization by providing
+    # an `AwsOrganizationScope` entry with only `OrganizationId`, or scope
+    # to specific organizational units by providing `AwsOrganizationScope`
+    # entries with `OrganizationalUnitId`. You can't combine both
+    # approaches in the same request.
+    #
+    # @!attribute [rw] organization_id
+    #   The unique identifier (ID) of the organization (for example,
+    #   `o-abcd1234567890`). The organization must be the delegated
+    #   administrator's own organization. If you omit this value and
+    #   provide `OrganizationalUnitId`, Security Hub uses the caller's
+    #   organization ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] organizational_unit_id
+    #   The unique identifier (ID) of the organizational unit (OU) (for
+    #   example, `ou-ab12-cd345678`). The OU must exist within the delegated
+    #   administrator's own organization. When specified, the results
+    #   include only data from accounts in this OU.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityhub-2018-10-26/AwsOrganizationScope AWS API Documentation
+    #
+    class AwsOrganizationScope < Struct.new(
+      :organization_id,
+      :organizational_unit_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An IAM role that is associated with the Amazon RDS DB cluster.
     #
     # @!attribute [rw] role_arn
@@ -22131,14 +22172,14 @@ module Aws::SecurityHub
     # @!attribute [rw] severity_id
     #   The updated value for the normalized severity identifier. The
     #   severity ID is an integer with the allowed enum values \[0, 1, 2, 3,
-    #   4, 5, 99\]. When customer provides the updated severity ID, the
+    #   4, 5, 6, 99\]. When customer provides the updated severity ID, the
     #   string sibling severity will automatically be updated in the
     #   finding.
     #   @return [Integer]
     #
     # @!attribute [rw] status_id
     #   The updated value for the normalized status identifier. The status
-    #   ID is an integer with the allowed enum values \[0, 1, 2, 3, 4, 5, 6,
+    #   ID is an integer with the allowed enum values \[0, 1, 2, 3, 4, 5,
     #   99\]. When customer provides the updated status ID, the string
     #   sibling status will automatically be updated in the finding.
     #   @return [Integer]
@@ -25007,6 +25048,24 @@ module Aws::SecurityHub
       include Aws::Structure
     end
 
+    # Defines the data boundary for a findings query. Scopes determine which
+    # organizational units or organizations to retrieve data from.
+    #
+    # @!attribute [rw] aws_organizations
+    #   A list of Organizations scopes to include in the query results. Each
+    #   entry in the list specifies an organization or organizational unit
+    #   to include for the delegated administrator's account. If the list
+    #   specifies multiple entries, the entries are combined using OR logic.
+    #   @return [Array<Types::AwsOrganizationScope>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityhub-2018-10-26/FindingScopes AWS API Documentation
+    #
+    class FindingScopes < Struct.new(
+      :aws_organizations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A filter structure that contains a logical combination of string
     # filters and nested composite filters for findings trend data.
     #
@@ -25737,6 +25796,22 @@ module Aws::SecurityHub
     #   in a single call.
     #   @return [Array<Types::GroupByRule>]
     #
+    # @!attribute [rw] scopes
+    #   Limits the results to findings from specific organizational units or
+    #   from the delegated administrator's organization. Only the delegated
+    #   administrator account can use this parameter. Other accounts receive
+    #   an `AccessDeniedException`.
+    #
+    #   This parameter is optional. If you omit it, the delegated
+    #   administrator sees statistics from all accounts across the entire
+    #   organization. Other accounts see only statistics for their own
+    #   findings.
+    #
+    #   You can specify up to 10 entries in `Scopes.AwsOrganizations`. If
+    #   multiple entries are specified, the entries are combined using OR
+    #   logic.
+    #   @return [Types::FindingScopes]
+    #
     # @!attribute [rw] sort_order
     #   Orders the aggregation count in descending or ascending order.
     #   Descending order is the default.
@@ -25750,6 +25825,7 @@ module Aws::SecurityHub
     #
     class GetFindingStatisticsV2Request < Struct.new(
       :group_by_rules,
+      :scopes,
       :sort_order,
       :max_statistic_results)
       SENSITIVE = []
@@ -25893,6 +25969,21 @@ module Aws::SecurityHub
     #   up to 20 filters.
     #   @return [Types::OcsfFindingFilters]
     #
+    # @!attribute [rw] scopes
+    #   Limits the results to findings from specific organizational units or
+    #   from the delegated administrator's organization. Only the delegated
+    #   administrator account can use this parameter. Other accounts receive
+    #   an `AccessDeniedException`.
+    #
+    #   This parameter is optional. If you omit it, the delegated
+    #   administrator sees findings from all accounts across the entire
+    #   organization. Other accounts see only their own findings.
+    #
+    #   You can specify up to 10 entries in `Scopes.AwsOrganizations`. If
+    #   multiple entries are specified, the entries are combined using OR
+    #   logic.
+    #   @return [Types::FindingScopes]
+    #
     # @!attribute [rw] sort_criteria
     #   The finding attributes used to sort the list of returned findings.
     #   @return [Array<Types::SortCriterion>]
@@ -25912,6 +26003,7 @@ module Aws::SecurityHub
     #
     class GetFindingsV2Request < Struct.new(
       :filters,
+      :scopes,
       :sort_criteria,
       :next_token,
       :max_results)
@@ -26083,6 +26175,22 @@ module Aws::SecurityHub
     #   response.
     #   @return [Array<Types::ResourceGroupByRule>]
     #
+    # @!attribute [rw] scopes
+    #   Limits the results to resources from specific organizational units
+    #   or from the delegated administrator's organization. Only the
+    #   delegated administrator account can use this parameter. Other
+    #   accounts receive an `AccessDeniedException`.
+    #
+    #   This parameter is optional. If you omit it, the delegated
+    #   administrator sees statistics from all accounts across the entire
+    #   organization. Other accounts see only statistics for their own
+    #   resources.
+    #
+    #   You can specify up to 10 entries in `Scopes.AwsOrganizations`. If
+    #   multiple entries are specified, the entries are combined using OR
+    #   logic.
+    #   @return [Types::ResourceScopes]
+    #
     # @!attribute [rw] sort_order
     #   Sorts aggregated statistics.
     #   @return [String]
@@ -26095,6 +26203,7 @@ module Aws::SecurityHub
     #
     class GetResourcesStatisticsV2Request < Struct.new(
       :group_by_rules,
+      :scopes,
       :sort_order,
       :max_statistic_results)
       SENSITIVE = []
@@ -26179,8 +26288,23 @@ module Aws::SecurityHub
     #   Filters resources based on a set of criteria.
     #   @return [Types::ResourcesFilters]
     #
+    # @!attribute [rw] scopes
+    #   Limits the results to resources from specific organizational units
+    #   or from the delegated administrator's organization. Only the
+    #   delegated administrator account can use this parameter. Other
+    #   accounts receive an `AccessDeniedException`.
+    #
+    #   This parameter is optional. If you omit it, the delegated
+    #   administrator sees resources from all accounts across the entire
+    #   organization. Other accounts see only their own resources.
+    #
+    #   You can specify up to 10 entries in `Scopes.AwsOrganizations`. If
+    #   multiple entries are specified, the entries are combined using OR
+    #   logic.
+    #   @return [Types::ResourceScopes]
+    #
     # @!attribute [rw] sort_criteria
-    #   The finding attributes used to sort the list of returned findings.
+    #   The resource attributes used to sort the list of returned resources.
     #   @return [Array<Types::SortCriterion>]
     #
     # @!attribute [rw] next_token
@@ -26198,6 +26322,7 @@ module Aws::SecurityHub
     #
     class GetResourcesV2Request < Struct.new(
       :filters,
+      :scopes,
       :sort_criteria,
       :next_token,
       :max_results)
@@ -26206,7 +26331,7 @@ module Aws::SecurityHub
     end
 
     # @!attribute [rw] resources
-    #   Filters resources based on a set of criteria.
+    #   An array of resources returned by the operation.
     #   @return [Array<Types::ResourceResult>]
     #
     # @!attribute [rw] next_token
@@ -28425,6 +28550,42 @@ module Aws::SecurityHub
       include Aws::Structure
     end
 
+    # The request failed because one or more organizations specified in the
+    # request don't exist or don't belong to the caller's organization.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityhub-2018-10-26/OrganizationNotFoundException AWS API Documentation
+    #
+    class OrganizationNotFoundException < Struct.new(
+      :message,
+      :code)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The request failed because one or more organizational units specified
+    # in the request don't exist within the caller's organization.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityhub-2018-10-26/OrganizationalUnitNotFoundException AWS API Documentation
+    #
+    class OrganizationalUnitNotFoundException < Struct.new(
+      :message,
+      :code)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An occurrence of sensitive data in an Adobe Portable Document Format
     # (PDF) file.
     #
@@ -28956,8 +29117,8 @@ module Aws::SecurityHub
     #   @return [String]
     #
     # @!attribute [rw] marketplace_product_id
-    #   The identifier for the AWS Marketplace product associated with this
-    #   integration.
+    #   The identifier for the Amazon Web Services Marketplace product
+    #   associated with this integration.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityhub-2018-10-26/ProductV2 AWS API Documentation
@@ -30077,6 +30238,24 @@ module Aws::SecurityHub
       :findings_summary,
       :resource_tags,
       :resource_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines the data boundary for a resources query. Scopes determine
+    # which organizational units or organizations to retrieve data from.
+    #
+    # @!attribute [rw] aws_organizations
+    #   A list of Organizations scopes to include in the query results. Each
+    #   entry in the list specifies an organization or organizational unit
+    #   to include for the delegated administrator's account. If the list
+    #   specifies multiple entries, the entries are combined using OR logic.
+    #   @return [Array<Types::AwsOrganizationScope>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityhub-2018-10-26/ResourceScopes AWS API Documentation
+    #
+    class ResourceScopes < Struct.new(
+      :aws_organizations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -32564,7 +32743,7 @@ module Aws::SecurityHub
     #   `CONTAINS` and `NOT_CONTAINS` operators can be used only with
     #   automation rules V1. `CONTAINS_WORD` operator is only supported in
     #   `GetFindingsV2`, `GetFindingStatisticsV2`, `GetResourcesV2`, and
-    #   `GetResourceStatisticsV2` APIs. For more information, see
+    #   `GetResourcesStatisticsV2` APIs. For more information, see
     #   [Automation rules][1] in the *Security Hub CSPM User Guide*.
     #
     #

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1238.0 (2026-04-13)
+------------------
+
+* Feature - Added support for enumerating regions for  `Aws::Interconnect`.
+
 1.1237.0 (2026-04-08)
 ------------------
 

@@ -434,6 +434,7 @@ module Aws
             'Inspector' => 'inspector',
             'Inspector2' => 'inspector2',
             'InspectorScan' => 'inspector-scan',
+            'Interconnect' => 'interconnect',
             'InternetMonitor' => 'internetmonitor',
             'Invoicing' => 'invoicing',
             'IoT' => 'iot',

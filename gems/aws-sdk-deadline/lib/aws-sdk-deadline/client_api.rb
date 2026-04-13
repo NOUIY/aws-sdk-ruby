@@ -303,6 +303,8 @@ module Aws::Deadline
     GetLimitResponse = Shapes::StructureShape.new(name: 'GetLimitResponse')
     GetMonitorRequest = Shapes::StructureShape.new(name: 'GetMonitorRequest')
     GetMonitorResponse = Shapes::StructureShape.new(name: 'GetMonitorResponse')
+    GetMonitorSettingsRequest = Shapes::StructureShape.new(name: 'GetMonitorSettingsRequest')
+    GetMonitorSettingsResponse = Shapes::StructureShape.new(name: 'GetMonitorSettingsResponse')
     GetQueueEnvironmentRequest = Shapes::StructureShape.new(name: 'GetQueueEnvironmentRequest')
     GetQueueEnvironmentResponse = Shapes::StructureShape.new(name: 'GetQueueEnvironmentResponse')
     GetQueueFleetAssociationRequest = Shapes::StructureShape.new(name: 'GetQueueFleetAssociationRequest')
@@ -600,6 +602,9 @@ module Aws::Deadline
     SessionsStatisticsResources = Shapes::UnionShape.new(name: 'SessionsStatisticsResources')
     SessionsStatisticsResourcesFleetIdsList = Shapes::ListShape.new(name: 'SessionsStatisticsResourcesFleetIdsList')
     SessionsStatisticsResourcesQueueIdsList = Shapes::ListShape.new(name: 'SessionsStatisticsResourcesQueueIdsList')
+    SettingKey = Shapes::StringShape.new(name: 'SettingKey')
+    SettingValue = Shapes::StringShape.new(name: 'SettingValue')
+    SettingsMap = Shapes::MapShape.new(name: 'SettingsMap')
     SortOrder = Shapes::StringShape.new(name: 'SortOrder')
     StartSessionsStatisticsAggregationRequest = Shapes::StructureShape.new(name: 'StartSessionsStatisticsAggregationRequest')
     StartSessionsStatisticsAggregationResponse = Shapes::StructureShape.new(name: 'StartSessionsStatisticsAggregationResponse')
@@ -695,6 +700,8 @@ module Aws::Deadline
     UpdateLimitResponse = Shapes::StructureShape.new(name: 'UpdateLimitResponse')
     UpdateMonitorRequest = Shapes::StructureShape.new(name: 'UpdateMonitorRequest')
     UpdateMonitorResponse = Shapes::StructureShape.new(name: 'UpdateMonitorResponse')
+    UpdateMonitorSettingsRequest = Shapes::StructureShape.new(name: 'UpdateMonitorSettingsRequest')
+    UpdateMonitorSettingsResponse = Shapes::StructureShape.new(name: 'UpdateMonitorSettingsResponse')
     UpdateQueueEnvironmentRequest = Shapes::StructureShape.new(name: 'UpdateQueueEnvironmentRequest')
     UpdateQueueEnvironmentResponse = Shapes::StructureShape.new(name: 'UpdateQueueEnvironmentResponse')
     UpdateQueueFleetAssociationRequest = Shapes::StructureShape.new(name: 'UpdateQueueFleetAssociationRequest')
@@ -1910,6 +1917,12 @@ module Aws::Deadline
     GetMonitorResponse.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
     GetMonitorResponse.struct_class = Types::GetMonitorResponse
 
+    GetMonitorSettingsRequest.add_member(:monitor_id, Shapes::ShapeRef.new(shape: MonitorId, required: true, location: "uri", location_name: "monitorId"))
+    GetMonitorSettingsRequest.struct_class = Types::GetMonitorSettingsRequest
+
+    GetMonitorSettingsResponse.add_member(:settings, Shapes::ShapeRef.new(shape: SettingsMap, required: true, location_name: "settings"))
+    GetMonitorSettingsResponse.struct_class = Types::GetMonitorSettingsResponse
+
     GetQueueEnvironmentRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     GetQueueEnvironmentRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
     GetQueueEnvironmentRequest.add_member(:queue_environment_id, Shapes::ShapeRef.new(shape: QueueEnvironmentId, required: true, location: "uri", location_name: "queueEnvironmentId"))
@@ -2992,6 +3005,9 @@ module Aws::Deadline
 
     SessionsStatisticsResourcesQueueIdsList.member = Shapes::ShapeRef.new(shape: QueueId)
 
+    SettingsMap.key = Shapes::ShapeRef.new(shape: SettingKey)
+    SettingsMap.value = Shapes::ShapeRef.new(shape: SettingValue)
+
     StartSessionsStatisticsAggregationRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     StartSessionsStatisticsAggregationRequest.add_member(:resource_ids, Shapes::ShapeRef.new(shape: SessionsStatisticsResources, required: true, location_name: "resourceIds"))
     StartSessionsStatisticsAggregationRequest.add_member(:start_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "startTime"))
@@ -3320,6 +3336,12 @@ module Aws::Deadline
     UpdateMonitorRequest.struct_class = Types::UpdateMonitorRequest
 
     UpdateMonitorResponse.struct_class = Types::UpdateMonitorResponse
+
+    UpdateMonitorSettingsRequest.add_member(:monitor_id, Shapes::ShapeRef.new(shape: MonitorId, required: true, location: "uri", location_name: "monitorId"))
+    UpdateMonitorSettingsRequest.add_member(:settings, Shapes::ShapeRef.new(shape: SettingsMap, required: true, location_name: "settings"))
+    UpdateMonitorSettingsRequest.struct_class = Types::UpdateMonitorSettingsRequest
+
+    UpdateMonitorSettingsResponse.struct_class = Types::UpdateMonitorSettingsResponse
 
     UpdateQueueEnvironmentRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     UpdateQueueEnvironmentRequest.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, required: true, location: "uri", location_name: "queueId"))
@@ -4471,6 +4493,22 @@ module Aws::Deadline
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
       end)
 
+      api.add_operation(:get_monitor_settings, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetMonitorSettings"
+        o.http_method = "GET"
+        o.http_request_uri = "/2023-10-12/monitors/{monitorId}/settings"
+        o.endpoint_pattern = {
+          "hostPrefix" => "management.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: GetMonitorSettingsRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetMonitorSettingsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
       api.add_operation(:get_queue, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetQueue"
         o.http_method = "GET"
@@ -5515,6 +5553,22 @@ module Aws::Deadline
         }
         o.input = Shapes::ShapeRef.new(shape: UpdateMonitorRequest)
         o.output = Shapes::ShapeRef.new(shape: UpdateMonitorResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
+      api.add_operation(:update_monitor_settings, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateMonitorSettings"
+        o.http_method = "PATCH"
+        o.http_request_uri = "/2023-10-12/monitors/{monitorId}/settings"
+        o.endpoint_pattern = {
+          "hostPrefix" => "management.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: UpdateMonitorSettingsRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateMonitorSettingsResponse)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)

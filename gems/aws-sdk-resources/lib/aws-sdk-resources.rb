@@ -195,6 +195,7 @@ module Aws
   autoload :Inspector, 'aws-sdk-inspector'
   autoload :Inspector2, 'aws-sdk-inspector2'
   autoload :InspectorScan, 'aws-sdk-inspectorscan'
+  autoload :Interconnect, 'aws-sdk-interconnect'
   autoload :InternetMonitor, 'aws-sdk-internetmonitor'
   autoload :Invoicing, 'aws-sdk-invoicing'
   autoload :IoT, 'aws-sdk-iot'
