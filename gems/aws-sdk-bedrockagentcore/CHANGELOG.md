@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.28.0 (2026-04-16)
+------------------
+
+* Feature - Introducing NamespacePath in AgentCore Memory to support hierarchical prefix based memory record retrieval.
+
 1.27.0 (2026-04-09)
 ------------------
 

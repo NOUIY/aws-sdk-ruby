@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.66.0 (2026-04-16)
+------------------
+
+* Feature - Added error handling for service quota limits
+
 1.65.0 (2026-03-23)
 ------------------
 

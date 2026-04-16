@@ -2153,6 +2153,20 @@ module Aws::CognitoIdentityProvider
     #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html
     #   @return [Types::EmailMfaSettingsType]
     #
+    # @!attribute [rw] web_authn_mfa_settings
+    #   User preferences for passkey MFA. Activates or deactivates passkey
+    #   MFA for the user. When activated, passkey authentication requires
+    #   user verification, and passkey sign-in is available when MFA is
+    #   required. To activate this setting, the `FactorConfiguration` of
+    #   your user pool `WebAuthnConfiguration` must be
+    #   `MULTI_FACTOR_WITH_USER_VERIFICATION`. To activate this setting,
+    #   your user pool must be in the [ Essentials tier][1] or higher.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html
+    #   @return [Types::WebAuthnMfaSettingsType]
+    #
     # @!attribute [rw] username
     #   The name of the user that you want to query or modify. The value of
     #   this parameter is typically your user's username, but it can be any
@@ -2172,6 +2186,7 @@ module Aws::CognitoIdentityProvider
       :sms_mfa_settings,
       :software_token_mfa_settings,
       :email_mfa_settings,
+      :web_authn_mfa_settings,
       :username,
       :user_pool_id)
       SENSITIVE = [:username]
@@ -6743,14 +6758,9 @@ module Aws::CognitoIdentityProvider
     #
     # @!attribute [rw] web_authn_configuration
     #   Shows user pool configuration for sign-in with passkey
-    #   authenticators like biometric devices and security keys. Passkeys
-    #   are not eligible MFA factors. They are instead an eligible primary
-    #   sign-in factor for [choice-based authentication][1], or the
-    #   `USER_AUTH` flow.
-    #
-    #
-    #
-    #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flows-selection-sdk.html#authentication-flows-selection-choice
+    #   authenticators such as biometric devices and security keys. Includes
+    #   relying-party configuration, user-verification requirements, and
+    #   whether passkeys can satisfy MFA requirements.
     #   @return [Types::WebAuthnConfigurationType]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/GetUserPoolMfaConfigResponse AWS API Documentation
@@ -10402,6 +10412,20 @@ module Aws::CognitoIdentityProvider
     #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html
     #   @return [Types::EmailMfaSettingsType]
     #
+    # @!attribute [rw] web_authn_mfa_settings
+    #   User preferences for passkey MFA. Activates or deactivates passkey
+    #   MFA for the user. When activated, passkey authentication requires
+    #   user verification, and passkey sign-in is available when MFA is
+    #   required. To activate this setting, the `FactorConfiguration` of
+    #   your user pool `WebAuthnConfiguration` must be
+    #   `MULTI_FACTOR_WITH_USER_VERIFICATION`. To activate this setting,
+    #   your user pool must be in the [ Essentials tier][1] or higher.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html
+    #   @return [Types::WebAuthnMfaSettingsType]
+    #
     # @!attribute [rw] access_token
     #   A valid access token that Amazon Cognito issued to the currently
     #   signed-in user. Must include a scope claim for
@@ -10414,6 +10438,7 @@ module Aws::CognitoIdentityProvider
       :sms_mfa_settings,
       :software_token_mfa_settings,
       :email_mfa_settings,
+      :web_authn_mfa_settings,
       :access_token)
       SENSITIVE = [:access_token]
       include Aws::Structure
@@ -10465,8 +10490,9 @@ module Aws::CognitoIdentityProvider
     #
     # @!attribute [rw] web_authn_configuration
     #   The configuration of your user pool for passkey, or WebAuthn,
-    #   authentication and registration. You can set this configuration
-    #   independent of the MFA configuration options in this operation.
+    #   authentication and registration. Includes relying-party
+    #   configuration, user-verification requirements, and whether passkeys
+    #   can satisfy MFA requirements.
     #   @return [Types::WebAuthnConfigurationType]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/SetUserPoolMfaConfigRequest AWS API Documentation
@@ -10521,8 +10547,8 @@ module Aws::CognitoIdentityProvider
     #
     # @!attribute [rw] web_authn_configuration
     #   The configuration of your user pool for passkey, or WebAuthn,
-    #   sign-in with authenticators like biometric and security-key devices.
-    #   Includes relying-party configuration and settings for
+    #   sign-in with authenticators such as biometric and security-key
+    #   devices. Includes relying-party configuration and settings for
     #   user-verification requirements.
     #   @return [Types::WebAuthnConfigurationType]
     #
@@ -14274,11 +14300,25 @@ module Aws::CognitoIdentityProvider
     #   [1]: https://www.w3.org/TR/webauthn-2/#enum-userVerificationRequirement
     #   @return [String]
     #
+    # @!attribute [rw] factor_configuration
+    #   Sets whether passkeys can be used as multi-factor authentication
+    #   (MFA). When set to `MULTI_FACTOR_WITH_USER_VERIFICATION`, passkey
+    #   authentication with user verification satisfies MFA requirements.
+    #   When set to `SINGLE_FACTOR` or not set, passkeys are a single
+    #   authentication factor. To activate this setting, your user pool must
+    #   be in the [ Essentials tier][1] or higher.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/WebAuthnConfigurationType AWS API Documentation
     #
     class WebAuthnConfigurationType < Struct.new(
       :relying_party_id,
-      :user_verification)
+      :user_verification,
+      :factor_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -14340,6 +14380,28 @@ module Aws::CognitoIdentityProvider
     #
     class WebAuthnCredentialNotSupportedException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A user's preference for using passkey, or WebAuthn, multi-factor
+    # authentication (MFA). Turns passkey MFA on and off for the user.
+    # Unlike other MFA settings types, this type doesn't include a
+    # `PreferredMfa` option because passkey MFA applies only when passkey is
+    # the first authentication factor.
+    #
+    # @!attribute [rw] enabled
+    #   Specifies whether passkey MFA is activated for a user. When
+    #   activated, the user's passkey authentication requires user
+    #   verification, and passkey sign-in is available when MFA is required.
+    #   The user must also have at least one other MFA method such as SMS,
+    #   TOTP, or email activated to prevent account lockout.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/WebAuthnMfaSettingsType AWS API Documentation
+    #
+    class WebAuthnMfaSettingsType < Struct.new(
+      :enabled)
       SENSITIVE = []
       include Aws::Structure
     end

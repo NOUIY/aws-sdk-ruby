@@ -882,6 +882,7 @@ module Aws::BedrockAgentCore
     class ListMemoryRecordsInput
       attr_accessor memory_id: ::String
       attr_accessor namespace: ::String
+      attr_accessor namespace_path: ::String
       attr_accessor memory_strategy_id: ::String
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
@@ -1162,6 +1163,7 @@ module Aws::BedrockAgentCore
     class RetrieveMemoryRecordsInput
       attr_accessor memory_id: ::String
       attr_accessor namespace: ::String
+      attr_accessor namespace_path: ::String
       attr_accessor search_criteria: Types::SearchCriteria
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer

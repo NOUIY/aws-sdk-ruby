@@ -6914,6 +6914,12 @@ module Aws::AppStream
     #   client.
     #   @return [Types::StreamingExperienceSettings]
     #
+    # @!attribute [rw] content_redirection
+    #   Configuration for bidirectional URL redirection between the
+    #   streaming session and the local client. Use HostToClient to redirect
+    #   URLs from the remote desktop to the local browser.
+    #   @return [Types::ContentRedirection]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/UpdateStackRequest AWS API Documentation
     #
     class UpdateStackRequest < Struct.new(
@@ -6929,7 +6935,8 @@ module Aws::AppStream
       :application_settings,
       :access_endpoints,
       :embed_host_domains,
-      :streaming_experience_settings)
+      :streaming_experience_settings,
+      :content_redirection)
       SENSITIVE = []
       include Aws::Structure
     end

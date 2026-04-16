@@ -1561,7 +1561,7 @@ module Aws
                                       y: ::Integer?
                                     }?,
                                     respond_to_afd: ("NONE" | "RESPOND" | "PASSTHROUGH")?,
-                                    scaling_behavior: ("DEFAULT" | "STRETCH_TO_OUTPUT" | "FIT" | "FIT_NO_UPSCALE" | "FILL")?,
+                                    scaling_behavior: ("DEFAULT" | "STRETCH_TO_OUTPUT" | "FIT" | "FIT_NO_UPSCALE" | "FILL" | "SMART_CROP")?,
                                     sharpness: ::Integer?,
                                     timecode_insertion: ("DISABLED" | "PIC_TIMING_SEI")?,
                                     timecode_track: ("DISABLED" | "ENABLED")?,
@@ -3133,7 +3133,7 @@ module Aws
                                                y: ::Integer?
                                              }?,
                                              respond_to_afd: ("NONE" | "RESPOND" | "PASSTHROUGH")?,
-                                             scaling_behavior: ("DEFAULT" | "STRETCH_TO_OUTPUT" | "FIT" | "FIT_NO_UPSCALE" | "FILL")?,
+                                             scaling_behavior: ("DEFAULT" | "STRETCH_TO_OUTPUT" | "FIT" | "FIT_NO_UPSCALE" | "FILL" | "SMART_CROP")?,
                                              sharpness: ::Integer?,
                                              timecode_insertion: ("DISABLED" | "PIC_TIMING_SEI")?,
                                              timecode_track: ("DISABLED" | "ENABLED")?,
@@ -4024,7 +4024,7 @@ module Aws
                                  y: ::Integer?
                                }?,
                                respond_to_afd: ("NONE" | "RESPOND" | "PASSTHROUGH")?,
-                               scaling_behavior: ("DEFAULT" | "STRETCH_TO_OUTPUT" | "FIT" | "FIT_NO_UPSCALE" | "FILL")?,
+                               scaling_behavior: ("DEFAULT" | "STRETCH_TO_OUTPUT" | "FIT" | "FIT_NO_UPSCALE" | "FILL" | "SMART_CROP")?,
                                sharpness: ::Integer?,
                                timecode_insertion: ("DISABLED" | "PIC_TIMING_SEI")?,
                                timecode_track: ("DISABLED" | "ENABLED")?,
@@ -4144,6 +4144,7 @@ module Aws
       def create_queue: (
                           ?concurrent_jobs: ::Integer,
                           ?description: ::String,
+                          ?maximum_concurrent_feeds: ::Integer,
                           name: ::String,
                           ?pricing_plan: ("ON_DEMAND" | "RESERVED"),
                           ?reservation_plan_settings: {
@@ -5888,7 +5889,7 @@ module Aws
                                                y: ::Integer?
                                              }?,
                                              respond_to_afd: ("NONE" | "RESPOND" | "PASSTHROUGH")?,
-                                             scaling_behavior: ("DEFAULT" | "STRETCH_TO_OUTPUT" | "FIT" | "FIT_NO_UPSCALE" | "FILL")?,
+                                             scaling_behavior: ("DEFAULT" | "STRETCH_TO_OUTPUT" | "FIT" | "FIT_NO_UPSCALE" | "FILL" | "SMART_CROP")?,
                                              sharpness: ::Integer?,
                                              timecode_insertion: ("DISABLED" | "PIC_TIMING_SEI")?,
                                              timecode_track: ("DISABLED" | "ENABLED")?,
@@ -6778,7 +6779,7 @@ module Aws
                                  y: ::Integer?
                                }?,
                                respond_to_afd: ("NONE" | "RESPOND" | "PASSTHROUGH")?,
-                               scaling_behavior: ("DEFAULT" | "STRETCH_TO_OUTPUT" | "FIT" | "FIT_NO_UPSCALE" | "FILL")?,
+                               scaling_behavior: ("DEFAULT" | "STRETCH_TO_OUTPUT" | "FIT" | "FIT_NO_UPSCALE" | "FILL" | "SMART_CROP")?,
                                sharpness: ::Integer?,
                                timecode_insertion: ("DISABLED" | "PIC_TIMING_SEI")?,
                                timecode_track: ("DISABLED" | "ENABLED")?,
@@ -6897,6 +6898,7 @@ module Aws
       def update_queue: (
                           ?concurrent_jobs: ::Integer,
                           ?description: ::String,
+                          ?maximum_concurrent_feeds: ::Integer,
                           name: ::String,
                           ?reservation_plan_settings: {
                             commitment: ("ONE_YEAR"),

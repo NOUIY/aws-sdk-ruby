@@ -1681,6 +1681,7 @@ module Aws::AppStream
     UpdateStackRequest.add_member(:access_endpoints, Shapes::ShapeRef.new(shape: AccessEndpointList, location_name: "AccessEndpoints"))
     UpdateStackRequest.add_member(:embed_host_domains, Shapes::ShapeRef.new(shape: EmbedHostDomains, location_name: "EmbedHostDomains"))
     UpdateStackRequest.add_member(:streaming_experience_settings, Shapes::ShapeRef.new(shape: StreamingExperienceSettings, location_name: "StreamingExperienceSettings"))
+    UpdateStackRequest.add_member(:content_redirection, Shapes::ShapeRef.new(shape: ContentRedirection, location_name: "ContentRedirection"))
     UpdateStackRequest.struct_class = Types::UpdateStackRequest
 
     UpdateStackResult.add_member(:stack, Shapes::ShapeRef.new(shape: Stack, location_name: "Stack"))

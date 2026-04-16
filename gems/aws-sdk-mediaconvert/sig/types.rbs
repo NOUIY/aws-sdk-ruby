@@ -577,6 +577,7 @@ module Aws::MediaConvert
     class CreateQueueRequest
       attr_accessor concurrent_jobs: ::Integer
       attr_accessor description: ::String
+      attr_accessor maximum_concurrent_feeds: ::Integer
       attr_accessor name: ::String
       attr_accessor pricing_plan: ("ON_DEMAND" | "RESERVED")
       attr_accessor reservation_plan_settings: Types::ReservationPlanSettings
@@ -842,6 +843,18 @@ module Aws::MediaConvert
       attr_accessor stereo_downmix: ("NOT_INDICATED" | "LO_RO" | "LT_RT" | "DPL2")
       attr_accessor surround_ex_mode: ("NOT_INDICATED" | "ENABLED" | "DISABLED")
       attr_accessor surround_mode: ("NOT_INDICATED" | "ENABLED" | "DISABLED")
+      SENSITIVE: []
+    end
+
+    class ElementalInferenceConfiguration
+      attr_accessor features: ::Array[("SMART_CROP")]
+      attr_accessor feeds: ::Array[Types::ElementalInferenceFeed]
+      SENSITIVE: []
+    end
+
+    class ElementalInferenceFeed
+      attr_accessor arn: ::String
+      attr_accessor feed_management_state: ("CREATED" | "ASSOCIATED" | "PENDING_DELETION" | "DELETED")
       SENSITIVE: []
     end
 
@@ -1397,6 +1410,7 @@ module Aws::MediaConvert
       attr_accessor client_request_token: ::String
       attr_accessor created_at: ::Time
       attr_accessor current_phase: ("PROBING" | "TRANSCODING" | "UPLOADING")
+      attr_accessor elemental_inference_configuration: Types::ElementalInferenceConfiguration
       attr_accessor error_code: ::Integer
       attr_accessor error_message: ::String
       attr_accessor hop_destinations: ::Array[Types::HopDestination]
@@ -2075,6 +2089,7 @@ module Aws::MediaConvert
       attr_accessor created_at: ::Time
       attr_accessor description: ::String
       attr_accessor last_updated: ::Time
+      attr_accessor maximum_concurrent_feeds: ::Integer
       attr_accessor name: ::String
       attr_accessor pricing_plan: ("ON_DEMAND" | "RESERVED")
       attr_accessor progressing_jobs_count: ::Integer
@@ -2368,6 +2383,7 @@ module Aws::MediaConvert
     class UpdateQueueRequest
       attr_accessor concurrent_jobs: ::Integer
       attr_accessor description: ::String
+      attr_accessor maximum_concurrent_feeds: ::Integer
       attr_accessor name: ::String
       attr_accessor reservation_plan_settings: Types::ReservationPlanSettings
       attr_accessor status: ("ACTIVE" | "PAUSED")
@@ -2423,7 +2439,7 @@ module Aws::MediaConvert
       attr_accessor height: ::Integer
       attr_accessor position: Types::Rectangle
       attr_accessor respond_to_afd: ("NONE" | "RESPOND" | "PASSTHROUGH")
-      attr_accessor scaling_behavior: ("DEFAULT" | "STRETCH_TO_OUTPUT" | "FIT" | "FIT_NO_UPSCALE" | "FILL")
+      attr_accessor scaling_behavior: ("DEFAULT" | "STRETCH_TO_OUTPUT" | "FIT" | "FIT_NO_UPSCALE" | "FILL" | "SMART_CROP")
       attr_accessor sharpness: ::Integer
       attr_accessor timecode_insertion: ("DISABLED" | "PIC_TIMING_SEI")
       attr_accessor timecode_track: ("DISABLED" | "ENABLED")

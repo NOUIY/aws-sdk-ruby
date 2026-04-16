@@ -6208,6 +6208,11 @@ module Aws::AppStream
     #   The streaming protocol you want your stack to prefer. This can be UDP
     #   or TCP. Currently, UDP is only supported in the Windows native client.
     #
+    # @option params [Types::ContentRedirection] :content_redirection
+    #   Configuration for bidirectional URL redirection between the streaming
+    #   session and the local client. Use HostToClient to redirect URLs from
+    #   the remote desktop to the local browser.
+    #
     # @return [Types::UpdateStackResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateStackResult#stack #stack} => Types::Stack
@@ -6250,6 +6255,13 @@ module Aws::AppStream
     #     embed_host_domains: ["EmbedHostDomain"],
     #     streaming_experience_settings: {
     #       preferred_protocol: "TCP", # accepts TCP, UDP
+    #     },
+    #     content_redirection: {
+    #       host_to_client: {
+    #         enabled: false, # required
+    #         allowed_urls: ["UrlPattern"],
+    #         denied_urls: ["UrlPattern"],
+    #       },
     #     },
     #   })
     #
@@ -6405,7 +6417,7 @@ module Aws::AppStream
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-appstream'
-      context[:gem_version] = '1.131.0'
+      context[:gem_version] = '1.132.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

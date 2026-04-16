@@ -1469,7 +1469,7 @@ module Aws::MediaConvert
     #           y: 1,
     #         },
     #         respond_to_afd: "NONE", # accepts NONE, RESPOND, PASSTHROUGH
-    #         scaling_behavior: "DEFAULT", # accepts DEFAULT, STRETCH_TO_OUTPUT, FIT, FIT_NO_UPSCALE, FILL
+    #         scaling_behavior: "DEFAULT", # accepts DEFAULT, STRETCH_TO_OUTPUT, FIT, FIT_NO_UPSCALE, FILL, SMART_CROP
     #         sharpness: 1,
     #         timecode_insertion: "DISABLED", # accepts DISABLED, PIC_TIMING_SEI
     #         timecode_track: "DISABLED", # accepts DISABLED, ENABLED
@@ -2204,7 +2204,7 @@ module Aws::MediaConvert
     #   resp.preset.settings.video_description.position.x #=> Integer
     #   resp.preset.settings.video_description.position.y #=> Integer
     #   resp.preset.settings.video_description.respond_to_afd #=> String, one of "NONE", "RESPOND", "PASSTHROUGH"
-    #   resp.preset.settings.video_description.scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "FIT", "FIT_NO_UPSCALE", "FILL"
+    #   resp.preset.settings.video_description.scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "FIT", "FIT_NO_UPSCALE", "FILL", "SMART_CROP"
     #   resp.preset.settings.video_description.sharpness #=> Integer
     #   resp.preset.settings.video_description.timecode_insertion #=> String, one of "DISABLED", "PIC_TIMING_SEI"
     #   resp.preset.settings.video_description.timecode_track #=> String, one of "DISABLED", "ENABLED"
@@ -2301,6 +2301,10 @@ module Aws::MediaConvert
     # @option params [String] :description
     #   Optional. A description of the queue that you are creating.
     #
+    # @option params [Integer] :maximum_concurrent_feeds
+    #   Specify the maximum number of Elemental Inference feeds MediaConvert
+    #   can process concurrently.
+    #
     # @option params [required, String] :name
     #   The name of the queue that you are creating.
     #
@@ -2333,6 +2337,7 @@ module Aws::MediaConvert
     #   resp = client.create_queue({
     #     concurrent_jobs: 1,
     #     description: "__string",
+    #     maximum_concurrent_feeds: 1,
     #     name: "__string", # required
     #     pricing_plan: "ON_DEMAND", # accepts ON_DEMAND, RESERVED
     #     reservation_plan_settings: {
@@ -2353,6 +2358,7 @@ module Aws::MediaConvert
     #   resp.queue.created_at #=> Time
     #   resp.queue.description #=> String
     #   resp.queue.last_updated #=> Time
+    #   resp.queue.maximum_concurrent_feeds #=> Integer
     #   resp.queue.name #=> String
     #   resp.queue.pricing_plan #=> String, one of "ON_DEMAND", "RESERVED"
     #   resp.queue.progressing_jobs_count #=> Integer
@@ -3294,7 +3300,7 @@ module Aws::MediaConvert
     #   resp.preset.settings.video_description.position.x #=> Integer
     #   resp.preset.settings.video_description.position.y #=> Integer
     #   resp.preset.settings.video_description.respond_to_afd #=> String, one of "NONE", "RESPOND", "PASSTHROUGH"
-    #   resp.preset.settings.video_description.scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "FIT", "FIT_NO_UPSCALE", "FILL"
+    #   resp.preset.settings.video_description.scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "FIT", "FIT_NO_UPSCALE", "FILL", "SMART_CROP"
     #   resp.preset.settings.video_description.sharpness #=> Integer
     #   resp.preset.settings.video_description.timecode_insertion #=> String, one of "DISABLED", "PIC_TIMING_SEI"
     #   resp.preset.settings.video_description.timecode_track #=> String, one of "DISABLED", "ENABLED"
@@ -3398,6 +3404,7 @@ module Aws::MediaConvert
     #   resp.queue.created_at #=> Time
     #   resp.queue.description #=> String
     #   resp.queue.last_updated #=> Time
+    #   resp.queue.maximum_concurrent_feeds #=> Integer
     #   resp.queue.name #=> String
     #   resp.queue.pricing_plan #=> String, one of "ON_DEMAND", "RESERVED"
     #   resp.queue.progressing_jobs_count #=> Integer
@@ -4198,7 +4205,7 @@ module Aws::MediaConvert
     #   resp.presets[0].settings.video_description.position.x #=> Integer
     #   resp.presets[0].settings.video_description.position.y #=> Integer
     #   resp.presets[0].settings.video_description.respond_to_afd #=> String, one of "NONE", "RESPOND", "PASSTHROUGH"
-    #   resp.presets[0].settings.video_description.scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "FIT", "FIT_NO_UPSCALE", "FILL"
+    #   resp.presets[0].settings.video_description.scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "FIT", "FIT_NO_UPSCALE", "FILL", "SMART_CROP"
     #   resp.presets[0].settings.video_description.sharpness #=> Integer
     #   resp.presets[0].settings.video_description.timecode_insertion #=> String, one of "DISABLED", "PIC_TIMING_SEI"
     #   resp.presets[0].settings.video_description.timecode_track #=> String, one of "DISABLED", "ENABLED"
@@ -4329,6 +4336,7 @@ module Aws::MediaConvert
     #   resp.queues[0].created_at #=> Time
     #   resp.queues[0].description #=> String
     #   resp.queues[0].last_updated #=> Time
+    #   resp.queues[0].maximum_concurrent_feeds #=> Integer
     #   resp.queues[0].name #=> String
     #   resp.queues[0].pricing_plan #=> String, one of "ON_DEMAND", "RESERVED"
     #   resp.queues[0].progressing_jobs_count #=> Integer
@@ -5552,7 +5560,7 @@ module Aws::MediaConvert
     #           y: 1,
     #         },
     #         respond_to_afd: "NONE", # accepts NONE, RESPOND, PASSTHROUGH
-    #         scaling_behavior: "DEFAULT", # accepts DEFAULT, STRETCH_TO_OUTPUT, FIT, FIT_NO_UPSCALE, FILL
+    #         scaling_behavior: "DEFAULT", # accepts DEFAULT, STRETCH_TO_OUTPUT, FIT, FIT_NO_UPSCALE, FILL, SMART_CROP
     #         sharpness: 1,
     #         timecode_insertion: "DISABLED", # accepts DISABLED, PIC_TIMING_SEI
     #         timecode_track: "DISABLED", # accepts DISABLED, ENABLED
@@ -6284,7 +6292,7 @@ module Aws::MediaConvert
     #   resp.preset.settings.video_description.position.x #=> Integer
     #   resp.preset.settings.video_description.position.y #=> Integer
     #   resp.preset.settings.video_description.respond_to_afd #=> String, one of "NONE", "RESPOND", "PASSTHROUGH"
-    #   resp.preset.settings.video_description.scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "FIT", "FIT_NO_UPSCALE", "FILL"
+    #   resp.preset.settings.video_description.scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "FIT", "FIT_NO_UPSCALE", "FILL", "SMART_CROP"
     #   resp.preset.settings.video_description.sharpness #=> Integer
     #   resp.preset.settings.video_description.timecode_insertion #=> String, one of "DISABLED", "PIC_TIMING_SEI"
     #   resp.preset.settings.video_description.timecode_track #=> String, one of "DISABLED", "ENABLED"
@@ -6379,6 +6387,10 @@ module Aws::MediaConvert
     # @option params [String] :description
     #   The new description for the queue, if you are changing it.
     #
+    # @option params [Integer] :maximum_concurrent_feeds
+    #   Specify the maximum number of Elemental Inference feeds MediaConvert
+    #   can process concurrently.
+    #
     # @option params [required, String] :name
     #   The name of the queue that you are modifying.
     #
@@ -6405,6 +6417,7 @@ module Aws::MediaConvert
     #   resp = client.update_queue({
     #     concurrent_jobs: 1,
     #     description: "__string",
+    #     maximum_concurrent_feeds: 1,
     #     name: "__string", # required
     #     reservation_plan_settings: {
     #       commitment: "ONE_YEAR", # required, accepts ONE_YEAR
@@ -6421,6 +6434,7 @@ module Aws::MediaConvert
     #   resp.queue.created_at #=> Time
     #   resp.queue.description #=> String
     #   resp.queue.last_updated #=> Time
+    #   resp.queue.maximum_concurrent_feeds #=> Integer
     #   resp.queue.name #=> String
     #   resp.queue.pricing_plan #=> String, one of "ON_DEMAND", "RESERVED"
     #   resp.queue.progressing_jobs_count #=> Integer
@@ -6466,7 +6480,7 @@ module Aws::MediaConvert
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-mediaconvert'
-      context[:gem_version] = '1.182.0'
+      context[:gem_version] = '1.183.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -597,6 +597,8 @@ module Aws::CognitoIdentityProvider
     WebAuthnCredentialDescriptionListType = Shapes::ListShape.new(name: 'WebAuthnCredentialDescriptionListType')
     WebAuthnCredentialNotSupportedException = Shapes::StructureShape.new(name: 'WebAuthnCredentialNotSupportedException')
     WebAuthnCredentialsQueryLimitType = Shapes::IntegerShape.new(name: 'WebAuthnCredentialsQueryLimitType')
+    WebAuthnFactorConfigurationType = Shapes::StringShape.new(name: 'WebAuthnFactorConfigurationType')
+    WebAuthnMfaSettingsType = Shapes::StructureShape.new(name: 'WebAuthnMfaSettingsType')
     WebAuthnNotEnabledException = Shapes::StructureShape.new(name: 'WebAuthnNotEnabledException')
     WebAuthnOriginNotAllowedException = Shapes::StructureShape.new(name: 'WebAuthnOriginNotAllowedException')
     WebAuthnRelyingPartyMismatchException = Shapes::StructureShape.new(name: 'WebAuthnRelyingPartyMismatchException')
@@ -809,6 +811,7 @@ module Aws::CognitoIdentityProvider
     AdminSetUserMFAPreferenceRequest.add_member(:sms_mfa_settings, Shapes::ShapeRef.new(shape: SMSMfaSettingsType, location_name: "SMSMfaSettings"))
     AdminSetUserMFAPreferenceRequest.add_member(:software_token_mfa_settings, Shapes::ShapeRef.new(shape: SoftwareTokenMfaSettingsType, location_name: "SoftwareTokenMfaSettings"))
     AdminSetUserMFAPreferenceRequest.add_member(:email_mfa_settings, Shapes::ShapeRef.new(shape: EmailMfaSettingsType, location_name: "EmailMfaSettings"))
+    AdminSetUserMFAPreferenceRequest.add_member(:web_authn_mfa_settings, Shapes::ShapeRef.new(shape: WebAuthnMfaSettingsType, location_name: "WebAuthnMfaSettings"))
     AdminSetUserMFAPreferenceRequest.add_member(:username, Shapes::ShapeRef.new(shape: UsernameType, required: true, location_name: "Username"))
     AdminSetUserMFAPreferenceRequest.add_member(:user_pool_id, Shapes::ShapeRef.new(shape: UserPoolIdType, required: true, location_name: "UserPoolId"))
     AdminSetUserMFAPreferenceRequest.struct_class = Types::AdminSetUserMFAPreferenceRequest
@@ -1970,6 +1973,7 @@ module Aws::CognitoIdentityProvider
     SetUserMFAPreferenceRequest.add_member(:sms_mfa_settings, Shapes::ShapeRef.new(shape: SMSMfaSettingsType, location_name: "SMSMfaSettings"))
     SetUserMFAPreferenceRequest.add_member(:software_token_mfa_settings, Shapes::ShapeRef.new(shape: SoftwareTokenMfaSettingsType, location_name: "SoftwareTokenMfaSettings"))
     SetUserMFAPreferenceRequest.add_member(:email_mfa_settings, Shapes::ShapeRef.new(shape: EmailMfaSettingsType, location_name: "EmailMfaSettings"))
+    SetUserMFAPreferenceRequest.add_member(:web_authn_mfa_settings, Shapes::ShapeRef.new(shape: WebAuthnMfaSettingsType, location_name: "WebAuthnMfaSettings"))
     SetUserMFAPreferenceRequest.add_member(:access_token, Shapes::ShapeRef.new(shape: TokenModelType, required: true, location_name: "AccessToken"))
     SetUserMFAPreferenceRequest.struct_class = Types::SetUserMFAPreferenceRequest
 
@@ -2473,6 +2477,7 @@ module Aws::CognitoIdentityProvider
 
     WebAuthnConfigurationType.add_member(:relying_party_id, Shapes::ShapeRef.new(shape: RelyingPartyIdType, location_name: "RelyingPartyId"))
     WebAuthnConfigurationType.add_member(:user_verification, Shapes::ShapeRef.new(shape: UserVerificationType, location_name: "UserVerification"))
+    WebAuthnConfigurationType.add_member(:factor_configuration, Shapes::ShapeRef.new(shape: WebAuthnFactorConfigurationType, location_name: "FactorConfiguration"))
     WebAuthnConfigurationType.struct_class = Types::WebAuthnConfigurationType
 
     WebAuthnCredentialDescription.add_member(:credential_id, Shapes::ShapeRef.new(shape: StringType, required: true, location_name: "CredentialId"))
@@ -2487,6 +2492,9 @@ module Aws::CognitoIdentityProvider
 
     WebAuthnCredentialNotSupportedException.add_member(:message, Shapes::ShapeRef.new(shape: MessageType, location_name: "message"))
     WebAuthnCredentialNotSupportedException.struct_class = Types::WebAuthnCredentialNotSupportedException
+
+    WebAuthnMfaSettingsType.add_member(:enabled, Shapes::ShapeRef.new(shape: BooleanType, location_name: "Enabled"))
+    WebAuthnMfaSettingsType.struct_class = Types::WebAuthnMfaSettingsType
 
     WebAuthnNotEnabledException.add_member(:message, Shapes::ShapeRef.new(shape: MessageType, location_name: "message"))
     WebAuthnNotEnabledException.struct_class = Types::WebAuthnNotEnabledException

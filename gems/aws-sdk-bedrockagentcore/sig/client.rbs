@@ -646,7 +646,8 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#list_memory_records-instance_method
       def list_memory_records: (
                                  memory_id: ::String,
-                                 namespace: ::String,
+                                 ?namespace: ::String,
+                                 ?namespace_path: ::String,
                                  ?memory_strategy_id: ::String,
                                  ?max_results: ::Integer,
                                  ?next_token: ::String
@@ -678,7 +679,8 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#retrieve_memory_records-instance_method
       def retrieve_memory_records: (
                                      memory_id: ::String,
-                                     namespace: ::String,
+                                     ?namespace: ::String,
+                                     ?namespace_path: ::String,
                                      search_criteria: {
                                        search_query: ::String,
                                        memory_strategy_id: ::String?,

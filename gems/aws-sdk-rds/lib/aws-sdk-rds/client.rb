@@ -18128,6 +18128,154 @@ module Aws::RDS
       req.send_request(options)
     end
 
+    # Describes the properties of specific platform versions for Aurora
+    # Serverless v2.
+    #
+    # @option params [String] :serverless_v2_platform_version
+    #   A specific platform version to return details for.
+    #
+    #   Example: `3`
+    #
+    # @option params [String] :engine
+    #   The database engine to return platform version details for.
+    #
+    #   Valid Values:
+    #
+    #   * `aurora-mysql`
+    #
+    #   * `aurora-postgresql`
+    #
+    # @option params [Array<Types::Filter>] :filters
+    #   This parameter isn't currently supported.
+    #
+    # @option params [Boolean] :default_only
+    #   Specifies whether to return only the default platform versions for
+    #   each engine. The default platform version is the version used for new
+    #   DB clusters.
+    #
+    # @option params [Boolean] :include_all
+    #   Specifies whether to also include platform versions which are no
+    #   longer in use.
+    #
+    # @option params [Integer] :max_records
+    #   The maximum number of records to include in the response. If more than
+    #   the `MaxRecords` value is available, a pagination token called a
+    #   marker is included in the response so you can retrieve the remaining
+    #   results.
+    #
+    #   Default: 20
+    #
+    #   Constraints: Minimum 1, maximum 200.
+    #
+    # @option params [String] :marker
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond the
+    #   marker, up to the value specified by `MaxRecords`.
+    #
+    # @return [Types::ServerlessV2PlatformVersionsMessage] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ServerlessV2PlatformVersionsMessage#marker #marker} => String
+    #   * {Types::ServerlessV2PlatformVersionsMessage#serverless_v2_platform_versions #serverless_v2_platform_versions} => Array&lt;Types::ServerlessV2PlatformVersionInfo&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    #
+    # @example Example: To describe the serverless platform versions for the Aurora MySQL DB engine
+    #
+    #   # The following example displays details about each of the serverless platform versions for the specified DB engine.
+    #
+    #   resp = client.describe_serverless_v2_platform_versions({
+    #     engine: "aurora-mysql", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     serverless_v2_platform_versions: [
+    #       {
+    #         engine: "aurora-mysql", 
+    #         is_default: true, 
+    #         serverless_v2_features_support: {
+    #           max_capacity: 256.0, 
+    #           min_capacity: 0.0, 
+    #         }, 
+    #         serverless_v2_platform_version: "4", 
+    #         serverless_v2_platform_version_description: "Version 4 offering scaling up to 256 ACUs, and performance improvement up to 30% compared to version 3", 
+    #         status: "enabled", 
+    #       }, 
+    #       {
+    #         engine: "aurora-mysql", 
+    #         is_default: false, 
+    #         serverless_v2_features_support: {
+    #           max_capacity: 256.0, 
+    #           min_capacity: 0.0, 
+    #         }, 
+    #         serverless_v2_platform_version: "3", 
+    #         serverless_v2_platform_version_description: "Version 3 offering scaling up to 256 ACUs, and performance improvement up to 30% compared to version 2", 
+    #         status: "enabled", 
+    #       }, 
+    #       {
+    #         engine: "aurora-mysql", 
+    #         is_default: false, 
+    #         serverless_v2_features_support: {
+    #           max_capacity: 256.0, 
+    #           min_capacity: 0.0, 
+    #         }, 
+    #         serverless_v2_platform_version: "2", 
+    #         serverless_v2_platform_version_description: "Version 2 offering scaling up to 256 ACUs", 
+    #         status: "enabled", 
+    #       }, 
+    #       {
+    #         engine: "aurora-mysql", 
+    #         is_default: false, 
+    #         serverless_v2_features_support: {
+    #           max_capacity: 128.0, 
+    #           min_capacity: 0.0, 
+    #         }, 
+    #         serverless_v2_platform_version: "1", 
+    #         serverless_v2_platform_version_description: "Version 1 offering scaling up to 128 ACUs", 
+    #         status: "enabled", 
+    #       }, 
+    #     ], 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_serverless_v2_platform_versions({
+    #     serverless_v2_platform_version: "String",
+    #     engine: "String",
+    #     filters: [
+    #       {
+    #         name: "String", # required
+    #         values: ["String"], # required
+    #       },
+    #     ],
+    #     default_only: false,
+    #     include_all: false,
+    #     max_records: 1,
+    #     marker: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.marker #=> String
+    #   resp.serverless_v2_platform_versions #=> Array
+    #   resp.serverless_v2_platform_versions[0].serverless_v2_platform_version #=> String
+    #   resp.serverless_v2_platform_versions[0].serverless_v2_platform_version_description #=> String
+    #   resp.serverless_v2_platform_versions[0].engine #=> String
+    #   resp.serverless_v2_platform_versions[0].serverless_v2_features_support.min_capacity #=> Float
+    #   resp.serverless_v2_platform_versions[0].serverless_v2_features_support.max_capacity #=> Float
+    #   resp.serverless_v2_platform_versions[0].status #=> String
+    #   resp.serverless_v2_platform_versions[0].is_default #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/DescribeServerlessV2PlatformVersions AWS API Documentation
+    #
+    # @overload describe_serverless_v2_platform_versions(params = {})
+    # @param [Hash] params ({})
+    def describe_serverless_v2_platform_versions(params = {}, options = {})
+      req = build_request(:describe_serverless_v2_platform_versions, params)
+      req.send_request(options)
+    end
+
     # Returns a list of the source Amazon Web Services Regions where the
     # current Amazon Web Services Region can create a read replica, copy a
     # DB snapshot from, or replicate automated backups from.
@@ -33984,7 +34132,7 @@ module Aws::RDS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-rds'
-      context[:gem_version] = '1.310.0'
+      context[:gem_version] = '1.311.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

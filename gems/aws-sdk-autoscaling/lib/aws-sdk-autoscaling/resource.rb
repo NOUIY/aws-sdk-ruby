@@ -142,6 +142,7 @@ module Aws::AutoScaling
     #     desired_capacity: 1,
     #     default_cooldown: 1,
     #     availability_zones: ["XmlStringMaxLen255"],
+    #     availability_zone_ids: ["XmlStringMaxLen255"],
     #     load_balancer_names: ["XmlStringMaxLen255"],
     #     target_group_arns: ["XmlStringMaxLen511"],
     #     health_check_type: "XmlStringMaxLen32",
@@ -304,6 +305,10 @@ module Aws::AutoScaling
     #   Availability Zone when not using the `VPCZoneIdentifier` property, or
     #   for attaching a network interface when an existing network interface
     #   ID is specified in a launch template.
+    # @option options [Array<String>] :availability_zone_ids
+    #   A list of Availability Zone IDs where the Auto Scaling group can
+    #   launch instances. You cannot specify both AvailabilityZones and
+    #   AvailabilityZoneIds in the same request.
     # @option options [Array<String>] :load_balancer_names
     #   A list of Classic Load Balancers associated with this Auto Scaling
     #   group. For Application Load Balancers, Network Load Balancers, and

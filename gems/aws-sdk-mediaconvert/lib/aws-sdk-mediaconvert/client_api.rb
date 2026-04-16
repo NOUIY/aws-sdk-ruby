@@ -275,6 +275,10 @@ module Aws::MediaConvert
     Eac3StereoDownmix = Shapes::StringShape.new(name: 'Eac3StereoDownmix')
     Eac3SurroundExMode = Shapes::StringShape.new(name: 'Eac3SurroundExMode')
     Eac3SurroundMode = Shapes::StringShape.new(name: 'Eac3SurroundMode')
+    ElementalInferenceConfiguration = Shapes::StructureShape.new(name: 'ElementalInferenceConfiguration')
+    ElementalInferenceFeature = Shapes::StringShape.new(name: 'ElementalInferenceFeature')
+    ElementalInferenceFeed = Shapes::StructureShape.new(name: 'ElementalInferenceFeed')
+    ElementalInferenceFeedManagementState = Shapes::StringShape.new(name: 'ElementalInferenceFeedManagementState')
     EmbeddedConvert608To708 = Shapes::StringShape.new(name: 'EmbeddedConvert608To708')
     EmbeddedDestinationSettings = Shapes::StructureShape.new(name: 'EmbeddedDestinationSettings')
     EmbeddedSourceSettings = Shapes::StructureShape.new(name: 'EmbeddedSourceSettings')
@@ -779,6 +783,7 @@ module Aws::MediaConvert
     __doubleMinNegative6Max3 = Shapes::FloatShape.new(name: '__doubleMinNegative6Max3')
     __doubleMinNegative8Max0 = Shapes::FloatShape.new(name: '__doubleMinNegative8Max0')
     __integer = Shapes::IntegerShape.new(name: '__integer')
+    __integerMin0 = Shapes::IntegerShape.new(name: '__integerMin0')
     __integerMin0Max0 = Shapes::IntegerShape.new(name: '__integerMin0Max0')
     __integerMin0Max1 = Shapes::IntegerShape.new(name: '__integerMin0Max1')
     __integerMin0Max10 = Shapes::IntegerShape.new(name: '__integerMin0Max10')
@@ -896,6 +901,8 @@ module Aws::MediaConvert
     __listOfCmafAdditionalManifest = Shapes::ListShape.new(name: '__listOfCmafAdditionalManifest')
     __listOfColorConversion3DLUTSetting = Shapes::ListShape.new(name: '__listOfColorConversion3DLUTSetting')
     __listOfDashAdditionalManifest = Shapes::ListShape.new(name: '__listOfDashAdditionalManifest')
+    __listOfElementalInferenceFeature = Shapes::ListShape.new(name: '__listOfElementalInferenceFeature')
+    __listOfElementalInferenceFeed = Shapes::ListShape.new(name: '__listOfElementalInferenceFeed')
     __listOfEndpoint = Shapes::ListShape.new(name: '__listOfEndpoint')
     __listOfForceIncludeRenditionSize = Shapes::ListShape.new(name: '__listOfForceIncludeRenditionSize')
     __listOfFrameMetricType = Shapes::ListShape.new(name: '__listOfFrameMetricType')
@@ -1468,6 +1475,7 @@ module Aws::MediaConvert
 
     CreateQueueRequest.add_member(:concurrent_jobs, Shapes::ShapeRef.new(shape: __integer, location_name: "concurrentJobs"))
     CreateQueueRequest.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "description"))
+    CreateQueueRequest.add_member(:maximum_concurrent_feeds, Shapes::ShapeRef.new(shape: __integerMin0, location_name: "maximumConcurrentFeeds"))
     CreateQueueRequest.add_member(:name, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "name"))
     CreateQueueRequest.add_member(:pricing_plan, Shapes::ShapeRef.new(shape: PricingPlan, location_name: "pricingPlan"))
     CreateQueueRequest.add_member(:reservation_plan_settings, Shapes::ShapeRef.new(shape: ReservationPlanSettings, location_name: "reservationPlanSettings"))
@@ -1677,6 +1685,14 @@ module Aws::MediaConvert
     Eac3Settings.add_member(:surround_ex_mode, Shapes::ShapeRef.new(shape: Eac3SurroundExMode, location_name: "surroundExMode"))
     Eac3Settings.add_member(:surround_mode, Shapes::ShapeRef.new(shape: Eac3SurroundMode, location_name: "surroundMode"))
     Eac3Settings.struct_class = Types::Eac3Settings
+
+    ElementalInferenceConfiguration.add_member(:features, Shapes::ShapeRef.new(shape: __listOfElementalInferenceFeature, location_name: "features"))
+    ElementalInferenceConfiguration.add_member(:feeds, Shapes::ShapeRef.new(shape: __listOfElementalInferenceFeed, location_name: "feeds"))
+    ElementalInferenceConfiguration.struct_class = Types::ElementalInferenceConfiguration
+
+    ElementalInferenceFeed.add_member(:arn, Shapes::ShapeRef.new(shape: __string, location_name: "arn"))
+    ElementalInferenceFeed.add_member(:feed_management_state, Shapes::ShapeRef.new(shape: ElementalInferenceFeedManagementState, location_name: "feedManagementState"))
+    ElementalInferenceFeed.struct_class = Types::ElementalInferenceFeed
 
     EmbeddedDestinationSettings.add_member(:destination_608_channel_number, Shapes::ShapeRef.new(shape: __integerMin1Max4, location_name: "destination608ChannelNumber"))
     EmbeddedDestinationSettings.add_member(:destination_708_service_number, Shapes::ShapeRef.new(shape: __integerMin1Max6, location_name: "destination708ServiceNumber"))
@@ -2120,6 +2136,7 @@ module Aws::MediaConvert
     Job.add_member(:client_request_token, Shapes::ShapeRef.new(shape: __string, location_name: "clientRequestToken"))
     Job.add_member(:created_at, Shapes::ShapeRef.new(shape: __timestampUnix, location_name: "createdAt"))
     Job.add_member(:current_phase, Shapes::ShapeRef.new(shape: JobPhase, location_name: "currentPhase"))
+    Job.add_member(:elemental_inference_configuration, Shapes::ShapeRef.new(shape: ElementalInferenceConfiguration, location_name: "elementalInferenceConfiguration"))
     Job.add_member(:error_code, Shapes::ShapeRef.new(shape: __integer, location_name: "errorCode"))
     Job.add_member(:error_message, Shapes::ShapeRef.new(shape: __string, location_name: "errorMessage"))
     Job.add_member(:hop_destinations, Shapes::ShapeRef.new(shape: __listOfHopDestination, location_name: "hopDestinations"))
@@ -2658,6 +2675,7 @@ module Aws::MediaConvert
     Queue.add_member(:created_at, Shapes::ShapeRef.new(shape: __timestampUnix, location_name: "createdAt"))
     Queue.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "description"))
     Queue.add_member(:last_updated, Shapes::ShapeRef.new(shape: __timestampUnix, location_name: "lastUpdated"))
+    Queue.add_member(:maximum_concurrent_feeds, Shapes::ShapeRef.new(shape: __integerMin0, location_name: "maximumConcurrentFeeds"))
     Queue.add_member(:name, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "name"))
     Queue.add_member(:pricing_plan, Shapes::ShapeRef.new(shape: PricingPlan, location_name: "pricingPlan"))
     Queue.add_member(:progressing_jobs_count, Shapes::ShapeRef.new(shape: __integer, location_name: "progressingJobsCount"))
@@ -2871,6 +2889,7 @@ module Aws::MediaConvert
 
     UpdateQueueRequest.add_member(:concurrent_jobs, Shapes::ShapeRef.new(shape: __integer, location_name: "concurrentJobs"))
     UpdateQueueRequest.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "description"))
+    UpdateQueueRequest.add_member(:maximum_concurrent_feeds, Shapes::ShapeRef.new(shape: __integerMin0, location_name: "maximumConcurrentFeeds"))
     UpdateQueueRequest.add_member(:name, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "name"))
     UpdateQueueRequest.add_member(:reservation_plan_settings, Shapes::ShapeRef.new(shape: ReservationPlanSettings, location_name: "reservationPlanSettings"))
     UpdateQueueRequest.add_member(:status, Shapes::ShapeRef.new(shape: QueueStatus, location_name: "status"))
@@ -3126,6 +3145,10 @@ module Aws::MediaConvert
     __listOfColorConversion3DLUTSetting.member = Shapes::ShapeRef.new(shape: ColorConversion3DLUTSetting)
 
     __listOfDashAdditionalManifest.member = Shapes::ShapeRef.new(shape: DashAdditionalManifest)
+
+    __listOfElementalInferenceFeature.member = Shapes::ShapeRef.new(shape: ElementalInferenceFeature)
+
+    __listOfElementalInferenceFeed.member = Shapes::ShapeRef.new(shape: ElementalInferenceFeed)
 
     __listOfEndpoint.member = Shapes::ShapeRef.new(shape: Endpoint)
 

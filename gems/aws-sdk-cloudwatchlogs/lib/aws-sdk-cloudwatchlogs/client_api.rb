@@ -3414,7 +3414,7 @@ module Aws::CloudWatchLogs
         o.http_method = "POST"
         o.http_request_uri = "/"
         o.endpoint_pattern = {
-          "hostPrefix" => "streaming-",
+          "hostPrefix" => "stream-",
         }
         o.input = Shapes::ShapeRef.new(shape: GetLogObjectRequest)
         o.output = Shapes::ShapeRef.new(shape: GetLogObjectResponse)
@@ -3892,7 +3892,7 @@ module Aws::CloudWatchLogs
         o.http_method = "POST"
         o.http_request_uri = "/"
         o.endpoint_pattern = {
-          "hostPrefix" => "streaming-",
+          "hostPrefix" => "stream-",
         }
         o.input = Shapes::ShapeRef.new(shape: StartLiveTailRequest)
         o.output = Shapes::ShapeRef.new(shape: StartLiveTailResponse)

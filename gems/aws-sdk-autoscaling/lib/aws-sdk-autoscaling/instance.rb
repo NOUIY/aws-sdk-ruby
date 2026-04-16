@@ -56,6 +56,12 @@ module Aws::AutoScaling
       data[:availability_zone]
     end
 
+    # The Availability Zone ID where the instance is located.
+    # @return [String]
+    def availability_zone_id
+      data[:availability_zone_id]
+    end
+
     # The lifecycle state for the instance. The `Quarantined` state is not
     # used. For more information, see [Amazon EC2 Auto Scaling instance
     # lifecycle][1] in the *Amazon EC2 Auto Scaling User Guide*.

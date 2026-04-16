@@ -1270,6 +1270,7 @@ module Aws::DataZone
     class CreateGroupProfileInput
       attr_accessor domain_identifier: ::String
       attr_accessor group_identifier: ::String
+      attr_accessor role_principal_arn: ::String
       attr_accessor client_token: ::String
       SENSITIVE: []
     end
@@ -1279,6 +1280,8 @@ module Aws::DataZone
       attr_accessor id: ::String
       attr_accessor status: ("ASSIGNED" | "NOT_ASSIGNED")
       attr_accessor group_name: ::String
+      attr_accessor role_principal_arn: ::String
+      attr_accessor role_principal_id: ::String
       SENSITIVE: [:group_name]
     end
 
@@ -1314,6 +1317,9 @@ module Aws::DataZone
       attr_accessor domain_unit_id: ::String
       attr_accessor project_profile_id: ::String
       attr_accessor user_parameters: ::Array[Types::EnvironmentConfigurationUserParameter]
+      attr_accessor project_category: ::String
+      attr_accessor project_execution_role: ::String
+      attr_accessor membership_assignments: ::Array[Types::ProjectMembershipAssignment]
       SENSITIVE: [:name, :description]
     end
 
@@ -1344,6 +1350,7 @@ module Aws::DataZone
       attr_accessor project_profile_id: ::String
       attr_accessor user_parameters: ::Array[Types::EnvironmentConfigurationUserParameter]
       attr_accessor environment_deployment_details: Types::EnvironmentDeploymentDetails
+      attr_accessor project_category: ::String
       SENSITIVE: [:name, :description]
     end
 
@@ -1503,7 +1510,8 @@ module Aws::DataZone
     class CreateUserProfileInput
       attr_accessor domain_identifier: ::String
       attr_accessor user_identifier: ::String
-      attr_accessor user_type: ("IAM_USER" | "IAM_ROLE" | "SSO_USER")
+      attr_accessor user_type: ("IAM_USER" | "IAM_ROLE" | "SSO_USER" | "IAM_ROLE_SESSION")
+      attr_accessor session_name: ::String
       attr_accessor client_token: ::String
       SENSITIVE: []
     end
@@ -2798,6 +2806,8 @@ module Aws::DataZone
       attr_accessor id: ::String
       attr_accessor status: ("ASSIGNED" | "NOT_ASSIGNED")
       attr_accessor group_name: ::String
+      attr_accessor role_principal_arn: ::String
+      attr_accessor role_principal_id: ::String
       SENSITIVE: [:group_name]
     end
 
@@ -2942,6 +2952,7 @@ module Aws::DataZone
       attr_accessor project_profile_id: ::String
       attr_accessor user_parameters: ::Array[Types::EnvironmentConfigurationUserParameter]
       attr_accessor environment_deployment_details: Types::EnvironmentDeploymentDetails
+      attr_accessor project_category: ::String
       SENSITIVE: [:name, :description]
     end
 
@@ -3109,6 +3120,7 @@ module Aws::DataZone
       attr_accessor domain_identifier: ::String
       attr_accessor user_identifier: ::String
       attr_accessor type: ("IAM" | "SSO")
+      attr_accessor session_name: ::String
       SENSITIVE: []
     end
 
@@ -3317,6 +3329,8 @@ module Aws::DataZone
       attr_accessor id: ::String
       attr_accessor status: ("ASSIGNED" | "NOT_ASSIGNED")
       attr_accessor group_name: ::String
+      attr_accessor role_principal_arn: ::String
+      attr_accessor role_principal_id: ::String
       SENSITIVE: [:group_name]
     end
 
@@ -3351,6 +3365,8 @@ module Aws::DataZone
     class IamUserProfileDetails
       attr_accessor arn: ::String
       attr_accessor principal_id: ::String
+      attr_accessor session_name: ::String
+      attr_accessor group_profile_id: ::String
       SENSITIVE: []
     end
 
@@ -3930,6 +3946,7 @@ module Aws::DataZone
       attr_accessor user_identifier: ::String
       attr_accessor group_identifier: ::String
       attr_accessor name: ::String
+      attr_accessor project_category: ::String
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
       SENSITIVE: [:name]
@@ -4548,6 +4565,12 @@ module Aws::DataZone
       SENSITIVE: []
     end
 
+    class ProjectMembershipAssignment
+      attr_accessor member: Types::Member
+      attr_accessor designation: ("PROJECT_OWNER" | "PROJECT_CONTRIBUTOR" | "PROJECT_CATALOG_VIEWER" | "PROJECT_CATALOG_CONSUMER" | "PROJECT_CATALOG_STEWARD")
+      SENSITIVE: []
+    end
+
     class ProjectPolicyGrantPrincipal
       attr_accessor project_designation: ("OWNER" | "CONTRIBUTOR" | "PROJECT_CATALOG_STEWARD")
       attr_accessor project_identifier: ::String
@@ -4579,6 +4602,7 @@ module Aws::DataZone
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
       attr_accessor domain_unit_id: ::String
+      attr_accessor project_category: ::String
       SENSITIVE: [:name, :description]
     end
 
@@ -5127,7 +5151,7 @@ module Aws::DataZone
 
     class SearchGroupProfilesInput
       attr_accessor domain_identifier: ::String
-      attr_accessor group_type: ("SSO_GROUP" | "DATAZONE_SSO_GROUP")
+      attr_accessor group_type: ("SSO_GROUP" | "DATAZONE_SSO_GROUP" | "IAM_ROLE_SESSION_GROUP")
       attr_accessor search_text: ::String
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
@@ -6071,6 +6095,8 @@ module Aws::DataZone
       attr_accessor id: ::String
       attr_accessor status: ("ASSIGNED" | "NOT_ASSIGNED")
       attr_accessor group_name: ::String
+      attr_accessor role_principal_arn: ::String
+      attr_accessor role_principal_id: ::String
       SENSITIVE: [:group_name]
     end
 
@@ -6104,6 +6130,7 @@ module Aws::DataZone
       attr_accessor project_profile_id: ::String
       attr_accessor user_parameters: ::Array[Types::EnvironmentConfigurationUserParameter]
       attr_accessor environment_deployment_details: Types::EnvironmentDeploymentDetails
+      attr_accessor project_category: ::String
       SENSITIVE: [:name, :description]
     end
 
@@ -6267,6 +6294,7 @@ module Aws::DataZone
       attr_accessor user_identifier: ::String
       attr_accessor type: ("IAM" | "SSO")
       attr_accessor status: ("ASSIGNED" | "NOT_ASSIGNED" | "ACTIVATED" | "DEACTIVATED")
+      attr_accessor session_name: ::String
       SENSITIVE: []
     end
 

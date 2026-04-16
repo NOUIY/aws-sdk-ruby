@@ -1620,6 +1620,7 @@ module Aws::AppStream
       attr_accessor access_endpoints: ::Array[Types::AccessEndpoint]
       attr_accessor embed_host_domains: ::Array[::String]
       attr_accessor streaming_experience_settings: Types::StreamingExperienceSettings
+      attr_accessor content_redirection: Types::ContentRedirection
       SENSITIVE: []
     end
 

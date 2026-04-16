@@ -3802,6 +3802,11 @@ module Aws::MediaConvert
     #   Optional. A description of the queue that you are creating.
     #   @return [String]
     #
+    # @!attribute [rw] maximum_concurrent_feeds
+    #   Specify the maximum number of Elemental Inference feeds MediaConvert
+    #   can process concurrently.
+    #   @return [Integer]
+    #
     # @!attribute [rw] name
     #   The name of the queue that you are creating.
     #   @return [String]
@@ -3835,6 +3840,7 @@ module Aws::MediaConvert
     class CreateQueueRequest < Struct.new(
       :concurrent_jobs,
       :description,
+      :maximum_concurrent_feeds,
       :name,
       :pricing_plan,
       :reservation_plan_settings,
@@ -5399,6 +5405,44 @@ module Aws::MediaConvert
       :stereo_downmix,
       :surround_ex_mode,
       :surround_mode)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Elemental Inference configuration used in this job.
+    #
+    # @!attribute [rw] features
+    #   A list of Elemental Inference features used in this job.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] feeds
+    #   A list of Elemental Inference feeds used by this job.
+    #   @return [Array<Types::ElementalInferenceFeed>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/ElementalInferenceConfiguration AWS API Documentation
+    #
+    class ElementalInferenceConfiguration < Struct.new(
+      :features,
+      :feeds)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Elemental Inference Feed.
+    #
+    # @!attribute [rw] arn
+    #   Feed ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] feed_management_state
+    #   Elemental Inference Feed management state.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/ElementalInferenceFeed AWS API Documentation
+    #
+    class ElementalInferenceFeed < Struct.new(
+      :arn,
+      :feed_management_state)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9154,6 +9198,10 @@ module Aws::MediaConvert
     #   A job's phase can be PROBING, TRANSCODING OR UPLOADING
     #   @return [String]
     #
+    # @!attribute [rw] elemental_inference_configuration
+    #   The Elemental Inference configuration used in this job.
+    #   @return [Types::ElementalInferenceConfiguration]
+    #
     # @!attribute [rw] error_code
     #   Error code for the job
     #   @return [Integer]
@@ -9302,6 +9350,7 @@ module Aws::MediaConvert
       :client_request_token,
       :created_at,
       :current_phase,
+      :elemental_inference_configuration,
       :error_code,
       :error_message,
       :hop_destinations,
@@ -13092,6 +13141,11 @@ module Aws::MediaConvert
     #   the queue.
     #   @return [Time]
     #
+    # @!attribute [rw] maximum_concurrent_feeds
+    #   Specify the maximum number of Elemental Inference feeds MediaConvert
+    #   can process concurrently.
+    #   @return [Integer]
+    #
     # @!attribute [rw] name
     #   A name that you create for each queue. Each name must be unique
     #   within your account.
@@ -13145,6 +13199,7 @@ module Aws::MediaConvert
       :created_at,
       :description,
       :last_updated,
+      :maximum_concurrent_feeds,
       :name,
       :pricing_plan,
       :progressing_jobs_count,
@@ -14480,6 +14535,11 @@ module Aws::MediaConvert
     #   The new description for the queue, if you are changing it.
     #   @return [String]
     #
+    # @!attribute [rw] maximum_concurrent_feeds
+    #   Specify the maximum number of Elemental Inference feeds MediaConvert
+    #   can process concurrently.
+    #   @return [Integer]
+    #
     # @!attribute [rw] name
     #   The name of the queue that you are modifying.
     #   @return [String]
@@ -14505,6 +14565,7 @@ module Aws::MediaConvert
     class UpdateQueueRequest < Struct.new(
       :concurrent_jobs,
       :description,
+      :maximum_concurrent_feeds,
       :name,
       :reservation_plan_settings,
       :status)
@@ -14853,6 +14914,10 @@ module Aws::MediaConvert
     #   Specify the video Scaling behavior when your output has a different
     #   resolution than your input. For more information, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html
+    #   Select Smart Cropping using Elemental Inference as your scaling
+    #   behavior to have Elemental Inference automatically crop your video.
+    #   Smart Crop requires a vertical output aspect ratio (1:1 is the
+    #   widest aspect ratio supported).
     #   @return [String]
     #
     # @!attribute [rw] sharpness

@@ -250,6 +250,7 @@ module Aws::DataZone
     CreateSubscriptionTargetInput = Shapes::StructureShape.new(name: 'CreateSubscriptionTargetInput')
     CreateSubscriptionTargetOutput = Shapes::StructureShape.new(name: 'CreateSubscriptionTargetOutput')
     CreateUserProfileInput = Shapes::StructureShape.new(name: 'CreateUserProfileInput')
+    CreateUserProfileInputSessionNameString = Shapes::StringShape.new(name: 'CreateUserProfileInputSessionNameString')
     CreateUserProfileOutput = Shapes::StructureShape.new(name: 'CreateUserProfileOutput')
     CreatedAt = Shapes::TimestampShape.new(name: 'CreatedAt')
     CreatedBy = Shapes::StringShape.new(name: 'CreatedBy')
@@ -542,6 +543,7 @@ module Aws::DataZone
     GetTimeSeriesDataPointInput = Shapes::StructureShape.new(name: 'GetTimeSeriesDataPointInput')
     GetTimeSeriesDataPointOutput = Shapes::StructureShape.new(name: 'GetTimeSeriesDataPointOutput')
     GetUserProfileInput = Shapes::StructureShape.new(name: 'GetUserProfileInput')
+    GetUserProfileInputSessionNameString = Shapes::StringShape.new(name: 'GetUserProfileInputSessionNameString')
     GetUserProfileOutput = Shapes::StructureShape.new(name: 'GetUserProfileOutput')
     GlobalParameterMap = Shapes::MapShape.new(name: 'GlobalParameterMap')
     GlossaryDescription = Shapes::StringShape.new(name: 'GlossaryDescription')
@@ -834,6 +836,8 @@ module Aws::DataZone
     ProjectIds = Shapes::ListShape.new(name: 'ProjectIds')
     ProjectMember = Shapes::StructureShape.new(name: 'ProjectMember')
     ProjectMembers = Shapes::ListShape.new(name: 'ProjectMembers')
+    ProjectMembershipAssignment = Shapes::StructureShape.new(name: 'ProjectMembershipAssignment')
+    ProjectMembershipAssignments = Shapes::ListShape.new(name: 'ProjectMembershipAssignments')
     ProjectName = Shapes::StringShape.new(name: 'ProjectName')
     ProjectPolicyGrantPrincipal = Shapes::StructureShape.new(name: 'ProjectPolicyGrantPrincipal')
     ProjectProfileId = Shapes::StringShape.new(name: 'ProjectProfileId')
@@ -1174,6 +1178,7 @@ module Aws::DataZone
     UpdateSubscriptionTargetInput = Shapes::StructureShape.new(name: 'UpdateSubscriptionTargetInput')
     UpdateSubscriptionTargetOutput = Shapes::StructureShape.new(name: 'UpdateSubscriptionTargetOutput')
     UpdateUserProfileInput = Shapes::StructureShape.new(name: 'UpdateUserProfileInput')
+    UpdateUserProfileInputSessionNameString = Shapes::StringShape.new(name: 'UpdateUserProfileInputSessionNameString')
     UpdateUserProfileOutput = Shapes::StructureShape.new(name: 'UpdateUserProfileOutput')
     UpdatedAt = Shapes::TimestampShape.new(name: 'UpdatedAt')
     UpdatedBy = Shapes::StringShape.new(name: 'UpdatedBy')
@@ -2037,7 +2042,7 @@ module Aws::DataZone
     CreateDomainInput.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
     CreateDomainInput.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
     CreateDomainInput.add_member(:single_sign_on, Shapes::ShapeRef.new(shape: SingleSignOn, location_name: "singleSignOn"))
-    CreateDomainInput.add_member(:domain_execution_role, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "domainExecutionRole"))
+    CreateDomainInput.add_member(:domain_execution_role, Shapes::ShapeRef.new(shape: RoleArn, location_name: "domainExecutionRole"))
     CreateDomainInput.add_member(:kms_key_identifier, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyIdentifier"))
     CreateDomainInput.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
     CreateDomainInput.add_member(:domain_version, Shapes::ShapeRef.new(shape: DomainVersion, location_name: "domainVersion"))
@@ -2245,7 +2250,8 @@ module Aws::DataZone
     CreateGlossaryTermOutput.struct_class = Types::CreateGlossaryTermOutput
 
     CreateGroupProfileInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
-    CreateGroupProfileInput.add_member(:group_identifier, Shapes::ShapeRef.new(shape: GroupIdentifier, required: true, location_name: "groupIdentifier"))
+    CreateGroupProfileInput.add_member(:group_identifier, Shapes::ShapeRef.new(shape: GroupIdentifier, location_name: "groupIdentifier"))
+    CreateGroupProfileInput.add_member(:role_principal_arn, Shapes::ShapeRef.new(shape: String, location_name: "rolePrincipalArn"))
     CreateGroupProfileInput.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     CreateGroupProfileInput.struct_class = Types::CreateGroupProfileInput
 
@@ -2253,6 +2259,8 @@ module Aws::DataZone
     CreateGroupProfileOutput.add_member(:id, Shapes::ShapeRef.new(shape: GroupProfileId, location_name: "id"))
     CreateGroupProfileOutput.add_member(:status, Shapes::ShapeRef.new(shape: GroupProfileStatus, location_name: "status"))
     CreateGroupProfileOutput.add_member(:group_name, Shapes::ShapeRef.new(shape: GroupProfileName, location_name: "groupName"))
+    CreateGroupProfileOutput.add_member(:role_principal_arn, Shapes::ShapeRef.new(shape: String, location_name: "rolePrincipalArn"))
+    CreateGroupProfileOutput.add_member(:role_principal_id, Shapes::ShapeRef.new(shape: String, location_name: "rolePrincipalId"))
     CreateGroupProfileOutput.struct_class = Types::CreateGroupProfileOutput
 
     CreateListingChangeSetInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
@@ -2280,6 +2288,9 @@ module Aws::DataZone
     CreateProjectInput.add_member(:domain_unit_id, Shapes::ShapeRef.new(shape: DomainUnitId, location_name: "domainUnitId"))
     CreateProjectInput.add_member(:project_profile_id, Shapes::ShapeRef.new(shape: ProjectProfileId, location_name: "projectProfileId"))
     CreateProjectInput.add_member(:user_parameters, Shapes::ShapeRef.new(shape: EnvironmentConfigurationUserParametersList, location_name: "userParameters"))
+    CreateProjectInput.add_member(:project_category, Shapes::ShapeRef.new(shape: String, location_name: "projectCategory"))
+    CreateProjectInput.add_member(:project_execution_role, Shapes::ShapeRef.new(shape: RoleArn, location_name: "projectExecutionRole"))
+    CreateProjectInput.add_member(:membership_assignments, Shapes::ShapeRef.new(shape: ProjectMembershipAssignments, location_name: "membershipAssignments"))
     CreateProjectInput.struct_class = Types::CreateProjectInput
 
     CreateProjectInputResourceTagsMap.key = Shapes::ShapeRef.new(shape: TagKey)
@@ -2308,6 +2319,7 @@ module Aws::DataZone
     CreateProjectOutput.add_member(:project_profile_id, Shapes::ShapeRef.new(shape: ProjectProfileId, location_name: "projectProfileId"))
     CreateProjectOutput.add_member(:user_parameters, Shapes::ShapeRef.new(shape: EnvironmentConfigurationUserParametersList, location_name: "userParameters"))
     CreateProjectOutput.add_member(:environment_deployment_details, Shapes::ShapeRef.new(shape: EnvironmentDeploymentDetails, location_name: "environmentDeploymentDetails"))
+    CreateProjectOutput.add_member(:project_category, Shapes::ShapeRef.new(shape: String, location_name: "projectCategory"))
     CreateProjectOutput.struct_class = Types::CreateProjectOutput
 
     CreateProjectPolicyGrantDetail.add_member(:include_child_domain_units, Shapes::ShapeRef.new(shape: Boolean, location_name: "includeChildDomainUnits"))
@@ -2448,6 +2460,7 @@ module Aws::DataZone
     CreateUserProfileInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
     CreateUserProfileInput.add_member(:user_identifier, Shapes::ShapeRef.new(shape: UserIdentifier, required: true, location_name: "userIdentifier"))
     CreateUserProfileInput.add_member(:user_type, Shapes::ShapeRef.new(shape: UserType, location_name: "userType"))
+    CreateUserProfileInput.add_member(:session_name, Shapes::ShapeRef.new(shape: CreateUserProfileInputSessionNameString, location_name: "sessionName"))
     CreateUserProfileInput.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     CreateUserProfileInput.struct_class = Types::CreateUserProfileInput
 
@@ -3519,6 +3532,8 @@ module Aws::DataZone
     GetGroupProfileOutput.add_member(:id, Shapes::ShapeRef.new(shape: GroupProfileId, location_name: "id"))
     GetGroupProfileOutput.add_member(:status, Shapes::ShapeRef.new(shape: GroupProfileStatus, location_name: "status"))
     GetGroupProfileOutput.add_member(:group_name, Shapes::ShapeRef.new(shape: GroupProfileName, location_name: "groupName"))
+    GetGroupProfileOutput.add_member(:role_principal_arn, Shapes::ShapeRef.new(shape: String, location_name: "rolePrincipalArn"))
+    GetGroupProfileOutput.add_member(:role_principal_id, Shapes::ShapeRef.new(shape: String, location_name: "rolePrincipalId"))
     GetGroupProfileOutput.struct_class = Types::GetGroupProfileOutput
 
     GetIamPortalLoginUrlInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
@@ -3637,6 +3652,7 @@ module Aws::DataZone
     GetProjectOutput.add_member(:project_profile_id, Shapes::ShapeRef.new(shape: ProjectProfileId, location_name: "projectProfileId"))
     GetProjectOutput.add_member(:user_parameters, Shapes::ShapeRef.new(shape: EnvironmentConfigurationUserParametersList, location_name: "userParameters"))
     GetProjectOutput.add_member(:environment_deployment_details, Shapes::ShapeRef.new(shape: EnvironmentDeploymentDetails, location_name: "environmentDeploymentDetails"))
+    GetProjectOutput.add_member(:project_category, Shapes::ShapeRef.new(shape: String, location_name: "projectCategory"))
     GetProjectOutput.struct_class = Types::GetProjectOutput
 
     GetProjectProfileInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
@@ -3778,6 +3794,7 @@ module Aws::DataZone
     GetUserProfileInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
     GetUserProfileInput.add_member(:user_identifier, Shapes::ShapeRef.new(shape: UserIdentifier, required: true, location: "uri", location_name: "userIdentifier"))
     GetUserProfileInput.add_member(:type, Shapes::ShapeRef.new(shape: UserProfileType, location: "querystring", location_name: "type"))
+    GetUserProfileInput.add_member(:session_name, Shapes::ShapeRef.new(shape: GetUserProfileInputSessionNameString, location: "querystring", location_name: "sessionName"))
     GetUserProfileInput.struct_class = Types::GetUserProfileInput
 
     GetUserProfileOutput.add_member(:domain_id, Shapes::ShapeRef.new(shape: DomainId, location_name: "domainId"))
@@ -3944,6 +3961,8 @@ module Aws::DataZone
     GroupProfileSummary.add_member(:id, Shapes::ShapeRef.new(shape: GroupProfileId, location_name: "id"))
     GroupProfileSummary.add_member(:status, Shapes::ShapeRef.new(shape: GroupProfileStatus, location_name: "status"))
     GroupProfileSummary.add_member(:group_name, Shapes::ShapeRef.new(shape: GroupProfileName, location_name: "groupName"))
+    GroupProfileSummary.add_member(:role_principal_arn, Shapes::ShapeRef.new(shape: String, location_name: "rolePrincipalArn"))
+    GroupProfileSummary.add_member(:role_principal_id, Shapes::ShapeRef.new(shape: String, location_name: "rolePrincipalId"))
     GroupProfileSummary.struct_class = Types::GroupProfileSummary
 
     HyperPodPropertiesInput.add_member(:cluster_name, Shapes::ShapeRef.new(shape: HyperPodPropertiesInputClusterNameString, required: true, location_name: "clusterName"))
@@ -3966,6 +3985,8 @@ module Aws::DataZone
 
     IamUserProfileDetails.add_member(:arn, Shapes::ShapeRef.new(shape: String, location_name: "arn"))
     IamUserProfileDetails.add_member(:principal_id, Shapes::ShapeRef.new(shape: String, location_name: "principalId"))
+    IamUserProfileDetails.add_member(:session_name, Shapes::ShapeRef.new(shape: String, location_name: "sessionName"))
+    IamUserProfileDetails.add_member(:group_profile_id, Shapes::ShapeRef.new(shape: String, location_name: "groupProfileId"))
     IamUserProfileDetails.struct_class = Types::IamUserProfileDetails
 
     Import.add_member(:name, Shapes::ShapeRef.new(shape: FormTypeName, required: true, location_name: "name"))
@@ -4414,6 +4435,7 @@ module Aws::DataZone
     ListProjectsInput.add_member(:user_identifier, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "userIdentifier"))
     ListProjectsInput.add_member(:group_identifier, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "groupIdentifier"))
     ListProjectsInput.add_member(:name, Shapes::ShapeRef.new(shape: ProjectName, location: "querystring", location_name: "name"))
+    ListProjectsInput.add_member(:project_category, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "projectCategory"))
     ListProjectsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location: "querystring", location_name: "nextToken"))
     ListProjectsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
     ListProjectsInput.struct_class = Types::ListProjectsInput
@@ -4884,6 +4906,12 @@ module Aws::DataZone
 
     ProjectMembers.member = Shapes::ShapeRef.new(shape: ProjectMember)
 
+    ProjectMembershipAssignment.add_member(:member, Shapes::ShapeRef.new(shape: Member, required: true, location_name: "member"))
+    ProjectMembershipAssignment.add_member(:designation, Shapes::ShapeRef.new(shape: UserDesignation, required: true, location_name: "designation"))
+    ProjectMembershipAssignment.struct_class = Types::ProjectMembershipAssignment
+
+    ProjectMembershipAssignments.member = Shapes::ShapeRef.new(shape: ProjectMembershipAssignment)
+
     ProjectPolicyGrantPrincipal.add_member(:project_designation, Shapes::ShapeRef.new(shape: ProjectDesignation, required: true, location_name: "projectDesignation"))
     ProjectPolicyGrantPrincipal.add_member(:project_identifier, Shapes::ShapeRef.new(shape: ProjectId, location_name: "projectIdentifier"))
     ProjectPolicyGrantPrincipal.add_member(:project_grant_filter, Shapes::ShapeRef.new(shape: ProjectGrantFilter, location_name: "projectGrantFilter"))
@@ -4918,6 +4946,7 @@ module Aws::DataZone
     ProjectSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
     ProjectSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
     ProjectSummary.add_member(:domain_unit_id, Shapes::ShapeRef.new(shape: DomainUnitId, location_name: "domainUnitId"))
+    ProjectSummary.add_member(:project_category, Shapes::ShapeRef.new(shape: String, location_name: "projectCategory"))
     ProjectSummary.struct_class = Types::ProjectSummary
 
     ProjectsForRule.add_member(:selection_mode, Shapes::ShapeRef.new(shape: RuleScopeSelectionMode, required: true, location_name: "selectionMode"))
@@ -6136,6 +6165,8 @@ module Aws::DataZone
     UpdateGroupProfileOutput.add_member(:id, Shapes::ShapeRef.new(shape: GroupProfileId, location_name: "id"))
     UpdateGroupProfileOutput.add_member(:status, Shapes::ShapeRef.new(shape: GroupProfileStatus, location_name: "status"))
     UpdateGroupProfileOutput.add_member(:group_name, Shapes::ShapeRef.new(shape: GroupProfileName, location_name: "groupName"))
+    UpdateGroupProfileOutput.add_member(:role_principal_arn, Shapes::ShapeRef.new(shape: String, location_name: "rolePrincipalArn"))
+    UpdateGroupProfileOutput.add_member(:role_principal_id, Shapes::ShapeRef.new(shape: String, location_name: "rolePrincipalId"))
     UpdateGroupProfileOutput.struct_class = Types::UpdateGroupProfileOutput
 
     UpdateProjectInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
@@ -6168,6 +6199,7 @@ module Aws::DataZone
     UpdateProjectOutput.add_member(:project_profile_id, Shapes::ShapeRef.new(shape: ProjectProfileId, location_name: "projectProfileId"))
     UpdateProjectOutput.add_member(:user_parameters, Shapes::ShapeRef.new(shape: EnvironmentConfigurationUserParametersList, location_name: "userParameters"))
     UpdateProjectOutput.add_member(:environment_deployment_details, Shapes::ShapeRef.new(shape: EnvironmentDeploymentDetails, location_name: "environmentDeploymentDetails"))
+    UpdateProjectOutput.add_member(:project_category, Shapes::ShapeRef.new(shape: String, location_name: "projectCategory"))
     UpdateProjectOutput.struct_class = Types::UpdateProjectOutput
 
     UpdateProjectProfileInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
@@ -6310,6 +6342,7 @@ module Aws::DataZone
     UpdateUserProfileInput.add_member(:user_identifier, Shapes::ShapeRef.new(shape: UserIdentifier, required: true, location: "uri", location_name: "userIdentifier"))
     UpdateUserProfileInput.add_member(:type, Shapes::ShapeRef.new(shape: UserProfileType, location_name: "type"))
     UpdateUserProfileInput.add_member(:status, Shapes::ShapeRef.new(shape: UserProfileStatus, required: true, location_name: "status"))
+    UpdateUserProfileInput.add_member(:session_name, Shapes::ShapeRef.new(shape: UpdateUserProfileInputSessionNameString, location_name: "sessionName"))
     UpdateUserProfileInput.struct_class = Types::UpdateUserProfileInput
 
     UpdateUserProfileOutput.add_member(:domain_id, Shapes::ShapeRef.new(shape: DomainId, location_name: "domainId"))

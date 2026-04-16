@@ -1146,6 +1146,11 @@ module Aws::AutoScaling
     #   for attaching a network interface when an existing network interface
     #   ID is specified in a launch template.
     #
+    # @option params [Array<String>] :availability_zone_ids
+    #   A list of Availability Zone IDs where the Auto Scaling group can
+    #   launch instances. You cannot specify both AvailabilityZones and
+    #   AvailabilityZoneIds in the same request.
+    #
     # @option params [Array<String>] :load_balancer_names
     #   A list of Classic Load Balancers associated with this Auto Scaling
     #   group. For Application Load Balancers, Network Load Balancers, and
@@ -1650,6 +1655,7 @@ module Aws::AutoScaling
     #     desired_capacity: 1,
     #     default_cooldown: 1,
     #     availability_zones: ["XmlStringMaxLen255"],
+    #     availability_zone_ids: ["XmlStringMaxLen255"],
     #     load_balancer_names: ["XmlStringMaxLen255"],
     #     target_group_arns: ["XmlStringMaxLen511"],
     #     health_check_type: "XmlStringMaxLen32",
@@ -2631,6 +2637,11 @@ module Aws::AutoScaling
     #       {
     #         auto_scaling_group_arn: "arn:aws:autoscaling:us-west-1:123456789012:autoScalingGroup:12345678-1234-1234-1234-123456789012:autoScalingGroupName/my-auto-scaling-group", 
     #         auto_scaling_group_name: "my-auto-scaling-group", 
+    #         availability_zone_ids: [
+    #           "usw2-az1", 
+    #           "usw2-az2", 
+    #           "usw2-az3", 
+    #         ], 
     #         availability_zones: [
     #           "us-west-2a", 
     #           "us-west-2b", 
@@ -2646,6 +2657,7 @@ module Aws::AutoScaling
     #         instances: [
     #           {
     #             availability_zone: "us-west-2c", 
+    #             availability_zone_id: "usw2-az3", 
     #             health_status: "Healthy", 
     #             instance_id: "i-05b4f7d5be44822a6", 
     #             instance_type: "t3.micro", 
@@ -2655,6 +2667,7 @@ module Aws::AutoScaling
     #           }, 
     #           {
     #             availability_zone: "us-west-2b", 
+    #             availability_zone_id: "usw2-az2", 
     #             health_status: "Healthy", 
     #             instance_id: "i-0c20ac468fa3049e8", 
     #             instance_type: "t3.micro", 
@@ -2776,6 +2789,8 @@ module Aws::AutoScaling
     #   resp.auto_scaling_groups[0].default_cooldown #=> Integer
     #   resp.auto_scaling_groups[0].availability_zones #=> Array
     #   resp.auto_scaling_groups[0].availability_zones[0] #=> String
+    #   resp.auto_scaling_groups[0].availability_zone_ids #=> Array
+    #   resp.auto_scaling_groups[0].availability_zone_ids[0] #=> String
     #   resp.auto_scaling_groups[0].load_balancer_names #=> Array
     #   resp.auto_scaling_groups[0].load_balancer_names[0] #=> String
     #   resp.auto_scaling_groups[0].target_group_arns #=> Array
@@ -2786,6 +2801,7 @@ module Aws::AutoScaling
     #   resp.auto_scaling_groups[0].instances[0].instance_id #=> String
     #   resp.auto_scaling_groups[0].instances[0].instance_type #=> String
     #   resp.auto_scaling_groups[0].instances[0].availability_zone #=> String
+    #   resp.auto_scaling_groups[0].instances[0].availability_zone_id #=> String
     #   resp.auto_scaling_groups[0].instances[0].lifecycle_state #=> String, one of "Pending", "Pending:Wait", "Pending:Proceed", "Quarantined", "InService", "Terminating", "Terminating:Wait", "Terminating:Proceed", "Terminating:Retained", "Terminated", "Detaching", "Detached", "EnteringStandby", "Standby", "ReplacingRootVolume", "ReplacingRootVolume:Wait", "ReplacingRootVolume:Proceed", "RootVolumeReplaced", "Warmed:Pending", "Warmed:Pending:Wait", "Warmed:Pending:Proceed", "Warmed:Pending:Retained", "Warmed:Terminating", "Warmed:Terminating:Wait", "Warmed:Terminating:Proceed", "Warmed:Terminating:Retained", "Warmed:Terminated", "Warmed:Stopped", "Warmed:Running", "Warmed:Hibernated"
     #   resp.auto_scaling_groups[0].instances[0].health_status #=> String
     #   resp.auto_scaling_groups[0].instances[0].launch_configuration_name #=> String
@@ -2901,6 +2917,7 @@ module Aws::AutoScaling
     #       {
     #         auto_scaling_group_name: "my-auto-scaling-group", 
     #         availability_zone: "us-west-2c", 
+    #         availability_zone_id: "usw2-az2", 
     #         health_status: "HEALTHY", 
     #         instance_id: "i-05b4f7d5be44822a6", 
     #         instance_type: "t3.micro", 
@@ -2926,6 +2943,7 @@ module Aws::AutoScaling
     #   resp.auto_scaling_instances[0].instance_type #=> String
     #   resp.auto_scaling_instances[0].auto_scaling_group_name #=> String
     #   resp.auto_scaling_instances[0].availability_zone #=> String
+    #   resp.auto_scaling_instances[0].availability_zone_id #=> String
     #   resp.auto_scaling_instances[0].lifecycle_state #=> String
     #   resp.auto_scaling_instances[0].health_status #=> String
     #   resp.auto_scaling_instances[0].launch_configuration_name #=> String
@@ -4592,6 +4610,7 @@ module Aws::AutoScaling
     #   resp.instances[0].instance_id #=> String
     #   resp.instances[0].instance_type #=> String
     #   resp.instances[0].availability_zone #=> String
+    #   resp.instances[0].availability_zone_id #=> String
     #   resp.instances[0].lifecycle_state #=> String, one of "Pending", "Pending:Wait", "Pending:Proceed", "Quarantined", "InService", "Terminating", "Terminating:Wait", "Terminating:Proceed", "Terminating:Retained", "Terminated", "Detaching", "Detached", "EnteringStandby", "Standby", "ReplacingRootVolume", "ReplacingRootVolume:Wait", "ReplacingRootVolume:Proceed", "RootVolumeReplaced", "Warmed:Pending", "Warmed:Pending:Wait", "Warmed:Pending:Proceed", "Warmed:Pending:Retained", "Warmed:Terminating", "Warmed:Terminating:Wait", "Warmed:Terminating:Proceed", "Warmed:Terminating:Retained", "Warmed:Terminated", "Warmed:Stopped", "Warmed:Running", "Warmed:Hibernated"
     #   resp.instances[0].health_status #=> String
     #   resp.instances[0].launch_configuration_name #=> String
@@ -7312,6 +7331,11 @@ module Aws::AutoScaling
     # @option params [Array<String>] :availability_zones
     #   One or more Availability Zones for the group.
     #
+    # @option params [Array<String>] :availability_zone_ids
+    #   A list of Availability Zone IDs for the Auto Scaling group. You cannot
+    #   specify both AvailabilityZones and AvailabilityZoneIds in the same
+    #   request.
+    #
     # @option params [String] :health_check_type
     #   A comma-separated value string of one or more health check types.
     #
@@ -7658,6 +7682,7 @@ module Aws::AutoScaling
     #     desired_capacity: 1,
     #     default_cooldown: 1,
     #     availability_zones: ["XmlStringMaxLen255"],
+    #     availability_zone_ids: ["XmlStringMaxLen255"],
     #     health_check_type: "XmlStringMaxLen32",
     #     health_check_grace_period: 1,
     #     placement_group: "UpdatePlacementGroupParam",
@@ -7724,7 +7749,7 @@ module Aws::AutoScaling
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-autoscaling'
-      context[:gem_version] = '1.156.0'
+      context[:gem_version] = '1.157.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

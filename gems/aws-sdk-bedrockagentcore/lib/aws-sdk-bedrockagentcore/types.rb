@@ -3073,6 +3073,11 @@ module Aws::BedrockAgentCore
     #   records in namespaces that start with the provided prefix.
     #   @return [String]
     #
+    # @!attribute [rw] namespace_path
+    #   Use namespacePath for hierarchical retrievals. Return all memory
+    #   records where namespace falls under the same parent hierarchy.
+    #   @return [String]
+    #
     # @!attribute [rw] memory_strategy_id
     #   The memory strategy identifier to filter memory records by. If
     #   specified, only memory records with this strategy ID are returned.
@@ -3094,6 +3099,7 @@ module Aws::BedrockAgentCore
     class ListMemoryRecordsInput < Struct.new(
       :memory_id,
       :namespace,
+      :namespace_path,
       :memory_strategy_id,
       :max_results,
       :next_token)
@@ -4010,6 +4016,11 @@ module Aws::BedrockAgentCore
     #   memory records in namespaces that start with the provided prefix.
     #   @return [String]
     #
+    # @!attribute [rw] namespace_path
+    #   Use namespacePath for hierarchical retrievals. Return all memory
+    #   records where namespace falls under the same parent hierarchy.
+    #   @return [String]
+    #
     # @!attribute [rw] search_criteria
     #   The search criteria to use for finding relevant memory records. This
     #   includes the search query, memory strategy ID, and other search
@@ -4032,6 +4043,7 @@ module Aws::BedrockAgentCore
     class RetrieveMemoryRecordsInput < Struct.new(
       :memory_id,
       :namespace,
+      :namespace_path,
       :search_criteria,
       :next_token,
       :max_results)

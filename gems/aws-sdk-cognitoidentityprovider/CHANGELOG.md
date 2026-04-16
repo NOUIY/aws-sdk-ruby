@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.139.0 (2026-04-16)
+------------------
+
+* Feature - Adds support for passkey-based multi-factor authentication in Cognito User Pools. Users can authenticate securely using FIDO2-compliant passkeys with user verification, enabling passwordless MFA flows while maintaining backward compatibility with password-based authentication
+
 1.138.0 (2026-03-18)
 ------------------
 

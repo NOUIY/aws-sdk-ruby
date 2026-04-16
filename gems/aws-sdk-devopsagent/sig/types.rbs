@@ -86,18 +86,6 @@ module Aws::DevOpsAgent
       SENSITIVE: [:description]
     end
 
-    class AllowVendedLogDeliveryForResourceInput
-      attr_accessor resource_arn_being_authorized: ::String
-      attr_accessor delivery_source_arn: ::String
-      attr_accessor log_type: ::String
-      SENSITIVE: []
-    end
-
-    class AllowVendedLogDeliveryForResourceOutput
-      attr_accessor message: ::String
-      SENSITIVE: []
-    end
-
     class AssistantMessageBlock
       attr_accessor text: ::String
       attr_accessor tool_use: untyped

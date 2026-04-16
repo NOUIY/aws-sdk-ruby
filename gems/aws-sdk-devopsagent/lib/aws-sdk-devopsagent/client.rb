@@ -487,42 +487,6 @@ module Aws::DevOpsAgent
 
     # @!group API Operations
 
-    # Authorize Ingestion Hub subscription operation.
-    #
-    # @option params [required, String] :resource_arn_being_authorized
-    #   The ARN of the resource being authorized for vended log delivery.
-    #
-    # @option params [required, String] :delivery_source_arn
-    #   The ARN of the delivery source for vended log delivery.
-    #
-    # @option params [String] :log_type
-    #   The type of log to be delivered.
-    #
-    # @return [Types::AllowVendedLogDeliveryForResourceOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
-    #
-    #   * {Types::AllowVendedLogDeliveryForResourceOutput#message #message} => String
-    #
-    # @example Request syntax with placeholder values
-    #
-    #   resp = client.allow_vended_log_delivery_for_resource({
-    #     resource_arn_being_authorized: "String", # required
-    #     delivery_source_arn: "AllowVendedLogDeliveryForResourceInputDeliverySourceArnString", # required
-    #     log_type: "String",
-    #   })
-    #
-    # @example Response structure
-    #
-    #   resp.message #=> String
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AllowVendedLogDeliveryForResource AWS API Documentation
-    #
-    # @overload allow_vended_log_delivery_for_resource(params = {})
-    # @param [Hash] params ({})
-    def allow_vended_log_delivery_for_resource(params = {}, options = {})
-      req = build_request(:allow_vended_log_delivery_for_resource, params)
-      req.send_request(options)
-    end
-
     # Adds a specific service association to an AgentSpace. It overwrites
     # the existing association of the same service. Returns 201 Created on
     # success.
@@ -844,8 +808,10 @@ module Aws::DevOpsAgent
     #   Unique identifier for an agent space (allows alphanumeric characters
     #   and hyphens; 1-64 characters)
     #
-    # @option params [required, String] :user_id
-    #   The user identifier for the chat
+    # @option params [String] :user_id
+    #   The user identifier for the chat. This field is deprecated and will be
+    #   ignored — the service resolves user identity from the authenticated
+    #   session.
     #
     # @option params [String] :user_type
     #   The authentication type of the user
@@ -859,7 +825,7 @@ module Aws::DevOpsAgent
     #
     #   resp = client.create_chat({
     #     agent_space_id: "AgentSpaceId", # required
-    #     user_id: "ResourceId", # required
+    #     user_id: "ResourceId",
     #     user_type: "IAM", # accepts IAM, IDC, IDP
     #   })
     #
@@ -1802,8 +1768,10 @@ module Aws::DevOpsAgent
     #   Unique identifier for an agent space (allows alphanumeric characters
     #   and hyphens; 1-64 characters)
     #
-    # @option params [required, String] :user_id
-    #   The user identifier to list chats for
+    # @option params [String] :user_id
+    #   The user identifier to list chats for. This field is deprecated and
+    #   will be ignored — the service resolves user identity from the
+    #   authenticated session.
     #
     # @option params [Integer] :max_results
     #   Maximum number of results to return
@@ -1820,7 +1788,7 @@ module Aws::DevOpsAgent
     #
     #   resp = client.list_chats({
     #     agent_space_id: "AgentSpaceId", # required
-    #     user_id: "ResourceId", # required
+    #     user_id: "ResourceId",
     #     max_results: 1,
     #     next_token: "String",
     #   })
@@ -2588,8 +2556,9 @@ module Aws::DevOpsAgent
     # @option params [Types::SendMessageContext] :context
     #   Optional context for the message
     #
-    # @option params [required, String] :user_id
-    #   Required user identifier
+    # @option params [String] :user_id
+    #   User identifier. This field is deprecated and will be ignored — the
+    #   service resolves user identity from the authenticated session.
     #
     # @return [Types::SendMessageResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2767,7 +2736,7 @@ module Aws::DevOpsAgent
     #       last_message: "String",
     #       user_action_response: "String",
     #     },
-    #     user_id: "ResourceId", # required
+    #     user_id: "ResourceId",
     #   })
     #
     # @example Response structure
@@ -3428,7 +3397,7 @@ module Aws::DevOpsAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-devopsagent'
-      context[:gem_version] = '1.2.0'
+      context[:gem_version] = '1.3.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

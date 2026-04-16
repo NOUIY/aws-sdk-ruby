@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.157.0 (2026-04-16)
+------------------
+
+* Feature - This release adds support for specifying Availability Zone IDs as an alternative to Availability Zone names when creating or updating Auto Scaling groups.
+
 1.156.0 (2026-03-30)
 ------------------
 

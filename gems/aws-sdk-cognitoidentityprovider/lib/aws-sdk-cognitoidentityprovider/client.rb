@@ -2938,6 +2938,19 @@ module Aws::CognitoIdentityProvider
     #
     #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html
     #
+    # @option params [Types::WebAuthnMfaSettingsType] :web_authn_mfa_settings
+    #   User preferences for passkey MFA. Activates or deactivates passkey MFA
+    #   for the user. When activated, passkey authentication requires user
+    #   verification, and passkey sign-in is available when MFA is required.
+    #   To activate this setting, the `FactorConfiguration` of your user pool
+    #   `WebAuthnConfiguration` must be `MULTI_FACTOR_WITH_USER_VERIFICATION`.
+    #   To activate this setting, your user pool must be in the [ Essentials
+    #   tier][1] or higher.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html
+    #
     # @option params [required, String] :username
     #   The name of the user that you want to query or modify. The value of
     #   this parameter is typically your user's username, but it can be any
@@ -2965,6 +2978,9 @@ module Aws::CognitoIdentityProvider
     #     email_mfa_settings: {
     #       enabled: false,
     #       preferred_mfa: false,
+    #     },
+    #     web_authn_mfa_settings: {
+    #       enabled: false,
     #     },
     #     username: "UsernameType", # required
     #     user_pool_id: "UserPoolIdType", # required
@@ -8603,6 +8619,7 @@ module Aws::CognitoIdentityProvider
     #   resp.mfa_configuration #=> String, one of "OFF", "ON", "OPTIONAL"
     #   resp.web_authn_configuration.relying_party_id #=> String
     #   resp.web_authn_configuration.user_verification #=> String, one of "required", "preferred"
+    #   resp.web_authn_configuration.factor_configuration #=> String, one of "SINGLE_FACTOR", "MULTI_FACTOR_WITH_USER_VERIFICATION"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/GetUserPoolMfaConfig AWS API Documentation
     #
@@ -11046,6 +11063,19 @@ module Aws::CognitoIdentityProvider
     #
     #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html
     #
+    # @option params [Types::WebAuthnMfaSettingsType] :web_authn_mfa_settings
+    #   User preferences for passkey MFA. Activates or deactivates passkey MFA
+    #   for the user. When activated, passkey authentication requires user
+    #   verification, and passkey sign-in is available when MFA is required.
+    #   To activate this setting, the `FactorConfiguration` of your user pool
+    #   `WebAuthnConfiguration` must be `MULTI_FACTOR_WITH_USER_VERIFICATION`.
+    #   To activate this setting, your user pool must be in the [ Essentials
+    #   tier][1] or higher.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html
+    #
     # @option params [required, String] :access_token
     #   A valid access token that Amazon Cognito issued to the currently
     #   signed-in user. Must include a scope claim for
@@ -11067,6 +11097,9 @@ module Aws::CognitoIdentityProvider
     #     email_mfa_settings: {
     #       enabled: false,
     #       preferred_mfa: false,
+    #     },
+    #     web_authn_mfa_settings: {
+    #       enabled: false,
     #     },
     #     access_token: "TokenModelType", # required
     #   })
@@ -11149,8 +11182,9 @@ module Aws::CognitoIdentityProvider
     #
     # @option params [Types::WebAuthnConfigurationType] :web_authn_configuration
     #   The configuration of your user pool for passkey, or WebAuthn,
-    #   authentication and registration. You can set this configuration
-    #   independent of the MFA configuration options in this operation.
+    #   authentication and registration. Includes relying-party configuration,
+    #   user-verification requirements, and whether passkeys can satisfy MFA
+    #   requirements.
     #
     # @return [Types::SetUserPoolMfaConfigResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -11183,6 +11217,7 @@ module Aws::CognitoIdentityProvider
     #     web_authn_configuration: {
     #       relying_party_id: "RelyingPartyIdType",
     #       user_verification: "required", # accepts required, preferred
+    #       factor_configuration: "SINGLE_FACTOR", # accepts SINGLE_FACTOR, MULTI_FACTOR_WITH_USER_VERIFICATION
     #     },
     #   })
     #
@@ -11198,6 +11233,7 @@ module Aws::CognitoIdentityProvider
     #   resp.mfa_configuration #=> String, one of "OFF", "ON", "OPTIONAL"
     #   resp.web_authn_configuration.relying_party_id #=> String
     #   resp.web_authn_configuration.user_verification #=> String, one of "required", "preferred"
+    #   resp.web_authn_configuration.factor_configuration #=> String, one of "SINGLE_FACTOR", "MULTI_FACTOR_WITH_USER_VERIFICATION"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/SetUserPoolMfaConfig AWS API Documentation
     #
@@ -13632,7 +13668,7 @@ module Aws::CognitoIdentityProvider
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cognitoidentityprovider'
-      context[:gem_version] = '1.138.0'
+      context[:gem_version] = '1.139.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.183.0 (2026-04-16)
+------------------
+
+* Feature - Adds support for Elemental Inference powered smart crop feature, enabling video verticalization
+
 1.182.0 (2026-04-10)
 ------------------
 

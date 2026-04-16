@@ -295,6 +295,7 @@ module Aws::CognitoIdentityProvider
       attr_accessor sms_mfa_settings: Types::SMSMfaSettingsType
       attr_accessor software_token_mfa_settings: Types::SoftwareTokenMfaSettingsType
       attr_accessor email_mfa_settings: Types::EmailMfaSettingsType
+      attr_accessor web_authn_mfa_settings: Types::WebAuthnMfaSettingsType
       attr_accessor username: ::String
       attr_accessor user_pool_id: ::String
       SENSITIVE: [:username]
@@ -1819,6 +1820,7 @@ module Aws::CognitoIdentityProvider
       attr_accessor sms_mfa_settings: Types::SMSMfaSettingsType
       attr_accessor software_token_mfa_settings: Types::SoftwareTokenMfaSettingsType
       attr_accessor email_mfa_settings: Types::EmailMfaSettingsType
+      attr_accessor web_authn_mfa_settings: Types::WebAuthnMfaSettingsType
       attr_accessor access_token: ::String
       SENSITIVE: [:access_token]
     end
@@ -2461,6 +2463,7 @@ module Aws::CognitoIdentityProvider
     class WebAuthnConfigurationType
       attr_accessor relying_party_id: ::String
       attr_accessor user_verification: ("required" | "preferred")
+      attr_accessor factor_configuration: ("SINGLE_FACTOR" | "MULTI_FACTOR_WITH_USER_VERIFICATION")
       SENSITIVE: []
     end
 
@@ -2476,6 +2479,11 @@ module Aws::CognitoIdentityProvider
 
     class WebAuthnCredentialNotSupportedException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class WebAuthnMfaSettingsType
+      attr_accessor enabled: bool
       SENSITIVE: []
     end
 

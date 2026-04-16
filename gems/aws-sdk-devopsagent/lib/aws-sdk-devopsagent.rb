@@ -23,7 +23,7 @@ Aws::Plugins::GlobalConfiguration.add_identifier(:devopsagent)
 # structure.
 #
 #     dev_ops_agent = Aws::DevOpsAgent::Client.new
-#     resp = dev_ops_agent.allow_vended_log_delivery_for_resource(params)
+#     resp = dev_ops_agent.associate_service(params)
 #
 # See {Client} for more information.
 #
@@ -55,7 +55,7 @@ module Aws::DevOpsAgent
   autoload :Endpoints, 'aws-sdk-devopsagent/endpoints'
   autoload :EventStreams, 'aws-sdk-devopsagent/event_streams'
 
-  GEM_VERSION = '1.2.0'
+  GEM_VERSION = '1.3.0'
 
 end
 

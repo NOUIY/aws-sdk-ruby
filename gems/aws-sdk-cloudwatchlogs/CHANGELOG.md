@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.145.0 (2026-04-16)
+------------------
+
+* Feature - Endpoint update for CloudWatch Logs Streaming APIs.
+
 1.144.0 (2026-04-03)
 ------------------
 

@@ -1067,7 +1067,8 @@ module Aws::BedrockAgentCore
     ListMemoryExtractionJobsOutput.struct_class = Types::ListMemoryExtractionJobsOutput
 
     ListMemoryRecordsInput.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location: "uri", location_name: "memoryId"))
-    ListMemoryRecordsInput.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, required: true, location_name: "namespace"))
+    ListMemoryRecordsInput.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, location_name: "namespace"))
+    ListMemoryRecordsInput.add_member(:namespace_path, Shapes::ShapeRef.new(shape: Namespace, location_name: "namespacePath"))
     ListMemoryRecordsInput.add_member(:memory_strategy_id, Shapes::ShapeRef.new(shape: MemoryStrategyId, location_name: "memoryStrategyId"))
     ListMemoryRecordsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
     ListMemoryRecordsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
@@ -1283,7 +1284,8 @@ module Aws::BedrockAgentCore
     ResponseChunk.struct_class = Types::ResponseChunk
 
     RetrieveMemoryRecordsInput.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location: "uri", location_name: "memoryId"))
-    RetrieveMemoryRecordsInput.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, required: true, location_name: "namespace"))
+    RetrieveMemoryRecordsInput.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, location_name: "namespace"))
+    RetrieveMemoryRecordsInput.add_member(:namespace_path, Shapes::ShapeRef.new(shape: Namespace, location_name: "namespacePath"))
     RetrieveMemoryRecordsInput.add_member(:search_criteria, Shapes::ShapeRef.new(shape: SearchCriteria, required: true, location_name: "searchCriteria"))
     RetrieveMemoryRecordsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
     RetrieveMemoryRecordsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))

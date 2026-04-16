@@ -205,44 +205,6 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
-    # Input for authorizing vended log delivery for a resource.
-    #
-    # @!attribute [rw] resource_arn_being_authorized
-    #   The ARN of the resource being authorized for vended log delivery.
-    #   @return [String]
-    #
-    # @!attribute [rw] delivery_source_arn
-    #   The ARN of the delivery source for vended log delivery.
-    #   @return [String]
-    #
-    # @!attribute [rw] log_type
-    #   The type of log to be delivered.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AllowVendedLogDeliveryForResourceInput AWS API Documentation
-    #
-    class AllowVendedLogDeliveryForResourceInput < Struct.new(
-      :resource_arn_being_authorized,
-      :delivery_source_arn,
-      :log_type)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # Output for the vended log delivery authorization operation.
-    #
-    # @!attribute [rw] message
-    #   A message describing the result of the authorization operation.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AllowVendedLogDeliveryForResourceOutput AWS API Documentation
-    #
-    class AllowVendedLogDeliveryForResourceOutput < Struct.new(
-      :message)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
     # A block of content in an assistant message.
     #
     # @note AssistantMessageBlock is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of AssistantMessageBlock corresponding to the set member.
@@ -593,7 +555,9 @@ module Aws::DevOpsAgent
     #   @return [String]
     #
     # @!attribute [rw] user_id
-    #   The user identifier for the chat
+    #   The user identifier for the chat. This field is deprecated and will
+    #   be ignored — the service resolves user identity from the
+    #   authenticated session.
     #   @return [String]
     #
     # @!attribute [rw] user_type
@@ -2108,7 +2072,9 @@ module Aws::DevOpsAgent
     #   @return [String]
     #
     # @!attribute [rw] user_id
-    #   The user identifier to list chats for
+    #   The user identifier to list chats for. This field is deprecated and
+    #   will be ignored — the service resolves user identity from the
+    #   authenticated session.
     #   @return [String]
     #
     # @!attribute [rw] max_results
@@ -3898,7 +3864,8 @@ module Aws::DevOpsAgent
     #   @return [Types::SendMessageContext]
     #
     # @!attribute [rw] user_id
-    #   Required user identifier
+    #   User identifier. This field is deprecated and will be ignored — the
+    #   service resolves user identity from the authenticated session.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/SendMessageRequest AWS API Documentation

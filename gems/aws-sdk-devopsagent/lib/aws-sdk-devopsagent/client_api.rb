@@ -23,9 +23,6 @@ module Aws::DevOpsAgent
     AgentSpaceId = Shapes::StringShape.new(name: 'AgentSpaceId')
     AgentSpaceList = Shapes::ListShape.new(name: 'AgentSpaceList')
     AgentSpaceName = Shapes::StringShape.new(name: 'AgentSpaceName')
-    AllowVendedLogDeliveryForResourceInput = Shapes::StructureShape.new(name: 'AllowVendedLogDeliveryForResourceInput')
-    AllowVendedLogDeliveryForResourceInputDeliverySourceArnString = Shapes::StringShape.new(name: 'AllowVendedLogDeliveryForResourceInputDeliverySourceArnString')
-    AllowVendedLogDeliveryForResourceOutput = Shapes::StructureShape.new(name: 'AllowVendedLogDeliveryForResourceOutput')
     ApiKeyValue = Shapes::StringShape.new(name: 'ApiKeyValue')
     AssistantMessage = Shapes::ListShape.new(name: 'AssistantMessage')
     AssistantMessageBlock = Shapes::UnionShape.new(name: 'AssistantMessageBlock')
@@ -445,14 +442,6 @@ module Aws::DevOpsAgent
 
     AgentSpaceList.member = Shapes::ShapeRef.new(shape: AgentSpace)
 
-    AllowVendedLogDeliveryForResourceInput.add_member(:resource_arn_being_authorized, Shapes::ShapeRef.new(shape: String, required: true, location_name: "resourceArnBeingAuthorized"))
-    AllowVendedLogDeliveryForResourceInput.add_member(:delivery_source_arn, Shapes::ShapeRef.new(shape: AllowVendedLogDeliveryForResourceInputDeliverySourceArnString, required: true, location_name: "deliverySourceArn"))
-    AllowVendedLogDeliveryForResourceInput.add_member(:log_type, Shapes::ShapeRef.new(shape: String, location_name: "logType"))
-    AllowVendedLogDeliveryForResourceInput.struct_class = Types::AllowVendedLogDeliveryForResourceInput
-
-    AllowVendedLogDeliveryForResourceOutput.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
-    AllowVendedLogDeliveryForResourceOutput.struct_class = Types::AllowVendedLogDeliveryForResourceOutput
-
     AssistantMessage.member = Shapes::ShapeRef.new(shape: AssistantMessageBlock)
 
     AssistantMessageBlock.add_member(:text, Shapes::ShapeRef.new(shape: String, location_name: "text"))
@@ -530,7 +519,7 @@ module Aws::DevOpsAgent
     CreateBacklogTaskResponse.struct_class = Types::CreateBacklogTaskResponse
 
     CreateChatRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
-    CreateChatRequest.add_member(:user_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "querystring", location_name: "userId"))
+    CreateChatRequest.add_member(:user_id, Shapes::ShapeRef.new(shape: ResourceId, deprecated: true, location: "querystring", location_name: "userId", metadata: {"deprecatedMessage" => "userId is managed by the service and should not be provided by the caller", "deprecatedSince" => "2026-04-15"}))
     CreateChatRequest.add_member(:user_type, Shapes::ShapeRef.new(shape: UserType, location: "querystring", location_name: "userType"))
     CreateChatRequest.struct_class = Types::CreateChatRequest
 
@@ -853,7 +842,7 @@ module Aws::DevOpsAgent
     ListBacklogTasksResponse.struct_class = Types::ListBacklogTasksResponse
 
     ListChatsRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
-    ListChatsRequest.add_member(:user_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "querystring", location_name: "userId"))
+    ListChatsRequest.add_member(:user_id, Shapes::ShapeRef.new(shape: ResourceId, deprecated: true, location: "querystring", location_name: "userId", metadata: {"deprecatedMessage" => "userId is managed by the service and should not be provided by the caller", "deprecatedSince" => "2026-04-15"}))
     ListChatsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListChatsRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
     ListChatsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "nextToken"))
     ListChatsRequest.struct_class = Types::ListChatsRequest
@@ -1273,7 +1262,7 @@ module Aws::DevOpsAgent
     SendMessageRequest.add_member(:execution_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "executionId"))
     SendMessageRequest.add_member(:content, Shapes::ShapeRef.new(shape: MessageContent, required: true, location_name: "content"))
     SendMessageRequest.add_member(:context, Shapes::ShapeRef.new(shape: SendMessageContext, location_name: "context"))
-    SendMessageRequest.add_member(:user_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "userId"))
+    SendMessageRequest.add_member(:user_id, Shapes::ShapeRef.new(shape: ResourceId, deprecated: true, location_name: "userId", metadata: {"deprecatedMessage" => "userId is managed by the service and should not be provided by the caller", "deprecatedSince" => "2026-04-15"}))
     SendMessageRequest.struct_class = Types::SendMessageRequest
 
     SendMessageResponse.add_member(:events, Shapes::ShapeRef.new(shape: SendMessageEvents, required: true, eventstream: true, location_name: "events"))
@@ -1611,25 +1600,6 @@ module Aws::DevOpsAgent
         "signingName" => "aidevops",
         "uid" => "devops-agent-2026-01-01",
       }
-
-      api.add_operation(:allow_vended_log_delivery_for_resource, Seahorse::Model::Operation.new.tap do |o|
-        o.name = "AllowVendedLogDeliveryForResource"
-        o.http_method = "POST"
-        o.http_request_uri = "/allow-vended-log-delivery-for-resource"
-        o.endpoint_pattern = {
-          "hostPrefix" => "cp.",
-        }
-        o.input = Shapes::ShapeRef.new(shape: AllowVendedLogDeliveryForResourceInput)
-        o.output = Shapes::ShapeRef.new(shape: AllowVendedLogDeliveryForResourceOutput)
-        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
-        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
-      end)
 
       api.add_operation(:associate_service, Seahorse::Model::Operation.new.tap do |o|
         o.name = "AssociateService"

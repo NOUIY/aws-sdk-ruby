@@ -81,18 +81,6 @@ module Aws
                   | (?Hash[Symbol, untyped]) -> instance
 
 
-      interface _AllowVendedLogDeliveryForResourceResponseSuccess
-        include ::Seahorse::Client::_ResponseSuccess[Types::AllowVendedLogDeliveryForResourceOutput]
-        def message: () -> ::String
-      end
-      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#allow_vended_log_delivery_for_resource-instance_method
-      def allow_vended_log_delivery_for_resource: (
-                                                    resource_arn_being_authorized: ::String,
-                                                    delivery_source_arn: ::String,
-                                                    ?log_type: ::String
-                                                  ) -> _AllowVendedLogDeliveryForResourceResponseSuccess
-                                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AllowVendedLogDeliveryForResourceResponseSuccess
-
       interface _AssociateServiceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::AssociateServiceOutput]
         def association: () -> Types::Association
@@ -228,7 +216,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#create_chat-instance_method
       def create_chat: (
                          agent_space_id: ::String,
-                         user_id: ::String,
+                         ?user_id: ::String,
                          ?user_type: ("IAM" | "IDC" | "IDP")
                        ) -> _CreateChatResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateChatResponseSuccess
@@ -491,7 +479,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#list_chats-instance_method
       def list_chats: (
                         agent_space_id: ::String,
-                        user_id: ::String,
+                        ?user_id: ::String,
                         ?max_results: ::Integer,
                         ?next_token: ::String
                       ) -> _ListChatsResponseSuccess
@@ -836,7 +824,7 @@ module Aws
                             last_message: ::String?,
                             user_action_response: ::String?
                           },
-                          user_id: ::String
+                          ?user_id: ::String
                         ) ?{ (*untyped) -> void } -> _SendMessageResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _SendMessageResponseSuccess
 

@@ -430,6 +430,7 @@ module Aws::CustomerProfiles
       attr_accessor domain_name: ::String
       attr_accessor recommender_filter_name: ::String
       attr_accessor recommender_filter_expression: ::String
+      attr_accessor recommender_schema_name: ::String
       attr_accessor description: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:recommender_filter_expression, :description]
@@ -447,12 +448,31 @@ module Aws::CustomerProfiles
       attr_accessor recommender_recipe_name: ("recommended-for-you" | "similar-items" | "frequently-paired-items" | "popular-items" | "trending-now" | "personalized-ranking")
       attr_accessor recommender_config: Types::RecommenderConfig
       attr_accessor description: ::String
+      attr_accessor recommender_schema_name: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:description]
     end
 
     class CreateRecommenderResponse
       attr_accessor recommender_arn: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class CreateRecommenderSchemaRequest
+      attr_accessor domain_name: ::String
+      attr_accessor recommender_schema_name: ::String
+      attr_accessor fields: ::Hash[::String, ::Array[Types::RecommenderSchemaField]]
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class CreateRecommenderSchemaResponse
+      attr_accessor recommender_schema_arn: ::String
+      attr_accessor recommender_schema_name: ::String
+      attr_accessor fields: ::Hash[::String, ::Array[Types::RecommenderSchemaField]]
+      attr_accessor created_at: ::Time
+      attr_accessor status: ("ACTIVE" | "DELETING")
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
@@ -675,6 +695,15 @@ module Aws::CustomerProfiles
     end
 
     class DeleteRecommenderResponse < Aws::EmptyStructure
+    end
+
+    class DeleteRecommenderSchemaRequest
+      attr_accessor domain_name: ::String
+      attr_accessor recommender_schema_name: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteRecommenderSchemaResponse < Aws::EmptyStructure
     end
 
     class DeleteSegmentDefinitionRequest
@@ -1231,6 +1260,7 @@ module Aws::CustomerProfiles
     class GetRecommenderFilterResponse
       attr_accessor recommender_filter_name: ::String
       attr_accessor recommender_filter_expression: ::String
+      attr_accessor recommender_schema_name: ::String
       attr_accessor created_at: ::Time
       attr_accessor status: ("ACTIVE" | "PENDING" | "IN_PROGRESS" | "FAILED" | "DELETING")
       attr_accessor description: ::String
@@ -1249,6 +1279,7 @@ module Aws::CustomerProfiles
     class GetRecommenderResponse
       attr_accessor recommender_name: ::String
       attr_accessor recommender_recipe_name: ("recommended-for-you" | "similar-items" | "frequently-paired-items" | "popular-items" | "trending-now" | "personalized-ranking")
+      attr_accessor recommender_schema_name: ::String
       attr_accessor recommender_config: Types::RecommenderConfig
       attr_accessor description: ::String
       attr_accessor status: ("PENDING" | "IN_PROGRESS" | "ACTIVE" | "FAILED" | "STOPPING" | "INACTIVE" | "STARTING" | "DELETING")
@@ -1259,6 +1290,20 @@ module Aws::CustomerProfiles
       attr_accessor training_metrics: ::Array[Types::TrainingMetrics]
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:description]
+    end
+
+    class GetRecommenderSchemaRequest
+      attr_accessor domain_name: ::String
+      attr_accessor recommender_schema_name: ::String
+      SENSITIVE: []
+    end
+
+    class GetRecommenderSchemaResponse
+      attr_accessor recommender_schema_name: ::String
+      attr_accessor fields: ::Hash[::String, ::Array[Types::RecommenderSchemaField]]
+      attr_accessor created_at: ::Time
+      attr_accessor status: ("ACTIVE" | "DELETING")
+      SENSITIVE: []
     end
 
     class GetSegmentDefinitionRequest
@@ -1809,6 +1854,19 @@ module Aws::CustomerProfiles
       SENSITIVE: []
     end
 
+    class ListRecommenderSchemasRequest
+      attr_accessor domain_name: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListRecommenderSchemasResponse
+      attr_accessor next_token: ::String
+      attr_accessor recommender_schemas: ::Array[Types::RecommenderSchemaSummary]
+      SENSITIVE: []
+    end
+
     class ListRecommendersRequest
       attr_accessor domain_name: ::String
       attr_accessor max_results: ::Integer
@@ -2222,6 +2280,7 @@ module Aws::CustomerProfiles
       attr_accessor events_config: Types::EventsConfig
       attr_accessor training_frequency: ::Integer
       attr_accessor inference_config: Types::InferenceConfig
+      attr_accessor included_columns: ::Hash[::String, ::Array[::String]]
       SENSITIVE: []
     end
 
@@ -2233,6 +2292,7 @@ module Aws::CustomerProfiles
 
     class RecommenderFilterSummary
       attr_accessor recommender_filter_name: ::String
+      attr_accessor recommender_schema_name: ::String
       attr_accessor recommender_filter_expression: ::String
       attr_accessor created_at: ::Time
       attr_accessor description: ::String
@@ -2256,9 +2316,25 @@ module Aws::CustomerProfiles
       SENSITIVE: []
     end
 
+    class RecommenderSchemaField
+      attr_accessor target_field_name: ::String
+      attr_accessor content_type: ("STRING" | "NUMBER")
+      attr_accessor feature_type: ("TEXTUAL" | "CATEGORICAL")
+      SENSITIVE: []
+    end
+
+    class RecommenderSchemaSummary
+      attr_accessor recommender_schema_name: ::String
+      attr_accessor fields: ::Hash[::String, ::Array[Types::RecommenderSchemaField]]
+      attr_accessor created_at: ::Time
+      attr_accessor status: ("ACTIVE" | "DELETING")
+      SENSITIVE: []
+    end
+
     class RecommenderSummary
       attr_accessor recommender_name: ::String
       attr_accessor recipe_name: ("recommended-for-you" | "similar-items" | "frequently-paired-items" | "popular-items" | "trending-now" | "personalized-ranking")
+      attr_accessor recommender_schema_name: ::String
       attr_accessor recommender_config: Types::RecommenderConfig
       attr_accessor created_at: ::Time
       attr_accessor description: ::String
@@ -2497,7 +2573,7 @@ module Aws::CustomerProfiles
 
     class TrainingMetrics
       attr_accessor time: ::Time
-      attr_accessor metrics: ::Hash[("hit" | "coverage" | "recall" | "popularity" | "freshness" | "similarity"), ::Float]
+      attr_accessor metrics: ::Hash[("hit" | "coverage" | "recall" | "popularity" | "freshness" | "similarity" | "mean_reciprocal_rank_at_25" | "normalized_discounted_cumulative_gain_at_5" | "normalized_discounted_cumulative_gain_at_10" | "normalized_discounted_cumulative_gain_at_25" | "precision_at_5" | "precision_at_10" | "precision_at_25"), ::Float]
       SENSITIVE: []
     end
 

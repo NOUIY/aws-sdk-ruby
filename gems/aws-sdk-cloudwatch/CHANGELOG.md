@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.134.0 (2026-04-16)
+------------------
+
+* Feature - Update documentation of alarm mute rules start and end date fields
+
 1.133.0 (2026-04-02)
 ------------------
 

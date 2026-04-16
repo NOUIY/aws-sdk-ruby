@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.73.0 (2026-04-16)
+------------------
+
+* Feature - Launching SMUS IAM domain SDK support
+
 1.72.0 (2026-04-07)
 ------------------
 

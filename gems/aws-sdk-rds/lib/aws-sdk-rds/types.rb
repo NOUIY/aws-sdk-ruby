@@ -16192,6 +16192,68 @@ module Aws::RDS
       include Aws::Structure
     end
 
+    # @!attribute [rw] serverless_v2_platform_version
+    #   A specific platform version to return details for.
+    #
+    #   Example: `3`
+    #   @return [String]
+    #
+    # @!attribute [rw] engine
+    #   The database engine to return platform version details for.
+    #
+    #   Valid Values:
+    #
+    #   * `aurora-mysql`
+    #
+    #   * `aurora-postgresql`
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   This parameter isn't currently supported.
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] default_only
+    #   Specifies whether to return only the default platform versions for
+    #   each engine. The default platform version is the version used for
+    #   new DB clusters.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] include_all
+    #   Specifies whether to also include platform versions which are no
+    #   longer in use.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   than the `MaxRecords` value is available, a pagination token called
+    #   a marker is included in the response so you can retrieve the
+    #   remaining results.
+    #
+    #   Default: 20
+    #
+    #   Constraints: Minimum 1, maximum 200.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] marker
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond
+    #   the marker, up to the value specified by `MaxRecords`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/DescribeServerlessV2PlatformVersionsMessage AWS API Documentation
+    #
+    class DescribeServerlessV2PlatformVersionsMessage < Struct.new(
+      :serverless_v2_platform_version,
+      :engine,
+      :filters,
+      :default_only,
+      :include_all,
+      :max_records,
+      :marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] region_name
     #   The source Amazon Web Services Region name. For example,
     #   `us-east-1`.
@@ -22594,6 +22656,8 @@ module Aws::RDS
     #
     #   * `os-upgrade`
     #
+    #   * `serverless-platform-version-update`
+    #
     #   * `system-update`
     #
     #   For more information about these actions, see [Maintenance actions
@@ -28789,6 +28853,79 @@ module Aws::RDS
     class ServerlessV2FeaturesSupport < Struct.new(
       :min_capacity,
       :max_capacity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # This data type is used as a response element in the action
+    # `DescribeServerlessV2PlatformVersions`.
+    #
+    # @!attribute [rw] serverless_v2_platform_version
+    #   The version number of the serverless platform.
+    #   @return [String]
+    #
+    # @!attribute [rw] serverless_v2_platform_version_description
+    #   The description of the serverless platform.
+    #   @return [String]
+    #
+    # @!attribute [rw] engine
+    #   The name of the database engine.
+    #   @return [String]
+    #
+    # @!attribute [rw] serverless_v2_features_support
+    #   Specifies any Aurora Serverless v2 properties or limits that differ
+    #   between Aurora Serverless v2 platform versions. You can retrieve the
+    #   platform version of an existing DB cluster and check whether that
+    #   version supports certain Aurora Serverless v2 features before you
+    #   attempt to use those features.
+    #   @return [Types::ServerlessV2FeaturesSupport]
+    #
+    # @!attribute [rw] status
+    #   The status of the serverless platform. Valid statuses are the
+    #   following:
+    #
+    #   * `enabled` - The platform version is in use.
+    #
+    #   * `disabled` - The platform version is not in use.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_default
+    #   Indicates whether this platform version is the default version for
+    #   the engine. The default platform version is the version used for new
+    #   DB clusters.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/ServerlessV2PlatformVersionInfo AWS API Documentation
+    #
+    class ServerlessV2PlatformVersionInfo < Struct.new(
+      :serverless_v2_platform_version,
+      :serverless_v2_platform_version_description,
+      :engine,
+      :serverless_v2_features_support,
+      :status,
+      :is_default)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the result of a successful invocation of the
+    # `DescribeServerlessV2PlatformVersions` action.
+    #
+    # @!attribute [rw] marker
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond
+    #   the marker, up to the value specified by `MaxRecords`.
+    #   @return [String]
+    #
+    # @!attribute [rw] serverless_v2_platform_versions
+    #   A list of `ServerlessV2PlatformVersionInfo` elements.
+    #   @return [Array<Types::ServerlessV2PlatformVersionInfo>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/rds-2014-10-31/ServerlessV2PlatformVersionsMessage AWS API Documentation
+    #
+    class ServerlessV2PlatformVersionsMessage < Struct.new(
+      :marker,
+      :serverless_v2_platform_versions)
       SENSITIVE = []
       include Aws::Structure
     end

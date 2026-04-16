@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.311.0 (2026-04-16)
+------------------
+
+* Feature - Adds a new DescribeServerlessV2PlatformVersions API to describe platform version properties for Aurora Serverless v2. Also introduces a new valid maintenance action value for serverless platform version updates.
+
 1.310.0 (2026-03-24)
 ------------------
 

@@ -4672,6 +4672,12 @@ module Aws::DataZone
     #   The identifier of the group for which the group profile is created.
     #   @return [String]
     #
+    # @!attribute [rw] role_principal_arn
+    #   The ARN of the IAM role that will be associated with the group
+    #   profile. This role defines the permissions that group members will
+    #   assume when accessing Amazon DataZone resources.
+    #   @return [String]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier that is provided to ensure the
     #   idempotency of the request.
@@ -4685,6 +4691,7 @@ module Aws::DataZone
     class CreateGroupProfileInput < Struct.new(
       :domain_identifier,
       :group_identifier,
+      :role_principal_arn,
       :client_token)
       SENSITIVE = []
       include Aws::Structure
@@ -4707,13 +4714,25 @@ module Aws::DataZone
     #   The name of the group for which group profile is created.
     #   @return [String]
     #
+    # @!attribute [rw] role_principal_arn
+    #   The ARN of the IAM role principal. This role is associated with the
+    #   group profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_principal_id
+    #   The unique identifier of the IAM role principal. This principal is
+    #   associated with the group profile.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/CreateGroupProfileOutput AWS API Documentation
     #
     class CreateGroupProfileOutput < Struct.new(
       :domain_id,
       :id,
       :status,
-      :group_name)
+      :group_name,
+      :role_principal_arn,
+      :role_principal_id)
       SENSITIVE = [:group_name]
       include Aws::Structure
     end
@@ -4838,6 +4857,20 @@ module Aws::DataZone
     #   The user parameters of the project.
     #   @return [Array<Types::EnvironmentConfigurationUserParameter>]
     #
+    # @!attribute [rw] project_category
+    #   The category of the project. Set to 'ADMIN' designates this as an
+    #   administrative project for the Amazon DataZone domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] project_execution_role
+    #   The default project IAM role that is used to access project
+    #   resources and run computes such as Glue and Sagemaker.
+    #   @return [String]
+    #
+    # @!attribute [rw] membership_assignments
+    #   The members to be assigned to the project.
+    #   @return [Array<Types::ProjectMembershipAssignment>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/CreateProjectInput AWS API Documentation
     #
     class CreateProjectInput < Struct.new(
@@ -4848,7 +4881,10 @@ module Aws::DataZone
       :glossary_terms,
       :domain_unit_id,
       :project_profile_id,
-      :user_parameters)
+      :user_parameters,
+      :project_category,
+      :project_execution_role,
+      :membership_assignments)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -4947,6 +4983,10 @@ module Aws::DataZone
     #   The environment deployment details.
     #   @return [Types::EnvironmentDeploymentDetails]
     #
+    # @!attribute [rw] project_category
+    #   The category of the project.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/CreateProjectOutput AWS API Documentation
     #
     class CreateProjectOutput < Struct.new(
@@ -4964,7 +5004,8 @@ module Aws::DataZone
       :domain_unit_id,
       :project_profile_id,
       :user_parameters,
-      :environment_deployment_details)
+      :environment_deployment_details,
+      :project_category)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -5643,6 +5684,10 @@ module Aws::DataZone
     #   The user type of the user for which the user profile is created.
     #   @return [String]
     #
+    # @!attribute [rw] session_name
+    #   The session name for IAM role sessions.
+    #   @return [String]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier that is provided to ensure the
     #   idempotency of the request.
@@ -5657,6 +5702,7 @@ module Aws::DataZone
       :domain_identifier,
       :user_identifier,
       :user_type,
+      :session_name,
       :client_token)
       SENSITIVE = []
       include Aws::Structure
@@ -10305,13 +10351,25 @@ module Aws::DataZone
     #   The name of the group for which the specified group profile exists.
     #   @return [String]
     #
+    # @!attribute [rw] role_principal_arn
+    #   The ARN of the IAM role principal. This role is associated with the
+    #   group profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_principal_id
+    #   The unique identifier of the IAM role principal. This principal is
+    #   associated with the group profile.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/GetGroupProfileOutput AWS API Documentation
     #
     class GetGroupProfileOutput < Struct.new(
       :domain_id,
       :id,
       :status,
-      :group_name)
+      :group_name,
+      :role_principal_arn,
+      :role_principal_id)
       SENSITIVE = [:group_name]
       include Aws::Structure
     end
@@ -10845,6 +10903,10 @@ module Aws::DataZone
     #   The environment deployment status of a project.
     #   @return [Types::EnvironmentDeploymentDetails]
     #
+    # @!attribute [rw] project_category
+    #   The category of the project.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/GetProjectOutput AWS API Documentation
     #
     class GetProjectOutput < Struct.new(
@@ -10862,7 +10924,8 @@ module Aws::DataZone
       :domain_unit_id,
       :project_profile_id,
       :user_parameters,
-      :environment_deployment_details)
+      :environment_deployment_details,
+      :project_category)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -11519,12 +11582,17 @@ module Aws::DataZone
     #   The type of the user profile.
     #   @return [String]
     #
+    # @!attribute [rw] session_name
+    #   The session name for IAM role sessions.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/GetUserProfileInput AWS API Documentation
     #
     class GetUserProfileInput < Struct.new(
       :domain_identifier,
       :user_identifier,
-      :type)
+      :type,
+      :session_name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -12261,13 +12329,25 @@ module Aws::DataZone
     #   The group name of a group profile.
     #   @return [String]
     #
+    # @!attribute [rw] role_principal_arn
+    #   The ARN of the IAM role principal. This role is associated with the
+    #   group profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_principal_id
+    #   The unique identifier of the IAM role principal. This principal is
+    #   associated with the group profile.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/GroupProfileSummary AWS API Documentation
     #
     class GroupProfileSummary < Struct.new(
       :domain_id,
       :id,
       :status,
-      :group_name)
+      :group_name,
+      :role_principal_arn,
+      :role_principal_id)
       SENSITIVE = [:group_name]
       include Aws::Structure
     end
@@ -12372,11 +12452,23 @@ module Aws::DataZone
     #   The principal ID as part of the IAM user profile details.
     #   @return [String]
     #
+    # @!attribute [rw] session_name
+    #   The session name for IAM role sessions.
+    #   @return [String]
+    #
+    # @!attribute [rw] group_profile_id
+    #   The identifier of the group profile associated with the IAM user
+    #   profile. This links the user to a specific group profile within the
+    #   Amazon DataZone domain.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/IamUserProfileDetails AWS API Documentation
     #
     class IamUserProfileDetails < Struct.new(
       :arn,
-      :principal_id)
+      :principal_id,
+      :session_name,
+      :group_profile_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -14744,6 +14836,10 @@ module Aws::DataZone
     #   The name of the project.
     #   @return [String]
     #
+    # @!attribute [rw] project_category
+    #   A parameter to filter projects by their category.
+    #   @return [String]
+    #
     # @!attribute [rw] next_token
     #   When the number of projects is greater than the default value for
     #   the `MaxResults` parameter, or if you explicitly specify a value for
@@ -14768,6 +14864,7 @@ module Aws::DataZone
       :user_identifier,
       :group_identifier,
       :name,
+      :project_category,
       :next_token,
       :max_results)
       SENSITIVE = [:name]
@@ -16756,6 +16853,26 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # A map of user or group profiles to designations that need to be
+    # assigned in the project.
+    #
+    # @!attribute [rw] member
+    #   The details about a project member.
+    #   @return [Types::Member]
+    #
+    # @!attribute [rw] designation
+    #   The designation of the project membership.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ProjectMembershipAssignment AWS API Documentation
+    #
+    class ProjectMembershipAssignment < Struct.new(
+      :member,
+      :designation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The project policy grant principal.
     #
     # @!attribute [rw] project_designation
@@ -16877,6 +16994,10 @@ module Aws::DataZone
     #   The ID of the domain unit.
     #   @return [String]
     #
+    # @!attribute [rw] project_category
+    #   The category of the project.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ProjectSummary AWS API Documentation
     #
     class ProjectSummary < Struct.new(
@@ -16889,7 +17010,8 @@ module Aws::DataZone
       :created_by,
       :created_at,
       :updated_at,
-      :domain_unit_id)
+      :domain_unit_id,
+      :project_category)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -22247,13 +22369,25 @@ module Aws::DataZone
     #   The name of the group profile that is updated.
     #   @return [String]
     #
+    # @!attribute [rw] role_principal_arn
+    #   The ARN of the IAM role principal. This role is associated with the
+    #   updated group profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_principal_id
+    #   The unique identifier of the IAM role principal. This principal is
+    #   associated with the updated group profile.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/UpdateGroupProfileOutput AWS API Documentation
     #
     class UpdateGroupProfileOutput < Struct.new(
       :domain_id,
       :id,
       :status,
-      :group_name)
+      :group_name,
+      :role_principal_arn,
+      :role_principal_id)
       SENSITIVE = [:group_name]
       include Aws::Structure
     end
@@ -22381,6 +22515,10 @@ module Aws::DataZone
     #   The environment deployment details of the project.
     #   @return [Types::EnvironmentDeploymentDetails]
     #
+    # @!attribute [rw] project_category
+    #   The category of the project.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/UpdateProjectOutput AWS API Documentation
     #
     class UpdateProjectOutput < Struct.new(
@@ -22398,7 +22536,8 @@ module Aws::DataZone
       :domain_unit_id,
       :project_profile_id,
       :user_parameters,
-      :environment_deployment_details)
+      :environment_deployment_details,
+      :project_category)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -23088,13 +23227,18 @@ module Aws::DataZone
     #   The status of the user profile that are to be updated.
     #   @return [String]
     #
+    # @!attribute [rw] session_name
+    #   The session name for IAM role sessions.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/UpdateUserProfileInput AWS API Documentation
     #
     class UpdateUserProfileInput < Struct.new(
       :domain_identifier,
       :user_identifier,
       :type,
-      :status)
+      :status,
+      :session_name)
       SENSITIVE = []
       include Aws::Structure
     end

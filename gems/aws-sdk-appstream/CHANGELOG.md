@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.132.0 (2026-04-16)
+------------------
+
+* Feature - Add content redirection to Update Stack
+
 1.131.0 (2026-04-02)
 ------------------
 

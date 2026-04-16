@@ -568,9 +568,11 @@ module Aws
                                   training_frequency: ::Integer?,
                                   inference_config: {
                                     min_provisioned_tps: ::Integer?
-                                  }?
+                                  }?,
+                                  included_columns: Hash[::String, Array[::String]]?
                                 },
                                 ?description: ::String,
+                                ?recommender_schema_name: ::String,
                                 ?tags: Hash[::String, ::String]
                               ) -> _CreateRecommenderResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateRecommenderResponseSuccess
@@ -585,10 +587,35 @@ module Aws
                                        domain_name: ::String,
                                        recommender_filter_name: ::String,
                                        recommender_filter_expression: ::String,
+                                       ?recommender_schema_name: ::String,
                                        ?description: ::String,
                                        ?tags: Hash[::String, ::String]
                                      ) -> _CreateRecommenderFilterResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateRecommenderFilterResponseSuccess
+
+      interface _CreateRecommenderSchemaResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateRecommenderSchemaResponse]
+        def recommender_schema_arn: () -> ::String
+        def recommender_schema_name: () -> ::String
+        def fields: () -> ::Hash[::String, ::Array[Types::RecommenderSchemaField]]
+        def created_at: () -> ::Time
+        def status: () -> ("ACTIVE" | "DELETING")
+        def tags: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CustomerProfiles/Client.html#create_recommender_schema-instance_method
+      def create_recommender_schema: (
+                                       domain_name: ::String,
+                                       recommender_schema_name: ::String,
+                                       fields: Hash[::String, Array[
+                                           {
+                                             target_field_name: ::String,
+                                             content_type: ("STRING" | "NUMBER")?,
+                                             feature_type: ("TEXTUAL" | "CATEGORICAL")?
+                                           },
+                                         ]],
+                                       ?tags: Hash[::String, ::String]
+                                     ) -> _CreateRecommenderSchemaResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateRecommenderSchemaResponseSuccess
 
       interface _CreateSegmentDefinitionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateSegmentDefinitionResponse]
@@ -1222,6 +1249,16 @@ module Aws
                                      ) -> _DeleteRecommenderFilterResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteRecommenderFilterResponseSuccess
 
+      interface _DeleteRecommenderSchemaResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteRecommenderSchemaResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CustomerProfiles/Client.html#delete_recommender_schema-instance_method
+      def delete_recommender_schema: (
+                                       domain_name: ::String,
+                                       recommender_schema_name: ::String
+                                     ) -> _DeleteRecommenderSchemaResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteRecommenderSchemaResponseSuccess
+
       interface _DeleteSegmentDefinitionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteSegmentDefinitionResponse]
         def message: () -> ::String
@@ -1576,6 +1613,7 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::GetRecommenderResponse]
         def recommender_name: () -> ::String
         def recommender_recipe_name: () -> ("recommended-for-you" | "similar-items" | "frequently-paired-items" | "popular-items" | "trending-now" | "personalized-ranking")
+        def recommender_schema_name: () -> ::String
         def recommender_config: () -> Types::RecommenderConfig
         def description: () -> ::String
         def status: () -> ("PENDING" | "IN_PROGRESS" | "ACTIVE" | "FAILED" | "STOPPING" | "INACTIVE" | "STARTING" | "DELETING")
@@ -1598,6 +1636,7 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::GetRecommenderFilterResponse]
         def recommender_filter_name: () -> ::String
         def recommender_filter_expression: () -> ::String
+        def recommender_schema_name: () -> ::String
         def created_at: () -> ::Time
         def status: () -> ("ACTIVE" | "PENDING" | "IN_PROGRESS" | "FAILED" | "DELETING")
         def description: () -> ::String
@@ -1610,6 +1649,20 @@ module Aws
                                     recommender_filter_name: ::String
                                   ) -> _GetRecommenderFilterResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetRecommenderFilterResponseSuccess
+
+      interface _GetRecommenderSchemaResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetRecommenderSchemaResponse]
+        def recommender_schema_name: () -> ::String
+        def fields: () -> ::Hash[::String, ::Array[Types::RecommenderSchemaField]]
+        def created_at: () -> ::Time
+        def status: () -> ("ACTIVE" | "DELETING")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CustomerProfiles/Client.html#get_recommender_schema-instance_method
+      def get_recommender_schema: (
+                                    domain_name: ::String,
+                                    recommender_schema_name: ::String
+                                  ) -> _GetRecommenderSchemaResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetRecommenderSchemaResponseSuccess
 
       interface _GetSegmentDefinitionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetSegmentDefinitionResponse]
@@ -2027,6 +2080,19 @@ module Aws
                                       ?next_token: ::String
                                     ) -> _ListRecommenderRecipesResponseSuccess
                                   | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListRecommenderRecipesResponseSuccess
+
+      interface _ListRecommenderSchemasResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListRecommenderSchemasResponse]
+        def next_token: () -> ::String
+        def recommender_schemas: () -> ::Array[Types::RecommenderSchemaSummary]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CustomerProfiles/Client.html#list_recommender_schemas-instance_method
+      def list_recommender_schemas: (
+                                      domain_name: ::String,
+                                      ?max_results: ::Integer,
+                                      ?next_token: ::String
+                                    ) -> _ListRecommenderSchemasResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListRecommenderSchemasResponseSuccess
 
       interface _ListRecommendersResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListRecommendersResponse]
@@ -2711,7 +2777,8 @@ module Aws
                                   training_frequency: ::Integer?,
                                   inference_config: {
                                     min_provisioned_tps: ::Integer?
-                                  }?
+                                  }?,
+                                  included_columns: Hash[::String, Array[::String]]?
                                 }
                               ) -> _UpdateRecommenderResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateRecommenderResponseSuccess

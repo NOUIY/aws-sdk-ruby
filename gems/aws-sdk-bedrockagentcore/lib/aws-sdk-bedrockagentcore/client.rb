@@ -2774,9 +2774,13 @@ module Aws::BedrockAgentCore
     #   The identifier of the AgentCore Memory resource for which to list
     #   memory records.
     #
-    # @option params [required, String] :namespace
+    # @option params [String] :namespace
     #   The namespace prefix to filter memory records by. Returns all memory
     #   records in namespaces that start with the provided prefix.
+    #
+    # @option params [String] :namespace_path
+    #   Use namespacePath for hierarchical retrievals. Return all memory
+    #   records where namespace falls under the same parent hierarchy.
     #
     # @option params [String] :memory_strategy_id
     #   The memory strategy identifier to filter memory records by. If
@@ -2802,7 +2806,8 @@ module Aws::BedrockAgentCore
     #
     #   resp = client.list_memory_records({
     #     memory_id: "MemoryId", # required
-    #     namespace: "Namespace", # required
+    #     namespace: "Namespace",
+    #     namespace_path: "Namespace",
     #     memory_strategy_id: "MemoryStrategyId",
     #     max_results: 1,
     #     next_token: "PaginationToken",
@@ -2907,9 +2912,13 @@ module Aws::BedrockAgentCore
     #   The identifier of the AgentCore Memory resource from which to retrieve
     #   memory records.
     #
-    # @option params [required, String] :namespace
+    # @option params [String] :namespace
     #   The namespace prefix to filter memory records by. Searches for memory
     #   records in namespaces that start with the provided prefix.
+    #
+    # @option params [String] :namespace_path
+    #   Use namespacePath for hierarchical retrievals. Return all memory
+    #   records where namespace falls under the same parent hierarchy.
     #
     # @option params [required, Types::SearchCriteria] :search_criteria
     #   The search criteria to use for finding relevant memory records. This
@@ -2936,7 +2945,8 @@ module Aws::BedrockAgentCore
     #
     #   resp = client.retrieve_memory_records({
     #     memory_id: "MemoryId", # required
-    #     namespace: "Namespace", # required
+    #     namespace: "Namespace",
+    #     namespace_path: "Namespace",
     #     search_criteria: { # required
     #       search_query: "SearchCriteriaSearchQueryString", # required
     #       memory_strategy_id: "MemoryStrategyId",
@@ -3752,7 +3762,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.27.0'
+      context[:gem_version] = '1.28.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

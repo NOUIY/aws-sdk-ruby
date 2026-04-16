@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.62.0 (2026-04-16)
+------------------
+
+* Feature - Updating regex for identification of AWS Regions.
+
 1.61.0 (2026-04-08)
 ------------------
 

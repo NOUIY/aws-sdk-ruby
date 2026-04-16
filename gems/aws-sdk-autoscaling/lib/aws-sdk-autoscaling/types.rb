@@ -395,6 +395,11 @@ module Aws::AutoScaling
     #   One or more Availability Zones for the Auto Scaling group.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] availability_zone_ids
+    #   The Availability Zone IDs where the Auto Scaling group can launch
+    #   instances.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] load_balancer_names
     #   One or more load balancers associated with the group.
     #   @return [Array<String>]
@@ -550,6 +555,7 @@ module Aws::AutoScaling
       :predicted_capacity,
       :default_cooldown,
       :availability_zones,
+      :availability_zone_ids,
       :load_balancer_names,
       :target_group_arns,
       :health_check_type,
@@ -662,6 +668,10 @@ module Aws::AutoScaling
     #   The Availability Zone for the instance.
     #   @return [String]
     #
+    # @!attribute [rw] availability_zone_id
+    #   The Availability Zone ID where the instance is located.
+    #   @return [String]
+    #
     # @!attribute [rw] lifecycle_state
     #   The lifecycle state for the instance. The `Quarantined` state is not
     #   used. For more information, see [Amazon EC2 Auto Scaling instance
@@ -742,6 +752,7 @@ module Aws::AutoScaling
       :instance_type,
       :auto_scaling_group_name,
       :availability_zone,
+      :availability_zone_id,
       :lifecycle_state,
       :health_status,
       :launch_configuration_name,
@@ -1282,6 +1293,12 @@ module Aws::AutoScaling
     #   network interface ID is specified in a launch template.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] availability_zone_ids
+    #   A list of Availability Zone IDs where the Auto Scaling group can
+    #   launch instances. You cannot specify both AvailabilityZones and
+    #   AvailabilityZoneIds in the same request.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] load_balancer_names
     #   A list of Classic Load Balancers associated with this Auto Scaling
     #   group. For Application Load Balancers, Network Load Balancers, and
@@ -1595,6 +1612,7 @@ module Aws::AutoScaling
       :desired_capacity,
       :default_cooldown,
       :availability_zones,
+      :availability_zone_ids,
       :load_balancer_names,
       :target_group_arns,
       :health_check_type,
@@ -3592,6 +3610,10 @@ module Aws::AutoScaling
     #   The Availability Zone in which the instance is running.
     #   @return [String]
     #
+    # @!attribute [rw] availability_zone_id
+    #   The Availability Zone ID where the instance was launched.
+    #   @return [String]
+    #
     # @!attribute [rw] lifecycle_state
     #   A description of the current lifecycle state. The `Quarantined`
     #   state is not used. For more information, see [Amazon EC2 Auto
@@ -3657,6 +3679,7 @@ module Aws::AutoScaling
       :instance_id,
       :instance_type,
       :availability_zone,
+      :availability_zone_id,
       :lifecycle_state,
       :health_status,
       :launch_configuration_name,
@@ -8535,6 +8558,12 @@ module Aws::AutoScaling
     #   One or more Availability Zones for the group.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] availability_zone_ids
+    #   A list of Availability Zone IDs for the Auto Scaling group. You
+    #   cannot specify both AvailabilityZones and AvailabilityZoneIds in the
+    #   same request.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] health_check_type
     #   A comma-separated value string of one or more health check types.
     #
@@ -8790,6 +8819,7 @@ module Aws::AutoScaling
       :desired_capacity,
       :default_cooldown,
       :availability_zones,
+      :availability_zone_ids,
       :health_check_type,
       :health_check_grace_period,
       :placement_group,

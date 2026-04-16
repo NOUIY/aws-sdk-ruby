@@ -1410,6 +1410,13 @@ module Aws
                           ?embed_host_domains: Array[::String],
                           ?streaming_experience_settings: {
                             preferred_protocol: ("TCP" | "UDP")?
+                          },
+                          ?content_redirection: {
+                            host_to_client: {
+                              enabled: bool,
+                              allowed_urls: Array[::String]?,
+                              denied_urls: Array[::String]?
+                            }?
                           }
                         ) -> _UpdateStackResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateStackResponseSuccess

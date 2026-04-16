@@ -971,7 +971,7 @@ module Aws
                              user_assignment: ("AUTOMATIC" | "MANUAL")?,
                              idc_instance_arn: ::String?
                            },
-                           domain_execution_role: ::String,
+                           ?domain_execution_role: ::String,
                            ?kms_key_identifier: ::String,
                            ?tags: Hash[::String, ::String],
                            ?domain_version: ("V1" | "V2"),
@@ -1223,11 +1223,14 @@ module Aws
         def id: () -> ::String
         def status: () -> ("ASSIGNED" | "NOT_ASSIGNED")
         def group_name: () -> ::String
+        def role_principal_arn: () -> ::String
+        def role_principal_id: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#create_group_profile-instance_method
       def create_group_profile: (
                                   domain_identifier: ::String,
-                                  group_identifier: ::String,
+                                  ?group_identifier: ::String,
+                                  ?role_principal_arn: ::String,
                                   ?client_token: ::String
                                 ) -> _CreateGroupProfileResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateGroupProfileResponseSuccess
@@ -1266,6 +1269,7 @@ module Aws
         def project_profile_id: () -> ::String
         def user_parameters: () -> ::Array[Types::EnvironmentConfigurationUserParameter]
         def environment_deployment_details: () -> Types::EnvironmentDeploymentDetails
+        def project_category: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#create_project-instance_method
       def create_project: (
@@ -1291,6 +1295,17 @@ module Aws
                                     value: ::String?
                                   },
                                 ]?
+                              },
+                            ],
+                            ?project_category: ::String,
+                            ?project_execution_role: ::String,
+                            ?membership_assignments: Array[
+                              {
+                                member: {
+                                  user_identifier: ::String?,
+                                  group_identifier: ::String?
+                                },
+                                designation: ("PROJECT_OWNER" | "PROJECT_CONTRIBUTOR" | "PROJECT_CATALOG_VIEWER" | "PROJECT_CATALOG_CONSUMER" | "PROJECT_CATALOG_STEWARD")
                               },
                             ]
                           ) -> _CreateProjectResponseSuccess
@@ -1592,7 +1607,8 @@ module Aws
       def create_user_profile: (
                                  domain_identifier: ::String,
                                  user_identifier: ::String,
-                                 ?user_type: ("IAM_USER" | "IAM_ROLE" | "SSO_USER"),
+                                 ?user_type: ("IAM_USER" | "IAM_ROLE" | "SSO_USER" | "IAM_ROLE_SESSION"),
+                                 ?session_name: ::String,
                                  ?client_token: ::String
                                ) -> _CreateUserProfileResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateUserProfileResponseSuccess
@@ -2379,6 +2395,8 @@ module Aws
         def id: () -> ::String
         def status: () -> ("ASSIGNED" | "NOT_ASSIGNED")
         def group_name: () -> ::String
+        def role_principal_arn: () -> ::String
+        def role_principal_id: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#get_group_profile-instance_method
       def get_group_profile: (
@@ -2522,6 +2540,7 @@ module Aws
         def project_profile_id: () -> ::String
         def user_parameters: () -> ::Array[Types::EnvironmentConfigurationUserParameter]
         def environment_deployment_details: () -> Types::EnvironmentDeploymentDetails
+        def project_category: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#get_project-instance_method
       def get_project: (
@@ -2702,7 +2721,8 @@ module Aws
       def get_user_profile: (
                               domain_identifier: ::String,
                               user_identifier: ::String,
-                              ?type: ("IAM" | "SSO")
+                              ?type: ("IAM" | "SSO"),
+                              ?session_name: ::String
                             ) -> _GetUserProfileResponseSuccess
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetUserProfileResponseSuccess
 
@@ -3115,6 +3135,7 @@ module Aws
                            ?user_identifier: ::String,
                            ?group_identifier: ::String,
                            ?name: ::String,
+                           ?project_category: ::String,
                            ?next_token: ::String,
                            ?max_results: ::Integer
                          ) -> _ListProjectsResponseSuccess
@@ -3566,7 +3587,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#search_group_profiles-instance_method
       def search_group_profiles: (
                                    domain_identifier: ::String,
-                                   group_type: ("SSO_GROUP" | "DATAZONE_SSO_GROUP"),
+                                   group_type: ("SSO_GROUP" | "DATAZONE_SSO_GROUP" | "IAM_ROLE_SESSION_GROUP"),
                                    ?search_text: ::String,
                                    ?max_results: ::Integer,
                                    ?next_token: ::String
@@ -4312,6 +4333,8 @@ module Aws
         def id: () -> ::String
         def status: () -> ("ASSIGNED" | "NOT_ASSIGNED")
         def group_name: () -> ::String
+        def role_principal_arn: () -> ::String
+        def role_principal_id: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#update_group_profile-instance_method
       def update_group_profile: (
@@ -4338,6 +4361,7 @@ module Aws
         def project_profile_id: () -> ::String
         def user_parameters: () -> ::Array[Types::EnvironmentConfigurationUserParameter]
         def environment_deployment_details: () -> Types::EnvironmentDeploymentDetails
+        def project_category: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#update_project-instance_method
       def update_project: (
@@ -4617,7 +4641,8 @@ module Aws
                                  domain_identifier: ::String,
                                  user_identifier: ::String,
                                  ?type: ("IAM" | "SSO"),
-                                 status: ("ASSIGNED" | "NOT_ASSIGNED" | "ACTIVATED" | "DEACTIVATED")
+                                 status: ("ASSIGNED" | "NOT_ASSIGNED" | "ACTIVATED" | "DEACTIVATED"),
+                                 ?session_name: ::String
                                ) -> _UpdateUserProfileResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateUserProfileResponseSuccess
     end
