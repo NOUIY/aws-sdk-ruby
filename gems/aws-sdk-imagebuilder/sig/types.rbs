@@ -1110,6 +1110,8 @@ module Aws::Imagebuilder
       attr_accessor uri: ::String
       attr_accessor logging_configuration: Types::ImageLoggingConfiguration
       attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor register_image_options: Types::RegisterImageOptions
+      attr_accessor windows_configuration: Types::WindowsConfiguration
       attr_accessor client_token: ::String
       SENSITIVE: []
     end
@@ -1806,6 +1808,12 @@ module Aws::Imagebuilder
       SENSITIVE: []
     end
 
+    class RegisterImageOptions
+      attr_accessor secure_boot_enabled: bool
+      attr_accessor uefi_data: ::String
+      SENSITIVE: []
+    end
+
     class Remediation
       attr_accessor recommendation: Types::RemediationRecommendation
       SENSITIVE: []
@@ -2100,6 +2108,11 @@ module Aws::Imagebuilder
       attr_accessor file_path: ::String
       attr_accessor fixed_in_version: ::String
       attr_accessor remediation: ::String
+      SENSITIVE: []
+    end
+
+    class WindowsConfiguration
+      attr_accessor image_index: ::Integer
       SENSITIVE: []
     end
 

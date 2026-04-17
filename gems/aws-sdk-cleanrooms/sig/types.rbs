@@ -2342,6 +2342,7 @@ module Aws::CleanRooms
     class ProtectedJobWorkerComputeConfiguration
       attr_accessor type: ("CR.1X" | "CR.4X")
       attr_accessor number: ::Integer
+      attr_accessor properties: Types::WorkerComputeConfigurationProperties
       SENSITIVE: []
     end
 

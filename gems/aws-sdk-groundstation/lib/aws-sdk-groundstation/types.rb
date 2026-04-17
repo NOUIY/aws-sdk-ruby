@@ -128,6 +128,30 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # An antenna at a ground station.
+    #
+    # @!attribute [rw] ground_station_name
+    #   Name of the ground station the antenna is associated with.
+    #   @return [String]
+    #
+    # @!attribute [rw] antenna_name
+    #   Name of the antenna.
+    #   @return [String]
+    #
+    # @!attribute [rw] region
+    #   Region of the antenna.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/AntennaListItem AWS API Documentation
+    #
+    class AntennaListItem < Struct.new(
+      :ground_station_name,
+      :antenna_name,
+      :region)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information about the uplink `Config` of an antenna.
     #
     # @!attribute [rw] transmit_disabled
@@ -368,6 +392,8 @@ module Aws::GroundStation
       class Unknown < AzElSegmentsData; end
     end
 
+    # Input for the `CancelContact` operation.
+    #
     # @!attribute [rw] contact_id
     #   UUID of a contact.
     #   @return [String]
@@ -476,6 +502,8 @@ module Aws::GroundStation
       class Unknown < ConfigDetails; end
     end
 
+    # Response containing the ARN, ID, and type of a `Config`.
+    #
     # @!attribute [rw] config_id
     #   UUID of a `Config`.
     #   @return [String]
@@ -645,12 +673,12 @@ module Aws::GroundStation
     #   @return [Time]
     #
     # @!attribute [rw] pre_pass_start_time
-    #   Amount of time prior to contact start you’d like to receive a
+    #   Start time in UTC of the pre-pass period, at which you receive a
     #   CloudWatch event indicating an upcoming pass.
     #   @return [Time]
     #
     # @!attribute [rw] post_pass_end_time
-    #   Amount of time after a contact ends that you’d like to receive a
+    #   End time in UTC of the post-pass period, at which you receive a
     #   CloudWatch event indicating the pass has finished.
     #   @return [Time]
     #
@@ -706,6 +734,10 @@ module Aws::GroundStation
     #   The ephemeris that determines antenna pointing for the contact.
     #   @return [Types::EphemerisResponseData]
     #
+    # @!attribute [rw] version
+    #   Version information for a contact.
+    #   @return [Types::ContactVersion]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ContactData AWS API Documentation
     #
     class ContactData < Struct.new(
@@ -724,23 +756,98 @@ module Aws::GroundStation
       :tags,
       :visibility_start_time,
       :visibility_end_time,
-      :ephemeris)
+      :ephemeris,
+      :version)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # Response containing the ID of a contact.
+    #
     # @!attribute [rw] contact_id
     #   UUID of a contact.
     #   @return [String]
     #
+    # @!attribute [rw] version_id
+    #   Version ID of a contact.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ContactIdResponse AWS API Documentation
     #
     class ContactIdResponse < Struct.new(
+      :contact_id,
+      :version_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details of a contact reservation.
+    #
+    # @!attribute [rw] contact_id
+    #   UUID of a contact.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ContactReservationDetails AWS API Documentation
+    #
+    class ContactReservationDetails < Struct.new(
       :contact_id)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # Version information for a contact.
+    #
+    # @!attribute [rw] version_id
+    #   Version ID of a contact.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] created
+    #   Time the contact version was created in UTC.
+    #   @return [Time]
+    #
+    # @!attribute [rw] activated
+    #   Time the contact version was activated in UTC. A version is
+    #   activated when it becomes the current active version of the contact.
+    #   @return [Time]
+    #
+    # @!attribute [rw] superseded
+    #   Time the contact version was superseded in UTC. A version is
+    #   superseded when a newer version becomes active.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated
+    #   Time the contact version was last updated in UTC.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   Status of the contact version.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_codes
+    #   List of failure codes for the contact version.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] failure_message
+    #   Failure message for the contact version.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ContactVersion AWS API Documentation
+    #
+    class ContactVersion < Struct.new(
+      :version_id,
+      :created,
+      :activated,
+      :superseded,
+      :last_updated,
+      :status,
+      :failure_codes,
+      :failure_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for the `CreateConfig` operation.
+    #
     # @!attribute [rw] name
     #   Name of a `Config`.
     #   @return [String]
@@ -763,6 +870,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `CreateDataflowEndpointGroup` operation.
+    #
     # @!attribute [rw] endpoint_details
     #   Endpoint details of each endpoint in the dataflow endpoint group.
     #   All dataflow endpoints within a single dataflow endpoint group must
@@ -952,23 +1061,26 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `CreateMissionProfile` operation.
+    #
     # @!attribute [rw] name
     #   Name of a mission profile.
     #   @return [String]
     #
     # @!attribute [rw] contact_pre_pass_duration_seconds
-    #   Amount of time prior to contact start you’d like to receive a Ground
-    #   Station Contact State Change event indicating an upcoming pass.
+    #   Amount of time prior to contact start you'd like to receive a
+    #   Ground Station Contact State Change event indicating an upcoming
+    #   pass.
     #   @return [Integer]
     #
     # @!attribute [rw] contact_post_pass_duration_seconds
-    #   Amount of time after a contact ends that you’d like to receive a
+    #   Amount of time after a contact ends that you'd like to receive a
     #   Ground Station Contact State Change event indicating the pass has
     #   finished.
     #   @return [Integer]
     #
     # @!attribute [rw] minimum_viable_contact_duration_seconds
-    #   Smallest amount of time in seconds that you’d like to see for an
+    #   Smallest amount of time in seconds that you'd like to see for an
     #   available contact. AWS Ground Station will not present you with
     #   contacts shorter than this duration.
     #   @return [Integer]
@@ -1088,6 +1200,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Response containing the ID of a dataflow endpoint group.
+    #
     # @!attribute [rw] dataflow_endpoint_group_id
     #   UUID of a dataflow endpoint group.
     #   @return [String]
@@ -1133,6 +1247,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `DeleteConfig` operation.
+    #
     # @!attribute [rw] config_id
     #   UUID of a `Config`.
     #   @return [String]
@@ -1150,6 +1266,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `DeleteDataflowEndpointGroup` operation.
+    #
     # @!attribute [rw] dataflow_endpoint_group_id
     #   UUID of a dataflow endpoint group.
     #   @return [String]
@@ -1174,6 +1292,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `DeleteMissionProfile` operation.
+    #
     # @!attribute [rw] mission_profile_id
     #   UUID of a mission profile.
     #   @return [String]
@@ -1206,6 +1326,7 @@ module Aws::GroundStation
     #   @return [String]
     #
     # @!attribute [rw] parameter_name
+    #   Name of the parameter that caused the exception.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/DependencyException AWS API Documentation
@@ -1217,6 +1338,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `DescribeContact` operation.
+    #
     # @!attribute [rw] contact_id
     #   UUID of a contact.
     #   @return [String]
@@ -1229,6 +1352,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Output for the `DescribeContact` operation.
+    #
     # @!attribute [rw] contact_id
     #   UUID of a contact.
     #   @return [String]
@@ -1250,12 +1375,12 @@ module Aws::GroundStation
     #   @return [Time]
     #
     # @!attribute [rw] pre_pass_start_time
-    #   Amount of time prior to contact start you’d like to receive a
+    #   Start time in UTC of the pre-pass period, at which you receive a
     #   CloudWatch event indicating an upcoming pass.
     #   @return [Time]
     #
     # @!attribute [rw] post_pass_end_time
-    #   Amount of time after a contact ends that you’d like to receive a
+    #   End time in UTC of the post-pass period, at which you receive a
     #   CloudWatch event indicating the pass has finished.
     #   @return [Time]
     #
@@ -1280,7 +1405,8 @@ module Aws::GroundStation
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] region
-    #   Region of a contact.
+    #   Region where the `ReserveContact` API was called to schedule this
+    #   contact.
     #   @return [String]
     #
     # @!attribute [rw] dataflow_list
@@ -1320,6 +1446,10 @@ module Aws::GroundStation
     #   contact.
     #   @return [Types::EphemerisResponseData]
     #
+    # @!attribute [rw] version
+    #   Version information for a contact.
+    #   @return [Types::ContactVersion]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/DescribeContactResponse AWS API Documentation
     #
     class DescribeContactResponse < Struct.new(
@@ -1340,7 +1470,149 @@ module Aws::GroundStation
       :visibility_start_time,
       :visibility_end_time,
       :tracking_overrides,
-      :ephemeris)
+      :ephemeris,
+      :version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] contact_id
+    #   UUID of a contact.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   Version ID of a contact.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/DescribeContactVersionRequest AWS API Documentation
+    #
+    class DescribeContactVersionRequest < Struct.new(
+      :contact_id,
+      :version_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] contact_id
+    #   UUID of a contact.
+    #   @return [String]
+    #
+    # @!attribute [rw] mission_profile_arn
+    #   ARN of the contact's mission profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] satellite_arn
+    #   ARN of a satellite.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   Start time of a contact in UTC.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   End time of a contact in UTC.
+    #   @return [Time]
+    #
+    # @!attribute [rw] pre_pass_start_time
+    #   Start time in UTC of the pre-pass period, at which you receive a
+    #   CloudWatch event indicating an upcoming pass.
+    #   @return [Time]
+    #
+    # @!attribute [rw] post_pass_end_time
+    #   End time in UTC of the post-pass period, at which you receive a
+    #   CloudWatch event indicating the pass has finished.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ground_station
+    #   Ground station for a contact.
+    #   @return [String]
+    #
+    # @!attribute [rw] contact_status
+    #   Status of a contact.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_message
+    #   Error message for a contact.
+    #   @return [String]
+    #
+    # @!attribute [rw] maximum_elevation
+    #   Maximum elevation angle of a contact.
+    #   @return [Types::Elevation]
+    #
+    # @!attribute [rw] tags
+    #   Tags assigned to a contact.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] region
+    #   Region where the `ReserveContact` API was called to schedule this
+    #   contact.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataflow_list
+    #   List describing source and destination details for each dataflow
+    #   edge.
+    #   @return [Array<Types::DataflowDetail>]
+    #
+    # @!attribute [rw] visibility_start_time
+    #   Projected time in UTC your satellite will rise above the [receive
+    #   mask][1]. This time is based on the satellite's current active
+    #   ephemeris for future contacts and the ephemeris that was active
+    #   during contact execution for completed contacts.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html
+    #   @return [Time]
+    #
+    # @!attribute [rw] visibility_end_time
+    #   Projected time in UTC your satellite will set below the [receive
+    #   mask][1]. This time is based on the satellite's current active
+    #   ephemeris for future contacts and the ephemeris that was active
+    #   during contact execution for completed contacts.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html
+    #   @return [Time]
+    #
+    # @!attribute [rw] tracking_overrides
+    #   Tracking configuration overrides applied to this contact version.
+    #   For the initial version, these are the overrides specified when the
+    #   contact was reserved. For subsequent versions, these are the
+    #   overrides associated with that specific version update.
+    #   @return [Types::TrackingOverrides]
+    #
+    # @!attribute [rw] ephemeris
+    #   The ephemeris that determines antenna pointing directions for the
+    #   contact.
+    #   @return [Types::EphemerisResponseData]
+    #
+    # @!attribute [rw] version
+    #   Version information for a contact.
+    #   @return [Types::ContactVersion]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/DescribeContactVersionResponse AWS API Documentation
+    #
+    class DescribeContactVersionResponse < Struct.new(
+      :contact_id,
+      :mission_profile_arn,
+      :satellite_arn,
+      :start_time,
+      :end_time,
+      :pre_pass_start_time,
+      :post_pass_end_time,
+      :ground_station,
+      :contact_status,
+      :error_message,
+      :maximum_elevation,
+      :tags,
+      :region,
+      :dataflow_list,
+      :visibility_start_time,
+      :visibility_end_time,
+      :tracking_overrides,
+      :ephemeris,
+      :version)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2076,6 +2348,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `GetConfig` operation.
+    #
     # @!attribute [rw] config_id
     #   UUID of a `Config`.
     #   @return [String]
@@ -2093,6 +2367,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Output for the `GetConfig` operation.
+    #
     # @!attribute [rw] config_id
     #   UUID of a `Config`.
     #   @return [String]
@@ -2130,6 +2406,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `GetDataflowEndpointGroup` operation.
+    #
     # @!attribute [rw] dataflow_endpoint_group_id
     #   UUID of a dataflow endpoint group.
     #   @return [String]
@@ -2142,6 +2420,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Output for the `GetDataflowEndpointGroup` operation.
+    #
     # @!attribute [rw] dataflow_endpoint_group_id
     #   UUID of a dataflow endpoint group.
     #   @return [String]
@@ -2187,6 +2467,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `GetMinuteUsage` operation.
+    #
     # @!attribute [rw] month
     #   The month being requested, with a value of 1-12.
     #   @return [Integer]
@@ -2204,6 +2486,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Output for the `GetMinuteUsage` operation.
+    #
     # @!attribute [rw] is_reserved_minutes_customer
     #   Returns whether or not an account has signed up for the reserved
     #   minutes pricing plan, specific to the month being requested.
@@ -2241,6 +2525,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `GetMissionProfile` operation.
+    #
     # @!attribute [rw] mission_profile_id
     #   UUID of a mission profile.
     #   @return [String]
@@ -2253,6 +2539,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Output for the `GetMissionProfile` operation.
+    #
     # @!attribute [rw] mission_profile_id
     #   UUID of a mission profile.
     #   @return [String]
@@ -2270,17 +2558,17 @@ module Aws::GroundStation
     #   @return [String]
     #
     # @!attribute [rw] contact_pre_pass_duration_seconds
-    #   Amount of time prior to contact start you’d like to receive a
+    #   Amount of time prior to contact start you'd like to receive a
     #   CloudWatch event indicating an upcoming pass.
     #   @return [Integer]
     #
     # @!attribute [rw] contact_post_pass_duration_seconds
-    #   Amount of time after a contact ends that you’d like to receive a
+    #   Amount of time after a contact ends that you'd like to receive a
     #   CloudWatch event indicating the pass has finished.
     #   @return [Integer]
     #
     # @!attribute [rw] minimum_viable_contact_duration_seconds
-    #   Smallest amount of time in seconds that you’d like to see for an
+    #   Smallest amount of time in seconds that you'd like to see for an
     #   available contact. AWS Ground Station will not present you with
     #   contacts shorter than this duration.
     #   @return [Integer]
@@ -2330,6 +2618,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `GetSatellite` operation.
+    #
     # @!attribute [rw] satellite_id
     #   UUID of a satellite.
     #   @return [String]
@@ -2342,6 +2632,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Output for the `GetSatellite` operation.
+    #
     # @!attribute [rw] satellite_id
     #   UUID of a satellite.
     #   @return [String]
@@ -2378,7 +2670,7 @@ module Aws::GroundStation
     # Information about the ground station data.
     #
     # @!attribute [rw] ground_station_id
-    #   UUID of a ground station.
+    #   ID of a ground station.
     #   @return [String]
     #
     # @!attribute [rw] ground_station_name
@@ -2395,6 +2687,45 @@ module Aws::GroundStation
       :ground_station_id,
       :ground_station_name,
       :region)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Item in a list of ground station reservations.
+    #
+    # @!attribute [rw] reservation_type
+    #   Type of a ground station reservation.
+    #   @return [String]
+    #
+    # @!attribute [rw] ground_station_id
+    #   ID of a ground station.
+    #   @return [String]
+    #
+    # @!attribute [rw] antenna_name
+    #   Name of an antenna.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   Start time of a ground station reservation in UTC.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   End time of a ground station reservation in UTC.
+    #   @return [Time]
+    #
+    # @!attribute [rw] reservation_details
+    #   Details of a ground station reservation.
+    #   @return [Types::ReservationDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/GroundStationReservationListItem AWS API Documentation
+    #
+    class GroundStationReservationListItem < Struct.new(
+      :reservation_type,
+      :ground_station_id,
+      :antenna_name,
+      :start_time,
+      :end_time,
+      :reservation_details)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2447,6 +2778,7 @@ module Aws::GroundStation
     #   @return [String]
     #
     # @!attribute [rw] parameter_name
+    #   Name of the invalid parameter.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/InvalidParameterException AWS API Documentation
@@ -2512,6 +2844,49 @@ module Aws::GroundStation
       class Unknown < KmsKey; end
     end
 
+    # @!attribute [rw] ground_station_id
+    #   ID of a ground station.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   Maximum number of antennas returned.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Next token returned in the request of a previous `ListAntennas`
+    #   call. Used to get the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ListAntennasRequest AWS API Documentation
+    #
+    class ListAntennasRequest < Struct.new(
+      :ground_station_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] antenna_list
+    #   List of antennas.
+    #   @return [Array<Types::AntennaListItem>]
+    #
+    # @!attribute [rw] next_token
+    #   Next token to be used in a subsequent `ListAntennas` call to
+    #   retrieve the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ListAntennasResponse AWS API Documentation
+    #
+    class ListAntennasResponse < Struct.new(
+      :antenna_list,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for the `ListConfigs` operation.
+    #
     # @!attribute [rw] max_results
     #   Maximum number of `Configs` returned.
     #   @return [Integer]
@@ -2530,6 +2905,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Output for the `ListConfigs` operation.
+    #
     # @!attribute [rw] next_token
     #   Next token returned in the response of a previous `ListConfigs`
     #   call. Used to get the next page of results.
@@ -2548,6 +2925,49 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # @!attribute [rw] contact_id
+    #   UUID of a contact.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   Maximum number of contact versions returned.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Next token returned in the request of a previous
+    #   `ListContactVersions` call. Used to get the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ListContactVersionsRequest AWS API Documentation
+    #
+    class ListContactVersionsRequest < Struct.new(
+      :contact_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   Next token to be used in a subsequent `ListContactVersions` call to
+    #   retrieve the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] contact_versions_list
+    #   List of contact versions.
+    #   @return [Array<Types::ContactVersion>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ListContactVersionsResponse AWS API Documentation
+    #
+    class ListContactVersionsResponse < Struct.new(
+      :next_token,
+      :contact_versions_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for the `ListContacts` operation.
+    #
     # @!attribute [rw] max_results
     #   Maximum number of contacts returned.
     #   @return [Integer]
@@ -2601,6 +3021,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Output for the `ListContacts` operation.
+    #
     # @!attribute [rw] next_token
     #   Next token returned in the response of a previous `ListContacts`
     #   call. Used to get the next page of results.
@@ -2619,6 +3041,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `ListDataflowEndpointGroups` operation.
+    #
     # @!attribute [rw] max_results
     #   Maximum number of dataflow endpoint groups returned.
     #   @return [Integer]
@@ -2638,6 +3062,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Output for the `ListDataflowEndpointGroups` operation.
+    #
     # @!attribute [rw] next_token
     #   Next token returned in the response of a previous
     #   `ListDataflowEndpointGroups` call. Used to get the next page of
@@ -2719,6 +3145,66 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # @!attribute [rw] ground_station_id
+    #   ID of a ground station.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   Start time of the reservation window in UTC.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   End time of the reservation window in UTC.
+    #   @return [Time]
+    #
+    # @!attribute [rw] reservation_types
+    #   Types of reservations to filter by.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] max_results
+    #   Maximum number of ground station reservations returned.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Next token returned in the request of a previous
+    #   `ListGroundStationReservations` call. Used to get the next page of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ListGroundStationReservationsRequest AWS API Documentation
+    #
+    class ListGroundStationReservationsRequest < Struct.new(
+      :ground_station_id,
+      :start_time,
+      :end_time,
+      :reservation_types,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] reservation_list
+    #   List of ground station reservations.
+    #   @return [Array<Types::GroundStationReservationListItem>]
+    #
+    # @!attribute [rw] next_token
+    #   Next token to be used in a subsequent
+    #   `ListGroundStationReservations` call to retrieve the next page of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ListGroundStationReservationsResponse AWS API Documentation
+    #
+    class ListGroundStationReservationsResponse < Struct.new(
+      :reservation_list,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for the `ListGroundStations` operation.
+    #
     # @!attribute [rw] satellite_id
     #   Satellite ID to retrieve on-boarded ground stations.
     #   @return [String]
@@ -2742,6 +3228,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Output for the `ListGroundStations` operation.
+    #
     # @!attribute [rw] next_token
     #   Next token that can be supplied in the next call to get the next
     #   page of ground stations.
@@ -2760,6 +3248,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `ListMissionProfiles` operation.
+    #
     # @!attribute [rw] max_results
     #   Maximum number of mission profiles returned.
     #   @return [Integer]
@@ -2778,6 +3268,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Output for the `ListMissionProfiles` operation.
+    #
     # @!attribute [rw] next_token
     #   Next token returned in the response of a previous
     #   `ListMissionProfiles` call. Used to get the next page of results.
@@ -2796,6 +3288,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `ListSatellites` operation.
+    #
     # @!attribute [rw] max_results
     #   Maximum number of satellites returned.
     #   @return [Integer]
@@ -2814,6 +3308,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Output for the `ListSatellites` operation.
+    #
     # @!attribute [rw] next_token
     #   Next token that can be supplied in the next call to get the next
     #   page of satellites.
@@ -2832,6 +3328,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `ListTagsForResource` operation.
+    #
     # @!attribute [rw] resource_arn
     #   ARN of a resource.
     #   @return [String]
@@ -2844,6 +3342,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Output for the `ListTagsForResource` operation.
+    #
     # @!attribute [rw] tags
     #   Tags assigned to a resource.
     #   @return [Hash<String,String>]
@@ -2856,6 +3356,22 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Details of a maintenance reservation.
+    #
+    # @!attribute [rw] maintenance_type
+    #   Type of maintenance.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/MaintenanceReservationDetails AWS API Documentation
+    #
+    class MaintenanceReservationDetails < Struct.new(
+      :maintenance_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response containing the ID of a mission profile.
+    #
     # @!attribute [rw] mission_profile_id
     #   UUID of a mission profile.
     #   @return [String]
@@ -2928,6 +3444,20 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Program track settings for OEMEphemeris.
+    #
+    # @!attribute [rw] ephemeris_id
+    #   Unique identifier of the OEM ephemeris.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/OemProgramTrackSettings AWS API Documentation
+    #
+    class OemProgramTrackSettings < Struct.new(
+      :ephemeris_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Program track settings for an antenna during a contact.
     #
     # @note ProgramTrackSettings is a union - when making an API calls you must set exactly one of the members.
@@ -2938,16 +3468,28 @@ module Aws::GroundStation
     #   Program track settings for AzElEphemeris.
     #   @return [Types::AzElProgramTrackSettings]
     #
+    # @!attribute [rw] oem
+    #   Program track settings for OEMEphemeris.
+    #   @return [Types::OemProgramTrackSettings]
+    #
+    # @!attribute [rw] tle
+    #   Program track settings for TLEEphemeris.
+    #   @return [Types::TleProgramTrackSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ProgramTrackSettings AWS API Documentation
     #
     class ProgramTrackSettings < Struct.new(
       :az_el,
+      :oem,
+      :tle,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
       class AzEl < ProgramTrackSettings; end
+      class Oem < ProgramTrackSettings; end
+      class Tle < ProgramTrackSettings; end
       class Unknown < ProgramTrackSettings; end
     end
 
@@ -3025,6 +3567,35 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Details of a ground station reservation.
+    #
+    # @note ReservationDetails is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of ReservationDetails corresponding to the set member.
+    #
+    # @!attribute [rw] maintenance
+    #   Details of a maintenance reservation.
+    #   @return [Types::MaintenanceReservationDetails]
+    #
+    # @!attribute [rw] contact
+    #   Details of a contact reservation.
+    #   @return [Types::ContactReservationDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ReservationDetails AWS API Documentation
+    #
+    class ReservationDetails < Struct.new(
+      :maintenance,
+      :contact,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Maintenance < ReservationDetails; end
+      class Contact < ReservationDetails; end
+      class Unknown < ReservationDetails; end
+    end
+
+    # Input for the `ReserveContact` operation.
+    #
     # @!attribute [rw] mission_profile_arn
     #   ARN of a mission profile.
     #   @return [String]
@@ -3087,6 +3658,7 @@ module Aws::GroundStation
     #   @return [String]
     #
     # @!attribute [rw] parameter_name
+    #   Name of the parameter that exceeded the resource limit.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ResourceLimitExceededException AWS API Documentation
@@ -3396,6 +3968,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `TagResource` operation.
+    #
     # @!attribute [rw] resource_arn
     #   ARN of a resource tag.
     #   @return [String]
@@ -3413,6 +3987,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Output for the `TagResource` operation.
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/TagResourceResponse AWS API Documentation
     #
     class TagResourceResponse < Aws::EmptyStructure; end
@@ -3532,6 +4108,20 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Program track settings for TLEEphemeris.
+    #
+    # @!attribute [rw] ephemeris_id
+    #   Unique identifier of the TLE ephemeris.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/TleProgramTrackSettings AWS API Documentation
+    #
+    class TleProgramTrackSettings < Struct.new(
+      :ephemeris_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Object that determines whether tracking should be used during a
     # contact executed with this `Config` in the mission profile.
     #
@@ -3563,6 +4153,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `UntagResource` operation.
+    #
     # @!attribute [rw] resource_arn
     #   ARN of a resource.
     #   @return [String]
@@ -3580,6 +4172,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Output for the `UntagResource` operation.
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/UntagResourceResponse AWS API Documentation
     #
     class UntagResourceResponse < Aws::EmptyStructure; end
@@ -3623,6 +4217,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `UpdateConfig` operation.
+    #
     # @!attribute [rw] config_id
     #   UUID of a `Config`.
     #   @return [String]
@@ -3646,6 +4242,56 @@ module Aws::GroundStation
       :name,
       :config_type,
       :config_data)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] contact_id
+    #   UUID of a contact.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A client token is a unique, case-sensitive string of up to 64 ASCII
+    #   characters. It is generated by the client to ensure idempotent
+    #   operations, allowing safe retries without unintended side effects.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] tracking_overrides
+    #   Overrides the default tracking configuration on an antenna during a
+    #   contact.
+    #   @return [Types::TrackingOverrides]
+    #
+    # @!attribute [rw] satellite_arn
+    #   ARN of a satellite.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/UpdateContactRequest AWS API Documentation
+    #
+    class UpdateContactRequest < Struct.new(
+      :contact_id,
+      :client_token,
+      :tracking_overrides,
+      :satellite_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] contact_id
+    #   UUID of a contact.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   Version ID of a contact.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/UpdateContactResponse AWS API Documentation
+    #
+    class UpdateContactResponse < Struct.new(
+      :contact_id,
+      :version_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3682,6 +4328,8 @@ module Aws::GroundStation
       include Aws::Structure
     end
 
+    # Input for the `UpdateMissionProfile` operation.
+    #
     # @!attribute [rw] mission_profile_id
     #   UUID of a mission profile.
     #   @return [String]
@@ -3691,19 +4339,19 @@ module Aws::GroundStation
     #   @return [String]
     #
     # @!attribute [rw] contact_pre_pass_duration_seconds
-    #   Amount of time after a contact ends that you’d like to receive a
+    #   Amount of time after a contact ends that you'd like to receive a
     #   Ground Station Contact State Change event indicating the pass has
     #   finished.
     #   @return [Integer]
     #
     # @!attribute [rw] contact_post_pass_duration_seconds
-    #   Amount of time after a contact ends that you’d like to receive a
+    #   Amount of time after a contact ends that you'd like to receive a
     #   Ground Station Contact State Change event indicating the pass has
     #   finished.
     #   @return [Integer]
     #
     # @!attribute [rw] minimum_viable_contact_duration_seconds
-    #   Smallest amount of time in seconds that you’d like to see for an
+    #   Smallest amount of time in seconds that you'd like to see for an
     #   available contact. AWS Ground Station will not present you with
     #   contacts shorter than this duration.
     #   @return [Integer]

@@ -2439,6 +2439,7 @@ module Aws::CleanRooms
 
     ProtectedJobWorkerComputeConfiguration.add_member(:type, Shapes::ShapeRef.new(shape: ProtectedJobWorkerComputeType, required: true, location_name: "type"))
     ProtectedJobWorkerComputeConfiguration.add_member(:number, Shapes::ShapeRef.new(shape: ProtectedJobWorkerComputeConfigurationNumberInteger, required: true, location_name: "number"))
+    ProtectedJobWorkerComputeConfiguration.add_member(:properties, Shapes::ShapeRef.new(shape: WorkerComputeConfigurationProperties, location_name: "properties"))
     ProtectedJobWorkerComputeConfiguration.struct_class = Types::ProtectedJobWorkerComputeConfiguration
 
     ProtectedQuery.add_member(:id, Shapes::ShapeRef.new(shape: UUID, required: true, location_name: "id"))

@@ -392,6 +392,7 @@ module Aws::SageMaker
     ClusterInstanceTypeDetail = Shapes::StructureShape.new(name: 'ClusterInstanceTypeDetail')
     ClusterInstanceTypeDetails = Shapes::ListShape.new(name: 'ClusterInstanceTypeDetails')
     ClusterInstanceTypes = Shapes::ListShape.new(name: 'ClusterInstanceTypes')
+    ClusterInterfaceType = Shapes::StringShape.new(name: 'ClusterInterfaceType')
     ClusterKubernetesConfig = Shapes::StructureShape.new(name: 'ClusterKubernetesConfig')
     ClusterKubernetesConfigDetails = Shapes::StructureShape.new(name: 'ClusterKubernetesConfigDetails')
     ClusterKubernetesConfigNodeDetails = Shapes::StructureShape.new(name: 'ClusterKubernetesConfigNodeDetails')
@@ -409,6 +410,8 @@ module Aws::SageMaker
     ClusterMountName = Shapes::StringShape.new(name: 'ClusterMountName')
     ClusterName = Shapes::StringShape.new(name: 'ClusterName')
     ClusterNameOrArn = Shapes::StringShape.new(name: 'ClusterNameOrArn')
+    ClusterNetworkInterface = Shapes::StructureShape.new(name: 'ClusterNetworkInterface')
+    ClusterNetworkInterfaceDetails = Shapes::StructureShape.new(name: 'ClusterNetworkInterfaceDetails')
     ClusterNodeDetails = Shapes::StructureShape.new(name: 'ClusterNodeDetails')
     ClusterNodeId = Shapes::StringShape.new(name: 'ClusterNodeId')
     ClusterNodeIds = Shapes::ListShape.new(name: 'ClusterNodeIds')
@@ -3752,6 +3755,7 @@ module Aws::SageMaker
     ClusterInstanceGroupDetails.add_member(:software_update_status, Shapes::ShapeRef.new(shape: SoftwareUpdateStatus, location_name: "SoftwareUpdateStatus"))
     ClusterInstanceGroupDetails.add_member(:active_software_update_config, Shapes::ShapeRef.new(shape: DeploymentConfiguration, location_name: "ActiveSoftwareUpdateConfig"))
     ClusterInstanceGroupDetails.add_member(:slurm_config, Shapes::ShapeRef.new(shape: ClusterSlurmConfigDetails, location_name: "SlurmConfig"))
+    ClusterInstanceGroupDetails.add_member(:network_interface, Shapes::ShapeRef.new(shape: ClusterNetworkInterfaceDetails, location_name: "NetworkInterface"))
     ClusterInstanceGroupDetails.struct_class = Types::ClusterInstanceGroupDetails
 
     ClusterInstanceGroupDetailsList.member = Shapes::ShapeRef.new(shape: ClusterInstanceGroupDetails)
@@ -3773,6 +3777,7 @@ module Aws::SageMaker
     ClusterInstanceGroupSpecification.add_member(:kubernetes_config, Shapes::ShapeRef.new(shape: ClusterKubernetesConfig, location_name: "KubernetesConfig"))
     ClusterInstanceGroupSpecification.add_member(:slurm_config, Shapes::ShapeRef.new(shape: ClusterSlurmConfig, location_name: "SlurmConfig"))
     ClusterInstanceGroupSpecification.add_member(:capacity_requirements, Shapes::ShapeRef.new(shape: ClusterCapacityRequirements, location_name: "CapacityRequirements"))
+    ClusterInstanceGroupSpecification.add_member(:network_interface, Shapes::ShapeRef.new(shape: ClusterNetworkInterface, location_name: "NetworkInterface"))
     ClusterInstanceGroupSpecification.struct_class = Types::ClusterInstanceGroupSpecification
 
     ClusterInstanceGroupSpecifications.member = Shapes::ShapeRef.new(shape: ClusterInstanceGroupSpecification)
@@ -3843,12 +3848,19 @@ module Aws::SageMaker
 
     ClusterLifeCycleConfig.add_member(:source_s3_uri, Shapes::ShapeRef.new(shape: S3Uri, location_name: "SourceS3Uri"))
     ClusterLifeCycleConfig.add_member(:on_create, Shapes::ShapeRef.new(shape: ClusterLifeCycleConfigFileName, location_name: "OnCreate"))
+    ClusterLifeCycleConfig.add_member(:on_init_complete, Shapes::ShapeRef.new(shape: ClusterLifeCycleConfigFileName, location_name: "OnInitComplete"))
     ClusterLifeCycleConfig.struct_class = Types::ClusterLifeCycleConfig
 
     ClusterMetadata.add_member(:failure_message, Shapes::ShapeRef.new(shape: String, location_name: "FailureMessage"))
     ClusterMetadata.add_member(:eks_role_access_entries, Shapes::ShapeRef.new(shape: EksRoleAccessEntries, location_name: "EksRoleAccessEntries"))
     ClusterMetadata.add_member(:slr_access_entry, Shapes::ShapeRef.new(shape: String, location_name: "SlrAccessEntry"))
     ClusterMetadata.struct_class = Types::ClusterMetadata
+
+    ClusterNetworkInterface.add_member(:interface_type, Shapes::ShapeRef.new(shape: ClusterInterfaceType, location_name: "InterfaceType"))
+    ClusterNetworkInterface.struct_class = Types::ClusterNetworkInterface
+
+    ClusterNetworkInterfaceDetails.add_member(:interface_type, Shapes::ShapeRef.new(shape: ClusterInterfaceType, location_name: "InterfaceType"))
+    ClusterNetworkInterfaceDetails.struct_class = Types::ClusterNetworkInterfaceDetails
 
     ClusterNodeDetails.add_member(:instance_group_name, Shapes::ShapeRef.new(shape: ClusterInstanceGroupName, location_name: "InstanceGroupName"))
     ClusterNodeDetails.add_member(:instance_id, Shapes::ShapeRef.new(shape: String, location_name: "InstanceId"))
@@ -3870,6 +3882,7 @@ module Aws::SageMaker
     ClusterNodeDetails.add_member(:ultra_server_info, Shapes::ShapeRef.new(shape: UltraServerInfo, location_name: "UltraServerInfo"))
     ClusterNodeDetails.add_member(:kubernetes_config, Shapes::ShapeRef.new(shape: ClusterKubernetesConfigNodeDetails, location_name: "KubernetesConfig"))
     ClusterNodeDetails.add_member(:capacity_type, Shapes::ShapeRef.new(shape: ClusterCapacityType, location_name: "CapacityType"))
+    ClusterNodeDetails.add_member(:network_interface, Shapes::ShapeRef.new(shape: ClusterNetworkInterfaceDetails, location_name: "NetworkInterface"))
     ClusterNodeDetails.struct_class = Types::ClusterNodeDetails
 
     ClusterNodeIds.member = Shapes::ShapeRef.new(shape: ClusterNodeId)

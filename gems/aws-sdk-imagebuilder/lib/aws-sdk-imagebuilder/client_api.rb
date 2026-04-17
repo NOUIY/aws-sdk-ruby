@@ -373,6 +373,7 @@ module Aws::Imagebuilder
     PutImageRecipePolicyRequest = Shapes::StructureShape.new(name: 'PutImageRecipePolicyRequest')
     PutImageRecipePolicyResponse = Shapes::StructureShape.new(name: 'PutImageRecipePolicyResponse')
     RegionList = Shapes::ListShape.new(name: 'RegionList')
+    RegisterImageOptions = Shapes::StructureShape.new(name: 'RegisterImageOptions')
     Remediation = Shapes::StructureShape.new(name: 'Remediation')
     RemediationRecommendation = Shapes::StructureShape.new(name: 'RemediationRecommendation')
     ResourceAlreadyExistsException = Shapes::StructureShape.new(name: 'ResourceAlreadyExistsException')
@@ -424,6 +425,7 @@ module Aws::Imagebuilder
     TenancyType = Shapes::StringShape.new(name: 'TenancyType')
     Timezone = Shapes::StringShape.new(name: 'Timezone')
     TooManyRequestsException = Shapes::StructureShape.new(name: 'TooManyRequestsException')
+    UefiData = Shapes::StringShape.new(name: 'UefiData')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
     UntagResourceResponse = Shapes::StructureShape.new(name: 'UntagResourceResponse')
     UpdateDistributionConfigurationRequest = Shapes::StructureShape.new(name: 'UpdateDistributionConfigurationRequest')
@@ -443,6 +445,8 @@ module Aws::Imagebuilder
     VulnerablePackage = Shapes::StructureShape.new(name: 'VulnerablePackage')
     VulnerablePackageList = Shapes::ListShape.new(name: 'VulnerablePackageList')
     WildcardVersionNumber = Shapes::StringShape.new(name: 'WildcardVersionNumber')
+    WindowsConfiguration = Shapes::StructureShape.new(name: 'WindowsConfiguration')
+    WindowsConfigurationImageIndex = Shapes::IntegerShape.new(name: 'WindowsConfigurationImageIndex')
     Workflow = Shapes::StructureShape.new(name: 'Workflow')
     WorkflowBuildVersionArn = Shapes::StringShape.new(name: 'WorkflowBuildVersionArn')
     WorkflowConfiguration = Shapes::StructureShape.new(name: 'WorkflowConfiguration')
@@ -1385,6 +1389,8 @@ module Aws::Imagebuilder
     ImportDiskImageRequest.add_member(:uri, Shapes::ShapeRef.new(shape: Uri, required: true, location_name: "uri"))
     ImportDiskImageRequest.add_member(:logging_configuration, Shapes::ShapeRef.new(shape: ImageLoggingConfiguration, location_name: "loggingConfiguration"))
     ImportDiskImageRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    ImportDiskImageRequest.add_member(:register_image_options, Shapes::ShapeRef.new(shape: RegisterImageOptions, location_name: "registerImageOptions"))
+    ImportDiskImageRequest.add_member(:windows_configuration, Shapes::ShapeRef.new(shape: WindowsConfiguration, location_name: "windowsConfiguration"))
     ImportDiskImageRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, required: true, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     ImportDiskImageRequest.struct_class = Types::ImportDiskImageRequest
 
@@ -1926,6 +1932,10 @@ module Aws::Imagebuilder
 
     RegionList.member = Shapes::ShapeRef.new(shape: NonEmptyString)
 
+    RegisterImageOptions.add_member(:secure_boot_enabled, Shapes::ShapeRef.new(shape: NullableBoolean, location_name: "secureBootEnabled"))
+    RegisterImageOptions.add_member(:uefi_data, Shapes::ShapeRef.new(shape: UefiData, location_name: "uefiData"))
+    RegisterImageOptions.struct_class = Types::RegisterImageOptions
+
     Remediation.add_member(:recommendation, Shapes::ShapeRef.new(shape: RemediationRecommendation, location_name: "recommendation"))
     Remediation.struct_class = Types::Remediation
 
@@ -2158,6 +2168,9 @@ module Aws::Imagebuilder
     VulnerablePackage.struct_class = Types::VulnerablePackage
 
     VulnerablePackageList.member = Shapes::ShapeRef.new(shape: VulnerablePackage)
+
+    WindowsConfiguration.add_member(:image_index, Shapes::ShapeRef.new(shape: WindowsConfigurationImageIndex, required: true, location_name: "imageIndex"))
+    WindowsConfiguration.struct_class = Types::WindowsConfiguration
 
     Workflow.add_member(:arn, Shapes::ShapeRef.new(shape: WorkflowBuildVersionArn, location_name: "arn"))
     Workflow.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "name"))

@@ -41,6 +41,13 @@ module Aws::GroundStation
       SENSITIVE: []
     end
 
+    class AntennaListItem
+      attr_accessor ground_station_name: ::String
+      attr_accessor antenna_name: ::String
+      attr_accessor region: ::String
+      SENSITIVE: []
+    end
+
     class AntennaUplinkConfig
       attr_accessor transmit_disabled: bool
       attr_accessor spectrum_config: Types::UplinkSpectrumConfig
@@ -209,11 +216,30 @@ module Aws::GroundStation
       attr_accessor visibility_start_time: ::Time
       attr_accessor visibility_end_time: ::Time
       attr_accessor ephemeris: Types::EphemerisResponseData
+      attr_accessor version: Types::ContactVersion
       SENSITIVE: []
     end
 
     class ContactIdResponse
       attr_accessor contact_id: ::String
+      attr_accessor version_id: ::Integer
+      SENSITIVE: []
+    end
+
+    class ContactReservationDetails
+      attr_accessor contact_id: ::String
+      SENSITIVE: []
+    end
+
+    class ContactVersion
+      attr_accessor version_id: ::Integer
+      attr_accessor created: ::Time
+      attr_accessor activated: ::Time
+      attr_accessor superseded: ::Time
+      attr_accessor last_updated: ::Time
+      attr_accessor status: ("UPDATING" | "ACTIVE" | "SUPERSEDED" | "FAILED_TO_UPDATE")
+      attr_accessor failure_codes: ::Array[("INTERNAL_ERROR" | "INVALID_SATELLITE_ARN" | "INVALID_UPDATE_CONTACT_REQUEST" | "EPHEMERIS_NOT_FOUND" | "EPHEMERIS_TIME_RANGE_INVALID" | "EPHEMERIS_NOT_ENABLED" | "SATELLITE_DOES_NOT_MATCH_EPHEMERIS" | "NOT_ONBOARDED_TO_AZEL_EPHEMERIS" | "AZEL_EPHEMERIS_NOT_FOUND" | "AZEL_EPHEMERIS_WRONG_GROUND_STATION" | "AZEL_EPHEMERIS_INVALID_STATUS" | "AZEL_EPHEMERIS_TIME_RANGE_INVALID")]
+      attr_accessor failure_message: ::String
       SENSITIVE: []
     end
 
@@ -378,6 +404,36 @@ module Aws::GroundStation
       attr_accessor visibility_end_time: ::Time
       attr_accessor tracking_overrides: Types::TrackingOverrides
       attr_accessor ephemeris: Types::EphemerisResponseData
+      attr_accessor version: Types::ContactVersion
+      SENSITIVE: []
+    end
+
+    class DescribeContactVersionRequest
+      attr_accessor contact_id: ::String
+      attr_accessor version_id: ::Integer
+      SENSITIVE: []
+    end
+
+    class DescribeContactVersionResponse
+      attr_accessor contact_id: ::String
+      attr_accessor mission_profile_arn: ::String
+      attr_accessor satellite_arn: ::String
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor pre_pass_start_time: ::Time
+      attr_accessor post_pass_end_time: ::Time
+      attr_accessor ground_station: ::String
+      attr_accessor contact_status: ("SCHEDULING" | "FAILED_TO_SCHEDULE" | "SCHEDULED" | "CANCELLED" | "AWS_CANCELLED" | "PREPASS" | "PASS" | "POSTPASS" | "COMPLETED" | "FAILED" | "AVAILABLE" | "CANCELLING" | "AWS_FAILED")
+      attr_accessor error_message: ::String
+      attr_accessor maximum_elevation: Types::Elevation
+      attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor region: ::String
+      attr_accessor dataflow_list: ::Array[Types::DataflowDetail]
+      attr_accessor visibility_start_time: ::Time
+      attr_accessor visibility_end_time: ::Time
+      attr_accessor tracking_overrides: Types::TrackingOverrides
+      attr_accessor ephemeris: Types::EphemerisResponseData
+      attr_accessor version: Types::ContactVersion
       SENSITIVE: []
     end
 
@@ -683,6 +739,16 @@ module Aws::GroundStation
       SENSITIVE: []
     end
 
+    class GroundStationReservationListItem
+      attr_accessor reservation_type: ("MAINTENANCE" | "CONTACT")
+      attr_accessor ground_station_id: ::String
+      attr_accessor antenna_name: ::String
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor reservation_details: Types::ReservationDetails
+      SENSITIVE: []
+    end
+
     class ISO8601TimeRange
       attr_accessor start_time: ::Time
       attr_accessor end_time: ::Time
@@ -724,6 +790,19 @@ module Aws::GroundStation
       end
     end
 
+    class ListAntennasRequest
+      attr_accessor ground_station_id: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListAntennasResponse
+      attr_accessor antenna_list: ::Array[Types::AntennaListItem]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListConfigsRequest
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
@@ -733,6 +812,19 @@ module Aws::GroundStation
     class ListConfigsResponse
       attr_accessor next_token: ::String
       attr_accessor config_list: ::Array[Types::ConfigListItem]
+      SENSITIVE: []
+    end
+
+    class ListContactVersionsRequest
+      attr_accessor contact_id: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListContactVersionsResponse
+      attr_accessor next_token: ::String
+      attr_accessor contact_versions_list: ::Array[Types::ContactVersion]
       SENSITIVE: []
     end
 
@@ -784,6 +876,22 @@ module Aws::GroundStation
       SENSITIVE: []
     end
 
+    class ListGroundStationReservationsRequest
+      attr_accessor ground_station_id: ::String
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor reservation_types: ::Array[("MAINTENANCE" | "CONTACT")]
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListGroundStationReservationsResponse
+      attr_accessor reservation_list: ::Array[Types::GroundStationReservationListItem]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListGroundStationsRequest
       attr_accessor satellite_id: ::String
       attr_accessor max_results: ::Integer
@@ -831,6 +939,11 @@ module Aws::GroundStation
       SENSITIVE: []
     end
 
+    class MaintenanceReservationDetails
+      attr_accessor maintenance_type: ("PLANNED" | "UNPLANNED")
+      SENSITIVE: []
+    end
+
     class MissionProfileIdResponse
       attr_accessor mission_profile_id: ::String
       SENSITIVE: []
@@ -850,12 +963,23 @@ module Aws::GroundStation
       SENSITIVE: []
     end
 
+    class OemProgramTrackSettings
+      attr_accessor ephemeris_id: ::String
+      SENSITIVE: []
+    end
+
     class ProgramTrackSettings
       attr_accessor az_el: Types::AzElProgramTrackSettings
+      attr_accessor oem: Types::OemProgramTrackSettings
+      attr_accessor tle: Types::TleProgramTrackSettings
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class AzEl < ProgramTrackSettings
+      end
+      class Oem < ProgramTrackSettings
+      end
+      class Tle < ProgramTrackSettings
       end
       class Unknown < ProgramTrackSettings
       end
@@ -883,6 +1007,20 @@ module Aws::GroundStation
     class RegisterAgentResponse
       attr_accessor agent_id: ::String
       SENSITIVE: []
+    end
+
+    class ReservationDetails
+      attr_accessor maintenance: Types::MaintenanceReservationDetails
+      attr_accessor contact: Types::ContactReservationDetails
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Maintenance < ReservationDetails
+      end
+      class Contact < ReservationDetails
+      end
+      class Unknown < ReservationDetails
+      end
     end
 
     class ReserveContactRequest
@@ -1027,6 +1165,11 @@ module Aws::GroundStation
       SENSITIVE: []
     end
 
+    class TleProgramTrackSettings
+      attr_accessor ephemeris_id: ::String
+      SENSITIVE: []
+    end
+
     class TrackingConfig
       attr_accessor autotrack: ("REQUIRED" | "PREFERRED" | "REMOVED")
       SENSITIVE: []
@@ -1064,6 +1207,20 @@ module Aws::GroundStation
       attr_accessor name: ::String
       attr_accessor config_type: ("antenna-downlink" | "antenna-downlink-demod-decode" | "tracking" | "dataflow-endpoint" | "antenna-uplink" | "uplink-echo" | "s3-recording" | "telemetry-sink")
       attr_accessor config_data: Types::ConfigTypeData
+      SENSITIVE: []
+    end
+
+    class UpdateContactRequest
+      attr_accessor contact_id: ::String
+      attr_accessor client_token: ::String
+      attr_accessor tracking_overrides: Types::TrackingOverrides
+      attr_accessor satellite_arn: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateContactResponse
+      attr_accessor contact_id: ::String
+      attr_accessor version_id: ::Integer
       SENSITIVE: []
     end
 

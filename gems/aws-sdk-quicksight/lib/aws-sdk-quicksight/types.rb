@@ -2713,6 +2713,15 @@ module Aws::QuickSight
     #   role forbidding Athena access is still active.
     #   @return [String]
     #
+    # @!attribute [rw] consumer_account_role_arn
+    #   Use `ConsumerAccountRoleArn` to perform cross-account Athena access.
+    #   This is an IAM role ARN in the same AWS account as the Athena
+    #   resources you want to access. Provide this along with `RoleArn` to
+    #   enable role-chaining, where Amazon Quick Sight first assumes the
+    #   `RoleArn` and then assumes the `ConsumerAccountRoleArn` to access
+    #   Athena resources.
+    #   @return [String]
+    #
     # @!attribute [rw] identity_center_configuration
     #   An optional parameter that configures IAM Identity Center
     #   authentication to grant Quick Sight access to your workgroup.
@@ -2726,6 +2735,7 @@ module Aws::QuickSight
     class AthenaParameters < Struct.new(
       :work_group,
       :role_arn,
+      :consumer_account_role_arn,
       :identity_center_configuration)
       SENSITIVE = []
       include Aws::Structure
@@ -5443,6 +5453,10 @@ module Aws::QuickSight
     #   others share with them through folder membership.
     #   @return [String]
     #
+    # @!attribute [rw] generate_analyses
+    #   The ability to generate analysis using AI
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/Capabilities AWS API Documentation
     #
     class Capabilities < Struct.new(
@@ -5665,7 +5679,8 @@ module Aws::QuickSight
       :research,
       :self_upgrade_user_role,
       :extension,
-      :manage_shared_folders)
+      :manage_shared_folders,
+      :generate_analyses)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7248,6 +7263,31 @@ module Aws::QuickSight
     class ContributionAnalysisTimeRanges < Struct.new(
       :start_range,
       :end_range)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The sort configuration for control values. This is a tagged union
+    # type. Specify either `SelectableValuesSort` or `ControlColumnSort`,
+    # but not both.
+    #
+    # @!attribute [rw] selectable_values_sort
+    #   The sort configuration for user-specified values in the control. Use
+    #   this option to sort values that are manually entered by users in a
+    #   dropdown or list control.
+    #   @return [Types::SelectableValuesSort]
+    #
+    # @!attribute [rw] control_column_sort
+    #   The sort configuration for controls that are tied to a dataset
+    #   column. Use this option to sort control values by an aggregate of a
+    #   column.
+    #   @return [Types::AggregationSortConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ControlSortConfiguration AWS API Documentation
+    #
+    class ControlSortConfiguration < Struct.new(
+      :selectable_values_sort,
+      :control_column_sort)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10156,6 +10196,22 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # The dashboard customization summary configuration for an embedded
+    # Quick Sight dashboard.
+    #
+    # @!attribute [rw] enabled
+    #   The enabled status of the dashboard customization summary
+    #   configuration for an embedded Quick Sight dashboard.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DashboardCustomizationSummaryConfigurations AWS API Documentation
+    #
+    class DashboardCustomizationSummaryConfigurations < Struct.new(
+      :enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The options that define customizations available to dashboard readers
     # for a specific visual
     #
@@ -12185,6 +12241,10 @@ module Aws::QuickSight
     #   The parameters for S3.
     #   @return [Types::S3Parameters]
     #
+    # @!attribute [rw] s3_tables_parameters
+    #   The parameters for S3 Tables.
+    #   @return [Types::S3TablesParameters]
+    #
     # @!attribute [rw] s3_knowledge_base_parameters
     #   The parameters for S3 Knowledge Base.
     #   @return [Types::S3KnowledgeBaseParameters]
@@ -12277,6 +12337,7 @@ module Aws::QuickSight
       :rds_parameters,
       :redshift_parameters,
       :s3_parameters,
+      :s3_tables_parameters,
       :s3_knowledge_base_parameters,
       :service_now_parameters,
       :snowflake_parameters,
@@ -13265,13 +13326,19 @@ module Aws::QuickSight
     #   `FilterDropDownControl`.
     #   @return [String]
     #
+    # @!attribute [rw] control_sort_configurations
+    #   The sort configuration for the values displayed in the control. Only
+    #   one sort configuration can be applied per control.
+    #   @return [Array<Types::ControlSortConfiguration>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DefaultFilterDropDownControlOptions AWS API Documentation
     #
     class DefaultFilterDropDownControlOptions < Struct.new(
       :display_options,
       :type,
       :selectable_values,
-      :commit_mode)
+      :commit_mode,
+      :control_sort_configurations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13296,12 +13363,18 @@ module Aws::QuickSight
     #   A list of selectable values that are used in a control.
     #   @return [Types::FilterSelectableValues]
     #
+    # @!attribute [rw] control_sort_configurations
+    #   The sort configuration for the values displayed in the control. Only
+    #   one sort configuration can be applied per control.
+    #   @return [Array<Types::ControlSortConfiguration>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DefaultFilterListControlOptions AWS API Documentation
     #
     class DefaultFilterListControlOptions < Struct.new(
       :display_options,
       :type,
-      :selectable_values)
+      :selectable_values,
+      :control_sort_configurations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -19394,6 +19467,11 @@ module Aws::QuickSight
     #   `FilterDropDownControl`.
     #   @return [String]
     #
+    # @!attribute [rw] control_sort_configurations
+    #   The sort configuration for the values displayed in the control. Only
+    #   one sort configuration can be applied per control.
+    #   @return [Array<Types::ControlSortConfiguration>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/FilterDropDownControl AWS API Documentation
     #
     class FilterDropDownControl < Struct.new(
@@ -19404,7 +19482,8 @@ module Aws::QuickSight
       :type,
       :selectable_values,
       :cascading_control_configuration,
-      :commit_mode)
+      :commit_mode,
+      :control_sort_configurations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -19542,6 +19621,11 @@ module Aws::QuickSight
     #   controls.
     #   @return [Types::CascadingControlConfiguration]
     #
+    # @!attribute [rw] control_sort_configurations
+    #   The sort configuration for the values displayed in the control. Only
+    #   one sort configuration can be applied per control.
+    #   @return [Array<Types::ControlSortConfiguration>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/FilterListControl AWS API Documentation
     #
     class FilterListControl < Struct.new(
@@ -19551,7 +19635,8 @@ module Aws::QuickSight
       :display_options,
       :type,
       :selectable_values,
-      :cascading_control_configuration)
+      :cascading_control_configuration,
+      :control_sort_configurations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -29324,6 +29409,11 @@ module Aws::QuickSight
     #   `ParameterDropDownControl`.
     #   @return [String]
     #
+    # @!attribute [rw] control_sort_configurations
+    #   The sort configuration for the values displayed in the control. Only
+    #   one sort configuration can be applied per control.
+    #   @return [Array<Types::ControlSortConfiguration>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ParameterDropDownControl AWS API Documentation
     #
     class ParameterDropDownControl < Struct.new(
@@ -29334,7 +29424,8 @@ module Aws::QuickSight
       :type,
       :selectable_values,
       :cascading_control_configuration,
-      :commit_mode)
+      :commit_mode,
+      :control_sort_configurations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -29372,6 +29463,11 @@ module Aws::QuickSight
     #   controls.
     #   @return [Types::CascadingControlConfiguration]
     #
+    # @!attribute [rw] control_sort_configurations
+    #   The sort configuration for the values displayed in the control. Only
+    #   one sort configuration can be applied per control.
+    #   @return [Array<Types::ControlSortConfiguration>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ParameterListControl AWS API Documentation
     #
     class ParameterListControl < Struct.new(
@@ -29381,7 +29477,8 @@ module Aws::QuickSight
       :display_options,
       :type,
       :selectable_values,
-      :cascading_control_configuration)
+      :cascading_control_configuration,
+      :control_sort_configurations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -32609,6 +32706,11 @@ module Aws::QuickSight
     #   dashboard.
     #   @return [Types::ThresholdAlertsConfigurations]
     #
+    # @!attribute [rw] dashboard_customization_summary
+    #   The dashboard customization summary configuration for an embedded
+    #   Quick Sight console.
+    #   @return [Types::DashboardCustomizationSummaryConfigurations]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/RegisteredUserConsoleFeatureConfigurations AWS API Documentation
     #
     class RegisteredUserConsoleFeatureConfigurations < Struct.new(
@@ -32617,7 +32719,8 @@ module Aws::QuickSight
       :amazon_q_in_quick_sight,
       :schedules,
       :recent_snapshots,
-      :threshold_alerts)
+      :threshold_alerts,
+      :dashboard_customization_summary)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -32682,6 +32785,11 @@ module Aws::QuickSight
     #   dashboard.
     #   @return [Types::ThresholdAlertsConfigurations]
     #
+    # @!attribute [rw] dashboard_customization_summary
+    #   The dashboard customization summary configuration for an embedded
+    #   Quick Sight dashboard.
+    #   @return [Types::DashboardCustomizationSummaryConfigurations]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/RegisteredUserDashboardFeatureConfigurations AWS API Documentation
     #
     class RegisteredUserDashboardFeatureConfigurations < Struct.new(
@@ -32691,7 +32799,8 @@ module Aws::QuickSight
       :amazon_q_in_quick_sight,
       :schedules,
       :recent_snapshots,
-      :threshold_alerts)
+      :threshold_alerts,
+      :dashboard_customization_summary)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -33612,6 +33721,20 @@ module Aws::QuickSight
       :data_source_arn,
       :upload_settings,
       :input_columns)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The parameters for S3 Tables.
+    #
+    # @!attribute [rw] table_bucket_arn
+    #   The Amazon Resource Name (ARN) of the S3 Tables bucket.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/S3TablesParameters AWS API Documentation
+    #
+    class S3TablesParameters < Struct.new(
+      :table_bucket_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -34833,6 +34956,28 @@ module Aws::QuickSight
     class SectionStyle < Struct.new(
       :height,
       :padding)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The sort configuration for selectable values in a control.
+    #
+    # @!attribute [rw] direction
+    #   The sort direction for the selectable values. Choose one of the
+    #   following options:
+    #
+    #   * `ASC`: Sort in ascending order.
+    #
+    #   * `DESC`: Sort in descending order.
+    #
+    #   * `USER_DEFINED_ORDER`: Preserve the order in which the values were
+    #     entered.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SelectableValuesSort AWS API Documentation
+    #
+    class SelectableValuesSort < Struct.new(
+      :direction)
       SENSITIVE = []
       include Aws::Structure
     end

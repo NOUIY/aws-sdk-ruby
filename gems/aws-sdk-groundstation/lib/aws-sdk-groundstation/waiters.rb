@@ -67,9 +67,10 @@ module Aws::GroundStation
   # The following table lists the valid waiter names, the operations they call,
   # and the default `:delay` and `:max_attempts` values.
   #
-  # | waiter_name       | params                    | :delay   | :max_attempts |
-  # | ----------------- | ------------------------- | -------- | ------------- |
-  # | contact_scheduled | {Client#describe_contact} | 5        | 180           |
+  # | waiter_name       | params                            | :delay   | :max_attempts |
+  # | ----------------- | --------------------------------- | -------- | ------------- |
+  # | contact_scheduled | {Client#describe_contact}         | 5        | 180           |
+  # | contact_updated   | {Client#describe_contact_version} | 5        | 180           |
   #
   module Waiters
 
@@ -109,6 +110,51 @@ module Aws::GroundStation
 
       # @option (see Client#describe_contact)
       # @return (see Client#describe_contact)
+      def wait(params = {})
+        @waiter.wait(client: @client, params: params)
+      end
+
+      # @api private
+      attr_reader :waiter
+
+    end
+
+    # Waits until a contact has been updated
+    class ContactUpdated
+
+      # @param [Hash] options
+      # @option options [required, Client] :client
+      # @option options [Integer] :max_attempts (180)
+      # @option options [Integer] :delay (5)
+      # @option options [Proc] :before_attempt
+      # @option options [Proc] :before_wait
+      def initialize(options)
+        @client = options.fetch(:client)
+        @waiter = Aws::Waiters::Waiter.new({
+          max_attempts: 180,
+          delay: 5,
+          poller: Aws::Waiters::Poller.new(
+            operation_name: :describe_contact_version,
+            acceptors: [
+              {
+                "matcher" => "path",
+                "argument" => "version.status",
+                "state" => "failure",
+                "expected" => "FAILED_TO_UPDATE"
+              },
+              {
+                "matcher" => "path",
+                "argument" => "version.status",
+                "state" => "success",
+                "expected" => "ACTIVE"
+              }
+            ]
+          )
+        }.merge(options))
+      end
+
+      # @option (see Client#describe_contact_version)
+      # @return (see Client#describe_contact_version)
       def wait(params = {})
         @waiter.wait(client: @client, params: params)
       end

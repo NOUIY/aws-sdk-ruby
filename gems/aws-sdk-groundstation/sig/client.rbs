@@ -81,6 +81,7 @@ module Aws
       interface _CancelContactResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ContactIdResponse]
         def contact_id: () -> ::String
+        def version_id: () -> ::Integer
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/GroundStation/Client.html#cancel_contact-instance_method
       def cancel_contact: (
@@ -504,12 +505,42 @@ module Aws
         def visibility_end_time: () -> ::Time
         def tracking_overrides: () -> Types::TrackingOverrides
         def ephemeris: () -> Types::EphemerisResponseData
+        def version: () -> Types::ContactVersion
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/GroundStation/Client.html#describe_contact-instance_method
       def describe_contact: (
                               contact_id: ::String
                             ) -> _DescribeContactResponseSuccess
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeContactResponseSuccess
+
+      interface _DescribeContactVersionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeContactVersionResponse]
+        def contact_id: () -> ::String
+        def mission_profile_arn: () -> ::String
+        def satellite_arn: () -> ::String
+        def start_time: () -> ::Time
+        def end_time: () -> ::Time
+        def pre_pass_start_time: () -> ::Time
+        def post_pass_end_time: () -> ::Time
+        def ground_station: () -> ::String
+        def contact_status: () -> ("SCHEDULING" | "FAILED_TO_SCHEDULE" | "SCHEDULED" | "CANCELLED" | "AWS_CANCELLED" | "PREPASS" | "PASS" | "POSTPASS" | "COMPLETED" | "FAILED" | "AVAILABLE" | "CANCELLING" | "AWS_FAILED")
+        def error_message: () -> ::String
+        def maximum_elevation: () -> Types::Elevation
+        def tags: () -> ::Hash[::String, ::String]
+        def region: () -> ::String
+        def dataflow_list: () -> ::Array[Types::DataflowDetail]
+        def visibility_start_time: () -> ::Time
+        def visibility_end_time: () -> ::Time
+        def tracking_overrides: () -> Types::TrackingOverrides
+        def ephemeris: () -> Types::EphemerisResponseData
+        def version: () -> Types::ContactVersion
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/GroundStation/Client.html#describe_contact_version-instance_method
+      def describe_contact_version: (
+                                      contact_id: ::String,
+                                      version_id: ::Integer
+                                    ) -> _DescribeContactVersionResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeContactVersionResponseSuccess
 
       interface _DescribeEphemerisResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeEphemerisResponse]
@@ -637,6 +668,19 @@ module Aws
                          ) -> _GetSatelliteResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetSatelliteResponseSuccess
 
+      interface _ListAntennasResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAntennasResponse]
+        def antenna_list: () -> ::Array[Types::AntennaListItem]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/GroundStation/Client.html#list_antennas-instance_method
+      def list_antennas: (
+                           ground_station_id: ::String,
+                           ?max_results: ::Integer,
+                           ?next_token: ::String
+                         ) -> _ListAntennasResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAntennasResponseSuccess
+
       interface _ListConfigsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListConfigsResponse]
         def next_token: () -> ::String
@@ -648,6 +692,19 @@ module Aws
                           ?next_token: ::String
                         ) -> _ListConfigsResponseSuccess
                       | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListConfigsResponseSuccess
+
+      interface _ListContactVersionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListContactVersionsResponse]
+        def next_token: () -> ::String
+        def contact_versions_list: () -> ::Array[Types::ContactVersion]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/GroundStation/Client.html#list_contact_versions-instance_method
+      def list_contact_versions: (
+                                   contact_id: ::String,
+                                   ?max_results: ::Integer,
+                                   ?next_token: ::String
+                                 ) -> _ListContactVersionsResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListContactVersionsResponseSuccess
 
       interface _ListContactsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListContactsResponse]
@@ -700,6 +757,22 @@ module Aws
                               ?next_token: ::String
                             ) -> _ListEphemeridesResponseSuccess
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListEphemeridesResponseSuccess
+
+      interface _ListGroundStationReservationsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListGroundStationReservationsResponse]
+        def reservation_list: () -> ::Array[Types::GroundStationReservationListItem]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/GroundStation/Client.html#list_ground_station_reservations-instance_method
+      def list_ground_station_reservations: (
+                                              ground_station_id: ::String,
+                                              start_time: ::Time,
+                                              end_time: ::Time,
+                                              ?reservation_types: Array[("MAINTENANCE" | "CONTACT")],
+                                              ?max_results: ::Integer,
+                                              ?next_token: ::String
+                                            ) -> _ListGroundStationReservationsResponseSuccess
+                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListGroundStationReservationsResponseSuccess
 
       interface _ListGroundStationsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListGroundStationsResponse]
@@ -779,6 +852,7 @@ module Aws
       interface _ReserveContactResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ContactIdResponse]
         def contact_id: () -> ::String
+        def version_id: () -> ::Integer
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/GroundStation/Client.html#reserve_contact-instance_method
       def reserve_contact: (
@@ -792,8 +866,14 @@ module Aws
                                program_track_settings: {
                                  az_el: {
                                    ephemeris_id: ::String
+                                 }?,
+                                 oem: {
+                                   ephemeris_id: ::String
+                                 }?,
+                                 tle: {
+                                   ephemeris_id: ::String
                                  }?
-                               }
+                               }?
                              }
                            ) -> _ReserveContactResponseSuccess
                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ReserveContactResponseSuccess
@@ -931,6 +1011,32 @@ module Aws
                          ) -> _UpdateConfigResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateConfigResponseSuccess
 
+      interface _UpdateContactResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateContactResponse]
+        def contact_id: () -> ::String
+        def version_id: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/GroundStation/Client.html#update_contact-instance_method
+      def update_contact: (
+                            contact_id: ::String,
+                            ?client_token: ::String,
+                            ?tracking_overrides: {
+                              program_track_settings: {
+                                az_el: {
+                                  ephemeris_id: ::String
+                                }?,
+                                oem: {
+                                  ephemeris_id: ::String
+                                }?,
+                                tle: {
+                                  ephemeris_id: ::String
+                                }?
+                              }?
+                            },
+                            ?satellite_arn: ::String
+                          ) -> _UpdateContactResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateContactResponseSuccess
+
       interface _UpdateEphemerisResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::EphemerisIdResponse]
         def ephemeris_id: () -> ::String
@@ -974,6 +1080,11 @@ module Aws
                     contact_id: ::String
                   ) -> Client::_DescribeContactResponseSuccess
                     | (:contact_scheduled waiter_name, Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_DescribeContactResponseSuccess
+                    | (:contact_updated waiter_name, 
+                    contact_id: ::String,
+                    version_id: ::Integer
+                  ) -> Client::_DescribeContactVersionResponseSuccess
+                    | (:contact_updated waiter_name, Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_DescribeContactVersionResponseSuccess
     end
   end
 end

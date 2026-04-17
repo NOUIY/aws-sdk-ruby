@@ -2486,6 +2486,7 @@ module Aws::SageMaker
     #         life_cycle_config: {
     #           source_s3_uri: "S3Uri",
     #           on_create: "ClusterLifeCycleConfigFileName",
+    #           on_init_complete: "ClusterLifeCycleConfigFileName",
     #         },
     #         execution_role: "RoleArn", # required
     #         threads_per_core: 1,
@@ -2556,6 +2557,9 @@ module Aws::SageMaker
     #           },
     #           on_demand: {
     #           },
+    #         },
+    #         network_interface: {
+    #           interface_type: "efa", # accepts efa, efa-only
     #         },
     #       },
     #     ],
@@ -14015,6 +14019,7 @@ module Aws::SageMaker
     #   resp.instance_groups[0].instance_type_details[0].threads_per_core #=> Integer
     #   resp.instance_groups[0].life_cycle_config.source_s3_uri #=> String
     #   resp.instance_groups[0].life_cycle_config.on_create #=> String
+    #   resp.instance_groups[0].life_cycle_config.on_init_complete #=> String
     #   resp.instance_groups[0].execution_role #=> String
     #   resp.instance_groups[0].threads_per_core #=> Integer
     #   resp.instance_groups[0].instance_storage_configs #=> Array
@@ -14071,6 +14076,7 @@ module Aws::SageMaker
     #   resp.instance_groups[0].slurm_config.node_type #=> String, one of "Controller", "Login", "Compute"
     #   resp.instance_groups[0].slurm_config.partition_names #=> Array
     #   resp.instance_groups[0].slurm_config.partition_names[0] #=> String
+    #   resp.instance_groups[0].network_interface.interface_type #=> String, one of "efa", "efa-only"
     #   resp.restricted_instance_groups #=> Array
     #   resp.restricted_instance_groups[0].current_count #=> Integer
     #   resp.restricted_instance_groups[0].target_count #=> Integer
@@ -14239,6 +14245,7 @@ module Aws::SageMaker
     #   resp.node_details.last_software_update_time #=> Time
     #   resp.node_details.life_cycle_config.source_s3_uri #=> String
     #   resp.node_details.life_cycle_config.on_create #=> String
+    #   resp.node_details.life_cycle_config.on_init_complete #=> String
     #   resp.node_details.override_vpc_config.security_group_ids #=> Array
     #   resp.node_details.override_vpc_config.security_group_ids[0] #=> String
     #   resp.node_details.override_vpc_config.subnets #=> Array
@@ -14275,6 +14282,7 @@ module Aws::SageMaker
     #   resp.node_details.kubernetes_config.desired_taints[0].value #=> String
     #   resp.node_details.kubernetes_config.desired_taints[0].effect #=> String, one of "NoSchedule", "PreferNoSchedule", "NoExecute"
     #   resp.node_details.capacity_type #=> String, one of "Spot", "OnDemand"
+    #   resp.node_details.network_interface.interface_type #=> String, one of "efa", "efa-only"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeClusterNode AWS API Documentation
     #
@@ -28671,6 +28679,7 @@ module Aws::SageMaker
     #         life_cycle_config: {
     #           source_s3_uri: "S3Uri",
     #           on_create: "ClusterLifeCycleConfigFileName",
+    #           on_init_complete: "ClusterLifeCycleConfigFileName",
     #         },
     #         execution_role: "RoleArn", # required
     #         threads_per_core: 1,
@@ -28741,6 +28750,9 @@ module Aws::SageMaker
     #           },
     #           on_demand: {
     #           },
+    #         },
+    #         network_interface: {
+    #           interface_type: "efa", # accepts efa, efa-only
     #         },
     #       },
     #     ],
@@ -32613,7 +32625,7 @@ module Aws::SageMaker
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemaker'
-      context[:gem_version] = '1.359.0'
+      context[:gem_version] = '1.360.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

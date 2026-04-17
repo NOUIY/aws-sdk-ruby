@@ -62,6 +62,7 @@ module Aws::ConnectCampaignsV2
     DeleteCampaignChannelSubtypeConfigRequest = Shapes::StructureShape.new(name: 'DeleteCampaignChannelSubtypeConfigRequest')
     DeleteCampaignCommunicationLimitsRequest = Shapes::StructureShape.new(name: 'DeleteCampaignCommunicationLimitsRequest')
     DeleteCampaignCommunicationTimeRequest = Shapes::StructureShape.new(name: 'DeleteCampaignCommunicationTimeRequest')
+    DeleteCampaignEntryLimitsRequest = Shapes::StructureShape.new(name: 'DeleteCampaignEntryLimitsRequest')
     DeleteCampaignRequest = Shapes::StructureShape.new(name: 'DeleteCampaignRequest')
     DeleteConnectInstanceConfigRequest = Shapes::StructureShape.new(name: 'DeleteConnectInstanceConfigRequest')
     DeleteConnectInstanceIntegrationRequest = Shapes::StructureShape.new(name: 'DeleteConnectInstanceIntegrationRequest')
@@ -80,6 +81,8 @@ module Aws::ConnectCampaignsV2
     EncryptionConfig = Shapes::StructureShape.new(name: 'EncryptionConfig')
     EncryptionKey = Shapes::StringShape.new(name: 'EncryptionKey')
     EncryptionType = Shapes::StringShape.new(name: 'EncryptionType')
+    EntryLimitsConfig = Shapes::StructureShape.new(name: 'EntryLimitsConfig')
+    EntryLimitsConfigMaxEntryCountInteger = Shapes::IntegerShape.new(name: 'EntryLimitsConfigMaxEntryCountInteger')
     EventTrigger = Shapes::StructureShape.new(name: 'EventTrigger')
     EventType = Shapes::StringShape.new(name: 'EventType')
     ExternalCampaignType = Shapes::StringShape.new(name: 'ExternalCampaignType')
@@ -208,6 +211,7 @@ module Aws::ConnectCampaignsV2
     UpdateCampaignChannelSubtypeConfigRequest = Shapes::StructureShape.new(name: 'UpdateCampaignChannelSubtypeConfigRequest')
     UpdateCampaignCommunicationLimitsRequest = Shapes::StructureShape.new(name: 'UpdateCampaignCommunicationLimitsRequest')
     UpdateCampaignCommunicationTimeRequest = Shapes::StructureShape.new(name: 'UpdateCampaignCommunicationTimeRequest')
+    UpdateCampaignEntryLimitsRequest = Shapes::StructureShape.new(name: 'UpdateCampaignEntryLimitsRequest')
     UpdateCampaignFlowAssociationRequest = Shapes::StructureShape.new(name: 'UpdateCampaignFlowAssociationRequest')
     UpdateCampaignNameRequest = Shapes::StructureShape.new(name: 'UpdateCampaignNameRequest')
     UpdateCampaignScheduleRequest = Shapes::StructureShape.new(name: 'UpdateCampaignScheduleRequest')
@@ -243,6 +247,7 @@ module Aws::ConnectCampaignsV2
     Campaign.add_member(:source, Shapes::ShapeRef.new(shape: Source, location_name: "source"))
     Campaign.add_member(:connect_campaign_flow_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "connectCampaignFlowArn"))
     Campaign.add_member(:schedule, Shapes::ShapeRef.new(shape: Schedule, location_name: "schedule"))
+    Campaign.add_member(:entry_limits_config, Shapes::ShapeRef.new(shape: EntryLimitsConfig, location_name: "entryLimitsConfig"))
     Campaign.add_member(:communication_time_config, Shapes::ShapeRef.new(shape: CommunicationTimeConfig, location_name: "communicationTimeConfig"))
     Campaign.add_member(:communication_limits_override, Shapes::ShapeRef.new(shape: CommunicationLimitsConfig, location_name: "communicationLimitsOverride"))
     Campaign.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
@@ -258,6 +263,7 @@ module Aws::ConnectCampaignsV2
     CampaignSummary.add_member(:channel_subtypes, Shapes::ShapeRef.new(shape: ChannelSubtypeList, required: true, location_name: "channelSubtypes"))
     CampaignSummary.add_member(:type, Shapes::ShapeRef.new(shape: ExternalCampaignType, location_name: "type"))
     CampaignSummary.add_member(:schedule, Shapes::ShapeRef.new(shape: Schedule, location_name: "schedule"))
+    CampaignSummary.add_member(:entry_limits_config, Shapes::ShapeRef.new(shape: EntryLimitsConfig, location_name: "entryLimitsConfig"))
     CampaignSummary.add_member(:connect_campaign_flow_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "connectCampaignFlowArn"))
     CampaignSummary.struct_class = Types::CampaignSummary
 
@@ -318,6 +324,7 @@ module Aws::ConnectCampaignsV2
     CreateCampaignRequest.add_member(:source, Shapes::ShapeRef.new(shape: Source, location_name: "source"))
     CreateCampaignRequest.add_member(:connect_campaign_flow_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "connectCampaignFlowArn"))
     CreateCampaignRequest.add_member(:schedule, Shapes::ShapeRef.new(shape: Schedule, location_name: "schedule"))
+    CreateCampaignRequest.add_member(:entry_limits_config, Shapes::ShapeRef.new(shape: EntryLimitsConfig, location_name: "entryLimitsConfig"))
     CreateCampaignRequest.add_member(:communication_time_config, Shapes::ShapeRef.new(shape: CommunicationTimeConfig, location_name: "communicationTimeConfig"))
     CreateCampaignRequest.add_member(:communication_limits_override, Shapes::ShapeRef.new(shape: CommunicationLimitsConfig, location_name: "communicationLimitsOverride"))
     CreateCampaignRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
@@ -353,6 +360,9 @@ module Aws::ConnectCampaignsV2
     DeleteCampaignCommunicationTimeRequest.add_member(:id, Shapes::ShapeRef.new(shape: CampaignId, required: true, location: "uri", location_name: "id"))
     DeleteCampaignCommunicationTimeRequest.add_member(:config, Shapes::ShapeRef.new(shape: CommunicationTimeConfigType, required: true, location: "querystring", location_name: "config"))
     DeleteCampaignCommunicationTimeRequest.struct_class = Types::DeleteCampaignCommunicationTimeRequest
+
+    DeleteCampaignEntryLimitsRequest.add_member(:id, Shapes::ShapeRef.new(shape: CampaignId, required: true, location: "uri", location_name: "id"))
+    DeleteCampaignEntryLimitsRequest.struct_class = Types::DeleteCampaignEntryLimitsRequest
 
     DeleteCampaignRequest.add_member(:id, Shapes::ShapeRef.new(shape: CampaignId, required: true, location: "uri", location_name: "id"))
     DeleteCampaignRequest.struct_class = Types::DeleteCampaignRequest
@@ -400,6 +410,10 @@ module Aws::ConnectCampaignsV2
     EncryptionConfig.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionType, location_name: "encryptionType"))
     EncryptionConfig.add_member(:key_arn, Shapes::ShapeRef.new(shape: EncryptionKey, location_name: "keyArn"))
     EncryptionConfig.struct_class = Types::EncryptionConfig
+
+    EntryLimitsConfig.add_member(:max_entry_count, Shapes::ShapeRef.new(shape: EntryLimitsConfigMaxEntryCountInteger, required: true, location_name: "maxEntryCount"))
+    EntryLimitsConfig.add_member(:min_entry_interval, Shapes::ShapeRef.new(shape: Iso8601Duration, required: true, location_name: "minEntryInterval"))
+    EntryLimitsConfig.struct_class = Types::EntryLimitsConfig
 
     EventTrigger.add_member(:customer_profiles_domain_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "customerProfilesDomainArn"))
     EventTrigger.struct_class = Types::EventTrigger
@@ -790,6 +804,10 @@ module Aws::ConnectCampaignsV2
     UpdateCampaignCommunicationTimeRequest.add_member(:communication_time_config, Shapes::ShapeRef.new(shape: CommunicationTimeConfig, required: true, location_name: "communicationTimeConfig"))
     UpdateCampaignCommunicationTimeRequest.struct_class = Types::UpdateCampaignCommunicationTimeRequest
 
+    UpdateCampaignEntryLimitsRequest.add_member(:id, Shapes::ShapeRef.new(shape: CampaignId, required: true, location: "uri", location_name: "id"))
+    UpdateCampaignEntryLimitsRequest.add_member(:entry_limits_config, Shapes::ShapeRef.new(shape: EntryLimitsConfig, required: true, location_name: "entryLimitsConfig"))
+    UpdateCampaignEntryLimitsRequest.struct_class = Types::UpdateCampaignEntryLimitsRequest
+
     UpdateCampaignFlowAssociationRequest.add_member(:id, Shapes::ShapeRef.new(shape: CampaignId, required: true, location: "uri", location_name: "id"))
     UpdateCampaignFlowAssociationRequest.add_member(:connect_campaign_flow_arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "connectCampaignFlowArn"))
     UpdateCampaignFlowAssociationRequest.struct_class = Types::UpdateCampaignFlowAssociationRequest
@@ -910,6 +928,20 @@ module Aws::ConnectCampaignsV2
         o.http_method = "DELETE"
         o.http_request_uri = "/v2/campaigns/{id}/communication-time"
         o.input = Shapes::ShapeRef.new(shape: DeleteCampaignCommunicationTimeRequest)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidCampaignStateException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:delete_campaign_entry_limits, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteCampaignEntryLimits"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/v2/campaigns/{id}/entry-limits"
+        o.input = Shapes::ShapeRef.new(shape: DeleteCampaignEntryLimitsRequest)
         o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
@@ -1270,6 +1302,20 @@ module Aws::ConnectCampaignsV2
         o.http_method = "POST"
         o.http_request_uri = "/v2/campaigns/{id}/communication-time"
         o.input = Shapes::ShapeRef.new(shape: UpdateCampaignCommunicationTimeRequest)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidCampaignStateException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:update_campaign_entry_limits, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateCampaignEntryLimits"
+        o.http_method = "POST"
+        o.http_request_uri = "/v2/campaigns/{id}/entry-limits"
+        o.input = Shapes::ShapeRef.new(shape: UpdateCampaignEntryLimitsRequest)
         o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)

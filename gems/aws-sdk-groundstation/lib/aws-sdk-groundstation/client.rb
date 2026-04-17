@@ -495,6 +495,7 @@ module Aws::GroundStation
     # @return [Types::ContactIdResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ContactIdResponse#contact_id #contact_id} => String
+    #   * {Types::ContactIdResponse#version_id #version_id} => Integer
     #
     # @example Request syntax with placeholder values
     #
@@ -505,6 +506,7 @@ module Aws::GroundStation
     # @example Response structure
     #
     #   resp.contact_id #=> String
+    #   resp.version_id #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/CancelContact AWS API Documentation
     #
@@ -1046,16 +1048,16 @@ module Aws::GroundStation
     #   Name of a mission profile.
     #
     # @option params [Integer] :contact_pre_pass_duration_seconds
-    #   Amount of time prior to contact start you’d like to receive a Ground
+    #   Amount of time prior to contact start you'd like to receive a Ground
     #   Station Contact State Change event indicating an upcoming pass.
     #
     # @option params [Integer] :contact_post_pass_duration_seconds
-    #   Amount of time after a contact ends that you’d like to receive a
+    #   Amount of time after a contact ends that you'd like to receive a
     #   Ground Station Contact State Change event indicating the pass has
     #   finished.
     #
     # @option params [required, Integer] :minimum_viable_contact_duration_seconds
-    #   Smallest amount of time in seconds that you’d like to see for an
+    #   Smallest amount of time in seconds that you'd like to see for an
     #   available contact. AWS Ground Station will not present you with
     #   contacts shorter than this duration.
     #
@@ -1263,6 +1265,7 @@ module Aws::GroundStation
     #   * {Types::DescribeContactResponse#visibility_end_time #visibility_end_time} => Time
     #   * {Types::DescribeContactResponse#tracking_overrides #tracking_overrides} => Types::TrackingOverrides
     #   * {Types::DescribeContactResponse#ephemeris #ephemeris} => Types::EphemerisResponseData
+    #   * {Types::DescribeContactResponse#version #version} => Types::ContactVersion
     #
     # @example Request syntax with placeholder values
     #
@@ -1390,8 +1393,19 @@ module Aws::GroundStation
     #   resp.visibility_start_time #=> Time
     #   resp.visibility_end_time #=> Time
     #   resp.tracking_overrides.program_track_settings.az_el.ephemeris_id #=> String
+    #   resp.tracking_overrides.program_track_settings.oem.ephemeris_id #=> String
+    #   resp.tracking_overrides.program_track_settings.tle.ephemeris_id #=> String
     #   resp.ephemeris.ephemeris_id #=> String
     #   resp.ephemeris.ephemeris_type #=> String, one of "TLE", "OEM", "AZ_EL", "SERVICE_MANAGED"
+    #   resp.version.version_id #=> Integer
+    #   resp.version.created #=> Time
+    #   resp.version.activated #=> Time
+    #   resp.version.superseded #=> Time
+    #   resp.version.last_updated #=> Time
+    #   resp.version.status #=> String, one of "UPDATING", "ACTIVE", "SUPERSEDED", "FAILED_TO_UPDATE"
+    #   resp.version.failure_codes #=> Array
+    #   resp.version.failure_codes[0] #=> String, one of "INTERNAL_ERROR", "INVALID_SATELLITE_ARN", "INVALID_UPDATE_CONTACT_REQUEST", "EPHEMERIS_NOT_FOUND", "EPHEMERIS_TIME_RANGE_INVALID", "EPHEMERIS_NOT_ENABLED", "SATELLITE_DOES_NOT_MATCH_EPHEMERIS", "NOT_ONBOARDED_TO_AZEL_EPHEMERIS", "AZEL_EPHEMERIS_NOT_FOUND", "AZEL_EPHEMERIS_WRONG_GROUND_STATION", "AZEL_EPHEMERIS_INVALID_STATUS", "AZEL_EPHEMERIS_TIME_RANGE_INVALID"
+    #   resp.version.failure_message #=> String
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -1404,6 +1418,191 @@ module Aws::GroundStation
     # @param [Hash] params ({})
     def describe_contact(params = {}, options = {})
       req = build_request(:describe_contact, params)
+      req.send_request(options)
+    end
+
+    # Describes a specific version of a contact.
+    #
+    # @option params [required, String] :contact_id
+    #   UUID of a contact.
+    #
+    # @option params [required, Integer] :version_id
+    #   Version ID of a contact.
+    #
+    # @return [Types::DescribeContactVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeContactVersionResponse#contact_id #contact_id} => String
+    #   * {Types::DescribeContactVersionResponse#mission_profile_arn #mission_profile_arn} => String
+    #   * {Types::DescribeContactVersionResponse#satellite_arn #satellite_arn} => String
+    #   * {Types::DescribeContactVersionResponse#start_time #start_time} => Time
+    #   * {Types::DescribeContactVersionResponse#end_time #end_time} => Time
+    #   * {Types::DescribeContactVersionResponse#pre_pass_start_time #pre_pass_start_time} => Time
+    #   * {Types::DescribeContactVersionResponse#post_pass_end_time #post_pass_end_time} => Time
+    #   * {Types::DescribeContactVersionResponse#ground_station #ground_station} => String
+    #   * {Types::DescribeContactVersionResponse#contact_status #contact_status} => String
+    #   * {Types::DescribeContactVersionResponse#error_message #error_message} => String
+    #   * {Types::DescribeContactVersionResponse#maximum_elevation #maximum_elevation} => Types::Elevation
+    #   * {Types::DescribeContactVersionResponse#tags #tags} => Hash&lt;String,String&gt;
+    #   * {Types::DescribeContactVersionResponse#region #region} => String
+    #   * {Types::DescribeContactVersionResponse#dataflow_list #dataflow_list} => Array&lt;Types::DataflowDetail&gt;
+    #   * {Types::DescribeContactVersionResponse#visibility_start_time #visibility_start_time} => Time
+    #   * {Types::DescribeContactVersionResponse#visibility_end_time #visibility_end_time} => Time
+    #   * {Types::DescribeContactVersionResponse#tracking_overrides #tracking_overrides} => Types::TrackingOverrides
+    #   * {Types::DescribeContactVersionResponse#ephemeris #ephemeris} => Types::EphemerisResponseData
+    #   * {Types::DescribeContactVersionResponse#version #version} => Types::ContactVersion
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_contact_version({
+    #     contact_id: "Uuid", # required
+    #     version_id: 1, # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.contact_id #=> String
+    #   resp.mission_profile_arn #=> String
+    #   resp.satellite_arn #=> String
+    #   resp.start_time #=> Time
+    #   resp.end_time #=> Time
+    #   resp.pre_pass_start_time #=> Time
+    #   resp.post_pass_end_time #=> Time
+    #   resp.ground_station #=> String
+    #   resp.contact_status #=> String, one of "SCHEDULING", "FAILED_TO_SCHEDULE", "SCHEDULED", "CANCELLED", "AWS_CANCELLED", "PREPASS", "PASS", "POSTPASS", "COMPLETED", "FAILED", "AVAILABLE", "CANCELLING", "AWS_FAILED"
+    #   resp.error_message #=> String
+    #   resp.maximum_elevation.value #=> Float
+    #   resp.maximum_elevation.unit #=> String, one of "DEGREE_ANGLE", "RADIAN"
+    #   resp.tags #=> Hash
+    #   resp.tags["String"] #=> String
+    #   resp.region #=> String
+    #   resp.dataflow_list #=> Array
+    #   resp.dataflow_list[0].source.config_type #=> String, one of "antenna-downlink", "antenna-downlink-demod-decode", "tracking", "dataflow-endpoint", "antenna-uplink", "uplink-echo", "s3-recording", "telemetry-sink"
+    #   resp.dataflow_list[0].source.config_id #=> String
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.security_details.subnet_ids #=> Array
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.security_details.subnet_ids[0] #=> String
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.security_details.security_group_ids #=> Array
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.security_details.security_group_ids[0] #=> String
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.security_details.role_arn #=> String
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.endpoint.name #=> String
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.endpoint.address.name #=> String
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.endpoint.address.port #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.endpoint.status #=> String, one of "created", "creating", "deleted", "deleting", "failed"
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.endpoint.mtu #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.aws_ground_station_agent_endpoint.name #=> String
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.aws_ground_station_agent_endpoint.egress_address.socket_address.name #=> String
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.aws_ground_station_agent_endpoint.egress_address.socket_address.port #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.aws_ground_station_agent_endpoint.egress_address.mtu #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.aws_ground_station_agent_endpoint.ingress_address.socket_address.name #=> String
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.aws_ground_station_agent_endpoint.ingress_address.socket_address.port_range.minimum #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.aws_ground_station_agent_endpoint.ingress_address.socket_address.port_range.maximum #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.aws_ground_station_agent_endpoint.ingress_address.mtu #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.aws_ground_station_agent_endpoint.agent_status #=> String, one of "SUCCESS", "FAILED", "ACTIVE", "INACTIVE"
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.aws_ground_station_agent_endpoint.audit_results #=> String, one of "HEALTHY", "UNHEALTHY"
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.name #=> String
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.ingress_address_and_port.socket_address.name #=> String
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.ingress_address_and_port.socket_address.port #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.ingress_address_and_port.mtu #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.socket_address.name #=> String
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.socket_address.port_range.minimum #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.socket_address.port_range.maximum #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.mtu #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.agent_status #=> String, one of "SUCCESS", "FAILED", "ACTIVE", "INACTIVE"
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.audit_results #=> String, one of "HEALTHY", "UNHEALTHY"
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.name #=> String
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.socket_address.name #=> String
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.socket_address.port_range.minimum #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.socket_address.port_range.maximum #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.mtu #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.egress_address_and_port.socket_address.name #=> String
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.egress_address_and_port.socket_address.port #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.egress_address_and_port.mtu #=> Integer
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.agent_status #=> String, one of "SUCCESS", "FAILED", "ACTIVE", "INACTIVE"
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.audit_results #=> String, one of "HEALTHY", "UNHEALTHY"
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.health_status #=> String, one of "HEALTHY", "UNHEALTHY"
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.health_reasons #=> Array
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.health_reasons[0] #=> String, one of "NO_REGISTERED_AGENT", "INVALID_IP_OWNERSHIP", "NOT_AUTHORIZED_TO_CREATE_SLR", "UNVERIFIED_IP_OWNERSHIP", "INITIALIZING_DATAPLANE", "DATAPLANE_FAILURE", "HEALTHY"
+    #   resp.dataflow_list[0].source.config_details.antenna_demod_decode_details.output_node #=> String
+    #   resp.dataflow_list[0].source.config_details.s3_recording_details.bucket_arn #=> String
+    #   resp.dataflow_list[0].source.config_details.s3_recording_details.key_template #=> String
+    #   resp.dataflow_list[0].source.dataflow_source_region #=> String
+    #   resp.dataflow_list[0].destination.config_type #=> String, one of "antenna-downlink", "antenna-downlink-demod-decode", "tracking", "dataflow-endpoint", "antenna-uplink", "uplink-echo", "s3-recording", "telemetry-sink"
+    #   resp.dataflow_list[0].destination.config_id #=> String
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.security_details.subnet_ids #=> Array
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.security_details.subnet_ids[0] #=> String
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.security_details.security_group_ids #=> Array
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.security_details.security_group_ids[0] #=> String
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.security_details.role_arn #=> String
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.endpoint.name #=> String
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.endpoint.address.name #=> String
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.endpoint.address.port #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.endpoint.status #=> String, one of "created", "creating", "deleted", "deleting", "failed"
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.endpoint.mtu #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.aws_ground_station_agent_endpoint.name #=> String
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.aws_ground_station_agent_endpoint.egress_address.socket_address.name #=> String
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.aws_ground_station_agent_endpoint.egress_address.socket_address.port #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.aws_ground_station_agent_endpoint.egress_address.mtu #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.aws_ground_station_agent_endpoint.ingress_address.socket_address.name #=> String
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.aws_ground_station_agent_endpoint.ingress_address.socket_address.port_range.minimum #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.aws_ground_station_agent_endpoint.ingress_address.socket_address.port_range.maximum #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.aws_ground_station_agent_endpoint.ingress_address.mtu #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.aws_ground_station_agent_endpoint.agent_status #=> String, one of "SUCCESS", "FAILED", "ACTIVE", "INACTIVE"
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.aws_ground_station_agent_endpoint.audit_results #=> String, one of "HEALTHY", "UNHEALTHY"
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.name #=> String
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.ingress_address_and_port.socket_address.name #=> String
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.ingress_address_and_port.socket_address.port #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.ingress_address_and_port.mtu #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.socket_address.name #=> String
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.socket_address.port_range.minimum #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.socket_address.port_range.maximum #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.mtu #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.agent_status #=> String, one of "SUCCESS", "FAILED", "ACTIVE", "INACTIVE"
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.uplink_aws_ground_station_agent_endpoint.audit_results #=> String, one of "HEALTHY", "UNHEALTHY"
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.name #=> String
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.socket_address.name #=> String
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.socket_address.port_range.minimum #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.socket_address.port_range.maximum #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.agent_ip_and_port_address.mtu #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.egress_address_and_port.socket_address.name #=> String
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.egress_address_and_port.socket_address.port #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.dataflow_details.agent_connection_details.egress_address_and_port.mtu #=> Integer
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.agent_status #=> String, one of "SUCCESS", "FAILED", "ACTIVE", "INACTIVE"
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.downlink_aws_ground_station_agent_endpoint.audit_results #=> String, one of "HEALTHY", "UNHEALTHY"
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.health_status #=> String, one of "HEALTHY", "UNHEALTHY"
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.health_reasons #=> Array
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.health_reasons[0] #=> String, one of "NO_REGISTERED_AGENT", "INVALID_IP_OWNERSHIP", "NOT_AUTHORIZED_TO_CREATE_SLR", "UNVERIFIED_IP_OWNERSHIP", "INITIALIZING_DATAPLANE", "DATAPLANE_FAILURE", "HEALTHY"
+    #   resp.dataflow_list[0].destination.config_details.antenna_demod_decode_details.output_node #=> String
+    #   resp.dataflow_list[0].destination.config_details.s3_recording_details.bucket_arn #=> String
+    #   resp.dataflow_list[0].destination.config_details.s3_recording_details.key_template #=> String
+    #   resp.dataflow_list[0].destination.dataflow_destination_region #=> String
+    #   resp.dataflow_list[0].error_message #=> String
+    #   resp.visibility_start_time #=> Time
+    #   resp.visibility_end_time #=> Time
+    #   resp.tracking_overrides.program_track_settings.az_el.ephemeris_id #=> String
+    #   resp.tracking_overrides.program_track_settings.oem.ephemeris_id #=> String
+    #   resp.tracking_overrides.program_track_settings.tle.ephemeris_id #=> String
+    #   resp.ephemeris.ephemeris_id #=> String
+    #   resp.ephemeris.ephemeris_type #=> String, one of "TLE", "OEM", "AZ_EL", "SERVICE_MANAGED"
+    #   resp.version.version_id #=> Integer
+    #   resp.version.created #=> Time
+    #   resp.version.activated #=> Time
+    #   resp.version.superseded #=> Time
+    #   resp.version.last_updated #=> Time
+    #   resp.version.status #=> String, one of "UPDATING", "ACTIVE", "SUPERSEDED", "FAILED_TO_UPDATE"
+    #   resp.version.failure_codes #=> Array
+    #   resp.version.failure_codes[0] #=> String, one of "INTERNAL_ERROR", "INVALID_SATELLITE_ARN", "INVALID_UPDATE_CONTACT_REQUEST", "EPHEMERIS_NOT_FOUND", "EPHEMERIS_TIME_RANGE_INVALID", "EPHEMERIS_NOT_ENABLED", "SATELLITE_DOES_NOT_MATCH_EPHEMERIS", "NOT_ONBOARDED_TO_AZEL_EPHEMERIS", "AZEL_EPHEMERIS_NOT_FOUND", "AZEL_EPHEMERIS_WRONG_GROUND_STATION", "AZEL_EPHEMERIS_INVALID_STATUS", "AZEL_EPHEMERIS_TIME_RANGE_INVALID"
+    #   resp.version.failure_message #=> String
+    #
+    #
+    # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
+    #
+    #   * contact_updated
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/DescribeContactVersion AWS API Documentation
+    #
+    # @overload describe_contact_version(params = {})
+    # @param [Hash] params ({})
+    def describe_contact_version(params = {}, options = {})
+      req = build_request(:describe_contact_version, params)
       req.send_request(options)
     end
 
@@ -1837,6 +2036,50 @@ module Aws::GroundStation
       req.send_request(options)
     end
 
+    # Returns a list of antennas at a specified ground station.
+    #
+    # @option params [required, String] :ground_station_id
+    #   ID of a ground station.
+    #
+    # @option params [Integer] :max_results
+    #   Maximum number of antennas returned.
+    #
+    # @option params [String] :next_token
+    #   Next token returned in the request of a previous `ListAntennas` call.
+    #   Used to get the next page of results.
+    #
+    # @return [Types::ListAntennasResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAntennasResponse#antenna_list #antenna_list} => Array&lt;Types::AntennaListItem&gt;
+    #   * {Types::ListAntennasResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_antennas({
+    #     ground_station_id: "GroundStationName", # required
+    #     max_results: 1,
+    #     next_token: "PaginationToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.antenna_list #=> Array
+    #   resp.antenna_list[0].ground_station_name #=> String
+    #   resp.antenna_list[0].antenna_name #=> String
+    #   resp.antenna_list[0].region #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ListAntennas AWS API Documentation
+    #
+    # @overload list_antennas(params = {})
+    # @param [Hash] params ({})
+    def list_antennas(params = {}, options = {})
+      req = build_request(:list_antennas, params)
+      req.send_request(options)
+    end
+
     # Returns a list of `Config` objects.
     #
     # @option params [Integer] :max_results
@@ -1875,6 +2118,56 @@ module Aws::GroundStation
     # @param [Hash] params ({})
     def list_configs(params = {}, options = {})
       req = build_request(:list_configs, params)
+      req.send_request(options)
+    end
+
+    # Returns a list of versions for a specified contact.
+    #
+    # @option params [required, String] :contact_id
+    #   UUID of a contact.
+    #
+    # @option params [Integer] :max_results
+    #   Maximum number of contact versions returned.
+    #
+    # @option params [String] :next_token
+    #   Next token returned in the request of a previous `ListContactVersions`
+    #   call. Used to get the next page of results.
+    #
+    # @return [Types::ListContactVersionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListContactVersionsResponse#next_token #next_token} => String
+    #   * {Types::ListContactVersionsResponse#contact_versions_list #contact_versions_list} => Array&lt;Types::ContactVersion&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_contact_versions({
+    #     contact_id: "Uuid", # required
+    #     max_results: 1,
+    #     next_token: "PaginationToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.contact_versions_list #=> Array
+    #   resp.contact_versions_list[0].version_id #=> Integer
+    #   resp.contact_versions_list[0].created #=> Time
+    #   resp.contact_versions_list[0].activated #=> Time
+    #   resp.contact_versions_list[0].superseded #=> Time
+    #   resp.contact_versions_list[0].last_updated #=> Time
+    #   resp.contact_versions_list[0].status #=> String, one of "UPDATING", "ACTIVE", "SUPERSEDED", "FAILED_TO_UPDATE"
+    #   resp.contact_versions_list[0].failure_codes #=> Array
+    #   resp.contact_versions_list[0].failure_codes[0] #=> String, one of "INTERNAL_ERROR", "INVALID_SATELLITE_ARN", "INVALID_UPDATE_CONTACT_REQUEST", "EPHEMERIS_NOT_FOUND", "EPHEMERIS_TIME_RANGE_INVALID", "EPHEMERIS_NOT_ENABLED", "SATELLITE_DOES_NOT_MATCH_EPHEMERIS", "NOT_ONBOARDED_TO_AZEL_EPHEMERIS", "AZEL_EPHEMERIS_NOT_FOUND", "AZEL_EPHEMERIS_WRONG_GROUND_STATION", "AZEL_EPHEMERIS_INVALID_STATUS", "AZEL_EPHEMERIS_TIME_RANGE_INVALID"
+    #   resp.contact_versions_list[0].failure_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ListContactVersions AWS API Documentation
+    #
+    # @overload list_contact_versions(params = {})
+    # @param [Hash] params ({})
+    def list_contact_versions(params = {}, options = {})
+      req = build_request(:list_contact_versions, params)
       req.send_request(options)
     end
 
@@ -1959,6 +2252,15 @@ module Aws::GroundStation
     #   resp.contact_list[0].visibility_end_time #=> Time
     #   resp.contact_list[0].ephemeris.ephemeris_id #=> String
     #   resp.contact_list[0].ephemeris.ephemeris_type #=> String, one of "TLE", "OEM", "AZ_EL", "SERVICE_MANAGED"
+    #   resp.contact_list[0].version.version_id #=> Integer
+    #   resp.contact_list[0].version.created #=> Time
+    #   resp.contact_list[0].version.activated #=> Time
+    #   resp.contact_list[0].version.superseded #=> Time
+    #   resp.contact_list[0].version.last_updated #=> Time
+    #   resp.contact_list[0].version.status #=> String, one of "UPDATING", "ACTIVE", "SUPERSEDED", "FAILED_TO_UPDATE"
+    #   resp.contact_list[0].version.failure_codes #=> Array
+    #   resp.contact_list[0].version.failure_codes[0] #=> String, one of "INTERNAL_ERROR", "INVALID_SATELLITE_ARN", "INVALID_UPDATE_CONTACT_REQUEST", "EPHEMERIS_NOT_FOUND", "EPHEMERIS_TIME_RANGE_INVALID", "EPHEMERIS_NOT_ENABLED", "SATELLITE_DOES_NOT_MATCH_EPHEMERIS", "NOT_ONBOARDED_TO_AZEL_EPHEMERIS", "AZEL_EPHEMERIS_NOT_FOUND", "AZEL_EPHEMERIS_WRONG_GROUND_STATION", "AZEL_EPHEMERIS_INVALID_STATUS", "AZEL_EPHEMERIS_TIME_RANGE_INVALID"
+    #   resp.contact_list[0].version.failure_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ListContacts AWS API Documentation
     #
@@ -2075,6 +2377,67 @@ module Aws::GroundStation
     # @param [Hash] params ({})
     def list_ephemerides(params = {}, options = {})
       req = build_request(:list_ephemerides, params)
+      req.send_request(options)
+    end
+
+    # Returns a list of reservations for a specified ground station.
+    #
+    # @option params [required, String] :ground_station_id
+    #   ID of a ground station.
+    #
+    # @option params [required, Time,DateTime,Date,Integer,String] :start_time
+    #   Start time of the reservation window in UTC.
+    #
+    # @option params [required, Time,DateTime,Date,Integer,String] :end_time
+    #   End time of the reservation window in UTC.
+    #
+    # @option params [Array<String>] :reservation_types
+    #   Types of reservations to filter by.
+    #
+    # @option params [Integer] :max_results
+    #   Maximum number of ground station reservations returned.
+    #
+    # @option params [String] :next_token
+    #   Next token returned in the request of a previous
+    #   `ListGroundStationReservations` call. Used to get the next page of
+    #   results.
+    #
+    # @return [Types::ListGroundStationReservationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListGroundStationReservationsResponse#reservation_list #reservation_list} => Array&lt;Types::GroundStationReservationListItem&gt;
+    #   * {Types::ListGroundStationReservationsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_ground_station_reservations({
+    #     ground_station_id: "GroundStationName", # required
+    #     start_time: Time.now, # required
+    #     end_time: Time.now, # required
+    #     reservation_types: ["MAINTENANCE"], # accepts MAINTENANCE, CONTACT
+    #     max_results: 1,
+    #     next_token: "PaginationToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.reservation_list #=> Array
+    #   resp.reservation_list[0].reservation_type #=> String, one of "MAINTENANCE", "CONTACT"
+    #   resp.reservation_list[0].ground_station_id #=> String
+    #   resp.reservation_list[0].antenna_name #=> String
+    #   resp.reservation_list[0].start_time #=> Time
+    #   resp.reservation_list[0].end_time #=> Time
+    #   resp.reservation_list[0].reservation_details.maintenance.maintenance_type #=> String, one of "PLANNED", "UNPLANNED"
+    #   resp.reservation_list[0].reservation_details.contact.contact_id #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ListGroundStationReservations AWS API Documentation
+    #
+    # @overload list_ground_station_reservations(params = {})
+    # @param [Hash] params ({})
+    def list_ground_station_reservations(params = {}, options = {})
+      req = build_request(:list_ground_station_reservations, params)
       req.send_request(options)
     end
 
@@ -2323,6 +2686,7 @@ module Aws::GroundStation
     # @return [Types::ContactIdResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ContactIdResponse#contact_id #contact_id} => String
+    #   * {Types::ContactIdResponse#version_id #version_id} => Integer
     #
     # @example Request syntax with placeholder values
     #
@@ -2336,8 +2700,14 @@ module Aws::GroundStation
     #       "String" => "String",
     #     },
     #     tracking_overrides: {
-    #       program_track_settings: { # required
+    #       program_track_settings: {
     #         az_el: {
+    #           ephemeris_id: "Uuid", # required
+    #         },
+    #         oem: {
+    #           ephemeris_id: "Uuid", # required
+    #         },
+    #         tle: {
     #           ephemeris_id: "Uuid", # required
     #         },
     #       },
@@ -2347,6 +2717,7 @@ module Aws::GroundStation
     # @example Response structure
     #
     #   resp.contact_id #=> String
+    #   resp.version_id #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ReserveContact AWS API Documentation
     #
@@ -2590,6 +2961,66 @@ module Aws::GroundStation
       req.send_request(options)
     end
 
+    # Updates a specific contact.
+    #
+    # @option params [required, String] :contact_id
+    #   UUID of a contact.
+    #
+    # @option params [String] :client_token
+    #   A client token is a unique, case-sensitive string of up to 64 ASCII
+    #   characters. It is generated by the client to ensure idempotent
+    #   operations, allowing safe retries without unintended side effects.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [Types::TrackingOverrides] :tracking_overrides
+    #   Overrides the default tracking configuration on an antenna during a
+    #   contact.
+    #
+    # @option params [String] :satellite_arn
+    #   ARN of a satellite.
+    #
+    # @return [Types::UpdateContactResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateContactResponse#contact_id #contact_id} => String
+    #   * {Types::UpdateContactResponse#version_id #version_id} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_contact({
+    #     contact_id: "Uuid", # required
+    #     client_token: "ClientToken",
+    #     tracking_overrides: {
+    #       program_track_settings: {
+    #         az_el: {
+    #           ephemeris_id: "Uuid", # required
+    #         },
+    #         oem: {
+    #           ephemeris_id: "Uuid", # required
+    #         },
+    #         tle: {
+    #           ephemeris_id: "Uuid", # required
+    #         },
+    #       },
+    #     },
+    #     satellite_arn: "satelliteArn",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.contact_id #=> String
+    #   resp.version_id #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/UpdateContact AWS API Documentation
+    #
+    # @overload update_contact(params = {})
+    # @param [Hash] params ({})
+    def update_contact(params = {}, options = {})
+      req = build_request(:update_contact, params)
+      req.send_request(options)
+    end
+
     # Update an existing ephemeris.
     #
     # @option params [required, String] :ephemeris_id
@@ -2647,17 +3078,17 @@ module Aws::GroundStation
     #   Name of a mission profile.
     #
     # @option params [Integer] :contact_pre_pass_duration_seconds
-    #   Amount of time after a contact ends that you’d like to receive a
+    #   Amount of time after a contact ends that you'd like to receive a
     #   Ground Station Contact State Change event indicating the pass has
     #   finished.
     #
     # @option params [Integer] :contact_post_pass_duration_seconds
-    #   Amount of time after a contact ends that you’d like to receive a
+    #   Amount of time after a contact ends that you'd like to receive a
     #   Ground Station Contact State Change event indicating the pass has
     #   finished.
     #
     # @option params [Integer] :minimum_viable_contact_duration_seconds
-    #   Smallest amount of time in seconds that you’d like to see for an
+    #   Smallest amount of time in seconds that you'd like to see for an
     #   available contact. AWS Ground Station will not present you with
     #   contacts shorter than this duration.
     #
@@ -2733,7 +3164,7 @@ module Aws::GroundStation
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-groundstation'
-      context[:gem_version] = '1.81.0'
+      context[:gem_version] = '1.82.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
@@ -2799,9 +3230,10 @@ module Aws::GroundStation
     # The following table lists the valid waiter names, the operations they call,
     # and the default `:delay` and `:max_attempts` values.
     #
-    # | waiter_name       | params                    | :delay   | :max_attempts |
-    # | ----------------- | ------------------------- | -------- | ------------- |
-    # | contact_scheduled | {Client#describe_contact} | 5        | 180           |
+    # | waiter_name       | params                            | :delay   | :max_attempts |
+    # | ----------------- | --------------------------------- | -------- | ------------- |
+    # | contact_scheduled | {Client#describe_contact}         | 5        | 180           |
+    # | contact_updated   | {Client#describe_contact_version} | 5        | 180           |
     #
     # @raise [Errors::FailureStateError] Raised when the waiter terminates
     #   because the waiter has entered a state that it will not transition
@@ -2852,7 +3284,8 @@ module Aws::GroundStation
 
     def waiters
       {
-        contact_scheduled: Waiters::ContactScheduled
+        contact_scheduled: Waiters::ContactScheduled,
+        contact_updated: Waiters::ContactUpdated
       }
     end
 

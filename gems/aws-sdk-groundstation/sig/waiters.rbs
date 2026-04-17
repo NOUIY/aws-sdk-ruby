@@ -18,6 +18,17 @@ module Aws
                   ) -> Client::_DescribeContactResponseSuccess
                 | (Hash[Symbol, untyped]) -> Client::_DescribeContactResponseSuccess
       end
+
+      class ContactUpdated
+        def initialize: (?client: Client, ?max_attempts: Integer, ?delay: Integer, ?before_attempt: Proc, ?before_wait: Proc) -> void
+                      | (?Hash[Symbol, untyped]) -> void
+
+        def wait: (
+                    contact_id: ::String,
+                    version_id: ::Integer
+                  ) -> Client::_DescribeContactVersionResponseSuccess
+                | (Hash[Symbol, untyped]) -> Client::_DescribeContactVersionResponseSuccess
+      end
     end
   end
 end

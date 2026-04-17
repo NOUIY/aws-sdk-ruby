@@ -789,9 +789,9 @@ module Aws::Neptune
     #   Example: `my-cluster-snapshot2`
     #
     # @option params [String] :kms_key_id
-    #   The Amazon Amazon KMS key ID for an encrypted DB cluster snapshot. The
-    #   KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or
-    #   the KMS key alias for the KMS encryption key.
+    #   The Amazon KMS key ID for an encrypted DB cluster snapshot. The KMS
+    #   key ID is the Amazon Resource Name (ARN), KMS key identifier, or the
+    #   KMS key alias for the KMS encryption key.
     #
     #   If you copy an encrypted DB cluster snapshot from your Amazon account,
     #   you can specify a value for `KmsKeyId` to encrypt the copy with a new
@@ -1792,7 +1792,7 @@ module Aws::Neptune
     #   encryption key. If you are creating a DB instance with the same Amazon
     #   account that owns the KMS encryption key used to encrypt the new DB
     #   instance, then you can use the KMS key alias instead of the ARN for
-    #   the KM encryption key.
+    #   the KMS encryption key.
     #
     #   Not applicable. The KMS key identifier is managed by the DB cluster.
     #   For more information, see CreateDBCluster.
@@ -2253,7 +2253,7 @@ module Aws::Neptune
     #
     # @option params [Boolean] :enabled
     #   A Boolean value; set to **true** to activate the subscription, set to
-    #   **false** to create the subscription but not active it.
+    #   **false** to create the subscription but not activate it.
     #
     # @option params [Array<Types::Tag>] :tags
     #   The tags to be applied to the new event subscription.
@@ -2337,7 +2337,7 @@ module Aws::Neptune
     #
     # @option params [String] :database_name
     #   The name for the new global database (up to 64 alpha-numeric
-    #   characters.
+    #   characters).
     #
     # @option params [Array<Types::Tag>] :tags
     #   Tags to assign to the global cluster.
@@ -2436,7 +2436,7 @@ module Aws::Neptune
     #   The DB cluster snapshot identifier of the new DB cluster snapshot
     #   created when `SkipFinalSnapshot` is set to `false`.
     #
-    #   <note markdown="1"> Specifying this parameter and also setting the `SkipFinalShapshot`
+    #   <note markdown="1"> Specifying this parameter and also setting the `SkipFinalSnapshot`
     #   parameter to true results in an error.
     #
     #    </note>
@@ -2736,7 +2736,7 @@ module Aws::Neptune
     #   The DBSnapshotIdentifier of the new DBSnapshot created when
     #   SkipFinalSnapshot is set to `false`.
     #
-    #   <note markdown="1"> Specifying this parameter and also setting the SkipFinalShapshot
+    #   <note markdown="1"> Specifying this parameter and also setting the SkipFinalSnapshot
     #   parameter to true results in an error.
     #
     #    </note>
@@ -5021,13 +5021,13 @@ module Aws::Neptune
     #   If you don't specify `AllowDataLoss`, the global database cluster
     #   operation defaults to a switchover.
     #
-    #   Constraints:Can't be specified together with the `Switchover`
+    #   Constraints: Can't be specified together with the `Switchover`
     #   parameter.
     #
     # @option params [Boolean] :switchover
     #   Specifies whether to switch over this global database cluster.
     #
-    #   Constraints:Can't be specified together with the `AllowDataLoss`
+    #   Constraints: Can't be specified together with the `AllowDataLoss`
     #   parameter.
     #
     # @return [Types::FailoverGlobalClusterResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
@@ -6674,7 +6674,7 @@ module Aws::Neptune
     # Detaches a Neptune DB cluster from a Neptune global database. A
     # secondary cluster becomes a normal standalone cluster with read-write
     # capability instead of being read-only, and no longer receives data
-    # from a the primary cluster.
+    # from the primary cluster.
     #
     # @option params [required, String] :global_cluster_identifier
     #   The identifier of the Neptune global database from which to detach the
@@ -7825,7 +7825,7 @@ module Aws::Neptune
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-neptune'
-      context[:gem_version] = '1.101.0'
+      context[:gem_version] = '1.102.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

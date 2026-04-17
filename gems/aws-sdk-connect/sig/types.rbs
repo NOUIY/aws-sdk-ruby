@@ -5209,8 +5209,8 @@ module Aws::Connect
       attr_accessor instance_id: ::String
       attr_accessor test_case_id: ::String
       attr_accessor test_case_name: ::String
-      attr_accessor start_time: ::Time
-      attr_accessor end_time: ::Time
+      attr_accessor start_time: ::Integer
+      attr_accessor end_time: ::Integer
       attr_accessor status: ("INITIATED" | "PASSED" | "FAILED" | "IN_PROGRESS" | "STOPPED")
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer

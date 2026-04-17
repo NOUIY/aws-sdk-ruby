@@ -23006,11 +23006,11 @@ module Aws::Connect
     #
     # @!attribute [rw] start_time
     #   Filter executions that started after this time.
-    #   @return [Time]
+    #   @return [Integer]
     #
     # @!attribute [rw] end_time
     #   Filter executions that started before this time.
-    #   @return [Time]
+    #   @return [Integer]
     #
     # @!attribute [rw] status
     #   Filter executions by status.
@@ -32088,6 +32088,9 @@ module Aws::Connect
     #   SDK populates this field. For more information about idempotency,
     #   see [Making retries safe with idempotent APIs][1].
     #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
     #
     #
     #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
@@ -32450,6 +32453,9 @@ module Aws::Connect
     #   idempotency of the request. If not provided, the Amazon Web Services
     #   SDK populates this field. For more information about idempotency,
     #   see [Making retries safe with idempotent APIs][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
     #
     #
     #
@@ -33100,7 +33106,8 @@ module Aws::Connect
     #   @return [Types::TestCaseEntryPoint]
     #
     # @!attribute [rw] initialization_data
-    #   Defines the test attributes for precise data representation.
+    #   Defines the test attributes for precise data representation. The
+    #   value must be a valid JSON string.
     #   @return [String]
     #
     # @!attribute [rw] description

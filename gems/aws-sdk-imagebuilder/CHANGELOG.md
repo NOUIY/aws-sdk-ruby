@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.102.0 (2026-04-17)
+------------------
+
+* Feature - ImportDiskImage API adds registerImageOptions for Secure Boot control and custom UEFI data. It adds windowsConfiguration for selecting a specific edition from multi-image .wim files during ISO import.
+
 1.101.0 (2026-04-10)
 ------------------
 

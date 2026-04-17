@@ -1225,7 +1225,10 @@ module Aws
                                  ?compute_configuration: {
                                    worker: {
                                      type: ("CR.1X" | "CR.4X"),
-                                     number: ::Integer
+                                     number: ::Integer,
+                                     properties: {
+                                       spark: Hash[::String, ::String]?
+                                     }?
                                    }?
                                  }
                                ) -> _StartProtectedJobResponseSuccess

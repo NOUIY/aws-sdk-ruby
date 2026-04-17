@@ -916,6 +916,13 @@ module Aws
                                  log_group_name: ::String?
                                },
                                ?tags: Hash[::String, ::String],
+                               ?register_image_options: {
+                                 secure_boot_enabled: bool?,
+                                 uefi_data: ::String?
+                               },
+                               ?windows_configuration: {
+                                 image_index: ::Integer
+                               },
                                client_token: ::String
                              ) -> _ImportDiskImageResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ImportDiskImageResponseSuccess

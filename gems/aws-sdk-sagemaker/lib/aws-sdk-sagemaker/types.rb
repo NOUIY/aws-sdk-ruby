@@ -5698,6 +5698,10 @@ module Aws::SageMaker
     #   The Slurm configuration for the instance group.
     #   @return [Types::ClusterSlurmConfigDetails]
     #
+    # @!attribute [rw] network_interface
+    #   The network interface configuration for the instance group.
+    #   @return [Types::ClusterNetworkInterfaceDetails]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterInstanceGroupDetails AWS API Documentation
     #
     class ClusterInstanceGroupDetails < Struct.new(
@@ -5726,7 +5730,8 @@ module Aws::SageMaker
       :target_state_count,
       :software_update_status,
       :active_software_update_config,
-      :slurm_config)
+      :slurm_config,
+      :network_interface)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5897,6 +5902,10 @@ module Aws::SageMaker
     #   Specifies the capacity requirements for the instance group.
     #   @return [Types::ClusterCapacityRequirements]
     #
+    # @!attribute [rw] network_interface
+    #   The network interface configuration for the instance group.
+    #   @return [Types::ClusterNetworkInterface]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterInstanceGroupSpecification AWS API Documentation
     #
     class ClusterInstanceGroupSpecification < Struct.new(
@@ -5916,7 +5925,8 @@ module Aws::SageMaker
       :image_id,
       :kubernetes_config,
       :slurm_config,
-      :capacity_requirements)
+      :capacity_requirements,
+      :network_interface)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6207,11 +6217,18 @@ module Aws::SageMaker
     #   `SourceS3Uri`. This entrypoint script runs during cluster creation.
     #   @return [String]
     #
+    # @!attribute [rw] on_init_complete
+    #   The file name of the entrypoint script of lifecycle scripts under
+    #   `SourceS3Uri`. This script runs on the node after the AMI-based
+    #   initialization is complete.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterLifeCycleConfig AWS API Documentation
     #
     class ClusterLifeCycleConfig < Struct.new(
       :source_s3_uri,
-      :on_create)
+      :on_create,
+      :on_init_complete)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6243,6 +6260,51 @@ module Aws::SageMaker
       :failure_message,
       :eks_role_access_entries,
       :slr_access_entry)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The network interface configuration for a Amazon SageMaker HyperPod
+    # cluster instance group.
+    #
+    # @!attribute [rw] interface_type
+    #   The type of network interface for the instance group. Valid values:
+    #
+    #   * `efa` – An EFA with ENA interface, which provides both the EFA
+    #     device for low-latency, high-throughput communication and the ENA
+    #     device for IP networking.
+    #
+    #   * `efa-only` – An EFA-only interface, which provides only the EFA
+    #     device capabilities without the ENA device for traditional IP
+    #     networking.
+    #
+    #   For more information, see [Elastic Fabric Adapter][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterNetworkInterface AWS API Documentation
+    #
+    class ClusterNetworkInterface < Struct.new(
+      :interface_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The network interface configuration details for a Amazon SageMaker
+    # HyperPod cluster instance group.
+    #
+    # @!attribute [rw] interface_type
+    #   The type of network interface for the instance group. Valid values
+    #   are `efa` and `efa-only`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterNetworkInterfaceDetails AWS API Documentation
+    #
+    class ClusterNetworkInterfaceDetails < Struct.new(
+      :interface_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6348,6 +6410,10 @@ module Aws::SageMaker
     #   instance.
     #   @return [String]
     #
+    # @!attribute [rw] network_interface
+    #   The network interface configuration for the cluster node.
+    #   @return [Types::ClusterNetworkInterfaceDetails]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterNodeDetails AWS API Documentation
     #
     class ClusterNodeDetails < Struct.new(
@@ -6370,7 +6436,8 @@ module Aws::SageMaker
       :desired_image_id,
       :ultra_server_info,
       :kubernetes_config,
-      :capacity_type)
+      :capacity_type,
+      :network_interface)
       SENSITIVE = []
       include Aws::Structure
     end

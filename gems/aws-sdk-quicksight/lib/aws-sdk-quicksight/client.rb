@@ -2419,6 +2419,7 @@ module Aws::QuickSight
     #       self_upgrade_user_role: "DENY", # accepts DENY
     #       extension: "DENY", # accepts DENY
     #       manage_shared_folders: "DENY", # accepts DENY
+    #       generate_analyses: "DENY", # accepts DENY
     #     },
     #     tags: [
     #       {
@@ -3460,7 +3461,7 @@ module Aws::QuickSight
     #     aws_account_id: "AwsAccountId", # required
     #     data_source_id: "ResourceId", # required
     #     name: "ResourceName", # required
-    #     type: "ADOBE_ANALYTICS", # required, accepts ADOBE_ANALYTICS, AMAZON_ELASTICSEARCH, ATHENA, AURORA, AURORA_POSTGRESQL, AWS_IOT_ANALYTICS, GITHUB, JIRA, MARIADB, MYSQL, ORACLE, POSTGRESQL, PRESTO, REDSHIFT, S3, SALESFORCE, SERVICENOW, SNOWFLAKE, SPARK, SQLSERVER, TERADATA, TWITTER, TIMESTREAM, AMAZON_OPENSEARCH, EXASOL, DATABRICKS, STARBURST, TRINO, BIGQUERY, GOOGLESHEETS, GOOGLE_DRIVE, CONFLUENCE, SHAREPOINT, ONE_DRIVE, WEB_CRAWLER, S3_KNOWLEDGE_BASE, QBUSINESS
+    #     type: "ADOBE_ANALYTICS", # required, accepts ADOBE_ANALYTICS, AMAZON_ELASTICSEARCH, ATHENA, AURORA, AURORA_POSTGRESQL, AWS_IOT_ANALYTICS, GITHUB, JIRA, MARIADB, MYSQL, ORACLE, POSTGRESQL, PRESTO, REDSHIFT, S3, S3_TABLES, SALESFORCE, SERVICENOW, SNOWFLAKE, SPARK, SQLSERVER, TERADATA, TWITTER, TIMESTREAM, AMAZON_OPENSEARCH, EXASOL, DATABRICKS, STARBURST, TRINO, BIGQUERY, GOOGLESHEETS, GOOGLE_DRIVE, CONFLUENCE, SHAREPOINT, ONE_DRIVE, WEB_CRAWLER, S3_KNOWLEDGE_BASE, QBUSINESS
     #     data_source_parameters: {
     #       amazon_elasticsearch_parameters: {
     #         domain: "Domain", # required
@@ -3468,6 +3469,7 @@ module Aws::QuickSight
     #       athena_parameters: {
     #         work_group: "WorkGroup",
     #         role_arn: "RoleArn",
+    #         consumer_account_role_arn: "RoleArn",
     #         identity_center_configuration: {
     #           enable_identity_propagation: false,
     #         },
@@ -3539,6 +3541,9 @@ module Aws::QuickSight
     #           key: "S3Key", # required
     #         },
     #         role_arn: "RoleArn",
+    #       },
+    #       s3_tables_parameters: {
+    #         table_bucket_arn: "S3TableBucketArn",
     #       },
     #       s3_knowledge_base_parameters: {
     #         role_arn: "RoleArn",
@@ -3656,6 +3661,7 @@ module Aws::QuickSight
     #             athena_parameters: {
     #               work_group: "WorkGroup",
     #               role_arn: "RoleArn",
+    #               consumer_account_role_arn: "RoleArn",
     #               identity_center_configuration: {
     #                 enable_identity_propagation: false,
     #               },
@@ -3727,6 +3733,9 @@ module Aws::QuickSight
     #                 key: "S3Key", # required
     #               },
     #               role_arn: "RoleArn",
+    #             },
+    #             s3_tables_parameters: {
+    #               table_bucket_arn: "S3TableBucketArn",
     #             },
     #             s3_knowledge_base_parameters: {
     #               role_arn: "RoleArn",
@@ -7451,6 +7460,7 @@ module Aws::QuickSight
     #   resp.override_parameters.data_sources[0].data_source_parameters.amazon_elasticsearch_parameters.domain #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.athena_parameters.work_group #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.athena_parameters.role_arn #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.athena_parameters.consumer_account_role_arn #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.athena_parameters.identity_center_configuration.enable_identity_propagation #=> Boolean
     #   resp.override_parameters.data_sources[0].data_source_parameters.aurora_parameters.host #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.aurora_parameters.port #=> Integer
@@ -7491,6 +7501,7 @@ module Aws::QuickSight
     #   resp.override_parameters.data_sources[0].data_source_parameters.s3_parameters.manifest_file_location.bucket #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.s3_parameters.manifest_file_location.key #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.s3_parameters.role_arn #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.s3_tables_parameters.table_bucket_arn #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.s3_knowledge_base_parameters.role_arn #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.s3_knowledge_base_parameters.bucket_url #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.s3_knowledge_base_parameters.metadata_files_location #=> String
@@ -8230,6 +8241,7 @@ module Aws::QuickSight
     #   resp.custom_permissions.capabilities.self_upgrade_user_role #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.extension #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.manage_shared_folders #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.generate_analyses #=> String, one of "DENY"
     #   resp.request_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeCustomPermissions AWS API Documentation
@@ -9222,13 +9234,14 @@ module Aws::QuickSight
     #   resp.data_source.arn #=> String
     #   resp.data_source.data_source_id #=> String
     #   resp.data_source.name #=> String
-    #   resp.data_source.type #=> String, one of "ADOBE_ANALYTICS", "AMAZON_ELASTICSEARCH", "ATHENA", "AURORA", "AURORA_POSTGRESQL", "AWS_IOT_ANALYTICS", "GITHUB", "JIRA", "MARIADB", "MYSQL", "ORACLE", "POSTGRESQL", "PRESTO", "REDSHIFT", "S3", "SALESFORCE", "SERVICENOW", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "TWITTER", "TIMESTREAM", "AMAZON_OPENSEARCH", "EXASOL", "DATABRICKS", "STARBURST", "TRINO", "BIGQUERY", "GOOGLESHEETS", "GOOGLE_DRIVE", "CONFLUENCE", "SHAREPOINT", "ONE_DRIVE", "WEB_CRAWLER", "S3_KNOWLEDGE_BASE", "QBUSINESS"
+    #   resp.data_source.type #=> String, one of "ADOBE_ANALYTICS", "AMAZON_ELASTICSEARCH", "ATHENA", "AURORA", "AURORA_POSTGRESQL", "AWS_IOT_ANALYTICS", "GITHUB", "JIRA", "MARIADB", "MYSQL", "ORACLE", "POSTGRESQL", "PRESTO", "REDSHIFT", "S3", "S3_TABLES", "SALESFORCE", "SERVICENOW", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "TWITTER", "TIMESTREAM", "AMAZON_OPENSEARCH", "EXASOL", "DATABRICKS", "STARBURST", "TRINO", "BIGQUERY", "GOOGLESHEETS", "GOOGLE_DRIVE", "CONFLUENCE", "SHAREPOINT", "ONE_DRIVE", "WEB_CRAWLER", "S3_KNOWLEDGE_BASE", "QBUSINESS"
     #   resp.data_source.status #=> String, one of "CREATION_IN_PROGRESS", "CREATION_SUCCESSFUL", "CREATION_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_SUCCESSFUL", "UPDATE_FAILED", "DELETED"
     #   resp.data_source.created_time #=> Time
     #   resp.data_source.last_updated_time #=> Time
     #   resp.data_source.data_source_parameters.amazon_elasticsearch_parameters.domain #=> String
     #   resp.data_source.data_source_parameters.athena_parameters.work_group #=> String
     #   resp.data_source.data_source_parameters.athena_parameters.role_arn #=> String
+    #   resp.data_source.data_source_parameters.athena_parameters.consumer_account_role_arn #=> String
     #   resp.data_source.data_source_parameters.athena_parameters.identity_center_configuration.enable_identity_propagation #=> Boolean
     #   resp.data_source.data_source_parameters.aurora_parameters.host #=> String
     #   resp.data_source.data_source_parameters.aurora_parameters.port #=> Integer
@@ -9269,6 +9282,7 @@ module Aws::QuickSight
     #   resp.data_source.data_source_parameters.s3_parameters.manifest_file_location.bucket #=> String
     #   resp.data_source.data_source_parameters.s3_parameters.manifest_file_location.key #=> String
     #   resp.data_source.data_source_parameters.s3_parameters.role_arn #=> String
+    #   resp.data_source.data_source_parameters.s3_tables_parameters.table_bucket_arn #=> String
     #   resp.data_source.data_source_parameters.s3_knowledge_base_parameters.role_arn #=> String
     #   resp.data_source.data_source_parameters.s3_knowledge_base_parameters.bucket_url #=> String
     #   resp.data_source.data_source_parameters.s3_knowledge_base_parameters.metadata_files_location #=> String
@@ -9332,6 +9346,7 @@ module Aws::QuickSight
     #   resp.data_source.alternate_data_source_parameters[0].amazon_elasticsearch_parameters.domain #=> String
     #   resp.data_source.alternate_data_source_parameters[0].athena_parameters.work_group #=> String
     #   resp.data_source.alternate_data_source_parameters[0].athena_parameters.role_arn #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].athena_parameters.consumer_account_role_arn #=> String
     #   resp.data_source.alternate_data_source_parameters[0].athena_parameters.identity_center_configuration.enable_identity_propagation #=> Boolean
     #   resp.data_source.alternate_data_source_parameters[0].aurora_parameters.host #=> String
     #   resp.data_source.alternate_data_source_parameters[0].aurora_parameters.port #=> Integer
@@ -9372,6 +9387,7 @@ module Aws::QuickSight
     #   resp.data_source.alternate_data_source_parameters[0].s3_parameters.manifest_file_location.bucket #=> String
     #   resp.data_source.alternate_data_source_parameters[0].s3_parameters.manifest_file_location.key #=> String
     #   resp.data_source.alternate_data_source_parameters[0].s3_parameters.role_arn #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].s3_tables_parameters.table_bucket_arn #=> String
     #   resp.data_source.alternate_data_source_parameters[0].s3_knowledge_base_parameters.role_arn #=> String
     #   resp.data_source.alternate_data_source_parameters[0].s3_knowledge_base_parameters.bucket_url #=> String
     #   resp.data_source.alternate_data_source_parameters[0].s3_knowledge_base_parameters.metadata_files_location #=> String
@@ -11453,6 +11469,9 @@ module Aws::QuickSight
     #           threshold_alerts: {
     #             enabled: false, # required
     #           },
+    #           dashboard_customization_summary: {
+    #             enabled: false, # required
+    #           },
     #         },
     #       },
     #       quick_sight_console: {
@@ -11485,6 +11504,9 @@ module Aws::QuickSight
     #             enabled: false, # required
     #           },
     #           threshold_alerts: {
+    #             enabled: false, # required
+    #           },
+    #           dashboard_customization_summary: {
     #             enabled: false, # required
     #           },
     #         },
@@ -11601,6 +11623,9 @@ module Aws::QuickSight
     #           threshold_alerts: {
     #             enabled: false, # required
     #           },
+    #           dashboard_customization_summary: {
+    #             enabled: false, # required
+    #           },
     #         },
     #       },
     #       quick_sight_console: {
@@ -11633,6 +11658,9 @@ module Aws::QuickSight
     #             enabled: false, # required
     #           },
     #           threshold_alerts: {
+    #             enabled: false, # required
+    #           },
+    #           dashboard_customization_summary: {
     #             enabled: false, # required
     #           },
     #         },
@@ -12646,6 +12674,7 @@ module Aws::QuickSight
     #   resp.custom_permissions_list[0].capabilities.self_upgrade_user_role #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.extension #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.manage_shared_folders #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.generate_analyses #=> String, one of "DENY"
     #   resp.next_token #=> String
     #   resp.request_id #=> String
     #
@@ -12873,13 +12902,14 @@ module Aws::QuickSight
     #   resp.data_sources[0].arn #=> String
     #   resp.data_sources[0].data_source_id #=> String
     #   resp.data_sources[0].name #=> String
-    #   resp.data_sources[0].type #=> String, one of "ADOBE_ANALYTICS", "AMAZON_ELASTICSEARCH", "ATHENA", "AURORA", "AURORA_POSTGRESQL", "AWS_IOT_ANALYTICS", "GITHUB", "JIRA", "MARIADB", "MYSQL", "ORACLE", "POSTGRESQL", "PRESTO", "REDSHIFT", "S3", "SALESFORCE", "SERVICENOW", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "TWITTER", "TIMESTREAM", "AMAZON_OPENSEARCH", "EXASOL", "DATABRICKS", "STARBURST", "TRINO", "BIGQUERY", "GOOGLESHEETS", "GOOGLE_DRIVE", "CONFLUENCE", "SHAREPOINT", "ONE_DRIVE", "WEB_CRAWLER", "S3_KNOWLEDGE_BASE", "QBUSINESS"
+    #   resp.data_sources[0].type #=> String, one of "ADOBE_ANALYTICS", "AMAZON_ELASTICSEARCH", "ATHENA", "AURORA", "AURORA_POSTGRESQL", "AWS_IOT_ANALYTICS", "GITHUB", "JIRA", "MARIADB", "MYSQL", "ORACLE", "POSTGRESQL", "PRESTO", "REDSHIFT", "S3", "S3_TABLES", "SALESFORCE", "SERVICENOW", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "TWITTER", "TIMESTREAM", "AMAZON_OPENSEARCH", "EXASOL", "DATABRICKS", "STARBURST", "TRINO", "BIGQUERY", "GOOGLESHEETS", "GOOGLE_DRIVE", "CONFLUENCE", "SHAREPOINT", "ONE_DRIVE", "WEB_CRAWLER", "S3_KNOWLEDGE_BASE", "QBUSINESS"
     #   resp.data_sources[0].status #=> String, one of "CREATION_IN_PROGRESS", "CREATION_SUCCESSFUL", "CREATION_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_SUCCESSFUL", "UPDATE_FAILED", "DELETED"
     #   resp.data_sources[0].created_time #=> Time
     #   resp.data_sources[0].last_updated_time #=> Time
     #   resp.data_sources[0].data_source_parameters.amazon_elasticsearch_parameters.domain #=> String
     #   resp.data_sources[0].data_source_parameters.athena_parameters.work_group #=> String
     #   resp.data_sources[0].data_source_parameters.athena_parameters.role_arn #=> String
+    #   resp.data_sources[0].data_source_parameters.athena_parameters.consumer_account_role_arn #=> String
     #   resp.data_sources[0].data_source_parameters.athena_parameters.identity_center_configuration.enable_identity_propagation #=> Boolean
     #   resp.data_sources[0].data_source_parameters.aurora_parameters.host #=> String
     #   resp.data_sources[0].data_source_parameters.aurora_parameters.port #=> Integer
@@ -12920,6 +12950,7 @@ module Aws::QuickSight
     #   resp.data_sources[0].data_source_parameters.s3_parameters.manifest_file_location.bucket #=> String
     #   resp.data_sources[0].data_source_parameters.s3_parameters.manifest_file_location.key #=> String
     #   resp.data_sources[0].data_source_parameters.s3_parameters.role_arn #=> String
+    #   resp.data_sources[0].data_source_parameters.s3_tables_parameters.table_bucket_arn #=> String
     #   resp.data_sources[0].data_source_parameters.s3_knowledge_base_parameters.role_arn #=> String
     #   resp.data_sources[0].data_source_parameters.s3_knowledge_base_parameters.bucket_url #=> String
     #   resp.data_sources[0].data_source_parameters.s3_knowledge_base_parameters.metadata_files_location #=> String
@@ -12983,6 +13014,7 @@ module Aws::QuickSight
     #   resp.data_sources[0].alternate_data_source_parameters[0].amazon_elasticsearch_parameters.domain #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].athena_parameters.work_group #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].athena_parameters.role_arn #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].athena_parameters.consumer_account_role_arn #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].athena_parameters.identity_center_configuration.enable_identity_propagation #=> Boolean
     #   resp.data_sources[0].alternate_data_source_parameters[0].aurora_parameters.host #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].aurora_parameters.port #=> Integer
@@ -13023,6 +13055,7 @@ module Aws::QuickSight
     #   resp.data_sources[0].alternate_data_source_parameters[0].s3_parameters.manifest_file_location.bucket #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].s3_parameters.manifest_file_location.key #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].s3_parameters.role_arn #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].s3_tables_parameters.table_bucket_arn #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].s3_knowledge_base_parameters.role_arn #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].s3_knowledge_base_parameters.bucket_url #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].s3_knowledge_base_parameters.metadata_files_location #=> String
@@ -15738,7 +15771,7 @@ module Aws::QuickSight
     #   resp.data_source_summaries[0].arn #=> String
     #   resp.data_source_summaries[0].data_source_id #=> String
     #   resp.data_source_summaries[0].name #=> String
-    #   resp.data_source_summaries[0].type #=> String, one of "ADOBE_ANALYTICS", "AMAZON_ELASTICSEARCH", "ATHENA", "AURORA", "AURORA_POSTGRESQL", "AWS_IOT_ANALYTICS", "GITHUB", "JIRA", "MARIADB", "MYSQL", "ORACLE", "POSTGRESQL", "PRESTO", "REDSHIFT", "S3", "SALESFORCE", "SERVICENOW", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "TWITTER", "TIMESTREAM", "AMAZON_OPENSEARCH", "EXASOL", "DATABRICKS", "STARBURST", "TRINO", "BIGQUERY", "GOOGLESHEETS", "GOOGLE_DRIVE", "CONFLUENCE", "SHAREPOINT", "ONE_DRIVE", "WEB_CRAWLER", "S3_KNOWLEDGE_BASE", "QBUSINESS"
+    #   resp.data_source_summaries[0].type #=> String, one of "ADOBE_ANALYTICS", "AMAZON_ELASTICSEARCH", "ATHENA", "AURORA", "AURORA_POSTGRESQL", "AWS_IOT_ANALYTICS", "GITHUB", "JIRA", "MARIADB", "MYSQL", "ORACLE", "POSTGRESQL", "PRESTO", "REDSHIFT", "S3", "S3_TABLES", "SALESFORCE", "SERVICENOW", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "TWITTER", "TIMESTREAM", "AMAZON_OPENSEARCH", "EXASOL", "DATABRICKS", "STARBURST", "TRINO", "BIGQUERY", "GOOGLESHEETS", "GOOGLE_DRIVE", "CONFLUENCE", "SHAREPOINT", "ONE_DRIVE", "WEB_CRAWLER", "S3_KNOWLEDGE_BASE", "QBUSINESS"
     #   resp.data_source_summaries[0].created_time #=> Time
     #   resp.data_source_summaries[0].last_updated_time #=> Time
     #   resp.next_token #=> String
@@ -16298,6 +16331,7 @@ module Aws::QuickSight
     #             athena_parameters: {
     #               work_group: "WorkGroup",
     #               role_arn: "RoleArn",
+    #               consumer_account_role_arn: "RoleArn",
     #               identity_center_configuration: {
     #                 enable_identity_propagation: false,
     #               },
@@ -16369,6 +16403,9 @@ module Aws::QuickSight
     #                 key: "S3Key", # required
     #               },
     #               role_arn: "RoleArn",
+    #             },
+    #             s3_tables_parameters: {
+    #               table_bucket_arn: "S3TableBucketArn",
     #             },
     #             s3_knowledge_base_parameters: {
     #               role_arn: "RoleArn",
@@ -18215,6 +18252,7 @@ module Aws::QuickSight
     #       self_upgrade_user_role: "DENY", # accepts DENY
     #       extension: "DENY", # accepts DENY
     #       manage_shared_folders: "DENY", # accepts DENY
+    #       generate_analyses: "DENY", # accepts DENY
     #     },
     #   })
     #
@@ -19452,6 +19490,7 @@ module Aws::QuickSight
     #       athena_parameters: {
     #         work_group: "WorkGroup",
     #         role_arn: "RoleArn",
+    #         consumer_account_role_arn: "RoleArn",
     #         identity_center_configuration: {
     #           enable_identity_propagation: false,
     #         },
@@ -19523,6 +19562,9 @@ module Aws::QuickSight
     #           key: "S3Key", # required
     #         },
     #         role_arn: "RoleArn",
+    #       },
+    #       s3_tables_parameters: {
+    #         table_bucket_arn: "S3TableBucketArn",
     #       },
     #       s3_knowledge_base_parameters: {
     #         role_arn: "RoleArn",
@@ -19640,6 +19682,7 @@ module Aws::QuickSight
     #             athena_parameters: {
     #               work_group: "WorkGroup",
     #               role_arn: "RoleArn",
+    #               consumer_account_role_arn: "RoleArn",
     #               identity_center_configuration: {
     #                 enable_identity_propagation: false,
     #               },
@@ -19711,6 +19754,9 @@ module Aws::QuickSight
     #                 key: "S3Key", # required
     #               },
     #               role_arn: "RoleArn",
+    #             },
+    #             s3_tables_parameters: {
+    #               table_bucket_arn: "S3TableBucketArn",
     #             },
     #             s3_knowledge_base_parameters: {
     #               role_arn: "RoleArn",
@@ -22029,7 +22075,7 @@ module Aws::QuickSight
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.177.0'
+      context[:gem_version] = '1.178.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

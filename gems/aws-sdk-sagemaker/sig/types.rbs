@@ -1047,6 +1047,7 @@ module Aws::SageMaker
       attr_accessor software_update_status: ("Pending" | "InProgress" | "Succeeded" | "Failed" | "RollbackInProgress" | "RollbackComplete")
       attr_accessor active_software_update_config: Types::DeploymentConfiguration
       attr_accessor slurm_config: Types::ClusterSlurmConfigDetails
+      attr_accessor network_interface: Types::ClusterNetworkInterfaceDetails
       SENSITIVE: []
     end
 
@@ -1068,6 +1069,7 @@ module Aws::SageMaker
       attr_accessor kubernetes_config: Types::ClusterKubernetesConfig
       attr_accessor slurm_config: Types::ClusterSlurmConfig
       attr_accessor capacity_requirements: Types::ClusterCapacityRequirements
+      attr_accessor network_interface: Types::ClusterNetworkInterface
       SENSITIVE: []
     end
 
@@ -1150,6 +1152,7 @@ module Aws::SageMaker
     class ClusterLifeCycleConfig
       attr_accessor source_s3_uri: ::String
       attr_accessor on_create: ::String
+      attr_accessor on_init_complete: ::String
       SENSITIVE: []
     end
 
@@ -1157,6 +1160,16 @@ module Aws::SageMaker
       attr_accessor failure_message: ::String
       attr_accessor eks_role_access_entries: ::Array[::String]
       attr_accessor slr_access_entry: ::String
+      SENSITIVE: []
+    end
+
+    class ClusterNetworkInterface
+      attr_accessor interface_type: ("efa" | "efa-only")
+      SENSITIVE: []
+    end
+
+    class ClusterNetworkInterfaceDetails
+      attr_accessor interface_type: ("efa" | "efa-only")
       SENSITIVE: []
     end
 
@@ -1181,6 +1194,7 @@ module Aws::SageMaker
       attr_accessor ultra_server_info: Types::UltraServerInfo
       attr_accessor kubernetes_config: Types::ClusterKubernetesConfigNodeDetails
       attr_accessor capacity_type: ("Spot" | "OnDemand")
+      attr_accessor network_interface: Types::ClusterNetworkInterfaceDetails
       SENSITIVE: []
     end
 

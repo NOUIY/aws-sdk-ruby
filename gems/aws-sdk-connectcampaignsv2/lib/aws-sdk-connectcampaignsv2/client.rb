@@ -500,6 +500,9 @@ module Aws::ConnectCampaignsV2
     # @option params [Types::Schedule] :schedule
     #   Campaign schedule
     #
+    # @option params [Types::EntryLimitsConfig] :entry_limits_config
+    #   Campaign entry limits config
+    #
     # @option params [Types::CommunicationTimeConfig] :communication_time_config
     #   Campaign communication time config
     #
@@ -598,6 +601,10 @@ module Aws::ConnectCampaignsV2
     #       start_time: Time.now, # required
     #       end_time: Time.now, # required
     #       refresh_frequency: "Iso8601Duration",
+    #     },
+    #     entry_limits_config: {
+    #       max_entry_count: 1, # required
+    #       min_entry_interval: "Iso8601Duration", # required
     #     },
     #     communication_time_config: {
     #       local_time_zone_config: { # required
@@ -825,6 +832,29 @@ module Aws::ConnectCampaignsV2
       req.send_request(options)
     end
 
+    # Deletes the entry limits config for a campaign. This API is
+    # idempotent.
+    #
+    # @option params [required, String] :id
+    #   Identifier representing a Campaign
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_campaign_entry_limits({
+    #     id: "CampaignId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaignsv2-2024-04-23/DeleteCampaignEntryLimits AWS API Documentation
+    #
+    # @overload delete_campaign_entry_limits(params = {})
+    # @param [Hash] params ({})
+    def delete_campaign_entry_limits(params = {}, options = {})
+      req = build_request(:delete_campaign_entry_limits, params)
+      req.send_request(options)
+    end
+
     # Deletes a connect instance config from the specified AWS account.
     #
     # @option params [required, String] :connect_instance_id
@@ -962,6 +992,8 @@ module Aws::ConnectCampaignsV2
     #   resp.campaign.schedule.start_time #=> Time
     #   resp.campaign.schedule.end_time #=> Time
     #   resp.campaign.schedule.refresh_frequency #=> String
+    #   resp.campaign.entry_limits_config.max_entry_count #=> Integer
+    #   resp.campaign.entry_limits_config.min_entry_interval #=> String
     #   resp.campaign.communication_time_config.local_time_zone_config.default_time_zone #=> String
     #   resp.campaign.communication_time_config.local_time_zone_config.local_time_zone_detection #=> Array
     #   resp.campaign.communication_time_config.local_time_zone_config.local_time_zone_detection[0] #=> String, one of "ZIP_CODE", "AREA_CODE"
@@ -1215,6 +1247,8 @@ module Aws::ConnectCampaignsV2
     #   resp.campaign_summary_list[0].schedule.start_time #=> Time
     #   resp.campaign_summary_list[0].schedule.end_time #=> Time
     #   resp.campaign_summary_list[0].schedule.refresh_frequency #=> String
+    #   resp.campaign_summary_list[0].entry_limits_config.max_entry_count #=> Integer
+    #   resp.campaign_summary_list[0].entry_limits_config.min_entry_interval #=> String
     #   resp.campaign_summary_list[0].connect_campaign_flow_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaignsv2-2024-04-23/ListCampaigns AWS API Documentation
@@ -1935,6 +1969,36 @@ module Aws::ConnectCampaignsV2
       req.send_request(options)
     end
 
+    # Updates the entry limits config for a campaign. This API is
+    # idempotent.
+    #
+    # @option params [required, String] :id
+    #   Identifier representing a Campaign
+    #
+    # @option params [required, Types::EntryLimitsConfig] :entry_limits_config
+    #   Campaign entry limits config
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_campaign_entry_limits({
+    #     id: "CampaignId", # required
+    #     entry_limits_config: { # required
+    #       max_entry_count: 1, # required
+    #       min_entry_interval: "Iso8601Duration", # required
+    #     },
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaignsv2-2024-04-23/UpdateCampaignEntryLimits AWS API Documentation
+    #
+    # @overload update_campaign_entry_limits(params = {})
+    # @param [Hash] params ({})
+    def update_campaign_entry_limits(params = {}, options = {})
+      req = build_request(:update_campaign_entry_limits, params)
+      req.send_request(options)
+    end
+
     # Updates the campaign flow associated with a campaign. This API is
     # idempotent.
     #
@@ -2067,7 +2131,7 @@ module Aws::ConnectCampaignsV2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connectcampaignsv2'
-      context[:gem_version] = '1.23.0'
+      context[:gem_version] = '1.24.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

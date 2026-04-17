@@ -825,7 +825,8 @@ module Aws
                                 }?,
                                 life_cycle_config: {
                                   source_s3_uri: ::String?,
-                                  on_create: ::String?
+                                  on_create: ::String?,
+                                  on_init_complete: ::String?
                                 }?,
                                 execution_role: ::String,
                                 threads_per_core: ::Integer?,
@@ -894,6 +895,9 @@ module Aws
                                   }?,
                                   on_demand: {
                                   }?
+                                }?,
+                                network_interface: {
+                                  interface_type: ("efa" | "efa-only")?
                                 }?
                               },
                             ],
@@ -9281,7 +9285,8 @@ module Aws
                                 }?,
                                 life_cycle_config: {
                                   source_s3_uri: ::String?,
-                                  on_create: ::String?
+                                  on_create: ::String?,
+                                  on_init_complete: ::String?
                                 }?,
                                 execution_role: ::String,
                                 threads_per_core: ::Integer?,
@@ -9350,6 +9355,9 @@ module Aws
                                   }?,
                                   on_demand: {
                                   }?
+                                }?,
+                                network_interface: {
+                                  interface_type: ("efa" | "efa-only")?
                                 }?
                               },
                             ],

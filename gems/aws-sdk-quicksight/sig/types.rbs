@@ -683,6 +683,7 @@ module Aws::QuickSight
     class AthenaParameters
       attr_accessor work_group: ::String
       attr_accessor role_arn: ::String
+      attr_accessor consumer_account_role_arn: ::String
       attr_accessor identity_center_configuration: Types::IdentityCenterConfiguration
       SENSITIVE: []
     end
@@ -1404,6 +1405,7 @@ module Aws::QuickSight
       attr_accessor self_upgrade_user_role: ("DENY")
       attr_accessor extension: ("DENY")
       attr_accessor manage_shared_folders: ("DENY")
+      attr_accessor generate_analyses: ("DENY")
       SENSITIVE: []
     end
 
@@ -1839,6 +1841,12 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class ControlSortConfiguration
+      attr_accessor selectable_values_sort: Types::SelectableValuesSort
+      attr_accessor control_column_sort: Types::AggregationSortConfiguration
+      SENSITIVE: []
+    end
+
     class Coordinate
       attr_accessor latitude: ::Float
       attr_accessor longitude: ::Float
@@ -2043,7 +2051,7 @@ module Aws::QuickSight
       attr_accessor aws_account_id: ::String
       attr_accessor data_source_id: ::String
       attr_accessor name: ::String
-      attr_accessor type: ("ADOBE_ANALYTICS" | "AMAZON_ELASTICSEARCH" | "ATHENA" | "AURORA" | "AURORA_POSTGRESQL" | "AWS_IOT_ANALYTICS" | "GITHUB" | "JIRA" | "MARIADB" | "MYSQL" | "ORACLE" | "POSTGRESQL" | "PRESTO" | "REDSHIFT" | "S3" | "SALESFORCE" | "SERVICENOW" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "TWITTER" | "TIMESTREAM" | "AMAZON_OPENSEARCH" | "EXASOL" | "DATABRICKS" | "STARBURST" | "TRINO" | "BIGQUERY" | "GOOGLESHEETS" | "GOOGLE_DRIVE" | "CONFLUENCE" | "SHAREPOINT" | "ONE_DRIVE" | "WEB_CRAWLER" | "S3_KNOWLEDGE_BASE" | "QBUSINESS")
+      attr_accessor type: ("ADOBE_ANALYTICS" | "AMAZON_ELASTICSEARCH" | "ATHENA" | "AURORA" | "AURORA_POSTGRESQL" | "AWS_IOT_ANALYTICS" | "GITHUB" | "JIRA" | "MARIADB" | "MYSQL" | "ORACLE" | "POSTGRESQL" | "PRESTO" | "REDSHIFT" | "S3" | "S3_TABLES" | "SALESFORCE" | "SERVICENOW" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "TWITTER" | "TIMESTREAM" | "AMAZON_OPENSEARCH" | "EXASOL" | "DATABRICKS" | "STARBURST" | "TRINO" | "BIGQUERY" | "GOOGLESHEETS" | "GOOGLE_DRIVE" | "CONFLUENCE" | "SHAREPOINT" | "ONE_DRIVE" | "WEB_CRAWLER" | "S3_KNOWLEDGE_BASE" | "QBUSINESS")
       attr_accessor data_source_parameters: Types::DataSourceParameters
       attr_accessor credentials: Types::DataSourceCredentials
       attr_accessor permissions: ::Array[Types::ResourcePermission]
@@ -2504,6 +2512,11 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class DashboardCustomizationSummaryConfigurations
+      attr_accessor enabled: bool
+      SENSITIVE: []
+    end
+
     class DashboardCustomizationVisualOptions
       attr_accessor fields_configuration: Types::VisualCustomizationFieldsConfiguration
       SENSITIVE: []
@@ -2954,7 +2967,7 @@ module Aws::QuickSight
       attr_accessor arn: ::String
       attr_accessor data_source_id: ::String
       attr_accessor name: ::String
-      attr_accessor type: ("ADOBE_ANALYTICS" | "AMAZON_ELASTICSEARCH" | "ATHENA" | "AURORA" | "AURORA_POSTGRESQL" | "AWS_IOT_ANALYTICS" | "GITHUB" | "JIRA" | "MARIADB" | "MYSQL" | "ORACLE" | "POSTGRESQL" | "PRESTO" | "REDSHIFT" | "S3" | "SALESFORCE" | "SERVICENOW" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "TWITTER" | "TIMESTREAM" | "AMAZON_OPENSEARCH" | "EXASOL" | "DATABRICKS" | "STARBURST" | "TRINO" | "BIGQUERY" | "GOOGLESHEETS" | "GOOGLE_DRIVE" | "CONFLUENCE" | "SHAREPOINT" | "ONE_DRIVE" | "WEB_CRAWLER" | "S3_KNOWLEDGE_BASE" | "QBUSINESS")
+      attr_accessor type: ("ADOBE_ANALYTICS" | "AMAZON_ELASTICSEARCH" | "ATHENA" | "AURORA" | "AURORA_POSTGRESQL" | "AWS_IOT_ANALYTICS" | "GITHUB" | "JIRA" | "MARIADB" | "MYSQL" | "ORACLE" | "POSTGRESQL" | "PRESTO" | "REDSHIFT" | "S3" | "S3_TABLES" | "SALESFORCE" | "SERVICENOW" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "TWITTER" | "TIMESTREAM" | "AMAZON_OPENSEARCH" | "EXASOL" | "DATABRICKS" | "STARBURST" | "TRINO" | "BIGQUERY" | "GOOGLESHEETS" | "GOOGLE_DRIVE" | "CONFLUENCE" | "SHAREPOINT" | "ONE_DRIVE" | "WEB_CRAWLER" | "S3_KNOWLEDGE_BASE" | "QBUSINESS")
       attr_accessor status: ("CREATION_IN_PROGRESS" | "CREATION_SUCCESSFUL" | "CREATION_FAILED" | "UPDATE_IN_PROGRESS" | "UPDATE_SUCCESSFUL" | "UPDATE_FAILED" | "DELETED")
       attr_accessor created_time: ::Time
       attr_accessor last_updated_time: ::Time
@@ -2998,6 +3011,7 @@ module Aws::QuickSight
       attr_accessor rds_parameters: Types::RdsParameters
       attr_accessor redshift_parameters: Types::RedshiftParameters
       attr_accessor s3_parameters: Types::S3Parameters
+      attr_accessor s3_tables_parameters: Types::S3TablesParameters
       attr_accessor s3_knowledge_base_parameters: Types::S3KnowledgeBaseParameters
       attr_accessor service_now_parameters: Types::ServiceNowParameters
       attr_accessor snowflake_parameters: Types::SnowflakeParameters
@@ -3030,7 +3044,7 @@ module Aws::QuickSight
       attr_accessor arn: ::String
       attr_accessor data_source_id: ::String
       attr_accessor name: ::String
-      attr_accessor type: ("ADOBE_ANALYTICS" | "AMAZON_ELASTICSEARCH" | "ATHENA" | "AURORA" | "AURORA_POSTGRESQL" | "AWS_IOT_ANALYTICS" | "GITHUB" | "JIRA" | "MARIADB" | "MYSQL" | "ORACLE" | "POSTGRESQL" | "PRESTO" | "REDSHIFT" | "S3" | "SALESFORCE" | "SERVICENOW" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "TWITTER" | "TIMESTREAM" | "AMAZON_OPENSEARCH" | "EXASOL" | "DATABRICKS" | "STARBURST" | "TRINO" | "BIGQUERY" | "GOOGLESHEETS" | "GOOGLE_DRIVE" | "CONFLUENCE" | "SHAREPOINT" | "ONE_DRIVE" | "WEB_CRAWLER" | "S3_KNOWLEDGE_BASE" | "QBUSINESS")
+      attr_accessor type: ("ADOBE_ANALYTICS" | "AMAZON_ELASTICSEARCH" | "ATHENA" | "AURORA" | "AURORA_POSTGRESQL" | "AWS_IOT_ANALYTICS" | "GITHUB" | "JIRA" | "MARIADB" | "MYSQL" | "ORACLE" | "POSTGRESQL" | "PRESTO" | "REDSHIFT" | "S3" | "S3_TABLES" | "SALESFORCE" | "SERVICENOW" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "TWITTER" | "TIMESTREAM" | "AMAZON_OPENSEARCH" | "EXASOL" | "DATABRICKS" | "STARBURST" | "TRINO" | "BIGQUERY" | "GOOGLESHEETS" | "GOOGLE_DRIVE" | "CONFLUENCE" | "SHAREPOINT" | "ONE_DRIVE" | "WEB_CRAWLER" | "S3_KNOWLEDGE_BASE" | "QBUSINESS")
       attr_accessor created_time: ::Time
       attr_accessor last_updated_time: ::Time
       SENSITIVE: []
@@ -3247,6 +3261,7 @@ module Aws::QuickSight
       attr_accessor type: ("MULTI_SELECT" | "SINGLE_SELECT")
       attr_accessor selectable_values: Types::FilterSelectableValues
       attr_accessor commit_mode: ("AUTO" | "MANUAL")
+      attr_accessor control_sort_configurations: ::Array[Types::ControlSortConfiguration]
       SENSITIVE: []
     end
 
@@ -3254,6 +3269,7 @@ module Aws::QuickSight
       attr_accessor display_options: Types::ListControlDisplayOptions
       attr_accessor type: ("MULTI_SELECT" | "SINGLE_SELECT")
       attr_accessor selectable_values: Types::FilterSelectableValues
+      attr_accessor control_sort_configurations: ::Array[Types::ControlSortConfiguration]
       SENSITIVE: []
     end
 
@@ -4950,6 +4966,7 @@ module Aws::QuickSight
       attr_accessor selectable_values: Types::FilterSelectableValues
       attr_accessor cascading_control_configuration: Types::CascadingControlConfiguration
       attr_accessor commit_mode: ("AUTO" | "MANUAL")
+      attr_accessor control_sort_configurations: ::Array[Types::ControlSortConfiguration]
       SENSITIVE: []
     end
 
@@ -4978,6 +4995,7 @@ module Aws::QuickSight
       attr_accessor type: ("MULTI_SELECT" | "SINGLE_SELECT")
       attr_accessor selectable_values: Types::FilterSelectableValues
       attr_accessor cascading_control_configuration: Types::CascadingControlConfiguration
+      attr_accessor control_sort_configurations: ::Array[Types::ControlSortConfiguration]
       SENSITIVE: []
     end
 
@@ -7578,6 +7596,7 @@ module Aws::QuickSight
       attr_accessor selectable_values: Types::ParameterSelectableValues
       attr_accessor cascading_control_configuration: Types::CascadingControlConfiguration
       attr_accessor commit_mode: ("AUTO" | "MANUAL")
+      attr_accessor control_sort_configurations: ::Array[Types::ControlSortConfiguration]
       SENSITIVE: []
     end
 
@@ -7589,6 +7608,7 @@ module Aws::QuickSight
       attr_accessor type: ("MULTI_SELECT" | "SINGLE_SELECT")
       attr_accessor selectable_values: Types::ParameterSelectableValues
       attr_accessor cascading_control_configuration: Types::CascadingControlConfiguration
+      attr_accessor control_sort_configurations: ::Array[Types::ControlSortConfiguration]
       SENSITIVE: []
     end
 
@@ -8422,6 +8442,7 @@ module Aws::QuickSight
       attr_accessor schedules: Types::SchedulesConfigurations
       attr_accessor recent_snapshots: Types::RecentSnapshotsConfigurations
       attr_accessor threshold_alerts: Types::ThresholdAlertsConfigurations
+      attr_accessor dashboard_customization_summary: Types::DashboardCustomizationSummaryConfigurations
       SENSITIVE: []
     end
 
@@ -8439,6 +8460,7 @@ module Aws::QuickSight
       attr_accessor schedules: Types::SchedulesConfigurations
       attr_accessor recent_snapshots: Types::RecentSnapshotsConfigurations
       attr_accessor threshold_alerts: Types::ThresholdAlertsConfigurations
+      attr_accessor dashboard_customization_summary: Types::DashboardCustomizationSummaryConfigurations
       SENSITIVE: []
     end
 
@@ -8642,6 +8664,11 @@ module Aws::QuickSight
       attr_accessor data_source_arn: ::String
       attr_accessor upload_settings: Types::UploadSettings
       attr_accessor input_columns: ::Array[Types::InputColumn]
+      SENSITIVE: []
+    end
+
+    class S3TablesParameters
+      attr_accessor table_bucket_arn: ::String
       SENSITIVE: []
     end
 
@@ -8962,6 +8989,11 @@ module Aws::QuickSight
     class SectionStyle
       attr_accessor height: ::String
       attr_accessor padding: Types::Spacing
+      SENSITIVE: []
+    end
+
+    class SelectableValuesSort
+      attr_accessor direction: ("ASC" | "DESC" | "USER_DEFINED_ORDER")
       SENSITIVE: []
     end
 

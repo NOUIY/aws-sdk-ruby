@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.24.0 (2026-04-17)
+------------------
+
+* Feature - This release adds support for campaign entry limits configuration and hourly refresh frequency in Amazon Connect Outbound Campaigns.
+
 1.23.0 (2026-03-18)
 ------------------
 

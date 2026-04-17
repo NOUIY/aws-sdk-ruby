@@ -3406,6 +3406,12 @@ module Aws::Imagebuilder
     # @option params [Hash<String,String>] :tags
     #   Tags that are attached to image resources created from the import.
     #
+    # @option params [Types::RegisterImageOptions] :register_image_options
+    #   Configures Secure Boot and UEFI settings for the imported image.
+    #
+    # @option params [Types::WindowsConfiguration] :windows_configuration
+    #   Specifies Windows settings for ISO imports.
+    #
     # @option params [required, String] :client_token
     #   Unique, case-sensitive identifier you provide to ensure idempotency of
     #   the request. For more information, see [Ensuring idempotency][1] in
@@ -3439,6 +3445,13 @@ module Aws::Imagebuilder
     #     },
     #     tags: {
     #       "TagKey" => "TagValue",
+    #     },
+    #     register_image_options: {
+    #       secure_boot_enabled: false,
+    #       uefi_data: "UefiData",
+    #     },
+    #     windows_configuration: {
+    #       image_index: 1, # required
     #     },
     #     client_token: "ClientToken", # required
     #   })
@@ -6112,7 +6125,7 @@ module Aws::Imagebuilder
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-imagebuilder'
-      context[:gem_version] = '1.101.0'
+      context[:gem_version] = '1.102.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

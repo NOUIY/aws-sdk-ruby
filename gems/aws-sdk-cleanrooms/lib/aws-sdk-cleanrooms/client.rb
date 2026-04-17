@@ -3281,6 +3281,8 @@ module Aws::CleanRooms
     #   resp.protected_job.error.code #=> String
     #   resp.protected_job.compute_configuration.worker.type #=> String, one of "CR.1X", "CR.4X"
     #   resp.protected_job.compute_configuration.worker.number #=> Integer
+    #   resp.protected_job.compute_configuration.worker.properties.spark #=> Hash
+    #   resp.protected_job.compute_configuration.worker.properties.spark["SparkPropertyKey"] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/GetProtectedJob AWS API Documentation
     #
@@ -4904,6 +4906,11 @@ module Aws::CleanRooms
     #       worker: {
     #         type: "CR.1X", # required, accepts CR.1X, CR.4X
     #         number: 1, # required
+    #         properties: {
+    #           spark: {
+    #             "SparkPropertyKey" => "SparkPropertyValue",
+    #           },
+    #         },
     #       },
     #     },
     #   })
@@ -4930,6 +4937,8 @@ module Aws::CleanRooms
     #   resp.protected_job.error.code #=> String
     #   resp.protected_job.compute_configuration.worker.type #=> String, one of "CR.1X", "CR.4X"
     #   resp.protected_job.compute_configuration.worker.number #=> Integer
+    #   resp.protected_job.compute_configuration.worker.properties.spark #=> Hash
+    #   resp.protected_job.compute_configuration.worker.properties.spark["SparkPropertyKey"] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/StartProtectedJob AWS API Documentation
     #
@@ -6095,6 +6104,8 @@ module Aws::CleanRooms
     #   resp.protected_job.error.code #=> String
     #   resp.protected_job.compute_configuration.worker.type #=> String, one of "CR.1X", "CR.4X"
     #   resp.protected_job.compute_configuration.worker.number #=> Integer
+    #   resp.protected_job.compute_configuration.worker.properties.spark #=> Hash
+    #   resp.protected_job.compute_configuration.worker.properties.spark["SparkPropertyKey"] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/UpdateProtectedJob AWS API Documentation
     #
@@ -6199,7 +6210,7 @@ module Aws::CleanRooms
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cleanrooms'
-      context[:gem_version] = '1.69.0'
+      context[:gem_version] = '1.70.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

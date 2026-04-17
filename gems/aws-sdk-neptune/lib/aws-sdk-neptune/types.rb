@@ -418,9 +418,9 @@ module Aws::Neptune
     #   @return [String]
     #
     # @!attribute [rw] kms_key_id
-    #   The Amazon Amazon KMS key ID for an encrypted DB cluster snapshot.
-    #   The KMS key ID is the Amazon Resource Name (ARN), KMS key
-    #   identifier, or the KMS key alias for the KMS encryption key.
+    #   The Amazon KMS key ID for an encrypted DB cluster snapshot. The KMS
+    #   key ID is the Amazon Resource Name (ARN), KMS key identifier, or the
+    #   KMS key alias for the KMS encryption key.
     #
     #   If you copy an encrypted DB cluster snapshot from your Amazon
     #   account, you can specify a value for `KmsKeyId` to encrypt the copy
@@ -1356,7 +1356,7 @@ module Aws::Neptune
     #   encryption key. If you are creating a DB instance with the same
     #   Amazon account that owns the KMS encryption key used to encrypt the
     #   new DB instance, then you can use the KMS key alias instead of the
-    #   ARN for the KM encryption key.
+    #   ARN for the KMS encryption key.
     #
     #   Not applicable. The KMS key identifier is managed by the DB cluster.
     #   For more information, see CreateDBCluster.
@@ -1671,7 +1671,7 @@ module Aws::Neptune
     #
     # @!attribute [rw] enabled
     #   A Boolean value; set to **true** to activate the subscription, set
-    #   to **false** to create the subscription but not active it.
+    #   to **false** to create the subscription but not activate it.
     #   @return [Boolean]
     #
     # @!attribute [rw] tags
@@ -1734,7 +1734,7 @@ module Aws::Neptune
     #
     # @!attribute [rw] database_name
     #   The name for the new global database (up to 64 alpha-numeric
-    #   characters.
+    #   characters).
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -2193,7 +2193,7 @@ module Aws::Neptune
     class DBClusterEndpointAlreadyExistsFault < Aws::EmptyStructure; end
 
     # @!attribute [rw] marker
-    #   n optional pagination token provided by a previous
+    #   An optional pagination token provided by a previous
     #   `DescribeDBClusterEndpoints` request. If this parameter is
     #   specified, the response includes only records beyond the marker, up
     #   to the value specified by `MaxRecords`.
@@ -3304,7 +3304,7 @@ module Aws::Neptune
     # * RebootDBInstance
     #
     # @!attribute [rw] db_parameter_group_name
-    #   The name of the DP parameter group.
+    #   The name of the DB parameter group.
     #   @return [String]
     #
     # @!attribute [rw] parameter_apply_status
@@ -3603,7 +3603,7 @@ module Aws::Neptune
     #   The DB cluster snapshot identifier of the new DB cluster snapshot
     #   created when `SkipFinalSnapshot` is set to `false`.
     #
-    #   <note markdown="1"> Specifying this parameter and also setting the `SkipFinalShapshot`
+    #   <note markdown="1"> Specifying this parameter and also setting the `SkipFinalSnapshot`
     #   parameter to true results in an error.
     #
     #    </note>
@@ -3728,7 +3728,7 @@ module Aws::Neptune
     #   The DBSnapshotIdentifier of the new DBSnapshot created when
     #   SkipFinalSnapshot is set to `false`.
     #
-    #   <note markdown="1"> Specifying this parameter and also setting the SkipFinalShapshot
+    #   <note markdown="1"> Specifying this parameter and also setting the SkipFinalSnapshot
     #   parameter to true results in an error.
     #
     #    </note>
@@ -5291,14 +5291,14 @@ module Aws::Neptune
     #   If you don't specify `AllowDataLoss`, the global database cluster
     #   operation defaults to a switchover.
     #
-    #   Constraints:Can't be specified together with the `Switchover`
+    #   Constraints: Can't be specified together with the `Switchover`
     #   parameter.
     #   @return [Boolean]
     #
     # @!attribute [rw] switchover
     #   Specifies whether to switch over this global database cluster.
     #
-    #   Constraints:Can't be specified together with the `AllowDataLoss`
+    #   Constraints: Can't be specified together with the `AllowDataLoss`
     #   parameter.
     #   @return [Boolean]
     #
@@ -5419,7 +5419,7 @@ module Aws::Neptune
     #
     # @!attribute [rw] global_cluster_resource_id
     #   An immutable identifier for the global database that is unique
-    #   within in all regions. This identifier is found in CloudTrail log
+    #   within all regions. This identifier is found in CloudTrail log
     #   entries whenever the KMS key for the DB cluster is accessed.
     #   @return [String]
     #

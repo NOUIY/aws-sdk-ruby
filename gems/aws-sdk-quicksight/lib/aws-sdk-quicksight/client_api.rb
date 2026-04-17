@@ -446,6 +446,9 @@ module Aws::QuickSight
     ContributionAnalysisSortType = Shapes::StringShape.new(name: 'ContributionAnalysisSortType')
     ContributionAnalysisTimeRanges = Shapes::StructureShape.new(name: 'ContributionAnalysisTimeRanges')
     ContributorDimensionList = Shapes::ListShape.new(name: 'ContributorDimensionList')
+    ControlSortConfiguration = Shapes::StructureShape.new(name: 'ControlSortConfiguration')
+    ControlSortConfigurationList = Shapes::ListShape.new(name: 'ControlSortConfigurationList')
+    ControlSortDirection = Shapes::StringShape.new(name: 'ControlSortDirection')
     Coordinate = Shapes::StructureShape.new(name: 'Coordinate')
     CoordinateLatitudeDouble = Shapes::FloatShape.new(name: 'CoordinateLatitudeDouble')
     CoordinateLongitudeDouble = Shapes::FloatShape.new(name: 'CoordinateLongitudeDouble')
@@ -536,6 +539,7 @@ module Aws::QuickSight
     Dashboard = Shapes::StructureShape.new(name: 'Dashboard')
     DashboardBehavior = Shapes::StringShape.new(name: 'DashboardBehavior')
     DashboardCustomizationStatus = Shapes::StringShape.new(name: 'DashboardCustomizationStatus')
+    DashboardCustomizationSummaryConfigurations = Shapes::StructureShape.new(name: 'DashboardCustomizationSummaryConfigurations')
     DashboardCustomizationVisualOptions = Shapes::StructureShape.new(name: 'DashboardCustomizationVisualOptions')
     DashboardError = Shapes::StructureShape.new(name: 'DashboardError')
     DashboardErrorList = Shapes::ListShape.new(name: 'DashboardErrorList')
@@ -1784,6 +1788,8 @@ module Aws::QuickSight
     S3KnowledgeBaseParameters = Shapes::StructureShape.new(name: 'S3KnowledgeBaseParameters')
     S3Parameters = Shapes::StructureShape.new(name: 'S3Parameters')
     S3Source = Shapes::StructureShape.new(name: 'S3Source')
+    S3TableBucketArn = Shapes::StringShape.new(name: 'S3TableBucketArn')
+    S3TablesParameters = Shapes::StructureShape.new(name: 'S3TablesParameters')
     S3Uri = Shapes::StringShape.new(name: 'S3Uri')
     SaaSTable = Shapes::StructureShape.new(name: 'SaaSTable')
     SameSheetTargetVisualConfiguration = Shapes::StructureShape.new(name: 'SameSheetTargetVisualConfiguration')
@@ -1837,6 +1843,7 @@ module Aws::QuickSight
     SecurityGroupId = Shapes::StringShape.new(name: 'SecurityGroupId')
     SecurityGroupIdList = Shapes::ListShape.new(name: 'SecurityGroupIdList')
     SelectAllValueOptions = Shapes::StringShape.new(name: 'SelectAllValueOptions')
+    SelectableValuesSort = Shapes::StructureShape.new(name: 'SelectableValuesSort')
     SelectedFieldList = Shapes::ListShape.new(name: 'SelectedFieldList')
     SelectedFieldOptions = Shapes::StringShape.new(name: 'SelectedFieldOptions')
     SelectedSheetsFilterScopeConfiguration = Shapes::StructureShape.new(name: 'SelectedSheetsFilterScopeConfiguration')
@@ -3076,6 +3083,7 @@ module Aws::QuickSight
 
     AthenaParameters.add_member(:work_group, Shapes::ShapeRef.new(shape: WorkGroup, location_name: "WorkGroup"))
     AthenaParameters.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "RoleArn"))
+    AthenaParameters.add_member(:consumer_account_role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "ConsumerAccountRoleArn"))
     AthenaParameters.add_member(:identity_center_configuration, Shapes::ShapeRef.new(shape: IdentityCenterConfiguration, location_name: "IdentityCenterConfiguration"))
     AthenaParameters.struct_class = Types::AthenaParameters
 
@@ -3685,6 +3693,7 @@ module Aws::QuickSight
     Capabilities.add_member(:self_upgrade_user_role, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "SelfUpgradeUserRole"))
     Capabilities.add_member(:extension, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "Extension"))
     Capabilities.add_member(:manage_shared_folders, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "ManageSharedFolders"))
+    Capabilities.add_member(:generate_analyses, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "GenerateAnalyses"))
     Capabilities.struct_class = Types::Capabilities
 
     CascadingControlConfiguration.add_member(:source_controls, Shapes::ShapeRef.new(shape: CascadingControlSourceList, location_name: "SourceControls"))
@@ -4039,6 +4048,12 @@ module Aws::QuickSight
     ContributionAnalysisTimeRanges.struct_class = Types::ContributionAnalysisTimeRanges
 
     ContributorDimensionList.member = Shapes::ShapeRef.new(shape: ColumnIdentifier)
+
+    ControlSortConfiguration.add_member(:selectable_values_sort, Shapes::ShapeRef.new(shape: SelectableValuesSort, location_name: "SelectableValuesSort"))
+    ControlSortConfiguration.add_member(:control_column_sort, Shapes::ShapeRef.new(shape: AggregationSortConfiguration, location_name: "ControlColumnSort"))
+    ControlSortConfiguration.struct_class = Types::ControlSortConfiguration
+
+    ControlSortConfigurationList.member = Shapes::ShapeRef.new(shape: ControlSortConfiguration)
 
     Coordinate.add_member(:latitude, Shapes::ShapeRef.new(shape: CoordinateLatitudeDouble, required: true, location_name: "Latitude"))
     Coordinate.add_member(:longitude, Shapes::ShapeRef.new(shape: CoordinateLongitudeDouble, required: true, location_name: "Longitude"))
@@ -4567,6 +4582,9 @@ module Aws::QuickSight
     Dashboard.add_member(:link_entities, Shapes::ShapeRef.new(shape: LinkEntityArnList, location_name: "LinkEntities"))
     Dashboard.struct_class = Types::Dashboard
 
+    DashboardCustomizationSummaryConfigurations.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "Enabled"))
+    DashboardCustomizationSummaryConfigurations.struct_class = Types::DashboardCustomizationSummaryConfigurations
+
     DashboardCustomizationVisualOptions.add_member(:fields_configuration, Shapes::ShapeRef.new(shape: VisualCustomizationFieldsConfiguration, location_name: "FieldsConfiguration"))
     DashboardCustomizationVisualOptions.struct_class = Types::DashboardCustomizationVisualOptions
 
@@ -4968,6 +4986,7 @@ module Aws::QuickSight
     DataSourceParameters.add_member(:rds_parameters, Shapes::ShapeRef.new(shape: RdsParameters, location_name: "RdsParameters"))
     DataSourceParameters.add_member(:redshift_parameters, Shapes::ShapeRef.new(shape: RedshiftParameters, location_name: "RedshiftParameters"))
     DataSourceParameters.add_member(:s3_parameters, Shapes::ShapeRef.new(shape: S3Parameters, location_name: "S3Parameters"))
+    DataSourceParameters.add_member(:s3_tables_parameters, Shapes::ShapeRef.new(shape: S3TablesParameters, location_name: "S3TablesParameters"))
     DataSourceParameters.add_member(:s3_knowledge_base_parameters, Shapes::ShapeRef.new(shape: S3KnowledgeBaseParameters, location_name: "S3KnowledgeBaseParameters"))
     DataSourceParameters.add_member(:service_now_parameters, Shapes::ShapeRef.new(shape: ServiceNowParameters, location_name: "ServiceNowParameters"))
     DataSourceParameters.add_member(:snowflake_parameters, Shapes::ShapeRef.new(shape: SnowflakeParameters, location_name: "SnowflakeParameters"))
@@ -5179,11 +5198,13 @@ module Aws::QuickSight
     DefaultFilterDropDownControlOptions.add_member(:type, Shapes::ShapeRef.new(shape: SheetControlListType, location_name: "Type"))
     DefaultFilterDropDownControlOptions.add_member(:selectable_values, Shapes::ShapeRef.new(shape: FilterSelectableValues, location_name: "SelectableValues"))
     DefaultFilterDropDownControlOptions.add_member(:commit_mode, Shapes::ShapeRef.new(shape: CommitMode, location_name: "CommitMode"))
+    DefaultFilterDropDownControlOptions.add_member(:control_sort_configurations, Shapes::ShapeRef.new(shape: ControlSortConfigurationList, location_name: "ControlSortConfigurations"))
     DefaultFilterDropDownControlOptions.struct_class = Types::DefaultFilterDropDownControlOptions
 
     DefaultFilterListControlOptions.add_member(:display_options, Shapes::ShapeRef.new(shape: ListControlDisplayOptions, location_name: "DisplayOptions"))
     DefaultFilterListControlOptions.add_member(:type, Shapes::ShapeRef.new(shape: SheetControlListType, location_name: "Type"))
     DefaultFilterListControlOptions.add_member(:selectable_values, Shapes::ShapeRef.new(shape: FilterSelectableValues, location_name: "SelectableValues"))
+    DefaultFilterListControlOptions.add_member(:control_sort_configurations, Shapes::ShapeRef.new(shape: ControlSortConfigurationList, location_name: "ControlSortConfigurations"))
     DefaultFilterListControlOptions.struct_class = Types::DefaultFilterListControlOptions
 
     DefaultFormatting.add_member(:display_format, Shapes::ShapeRef.new(shape: DisplayFormat, location_name: "DisplayFormat"))
@@ -6444,6 +6465,7 @@ module Aws::QuickSight
     FilterDropDownControl.add_member(:selectable_values, Shapes::ShapeRef.new(shape: FilterSelectableValues, location_name: "SelectableValues"))
     FilterDropDownControl.add_member(:cascading_control_configuration, Shapes::ShapeRef.new(shape: CascadingControlConfiguration, location_name: "CascadingControlConfiguration"))
     FilterDropDownControl.add_member(:commit_mode, Shapes::ShapeRef.new(shape: CommitMode, location_name: "CommitMode"))
+    FilterDropDownControl.add_member(:control_sort_configurations, Shapes::ShapeRef.new(shape: ControlSortConfigurationList, location_name: "ControlSortConfigurations"))
     FilterDropDownControl.struct_class = Types::FilterDropDownControl
 
     FilterGroup.add_member(:filter_group_id, Shapes::ShapeRef.new(shape: ShortRestrictiveResourceId, required: true, location_name: "FilterGroupId"))
@@ -6470,6 +6492,7 @@ module Aws::QuickSight
     FilterListControl.add_member(:type, Shapes::ShapeRef.new(shape: SheetControlListType, location_name: "Type"))
     FilterListControl.add_member(:selectable_values, Shapes::ShapeRef.new(shape: FilterSelectableValues, location_name: "SelectableValues"))
     FilterListControl.add_member(:cascading_control_configuration, Shapes::ShapeRef.new(shape: CascadingControlConfiguration, location_name: "CascadingControlConfiguration"))
+    FilterListControl.add_member(:control_sort_configurations, Shapes::ShapeRef.new(shape: ControlSortConfigurationList, location_name: "ControlSortConfigurations"))
     FilterListControl.struct_class = Types::FilterListControl
 
     FilterOperation.add_member(:condition_expression, Shapes::ShapeRef.new(shape: Expression, location_name: "ConditionExpression"))
@@ -8497,6 +8520,7 @@ module Aws::QuickSight
     ParameterDropDownControl.add_member(:selectable_values, Shapes::ShapeRef.new(shape: ParameterSelectableValues, location_name: "SelectableValues"))
     ParameterDropDownControl.add_member(:cascading_control_configuration, Shapes::ShapeRef.new(shape: CascadingControlConfiguration, location_name: "CascadingControlConfiguration"))
     ParameterDropDownControl.add_member(:commit_mode, Shapes::ShapeRef.new(shape: CommitMode, location_name: "CommitMode"))
+    ParameterDropDownControl.add_member(:control_sort_configurations, Shapes::ShapeRef.new(shape: ControlSortConfigurationList, location_name: "ControlSortConfigurations"))
     ParameterDropDownControl.struct_class = Types::ParameterDropDownControl
 
     ParameterListControl.add_member(:parameter_control_id, Shapes::ShapeRef.new(shape: ShortRestrictiveResourceId, required: true, location_name: "ParameterControlId"))
@@ -8506,6 +8530,7 @@ module Aws::QuickSight
     ParameterListControl.add_member(:type, Shapes::ShapeRef.new(shape: SheetControlListType, location_name: "Type"))
     ParameterListControl.add_member(:selectable_values, Shapes::ShapeRef.new(shape: ParameterSelectableValues, location_name: "SelectableValues"))
     ParameterListControl.add_member(:cascading_control_configuration, Shapes::ShapeRef.new(shape: CascadingControlConfiguration, location_name: "CascadingControlConfiguration"))
+    ParameterListControl.add_member(:control_sort_configurations, Shapes::ShapeRef.new(shape: ControlSortConfigurationList, location_name: "ControlSortConfigurations"))
     ParameterListControl.struct_class = Types::ParameterListControl
 
     ParameterSelectableValueList.member = Shapes::ShapeRef.new(shape: String)
@@ -9156,6 +9181,7 @@ module Aws::QuickSight
     RegisteredUserConsoleFeatureConfigurations.add_member(:schedules, Shapes::ShapeRef.new(shape: SchedulesConfigurations, location_name: "Schedules"))
     RegisteredUserConsoleFeatureConfigurations.add_member(:recent_snapshots, Shapes::ShapeRef.new(shape: RecentSnapshotsConfigurations, location_name: "RecentSnapshots"))
     RegisteredUserConsoleFeatureConfigurations.add_member(:threshold_alerts, Shapes::ShapeRef.new(shape: ThresholdAlertsConfigurations, location_name: "ThresholdAlerts"))
+    RegisteredUserConsoleFeatureConfigurations.add_member(:dashboard_customization_summary, Shapes::ShapeRef.new(shape: DashboardCustomizationSummaryConfigurations, location_name: "DashboardCustomizationSummary"))
     RegisteredUserConsoleFeatureConfigurations.struct_class = Types::RegisteredUserConsoleFeatureConfigurations
 
     RegisteredUserDashboardEmbeddingConfiguration.add_member(:initial_dashboard_id, Shapes::ShapeRef.new(shape: ShortRestrictiveResourceId, required: true, location_name: "InitialDashboardId"))
@@ -9169,6 +9195,7 @@ module Aws::QuickSight
     RegisteredUserDashboardFeatureConfigurations.add_member(:schedules, Shapes::ShapeRef.new(shape: SchedulesConfigurations, location_name: "Schedules"))
     RegisteredUserDashboardFeatureConfigurations.add_member(:recent_snapshots, Shapes::ShapeRef.new(shape: RecentSnapshotsConfigurations, location_name: "RecentSnapshots"))
     RegisteredUserDashboardFeatureConfigurations.add_member(:threshold_alerts, Shapes::ShapeRef.new(shape: ThresholdAlertsConfigurations, location_name: "ThresholdAlerts"))
+    RegisteredUserDashboardFeatureConfigurations.add_member(:dashboard_customization_summary, Shapes::ShapeRef.new(shape: DashboardCustomizationSummaryConfigurations, location_name: "DashboardCustomizationSummary"))
     RegisteredUserDashboardFeatureConfigurations.struct_class = Types::RegisteredUserDashboardFeatureConfigurations
 
     RegisteredUserDashboardVisualEmbeddingConfiguration.add_member(:initial_dashboard_visual_id, Shapes::ShapeRef.new(shape: DashboardVisualId, required: true, location_name: "InitialDashboardVisualId"))
@@ -9335,6 +9362,9 @@ module Aws::QuickSight
     S3Source.add_member(:upload_settings, Shapes::ShapeRef.new(shape: UploadSettings, location_name: "UploadSettings"))
     S3Source.add_member(:input_columns, Shapes::ShapeRef.new(shape: InputColumnList, required: true, location_name: "InputColumns"))
     S3Source.struct_class = Types::S3Source
+
+    S3TablesParameters.add_member(:table_bucket_arn, Shapes::ShapeRef.new(shape: S3TableBucketArn, location_name: "TableBucketArn"))
+    S3TablesParameters.struct_class = Types::S3TablesParameters
 
     SaaSTable.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "DataSourceArn"))
     SaaSTable.add_member(:table_path, Shapes::ShapeRef.new(shape: TablePathElementList, required: true, location_name: "TablePath"))
@@ -9573,6 +9603,9 @@ module Aws::QuickSight
     SectionStyle.struct_class = Types::SectionStyle
 
     SecurityGroupIdList.member = Shapes::ShapeRef.new(shape: SecurityGroupId)
+
+    SelectableValuesSort.add_member(:direction, Shapes::ShapeRef.new(shape: ControlSortDirection, required: true, location_name: "Direction"))
+    SelectableValuesSort.struct_class = Types::SelectableValuesSort
 
     SelectedFieldList.member = Shapes::ShapeRef.new(shape: FieldId)
 

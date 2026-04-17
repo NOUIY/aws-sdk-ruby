@@ -1,6 +1,13 @@
 Unreleased Changes
 ------------------
 
+3.245.0 (2026-04-17)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - The STS client now supports configuring SigV4a through the auth scheme preference setting. SigV4a uses asymmetric cryptography, enabling customers using long-term IAM credentials to continue making STS API calls even when a region is isolated from the partition leader.
+
 * Issue - Explicitly set 0600 permissions on SSO/login cache files.
 
 3.244.0 (2026-03-18)

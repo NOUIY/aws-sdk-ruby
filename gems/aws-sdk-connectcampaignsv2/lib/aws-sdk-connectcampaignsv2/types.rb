@@ -94,6 +94,10 @@ module Aws::ConnectCampaignsV2
     #   Campaign schedule
     #   @return [Types::Schedule]
     #
+    # @!attribute [rw] entry_limits_config
+    #   Campaign entry limits config
+    #   @return [Types::EntryLimitsConfig]
+    #
     # @!attribute [rw] communication_time_config
     #   Campaign communication time config
     #   @return [Types::CommunicationTimeConfig]
@@ -118,6 +122,7 @@ module Aws::ConnectCampaignsV2
       :source,
       :connect_campaign_flow_arn,
       :schedule,
+      :entry_limits_config,
       :communication_time_config,
       :communication_limits_override,
       :tags)
@@ -169,6 +174,10 @@ module Aws::ConnectCampaignsV2
     #   Campaign schedule
     #   @return [Types::Schedule]
     #
+    # @!attribute [rw] entry_limits_config
+    #   Campaign entry limits config
+    #   @return [Types::EntryLimitsConfig]
+    #
     # @!attribute [rw] connect_campaign_flow_arn
     #   Amazon Resource Names(ARN)
     #   @return [String]
@@ -183,6 +192,7 @@ module Aws::ConnectCampaignsV2
       :channel_subtypes,
       :type,
       :schedule,
+      :entry_limits_config,
       :connect_campaign_flow_arn)
       SENSITIVE = []
       include Aws::Structure
@@ -407,6 +417,10 @@ module Aws::ConnectCampaignsV2
     #   Campaign schedule
     #   @return [Types::Schedule]
     #
+    # @!attribute [rw] entry_limits_config
+    #   Campaign entry limits config
+    #   @return [Types::EntryLimitsConfig]
+    #
     # @!attribute [rw] communication_time_config
     #   Campaign communication time config
     #   @return [Types::CommunicationTimeConfig]
@@ -429,6 +443,7 @@ module Aws::ConnectCampaignsV2
       :source,
       :connect_campaign_flow_arn,
       :schedule,
+      :entry_limits_config,
       :communication_time_config,
       :communication_limits_override,
       :tags)
@@ -565,6 +580,20 @@ module Aws::ConnectCampaignsV2
     class DeleteCampaignCommunicationTimeRequest < Struct.new(
       :id,
       :config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The request for DeleteCampaignEntryLimits API.
+    #
+    # @!attribute [rw] id
+    #   Identifier representing a Campaign
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaignsv2-2024-04-23/DeleteCampaignEntryLimitsRequest AWS API Documentation
+    #
+    class DeleteCampaignEntryLimitsRequest < Struct.new(
+      :id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -790,6 +819,28 @@ module Aws::ConnectCampaignsV2
       :enabled,
       :encryption_type,
       :key_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Campaign entry limits config
+    #
+    # @!attribute [rw] max_entry_count
+    #   Maximum number of times a participant can enter the campaign. A
+    #   value of 0 indicates unlimited entries. Values of 1 or greater
+    #   specify the exact number of entries allowed.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] min_entry_interval
+    #   Minimum time interval that must pass before a participant can enter
+    #   the campaign again.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaignsv2-2024-04-23/EntryLimitsConfig AWS API Documentation
+    #
+    class EntryLimitsConfig < Struct.new(
+      :max_entry_count,
+      :min_entry_interval)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2421,6 +2472,25 @@ module Aws::ConnectCampaignsV2
     class UpdateCampaignCommunicationTimeRequest < Struct.new(
       :id,
       :communication_time_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The request for UpdateCampaignEntryLimits API.
+    #
+    # @!attribute [rw] id
+    #   Identifier representing a Campaign
+    #   @return [String]
+    #
+    # @!attribute [rw] entry_limits_config
+    #   Campaign entry limits config
+    #   @return [Types::EntryLimitsConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaignsv2-2024-04-23/UpdateCampaignEntryLimitsRequest AWS API Documentation
+    #
+    class UpdateCampaignEntryLimitsRequest < Struct.new(
+      :id,
+      :entry_limits_config)
       SENSITIVE = []
       include Aws::Structure
     end

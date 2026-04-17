@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.253.0 (2026-04-17)
+------------------
+
+* Feature - Fixes in SDK for customers using TestCase APIs
+
 1.252.0 (2026-04-16)
 ------------------
 

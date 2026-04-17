@@ -17952,10 +17952,10 @@ module Aws::Connect
     # @option params [String] :test_case_name
     #   Filter executions by test case name.
     #
-    # @option params [Time,DateTime,Date,Integer,String] :start_time
+    # @option params [Integer] :start_time
     #   Filter executions that started after this time.
     #
-    # @option params [Time,DateTime,Date,Integer,String] :end_time
+    # @option params [Integer] :end_time
     #   Filter executions that started before this time.
     #
     # @option params [String] :status
@@ -17980,8 +17980,8 @@ module Aws::Connect
     #     instance_id: "InstanceId", # required
     #     test_case_id: "TestCaseId",
     #     test_case_name: "TestCaseName",
-    #     start_time: Time.now,
-    #     end_time: Time.now,
+    #     start_time: 1,
+    #     end_time: 1,
     #     status: "INITIATED", # accepts INITIATED, PASSED, FAILED, IN_PROGRESS, STOPPED
     #     next_token: "NextToken",
     #     max_results: 1,
@@ -24003,6 +24003,9 @@ module Aws::Connect
     #   SDK populates this field. For more information about idempotency, see
     #   [Making retries safe with idempotent APIs][1].
     #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
     #
     #
     #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
@@ -24367,6 +24370,9 @@ module Aws::Connect
     #   idempotency of the request. If not provided, the Amazon Web Services
     #   SDK populates this field. For more information about idempotency, see
     #   [Making retries safe with idempotent APIs][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
     #
     #
     #
@@ -28896,7 +28902,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.252.0'
+      context[:gem_version] = '1.253.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

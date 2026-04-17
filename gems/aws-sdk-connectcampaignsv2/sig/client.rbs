@@ -167,6 +167,10 @@ module Aws
                                end_time: ::Time,
                                refresh_frequency: ::String?
                              },
+                             ?entry_limits_config: {
+                               max_entry_count: ::Integer,
+                               min_entry_interval: ::String
+                             },
                              ?communication_time_config: {
                                local_time_zone_config: {
                                  default_time_zone: ::String?,
@@ -291,6 +295,12 @@ module Aws
                                                 config: ("TELEPHONY" | "SMS" | "EMAIL" | "WHATSAPP")
                                               ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ConnectCampaignsV2/Client.html#delete_campaign_entry_limits-instance_method
+      def delete_campaign_entry_limits: (
+                                          id: ::String
+                                        ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ConnectCampaignsV2/Client.html#delete_connect_instance_config-instance_method
       def delete_connect_instance_config: (
@@ -754,6 +764,16 @@ module Aws
                                                 }
                                               ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ConnectCampaignsV2/Client.html#update_campaign_entry_limits-instance_method
+      def update_campaign_entry_limits: (
+                                          id: ::String,
+                                          entry_limits_config: {
+                                            max_entry_count: ::Integer,
+                                            min_entry_interval: ::String
+                                          }
+                                        ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ConnectCampaignsV2/Client.html#update_campaign_flow_association-instance_method
       def update_campaign_flow_association: (

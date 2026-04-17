@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.70.0 (2026-04-17)
+------------------
+
+* Feature - This release adds support for configurable spark properties for Cleanrooms PySpark workloads.
+
 1.69.0 (2026-03-18)
 ------------------
 

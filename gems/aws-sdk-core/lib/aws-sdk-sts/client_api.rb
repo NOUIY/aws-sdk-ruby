@@ -315,7 +315,7 @@ module Aws::STS
 
       api.metadata = {
         "apiVersion" => "2011-06-15",
-        "auth" => ["aws.auth#sigv4"],
+        "auth" => ["aws.auth#sigv4", "aws.auth#sigv4a"],
         "endpointPrefix" => "sts",
         "globalEndpoint" => "sts.amazonaws.com",
         "protocol" => "query",

@@ -4835,6 +4835,14 @@ module Aws::Imagebuilder
     #   Tags that are attached to image resources created from the import.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] register_image_options
+    #   Configures Secure Boot and UEFI settings for the imported image.
+    #   @return [Types::RegisterImageOptions]
+    #
+    # @!attribute [rw] windows_configuration
+    #   Specifies Windows settings for ISO imports.
+    #   @return [Types::WindowsConfiguration]
+    #
     # @!attribute [rw] client_token
     #   Unique, case-sensitive identifier you provide to ensure idempotency
     #   of the request. For more information, see [Ensuring idempotency][1]
@@ -4861,6 +4869,8 @@ module Aws::Imagebuilder
       :uri,
       :logging_configuration,
       :tags,
+      :register_image_options,
+      :windows_configuration,
       :client_token)
       SENSITIVE = []
       include Aws::Structure
@@ -7649,6 +7659,44 @@ module Aws::Imagebuilder
       include Aws::Structure
     end
 
+    # Controls Secure Boot and UEFI data settings for the resulting image
+    # during ISO imports. For more information, see [UEFI Secure Boot for
+    # Amazon EC2 instances][1] in the <i> <i>Amazon EC2 User Guide</i> </i>.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/uefi-secure-boot.html
+    #
+    # @!attribute [rw] secure_boot_enabled
+    #   Specifies whether Secure Boot is enabled for the output AMI. The
+    #   default value is `true`. To disable Secure Boot for custom unsigned
+    #   drivers, set this value to `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] uefi_data
+    #   A Base64-encoded representation of the non-volatile UEFI variable
+    #   store. You can specify this parameter only when `secureBootEnabled`
+    #   is `true` or unspecified. You can inspect and modify the UEFI data
+    #   by using the [python-uefivars tool on GitHub][1].
+    #
+    #   For more information, see [UEFI variables for Amazon EC2
+    #   instances][2].
+    #
+    #
+    #
+    #   [1]: https://github.com/awslabs/python-uefivars
+    #   [2]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/uefi-variables.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/imagebuilder-2019-12-02/RegisterImageOptions AWS API Documentation
+    #
+    class RegisterImageOptions < Struct.new(
+      :secure_boot_enabled,
+      :uefi_data)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information about how to remediate a finding.
     #
     # @!attribute [rw] recommendation
@@ -8850,6 +8898,24 @@ module Aws::Imagebuilder
       :file_path,
       :fixed_in_version,
       :remediation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Windows-specific configuration settings for an ISO import, including
+    # the edition to install from a multi-edition Windows ISO file.
+    #
+    # @!attribute [rw] image_index
+    #   The 1-based index that specifies which Windows edition to install
+    #   from a multi-edition Windows ISO file. A Windows ISO can contain a
+    #   `.wim` file with multiple image indexes, each representing a
+    #   different edition.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/imagebuilder-2019-12-02/WindowsConfiguration AWS API Documentation
+    #
+    class WindowsConfiguration < Struct.new(
+      :image_index)
       SENSITIVE = []
       include Aws::Structure
     end

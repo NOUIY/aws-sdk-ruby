@@ -3868,8 +3868,8 @@ module Aws
                                        instance_id: ::String,
                                        ?test_case_id: ::String,
                                        ?test_case_name: ::String,
-                                       ?start_time: ::Time,
-                                       ?end_time: ::Time,
+                                       ?start_time: ::Integer,
+                                       ?end_time: ::Integer,
                                        ?status: ("INITIATED" | "PASSED" | "FAILED" | "IN_PROGRESS" | "STOPPED"),
                                        ?next_token: ::String,
                                        ?max_results: ::Integer

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.178.0 (2026-04-17)
+------------------
+
+* Feature - Public release of dashboard customization summary, S3 Tables data source type, Athena cross-account connector, custom sorting for controls, and AI-powered analysis generation.
+
 1.177.0 (2026-03-31)
 ------------------
 

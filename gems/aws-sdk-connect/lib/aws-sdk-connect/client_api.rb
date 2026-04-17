@@ -695,6 +695,7 @@ module Aws::Connect
     EndpointType = Shapes::StringShape.new(name: 'EndpointType')
     EntityArn = Shapes::StringShape.new(name: 'EntityArn')
     EntityType = Shapes::StringShape.new(name: 'EntityType')
+    EpochMilliseconds = Shapes::IntegerShape.new(name: 'EpochMilliseconds')
     ErrorCode = Shapes::StringShape.new(name: 'ErrorCode')
     ErrorMessage = Shapes::StringShape.new(name: 'ErrorMessage')
     ErrorResult = Shapes::StructureShape.new(name: 'ErrorResult')
@@ -6225,8 +6226,8 @@ module Aws::Connect
     ListTestCaseExecutionsRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     ListTestCaseExecutionsRequest.add_member(:test_case_id, Shapes::ShapeRef.new(shape: TestCaseId, location: "querystring", location_name: "testCaseId"))
     ListTestCaseExecutionsRequest.add_member(:test_case_name, Shapes::ShapeRef.new(shape: TestCaseName, location: "querystring", location_name: "testCaseName"))
-    ListTestCaseExecutionsRequest.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, location: "querystring", location_name: "startTime"))
-    ListTestCaseExecutionsRequest.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location: "querystring", location_name: "endTime"))
+    ListTestCaseExecutionsRequest.add_member(:start_time, Shapes::ShapeRef.new(shape: EpochMilliseconds, location: "querystring", location_name: "startTime"))
+    ListTestCaseExecutionsRequest.add_member(:end_time, Shapes::ShapeRef.new(shape: EpochMilliseconds, location: "querystring", location_name: "endTime"))
     ListTestCaseExecutionsRequest.add_member(:status, Shapes::ShapeRef.new(shape: TestCaseExecutionStatus, location: "querystring", location_name: "status"))
     ListTestCaseExecutionsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
     ListTestCaseExecutionsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResult100, location: "querystring", location_name: "maxResults", metadata: {"box" => true}))
@@ -8066,7 +8067,7 @@ module Aws::Connect
 
     StartTestCaseExecutionRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     StartTestCaseExecutionRequest.add_member(:test_case_id, Shapes::ShapeRef.new(shape: TestCaseId, required: true, location: "uri", location_name: "TestCaseId"))
-    StartTestCaseExecutionRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken"))
+    StartTestCaseExecutionRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     StartTestCaseExecutionRequest.struct_class = Types::StartTestCaseExecutionRequest
 
     StartTestCaseExecutionResponse.add_member(:test_case_execution_id, Shapes::ShapeRef.new(shape: TestCaseExecutionId, location_name: "TestCaseExecutionId"))
@@ -8136,7 +8137,7 @@ module Aws::Connect
     StopTestCaseExecutionRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     StopTestCaseExecutionRequest.add_member(:test_case_execution_id, Shapes::ShapeRef.new(shape: TestCaseExecutionId, required: true, location: "uri", location_name: "TestCaseExecutionId"))
     StopTestCaseExecutionRequest.add_member(:test_case_id, Shapes::ShapeRef.new(shape: TestCaseId, required: true, location: "uri", location_name: "TestCaseId"))
-    StopTestCaseExecutionRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken"))
+    StopTestCaseExecutionRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     StopTestCaseExecutionRequest.struct_class = Types::StopTestCaseExecutionRequest
 
     StopTestCaseExecutionResponse.struct_class = Types::StopTestCaseExecutionResponse

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.360.0 (2026-04-17)
+------------------
+
+* Feature - Adds support for providing NetworkInterface for efa enabled instances and Simplified cluster creation for Slurm-orchestrated clusters with optional Lifecycle Script (LCS) configuration.
+
 1.359.0 (2026-04-10)
 ------------------
 

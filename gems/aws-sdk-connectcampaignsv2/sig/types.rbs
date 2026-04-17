@@ -33,6 +33,7 @@ module Aws::ConnectCampaignsV2
       attr_accessor source: Types::Source
       attr_accessor connect_campaign_flow_arn: ::String
       attr_accessor schedule: Types::Schedule
+      attr_accessor entry_limits_config: Types::EntryLimitsConfig
       attr_accessor communication_time_config: Types::CommunicationTimeConfig
       attr_accessor communication_limits_override: Types::CommunicationLimitsConfig
       attr_accessor tags: ::Hash[::String, ::String]
@@ -52,6 +53,7 @@ module Aws::ConnectCampaignsV2
       attr_accessor channel_subtypes: ::Array[("TELEPHONY" | "SMS" | "EMAIL" | "WHATSAPP")]
       attr_accessor type: ("MANAGED" | "JOURNEY")
       attr_accessor schedule: Types::Schedule
+      attr_accessor entry_limits_config: Types::EntryLimitsConfig
       attr_accessor connect_campaign_flow_arn: ::String
       SENSITIVE: []
     end
@@ -131,6 +133,7 @@ module Aws::ConnectCampaignsV2
       attr_accessor source: Types::Source
       attr_accessor connect_campaign_flow_arn: ::String
       attr_accessor schedule: Types::Schedule
+      attr_accessor entry_limits_config: Types::EntryLimitsConfig
       attr_accessor communication_time_config: Types::CommunicationTimeConfig
       attr_accessor communication_limits_override: Types::CommunicationLimitsConfig
       attr_accessor tags: ::Hash[::String, ::String]
@@ -176,6 +179,11 @@ module Aws::ConnectCampaignsV2
     class DeleteCampaignCommunicationTimeRequest
       attr_accessor id: ::String
       attr_accessor config: ("TELEPHONY" | "SMS" | "EMAIL" | "WHATSAPP")
+      SENSITIVE: []
+    end
+
+    class DeleteCampaignEntryLimitsRequest
+      attr_accessor id: ::String
       SENSITIVE: []
     end
 
@@ -248,6 +256,12 @@ module Aws::ConnectCampaignsV2
       attr_accessor enabled: bool
       attr_accessor encryption_type: ("KMS")
       attr_accessor key_arn: ::String
+      SENSITIVE: []
+    end
+
+    class EntryLimitsConfig
+      attr_accessor max_entry_count: ::Integer
+      attr_accessor min_entry_interval: ::String
       SENSITIVE: []
     end
 
@@ -799,6 +813,12 @@ module Aws::ConnectCampaignsV2
     class UpdateCampaignCommunicationTimeRequest
       attr_accessor id: ::String
       attr_accessor communication_time_config: Types::CommunicationTimeConfig
+      SENSITIVE: []
+    end
+
+    class UpdateCampaignEntryLimitsRequest
+      attr_accessor id: ::String
+      attr_accessor entry_limits_config: Types::EntryLimitsConfig
       SENSITIVE: []
     end
 

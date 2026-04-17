@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.82.0 (2026-04-17)
+------------------
+
+* Feature - Adds support for updating contacts, listing antennas, and listing ground station reservations. New API operations - UpdateContact, ListContactVersions, DescribeContactVersion, ListAntennas, and ListGroundStationReservations.
+
 1.81.0 (2026-03-18)
 ------------------
 
