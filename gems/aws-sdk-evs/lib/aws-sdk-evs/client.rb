@@ -552,6 +552,77 @@ module Aws::Evs
       req.send_request(options)
     end
 
+    # Creates a Windows Server License entitlement for virtual machines in
+    # an Amazon EVS environment using the provided vCenter Server connector.
+    # This is an asynchronous operation. Amazon EVS validates the specified
+    # virtual machines before starting usage tracking.
+    #
+    # @option params [String] :client_token
+    #   <note markdown="1"> This parameter is not used in Amazon EVS
+    #   currently. If you supply
+    #   input for this parameter, it will have no effect.
+    #
+    #    </note>
+    #
+    #    A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the entitlement creation request. If you do not specify
+    #   a client token, a randomly generated token is used for the request to
+    #   ensure idempotency.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, String] :environment_id
+    #   A unique ID for the environment to create the entitlement in.
+    #
+    # @option params [required, String] :connector_id
+    #   A unique ID for the connector associated with the entitlement.
+    #
+    # @option params [required, String] :entitlement_type
+    #   The type of entitlement to create.
+    #
+    # @option params [required, Array<String>] :vm_ids
+    #   The list of VMware vSphere virtual machine managed object IDs to
+    #   create entitlements for.
+    #
+    # @return [Types::CreateEntitlementResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateEntitlementResponse#entitlements #entitlements} => Array&lt;Types::VmEntitlement&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_entitlement({
+    #     client_token: "ClientToken",
+    #     environment_id: "EnvironmentId", # required
+    #     connector_id: "ConnectorId", # required
+    #     entitlement_type: "WINDOWS_SERVER", # required, accepts WINDOWS_SERVER
+    #     vm_ids: ["VmId"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.entitlements #=> Array
+    #   resp.entitlements[0].vm_id #=> String
+    #   resp.entitlements[0].environment_id #=> String
+    #   resp.entitlements[0].connector_id #=> String
+    #   resp.entitlements[0].vm_name #=> String
+    #   resp.entitlements[0].type #=> String, one of "WINDOWS_SERVER"
+    #   resp.entitlements[0].status #=> String, one of "CREATING", "CREATED", "DELETED", "AT_RISK", "ENTITLEMENT_REMOVED", "CREATE_FAILED"
+    #   resp.entitlements[0].last_synced_at #=> Time
+    #   resp.entitlements[0].started_at #=> Time
+    #   resp.entitlements[0].stopped_at #=> Time
+    #   resp.entitlements[0].error_detail.error_code #=> String
+    #   resp.entitlements[0].error_detail.error_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/CreateEntitlement AWS API Documentation
+    #
+    # @overload create_entitlement(params = {})
+    # @param [Hash] params ({})
+    def create_entitlement(params = {}, options = {})
+      req = build_request(:create_entitlement, params)
+      req.send_request(options)
+    end
+
     # Creates an Amazon EVS environment that runs VCF software, such as SDDC
     # Manager, NSX Manager, and vCenter Server.
     #
@@ -823,7 +894,7 @@ module Aws::Evs
     #   resp.environment.site_id #=> String
     #   resp.environment.environment_status #=> String, one of "PASSED", "FAILED", "UNKNOWN"
     #   resp.environment.checks #=> Array
-    #   resp.environment.checks[0].type #=> String, one of "KEY_REUSE", "KEY_COVERAGE", "REACHABILITY", "HOST_COUNT"
+    #   resp.environment.checks[0].type #=> String, one of "KEY_REUSE", "KEY_COVERAGE", "REACHABILITY", "HOST_COUNT", "VCENTER_REACHABILITY", "VCENTER_VM_SYNC", "VCENTER_VM_EVENT"
     #   resp.environment.checks[0].result #=> String, one of "PASSED", "FAILED", "UNKNOWN"
     #   resp.environment.checks[0].impaired_since #=> Time
     #   resp.environment.connectivity_info.private_route_server_peerings #=> Array
@@ -849,6 +920,84 @@ module Aws::Evs
     # @param [Hash] params ({})
     def create_environment(params = {}, options = {})
       req = build_request(:create_environment, params)
+      req.send_request(options)
+    end
+
+    # Creates a connector for an Amazon EVS environment. A connector
+    # establishes a connection to a VCF appliance, such as vCenter, using a
+    # fully qualified domain name and an Amazon Web Services Secrets Manager
+    # secret that stores the appliance credentials.
+    #
+    # @option params [String] :client_token
+    #   <note markdown="1"> This parameter is not used in Amazon EVS
+    #   currently. If you supply
+    #   input for this parameter, it will have no effect.
+    #
+    #    </note>
+    #
+    #    A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the connector creation request. If you do not specify a
+    #   client token, a randomly generated token is used for the request to
+    #   ensure idempotency.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, String] :environment_id
+    #   A unique ID for the environment to create the connector in.
+    #
+    # @option params [required, String] :type
+    #   The type of connector to create.
+    #
+    # @option params [required, String] :appliance_fqdn
+    #   The fully qualified domain name (FQDN) of the VCF appliance that the
+    #   connector targets.
+    #
+    # @option params [required, String] :secret_identifier
+    #   The ARN or name of the Amazon Web Services Secrets Manager secret that
+    #   stores the credentials for the VCF appliance.
+    #
+    #   Do not use credentials with Administrator privileges. We recommend
+    #   using a service account with the minimum required permissions.
+    #
+    # @return [Types::CreateEnvironmentConnectorResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateEnvironmentConnectorResponse#connector #connector} => Types::Connector
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_environment_connector({
+    #     client_token: "ClientToken",
+    #     environment_id: "EnvironmentId", # required
+    #     type: "VCENTER", # required, accepts VCENTER
+    #     appliance_fqdn: "ApplianceFqdn", # required
+    #     secret_identifier: "SecretIdentifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.connector.environment_id #=> String
+    #   resp.connector.connector_id #=> String
+    #   resp.connector.type #=> String, one of "VCENTER"
+    #   resp.connector.appliance_fqdn #=> String
+    #   resp.connector.secret_arn #=> String
+    #   resp.connector.state #=> String, one of "CREATING", "CREATE_FAILED", "ACTIVE", "UPDATING", "UPDATE_FAILED", "DELETING", "DELETED"
+    #   resp.connector.state_details #=> String
+    #   resp.connector.status #=> String, one of "PASSED", "FAILED", "UNKNOWN"
+    #   resp.connector.checks #=> Array
+    #   resp.connector.checks[0].type #=> String, one of "KEY_REUSE", "KEY_COVERAGE", "REACHABILITY", "HOST_COUNT", "VCENTER_REACHABILITY", "VCENTER_VM_SYNC", "VCENTER_VM_EVENT"
+    #   resp.connector.checks[0].result #=> String, one of "PASSED", "FAILED", "UNKNOWN"
+    #   resp.connector.checks[0].last_check_attempt #=> Time
+    #   resp.connector.checks[0].impaired_since #=> Time
+    #   resp.connector.created_at #=> Time
+    #   resp.connector.modified_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/CreateEnvironmentConnector AWS API Documentation
+    #
+    # @overload create_environment_connector(params = {})
+    # @param [Hash] params ({})
+    def create_environment_connector(params = {}, options = {})
+      req = build_request(:create_environment_connector, params)
       req.send_request(options)
     end
 
@@ -955,6 +1104,76 @@ module Aws::Evs
       req.send_request(options)
     end
 
+    # Deletes a Windows Server License entitlement for virtual machines in
+    # an Amazon EVS environment. Deleting an entitlement stops usage
+    # tracking for the specified virtual machines.
+    #
+    # @option params [String] :client_token
+    #   <note markdown="1"> This parameter is not used in Amazon EVS
+    #   currently. If you supply
+    #   input for this parameter, it will have no effect.
+    #
+    #    </note>
+    #
+    #    A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the entitlement deletion request. If you do not specify
+    #   a client token, a randomly generated token is used for the request to
+    #   ensure idempotency.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, String] :environment_id
+    #   A unique ID for the environment that the entitlement belongs to.
+    #
+    # @option params [required, String] :connector_id
+    #   A unique ID for the connector associated with the entitlement.
+    #
+    # @option params [required, String] :entitlement_type
+    #   The type of entitlement to delete.
+    #
+    # @option params [required, Array<String>] :vm_ids
+    #   The list of VMware vSphere virtual machine managed object IDs to
+    #   delete entitlements for.
+    #
+    # @return [Types::DeleteEntitlementResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteEntitlementResponse#entitlements #entitlements} => Array&lt;Types::VmEntitlement&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_entitlement({
+    #     client_token: "ClientToken",
+    #     environment_id: "EnvironmentId", # required
+    #     connector_id: "ConnectorId", # required
+    #     entitlement_type: "WINDOWS_SERVER", # required, accepts WINDOWS_SERVER
+    #     vm_ids: ["VmId"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.entitlements #=> Array
+    #   resp.entitlements[0].vm_id #=> String
+    #   resp.entitlements[0].environment_id #=> String
+    #   resp.entitlements[0].connector_id #=> String
+    #   resp.entitlements[0].vm_name #=> String
+    #   resp.entitlements[0].type #=> String, one of "WINDOWS_SERVER"
+    #   resp.entitlements[0].status #=> String, one of "CREATING", "CREATED", "DELETED", "AT_RISK", "ENTITLEMENT_REMOVED", "CREATE_FAILED"
+    #   resp.entitlements[0].last_synced_at #=> Time
+    #   resp.entitlements[0].started_at #=> Time
+    #   resp.entitlements[0].stopped_at #=> Time
+    #   resp.entitlements[0].error_detail.error_code #=> String
+    #   resp.entitlements[0].error_detail.error_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/DeleteEntitlement AWS API Documentation
+    #
+    # @overload delete_entitlement(params = {})
+    # @param [Hash] params ({})
+    def delete_entitlement(params = {}, options = {})
+      req = build_request(:delete_entitlement, params)
+      req.send_request(options)
+    end
+
     # Deletes an Amazon EVS environment.
     #
     # Amazon EVS environments will only be enabled for deletion once the
@@ -1014,7 +1233,7 @@ module Aws::Evs
     #   resp.environment.site_id #=> String
     #   resp.environment.environment_status #=> String, one of "PASSED", "FAILED", "UNKNOWN"
     #   resp.environment.checks #=> Array
-    #   resp.environment.checks[0].type #=> String, one of "KEY_REUSE", "KEY_COVERAGE", "REACHABILITY", "HOST_COUNT"
+    #   resp.environment.checks[0].type #=> String, one of "KEY_REUSE", "KEY_COVERAGE", "REACHABILITY", "HOST_COUNT", "VCENTER_REACHABILITY", "VCENTER_VM_SYNC", "VCENTER_VM_EVENT"
     #   resp.environment.checks[0].result #=> String, one of "PASSED", "FAILED", "UNKNOWN"
     #   resp.environment.checks[0].impaired_since #=> Time
     #   resp.environment.connectivity_info.private_route_server_peerings #=> Array
@@ -1040,6 +1259,82 @@ module Aws::Evs
     # @param [Hash] params ({})
     def delete_environment(params = {}, options = {})
       req = build_request(:delete_environment, params)
+      req.send_request(options)
+    end
+
+    # Deletes a connector from an Amazon EVS environment.
+    #
+    # <note markdown="1"> Before deleting a connector, you must remove all entitlements that are
+    # associated with the same vCenter.
+    #
+    #  </note>
+    #
+    # @option params [String] :client_token
+    #   <note markdown="1"> This parameter is not used in Amazon EVS
+    #   currently. If you supply
+    #   input for this parameter, it will have no effect.
+    #
+    #    </note>
+    #
+    #    A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the connector deletion request. If you do not specify a
+    #   client token, a randomly generated token is used for the request to
+    #   ensure idempotency.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, String] :environment_id
+    #   A unique ID for the environment that the connector belongs to.
+    #
+    # @option params [required, String] :connector_id
+    #   A unique ID for the connector to be deleted.
+    #
+    # @return [Types::DeleteEnvironmentConnectorResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteEnvironmentConnectorResponse#connector #connector} => Types::Connector
+    #   * {Types::DeleteEnvironmentConnectorResponse#environment_summary #environment_summary} => Types::EnvironmentSummary
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_environment_connector({
+    #     client_token: "ClientToken",
+    #     environment_id: "EnvironmentId", # required
+    #     connector_id: "ConnectorId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.connector.environment_id #=> String
+    #   resp.connector.connector_id #=> String
+    #   resp.connector.type #=> String, one of "VCENTER"
+    #   resp.connector.appliance_fqdn #=> String
+    #   resp.connector.secret_arn #=> String
+    #   resp.connector.state #=> String, one of "CREATING", "CREATE_FAILED", "ACTIVE", "UPDATING", "UPDATE_FAILED", "DELETING", "DELETED"
+    #   resp.connector.state_details #=> String
+    #   resp.connector.status #=> String, one of "PASSED", "FAILED", "UNKNOWN"
+    #   resp.connector.checks #=> Array
+    #   resp.connector.checks[0].type #=> String, one of "KEY_REUSE", "KEY_COVERAGE", "REACHABILITY", "HOST_COUNT", "VCENTER_REACHABILITY", "VCENTER_VM_SYNC", "VCENTER_VM_EVENT"
+    #   resp.connector.checks[0].result #=> String, one of "PASSED", "FAILED", "UNKNOWN"
+    #   resp.connector.checks[0].last_check_attempt #=> Time
+    #   resp.connector.checks[0].impaired_since #=> Time
+    #   resp.connector.created_at #=> Time
+    #   resp.connector.modified_at #=> Time
+    #   resp.environment_summary.environment_id #=> String
+    #   resp.environment_summary.environment_name #=> String
+    #   resp.environment_summary.vcf_version #=> String, one of "VCF-5.2.1", "VCF-5.2.2"
+    #   resp.environment_summary.environment_status #=> String, one of "PASSED", "FAILED", "UNKNOWN"
+    #   resp.environment_summary.environment_state #=> String, one of "CREATING", "CREATED", "DELETING", "DELETED", "CREATE_FAILED"
+    #   resp.environment_summary.created_at #=> Time
+    #   resp.environment_summary.modified_at #=> Time
+    #   resp.environment_summary.environment_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/DeleteEnvironmentConnector AWS API Documentation
+    #
+    # @overload delete_environment_connector(params = {})
+    # @param [Hash] params ({})
+    def delete_environment_connector(params = {}, options = {})
+      req = build_request(:delete_environment_connector, params)
       req.send_request(options)
     end
 
@@ -1221,7 +1516,7 @@ module Aws::Evs
     #   resp.environment.site_id #=> String
     #   resp.environment.environment_status #=> String, one of "PASSED", "FAILED", "UNKNOWN"
     #   resp.environment.checks #=> Array
-    #   resp.environment.checks[0].type #=> String, one of "KEY_REUSE", "KEY_COVERAGE", "REACHABILITY", "HOST_COUNT"
+    #   resp.environment.checks[0].type #=> String, one of "KEY_REUSE", "KEY_COVERAGE", "REACHABILITY", "HOST_COUNT", "VCENTER_REACHABILITY", "VCENTER_VM_SYNC", "VCENTER_VM_EVENT"
     #   resp.environment.checks[0].result #=> String, one of "PASSED", "FAILED", "UNKNOWN"
     #   resp.environment.checks[0].impaired_since #=> Time
     #   resp.environment.connectivity_info.private_route_server_peerings #=> Array
@@ -1278,6 +1573,68 @@ module Aws::Evs
     # @param [Hash] params ({})
     def get_versions(params = {}, options = {})
       req = build_request(:get_versions, params)
+      req.send_request(options)
+    end
+
+    # Lists the connectors within an environment. Returns the status of each
+    # connector and its applicable checks, among other connector details.
+    #
+    # @option params [String] :next_token
+    #   A unique pagination token for each page. If `nextToken` is returned,
+    #   there are more results available. Make the call again using the
+    #   returned token with all other arguments unchanged to retrieve the next
+    #   page. Each pagination token expires after 24 hours. Using an expired
+    #   pagination token will return an *HTTP 400 InvalidToken* error.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return. If you specify `MaxResults`
+    #   in the request, the response includes information up to the limit
+    #   specified.
+    #
+    # @option params [required, String] :environment_id
+    #   A unique ID for the environment.
+    #
+    # @return [Types::ListEnvironmentConnectorsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListEnvironmentConnectorsResponse#next_token #next_token} => String
+    #   * {Types::ListEnvironmentConnectorsResponse#connectors #connectors} => Array&lt;Types::Connector&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_environment_connectors({
+    #     next_token: "PaginationToken",
+    #     max_results: 1,
+    #     environment_id: "EnvironmentId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.connectors #=> Array
+    #   resp.connectors[0].environment_id #=> String
+    #   resp.connectors[0].connector_id #=> String
+    #   resp.connectors[0].type #=> String, one of "VCENTER"
+    #   resp.connectors[0].appliance_fqdn #=> String
+    #   resp.connectors[0].secret_arn #=> String
+    #   resp.connectors[0].state #=> String, one of "CREATING", "CREATE_FAILED", "ACTIVE", "UPDATING", "UPDATE_FAILED", "DELETING", "DELETED"
+    #   resp.connectors[0].state_details #=> String
+    #   resp.connectors[0].status #=> String, one of "PASSED", "FAILED", "UNKNOWN"
+    #   resp.connectors[0].checks #=> Array
+    #   resp.connectors[0].checks[0].type #=> String, one of "KEY_REUSE", "KEY_COVERAGE", "REACHABILITY", "HOST_COUNT", "VCENTER_REACHABILITY", "VCENTER_VM_SYNC", "VCENTER_VM_EVENT"
+    #   resp.connectors[0].checks[0].result #=> String, one of "PASSED", "FAILED", "UNKNOWN"
+    #   resp.connectors[0].checks[0].last_check_attempt #=> Time
+    #   resp.connectors[0].checks[0].impaired_since #=> Time
+    #   resp.connectors[0].created_at #=> Time
+    #   resp.connectors[0].modified_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/ListEnvironmentConnectors AWS API Documentation
+    #
+    # @overload list_environment_connectors(params = {})
+    # @param [Hash] params ({})
+    def list_environment_connectors(params = {}, options = {})
+      req = build_request(:list_environment_connectors, params)
       req.send_request(options)
     end
 
@@ -1488,6 +1845,73 @@ module Aws::Evs
       req.send_request(options)
     end
 
+    # Lists the Windows Server License entitlements for virtual machines in
+    # an Amazon EVS environment. Returns existing entitlements for virtual
+    # machines associated with the specified environment and connector.
+    #
+    # @option params [String] :next_token
+    #   A unique pagination token for each page. If `nextToken` is returned,
+    #   there are more results available. Make the call again using the
+    #   returned token with all other arguments unchanged to retrieve the next
+    #   page. Each pagination token expires after 24 hours. Using an expired
+    #   pagination token will return an *HTTP 400 InvalidToken* error.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return. If you specify `MaxResults`
+    #   in the request, the response includes information up to the limit
+    #   specified.
+    #
+    # @option params [required, String] :environment_id
+    #   A unique ID for the environment.
+    #
+    # @option params [required, String] :connector_id
+    #   A unique ID for the connector.
+    #
+    # @option params [required, String] :entitlement_type
+    #   The type of entitlement to list.
+    #
+    # @return [Types::ListVmEntitlementsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListVmEntitlementsResponse#next_token #next_token} => String
+    #   * {Types::ListVmEntitlementsResponse#entitlements #entitlements} => Array&lt;Types::VmEntitlement&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_vm_entitlements({
+    #     next_token: "PaginationToken",
+    #     max_results: 1,
+    #     environment_id: "EnvironmentId", # required
+    #     connector_id: "ConnectorId", # required
+    #     entitlement_type: "WINDOWS_SERVER", # required, accepts WINDOWS_SERVER
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.entitlements #=> Array
+    #   resp.entitlements[0].vm_id #=> String
+    #   resp.entitlements[0].environment_id #=> String
+    #   resp.entitlements[0].connector_id #=> String
+    #   resp.entitlements[0].vm_name #=> String
+    #   resp.entitlements[0].type #=> String, one of "WINDOWS_SERVER"
+    #   resp.entitlements[0].status #=> String, one of "CREATING", "CREATED", "DELETED", "AT_RISK", "ENTITLEMENT_REMOVED", "CREATE_FAILED"
+    #   resp.entitlements[0].last_synced_at #=> Time
+    #   resp.entitlements[0].started_at #=> Time
+    #   resp.entitlements[0].stopped_at #=> Time
+    #   resp.entitlements[0].error_detail.error_code #=> String
+    #   resp.entitlements[0].error_detail.error_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/ListVmEntitlements AWS API Documentation
+    #
+    # @overload list_vm_entitlements(params = {})
+    # @param [Hash] params ({})
+    def list_vm_entitlements(params = {}, options = {})
+      req = build_request(:list_vm_entitlements, params)
+      req.send_request(options)
+    end
+
     # Associates the specified tags to an Amazon EVS resource with the
     # specified `resourceArn`. If existing tags on a resource are not
     # specified in the request parameters, they aren't changed. When a
@@ -1552,6 +1976,84 @@ module Aws::Evs
       req.send_request(options)
     end
 
+    # Updates a connector for an Amazon EVS environment. You can update the
+    # Amazon Web Services Secrets Manager secret ARN or the appliance FQDN
+    # to reconfigure the connector metadata.
+    #
+    # <note markdown="1"> You cannot update both the secret and the FQDN in the same request.
+    #
+    #  </note>
+    #
+    # @option params [String] :client_token
+    #   <note markdown="1"> This parameter is not used in Amazon EVS
+    #   currently. If you supply
+    #   input for this parameter, it will have no effect.
+    #
+    #    </note>
+    #
+    #    A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the connector update request. If you do not specify a
+    #   client token, a randomly generated token is used for the request to
+    #   ensure idempotency.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, String] :environment_id
+    #   A unique ID for the environment that the connector belongs to.
+    #
+    # @option params [required, String] :connector_id
+    #   A unique ID for the connector to update.
+    #
+    # @option params [String] :appliance_fqdn
+    #   The new fully qualified domain name (FQDN) of the VCF appliance that
+    #   the connector connects to.
+    #
+    # @option params [String] :secret_identifier
+    #   The new ARN or name of the Amazon Web Services Secrets Manager secret
+    #   that stores the credentials for the VCF appliance.
+    #
+    # @return [Types::UpdateEnvironmentConnectorResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateEnvironmentConnectorResponse#connector #connector} => Types::Connector
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_environment_connector({
+    #     client_token: "ClientToken",
+    #     environment_id: "EnvironmentId", # required
+    #     connector_id: "ConnectorId", # required
+    #     appliance_fqdn: "ApplianceFqdn",
+    #     secret_identifier: "SecretIdentifier",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.connector.environment_id #=> String
+    #   resp.connector.connector_id #=> String
+    #   resp.connector.type #=> String, one of "VCENTER"
+    #   resp.connector.appliance_fqdn #=> String
+    #   resp.connector.secret_arn #=> String
+    #   resp.connector.state #=> String, one of "CREATING", "CREATE_FAILED", "ACTIVE", "UPDATING", "UPDATE_FAILED", "DELETING", "DELETED"
+    #   resp.connector.state_details #=> String
+    #   resp.connector.status #=> String, one of "PASSED", "FAILED", "UNKNOWN"
+    #   resp.connector.checks #=> Array
+    #   resp.connector.checks[0].type #=> String, one of "KEY_REUSE", "KEY_COVERAGE", "REACHABILITY", "HOST_COUNT", "VCENTER_REACHABILITY", "VCENTER_VM_SYNC", "VCENTER_VM_EVENT"
+    #   resp.connector.checks[0].result #=> String, one of "PASSED", "FAILED", "UNKNOWN"
+    #   resp.connector.checks[0].last_check_attempt #=> Time
+    #   resp.connector.checks[0].impaired_since #=> Time
+    #   resp.connector.created_at #=> Time
+    #   resp.connector.modified_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/UpdateEnvironmentConnector AWS API Documentation
+    #
+    # @overload update_environment_connector(params = {})
+    # @param [Hash] params ({})
+    def update_environment_connector(params = {}, options = {})
+      req = build_request(:update_environment_connector, params)
+      req.send_request(options)
+    end
+
     # @!endgroup
 
     # @param params ({})
@@ -1570,7 +2072,7 @@ module Aws::Evs
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-evs'
-      context[:gem_version] = '1.14.0'
+      context[:gem_version] = '1.15.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

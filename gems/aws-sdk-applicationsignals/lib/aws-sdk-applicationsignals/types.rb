@@ -532,6 +532,16 @@ module Aws::ApplicationSignals
     #   error budget, relative to the attainment goal of the SLO.
     #   @return [Array<Types::BurnRateConfiguration>]
     #
+    # @!attribute [rw] create_recommended_slo
+    #   Set this to `true` to create a recommended SLO out of the box. When
+    #   set to `true`, you don't need to specify the `MetricThreshold` or
+    #   `ComparisonOperator` in the `SliConfig` or `RequestBasedSliConfig`.
+    #   The default value is `false`.
+    #
+    #   This is supported for SLOs on a service, service operation, or a
+    #   dependency.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/CreateServiceLevelObjectiveInput AWS API Documentation
     #
     class CreateServiceLevelObjectiveInput < Struct.new(
@@ -541,7 +551,8 @@ module Aws::ApplicationSignals
       :request_based_sli_config,
       :goal,
       :tags,
-      :burn_rate_configurations)
+      :burn_rate_configurations,
+      :create_recommended_slo)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1053,6 +1064,13 @@ module Aws::ApplicationSignals
     #   * `log` - LogAuditor: Extracts insights from application logs,
     #     categorizing error types and ranking severity by frequency during
     #     the Analysis phase
+    #
+    #   * `change_indicator` - ChangeIndicatorAuditor: Detects change events
+    #     (deployments, configuration changes) that occurred within 10
+    #     minutes before and during a detected anomaly, and surfaces them as
+    #     findings with deployment timestamps in the Analysis phase. When
+    #     changes are detected, the `top_contributor` auditor skips its
+    #     analysis to avoid redundancy.
     #
     #   <note markdown="1"> `InitAuditor` and `Summarizer` auditors are not configurable as they
     #   are automatically triggered during the audit process.
@@ -2992,11 +3010,15 @@ module Aws::ApplicationSignals
     #   This parameter is used only when a request-based SLO tracks the
     #   `Latency` metric. Specify the threshold value that the observed
     #   `Latency` metric values are to be compared to.
+    #
+    #   This is not required if `CreateRecommendedSlo` is set to `true`.
     #   @return [Float]
     #
     # @!attribute [rw] comparison_operator
     #   The arithmetic operation to use when comparing the specified metric
     #   to the threshold.
+    #
+    #   This is not required if `CreateRecommendedSlo` is set to `true`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/ServiceLevelIndicatorConfig AWS API Documentation

@@ -126,6 +126,221 @@ module Aws::Evs
       include Aws::Structure
     end
 
+    # An object that represents a connector for an Amazon EVS environment. A
+    # connector establishes a vCenter connection using the credentials
+    # stored in Amazon Web Services Secrets Manager.
+    #
+    # @!attribute [rw] environment_id
+    #   The unique ID of the environment that the connector belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] connector_id
+    #   The unique ID of the connector.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the connector.
+    #   @return [String]
+    #
+    # @!attribute [rw] appliance_fqdn
+    #   The fully qualified domain name (FQDN) of the VCF appliance that the
+    #   connector connects to.
+    #   @return [String]
+    #
+    # @!attribute [rw] secret_arn
+    #   The Amazon Resource Name (ARN) of the Amazon Web Services Secrets
+    #   Manager secret that stores the credentials for the VCF appliance.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The state of the connector.
+    #   @return [String]
+    #
+    # @!attribute [rw] state_details
+    #   A detailed description of the connector state.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the connector.
+    #   @return [String]
+    #
+    # @!attribute [rw] checks
+    #   A list of checks that are run on the connector.
+    #   @return [Array<Types::ConnectorCheck>]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time that the connector was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] modified_at
+    #   The date and time that the connector was modified.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/Connector AWS API Documentation
+    #
+    class Connector < Struct.new(
+      :environment_id,
+      :connector_id,
+      :type,
+      :appliance_fqdn,
+      :secret_arn,
+      :state,
+      :state_details,
+      :status,
+      :checks,
+      :created_at,
+      :modified_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A check on a connector to identify connectivity health.
+    #
+    # @!attribute [rw] type
+    #   The check type.
+    #   @return [String]
+    #
+    # @!attribute [rw] result
+    #   The check result.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_check_attempt
+    #   The date and time of the last check attempt.
+    #   @return [Time]
+    #
+    # @!attribute [rw] impaired_since
+    #   The time when connector health began to be impaired.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/ConnectorCheck AWS API Documentation
+    #
+    class ConnectorCheck < Struct.new(
+      :type,
+      :result,
+      :last_check_attempt,
+      :impaired_since)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_token
+    #   <note markdown="1"> This parameter is not used in Amazon EVS
+    #   currently. If you supply
+    #   input for this parameter, it will have no effect.
+    #
+    #    </note>
+    #
+    #    A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the entitlement creation request. If you do not
+    #   specify a client token, a randomly generated token is used for the
+    #   request to ensure idempotency.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] environment_id
+    #   A unique ID for the environment to create the entitlement in.
+    #   @return [String]
+    #
+    # @!attribute [rw] connector_id
+    #   A unique ID for the connector associated with the entitlement.
+    #   @return [String]
+    #
+    # @!attribute [rw] entitlement_type
+    #   The type of entitlement to create.
+    #   @return [String]
+    #
+    # @!attribute [rw] vm_ids
+    #   The list of VMware vSphere virtual machine managed object IDs to
+    #   create entitlements for.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/CreateEntitlementRequest AWS API Documentation
+    #
+    class CreateEntitlementRequest < Struct.new(
+      :client_token,
+      :environment_id,
+      :connector_id,
+      :entitlement_type,
+      :vm_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] entitlements
+    #   A list of the created entitlements.
+    #   @return [Array<Types::VmEntitlement>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/CreateEntitlementResponse AWS API Documentation
+    #
+    class CreateEntitlementResponse < Struct.new(
+      :entitlements)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_token
+    #   <note markdown="1"> This parameter is not used in Amazon EVS
+    #   currently. If you supply
+    #   input for this parameter, it will have no effect.
+    #
+    #    </note>
+    #
+    #    A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the connector creation request. If you do not specify
+    #   a client token, a randomly generated token is used for the request
+    #   to ensure idempotency.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] environment_id
+    #   A unique ID for the environment to create the connector in.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of connector to create.
+    #   @return [String]
+    #
+    # @!attribute [rw] appliance_fqdn
+    #   The fully qualified domain name (FQDN) of the VCF appliance that the
+    #   connector targets.
+    #   @return [String]
+    #
+    # @!attribute [rw] secret_identifier
+    #   The ARN or name of the Amazon Web Services Secrets Manager secret
+    #   that stores the credentials for the VCF appliance.
+    #
+    #   Do not use credentials with Administrator privileges. We recommend
+    #   using a service account with the minimum required permissions.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/CreateEnvironmentConnectorRequest AWS API Documentation
+    #
+    class CreateEnvironmentConnectorRequest < Struct.new(
+      :client_token,
+      :environment_id,
+      :type,
+      :appliance_fqdn,
+      :secret_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] connector
+    #   A description of the created connector.
+    #   @return [Types::Connector]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/CreateEnvironmentConnectorResponse AWS API Documentation
+    #
+    class CreateEnvironmentConnectorResponse < Struct.new(
+      :connector)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] client_token
     #   <note markdown="1"> This parameter is not used in Amazon EVS
     #   currently. If you supply
@@ -374,6 +589,114 @@ module Aws::Evs
     #
     class CreateEnvironmentResponse < Struct.new(
       :environment)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_token
+    #   <note markdown="1"> This parameter is not used in Amazon EVS
+    #   currently. If you supply
+    #   input for this parameter, it will have no effect.
+    #
+    #    </note>
+    #
+    #    A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the entitlement deletion request. If you do not
+    #   specify a client token, a randomly generated token is used for the
+    #   request to ensure idempotency.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] environment_id
+    #   A unique ID for the environment that the entitlement belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] connector_id
+    #   A unique ID for the connector associated with the entitlement.
+    #   @return [String]
+    #
+    # @!attribute [rw] entitlement_type
+    #   The type of entitlement to delete.
+    #   @return [String]
+    #
+    # @!attribute [rw] vm_ids
+    #   The list of VMware vSphere virtual machine managed object IDs to
+    #   delete entitlements for.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/DeleteEntitlementRequest AWS API Documentation
+    #
+    class DeleteEntitlementRequest < Struct.new(
+      :client_token,
+      :environment_id,
+      :connector_id,
+      :entitlement_type,
+      :vm_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] entitlements
+    #   A list of the deleted entitlements.
+    #   @return [Array<Types::VmEntitlement>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/DeleteEntitlementResponse AWS API Documentation
+    #
+    class DeleteEntitlementResponse < Struct.new(
+      :entitlements)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_token
+    #   <note markdown="1"> This parameter is not used in Amazon EVS
+    #   currently. If you supply
+    #   input for this parameter, it will have no effect.
+    #
+    #    </note>
+    #
+    #    A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the connector deletion request. If you do not specify
+    #   a client token, a randomly generated token is used for the request
+    #   to ensure idempotency.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] environment_id
+    #   A unique ID for the environment that the connector belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] connector_id
+    #   A unique ID for the connector to be deleted.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/DeleteEnvironmentConnectorRequest AWS API Documentation
+    #
+    class DeleteEnvironmentConnectorRequest < Struct.new(
+      :client_token,
+      :environment_id,
+      :connector_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] connector
+    #   A description of the deleted connector.
+    #   @return [Types::Connector]
+    #
+    # @!attribute [rw] environment_summary
+    #   A summary of the environment that the connector was deleted from.
+    #   @return [Types::EnvironmentSummary]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/DeleteEnvironmentConnectorResponse AWS API Documentation
+    #
+    class DeleteEnvironmentConnectorResponse < Struct.new(
+      :connector,
+      :environment_summary)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -746,6 +1069,25 @@ module Aws::Evs
       :created_at,
       :modified_at,
       :environment_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that contains error details for an entitlement.
+    #
+    # @!attribute [rw] error_code
+    #   The error code.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_message
+    #   The error message.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/ErrorDetail AWS API Documentation
+    #
+    class ErrorDetail < Struct.new(
+      :error_code,
+      :error_message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1134,6 +1476,53 @@ module Aws::Evs
     #   A unique ID for the environment.
     #   @return [String]
     #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/ListEnvironmentConnectorsRequest AWS API Documentation
+    #
+    class ListEnvironmentConnectorsRequest < Struct.new(
+      :next_token,
+      :max_results,
+      :environment_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   A unique pagination token for next page results. Make the call again
+    #   using this token to retrieve the next page.
+    #   @return [String]
+    #
+    # @!attribute [rw] connectors
+    #   A list of connectors in the environment.
+    #   @return [Array<Types::Connector>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/ListEnvironmentConnectorsResponse AWS API Documentation
+    #
+    class ListEnvironmentConnectorsResponse < Struct.new(
+      :next_token,
+      :connectors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   A unique pagination token for each page. If `nextToken` is returned,
+    #   there are more results available. Make the call again using the
+    #   returned token with all other arguments unchanged to retrieve the
+    #   next page. Each pagination token expires after 24 hours. Using an
+    #   expired pagination token will return an *HTTP 400 InvalidToken*
+    #   error.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return. If you specify `MaxResults`
+    #   in the request, the response includes information up to the limit
+    #   specified.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] environment_id
+    #   A unique ID for the environment.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/ListEnvironmentHostsRequest AWS API Documentation
     #
     class ListEnvironmentHostsRequest < Struct.new(
@@ -1278,6 +1667,63 @@ module Aws::Evs
     #
     class ListTagsForResourceResponse < Struct.new(
       :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   A unique pagination token for each page. If `nextToken` is returned,
+    #   there are more results available. Make the call again using the
+    #   returned token with all other arguments unchanged to retrieve the
+    #   next page. Each pagination token expires after 24 hours. Using an
+    #   expired pagination token will return an *HTTP 400 InvalidToken*
+    #   error.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return. If you specify `MaxResults`
+    #   in the request, the response includes information up to the limit
+    #   specified.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] environment_id
+    #   A unique ID for the environment.
+    #   @return [String]
+    #
+    # @!attribute [rw] connector_id
+    #   A unique ID for the connector.
+    #   @return [String]
+    #
+    # @!attribute [rw] entitlement_type
+    #   The type of entitlement to list.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/ListVmEntitlementsRequest AWS API Documentation
+    #
+    class ListVmEntitlementsRequest < Struct.new(
+      :next_token,
+      :max_results,
+      :environment_id,
+      :connector_id,
+      :entitlement_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   A unique pagination token for next page results. Make the call again
+    #   using this token to retrieve the next page.
+    #   @return [String]
+    #
+    # @!attribute [rw] entitlements
+    #   A list of entitlements for virtual machines in the environment.
+    #   @return [Array<Types::VmEntitlement>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/ListVmEntitlementsResponse AWS API Documentation
+    #
+    class ListVmEntitlementsResponse < Struct.new(
+      :next_token,
+      :entitlements)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1503,6 +1949,64 @@ module Aws::Evs
     #
     class UntagResourceResponse < Aws::EmptyStructure; end
 
+    # @!attribute [rw] client_token
+    #   <note markdown="1"> This parameter is not used in Amazon EVS
+    #   currently. If you supply
+    #   input for this parameter, it will have no effect.
+    #
+    #    </note>
+    #
+    #    A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the connector update request. If you do not specify a
+    #   client token, a randomly generated token is used for the request to
+    #   ensure idempotency.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] environment_id
+    #   A unique ID for the environment that the connector belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] connector_id
+    #   A unique ID for the connector to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] appliance_fqdn
+    #   The new fully qualified domain name (FQDN) of the VCF appliance that
+    #   the connector connects to.
+    #   @return [String]
+    #
+    # @!attribute [rw] secret_identifier
+    #   The new ARN or name of the Amazon Web Services Secrets Manager
+    #   secret that stores the credentials for the VCF appliance.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/UpdateEnvironmentConnectorRequest AWS API Documentation
+    #
+    class UpdateEnvironmentConnectorRequest < Struct.new(
+      :client_token,
+      :environment_id,
+      :connector_id,
+      :appliance_fqdn,
+      :secret_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] connector
+    #   A description of the updated connector.
+    #   @return [Types::Connector]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/UpdateEnvironmentConnectorResponse AWS API Documentation
+    #
+    class UpdateEnvironmentConnectorResponse < Struct.new(
+      :connector)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The input fails to satisfy the specified constraints. You will see
     # this exception if invalid inputs are provided for any of the Amazon
     # EVS environment operations, or if a list operation is performed on an
@@ -1725,6 +2229,66 @@ module Aws::Evs
       :eip_associations,
       :is_public,
       :network_acl_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that represents a Windows Server License entitlement for a
+    # virtual machine in an Amazon EVS environment.
+    #
+    # @!attribute [rw] vm_id
+    #   The unique ID of the virtual machine.
+    #   @return [String]
+    #
+    # @!attribute [rw] environment_id
+    #   The unique ID of the environment.
+    #   @return [String]
+    #
+    # @!attribute [rw] connector_id
+    #   The unique ID of the connector associated with the entitlement.
+    #   @return [String]
+    #
+    # @!attribute [rw] vm_name
+    #   The name of the virtual machine.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of entitlement.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the entitlement.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_synced_at
+    #   The date and time that the entitlement was last synced.
+    #   @return [Time]
+    #
+    # @!attribute [rw] started_at
+    #   The date and time that the entitlement started.
+    #   @return [Time]
+    #
+    # @!attribute [rw] stopped_at
+    #   The date and time that the entitlement stopped.
+    #   @return [Time]
+    #
+    # @!attribute [rw] error_detail
+    #   The error details associated with the entitlement, if applicable.
+    #   @return [Types::ErrorDetail]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/VmEntitlement AWS API Documentation
+    #
+    class VmEntitlement < Struct.new(
+      :vm_id,
+      :environment_id,
+      :connector_id,
+      :vm_name,
+      :type,
+      :status,
+      :last_synced_at,
+      :started_at,
+      :stopped_at,
+      :error_detail)
       SENSITIVE = []
       include Aws::Structure
     end

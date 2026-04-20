@@ -178,8 +178,8 @@ module Aws
                                                   dependency_operation_name: ::String
                                                 }?
                                               },
-                                              metric_threshold: ::Float,
-                                              comparison_operator: ("GreaterThanOrEqualTo" | "GreaterThan" | "LessThan" | "LessThanOrEqualTo")
+                                              metric_threshold: ::Float?,
+                                              comparison_operator: ("GreaterThanOrEqualTo" | "GreaterThan" | "LessThan" | "LessThanOrEqualTo")?
                                             },
                                             ?request_based_sli_config: {
                                               request_based_sli_metric_config: {
@@ -301,7 +301,8 @@ module Aws
                                               {
                                                 look_back_window_minutes: ::Integer
                                               },
-                                            ]
+                                            ],
+                                            ?create_recommended_slo: bool
                                           ) -> _CreateServiceLevelObjectiveResponseSuccess
                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateServiceLevelObjectiveResponseSuccess
 
@@ -665,8 +666,8 @@ module Aws
                                                   dependency_operation_name: ::String
                                                 }?
                                               },
-                                              metric_threshold: ::Float,
-                                              comparison_operator: ("GreaterThanOrEqualTo" | "GreaterThan" | "LessThan" | "LessThanOrEqualTo")
+                                              metric_threshold: ::Float?,
+                                              comparison_operator: ("GreaterThanOrEqualTo" | "GreaterThan" | "LessThan" | "LessThanOrEqualTo")?
                                             },
                                             ?request_based_sli_config: {
                                               request_based_sli_metric_config: {

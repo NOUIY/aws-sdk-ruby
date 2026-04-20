@@ -49,12 +49,13 @@ module Aws::LocationService
   end
   autoload :Client, 'aws-sdk-locationservice/client'
   autoload :Errors, 'aws-sdk-locationservice/errors'
+  autoload :Waiters, 'aws-sdk-locationservice/waiters'
   autoload :Resource, 'aws-sdk-locationservice/resource'
   autoload :EndpointParameters, 'aws-sdk-locationservice/endpoint_parameters'
   autoload :EndpointProvider, 'aws-sdk-locationservice/endpoint_provider'
   autoload :Endpoints, 'aws-sdk-locationservice/endpoints'
 
-  GEM_VERSION = '1.84.0'
+  GEM_VERSION = '1.85.0'
 
 end
 

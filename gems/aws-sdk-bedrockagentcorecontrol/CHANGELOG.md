@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.38.0 (2026-04-20)
+------------------
+
+* Feature - Supporting listingMode for AgentCore Gateway MCP server targets
+
 1.37.0 (2026-04-09)
 ------------------
 

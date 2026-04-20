@@ -28,12 +28,17 @@ module Aws::LocationService
     # package name and a 20 byte SHA-1 certificate fingerprint.
     #
     # @!attribute [rw] package
-    #   Unique package name for an Android app.
+    #   Unique package name identifier for an Android app.
+    #
+    #   Example: `com.mydomain.appname`
     #   @return [String]
     #
     # @!attribute [rw] certificate_fingerprint
     #   20 byte SHA-1 certificate fingerprint associated with the Android
     #   app signing certificate.
+    #
+    #   Example:
+    #   `BB:0D:AC:74:D3:21:E1:43:67:71:9B:62:91:AF:A1:66:6E:44:5D:75`
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/AndroidApp AWS API Documentation
@@ -225,7 +230,9 @@ module Aws::LocationService
     #
     # @!attribute [rw] bundle_id
     #   The unique identifier of the app across all Apple platforms (iOS,
-    #   macOS, tvOS, watchOS, etc.)
+    #   macOS, tvOS and watchOS).
+    #
+    #   Example: `com.mydomain.appname`
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/AppleApp AWS API Documentation
@@ -1350,6 +1357,40 @@ module Aws::LocationService
       :dimensions,
       :weight)
       SENSITIVE = [:avoid_ferries, :avoid_tolls]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] job_id
+    #   The unique identifier of the job to cancel.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/CancelJobRequest AWS API Documentation
+    #
+    class CancelJobRequest < Struct.new(
+      :job_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] job_arn
+    #   Amazon Resource Name (ARN) of the cancelled job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   Unique job identifier.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Job status after cancellation request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/CancelJobResponse AWS API Documentation
+    #
+    class CancelJobResponse < Struct.new(
+      :job_arn,
+      :job_id,
+      :status)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -3623,6 +3664,110 @@ module Aws::LocationService
       include Aws::Structure
     end
 
+    # @!attribute [rw] job_id
+    #   The unique identifier of the job to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/GetJobRequest AWS API Documentation
+    #
+    class GetJobRequest < Struct.new(
+      :job_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] action
+    #   Action performed by the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] action_options
+    #   Additional options for configuring job action parameters.
+    #   @return [Types::JobActionOptions]
+    #
+    # @!attribute [rw] created_at
+    #   Job creation time in [ISO 8601][1] format:
+    #   `YYYY-MM-DDThh:mm:ss.sss`.
+    #
+    #
+    #
+    #   [1]: https://www.iso.org/iso-8601-date-and-time-format.html
+    #   @return [Time]
+    #
+    # @!attribute [rw] ended_at
+    #   Job completion time in [ISO 8601][1] format:
+    #   `YYYY-MM-DDThh:mm:ss.sss`. Only returned for jobs in a terminal
+    #   status: `Completed` \| `Failed` \| `Cancelled`.
+    #
+    #
+    #
+    #   [1]: https://www.iso.org/iso-8601-date-and-time-format.html
+    #   @return [Time]
+    #
+    # @!attribute [rw] error
+    #   Error information if the job failed.
+    #   @return [Types::JobError]
+    #
+    # @!attribute [rw] execution_role_arn
+    #   IAM role used for permissions when running the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] input_options
+    #   Input configuration.
+    #   @return [Types::JobInputOptions]
+    #
+    # @!attribute [rw] job_arn
+    #   Amazon Resource Name (ARN) of the specified job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   Unique job identifier.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Job name (if provided during creation).
+    #   @return [String]
+    #
+    # @!attribute [rw] output_options
+    #   Output configuration.
+    #   @return [Types::JobOutputOptions]
+    #
+    # @!attribute [rw] status
+    #   Current job status.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   Last update time in [ISO 8601][1] format: `YYYY-MM-DDThh:mm:ss.sss`.
+    #
+    #
+    #
+    #   [1]: https://www.iso.org/iso-8601-date-and-time-format.html
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   Tags and corresponding values associated with the specified job.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/GetJobResponse AWS API Documentation
+    #
+    class GetJobResponse < Struct.new(
+      :action,
+      :action_options,
+      :created_at,
+      :ended_at,
+      :error,
+      :execution_role_arn,
+      :input_options,
+      :job_arn,
+      :job_id,
+      :name,
+      :output_options,
+      :status,
+      :updated_at,
+      :tags)
+      SENSITIVE = [:created_at, :ended_at, :updated_at]
+      include Aws::Structure
+    end
+
     # @!attribute [rw] map_name
     #   The map resource associated with the glyph ﬁle.
     #   @return [String]
@@ -4018,6 +4163,111 @@ module Aws::LocationService
     #
     class InternalServerException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Additional options for configuring job action parameters.
+    #
+    # @!attribute [rw] validate_address
+    #   Options specific to address validation jobs.
+    #   @return [Types::ValidateAddressActionOptions]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/JobActionOptions AWS API Documentation
+    #
+    class JobActionOptions < Struct.new(
+      :validate_address)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Error information for failed jobs.
+    #
+    # @!attribute [rw] code
+    #   Error code indicating the type of error that occurred.
+    #   @return [String]
+    #
+    # @!attribute [rw] messages
+    #   Error messages providing details about the failure.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/JobError AWS API Documentation
+    #
+    class JobError < Struct.new(
+      :code,
+      :messages)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for input data location and format.
+    #
+    # <note markdown="1"> Input files have a limitation of 10gb per file, and 1gb per Parquet
+    # row-group within the file.
+    #
+    #  </note>
+    #
+    # @!attribute [rw] location
+    #   S3 ARN or URI where input files are stored.
+    #
+    #   <note markdown="1"> The Amazon S3 bucket must be created in the same Amazon Web Services
+    #   region where you plan to run your job.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @!attribute [rw] format
+    #   Input data format. Currently only `Parquet` is supported.
+    #
+    #   <note markdown="1"> Input files have a limitation of 10gb per file, and 1gb per Parquet
+    #   row-group within the file.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/JobInputOptions AWS API Documentation
+    #
+    class JobInputOptions < Struct.new(
+      :location,
+      :format)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for output data location and format.
+    #
+    # @!attribute [rw] format
+    #   Output data format. Currently only "Parquet" is supported.
+    #   @return [String]
+    #
+    # @!attribute [rw] location
+    #   S3 ARN or URI where output files will be written.
+    #
+    #   <note markdown="1"> The Amazon S3 bucket must exist in the same Amazon Web Services
+    #   region where you plan to run your job.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/JobOutputOptions AWS API Documentation
+    #
+    class JobOutputOptions < Struct.new(
+      :format,
+      :location)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Criteria for filtering jobs.
+    #
+    # @!attribute [rw] job_status
+    #   Filter by job status.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/JobsFilter AWS API Documentation
+    #
+    class JobsFilter < Struct.new(
+      :job_status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4444,6 +4694,138 @@ module Aws::LocationService
       :entries,
       :next_token)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] filter
+    #   An optional structure containing criteria by which to filter job
+    #   results.
+    #   @return [Types::JobsFilter]
+    #
+    # @!attribute [rw] max_results
+    #   Maximum number of jobs to return.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token specifying which page of results to return in
+    #   the response. If no token is provided, the default page is the first
+    #   page.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/ListJobsRequest AWS API Documentation
+    #
+    class ListJobsRequest < Struct.new(
+      :filter,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] entries
+    #   List of jobs in your Amazon Web Services account.
+    #   @return [Array<Types::ListJobsResponseEntry>]
+    #
+    # @!attribute [rw] next_token
+    #   Token for retrieving the next page (present if more results
+    #   available).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/ListJobsResponse AWS API Documentation
+    #
+    class ListJobsResponse < Struct.new(
+      :entries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Job summary information returned in list operations.
+    #
+    # @!attribute [rw] action
+    #   Action performed by the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] action_options
+    #   Additional options for configuring job action parameters.
+    #   @return [Types::JobActionOptions]
+    #
+    # @!attribute [rw] created_at
+    #   Job creation time in [ISO 8601][1] format:
+    #   `YYYY-MM-DDThh:mm:ss.sss`.
+    #
+    #
+    #
+    #   [1]: https://www.iso.org/iso-8601-date-and-time-format.html
+    #   @return [Time]
+    #
+    # @!attribute [rw] execution_role_arn
+    #   IAM role used for job execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] ended_at
+    #   Job completion time in [ISO 8601][1] format:
+    #   `YYYY-MM-DDThh:mm:ss.sss`. Only returned for jobs in a terminal
+    #   status: `Completed` \| `Failed` \| `Cancelled`.
+    #
+    #
+    #
+    #   [1]: https://www.iso.org/iso-8601-date-and-time-format.html
+    #   @return [Time]
+    #
+    # @!attribute [rw] error
+    #   Error information if the job failed.
+    #   @return [Types::JobError]
+    #
+    # @!attribute [rw] input_options
+    #   Input configuration.
+    #   @return [Types::JobInputOptions]
+    #
+    # @!attribute [rw] job_id
+    #   Unique job identifier.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_arn
+    #   Amazon Resource Name (ARN) of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Job name (if provided during creation).
+    #   @return [String]
+    #
+    # @!attribute [rw] output_options
+    #   Output configuration.
+    #   @return [Types::JobOutputOptions]
+    #
+    # @!attribute [rw] status
+    #   Current job status.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   Last update time in [ISO 8601][1] format: `YYYY-MM-DDThh:mm:ss.sss`.
+    #
+    #
+    #
+    #   [1]: https://www.iso.org/iso-8601-date-and-time-format.html
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/ListJobsResponseEntry AWS API Documentation
+    #
+    class ListJobsResponseEntry < Struct.new(
+      :action,
+      :action_options,
+      :created_at,
+      :execution_role_arn,
+      :ended_at,
+      :error,
+      :input_options,
+      :job_id,
+      :job_arn,
+      :name,
+      :output_options,
+      :status,
+      :updated_at)
+      SENSITIVE = [:created_at, :ended_at, :updated_at]
       include Aws::Structure
     end
 
@@ -6486,6 +6868,112 @@ module Aws::LocationService
       include Aws::Structure
     end
 
+    # @!attribute [rw] client_token
+    #   A unique identifier for this request to ensure idempotency.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] action
+    #   The action to perform on the input data.
+    #   @return [String]
+    #
+    # @!attribute [rw] action_options
+    #   Additional parameters that can be requested for each result.
+    #   @return [Types::JobActionOptions]
+    #
+    # @!attribute [rw] execution_role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role that Amazon Location
+    #   Service assumes during job processing. Amazon Location Service uses
+    #   this role to access the input and output locations specified for the
+    #   job.
+    #
+    #   <note markdown="1"> The IAM role must be created in the same Amazon Web Services account
+    #   where you plan to run your job.
+    #
+    #    </note>
+    #
+    #   For more information about configuring IAM roles for Amazon Location
+    #   jobs, see [Configure IAM permissions][1] in the *Amazon Location
+    #   Service Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/location/latest/developerguide/configure-iam-role-policy-credentials.html
+    #   @return [String]
+    #
+    # @!attribute [rw] input_options
+    #   Configuration for input data location and format.
+    #
+    #   <note markdown="1"> Input files have a limitation of 10gb per file, and 1gb per Parquet
+    #   row-group within the file.
+    #
+    #    </note>
+    #   @return [Types::JobInputOptions]
+    #
+    # @!attribute [rw] name
+    #   An optional name for the job resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] output_options
+    #   Configuration for output data location and format.
+    #   @return [Types::JobOutputOptions]
+    #
+    # @!attribute [rw] tags
+    #   Tags and corresponding values to be associated with the job.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/StartJobRequest AWS API Documentation
+    #
+    class StartJobRequest < Struct.new(
+      :client_token,
+      :action,
+      :action_options,
+      :execution_role_arn,
+      :input_options,
+      :name,
+      :output_options,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] created_at
+    #   Job creation time in [ISO 8601][1] format:
+    #   `YYYY-MM-DDThh:mm:ss.sss`.
+    #
+    #
+    #
+    #   [1]: https://www.iso.org/iso-8601-date-and-time-format.html
+    #   @return [Time]
+    #
+    # @!attribute [rw] job_arn
+    #   The Amazon Resource Name (ARN) for the job resource. Used when you
+    #   need to specify a resource across all Amazon Web Services.
+    #
+    #   Format example: `arn:aws:geo:region:account-id:job/ExampleJob`
+    #   @return [String]
+    #
+    # @!attribute [rw] job_id
+    #   Unique job identifier.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Initial job status (always "Pending" for new jobs).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/StartJobResponse AWS API Documentation
+    #
+    class StartJobResponse < Struct.new(
+      :created_at,
+      :job_arn,
+      :job_id,
+      :status)
+      SENSITIVE = [:created_at]
+      include Aws::Structure
+    end
+
     # Represents an element of a leg within a route. A step contains
     # instructions for how to move to the next step in the leg.
     #
@@ -7183,6 +7671,29 @@ module Aws::LocationService
       :tracker_arn,
       :update_time)
       SENSITIVE = [:update_time]
+      include Aws::Structure
+    end
+
+    # Options specific to address validation jobs.
+    #
+    # @!attribute [rw] additional_features
+    #   A list of optional additional parameters that can be requested for
+    #   each result.
+    #
+    #   Values:
+    #
+    #   * `Position` - Return the position coordinates of the address if
+    #     available.
+    #
+    #   * `CountrySpecificAttributes` - Return additional information about
+    #     the address specific to the country of origin.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/location-2020-11-19/ValidateAddressActionOptions AWS API Documentation
+    #
+    class ValidateAddressActionOptions < Struct.new(
+      :additional_features)
+      SENSITIVE = []
       include Aws::Structure
     end
 

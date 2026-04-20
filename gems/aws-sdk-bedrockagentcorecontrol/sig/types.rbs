@@ -2222,6 +2222,7 @@ module Aws::BedrockAgentCoreControl
     class McpServerTargetConfiguration
       attr_accessor endpoint: ::String
       attr_accessor mcp_tool_schema: Types::McpToolSchemaConfiguration
+      attr_accessor listing_mode: ("DEFAULT" | "DYNAMIC")
       SENSITIVE: []
     end
 

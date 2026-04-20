@@ -8,6 +8,16 @@
 module Aws
   module LocationService
     module Waiters
+
+      class JobCompleted
+        def initialize: (?client: Client, ?max_attempts: Integer, ?delay: Integer, ?before_attempt: Proc, ?before_wait: Proc) -> void
+                      | (?Hash[Symbol, untyped]) -> void
+
+        def wait: (
+                    job_id: ::String
+                  ) -> Client::_GetJobResponseSuccess
+                | (Hash[Symbol, untyped]) -> Client::_GetJobResponseSuccess
+      end
     end
   end
 end

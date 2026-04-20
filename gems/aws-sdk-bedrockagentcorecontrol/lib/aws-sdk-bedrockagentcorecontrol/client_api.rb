@@ -438,6 +438,7 @@ module Aws::BedrockAgentCoreControl
     ListWorkloadIdentitiesRequest = Shapes::StructureShape.new(name: 'ListWorkloadIdentitiesRequest')
     ListWorkloadIdentitiesRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListWorkloadIdentitiesRequestMaxResultsInteger')
     ListWorkloadIdentitiesResponse = Shapes::StructureShape.new(name: 'ListWorkloadIdentitiesResponse')
+    ListingMode = Shapes::StringShape.new(name: 'ListingMode')
     LlmAsAJudgeEvaluatorConfig = Shapes::StructureShape.new(name: 'LlmAsAJudgeEvaluatorConfig')
     LogGroupName = Shapes::StringShape.new(name: 'LogGroupName')
     MCPGatewayConfiguration = Shapes::StructureShape.new(name: 'MCPGatewayConfiguration')
@@ -2445,6 +2446,7 @@ module Aws::BedrockAgentCoreControl
 
     McpServerTargetConfiguration.add_member(:endpoint, Shapes::ShapeRef.new(shape: McpServerTargetConfigurationEndpointString, required: true, location_name: "endpoint"))
     McpServerTargetConfiguration.add_member(:mcp_tool_schema, Shapes::ShapeRef.new(shape: McpToolSchemaConfiguration, location_name: "mcpToolSchema"))
+    McpServerTargetConfiguration.add_member(:listing_mode, Shapes::ShapeRef.new(shape: ListingMode, location_name: "listingMode"))
     McpServerTargetConfiguration.struct_class = Types::McpServerTargetConfiguration
 
     McpSupportedVersions.member = Shapes::ShapeRef.new(shape: McpVersion)

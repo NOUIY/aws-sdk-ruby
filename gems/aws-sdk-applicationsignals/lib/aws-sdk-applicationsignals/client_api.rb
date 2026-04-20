@@ -353,6 +353,7 @@ module Aws::ApplicationSignals
     CreateServiceLevelObjectiveInput.add_member(:goal, Shapes::ShapeRef.new(shape: Goal, location_name: "Goal"))
     CreateServiceLevelObjectiveInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     CreateServiceLevelObjectiveInput.add_member(:burn_rate_configurations, Shapes::ShapeRef.new(shape: BurnRateConfigurations, location_name: "BurnRateConfigurations"))
+    CreateServiceLevelObjectiveInput.add_member(:create_recommended_slo, Shapes::ShapeRef.new(shape: Boolean, location_name: "CreateRecommendedSlo"))
     CreateServiceLevelObjectiveInput.struct_class = Types::CreateServiceLevelObjectiveInput
 
     CreateServiceLevelObjectiveOutput.add_member(:slo, Shapes::ShapeRef.new(shape: ServiceLevelObjective, required: true, location_name: "Slo"))
@@ -732,8 +733,8 @@ module Aws::ApplicationSignals
     ServiceLevelIndicator.struct_class = Types::ServiceLevelIndicator
 
     ServiceLevelIndicatorConfig.add_member(:sli_metric_config, Shapes::ShapeRef.new(shape: ServiceLevelIndicatorMetricConfig, required: true, location_name: "SliMetricConfig"))
-    ServiceLevelIndicatorConfig.add_member(:metric_threshold, Shapes::ShapeRef.new(shape: ServiceLevelIndicatorMetricThreshold, required: true, location_name: "MetricThreshold"))
-    ServiceLevelIndicatorConfig.add_member(:comparison_operator, Shapes::ShapeRef.new(shape: ServiceLevelIndicatorComparisonOperator, required: true, location_name: "ComparisonOperator"))
+    ServiceLevelIndicatorConfig.add_member(:metric_threshold, Shapes::ShapeRef.new(shape: ServiceLevelIndicatorMetricThreshold, location_name: "MetricThreshold", metadata: {"box" => true}))
+    ServiceLevelIndicatorConfig.add_member(:comparison_operator, Shapes::ShapeRef.new(shape: ServiceLevelIndicatorComparisonOperator, location_name: "ComparisonOperator"))
     ServiceLevelIndicatorConfig.struct_class = Types::ServiceLevelIndicatorConfig
 
     ServiceLevelIndicatorMetric.add_member(:key_attributes, Shapes::ShapeRef.new(shape: Attributes, location_name: "KeyAttributes"))

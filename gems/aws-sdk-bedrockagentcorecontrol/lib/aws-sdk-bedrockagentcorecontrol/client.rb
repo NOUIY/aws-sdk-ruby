@@ -1479,6 +1479,7 @@ module Aws::BedrockAgentCoreControl
     #             },
     #             inline_payload: "InlinePayload",
     #           },
+    #           listing_mode: "DEFAULT", # accepts DEFAULT, DYNAMIC
     #         },
     #         api_gateway: {
     #           rest_api_id: "String", # required
@@ -1591,6 +1592,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
+    #   resp.target_configuration.mcp.mcp_server.listing_mode #=> String, one of "DEFAULT", "DYNAMIC"
     #   resp.target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.target_configuration.mcp.api_gateway.stage #=> String
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_overrides #=> Array
@@ -3950,6 +3952,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
+    #   resp.target_configuration.mcp.mcp_server.listing_mode #=> String, one of "DEFAULT", "DYNAMIC"
     #   resp.target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.target_configuration.mcp.api_gateway.stage #=> String
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_overrides #=> Array
@@ -6097,6 +6100,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
     #   resp.targets[0].target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
     #   resp.targets[0].target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
+    #   resp.targets[0].target_configuration.mcp.mcp_server.listing_mode #=> String, one of "DEFAULT", "DYNAMIC"
     #   resp.targets[0].target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.targets[0].target_configuration.mcp.api_gateway.stage #=> String
     #   resp.targets[0].target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_overrides #=> Array
@@ -6895,6 +6899,7 @@ module Aws::BedrockAgentCoreControl
     #             },
     #             inline_payload: "InlinePayload",
     #           },
+    #           listing_mode: "DEFAULT", # accepts DEFAULT, DYNAMIC
     #         },
     #         api_gateway: {
     #           rest_api_id: "String", # required
@@ -7007,6 +7012,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
+    #   resp.target_configuration.mcp.mcp_server.listing_mode #=> String, one of "DEFAULT", "DYNAMIC"
     #   resp.target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.target_configuration.mcp.api_gateway.stage #=> String
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_overrides #=> Array
@@ -8257,7 +8263,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.37.0'
+      context[:gem_version] = '1.38.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

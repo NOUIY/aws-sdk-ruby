@@ -13,6 +13,12 @@ module Aws::Kafka
       SENSITIVE: []
     end
 
+    class ApacheKafkaCluster
+      attr_accessor apache_kafka_cluster_id: ::String
+      attr_accessor bootstrap_broker_string: ::String
+      SENSITIVE: []
+    end
+
     class BatchAssociateScramSecretRequest
       attr_accessor cluster_arn: ::String
       attr_accessor secret_arn_list: ::Array[::String]
@@ -256,6 +262,7 @@ module Aws::Kafka
       attr_accessor consumer_groups_to_replicate: ::Array[::String]
       attr_accessor detect_and_copy_new_consumer_groups: bool
       attr_accessor synchronise_consumer_group_offsets: bool
+      attr_accessor consumer_group_offset_sync_mode: ("LEGACY" | "ENHANCED")
       SENSITIVE: []
     end
 
@@ -311,6 +318,7 @@ module Aws::Kafka
     class CreateReplicatorRequest
       attr_accessor description: ::String
       attr_accessor kafka_clusters: ::Array[Types::KafkaCluster]
+      attr_accessor log_delivery: Types::LogDelivery
       attr_accessor replication_info_list: ::Array[Types::ReplicationInfo]
       attr_accessor replicator_name: ::String
       attr_accessor service_execution_role_arn: ::String
@@ -531,6 +539,7 @@ module Aws::Kafka
       attr_accessor current_version: ::String
       attr_accessor is_replicator_reference: bool
       attr_accessor kafka_clusters: ::Array[Types::KafkaClusterDescription]
+      attr_accessor log_delivery: Types::LogDelivery
       attr_accessor replication_info_list: ::Array[Types::ReplicationInfoDescription]
       attr_accessor replicator_arn: ::String
       attr_accessor replicator_description: ::String
@@ -661,7 +670,10 @@ module Aws::Kafka
 
     class KafkaCluster
       attr_accessor amazon_msk_cluster: Types::AmazonMskCluster
+      attr_accessor apache_kafka_cluster: Types::ApacheKafkaCluster
       attr_accessor vpc_config: Types::KafkaClusterClientVpcConfig
+      attr_accessor client_authentication: Types::KafkaClusterClientAuthentication
+      attr_accessor encryption_in_transit: Types::KafkaClusterEncryptionInTransit
       SENSITIVE: []
     end
 
@@ -671,15 +683,36 @@ module Aws::Kafka
       SENSITIVE: []
     end
 
+    class KafkaClusterClientAuthentication
+      attr_accessor sasl_scram: Types::KafkaClusterSaslScramAuthentication
+      SENSITIVE: []
+    end
+
+    class KafkaClusterSaslScramAuthentication
+      attr_accessor mechanism: ("SHA256" | "SHA512")
+      attr_accessor secret_arn: ::String
+      SENSITIVE: []
+    end
+
+    class KafkaClusterEncryptionInTransit
+      attr_accessor encryption_type: ("TLS")
+      attr_accessor root_ca_certificate: ::String
+      SENSITIVE: []
+    end
+
     class KafkaClusterDescription
       attr_accessor amazon_msk_cluster: Types::AmazonMskCluster
+      attr_accessor apache_kafka_cluster: Types::ApacheKafkaCluster
       attr_accessor kafka_cluster_alias: ::String
       attr_accessor vpc_config: Types::KafkaClusterClientVpcConfig
+      attr_accessor client_authentication: Types::KafkaClusterClientAuthentication
+      attr_accessor encryption_in_transit: Types::KafkaClusterEncryptionInTransit
       SENSITIVE: []
     end
 
     class KafkaClusterSummary
       attr_accessor amazon_msk_cluster: Types::AmazonMskCluster
+      attr_accessor apache_kafka_cluster: Types::ApacheKafkaCluster
       attr_accessor kafka_cluster_alias: ::String
       SENSITIVE: []
     end
@@ -1063,8 +1096,10 @@ module Aws::Kafka
     class ReplicationInfo
       attr_accessor consumer_group_replication: Types::ConsumerGroupReplication
       attr_accessor source_kafka_cluster_arn: ::String
+      attr_accessor source_kafka_cluster_id: ::String
       attr_accessor target_compression_type: ("NONE" | "GZIP" | "SNAPPY" | "LZ4" | "ZSTD")
       attr_accessor target_kafka_cluster_arn: ::String
+      attr_accessor target_kafka_cluster_id: ::String
       attr_accessor topic_replication: Types::TopicReplication
       SENSITIVE: []
     end
@@ -1091,6 +1126,37 @@ module Aws::Kafka
 
     class ReplicationTopicNameConfiguration
       attr_accessor type: ("PREFIXED_WITH_SOURCE_CLUSTER_ALIAS" | "IDENTICAL")
+      SENSITIVE: []
+    end
+
+    class ReplicatorCloudWatchLogs
+      attr_accessor enabled: bool
+      attr_accessor log_group: ::String
+      SENSITIVE: []
+    end
+
+    class ReplicatorFirehose
+      attr_accessor delivery_stream: ::String
+      attr_accessor enabled: bool
+      SENSITIVE: []
+    end
+
+    class ReplicatorS3
+      attr_accessor bucket: ::String
+      attr_accessor enabled: bool
+      attr_accessor prefix: ::String
+      SENSITIVE: []
+    end
+
+    class LogDelivery
+      attr_accessor replicator_log_delivery: Types::ReplicatorLogDelivery
+      SENSITIVE: []
+    end
+
+    class ReplicatorLogDelivery
+      attr_accessor cloud_watch_logs: Types::ReplicatorCloudWatchLogs
+      attr_accessor firehose: Types::ReplicatorFirehose
+      attr_accessor s3: Types::ReplicatorS3
       SENSITIVE: []
     end
 
@@ -1415,9 +1481,12 @@ module Aws::Kafka
     class UpdateReplicationInfoRequest
       attr_accessor consumer_group_replication: Types::ConsumerGroupReplicationUpdate
       attr_accessor current_version: ::String
+      attr_accessor log_delivery: Types::LogDelivery
       attr_accessor replicator_arn: ::String
       attr_accessor source_kafka_cluster_arn: ::String
+      attr_accessor source_kafka_cluster_id: ::String
       attr_accessor target_kafka_cluster_arn: ::String
+      attr_accessor target_kafka_cluster_id: ::String
       attr_accessor topic_replication: Types::TopicReplicationUpdate
       SENSITIVE: []
     end

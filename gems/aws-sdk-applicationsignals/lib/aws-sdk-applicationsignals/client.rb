@@ -838,6 +838,15 @@ module Aws::ApplicationSignals
     #   a metric that indicates how fast the service is consuming the error
     #   budget, relative to the attainment goal of the SLO.
     #
+    # @option params [Boolean] :create_recommended_slo
+    #   Set this to `true` to create a recommended SLO out of the box. When
+    #   set to `true`, you don't need to specify the `MetricThreshold` or
+    #   `ComparisonOperator` in the `SliConfig` or `RequestBasedSliConfig`.
+    #   The default value is `false`.
+    #
+    #   This is supported for SLOs on a service, service operation, or a
+    #   dependency.
+    #
     # @return [Types::CreateServiceLevelObjectiveOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateServiceLevelObjectiveOutput#slo #slo} => Types::ServiceLevelObjective
@@ -897,8 +906,8 @@ module Aws::ApplicationSignals
     #           dependency_operation_name: "OperationName", # required
     #         },
     #       },
-    #       metric_threshold: 1.0, # required
-    #       comparison_operator: "GreaterThanOrEqualTo", # required, accepts GreaterThanOrEqualTo, GreaterThan, LessThan, LessThanOrEqualTo
+    #       metric_threshold: 1.0,
+    #       comparison_operator: "GreaterThanOrEqualTo", # accepts GreaterThanOrEqualTo, GreaterThan, LessThan, LessThanOrEqualTo
     #     },
     #     request_based_sli_config: {
     #       request_based_sli_metric_config: { # required
@@ -1029,6 +1038,7 @@ module Aws::ApplicationSignals
     #         look_back_window_minutes: 1, # required
     #       },
     #     ],
+    #     create_recommended_slo: false,
     #   })
     #
     # @example Response structure
@@ -1464,6 +1474,13 @@ module Aws::ApplicationSignals
     #   * `log` - LogAuditor: Extracts insights from application logs,
     #     categorizing error types and ranking severity by frequency during
     #     the Analysis phase
+    #
+    #   * `change_indicator` - ChangeIndicatorAuditor: Detects change events
+    #     (deployments, configuration changes) that occurred within 10 minutes
+    #     before and during a detected anomaly, and surfaces them as findings
+    #     with deployment timestamps in the Analysis phase. When changes are
+    #     detected, the `top_contributor` auditor skips its analysis to avoid
+    #     redundancy.
     #
     #   <note markdown="1"> `InitAuditor` and `Summarizer` auditors are not configurable as they
     #   are automatically triggered during the audit process.
@@ -2730,8 +2747,8 @@ module Aws::ApplicationSignals
     #           dependency_operation_name: "OperationName", # required
     #         },
     #       },
-    #       metric_threshold: 1.0, # required
-    #       comparison_operator: "GreaterThanOrEqualTo", # required, accepts GreaterThanOrEqualTo, GreaterThan, LessThan, LessThanOrEqualTo
+    #       metric_threshold: 1.0,
+    #       comparison_operator: "GreaterThanOrEqualTo", # accepts GreaterThanOrEqualTo, GreaterThan, LessThan, LessThanOrEqualTo
     #     },
     #     request_based_sli_config: {
     #       request_based_sli_metric_config: { # required
@@ -2990,7 +3007,7 @@ module Aws::ApplicationSignals
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-applicationsignals'
-      context[:gem_version] = '1.38.0'
+      context[:gem_version] = '1.39.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

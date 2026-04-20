@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.147.0 (2026-04-20)
+------------------
+
+* Feature - Expanded support for new suppression rule fields.
+
 1.146.0 (2026-04-06)
 ------------------
 

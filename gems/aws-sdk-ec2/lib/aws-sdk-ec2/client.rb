@@ -632,6 +632,49 @@ module Aws::EC2
       req.send_request(options)
     end
 
+    # Accepts a Transit Gateway attachment request for a Client VPN
+    # endpoint. The Transit Gateway owner must accept the attachment request
+    # before the Client VPN endpoint can route traffic through the Transit
+    # Gateway.
+    #
+    # @option params [required, String] :transit_gateway_attachment_id
+    #   The ID of the Transit Gateway attachment.
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @return [Types::AcceptTransitGatewayClientVpnAttachmentResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AcceptTransitGatewayClientVpnAttachmentResult#transit_gateway_client_vpn_attachment #transit_gateway_client_vpn_attachment} => Types::TransitGatewayClientVpnAttachment
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.accept_transit_gateway_client_vpn_attachment({
+    #     transit_gateway_attachment_id: "TransitGatewayAttachmentId", # required
+    #     dry_run: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.transit_gateway_client_vpn_attachment.transit_gateway_attachment_id #=> String
+    #   resp.transit_gateway_client_vpn_attachment.transit_gateway_id #=> String
+    #   resp.transit_gateway_client_vpn_attachment.client_vpn_endpoint_id #=> String
+    #   resp.transit_gateway_client_vpn_attachment.client_vpn_owner_id #=> String
+    #   resp.transit_gateway_client_vpn_attachment.state #=> String, one of "pending-acceptance", "pending", "rejected", "available", "deleting", "deleted"
+    #   resp.transit_gateway_client_vpn_attachment.creation_time #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AcceptTransitGatewayClientVpnAttachment AWS API Documentation
+    #
+    # @overload accept_transit_gateway_client_vpn_attachment(params = {})
+    # @param [Hash] params ({})
+    def accept_transit_gateway_client_vpn_attachment(params = {}, options = {})
+      req = build_request(:accept_transit_gateway_client_vpn_attachment, params)
+      req.send_request(options)
+    end
+
     # Accepts a request to associate subnets with a transit gateway
     # multicast domain.
     #
@@ -669,7 +712,7 @@ module Aws::EC2
     #   resp.associations.transit_gateway_multicast_domain_id #=> String
     #   resp.associations.transit_gateway_attachment_id #=> String
     #   resp.associations.resource_id #=> String
-    #   resp.associations.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.associations.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.associations.resource_owner_id #=> String
     #   resp.associations.subnets #=> Array
     #   resp.associations.subnets[0].subnet_id #=> String
@@ -1908,8 +1951,10 @@ module Aws::EC2
     # @option params [required, String] :client_vpn_endpoint_id
     #   The ID of the Client VPN endpoint.
     #
-    # @option params [required, String] :subnet_id
+    # @option params [String] :subnet_id
     #   The ID of the subnet to associate with the Client VPN endpoint.
+    #   Required for VPC-based endpoints. For Transit Gateway-based endpoints,
+    #   use `AvailabilityZone` or `AvailabilityZoneId` instead.
     #
     # @option params [String] :client_token
     #   Unique, case-sensitive identifier that you provide to ensure the
@@ -1929,6 +1974,18 @@ module Aws::EC2
     #   If you have the required permissions, the error response is
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
     #
+    # @option params [String] :availability_zone
+    #   The Availability Zone name for the Transit Gateway association.
+    #   Required if when associating an Availability Zone with a Client VPN
+    #   endpoint that uses a Transit Gateway. You cannot specify both
+    #   `SubnetId` and `AvailabilityZone`.
+    #
+    # @option params [String] :availability_zone_id
+    #   The Availability Zone ID for the Transit Gateway association. Required
+    #   if when associating an Availability Zone with a Client VPN endpoint
+    #   that uses a Transit Gateway. You cannot specify both
+    #   `AvailabilityZone` and `AvailabilityZoneId`.
+    #
     # @return [Types::AssociateClientVpnTargetNetworkResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::AssociateClientVpnTargetNetworkResult#association_id #association_id} => String
@@ -1938,9 +1995,11 @@ module Aws::EC2
     #
     #   resp = client.associate_client_vpn_target_network({
     #     client_vpn_endpoint_id: "ClientVpnEndpointId", # required
-    #     subnet_id: "SubnetId", # required
+    #     subnet_id: "SubnetId",
     #     client_token: "String",
     #     dry_run: false,
+    #     availability_zone: "AvailabilityZoneName",
+    #     availability_zone_id: "AvailabilityZoneId",
     #   })
     #
     # @example Response structure
@@ -2745,7 +2804,7 @@ module Aws::EC2
     #   resp.associations.transit_gateway_multicast_domain_id #=> String
     #   resp.associations.transit_gateway_attachment_id #=> String
     #   resp.associations.resource_id #=> String
-    #   resp.associations.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.associations.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.associations.resource_owner_id #=> String
     #   resp.associations.subnets #=> Array
     #   resp.associations.subnets[0].subnet_id #=> String
@@ -2794,7 +2853,7 @@ module Aws::EC2
     #   resp.association.transit_gateway_policy_table_id #=> String
     #   resp.association.transit_gateway_attachment_id #=> String
     #   resp.association.resource_id #=> String
-    #   resp.association.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.association.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.association.state #=> String, one of "associating", "associated", "disassociating", "disassociated"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AssociateTransitGatewayPolicyTable AWS API Documentation
@@ -2839,7 +2898,7 @@ module Aws::EC2
     #   resp.association.transit_gateway_route_table_id #=> String
     #   resp.association.transit_gateway_attachment_id #=> String
     #   resp.association.resource_id #=> String
-    #   resp.association.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.association.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.association.state #=> String, one of "associating", "associated", "disassociating", "disassociated"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AssociateTransitGatewayRouteTable AWS API Documentation
@@ -6598,6 +6657,12 @@ module Aws::EC2
     #   set to `dual-stack`, clients can access both IPv4 and IPv6 resources
     #   through the VPN .
     #
+    # @option params [Types::TransitGatewayConfigurationInputStructure] :transit_gateway_configuration
+    #   The Transit Gateway configuration for the Client VPN endpoint. Use
+    #   this parameter to associate the endpoint with a Transit Gateway
+    #   instead of a VPC. You cannot specify both
+    #   `TransitGatewayConfiguration` and `VpcId`/`SecurityGroupIds`.
+    #
     # @return [Types::CreateClientVpnEndpointResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateClientVpnEndpointResult#client_vpn_endpoint_id #client_vpn_endpoint_id} => String
@@ -6665,12 +6730,17 @@ module Aws::EC2
     #     disconnect_on_session_timeout: false,
     #     endpoint_ip_address_type: "ipv4", # accepts ipv4, ipv6, dual-stack
     #     traffic_ip_address_type: "ipv4", # accepts ipv4, ipv6, dual-stack
+    #     transit_gateway_configuration: {
+    #       transit_gateway_id: "TransitGatewayId",
+    #       availability_zones: ["AvailabilityZoneName"],
+    #       availability_zone_ids: ["AvailabilityZoneId"],
+    #     },
     #   })
     #
     # @example Response structure
     #
     #   resp.client_vpn_endpoint_id #=> String
-    #   resp.status.code #=> String, one of "pending-associate", "available", "deleting", "deleted"
+    #   resp.status.code #=> String, one of "pending-associate", "available", "deleting", "deleted", "pending"
     #   resp.status.message #=> String
     #   resp.dns_name #=> String
     #
@@ -6705,13 +6775,16 @@ module Aws::EC2
     #
     #   * To add a route for the local network, enter the client CIDR range
     #
-    # @option params [required, String] :target_vpc_subnet_id
+    # @option params [String] :target_vpc_subnet_id
     #   The ID of the subnet through which you want to route traffic. The
     #   specified subnet must be an existing target network of the Client VPN
     #   endpoint.
     #
     #   Alternatively, if you're adding a route for the local network,
     #   specify `local`.
+    #
+    #   This parameter is required for VPC-based Client VPN endpoints. For
+    #   Transit Gateway-based endpoints, this parameter is not required.
     #
     # @option params [String] :description
     #   A brief description of the route.
@@ -6743,7 +6816,7 @@ module Aws::EC2
     #   resp = client.create_client_vpn_route({
     #     client_vpn_endpoint_id: "ClientVpnEndpointId", # required
     #     destination_cidr_block: "String", # required
-    #     target_vpc_subnet_id: "SubnetId", # required
+    #     target_vpc_subnet_id: "SubnetId",
     #     description: "String",
     #     client_token: "String",
     #     dry_run: false,
@@ -16473,11 +16546,11 @@ module Aws::EC2
     #     transit_gateway_metering_policy_id: "TransitGatewayMeteringPolicyId", # required
     #     policy_rule_number: 1, # required
     #     source_transit_gateway_attachment_id: "TransitGatewayAttachmentId",
-    #     source_transit_gateway_attachment_type: "vpc", # accepts vpc, vpn, vpn-concentrator, direct-connect-gateway, connect, peering, tgw-peering, network-function
+    #     source_transit_gateway_attachment_type: "vpc", # accepts vpc, vpn, vpn-concentrator, direct-connect-gateway, connect, peering, tgw-peering, network-function, client-vpn
     #     source_cidr_block: "String",
     #     source_port_range: "String",
     #     destination_transit_gateway_attachment_id: "TransitGatewayAttachmentId",
-    #     destination_transit_gateway_attachment_type: "vpc", # accepts vpc, vpn, vpn-concentrator, direct-connect-gateway, connect, peering, tgw-peering, network-function
+    #     destination_transit_gateway_attachment_type: "vpc", # accepts vpc, vpn, vpn-concentrator, direct-connect-gateway, connect, peering, tgw-peering, network-function, client-vpn
     #     destination_cidr_block: "String",
     #     destination_port_range: "String",
     #     protocol: "String",
@@ -16493,11 +16566,11 @@ module Aws::EC2
     #   resp.transit_gateway_metering_policy_entry.updated_at #=> Time
     #   resp.transit_gateway_metering_policy_entry.update_effective_at #=> Time
     #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.source_transit_gateway_attachment_id #=> String
-    #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.source_transit_gateway_attachment_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.source_transit_gateway_attachment_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.source_cidr_block #=> String
     #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.source_port_range #=> String
     #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.destination_transit_gateway_attachment_id #=> String
-    #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.destination_transit_gateway_attachment_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.destination_transit_gateway_attachment_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.destination_cidr_block #=> String
     #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.destination_port_range #=> String
     #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.protocol #=> String
@@ -16778,7 +16851,7 @@ module Aws::EC2
     #   resp.transit_gateway_prefix_list_reference.state #=> String, one of "pending", "available", "modifying", "deleting"
     #   resp.transit_gateway_prefix_list_reference.blackhole #=> Boolean
     #   resp.transit_gateway_prefix_list_reference.transit_gateway_attachment.transit_gateway_attachment_id #=> String
-    #   resp.transit_gateway_prefix_list_reference.transit_gateway_attachment.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.transit_gateway_prefix_list_reference.transit_gateway_attachment.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.transit_gateway_prefix_list_reference.transit_gateway_attachment.resource_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayPrefixListReference AWS API Documentation
@@ -16833,7 +16906,7 @@ module Aws::EC2
     #   resp.route.transit_gateway_attachments #=> Array
     #   resp.route.transit_gateway_attachments[0].resource_id #=> String
     #   resp.route.transit_gateway_attachments[0].transit_gateway_attachment_id #=> String
-    #   resp.route.transit_gateway_attachments[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.route.transit_gateway_attachments[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.route.type #=> String, one of "static", "propagated"
     #   resp.route.state #=> String, one of "pending", "active", "blackhole", "deleting", "deleted"
     #
@@ -19488,7 +19561,7 @@ module Aws::EC2
     #
     # @example Response structure
     #
-    #   resp.status.code #=> String, one of "pending-associate", "available", "deleting", "deleted"
+    #   resp.status.code #=> String, one of "pending-associate", "available", "deleting", "deleted", "pending"
     #   resp.status.message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteClientVpnEndpoint AWS API Documentation
@@ -22689,6 +22762,48 @@ module Aws::EC2
       req.send_request(options)
     end
 
+    # Deletes a Transit Gateway attachment for a Client VPN endpoint. The
+    # Transit Gateway owner can delete the attachment to remove the
+    # association between the Client VPN endpoint and the Transit Gateway.
+    #
+    # @option params [required, String] :transit_gateway_attachment_id
+    #   The ID of the Transit Gateway attachment.
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @return [Types::DeleteTransitGatewayClientVpnAttachmentResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteTransitGatewayClientVpnAttachmentResult#transit_gateway_client_vpn_attachment #transit_gateway_client_vpn_attachment} => Types::TransitGatewayClientVpnAttachment
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_transit_gateway_client_vpn_attachment({
+    #     transit_gateway_attachment_id: "TransitGatewayAttachmentId", # required
+    #     dry_run: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.transit_gateway_client_vpn_attachment.transit_gateway_attachment_id #=> String
+    #   resp.transit_gateway_client_vpn_attachment.transit_gateway_id #=> String
+    #   resp.transit_gateway_client_vpn_attachment.client_vpn_endpoint_id #=> String
+    #   resp.transit_gateway_client_vpn_attachment.client_vpn_owner_id #=> String
+    #   resp.transit_gateway_client_vpn_attachment.state #=> String, one of "pending-acceptance", "pending", "rejected", "available", "deleting", "deleted"
+    #   resp.transit_gateway_client_vpn_attachment.creation_time #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayClientVpnAttachment AWS API Documentation
+    #
+    # @overload delete_transit_gateway_client_vpn_attachment(params = {})
+    # @param [Hash] params ({})
+    def delete_transit_gateway_client_vpn_attachment(params = {}, options = {})
+      req = build_request(:delete_transit_gateway_client_vpn_attachment, params)
+      req.send_request(options)
+    end
+
     # Deletes the specified Connect attachment. You must first delete any
     # Connect peers for the attachment.
     #
@@ -22863,11 +22978,11 @@ module Aws::EC2
     #   resp.transit_gateway_metering_policy_entry.updated_at #=> Time
     #   resp.transit_gateway_metering_policy_entry.update_effective_at #=> Time
     #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.source_transit_gateway_attachment_id #=> String
-    #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.source_transit_gateway_attachment_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.source_transit_gateway_attachment_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.source_cidr_block #=> String
     #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.source_port_range #=> String
     #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.destination_transit_gateway_attachment_id #=> String
-    #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.destination_transit_gateway_attachment_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.destination_transit_gateway_attachment_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.destination_cidr_block #=> String
     #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.destination_port_range #=> String
     #   resp.transit_gateway_metering_policy_entry.metering_policy_rule.protocol #=> String
@@ -23055,7 +23170,7 @@ module Aws::EC2
     #   resp.transit_gateway_prefix_list_reference.state #=> String, one of "pending", "available", "modifying", "deleting"
     #   resp.transit_gateway_prefix_list_reference.blackhole #=> Boolean
     #   resp.transit_gateway_prefix_list_reference.transit_gateway_attachment.transit_gateway_attachment_id #=> String
-    #   resp.transit_gateway_prefix_list_reference.transit_gateway_attachment.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.transit_gateway_prefix_list_reference.transit_gateway_attachment.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.transit_gateway_prefix_list_reference.transit_gateway_attachment.resource_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayPrefixListReference AWS API Documentation
@@ -23103,7 +23218,7 @@ module Aws::EC2
     #   resp.route.transit_gateway_attachments #=> Array
     #   resp.route.transit_gateway_attachments[0].resource_id #=> String
     #   resp.route.transit_gateway_attachments[0].transit_gateway_attachment_id #=> String
-    #   resp.route.transit_gateway_attachments[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.route.transit_gateway_attachments[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.route.type #=> String, one of "static", "propagated"
     #   resp.route.state #=> String, one of "pending", "active", "blackhole", "deleting", "deleted"
     #
@@ -26797,7 +26912,7 @@ module Aws::EC2
     #   resp.client_vpn_endpoints #=> Array
     #   resp.client_vpn_endpoints[0].client_vpn_endpoint_id #=> String
     #   resp.client_vpn_endpoints[0].description #=> String
-    #   resp.client_vpn_endpoints[0].status.code #=> String, one of "pending-associate", "available", "deleting", "deleted"
+    #   resp.client_vpn_endpoints[0].status.code #=> String, one of "pending-associate", "available", "deleting", "deleted", "pending"
     #   resp.client_vpn_endpoints[0].status.message #=> String
     #   resp.client_vpn_endpoints[0].creation_time #=> String
     #   resp.client_vpn_endpoints[0].deletion_time #=> String
@@ -26840,6 +26955,12 @@ module Aws::EC2
     #   resp.client_vpn_endpoints[0].disconnect_on_session_timeout #=> Boolean
     #   resp.client_vpn_endpoints[0].endpoint_ip_address_type #=> String, one of "ipv4", "ipv6", "dual-stack"
     #   resp.client_vpn_endpoints[0].traffic_ip_address_type #=> String, one of "ipv4", "ipv6", "dual-stack"
+    #   resp.client_vpn_endpoints[0].transit_gateway_configuration.transit_gateway_id #=> String
+    #   resp.client_vpn_endpoints[0].transit_gateway_configuration.transit_gateway_attachment_id #=> String
+    #   resp.client_vpn_endpoints[0].transit_gateway_configuration.availability_zones #=> Array
+    #   resp.client_vpn_endpoints[0].transit_gateway_configuration.availability_zones[0] #=> String
+    #   resp.client_vpn_endpoints[0].transit_gateway_configuration.availability_zone_ids #=> Array
+    #   resp.client_vpn_endpoints[0].transit_gateway_configuration.availability_zone_ids[0] #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnEndpoints AWS API Documentation
@@ -26914,6 +27035,7 @@ module Aws::EC2
     #   resp.routes[0].status.code #=> String, one of "creating", "active", "failed", "deleting"
     #   resp.routes[0].status.message #=> String
     #   resp.routes[0].description #=> String
+    #   resp.routes[0].transit_gateway_attachment_id #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnRoutes AWS API Documentation
@@ -26992,6 +27114,10 @@ module Aws::EC2
     #   resp.client_vpn_target_networks[0].status.message #=> String
     #   resp.client_vpn_target_networks[0].security_groups #=> Array
     #   resp.client_vpn_target_networks[0].security_groups[0] #=> String
+    #   resp.client_vpn_target_networks[0].availability_zones #=> Array
+    #   resp.client_vpn_target_networks[0].availability_zones[0] #=> String
+    #   resp.client_vpn_target_networks[0].availability_zone_ids #=> Array
+    #   resp.client_vpn_target_networks[0].availability_zone_ids[0] #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnTargetNetworks AWS API Documentation
@@ -43193,7 +43319,7 @@ module Aws::EC2
     #   resp.transit_gateway_attachments[0].transit_gateway_id #=> String
     #   resp.transit_gateway_attachments[0].transit_gateway_owner_id #=> String
     #   resp.transit_gateway_attachments[0].resource_owner_id #=> String
-    #   resp.transit_gateway_attachments[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.transit_gateway_attachments[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.transit_gateway_attachments[0].resource_id #=> String
     #   resp.transit_gateway_attachments[0].state #=> String, one of "initiating", "initiatingRequest", "pendingAcceptance", "rollingBack", "pending", "available", "modifying", "deleting", "deleted", "failed", "rejected", "rejecting", "failing"
     #   resp.transit_gateway_attachments[0].association.transit_gateway_route_table_id #=> String
@@ -48395,7 +48521,7 @@ module Aws::EC2
     #
     #   resp.propagation.transit_gateway_attachment_id #=> String
     #   resp.propagation.resource_id #=> String
-    #   resp.propagation.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.propagation.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.propagation.transit_gateway_route_table_id #=> String
     #   resp.propagation.state #=> String, one of "enabling", "enabled", "disabling", "disabled"
     #   resp.propagation.transit_gateway_route_table_announcement_id #=> String
@@ -49254,7 +49380,7 @@ module Aws::EC2
     #   resp.associations.transit_gateway_multicast_domain_id #=> String
     #   resp.associations.transit_gateway_attachment_id #=> String
     #   resp.associations.resource_id #=> String
-    #   resp.associations.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.associations.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.associations.resource_owner_id #=> String
     #   resp.associations.subnets #=> Array
     #   resp.associations.subnets[0].subnet_id #=> String
@@ -49301,7 +49427,7 @@ module Aws::EC2
     #   resp.association.transit_gateway_policy_table_id #=> String
     #   resp.association.transit_gateway_attachment_id #=> String
     #   resp.association.resource_id #=> String
-    #   resp.association.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.association.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.association.state #=> String, one of "associating", "associated", "disassociating", "disassociated"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisassociateTransitGatewayPolicyTable AWS API Documentation
@@ -49345,7 +49471,7 @@ module Aws::EC2
     #   resp.association.transit_gateway_route_table_id #=> String
     #   resp.association.transit_gateway_attachment_id #=> String
     #   resp.association.resource_id #=> String
-    #   resp.association.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.association.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.association.state #=> String, one of "associating", "associated", "disassociating", "disassociated"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisassociateTransitGatewayRouteTable AWS API Documentation
@@ -50253,15 +50379,15 @@ module Aws::EC2
     #   The ID of the IPAM policy to enable.
     #
     # @option params [String] :organization_target_id
+    #   A target can be an individual Amazon Web Services account or an entity
+    #   within an Amazon Web Services Organization to which an IPAM policy can
+    #   be applied.
+    #
     #   The ID of the Amazon Web Services Organizations target for which to
     #   enable the IPAM policy. This parameter is required only when IPAM is
     #   integrated with Amazon Web Services Organizations. When IPAM is not
     #   integrated with Amazon Web Services Organizations, omit this parameter
     #   and the policy will apply to the current account.
-    #
-    #   A target can be an individual Amazon Web Services account or an entity
-    #   within an Amazon Web Services Organization to which an IPAM policy can
-    #   be applied.
     #
     # @return [Types::EnableIpamPolicyResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -50522,7 +50648,7 @@ module Aws::EC2
     #
     #   resp.propagation.transit_gateway_attachment_id #=> String
     #   resp.propagation.resource_id #=> String
-    #   resp.propagation.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.propagation.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.propagation.transit_gateway_route_table_id #=> String
     #   resp.propagation.state #=> String, one of "enabling", "enabled", "disabling", "disabled"
     #   resp.propagation.transit_gateway_route_table_announcement_id #=> String
@@ -55515,11 +55641,11 @@ module Aws::EC2
     #   resp.transit_gateway_metering_policy_entries[0].updated_at #=> Time
     #   resp.transit_gateway_metering_policy_entries[0].update_effective_at #=> Time
     #   resp.transit_gateway_metering_policy_entries[0].metering_policy_rule.source_transit_gateway_attachment_id #=> String
-    #   resp.transit_gateway_metering_policy_entries[0].metering_policy_rule.source_transit_gateway_attachment_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.transit_gateway_metering_policy_entries[0].metering_policy_rule.source_transit_gateway_attachment_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.transit_gateway_metering_policy_entries[0].metering_policy_rule.source_cidr_block #=> String
     #   resp.transit_gateway_metering_policy_entries[0].metering_policy_rule.source_port_range #=> String
     #   resp.transit_gateway_metering_policy_entries[0].metering_policy_rule.destination_transit_gateway_attachment_id #=> String
-    #   resp.transit_gateway_metering_policy_entries[0].metering_policy_rule.destination_transit_gateway_attachment_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.transit_gateway_metering_policy_entries[0].metering_policy_rule.destination_transit_gateway_attachment_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.transit_gateway_metering_policy_entries[0].metering_policy_rule.destination_cidr_block #=> String
     #   resp.transit_gateway_metering_policy_entries[0].metering_policy_rule.destination_port_range #=> String
     #   resp.transit_gateway_metering_policy_entries[0].metering_policy_rule.protocol #=> String
@@ -55597,7 +55723,7 @@ module Aws::EC2
     #   resp.multicast_domain_associations #=> Array
     #   resp.multicast_domain_associations[0].transit_gateway_attachment_id #=> String
     #   resp.multicast_domain_associations[0].resource_id #=> String
-    #   resp.multicast_domain_associations[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.multicast_domain_associations[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.multicast_domain_associations[0].resource_owner_id #=> String
     #   resp.multicast_domain_associations[0].subnet.subnet_id #=> String
     #   resp.multicast_domain_associations[0].subnet.state #=> String, one of "pendingAcceptance", "associating", "associated", "disassociating", "disassociated", "rejected", "failed"
@@ -55662,7 +55788,7 @@ module Aws::EC2
     #   resp.associations[0].transit_gateway_policy_table_id #=> String
     #   resp.associations[0].transit_gateway_attachment_id #=> String
     #   resp.associations[0].resource_id #=> String
-    #   resp.associations[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.associations[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.associations[0].state #=> String, one of "associating", "associated", "disassociating", "disassociated"
     #   resp.next_token #=> String
     #
@@ -55812,7 +55938,7 @@ module Aws::EC2
     #   resp.transit_gateway_prefix_list_references[0].state #=> String, one of "pending", "available", "modifying", "deleting"
     #   resp.transit_gateway_prefix_list_references[0].blackhole #=> Boolean
     #   resp.transit_gateway_prefix_list_references[0].transit_gateway_attachment.transit_gateway_attachment_id #=> String
-    #   resp.transit_gateway_prefix_list_references[0].transit_gateway_attachment.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.transit_gateway_prefix_list_references[0].transit_gateway_attachment.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.transit_gateway_prefix_list_references[0].transit_gateway_attachment.resource_id #=> String
     #   resp.next_token #=> String
     #
@@ -55882,7 +56008,7 @@ module Aws::EC2
     #   resp.associations #=> Array
     #   resp.associations[0].transit_gateway_attachment_id #=> String
     #   resp.associations[0].resource_id #=> String
-    #   resp.associations[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.associations[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.associations[0].state #=> String, one of "associating", "associated", "disassociating", "disassociated"
     #   resp.next_token #=> String
     #
@@ -55952,7 +56078,7 @@ module Aws::EC2
     #   resp.transit_gateway_route_table_propagations #=> Array
     #   resp.transit_gateway_route_table_propagations[0].transit_gateway_attachment_id #=> String
     #   resp.transit_gateway_route_table_propagations[0].resource_id #=> String
-    #   resp.transit_gateway_route_table_propagations[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.transit_gateway_route_table_propagations[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.transit_gateway_route_table_propagations[0].state #=> String, one of "enabling", "enabled", "disabling", "disabled"
     #   resp.transit_gateway_route_table_propagations[0].transit_gateway_route_table_announcement_id #=> String
     #   resp.next_token #=> String
@@ -57849,6 +57975,10 @@ module Aws::EC2
     #   `true`, users are prompted to reconnect client VPN. If `false`, client
     #   VPN attempts to reconnect automatically. The default value is `true`.
     #
+    # @option params [Types::TransitGatewayConfigurationInputStructure] :transit_gateway_configuration
+    #   The Transit Gateway configuration for the Client VPN endpoint. This
+    #   option is currently not supported.
+    #
     # @return [Types::ModifyClientVpnEndpointResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ModifyClientVpnEndpointResult#return #return} => Boolean
@@ -57887,6 +58017,11 @@ module Aws::EC2
     #       enforced: false,
     #     },
     #     disconnect_on_session_timeout: false,
+    #     transit_gateway_configuration: {
+    #       transit_gateway_id: "TransitGatewayId",
+    #       availability_zones: ["AvailabilityZoneName"],
+    #       availability_zone_ids: ["AvailabilityZoneId"],
+    #     },
     #   })
     #
     # @example Response structure
@@ -62387,7 +62522,7 @@ module Aws::EC2
     #   resp.transit_gateway_prefix_list_reference.state #=> String, one of "pending", "available", "modifying", "deleting"
     #   resp.transit_gateway_prefix_list_reference.blackhole #=> Boolean
     #   resp.transit_gateway_prefix_list_reference.transit_gateway_attachment.transit_gateway_attachment_id #=> String
-    #   resp.transit_gateway_prefix_list_reference.transit_gateway_attachment.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.transit_gateway_prefix_list_reference.transit_gateway_attachment.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.transit_gateway_prefix_list_reference.transit_gateway_attachment.resource_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTransitGatewayPrefixListReference AWS API Documentation
@@ -66398,6 +66533,49 @@ module Aws::EC2
       req.send_request(options)
     end
 
+    # Rejects a Transit Gateway attachment request for a Client VPN
+    # endpoint. The Transit Gateway owner can reject the attachment request
+    # to prevent the Client VPN endpoint from routing traffic through the
+    # Transit Gateway.
+    #
+    # @option params [required, String] :transit_gateway_attachment_id
+    #   The ID of the Transit Gateway attachment.
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @return [Types::RejectTransitGatewayClientVpnAttachmentResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::RejectTransitGatewayClientVpnAttachmentResult#transit_gateway_client_vpn_attachment #transit_gateway_client_vpn_attachment} => Types::TransitGatewayClientVpnAttachment
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.reject_transit_gateway_client_vpn_attachment({
+    #     transit_gateway_attachment_id: "TransitGatewayAttachmentId", # required
+    #     dry_run: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.transit_gateway_client_vpn_attachment.transit_gateway_attachment_id #=> String
+    #   resp.transit_gateway_client_vpn_attachment.transit_gateway_id #=> String
+    #   resp.transit_gateway_client_vpn_attachment.client_vpn_endpoint_id #=> String
+    #   resp.transit_gateway_client_vpn_attachment.client_vpn_owner_id #=> String
+    #   resp.transit_gateway_client_vpn_attachment.state #=> String, one of "pending-acceptance", "pending", "rejected", "available", "deleting", "deleted"
+    #   resp.transit_gateway_client_vpn_attachment.creation_time #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RejectTransitGatewayClientVpnAttachment AWS API Documentation
+    #
+    # @overload reject_transit_gateway_client_vpn_attachment(params = {})
+    # @param [Hash] params ({})
+    def reject_transit_gateway_client_vpn_attachment(params = {}, options = {})
+      req = build_request(:reject_transit_gateway_client_vpn_attachment, params)
+      req.send_request(options)
+    end
+
     # Rejects a request to associate cross-account subnets with a transit
     # gateway multicast domain.
     #
@@ -66435,7 +66613,7 @@ module Aws::EC2
     #   resp.associations.transit_gateway_multicast_domain_id #=> String
     #   resp.associations.transit_gateway_attachment_id #=> String
     #   resp.associations.resource_id #=> String
-    #   resp.associations.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.associations.resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.associations.resource_owner_id #=> String
     #   resp.associations.subnets #=> Array
     #   resp.associations.subnets[0].subnet_id #=> String
@@ -67329,7 +67507,7 @@ module Aws::EC2
     #   resp.route.transit_gateway_attachments #=> Array
     #   resp.route.transit_gateway_attachments[0].resource_id #=> String
     #   resp.route.transit_gateway_attachments[0].transit_gateway_attachment_id #=> String
-    #   resp.route.transit_gateway_attachments[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.route.transit_gateway_attachments[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.route.type #=> String, one of "static", "propagated"
     #   resp.route.state #=> String, one of "pending", "active", "blackhole", "deleting", "deleted"
     #
@@ -70668,7 +70846,7 @@ module Aws::EC2
     #   resp.multicast_groups[0].transit_gateway_attachment_id #=> String
     #   resp.multicast_groups[0].subnet_id #=> String
     #   resp.multicast_groups[0].resource_id #=> String
-    #   resp.multicast_groups[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.multicast_groups[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.multicast_groups[0].resource_owner_id #=> String
     #   resp.multicast_groups[0].network_interface_id #=> String
     #   resp.multicast_groups[0].group_member #=> Boolean
@@ -70770,7 +70948,7 @@ module Aws::EC2
     #   resp.routes[0].transit_gateway_attachments #=> Array
     #   resp.routes[0].transit_gateway_attachments[0].resource_id #=> String
     #   resp.routes[0].transit_gateway_attachments[0].transit_gateway_attachment_id #=> String
-    #   resp.routes[0].transit_gateway_attachments[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function"
+    #   resp.routes[0].transit_gateway_attachments[0].resource_type #=> String, one of "vpc", "vpn", "vpn-concentrator", "direct-connect-gateway", "connect", "peering", "tgw-peering", "network-function", "client-vpn"
     #   resp.routes[0].type #=> String, one of "static", "propagated"
     #   resp.routes[0].state #=> String, one of "pending", "active", "blackhole", "deleting", "deleted"
     #   resp.additional_routes_available #=> Boolean
@@ -73212,7 +73390,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.611.0'
+      context[:gem_version] = '1.612.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

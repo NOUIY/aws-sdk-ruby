@@ -155,7 +155,7 @@ module Aws
       def create_telemetry_rule: (
                                    rule_name: ::String,
                                    rule: {
-                                     resource_type: ("AWS::EC2::Instance" | "AWS::EC2::VPC" | "AWS::Lambda::Function" | "AWS::CloudTrail" | "AWS::EKS::Cluster" | "AWS::WAFv2::WebACL" | "AWS::ElasticLoadBalancingV2::LoadBalancer" | "AWS::Route53Resolver::ResolverEndpoint" | "AWS::BedrockAgentCore::Runtime" | "AWS::BedrockAgentCore::Browser" | "AWS::BedrockAgentCore::CodeInterpreter" | "AWS::BedrockAgentCore::Gateway" | "AWS::BedrockAgentCore::Memory" | "AWS::SecurityHub::Hub" | "AWS::CloudFront::Distribution")?,
+                                     resource_type: ("AWS::EC2::Instance" | "AWS::EC2::VPC" | "AWS::Lambda::Function" | "AWS::CloudTrail" | "AWS::EKS::Cluster" | "AWS::WAFv2::WebACL" | "AWS::ElasticLoadBalancingV2::LoadBalancer" | "AWS::Route53Resolver::ResolverEndpoint" | "AWS::BedrockAgentCore::Runtime" | "AWS::BedrockAgentCore::Browser" | "AWS::BedrockAgentCore::CodeInterpreter" | "AWS::BedrockAgentCore::Gateway" | "AWS::BedrockAgentCore::Memory" | "AWS::SecurityHub::Hub" | "AWS::CloudFront::Distribution" | "AWS::SecurityHub::HubV2")?,
                                      telemetry_type: ("Logs" | "Metrics" | "Traces"),
                                      telemetry_source_types: Array[("VPC_FLOW_LOGS" | "ROUTE53_RESOLVER_QUERY_LOGS" | "EKS_AUDIT_LOGS" | "EKS_AUTHENTICATOR_LOGS" | "EKS_CONTROLLER_MANAGER_LOGS" | "EKS_SCHEDULER_LOGS" | "EKS_API_LOGS")]?,
                                      destination_configuration: {
@@ -227,6 +227,7 @@ module Aws
                                      }?,
                                      scope: ::String?,
                                      selection_criteria: ::String?,
+                                     allow_field_updates: bool?,
                                      regions: Array[::String]?,
                                      all_regions: bool?
                                    },
@@ -242,7 +243,7 @@ module Aws
       def create_telemetry_rule_for_organization: (
                                                     rule_name: ::String,
                                                     rule: {
-                                                      resource_type: ("AWS::EC2::Instance" | "AWS::EC2::VPC" | "AWS::Lambda::Function" | "AWS::CloudTrail" | "AWS::EKS::Cluster" | "AWS::WAFv2::WebACL" | "AWS::ElasticLoadBalancingV2::LoadBalancer" | "AWS::Route53Resolver::ResolverEndpoint" | "AWS::BedrockAgentCore::Runtime" | "AWS::BedrockAgentCore::Browser" | "AWS::BedrockAgentCore::CodeInterpreter" | "AWS::BedrockAgentCore::Gateway" | "AWS::BedrockAgentCore::Memory" | "AWS::SecurityHub::Hub" | "AWS::CloudFront::Distribution")?,
+                                                      resource_type: ("AWS::EC2::Instance" | "AWS::EC2::VPC" | "AWS::Lambda::Function" | "AWS::CloudTrail" | "AWS::EKS::Cluster" | "AWS::WAFv2::WebACL" | "AWS::ElasticLoadBalancingV2::LoadBalancer" | "AWS::Route53Resolver::ResolverEndpoint" | "AWS::BedrockAgentCore::Runtime" | "AWS::BedrockAgentCore::Browser" | "AWS::BedrockAgentCore::CodeInterpreter" | "AWS::BedrockAgentCore::Gateway" | "AWS::BedrockAgentCore::Memory" | "AWS::SecurityHub::Hub" | "AWS::CloudFront::Distribution" | "AWS::SecurityHub::HubV2")?,
                                                       telemetry_type: ("Logs" | "Metrics" | "Traces"),
                                                       telemetry_source_types: Array[("VPC_FLOW_LOGS" | "ROUTE53_RESOLVER_QUERY_LOGS" | "EKS_AUDIT_LOGS" | "EKS_AUTHENTICATOR_LOGS" | "EKS_CONTROLLER_MANAGER_LOGS" | "EKS_SCHEDULER_LOGS" | "EKS_API_LOGS")]?,
                                                       destination_configuration: {
@@ -314,6 +315,7 @@ module Aws
                                                       }?,
                                                       scope: ::String?,
                                                       selection_criteria: ::String?,
+                                                      allow_field_updates: bool?,
                                                       regions: Array[::String]?,
                                                       all_regions: bool?
                                                     },
@@ -484,7 +486,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ObservabilityAdmin/Client.html#list_resource_telemetry-instance_method
       def list_resource_telemetry: (
                                      ?resource_identifier_prefix: ::String,
-                                     ?resource_types: Array[("AWS::EC2::Instance" | "AWS::EC2::VPC" | "AWS::Lambda::Function" | "AWS::CloudTrail" | "AWS::EKS::Cluster" | "AWS::WAFv2::WebACL" | "AWS::ElasticLoadBalancingV2::LoadBalancer" | "AWS::Route53Resolver::ResolverEndpoint" | "AWS::BedrockAgentCore::Runtime" | "AWS::BedrockAgentCore::Browser" | "AWS::BedrockAgentCore::CodeInterpreter" | "AWS::BedrockAgentCore::Gateway" | "AWS::BedrockAgentCore::Memory" | "AWS::SecurityHub::Hub" | "AWS::CloudFront::Distribution")],
+                                     ?resource_types: Array[("AWS::EC2::Instance" | "AWS::EC2::VPC" | "AWS::Lambda::Function" | "AWS::CloudTrail" | "AWS::EKS::Cluster" | "AWS::WAFv2::WebACL" | "AWS::ElasticLoadBalancingV2::LoadBalancer" | "AWS::Route53Resolver::ResolverEndpoint" | "AWS::BedrockAgentCore::Runtime" | "AWS::BedrockAgentCore::Browser" | "AWS::BedrockAgentCore::CodeInterpreter" | "AWS::BedrockAgentCore::Gateway" | "AWS::BedrockAgentCore::Memory" | "AWS::SecurityHub::Hub" | "AWS::CloudFront::Distribution" | "AWS::SecurityHub::HubV2")],
                                      ?telemetry_configuration_state: Hash[("Logs" | "Metrics" | "Traces"), ("Enabled" | "Disabled" | "NotApplicable")],
                                      ?resource_tags: Hash[::String, ::String],
                                      ?max_results: ::Integer,
@@ -501,7 +503,7 @@ module Aws
       def list_resource_telemetry_for_organization: (
                                                       ?account_identifiers: Array[::String],
                                                       ?resource_identifier_prefix: ::String,
-                                                      ?resource_types: Array[("AWS::EC2::Instance" | "AWS::EC2::VPC" | "AWS::Lambda::Function" | "AWS::CloudTrail" | "AWS::EKS::Cluster" | "AWS::WAFv2::WebACL" | "AWS::ElasticLoadBalancingV2::LoadBalancer" | "AWS::Route53Resolver::ResolverEndpoint" | "AWS::BedrockAgentCore::Runtime" | "AWS::BedrockAgentCore::Browser" | "AWS::BedrockAgentCore::CodeInterpreter" | "AWS::BedrockAgentCore::Gateway" | "AWS::BedrockAgentCore::Memory" | "AWS::SecurityHub::Hub" | "AWS::CloudFront::Distribution")],
+                                                      ?resource_types: Array[("AWS::EC2::Instance" | "AWS::EC2::VPC" | "AWS::Lambda::Function" | "AWS::CloudTrail" | "AWS::EKS::Cluster" | "AWS::WAFv2::WebACL" | "AWS::ElasticLoadBalancingV2::LoadBalancer" | "AWS::Route53Resolver::ResolverEndpoint" | "AWS::BedrockAgentCore::Runtime" | "AWS::BedrockAgentCore::Browser" | "AWS::BedrockAgentCore::CodeInterpreter" | "AWS::BedrockAgentCore::Gateway" | "AWS::BedrockAgentCore::Memory" | "AWS::SecurityHub::Hub" | "AWS::CloudFront::Distribution" | "AWS::SecurityHub::HubV2")],
                                                       ?telemetry_configuration_state: Hash[("Logs" | "Metrics" | "Traces"), ("Enabled" | "Disabled" | "NotApplicable")],
                                                       ?resource_tags: Hash[::String, ::String],
                                                       ?max_results: ::Integer,
@@ -701,7 +703,7 @@ module Aws
       def update_telemetry_rule: (
                                    rule_identifier: ::String,
                                    rule: {
-                                     resource_type: ("AWS::EC2::Instance" | "AWS::EC2::VPC" | "AWS::Lambda::Function" | "AWS::CloudTrail" | "AWS::EKS::Cluster" | "AWS::WAFv2::WebACL" | "AWS::ElasticLoadBalancingV2::LoadBalancer" | "AWS::Route53Resolver::ResolverEndpoint" | "AWS::BedrockAgentCore::Runtime" | "AWS::BedrockAgentCore::Browser" | "AWS::BedrockAgentCore::CodeInterpreter" | "AWS::BedrockAgentCore::Gateway" | "AWS::BedrockAgentCore::Memory" | "AWS::SecurityHub::Hub" | "AWS::CloudFront::Distribution")?,
+                                     resource_type: ("AWS::EC2::Instance" | "AWS::EC2::VPC" | "AWS::Lambda::Function" | "AWS::CloudTrail" | "AWS::EKS::Cluster" | "AWS::WAFv2::WebACL" | "AWS::ElasticLoadBalancingV2::LoadBalancer" | "AWS::Route53Resolver::ResolverEndpoint" | "AWS::BedrockAgentCore::Runtime" | "AWS::BedrockAgentCore::Browser" | "AWS::BedrockAgentCore::CodeInterpreter" | "AWS::BedrockAgentCore::Gateway" | "AWS::BedrockAgentCore::Memory" | "AWS::SecurityHub::Hub" | "AWS::CloudFront::Distribution" | "AWS::SecurityHub::HubV2")?,
                                      telemetry_type: ("Logs" | "Metrics" | "Traces"),
                                      telemetry_source_types: Array[("VPC_FLOW_LOGS" | "ROUTE53_RESOLVER_QUERY_LOGS" | "EKS_AUDIT_LOGS" | "EKS_AUTHENTICATOR_LOGS" | "EKS_CONTROLLER_MANAGER_LOGS" | "EKS_SCHEDULER_LOGS" | "EKS_API_LOGS")]?,
                                      destination_configuration: {
@@ -773,6 +775,7 @@ module Aws
                                      }?,
                                      scope: ::String?,
                                      selection_criteria: ::String?,
+                                     allow_field_updates: bool?,
                                      regions: Array[::String]?,
                                      all_regions: bool?
                                    }
@@ -787,7 +790,7 @@ module Aws
       def update_telemetry_rule_for_organization: (
                                                     rule_identifier: ::String,
                                                     rule: {
-                                                      resource_type: ("AWS::EC2::Instance" | "AWS::EC2::VPC" | "AWS::Lambda::Function" | "AWS::CloudTrail" | "AWS::EKS::Cluster" | "AWS::WAFv2::WebACL" | "AWS::ElasticLoadBalancingV2::LoadBalancer" | "AWS::Route53Resolver::ResolverEndpoint" | "AWS::BedrockAgentCore::Runtime" | "AWS::BedrockAgentCore::Browser" | "AWS::BedrockAgentCore::CodeInterpreter" | "AWS::BedrockAgentCore::Gateway" | "AWS::BedrockAgentCore::Memory" | "AWS::SecurityHub::Hub" | "AWS::CloudFront::Distribution")?,
+                                                      resource_type: ("AWS::EC2::Instance" | "AWS::EC2::VPC" | "AWS::Lambda::Function" | "AWS::CloudTrail" | "AWS::EKS::Cluster" | "AWS::WAFv2::WebACL" | "AWS::ElasticLoadBalancingV2::LoadBalancer" | "AWS::Route53Resolver::ResolverEndpoint" | "AWS::BedrockAgentCore::Runtime" | "AWS::BedrockAgentCore::Browser" | "AWS::BedrockAgentCore::CodeInterpreter" | "AWS::BedrockAgentCore::Gateway" | "AWS::BedrockAgentCore::Memory" | "AWS::SecurityHub::Hub" | "AWS::CloudFront::Distribution" | "AWS::SecurityHub::HubV2")?,
                                                       telemetry_type: ("Logs" | "Metrics" | "Traces"),
                                                       telemetry_source_types: Array[("VPC_FLOW_LOGS" | "ROUTE53_RESOLVER_QUERY_LOGS" | "EKS_AUDIT_LOGS" | "EKS_AUTHENTICATOR_LOGS" | "EKS_CONTROLLER_MANAGER_LOGS" | "EKS_SCHEDULER_LOGS" | "EKS_API_LOGS")]?,
                                                       destination_configuration: {
@@ -859,6 +862,7 @@ module Aws
                                                       }?,
                                                       scope: ::String?,
                                                       selection_criteria: ::String?,
+                                                      allow_field_updates: bool?,
                                                       regions: Array[::String]?,
                                                       all_regions: bool?
                                                     }

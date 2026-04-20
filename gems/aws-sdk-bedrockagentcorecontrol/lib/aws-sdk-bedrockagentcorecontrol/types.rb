@@ -8035,11 +8035,19 @@ module Aws::BedrockAgentCoreControl
     #   with mcpToolSchema.
     #   @return [Types::McpToolSchemaConfiguration]
     #
+    # @!attribute [rw] listing_mode
+    #   The listing mode for the MCP server target configuration. MCP
+    #   resources for default targets are cached at the control plane for
+    #   faster access. MCP resources for dynamic targets will be dynamically
+    #   retrieved when listing tools.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/McpServerTargetConfiguration AWS API Documentation
     #
     class McpServerTargetConfiguration < Struct.new(
       :endpoint,
-      :mcp_tool_schema)
+      :mcp_tool_schema,
+      :listing_mode)
       SENSITIVE = []
       include Aws::Structure
     end

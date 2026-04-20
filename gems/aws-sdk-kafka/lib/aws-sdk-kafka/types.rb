@@ -24,6 +24,25 @@ module Aws::Kafka
       include Aws::Structure
     end
 
+    # Details of an Apache Kafka Cluster.
+    #
+    # @!attribute [rw] apache_kafka_cluster_id
+    #   The ID of the Apache Kafka cluster.
+    #   @return [String]
+    #
+    # @!attribute [rw] bootstrap_broker_string
+    #   The bootstrap broker string of the Apache Kafka cluster.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/ApacheKafkaCluster AWS API Documentation
+    #
+    class ApacheKafkaCluster < Struct.new(
+      :apache_kafka_cluster_id,
+      :bootstrap_broker_string)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Request body for BatchAssociateScramSecret.
     #
     # @!attribute [rw] cluster_arn
@@ -955,13 +974,22 @@ module Aws::Kafka
     #   \_\_consumer\_offsets.
     #   @return [Boolean]
     #
+    # @!attribute [rw] consumer_group_offset_sync_mode
+    #   The consumer group offset synchronization mode. With LEGACY, offsets
+    #   are synchronized when producers write to the source cluster. With
+    #   ENHANCED, consumer offsets are synchronized regardless of producer
+    #   location. ENHANCED requires a corresponding replicator that
+    #   replicates data from the target cluster to the source cluster.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/ConsumerGroupReplication AWS API Documentation
     #
     class ConsumerGroupReplication < Struct.new(
       :consumer_groups_to_exclude,
       :consumer_groups_to_replicate,
       :detect_and_copy_new_consumer_groups,
-      :synchronise_consumer_group_offsets)
+      :synchronise_consumer_group_offsets,
+      :consumer_group_offset_sync_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1181,6 +1209,11 @@ module Aws::Kafka
     #   replication.
     #   @return [Array<Types::KafkaCluster>]
     #
+    # @!attribute [rw] log_delivery
+    #   Configuration for delivering replicator logs to customer
+    #   destinations.
+    #   @return [Types::LogDelivery]
+    #
     # @!attribute [rw] replication_info_list
     #   A list of replication configurations, where each configuration
     #   targets a given source cluster to target cluster replication flow.
@@ -1205,6 +1238,7 @@ module Aws::Kafka
     class CreateReplicatorRequest < Struct.new(
       :description,
       :kafka_clusters,
+      :log_delivery,
       :replication_info_list,
       :replicator_name,
       :service_execution_role_arn,
@@ -1876,6 +1910,10 @@ module Aws::Kafka
     #   Kafka Clusters used in setting up sources / targets for replication.
     #   @return [Array<Types::KafkaClusterDescription>]
     #
+    # @!attribute [rw] log_delivery
+    #   Configuration for log delivery for the replicator.
+    #   @return [Types::LogDelivery]
+    #
     # @!attribute [rw] replication_info_list
     #   A list of replication configurations, where each configuration
     #   targets a given source cluster to target cluster replication flow.
@@ -1923,6 +1961,7 @@ module Aws::Kafka
       :current_version,
       :is_replicator_reference,
       :kafka_clusters,
+      :log_delivery,
       :replication_info_list,
       :replicator_arn,
       :replicator_description,
@@ -2371,16 +2410,32 @@ module Aws::Kafka
     #   Details of an Amazon MSK Cluster.
     #   @return [Types::AmazonMskCluster]
     #
+    # @!attribute [rw] apache_kafka_cluster
+    #   Details of an Apache Kafka Cluster.
+    #   @return [Types::ApacheKafkaCluster]
+    #
     # @!attribute [rw] vpc_config
     #   Details of an Amazon VPC which has network connectivity to the
     #   Apache Kafka cluster.
     #   @return [Types::KafkaClusterClientVpcConfig]
     #
+    # @!attribute [rw] client_authentication
+    #   Details of the client authentication used by the Apache Kafka
+    #   cluster.
+    #   @return [Types::KafkaClusterClientAuthentication]
+    #
+    # @!attribute [rw] encryption_in_transit
+    #   Details of encryption in transit to the Apache Kafka cluster.
+    #   @return [Types::KafkaClusterEncryptionInTransit]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/KafkaCluster AWS API Documentation
     #
     class KafkaCluster < Struct.new(
       :amazon_msk_cluster,
-      :vpc_config)
+      :apache_kafka_cluster,
+      :vpc_config,
+      :client_authentication,
+      :encryption_in_transit)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2402,12 +2457,68 @@ module Aws::Kafka
       include Aws::Structure
     end
 
+    # Details of the client authentication used by the Apache Kafka cluster.
+    #
+    # @!attribute [rw] sasl_scram
+    #   Details for SASL/SCRAM client authentication.
+    #   @return [Types::KafkaClusterSaslScramAuthentication]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/KafkaClusterClientAuthentication AWS API Documentation
+    #
+    class KafkaClusterClientAuthentication < Struct.new(
+      :sasl_scram)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details for SASL/SCRAM client authentication.
+    #
+    # @!attribute [rw] mechanism
+    #   The SASL/SCRAM authentication mechanism.
+    #   @return [String]
+    #
+    # @!attribute [rw] secret_arn
+    #   The Amazon Resource Name (ARN) of the Secrets Manager secret.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/KafkaClusterSaslScramAuthentication AWS API Documentation
+    #
+    class KafkaClusterSaslScramAuthentication < Struct.new(
+      :mechanism,
+      :secret_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details of encryption in transit to the Apache Kafka cluster.
+    #
+    # @!attribute [rw] encryption_type
+    #   The type of encryption in transit to the Apache Kafka cluster.
+    #   @return [String]
+    #
+    # @!attribute [rw] root_ca_certificate
+    #   The root CA certificate.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/KafkaClusterEncryptionInTransit AWS API Documentation
+    #
+    class KafkaClusterEncryptionInTransit < Struct.new(
+      :encryption_type,
+      :root_ca_certificate)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information about Kafka Cluster used as source / target for
     # replication.
     #
     # @!attribute [rw] amazon_msk_cluster
     #   Details of an Amazon MSK Cluster.
     #   @return [Types::AmazonMskCluster]
+    #
+    # @!attribute [rw] apache_kafka_cluster
+    #   Details of an Apache Kafka Cluster.
+    #   @return [Types::ApacheKafkaCluster]
     #
     # @!attribute [rw] kafka_cluster_alias
     #   The alias of the Kafka cluster. Used to prefix names of replicated
@@ -2419,12 +2530,24 @@ module Aws::Kafka
     #   Apache Kafka cluster.
     #   @return [Types::KafkaClusterClientVpcConfig]
     #
+    # @!attribute [rw] client_authentication
+    #   Details of the client authentication used by the Apache Kafka
+    #   cluster.
+    #   @return [Types::KafkaClusterClientAuthentication]
+    #
+    # @!attribute [rw] encryption_in_transit
+    #   Details of encryption in transit to the Apache Kafka cluster.
+    #   @return [Types::KafkaClusterEncryptionInTransit]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/KafkaClusterDescription AWS API Documentation
     #
     class KafkaClusterDescription < Struct.new(
       :amazon_msk_cluster,
+      :apache_kafka_cluster,
       :kafka_cluster_alias,
-      :vpc_config)
+      :vpc_config,
+      :client_authentication,
+      :encryption_in_transit)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2438,6 +2561,10 @@ module Aws::Kafka
     #   .
     #   @return [Types::AmazonMskCluster]
     #
+    # @!attribute [rw] apache_kafka_cluster
+    #   Details of an Apache Kafka Cluster.
+    #   @return [Types::ApacheKafkaCluster]
+    #
     # @!attribute [rw] kafka_cluster_alias
     #   The alias of the Kafka cluster. Used to prefix names of replicated
     #   topics.
@@ -2447,6 +2574,7 @@ module Aws::Kafka
     #
     class KafkaClusterSummary < Struct.new(
       :amazon_msk_cluster,
+      :apache_kafka_cluster,
       :kafka_cluster_alias)
       SENSITIVE = []
       include Aws::Structure
@@ -3754,6 +3882,10 @@ module Aws::Kafka
     #   The ARN of the source Kafka cluster.
     #   @return [String]
     #
+    # @!attribute [rw] source_kafka_cluster_id
+    #   The ID of the source Kafka cluster.
+    #   @return [String]
+    #
     # @!attribute [rw] target_compression_type
     #   The compression type to use when producing records to target
     #   cluster.
@@ -3761,6 +3893,10 @@ module Aws::Kafka
     #
     # @!attribute [rw] target_kafka_cluster_arn
     #   The ARN of the target Kafka cluster.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_kafka_cluster_id
+    #   The ID of the target Kafka cluster.
     #   @return [String]
     #
     # @!attribute [rw] topic_replication
@@ -3772,8 +3908,10 @@ module Aws::Kafka
     class ReplicationInfo < Struct.new(
       :consumer_group_replication,
       :source_kafka_cluster_arn,
+      :source_kafka_cluster_id,
       :target_compression_type,
       :target_kafka_cluster_arn,
+      :target_kafka_cluster_id,
       :topic_replication)
       SENSITIVE = []
       include Aws::Structure
@@ -3863,6 +4001,114 @@ module Aws::Kafka
     #
     class ReplicationTopicNameConfiguration < Struct.new(
       :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details of the CloudWatch Logs destination for replicator logs.
+    #
+    # @!attribute [rw] enabled
+    #   Specifies whether broker logs get sent to the specified CloudWatch
+    #   Logs destination for replication.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] log_group
+    #   The CloudWatch log group that is the destination for replicator
+    #   logs.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/ReplicatorCloudWatchLogs AWS API Documentation
+    #
+    class ReplicatorCloudWatchLogs < Struct.new(
+      :enabled,
+      :log_group)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details of the Kinesis Data Firehose delivery stream that is the
+    # destination for replicator logs.
+    #
+    # @!attribute [rw] delivery_stream
+    #   The Kinesis Data Firehose delivery stream that is the destination
+    #   for replicator logs.
+    #   @return [String]
+    #
+    # @!attribute [rw] enabled
+    #   Specifies whether broker logs get sent to the specified Kinesis Data
+    #   Firehose delivery stream for replication.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/ReplicatorFirehose AWS API Documentation
+    #
+    class ReplicatorFirehose < Struct.new(
+      :delivery_stream,
+      :enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details of the Amazon S3 destination for replicator logs.
+    #
+    # @!attribute [rw] bucket
+    #   The name of the S3 bucket that is the destination for replicator
+    #   logs.
+    #   @return [String]
+    #
+    # @!attribute [rw] enabled
+    #   Specifies whether broker logs get sent to the specified Amazon S3
+    #   destination for replication.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] prefix
+    #   The S3 prefix that is the destination for replicator logs.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/ReplicatorS3 AWS API Documentation
+    #
+    class ReplicatorS3 < Struct.new(
+      :bucket,
+      :enabled,
+      :prefix)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for log delivery for the replicator.
+    #
+    # @!attribute [rw] replicator_log_delivery
+    #   The replicator logs configuration for this MSK replicator.
+    #   @return [Types::ReplicatorLogDelivery]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/LogDelivery AWS API Documentation
+    #
+    class LogDelivery < Struct.new(
+      :replicator_log_delivery)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details of the log delivery for the replicator.
+    #
+    # @!attribute [rw] cloud_watch_logs
+    #   Details of the CloudWatch Logs destination for replicator logs.
+    #   @return [Types::ReplicatorCloudWatchLogs]
+    #
+    # @!attribute [rw] firehose
+    #   Details of the Kinesis Data Firehose delivery stream that is the
+    #   destination for replicator logs.
+    #   @return [Types::ReplicatorFirehose]
+    #
+    # @!attribute [rw] s3
+    #   Details of the Amazon S3 destination for replicator logs.
+    #   @return [Types::ReplicatorS3]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/ReplicatorLogDelivery AWS API Documentation
+    #
+    class ReplicatorLogDelivery < Struct.new(
+      :cloud_watch_logs,
+      :firehose,
+      :s3)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4891,6 +5137,11 @@ module Aws::Kafka
     #   Current replicator version.
     #   @return [String]
     #
+    # @!attribute [rw] log_delivery
+    #   Configuration for delivering replicator logs to customer
+    #   destinations.
+    #   @return [Types::LogDelivery]
+    #
     # @!attribute [rw] replicator_arn
     #   @return [String]
     #
@@ -4898,8 +5149,16 @@ module Aws::Kafka
     #   The ARN of the source Kafka cluster.
     #   @return [String]
     #
+    # @!attribute [rw] source_kafka_cluster_id
+    #   The ID of the source Kafka cluster.
+    #   @return [String]
+    #
     # @!attribute [rw] target_kafka_cluster_arn
     #   The ARN of the target Kafka cluster.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_kafka_cluster_id
+    #   The ID of the target Kafka cluster.
     #   @return [String]
     #
     # @!attribute [rw] topic_replication
@@ -4911,9 +5170,12 @@ module Aws::Kafka
     class UpdateReplicationInfoRequest < Struct.new(
       :consumer_group_replication,
       :current_version,
+      :log_delivery,
       :replicator_arn,
       :source_kafka_cluster_arn,
+      :source_kafka_cluster_id,
       :target_kafka_cluster_arn,
+      :target_kafka_cluster_id,
       :topic_replication)
       SENSITIVE = []
       include Aws::Structure

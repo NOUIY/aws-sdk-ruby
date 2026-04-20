@@ -513,7 +513,8 @@ module Aws
                                              bucket_owner_account_id: ::String?
                                            }?,
                                            inline_payload: ::String?
-                                         }?
+                                         }?,
+                                         listing_mode: ("DEFAULT" | "DYNAMIC")?
                                        }?,
                                        api_gateway: {
                                          rest_api_id: ::String,
@@ -2317,7 +2318,8 @@ module Aws
                                              bucket_owner_account_id: ::String?
                                            }?,
                                            inline_payload: ::String?
-                                         }?
+                                         }?,
+                                         listing_mode: ("DEFAULT" | "DYNAMIC")?
                                        }?,
                                        api_gateway: {
                                          rest_api_id: ::String,

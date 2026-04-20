@@ -138,6 +138,7 @@ module Aws::ApplicationSignals
       attr_accessor goal: Types::Goal
       attr_accessor tags: ::Array[Types::Tag]
       attr_accessor burn_rate_configurations: ::Array[Types::BurnRateConfiguration]
+      attr_accessor create_recommended_slo: bool
       SENSITIVE: []
     end
 

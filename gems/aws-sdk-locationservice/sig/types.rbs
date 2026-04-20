@@ -250,6 +250,18 @@ module Aws::LocationService
       SENSITIVE: [:avoid_ferries, :avoid_tolls]
     end
 
+    class CancelJobRequest
+      attr_accessor job_id: ::String
+      SENSITIVE: []
+    end
+
+    class CancelJobResponse
+      attr_accessor job_arn: ::String
+      attr_accessor job_id: ::String
+      attr_accessor status: ("Pending" | "Running" | "Completed" | "Failed" | "Cancelling" | "Cancelled")
+      SENSITIVE: []
+    end
+
     class CellSignals
       attr_accessor lte_cell_details: ::Array[Types::LteCellDetails]
       SENSITIVE: []
@@ -666,6 +678,29 @@ module Aws::LocationService
       SENSITIVE: [:create_time, :update_time, :geofence_properties]
     end
 
+    class GetJobRequest
+      attr_accessor job_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetJobResponse
+      attr_accessor action: ("ValidateAddress")
+      attr_accessor action_options: Types::JobActionOptions
+      attr_accessor created_at: ::Time
+      attr_accessor ended_at: ::Time
+      attr_accessor error: Types::JobError
+      attr_accessor execution_role_arn: ::String
+      attr_accessor input_options: Types::JobInputOptions
+      attr_accessor job_arn: ::String
+      attr_accessor job_id: ::String
+      attr_accessor name: ::String
+      attr_accessor output_options: Types::JobOutputOptions
+      attr_accessor status: ("Pending" | "Running" | "Completed" | "Failed" | "Cancelling" | "Cancelled")
+      attr_accessor updated_at: ::Time
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: [:created_at, :ended_at, :updated_at]
+    end
+
     class GetMapGlyphsRequest
       attr_accessor map_name: ::String
       attr_accessor font_stack: ::String
@@ -750,6 +785,34 @@ module Aws::LocationService
       SENSITIVE: []
     end
 
+    class JobActionOptions
+      attr_accessor validate_address: Types::ValidateAddressActionOptions
+      SENSITIVE: []
+    end
+
+    class JobError
+      attr_accessor code: ("ValidationError" | "InternalServerError")
+      attr_accessor messages: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class JobInputOptions
+      attr_accessor location: ::String
+      attr_accessor format: ("Parquet")
+      SENSITIVE: []
+    end
+
+    class JobOutputOptions
+      attr_accessor format: ("Parquet")
+      attr_accessor location: ::String
+      SENSITIVE: []
+    end
+
+    class JobsFilter
+      attr_accessor job_status: ("Pending" | "Running" | "Completed" | "Failed" | "Cancelling" | "Cancelled")
+      SENSITIVE: []
+    end
+
     class Leg
       attr_accessor start_position: ::Array[::Float]
       attr_accessor end_position: ::Array[::Float]
@@ -831,6 +894,36 @@ module Aws::LocationService
       attr_accessor entries: ::Array[Types::ListGeofenceResponseEntry]
       attr_accessor next_token: ::String
       SENSITIVE: []
+    end
+
+    class ListJobsRequest
+      attr_accessor filter: Types::JobsFilter
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListJobsResponse
+      attr_accessor entries: ::Array[Types::ListJobsResponseEntry]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListJobsResponseEntry
+      attr_accessor action: ("ValidateAddress")
+      attr_accessor action_options: Types::JobActionOptions
+      attr_accessor created_at: ::Time
+      attr_accessor execution_role_arn: ::String
+      attr_accessor ended_at: ::Time
+      attr_accessor error: Types::JobError
+      attr_accessor input_options: Types::JobInputOptions
+      attr_accessor job_id: ::String
+      attr_accessor job_arn: ::String
+      attr_accessor name: ::String
+      attr_accessor output_options: Types::JobOutputOptions
+      attr_accessor status: ("Pending" | "Running" | "Completed" | "Failed" | "Cancelling" | "Cancelled")
+      attr_accessor updated_at: ::Time
+      SENSITIVE: [:created_at, :ended_at, :updated_at]
     end
 
     class ListKeysRequest
@@ -1187,6 +1280,26 @@ module Aws::LocationService
       SENSITIVE: []
     end
 
+    class StartJobRequest
+      attr_accessor client_token: ::String
+      attr_accessor action: ("ValidateAddress")
+      attr_accessor action_options: Types::JobActionOptions
+      attr_accessor execution_role_arn: ::String
+      attr_accessor input_options: Types::JobInputOptions
+      attr_accessor name: ::String
+      attr_accessor output_options: Types::JobOutputOptions
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class StartJobResponse
+      attr_accessor created_at: ::Time
+      attr_accessor job_arn: ::String
+      attr_accessor job_id: ::String
+      attr_accessor status: ("Pending" | "Running" | "Completed" | "Failed" | "Cancelling" | "Cancelled")
+      SENSITIVE: [:created_at]
+    end
+
     class Step
       attr_accessor start_position: ::Array[::Float]
       attr_accessor end_position: ::Array[::Float]
@@ -1336,6 +1449,11 @@ module Aws::LocationService
       attr_accessor tracker_arn: ::String
       attr_accessor update_time: ::Time
       SENSITIVE: [:update_time]
+    end
+
+    class ValidateAddressActionOptions
+      attr_accessor additional_features: ::Array[("Position" | "CountrySpecificAttributes")]
+      SENSITIVE: []
     end
 
     class ValidationException

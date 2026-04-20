@@ -2402,6 +2402,17 @@ module Aws::ObservabilityAdmin
     #   resource tags.
     #   @return [String]
     #
+    # @!attribute [rw] allow_field_updates
+    #   If set to `true`, Amazon CloudWatch Observability Admin detects and
+    #   remediates configuration drift in telemetry resources that it
+    #   manages. For example, if a VPC flow log's format, traffic type, or
+    #   aggregation interval no longer matches the rule's destination
+    #   configuration, the flow log is replaced with one that matches. Only
+    #   Observability Admin-managed resources are updated; customer-created
+    #   resources are never modified. Currently supported for
+    #   `AWS::EC2::VPC` resources (VPC flow logs).
+    #   @return [Boolean]
+    #
     # @!attribute [rw] regions
     #   An optional list of Amazon Web Services Regions where this telemetry
     #   rule should be replicated. When specified, the rule is created in
@@ -2426,6 +2437,7 @@ module Aws::ObservabilityAdmin
       :destination_configuration,
       :scope,
       :selection_criteria,
+      :allow_field_updates,
       :regions,
       :all_regions)
       SENSITIVE = []

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.612.0 (2026-04-20)
+------------------
+
+* Feature - Added Transit Gateway Integration into AWS Client VPN.
+
 1.611.0 (2026-04-07)
 ------------------
 

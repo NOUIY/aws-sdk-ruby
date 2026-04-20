@@ -92,6 +92,20 @@ module Aws
                                  ) -> _AssociateEipToVlanResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AssociateEipToVlanResponseSuccess
 
+      interface _CreateEntitlementResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateEntitlementResponse]
+        def entitlements: () -> ::Array[Types::VmEntitlement]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Evs/Client.html#create_entitlement-instance_method
+      def create_entitlement: (
+                                ?client_token: ::String,
+                                environment_id: ::String,
+                                connector_id: ::String,
+                                entitlement_type: ("WINDOWS_SERVER"),
+                                vm_ids: Array[::String]
+                              ) -> _CreateEntitlementResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateEntitlementResponseSuccess
+
       interface _CreateEnvironmentResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateEnvironmentResponse]
         def environment: () -> Types::Environment
@@ -176,6 +190,20 @@ module Aws
                               ) -> _CreateEnvironmentResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateEnvironmentResponseSuccess
 
+      interface _CreateEnvironmentConnectorResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateEnvironmentConnectorResponse]
+        def connector: () -> Types::Connector
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Evs/Client.html#create_environment_connector-instance_method
+      def create_environment_connector: (
+                                          ?client_token: ::String,
+                                          environment_id: ::String,
+                                          type: ("VCENTER"),
+                                          appliance_fqdn: ::String,
+                                          secret_identifier: ::String
+                                        ) -> _CreateEnvironmentConnectorResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateEnvironmentConnectorResponseSuccess
+
       interface _CreateEnvironmentHostResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateEnvironmentHostResponse]
         def environment_summary: () -> Types::EnvironmentSummary
@@ -196,6 +224,20 @@ module Aws
                                    ) -> _CreateEnvironmentHostResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateEnvironmentHostResponseSuccess
 
+      interface _DeleteEntitlementResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteEntitlementResponse]
+        def entitlements: () -> ::Array[Types::VmEntitlement]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Evs/Client.html#delete_entitlement-instance_method
+      def delete_entitlement: (
+                                ?client_token: ::String,
+                                environment_id: ::String,
+                                connector_id: ::String,
+                                entitlement_type: ("WINDOWS_SERVER"),
+                                vm_ids: Array[::String]
+                              ) -> _DeleteEntitlementResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteEntitlementResponseSuccess
+
       interface _DeleteEnvironmentResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteEnvironmentResponse]
         def environment: () -> Types::Environment
@@ -206,6 +248,19 @@ module Aws
                                 environment_id: ::String
                               ) -> _DeleteEnvironmentResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteEnvironmentResponseSuccess
+
+      interface _DeleteEnvironmentConnectorResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteEnvironmentConnectorResponse]
+        def connector: () -> Types::Connector
+        def environment_summary: () -> Types::EnvironmentSummary
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Evs/Client.html#delete_environment_connector-instance_method
+      def delete_environment_connector: (
+                                          ?client_token: ::String,
+                                          environment_id: ::String,
+                                          connector_id: ::String
+                                        ) -> _DeleteEnvironmentConnectorResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteEnvironmentConnectorResponseSuccess
 
       interface _DeleteEnvironmentHostResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteEnvironmentHostResponse]
@@ -252,6 +307,19 @@ module Aws
       def get_versions: (
                         ) -> _GetVersionsResponseSuccess
                       | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetVersionsResponseSuccess
+
+      interface _ListEnvironmentConnectorsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListEnvironmentConnectorsResponse]
+        def next_token: () -> ::String
+        def connectors: () -> ::Array[Types::Connector]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Evs/Client.html#list_environment_connectors-instance_method
+      def list_environment_connectors: (
+                                         ?next_token: ::String,
+                                         ?max_results: ::Integer,
+                                         environment_id: ::String
+                                       ) -> _ListEnvironmentConnectorsResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListEnvironmentConnectorsResponseSuccess
 
       interface _ListEnvironmentHostsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListEnvironmentHostsResponse]
@@ -302,6 +370,21 @@ module Aws
                                   ) -> _ListTagsForResourceResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListTagsForResourceResponseSuccess
 
+      interface _ListVmEntitlementsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListVmEntitlementsResponse]
+        def next_token: () -> ::String
+        def entitlements: () -> ::Array[Types::VmEntitlement]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Evs/Client.html#list_vm_entitlements-instance_method
+      def list_vm_entitlements: (
+                                  ?next_token: ::String,
+                                  ?max_results: ::Integer,
+                                  environment_id: ::String,
+                                  connector_id: ::String,
+                                  entitlement_type: ("WINDOWS_SERVER")
+                                ) -> _ListVmEntitlementsResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListVmEntitlementsResponseSuccess
+
       interface _TagResourceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::TagResourceResponse]
       end
@@ -321,6 +404,20 @@ module Aws
                             tag_keys: Array[::String]
                           ) -> _UntagResourceResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UntagResourceResponseSuccess
+
+      interface _UpdateEnvironmentConnectorResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateEnvironmentConnectorResponse]
+        def connector: () -> Types::Connector
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Evs/Client.html#update_environment_connector-instance_method
+      def update_environment_connector: (
+                                          ?client_token: ::String,
+                                          environment_id: ::String,
+                                          connector_id: ::String,
+                                          ?appliance_fqdn: ::String,
+                                          ?secret_identifier: ::String
+                                        ) -> _UpdateEnvironmentConnectorResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateEnvironmentConnectorResponseSuccess
     end
   end
 end

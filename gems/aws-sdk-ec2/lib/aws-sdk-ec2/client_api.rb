@@ -30,6 +30,8 @@ module Aws::EC2
     AcceptCapacityReservationBillingOwnershipResult = Shapes::StructureShape.new(name: 'AcceptCapacityReservationBillingOwnershipResult')
     AcceptReservedInstancesExchangeQuoteRequest = Shapes::StructureShape.new(name: 'AcceptReservedInstancesExchangeQuoteRequest')
     AcceptReservedInstancesExchangeQuoteResult = Shapes::StructureShape.new(name: 'AcceptReservedInstancesExchangeQuoteResult')
+    AcceptTransitGatewayClientVpnAttachmentRequest = Shapes::StructureShape.new(name: 'AcceptTransitGatewayClientVpnAttachmentRequest')
+    AcceptTransitGatewayClientVpnAttachmentResult = Shapes::StructureShape.new(name: 'AcceptTransitGatewayClientVpnAttachmentResult')
     AcceptTransitGatewayMulticastDomainAssociationsRequest = Shapes::StructureShape.new(name: 'AcceptTransitGatewayMulticastDomainAssociationsRequest')
     AcceptTransitGatewayMulticastDomainAssociationsResult = Shapes::StructureShape.new(name: 'AcceptTransitGatewayMulticastDomainAssociationsResult')
     AcceptTransitGatewayPeeringAttachmentRequest = Shapes::StructureShape.new(name: 'AcceptTransitGatewayPeeringAttachmentRequest')
@@ -421,6 +423,8 @@ module Aws::EC2
     ClientVpnAuthenticationType = Shapes::StringShape.new(name: 'ClientVpnAuthenticationType')
     ClientVpnAuthorizationRuleStatus = Shapes::StructureShape.new(name: 'ClientVpnAuthorizationRuleStatus')
     ClientVpnAuthorizationRuleStatusCode = Shapes::StringShape.new(name: 'ClientVpnAuthorizationRuleStatusCode')
+    ClientVpnAvailabilityZoneIdSet = Shapes::ListShape.new(name: 'ClientVpnAvailabilityZoneIdSet')
+    ClientVpnAvailabilityZoneSet = Shapes::ListShape.new(name: 'ClientVpnAvailabilityZoneSet')
     ClientVpnConnection = Shapes::StructureShape.new(name: 'ClientVpnConnection')
     ClientVpnConnectionSet = Shapes::ListShape.new(name: 'ClientVpnConnectionSet')
     ClientVpnConnectionStatus = Shapes::StructureShape.new(name: 'ClientVpnConnectionStatus')
@@ -884,6 +888,8 @@ module Aws::EC2
     DeleteTrafficMirrorSessionResult = Shapes::StructureShape.new(name: 'DeleteTrafficMirrorSessionResult')
     DeleteTrafficMirrorTargetRequest = Shapes::StructureShape.new(name: 'DeleteTrafficMirrorTargetRequest')
     DeleteTrafficMirrorTargetResult = Shapes::StructureShape.new(name: 'DeleteTrafficMirrorTargetResult')
+    DeleteTransitGatewayClientVpnAttachmentRequest = Shapes::StructureShape.new(name: 'DeleteTransitGatewayClientVpnAttachmentRequest')
+    DeleteTransitGatewayClientVpnAttachmentResult = Shapes::StructureShape.new(name: 'DeleteTransitGatewayClientVpnAttachmentResult')
     DeleteTransitGatewayConnectPeerRequest = Shapes::StructureShape.new(name: 'DeleteTransitGatewayConnectPeerRequest')
     DeleteTransitGatewayConnectPeerResult = Shapes::StructureShape.new(name: 'DeleteTransitGatewayConnectPeerResult')
     DeleteTransitGatewayConnectRequest = Shapes::StructureShape.new(name: 'DeleteTransitGatewayConnectRequest')
@@ -3104,6 +3110,8 @@ module Aws::EC2
     RegisteredInstanceList = Shapes::ListShape.new(name: 'RegisteredInstanceList')
     RejectCapacityReservationBillingOwnershipRequest = Shapes::StructureShape.new(name: 'RejectCapacityReservationBillingOwnershipRequest')
     RejectCapacityReservationBillingOwnershipResult = Shapes::StructureShape.new(name: 'RejectCapacityReservationBillingOwnershipResult')
+    RejectTransitGatewayClientVpnAttachmentRequest = Shapes::StructureShape.new(name: 'RejectTransitGatewayClientVpnAttachmentRequest')
+    RejectTransitGatewayClientVpnAttachmentResult = Shapes::StructureShape.new(name: 'RejectTransitGatewayClientVpnAttachmentResult')
     RejectTransitGatewayMulticastDomainAssociationsRequest = Shapes::StructureShape.new(name: 'RejectTransitGatewayMulticastDomainAssociationsRequest')
     RejectTransitGatewayMulticastDomainAssociationsResult = Shapes::StructureShape.new(name: 'RejectTransitGatewayMulticastDomainAssociationsResult')
     RejectTransitGatewayPeeringAttachmentRequest = Shapes::StructureShape.new(name: 'RejectTransitGatewayPeeringAttachmentRequest')
@@ -3649,7 +3657,11 @@ module Aws::EC2
     TransitGatewayAttachmentPropagationList = Shapes::ListShape.new(name: 'TransitGatewayAttachmentPropagationList')
     TransitGatewayAttachmentResourceType = Shapes::StringShape.new(name: 'TransitGatewayAttachmentResourceType')
     TransitGatewayAttachmentState = Shapes::StringShape.new(name: 'TransitGatewayAttachmentState')
+    TransitGatewayAttachmentStatusType = Shapes::StringShape.new(name: 'TransitGatewayAttachmentStatusType')
     TransitGatewayCidrBlockStringList = Shapes::ListShape.new(name: 'TransitGatewayCidrBlockStringList')
+    TransitGatewayClientVpnAttachment = Shapes::StructureShape.new(name: 'TransitGatewayClientVpnAttachment')
+    TransitGatewayConfigurationDescribeEndpointStructure = Shapes::StructureShape.new(name: 'TransitGatewayConfigurationDescribeEndpointStructure')
+    TransitGatewayConfigurationInputStructure = Shapes::StructureShape.new(name: 'TransitGatewayConfigurationInputStructure')
     TransitGatewayConnect = Shapes::StructureShape.new(name: 'TransitGatewayConnect')
     TransitGatewayConnectList = Shapes::ListShape.new(name: 'TransitGatewayConnectList')
     TransitGatewayConnectOptions = Shapes::StructureShape.new(name: 'TransitGatewayConnectOptions')
@@ -4042,6 +4054,13 @@ module Aws::EC2
 
     AcceptReservedInstancesExchangeQuoteResult.add_member(:exchange_id, Shapes::ShapeRef.new(shape: String, location_name: "exchangeId"))
     AcceptReservedInstancesExchangeQuoteResult.struct_class = Types::AcceptReservedInstancesExchangeQuoteResult
+
+    AcceptTransitGatewayClientVpnAttachmentRequest.add_member(:transit_gateway_attachment_id, Shapes::ShapeRef.new(shape: TransitGatewayAttachmentId, required: true, location_name: "TransitGatewayAttachmentId"))
+    AcceptTransitGatewayClientVpnAttachmentRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    AcceptTransitGatewayClientVpnAttachmentRequest.struct_class = Types::AcceptTransitGatewayClientVpnAttachmentRequest
+
+    AcceptTransitGatewayClientVpnAttachmentResult.add_member(:transit_gateway_client_vpn_attachment, Shapes::ShapeRef.new(shape: TransitGatewayClientVpnAttachment, location_name: "transitGatewayClientVpnAttachment"))
+    AcceptTransitGatewayClientVpnAttachmentResult.struct_class = Types::AcceptTransitGatewayClientVpnAttachmentResult
 
     AcceptTransitGatewayMulticastDomainAssociationsRequest.add_member(:transit_gateway_multicast_domain_id, Shapes::ShapeRef.new(shape: TransitGatewayMulticastDomainId, location_name: "TransitGatewayMulticastDomainId"))
     AcceptTransitGatewayMulticastDomainAssociationsRequest.add_member(:transit_gateway_attachment_id, Shapes::ShapeRef.new(shape: TransitGatewayAttachmentId, location_name: "TransitGatewayAttachmentId"))
@@ -4439,9 +4458,11 @@ module Aws::EC2
     AssociateCapacityReservationBillingOwnerResult.struct_class = Types::AssociateCapacityReservationBillingOwnerResult
 
     AssociateClientVpnTargetNetworkRequest.add_member(:client_vpn_endpoint_id, Shapes::ShapeRef.new(shape: ClientVpnEndpointId, required: true, location_name: "ClientVpnEndpointId"))
-    AssociateClientVpnTargetNetworkRequest.add_member(:subnet_id, Shapes::ShapeRef.new(shape: SubnetId, required: true, location_name: "SubnetId"))
+    AssociateClientVpnTargetNetworkRequest.add_member(:subnet_id, Shapes::ShapeRef.new(shape: SubnetId, location_name: "SubnetId"))
     AssociateClientVpnTargetNetworkRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     AssociateClientVpnTargetNetworkRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    AssociateClientVpnTargetNetworkRequest.add_member(:availability_zone, Shapes::ShapeRef.new(shape: AvailabilityZoneName, location_name: "AvailabilityZone"))
+    AssociateClientVpnTargetNetworkRequest.add_member(:availability_zone_id, Shapes::ShapeRef.new(shape: AvailabilityZoneId, location_name: "AvailabilityZoneId"))
     AssociateClientVpnTargetNetworkRequest.struct_class = Types::AssociateClientVpnTargetNetworkRequest
 
     AssociateClientVpnTargetNetworkResult.add_member(:association_id, Shapes::ShapeRef.new(shape: String, location_name: "associationId"))
@@ -5382,6 +5403,10 @@ module Aws::EC2
     ClientVpnAuthorizationRuleStatus.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
     ClientVpnAuthorizationRuleStatus.struct_class = Types::ClientVpnAuthorizationRuleStatus
 
+    ClientVpnAvailabilityZoneIdSet.member = Shapes::ShapeRef.new(shape: AvailabilityZoneId, location_name: "item")
+
+    ClientVpnAvailabilityZoneSet.member = Shapes::ShapeRef.new(shape: AvailabilityZoneName, location_name: "item")
+
     ClientVpnConnection.add_member(:client_vpn_endpoint_id, Shapes::ShapeRef.new(shape: String, location_name: "clientVpnEndpointId"))
     ClientVpnConnection.add_member(:timestamp, Shapes::ShapeRef.new(shape: String, location_name: "timestamp"))
     ClientVpnConnection.add_member(:connection_id, Shapes::ShapeRef.new(shape: String, location_name: "connectionId"))
@@ -5432,6 +5457,7 @@ module Aws::EC2
     ClientVpnEndpoint.add_member(:disconnect_on_session_timeout, Shapes::ShapeRef.new(shape: Boolean, location_name: "disconnectOnSessionTimeout"))
     ClientVpnEndpoint.add_member(:endpoint_ip_address_type, Shapes::ShapeRef.new(shape: EndpointIpAddressType, location_name: "endpointIpAddressType"))
     ClientVpnEndpoint.add_member(:traffic_ip_address_type, Shapes::ShapeRef.new(shape: TrafficIpAddressType, location_name: "trafficIpAddressType"))
+    ClientVpnEndpoint.add_member(:transit_gateway_configuration, Shapes::ShapeRef.new(shape: TransitGatewayConfigurationDescribeEndpointStructure, location_name: "transitGatewayConfiguration"))
     ClientVpnEndpoint.struct_class = Types::ClientVpnEndpoint
 
     ClientVpnEndpointAttributeStatus.add_member(:code, Shapes::ShapeRef.new(shape: ClientVpnEndpointAttributeStatusCode, location_name: "code"))
@@ -5451,6 +5477,7 @@ module Aws::EC2
     ClientVpnRoute.add_member(:origin, Shapes::ShapeRef.new(shape: String, location_name: "origin"))
     ClientVpnRoute.add_member(:status, Shapes::ShapeRef.new(shape: ClientVpnRouteStatus, location_name: "status"))
     ClientVpnRoute.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    ClientVpnRoute.add_member(:transit_gateway_attachment_id, Shapes::ShapeRef.new(shape: TransitGatewayAttachmentId, location_name: "transitGatewayAttachmentId"))
     ClientVpnRoute.struct_class = Types::ClientVpnRoute
 
     ClientVpnRouteSet.member = Shapes::ShapeRef.new(shape: ClientVpnRoute, location_name: "item")
@@ -5754,6 +5781,7 @@ module Aws::EC2
     CreateClientVpnEndpointRequest.add_member(:disconnect_on_session_timeout, Shapes::ShapeRef.new(shape: Boolean, location_name: "DisconnectOnSessionTimeout"))
     CreateClientVpnEndpointRequest.add_member(:endpoint_ip_address_type, Shapes::ShapeRef.new(shape: EndpointIpAddressType, location_name: "EndpointIpAddressType"))
     CreateClientVpnEndpointRequest.add_member(:traffic_ip_address_type, Shapes::ShapeRef.new(shape: TrafficIpAddressType, location_name: "TrafficIpAddressType"))
+    CreateClientVpnEndpointRequest.add_member(:transit_gateway_configuration, Shapes::ShapeRef.new(shape: TransitGatewayConfigurationInputStructure, location_name: "TransitGatewayConfiguration"))
     CreateClientVpnEndpointRequest.struct_class = Types::CreateClientVpnEndpointRequest
 
     CreateClientVpnEndpointResult.add_member(:client_vpn_endpoint_id, Shapes::ShapeRef.new(shape: String, location_name: "clientVpnEndpointId"))
@@ -5763,7 +5791,7 @@ module Aws::EC2
 
     CreateClientVpnRouteRequest.add_member(:client_vpn_endpoint_id, Shapes::ShapeRef.new(shape: ClientVpnEndpointId, required: true, location_name: "ClientVpnEndpointId"))
     CreateClientVpnRouteRequest.add_member(:destination_cidr_block, Shapes::ShapeRef.new(shape: String, required: true, location_name: "DestinationCidrBlock"))
-    CreateClientVpnRouteRequest.add_member(:target_vpc_subnet_id, Shapes::ShapeRef.new(shape: SubnetId, required: true, location_name: "TargetVpcSubnetId"))
+    CreateClientVpnRouteRequest.add_member(:target_vpc_subnet_id, Shapes::ShapeRef.new(shape: SubnetId, location_name: "TargetVpcSubnetId"))
     CreateClientVpnRouteRequest.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "Description"))
     CreateClientVpnRouteRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     CreateClientVpnRouteRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
@@ -7575,6 +7603,13 @@ module Aws::EC2
 
     DeleteTrafficMirrorTargetResult.add_member(:traffic_mirror_target_id, Shapes::ShapeRef.new(shape: String, location_name: "trafficMirrorTargetId"))
     DeleteTrafficMirrorTargetResult.struct_class = Types::DeleteTrafficMirrorTargetResult
+
+    DeleteTransitGatewayClientVpnAttachmentRequest.add_member(:transit_gateway_attachment_id, Shapes::ShapeRef.new(shape: TransitGatewayAttachmentId, required: true, location_name: "TransitGatewayAttachmentId"))
+    DeleteTransitGatewayClientVpnAttachmentRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    DeleteTransitGatewayClientVpnAttachmentRequest.struct_class = Types::DeleteTransitGatewayClientVpnAttachmentRequest
+
+    DeleteTransitGatewayClientVpnAttachmentResult.add_member(:transit_gateway_client_vpn_attachment, Shapes::ShapeRef.new(shape: TransitGatewayClientVpnAttachment, location_name: "transitGatewayClientVpnAttachment"))
+    DeleteTransitGatewayClientVpnAttachmentResult.struct_class = Types::DeleteTransitGatewayClientVpnAttachmentResult
 
     DeleteTransitGatewayConnectPeerRequest.add_member(:transit_gateway_connect_peer_id, Shapes::ShapeRef.new(shape: TransitGatewayConnectPeerId, required: true, location_name: "TransitGatewayConnectPeerId"))
     DeleteTransitGatewayConnectPeerRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
@@ -14372,6 +14407,7 @@ module Aws::EC2
     ModifyClientVpnEndpointRequest.add_member(:client_login_banner_options, Shapes::ShapeRef.new(shape: ClientLoginBannerOptions, location_name: "ClientLoginBannerOptions"))
     ModifyClientVpnEndpointRequest.add_member(:client_route_enforcement_options, Shapes::ShapeRef.new(shape: ClientRouteEnforcementOptions, location_name: "ClientRouteEnforcementOptions"))
     ModifyClientVpnEndpointRequest.add_member(:disconnect_on_session_timeout, Shapes::ShapeRef.new(shape: Boolean, location_name: "DisconnectOnSessionTimeout"))
+    ModifyClientVpnEndpointRequest.add_member(:transit_gateway_configuration, Shapes::ShapeRef.new(shape: TransitGatewayConfigurationInputStructure, location_name: "TransitGatewayConfiguration"))
     ModifyClientVpnEndpointRequest.struct_class = Types::ModifyClientVpnEndpointRequest
 
     ModifyClientVpnEndpointResult.add_member(:return, Shapes::ShapeRef.new(shape: Boolean, location_name: "return"))
@@ -16284,6 +16320,13 @@ module Aws::EC2
     RejectCapacityReservationBillingOwnershipResult.add_member(:return, Shapes::ShapeRef.new(shape: Boolean, location_name: "return"))
     RejectCapacityReservationBillingOwnershipResult.struct_class = Types::RejectCapacityReservationBillingOwnershipResult
 
+    RejectTransitGatewayClientVpnAttachmentRequest.add_member(:transit_gateway_attachment_id, Shapes::ShapeRef.new(shape: TransitGatewayAttachmentId, required: true, location_name: "TransitGatewayAttachmentId"))
+    RejectTransitGatewayClientVpnAttachmentRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    RejectTransitGatewayClientVpnAttachmentRequest.struct_class = Types::RejectTransitGatewayClientVpnAttachmentRequest
+
+    RejectTransitGatewayClientVpnAttachmentResult.add_member(:transit_gateway_client_vpn_attachment, Shapes::ShapeRef.new(shape: TransitGatewayClientVpnAttachment, location_name: "transitGatewayClientVpnAttachment"))
+    RejectTransitGatewayClientVpnAttachmentResult.struct_class = Types::RejectTransitGatewayClientVpnAttachmentResult
+
     RejectTransitGatewayMulticastDomainAssociationsRequest.add_member(:transit_gateway_multicast_domain_id, Shapes::ShapeRef.new(shape: TransitGatewayMulticastDomainId, location_name: "TransitGatewayMulticastDomainId"))
     RejectTransitGatewayMulticastDomainAssociationsRequest.add_member(:transit_gateway_attachment_id, Shapes::ShapeRef.new(shape: TransitGatewayAttachmentId, location_name: "TransitGatewayAttachmentId"))
     RejectTransitGatewayMulticastDomainAssociationsRequest.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: ValueStringList, location_name: "SubnetIds"))
@@ -18136,6 +18179,8 @@ module Aws::EC2
     TargetNetwork.add_member(:client_vpn_endpoint_id, Shapes::ShapeRef.new(shape: String, location_name: "clientVpnEndpointId"))
     TargetNetwork.add_member(:status, Shapes::ShapeRef.new(shape: AssociationStatus, location_name: "status"))
     TargetNetwork.add_member(:security_groups, Shapes::ShapeRef.new(shape: ValueStringList, location_name: "securityGroups"))
+    TargetNetwork.add_member(:availability_zones, Shapes::ShapeRef.new(shape: ClientVpnAvailabilityZoneSet, location_name: "availabilityZoneSet"))
+    TargetNetwork.add_member(:availability_zone_ids, Shapes::ShapeRef.new(shape: ClientVpnAvailabilityZoneIdSet, location_name: "availabilityZoneIdSet"))
     TargetNetwork.struct_class = Types::TargetNetwork
 
     TargetNetworkSet.member = Shapes::ShapeRef.new(shape: TargetNetwork, location_name: "item")
@@ -18322,6 +18367,25 @@ module Aws::EC2
     TransitGatewayAttachmentPropagationList.member = Shapes::ShapeRef.new(shape: TransitGatewayAttachmentPropagation, location_name: "item")
 
     TransitGatewayCidrBlockStringList.member = Shapes::ShapeRef.new(shape: String, location_name: "item")
+
+    TransitGatewayClientVpnAttachment.add_member(:transit_gateway_attachment_id, Shapes::ShapeRef.new(shape: TransitGatewayAttachmentId, location_name: "transitGatewayAttachmentId"))
+    TransitGatewayClientVpnAttachment.add_member(:transit_gateway_id, Shapes::ShapeRef.new(shape: TransitGatewayId, location_name: "transitGatewayId"))
+    TransitGatewayClientVpnAttachment.add_member(:client_vpn_endpoint_id, Shapes::ShapeRef.new(shape: ClientVpnEndpointId, location_name: "clientVpnEndpointId"))
+    TransitGatewayClientVpnAttachment.add_member(:client_vpn_owner_id, Shapes::ShapeRef.new(shape: String, location_name: "clientVpnOwnerId"))
+    TransitGatewayClientVpnAttachment.add_member(:state, Shapes::ShapeRef.new(shape: TransitGatewayAttachmentStatusType, location_name: "state"))
+    TransitGatewayClientVpnAttachment.add_member(:creation_time, Shapes::ShapeRef.new(shape: String, location_name: "creationTime"))
+    TransitGatewayClientVpnAttachment.struct_class = Types::TransitGatewayClientVpnAttachment
+
+    TransitGatewayConfigurationDescribeEndpointStructure.add_member(:transit_gateway_id, Shapes::ShapeRef.new(shape: TransitGatewayId, location_name: "transitGatewayId"))
+    TransitGatewayConfigurationDescribeEndpointStructure.add_member(:transit_gateway_attachment_id, Shapes::ShapeRef.new(shape: TransitGatewayAttachmentId, location_name: "transitGatewayAttachmentId"))
+    TransitGatewayConfigurationDescribeEndpointStructure.add_member(:availability_zones, Shapes::ShapeRef.new(shape: ClientVpnAvailabilityZoneSet, location_name: "availabilityZoneSet"))
+    TransitGatewayConfigurationDescribeEndpointStructure.add_member(:availability_zone_ids, Shapes::ShapeRef.new(shape: ClientVpnAvailabilityZoneIdSet, location_name: "availabilityZoneIdSet"))
+    TransitGatewayConfigurationDescribeEndpointStructure.struct_class = Types::TransitGatewayConfigurationDescribeEndpointStructure
+
+    TransitGatewayConfigurationInputStructure.add_member(:transit_gateway_id, Shapes::ShapeRef.new(shape: TransitGatewayId, location_name: "TransitGatewayId"))
+    TransitGatewayConfigurationInputStructure.add_member(:availability_zones, Shapes::ShapeRef.new(shape: ClientVpnAvailabilityZoneSet, location_name: "AvailabilityZone"))
+    TransitGatewayConfigurationInputStructure.add_member(:availability_zone_ids, Shapes::ShapeRef.new(shape: ClientVpnAvailabilityZoneIdSet, location_name: "AvailabilityZoneId"))
+    TransitGatewayConfigurationInputStructure.struct_class = Types::TransitGatewayConfigurationInputStructure
 
     TransitGatewayConnect.add_member(:transit_gateway_attachment_id, Shapes::ShapeRef.new(shape: TransitGatewayAttachmentId, location_name: "transitGatewayAttachmentId"))
     TransitGatewayConnect.add_member(:transport_transit_gateway_attachment_id, Shapes::ShapeRef.new(shape: TransitGatewayAttachmentId, location_name: "transportTransitGatewayAttachmentId"))
@@ -19642,6 +19706,14 @@ module Aws::EC2
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: AcceptReservedInstancesExchangeQuoteRequest)
         o.output = Shapes::ShapeRef.new(shape: AcceptReservedInstancesExchangeQuoteResult)
+      end)
+
+      api.add_operation(:accept_transit_gateway_client_vpn_attachment, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "AcceptTransitGatewayClientVpnAttachment"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: AcceptTransitGatewayClientVpnAttachmentRequest)
+        o.output = Shapes::ShapeRef.new(shape: AcceptTransitGatewayClientVpnAttachmentResult)
       end)
 
       api.add_operation(:accept_transit_gateway_multicast_domain_associations, Seahorse::Model::Operation.new.tap do |o|
@@ -21450,6 +21522,14 @@ module Aws::EC2
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DeleteTransitGatewayRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteTransitGatewayResult)
+      end)
+
+      api.add_operation(:delete_transit_gateway_client_vpn_attachment, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteTransitGatewayClientVpnAttachment"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteTransitGatewayClientVpnAttachmentRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteTransitGatewayClientVpnAttachmentResult)
       end)
 
       api.add_operation(:delete_transit_gateway_connect, Seahorse::Model::Operation.new.tap do |o|
@@ -26191,6 +26271,14 @@ module Aws::EC2
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: RejectCapacityReservationBillingOwnershipRequest)
         o.output = Shapes::ShapeRef.new(shape: RejectCapacityReservationBillingOwnershipResult)
+      end)
+
+      api.add_operation(:reject_transit_gateway_client_vpn_attachment, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "RejectTransitGatewayClientVpnAttachment"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: RejectTransitGatewayClientVpnAttachmentRequest)
+        o.output = Shapes::ShapeRef.new(shape: RejectTransitGatewayClientVpnAttachmentResult)
       end)
 
       api.add_operation(:reject_transit_gateway_multicast_domain_associations, Seahorse::Model::Operation.new.tap do |o|

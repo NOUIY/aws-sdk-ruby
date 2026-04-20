@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.15.0 (2026-04-20)
+------------------
+
+* Feature - Amazon EVS now allows you to create connectors to your vCenter appliances and create Windows Server entitlements for virtual machines running in your EVS environments
+
 1.14.0 (2026-03-18)
 ------------------
 

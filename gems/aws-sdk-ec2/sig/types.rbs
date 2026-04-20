@@ -67,6 +67,17 @@ module Aws::EC2
       SENSITIVE: []
     end
 
+    class AcceptTransitGatewayClientVpnAttachmentRequest
+      attr_accessor transit_gateway_attachment_id: ::String
+      attr_accessor dry_run: bool
+      SENSITIVE: []
+    end
+
+    class AcceptTransitGatewayClientVpnAttachmentResult
+      attr_accessor transit_gateway_client_vpn_attachment: Types::TransitGatewayClientVpnAttachment
+      SENSITIVE: []
+    end
+
     class AcceptTransitGatewayMulticastDomainAssociationsRequest
       attr_accessor transit_gateway_multicast_domain_id: ::String
       attr_accessor transit_gateway_attachment_id: ::String
@@ -525,6 +536,8 @@ module Aws::EC2
       attr_accessor subnet_id: ::String
       attr_accessor client_token: ::String
       attr_accessor dry_run: bool
+      attr_accessor availability_zone: ::String
+      attr_accessor availability_zone_id: ::String
       SENSITIVE: []
     end
 
@@ -1703,6 +1716,7 @@ module Aws::EC2
       attr_accessor disconnect_on_session_timeout: bool
       attr_accessor endpoint_ip_address_type: ("ipv4" | "ipv6" | "dual-stack")
       attr_accessor traffic_ip_address_type: ("ipv4" | "ipv6" | "dual-stack")
+      attr_accessor transit_gateway_configuration: Types::TransitGatewayConfigurationDescribeEndpointStructure
       SENSITIVE: []
     end
 
@@ -1713,7 +1727,7 @@ module Aws::EC2
     end
 
     class ClientVpnEndpointStatus
-      attr_accessor code: ("pending-associate" | "available" | "deleting" | "deleted")
+      attr_accessor code: ("pending-associate" | "available" | "deleting" | "deleted" | "pending")
       attr_accessor message: ::String
       SENSITIVE: []
     end
@@ -1726,6 +1740,7 @@ module Aws::EC2
       attr_accessor origin: ::String
       attr_accessor status: Types::ClientVpnRouteStatus
       attr_accessor description: ::String
+      attr_accessor transit_gateway_attachment_id: ::String
       SENSITIVE: []
     end
 
@@ -2085,6 +2100,7 @@ module Aws::EC2
       attr_accessor disconnect_on_session_timeout: bool
       attr_accessor endpoint_ip_address_type: ("ipv4" | "ipv6" | "dual-stack")
       attr_accessor traffic_ip_address_type: ("ipv4" | "ipv6" | "dual-stack")
+      attr_accessor transit_gateway_configuration: Types::TransitGatewayConfigurationInputStructure
       SENSITIVE: []
     end
 
@@ -3239,11 +3255,11 @@ module Aws::EC2
       attr_accessor transit_gateway_metering_policy_id: ::String
       attr_accessor policy_rule_number: ::Integer
       attr_accessor source_transit_gateway_attachment_id: ::String
-      attr_accessor source_transit_gateway_attachment_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function")
+      attr_accessor source_transit_gateway_attachment_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn")
       attr_accessor source_cidr_block: ::String
       attr_accessor source_port_range: ::String
       attr_accessor destination_transit_gateway_attachment_id: ::String
-      attr_accessor destination_transit_gateway_attachment_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function")
+      attr_accessor destination_transit_gateway_attachment_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn")
       attr_accessor destination_cidr_block: ::String
       attr_accessor destination_port_range: ::String
       attr_accessor protocol: ::String
@@ -4543,6 +4559,17 @@ module Aws::EC2
 
     class DeleteTrafficMirrorTargetResult
       attr_accessor traffic_mirror_target_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteTransitGatewayClientVpnAttachmentRequest
+      attr_accessor transit_gateway_attachment_id: ::String
+      attr_accessor dry_run: bool
+      SENSITIVE: []
+    end
+
+    class DeleteTransitGatewayClientVpnAttachmentResult
+      attr_accessor transit_gateway_client_vpn_attachment: Types::TransitGatewayClientVpnAttachment
       SENSITIVE: []
     end
 
@@ -12989,6 +13016,7 @@ module Aws::EC2
       attr_accessor client_login_banner_options: Types::ClientLoginBannerOptions
       attr_accessor client_route_enforcement_options: Types::ClientRouteEnforcementOptions
       attr_accessor disconnect_on_session_timeout: bool
+      attr_accessor transit_gateway_configuration: Types::TransitGatewayConfigurationInputStructure
       SENSITIVE: []
     end
 
@@ -15284,6 +15312,17 @@ module Aws::EC2
       SENSITIVE: []
     end
 
+    class RejectTransitGatewayClientVpnAttachmentRequest
+      attr_accessor transit_gateway_attachment_id: ::String
+      attr_accessor dry_run: bool
+      SENSITIVE: []
+    end
+
+    class RejectTransitGatewayClientVpnAttachmentResult
+      attr_accessor transit_gateway_client_vpn_attachment: Types::TransitGatewayClientVpnAttachment
+      SENSITIVE: []
+    end
+
     class RejectTransitGatewayMulticastDomainAssociationsRequest
       attr_accessor transit_gateway_multicast_domain_id: ::String
       attr_accessor transit_gateway_attachment_id: ::String
@@ -17327,6 +17366,8 @@ module Aws::EC2
       attr_accessor client_vpn_endpoint_id: ::String
       attr_accessor status: Types::AssociationStatus
       attr_accessor security_groups: ::Array[::String]
+      attr_accessor availability_zones: ::Array[::String]
+      attr_accessor availability_zone_ids: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -17473,7 +17514,7 @@ module Aws::EC2
       attr_accessor transit_gateway_route_table_id: ::String
       attr_accessor transit_gateway_attachment_id: ::String
       attr_accessor resource_id: ::String
-      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function")
+      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn")
       attr_accessor state: ("associating" | "associated" | "disassociating" | "disassociated")
       SENSITIVE: []
     end
@@ -17483,7 +17524,7 @@ module Aws::EC2
       attr_accessor transit_gateway_id: ::String
       attr_accessor transit_gateway_owner_id: ::String
       attr_accessor resource_owner_id: ::String
-      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function")
+      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn")
       attr_accessor resource_id: ::String
       attr_accessor state: ("initiating" | "initiatingRequest" | "pendingAcceptance" | "rollingBack" | "pending" | "available" | "modifying" | "deleting" | "deleted" | "failed" | "rejected" | "rejecting" | "failing")
       attr_accessor association: Types::TransitGatewayAttachmentAssociation
@@ -17510,6 +17551,31 @@ module Aws::EC2
     class TransitGatewayAttachmentPropagation
       attr_accessor transit_gateway_route_table_id: ::String
       attr_accessor state: ("enabling" | "enabled" | "disabling" | "disabled")
+      SENSITIVE: []
+    end
+
+    class TransitGatewayClientVpnAttachment
+      attr_accessor transit_gateway_attachment_id: ::String
+      attr_accessor transit_gateway_id: ::String
+      attr_accessor client_vpn_endpoint_id: ::String
+      attr_accessor client_vpn_owner_id: ::String
+      attr_accessor state: ("pending-acceptance" | "pending" | "rejected" | "available" | "deleting" | "deleted")
+      attr_accessor creation_time: ::String
+      SENSITIVE: []
+    end
+
+    class TransitGatewayConfigurationDescribeEndpointStructure
+      attr_accessor transit_gateway_id: ::String
+      attr_accessor transit_gateway_attachment_id: ::String
+      attr_accessor availability_zones: ::Array[::String]
+      attr_accessor availability_zone_ids: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class TransitGatewayConfigurationInputStructure
+      attr_accessor transit_gateway_id: ::String
+      attr_accessor availability_zones: ::Array[::String]
+      attr_accessor availability_zone_ids: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -17575,11 +17641,11 @@ module Aws::EC2
 
     class TransitGatewayMeteringPolicyRule
       attr_accessor source_transit_gateway_attachment_id: ::String
-      attr_accessor source_transit_gateway_attachment_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function")
+      attr_accessor source_transit_gateway_attachment_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn")
       attr_accessor source_cidr_block: ::String
       attr_accessor source_port_range: ::String
       attr_accessor destination_transit_gateway_attachment_id: ::String
-      attr_accessor destination_transit_gateway_attachment_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function")
+      attr_accessor destination_transit_gateway_attachment_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn")
       attr_accessor destination_cidr_block: ::String
       attr_accessor destination_port_range: ::String
       attr_accessor protocol: ::String
@@ -17615,7 +17681,7 @@ module Aws::EC2
     class TransitGatewayMulticastDomainAssociation
       attr_accessor transit_gateway_attachment_id: ::String
       attr_accessor resource_id: ::String
-      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function")
+      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn")
       attr_accessor resource_owner_id: ::String
       attr_accessor subnet: Types::SubnetAssociation
       SENSITIVE: []
@@ -17625,7 +17691,7 @@ module Aws::EC2
       attr_accessor transit_gateway_multicast_domain_id: ::String
       attr_accessor transit_gateway_attachment_id: ::String
       attr_accessor resource_id: ::String
-      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function")
+      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn")
       attr_accessor resource_owner_id: ::String
       attr_accessor subnets: ::Array[Types::SubnetAssociation]
       SENSITIVE: []
@@ -17643,7 +17709,7 @@ module Aws::EC2
       attr_accessor transit_gateway_attachment_id: ::String
       attr_accessor subnet_id: ::String
       attr_accessor resource_id: ::String
-      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function")
+      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn")
       attr_accessor resource_owner_id: ::String
       attr_accessor network_interface_id: ::String
       attr_accessor group_member: bool
@@ -17730,7 +17796,7 @@ module Aws::EC2
       attr_accessor transit_gateway_policy_table_id: ::String
       attr_accessor transit_gateway_attachment_id: ::String
       attr_accessor resource_id: ::String
-      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function")
+      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn")
       attr_accessor state: ("associating" | "associated" | "disassociating" | "disassociated")
       SENSITIVE: []
     end
@@ -17744,7 +17810,7 @@ module Aws::EC2
 
     class TransitGatewayPrefixListAttachment
       attr_accessor transit_gateway_attachment_id: ::String
-      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function")
+      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn")
       attr_accessor resource_id: ::String
       SENSITIVE: []
     end
@@ -17762,7 +17828,7 @@ module Aws::EC2
     class TransitGatewayPropagation
       attr_accessor transit_gateway_attachment_id: ::String
       attr_accessor resource_id: ::String
-      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function")
+      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn")
       attr_accessor transit_gateway_route_table_id: ::String
       attr_accessor state: ("enabling" | "enabled" | "disabling" | "disabled")
       attr_accessor transit_gateway_route_table_announcement_id: ::String
@@ -17795,7 +17861,7 @@ module Aws::EC2
     class TransitGatewayRouteAttachment
       attr_accessor resource_id: ::String
       attr_accessor transit_gateway_attachment_id: ::String
-      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function")
+      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn")
       SENSITIVE: []
     end
 
@@ -17828,7 +17894,7 @@ module Aws::EC2
     class TransitGatewayRouteTableAssociation
       attr_accessor transit_gateway_attachment_id: ::String
       attr_accessor resource_id: ::String
-      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function")
+      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn")
       attr_accessor state: ("associating" | "associated" | "disassociating" | "disassociated")
       SENSITIVE: []
     end
@@ -17836,7 +17902,7 @@ module Aws::EC2
     class TransitGatewayRouteTablePropagation
       attr_accessor transit_gateway_attachment_id: ::String
       attr_accessor resource_id: ::String
-      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function")
+      attr_accessor resource_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn")
       attr_accessor state: ("enabling" | "enabled" | "disabling" | "disabled")
       attr_accessor transit_gateway_route_table_announcement_id: ::String
       SENSITIVE: []

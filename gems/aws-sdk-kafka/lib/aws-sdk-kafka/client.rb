@@ -912,6 +912,9 @@ module Aws::Kafka
     # @option params [required, Array<Types::KafkaCluster>] :kafka_clusters
     #   Kafka Clusters to use in setting up sources / targets for replication.
     #
+    # @option params [Types::LogDelivery] :log_delivery
+    #   Configuration for delivering replicator logs to customer destinations.
+    #
     # @option params [required, Array<Types::ReplicationInfo>] :replication_info_list
     #   A list of replication configurations, where each configuration targets
     #   a given source cluster to target cluster replication flow.
@@ -939,15 +942,46 @@ module Aws::Kafka
     #     description: "__stringMax1024",
     #     kafka_clusters: [ # required
     #       {
-    #         amazon_msk_cluster: { # required
+    #         amazon_msk_cluster: {
     #           msk_cluster_arn: "__string", # required
     #         },
-    #         vpc_config: { # required
+    #         apache_kafka_cluster: {
+    #           apache_kafka_cluster_id: "__string", # required
+    #           bootstrap_broker_string: "__string", # required
+    #         },
+    #         vpc_config: {
     #           security_group_ids: ["__string"],
     #           subnet_ids: ["__string"], # required
     #         },
+    #         client_authentication: {
+    #           sasl_scram: { # required
+    #             mechanism: "SHA256", # required, accepts SHA256, SHA512
+    #             secret_arn: "__string", # required
+    #           },
+    #         },
+    #         encryption_in_transit: {
+    #           encryption_type: "TLS", # required, accepts TLS
+    #           root_ca_certificate: "__string",
+    #         },
     #       },
     #     ],
+    #     log_delivery: {
+    #       replicator_log_delivery: {
+    #         cloud_watch_logs: {
+    #           enabled: false, # required
+    #           log_group: "__string",
+    #         },
+    #         firehose: {
+    #           delivery_stream: "__string",
+    #           enabled: false, # required
+    #         },
+    #         s3: {
+    #           bucket: "__string",
+    #           enabled: false, # required
+    #           prefix: "__string",
+    #         },
+    #       },
+    #     },
     #     replication_info_list: [ # required
     #       {
     #         consumer_group_replication: { # required
@@ -955,10 +989,13 @@ module Aws::Kafka
     #           consumer_groups_to_replicate: ["__stringMax256"], # required
     #           detect_and_copy_new_consumer_groups: false,
     #           synchronise_consumer_group_offsets: false,
+    #           consumer_group_offset_sync_mode: "LEGACY", # accepts LEGACY, ENHANCED
     #         },
-    #         source_kafka_cluster_arn: "__string", # required
+    #         source_kafka_cluster_arn: "__string",
+    #         source_kafka_cluster_id: "__string",
     #         target_compression_type: "NONE", # required, accepts NONE, GZIP, SNAPPY, LZ4, ZSTD
-    #         target_kafka_cluster_arn: "__string", # required
+    #         target_kafka_cluster_arn: "__string",
+    #         target_kafka_cluster_id: "__string",
     #         topic_replication: { # required
     #           copy_access_control_lists_for_topics: false,
     #           copy_topic_configurations: false,
@@ -1778,6 +1815,7 @@ module Aws::Kafka
     #   * {Types::DescribeReplicatorResponse#current_version #current_version} => String
     #   * {Types::DescribeReplicatorResponse#is_replicator_reference #is_replicator_reference} => Boolean
     #   * {Types::DescribeReplicatorResponse#kafka_clusters #kafka_clusters} => Array&lt;Types::KafkaClusterDescription&gt;
+    #   * {Types::DescribeReplicatorResponse#log_delivery #log_delivery} => Types::LogDelivery
     #   * {Types::DescribeReplicatorResponse#replication_info_list #replication_info_list} => Array&lt;Types::ReplicationInfoDescription&gt;
     #   * {Types::DescribeReplicatorResponse#replicator_arn #replicator_arn} => String
     #   * {Types::DescribeReplicatorResponse#replicator_description #replicator_description} => String
@@ -1801,11 +1839,24 @@ module Aws::Kafka
     #   resp.is_replicator_reference #=> Boolean
     #   resp.kafka_clusters #=> Array
     #   resp.kafka_clusters[0].amazon_msk_cluster.msk_cluster_arn #=> String
+    #   resp.kafka_clusters[0].apache_kafka_cluster.apache_kafka_cluster_id #=> String
+    #   resp.kafka_clusters[0].apache_kafka_cluster.bootstrap_broker_string #=> String
     #   resp.kafka_clusters[0].kafka_cluster_alias #=> String
     #   resp.kafka_clusters[0].vpc_config.security_group_ids #=> Array
     #   resp.kafka_clusters[0].vpc_config.security_group_ids[0] #=> String
     #   resp.kafka_clusters[0].vpc_config.subnet_ids #=> Array
     #   resp.kafka_clusters[0].vpc_config.subnet_ids[0] #=> String
+    #   resp.kafka_clusters[0].client_authentication.sasl_scram.mechanism #=> String, one of "SHA256", "SHA512"
+    #   resp.kafka_clusters[0].client_authentication.sasl_scram.secret_arn #=> String
+    #   resp.kafka_clusters[0].encryption_in_transit.encryption_type #=> String, one of "TLS"
+    #   resp.kafka_clusters[0].encryption_in_transit.root_ca_certificate #=> String
+    #   resp.log_delivery.replicator_log_delivery.cloud_watch_logs.enabled #=> Boolean
+    #   resp.log_delivery.replicator_log_delivery.cloud_watch_logs.log_group #=> String
+    #   resp.log_delivery.replicator_log_delivery.firehose.delivery_stream #=> String
+    #   resp.log_delivery.replicator_log_delivery.firehose.enabled #=> Boolean
+    #   resp.log_delivery.replicator_log_delivery.s3.bucket #=> String
+    #   resp.log_delivery.replicator_log_delivery.s3.enabled #=> Boolean
+    #   resp.log_delivery.replicator_log_delivery.s3.prefix #=> String
     #   resp.replication_info_list #=> Array
     #   resp.replication_info_list[0].consumer_group_replication.consumer_groups_to_exclude #=> Array
     #   resp.replication_info_list[0].consumer_group_replication.consumer_groups_to_exclude[0] #=> String
@@ -1813,6 +1864,7 @@ module Aws::Kafka
     #   resp.replication_info_list[0].consumer_group_replication.consumer_groups_to_replicate[0] #=> String
     #   resp.replication_info_list[0].consumer_group_replication.detect_and_copy_new_consumer_groups #=> Boolean
     #   resp.replication_info_list[0].consumer_group_replication.synchronise_consumer_group_offsets #=> Boolean
+    #   resp.replication_info_list[0].consumer_group_replication.consumer_group_offset_sync_mode #=> String, one of "LEGACY", "ENHANCED"
     #   resp.replication_info_list[0].source_kafka_cluster_alias #=> String
     #   resp.replication_info_list[0].target_compression_type #=> String, one of "NONE", "GZIP", "SNAPPY", "LZ4", "ZSTD"
     #   resp.replication_info_list[0].target_kafka_cluster_alias #=> String
@@ -2694,6 +2746,8 @@ module Aws::Kafka
     #   resp.replicators[0].is_replicator_reference #=> Boolean
     #   resp.replicators[0].kafka_clusters_summary #=> Array
     #   resp.replicators[0].kafka_clusters_summary[0].amazon_msk_cluster.msk_cluster_arn #=> String
+    #   resp.replicators[0].kafka_clusters_summary[0].apache_kafka_cluster.apache_kafka_cluster_id #=> String
+    #   resp.replicators[0].kafka_clusters_summary[0].apache_kafka_cluster.bootstrap_broker_string #=> String
     #   resp.replicators[0].kafka_clusters_summary[0].kafka_cluster_alias #=> String
     #   resp.replicators[0].replication_info_summary_list #=> Array
     #   resp.replicators[0].replication_info_summary_list[0].source_kafka_cluster_alias #=> String
@@ -3536,13 +3590,22 @@ module Aws::Kafka
     # @option params [required, String] :current_version
     #   Current replicator version.
     #
+    # @option params [Types::LogDelivery] :log_delivery
+    #   Configuration for delivering replicator logs to customer destinations.
+    #
     # @option params [required, String] :replicator_arn
     #
-    # @option params [required, String] :source_kafka_cluster_arn
+    # @option params [String] :source_kafka_cluster_arn
     #   The ARN of the source Kafka cluster.
     #
-    # @option params [required, String] :target_kafka_cluster_arn
+    # @option params [String] :source_kafka_cluster_id
+    #   The ID of the source Kafka cluster.
+    #
+    # @option params [String] :target_kafka_cluster_arn
     #   The ARN of the target Kafka cluster.
+    #
+    # @option params [String] :target_kafka_cluster_id
+    #   The ID of the target Kafka cluster.
     #
     # @option params [Types::TopicReplicationUpdate] :topic_replication
     #   Updated topic replication information.
@@ -3562,9 +3625,28 @@ module Aws::Kafka
     #       synchronise_consumer_group_offsets: false, # required
     #     },
     #     current_version: "__string", # required
+    #     log_delivery: {
+    #       replicator_log_delivery: {
+    #         cloud_watch_logs: {
+    #           enabled: false, # required
+    #           log_group: "__string",
+    #         },
+    #         firehose: {
+    #           delivery_stream: "__string",
+    #           enabled: false, # required
+    #         },
+    #         s3: {
+    #           bucket: "__string",
+    #           enabled: false, # required
+    #           prefix: "__string",
+    #         },
+    #       },
+    #     },
     #     replicator_arn: "__string", # required
-    #     source_kafka_cluster_arn: "__string", # required
-    #     target_kafka_cluster_arn: "__string", # required
+    #     source_kafka_cluster_arn: "__string",
+    #     source_kafka_cluster_id: "__string",
+    #     target_kafka_cluster_arn: "__string",
+    #     target_kafka_cluster_id: "__string",
     #     topic_replication: {
     #       copy_access_control_lists_for_topics: false, # required
     #       copy_topic_configurations: false, # required
@@ -3765,7 +3847,7 @@ module Aws::Kafka
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-kafka'
-      context[:gem_version] = '1.108.0'
+      context[:gem_version] = '1.109.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

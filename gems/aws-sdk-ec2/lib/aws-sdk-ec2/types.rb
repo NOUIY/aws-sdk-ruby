@@ -215,6 +215,38 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # @!attribute [rw] transit_gateway_attachment_id
+    #   The ID of the Transit Gateway attachment.
+    #   @return [String]
+    #
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AcceptTransitGatewayClientVpnAttachmentRequest AWS API Documentation
+    #
+    class AcceptTransitGatewayClientVpnAttachmentRequest < Struct.new(
+      :transit_gateway_attachment_id,
+      :dry_run)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] transit_gateway_client_vpn_attachment
+    #   Information about the Transit Gateway Client VPN attachment.
+    #   @return [Types::TransitGatewayClientVpnAttachment]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AcceptTransitGatewayClientVpnAttachmentResult AWS API Documentation
+    #
+    class AcceptTransitGatewayClientVpnAttachmentResult < Struct.new(
+      :transit_gateway_client_vpn_attachment)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] transit_gateway_multicast_domain_id
     #   The ID of the transit gateway multicast domain.
     #   @return [String]
@@ -2138,6 +2170,8 @@ module Aws::EC2
     #
     # @!attribute [rw] subnet_id
     #   The ID of the subnet to associate with the Client VPN endpoint.
+    #   Required for VPC-based endpoints. For Transit Gateway-based
+    #   endpoints, use `AvailabilityZone` or `AvailabilityZoneId` instead.
     #   @return [String]
     #
     # @!attribute [rw] client_token
@@ -2160,13 +2194,29 @@ module Aws::EC2
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
     #   @return [Boolean]
     #
+    # @!attribute [rw] availability_zone
+    #   The Availability Zone name for the Transit Gateway association.
+    #   Required if when associating an Availability Zone with a Client VPN
+    #   endpoint that uses a Transit Gateway. You cannot specify both
+    #   `SubnetId` and `AvailabilityZone`.
+    #   @return [String]
+    #
+    # @!attribute [rw] availability_zone_id
+    #   The Availability Zone ID for the Transit Gateway association.
+    #   Required if when associating an Availability Zone with a Client VPN
+    #   endpoint that uses a Transit Gateway. You cannot specify both
+    #   `AvailabilityZone` and `AvailabilityZoneId`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AssociateClientVpnTargetNetworkRequest AWS API Documentation
     #
     class AssociateClientVpnTargetNetworkRequest < Struct.new(
       :client_vpn_endpoint_id,
       :subnet_id,
       :client_token,
-      :dry_run)
+      :dry_run,
+      :availability_zone,
+      :availability_zone_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7306,6 +7356,10 @@ module Aws::EC2
     #   only, or `dual-stack` for both IPv4 and IPv6 addressing.
     #   @return [String]
     #
+    # @!attribute [rw] transit_gateway_configuration
+    #   The Transit Gateway configuration for the Client VPN endpoint.
+    #   @return [Types::TransitGatewayConfigurationDescribeEndpointStructure]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ClientVpnEndpoint AWS API Documentation
     #
     class ClientVpnEndpoint < Struct.new(
@@ -7335,7 +7389,8 @@ module Aws::EC2
       :client_route_enforcement_options,
       :disconnect_on_session_timeout,
       :endpoint_ip_address_type,
-      :traffic_ip_address_type)
+      :traffic_ip_address_type,
+      :transit_gateway_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7377,6 +7432,11 @@ module Aws::EC2
     #
     #   * `deleted` - The Client VPN endpoint has been deleted. The Client
     #     VPN endpoint cannot accept connections.
+    #
+    #   * `pending` - The Client VPN endpoint has been created with a
+    #     Transit Gateway configuration and is waiting for the Transit
+    #     Gateway attachment to be accepted. The Client VPN endpoint cannot
+    #     accept connections.
     #   @return [String]
     #
     # @!attribute [rw] message
@@ -7427,6 +7487,11 @@ module Aws::EC2
     #   A brief description of the route.
     #   @return [String]
     #
+    # @!attribute [rw] transit_gateway_attachment_id
+    #   The ID of the Transit Gateway attachment, if the route targets a
+    #   Transit Gateway.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ClientVpnRoute AWS API Documentation
     #
     class ClientVpnRoute < Struct.new(
@@ -7436,7 +7501,8 @@ module Aws::EC2
       :type,
       :origin,
       :status,
-      :description)
+      :description,
+      :transit_gateway_attachment_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9489,6 +9555,13 @@ module Aws::EC2
     #   resources through the VPN .
     #   @return [String]
     #
+    # @!attribute [rw] transit_gateway_configuration
+    #   The Transit Gateway configuration for the Client VPN endpoint. Use
+    #   this parameter to associate the endpoint with a Transit Gateway
+    #   instead of a VPC. You cannot specify both
+    #   `TransitGatewayConfiguration` and `VpcId`/`SecurityGroupIds`.
+    #   @return [Types::TransitGatewayConfigurationInputStructure]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateClientVpnEndpointRequest AWS API Documentation
     #
     class CreateClientVpnEndpointRequest < Struct.new(
@@ -9513,7 +9586,8 @@ module Aws::EC2
       :client_route_enforcement_options,
       :disconnect_on_session_timeout,
       :endpoint_ip_address_type,
-      :traffic_ip_address_type)
+      :traffic_ip_address_type,
+      :transit_gateway_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9567,6 +9641,9 @@ module Aws::EC2
     #
     #   Alternatively, if you're adding a route for the local network,
     #   specify `local`.
+    #
+    #   This parameter is required for VPC-based Client VPN endpoints. For
+    #   Transit Gateway-based endpoints, this parameter is not required.
     #   @return [String]
     #
     # @!attribute [rw] description
@@ -19997,6 +20074,38 @@ module Aws::EC2
     #
     class DeleteTrafficMirrorTargetResult < Struct.new(
       :traffic_mirror_target_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] transit_gateway_attachment_id
+    #   The ID of the Transit Gateway attachment.
+    #   @return [String]
+    #
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayClientVpnAttachmentRequest AWS API Documentation
+    #
+    class DeleteTransitGatewayClientVpnAttachmentRequest < Struct.new(
+      :transit_gateway_attachment_id,
+      :dry_run)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] transit_gateway_client_vpn_attachment
+    #   Information about the Transit Gateway Client VPN attachment.
+    #   @return [Types::TransitGatewayClientVpnAttachment]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayClientVpnAttachmentResult AWS API Documentation
+    #
+    class DeleteTransitGatewayClientVpnAttachmentResult < Struct.new(
+      :transit_gateway_client_vpn_attachment)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -39978,15 +40087,15 @@ module Aws::EC2
     #   @return [String]
     #
     # @!attribute [rw] organization_target_id
+    #   A target can be an individual Amazon Web Services account or an
+    #   entity within an Amazon Web Services Organization to which an IPAM
+    #   policy can be applied.
+    #
     #   The ID of the Amazon Web Services Organizations target for which to
     #   enable the IPAM policy. This parameter is required only when IPAM is
     #   integrated with Amazon Web Services Organizations. When IPAM is not
     #   integrated with Amazon Web Services Organizations, omit this
     #   parameter and the policy will apply to the current account.
-    #
-    #   A target can be an individual Amazon Web Services account or an
-    #   entity within an Amazon Web Services Organization to which an IPAM
-    #   policy can be applied.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableIpamPolicyRequest AWS API Documentation
@@ -60520,6 +60629,11 @@ module Aws::EC2
     #   `true`.
     #   @return [Boolean]
     #
+    # @!attribute [rw] transit_gateway_configuration
+    #   The Transit Gateway configuration for the Client VPN endpoint. This
+    #   option is currently not supported.
+    #   @return [Types::TransitGatewayConfigurationInputStructure]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyClientVpnEndpointRequest AWS API Documentation
     #
     class ModifyClientVpnEndpointRequest < Struct.new(
@@ -60538,7 +60652,8 @@ module Aws::EC2
       :session_timeout_hours,
       :client_login_banner_options,
       :client_route_enforcement_options,
-      :disconnect_on_session_timeout)
+      :disconnect_on_session_timeout,
+      :transit_gateway_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -70773,6 +70888,38 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # @!attribute [rw] transit_gateway_attachment_id
+    #   The ID of the Transit Gateway attachment.
+    #   @return [String]
+    #
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RejectTransitGatewayClientVpnAttachmentRequest AWS API Documentation
+    #
+    class RejectTransitGatewayClientVpnAttachmentRequest < Struct.new(
+      :transit_gateway_attachment_id,
+      :dry_run)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] transit_gateway_client_vpn_attachment
+    #   Information about the Transit Gateway Client VPN attachment.
+    #   @return [Types::TransitGatewayClientVpnAttachment]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RejectTransitGatewayClientVpnAttachmentResult AWS API Documentation
+    #
+    class RejectTransitGatewayClientVpnAttachmentResult < Struct.new(
+      :transit_gateway_client_vpn_attachment)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] transit_gateway_multicast_domain_id
     #   The ID of the transit gateway multicast domain.
     #   @return [String]
@@ -80938,6 +81085,16 @@ module Aws::EC2
     #   association.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] availability_zones
+    #   The Availability Zone names for the target network association, if
+    #   the Client VPN endpoint uses a Transit Gateway.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] availability_zone_ids
+    #   The Availability Zone IDs for the target network association, if the
+    #   Client VPN endpoint uses a Transit Gateway.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/TargetNetwork AWS API Documentation
     #
     class TargetNetwork < Struct.new(
@@ -80946,7 +81103,9 @@ module Aws::EC2
       :target_network_id,
       :client_vpn_endpoint_id,
       :status,
-      :security_groups)
+      :security_groups,
+      :availability_zones,
+      :availability_zone_ids)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -81661,6 +81820,106 @@ module Aws::EC2
     class TransitGatewayAttachmentPropagation < Struct.new(
       :transit_gateway_route_table_id,
       :state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes a Transit Gateway attachment for a Client VPN endpoint.
+    #
+    # @!attribute [rw] transit_gateway_attachment_id
+    #   The ID of the Transit Gateway attachment.
+    #   @return [String]
+    #
+    # @!attribute [rw] transit_gateway_id
+    #   The ID of the Transit Gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_vpn_endpoint_id
+    #   The ID of the Client VPN endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_vpn_owner_id
+    #   The ID of the Amazon Web Services account that owns the Client VPN
+    #   endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The state of the Transit Gateway attachment.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   The date and time the Transit Gateway attachment was created.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/TransitGatewayClientVpnAttachment AWS API Documentation
+    #
+    class TransitGatewayClientVpnAttachment < Struct.new(
+      :transit_gateway_attachment_id,
+      :transit_gateway_id,
+      :client_vpn_endpoint_id,
+      :client_vpn_owner_id,
+      :state,
+      :creation_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the Transit Gateway configuration for a Client VPN endpoint.
+    #
+    # @!attribute [rw] transit_gateway_id
+    #   The ID of the Transit Gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] transit_gateway_attachment_id
+    #   The ID of the Transit Gateway attachment.
+    #   @return [String]
+    #
+    # @!attribute [rw] availability_zones
+    #   The Availability Zone names for the Transit Gateway association.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] availability_zone_ids
+    #   The Availability Zone IDs for the Transit Gateway association.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/TransitGatewayConfigurationDescribeEndpointStructure AWS API Documentation
+    #
+    class TransitGatewayConfigurationDescribeEndpointStructure < Struct.new(
+      :transit_gateway_id,
+      :transit_gateway_attachment_id,
+      :availability_zones,
+      :availability_zone_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Transit Gateway configuration for a Client VPN endpoint.
+    #
+    # @!attribute [rw] transit_gateway_id
+    #   The ID of the Transit Gateway to associate with the Client VPN
+    #   endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] availability_zones
+    #   The Availability Zone names for the Transit Gateway association. You
+    #   can specify up to the maximum number of Availability Zones supported
+    #   by the Transit Gateway. You cannot specify both `AvailabilityZones`
+    #   and `AvailabilityZoneIds`.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] availability_zone_ids
+    #   The Availability Zone IDs for the Transit Gateway association. You
+    #   can specify up to the maximum number of Availability Zones supported
+    #   by the Transit Gateway. You cannot specify both `AvailabilityZones`
+    #   and `AvailabilityZoneIds`.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/TransitGatewayConfigurationInputStructure AWS API Documentation
+    #
+    class TransitGatewayConfigurationInputStructure < Struct.new(
+      :transit_gateway_id,
+      :availability_zones,
+      :availability_zone_ids)
       SENSITIVE = []
       include Aws::Structure
     end

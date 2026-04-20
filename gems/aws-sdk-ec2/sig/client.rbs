@@ -128,6 +128,17 @@ module Aws
                                                     ) -> _AcceptReservedInstancesExchangeQuoteResponseSuccess
                                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AcceptReservedInstancesExchangeQuoteResponseSuccess
 
+      interface _AcceptTransitGatewayClientVpnAttachmentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::AcceptTransitGatewayClientVpnAttachmentResult]
+        def transit_gateway_client_vpn_attachment: () -> Types::TransitGatewayClientVpnAttachment
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#accept_transit_gateway_client_vpn_attachment-instance_method
+      def accept_transit_gateway_client_vpn_attachment: (
+                                                          transit_gateway_attachment_id: ::String,
+                                                          ?dry_run: bool
+                                                        ) -> _AcceptTransitGatewayClientVpnAttachmentResponseSuccess
+                                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AcceptTransitGatewayClientVpnAttachmentResponseSuccess
+
       interface _AcceptTransitGatewayMulticastDomainAssociationsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::AcceptTransitGatewayMulticastDomainAssociationsResult]
         def associations: () -> Types::TransitGatewayMulticastDomainAssociations
@@ -378,9 +389,11 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#associate_client_vpn_target_network-instance_method
       def associate_client_vpn_target_network: (
                                                  client_vpn_endpoint_id: ::String,
-                                                 subnet_id: ::String,
+                                                 ?subnet_id: ::String,
                                                  ?client_token: ::String,
-                                                 ?dry_run: bool
+                                                 ?dry_run: bool,
+                                                 ?availability_zone: ::String,
+                                                 ?availability_zone_id: ::String
                                                ) -> _AssociateClientVpnTargetNetworkResponseSuccess
                                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AssociateClientVpnTargetNetworkResponseSuccess
 
@@ -1343,7 +1356,12 @@ module Aws
                                         },
                                         ?disconnect_on_session_timeout: bool,
                                         ?endpoint_ip_address_type: ("ipv4" | "ipv6" | "dual-stack"),
-                                        ?traffic_ip_address_type: ("ipv4" | "ipv6" | "dual-stack")
+                                        ?traffic_ip_address_type: ("ipv4" | "ipv6" | "dual-stack"),
+                                        ?transit_gateway_configuration: {
+                                          transit_gateway_id: ::String?,
+                                          availability_zones: Array[::String]?,
+                                          availability_zone_ids: Array[::String]?
+                                        }
                                       ) -> _CreateClientVpnEndpointResponseSuccess
                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateClientVpnEndpointResponseSuccess
 
@@ -1355,7 +1373,7 @@ module Aws
       def create_client_vpn_route: (
                                      client_vpn_endpoint_id: ::String,
                                      destination_cidr_block: ::String,
-                                     target_vpc_subnet_id: ::String,
+                                     ?target_vpc_subnet_id: ::String,
                                      ?description: ::String,
                                      ?client_token: ::String,
                                      ?dry_run: bool
@@ -4105,11 +4123,11 @@ module Aws
                                                           transit_gateway_metering_policy_id: ::String,
                                                           policy_rule_number: ::Integer,
                                                           ?source_transit_gateway_attachment_id: ::String,
-                                                          ?source_transit_gateway_attachment_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function"),
+                                                          ?source_transit_gateway_attachment_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn"),
                                                           ?source_cidr_block: ::String,
                                                           ?source_port_range: ::String,
                                                           ?destination_transit_gateway_attachment_id: ::String,
-                                                          ?destination_transit_gateway_attachment_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function"),
+                                                          ?destination_transit_gateway_attachment_type: ("vpc" | "vpn" | "vpn-concentrator" | "direct-connect-gateway" | "connect" | "peering" | "tgw-peering" | "network-function" | "client-vpn"),
                                                           ?destination_cidr_block: ::String,
                                                           ?destination_port_range: ::String,
                                                           ?protocol: ::String,
@@ -5587,6 +5605,17 @@ module Aws
                                     ?dry_run: bool
                                   ) -> _DeleteTransitGatewayResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteTransitGatewayResponseSuccess
+
+      interface _DeleteTransitGatewayClientVpnAttachmentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteTransitGatewayClientVpnAttachmentResult]
+        def transit_gateway_client_vpn_attachment: () -> Types::TransitGatewayClientVpnAttachment
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#delete_transit_gateway_client_vpn_attachment-instance_method
+      def delete_transit_gateway_client_vpn_attachment: (
+                                                          transit_gateway_attachment_id: ::String,
+                                                          ?dry_run: bool
+                                                        ) -> _DeleteTransitGatewayClientVpnAttachmentResponseSuccess
+                                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteTransitGatewayClientVpnAttachmentResponseSuccess
 
       interface _DeleteTransitGatewayConnectResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteTransitGatewayConnectResult]
@@ -12112,7 +12141,12 @@ module Aws
                                         ?client_route_enforcement_options: {
                                           enforced: bool?
                                         },
-                                        ?disconnect_on_session_timeout: bool
+                                        ?disconnect_on_session_timeout: bool,
+                                        ?transit_gateway_configuration: {
+                                          transit_gateway_id: ::String?,
+                                          availability_zones: Array[::String]?,
+                                          availability_zone_ids: Array[::String]?
+                                        }
                                       ) -> _ModifyClientVpnEndpointResponseSuccess
                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ModifyClientVpnEndpointResponseSuccess
 
@@ -14105,6 +14139,17 @@ module Aws
                                                            capacity_reservation_id: ::String
                                                          ) -> _RejectCapacityReservationBillingOwnershipResponseSuccess
                                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RejectCapacityReservationBillingOwnershipResponseSuccess
+
+      interface _RejectTransitGatewayClientVpnAttachmentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::RejectTransitGatewayClientVpnAttachmentResult]
+        def transit_gateway_client_vpn_attachment: () -> Types::TransitGatewayClientVpnAttachment
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#reject_transit_gateway_client_vpn_attachment-instance_method
+      def reject_transit_gateway_client_vpn_attachment: (
+                                                          transit_gateway_attachment_id: ::String,
+                                                          ?dry_run: bool
+                                                        ) -> _RejectTransitGatewayClientVpnAttachmentResponseSuccess
+                                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RejectTransitGatewayClientVpnAttachmentResponseSuccess
 
       interface _RejectTransitGatewayMulticastDomainAssociationsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::RejectTransitGatewayMulticastDomainAssociationsResult]

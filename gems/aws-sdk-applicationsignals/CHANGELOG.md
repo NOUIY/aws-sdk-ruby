@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.39.0 (2026-04-20)
+------------------
+
+* Feature - Releasing Second phase of SLO Recommendations where you can create recommended SLOs out-of-the box using CreateSLO API
+
 1.38.0 (2026-03-25)
 ------------------
 

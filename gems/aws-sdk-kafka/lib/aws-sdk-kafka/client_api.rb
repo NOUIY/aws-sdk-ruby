@@ -15,6 +15,7 @@ module Aws::Kafka
     include Seahorse::Model
 
     AmazonMskCluster = Shapes::StructureShape.new(name: 'AmazonMskCluster')
+    ApacheKafkaCluster = Shapes::StructureShape.new(name: 'ApacheKafkaCluster')
     BadRequestException = Shapes::StructureShape.new(name: 'BadRequestException')
     BatchAssociateScramSecretRequest = Shapes::StructureShape.new(name: 'BatchAssociateScramSecretRequest')
     BatchAssociateScramSecretResponse = Shapes::StructureShape.new(name: 'BatchAssociateScramSecretResponse')
@@ -50,6 +51,7 @@ module Aws::Kafka
     ConfigurationState = Shapes::StringShape.new(name: 'ConfigurationState')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     ConnectivityInfo = Shapes::StructureShape.new(name: 'ConnectivityInfo')
+    ConsumerGroupOffsetSyncMode = Shapes::StringShape.new(name: 'ConsumerGroupOffsetSyncMode')
     ConsumerGroupReplication = Shapes::StructureShape.new(name: 'ConsumerGroupReplication')
     ConsumerGroupReplicationUpdate = Shapes::StructureShape.new(name: 'ConsumerGroupReplicationUpdate')
     ControllerMovedException = Shapes::StructureShape.new(name: 'ControllerMovedException')
@@ -120,8 +122,13 @@ module Aws::Kafka
     JmxExporter = Shapes::StructureShape.new(name: 'JmxExporter')
     JmxExporterInfo = Shapes::StructureShape.new(name: 'JmxExporterInfo')
     KafkaCluster = Shapes::StructureShape.new(name: 'KafkaCluster')
+    KafkaClusterClientAuthentication = Shapes::StructureShape.new(name: 'KafkaClusterClientAuthentication')
     KafkaClusterClientVpcConfig = Shapes::StructureShape.new(name: 'KafkaClusterClientVpcConfig')
     KafkaClusterDescription = Shapes::StructureShape.new(name: 'KafkaClusterDescription')
+    KafkaClusterEncryptionInTransit = Shapes::StructureShape.new(name: 'KafkaClusterEncryptionInTransit')
+    KafkaClusterEncryptionInTransitType = Shapes::StringShape.new(name: 'KafkaClusterEncryptionInTransitType')
+    KafkaClusterSaslScramAuthentication = Shapes::StructureShape.new(name: 'KafkaClusterSaslScramAuthentication')
+    KafkaClusterSaslScramMechanism = Shapes::StringShape.new(name: 'KafkaClusterSaslScramMechanism')
     KafkaClusterSummary = Shapes::StructureShape.new(name: 'KafkaClusterSummary')
     KafkaRequestException = Shapes::StructureShape.new(name: 'KafkaRequestException')
     KafkaTimeoutException = Shapes::StructureShape.new(name: 'KafkaTimeoutException')
@@ -155,6 +162,7 @@ module Aws::Kafka
     ListTopicsResponse = Shapes::StructureShape.new(name: 'ListTopicsResponse')
     ListVpcConnectionsRequest = Shapes::StructureShape.new(name: 'ListVpcConnectionsRequest')
     ListVpcConnectionsResponse = Shapes::StructureShape.new(name: 'ListVpcConnectionsResponse')
+    LogDelivery = Shapes::StructureShape.new(name: 'LogDelivery')
     LoggingInfo = Shapes::StructureShape.new(name: 'LoggingInfo')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
     MutableClusterInfo = Shapes::StructureShape.new(name: 'MutableClusterInfo')
@@ -190,6 +198,10 @@ module Aws::Kafka
     ReplicationStateInfo = Shapes::StructureShape.new(name: 'ReplicationStateInfo')
     ReplicationTopicNameConfiguration = Shapes::StructureShape.new(name: 'ReplicationTopicNameConfiguration')
     ReplicationTopicNameConfigurationType = Shapes::StringShape.new(name: 'ReplicationTopicNameConfigurationType')
+    ReplicatorCloudWatchLogs = Shapes::StructureShape.new(name: 'ReplicatorCloudWatchLogs')
+    ReplicatorFirehose = Shapes::StructureShape.new(name: 'ReplicatorFirehose')
+    ReplicatorLogDelivery = Shapes::StructureShape.new(name: 'ReplicatorLogDelivery')
+    ReplicatorS3 = Shapes::StructureShape.new(name: 'ReplicatorS3')
     ReplicatorState = Shapes::StringShape.new(name: 'ReplicatorState')
     ReplicatorSummary = Shapes::StructureShape.new(name: 'ReplicatorSummary')
     S3 = Shapes::StructureShape.new(name: 'S3')
@@ -310,6 +322,10 @@ module Aws::Kafka
 
     AmazonMskCluster.add_member(:msk_cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "mskClusterArn"))
     AmazonMskCluster.struct_class = Types::AmazonMskCluster
+
+    ApacheKafkaCluster.add_member(:apache_kafka_cluster_id, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "apacheKafkaClusterId"))
+    ApacheKafkaCluster.add_member(:bootstrap_broker_string, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "bootstrapBrokerString"))
+    ApacheKafkaCluster.struct_class = Types::ApacheKafkaCluster
 
     BadRequestException.add_member(:invalid_parameter, Shapes::ShapeRef.new(shape: __string, location_name: "invalidParameter"))
     BadRequestException.add_member(:message, Shapes::ShapeRef.new(shape: __string, location_name: "message"))
@@ -510,6 +526,7 @@ module Aws::Kafka
     ConsumerGroupReplication.add_member(:consumer_groups_to_replicate, Shapes::ShapeRef.new(shape: __listOf__stringMax256, required: true, location_name: "consumerGroupsToReplicate"))
     ConsumerGroupReplication.add_member(:detect_and_copy_new_consumer_groups, Shapes::ShapeRef.new(shape: __boolean, location_name: "detectAndCopyNewConsumerGroups"))
     ConsumerGroupReplication.add_member(:synchronise_consumer_group_offsets, Shapes::ShapeRef.new(shape: __boolean, location_name: "synchroniseConsumerGroupOffsets"))
+    ConsumerGroupReplication.add_member(:consumer_group_offset_sync_mode, Shapes::ShapeRef.new(shape: ConsumerGroupOffsetSyncMode, location_name: "consumerGroupOffsetSyncMode"))
     ConsumerGroupReplication.struct_class = Types::ConsumerGroupReplication
 
     ConsumerGroupReplicationUpdate.add_member(:consumer_groups_to_exclude, Shapes::ShapeRef.new(shape: __listOf__stringMax256, required: true, location_name: "consumerGroupsToExclude"))
@@ -572,6 +589,7 @@ module Aws::Kafka
 
     CreateReplicatorRequest.add_member(:description, Shapes::ShapeRef.new(shape: __stringMax1024, location_name: "description"))
     CreateReplicatorRequest.add_member(:kafka_clusters, Shapes::ShapeRef.new(shape: __listOfKafkaCluster, required: true, location_name: "kafkaClusters"))
+    CreateReplicatorRequest.add_member(:log_delivery, Shapes::ShapeRef.new(shape: LogDelivery, location_name: "logDelivery"))
     CreateReplicatorRequest.add_member(:replication_info_list, Shapes::ShapeRef.new(shape: __listOfReplicationInfo, required: true, location_name: "replicationInfoList"))
     CreateReplicatorRequest.add_member(:replicator_name, Shapes::ShapeRef.new(shape: __stringMin1Max128Pattern09AZaZ09AZaZ0, required: true, location_name: "replicatorName"))
     CreateReplicatorRequest.add_member(:service_execution_role_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "serviceExecutionRoleArn"))
@@ -711,6 +729,7 @@ module Aws::Kafka
     DescribeReplicatorResponse.add_member(:current_version, Shapes::ShapeRef.new(shape: __string, location_name: "currentVersion"))
     DescribeReplicatorResponse.add_member(:is_replicator_reference, Shapes::ShapeRef.new(shape: __boolean, location_name: "isReplicatorReference"))
     DescribeReplicatorResponse.add_member(:kafka_clusters, Shapes::ShapeRef.new(shape: __listOfKafkaClusterDescription, location_name: "kafkaClusters"))
+    DescribeReplicatorResponse.add_member(:log_delivery, Shapes::ShapeRef.new(shape: LogDelivery, location_name: "logDelivery"))
     DescribeReplicatorResponse.add_member(:replication_info_list, Shapes::ShapeRef.new(shape: __listOfReplicationInfoDescription, location_name: "replicationInfoList"))
     DescribeReplicatorResponse.add_member(:replicator_arn, Shapes::ShapeRef.new(shape: __string, location_name: "replicatorArn"))
     DescribeReplicatorResponse.add_member(:replicator_description, Shapes::ShapeRef.new(shape: __string, location_name: "replicatorDescription"))
@@ -838,20 +857,38 @@ module Aws::Kafka
     JmxExporterInfo.add_member(:enabled_in_broker, Shapes::ShapeRef.new(shape: __boolean, required: true, location_name: "enabledInBroker"))
     JmxExporterInfo.struct_class = Types::JmxExporterInfo
 
-    KafkaCluster.add_member(:amazon_msk_cluster, Shapes::ShapeRef.new(shape: AmazonMskCluster, required: true, location_name: "amazonMskCluster"))
-    KafkaCluster.add_member(:vpc_config, Shapes::ShapeRef.new(shape: KafkaClusterClientVpcConfig, required: true, location_name: "vpcConfig"))
+    KafkaCluster.add_member(:amazon_msk_cluster, Shapes::ShapeRef.new(shape: AmazonMskCluster, location_name: "amazonMskCluster"))
+    KafkaCluster.add_member(:apache_kafka_cluster, Shapes::ShapeRef.new(shape: ApacheKafkaCluster, location_name: "apacheKafkaCluster"))
+    KafkaCluster.add_member(:vpc_config, Shapes::ShapeRef.new(shape: KafkaClusterClientVpcConfig, location_name: "vpcConfig"))
+    KafkaCluster.add_member(:client_authentication, Shapes::ShapeRef.new(shape: KafkaClusterClientAuthentication, location_name: "clientAuthentication"))
+    KafkaCluster.add_member(:encryption_in_transit, Shapes::ShapeRef.new(shape: KafkaClusterEncryptionInTransit, location_name: "encryptionInTransit"))
     KafkaCluster.struct_class = Types::KafkaCluster
+
+    KafkaClusterClientAuthentication.add_member(:sasl_scram, Shapes::ShapeRef.new(shape: KafkaClusterSaslScramAuthentication, required: true, location_name: "saslScram"))
+    KafkaClusterClientAuthentication.struct_class = Types::KafkaClusterClientAuthentication
 
     KafkaClusterClientVpcConfig.add_member(:security_group_ids, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "securityGroupIds"))
     KafkaClusterClientVpcConfig.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: __listOf__string, required: true, location_name: "subnetIds"))
     KafkaClusterClientVpcConfig.struct_class = Types::KafkaClusterClientVpcConfig
 
     KafkaClusterDescription.add_member(:amazon_msk_cluster, Shapes::ShapeRef.new(shape: AmazonMskCluster, location_name: "amazonMskCluster"))
+    KafkaClusterDescription.add_member(:apache_kafka_cluster, Shapes::ShapeRef.new(shape: ApacheKafkaCluster, location_name: "apacheKafkaCluster"))
     KafkaClusterDescription.add_member(:kafka_cluster_alias, Shapes::ShapeRef.new(shape: __string, location_name: "kafkaClusterAlias"))
     KafkaClusterDescription.add_member(:vpc_config, Shapes::ShapeRef.new(shape: KafkaClusterClientVpcConfig, location_name: "vpcConfig"))
+    KafkaClusterDescription.add_member(:client_authentication, Shapes::ShapeRef.new(shape: KafkaClusterClientAuthentication, location_name: "clientAuthentication"))
+    KafkaClusterDescription.add_member(:encryption_in_transit, Shapes::ShapeRef.new(shape: KafkaClusterEncryptionInTransit, location_name: "encryptionInTransit"))
     KafkaClusterDescription.struct_class = Types::KafkaClusterDescription
 
+    KafkaClusterEncryptionInTransit.add_member(:encryption_type, Shapes::ShapeRef.new(shape: KafkaClusterEncryptionInTransitType, required: true, location_name: "encryptionType"))
+    KafkaClusterEncryptionInTransit.add_member(:root_ca_certificate, Shapes::ShapeRef.new(shape: __string, location_name: "rootCaCertificate"))
+    KafkaClusterEncryptionInTransit.struct_class = Types::KafkaClusterEncryptionInTransit
+
+    KafkaClusterSaslScramAuthentication.add_member(:mechanism, Shapes::ShapeRef.new(shape: KafkaClusterSaslScramMechanism, required: true, location_name: "mechanism"))
+    KafkaClusterSaslScramAuthentication.add_member(:secret_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "secretArn"))
+    KafkaClusterSaslScramAuthentication.struct_class = Types::KafkaClusterSaslScramAuthentication
+
     KafkaClusterSummary.add_member(:amazon_msk_cluster, Shapes::ShapeRef.new(shape: AmazonMskCluster, location_name: "amazonMskCluster"))
+    KafkaClusterSummary.add_member(:apache_kafka_cluster, Shapes::ShapeRef.new(shape: ApacheKafkaCluster, location_name: "apacheKafkaCluster"))
     KafkaClusterSummary.add_member(:kafka_cluster_alias, Shapes::ShapeRef.new(shape: __string, location_name: "kafkaClusterAlias"))
     KafkaClusterSummary.struct_class = Types::KafkaClusterSummary
 
@@ -989,6 +1026,9 @@ module Aws::Kafka
     ListVpcConnectionsResponse.add_member(:vpc_connections, Shapes::ShapeRef.new(shape: __listOfVpcConnection, location_name: "vpcConnections"))
     ListVpcConnectionsResponse.struct_class = Types::ListVpcConnectionsResponse
 
+    LogDelivery.add_member(:replicator_log_delivery, Shapes::ShapeRef.new(shape: ReplicatorLogDelivery, location_name: "replicatorLogDelivery"))
+    LogDelivery.struct_class = Types::LogDelivery
+
     LoggingInfo.add_member(:broker_logs, Shapes::ShapeRef.new(shape: BrokerLogs, required: true, location_name: "brokerLogs"))
     LoggingInfo.struct_class = Types::LoggingInfo
 
@@ -1110,9 +1150,11 @@ module Aws::Kafka
     RejectClientVpcConnectionResponse.struct_class = Types::RejectClientVpcConnectionResponse
 
     ReplicationInfo.add_member(:consumer_group_replication, Shapes::ShapeRef.new(shape: ConsumerGroupReplication, required: true, location_name: "consumerGroupReplication"))
-    ReplicationInfo.add_member(:source_kafka_cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "sourceKafkaClusterArn"))
+    ReplicationInfo.add_member(:source_kafka_cluster_arn, Shapes::ShapeRef.new(shape: __string, location_name: "sourceKafkaClusterArn"))
+    ReplicationInfo.add_member(:source_kafka_cluster_id, Shapes::ShapeRef.new(shape: __string, location_name: "sourceKafkaClusterId"))
     ReplicationInfo.add_member(:target_compression_type, Shapes::ShapeRef.new(shape: TargetCompressionType, required: true, location_name: "targetCompressionType"))
-    ReplicationInfo.add_member(:target_kafka_cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "targetKafkaClusterArn"))
+    ReplicationInfo.add_member(:target_kafka_cluster_arn, Shapes::ShapeRef.new(shape: __string, location_name: "targetKafkaClusterArn"))
+    ReplicationInfo.add_member(:target_kafka_cluster_id, Shapes::ShapeRef.new(shape: __string, location_name: "targetKafkaClusterId"))
     ReplicationInfo.add_member(:topic_replication, Shapes::ShapeRef.new(shape: TopicReplication, required: true, location_name: "topicReplication"))
     ReplicationInfo.struct_class = Types::ReplicationInfo
 
@@ -1136,6 +1178,24 @@ module Aws::Kafka
 
     ReplicationTopicNameConfiguration.add_member(:type, Shapes::ShapeRef.new(shape: ReplicationTopicNameConfigurationType, location_name: "type"))
     ReplicationTopicNameConfiguration.struct_class = Types::ReplicationTopicNameConfiguration
+
+    ReplicatorCloudWatchLogs.add_member(:enabled, Shapes::ShapeRef.new(shape: __boolean, required: true, location_name: "enabled"))
+    ReplicatorCloudWatchLogs.add_member(:log_group, Shapes::ShapeRef.new(shape: __string, location_name: "logGroup"))
+    ReplicatorCloudWatchLogs.struct_class = Types::ReplicatorCloudWatchLogs
+
+    ReplicatorFirehose.add_member(:delivery_stream, Shapes::ShapeRef.new(shape: __string, location_name: "deliveryStream"))
+    ReplicatorFirehose.add_member(:enabled, Shapes::ShapeRef.new(shape: __boolean, required: true, location_name: "enabled"))
+    ReplicatorFirehose.struct_class = Types::ReplicatorFirehose
+
+    ReplicatorLogDelivery.add_member(:cloud_watch_logs, Shapes::ShapeRef.new(shape: ReplicatorCloudWatchLogs, location_name: "cloudWatchLogs"))
+    ReplicatorLogDelivery.add_member(:firehose, Shapes::ShapeRef.new(shape: ReplicatorFirehose, location_name: "firehose"))
+    ReplicatorLogDelivery.add_member(:s3, Shapes::ShapeRef.new(shape: ReplicatorS3, location_name: "s3"))
+    ReplicatorLogDelivery.struct_class = Types::ReplicatorLogDelivery
+
+    ReplicatorS3.add_member(:bucket, Shapes::ShapeRef.new(shape: __string, location_name: "bucket"))
+    ReplicatorS3.add_member(:enabled, Shapes::ShapeRef.new(shape: __boolean, required: true, location_name: "enabled"))
+    ReplicatorS3.add_member(:prefix, Shapes::ShapeRef.new(shape: __string, location_name: "prefix"))
+    ReplicatorS3.struct_class = Types::ReplicatorS3
 
     ReplicatorSummary.add_member(:creation_time, Shapes::ShapeRef.new(shape: __timestampIso8601, location_name: "creationTime"))
     ReplicatorSummary.add_member(:current_version, Shapes::ShapeRef.new(shape: __string, location_name: "currentVersion"))
@@ -1340,9 +1400,12 @@ module Aws::Kafka
 
     UpdateReplicationInfoRequest.add_member(:consumer_group_replication, Shapes::ShapeRef.new(shape: ConsumerGroupReplicationUpdate, location_name: "consumerGroupReplication"))
     UpdateReplicationInfoRequest.add_member(:current_version, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "currentVersion"))
+    UpdateReplicationInfoRequest.add_member(:log_delivery, Shapes::ShapeRef.new(shape: LogDelivery, location_name: "logDelivery"))
     UpdateReplicationInfoRequest.add_member(:replicator_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "replicatorArn"))
-    UpdateReplicationInfoRequest.add_member(:source_kafka_cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "sourceKafkaClusterArn"))
-    UpdateReplicationInfoRequest.add_member(:target_kafka_cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "targetKafkaClusterArn"))
+    UpdateReplicationInfoRequest.add_member(:source_kafka_cluster_arn, Shapes::ShapeRef.new(shape: __string, location_name: "sourceKafkaClusterArn"))
+    UpdateReplicationInfoRequest.add_member(:source_kafka_cluster_id, Shapes::ShapeRef.new(shape: __string, location_name: "sourceKafkaClusterId"))
+    UpdateReplicationInfoRequest.add_member(:target_kafka_cluster_arn, Shapes::ShapeRef.new(shape: __string, location_name: "targetKafkaClusterArn"))
+    UpdateReplicationInfoRequest.add_member(:target_kafka_cluster_id, Shapes::ShapeRef.new(shape: __string, location_name: "targetKafkaClusterId"))
     UpdateReplicationInfoRequest.add_member(:topic_replication, Shapes::ShapeRef.new(shape: TopicReplicationUpdate, location_name: "topicReplication"))
     UpdateReplicationInfoRequest.struct_class = Types::UpdateReplicationInfoRequest
 

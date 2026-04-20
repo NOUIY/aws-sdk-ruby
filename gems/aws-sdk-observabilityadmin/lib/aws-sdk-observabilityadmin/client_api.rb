@@ -718,6 +718,7 @@ module Aws::ObservabilityAdmin
     TelemetryRule.add_member(:destination_configuration, Shapes::ShapeRef.new(shape: TelemetryDestinationConfiguration, location_name: "DestinationConfiguration"))
     TelemetryRule.add_member(:scope, Shapes::ShapeRef.new(shape: String, location_name: "Scope"))
     TelemetryRule.add_member(:selection_criteria, Shapes::ShapeRef.new(shape: String, location_name: "SelectionCriteria"))
+    TelemetryRule.add_member(:allow_field_updates, Shapes::ShapeRef.new(shape: Boolean, location_name: "AllowFieldUpdates"))
     TelemetryRule.add_member(:regions, Shapes::ShapeRef.new(shape: Regions, location_name: "Regions"))
     TelemetryRule.add_member(:all_regions, Shapes::ShapeRef.new(shape: AllRegions, location_name: "AllRegions"))
     TelemetryRule.struct_class = Types::TelemetryRule

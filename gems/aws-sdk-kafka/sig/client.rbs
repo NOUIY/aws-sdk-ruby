@@ -366,24 +366,58 @@ module Aws
                                  {
                                    amazon_msk_cluster: {
                                      msk_cluster_arn: ::String
-                                   },
+                                   }?,
+                                   apache_kafka_cluster: {
+                                     apache_kafka_cluster_id: ::String,
+                                     bootstrap_broker_string: ::String
+                                   }?,
                                    vpc_config: {
                                      security_group_ids: Array[::String]?,
                                      subnet_ids: Array[::String]
-                                   }
+                                   }?,
+                                   client_authentication: {
+                                     sasl_scram: {
+                                       mechanism: ("SHA256" | "SHA512"),
+                                       secret_arn: ::String
+                                     }
+                                   }?,
+                                   encryption_in_transit: {
+                                     encryption_type: ("TLS"),
+                                     root_ca_certificate: ::String?
+                                   }?
                                  },
                                ],
+                               ?log_delivery: {
+                                 replicator_log_delivery: {
+                                   cloud_watch_logs: {
+                                     enabled: bool,
+                                     log_group: ::String?
+                                   }?,
+                                   firehose: {
+                                     delivery_stream: ::String?,
+                                     enabled: bool
+                                   }?,
+                                   s3: {
+                                     bucket: ::String?,
+                                     enabled: bool,
+                                     prefix: ::String?
+                                   }?
+                                 }?
+                               },
                                replication_info_list: Array[
                                  {
                                    consumer_group_replication: {
                                      consumer_groups_to_exclude: Array[::String]?,
                                      consumer_groups_to_replicate: Array[::String],
                                      detect_and_copy_new_consumer_groups: bool?,
-                                     synchronise_consumer_group_offsets: bool?
+                                     synchronise_consumer_group_offsets: bool?,
+                                     consumer_group_offset_sync_mode: ("LEGACY" | "ENHANCED")?
                                    },
-                                   source_kafka_cluster_arn: ::String,
+                                   source_kafka_cluster_arn: ::String?,
+                                   source_kafka_cluster_id: ::String?,
                                    target_compression_type: ("NONE" | "GZIP" | "SNAPPY" | "LZ4" | "ZSTD"),
-                                   target_kafka_cluster_arn: ::String,
+                                   target_kafka_cluster_arn: ::String?,
+                                   target_kafka_cluster_id: ::String?,
                                    topic_replication: {
                                      copy_access_control_lists_for_topics: bool?,
                                      copy_topic_configurations: bool?,
@@ -579,6 +613,7 @@ module Aws
         def current_version: () -> ::String
         def is_replicator_reference: () -> bool
         def kafka_clusters: () -> ::Array[Types::KafkaClusterDescription]
+        def log_delivery: () -> Types::LogDelivery
         def replication_info_list: () -> ::Array[Types::ReplicationInfoDescription]
         def replicator_arn: () -> ::String
         def replicator_description: () -> ::String
@@ -1130,9 +1165,28 @@ module Aws
                                        synchronise_consumer_group_offsets: bool
                                      },
                                      current_version: ::String,
+                                     ?log_delivery: {
+                                       replicator_log_delivery: {
+                                         cloud_watch_logs: {
+                                           enabled: bool,
+                                           log_group: ::String?
+                                         }?,
+                                         firehose: {
+                                           delivery_stream: ::String?,
+                                           enabled: bool
+                                         }?,
+                                         s3: {
+                                           bucket: ::String?,
+                                           enabled: bool,
+                                           prefix: ::String?
+                                         }?
+                                       }?
+                                     },
                                      replicator_arn: ::String,
-                                     source_kafka_cluster_arn: ::String,
-                                     target_kafka_cluster_arn: ::String,
+                                     ?source_kafka_cluster_arn: ::String,
+                                     ?source_kafka_cluster_id: ::String,
+                                     ?target_kafka_cluster_arn: ::String,
+                                     ?target_kafka_cluster_id: ::String,
                                      ?topic_replication: {
                                        copy_access_control_lists_for_topics: bool,
                                        copy_topic_configurations: bool,

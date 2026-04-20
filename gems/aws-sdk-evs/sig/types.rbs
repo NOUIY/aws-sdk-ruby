@@ -22,7 +22,7 @@ module Aws::Evs
     end
 
     class Check
-      attr_accessor type: ("KEY_REUSE" | "KEY_COVERAGE" | "REACHABILITY" | "HOST_COUNT")
+      attr_accessor type: ("KEY_REUSE" | "KEY_COVERAGE" | "REACHABILITY" | "HOST_COUNT" | "VCENTER_REACHABILITY" | "VCENTER_VM_SYNC" | "VCENTER_VM_EVENT")
       attr_accessor result: ("PASSED" | "FAILED" | "UNKNOWN")
       attr_accessor impaired_since: ::Time
       SENSITIVE: []
@@ -30,6 +30,57 @@ module Aws::Evs
 
     class ConnectivityInfo
       attr_accessor private_route_server_peerings: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class Connector
+      attr_accessor environment_id: ::String
+      attr_accessor connector_id: ::String
+      attr_accessor type: ("VCENTER")
+      attr_accessor appliance_fqdn: ::String
+      attr_accessor secret_arn: ::String
+      attr_accessor state: ("CREATING" | "CREATE_FAILED" | "ACTIVE" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "DELETED")
+      attr_accessor state_details: ::String
+      attr_accessor status: ("PASSED" | "FAILED" | "UNKNOWN")
+      attr_accessor checks: ::Array[Types::ConnectorCheck]
+      attr_accessor created_at: ::Time
+      attr_accessor modified_at: ::Time
+      SENSITIVE: []
+    end
+
+    class ConnectorCheck
+      attr_accessor type: ("KEY_REUSE" | "KEY_COVERAGE" | "REACHABILITY" | "HOST_COUNT" | "VCENTER_REACHABILITY" | "VCENTER_VM_SYNC" | "VCENTER_VM_EVENT")
+      attr_accessor result: ("PASSED" | "FAILED" | "UNKNOWN")
+      attr_accessor last_check_attempt: ::Time
+      attr_accessor impaired_since: ::Time
+      SENSITIVE: []
+    end
+
+    class CreateEntitlementRequest
+      attr_accessor client_token: ::String
+      attr_accessor environment_id: ::String
+      attr_accessor connector_id: ::String
+      attr_accessor entitlement_type: ("WINDOWS_SERVER")
+      attr_accessor vm_ids: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class CreateEntitlementResponse
+      attr_accessor entitlements: ::Array[Types::VmEntitlement]
+      SENSITIVE: []
+    end
+
+    class CreateEnvironmentConnectorRequest
+      attr_accessor client_token: ::String
+      attr_accessor environment_id: ::String
+      attr_accessor type: ("VCENTER")
+      attr_accessor appliance_fqdn: ::String
+      attr_accessor secret_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class CreateEnvironmentConnectorResponse
+      attr_accessor connector: Types::Connector
       SENSITIVE: []
     end
 
@@ -68,6 +119,33 @@ module Aws::Evs
 
     class CreateEnvironmentResponse
       attr_accessor environment: Types::Environment
+      SENSITIVE: []
+    end
+
+    class DeleteEntitlementRequest
+      attr_accessor client_token: ::String
+      attr_accessor environment_id: ::String
+      attr_accessor connector_id: ::String
+      attr_accessor entitlement_type: ("WINDOWS_SERVER")
+      attr_accessor vm_ids: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class DeleteEntitlementResponse
+      attr_accessor entitlements: ::Array[Types::VmEntitlement]
+      SENSITIVE: []
+    end
+
+    class DeleteEnvironmentConnectorRequest
+      attr_accessor client_token: ::String
+      attr_accessor environment_id: ::String
+      attr_accessor connector_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteEnvironmentConnectorResponse
+      attr_accessor connector: Types::Connector
+      attr_accessor environment_summary: Types::EnvironmentSummary
       SENSITIVE: []
     end
 
@@ -148,6 +226,12 @@ module Aws::Evs
       attr_accessor created_at: ::Time
       attr_accessor modified_at: ::Time
       attr_accessor environment_arn: ::String
+      SENSITIVE: []
+    end
+
+    class ErrorDetail
+      attr_accessor error_code: ::String
+      attr_accessor error_message: ::String
       SENSITIVE: []
     end
 
@@ -233,6 +317,19 @@ module Aws::Evs
       SENSITIVE: []
     end
 
+    class ListEnvironmentConnectorsRequest
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor environment_id: ::String
+      SENSITIVE: []
+    end
+
+    class ListEnvironmentConnectorsResponse
+      attr_accessor next_token: ::String
+      attr_accessor connectors: ::Array[Types::Connector]
+      SENSITIVE: []
+    end
+
     class ListEnvironmentHostsRequest
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
@@ -279,6 +376,21 @@ module Aws::Evs
 
     class ListTagsForResourceResponse
       attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class ListVmEntitlementsRequest
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor environment_id: ::String
+      attr_accessor connector_id: ::String
+      attr_accessor entitlement_type: ("WINDOWS_SERVER")
+      SENSITIVE: []
+    end
+
+    class ListVmEntitlementsResponse
+      attr_accessor next_token: ::String
+      attr_accessor entitlements: ::Array[Types::VmEntitlement]
       SENSITIVE: []
     end
 
@@ -343,6 +455,20 @@ module Aws::Evs
     class UntagResourceResponse < Aws::EmptyStructure
     end
 
+    class UpdateEnvironmentConnectorRequest
+      attr_accessor client_token: ::String
+      attr_accessor environment_id: ::String
+      attr_accessor connector_id: ::String
+      attr_accessor appliance_fqdn: ::String
+      attr_accessor secret_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateEnvironmentConnectorResponse
+      attr_accessor connector: Types::Connector
+      SENSITIVE: []
+    end
+
     class ValidationException
       attr_accessor message: ::String
       attr_accessor reason: ("unknownOperation" | "cannotParse" | "fieldValidationFailed" | "other")
@@ -390,6 +516,20 @@ module Aws::Evs
       attr_accessor eip_associations: ::Array[Types::EipAssociation]
       attr_accessor is_public: bool
       attr_accessor network_acl_id: ::String
+      SENSITIVE: []
+    end
+
+    class VmEntitlement
+      attr_accessor vm_id: ::String
+      attr_accessor environment_id: ::String
+      attr_accessor connector_id: ::String
+      attr_accessor vm_name: ::String
+      attr_accessor type: ("WINDOWS_SERVER")
+      attr_accessor status: ("CREATING" | "CREATED" | "DELETED" | "AT_RISK" | "ENTITLEMENT_REMOVED" | "CREATE_FAILED")
+      attr_accessor last_synced_at: ::Time
+      attr_accessor started_at: ::Time
+      attr_accessor stopped_at: ::Time
+      attr_accessor error_detail: Types::ErrorDetail
       SENSITIVE: []
     end
   end

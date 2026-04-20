@@ -15,6 +15,7 @@ module Aws::Evs
     include Seahorse::Model
 
     AllocationId = Shapes::StringShape.new(name: 'AllocationId')
+    ApplianceFqdn = Shapes::StringShape.new(name: 'ApplianceFqdn')
     Arn = Shapes::StringShape.new(name: 'Arn')
     AssociateEipToVlanRequest = Shapes::StructureShape.new(name: 'AssociateEipToVlanRequest')
     AssociateEipToVlanRequestVlanNameString = Shapes::StringShape.new(name: 'AssociateEipToVlanRequestVlanNameString')
@@ -28,11 +29,26 @@ module Aws::Evs
     Cidr = Shapes::StringShape.new(name: 'Cidr')
     ClientToken = Shapes::StringShape.new(name: 'ClientToken')
     ConnectivityInfo = Shapes::StructureShape.new(name: 'ConnectivityInfo')
+    Connector = Shapes::StructureShape.new(name: 'Connector')
+    ConnectorCheck = Shapes::StructureShape.new(name: 'ConnectorCheck')
+    ConnectorId = Shapes::StringShape.new(name: 'ConnectorId')
+    ConnectorList = Shapes::ListShape.new(name: 'ConnectorList')
+    ConnectorState = Shapes::StringShape.new(name: 'ConnectorState')
+    ConnectorType = Shapes::StringShape.new(name: 'ConnectorType')
+    ConnectorsChecksList = Shapes::ListShape.new(name: 'ConnectorsChecksList')
+    CreateEntitlementRequest = Shapes::StructureShape.new(name: 'CreateEntitlementRequest')
+    CreateEntitlementResponse = Shapes::StructureShape.new(name: 'CreateEntitlementResponse')
+    CreateEnvironmentConnectorRequest = Shapes::StructureShape.new(name: 'CreateEnvironmentConnectorRequest')
+    CreateEnvironmentConnectorResponse = Shapes::StructureShape.new(name: 'CreateEnvironmentConnectorResponse')
     CreateEnvironmentHostRequest = Shapes::StructureShape.new(name: 'CreateEnvironmentHostRequest')
     CreateEnvironmentHostResponse = Shapes::StructureShape.new(name: 'CreateEnvironmentHostResponse')
     CreateEnvironmentRequest = Shapes::StructureShape.new(name: 'CreateEnvironmentRequest')
     CreateEnvironmentResponse = Shapes::StructureShape.new(name: 'CreateEnvironmentResponse')
     DedicatedHostId = Shapes::StringShape.new(name: 'DedicatedHostId')
+    DeleteEntitlementRequest = Shapes::StructureShape.new(name: 'DeleteEntitlementRequest')
+    DeleteEntitlementResponse = Shapes::StructureShape.new(name: 'DeleteEntitlementResponse')
+    DeleteEnvironmentConnectorRequest = Shapes::StructureShape.new(name: 'DeleteEnvironmentConnectorRequest')
+    DeleteEnvironmentConnectorResponse = Shapes::StructureShape.new(name: 'DeleteEnvironmentConnectorResponse')
     DeleteEnvironmentHostRequest = Shapes::StructureShape.new(name: 'DeleteEnvironmentHostRequest')
     DeleteEnvironmentHostResponse = Shapes::StructureShape.new(name: 'DeleteEnvironmentHostResponse')
     DeleteEnvironmentRequest = Shapes::StructureShape.new(name: 'DeleteEnvironmentRequest')
@@ -42,6 +58,8 @@ module Aws::Evs
     DisassociateEipFromVlanResponse = Shapes::StructureShape.new(name: 'DisassociateEipFromVlanResponse')
     EipAssociation = Shapes::StructureShape.new(name: 'EipAssociation')
     EipAssociationList = Shapes::ListShape.new(name: 'EipAssociationList')
+    EntitlementStatus = Shapes::StringShape.new(name: 'EntitlementStatus')
+    EntitlementType = Shapes::StringShape.new(name: 'EntitlementType')
     Environment = Shapes::StructureShape.new(name: 'Environment')
     EnvironmentId = Shapes::StringShape.new(name: 'EnvironmentId')
     EnvironmentName = Shapes::StringShape.new(name: 'EnvironmentName')
@@ -49,6 +67,7 @@ module Aws::Evs
     EnvironmentStateList = Shapes::ListShape.new(name: 'EnvironmentStateList')
     EnvironmentSummary = Shapes::StructureShape.new(name: 'EnvironmentSummary')
     EnvironmentSummaryList = Shapes::ListShape.new(name: 'EnvironmentSummaryList')
+    ErrorDetail = Shapes::StructureShape.new(name: 'ErrorDetail')
     EsxVersion = Shapes::StringShape.new(name: 'EsxVersion')
     EsxVersionList = Shapes::ListShape.new(name: 'EsxVersionList')
     GetEnvironmentRequest = Shapes::StructureShape.new(name: 'GetEnvironmentRequest')
@@ -73,6 +92,8 @@ module Aws::Evs
     KeyName = Shapes::StringShape.new(name: 'KeyName')
     LicenseInfo = Shapes::StructureShape.new(name: 'LicenseInfo')
     LicenseInfoList = Shapes::ListShape.new(name: 'LicenseInfoList')
+    ListEnvironmentConnectorsRequest = Shapes::StructureShape.new(name: 'ListEnvironmentConnectorsRequest')
+    ListEnvironmentConnectorsResponse = Shapes::StructureShape.new(name: 'ListEnvironmentConnectorsResponse')
     ListEnvironmentHostsRequest = Shapes::StructureShape.new(name: 'ListEnvironmentHostsRequest')
     ListEnvironmentHostsResponse = Shapes::StructureShape.new(name: 'ListEnvironmentHostsResponse')
     ListEnvironmentVlansRequest = Shapes::StructureShape.new(name: 'ListEnvironmentVlansRequest')
@@ -81,6 +102,8 @@ module Aws::Evs
     ListEnvironmentsResponse = Shapes::StructureShape.new(name: 'ListEnvironmentsResponse')
     ListTagsForResourceRequest = Shapes::StructureShape.new(name: 'ListTagsForResourceRequest')
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
+    ListVmEntitlementsRequest = Shapes::StructureShape.new(name: 'ListVmEntitlementsRequest')
+    ListVmEntitlementsResponse = Shapes::StructureShape.new(name: 'ListVmEntitlementsResponse')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
     NetworkAclId = Shapes::StringShape.new(name: 'NetworkAclId')
     NetworkInterface = Shapes::StructureShape.new(name: 'NetworkInterface')
@@ -94,6 +117,7 @@ module Aws::Evs
     RouteServerPeering = Shapes::StringShape.new(name: 'RouteServerPeering')
     RouteServerPeeringList = Shapes::ListShape.new(name: 'RouteServerPeeringList')
     Secret = Shapes::StructureShape.new(name: 'Secret')
+    SecretIdentifier = Shapes::StringShape.new(name: 'SecretIdentifier')
     SecretList = Shapes::ListShape.new(name: 'SecretList')
     SecurityGroupId = Shapes::StringShape.new(name: 'SecurityGroupId')
     SecurityGroups = Shapes::ListShape.new(name: 'SecurityGroups')
@@ -114,6 +138,8 @@ module Aws::Evs
     TooManyTagsException = Shapes::StructureShape.new(name: 'TooManyTagsException')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
     UntagResourceResponse = Shapes::StructureShape.new(name: 'UntagResourceResponse')
+    UpdateEnvironmentConnectorRequest = Shapes::StructureShape.new(name: 'UpdateEnvironmentConnectorRequest')
+    UpdateEnvironmentConnectorResponse = Shapes::StructureShape.new(name: 'UpdateEnvironmentConnectorResponse')
     VSanLicenseKey = Shapes::StringShape.new(name: 'VSanLicenseKey')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
     ValidationExceptionField = Shapes::StructureShape.new(name: 'ValidationExceptionField')
@@ -127,6 +153,11 @@ module Aws::Evs
     VlanId = Shapes::IntegerShape.new(name: 'VlanId')
     VlanList = Shapes::ListShape.new(name: 'VlanList')
     VlanState = Shapes::StringShape.new(name: 'VlanState')
+    VmEntitlement = Shapes::StructureShape.new(name: 'VmEntitlement')
+    VmEntitlementList = Shapes::ListShape.new(name: 'VmEntitlementList')
+    VmId = Shapes::StringShape.new(name: 'VmId')
+    VmIdList = Shapes::ListShape.new(name: 'VmIdList')
+    VmName = Shapes::StringShape.new(name: 'VmName')
     VpcId = Shapes::StringShape.new(name: 'VpcId')
 
     AssociateEipToVlanRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
@@ -147,6 +178,49 @@ module Aws::Evs
 
     ConnectivityInfo.add_member(:private_route_server_peerings, Shapes::ShapeRef.new(shape: RouteServerPeeringList, required: true, location_name: "privateRouteServerPeerings"))
     ConnectivityInfo.struct_class = Types::ConnectivityInfo
+
+    Connector.add_member(:environment_id, Shapes::ShapeRef.new(shape: EnvironmentId, location_name: "environmentId"))
+    Connector.add_member(:connector_id, Shapes::ShapeRef.new(shape: ConnectorId, location_name: "connectorId"))
+    Connector.add_member(:type, Shapes::ShapeRef.new(shape: ConnectorType, location_name: "type"))
+    Connector.add_member(:appliance_fqdn, Shapes::ShapeRef.new(shape: ApplianceFqdn, location_name: "applianceFqdn"))
+    Connector.add_member(:secret_arn, Shapes::ShapeRef.new(shape: SecretIdentifier, location_name: "secretArn"))
+    Connector.add_member(:state, Shapes::ShapeRef.new(shape: ConnectorState, location_name: "state"))
+    Connector.add_member(:state_details, Shapes::ShapeRef.new(shape: StateDetails, location_name: "stateDetails"))
+    Connector.add_member(:status, Shapes::ShapeRef.new(shape: CheckResult, location_name: "status"))
+    Connector.add_member(:checks, Shapes::ShapeRef.new(shape: ConnectorsChecksList, location_name: "checks"))
+    Connector.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "createdAt"))
+    Connector.add_member(:modified_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "modifiedAt"))
+    Connector.struct_class = Types::Connector
+
+    ConnectorCheck.add_member(:type, Shapes::ShapeRef.new(shape: CheckType, location_name: "type"))
+    ConnectorCheck.add_member(:result, Shapes::ShapeRef.new(shape: CheckResult, location_name: "result"))
+    ConnectorCheck.add_member(:last_check_attempt, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastCheckAttempt"))
+    ConnectorCheck.add_member(:impaired_since, Shapes::ShapeRef.new(shape: Timestamp, location_name: "impairedSince"))
+    ConnectorCheck.struct_class = Types::ConnectorCheck
+
+    ConnectorList.member = Shapes::ShapeRef.new(shape: Connector)
+
+    ConnectorsChecksList.member = Shapes::ShapeRef.new(shape: ConnectorCheck)
+
+    CreateEntitlementRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateEntitlementRequest.add_member(:environment_id, Shapes::ShapeRef.new(shape: EnvironmentId, required: true, location_name: "environmentId"))
+    CreateEntitlementRequest.add_member(:connector_id, Shapes::ShapeRef.new(shape: ConnectorId, required: true, location_name: "connectorId"))
+    CreateEntitlementRequest.add_member(:entitlement_type, Shapes::ShapeRef.new(shape: EntitlementType, required: true, location_name: "entitlementType"))
+    CreateEntitlementRequest.add_member(:vm_ids, Shapes::ShapeRef.new(shape: VmIdList, required: true, location_name: "vmIds"))
+    CreateEntitlementRequest.struct_class = Types::CreateEntitlementRequest
+
+    CreateEntitlementResponse.add_member(:entitlements, Shapes::ShapeRef.new(shape: VmEntitlementList, location_name: "entitlements"))
+    CreateEntitlementResponse.struct_class = Types::CreateEntitlementResponse
+
+    CreateEnvironmentConnectorRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateEnvironmentConnectorRequest.add_member(:environment_id, Shapes::ShapeRef.new(shape: EnvironmentId, required: true, location_name: "environmentId"))
+    CreateEnvironmentConnectorRequest.add_member(:type, Shapes::ShapeRef.new(shape: ConnectorType, required: true, location_name: "type"))
+    CreateEnvironmentConnectorRequest.add_member(:appliance_fqdn, Shapes::ShapeRef.new(shape: ApplianceFqdn, required: true, location_name: "applianceFqdn"))
+    CreateEnvironmentConnectorRequest.add_member(:secret_identifier, Shapes::ShapeRef.new(shape: SecretIdentifier, required: true, location_name: "secretIdentifier"))
+    CreateEnvironmentConnectorRequest.struct_class = Types::CreateEnvironmentConnectorRequest
+
+    CreateEnvironmentConnectorResponse.add_member(:connector, Shapes::ShapeRef.new(shape: Connector, location_name: "connector"))
+    CreateEnvironmentConnectorResponse.struct_class = Types::CreateEnvironmentConnectorResponse
 
     CreateEnvironmentHostRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     CreateEnvironmentHostRequest.add_member(:environment_id, Shapes::ShapeRef.new(shape: EnvironmentId, required: true, location_name: "environmentId"))
@@ -177,6 +251,25 @@ module Aws::Evs
 
     CreateEnvironmentResponse.add_member(:environment, Shapes::ShapeRef.new(shape: Environment, location_name: "environment"))
     CreateEnvironmentResponse.struct_class = Types::CreateEnvironmentResponse
+
+    DeleteEntitlementRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    DeleteEntitlementRequest.add_member(:environment_id, Shapes::ShapeRef.new(shape: EnvironmentId, required: true, location_name: "environmentId"))
+    DeleteEntitlementRequest.add_member(:connector_id, Shapes::ShapeRef.new(shape: ConnectorId, required: true, location_name: "connectorId"))
+    DeleteEntitlementRequest.add_member(:entitlement_type, Shapes::ShapeRef.new(shape: EntitlementType, required: true, location_name: "entitlementType"))
+    DeleteEntitlementRequest.add_member(:vm_ids, Shapes::ShapeRef.new(shape: VmIdList, required: true, location_name: "vmIds"))
+    DeleteEntitlementRequest.struct_class = Types::DeleteEntitlementRequest
+
+    DeleteEntitlementResponse.add_member(:entitlements, Shapes::ShapeRef.new(shape: VmEntitlementList, location_name: "entitlements"))
+    DeleteEntitlementResponse.struct_class = Types::DeleteEntitlementResponse
+
+    DeleteEnvironmentConnectorRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    DeleteEnvironmentConnectorRequest.add_member(:environment_id, Shapes::ShapeRef.new(shape: EnvironmentId, required: true, location_name: "environmentId"))
+    DeleteEnvironmentConnectorRequest.add_member(:connector_id, Shapes::ShapeRef.new(shape: ConnectorId, required: true, location_name: "connectorId"))
+    DeleteEnvironmentConnectorRequest.struct_class = Types::DeleteEnvironmentConnectorRequest
+
+    DeleteEnvironmentConnectorResponse.add_member(:connector, Shapes::ShapeRef.new(shape: Connector, location_name: "connector"))
+    DeleteEnvironmentConnectorResponse.add_member(:environment_summary, Shapes::ShapeRef.new(shape: EnvironmentSummary, location_name: "environmentSummary"))
+    DeleteEnvironmentConnectorResponse.struct_class = Types::DeleteEnvironmentConnectorResponse
 
     DeleteEnvironmentHostRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     DeleteEnvironmentHostRequest.add_member(:environment_id, Shapes::ShapeRef.new(shape: EnvironmentId, required: true, location_name: "environmentId"))
@@ -245,6 +338,10 @@ module Aws::Evs
     EnvironmentSummary.struct_class = Types::EnvironmentSummary
 
     EnvironmentSummaryList.member = Shapes::ShapeRef.new(shape: EnvironmentSummary)
+
+    ErrorDetail.add_member(:error_code, Shapes::ShapeRef.new(shape: String, required: true, location_name: "errorCode"))
+    ErrorDetail.add_member(:error_message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "errorMessage"))
+    ErrorDetail.struct_class = Types::ErrorDetail
 
     EsxVersionList.member = Shapes::ShapeRef.new(shape: String)
 
@@ -319,6 +416,15 @@ module Aws::Evs
 
     LicenseInfoList.member = Shapes::ShapeRef.new(shape: LicenseInfo)
 
+    ListEnvironmentConnectorsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
+    ListEnvironmentConnectorsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
+    ListEnvironmentConnectorsRequest.add_member(:environment_id, Shapes::ShapeRef.new(shape: EnvironmentId, required: true, location_name: "environmentId"))
+    ListEnvironmentConnectorsRequest.struct_class = Types::ListEnvironmentConnectorsRequest
+
+    ListEnvironmentConnectorsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
+    ListEnvironmentConnectorsResponse.add_member(:connectors, Shapes::ShapeRef.new(shape: ConnectorList, location_name: "connectors"))
+    ListEnvironmentConnectorsResponse.struct_class = Types::ListEnvironmentConnectorsResponse
+
     ListEnvironmentHostsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
     ListEnvironmentHostsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
     ListEnvironmentHostsRequest.add_member(:environment_id, Shapes::ShapeRef.new(shape: EnvironmentId, required: true, location_name: "environmentId"))
@@ -351,6 +457,17 @@ module Aws::Evs
 
     ListTagsForResourceResponse.add_member(:tags, Shapes::ShapeRef.new(shape: ResponseTagMap, location_name: "tags"))
     ListTagsForResourceResponse.struct_class = Types::ListTagsForResourceResponse
+
+    ListVmEntitlementsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
+    ListVmEntitlementsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
+    ListVmEntitlementsRequest.add_member(:environment_id, Shapes::ShapeRef.new(shape: EnvironmentId, required: true, location_name: "environmentId"))
+    ListVmEntitlementsRequest.add_member(:connector_id, Shapes::ShapeRef.new(shape: ConnectorId, required: true, location_name: "connectorId"))
+    ListVmEntitlementsRequest.add_member(:entitlement_type, Shapes::ShapeRef.new(shape: EntitlementType, required: true, location_name: "entitlementType"))
+    ListVmEntitlementsRequest.struct_class = Types::ListVmEntitlementsRequest
+
+    ListVmEntitlementsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
+    ListVmEntitlementsResponse.add_member(:entitlements, Shapes::ShapeRef.new(shape: VmEntitlementList, location_name: "entitlements"))
+    ListVmEntitlementsResponse.struct_class = Types::ListVmEntitlementsResponse
 
     NetworkInterface.add_member(:network_interface_id, Shapes::ShapeRef.new(shape: NetworkInterfaceId, location_name: "networkInterfaceId"))
     NetworkInterface.struct_class = Types::NetworkInterface
@@ -407,6 +524,16 @@ module Aws::Evs
 
     UntagResourceResponse.struct_class = Types::UntagResourceResponse
 
+    UpdateEnvironmentConnectorRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    UpdateEnvironmentConnectorRequest.add_member(:environment_id, Shapes::ShapeRef.new(shape: EnvironmentId, required: true, location_name: "environmentId"))
+    UpdateEnvironmentConnectorRequest.add_member(:connector_id, Shapes::ShapeRef.new(shape: ConnectorId, required: true, location_name: "connectorId"))
+    UpdateEnvironmentConnectorRequest.add_member(:appliance_fqdn, Shapes::ShapeRef.new(shape: ApplianceFqdn, location_name: "applianceFqdn"))
+    UpdateEnvironmentConnectorRequest.add_member(:secret_identifier, Shapes::ShapeRef.new(shape: SecretIdentifier, location_name: "secretIdentifier"))
+    UpdateEnvironmentConnectorRequest.struct_class = Types::UpdateEnvironmentConnectorRequest
+
+    UpdateEnvironmentConnectorResponse.add_member(:connector, Shapes::ShapeRef.new(shape: Connector, location_name: "connector"))
+    UpdateEnvironmentConnectorResponse.struct_class = Types::UpdateEnvironmentConnectorResponse
+
     ValidationException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ValidationException.add_member(:reason, Shapes::ShapeRef.new(shape: ValidationExceptionReason, required: true, location_name: "reason"))
     ValidationException.add_member(:field_list, Shapes::ShapeRef.new(shape: ValidationExceptionFieldList, location_name: "fieldList"))
@@ -453,6 +580,22 @@ module Aws::Evs
 
     VlanList.member = Shapes::ShapeRef.new(shape: Vlan)
 
+    VmEntitlement.add_member(:vm_id, Shapes::ShapeRef.new(shape: VmId, location_name: "vmId"))
+    VmEntitlement.add_member(:environment_id, Shapes::ShapeRef.new(shape: EnvironmentId, location_name: "environmentId"))
+    VmEntitlement.add_member(:connector_id, Shapes::ShapeRef.new(shape: ConnectorId, location_name: "connectorId"))
+    VmEntitlement.add_member(:vm_name, Shapes::ShapeRef.new(shape: VmName, location_name: "vmName"))
+    VmEntitlement.add_member(:type, Shapes::ShapeRef.new(shape: EntitlementType, location_name: "type"))
+    VmEntitlement.add_member(:status, Shapes::ShapeRef.new(shape: EntitlementStatus, location_name: "status"))
+    VmEntitlement.add_member(:last_synced_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastSyncedAt"))
+    VmEntitlement.add_member(:started_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "startedAt"))
+    VmEntitlement.add_member(:stopped_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "stoppedAt"))
+    VmEntitlement.add_member(:error_detail, Shapes::ShapeRef.new(shape: ErrorDetail, location_name: "errorDetail"))
+    VmEntitlement.struct_class = Types::VmEntitlement
+
+    VmEntitlementList.member = Shapes::ShapeRef.new(shape: VmEntitlement)
+
+    VmIdList.member = Shapes::ShapeRef.new(shape: VmId)
+
 
     # @api private
     API = Seahorse::Model::Api.new.tap do |api|
@@ -486,6 +629,17 @@ module Aws::Evs
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
+      api.add_operation(:create_entitlement, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateEntitlement"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateEntitlementRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateEntitlementResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
       api.add_operation(:create_environment, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateEnvironment"
         o.http_method = "POST"
@@ -493,6 +647,17 @@ module Aws::Evs
         o.input = Shapes::ShapeRef.new(shape: CreateEnvironmentRequest)
         o.output = Shapes::ShapeRef.new(shape: CreateEnvironmentResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
+      api.add_operation(:create_environment_connector, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateEnvironmentConnector"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateEnvironmentConnectorRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateEnvironmentConnectorResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
       api.add_operation(:create_environment_host, Seahorse::Model::Operation.new.tap do |o|
@@ -505,12 +670,34 @@ module Aws::Evs
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
       end)
 
+      api.add_operation(:delete_entitlement, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteEntitlement"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteEntitlementRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteEntitlementResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
       api.add_operation(:delete_environment, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteEnvironment"
         o.http_method = "POST"
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DeleteEnvironmentRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteEnvironmentResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:delete_environment_connector, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteEnvironmentConnector"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteEnvironmentConnectorRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteEnvironmentConnectorResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
@@ -554,6 +741,22 @@ module Aws::Evs
         o.output = Shapes::ShapeRef.new(shape: GetVersionsResponse)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:list_environment_connectors, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListEnvironmentConnectors"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListEnvironmentConnectorsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListEnvironmentConnectorsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:list_environment_hosts, Seahorse::Model::Operation.new.tap do |o|
@@ -612,6 +815,22 @@ module Aws::Evs
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
+      api.add_operation(:list_vm_entitlements, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListVmEntitlements"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListVmEntitlementsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListVmEntitlementsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:tag_resource, Seahorse::Model::Operation.new.tap do |o|
         o.name = "TagResource"
         o.http_method = "POST"
@@ -632,6 +851,17 @@ module Aws::Evs
         o.output = Shapes::ShapeRef.new(shape: UntagResourceResponse)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: TagPolicyException)
+      end)
+
+      api.add_operation(:update_environment_connector, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateEnvironmentConnector"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateEnvironmentConnectorRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateEnvironmentConnectorResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
     end
 

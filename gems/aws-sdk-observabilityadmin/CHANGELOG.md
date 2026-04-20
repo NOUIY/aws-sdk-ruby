@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.26.0 (2026-04-20)
+------------------
+
+* Feature - Enablement for Security Hub v2 via Observability Admin Telemetry Rule for account and organization level.
+
 1.25.0 (2026-04-10)
 ------------------
 

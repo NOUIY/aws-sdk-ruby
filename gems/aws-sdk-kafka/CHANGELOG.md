@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.109.0 (2026-04-20)
+------------------
+
+* Feature - Amazon MSK Replicator now supports data migration from external Apache Kafka clusters to Amazon MSK Express brokers. This release adds SaslScram authentication with TLS encryption, enhanced consumer offset synchronization, and customer log forwarding for troubleshooting.
+
 1.108.0 (2026-03-18)
 ------------------
 

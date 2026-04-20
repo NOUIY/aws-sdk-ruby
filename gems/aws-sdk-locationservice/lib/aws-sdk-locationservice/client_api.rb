@@ -89,9 +89,12 @@ module Aws::LocationService
     CalculateRouteSummaryDistanceDouble = Shapes::FloatShape.new(name: 'CalculateRouteSummaryDistanceDouble')
     CalculateRouteSummaryDurationSecondsDouble = Shapes::FloatShape.new(name: 'CalculateRouteSummaryDurationSecondsDouble')
     CalculateRouteTruckModeOptions = Shapes::StructureShape.new(name: 'CalculateRouteTruckModeOptions')
+    CancelJobRequest = Shapes::StructureShape.new(name: 'CancelJobRequest')
+    CancelJobResponse = Shapes::StructureShape.new(name: 'CancelJobResponse')
     CellSignals = Shapes::StructureShape.new(name: 'CellSignals')
     CellSignalsLteCellDetailsList = Shapes::ListShape.new(name: 'CellSignalsLteCellDetailsList')
     Circle = Shapes::StructureShape.new(name: 'Circle')
+    ClientToken = Shapes::StringShape.new(name: 'ClientToken')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     CountryCode3 = Shapes::StringShape.new(name: 'CountryCode3')
     CountryCode3OrEmpty = Shapes::StringShape.new(name: 'CountryCode3OrEmpty')
@@ -170,6 +173,8 @@ module Aws::LocationService
     GetDevicePositionResponse = Shapes::StructureShape.new(name: 'GetDevicePositionResponse')
     GetGeofenceRequest = Shapes::StructureShape.new(name: 'GetGeofenceRequest')
     GetGeofenceResponse = Shapes::StructureShape.new(name: 'GetGeofenceResponse')
+    GetJobRequest = Shapes::StructureShape.new(name: 'GetJobRequest')
+    GetJobResponse = Shapes::StructureShape.new(name: 'GetJobResponse')
     GetMapGlyphsRequest = Shapes::StructureShape.new(name: 'GetMapGlyphsRequest')
     GetMapGlyphsRequestFontUnicodeRangeString = Shapes::StringShape.new(name: 'GetMapGlyphsRequestFontUnicodeRangeString')
     GetMapGlyphsResponse = Shapes::StructureShape.new(name: 'GetMapGlyphsResponse')
@@ -185,11 +190,27 @@ module Aws::LocationService
     GetMapTileResponse = Shapes::StructureShape.new(name: 'GetMapTileResponse')
     GetPlaceRequest = Shapes::StructureShape.new(name: 'GetPlaceRequest')
     GetPlaceResponse = Shapes::StructureShape.new(name: 'GetPlaceResponse')
+    IamRoleArn = Shapes::StringShape.new(name: 'IamRoleArn')
     Id = Shapes::StringShape.new(name: 'Id')
     InferredState = Shapes::StructureShape.new(name: 'InferredState')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     IntendedUse = Shapes::StringShape.new(name: 'IntendedUse')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
+    JobAction = Shapes::StringShape.new(name: 'JobAction')
+    JobActionOptions = Shapes::StructureShape.new(name: 'JobActionOptions')
+    JobError = Shapes::StructureShape.new(name: 'JobError')
+    JobErrorCode = Shapes::StringShape.new(name: 'JobErrorCode')
+    JobErrorMessage = Shapes::StringShape.new(name: 'JobErrorMessage')
+    JobErrorMessagesList = Shapes::ListShape.new(name: 'JobErrorMessagesList')
+    JobId = Shapes::StringShape.new(name: 'JobId')
+    JobInputFormat = Shapes::StringShape.new(name: 'JobInputFormat')
+    JobInputLocation = Shapes::StringShape.new(name: 'JobInputLocation')
+    JobInputOptions = Shapes::StructureShape.new(name: 'JobInputOptions')
+    JobOutputFormat = Shapes::StringShape.new(name: 'JobOutputFormat')
+    JobOutputLocation = Shapes::StringShape.new(name: 'JobOutputLocation')
+    JobOutputOptions = Shapes::StructureShape.new(name: 'JobOutputOptions')
+    JobStatus = Shapes::StringShape.new(name: 'JobStatus')
+    JobsFilter = Shapes::StructureShape.new(name: 'JobsFilter')
     KmsKeyId = Shapes::StringShape.new(name: 'KmsKeyId')
     LanguageTag = Shapes::StringShape.new(name: 'LanguageTag')
     LargeToken = Shapes::StringShape.new(name: 'LargeToken')
@@ -216,6 +237,11 @@ module Aws::LocationService
     ListGeofencesRequest = Shapes::StructureShape.new(name: 'ListGeofencesRequest')
     ListGeofencesRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListGeofencesRequestMaxResultsInteger')
     ListGeofencesResponse = Shapes::StructureShape.new(name: 'ListGeofencesResponse')
+    ListJobsRequest = Shapes::StructureShape.new(name: 'ListJobsRequest')
+    ListJobsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListJobsRequestMaxResultsInteger')
+    ListJobsResponse = Shapes::StructureShape.new(name: 'ListJobsResponse')
+    ListJobsResponseEntry = Shapes::StructureShape.new(name: 'ListJobsResponseEntry')
+    ListJobsResponseEntryList = Shapes::ListShape.new(name: 'ListJobsResponseEntryList')
     ListKeysRequest = Shapes::StructureShape.new(name: 'ListKeysRequest')
     ListKeysRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListKeysRequestMaxResultsInteger')
     ListKeysResponse = Shapes::StructureShape.new(name: 'ListKeysResponse')
@@ -322,6 +348,8 @@ module Aws::LocationService
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     Sha1CertificateFingerprint = Shapes::StringShape.new(name: 'Sha1CertificateFingerprint')
     SpeedUnit = Shapes::StringShape.new(name: 'SpeedUnit')
+    StartJobRequest = Shapes::StructureShape.new(name: 'StartJobRequest')
+    StartJobResponse = Shapes::StructureShape.new(name: 'StartJobResponse')
     Status = Shapes::StringShape.new(name: 'Status')
     Step = Shapes::StructureShape.new(name: 'Step')
     StepDistanceDouble = Shapes::FloatShape.new(name: 'StepDistanceDouble')
@@ -362,6 +390,9 @@ module Aws::LocationService
     UpdateTrackerRequest = Shapes::StructureShape.new(name: 'UpdateTrackerRequest')
     UpdateTrackerResponse = Shapes::StructureShape.new(name: 'UpdateTrackerResponse')
     Uuid = Shapes::StringShape.new(name: 'Uuid')
+    ValidateAddressActionOptions = Shapes::StructureShape.new(name: 'ValidateAddressActionOptions')
+    ValidateAddressAdditionalFeature = Shapes::StringShape.new(name: 'ValidateAddressAdditionalFeature')
+    ValidateAddressAdditionalFeatureList = Shapes::ListShape.new(name: 'ValidateAddressAdditionalFeatureList')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
     ValidationExceptionField = Shapes::StructureShape.new(name: 'ValidationExceptionField')
     ValidationExceptionFieldList = Shapes::ListShape.new(name: 'ValidationExceptionFieldList')
@@ -594,6 +625,14 @@ module Aws::LocationService
     CalculateRouteTruckModeOptions.add_member(:dimensions, Shapes::ShapeRef.new(shape: TruckDimensions, location_name: "Dimensions"))
     CalculateRouteTruckModeOptions.add_member(:weight, Shapes::ShapeRef.new(shape: TruckWeight, location_name: "Weight"))
     CalculateRouteTruckModeOptions.struct_class = Types::CalculateRouteTruckModeOptions
+
+    CancelJobRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "JobId"))
+    CancelJobRequest.struct_class = Types::CancelJobRequest
+
+    CancelJobResponse.add_member(:job_arn, Shapes::ShapeRef.new(shape: GeoArn, required: true, location_name: "JobArn"))
+    CancelJobResponse.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "JobId"))
+    CancelJobResponse.add_member(:status, Shapes::ShapeRef.new(shape: JobStatus, required: true, location_name: "Status"))
+    CancelJobResponse.struct_class = Types::CancelJobResponse
 
     CellSignals.add_member(:lte_cell_details, Shapes::ShapeRef.new(shape: CellSignalsLteCellDetailsList, required: true, location_name: "LteCellDetails"))
     CellSignals.struct_class = Types::CellSignals
@@ -922,6 +961,25 @@ module Aws::LocationService
     GetGeofenceResponse.add_member(:geofence_properties, Shapes::ShapeRef.new(shape: PropertyMap, location_name: "GeofenceProperties"))
     GetGeofenceResponse.struct_class = Types::GetGeofenceResponse
 
+    GetJobRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location: "uri", location_name: "JobId"))
+    GetJobRequest.struct_class = Types::GetJobRequest
+
+    GetJobResponse.add_member(:action, Shapes::ShapeRef.new(shape: JobAction, required: true, location_name: "Action"))
+    GetJobResponse.add_member(:action_options, Shapes::ShapeRef.new(shape: JobActionOptions, location_name: "ActionOptions"))
+    GetJobResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreatedAt"))
+    GetJobResponse.add_member(:ended_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndedAt"))
+    GetJobResponse.add_member(:error, Shapes::ShapeRef.new(shape: JobError, location_name: "Error"))
+    GetJobResponse.add_member(:execution_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "ExecutionRoleArn"))
+    GetJobResponse.add_member(:input_options, Shapes::ShapeRef.new(shape: JobInputOptions, required: true, location_name: "InputOptions"))
+    GetJobResponse.add_member(:job_arn, Shapes::ShapeRef.new(shape: GeoArn, required: true, location_name: "JobArn"))
+    GetJobResponse.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "JobId"))
+    GetJobResponse.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "Name"))
+    GetJobResponse.add_member(:output_options, Shapes::ShapeRef.new(shape: JobOutputOptions, required: true, location_name: "OutputOptions"))
+    GetJobResponse.add_member(:status, Shapes::ShapeRef.new(shape: JobStatus, required: true, location_name: "Status"))
+    GetJobResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "UpdatedAt"))
+    GetJobResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
+    GetJobResponse.struct_class = Types::GetJobResponse
+
     GetMapGlyphsRequest.add_member(:map_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location: "uri", location_name: "MapName"))
     GetMapGlyphsRequest.add_member(:font_stack, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "FontStack"))
     GetMapGlyphsRequest.add_member(:font_unicode_range, Shapes::ShapeRef.new(shape: GetMapGlyphsRequestFontUnicodeRangeString, required: true, location: "uri", location_name: "FontUnicodeRange"))
@@ -989,6 +1047,26 @@ module Aws::LocationService
 
     InternalServerException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     InternalServerException.struct_class = Types::InternalServerException
+
+    JobActionOptions.add_member(:validate_address, Shapes::ShapeRef.new(shape: ValidateAddressActionOptions, location_name: "ValidateAddress"))
+    JobActionOptions.struct_class = Types::JobActionOptions
+
+    JobError.add_member(:code, Shapes::ShapeRef.new(shape: JobErrorCode, required: true, location_name: "Code"))
+    JobError.add_member(:messages, Shapes::ShapeRef.new(shape: JobErrorMessagesList, location_name: "Messages"))
+    JobError.struct_class = Types::JobError
+
+    JobErrorMessagesList.member = Shapes::ShapeRef.new(shape: JobErrorMessage)
+
+    JobInputOptions.add_member(:location, Shapes::ShapeRef.new(shape: JobInputLocation, required: true, location_name: "Location"))
+    JobInputOptions.add_member(:format, Shapes::ShapeRef.new(shape: JobInputFormat, required: true, location_name: "Format"))
+    JobInputOptions.struct_class = Types::JobInputOptions
+
+    JobOutputOptions.add_member(:format, Shapes::ShapeRef.new(shape: JobOutputFormat, required: true, location_name: "Format"))
+    JobOutputOptions.add_member(:location, Shapes::ShapeRef.new(shape: JobOutputLocation, required: true, location_name: "Location"))
+    JobOutputOptions.struct_class = Types::JobOutputOptions
+
+    JobsFilter.add_member(:job_status, Shapes::ShapeRef.new(shape: JobStatus, location_name: "JobStatus"))
+    JobsFilter.struct_class = Types::JobsFilter
 
     Leg.add_member(:start_position, Shapes::ShapeRef.new(shape: Position, required: true, location_name: "StartPosition"))
     Leg.add_member(:end_position, Shapes::ShapeRef.new(shape: Position, required: true, location_name: "EndPosition"))
@@ -1064,6 +1142,32 @@ module Aws::LocationService
     ListGeofencesResponse.add_member(:entries, Shapes::ShapeRef.new(shape: ListGeofenceResponseEntryList, required: true, location_name: "Entries"))
     ListGeofencesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: LargeToken, location_name: "NextToken"))
     ListGeofencesResponse.struct_class = Types::ListGeofencesResponse
+
+    ListJobsRequest.add_member(:filter, Shapes::ShapeRef.new(shape: JobsFilter, location_name: "Filter"))
+    ListJobsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListJobsRequestMaxResultsInteger, location_name: "MaxResults"))
+    ListJobsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: LargeToken, location_name: "NextToken"))
+    ListJobsRequest.struct_class = Types::ListJobsRequest
+
+    ListJobsResponse.add_member(:entries, Shapes::ShapeRef.new(shape: ListJobsResponseEntryList, required: true, location_name: "Entries"))
+    ListJobsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: LargeToken, location_name: "NextToken"))
+    ListJobsResponse.struct_class = Types::ListJobsResponse
+
+    ListJobsResponseEntry.add_member(:action, Shapes::ShapeRef.new(shape: JobAction, required: true, location_name: "Action"))
+    ListJobsResponseEntry.add_member(:action_options, Shapes::ShapeRef.new(shape: JobActionOptions, location_name: "ActionOptions"))
+    ListJobsResponseEntry.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreatedAt"))
+    ListJobsResponseEntry.add_member(:execution_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "ExecutionRoleArn"))
+    ListJobsResponseEntry.add_member(:ended_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndedAt"))
+    ListJobsResponseEntry.add_member(:error, Shapes::ShapeRef.new(shape: JobError, location_name: "Error"))
+    ListJobsResponseEntry.add_member(:input_options, Shapes::ShapeRef.new(shape: JobInputOptions, required: true, location_name: "InputOptions"))
+    ListJobsResponseEntry.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "JobId"))
+    ListJobsResponseEntry.add_member(:job_arn, Shapes::ShapeRef.new(shape: GeoArn, required: true, location_name: "JobArn"))
+    ListJobsResponseEntry.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "Name"))
+    ListJobsResponseEntry.add_member(:output_options, Shapes::ShapeRef.new(shape: JobOutputOptions, required: true, location_name: "OutputOptions"))
+    ListJobsResponseEntry.add_member(:status, Shapes::ShapeRef.new(shape: JobStatus, required: true, location_name: "Status"))
+    ListJobsResponseEntry.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "UpdatedAt"))
+    ListJobsResponseEntry.struct_class = Types::ListJobsResponseEntry
+
+    ListJobsResponseEntryList.member = Shapes::ShapeRef.new(shape: ListJobsResponseEntry)
 
     ListKeysRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListKeysRequestMaxResultsInteger, location_name: "MaxResults"))
     ListKeysRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location_name: "NextToken"))
@@ -1363,6 +1467,22 @@ module Aws::LocationService
     ServiceQuotaExceededException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ServiceQuotaExceededException.struct_class = Types::ServiceQuotaExceededException
 
+    StartJobRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    StartJobRequest.add_member(:action, Shapes::ShapeRef.new(shape: JobAction, required: true, location_name: "Action"))
+    StartJobRequest.add_member(:action_options, Shapes::ShapeRef.new(shape: JobActionOptions, location_name: "ActionOptions"))
+    StartJobRequest.add_member(:execution_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "ExecutionRoleArn"))
+    StartJobRequest.add_member(:input_options, Shapes::ShapeRef.new(shape: JobInputOptions, required: true, location_name: "InputOptions"))
+    StartJobRequest.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "Name"))
+    StartJobRequest.add_member(:output_options, Shapes::ShapeRef.new(shape: JobOutputOptions, required: true, location_name: "OutputOptions"))
+    StartJobRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
+    StartJobRequest.struct_class = Types::StartJobRequest
+
+    StartJobResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreatedAt"))
+    StartJobResponse.add_member(:job_arn, Shapes::ShapeRef.new(shape: GeoArn, required: true, location_name: "JobArn"))
+    StartJobResponse.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "JobId"))
+    StartJobResponse.add_member(:status, Shapes::ShapeRef.new(shape: JobStatus, required: true, location_name: "Status"))
+    StartJobResponse.struct_class = Types::StartJobResponse
+
     Step.add_member(:start_position, Shapes::ShapeRef.new(shape: Position, required: true, location_name: "StartPosition"))
     Step.add_member(:end_position, Shapes::ShapeRef.new(shape: Position, required: true, location_name: "EndPosition"))
     Step.add_member(:distance, Shapes::ShapeRef.new(shape: StepDistanceDouble, required: true, location_name: "Distance"))
@@ -1478,6 +1598,11 @@ module Aws::LocationService
     UpdateTrackerResponse.add_member(:tracker_arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "TrackerArn"))
     UpdateTrackerResponse.add_member(:update_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "UpdateTime"))
     UpdateTrackerResponse.struct_class = Types::UpdateTrackerResponse
+
+    ValidateAddressActionOptions.add_member(:additional_features, Shapes::ShapeRef.new(shape: ValidateAddressAdditionalFeatureList, location_name: "AdditionalFeatures"))
+    ValidateAddressActionOptions.struct_class = Types::ValidateAddressActionOptions
+
+    ValidateAddressAdditionalFeatureList.member = Shapes::ShapeRef.new(shape: ValidateAddressAdditionalFeature)
 
     ValidationException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ValidationException.add_member(:reason, Shapes::ShapeRef.new(shape: ValidationExceptionReason, required: true, location_name: "reason"))
@@ -1668,6 +1793,21 @@ module Aws::LocationService
         o.output = Shapes::ShapeRef.new(shape: CalculateRouteMatrixResponse)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:cancel_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CancelJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/metadata/v0/jobs/cancel-job"
+        o.endpoint_pattern = {
+          "hostPrefix" => "metadata.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: CancelJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: CancelJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
@@ -2059,6 +2199,22 @@ module Aws::LocationService
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 
+      api.add_operation(:get_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetJob"
+        o.http_method = "GET"
+        o.http_request_uri = "/metadata/v0/jobs/{JobId}"
+        o.endpoint_pattern = {
+          "hostPrefix" => "metadata.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: GetJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
       api.add_operation(:get_map_glyphs, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetMapGlyphs"
         o.http_method = "GET"
@@ -2192,6 +2348,27 @@ module Aws::LocationService
         o.output = Shapes::ShapeRef.new(shape: ListGeofencesResponse)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_jobs, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListJobs"
+        o.http_method = "POST"
+        o.http_request_uri = "/metadata/v0/jobs/list-jobs"
+        o.endpoint_pattern = {
+          "hostPrefix" => "metadata.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: ListJobsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListJobsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
@@ -2406,6 +2583,21 @@ module Aws::LocationService
         o.output = Shapes::ShapeRef.new(shape: SearchPlaceIndexForTextResponse)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:start_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/metadata/v0/jobs"
+        o.endpoint_pattern = {
+          "hostPrefix" => "metadata.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: StartJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: StartJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
