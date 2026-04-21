@@ -213,6 +213,122 @@ module Aws
                                        ) -> _BatchReplaceClusterNodesResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchReplaceClusterNodesResponseSuccess
 
+      interface _CreateAIBenchmarkJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateAIBenchmarkJobResponse]
+        def ai_benchmark_job_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#create_ai_benchmark_job-instance_method
+      def create_ai_benchmark_job: (
+                                     ai_benchmark_job_name: ::String,
+                                     benchmark_target: {
+                                       endpoint: {
+                                         identifier: ::String,
+                                         target_container_hostname: ::String?,
+                                         inference_components: Array[
+                                           {
+                                             identifier: ::String
+                                           },
+                                         ]?
+                                       }?
+                                     },
+                                     output_config: {
+                                       s3_output_location: ::String
+                                     },
+                                     ai_workload_config_identifier: ::String,
+                                     role_arn: ::String,
+                                     ?network_config: {
+                                       vpc_config: {
+                                         security_group_ids: Array[::String],
+                                         subnets: Array[::String]
+                                       }?
+                                     },
+                                     ?tags: Array[
+                                       {
+                                         key: ::String,
+                                         value: ::String
+                                       },
+                                     ]
+                                   ) -> _CreateAIBenchmarkJobResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAIBenchmarkJobResponseSuccess
+
+      interface _CreateAIRecommendationJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateAIRecommendationJobResponse]
+        def ai_recommendation_job_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#create_ai_recommendation_job-instance_method
+      def create_ai_recommendation_job: (
+                                          ai_recommendation_job_name: ::String,
+                                          model_source: {
+                                            s3: {
+                                              s3_uri: ::String?
+                                            }?
+                                          },
+                                          output_config: {
+                                            s3_output_location: ::String?,
+                                            model_package_group_identifier: ::String?
+                                          },
+                                          ai_workload_config_identifier: ::String,
+                                          performance_target: {
+                                            constraints: Array[
+                                              {
+                                                metric: ("ttft-ms" | "throughput" | "cost")
+                                              },
+                                            ]
+                                          },
+                                          role_arn: ::String,
+                                          ?inference_specification: {
+                                            framework: ("LMI" | "VLLM")?
+                                          },
+                                          ?optimize_model: bool,
+                                          ?compute_spec: {
+                                            instance_types: Array[("ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.g7e.2xlarge" | "ml.g7e.4xlarge" | "ml.g7e.8xlarge" | "ml.g7e.12xlarge" | "ml.g7e.24xlarge" | "ml.g7e.48xlarge" | "ml.p3.2xlarge" | "ml.p3.8xlarge" | "ml.p3.16xlarge" | "ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.4xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge")]?,
+                                            capacity_reservation_config: {
+                                              capacity_reservation_preference: ("capacity-reservations-only")?,
+                                              ml_reservation_arns: Array[::String]?
+                                            }?
+                                          },
+                                          ?tags: Array[
+                                            {
+                                              key: ::String,
+                                              value: ::String
+                                            },
+                                          ]
+                                        ) -> _CreateAIRecommendationJobResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAIRecommendationJobResponseSuccess
+
+      interface _CreateAIWorkloadConfigResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateAIWorkloadConfigResponse]
+        def ai_workload_config_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#create_ai_workload_config-instance_method
+      def create_ai_workload_config: (
+                                       ai_workload_config_name: ::String,
+                                       ?dataset_config: {
+                                         input_data_config: Array[
+                                           {
+                                             channel_name: ::String,
+                                             data_source: {
+                                               s3_data_source: {
+                                                 s3_uri: ::String
+                                               }?
+                                             }
+                                           },
+                                         ]?
+                                       },
+                                       ?ai_workload_configs: {
+                                         workload_spec: {
+                                           inline: ::String?
+                                         }
+                                       },
+                                       ?tags: Array[
+                                         {
+                                           key: ::String,
+                                           value: ::String
+                                         },
+                                       ]
+                                     ) -> _CreateAIWorkloadConfigResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAIWorkloadConfigResponseSuccess
+
       interface _CreateActionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateActionResponse]
         def action_arn: () -> ::String
@@ -340,6 +456,25 @@ module Aws
                                     framework: ::String?,
                                     framework_version: ::String?,
                                     nearest_model_name: ::String?,
+                                    additional_model_data_sources: Array[
+                                      {
+                                        channel_name: ::String,
+                                        s3_data_source: {
+                                          s3_uri: ::String,
+                                          s3_data_type: ("S3Prefix" | "S3Object"),
+                                          compression_type: ("None" | "Gzip"),
+                                          model_access_config: {
+                                            accept_eula: bool
+                                          }?,
+                                          hub_access_config: {
+                                            hub_content_arn: ::String
+                                          }?,
+                                          manifest_s3_uri: ::String?,
+                                          etag: ::String?,
+                                          manifest_etag: ::String?
+                                        }
+                                      },
+                                    ]?,
                                     additional_s3_data_source: {
                                       s3_data_type: ("S3Object" | "S3Prefix"),
                                       s3_uri: ::String,
@@ -3334,6 +3469,25 @@ module Aws
                                         framework: ::String?,
                                         framework_version: ::String?,
                                         nearest_model_name: ::String?,
+                                        additional_model_data_sources: Array[
+                                          {
+                                            channel_name: ::String,
+                                            s3_data_source: {
+                                              s3_uri: ::String,
+                                              s3_data_type: ("S3Prefix" | "S3Object"),
+                                              compression_type: ("None" | "Gzip"),
+                                              model_access_config: {
+                                                accept_eula: bool
+                                              }?,
+                                              hub_access_config: {
+                                                hub_content_arn: ::String
+                                              }?,
+                                              manifest_s3_uri: ::String?,
+                                              etag: ::String?,
+                                              manifest_etag: ::String?
+                                            }
+                                          },
+                                        ]?,
                                         additional_s3_data_source: {
                                           s3_data_type: ("S3Object" | "S3Prefix"),
                                           s3_uri: ::String,
@@ -3574,6 +3728,25 @@ module Aws
                                           framework: ::String?,
                                           framework_version: ::String?,
                                           nearest_model_name: ::String?,
+                                          additional_model_data_sources: Array[
+                                            {
+                                              channel_name: ::String,
+                                              s3_data_source: {
+                                                s3_uri: ::String,
+                                                s3_data_type: ("S3Prefix" | "S3Object"),
+                                                compression_type: ("None" | "Gzip"),
+                                                model_access_config: {
+                                                  accept_eula: bool
+                                                }?,
+                                                hub_access_config: {
+                                                  hub_content_arn: ::String
+                                                }?,
+                                                manifest_s3_uri: ::String?,
+                                                etag: ::String?,
+                                                manifest_etag: ::String?
+                                              }
+                                            },
+                                          ]?,
                                           additional_s3_data_source: {
                                             s3_data_type: ("S3Object" | "S3Prefix"),
                                             s3_uri: ::String,
@@ -3927,7 +4100,7 @@ module Aws
                                          model_name: ::String?
                                        }?
                                      },
-                                     deployment_instance_type: ("ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge" | "ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.inf2.xlarge" | "ml.inf2.8xlarge" | "ml.inf2.24xlarge" | "ml.inf2.48xlarge" | "ml.trn1.2xlarge" | "ml.trn1.32xlarge" | "ml.trn1n.32xlarge"),
+                                     deployment_instance_type: ("ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge" | "ml.g4dn.xlarge" | "ml.g4dn.2xlarge" | "ml.g4dn.4xlarge" | "ml.g4dn.8xlarge" | "ml.g4dn.12xlarge" | "ml.g4dn.16xlarge" | "ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.inf2.xlarge" | "ml.inf2.8xlarge" | "ml.inf2.24xlarge" | "ml.inf2.48xlarge" | "ml.trn1.2xlarge" | "ml.trn1.32xlarge" | "ml.trn1n.32xlarge"),
                                      ?max_instance_count: ::Integer,
                                      ?optimization_environment: Hash[::String, ::String],
                                      optimization_configs: Array[
@@ -5038,6 +5211,36 @@ module Aws
                            ) -> _CreateWorkteamResponseSuccess
                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateWorkteamResponseSuccess
 
+      interface _DeleteAIBenchmarkJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAIBenchmarkJobResponse]
+        def ai_benchmark_job_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#delete_ai_benchmark_job-instance_method
+      def delete_ai_benchmark_job: (
+                                     ai_benchmark_job_name: ::String
+                                   ) -> _DeleteAIBenchmarkJobResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAIBenchmarkJobResponseSuccess
+
+      interface _DeleteAIRecommendationJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAIRecommendationJobResponse]
+        def ai_recommendation_job_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#delete_ai_recommendation_job-instance_method
+      def delete_ai_recommendation_job: (
+                                          ai_recommendation_job_name: ::String
+                                        ) -> _DeleteAIRecommendationJobResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAIRecommendationJobResponseSuccess
+
+      interface _DeleteAIWorkloadConfigResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAIWorkloadConfigResponse]
+        def ai_workload_config_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#delete_ai_workload_config-instance_method
+      def delete_ai_workload_config: (
+                                       ai_workload_config_name: ::String
+                                     ) -> _DeleteAIWorkloadConfigResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAIWorkloadConfigResponseSuccess
+
       interface _DeleteActionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteActionResponse]
         def action_arn: () -> ::String
@@ -5497,6 +5700,69 @@ module Aws
                                 device_names: Array[::String]
                               ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
+      interface _DescribeAIBenchmarkJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeAIBenchmarkJobResponse]
+        def ai_benchmark_job_name: () -> ::String
+        def ai_benchmark_job_arn: () -> ::String
+        def ai_benchmark_job_status: () -> ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped")
+        def failure_reason: () -> ::String
+        def benchmark_target: () -> Types::AIBenchmarkTarget
+        def output_config: () -> Types::AIBenchmarkOutputResult
+        def ai_workload_config_identifier: () -> ::String
+        def role_arn: () -> ::String
+        def network_config: () -> Types::AIBenchmarkNetworkConfig
+        def creation_time: () -> ::Time
+        def start_time: () -> ::Time
+        def end_time: () -> ::Time
+        def tags: () -> ::Array[Types::Tag]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#describe_ai_benchmark_job-instance_method
+      def describe_ai_benchmark_job: (
+                                       ai_benchmark_job_name: ::String
+                                     ) -> _DescribeAIBenchmarkJobResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeAIBenchmarkJobResponseSuccess
+
+      interface _DescribeAIRecommendationJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeAIRecommendationJobResponse]
+        def ai_recommendation_job_name: () -> ::String
+        def ai_recommendation_job_arn: () -> ::String
+        def ai_recommendation_job_status: () -> ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped")
+        def failure_reason: () -> ::String
+        def model_source: () -> Types::AIModelSource
+        def output_config: () -> Types::AIRecommendationOutputResult
+        def inference_specification: () -> Types::AIRecommendationInferenceSpecification
+        def ai_workload_config_identifier: () -> ::String
+        def optimize_model: () -> bool
+        def performance_target: () -> Types::AIRecommendationPerformanceTarget
+        def recommendations: () -> ::Array[Types::AIRecommendation]
+        def role_arn: () -> ::String
+        def compute_spec: () -> Types::AIRecommendationComputeSpec
+        def creation_time: () -> ::Time
+        def start_time: () -> ::Time
+        def end_time: () -> ::Time
+        def tags: () -> ::Array[Types::Tag]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#describe_ai_recommendation_job-instance_method
+      def describe_ai_recommendation_job: (
+                                            ai_recommendation_job_name: ::String
+                                          ) -> _DescribeAIRecommendationJobResponseSuccess
+                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeAIRecommendationJobResponseSuccess
+
+      interface _DescribeAIWorkloadConfigResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeAIWorkloadConfigResponse]
+        def ai_workload_config_name: () -> ::String
+        def ai_workload_config_arn: () -> ::String
+        def dataset_config: () -> Types::AIDatasetConfig
+        def ai_workload_configs: () -> Types::AIWorkloadConfigs
+        def tags: () -> ::Array[Types::Tag]
+        def creation_time: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#describe_ai_workload_config-instance_method
+      def describe_ai_workload_config: (
+                                         ai_workload_config_name: ::String
+                                       ) -> _DescribeAIWorkloadConfigResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeAIWorkloadConfigResponseSuccess
 
       interface _DescribeActionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeActionResponse]
@@ -6641,7 +6907,7 @@ module Aws
         def optimization_job_name: () -> ::String
         def model_source: () -> Types::OptimizationJobModelSource
         def optimization_environment: () -> ::Hash[::String, ::String]
-        def deployment_instance_type: () -> ("ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge" | "ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.inf2.xlarge" | "ml.inf2.8xlarge" | "ml.inf2.24xlarge" | "ml.inf2.48xlarge" | "ml.trn1.2xlarge" | "ml.trn1.32xlarge" | "ml.trn1n.32xlarge")
+        def deployment_instance_type: () -> ("ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge" | "ml.g4dn.xlarge" | "ml.g4dn.2xlarge" | "ml.g4dn.4xlarge" | "ml.g4dn.8xlarge" | "ml.g4dn.12xlarge" | "ml.g4dn.16xlarge" | "ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.inf2.xlarge" | "ml.inf2.8xlarge" | "ml.inf2.24xlarge" | "ml.inf2.48xlarge" | "ml.trn1.2xlarge" | "ml.trn1.32xlarge" | "ml.trn1n.32xlarge")
         def max_instance_count: () -> ::Integer
         def optimization_configs: () -> ::Array[Types::OptimizationConfig]
         def output_config: () -> Types::OptimizationJobOutputConfig
@@ -7247,6 +7513,59 @@ module Aws
                                 ]
                               ) -> _ImportHubContentResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ImportHubContentResponseSuccess
+
+      interface _ListAIBenchmarkJobsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAIBenchmarkJobsResponse]
+        def ai_benchmark_jobs: () -> ::Array[Types::AIBenchmarkJobSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#list_ai_benchmark_jobs-instance_method
+      def list_ai_benchmark_jobs: (
+                                    ?max_results: ::Integer,
+                                    ?next_token: ::String,
+                                    ?name_contains: ::String,
+                                    ?status_equals: ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped"),
+                                    ?creation_time_after: ::Time,
+                                    ?creation_time_before: ::Time,
+                                    ?sort_by: ("Name" | "CreationTime" | "Status"),
+                                    ?sort_order: ("Ascending" | "Descending")
+                                  ) -> _ListAIBenchmarkJobsResponseSuccess
+                                | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAIBenchmarkJobsResponseSuccess
+
+      interface _ListAIRecommendationJobsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAIRecommendationJobsResponse]
+        def ai_recommendation_jobs: () -> ::Array[Types::AIRecommendationJobSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#list_ai_recommendation_jobs-instance_method
+      def list_ai_recommendation_jobs: (
+                                         ?max_results: ::Integer,
+                                         ?next_token: ::String,
+                                         ?name_contains: ::String,
+                                         ?status_equals: ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped"),
+                                         ?creation_time_after: ::Time,
+                                         ?creation_time_before: ::Time,
+                                         ?sort_by: ("Name" | "CreationTime" | "Status"),
+                                         ?sort_order: ("Ascending" | "Descending")
+                                       ) -> _ListAIRecommendationJobsResponseSuccess
+                                     | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAIRecommendationJobsResponseSuccess
+
+      interface _ListAIWorkloadConfigsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAIWorkloadConfigsResponse]
+        def ai_workload_configs: () -> ::Array[Types::AIWorkloadConfigSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#list_ai_workload_configs-instance_method
+      def list_ai_workload_configs: (
+                                      ?max_results: ::Integer,
+                                      ?next_token: ::String,
+                                      ?name_contains: ::String,
+                                      ?creation_time_after: ::Time,
+                                      ?creation_time_before: ::Time,
+                                      ?sort_by: ("Name" | "CreationTime"),
+                                      ?sort_order: ("Ascending" | "Descending")
+                                    ) -> _ListAIWorkloadConfigsResponseSuccess
+                                  | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAIWorkloadConfigsResponseSuccess
 
       interface _ListActionsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListActionsResponse]
@@ -9067,6 +9386,26 @@ module Aws
                          ) -> _StartSessionResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartSessionResponseSuccess
 
+      interface _StopAIBenchmarkJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StopAIBenchmarkJobResponse]
+        def ai_benchmark_job_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#stop_ai_benchmark_job-instance_method
+      def stop_ai_benchmark_job: (
+                                   ai_benchmark_job_name: ::String
+                                 ) -> _StopAIBenchmarkJobResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StopAIBenchmarkJobResponseSuccess
+
+      interface _StopAIRecommendationJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StopAIRecommendationJobResponse]
+        def ai_recommendation_job_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#stop_ai_recommendation_job-instance_method
+      def stop_ai_recommendation_job: (
+                                        ai_recommendation_job_name: ::String
+                                      ) -> _StopAIRecommendationJobResponseSuccess
+                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StopAIRecommendationJobResponseSuccess
+
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#stop_auto_ml_job-instance_method
       def stop_auto_ml_job: (
                               auto_ml_job_name: ::String
@@ -10390,6 +10729,25 @@ module Aws
                                           framework: ::String?,
                                           framework_version: ::String?,
                                           nearest_model_name: ::String?,
+                                          additional_model_data_sources: Array[
+                                            {
+                                              channel_name: ::String,
+                                              s3_data_source: {
+                                                s3_uri: ::String,
+                                                s3_data_type: ("S3Prefix" | "S3Object"),
+                                                compression_type: ("None" | "Gzip"),
+                                                model_access_config: {
+                                                  accept_eula: bool
+                                                }?,
+                                                hub_access_config: {
+                                                  hub_content_arn: ::String
+                                                }?,
+                                                manifest_s3_uri: ::String?,
+                                                etag: ::String?,
+                                                manifest_etag: ::String?
+                                              }
+                                            },
+                                          ]?,
                                           additional_s3_data_source: {
                                             s3_data_type: ("S3Object" | "S3Prefix"),
                                             s3_uri: ::String,
@@ -10442,6 +10800,25 @@ module Aws
                                         framework: ::String?,
                                         framework_version: ::String?,
                                         nearest_model_name: ::String?,
+                                        additional_model_data_sources: Array[
+                                          {
+                                            channel_name: ::String,
+                                            s3_data_source: {
+                                              s3_uri: ::String,
+                                              s3_data_type: ("S3Prefix" | "S3Object"),
+                                              compression_type: ("None" | "Gzip"),
+                                              model_access_config: {
+                                                accept_eula: bool
+                                              }?,
+                                              hub_access_config: {
+                                                hub_content_arn: ::String
+                                              }?,
+                                              manifest_s3_uri: ::String?,
+                                              etag: ::String?,
+                                              manifest_etag: ::String?
+                                            }
+                                          },
+                                        ]?,
                                         additional_s3_data_source: {
                                           s3_data_type: ("S3Object" | "S3Prefix"),
                                           s3_uri: ::String,

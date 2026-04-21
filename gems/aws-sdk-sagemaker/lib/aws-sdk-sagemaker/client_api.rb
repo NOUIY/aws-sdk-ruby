@@ -14,6 +14,69 @@ module Aws::SageMaker
 
     include Seahorse::Model
 
+    AIBenchmarkEndpoint = Shapes::StructureShape.new(name: 'AIBenchmarkEndpoint')
+    AIBenchmarkInferenceComponent = Shapes::StructureShape.new(name: 'AIBenchmarkInferenceComponent')
+    AIBenchmarkInferenceComponentList = Shapes::ListShape.new(name: 'AIBenchmarkInferenceComponentList')
+    AIBenchmarkJobArn = Shapes::StringShape.new(name: 'AIBenchmarkJobArn')
+    AIBenchmarkJobStatus = Shapes::StringShape.new(name: 'AIBenchmarkJobStatus')
+    AIBenchmarkJobSummary = Shapes::StructureShape.new(name: 'AIBenchmarkJobSummary')
+    AIBenchmarkJobSummaryList = Shapes::ListShape.new(name: 'AIBenchmarkJobSummaryList')
+    AIBenchmarkNetworkConfig = Shapes::StructureShape.new(name: 'AIBenchmarkNetworkConfig')
+    AIBenchmarkOutputConfig = Shapes::StructureShape.new(name: 'AIBenchmarkOutputConfig')
+    AIBenchmarkOutputResult = Shapes::StructureShape.new(name: 'AIBenchmarkOutputResult')
+    AIBenchmarkTarget = Shapes::UnionShape.new(name: 'AIBenchmarkTarget')
+    AICapacityReservationConfig = Shapes::StructureShape.new(name: 'AICapacityReservationConfig')
+    AICapacityReservationPreference = Shapes::StringShape.new(name: 'AICapacityReservationPreference')
+    AIChannelName = Shapes::StringShape.new(name: 'AIChannelName')
+    AICloudWatchLogs = Shapes::StructureShape.new(name: 'AICloudWatchLogs')
+    AICloudWatchLogsList = Shapes::ListShape.new(name: 'AICloudWatchLogsList')
+    AIDatasetConfig = Shapes::UnionShape.new(name: 'AIDatasetConfig')
+    AIEntityName = Shapes::StringShape.new(name: 'AIEntityName')
+    AIInferenceSpecificationName = Shapes::StringShape.new(name: 'AIInferenceSpecificationName')
+    AIMlReservationArn = Shapes::StringShape.new(name: 'AIMlReservationArn')
+    AIMlReservationArnList = Shapes::ListShape.new(name: 'AIMlReservationArnList')
+    AIModelSource = Shapes::UnionShape.new(name: 'AIModelSource')
+    AIModelSourceS3 = Shapes::StructureShape.new(name: 'AIModelSourceS3')
+    AIRecommendation = Shapes::StructureShape.new(name: 'AIRecommendation')
+    AIRecommendationAllowOptimization = Shapes::BooleanShape.new(name: 'AIRecommendationAllowOptimization')
+    AIRecommendationComputeSpec = Shapes::StructureShape.new(name: 'AIRecommendationComputeSpec')
+    AIRecommendationConstraint = Shapes::StructureShape.new(name: 'AIRecommendationConstraint')
+    AIRecommendationConstraintList = Shapes::ListShape.new(name: 'AIRecommendationConstraintList')
+    AIRecommendationCopyCountPerInstance = Shapes::IntegerShape.new(name: 'AIRecommendationCopyCountPerInstance')
+    AIRecommendationDeploymentConfiguration = Shapes::StructureShape.new(name: 'AIRecommendationDeploymentConfiguration')
+    AIRecommendationDeploymentS3Channel = Shapes::StructureShape.new(name: 'AIRecommendationDeploymentS3Channel')
+    AIRecommendationDeploymentS3ChannelList = Shapes::ListShape.new(name: 'AIRecommendationDeploymentS3ChannelList')
+    AIRecommendationInferenceFramework = Shapes::StringShape.new(name: 'AIRecommendationInferenceFramework')
+    AIRecommendationInferenceSpecification = Shapes::StructureShape.new(name: 'AIRecommendationInferenceSpecification')
+    AIRecommendationInstanceCount = Shapes::IntegerShape.new(name: 'AIRecommendationInstanceCount')
+    AIRecommendationInstanceDetail = Shapes::StructureShape.new(name: 'AIRecommendationInstanceDetail')
+    AIRecommendationInstanceDetailList = Shapes::ListShape.new(name: 'AIRecommendationInstanceDetailList')
+    AIRecommendationInstanceType = Shapes::StringShape.new(name: 'AIRecommendationInstanceType')
+    AIRecommendationInstanceTypeList = Shapes::ListShape.new(name: 'AIRecommendationInstanceTypeList')
+    AIRecommendationJobArn = Shapes::StringShape.new(name: 'AIRecommendationJobArn')
+    AIRecommendationJobStatus = Shapes::StringShape.new(name: 'AIRecommendationJobStatus')
+    AIRecommendationJobSummary = Shapes::StructureShape.new(name: 'AIRecommendationJobSummary')
+    AIRecommendationJobSummaryList = Shapes::ListShape.new(name: 'AIRecommendationJobSummaryList')
+    AIRecommendationList = Shapes::ListShape.new(name: 'AIRecommendationList')
+    AIRecommendationMetric = Shapes::StringShape.new(name: 'AIRecommendationMetric')
+    AIRecommendationModelDetails = Shapes::StructureShape.new(name: 'AIRecommendationModelDetails')
+    AIRecommendationOptimizationConfigMap = Shapes::MapShape.new(name: 'AIRecommendationOptimizationConfigMap')
+    AIRecommendationOptimizationDetail = Shapes::StructureShape.new(name: 'AIRecommendationOptimizationDetail')
+    AIRecommendationOptimizationDetailList = Shapes::ListShape.new(name: 'AIRecommendationOptimizationDetailList')
+    AIRecommendationOptimizationType = Shapes::StringShape.new(name: 'AIRecommendationOptimizationType')
+    AIRecommendationOutputConfig = Shapes::StructureShape.new(name: 'AIRecommendationOutputConfig')
+    AIRecommendationOutputResult = Shapes::StructureShape.new(name: 'AIRecommendationOutputResult')
+    AIRecommendationPerformanceMetric = Shapes::StructureShape.new(name: 'AIRecommendationPerformanceMetric')
+    AIRecommendationPerformanceTarget = Shapes::StructureShape.new(name: 'AIRecommendationPerformanceTarget')
+    AIResourceIdentifier = Shapes::StringShape.new(name: 'AIResourceIdentifier')
+    AIWorkloadConfigArn = Shapes::StringShape.new(name: 'AIWorkloadConfigArn')
+    AIWorkloadConfigSummary = Shapes::StructureShape.new(name: 'AIWorkloadConfigSummary')
+    AIWorkloadConfigSummaryList = Shapes::ListShape.new(name: 'AIWorkloadConfigSummaryList')
+    AIWorkloadConfigs = Shapes::StructureShape.new(name: 'AIWorkloadConfigs')
+    AIWorkloadDataSource = Shapes::StructureShape.new(name: 'AIWorkloadDataSource')
+    AIWorkloadInputDataConfig = Shapes::StructureShape.new(name: 'AIWorkloadInputDataConfig')
+    AIWorkloadInputDataConfigList = Shapes::ListShape.new(name: 'AIWorkloadInputDataConfigList')
+    AIWorkloadS3DataSource = Shapes::StructureShape.new(name: 'AIWorkloadS3DataSource')
     AbsoluteBorrowLimitResourceList = Shapes::ListShape.new(name: 'AbsoluteBorrowLimitResourceList')
     AcceleratorPartitionConfig = Shapes::StructureShape.new(name: 'AcceleratorPartitionConfig')
     AcceleratorPartitionConfigCountInteger = Shapes::IntegerShape.new(name: 'AcceleratorPartitionConfigCountInteger')
@@ -523,6 +586,12 @@ module Aws::SageMaker
     ContinuousParameterRanges = Shapes::ListShape.new(name: 'ContinuousParameterRanges')
     ConvergenceDetected = Shapes::StructureShape.new(name: 'ConvergenceDetected')
     CountryCode = Shapes::StringShape.new(name: 'CountryCode')
+    CreateAIBenchmarkJobRequest = Shapes::StructureShape.new(name: 'CreateAIBenchmarkJobRequest')
+    CreateAIBenchmarkJobResponse = Shapes::StructureShape.new(name: 'CreateAIBenchmarkJobResponse')
+    CreateAIRecommendationJobRequest = Shapes::StructureShape.new(name: 'CreateAIRecommendationJobRequest')
+    CreateAIRecommendationJobResponse = Shapes::StructureShape.new(name: 'CreateAIRecommendationJobResponse')
+    CreateAIWorkloadConfigRequest = Shapes::StructureShape.new(name: 'CreateAIWorkloadConfigRequest')
+    CreateAIWorkloadConfigResponse = Shapes::StructureShape.new(name: 'CreateAIWorkloadConfigResponse')
     CreateActionRequest = Shapes::StructureShape.new(name: 'CreateActionRequest')
     CreateActionResponse = Shapes::StructureShape.new(name: 'CreateActionResponse')
     CreateAlgorithmInput = Shapes::StructureShape.new(name: 'CreateAlgorithmInput')
@@ -709,6 +778,12 @@ module Aws::SageMaker
     DefaultSpaceSettings = Shapes::StructureShape.new(name: 'DefaultSpaceSettings')
     DefaultSpaceStorageSettings = Shapes::StructureShape.new(name: 'DefaultSpaceStorageSettings')
     DefaultUid = Shapes::IntegerShape.new(name: 'DefaultUid')
+    DeleteAIBenchmarkJobRequest = Shapes::StructureShape.new(name: 'DeleteAIBenchmarkJobRequest')
+    DeleteAIBenchmarkJobResponse = Shapes::StructureShape.new(name: 'DeleteAIBenchmarkJobResponse')
+    DeleteAIRecommendationJobRequest = Shapes::StructureShape.new(name: 'DeleteAIRecommendationJobRequest')
+    DeleteAIRecommendationJobResponse = Shapes::StructureShape.new(name: 'DeleteAIRecommendationJobResponse')
+    DeleteAIWorkloadConfigRequest = Shapes::StructureShape.new(name: 'DeleteAIWorkloadConfigRequest')
+    DeleteAIWorkloadConfigResponse = Shapes::StructureShape.new(name: 'DeleteAIWorkloadConfigResponse')
     DeleteActionRequest = Shapes::StructureShape.new(name: 'DeleteActionRequest')
     DeleteActionResponse = Shapes::StructureShape.new(name: 'DeleteActionResponse')
     DeleteAlgorithmInput = Shapes::StructureShape.new(name: 'DeleteAlgorithmInput')
@@ -801,6 +876,12 @@ module Aws::SageMaker
     DeploymentStages = Shapes::ListShape.new(name: 'DeploymentStages')
     DeregisterDevicesRequest = Shapes::StructureShape.new(name: 'DeregisterDevicesRequest')
     DerivedInformation = Shapes::StructureShape.new(name: 'DerivedInformation')
+    DescribeAIBenchmarkJobRequest = Shapes::StructureShape.new(name: 'DescribeAIBenchmarkJobRequest')
+    DescribeAIBenchmarkJobResponse = Shapes::StructureShape.new(name: 'DescribeAIBenchmarkJobResponse')
+    DescribeAIRecommendationJobRequest = Shapes::StructureShape.new(name: 'DescribeAIRecommendationJobRequest')
+    DescribeAIRecommendationJobResponse = Shapes::StructureShape.new(name: 'DescribeAIRecommendationJobResponse')
+    DescribeAIWorkloadConfigRequest = Shapes::StructureShape.new(name: 'DescribeAIWorkloadConfigRequest')
+    DescribeAIWorkloadConfigResponse = Shapes::StructureShape.new(name: 'DescribeAIWorkloadConfigResponse')
     DescribeActionRequest = Shapes::StructureShape.new(name: 'DescribeActionRequest')
     DescribeActionResponse = Shapes::StructureShape.new(name: 'DescribeActionResponse')
     DescribeAlgorithmInput = Shapes::StructureShape.new(name: 'DescribeAlgorithmInput')
@@ -1099,6 +1180,7 @@ module Aws::SageMaker
     ExecutionRoleIdentityConfig = Shapes::StringShape.new(name: 'ExecutionRoleIdentityConfig')
     ExecutionStatus = Shapes::StringShape.new(name: 'ExecutionStatus')
     ExitMessage = Shapes::StringShape.new(name: 'ExitMessage')
+    ExpectedPerformanceList = Shapes::ListShape.new(name: 'ExpectedPerformanceList')
     Experiment = Shapes::StructureShape.new(name: 'Experiment')
     ExperimentArn = Shapes::StringShape.new(name: 'ExperimentArn')
     ExperimentConfig = Shapes::StructureShape.new(name: 'ExperimentConfig')
@@ -1486,6 +1568,15 @@ module Aws::SageMaker
     LineageGroupSummary = Shapes::StructureShape.new(name: 'LineageGroupSummary')
     LineageMetadata = Shapes::StructureShape.new(name: 'LineageMetadata')
     LineageType = Shapes::StringShape.new(name: 'LineageType')
+    ListAIBenchmarkJobsRequest = Shapes::StructureShape.new(name: 'ListAIBenchmarkJobsRequest')
+    ListAIBenchmarkJobsResponse = Shapes::StructureShape.new(name: 'ListAIBenchmarkJobsResponse')
+    ListAIBenchmarkJobsSortBy = Shapes::StringShape.new(name: 'ListAIBenchmarkJobsSortBy')
+    ListAIRecommendationJobsRequest = Shapes::StructureShape.new(name: 'ListAIRecommendationJobsRequest')
+    ListAIRecommendationJobsResponse = Shapes::StructureShape.new(name: 'ListAIRecommendationJobsResponse')
+    ListAIRecommendationJobsSortBy = Shapes::StringShape.new(name: 'ListAIRecommendationJobsSortBy')
+    ListAIWorkloadConfigsRequest = Shapes::StructureShape.new(name: 'ListAIWorkloadConfigsRequest')
+    ListAIWorkloadConfigsResponse = Shapes::StructureShape.new(name: 'ListAIWorkloadConfigsResponse')
+    ListAIWorkloadConfigsSortBy = Shapes::StringShape.new(name: 'ListAIWorkloadConfigsSortBy')
     ListActionsRequest = Shapes::StructureShape.new(name: 'ListActionsRequest')
     ListActionsResponse = Shapes::StructureShape.new(name: 'ListActionsResponse')
     ListAlgorithmsInput = Shapes::StructureShape.new(name: 'ListAlgorithmsInput')
@@ -2458,6 +2549,10 @@ module Aws::SageMaker
     StepDisplayName = Shapes::StringShape.new(name: 'StepDisplayName')
     StepName = Shapes::StringShape.new(name: 'StepName')
     StepStatus = Shapes::StringShape.new(name: 'StepStatus')
+    StopAIBenchmarkJobRequest = Shapes::StructureShape.new(name: 'StopAIBenchmarkJobRequest')
+    StopAIBenchmarkJobResponse = Shapes::StructureShape.new(name: 'StopAIBenchmarkJobResponse')
+    StopAIRecommendationJobRequest = Shapes::StructureShape.new(name: 'StopAIRecommendationJobRequest')
+    StopAIRecommendationJobResponse = Shapes::StructureShape.new(name: 'StopAIRecommendationJobResponse')
     StopAutoMLJobRequest = Shapes::StructureShape.new(name: 'StopAutoMLJobRequest')
     StopCompilationJobRequest = Shapes::StructureShape.new(name: 'StopCompilationJobRequest')
     StopEdgeDeploymentStageRequest = Shapes::StructureShape.new(name: 'StopEdgeDeploymentStageRequest')
@@ -2860,11 +2955,182 @@ module Aws::SageMaker
     WorkforceVpcEndpointId = Shapes::StringShape.new(name: 'WorkforceVpcEndpointId')
     WorkforceVpcId = Shapes::StringShape.new(name: 'WorkforceVpcId')
     Workforces = Shapes::ListShape.new(name: 'Workforces')
+    WorkloadSpec = Shapes::UnionShape.new(name: 'WorkloadSpec')
     WorkspaceSettings = Shapes::StructureShape.new(name: 'WorkspaceSettings')
     Workteam = Shapes::StructureShape.new(name: 'Workteam')
     WorkteamArn = Shapes::StringShape.new(name: 'WorkteamArn')
     WorkteamName = Shapes::StringShape.new(name: 'WorkteamName')
     Workteams = Shapes::ListShape.new(name: 'Workteams')
+
+    AIBenchmarkEndpoint.add_member(:identifier, Shapes::ShapeRef.new(shape: AIResourceIdentifier, required: true, location_name: "Identifier"))
+    AIBenchmarkEndpoint.add_member(:target_container_hostname, Shapes::ShapeRef.new(shape: String, location_name: "TargetContainerHostname"))
+    AIBenchmarkEndpoint.add_member(:inference_components, Shapes::ShapeRef.new(shape: AIBenchmarkInferenceComponentList, location_name: "InferenceComponents"))
+    AIBenchmarkEndpoint.struct_class = Types::AIBenchmarkEndpoint
+
+    AIBenchmarkInferenceComponent.add_member(:identifier, Shapes::ShapeRef.new(shape: AIResourceIdentifier, required: true, location_name: "Identifier"))
+    AIBenchmarkInferenceComponent.struct_class = Types::AIBenchmarkInferenceComponent
+
+    AIBenchmarkInferenceComponentList.member = Shapes::ShapeRef.new(shape: AIBenchmarkInferenceComponent)
+
+    AIBenchmarkJobSummary.add_member(:ai_benchmark_job_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIBenchmarkJobName"))
+    AIBenchmarkJobSummary.add_member(:ai_benchmark_job_arn, Shapes::ShapeRef.new(shape: AIBenchmarkJobArn, required: true, location_name: "AIBenchmarkJobArn"))
+    AIBenchmarkJobSummary.add_member(:ai_benchmark_job_status, Shapes::ShapeRef.new(shape: AIBenchmarkJobStatus, required: true, location_name: "AIBenchmarkJobStatus"))
+    AIBenchmarkJobSummary.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreationTime"))
+    AIBenchmarkJobSummary.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndTime"))
+    AIBenchmarkJobSummary.add_member(:ai_workload_config_name, Shapes::ShapeRef.new(shape: AIEntityName, location_name: "AIWorkloadConfigName"))
+    AIBenchmarkJobSummary.struct_class = Types::AIBenchmarkJobSummary
+
+    AIBenchmarkJobSummaryList.member = Shapes::ShapeRef.new(shape: AIBenchmarkJobSummary)
+
+    AIBenchmarkNetworkConfig.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "VpcConfig"))
+    AIBenchmarkNetworkConfig.struct_class = Types::AIBenchmarkNetworkConfig
+
+    AIBenchmarkOutputConfig.add_member(:s3_output_location, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "S3OutputLocation"))
+    AIBenchmarkOutputConfig.struct_class = Types::AIBenchmarkOutputConfig
+
+    AIBenchmarkOutputResult.add_member(:s3_output_location, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "S3OutputLocation"))
+    AIBenchmarkOutputResult.add_member(:cloud_watch_logs, Shapes::ShapeRef.new(shape: AICloudWatchLogsList, location_name: "CloudWatchLogs"))
+    AIBenchmarkOutputResult.struct_class = Types::AIBenchmarkOutputResult
+
+    AIBenchmarkTarget.add_member(:endpoint, Shapes::ShapeRef.new(shape: AIBenchmarkEndpoint, location_name: "Endpoint"))
+    AIBenchmarkTarget.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    AIBenchmarkTarget.add_member_subclass(:endpoint, Types::AIBenchmarkTarget::Endpoint)
+    AIBenchmarkTarget.add_member_subclass(:unknown, Types::AIBenchmarkTarget::Unknown)
+    AIBenchmarkTarget.struct_class = Types::AIBenchmarkTarget
+
+    AICapacityReservationConfig.add_member(:capacity_reservation_preference, Shapes::ShapeRef.new(shape: AICapacityReservationPreference, location_name: "CapacityReservationPreference"))
+    AICapacityReservationConfig.add_member(:ml_reservation_arns, Shapes::ShapeRef.new(shape: AIMlReservationArnList, location_name: "MlReservationArns"))
+    AICapacityReservationConfig.struct_class = Types::AICapacityReservationConfig
+
+    AICloudWatchLogs.add_member(:log_group_arn, Shapes::ShapeRef.new(shape: String, location_name: "LogGroupArn"))
+    AICloudWatchLogs.add_member(:log_stream_name, Shapes::ShapeRef.new(shape: String, location_name: "LogStreamName"))
+    AICloudWatchLogs.struct_class = Types::AICloudWatchLogs
+
+    AICloudWatchLogsList.member = Shapes::ShapeRef.new(shape: AICloudWatchLogs)
+
+    AIDatasetConfig.add_member(:input_data_config, Shapes::ShapeRef.new(shape: AIWorkloadInputDataConfigList, location_name: "InputDataConfig"))
+    AIDatasetConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    AIDatasetConfig.add_member_subclass(:input_data_config, Types::AIDatasetConfig::InputDataConfig)
+    AIDatasetConfig.add_member_subclass(:unknown, Types::AIDatasetConfig::Unknown)
+    AIDatasetConfig.struct_class = Types::AIDatasetConfig
+
+    AIMlReservationArnList.member = Shapes::ShapeRef.new(shape: AIMlReservationArn)
+
+    AIModelSource.add_member(:s3, Shapes::ShapeRef.new(shape: AIModelSourceS3, location_name: "S3"))
+    AIModelSource.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    AIModelSource.add_member_subclass(:s3, Types::AIModelSource::S3)
+    AIModelSource.add_member_subclass(:unknown, Types::AIModelSource::Unknown)
+    AIModelSource.struct_class = Types::AIModelSource
+
+    AIModelSourceS3.add_member(:s3_uri, Shapes::ShapeRef.new(shape: S3Uri, location_name: "S3Uri"))
+    AIModelSourceS3.struct_class = Types::AIModelSourceS3
+
+    AIRecommendation.add_member(:recommendation_description, Shapes::ShapeRef.new(shape: String, location_name: "RecommendationDescription"))
+    AIRecommendation.add_member(:optimization_details, Shapes::ShapeRef.new(shape: AIRecommendationOptimizationDetailList, location_name: "OptimizationDetails"))
+    AIRecommendation.add_member(:model_details, Shapes::ShapeRef.new(shape: AIRecommendationModelDetails, location_name: "ModelDetails"))
+    AIRecommendation.add_member(:deployment_configuration, Shapes::ShapeRef.new(shape: AIRecommendationDeploymentConfiguration, location_name: "DeploymentConfiguration"))
+    AIRecommendation.add_member(:ai_benchmark_job_arn, Shapes::ShapeRef.new(shape: AIBenchmarkJobArn, location_name: "AIBenchmarkJobArn"))
+    AIRecommendation.add_member(:expected_performance, Shapes::ShapeRef.new(shape: ExpectedPerformanceList, location_name: "ExpectedPerformance"))
+    AIRecommendation.struct_class = Types::AIRecommendation
+
+    AIRecommendationComputeSpec.add_member(:instance_types, Shapes::ShapeRef.new(shape: AIRecommendationInstanceTypeList, location_name: "InstanceTypes"))
+    AIRecommendationComputeSpec.add_member(:capacity_reservation_config, Shapes::ShapeRef.new(shape: AICapacityReservationConfig, location_name: "CapacityReservationConfig"))
+    AIRecommendationComputeSpec.struct_class = Types::AIRecommendationComputeSpec
+
+    AIRecommendationConstraint.add_member(:metric, Shapes::ShapeRef.new(shape: AIRecommendationMetric, required: true, location_name: "Metric"))
+    AIRecommendationConstraint.struct_class = Types::AIRecommendationConstraint
+
+    AIRecommendationConstraintList.member = Shapes::ShapeRef.new(shape: AIRecommendationConstraint)
+
+    AIRecommendationDeploymentConfiguration.add_member(:s3, Shapes::ShapeRef.new(shape: AIRecommendationDeploymentS3ChannelList, location_name: "S3"))
+    AIRecommendationDeploymentConfiguration.add_member(:image_uri, Shapes::ShapeRef.new(shape: String, location_name: "ImageUri"))
+    AIRecommendationDeploymentConfiguration.add_member(:instance_type, Shapes::ShapeRef.new(shape: AIRecommendationInstanceType, location_name: "InstanceType"))
+    AIRecommendationDeploymentConfiguration.add_member(:instance_count, Shapes::ShapeRef.new(shape: AIRecommendationInstanceCount, location_name: "InstanceCount"))
+    AIRecommendationDeploymentConfiguration.add_member(:copy_count_per_instance, Shapes::ShapeRef.new(shape: AIRecommendationCopyCountPerInstance, location_name: "CopyCountPerInstance"))
+    AIRecommendationDeploymentConfiguration.add_member(:environment_variables, Shapes::ShapeRef.new(shape: EnvironmentMap, location_name: "EnvironmentVariables"))
+    AIRecommendationDeploymentConfiguration.struct_class = Types::AIRecommendationDeploymentConfiguration
+
+    AIRecommendationDeploymentS3Channel.add_member(:channel_name, Shapes::ShapeRef.new(shape: AIChannelName, location_name: "ChannelName"))
+    AIRecommendationDeploymentS3Channel.add_member(:uri, Shapes::ShapeRef.new(shape: S3Uri, location_name: "Uri"))
+    AIRecommendationDeploymentS3Channel.struct_class = Types::AIRecommendationDeploymentS3Channel
+
+    AIRecommendationDeploymentS3ChannelList.member = Shapes::ShapeRef.new(shape: AIRecommendationDeploymentS3Channel)
+
+    AIRecommendationInferenceSpecification.add_member(:framework, Shapes::ShapeRef.new(shape: AIRecommendationInferenceFramework, location_name: "Framework"))
+    AIRecommendationInferenceSpecification.struct_class = Types::AIRecommendationInferenceSpecification
+
+    AIRecommendationInstanceDetail.add_member(:instance_type, Shapes::ShapeRef.new(shape: AIRecommendationInstanceType, location_name: "InstanceType"))
+    AIRecommendationInstanceDetail.add_member(:instance_count, Shapes::ShapeRef.new(shape: AIRecommendationInstanceCount, location_name: "InstanceCount"))
+    AIRecommendationInstanceDetail.add_member(:copy_count_per_instance, Shapes::ShapeRef.new(shape: AIRecommendationCopyCountPerInstance, location_name: "CopyCountPerInstance"))
+    AIRecommendationInstanceDetail.struct_class = Types::AIRecommendationInstanceDetail
+
+    AIRecommendationInstanceDetailList.member = Shapes::ShapeRef.new(shape: AIRecommendationInstanceDetail)
+
+    AIRecommendationInstanceTypeList.member = Shapes::ShapeRef.new(shape: AIRecommendationInstanceType)
+
+    AIRecommendationJobSummary.add_member(:ai_recommendation_job_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIRecommendationJobName"))
+    AIRecommendationJobSummary.add_member(:ai_recommendation_job_arn, Shapes::ShapeRef.new(shape: AIRecommendationJobArn, required: true, location_name: "AIRecommendationJobArn"))
+    AIRecommendationJobSummary.add_member(:ai_recommendation_job_status, Shapes::ShapeRef.new(shape: AIRecommendationJobStatus, required: true, location_name: "AIRecommendationJobStatus"))
+    AIRecommendationJobSummary.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreationTime"))
+    AIRecommendationJobSummary.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndTime"))
+    AIRecommendationJobSummary.struct_class = Types::AIRecommendationJobSummary
+
+    AIRecommendationJobSummaryList.member = Shapes::ShapeRef.new(shape: AIRecommendationJobSummary)
+
+    AIRecommendationList.member = Shapes::ShapeRef.new(shape: AIRecommendation)
+
+    AIRecommendationModelDetails.add_member(:model_package_arn, Shapes::ShapeRef.new(shape: ModelPackageArn, location_name: "ModelPackageArn"))
+    AIRecommendationModelDetails.add_member(:inference_specification_name, Shapes::ShapeRef.new(shape: AIInferenceSpecificationName, location_name: "InferenceSpecificationName"))
+    AIRecommendationModelDetails.add_member(:instance_details, Shapes::ShapeRef.new(shape: AIRecommendationInstanceDetailList, location_name: "InstanceDetails"))
+    AIRecommendationModelDetails.struct_class = Types::AIRecommendationModelDetails
+
+    AIRecommendationOptimizationConfigMap.key = Shapes::ShapeRef.new(shape: String)
+    AIRecommendationOptimizationConfigMap.value = Shapes::ShapeRef.new(shape: String)
+
+    AIRecommendationOptimizationDetail.add_member(:optimization_type, Shapes::ShapeRef.new(shape: AIRecommendationOptimizationType, required: true, location_name: "OptimizationType"))
+    AIRecommendationOptimizationDetail.add_member(:optimization_config, Shapes::ShapeRef.new(shape: AIRecommendationOptimizationConfigMap, location_name: "OptimizationConfig"))
+    AIRecommendationOptimizationDetail.struct_class = Types::AIRecommendationOptimizationDetail
+
+    AIRecommendationOptimizationDetailList.member = Shapes::ShapeRef.new(shape: AIRecommendationOptimizationDetail)
+
+    AIRecommendationOutputConfig.add_member(:s3_output_location, Shapes::ShapeRef.new(shape: S3Uri, location_name: "S3OutputLocation"))
+    AIRecommendationOutputConfig.add_member(:model_package_group_identifier, Shapes::ShapeRef.new(shape: AIResourceIdentifier, location_name: "ModelPackageGroupIdentifier"))
+    AIRecommendationOutputConfig.struct_class = Types::AIRecommendationOutputConfig
+
+    AIRecommendationOutputResult.add_member(:s3_output_location, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "S3OutputLocation"))
+    AIRecommendationOutputResult.add_member(:model_package_group_identifier, Shapes::ShapeRef.new(shape: AIResourceIdentifier, location_name: "ModelPackageGroupIdentifier"))
+    AIRecommendationOutputResult.struct_class = Types::AIRecommendationOutputResult
+
+    AIRecommendationPerformanceMetric.add_member(:metric, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Metric"))
+    AIRecommendationPerformanceMetric.add_member(:stat, Shapes::ShapeRef.new(shape: String, location_name: "Stat"))
+    AIRecommendationPerformanceMetric.add_member(:value, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Value"))
+    AIRecommendationPerformanceMetric.add_member(:unit, Shapes::ShapeRef.new(shape: String, location_name: "Unit"))
+    AIRecommendationPerformanceMetric.struct_class = Types::AIRecommendationPerformanceMetric
+
+    AIRecommendationPerformanceTarget.add_member(:constraints, Shapes::ShapeRef.new(shape: AIRecommendationConstraintList, required: true, location_name: "Constraints"))
+    AIRecommendationPerformanceTarget.struct_class = Types::AIRecommendationPerformanceTarget
+
+    AIWorkloadConfigSummary.add_member(:ai_workload_config_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIWorkloadConfigName"))
+    AIWorkloadConfigSummary.add_member(:ai_workload_config_arn, Shapes::ShapeRef.new(shape: AIWorkloadConfigArn, required: true, location_name: "AIWorkloadConfigArn"))
+    AIWorkloadConfigSummary.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreationTime"))
+    AIWorkloadConfigSummary.struct_class = Types::AIWorkloadConfigSummary
+
+    AIWorkloadConfigSummaryList.member = Shapes::ShapeRef.new(shape: AIWorkloadConfigSummary)
+
+    AIWorkloadConfigs.add_member(:workload_spec, Shapes::ShapeRef.new(shape: WorkloadSpec, required: true, location_name: "WorkloadSpec"))
+    AIWorkloadConfigs.struct_class = Types::AIWorkloadConfigs
+
+    AIWorkloadDataSource.add_member(:s3_data_source, Shapes::ShapeRef.new(shape: AIWorkloadS3DataSource, location_name: "S3DataSource"))
+    AIWorkloadDataSource.struct_class = Types::AIWorkloadDataSource
+
+    AIWorkloadInputDataConfig.add_member(:channel_name, Shapes::ShapeRef.new(shape: AIChannelName, required: true, location_name: "ChannelName"))
+    AIWorkloadInputDataConfig.add_member(:data_source, Shapes::ShapeRef.new(shape: AIWorkloadDataSource, required: true, location_name: "DataSource"))
+    AIWorkloadInputDataConfig.struct_class = Types::AIWorkloadInputDataConfig
+
+    AIWorkloadInputDataConfigList.member = Shapes::ShapeRef.new(shape: AIWorkloadInputDataConfig)
+
+    AIWorkloadS3DataSource.add_member(:s3_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "S3Uri"))
+    AIWorkloadS3DataSource.struct_class = Types::AIWorkloadS3DataSource
 
     AbsoluteBorrowLimitResourceList.member = Shapes::ShapeRef.new(shape: ComputeQuotaResourceConfig)
 
@@ -4148,6 +4414,42 @@ module Aws::SageMaker
     ConvergenceDetected.add_member(:complete_on_convergence, Shapes::ShapeRef.new(shape: CompleteOnConvergence, location_name: "CompleteOnConvergence"))
     ConvergenceDetected.struct_class = Types::ConvergenceDetected
 
+    CreateAIBenchmarkJobRequest.add_member(:ai_benchmark_job_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIBenchmarkJobName"))
+    CreateAIBenchmarkJobRequest.add_member(:benchmark_target, Shapes::ShapeRef.new(shape: AIBenchmarkTarget, required: true, location_name: "BenchmarkTarget"))
+    CreateAIBenchmarkJobRequest.add_member(:output_config, Shapes::ShapeRef.new(shape: AIBenchmarkOutputConfig, required: true, location_name: "OutputConfig"))
+    CreateAIBenchmarkJobRequest.add_member(:ai_workload_config_identifier, Shapes::ShapeRef.new(shape: AIResourceIdentifier, required: true, location_name: "AIWorkloadConfigIdentifier"))
+    CreateAIBenchmarkJobRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "RoleArn"))
+    CreateAIBenchmarkJobRequest.add_member(:network_config, Shapes::ShapeRef.new(shape: AIBenchmarkNetworkConfig, location_name: "NetworkConfig"))
+    CreateAIBenchmarkJobRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateAIBenchmarkJobRequest.struct_class = Types::CreateAIBenchmarkJobRequest
+
+    CreateAIBenchmarkJobResponse.add_member(:ai_benchmark_job_arn, Shapes::ShapeRef.new(shape: AIBenchmarkJobArn, required: true, location_name: "AIBenchmarkJobArn"))
+    CreateAIBenchmarkJobResponse.struct_class = Types::CreateAIBenchmarkJobResponse
+
+    CreateAIRecommendationJobRequest.add_member(:ai_recommendation_job_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIRecommendationJobName"))
+    CreateAIRecommendationJobRequest.add_member(:model_source, Shapes::ShapeRef.new(shape: AIModelSource, required: true, location_name: "ModelSource"))
+    CreateAIRecommendationJobRequest.add_member(:output_config, Shapes::ShapeRef.new(shape: AIRecommendationOutputConfig, required: true, location_name: "OutputConfig"))
+    CreateAIRecommendationJobRequest.add_member(:ai_workload_config_identifier, Shapes::ShapeRef.new(shape: AIResourceIdentifier, required: true, location_name: "AIWorkloadConfigIdentifier"))
+    CreateAIRecommendationJobRequest.add_member(:performance_target, Shapes::ShapeRef.new(shape: AIRecommendationPerformanceTarget, required: true, location_name: "PerformanceTarget"))
+    CreateAIRecommendationJobRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "RoleArn"))
+    CreateAIRecommendationJobRequest.add_member(:inference_specification, Shapes::ShapeRef.new(shape: AIRecommendationInferenceSpecification, location_name: "InferenceSpecification"))
+    CreateAIRecommendationJobRequest.add_member(:optimize_model, Shapes::ShapeRef.new(shape: AIRecommendationAllowOptimization, location_name: "OptimizeModel"))
+    CreateAIRecommendationJobRequest.add_member(:compute_spec, Shapes::ShapeRef.new(shape: AIRecommendationComputeSpec, location_name: "ComputeSpec"))
+    CreateAIRecommendationJobRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateAIRecommendationJobRequest.struct_class = Types::CreateAIRecommendationJobRequest
+
+    CreateAIRecommendationJobResponse.add_member(:ai_recommendation_job_arn, Shapes::ShapeRef.new(shape: AIRecommendationJobArn, required: true, location_name: "AIRecommendationJobArn"))
+    CreateAIRecommendationJobResponse.struct_class = Types::CreateAIRecommendationJobResponse
+
+    CreateAIWorkloadConfigRequest.add_member(:ai_workload_config_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIWorkloadConfigName"))
+    CreateAIWorkloadConfigRequest.add_member(:dataset_config, Shapes::ShapeRef.new(shape: AIDatasetConfig, location_name: "DatasetConfig"))
+    CreateAIWorkloadConfigRequest.add_member(:ai_workload_configs, Shapes::ShapeRef.new(shape: AIWorkloadConfigs, location_name: "AIWorkloadConfigs"))
+    CreateAIWorkloadConfigRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateAIWorkloadConfigRequest.struct_class = Types::CreateAIWorkloadConfigRequest
+
+    CreateAIWorkloadConfigResponse.add_member(:ai_workload_config_arn, Shapes::ShapeRef.new(shape: AIWorkloadConfigArn, required: true, location_name: "AIWorkloadConfigArn"))
+    CreateAIWorkloadConfigResponse.struct_class = Types::CreateAIWorkloadConfigResponse
+
     CreateActionRequest.add_member(:action_name, Shapes::ShapeRef.new(shape: ExperimentEntityName, required: true, location_name: "ActionName"))
     CreateActionRequest.add_member(:source, Shapes::ShapeRef.new(shape: ActionSource, required: true, location_name: "Source"))
     CreateActionRequest.add_member(:action_type, Shapes::ShapeRef.new(shape: String256, required: true, location_name: "ActionType"))
@@ -5179,6 +5481,24 @@ module Aws::SageMaker
     DefaultSpaceStorageSettings.add_member(:default_ebs_storage_settings, Shapes::ShapeRef.new(shape: DefaultEbsStorageSettings, location_name: "DefaultEbsStorageSettings"))
     DefaultSpaceStorageSettings.struct_class = Types::DefaultSpaceStorageSettings
 
+    DeleteAIBenchmarkJobRequest.add_member(:ai_benchmark_job_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIBenchmarkJobName"))
+    DeleteAIBenchmarkJobRequest.struct_class = Types::DeleteAIBenchmarkJobRequest
+
+    DeleteAIBenchmarkJobResponse.add_member(:ai_benchmark_job_arn, Shapes::ShapeRef.new(shape: AIBenchmarkJobArn, location_name: "AIBenchmarkJobArn"))
+    DeleteAIBenchmarkJobResponse.struct_class = Types::DeleteAIBenchmarkJobResponse
+
+    DeleteAIRecommendationJobRequest.add_member(:ai_recommendation_job_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIRecommendationJobName"))
+    DeleteAIRecommendationJobRequest.struct_class = Types::DeleteAIRecommendationJobRequest
+
+    DeleteAIRecommendationJobResponse.add_member(:ai_recommendation_job_arn, Shapes::ShapeRef.new(shape: AIRecommendationJobArn, location_name: "AIRecommendationJobArn"))
+    DeleteAIRecommendationJobResponse.struct_class = Types::DeleteAIRecommendationJobResponse
+
+    DeleteAIWorkloadConfigRequest.add_member(:ai_workload_config_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIWorkloadConfigName"))
+    DeleteAIWorkloadConfigRequest.struct_class = Types::DeleteAIWorkloadConfigRequest
+
+    DeleteAIWorkloadConfigResponse.add_member(:ai_workload_config_arn, Shapes::ShapeRef.new(shape: AIWorkloadConfigArn, location_name: "AIWorkloadConfigArn"))
+    DeleteAIWorkloadConfigResponse.struct_class = Types::DeleteAIWorkloadConfigResponse
+
     DeleteActionRequest.add_member(:action_name, Shapes::ShapeRef.new(shape: ExperimentEntityName, required: true, location_name: "ActionName"))
     DeleteActionRequest.struct_class = Types::DeleteActionRequest
 
@@ -5470,6 +5790,57 @@ module Aws::SageMaker
 
     DerivedInformation.add_member(:derived_data_input_config, Shapes::ShapeRef.new(shape: DataInputConfig, location_name: "DerivedDataInputConfig"))
     DerivedInformation.struct_class = Types::DerivedInformation
+
+    DescribeAIBenchmarkJobRequest.add_member(:ai_benchmark_job_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIBenchmarkJobName"))
+    DescribeAIBenchmarkJobRequest.struct_class = Types::DescribeAIBenchmarkJobRequest
+
+    DescribeAIBenchmarkJobResponse.add_member(:ai_benchmark_job_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIBenchmarkJobName"))
+    DescribeAIBenchmarkJobResponse.add_member(:ai_benchmark_job_arn, Shapes::ShapeRef.new(shape: AIBenchmarkJobArn, required: true, location_name: "AIBenchmarkJobArn"))
+    DescribeAIBenchmarkJobResponse.add_member(:ai_benchmark_job_status, Shapes::ShapeRef.new(shape: AIBenchmarkJobStatus, required: true, location_name: "AIBenchmarkJobStatus"))
+    DescribeAIBenchmarkJobResponse.add_member(:failure_reason, Shapes::ShapeRef.new(shape: FailureReason, location_name: "FailureReason"))
+    DescribeAIBenchmarkJobResponse.add_member(:benchmark_target, Shapes::ShapeRef.new(shape: AIBenchmarkTarget, required: true, location_name: "BenchmarkTarget"))
+    DescribeAIBenchmarkJobResponse.add_member(:output_config, Shapes::ShapeRef.new(shape: AIBenchmarkOutputResult, required: true, location_name: "OutputConfig"))
+    DescribeAIBenchmarkJobResponse.add_member(:ai_workload_config_identifier, Shapes::ShapeRef.new(shape: AIResourceIdentifier, required: true, location_name: "AIWorkloadConfigIdentifier"))
+    DescribeAIBenchmarkJobResponse.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "RoleArn"))
+    DescribeAIBenchmarkJobResponse.add_member(:network_config, Shapes::ShapeRef.new(shape: AIBenchmarkNetworkConfig, location_name: "NetworkConfig"))
+    DescribeAIBenchmarkJobResponse.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreationTime"))
+    DescribeAIBenchmarkJobResponse.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "StartTime"))
+    DescribeAIBenchmarkJobResponse.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndTime"))
+    DescribeAIBenchmarkJobResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    DescribeAIBenchmarkJobResponse.struct_class = Types::DescribeAIBenchmarkJobResponse
+
+    DescribeAIRecommendationJobRequest.add_member(:ai_recommendation_job_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIRecommendationJobName"))
+    DescribeAIRecommendationJobRequest.struct_class = Types::DescribeAIRecommendationJobRequest
+
+    DescribeAIRecommendationJobResponse.add_member(:ai_recommendation_job_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIRecommendationJobName"))
+    DescribeAIRecommendationJobResponse.add_member(:ai_recommendation_job_arn, Shapes::ShapeRef.new(shape: AIRecommendationJobArn, required: true, location_name: "AIRecommendationJobArn"))
+    DescribeAIRecommendationJobResponse.add_member(:ai_recommendation_job_status, Shapes::ShapeRef.new(shape: AIRecommendationJobStatus, required: true, location_name: "AIRecommendationJobStatus"))
+    DescribeAIRecommendationJobResponse.add_member(:failure_reason, Shapes::ShapeRef.new(shape: FailureReason, location_name: "FailureReason"))
+    DescribeAIRecommendationJobResponse.add_member(:model_source, Shapes::ShapeRef.new(shape: AIModelSource, required: true, location_name: "ModelSource"))
+    DescribeAIRecommendationJobResponse.add_member(:output_config, Shapes::ShapeRef.new(shape: AIRecommendationOutputResult, required: true, location_name: "OutputConfig"))
+    DescribeAIRecommendationJobResponse.add_member(:inference_specification, Shapes::ShapeRef.new(shape: AIRecommendationInferenceSpecification, location_name: "InferenceSpecification"))
+    DescribeAIRecommendationJobResponse.add_member(:ai_workload_config_identifier, Shapes::ShapeRef.new(shape: AIResourceIdentifier, required: true, location_name: "AIWorkloadConfigIdentifier"))
+    DescribeAIRecommendationJobResponse.add_member(:optimize_model, Shapes::ShapeRef.new(shape: AIRecommendationAllowOptimization, location_name: "OptimizeModel"))
+    DescribeAIRecommendationJobResponse.add_member(:performance_target, Shapes::ShapeRef.new(shape: AIRecommendationPerformanceTarget, location_name: "PerformanceTarget"))
+    DescribeAIRecommendationJobResponse.add_member(:recommendations, Shapes::ShapeRef.new(shape: AIRecommendationList, location_name: "Recommendations"))
+    DescribeAIRecommendationJobResponse.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "RoleArn"))
+    DescribeAIRecommendationJobResponse.add_member(:compute_spec, Shapes::ShapeRef.new(shape: AIRecommendationComputeSpec, location_name: "ComputeSpec"))
+    DescribeAIRecommendationJobResponse.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreationTime"))
+    DescribeAIRecommendationJobResponse.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "StartTime"))
+    DescribeAIRecommendationJobResponse.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndTime"))
+    DescribeAIRecommendationJobResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    DescribeAIRecommendationJobResponse.struct_class = Types::DescribeAIRecommendationJobResponse
+
+    DescribeAIWorkloadConfigRequest.add_member(:ai_workload_config_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIWorkloadConfigName"))
+    DescribeAIWorkloadConfigRequest.struct_class = Types::DescribeAIWorkloadConfigRequest
+
+    DescribeAIWorkloadConfigResponse.add_member(:ai_workload_config_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIWorkloadConfigName"))
+    DescribeAIWorkloadConfigResponse.add_member(:ai_workload_config_arn, Shapes::ShapeRef.new(shape: AIWorkloadConfigArn, required: true, location_name: "AIWorkloadConfigArn"))
+    DescribeAIWorkloadConfigResponse.add_member(:dataset_config, Shapes::ShapeRef.new(shape: AIDatasetConfig, location_name: "DatasetConfig"))
+    DescribeAIWorkloadConfigResponse.add_member(:ai_workload_configs, Shapes::ShapeRef.new(shape: AIWorkloadConfigs, location_name: "AIWorkloadConfigs"))
+    DescribeAIWorkloadConfigResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    DescribeAIWorkloadConfigResponse.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreationTime"))
+    DescribeAIWorkloadConfigResponse.struct_class = Types::DescribeAIWorkloadConfigResponse
 
     DescribeActionRequest.add_member(:action_name, Shapes::ShapeRef.new(shape: ExperimentEntityNameOrArn, required: true, location_name: "ActionName"))
     DescribeActionRequest.struct_class = Types::DescribeActionRequest
@@ -7179,6 +7550,8 @@ module Aws::SageMaker
 
     ExecutionRoleArns.member = Shapes::ShapeRef.new(shape: RoleArn)
 
+    ExpectedPerformanceList.member = Shapes::ShapeRef.new(shape: AIRecommendationPerformanceMetric)
+
     Experiment.add_member(:experiment_name, Shapes::ShapeRef.new(shape: ExperimentEntityName, location_name: "ExperimentName"))
     Experiment.add_member(:experiment_arn, Shapes::ShapeRef.new(shape: ExperimentArn, location_name: "ExperimentArn"))
     Experiment.add_member(:display_name, Shapes::ShapeRef.new(shape: ExperimentEntityName, location_name: "DisplayName"))
@@ -8121,6 +8494,47 @@ module Aws::SageMaker
     LineageMetadata.add_member(:context_arns, Shapes::ShapeRef.new(shape: MapString2048, location_name: "ContextArns"))
     LineageMetadata.add_member(:associations, Shapes::ShapeRef.new(shape: AssociationInfoList, location_name: "Associations"))
     LineageMetadata.struct_class = Types::LineageMetadata
+
+    ListAIBenchmarkJobsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "MaxResults"))
+    ListAIBenchmarkJobsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListAIBenchmarkJobsRequest.add_member(:name_contains, Shapes::ShapeRef.new(shape: NameContains, location_name: "NameContains"))
+    ListAIBenchmarkJobsRequest.add_member(:status_equals, Shapes::ShapeRef.new(shape: AIBenchmarkJobStatus, location_name: "StatusEquals"))
+    ListAIBenchmarkJobsRequest.add_member(:creation_time_after, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTimeAfter"))
+    ListAIBenchmarkJobsRequest.add_member(:creation_time_before, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTimeBefore"))
+    ListAIBenchmarkJobsRequest.add_member(:sort_by, Shapes::ShapeRef.new(shape: ListAIBenchmarkJobsSortBy, location_name: "SortBy"))
+    ListAIBenchmarkJobsRequest.add_member(:sort_order, Shapes::ShapeRef.new(shape: SortOrder, location_name: "SortOrder"))
+    ListAIBenchmarkJobsRequest.struct_class = Types::ListAIBenchmarkJobsRequest
+
+    ListAIBenchmarkJobsResponse.add_member(:ai_benchmark_jobs, Shapes::ShapeRef.new(shape: AIBenchmarkJobSummaryList, required: true, location_name: "AIBenchmarkJobs"))
+    ListAIBenchmarkJobsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListAIBenchmarkJobsResponse.struct_class = Types::ListAIBenchmarkJobsResponse
+
+    ListAIRecommendationJobsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "MaxResults"))
+    ListAIRecommendationJobsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListAIRecommendationJobsRequest.add_member(:name_contains, Shapes::ShapeRef.new(shape: NameContains, location_name: "NameContains"))
+    ListAIRecommendationJobsRequest.add_member(:status_equals, Shapes::ShapeRef.new(shape: AIRecommendationJobStatus, location_name: "StatusEquals"))
+    ListAIRecommendationJobsRequest.add_member(:creation_time_after, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTimeAfter"))
+    ListAIRecommendationJobsRequest.add_member(:creation_time_before, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTimeBefore"))
+    ListAIRecommendationJobsRequest.add_member(:sort_by, Shapes::ShapeRef.new(shape: ListAIRecommendationJobsSortBy, location_name: "SortBy"))
+    ListAIRecommendationJobsRequest.add_member(:sort_order, Shapes::ShapeRef.new(shape: SortOrder, location_name: "SortOrder"))
+    ListAIRecommendationJobsRequest.struct_class = Types::ListAIRecommendationJobsRequest
+
+    ListAIRecommendationJobsResponse.add_member(:ai_recommendation_jobs, Shapes::ShapeRef.new(shape: AIRecommendationJobSummaryList, required: true, location_name: "AIRecommendationJobs"))
+    ListAIRecommendationJobsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListAIRecommendationJobsResponse.struct_class = Types::ListAIRecommendationJobsResponse
+
+    ListAIWorkloadConfigsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "MaxResults"))
+    ListAIWorkloadConfigsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListAIWorkloadConfigsRequest.add_member(:name_contains, Shapes::ShapeRef.new(shape: NameContains, location_name: "NameContains"))
+    ListAIWorkloadConfigsRequest.add_member(:creation_time_after, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTimeAfter"))
+    ListAIWorkloadConfigsRequest.add_member(:creation_time_before, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTimeBefore"))
+    ListAIWorkloadConfigsRequest.add_member(:sort_by, Shapes::ShapeRef.new(shape: ListAIWorkloadConfigsSortBy, location_name: "SortBy"))
+    ListAIWorkloadConfigsRequest.add_member(:sort_order, Shapes::ShapeRef.new(shape: SortOrder, location_name: "SortOrder"))
+    ListAIWorkloadConfigsRequest.struct_class = Types::ListAIWorkloadConfigsRequest
+
+    ListAIWorkloadConfigsResponse.add_member(:ai_workload_configs, Shapes::ShapeRef.new(shape: AIWorkloadConfigSummaryList, required: true, location_name: "AIWorkloadConfigs"))
+    ListAIWorkloadConfigsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListAIWorkloadConfigsResponse.struct_class = Types::ListAIWorkloadConfigsResponse
 
     ListActionsRequest.add_member(:source_uri, Shapes::ShapeRef.new(shape: SourceUri, location_name: "SourceUri"))
     ListActionsRequest.add_member(:action_type, Shapes::ShapeRef.new(shape: String256, location_name: "ActionType"))
@@ -9656,6 +10070,7 @@ module Aws::SageMaker
     ModelPackageContainerDefinition.add_member(:framework, Shapes::ShapeRef.new(shape: String, location_name: "Framework"))
     ModelPackageContainerDefinition.add_member(:framework_version, Shapes::ShapeRef.new(shape: ModelPackageFrameworkVersion, location_name: "FrameworkVersion"))
     ModelPackageContainerDefinition.add_member(:nearest_model_name, Shapes::ShapeRef.new(shape: String, location_name: "NearestModelName"))
+    ModelPackageContainerDefinition.add_member(:additional_model_data_sources, Shapes::ShapeRef.new(shape: AdditionalModelDataSources, location_name: "AdditionalModelDataSources"))
     ModelPackageContainerDefinition.add_member(:additional_s3_data_source, Shapes::ShapeRef.new(shape: AdditionalS3DataSource, location_name: "AdditionalS3DataSource"))
     ModelPackageContainerDefinition.add_member(:model_data_etag, Shapes::ShapeRef.new(shape: String, location_name: "ModelDataETag"))
     ModelPackageContainerDefinition.add_member(:is_checkpoint, Shapes::ShapeRef.new(shape: Boolean, location_name: "IsCheckpoint", metadata: {"box" => true}))
@@ -11310,6 +11725,18 @@ module Aws::SageMaker
     StatusDetailsMap.key = Shapes::ShapeRef.new(shape: SchedulerConfigComponent)
     StatusDetailsMap.value = Shapes::ShapeRef.new(shape: SchedulerResourceStatus)
 
+    StopAIBenchmarkJobRequest.add_member(:ai_benchmark_job_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIBenchmarkJobName"))
+    StopAIBenchmarkJobRequest.struct_class = Types::StopAIBenchmarkJobRequest
+
+    StopAIBenchmarkJobResponse.add_member(:ai_benchmark_job_arn, Shapes::ShapeRef.new(shape: AIBenchmarkJobArn, required: true, location_name: "AIBenchmarkJobArn"))
+    StopAIBenchmarkJobResponse.struct_class = Types::StopAIBenchmarkJobResponse
+
+    StopAIRecommendationJobRequest.add_member(:ai_recommendation_job_name, Shapes::ShapeRef.new(shape: AIEntityName, required: true, location_name: "AIRecommendationJobName"))
+    StopAIRecommendationJobRequest.struct_class = Types::StopAIRecommendationJobRequest
+
+    StopAIRecommendationJobResponse.add_member(:ai_recommendation_job_arn, Shapes::ShapeRef.new(shape: AIRecommendationJobArn, required: true, location_name: "AIRecommendationJobArn"))
+    StopAIRecommendationJobResponse.struct_class = Types::StopAIRecommendationJobResponse
+
     StopAutoMLJobRequest.add_member(:auto_ml_job_name, Shapes::ShapeRef.new(shape: AutoMLJobName, required: true, location_name: "AutoMLJobName"))
     StopAutoMLJobRequest.struct_class = Types::StopAutoMLJobRequest
 
@@ -12548,6 +12975,12 @@ module Aws::SageMaker
 
     Workforces.member = Shapes::ShapeRef.new(shape: Workforce)
 
+    WorkloadSpec.add_member(:inline, Shapes::ShapeRef.new(shape: String, location_name: "Inline"))
+    WorkloadSpec.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    WorkloadSpec.add_member_subclass(:inline, Types::WorkloadSpec::Inline)
+    WorkloadSpec.add_member_subclass(:unknown, Types::WorkloadSpec::Unknown)
+    WorkloadSpec.struct_class = Types::WorkloadSpec
+
     WorkspaceSettings.add_member(:s3_artifact_path, Shapes::ShapeRef.new(shape: S3Uri, location_name: "S3ArtifactPath"))
     WorkspaceSettings.add_member(:s3_kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "S3KmsKeyId"))
     WorkspaceSettings.struct_class = Types::WorkspaceSettings
@@ -12669,6 +13102,38 @@ module Aws::SageMaker
         o.input = Shapes::ShapeRef.new(shape: BatchReplaceClusterNodesRequest)
         o.output = Shapes::ShapeRef.new(shape: BatchReplaceClusterNodesResponse)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+      end)
+
+      api.add_operation(:create_ai_benchmark_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateAIBenchmarkJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateAIBenchmarkJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateAIBenchmarkJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceLimitExceeded)
+      end)
+
+      api.add_operation(:create_ai_recommendation_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateAIRecommendationJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateAIRecommendationJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateAIRecommendationJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceLimitExceeded)
+      end)
+
+      api.add_operation(:create_ai_workload_config, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateAIWorkloadConfig"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateAIWorkloadConfigRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateAIWorkloadConfigResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceLimitExceeded)
       end)
 
       api.add_operation(:create_action, Seahorse::Model::Operation.new.tap do |o|
@@ -13331,6 +13796,34 @@ module Aws::SageMaker
         o.errors << Shapes::ShapeRef.new(shape: ResourceLimitExceeded)
       end)
 
+      api.add_operation(:delete_ai_benchmark_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteAIBenchmarkJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteAIBenchmarkJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteAIBenchmarkJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+      end)
+
+      api.add_operation(:delete_ai_recommendation_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteAIRecommendationJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteAIRecommendationJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteAIRecommendationJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+      end)
+
+      api.add_operation(:delete_ai_workload_config, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteAIWorkloadConfig"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteAIWorkloadConfigRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteAIWorkloadConfigResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUse)
+      end)
+
       api.add_operation(:delete_action, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteAction"
         o.http_method = "POST"
@@ -13865,6 +14358,33 @@ module Aws::SageMaker
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DeregisterDevicesRequest)
         o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+      end)
+
+      api.add_operation(:describe_ai_benchmark_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeAIBenchmarkJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeAIBenchmarkJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeAIBenchmarkJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+      end)
+
+      api.add_operation(:describe_ai_recommendation_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeAIRecommendationJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeAIRecommendationJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeAIRecommendationJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+      end)
+
+      api.add_operation(:describe_ai_workload_config, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeAIWorkloadConfig"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeAIWorkloadConfigRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeAIWorkloadConfigResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
       end)
 
       api.add_operation(:describe_action, Seahorse::Model::Operation.new.tap do |o|
@@ -14601,6 +15121,48 @@ module Aws::SageMaker
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
         o.errors << Shapes::ShapeRef.new(shape: ResourceInUse)
         o.errors << Shapes::ShapeRef.new(shape: ResourceLimitExceeded)
+      end)
+
+      api.add_operation(:list_ai_benchmark_jobs, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAIBenchmarkJobs"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListAIBenchmarkJobsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListAIBenchmarkJobsResponse)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_ai_recommendation_jobs, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAIRecommendationJobs"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListAIRecommendationJobsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListAIRecommendationJobsResponse)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_ai_workload_configs, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAIWorkloadConfigs"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListAIWorkloadConfigsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListAIWorkloadConfigsResponse)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:list_actions, Seahorse::Model::Operation.new.tap do |o|
@@ -15972,6 +16534,24 @@ module Aws::SageMaker
         o.output = Shapes::ShapeRef.new(shape: StartSessionResponse)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
         o.errors << Shapes::ShapeRef.new(shape: ResourceLimitExceeded)
+      end)
+
+      api.add_operation(:stop_ai_benchmark_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StopAIBenchmarkJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: StopAIBenchmarkJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: StopAIBenchmarkJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+      end)
+
+      api.add_operation(:stop_ai_recommendation_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StopAIRecommendationJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: StopAIRecommendationJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: StopAIRecommendationJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
       end)
 
       api.add_operation(:stop_auto_ml_job, Seahorse::Model::Operation.new.tap do |o|

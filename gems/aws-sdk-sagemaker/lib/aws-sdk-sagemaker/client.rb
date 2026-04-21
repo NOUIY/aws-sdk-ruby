@@ -932,6 +932,16 @@ module Aws::SageMaker
     #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].framework #=> String
     #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].framework_version #=> String
     #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].nearest_model_name #=> String
+    #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].additional_model_data_sources #=> Array
+    #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].additional_model_data_sources[0].channel_name #=> String
+    #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.s3_uri #=> String
+    #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.s3_data_type #=> String, one of "S3Prefix", "S3Object"
+    #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.compression_type #=> String, one of "None", "Gzip"
+    #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.model_access_config.accept_eula #=> Boolean
+    #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.hub_access_config.hub_content_arn #=> String
+    #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.manifest_s3_uri #=> String
+    #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.etag #=> String
+    #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.manifest_etag #=> String
     #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].additional_s3_data_source.s3_data_type #=> String, one of "S3Object", "S3Prefix"
     #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].additional_s3_data_source.s3_uri #=> String
     #   resp.model_package_summaries["ModelPackageArn"].inference_specification.containers[0].additional_s3_data_source.compression_type #=> String, one of "None", "Gzip"
@@ -1165,6 +1175,274 @@ module Aws::SageMaker
     # @param [Hash] params ({})
     def batch_replace_cluster_nodes(params = {}, options = {})
       req = build_request(:batch_replace_cluster_nodes, params)
+      req.send_request(options)
+    end
+
+    # Creates a benchmark job that runs performance benchmarks against
+    # inference infrastructure using a predefined AI workload configuration.
+    # The benchmark job measures metrics such as latency, throughput, and
+    # cost for your generative AI inference endpoints.
+    #
+    # @option params [required, String] :ai_benchmark_job_name
+    #   The name of the AI benchmark job. The name must be unique within your
+    #   Amazon Web Services account in the current Amazon Web Services Region.
+    #
+    # @option params [required, Types::AIBenchmarkTarget] :benchmark_target
+    #   The target endpoint to benchmark. Specify a SageMaker endpoint by
+    #   providing its name or Amazon Resource Name (ARN).
+    #
+    # @option params [required, Types::AIBenchmarkOutputConfig] :output_config
+    #   The output configuration for the benchmark job, including the Amazon
+    #   S3 location where benchmark results are stored.
+    #
+    # @option params [required, String] :ai_workload_config_identifier
+    #   The name or Amazon Resource Name (ARN) of the AI workload
+    #   configuration to use for this benchmark job.
+    #
+    # @option params [required, String] :role_arn
+    #   The Amazon Resource Name (ARN) of an IAM role that enables Amazon
+    #   SageMaker AI to perform tasks on your behalf.
+    #
+    # @option params [Types::AIBenchmarkNetworkConfig] :network_config
+    #   The network configuration for the benchmark job, including VPC
+    #   settings.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The metadata that you apply to Amazon Web Services resources to help
+    #   you categorize and organize them. Each tag consists of a key and a
+    #   value, both of which you define.
+    #
+    # @return [Types::CreateAIBenchmarkJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateAIBenchmarkJobResponse#ai_benchmark_job_arn #ai_benchmark_job_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_ai_benchmark_job({
+    #     ai_benchmark_job_name: "AIEntityName", # required
+    #     benchmark_target: { # required
+    #       endpoint: {
+    #         identifier: "AIResourceIdentifier", # required
+    #         target_container_hostname: "String",
+    #         inference_components: [
+    #           {
+    #             identifier: "AIResourceIdentifier", # required
+    #           },
+    #         ],
+    #       },
+    #     },
+    #     output_config: { # required
+    #       s3_output_location: "S3Uri", # required
+    #     },
+    #     ai_workload_config_identifier: "AIResourceIdentifier", # required
+    #     role_arn: "RoleArn", # required
+    #     network_config: {
+    #       vpc_config: {
+    #         security_group_ids: ["SecurityGroupId"], # required
+    #         subnets: ["SubnetId"], # required
+    #       },
+    #     },
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ai_benchmark_job_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/CreateAIBenchmarkJob AWS API Documentation
+    #
+    # @overload create_ai_benchmark_job(params = {})
+    # @param [Hash] params ({})
+    def create_ai_benchmark_job(params = {}, options = {})
+      req = build_request(:create_ai_benchmark_job, params)
+      req.send_request(options)
+    end
+
+    # Creates a recommendation job that generates intelligent optimization
+    # recommendations for generative AI inference deployments. The job
+    # analyzes your model, workload configuration, and performance targets
+    # to recommend optimal instance types, model optimization techniques
+    # (such as quantization and speculative decoding), and deployment
+    # configurations.
+    #
+    # @option params [required, String] :ai_recommendation_job_name
+    #   The name of the AI recommendation job. The name must be unique within
+    #   your Amazon Web Services account in the current Amazon Web Services
+    #   Region.
+    #
+    # @option params [required, Types::AIModelSource] :model_source
+    #   The source of the model to optimize. Specify the Amazon S3 location of
+    #   the model artifacts.
+    #
+    # @option params [required, Types::AIRecommendationOutputConfig] :output_config
+    #   The output configuration for the recommendation job, including the
+    #   Amazon S3 location for results and an optional model package group
+    #   where the optimized model is registered.
+    #
+    # @option params [required, String] :ai_workload_config_identifier
+    #   The name or Amazon Resource Name (ARN) of the AI workload
+    #   configuration to use for this recommendation job.
+    #
+    # @option params [required, Types::AIRecommendationPerformanceTarget] :performance_target
+    #   The performance targets for the recommendation job. Specify
+    #   constraints on metrics such as time to first token (`ttft-ms`),
+    #   `throughput`, or `cost`.
+    #
+    # @option params [required, String] :role_arn
+    #   The Amazon Resource Name (ARN) of an IAM role that enables Amazon
+    #   SageMaker AI to perform tasks on your behalf.
+    #
+    # @option params [Types::AIRecommendationInferenceSpecification] :inference_specification
+    #   The inference framework configuration. Specify the framework (such as
+    #   LMI or vLLM) for the recommendation job.
+    #
+    # @option params [Boolean] :optimize_model
+    #   Whether to allow model optimization techniques such as quantization,
+    #   speculative decoding, and kernel tuning. The default is `true`.
+    #
+    # @option params [Types::AIRecommendationComputeSpec] :compute_spec
+    #   The compute resource specification for the recommendation job. You can
+    #   specify up to 3 instance types to consider, and optionally provide
+    #   capacity reservation configuration.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The metadata that you apply to Amazon Web Services resources to help
+    #   you categorize and organize them.
+    #
+    # @return [Types::CreateAIRecommendationJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateAIRecommendationJobResponse#ai_recommendation_job_arn #ai_recommendation_job_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_ai_recommendation_job({
+    #     ai_recommendation_job_name: "AIEntityName", # required
+    #     model_source: { # required
+    #       s3: {
+    #         s3_uri: "S3Uri",
+    #       },
+    #     },
+    #     output_config: { # required
+    #       s3_output_location: "S3Uri",
+    #       model_package_group_identifier: "AIResourceIdentifier",
+    #     },
+    #     ai_workload_config_identifier: "AIResourceIdentifier", # required
+    #     performance_target: { # required
+    #       constraints: [ # required
+    #         {
+    #           metric: "ttft-ms", # required, accepts ttft-ms, throughput, cost
+    #         },
+    #       ],
+    #     },
+    #     role_arn: "RoleArn", # required
+    #     inference_specification: {
+    #       framework: "LMI", # accepts LMI, VLLM
+    #     },
+    #     optimize_model: false,
+    #     compute_spec: {
+    #       instance_types: ["ml.g5.xlarge"], # accepts ml.g5.xlarge, ml.g5.2xlarge, ml.g5.4xlarge, ml.g5.8xlarge, ml.g5.12xlarge, ml.g5.16xlarge, ml.g5.24xlarge, ml.g5.48xlarge, ml.g6.xlarge, ml.g6.2xlarge, ml.g6.4xlarge, ml.g6.8xlarge, ml.g6.12xlarge, ml.g6.16xlarge, ml.g6.24xlarge, ml.g6.48xlarge, ml.g6e.xlarge, ml.g6e.2xlarge, ml.g6e.4xlarge, ml.g6e.8xlarge, ml.g6e.12xlarge, ml.g6e.16xlarge, ml.g6e.24xlarge, ml.g6e.48xlarge, ml.g7e.2xlarge, ml.g7e.4xlarge, ml.g7e.8xlarge, ml.g7e.12xlarge, ml.g7e.24xlarge, ml.g7e.48xlarge, ml.p3.2xlarge, ml.p3.8xlarge, ml.p3.16xlarge, ml.p4d.24xlarge, ml.p4de.24xlarge, ml.p5.4xlarge, ml.p5.48xlarge, ml.p5e.48xlarge, ml.p5en.48xlarge
+    #       capacity_reservation_config: {
+    #         capacity_reservation_preference: "capacity-reservations-only", # accepts capacity-reservations-only
+    #         ml_reservation_arns: ["AIMlReservationArn"],
+    #       },
+    #     },
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ai_recommendation_job_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/CreateAIRecommendationJob AWS API Documentation
+    #
+    # @overload create_ai_recommendation_job(params = {})
+    # @param [Hash] params ({})
+    def create_ai_recommendation_job(params = {}, options = {})
+      req = build_request(:create_ai_recommendation_job, params)
+      req.send_request(options)
+    end
+
+    # Creates a reusable AI workload configuration that defines datasets,
+    # data sources, and benchmark tool settings for consistent performance
+    # testing of generative AI inference deployments on Amazon SageMaker AI.
+    #
+    # @option params [required, String] :ai_workload_config_name
+    #   The name of the AI workload configuration. The name must be unique
+    #   within your Amazon Web Services account in the current Amazon Web
+    #   Services Region.
+    #
+    # @option params [Types::AIDatasetConfig] :dataset_config
+    #   The dataset configuration for the workload. Specify input data
+    #   channels with their data sources for benchmark workloads.
+    #
+    # @option params [Types::AIWorkloadConfigs] :ai_workload_configs
+    #   The benchmark tool configuration and workload specification. Provide
+    #   the specification as an inline YAML or JSON string.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The metadata that you apply to Amazon Web Services resources to help
+    #   you categorize and organize them. Each tag consists of a key and a
+    #   value, both of which you define. For more information, see [Tagging
+    #   Amazon Web Services Resources][1] in the Amazon Web Services General
+    #   Reference.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #
+    # @return [Types::CreateAIWorkloadConfigResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateAIWorkloadConfigResponse#ai_workload_config_arn #ai_workload_config_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_ai_workload_config({
+    #     ai_workload_config_name: "AIEntityName", # required
+    #     dataset_config: {
+    #       input_data_config: [
+    #         {
+    #           channel_name: "AIChannelName", # required
+    #           data_source: { # required
+    #             s3_data_source: {
+    #               s3_uri: "S3Uri", # required
+    #             },
+    #           },
+    #         },
+    #       ],
+    #     },
+    #     ai_workload_configs: {
+    #       workload_spec: { # required
+    #         inline: "String",
+    #       },
+    #     },
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ai_workload_config_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/CreateAIWorkloadConfig AWS API Documentation
+    #
+    # @overload create_ai_workload_config(params = {})
+    # @param [Hash] params ({})
+    def create_ai_workload_config(params = {}, options = {})
+      req = build_request(:create_ai_workload_config, params)
       req.send_request(options)
     end
 
@@ -1412,6 +1690,25 @@ module Aws::SageMaker
     #           framework: "String",
     #           framework_version: "ModelPackageFrameworkVersion",
     #           nearest_model_name: "String",
+    #           additional_model_data_sources: [
+    #             {
+    #               channel_name: "AdditionalModelChannelName", # required
+    #               s3_data_source: { # required
+    #                 s3_uri: "S3ModelUri", # required
+    #                 s3_data_type: "S3Prefix", # required, accepts S3Prefix, S3Object
+    #                 compression_type: "None", # required, accepts None, Gzip
+    #                 model_access_config: {
+    #                   accept_eula: false, # required
+    #                 },
+    #                 hub_access_config: {
+    #                   hub_content_arn: "HubContentArn", # required
+    #                 },
+    #                 manifest_s3_uri: "S3ModelUri",
+    #                 etag: "String",
+    #                 manifest_etag: "String",
+    #               },
+    #             },
+    #           ],
     #           additional_s3_data_source: {
     #             s3_data_type: "S3Object", # required, accepts S3Object, S3Prefix
     #             s3_uri: "S3Uri", # required
@@ -7768,6 +8065,25 @@ module Aws::SageMaker
     #           framework: "String",
     #           framework_version: "ModelPackageFrameworkVersion",
     #           nearest_model_name: "String",
+    #           additional_model_data_sources: [
+    #             {
+    #               channel_name: "AdditionalModelChannelName", # required
+    #               s3_data_source: { # required
+    #                 s3_uri: "S3ModelUri", # required
+    #                 s3_data_type: "S3Prefix", # required, accepts S3Prefix, S3Object
+    #                 compression_type: "None", # required, accepts None, Gzip
+    #                 model_access_config: {
+    #                   accept_eula: false, # required
+    #                 },
+    #                 hub_access_config: {
+    #                   hub_content_arn: "HubContentArn", # required
+    #                 },
+    #                 manifest_s3_uri: "S3ModelUri",
+    #                 etag: "String",
+    #                 manifest_etag: "String",
+    #               },
+    #             },
+    #           ],
     #           additional_s3_data_source: {
     #             s3_data_type: "S3Object", # required, accepts S3Object, S3Prefix
     #             s3_uri: "S3Uri", # required
@@ -8014,6 +8330,25 @@ module Aws::SageMaker
     #             framework: "String",
     #             framework_version: "ModelPackageFrameworkVersion",
     #             nearest_model_name: "String",
+    #             additional_model_data_sources: [
+    #               {
+    #                 channel_name: "AdditionalModelChannelName", # required
+    #                 s3_data_source: { # required
+    #                   s3_uri: "S3ModelUri", # required
+    #                   s3_data_type: "S3Prefix", # required, accepts S3Prefix, S3Object
+    #                   compression_type: "None", # required, accepts None, Gzip
+    #                   model_access_config: {
+    #                     accept_eula: false, # required
+    #                   },
+    #                   hub_access_config: {
+    #                     hub_content_arn: "HubContentArn", # required
+    #                   },
+    #                   manifest_s3_uri: "S3ModelUri",
+    #                   etag: "String",
+    #                   manifest_etag: "String",
+    #                 },
+    #               },
+    #             ],
     #             additional_s3_data_source: {
     #               s3_data_type: "S3Object", # required, accepts S3Object, S3Prefix
     #               s3_uri: "S3Uri", # required
@@ -8870,7 +9205,7 @@ module Aws::SageMaker
     #         model_name: "ModelName",
     #       },
     #     },
-    #     deployment_instance_type: "ml.p4d.24xlarge", # required, accepts ml.p4d.24xlarge, ml.p4de.24xlarge, ml.p5.48xlarge, ml.p5e.48xlarge, ml.p5en.48xlarge, ml.g5.xlarge, ml.g5.2xlarge, ml.g5.4xlarge, ml.g5.8xlarge, ml.g5.12xlarge, ml.g5.16xlarge, ml.g5.24xlarge, ml.g5.48xlarge, ml.g6.xlarge, ml.g6.2xlarge, ml.g6.4xlarge, ml.g6.8xlarge, ml.g6.12xlarge, ml.g6.16xlarge, ml.g6.24xlarge, ml.g6.48xlarge, ml.g6e.xlarge, ml.g6e.2xlarge, ml.g6e.4xlarge, ml.g6e.8xlarge, ml.g6e.12xlarge, ml.g6e.16xlarge, ml.g6e.24xlarge, ml.g6e.48xlarge, ml.inf2.xlarge, ml.inf2.8xlarge, ml.inf2.24xlarge, ml.inf2.48xlarge, ml.trn1.2xlarge, ml.trn1.32xlarge, ml.trn1n.32xlarge
+    #     deployment_instance_type: "ml.p4d.24xlarge", # required, accepts ml.p4d.24xlarge, ml.p4de.24xlarge, ml.p5.48xlarge, ml.p5e.48xlarge, ml.p5en.48xlarge, ml.g4dn.xlarge, ml.g4dn.2xlarge, ml.g4dn.4xlarge, ml.g4dn.8xlarge, ml.g4dn.12xlarge, ml.g4dn.16xlarge, ml.g5.xlarge, ml.g5.2xlarge, ml.g5.4xlarge, ml.g5.8xlarge, ml.g5.12xlarge, ml.g5.16xlarge, ml.g5.24xlarge, ml.g5.48xlarge, ml.g6.xlarge, ml.g6.2xlarge, ml.g6.4xlarge, ml.g6.8xlarge, ml.g6.12xlarge, ml.g6.16xlarge, ml.g6.24xlarge, ml.g6.48xlarge, ml.g6e.xlarge, ml.g6e.2xlarge, ml.g6e.4xlarge, ml.g6e.8xlarge, ml.g6e.12xlarge, ml.g6e.16xlarge, ml.g6e.24xlarge, ml.g6e.48xlarge, ml.inf2.xlarge, ml.inf2.8xlarge, ml.inf2.24xlarge, ml.inf2.48xlarge, ml.trn1.2xlarge, ml.trn1.32xlarge, ml.trn1n.32xlarge
     #     max_instance_count: 1,
     #     optimization_environment: {
     #       "NonEmptyString256" => "String256",
@@ -11517,6 +11852,91 @@ module Aws::SageMaker
       req.send_request(options)
     end
 
+    # Deletes the specified AI benchmark job.
+    #
+    # @option params [required, String] :ai_benchmark_job_name
+    #   The name of the AI benchmark job to delete.
+    #
+    # @return [Types::DeleteAIBenchmarkJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteAIBenchmarkJobResponse#ai_benchmark_job_arn #ai_benchmark_job_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_ai_benchmark_job({
+    #     ai_benchmark_job_name: "AIEntityName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ai_benchmark_job_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DeleteAIBenchmarkJob AWS API Documentation
+    #
+    # @overload delete_ai_benchmark_job(params = {})
+    # @param [Hash] params ({})
+    def delete_ai_benchmark_job(params = {}, options = {})
+      req = build_request(:delete_ai_benchmark_job, params)
+      req.send_request(options)
+    end
+
+    # Deletes the specified AI recommendation job.
+    #
+    # @option params [required, String] :ai_recommendation_job_name
+    #   The name of the AI recommendation job to delete.
+    #
+    # @return [Types::DeleteAIRecommendationJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteAIRecommendationJobResponse#ai_recommendation_job_arn #ai_recommendation_job_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_ai_recommendation_job({
+    #     ai_recommendation_job_name: "AIEntityName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ai_recommendation_job_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DeleteAIRecommendationJob AWS API Documentation
+    #
+    # @overload delete_ai_recommendation_job(params = {})
+    # @param [Hash] params ({})
+    def delete_ai_recommendation_job(params = {}, options = {})
+      req = build_request(:delete_ai_recommendation_job, params)
+      req.send_request(options)
+    end
+
+    # Deletes the specified AI workload configuration. You cannot delete a
+    # configuration that is referenced by an active benchmark job.
+    #
+    # @option params [required, String] :ai_workload_config_name
+    #   The name of the AI workload configuration to delete.
+    #
+    # @return [Types::DeleteAIWorkloadConfigResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteAIWorkloadConfigResponse#ai_workload_config_arn #ai_workload_config_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_ai_workload_config({
+    #     ai_workload_config_name: "AIEntityName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ai_workload_config_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DeleteAIWorkloadConfig AWS API Documentation
+    #
+    # @overload delete_ai_workload_config(params = {})
+    # @param [Hash] params ({})
+    def delete_ai_workload_config(params = {}, options = {})
+      req = build_request(:delete_ai_workload_config, params)
+      req.send_request(options)
+    end
+
     # Deletes an action.
     #
     # @option params [required, String] :action_name
@@ -13183,6 +13603,209 @@ module Aws::SageMaker
       req.send_request(options)
     end
 
+    # Returns details of an AI benchmark job, including its status,
+    # configuration, target endpoint, and timing information.
+    #
+    # @option params [required, String] :ai_benchmark_job_name
+    #   The name of the AI benchmark job to describe.
+    #
+    # @return [Types::DescribeAIBenchmarkJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeAIBenchmarkJobResponse#ai_benchmark_job_name #ai_benchmark_job_name} => String
+    #   * {Types::DescribeAIBenchmarkJobResponse#ai_benchmark_job_arn #ai_benchmark_job_arn} => String
+    #   * {Types::DescribeAIBenchmarkJobResponse#ai_benchmark_job_status #ai_benchmark_job_status} => String
+    #   * {Types::DescribeAIBenchmarkJobResponse#failure_reason #failure_reason} => String
+    #   * {Types::DescribeAIBenchmarkJobResponse#benchmark_target #benchmark_target} => Types::AIBenchmarkTarget
+    #   * {Types::DescribeAIBenchmarkJobResponse#output_config #output_config} => Types::AIBenchmarkOutputResult
+    #   * {Types::DescribeAIBenchmarkJobResponse#ai_workload_config_identifier #ai_workload_config_identifier} => String
+    #   * {Types::DescribeAIBenchmarkJobResponse#role_arn #role_arn} => String
+    #   * {Types::DescribeAIBenchmarkJobResponse#network_config #network_config} => Types::AIBenchmarkNetworkConfig
+    #   * {Types::DescribeAIBenchmarkJobResponse#creation_time #creation_time} => Time
+    #   * {Types::DescribeAIBenchmarkJobResponse#start_time #start_time} => Time
+    #   * {Types::DescribeAIBenchmarkJobResponse#end_time #end_time} => Time
+    #   * {Types::DescribeAIBenchmarkJobResponse#tags #tags} => Array&lt;Types::Tag&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_ai_benchmark_job({
+    #     ai_benchmark_job_name: "AIEntityName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ai_benchmark_job_name #=> String
+    #   resp.ai_benchmark_job_arn #=> String
+    #   resp.ai_benchmark_job_status #=> String, one of "InProgress", "Completed", "Failed", "Stopping", "Stopped"
+    #   resp.failure_reason #=> String
+    #   resp.benchmark_target.endpoint.identifier #=> String
+    #   resp.benchmark_target.endpoint.target_container_hostname #=> String
+    #   resp.benchmark_target.endpoint.inference_components #=> Array
+    #   resp.benchmark_target.endpoint.inference_components[0].identifier #=> String
+    #   resp.output_config.s3_output_location #=> String
+    #   resp.output_config.cloud_watch_logs #=> Array
+    #   resp.output_config.cloud_watch_logs[0].log_group_arn #=> String
+    #   resp.output_config.cloud_watch_logs[0].log_stream_name #=> String
+    #   resp.ai_workload_config_identifier #=> String
+    #   resp.role_arn #=> String
+    #   resp.network_config.vpc_config.security_group_ids #=> Array
+    #   resp.network_config.vpc_config.security_group_ids[0] #=> String
+    #   resp.network_config.vpc_config.subnets #=> Array
+    #   resp.network_config.vpc_config.subnets[0] #=> String
+    #   resp.creation_time #=> Time
+    #   resp.start_time #=> Time
+    #   resp.end_time #=> Time
+    #   resp.tags #=> Array
+    #   resp.tags[0].key #=> String
+    #   resp.tags[0].value #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeAIBenchmarkJob AWS API Documentation
+    #
+    # @overload describe_ai_benchmark_job(params = {})
+    # @param [Hash] params ({})
+    def describe_ai_benchmark_job(params = {}, options = {})
+      req = build_request(:describe_ai_benchmark_job, params)
+      req.send_request(options)
+    end
+
+    # Returns details of an AI recommendation job, including its status,
+    # model source, performance targets, optimization recommendations, and
+    # deployment configurations.
+    #
+    # @option params [required, String] :ai_recommendation_job_name
+    #   The name of the AI recommendation job to describe.
+    #
+    # @return [Types::DescribeAIRecommendationJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeAIRecommendationJobResponse#ai_recommendation_job_name #ai_recommendation_job_name} => String
+    #   * {Types::DescribeAIRecommendationJobResponse#ai_recommendation_job_arn #ai_recommendation_job_arn} => String
+    #   * {Types::DescribeAIRecommendationJobResponse#ai_recommendation_job_status #ai_recommendation_job_status} => String
+    #   * {Types::DescribeAIRecommendationJobResponse#failure_reason #failure_reason} => String
+    #   * {Types::DescribeAIRecommendationJobResponse#model_source #model_source} => Types::AIModelSource
+    #   * {Types::DescribeAIRecommendationJobResponse#output_config #output_config} => Types::AIRecommendationOutputResult
+    #   * {Types::DescribeAIRecommendationJobResponse#inference_specification #inference_specification} => Types::AIRecommendationInferenceSpecification
+    #   * {Types::DescribeAIRecommendationJobResponse#ai_workload_config_identifier #ai_workload_config_identifier} => String
+    #   * {Types::DescribeAIRecommendationJobResponse#optimize_model #optimize_model} => Boolean
+    #   * {Types::DescribeAIRecommendationJobResponse#performance_target #performance_target} => Types::AIRecommendationPerformanceTarget
+    #   * {Types::DescribeAIRecommendationJobResponse#recommendations #recommendations} => Array&lt;Types::AIRecommendation&gt;
+    #   * {Types::DescribeAIRecommendationJobResponse#role_arn #role_arn} => String
+    #   * {Types::DescribeAIRecommendationJobResponse#compute_spec #compute_spec} => Types::AIRecommendationComputeSpec
+    #   * {Types::DescribeAIRecommendationJobResponse#creation_time #creation_time} => Time
+    #   * {Types::DescribeAIRecommendationJobResponse#start_time #start_time} => Time
+    #   * {Types::DescribeAIRecommendationJobResponse#end_time #end_time} => Time
+    #   * {Types::DescribeAIRecommendationJobResponse#tags #tags} => Array&lt;Types::Tag&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_ai_recommendation_job({
+    #     ai_recommendation_job_name: "AIEntityName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ai_recommendation_job_name #=> String
+    #   resp.ai_recommendation_job_arn #=> String
+    #   resp.ai_recommendation_job_status #=> String, one of "InProgress", "Completed", "Failed", "Stopping", "Stopped"
+    #   resp.failure_reason #=> String
+    #   resp.model_source.s3.s3_uri #=> String
+    #   resp.output_config.s3_output_location #=> String
+    #   resp.output_config.model_package_group_identifier #=> String
+    #   resp.inference_specification.framework #=> String, one of "LMI", "VLLM"
+    #   resp.ai_workload_config_identifier #=> String
+    #   resp.optimize_model #=> Boolean
+    #   resp.performance_target.constraints #=> Array
+    #   resp.performance_target.constraints[0].metric #=> String, one of "ttft-ms", "throughput", "cost"
+    #   resp.recommendations #=> Array
+    #   resp.recommendations[0].recommendation_description #=> String
+    #   resp.recommendations[0].optimization_details #=> Array
+    #   resp.recommendations[0].optimization_details[0].optimization_type #=> String, one of "SpeculativeDecoding", "KernelTuning"
+    #   resp.recommendations[0].optimization_details[0].optimization_config #=> Hash
+    #   resp.recommendations[0].optimization_details[0].optimization_config["String"] #=> String
+    #   resp.recommendations[0].model_details.model_package_arn #=> String
+    #   resp.recommendations[0].model_details.inference_specification_name #=> String
+    #   resp.recommendations[0].model_details.instance_details #=> Array
+    #   resp.recommendations[0].model_details.instance_details[0].instance_type #=> String, one of "ml.g5.xlarge", "ml.g5.2xlarge", "ml.g5.4xlarge", "ml.g5.8xlarge", "ml.g5.12xlarge", "ml.g5.16xlarge", "ml.g5.24xlarge", "ml.g5.48xlarge", "ml.g6.xlarge", "ml.g6.2xlarge", "ml.g6.4xlarge", "ml.g6.8xlarge", "ml.g6.12xlarge", "ml.g6.16xlarge", "ml.g6.24xlarge", "ml.g6.48xlarge", "ml.g6e.xlarge", "ml.g6e.2xlarge", "ml.g6e.4xlarge", "ml.g6e.8xlarge", "ml.g6e.12xlarge", "ml.g6e.16xlarge", "ml.g6e.24xlarge", "ml.g6e.48xlarge", "ml.g7e.2xlarge", "ml.g7e.4xlarge", "ml.g7e.8xlarge", "ml.g7e.12xlarge", "ml.g7e.24xlarge", "ml.g7e.48xlarge", "ml.p3.2xlarge", "ml.p3.8xlarge", "ml.p3.16xlarge", "ml.p4d.24xlarge", "ml.p4de.24xlarge", "ml.p5.4xlarge", "ml.p5.48xlarge", "ml.p5e.48xlarge", "ml.p5en.48xlarge"
+    #   resp.recommendations[0].model_details.instance_details[0].instance_count #=> Integer
+    #   resp.recommendations[0].model_details.instance_details[0].copy_count_per_instance #=> Integer
+    #   resp.recommendations[0].deployment_configuration.s3 #=> Array
+    #   resp.recommendations[0].deployment_configuration.s3[0].channel_name #=> String
+    #   resp.recommendations[0].deployment_configuration.s3[0].uri #=> String
+    #   resp.recommendations[0].deployment_configuration.image_uri #=> String
+    #   resp.recommendations[0].deployment_configuration.instance_type #=> String, one of "ml.g5.xlarge", "ml.g5.2xlarge", "ml.g5.4xlarge", "ml.g5.8xlarge", "ml.g5.12xlarge", "ml.g5.16xlarge", "ml.g5.24xlarge", "ml.g5.48xlarge", "ml.g6.xlarge", "ml.g6.2xlarge", "ml.g6.4xlarge", "ml.g6.8xlarge", "ml.g6.12xlarge", "ml.g6.16xlarge", "ml.g6.24xlarge", "ml.g6.48xlarge", "ml.g6e.xlarge", "ml.g6e.2xlarge", "ml.g6e.4xlarge", "ml.g6e.8xlarge", "ml.g6e.12xlarge", "ml.g6e.16xlarge", "ml.g6e.24xlarge", "ml.g6e.48xlarge", "ml.g7e.2xlarge", "ml.g7e.4xlarge", "ml.g7e.8xlarge", "ml.g7e.12xlarge", "ml.g7e.24xlarge", "ml.g7e.48xlarge", "ml.p3.2xlarge", "ml.p3.8xlarge", "ml.p3.16xlarge", "ml.p4d.24xlarge", "ml.p4de.24xlarge", "ml.p5.4xlarge", "ml.p5.48xlarge", "ml.p5e.48xlarge", "ml.p5en.48xlarge"
+    #   resp.recommendations[0].deployment_configuration.instance_count #=> Integer
+    #   resp.recommendations[0].deployment_configuration.copy_count_per_instance #=> Integer
+    #   resp.recommendations[0].deployment_configuration.environment_variables #=> Hash
+    #   resp.recommendations[0].deployment_configuration.environment_variables["EnvironmentKey"] #=> String
+    #   resp.recommendations[0].ai_benchmark_job_arn #=> String
+    #   resp.recommendations[0].expected_performance #=> Array
+    #   resp.recommendations[0].expected_performance[0].metric #=> String
+    #   resp.recommendations[0].expected_performance[0].stat #=> String
+    #   resp.recommendations[0].expected_performance[0].value #=> String
+    #   resp.recommendations[0].expected_performance[0].unit #=> String
+    #   resp.role_arn #=> String
+    #   resp.compute_spec.instance_types #=> Array
+    #   resp.compute_spec.instance_types[0] #=> String, one of "ml.g5.xlarge", "ml.g5.2xlarge", "ml.g5.4xlarge", "ml.g5.8xlarge", "ml.g5.12xlarge", "ml.g5.16xlarge", "ml.g5.24xlarge", "ml.g5.48xlarge", "ml.g6.xlarge", "ml.g6.2xlarge", "ml.g6.4xlarge", "ml.g6.8xlarge", "ml.g6.12xlarge", "ml.g6.16xlarge", "ml.g6.24xlarge", "ml.g6.48xlarge", "ml.g6e.xlarge", "ml.g6e.2xlarge", "ml.g6e.4xlarge", "ml.g6e.8xlarge", "ml.g6e.12xlarge", "ml.g6e.16xlarge", "ml.g6e.24xlarge", "ml.g6e.48xlarge", "ml.g7e.2xlarge", "ml.g7e.4xlarge", "ml.g7e.8xlarge", "ml.g7e.12xlarge", "ml.g7e.24xlarge", "ml.g7e.48xlarge", "ml.p3.2xlarge", "ml.p3.8xlarge", "ml.p3.16xlarge", "ml.p4d.24xlarge", "ml.p4de.24xlarge", "ml.p5.4xlarge", "ml.p5.48xlarge", "ml.p5e.48xlarge", "ml.p5en.48xlarge"
+    #   resp.compute_spec.capacity_reservation_config.capacity_reservation_preference #=> String, one of "capacity-reservations-only"
+    #   resp.compute_spec.capacity_reservation_config.ml_reservation_arns #=> Array
+    #   resp.compute_spec.capacity_reservation_config.ml_reservation_arns[0] #=> String
+    #   resp.creation_time #=> Time
+    #   resp.start_time #=> Time
+    #   resp.end_time #=> Time
+    #   resp.tags #=> Array
+    #   resp.tags[0].key #=> String
+    #   resp.tags[0].value #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeAIRecommendationJob AWS API Documentation
+    #
+    # @overload describe_ai_recommendation_job(params = {})
+    # @param [Hash] params ({})
+    def describe_ai_recommendation_job(params = {}, options = {})
+      req = build_request(:describe_ai_recommendation_job, params)
+      req.send_request(options)
+    end
+
+    # Returns details of an AI workload configuration, including the dataset
+    # configuration, benchmark tool settings, tags, and creation time.
+    #
+    # @option params [required, String] :ai_workload_config_name
+    #   The name of the AI workload configuration to describe.
+    #
+    # @return [Types::DescribeAIWorkloadConfigResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeAIWorkloadConfigResponse#ai_workload_config_name #ai_workload_config_name} => String
+    #   * {Types::DescribeAIWorkloadConfigResponse#ai_workload_config_arn #ai_workload_config_arn} => String
+    #   * {Types::DescribeAIWorkloadConfigResponse#dataset_config #dataset_config} => Types::AIDatasetConfig
+    #   * {Types::DescribeAIWorkloadConfigResponse#ai_workload_configs #ai_workload_configs} => Types::AIWorkloadConfigs
+    #   * {Types::DescribeAIWorkloadConfigResponse#tags #tags} => Array&lt;Types::Tag&gt;
+    #   * {Types::DescribeAIWorkloadConfigResponse#creation_time #creation_time} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_ai_workload_config({
+    #     ai_workload_config_name: "AIEntityName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ai_workload_config_name #=> String
+    #   resp.ai_workload_config_arn #=> String
+    #   resp.dataset_config.input_data_config #=> Array
+    #   resp.dataset_config.input_data_config[0].channel_name #=> String
+    #   resp.dataset_config.input_data_config[0].data_source.s3_data_source.s3_uri #=> String
+    #   resp.ai_workload_configs.workload_spec.inline #=> String
+    #   resp.tags #=> Array
+    #   resp.tags[0].key #=> String
+    #   resp.tags[0].value #=> String
+    #   resp.creation_time #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeAIWorkloadConfig AWS API Documentation
+    #
+    # @overload describe_ai_workload_config(params = {})
+    # @param [Hash] params ({})
+    def describe_ai_workload_config(params = {}, options = {})
+      req = build_request(:describe_ai_workload_config, params)
+      req.send_request(options)
+    end
+
     # Describes an action.
     #
     # @option params [required, String] :action_name
@@ -13341,6 +13964,16 @@ module Aws::SageMaker
     #   resp.inference_specification.containers[0].framework #=> String
     #   resp.inference_specification.containers[0].framework_version #=> String
     #   resp.inference_specification.containers[0].nearest_model_name #=> String
+    #   resp.inference_specification.containers[0].additional_model_data_sources #=> Array
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].channel_name #=> String
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.s3_uri #=> String
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.s3_data_type #=> String, one of "S3Prefix", "S3Object"
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.compression_type #=> String, one of "None", "Gzip"
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.model_access_config.accept_eula #=> Boolean
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.hub_access_config.hub_content_arn #=> String
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.manifest_s3_uri #=> String
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.etag #=> String
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.manifest_etag #=> String
     #   resp.inference_specification.containers[0].additional_s3_data_source.s3_data_type #=> String, one of "S3Object", "S3Prefix"
     #   resp.inference_specification.containers[0].additional_s3_data_source.s3_uri #=> String
     #   resp.inference_specification.containers[0].additional_s3_data_source.compression_type #=> String, one of "None", "Gzip"
@@ -17550,6 +18183,16 @@ module Aws::SageMaker
     #   resp.inference_specification.containers[0].framework #=> String
     #   resp.inference_specification.containers[0].framework_version #=> String
     #   resp.inference_specification.containers[0].nearest_model_name #=> String
+    #   resp.inference_specification.containers[0].additional_model_data_sources #=> Array
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].channel_name #=> String
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.s3_uri #=> String
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.s3_data_type #=> String, one of "S3Prefix", "S3Object"
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.compression_type #=> String, one of "None", "Gzip"
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.model_access_config.accept_eula #=> Boolean
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.hub_access_config.hub_content_arn #=> String
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.manifest_s3_uri #=> String
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.etag #=> String
+    #   resp.inference_specification.containers[0].additional_model_data_sources[0].s3_data_source.manifest_etag #=> String
     #   resp.inference_specification.containers[0].additional_s3_data_source.s3_data_type #=> String, one of "S3Object", "S3Prefix"
     #   resp.inference_specification.containers[0].additional_s3_data_source.s3_uri #=> String
     #   resp.inference_specification.containers[0].additional_s3_data_source.compression_type #=> String, one of "None", "Gzip"
@@ -17708,6 +18351,16 @@ module Aws::SageMaker
     #   resp.additional_inference_specifications[0].containers[0].framework #=> String
     #   resp.additional_inference_specifications[0].containers[0].framework_version #=> String
     #   resp.additional_inference_specifications[0].containers[0].nearest_model_name #=> String
+    #   resp.additional_inference_specifications[0].containers[0].additional_model_data_sources #=> Array
+    #   resp.additional_inference_specifications[0].containers[0].additional_model_data_sources[0].channel_name #=> String
+    #   resp.additional_inference_specifications[0].containers[0].additional_model_data_sources[0].s3_data_source.s3_uri #=> String
+    #   resp.additional_inference_specifications[0].containers[0].additional_model_data_sources[0].s3_data_source.s3_data_type #=> String, one of "S3Prefix", "S3Object"
+    #   resp.additional_inference_specifications[0].containers[0].additional_model_data_sources[0].s3_data_source.compression_type #=> String, one of "None", "Gzip"
+    #   resp.additional_inference_specifications[0].containers[0].additional_model_data_sources[0].s3_data_source.model_access_config.accept_eula #=> Boolean
+    #   resp.additional_inference_specifications[0].containers[0].additional_model_data_sources[0].s3_data_source.hub_access_config.hub_content_arn #=> String
+    #   resp.additional_inference_specifications[0].containers[0].additional_model_data_sources[0].s3_data_source.manifest_s3_uri #=> String
+    #   resp.additional_inference_specifications[0].containers[0].additional_model_data_sources[0].s3_data_source.etag #=> String
+    #   resp.additional_inference_specifications[0].containers[0].additional_model_data_sources[0].s3_data_source.manifest_etag #=> String
     #   resp.additional_inference_specifications[0].containers[0].additional_s3_data_source.s3_data_type #=> String, one of "S3Object", "S3Prefix"
     #   resp.additional_inference_specifications[0].containers[0].additional_s3_data_source.s3_uri #=> String
     #   resp.additional_inference_specifications[0].containers[0].additional_s3_data_source.compression_type #=> String, one of "None", "Gzip"
@@ -18170,7 +18823,7 @@ module Aws::SageMaker
     #   resp.model_source.sage_maker_model.model_name #=> String
     #   resp.optimization_environment #=> Hash
     #   resp.optimization_environment["NonEmptyString256"] #=> String
-    #   resp.deployment_instance_type #=> String, one of "ml.p4d.24xlarge", "ml.p4de.24xlarge", "ml.p5.48xlarge", "ml.p5e.48xlarge", "ml.p5en.48xlarge", "ml.g5.xlarge", "ml.g5.2xlarge", "ml.g5.4xlarge", "ml.g5.8xlarge", "ml.g5.12xlarge", "ml.g5.16xlarge", "ml.g5.24xlarge", "ml.g5.48xlarge", "ml.g6.xlarge", "ml.g6.2xlarge", "ml.g6.4xlarge", "ml.g6.8xlarge", "ml.g6.12xlarge", "ml.g6.16xlarge", "ml.g6.24xlarge", "ml.g6.48xlarge", "ml.g6e.xlarge", "ml.g6e.2xlarge", "ml.g6e.4xlarge", "ml.g6e.8xlarge", "ml.g6e.12xlarge", "ml.g6e.16xlarge", "ml.g6e.24xlarge", "ml.g6e.48xlarge", "ml.inf2.xlarge", "ml.inf2.8xlarge", "ml.inf2.24xlarge", "ml.inf2.48xlarge", "ml.trn1.2xlarge", "ml.trn1.32xlarge", "ml.trn1n.32xlarge"
+    #   resp.deployment_instance_type #=> String, one of "ml.p4d.24xlarge", "ml.p4de.24xlarge", "ml.p5.48xlarge", "ml.p5e.48xlarge", "ml.p5en.48xlarge", "ml.g4dn.xlarge", "ml.g4dn.2xlarge", "ml.g4dn.4xlarge", "ml.g4dn.8xlarge", "ml.g4dn.12xlarge", "ml.g4dn.16xlarge", "ml.g5.xlarge", "ml.g5.2xlarge", "ml.g5.4xlarge", "ml.g5.8xlarge", "ml.g5.12xlarge", "ml.g5.16xlarge", "ml.g5.24xlarge", "ml.g5.48xlarge", "ml.g6.xlarge", "ml.g6.2xlarge", "ml.g6.4xlarge", "ml.g6.8xlarge", "ml.g6.12xlarge", "ml.g6.16xlarge", "ml.g6.24xlarge", "ml.g6.48xlarge", "ml.g6e.xlarge", "ml.g6e.2xlarge", "ml.g6e.4xlarge", "ml.g6e.8xlarge", "ml.g6e.12xlarge", "ml.g6e.16xlarge", "ml.g6e.24xlarge", "ml.g6e.48xlarge", "ml.inf2.xlarge", "ml.inf2.8xlarge", "ml.inf2.24xlarge", "ml.inf2.48xlarge", "ml.trn1.2xlarge", "ml.trn1.32xlarge", "ml.trn1n.32xlarge"
     #   resp.max_instance_count #=> Integer
     #   resp.optimization_configs #=> Array
     #   resp.optimization_configs[0].model_quantization_config.image #=> String
@@ -20322,6 +20975,213 @@ module Aws::SageMaker
     # @param [Hash] params ({})
     def import_hub_content(params = {}, options = {})
       req = build_request(:import_hub_content, params)
+      req.send_request(options)
+    end
+
+    # Returns a list of AI benchmark jobs in your account. You can filter
+    # the results by name, status, and creation time, and sort the results.
+    # The response is paginated.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of benchmark jobs to return in the response.
+    #
+    # @option params [String] :next_token
+    #   If the previous call to `ListAIBenchmarkJobs` didn't return the full
+    #   set of jobs, the call returns a token for getting the next set.
+    #
+    # @option params [String] :name_contains
+    #   A string in the job name. This filter returns only jobs whose name
+    #   contains the specified string.
+    #
+    # @option params [String] :status_equals
+    #   A filter that returns only benchmark jobs with the specified status.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :creation_time_after
+    #   A filter that returns only jobs created after the specified time.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :creation_time_before
+    #   A filter that returns only jobs created before the specified time.
+    #
+    # @option params [String] :sort_by
+    #   The field to sort results by. The default is `CreationTime`.
+    #
+    # @option params [String] :sort_order
+    #   The sort order for results. The default is `Descending`.
+    #
+    # @return [Types::ListAIBenchmarkJobsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAIBenchmarkJobsResponse#ai_benchmark_jobs #ai_benchmark_jobs} => Array&lt;Types::AIBenchmarkJobSummary&gt;
+    #   * {Types::ListAIBenchmarkJobsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_ai_benchmark_jobs({
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #     name_contains: "NameContains",
+    #     status_equals: "InProgress", # accepts InProgress, Completed, Failed, Stopping, Stopped
+    #     creation_time_after: Time.now,
+    #     creation_time_before: Time.now,
+    #     sort_by: "Name", # accepts Name, CreationTime, Status
+    #     sort_order: "Ascending", # accepts Ascending, Descending
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ai_benchmark_jobs #=> Array
+    #   resp.ai_benchmark_jobs[0].ai_benchmark_job_name #=> String
+    #   resp.ai_benchmark_jobs[0].ai_benchmark_job_arn #=> String
+    #   resp.ai_benchmark_jobs[0].ai_benchmark_job_status #=> String, one of "InProgress", "Completed", "Failed", "Stopping", "Stopped"
+    #   resp.ai_benchmark_jobs[0].creation_time #=> Time
+    #   resp.ai_benchmark_jobs[0].end_time #=> Time
+    #   resp.ai_benchmark_jobs[0].ai_workload_config_name #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListAIBenchmarkJobs AWS API Documentation
+    #
+    # @overload list_ai_benchmark_jobs(params = {})
+    # @param [Hash] params ({})
+    def list_ai_benchmark_jobs(params = {}, options = {})
+      req = build_request(:list_ai_benchmark_jobs, params)
+      req.send_request(options)
+    end
+
+    # Returns a list of AI recommendation jobs in your account. You can
+    # filter the results by name, status, and creation time, and sort the
+    # results. The response is paginated.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of recommendation jobs to return in the response.
+    #
+    # @option params [String] :next_token
+    #   If the previous call to `ListAIRecommendationJobs` didn't return the
+    #   full set of jobs, the call returns a token for getting the next set.
+    #
+    # @option params [String] :name_contains
+    #   A string in the job name. This filter returns only jobs whose name
+    #   contains the specified string.
+    #
+    # @option params [String] :status_equals
+    #   A filter that returns only recommendation jobs with the specified
+    #   status.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :creation_time_after
+    #   A filter that returns only jobs created after the specified time.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :creation_time_before
+    #   A filter that returns only jobs created before the specified time.
+    #
+    # @option params [String] :sort_by
+    #   The field to sort results by. The default is `CreationTime`.
+    #
+    # @option params [String] :sort_order
+    #   The sort order for results. The default is `Descending`.
+    #
+    # @return [Types::ListAIRecommendationJobsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAIRecommendationJobsResponse#ai_recommendation_jobs #ai_recommendation_jobs} => Array&lt;Types::AIRecommendationJobSummary&gt;
+    #   * {Types::ListAIRecommendationJobsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_ai_recommendation_jobs({
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #     name_contains: "NameContains",
+    #     status_equals: "InProgress", # accepts InProgress, Completed, Failed, Stopping, Stopped
+    #     creation_time_after: Time.now,
+    #     creation_time_before: Time.now,
+    #     sort_by: "Name", # accepts Name, CreationTime, Status
+    #     sort_order: "Ascending", # accepts Ascending, Descending
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ai_recommendation_jobs #=> Array
+    #   resp.ai_recommendation_jobs[0].ai_recommendation_job_name #=> String
+    #   resp.ai_recommendation_jobs[0].ai_recommendation_job_arn #=> String
+    #   resp.ai_recommendation_jobs[0].ai_recommendation_job_status #=> String, one of "InProgress", "Completed", "Failed", "Stopping", "Stopped"
+    #   resp.ai_recommendation_jobs[0].creation_time #=> Time
+    #   resp.ai_recommendation_jobs[0].end_time #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListAIRecommendationJobs AWS API Documentation
+    #
+    # @overload list_ai_recommendation_jobs(params = {})
+    # @param [Hash] params ({})
+    def list_ai_recommendation_jobs(params = {}, options = {})
+      req = build_request(:list_ai_recommendation_jobs, params)
+      req.send_request(options)
+    end
+
+    # Returns a list of AI workload configurations in your account. You can
+    # filter the results by name and creation time, and sort the results.
+    # The response is paginated.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of AI workload configurations to return in the
+    #   response.
+    #
+    # @option params [String] :next_token
+    #   If the previous call to `ListAIWorkloadConfigs` didn't return the
+    #   full set of configurations, the call returns a token for getting the
+    #   next set of configurations.
+    #
+    # @option params [String] :name_contains
+    #   A string in the configuration name. This filter returns only
+    #   configurations whose name contains the specified string.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :creation_time_after
+    #   A filter that returns only configurations created after the specified
+    #   time.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :creation_time_before
+    #   A filter that returns only configurations created before the specified
+    #   time.
+    #
+    # @option params [String] :sort_by
+    #   The field to sort results by. The default is `CreationTime`.
+    #
+    # @option params [String] :sort_order
+    #   The sort order for results. The default is `Descending`.
+    #
+    # @return [Types::ListAIWorkloadConfigsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAIWorkloadConfigsResponse#ai_workload_configs #ai_workload_configs} => Array&lt;Types::AIWorkloadConfigSummary&gt;
+    #   * {Types::ListAIWorkloadConfigsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_ai_workload_configs({
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #     name_contains: "NameContains",
+    #     creation_time_after: Time.now,
+    #     creation_time_before: Time.now,
+    #     sort_by: "Name", # accepts Name, CreationTime
+    #     sort_order: "Ascending", # accepts Ascending, Descending
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ai_workload_configs #=> Array
+    #   resp.ai_workload_configs[0].ai_workload_config_name #=> String
+    #   resp.ai_workload_configs[0].ai_workload_config_arn #=> String
+    #   resp.ai_workload_configs[0].creation_time #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListAIWorkloadConfigs AWS API Documentation
+    #
+    # @overload list_ai_workload_configs(params = {})
+    # @param [Hash] params ({})
+    def list_ai_workload_configs(params = {}, options = {})
+      req = build_request(:list_ai_workload_configs, params)
       req.send_request(options)
     end
 
@@ -25243,7 +26103,7 @@ module Aws::SageMaker
     #   resp.optimization_job_summaries[0].optimization_start_time #=> Time
     #   resp.optimization_job_summaries[0].optimization_end_time #=> Time
     #   resp.optimization_job_summaries[0].last_modified_time #=> Time
-    #   resp.optimization_job_summaries[0].deployment_instance_type #=> String, one of "ml.p4d.24xlarge", "ml.p4de.24xlarge", "ml.p5.48xlarge", "ml.p5e.48xlarge", "ml.p5en.48xlarge", "ml.g5.xlarge", "ml.g5.2xlarge", "ml.g5.4xlarge", "ml.g5.8xlarge", "ml.g5.12xlarge", "ml.g5.16xlarge", "ml.g5.24xlarge", "ml.g5.48xlarge", "ml.g6.xlarge", "ml.g6.2xlarge", "ml.g6.4xlarge", "ml.g6.8xlarge", "ml.g6.12xlarge", "ml.g6.16xlarge", "ml.g6.24xlarge", "ml.g6.48xlarge", "ml.g6e.xlarge", "ml.g6e.2xlarge", "ml.g6e.4xlarge", "ml.g6e.8xlarge", "ml.g6e.12xlarge", "ml.g6e.16xlarge", "ml.g6e.24xlarge", "ml.g6e.48xlarge", "ml.inf2.xlarge", "ml.inf2.8xlarge", "ml.inf2.24xlarge", "ml.inf2.48xlarge", "ml.trn1.2xlarge", "ml.trn1.32xlarge", "ml.trn1n.32xlarge"
+    #   resp.optimization_job_summaries[0].deployment_instance_type #=> String, one of "ml.p4d.24xlarge", "ml.p4de.24xlarge", "ml.p5.48xlarge", "ml.p5e.48xlarge", "ml.p5en.48xlarge", "ml.g4dn.xlarge", "ml.g4dn.2xlarge", "ml.g4dn.4xlarge", "ml.g4dn.8xlarge", "ml.g4dn.12xlarge", "ml.g4dn.16xlarge", "ml.g5.xlarge", "ml.g5.2xlarge", "ml.g5.4xlarge", "ml.g5.8xlarge", "ml.g5.12xlarge", "ml.g5.16xlarge", "ml.g5.24xlarge", "ml.g5.48xlarge", "ml.g6.xlarge", "ml.g6.2xlarge", "ml.g6.4xlarge", "ml.g6.8xlarge", "ml.g6.12xlarge", "ml.g6.16xlarge", "ml.g6.24xlarge", "ml.g6.48xlarge", "ml.g6e.xlarge", "ml.g6e.2xlarge", "ml.g6e.4xlarge", "ml.g6e.8xlarge", "ml.g6e.12xlarge", "ml.g6e.16xlarge", "ml.g6e.24xlarge", "ml.g6e.48xlarge", "ml.inf2.xlarge", "ml.inf2.8xlarge", "ml.inf2.24xlarge", "ml.inf2.48xlarge", "ml.trn1.2xlarge", "ml.trn1.32xlarge", "ml.trn1n.32xlarge"
     #   resp.optimization_job_summaries[0].max_instance_count #=> Integer
     #   resp.optimization_job_summaries[0].optimization_types #=> Array
     #   resp.optimization_job_summaries[0].optimization_types[0] #=> String
@@ -27949,6 +28809,62 @@ module Aws::SageMaker
     # @param [Hash] params ({})
     def start_session(params = {}, options = {})
       req = build_request(:start_session, params)
+      req.send_request(options)
+    end
+
+    # Stops a running AI benchmark job.
+    #
+    # @option params [required, String] :ai_benchmark_job_name
+    #   The name of the AI benchmark job to stop.
+    #
+    # @return [Types::StopAIBenchmarkJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StopAIBenchmarkJobResponse#ai_benchmark_job_arn #ai_benchmark_job_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.stop_ai_benchmark_job({
+    #     ai_benchmark_job_name: "AIEntityName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ai_benchmark_job_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/StopAIBenchmarkJob AWS API Documentation
+    #
+    # @overload stop_ai_benchmark_job(params = {})
+    # @param [Hash] params ({})
+    def stop_ai_benchmark_job(params = {}, options = {})
+      req = build_request(:stop_ai_benchmark_job, params)
+      req.send_request(options)
+    end
+
+    # Stops a running AI recommendation job.
+    #
+    # @option params [required, String] :ai_recommendation_job_name
+    #   The name of the AI recommendation job to stop.
+    #
+    # @return [Types::StopAIRecommendationJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StopAIRecommendationJobResponse#ai_recommendation_job_arn #ai_recommendation_job_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.stop_ai_recommendation_job({
+    #     ai_recommendation_job_name: "AIEntityName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ai_recommendation_job_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/StopAIRecommendationJob AWS API Documentation
+    #
+    # @overload stop_ai_recommendation_job(params = {})
+    # @param [Hash] params ({})
+    def stop_ai_recommendation_job(params = {}, options = {})
+      req = build_request(:stop_ai_recommendation_job, params)
       req.send_request(options)
     end
 
@@ -30913,6 +31829,25 @@ module Aws::SageMaker
     #             framework: "String",
     #             framework_version: "ModelPackageFrameworkVersion",
     #             nearest_model_name: "String",
+    #             additional_model_data_sources: [
+    #               {
+    #                 channel_name: "AdditionalModelChannelName", # required
+    #                 s3_data_source: { # required
+    #                   s3_uri: "S3ModelUri", # required
+    #                   s3_data_type: "S3Prefix", # required, accepts S3Prefix, S3Object
+    #                   compression_type: "None", # required, accepts None, Gzip
+    #                   model_access_config: {
+    #                     accept_eula: false, # required
+    #                   },
+    #                   hub_access_config: {
+    #                     hub_content_arn: "HubContentArn", # required
+    #                   },
+    #                   manifest_s3_uri: "S3ModelUri",
+    #                   etag: "String",
+    #                   manifest_etag: "String",
+    #                 },
+    #               },
+    #             ],
     #             additional_s3_data_source: {
     #               s3_data_type: "S3Object", # required, accepts S3Object, S3Prefix
     #               s3_uri: "S3Uri", # required
@@ -30967,6 +31902,25 @@ module Aws::SageMaker
     #           framework: "String",
     #           framework_version: "ModelPackageFrameworkVersion",
     #           nearest_model_name: "String",
+    #           additional_model_data_sources: [
+    #             {
+    #               channel_name: "AdditionalModelChannelName", # required
+    #               s3_data_source: { # required
+    #                 s3_uri: "S3ModelUri", # required
+    #                 s3_data_type: "S3Prefix", # required, accepts S3Prefix, S3Object
+    #                 compression_type: "None", # required, accepts None, Gzip
+    #                 model_access_config: {
+    #                   accept_eula: false, # required
+    #                 },
+    #                 hub_access_config: {
+    #                   hub_content_arn: "HubContentArn", # required
+    #                 },
+    #                 manifest_s3_uri: "S3ModelUri",
+    #                 etag: "String",
+    #                 manifest_etag: "String",
+    #               },
+    #             },
+    #           ],
     #           additional_s3_data_source: {
     #             s3_data_type: "S3Object", # required, accepts S3Object, S3Prefix
     #             s3_uri: "S3Uri", # required
@@ -32625,7 +33579,7 @@ module Aws::SageMaker
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemaker'
-      context[:gem_version] = '1.360.0'
+      context[:gem_version] = '1.361.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

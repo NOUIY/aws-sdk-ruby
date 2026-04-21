@@ -564,7 +564,7 @@ module Aws
                                  }?
                                },
                                ?rules: ::String,
-                               type: ("STATELESS" | "STATEFUL"),
+                               type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN"),
                                ?description: ::String,
                                capacity: ::Integer,
                                ?tags: Array[
@@ -778,7 +778,7 @@ module Aws
       def delete_rule_group: (
                                ?rule_group_name: ::String,
                                ?rule_group_arn: ::String,
-                               ?type: ("STATELESS" | "STATEFUL")
+                               ?type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN")
                              ) -> _DeleteRuleGroupResponseSuccess
                            | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteRuleGroupResponseSuccess
 
@@ -950,7 +950,7 @@ module Aws
       def describe_rule_group: (
                                  ?rule_group_name: ::String,
                                  ?rule_group_arn: ::String,
-                                 ?type: ("STATELESS" | "STATEFUL"),
+                                 ?type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN"),
                                  ?analyze_rule_group: bool
                                ) -> _DescribeRuleGroupResponseSuccess
                              | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeRuleGroupResponseSuccess
@@ -960,7 +960,7 @@ module Aws
         def rule_group_arn: () -> ::String
         def rule_group_name: () -> ::String
         def description: () -> ::String
-        def type: () -> ("STATELESS" | "STATEFUL")
+        def type: () -> ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN")
         def capacity: () -> ::Integer
         def stateful_rule_options: () -> Types::StatefulRuleOptions
         def last_modified_time: () -> ::Time
@@ -972,7 +972,7 @@ module Aws
       def describe_rule_group_metadata: (
                                           ?rule_group_name: ::String,
                                           ?rule_group_arn: ::String,
-                                          ?type: ("STATELESS" | "STATEFUL")
+                                          ?type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN")
                                         ) -> _DescribeRuleGroupMetadataResponseSuccess
                                       | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeRuleGroupMetadataResponseSuccess
 
@@ -986,7 +986,7 @@ module Aws
       def describe_rule_group_summary: (
                                          ?rule_group_name: ::String,
                                          ?rule_group_arn: ::String,
-                                         ?type: ("STATELESS" | "STATEFUL")
+                                         ?type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN")
                                        ) -> _DescribeRuleGroupSummaryResponseSuccess
                                      | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeRuleGroupSummaryResponseSuccess
 
@@ -1214,7 +1214,7 @@ module Aws
                               ?scope: ("MANAGED" | "ACCOUNT"),
                               ?managed_type: ("AWS_MANAGED_THREAT_SIGNATURES" | "AWS_MANAGED_DOMAIN_LISTS" | "ACTIVE_THREAT_DEFENSE" | "PARTNER_MANAGED"),
                               ?subscription_status: ("NOT_SUBSCRIBED" | "SUBSCRIBED"),
-                              ?type: ("STATELESS" | "STATEFUL")
+                              ?type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN")
                             ) -> _ListRuleGroupsResponseSuccess
                           | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListRuleGroupsResponseSuccess
 
@@ -1795,7 +1795,7 @@ module Aws
                                  }?
                                },
                                ?rules: ::String,
-                               ?type: ("STATELESS" | "STATEFUL"),
+                               ?type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN"),
                                ?description: ::String,
                                ?dry_run: bool,
                                ?encryption_configuration: {

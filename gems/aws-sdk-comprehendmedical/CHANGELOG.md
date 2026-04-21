@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.82.0 (2026-04-21)
+------------------
+
+* Feature - This release adds Smithy RPC v2 CBOR as an additional protocol alongside the existing AWS JSON 1.1. The SDK will prioritize its most performant protocol.
+
 1.81.0 (2026-03-18)
 ------------------
 

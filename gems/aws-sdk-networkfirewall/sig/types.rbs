@@ -277,7 +277,7 @@ module Aws::NetworkFirewall
       attr_accessor rule_group_name: ::String
       attr_accessor rule_group: Types::RuleGroup
       attr_accessor rules: ::String
-      attr_accessor type: ("STATELESS" | "STATEFUL")
+      attr_accessor type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN")
       attr_accessor description: ::String
       attr_accessor capacity: ::Integer
       attr_accessor tags: ::Array[Types::Tag]
@@ -426,7 +426,7 @@ module Aws::NetworkFirewall
     class DeleteRuleGroupRequest
       attr_accessor rule_group_name: ::String
       attr_accessor rule_group_arn: ::String
-      attr_accessor type: ("STATELESS" | "STATEFUL")
+      attr_accessor type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN")
       SENSITIVE: []
     end
 
@@ -617,7 +617,7 @@ module Aws::NetworkFirewall
     class DescribeRuleGroupMetadataRequest
       attr_accessor rule_group_name: ::String
       attr_accessor rule_group_arn: ::String
-      attr_accessor type: ("STATELESS" | "STATEFUL")
+      attr_accessor type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN")
       SENSITIVE: []
     end
 
@@ -625,7 +625,7 @@ module Aws::NetworkFirewall
       attr_accessor rule_group_arn: ::String
       attr_accessor rule_group_name: ::String
       attr_accessor description: ::String
-      attr_accessor type: ("STATELESS" | "STATEFUL")
+      attr_accessor type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN")
       attr_accessor capacity: ::Integer
       attr_accessor stateful_rule_options: Types::StatefulRuleOptions
       attr_accessor last_modified_time: ::Time
@@ -638,7 +638,7 @@ module Aws::NetworkFirewall
     class DescribeRuleGroupRequest
       attr_accessor rule_group_name: ::String
       attr_accessor rule_group_arn: ::String
-      attr_accessor type: ("STATELESS" | "STATEFUL")
+      attr_accessor type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN")
       attr_accessor analyze_rule_group: bool
       SENSITIVE: []
     end
@@ -653,7 +653,7 @@ module Aws::NetworkFirewall
     class DescribeRuleGroupSummaryRequest
       attr_accessor rule_group_name: ::String
       attr_accessor rule_group_arn: ::String
-      attr_accessor type: ("STATELESS" | "STATEFUL")
+      attr_accessor type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN")
       SENSITIVE: []
     end
 
@@ -804,6 +804,7 @@ module Aws::NetworkFirewall
       attr_accessor tags: ::Array[Types::Tag]
       attr_accessor consumed_stateless_rule_capacity: ::Integer
       attr_accessor consumed_stateful_rule_capacity: ::Integer
+      attr_accessor consumed_stateful_domain_capacity: ::Integer
       attr_accessor number_of_associations: ::Integer
       attr_accessor encryption_configuration: Types::EncryptionConfiguration
       attr_accessor last_modified_time: ::Time
@@ -1067,7 +1068,7 @@ module Aws::NetworkFirewall
       attr_accessor scope: ("MANAGED" | "ACCOUNT")
       attr_accessor managed_type: ("AWS_MANAGED_THREAT_SIGNATURES" | "AWS_MANAGED_DOMAIN_LISTS" | "ACTIVE_THREAT_DEFENSE" | "PARTNER_MANAGED")
       attr_accessor subscription_status: ("NOT_SUBSCRIBED" | "SUBSCRIBED")
-      attr_accessor type: ("STATELESS" | "STATEFUL")
+      attr_accessor type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN")
       SENSITIVE: []
     end
 
@@ -1363,7 +1364,7 @@ module Aws::NetworkFirewall
       attr_accessor rule_group_name: ::String
       attr_accessor rule_group_id: ::String
       attr_accessor description: ::String
-      attr_accessor type: ("STATELESS" | "STATEFUL")
+      attr_accessor type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN")
       attr_accessor capacity: ::Integer
       attr_accessor rule_group_status: ("ACTIVE" | "DELETING" | "ERROR")
       attr_accessor tags: ::Array[Types::Tag]
@@ -1873,7 +1874,7 @@ module Aws::NetworkFirewall
       attr_accessor rule_group_name: ::String
       attr_accessor rule_group: Types::RuleGroup
       attr_accessor rules: ::String
-      attr_accessor type: ("STATELESS" | "STATEFUL")
+      attr_accessor type: ("STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN")
       attr_accessor description: ::String
       attr_accessor dry_run: bool
       attr_accessor encryption_configuration: Types::EncryptionConfiguration

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.361.0 (2026-04-21)
+------------------
+
+* Feature - SageMaker AI now supports generative AI inference recommendations. Provide your model and workload, and SageMaker AI optimizes configurations, benchmarks them on real GPUs, and returns deployment-ready recommendations with validated metrics, accelerating the path to production from weeks to hours.
+
 1.360.0 (2026-04-17)
 ------------------
 

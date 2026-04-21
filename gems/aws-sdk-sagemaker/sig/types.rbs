@@ -8,6 +8,218 @@
 module Aws::SageMaker
   module Types
 
+    class AIBenchmarkEndpoint
+      attr_accessor identifier: ::String
+      attr_accessor target_container_hostname: ::String
+      attr_accessor inference_components: ::Array[Types::AIBenchmarkInferenceComponent]
+      SENSITIVE: []
+    end
+
+    class AIBenchmarkInferenceComponent
+      attr_accessor identifier: ::String
+      SENSITIVE: []
+    end
+
+    class AIBenchmarkJobSummary
+      attr_accessor ai_benchmark_job_name: ::String
+      attr_accessor ai_benchmark_job_arn: ::String
+      attr_accessor ai_benchmark_job_status: ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped")
+      attr_accessor creation_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor ai_workload_config_name: ::String
+      SENSITIVE: []
+    end
+
+    class AIBenchmarkNetworkConfig
+      attr_accessor vpc_config: Types::VpcConfig
+      SENSITIVE: []
+    end
+
+    class AIBenchmarkOutputConfig
+      attr_accessor s3_output_location: ::String
+      SENSITIVE: []
+    end
+
+    class AIBenchmarkOutputResult
+      attr_accessor s3_output_location: ::String
+      attr_accessor cloud_watch_logs: ::Array[Types::AICloudWatchLogs]
+      SENSITIVE: []
+    end
+
+    class AIBenchmarkTarget
+      attr_accessor endpoint: Types::AIBenchmarkEndpoint
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Endpoint < AIBenchmarkTarget
+      end
+      class Unknown < AIBenchmarkTarget
+      end
+    end
+
+    class AICapacityReservationConfig
+      attr_accessor capacity_reservation_preference: ("capacity-reservations-only")
+      attr_accessor ml_reservation_arns: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class AICloudWatchLogs
+      attr_accessor log_group_arn: ::String
+      attr_accessor log_stream_name: ::String
+      SENSITIVE: []
+    end
+
+    class AIDatasetConfig
+      attr_accessor input_data_config: ::Array[Types::AIWorkloadInputDataConfig]
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class InputDataConfig < AIDatasetConfig
+      end
+      class Unknown < AIDatasetConfig
+      end
+    end
+
+    class AIModelSource
+      attr_accessor s3: Types::AIModelSourceS3
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class S3 < AIModelSource
+      end
+      class Unknown < AIModelSource
+      end
+    end
+
+    class AIModelSourceS3
+      attr_accessor s3_uri: ::String
+      SENSITIVE: []
+    end
+
+    class AIRecommendation
+      attr_accessor recommendation_description: ::String
+      attr_accessor optimization_details: ::Array[Types::AIRecommendationOptimizationDetail]
+      attr_accessor model_details: Types::AIRecommendationModelDetails
+      attr_accessor deployment_configuration: Types::AIRecommendationDeploymentConfiguration
+      attr_accessor ai_benchmark_job_arn: ::String
+      attr_accessor expected_performance: ::Array[Types::AIRecommendationPerformanceMetric]
+      SENSITIVE: []
+    end
+
+    class AIRecommendationComputeSpec
+      attr_accessor instance_types: ::Array[("ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.g7e.2xlarge" | "ml.g7e.4xlarge" | "ml.g7e.8xlarge" | "ml.g7e.12xlarge" | "ml.g7e.24xlarge" | "ml.g7e.48xlarge" | "ml.p3.2xlarge" | "ml.p3.8xlarge" | "ml.p3.16xlarge" | "ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.4xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge")]
+      attr_accessor capacity_reservation_config: Types::AICapacityReservationConfig
+      SENSITIVE: []
+    end
+
+    class AIRecommendationConstraint
+      attr_accessor metric: ("ttft-ms" | "throughput" | "cost")
+      SENSITIVE: []
+    end
+
+    class AIRecommendationDeploymentConfiguration
+      attr_accessor s3: ::Array[Types::AIRecommendationDeploymentS3Channel]
+      attr_accessor image_uri: ::String
+      attr_accessor instance_type: ("ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.g7e.2xlarge" | "ml.g7e.4xlarge" | "ml.g7e.8xlarge" | "ml.g7e.12xlarge" | "ml.g7e.24xlarge" | "ml.g7e.48xlarge" | "ml.p3.2xlarge" | "ml.p3.8xlarge" | "ml.p3.16xlarge" | "ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.4xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge")
+      attr_accessor instance_count: ::Integer
+      attr_accessor copy_count_per_instance: ::Integer
+      attr_accessor environment_variables: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class AIRecommendationDeploymentS3Channel
+      attr_accessor channel_name: ::String
+      attr_accessor uri: ::String
+      SENSITIVE: []
+    end
+
+    class AIRecommendationInferenceSpecification
+      attr_accessor framework: ("LMI" | "VLLM")
+      SENSITIVE: []
+    end
+
+    class AIRecommendationInstanceDetail
+      attr_accessor instance_type: ("ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.g7e.2xlarge" | "ml.g7e.4xlarge" | "ml.g7e.8xlarge" | "ml.g7e.12xlarge" | "ml.g7e.24xlarge" | "ml.g7e.48xlarge" | "ml.p3.2xlarge" | "ml.p3.8xlarge" | "ml.p3.16xlarge" | "ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.4xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge")
+      attr_accessor instance_count: ::Integer
+      attr_accessor copy_count_per_instance: ::Integer
+      SENSITIVE: []
+    end
+
+    class AIRecommendationJobSummary
+      attr_accessor ai_recommendation_job_name: ::String
+      attr_accessor ai_recommendation_job_arn: ::String
+      attr_accessor ai_recommendation_job_status: ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped")
+      attr_accessor creation_time: ::Time
+      attr_accessor end_time: ::Time
+      SENSITIVE: []
+    end
+
+    class AIRecommendationModelDetails
+      attr_accessor model_package_arn: ::String
+      attr_accessor inference_specification_name: ::String
+      attr_accessor instance_details: ::Array[Types::AIRecommendationInstanceDetail]
+      SENSITIVE: []
+    end
+
+    class AIRecommendationOptimizationDetail
+      attr_accessor optimization_type: ("SpeculativeDecoding" | "KernelTuning")
+      attr_accessor optimization_config: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class AIRecommendationOutputConfig
+      attr_accessor s3_output_location: ::String
+      attr_accessor model_package_group_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class AIRecommendationOutputResult
+      attr_accessor s3_output_location: ::String
+      attr_accessor model_package_group_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class AIRecommendationPerformanceMetric
+      attr_accessor metric: ::String
+      attr_accessor stat: ::String
+      attr_accessor value: ::String
+      attr_accessor unit: ::String
+      SENSITIVE: []
+    end
+
+    class AIRecommendationPerformanceTarget
+      attr_accessor constraints: ::Array[Types::AIRecommendationConstraint]
+      SENSITIVE: []
+    end
+
+    class AIWorkloadConfigSummary
+      attr_accessor ai_workload_config_name: ::String
+      attr_accessor ai_workload_config_arn: ::String
+      attr_accessor creation_time: ::Time
+      SENSITIVE: []
+    end
+
+    class AIWorkloadConfigs
+      attr_accessor workload_spec: Types::WorkloadSpec
+      SENSITIVE: []
+    end
+
+    class AIWorkloadDataSource
+      attr_accessor s3_data_source: Types::AIWorkloadS3DataSource
+      SENSITIVE: []
+    end
+
+    class AIWorkloadInputDataConfig
+      attr_accessor channel_name: ::String
+      attr_accessor data_source: Types::AIWorkloadDataSource
+      SENSITIVE: []
+    end
+
+    class AIWorkloadS3DataSource
+      attr_accessor s3_uri: ::String
+      SENSITIVE: []
+    end
+
     class AcceleratorPartitionConfig
       attr_accessor type: ("mig-1g.5gb" | "mig-1g.10gb" | "mig-1g.18gb" | "mig-1g.20gb" | "mig-1g.23gb" | "mig-1g.35gb" | "mig-1g.45gb" | "mig-1g.47gb" | "mig-2g.10gb" | "mig-2g.20gb" | "mig-2g.35gb" | "mig-2g.45gb" | "mig-2g.47gb" | "mig-3g.20gb" | "mig-3g.40gb" | "mig-3g.71gb" | "mig-3g.90gb" | "mig-3g.93gb" | "mig-4g.20gb" | "mig-4g.40gb" | "mig-4g.71gb" | "mig-4g.90gb" | "mig-4g.93gb" | "mig-7g.40gb" | "mig-7g.80gb" | "mig-7g.141gb" | "mig-7g.180gb" | "mig-7g.186gb")
       attr_accessor count: ::Integer
@@ -1485,6 +1697,54 @@ module Aws::SageMaker
       SENSITIVE: []
     end
 
+    class CreateAIBenchmarkJobRequest
+      attr_accessor ai_benchmark_job_name: ::String
+      attr_accessor benchmark_target: Types::AIBenchmarkTarget
+      attr_accessor output_config: Types::AIBenchmarkOutputConfig
+      attr_accessor ai_workload_config_identifier: ::String
+      attr_accessor role_arn: ::String
+      attr_accessor network_config: Types::AIBenchmarkNetworkConfig
+      attr_accessor tags: ::Array[Types::Tag]
+      SENSITIVE: []
+    end
+
+    class CreateAIBenchmarkJobResponse
+      attr_accessor ai_benchmark_job_arn: ::String
+      SENSITIVE: []
+    end
+
+    class CreateAIRecommendationJobRequest
+      attr_accessor ai_recommendation_job_name: ::String
+      attr_accessor model_source: Types::AIModelSource
+      attr_accessor output_config: Types::AIRecommendationOutputConfig
+      attr_accessor ai_workload_config_identifier: ::String
+      attr_accessor performance_target: Types::AIRecommendationPerformanceTarget
+      attr_accessor role_arn: ::String
+      attr_accessor inference_specification: Types::AIRecommendationInferenceSpecification
+      attr_accessor optimize_model: bool
+      attr_accessor compute_spec: Types::AIRecommendationComputeSpec
+      attr_accessor tags: ::Array[Types::Tag]
+      SENSITIVE: []
+    end
+
+    class CreateAIRecommendationJobResponse
+      attr_accessor ai_recommendation_job_arn: ::String
+      SENSITIVE: []
+    end
+
+    class CreateAIWorkloadConfigRequest
+      attr_accessor ai_workload_config_name: ::String
+      attr_accessor dataset_config: Types::AIDatasetConfig
+      attr_accessor ai_workload_configs: Types::AIWorkloadConfigs
+      attr_accessor tags: ::Array[Types::Tag]
+      SENSITIVE: []
+    end
+
+    class CreateAIWorkloadConfigResponse
+      attr_accessor ai_workload_config_arn: ::String
+      SENSITIVE: []
+    end
+
     class CreateActionRequest
       attr_accessor action_name: ::String
       attr_accessor source: Types::ActionSource
@@ -2283,7 +2543,7 @@ module Aws::SageMaker
       attr_accessor optimization_job_name: ::String
       attr_accessor role_arn: ::String
       attr_accessor model_source: Types::OptimizationJobModelSource
-      attr_accessor deployment_instance_type: ("ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge" | "ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.inf2.xlarge" | "ml.inf2.8xlarge" | "ml.inf2.24xlarge" | "ml.inf2.48xlarge" | "ml.trn1.2xlarge" | "ml.trn1.32xlarge" | "ml.trn1n.32xlarge")
+      attr_accessor deployment_instance_type: ("ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge" | "ml.g4dn.xlarge" | "ml.g4dn.2xlarge" | "ml.g4dn.4xlarge" | "ml.g4dn.8xlarge" | "ml.g4dn.12xlarge" | "ml.g4dn.16xlarge" | "ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.inf2.xlarge" | "ml.inf2.8xlarge" | "ml.inf2.24xlarge" | "ml.inf2.48xlarge" | "ml.trn1.2xlarge" | "ml.trn1.32xlarge" | "ml.trn1n.32xlarge")
       attr_accessor max_instance_count: ::Integer
       attr_accessor optimization_environment: ::Hash[::String, ::String]
       attr_accessor optimization_configs: ::Array[Types::OptimizationConfig]
@@ -2804,6 +3064,36 @@ module Aws::SageMaker
       SENSITIVE: []
     end
 
+    class DeleteAIBenchmarkJobRequest
+      attr_accessor ai_benchmark_job_name: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteAIBenchmarkJobResponse
+      attr_accessor ai_benchmark_job_arn: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteAIRecommendationJobRequest
+      attr_accessor ai_recommendation_job_name: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteAIRecommendationJobResponse
+      attr_accessor ai_recommendation_job_arn: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteAIWorkloadConfigRequest
+      attr_accessor ai_workload_config_name: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteAIWorkloadConfigResponse
+      attr_accessor ai_workload_config_arn: ::String
+      SENSITIVE: []
+    end
+
     class DeleteActionRequest
       attr_accessor action_name: ::String
       SENSITIVE: []
@@ -3253,6 +3543,69 @@ module Aws::SageMaker
 
     class DerivedInformation
       attr_accessor derived_data_input_config: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeAIBenchmarkJobRequest
+      attr_accessor ai_benchmark_job_name: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeAIBenchmarkJobResponse
+      attr_accessor ai_benchmark_job_name: ::String
+      attr_accessor ai_benchmark_job_arn: ::String
+      attr_accessor ai_benchmark_job_status: ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped")
+      attr_accessor failure_reason: ::String
+      attr_accessor benchmark_target: Types::AIBenchmarkTarget
+      attr_accessor output_config: Types::AIBenchmarkOutputResult
+      attr_accessor ai_workload_config_identifier: ::String
+      attr_accessor role_arn: ::String
+      attr_accessor network_config: Types::AIBenchmarkNetworkConfig
+      attr_accessor creation_time: ::Time
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor tags: ::Array[Types::Tag]
+      SENSITIVE: []
+    end
+
+    class DescribeAIRecommendationJobRequest
+      attr_accessor ai_recommendation_job_name: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeAIRecommendationJobResponse
+      attr_accessor ai_recommendation_job_name: ::String
+      attr_accessor ai_recommendation_job_arn: ::String
+      attr_accessor ai_recommendation_job_status: ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped")
+      attr_accessor failure_reason: ::String
+      attr_accessor model_source: Types::AIModelSource
+      attr_accessor output_config: Types::AIRecommendationOutputResult
+      attr_accessor inference_specification: Types::AIRecommendationInferenceSpecification
+      attr_accessor ai_workload_config_identifier: ::String
+      attr_accessor optimize_model: bool
+      attr_accessor performance_target: Types::AIRecommendationPerformanceTarget
+      attr_accessor recommendations: ::Array[Types::AIRecommendation]
+      attr_accessor role_arn: ::String
+      attr_accessor compute_spec: Types::AIRecommendationComputeSpec
+      attr_accessor creation_time: ::Time
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor tags: ::Array[Types::Tag]
+      SENSITIVE: []
+    end
+
+    class DescribeAIWorkloadConfigRequest
+      attr_accessor ai_workload_config_name: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeAIWorkloadConfigResponse
+      attr_accessor ai_workload_config_name: ::String
+      attr_accessor ai_workload_config_arn: ::String
+      attr_accessor dataset_config: Types::AIDatasetConfig
+      attr_accessor ai_workload_configs: Types::AIWorkloadConfigs
+      attr_accessor tags: ::Array[Types::Tag]
+      attr_accessor creation_time: ::Time
       SENSITIVE: []
     end
 
@@ -4403,7 +4756,7 @@ module Aws::SageMaker
       attr_accessor optimization_job_name: ::String
       attr_accessor model_source: Types::OptimizationJobModelSource
       attr_accessor optimization_environment: ::Hash[::String, ::String]
-      attr_accessor deployment_instance_type: ("ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge" | "ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.inf2.xlarge" | "ml.inf2.8xlarge" | "ml.inf2.24xlarge" | "ml.inf2.48xlarge" | "ml.trn1.2xlarge" | "ml.trn1.32xlarge" | "ml.trn1n.32xlarge")
+      attr_accessor deployment_instance_type: ("ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge" | "ml.g4dn.xlarge" | "ml.g4dn.2xlarge" | "ml.g4dn.4xlarge" | "ml.g4dn.8xlarge" | "ml.g4dn.12xlarge" | "ml.g4dn.16xlarge" | "ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.inf2.xlarge" | "ml.inf2.8xlarge" | "ml.inf2.24xlarge" | "ml.inf2.48xlarge" | "ml.trn1.2xlarge" | "ml.trn1.32xlarge" | "ml.trn1n.32xlarge")
       attr_accessor max_instance_count: ::Integer
       attr_accessor optimization_configs: ::Array[Types::OptimizationConfig]
       attr_accessor output_config: Types::OptimizationJobOutputConfig
@@ -6423,6 +6776,59 @@ module Aws::SageMaker
       SENSITIVE: []
     end
 
+    class ListAIBenchmarkJobsRequest
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      attr_accessor name_contains: ::String
+      attr_accessor status_equals: ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped")
+      attr_accessor creation_time_after: ::Time
+      attr_accessor creation_time_before: ::Time
+      attr_accessor sort_by: ("Name" | "CreationTime" | "Status")
+      attr_accessor sort_order: ("Ascending" | "Descending")
+      SENSITIVE: []
+    end
+
+    class ListAIBenchmarkJobsResponse
+      attr_accessor ai_benchmark_jobs: ::Array[Types::AIBenchmarkJobSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListAIRecommendationJobsRequest
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      attr_accessor name_contains: ::String
+      attr_accessor status_equals: ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped")
+      attr_accessor creation_time_after: ::Time
+      attr_accessor creation_time_before: ::Time
+      attr_accessor sort_by: ("Name" | "CreationTime" | "Status")
+      attr_accessor sort_order: ("Ascending" | "Descending")
+      SENSITIVE: []
+    end
+
+    class ListAIRecommendationJobsResponse
+      attr_accessor ai_recommendation_jobs: ::Array[Types::AIRecommendationJobSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListAIWorkloadConfigsRequest
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      attr_accessor name_contains: ::String
+      attr_accessor creation_time_after: ::Time
+      attr_accessor creation_time_before: ::Time
+      attr_accessor sort_by: ("Name" | "CreationTime")
+      attr_accessor sort_order: ("Ascending" | "Descending")
+      SENSITIVE: []
+    end
+
+    class ListAIWorkloadConfigsResponse
+      attr_accessor ai_workload_configs: ::Array[Types::AIWorkloadConfigSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListActionsRequest
       attr_accessor source_uri: ::String
       attr_accessor action_type: ::String
@@ -8371,6 +8777,7 @@ module Aws::SageMaker
       attr_accessor framework: ::String
       attr_accessor framework_version: ::String
       attr_accessor nearest_model_name: ::String
+      attr_accessor additional_model_data_sources: ::Array[Types::AdditionalModelDataSource]
       attr_accessor additional_s3_data_source: Types::AdditionalS3DataSource
       attr_accessor model_data_etag: ::String
       attr_accessor is_checkpoint: bool
@@ -8912,7 +9319,7 @@ module Aws::SageMaker
       attr_accessor optimization_start_time: ::Time
       attr_accessor optimization_end_time: ::Time
       attr_accessor last_modified_time: ::Time
-      attr_accessor deployment_instance_type: ("ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge" | "ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.inf2.xlarge" | "ml.inf2.8xlarge" | "ml.inf2.24xlarge" | "ml.inf2.48xlarge" | "ml.trn1.2xlarge" | "ml.trn1.32xlarge" | "ml.trn1n.32xlarge")
+      attr_accessor deployment_instance_type: ("ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge" | "ml.g4dn.xlarge" | "ml.g4dn.2xlarge" | "ml.g4dn.4xlarge" | "ml.g4dn.8xlarge" | "ml.g4dn.12xlarge" | "ml.g4dn.16xlarge" | "ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.inf2.xlarge" | "ml.inf2.8xlarge" | "ml.inf2.24xlarge" | "ml.inf2.48xlarge" | "ml.trn1.2xlarge" | "ml.trn1.32xlarge" | "ml.trn1n.32xlarge")
       attr_accessor max_instance_count: ::Integer
       attr_accessor optimization_types: ::Array[::String]
       SENSITIVE: []
@@ -10333,6 +10740,26 @@ module Aws::SageMaker
       attr_accessor session_id: ::String
       attr_accessor stream_url: ::String
       attr_accessor token_value: ::String
+      SENSITIVE: []
+    end
+
+    class StopAIBenchmarkJobRequest
+      attr_accessor ai_benchmark_job_name: ::String
+      SENSITIVE: []
+    end
+
+    class StopAIBenchmarkJobResponse
+      attr_accessor ai_benchmark_job_arn: ::String
+      SENSITIVE: []
+    end
+
+    class StopAIRecommendationJobRequest
+      attr_accessor ai_recommendation_job_name: ::String
+      SENSITIVE: []
+    end
+
+    class StopAIRecommendationJobResponse
+      attr_accessor ai_recommendation_job_arn: ::String
       SENSITIVE: []
     end
 
@@ -11869,6 +12296,17 @@ module Aws::SageMaker
       attr_accessor subnets: ::Array[::String]
       attr_accessor vpc_endpoint_id: ::String
       SENSITIVE: []
+    end
+
+    class WorkloadSpec
+      attr_accessor inline: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Inline < WorkloadSpec
+      end
+      class Unknown < WorkloadSpec
+      end
     end
 
     class WorkspaceSettings

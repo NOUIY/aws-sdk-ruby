@@ -4033,6 +4033,12 @@ module Aws::NetworkFirewall
     #   stateful rules.
     #   @return [Integer]
     #
+    # @!attribute [rw] consumed_stateful_domain_capacity
+    #   The total number of domain name specifications across all domain
+    #   list rule groups in the firewall policy that use the
+    #   `stateful-domain-rulegroup` resource type.
+    #   @return [Integer]
+    #
     # @!attribute [rw] number_of_associations
     #   The number of firewalls that are associated with this firewall
     #   policy.
@@ -4058,6 +4064,7 @@ module Aws::NetworkFirewall
       :tags,
       :consumed_stateless_rule_capacity,
       :consumed_stateful_rule_capacity,
+      :consumed_stateful_domain_capacity,
       :number_of_associations,
       :encryption_configuration,
       :last_modified_time)

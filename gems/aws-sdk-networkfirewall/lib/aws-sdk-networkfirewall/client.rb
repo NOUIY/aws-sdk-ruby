@@ -1191,6 +1191,7 @@ module Aws::NetworkFirewall
     #   resp.firewall_policy_response.tags[0].value #=> String
     #   resp.firewall_policy_response.consumed_stateless_rule_capacity #=> Integer
     #   resp.firewall_policy_response.consumed_stateful_rule_capacity #=> Integer
+    #   resp.firewall_policy_response.consumed_stateful_domain_capacity #=> Integer
     #   resp.firewall_policy_response.number_of_associations #=> Integer
     #   resp.firewall_policy_response.encryption_configuration.key_id #=> String
     #   resp.firewall_policy_response.encryption_configuration.type #=> String, one of "CUSTOMER_KMS", "AWS_OWNED_KMS_KEY"
@@ -1918,7 +1919,7 @@ module Aws::NetworkFirewall
     #       },
     #     },
     #     rules: "RulesString",
-    #     type: "STATELESS", # required, accepts STATELESS, STATEFUL
+    #     type: "STATELESS", # required, accepts STATELESS, STATEFUL, STATEFUL_DOMAIN
     #     description: "Description",
     #     capacity: 1, # required
     #     tags: [
@@ -1949,7 +1950,7 @@ module Aws::NetworkFirewall
     #   resp.rule_group_response.rule_group_name #=> String
     #   resp.rule_group_response.rule_group_id #=> String
     #   resp.rule_group_response.description #=> String
-    #   resp.rule_group_response.type #=> String, one of "STATELESS", "STATEFUL"
+    #   resp.rule_group_response.type #=> String, one of "STATELESS", "STATEFUL", "STATEFUL_DOMAIN"
     #   resp.rule_group_response.capacity #=> Integer
     #   resp.rule_group_response.rule_group_status #=> String, one of "ACTIVE", "DELETING", "ERROR"
     #   resp.rule_group_response.tags #=> Array
@@ -2365,6 +2366,7 @@ module Aws::NetworkFirewall
     #   resp.firewall_policy_response.tags[0].value #=> String
     #   resp.firewall_policy_response.consumed_stateless_rule_capacity #=> Integer
     #   resp.firewall_policy_response.consumed_stateful_rule_capacity #=> Integer
+    #   resp.firewall_policy_response.consumed_stateful_domain_capacity #=> Integer
     #   resp.firewall_policy_response.number_of_associations #=> Integer
     #   resp.firewall_policy_response.encryption_configuration.key_id #=> String
     #   resp.firewall_policy_response.encryption_configuration.type #=> String, one of "CUSTOMER_KMS", "AWS_OWNED_KMS_KEY"
@@ -2675,7 +2677,7 @@ module Aws::NetworkFirewall
     #   resp = client.delete_rule_group({
     #     rule_group_name: "ResourceName",
     #     rule_group_arn: "ResourceArn",
-    #     type: "STATELESS", # accepts STATELESS, STATEFUL
+    #     type: "STATELESS", # accepts STATELESS, STATEFUL, STATEFUL_DOMAIN
     #   })
     #
     # @example Response structure
@@ -2684,7 +2686,7 @@ module Aws::NetworkFirewall
     #   resp.rule_group_response.rule_group_name #=> String
     #   resp.rule_group_response.rule_group_id #=> String
     #   resp.rule_group_response.description #=> String
-    #   resp.rule_group_response.type #=> String, one of "STATELESS", "STATEFUL"
+    #   resp.rule_group_response.type #=> String, one of "STATELESS", "STATEFUL", "STATEFUL_DOMAIN"
     #   resp.rule_group_response.capacity #=> Integer
     #   resp.rule_group_response.rule_group_status #=> String, one of "ACTIVE", "DELETING", "ERROR"
     #   resp.rule_group_response.tags #=> Array
@@ -2985,6 +2987,7 @@ module Aws::NetworkFirewall
     #   resp.firewall_policy_response.tags[0].value #=> String
     #   resp.firewall_policy_response.consumed_stateless_rule_capacity #=> Integer
     #   resp.firewall_policy_response.consumed_stateful_rule_capacity #=> Integer
+    #   resp.firewall_policy_response.consumed_stateful_domain_capacity #=> Integer
     #   resp.firewall_policy_response.number_of_associations #=> Integer
     #   resp.firewall_policy_response.encryption_configuration.key_id #=> String
     #   resp.firewall_policy_response.encryption_configuration.type #=> String, one of "CUSTOMER_KMS", "AWS_OWNED_KMS_KEY"
@@ -3454,7 +3457,7 @@ module Aws::NetworkFirewall
     #   resp = client.describe_rule_group({
     #     rule_group_name: "ResourceName",
     #     rule_group_arn: "ResourceArn",
-    #     type: "STATELESS", # accepts STATELESS, STATEFUL
+    #     type: "STATELESS", # accepts STATELESS, STATEFUL, STATEFUL_DOMAIN
     #     analyze_rule_group: false,
     #   })
     #
@@ -3517,7 +3520,7 @@ module Aws::NetworkFirewall
     #   resp.rule_group_response.rule_group_name #=> String
     #   resp.rule_group_response.rule_group_id #=> String
     #   resp.rule_group_response.description #=> String
-    #   resp.rule_group_response.type #=> String, one of "STATELESS", "STATEFUL"
+    #   resp.rule_group_response.type #=> String, one of "STATELESS", "STATEFUL", "STATEFUL_DOMAIN"
     #   resp.rule_group_response.capacity #=> Integer
     #   resp.rule_group_response.rule_group_status #=> String, one of "ACTIVE", "DELETING", "ERROR"
     #   resp.rule_group_response.tags #=> Array
@@ -3593,7 +3596,7 @@ module Aws::NetworkFirewall
     #   resp = client.describe_rule_group_metadata({
     #     rule_group_name: "ResourceName",
     #     rule_group_arn: "ResourceArn",
-    #     type: "STATELESS", # accepts STATELESS, STATEFUL
+    #     type: "STATELESS", # accepts STATELESS, STATEFUL, STATEFUL_DOMAIN
     #   })
     #
     # @example Response structure
@@ -3601,7 +3604,7 @@ module Aws::NetworkFirewall
     #   resp.rule_group_arn #=> String
     #   resp.rule_group_name #=> String
     #   resp.description #=> String
-    #   resp.type #=> String, one of "STATELESS", "STATEFUL"
+    #   resp.type #=> String, one of "STATELESS", "STATEFUL", "STATEFUL_DOMAIN"
     #   resp.capacity #=> Integer
     #   resp.stateful_rule_options.rule_order #=> String, one of "DEFAULT_ACTION_ORDER", "STRICT_ORDER"
     #   resp.last_modified_time #=> Time
@@ -3660,7 +3663,7 @@ module Aws::NetworkFirewall
     #   resp = client.describe_rule_group_summary({
     #     rule_group_name: "ResourceName",
     #     rule_group_arn: "ResourceArn",
-    #     type: "STATELESS", # accepts STATELESS, STATEFUL
+    #     type: "STATELESS", # accepts STATELESS, STATEFUL, STATEFUL_DOMAIN
     #   })
     #
     # @example Response structure
@@ -4665,7 +4668,7 @@ module Aws::NetworkFirewall
     #     scope: "MANAGED", # accepts MANAGED, ACCOUNT
     #     managed_type: "AWS_MANAGED_THREAT_SIGNATURES", # accepts AWS_MANAGED_THREAT_SIGNATURES, AWS_MANAGED_DOMAIN_LISTS, ACTIVE_THREAT_DEFENSE, PARTNER_MANAGED
     #     subscription_status: "NOT_SUBSCRIBED", # accepts NOT_SUBSCRIBED, SUBSCRIBED
-    #     type: "STATELESS", # accepts STATELESS, STATEFUL
+    #     type: "STATELESS", # accepts STATELESS, STATEFUL, STATEFUL_DOMAIN
     #   })
     #
     # @example Response structure
@@ -5786,6 +5789,7 @@ module Aws::NetworkFirewall
     #   resp.firewall_policy_response.tags[0].value #=> String
     #   resp.firewall_policy_response.consumed_stateless_rule_capacity #=> Integer
     #   resp.firewall_policy_response.consumed_stateful_rule_capacity #=> Integer
+    #   resp.firewall_policy_response.consumed_stateful_domain_capacity #=> Integer
     #   resp.firewall_policy_response.number_of_associations #=> Integer
     #   resp.firewall_policy_response.encryption_configuration.key_id #=> String
     #   resp.firewall_policy_response.encryption_configuration.type #=> String, one of "CUSTOMER_KMS", "AWS_OWNED_KMS_KEY"
@@ -6619,7 +6623,7 @@ module Aws::NetworkFirewall
     #       },
     #     },
     #     rules: "RulesString",
-    #     type: "STATELESS", # accepts STATELESS, STATEFUL
+    #     type: "STATELESS", # accepts STATELESS, STATEFUL, STATEFUL_DOMAIN
     #     description: "Description",
     #     dry_run: false,
     #     encryption_configuration: {
@@ -6643,7 +6647,7 @@ module Aws::NetworkFirewall
     #   resp.rule_group_response.rule_group_name #=> String
     #   resp.rule_group_response.rule_group_id #=> String
     #   resp.rule_group_response.description #=> String
-    #   resp.rule_group_response.type #=> String, one of "STATELESS", "STATEFUL"
+    #   resp.rule_group_response.type #=> String, one of "STATELESS", "STATEFUL", "STATEFUL_DOMAIN"
     #   resp.rule_group_response.capacity #=> Integer
     #   resp.rule_group_response.rule_group_status #=> String, one of "ACTIVE", "DELETING", "ERROR"
     #   resp.rule_group_response.tags #=> Array
@@ -6920,7 +6924,7 @@ module Aws::NetworkFirewall
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-networkfirewall'
-      context[:gem_version] = '1.86.0'
+      context[:gem_version] = '1.87.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

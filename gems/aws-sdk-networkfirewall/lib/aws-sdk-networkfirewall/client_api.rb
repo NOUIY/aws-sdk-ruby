@@ -1084,6 +1084,7 @@ module Aws::NetworkFirewall
     FirewallPolicyResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     FirewallPolicyResponse.add_member(:consumed_stateless_rule_capacity, Shapes::ShapeRef.new(shape: RuleCapacity, location_name: "ConsumedStatelessRuleCapacity"))
     FirewallPolicyResponse.add_member(:consumed_stateful_rule_capacity, Shapes::ShapeRef.new(shape: RuleCapacity, location_name: "ConsumedStatefulRuleCapacity"))
+    FirewallPolicyResponse.add_member(:consumed_stateful_domain_capacity, Shapes::ShapeRef.new(shape: RuleCapacity, location_name: "ConsumedStatefulDomainCapacity"))
     FirewallPolicyResponse.add_member(:number_of_associations, Shapes::ShapeRef.new(shape: NumberOfAssociations, location_name: "NumberOfAssociations"))
     FirewallPolicyResponse.add_member(:encryption_configuration, Shapes::ShapeRef.new(shape: EncryptionConfiguration, location_name: "EncryptionConfiguration"))
     FirewallPolicyResponse.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: LastUpdateTime, location_name: "LastModifiedTime"))

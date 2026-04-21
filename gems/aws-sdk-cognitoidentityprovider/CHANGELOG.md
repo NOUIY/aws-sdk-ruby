@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.140.0 (2026-04-21)
+------------------
+
+* Feature - Adding dutch language support for Cognito Managed Login and Terms on Console
+
 1.139.0 (2026-04-16)
 ------------------
 

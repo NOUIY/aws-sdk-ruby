@@ -2591,13 +2591,14 @@ module Aws::GameLift
         "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "gamelift",
         "jsonVersion" => "1.1",
-        "protocol" => "json",
-        "protocols" => ["json"],
+        "protocol" => "smithy-rpc-v2-cbor",
+        "protocols" => ["smithy-rpc-v2-cbor", "json"],
         "serviceFullName" => "Amazon GameLift",
         "serviceId" => "GameLift",
         "signatureVersion" => "v4",
         "targetPrefix" => "GameLift",
         "uid" => "gamelift-2015-10-01",
+        "xmlNamespace" => "http://gamelift.amazonaws.com/doc/",
       }
 
       api.add_operation(:accept_match, Seahorse::Model::Operation.new.tap do |o|

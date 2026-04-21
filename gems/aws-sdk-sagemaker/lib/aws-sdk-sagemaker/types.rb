@@ -10,6 +10,684 @@
 module Aws::SageMaker
   module Types
 
+    # The SageMaker endpoint configuration for benchmarking.
+    #
+    # @!attribute [rw] identifier
+    #   The name or Amazon Resource Name (ARN) of the SageMaker endpoint to
+    #   benchmark.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_container_hostname
+    #   The hostname of the specific container to target within a
+    #   multi-container endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] inference_components
+    #   The list of inference components to benchmark on the endpoint.
+    #   @return [Array<Types::AIBenchmarkInferenceComponent>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIBenchmarkEndpoint AWS API Documentation
+    #
+    class AIBenchmarkEndpoint < Struct.new(
+      :identifier,
+      :target_container_hostname,
+      :inference_components)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An inference component to benchmark.
+    #
+    # @!attribute [rw] identifier
+    #   The name or Amazon Resource Name (ARN) of the inference component.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIBenchmarkInferenceComponent AWS API Documentation
+    #
+    class AIBenchmarkInferenceComponent < Struct.new(
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about an AI benchmark job.
+    #
+    # @!attribute [rw] ai_benchmark_job_name
+    #   The name of the benchmark job.
+    #   @return [String]
+    #
+    # @!attribute [rw] ai_benchmark_job_arn
+    #   The Amazon Resource Name (ARN) of the benchmark job.
+    #   @return [String]
+    #
+    # @!attribute [rw] ai_benchmark_job_status
+    #   The status of the benchmark job.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   A timestamp that indicates when the benchmark job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   A timestamp that indicates when the benchmark job completed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ai_workload_config_name
+    #   The name of the AI workload configuration used by the benchmark job.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIBenchmarkJobSummary AWS API Documentation
+    #
+    class AIBenchmarkJobSummary < Struct.new(
+      :ai_benchmark_job_name,
+      :ai_benchmark_job_arn,
+      :ai_benchmark_job_status,
+      :creation_time,
+      :end_time,
+      :ai_workload_config_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The network configuration for an AI benchmark job.
+    #
+    # @!attribute [rw] vpc_config
+    #   The VPC configuration, including security group IDs and subnet IDs.
+    #   @return [Types::VpcConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIBenchmarkNetworkConfig AWS API Documentation
+    #
+    class AIBenchmarkNetworkConfig < Struct.new(
+      :vpc_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The output configuration for an AI benchmark job.
+    #
+    # @!attribute [rw] s3_output_location
+    #   The Amazon S3 URI where benchmark results are stored.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIBenchmarkOutputConfig AWS API Documentation
+    #
+    class AIBenchmarkOutputConfig < Struct.new(
+      :s3_output_location)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The output result of an AI benchmark job, including the Amazon S3
+    # location and CloudWatch log information.
+    #
+    # @!attribute [rw] s3_output_location
+    #   The Amazon S3 URI where benchmark results are stored.
+    #   @return [String]
+    #
+    # @!attribute [rw] cloud_watch_logs
+    #   The CloudWatch log information for the benchmark job.
+    #   @return [Array<Types::AICloudWatchLogs>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIBenchmarkOutputResult AWS API Documentation
+    #
+    class AIBenchmarkOutputResult < Struct.new(
+      :s3_output_location,
+      :cloud_watch_logs)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The target for an AI benchmark job. This is a union type — specify one
+    # of the members.
+    #
+    # @note AIBenchmarkTarget is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note AIBenchmarkTarget is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of AIBenchmarkTarget corresponding to the set member.
+    #
+    # @!attribute [rw] endpoint
+    #   The SageMaker endpoint to benchmark.
+    #   @return [Types::AIBenchmarkEndpoint]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIBenchmarkTarget AWS API Documentation
+    #
+    class AIBenchmarkTarget < Struct.new(
+      :endpoint,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Endpoint < AIBenchmarkTarget; end
+      class Unknown < AIBenchmarkTarget; end
+    end
+
+    # The capacity reservation configuration for an AI recommendation job.
+    #
+    # @!attribute [rw] capacity_reservation_preference
+    #   The capacity reservation preference. The only valid value is
+    #   `capacity-reservations-only`.
+    #   @return [String]
+    #
+    # @!attribute [rw] ml_reservation_arns
+    #   The list of ML reservation ARNs to use.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AICapacityReservationConfig AWS API Documentation
+    #
+    class AICapacityReservationConfig < Struct.new(
+      :capacity_reservation_preference,
+      :ml_reservation_arns)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # CloudWatch log information for an AI benchmark or recommendation job.
+    #
+    # @!attribute [rw] log_group_arn
+    #   The Amazon Resource Name (ARN) of the CloudWatch log group.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_stream_name
+    #   The name of the CloudWatch log stream.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AICloudWatchLogs AWS API Documentation
+    #
+    class AICloudWatchLogs < Struct.new(
+      :log_group_arn,
+      :log_stream_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The dataset configuration for an AI workload. This is a union type —
+    # specify one of the members.
+    #
+    # @note AIDatasetConfig is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note AIDatasetConfig is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of AIDatasetConfig corresponding to the set member.
+    #
+    # @!attribute [rw] input_data_config
+    #   An array of input data channel configurations for the workload.
+    #   @return [Array<Types::AIWorkloadInputDataConfig>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIDatasetConfig AWS API Documentation
+    #
+    class AIDatasetConfig < Struct.new(
+      :input_data_config,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class InputDataConfig < AIDatasetConfig; end
+      class Unknown < AIDatasetConfig; end
+    end
+
+    # The source of the model for an AI recommendation job. This is a union
+    # type.
+    #
+    # @note AIModelSource is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note AIModelSource is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of AIModelSource corresponding to the set member.
+    #
+    # @!attribute [rw] s3
+    #   The Amazon S3 location of the model artifacts.
+    #   @return [Types::AIModelSourceS3]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIModelSource AWS API Documentation
+    #
+    class AIModelSource < Struct.new(
+      :s3,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class S3 < AIModelSource; end
+      class Unknown < AIModelSource; end
+    end
+
+    # The Amazon S3 model source configuration.
+    #
+    # @!attribute [rw] s3_uri
+    #   The Amazon S3 URI of the model artifacts.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIModelSourceS3 AWS API Documentation
+    #
+    class AIModelSourceS3 < Struct.new(
+      :s3_uri)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An optimization recommendation generated by an AI recommendation job.
+    #
+    # @!attribute [rw] recommendation_description
+    #   A description of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] optimization_details
+    #   The optimization techniques applied in this recommendation.
+    #   @return [Array<Types::AIRecommendationOptimizationDetail>]
+    #
+    # @!attribute [rw] model_details
+    #   Details about the model package associated with this recommendation.
+    #   @return [Types::AIRecommendationModelDetails]
+    #
+    # @!attribute [rw] deployment_configuration
+    #   The deployment configuration for this recommendation, including the
+    #   container image, instance type, instance count, and environment
+    #   variables.
+    #   @return [Types::AIRecommendationDeploymentConfiguration]
+    #
+    # @!attribute [rw] ai_benchmark_job_arn
+    #   The Amazon Resource Name (ARN) of the benchmark job associated with
+    #   this recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] expected_performance
+    #   The expected performance metrics for this recommendation.
+    #   @return [Array<Types::AIRecommendationPerformanceMetric>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendation AWS API Documentation
+    #
+    class AIRecommendation < Struct.new(
+      :recommendation_description,
+      :optimization_details,
+      :model_details,
+      :deployment_configuration,
+      :ai_benchmark_job_arn,
+      :expected_performance)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The compute resource specification for an AI recommendation job.
+    #
+    # @!attribute [rw] instance_types
+    #   The list of instance types to consider for recommendations. You can
+    #   specify up to 3 instance types.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] capacity_reservation_config
+    #   The capacity reservation configuration.
+    #   @return [Types::AICapacityReservationConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationComputeSpec AWS API Documentation
+    #
+    class AIRecommendationComputeSpec < Struct.new(
+      :instance_types,
+      :capacity_reservation_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A performance constraint for an AI recommendation job.
+    #
+    # @!attribute [rw] metric
+    #   The performance metric. Valid values are `ttft-ms` (time to first
+    #   token in milliseconds), `throughput`, and `cost`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationConstraint AWS API Documentation
+    #
+    class AIRecommendationConstraint < Struct.new(
+      :metric)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The deployment configuration for a recommendation.
+    #
+    # @!attribute [rw] s3
+    #   The Amazon S3 data channels for the deployment.
+    #   @return [Array<Types::AIRecommendationDeploymentS3Channel>]
+    #
+    # @!attribute [rw] image_uri
+    #   The URI of the container image for the deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_type
+    #   The recommended instance type for the deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_count
+    #   The recommended number of instances for the deployment.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] copy_count_per_instance
+    #   The number of model copies per instance.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] environment_variables
+    #   The environment variables for the deployment.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationDeploymentConfiguration AWS API Documentation
+    #
+    class AIRecommendationDeploymentConfiguration < Struct.new(
+      :s3,
+      :image_uri,
+      :instance_type,
+      :instance_count,
+      :copy_count_per_instance,
+      :environment_variables)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An Amazon S3 data channel for a recommended deployment configuration,
+    # containing model artifacts or optimized model outputs.
+    #
+    # @!attribute [rw] channel_name
+    #   A custom name for this Amazon S3 data channel.
+    #   @return [String]
+    #
+    # @!attribute [rw] uri
+    #   The Amazon S3 URI of the data for this channel.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationDeploymentS3Channel AWS API Documentation
+    #
+    class AIRecommendationDeploymentS3Channel < Struct.new(
+      :channel_name,
+      :uri)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The inference framework for an AI recommendation job.
+    #
+    # @!attribute [rw] framework
+    #   The inference framework. Valid values are `LMI` and `VLLM`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationInferenceSpecification AWS API Documentation
+    #
+    class AIRecommendationInferenceSpecification < Struct.new(
+      :framework)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Instance details for a recommendation.
+    #
+    # @!attribute [rw] instance_type
+    #   The recommended instance type.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_count
+    #   The recommended number of instances.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] copy_count_per_instance
+    #   The number of model copies per instance.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationInstanceDetail AWS API Documentation
+    #
+    class AIRecommendationInstanceDetail < Struct.new(
+      :instance_type,
+      :instance_count,
+      :copy_count_per_instance)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about an AI recommendation job.
+    #
+    # @!attribute [rw] ai_recommendation_job_name
+    #   The name of the recommendation job.
+    #   @return [String]
+    #
+    # @!attribute [rw] ai_recommendation_job_arn
+    #   The Amazon Resource Name (ARN) of the recommendation job.
+    #   @return [String]
+    #
+    # @!attribute [rw] ai_recommendation_job_status
+    #   The status of the recommendation job.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   A timestamp that indicates when the recommendation job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   A timestamp that indicates when the recommendation job completed.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationJobSummary AWS API Documentation
+    #
+    class AIRecommendationJobSummary < Struct.new(
+      :ai_recommendation_job_name,
+      :ai_recommendation_job_arn,
+      :ai_recommendation_job_status,
+      :creation_time,
+      :end_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details about the model package in a recommendation.
+    #
+    # @!attribute [rw] model_package_arn
+    #   The Amazon Resource Name (ARN) of the model package.
+    #   @return [String]
+    #
+    # @!attribute [rw] inference_specification_name
+    #   The name of the inference specification within the model package.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_details
+    #   The instance details for this recommendation, including instance
+    #   type, count, and model copies per instance.
+    #   @return [Array<Types::AIRecommendationInstanceDetail>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationModelDetails AWS API Documentation
+    #
+    class AIRecommendationModelDetails < Struct.new(
+      :model_package_arn,
+      :inference_specification_name,
+      :instance_details)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details about an optimization technique applied in a recommendation.
+    #
+    # @!attribute [rw] optimization_type
+    #   The type of optimization. Valid values are `SpeculativeDecoding` and
+    #   `KernelTuning`.
+    #   @return [String]
+    #
+    # @!attribute [rw] optimization_config
+    #   A map of configuration parameters for the optimization technique.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationOptimizationDetail AWS API Documentation
+    #
+    class AIRecommendationOptimizationDetail < Struct.new(
+      :optimization_type,
+      :optimization_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The output configuration for an AI recommendation job.
+    #
+    # @!attribute [rw] s3_output_location
+    #   The Amazon S3 URI where recommendation results are stored.
+    #   @return [String]
+    #
+    # @!attribute [rw] model_package_group_identifier
+    #   The name or Amazon Resource Name (ARN) of the model package group
+    #   where the optimized model is registered as a new model package
+    #   version.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationOutputConfig AWS API Documentation
+    #
+    class AIRecommendationOutputConfig < Struct.new(
+      :s3_output_location,
+      :model_package_group_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The output configuration for an AI recommendation job, including the
+    # S3 location for results and the model package group for deployment.
+    #
+    # @!attribute [rw] s3_output_location
+    #   The Amazon S3 URI where the recommendation job writes its output
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] model_package_group_identifier
+    #   The name or Amazon Resource Name (ARN) of the model package group
+    #   where deployment-ready model packages are registered.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationOutputResult AWS API Documentation
+    #
+    class AIRecommendationOutputResult < Struct.new(
+      :s3_output_location,
+      :model_package_group_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An expected performance metric for a recommendation.
+    #
+    # @!attribute [rw] metric
+    #   The name of the performance metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] stat
+    #   The statistical measure for the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] unit
+    #   The unit of the metric value.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationPerformanceMetric AWS API Documentation
+    #
+    class AIRecommendationPerformanceMetric < Struct.new(
+      :metric,
+      :stat,
+      :value,
+      :unit)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The performance targets for an AI recommendation job.
+    #
+    # @!attribute [rw] constraints
+    #   An array of performance constraints that define the optimization
+    #   objectives.
+    #   @return [Array<Types::AIRecommendationConstraint>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationPerformanceTarget AWS API Documentation
+    #
+    class AIRecommendationPerformanceTarget < Struct.new(
+      :constraints)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about an AI workload configuration.
+    #
+    # @!attribute [rw] ai_workload_config_name
+    #   The name of the AI workload configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] ai_workload_config_arn
+    #   The Amazon Resource Name (ARN) of the AI workload configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   A timestamp that indicates when the configuration was created.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIWorkloadConfigSummary AWS API Documentation
+    #
+    class AIWorkloadConfigSummary < Struct.new(
+      :ai_workload_config_name,
+      :ai_workload_config_arn,
+      :creation_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The benchmark tool configuration for an AI workload.
+    #
+    # @!attribute [rw] workload_spec
+    #   The workload specification that defines benchmark parameters.
+    #   @return [Types::WorkloadSpec]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIWorkloadConfigs AWS API Documentation
+    #
+    class AIWorkloadConfigs < Struct.new(
+      :workload_spec)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The data source for an AI workload input data channel.
+    #
+    # @!attribute [rw] s3_data_source
+    #   The Amazon S3 data source configuration.
+    #   @return [Types::AIWorkloadS3DataSource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIWorkloadDataSource AWS API Documentation
+    #
+    class AIWorkloadDataSource < Struct.new(
+      :s3_data_source)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A channel of input data for an AI workload configuration. Each channel
+    # has a name and a data source.
+    #
+    # @!attribute [rw] channel_name
+    #   The logical name for the data channel.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_source
+    #   The data source for this channel.
+    #   @return [Types::AIWorkloadDataSource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIWorkloadInputDataConfig AWS API Documentation
+    #
+    class AIWorkloadInputDataConfig < Struct.new(
+      :channel_name,
+      :data_source)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Amazon S3 data source for an AI workload.
+    #
+    # @!attribute [rw] s3_uri
+    #   The Amazon S3 URI of the data.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIWorkloadS3DataSource AWS API Documentation
+    #
+    class AIWorkloadS3DataSource < Struct.new(
+      :s3_uri)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Configuration for allocating accelerator partitions.
     #
     # @!attribute [rw] type
@@ -7815,6 +8493,204 @@ module Aws::SageMaker
       include Aws::Structure
     end
 
+    # @!attribute [rw] ai_benchmark_job_name
+    #   The name of the AI benchmark job. The name must be unique within
+    #   your Amazon Web Services account in the current Amazon Web Services
+    #   Region.
+    #   @return [String]
+    #
+    # @!attribute [rw] benchmark_target
+    #   The target endpoint to benchmark. Specify a SageMaker endpoint by
+    #   providing its name or Amazon Resource Name (ARN).
+    #   @return [Types::AIBenchmarkTarget]
+    #
+    # @!attribute [rw] output_config
+    #   The output configuration for the benchmark job, including the Amazon
+    #   S3 location where benchmark results are stored.
+    #   @return [Types::AIBenchmarkOutputConfig]
+    #
+    # @!attribute [rw] ai_workload_config_identifier
+    #   The name or Amazon Resource Name (ARN) of the AI workload
+    #   configuration to use for this benchmark job.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_arn
+    #   The Amazon Resource Name (ARN) of an IAM role that enables Amazon
+    #   SageMaker AI to perform tasks on your behalf.
+    #   @return [String]
+    #
+    # @!attribute [rw] network_config
+    #   The network configuration for the benchmark job, including VPC
+    #   settings.
+    #   @return [Types::AIBenchmarkNetworkConfig]
+    #
+    # @!attribute [rw] tags
+    #   The metadata that you apply to Amazon Web Services resources to help
+    #   you categorize and organize them. Each tag consists of a key and a
+    #   value, both of which you define.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/CreateAIBenchmarkJobRequest AWS API Documentation
+    #
+    class CreateAIBenchmarkJobRequest < Struct.new(
+      :ai_benchmark_job_name,
+      :benchmark_target,
+      :output_config,
+      :ai_workload_config_identifier,
+      :role_arn,
+      :network_config,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_benchmark_job_arn
+    #   The Amazon Resource Name (ARN) of the created benchmark job.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/CreateAIBenchmarkJobResponse AWS API Documentation
+    #
+    class CreateAIBenchmarkJobResponse < Struct.new(
+      :ai_benchmark_job_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_recommendation_job_name
+    #   The name of the AI recommendation job. The name must be unique
+    #   within your Amazon Web Services account in the current Amazon Web
+    #   Services Region.
+    #   @return [String]
+    #
+    # @!attribute [rw] model_source
+    #   The source of the model to optimize. Specify the Amazon S3 location
+    #   of the model artifacts.
+    #   @return [Types::AIModelSource]
+    #
+    # @!attribute [rw] output_config
+    #   The output configuration for the recommendation job, including the
+    #   Amazon S3 location for results and an optional model package group
+    #   where the optimized model is registered.
+    #   @return [Types::AIRecommendationOutputConfig]
+    #
+    # @!attribute [rw] ai_workload_config_identifier
+    #   The name or Amazon Resource Name (ARN) of the AI workload
+    #   configuration to use for this recommendation job.
+    #   @return [String]
+    #
+    # @!attribute [rw] performance_target
+    #   The performance targets for the recommendation job. Specify
+    #   constraints on metrics such as time to first token (`ttft-ms`),
+    #   `throughput`, or `cost`.
+    #   @return [Types::AIRecommendationPerformanceTarget]
+    #
+    # @!attribute [rw] role_arn
+    #   The Amazon Resource Name (ARN) of an IAM role that enables Amazon
+    #   SageMaker AI to perform tasks on your behalf.
+    #   @return [String]
+    #
+    # @!attribute [rw] inference_specification
+    #   The inference framework configuration. Specify the framework (such
+    #   as LMI or vLLM) for the recommendation job.
+    #   @return [Types::AIRecommendationInferenceSpecification]
+    #
+    # @!attribute [rw] optimize_model
+    #   Whether to allow model optimization techniques such as quantization,
+    #   speculative decoding, and kernel tuning. The default is `true`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] compute_spec
+    #   The compute resource specification for the recommendation job. You
+    #   can specify up to 3 instance types to consider, and optionally
+    #   provide capacity reservation configuration.
+    #   @return [Types::AIRecommendationComputeSpec]
+    #
+    # @!attribute [rw] tags
+    #   The metadata that you apply to Amazon Web Services resources to help
+    #   you categorize and organize them.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/CreateAIRecommendationJobRequest AWS API Documentation
+    #
+    class CreateAIRecommendationJobRequest < Struct.new(
+      :ai_recommendation_job_name,
+      :model_source,
+      :output_config,
+      :ai_workload_config_identifier,
+      :performance_target,
+      :role_arn,
+      :inference_specification,
+      :optimize_model,
+      :compute_spec,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_recommendation_job_arn
+    #   The Amazon Resource Name (ARN) of the created recommendation job.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/CreateAIRecommendationJobResponse AWS API Documentation
+    #
+    class CreateAIRecommendationJobResponse < Struct.new(
+      :ai_recommendation_job_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_workload_config_name
+    #   The name of the AI workload configuration. The name must be unique
+    #   within your Amazon Web Services account in the current Amazon Web
+    #   Services Region.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_config
+    #   The dataset configuration for the workload. Specify input data
+    #   channels with their data sources for benchmark workloads.
+    #   @return [Types::AIDatasetConfig]
+    #
+    # @!attribute [rw] ai_workload_configs
+    #   The benchmark tool configuration and workload specification. Provide
+    #   the specification as an inline YAML or JSON string.
+    #   @return [Types::AIWorkloadConfigs]
+    #
+    # @!attribute [rw] tags
+    #   The metadata that you apply to Amazon Web Services resources to help
+    #   you categorize and organize them. Each tag consists of a key and a
+    #   value, both of which you define. For more information, see [Tagging
+    #   Amazon Web Services Resources][1] in the Amazon Web Services General
+    #   Reference.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/CreateAIWorkloadConfigRequest AWS API Documentation
+    #
+    class CreateAIWorkloadConfigRequest < Struct.new(
+      :ai_workload_config_name,
+      :dataset_config,
+      :ai_workload_configs,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_workload_config_arn
+    #   The Amazon Resource Name (ARN) of the created AI workload
+    #   configuration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/CreateAIWorkloadConfigResponse AWS API Documentation
+    #
+    class CreateAIWorkloadConfigResponse < Struct.new(
+      :ai_workload_config_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] action_name
     #   The name of the action. Must be unique to your account in an Amazon
     #   Web Services Region.
@@ -14377,6 +15253,79 @@ module Aws::SageMaker
       include Aws::Structure
     end
 
+    # @!attribute [rw] ai_benchmark_job_name
+    #   The name of the AI benchmark job to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DeleteAIBenchmarkJobRequest AWS API Documentation
+    #
+    class DeleteAIBenchmarkJobRequest < Struct.new(
+      :ai_benchmark_job_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_benchmark_job_arn
+    #   The Amazon Resource Name (ARN) of the deleted benchmark job.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DeleteAIBenchmarkJobResponse AWS API Documentation
+    #
+    class DeleteAIBenchmarkJobResponse < Struct.new(
+      :ai_benchmark_job_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_recommendation_job_name
+    #   The name of the AI recommendation job to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DeleteAIRecommendationJobRequest AWS API Documentation
+    #
+    class DeleteAIRecommendationJobRequest < Struct.new(
+      :ai_recommendation_job_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_recommendation_job_arn
+    #   The Amazon Resource Name (ARN) of the deleted recommendation job.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DeleteAIRecommendationJobResponse AWS API Documentation
+    #
+    class DeleteAIRecommendationJobResponse < Struct.new(
+      :ai_recommendation_job_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_workload_config_name
+    #   The name of the AI workload configuration to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DeleteAIWorkloadConfigRequest AWS API Documentation
+    #
+    class DeleteAIWorkloadConfigRequest < Struct.new(
+      :ai_workload_config_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_workload_config_arn
+    #   The Amazon Resource Name (ARN) of the deleted AI workload
+    #   configuration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DeleteAIWorkloadConfigResponse AWS API Documentation
+    #
+    class DeleteAIWorkloadConfigResponse < Struct.new(
+      :ai_workload_config_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] action_name
     #   The name of the action to delete.
     #   @return [String]
@@ -15616,6 +16565,253 @@ module Aws::SageMaker
     #
     class DerivedInformation < Struct.new(
       :derived_data_input_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_benchmark_job_name
+    #   The name of the AI benchmark job to describe.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeAIBenchmarkJobRequest AWS API Documentation
+    #
+    class DescribeAIBenchmarkJobRequest < Struct.new(
+      :ai_benchmark_job_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_benchmark_job_name
+    #   The name of the AI benchmark job.
+    #   @return [String]
+    #
+    # @!attribute [rw] ai_benchmark_job_arn
+    #   The Amazon Resource Name (ARN) of the AI benchmark job.
+    #   @return [String]
+    #
+    # @!attribute [rw] ai_benchmark_job_status
+    #   The status of the AI benchmark job.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_reason
+    #   If the benchmark job failed, the reason it failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] benchmark_target
+    #   The target endpoint that was benchmarked.
+    #   @return [Types::AIBenchmarkTarget]
+    #
+    # @!attribute [rw] output_config
+    #   The output configuration for the benchmark job, including the Amazon
+    #   S3 output location and CloudWatch log information.
+    #   @return [Types::AIBenchmarkOutputResult]
+    #
+    # @!attribute [rw] ai_workload_config_identifier
+    #   The name or Amazon Resource Name (ARN) of the AI workload
+    #   configuration used for this benchmark job.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role used by the benchmark
+    #   job.
+    #   @return [String]
+    #
+    # @!attribute [rw] network_config
+    #   The network configuration for the benchmark job.
+    #   @return [Types::AIBenchmarkNetworkConfig]
+    #
+    # @!attribute [rw] creation_time
+    #   A timestamp that indicates when the benchmark job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] start_time
+    #   A timestamp that indicates when the benchmark job started running.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   A timestamp that indicates when the benchmark job completed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   The tags associated with the benchmark job.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeAIBenchmarkJobResponse AWS API Documentation
+    #
+    class DescribeAIBenchmarkJobResponse < Struct.new(
+      :ai_benchmark_job_name,
+      :ai_benchmark_job_arn,
+      :ai_benchmark_job_status,
+      :failure_reason,
+      :benchmark_target,
+      :output_config,
+      :ai_workload_config_identifier,
+      :role_arn,
+      :network_config,
+      :creation_time,
+      :start_time,
+      :end_time,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_recommendation_job_name
+    #   The name of the AI recommendation job to describe.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeAIRecommendationJobRequest AWS API Documentation
+    #
+    class DescribeAIRecommendationJobRequest < Struct.new(
+      :ai_recommendation_job_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_recommendation_job_name
+    #   The name of the AI recommendation job.
+    #   @return [String]
+    #
+    # @!attribute [rw] ai_recommendation_job_arn
+    #   The Amazon Resource Name (ARN) of the AI recommendation job.
+    #   @return [String]
+    #
+    # @!attribute [rw] ai_recommendation_job_status
+    #   The status of the AI recommendation job.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_reason
+    #   If the recommendation job failed, the reason it failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] model_source
+    #   The source of the model that was analyzed.
+    #   @return [Types::AIModelSource]
+    #
+    # @!attribute [rw] output_config
+    #   The output configuration for the recommendation job.
+    #   @return [Types::AIRecommendationOutputResult]
+    #
+    # @!attribute [rw] inference_specification
+    #   The inference framework configuration.
+    #   @return [Types::AIRecommendationInferenceSpecification]
+    #
+    # @!attribute [rw] ai_workload_config_identifier
+    #   The name or Amazon Resource Name (ARN) of the AI workload
+    #   configuration used for this recommendation job.
+    #   @return [String]
+    #
+    # @!attribute [rw] optimize_model
+    #   Whether model optimization techniques were allowed.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] performance_target
+    #   The performance targets specified for the recommendation job.
+    #   @return [Types::AIRecommendationPerformanceTarget]
+    #
+    # @!attribute [rw] recommendations
+    #   The list of optimization recommendations generated by the job. Each
+    #   recommendation includes optimization details, deployment
+    #   configuration, expected performance metrics, and the associated
+    #   benchmark job ARN.
+    #   @return [Array<Types::AIRecommendation>]
+    #
+    # @!attribute [rw] role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role used by the
+    #   recommendation job.
+    #   @return [String]
+    #
+    # @!attribute [rw] compute_spec
+    #   The compute resource specification for the recommendation job.
+    #   @return [Types::AIRecommendationComputeSpec]
+    #
+    # @!attribute [rw] creation_time
+    #   A timestamp that indicates when the recommendation job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] start_time
+    #   A timestamp that indicates when the recommendation job started
+    #   running.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   A timestamp that indicates when the recommendation job completed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   The tags associated with the recommendation job.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeAIRecommendationJobResponse AWS API Documentation
+    #
+    class DescribeAIRecommendationJobResponse < Struct.new(
+      :ai_recommendation_job_name,
+      :ai_recommendation_job_arn,
+      :ai_recommendation_job_status,
+      :failure_reason,
+      :model_source,
+      :output_config,
+      :inference_specification,
+      :ai_workload_config_identifier,
+      :optimize_model,
+      :performance_target,
+      :recommendations,
+      :role_arn,
+      :compute_spec,
+      :creation_time,
+      :start_time,
+      :end_time,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_workload_config_name
+    #   The name of the AI workload configuration to describe.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeAIWorkloadConfigRequest AWS API Documentation
+    #
+    class DescribeAIWorkloadConfigRequest < Struct.new(
+      :ai_workload_config_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_workload_config_name
+    #   The name of the AI workload configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] ai_workload_config_arn
+    #   The Amazon Resource Name (ARN) of the AI workload configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_config
+    #   The dataset configuration for the workload.
+    #   @return [Types::AIDatasetConfig]
+    #
+    # @!attribute [rw] ai_workload_configs
+    #   The benchmark tool configuration and workload specification.
+    #   @return [Types::AIWorkloadConfigs]
+    #
+    # @!attribute [rw] tags
+    #   The tags associated with the AI workload configuration.
+    #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] creation_time
+    #   A timestamp that indicates when the AI workload configuration was
+    #   created.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeAIWorkloadConfigResponse AWS API Documentation
+    #
+    class DescribeAIWorkloadConfigResponse < Struct.new(
+      :ai_workload_config_name,
+      :ai_workload_config_arn,
+      :dataset_config,
+      :ai_workload_configs,
+      :tags,
+      :creation_time)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -31288,6 +32484,214 @@ module Aws::SageMaker
       include Aws::Structure
     end
 
+    # @!attribute [rw] max_results
+    #   The maximum number of benchmark jobs to return in the response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   If the previous call to `ListAIBenchmarkJobs` didn't return the
+    #   full set of jobs, the call returns a token for getting the next set.
+    #   @return [String]
+    #
+    # @!attribute [rw] name_contains
+    #   A string in the job name. This filter returns only jobs whose name
+    #   contains the specified string.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_equals
+    #   A filter that returns only benchmark jobs with the specified status.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time_after
+    #   A filter that returns only jobs created after the specified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] creation_time_before
+    #   A filter that returns only jobs created before the specified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] sort_by
+    #   The field to sort results by. The default is `CreationTime`.
+    #   @return [String]
+    #
+    # @!attribute [rw] sort_order
+    #   The sort order for results. The default is `Descending`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListAIBenchmarkJobsRequest AWS API Documentation
+    #
+    class ListAIBenchmarkJobsRequest < Struct.new(
+      :max_results,
+      :next_token,
+      :name_contains,
+      :status_equals,
+      :creation_time_after,
+      :creation_time_before,
+      :sort_by,
+      :sort_order)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_benchmark_jobs
+    #   An array of `AIBenchmarkJobSummary` objects, one for each benchmark
+    #   job that matches the specified filters.
+    #   @return [Array<Types::AIBenchmarkJobSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If the response is truncated, Amazon SageMaker AI returns this
+    #   token. To retrieve the next set of jobs, use it in the subsequent
+    #   request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListAIBenchmarkJobsResponse AWS API Documentation
+    #
+    class ListAIBenchmarkJobsResponse < Struct.new(
+      :ai_benchmark_jobs,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of recommendation jobs to return in the response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   If the previous call to `ListAIRecommendationJobs` didn't return
+    #   the full set of jobs, the call returns a token for getting the next
+    #   set.
+    #   @return [String]
+    #
+    # @!attribute [rw] name_contains
+    #   A string in the job name. This filter returns only jobs whose name
+    #   contains the specified string.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_equals
+    #   A filter that returns only recommendation jobs with the specified
+    #   status.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time_after
+    #   A filter that returns only jobs created after the specified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] creation_time_before
+    #   A filter that returns only jobs created before the specified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] sort_by
+    #   The field to sort results by. The default is `CreationTime`.
+    #   @return [String]
+    #
+    # @!attribute [rw] sort_order
+    #   The sort order for results. The default is `Descending`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListAIRecommendationJobsRequest AWS API Documentation
+    #
+    class ListAIRecommendationJobsRequest < Struct.new(
+      :max_results,
+      :next_token,
+      :name_contains,
+      :status_equals,
+      :creation_time_after,
+      :creation_time_before,
+      :sort_by,
+      :sort_order)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_recommendation_jobs
+    #   An array of `AIRecommendationJobSummary` objects, one for each
+    #   recommendation job that matches the specified filters.
+    #   @return [Array<Types::AIRecommendationJobSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If the response is truncated, Amazon SageMaker AI returns this
+    #   token. To retrieve the next set of jobs, use it in the subsequent
+    #   request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListAIRecommendationJobsResponse AWS API Documentation
+    #
+    class ListAIRecommendationJobsResponse < Struct.new(
+      :ai_recommendation_jobs,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of AI workload configurations to return in the
+    #   response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   If the previous call to `ListAIWorkloadConfigs` didn't return the
+    #   full set of configurations, the call returns a token for getting the
+    #   next set of configurations.
+    #   @return [String]
+    #
+    # @!attribute [rw] name_contains
+    #   A string in the configuration name. This filter returns only
+    #   configurations whose name contains the specified string.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time_after
+    #   A filter that returns only configurations created after the
+    #   specified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] creation_time_before
+    #   A filter that returns only configurations created before the
+    #   specified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] sort_by
+    #   The field to sort results by. The default is `CreationTime`.
+    #   @return [String]
+    #
+    # @!attribute [rw] sort_order
+    #   The sort order for results. The default is `Descending`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListAIWorkloadConfigsRequest AWS API Documentation
+    #
+    class ListAIWorkloadConfigsRequest < Struct.new(
+      :max_results,
+      :next_token,
+      :name_contains,
+      :creation_time_after,
+      :creation_time_before,
+      :sort_by,
+      :sort_order)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_workload_configs
+    #   An array of `AIWorkloadConfigSummary` objects, one for each AI
+    #   workload configuration that matches the specified filters.
+    #   @return [Array<Types::AIWorkloadConfigSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If the response is truncated, Amazon SageMaker AI returns this
+    #   token. To retrieve the next set of configurations, use it in the
+    #   subsequent request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListAIWorkloadConfigsResponse AWS API Documentation
+    #
+    class ListAIWorkloadConfigsResponse < Struct.new(
+      :ai_workload_configs,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] source_uri
     #   A filter that returns only actions with the specified source URI.
     #   @return [String]
@@ -39371,6 +40775,12 @@ module Aws::SageMaker
     #   `ListModelMetadata`.
     #   @return [String]
     #
+    # @!attribute [rw] additional_model_data_sources
+    #   Data sources that are available to your model in addition to the one
+    #   that you specify for `ModelDataSource` when you use the
+    #   `CreateModelPackage` action.
+    #   @return [Array<Types::AdditionalModelDataSource>]
+    #
     # @!attribute [rw] additional_s3_data_source
     #   The additional data source that is used during inference in the
     #   Docker container for your model package.
@@ -39403,6 +40813,7 @@ module Aws::SageMaker
       :framework,
       :framework_version,
       :nearest_model_name,
+      :additional_model_data_sources,
       :additional_s3_data_source,
       :model_data_etag,
       :is_checkpoint,
@@ -41247,8 +42658,19 @@ module Aws::SageMaker
     # @!attribute [rw] disable_glue_table_creation
     #   Set to `True` to disable the automatic creation of an Amazon Web
     #   Services Glue table when configuring an `OfflineStore`. If set to
-    #   `False`, Feature Store will name the `OfflineStore` Glue table
-    #   following [Athena's naming recommendations][1].
+    #   `True` and `DataCatalogConfig` is provided, Feature Store associates
+    #   the provided catalog configuration with the feature group without
+    #   creating a table. In this case, you are responsible for creating and
+    #   managing the Glue table. If set to `True` without
+    #   `DataCatalogConfig`, no Glue table is created or associated with the
+    #   feature group. The `Iceberg` table format is only supported when
+    #   this is set to `False`.
+    #
+    #   If set to `False` and `DataCatalogConfig` is provided, Feature Store
+    #   creates the table using the specified names. If set to `False`
+    #   without `DataCatalogConfig`, Feature Store auto-generates the table
+    #   name following [Athena's naming recommendations][1]. This applies
+    #   to both Glue and Apache Iceberg table formats.
     #
     #   The default value is `False`.
     #
@@ -41258,8 +42680,11 @@ module Aws::SageMaker
     #   @return [Boolean]
     #
     # @!attribute [rw] data_catalog_config
-    #   The meta data of the Glue table that is autogenerated when an
-    #   `OfflineStore` is created.
+    #   The meta data of the Glue table for the `OfflineStore`. If not
+    #   provided, Feature Store auto-generates the table name, database, and
+    #   catalog when the `OfflineStore` is created. You can optionally
+    #   provide this configuration to specify custom values. This applies to
+    #   both Glue and Apache Iceberg table formats.
     #   @return [Types::DataCatalogConfig]
     #
     # @!attribute [rw] table_format
@@ -49022,6 +50447,54 @@ module Aws::SageMaker
       include Aws::Structure
     end
 
+    # @!attribute [rw] ai_benchmark_job_name
+    #   The name of the AI benchmark job to stop.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/StopAIBenchmarkJobRequest AWS API Documentation
+    #
+    class StopAIBenchmarkJobRequest < Struct.new(
+      :ai_benchmark_job_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_benchmark_job_arn
+    #   The Amazon Resource Name (ARN) of the stopped benchmark job.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/StopAIBenchmarkJobResponse AWS API Documentation
+    #
+    class StopAIBenchmarkJobResponse < Struct.new(
+      :ai_benchmark_job_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_recommendation_job_name
+    #   The name of the AI recommendation job to stop.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/StopAIRecommendationJobRequest AWS API Documentation
+    #
+    class StopAIRecommendationJobRequest < Struct.new(
+      :ai_recommendation_job_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ai_recommendation_job_arn
+    #   The Amazon Resource Name (ARN) of the stopped recommendation job.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/StopAIRecommendationJobResponse AWS API Documentation
+    #
+    class StopAIRecommendationJobResponse < Struct.new(
+      :ai_recommendation_job_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] auto_ml_job_name
     #   The name of the object you are requesting.
     #   @return [String]
@@ -56317,6 +57790,30 @@ module Aws::SageMaker
       :vpc_endpoint_id)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # The workload specification for benchmark tool configuration. Provide
+    # an inline YAML or JSON string.
+    #
+    # @note WorkloadSpec is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note WorkloadSpec is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of WorkloadSpec corresponding to the set member.
+    #
+    # @!attribute [rw] inline
+    #   An inline YAML or JSON string that defines benchmark parameters.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/WorkloadSpec AWS API Documentation
+    #
+    class WorkloadSpec < Struct.new(
+      :inline,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Inline < WorkloadSpec; end
+      class Unknown < WorkloadSpec; end
     end
 
     # The workspace settings for the SageMaker Canvas application.

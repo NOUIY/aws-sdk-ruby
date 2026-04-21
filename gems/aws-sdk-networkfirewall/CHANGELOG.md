@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.87.0 (2026-04-21)
+------------------
+
+* Feature - Support for new types of partner managed rulegroups for Network Firewall Service
+
 1.86.0 (2026-03-18)
 ------------------
 
