@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.48.0 (2026-04-22)
+------------------
+
+* Feature - Update the pipeline configuration body character limit for the CreatePipeline API call.
+
 1.47.0 (2026-03-18)
 ------------------
 

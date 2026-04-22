@@ -1724,7 +1724,7 @@ module Aws::S3Control
     end
 
     class S3ComputeObjectChecksumOperation
-      attr_accessor checksum_algorithm: ("CRC32" | "CRC32C" | "CRC64NVME" | "MD5" | "SHA1" | "SHA256")
+      attr_accessor checksum_algorithm: ("CRC32" | "CRC32C" | "CRC64NVME" | "MD5" | "SHA1" | "SHA256" | "SHA512" | "XXHASH64" | "XXHASH3" | "XXHASH128")
       attr_accessor checksum_type: ("FULL_OBJECT" | "COMPOSITE")
       SENSITIVE: []
     end
@@ -1747,7 +1747,7 @@ module Aws::S3Control
       attr_accessor object_lock_mode: ("COMPLIANCE" | "GOVERNANCE")
       attr_accessor object_lock_retain_until_date: ::Time
       attr_accessor bucket_key_enabled: bool
-      attr_accessor checksum_algorithm: ("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME")
+      attr_accessor checksum_algorithm: ("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME" | "SHA512" | "MD5" | "XXHASH64" | "XXHASH3" | "XXHASH128")
       SENSITIVE: []
     end
 

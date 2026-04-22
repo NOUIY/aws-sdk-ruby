@@ -34,6 +34,7 @@ module Aws::IVS
   # * {PendingVerification}
   # * {ResourceNotFoundException}
   # * {ServiceQuotaExceededException}
+  # * {ServiceUnavailable}
   # * {StreamUnavailable}
   # * {ThrottlingException}
   # * {ValidationException}
@@ -54,6 +55,46 @@ module Aws::IVS
       end
 
       # @return [String]
+      def access_control_allow_origin
+        @data[:access_control_allow_origin]
+      end
+
+      # @return [String]
+      def access_control_expose_headers
+        @data[:access_control_expose_headers]
+      end
+
+      # @return [String]
+      def cache_control
+        @data[:cache_control]
+      end
+
+      # @return [String]
+      def content_security_policy
+        @data[:content_security_policy]
+      end
+
+      # @return [String]
+      def strict_transport_security
+        @data[:strict_transport_security]
+      end
+
+      # @return [String]
+      def x_content_type_options
+        @data[:x_content_type_options]
+      end
+
+      # @return [String]
+      def x_frame_options
+        @data[:x_frame_options]
+      end
+
+      # @return [String]
+      def x_amzn_error_type
+        @data[:x_amzn_error_type]
+      end
+
+      # @return [String]
       def exception_message
         @data[:exception_message]
       end
@@ -66,6 +107,46 @@ module Aws::IVS
       # @param [Aws::IVS::Types::ChannelNotBroadcasting] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
+      end
+
+      # @return [String]
+      def access_control_allow_origin
+        @data[:access_control_allow_origin]
+      end
+
+      # @return [String]
+      def access_control_expose_headers
+        @data[:access_control_expose_headers]
+      end
+
+      # @return [String]
+      def cache_control
+        @data[:cache_control]
+      end
+
+      # @return [String]
+      def content_security_policy
+        @data[:content_security_policy]
+      end
+
+      # @return [String]
+      def strict_transport_security
+        @data[:strict_transport_security]
+      end
+
+      # @return [String]
+      def x_content_type_options
+        @data[:x_content_type_options]
+      end
+
+      # @return [String]
+      def x_frame_options
+        @data[:x_frame_options]
+      end
+
+      # @return [String]
+      def x_amzn_error_type
+        @data[:x_amzn_error_type]
       end
 
       # @return [String]
@@ -84,6 +165,46 @@ module Aws::IVS
       end
 
       # @return [String]
+      def access_control_allow_origin
+        @data[:access_control_allow_origin]
+      end
+
+      # @return [String]
+      def access_control_expose_headers
+        @data[:access_control_expose_headers]
+      end
+
+      # @return [String]
+      def cache_control
+        @data[:cache_control]
+      end
+
+      # @return [String]
+      def content_security_policy
+        @data[:content_security_policy]
+      end
+
+      # @return [String]
+      def strict_transport_security
+        @data[:strict_transport_security]
+      end
+
+      # @return [String]
+      def x_content_type_options
+        @data[:x_content_type_options]
+      end
+
+      # @return [String]
+      def x_frame_options
+        @data[:x_frame_options]
+      end
+
+      # @return [String]
+      def x_amzn_error_type
+        @data[:x_amzn_error_type]
+      end
+
+      # @return [String]
       def exception_message
         @data[:exception_message]
       end
@@ -96,6 +217,46 @@ module Aws::IVS
       # @param [Aws::IVS::Types::InternalServerException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
+      end
+
+      # @return [String]
+      def access_control_allow_origin
+        @data[:access_control_allow_origin]
+      end
+
+      # @return [String]
+      def access_control_expose_headers
+        @data[:access_control_expose_headers]
+      end
+
+      # @return [String]
+      def cache_control
+        @data[:cache_control]
+      end
+
+      # @return [String]
+      def content_security_policy
+        @data[:content_security_policy]
+      end
+
+      # @return [String]
+      def strict_transport_security
+        @data[:strict_transport_security]
+      end
+
+      # @return [String]
+      def x_content_type_options
+        @data[:x_content_type_options]
+      end
+
+      # @return [String]
+      def x_frame_options
+        @data[:x_frame_options]
+      end
+
+      # @return [String]
+      def x_amzn_error_type
+        @data[:x_amzn_error_type]
       end
 
       # @return [String]
@@ -114,6 +275,46 @@ module Aws::IVS
       end
 
       # @return [String]
+      def access_control_allow_origin
+        @data[:access_control_allow_origin]
+      end
+
+      # @return [String]
+      def access_control_expose_headers
+        @data[:access_control_expose_headers]
+      end
+
+      # @return [String]
+      def cache_control
+        @data[:cache_control]
+      end
+
+      # @return [String]
+      def content_security_policy
+        @data[:content_security_policy]
+      end
+
+      # @return [String]
+      def strict_transport_security
+        @data[:strict_transport_security]
+      end
+
+      # @return [String]
+      def x_content_type_options
+        @data[:x_content_type_options]
+      end
+
+      # @return [String]
+      def x_frame_options
+        @data[:x_frame_options]
+      end
+
+      # @return [String]
+      def x_amzn_error_type
+        @data[:x_amzn_error_type]
+      end
+
+      # @return [String]
       def exception_message
         @data[:exception_message]
       end
@@ -126,6 +327,46 @@ module Aws::IVS
       # @param [Aws::IVS::Types::ResourceNotFoundException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
+      end
+
+      # @return [String]
+      def access_control_allow_origin
+        @data[:access_control_allow_origin]
+      end
+
+      # @return [String]
+      def access_control_expose_headers
+        @data[:access_control_expose_headers]
+      end
+
+      # @return [String]
+      def cache_control
+        @data[:cache_control]
+      end
+
+      # @return [String]
+      def content_security_policy
+        @data[:content_security_policy]
+      end
+
+      # @return [String]
+      def strict_transport_security
+        @data[:strict_transport_security]
+      end
+
+      # @return [String]
+      def x_content_type_options
+        @data[:x_content_type_options]
+      end
+
+      # @return [String]
+      def x_frame_options
+        @data[:x_frame_options]
+      end
+
+      # @return [String]
+      def x_amzn_error_type
+        @data[:x_amzn_error_type]
       end
 
       # @return [String]
@@ -144,6 +385,101 @@ module Aws::IVS
       end
 
       # @return [String]
+      def access_control_allow_origin
+        @data[:access_control_allow_origin]
+      end
+
+      # @return [String]
+      def access_control_expose_headers
+        @data[:access_control_expose_headers]
+      end
+
+      # @return [String]
+      def cache_control
+        @data[:cache_control]
+      end
+
+      # @return [String]
+      def content_security_policy
+        @data[:content_security_policy]
+      end
+
+      # @return [String]
+      def strict_transport_security
+        @data[:strict_transport_security]
+      end
+
+      # @return [String]
+      def x_content_type_options
+        @data[:x_content_type_options]
+      end
+
+      # @return [String]
+      def x_frame_options
+        @data[:x_frame_options]
+      end
+
+      # @return [String]
+      def x_amzn_error_type
+        @data[:x_amzn_error_type]
+      end
+
+      # @return [String]
+      def exception_message
+        @data[:exception_message]
+      end
+    end
+
+    class ServiceUnavailable < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::IVS::Types::ServiceUnavailable] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def access_control_allow_origin
+        @data[:access_control_allow_origin]
+      end
+
+      # @return [String]
+      def access_control_expose_headers
+        @data[:access_control_expose_headers]
+      end
+
+      # @return [String]
+      def cache_control
+        @data[:cache_control]
+      end
+
+      # @return [String]
+      def content_security_policy
+        @data[:content_security_policy]
+      end
+
+      # @return [String]
+      def strict_transport_security
+        @data[:strict_transport_security]
+      end
+
+      # @return [String]
+      def x_content_type_options
+        @data[:x_content_type_options]
+      end
+
+      # @return [String]
+      def x_frame_options
+        @data[:x_frame_options]
+      end
+
+      # @return [String]
+      def x_amzn_error_type
+        @data[:x_amzn_error_type]
+      end
+
+      # @return [String]
       def exception_message
         @data[:exception_message]
       end
@@ -156,6 +492,46 @@ module Aws::IVS
       # @param [Aws::IVS::Types::StreamUnavailable] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
+      end
+
+      # @return [String]
+      def access_control_allow_origin
+        @data[:access_control_allow_origin]
+      end
+
+      # @return [String]
+      def access_control_expose_headers
+        @data[:access_control_expose_headers]
+      end
+
+      # @return [String]
+      def cache_control
+        @data[:cache_control]
+      end
+
+      # @return [String]
+      def content_security_policy
+        @data[:content_security_policy]
+      end
+
+      # @return [String]
+      def strict_transport_security
+        @data[:strict_transport_security]
+      end
+
+      # @return [String]
+      def x_content_type_options
+        @data[:x_content_type_options]
+      end
+
+      # @return [String]
+      def x_frame_options
+        @data[:x_frame_options]
+      end
+
+      # @return [String]
+      def x_amzn_error_type
+        @data[:x_amzn_error_type]
       end
 
       # @return [String]
@@ -174,6 +550,46 @@ module Aws::IVS
       end
 
       # @return [String]
+      def access_control_allow_origin
+        @data[:access_control_allow_origin]
+      end
+
+      # @return [String]
+      def access_control_expose_headers
+        @data[:access_control_expose_headers]
+      end
+
+      # @return [String]
+      def cache_control
+        @data[:cache_control]
+      end
+
+      # @return [String]
+      def content_security_policy
+        @data[:content_security_policy]
+      end
+
+      # @return [String]
+      def strict_transport_security
+        @data[:strict_transport_security]
+      end
+
+      # @return [String]
+      def x_content_type_options
+        @data[:x_content_type_options]
+      end
+
+      # @return [String]
+      def x_frame_options
+        @data[:x_frame_options]
+      end
+
+      # @return [String]
+      def x_amzn_error_type
+        @data[:x_amzn_error_type]
+      end
+
+      # @return [String]
       def exception_message
         @data[:exception_message]
       end
@@ -186,6 +602,46 @@ module Aws::IVS
       # @param [Aws::IVS::Types::ValidationException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
+      end
+
+      # @return [String]
+      def access_control_allow_origin
+        @data[:access_control_allow_origin]
+      end
+
+      # @return [String]
+      def access_control_expose_headers
+        @data[:access_control_expose_headers]
+      end
+
+      # @return [String]
+      def cache_control
+        @data[:cache_control]
+      end
+
+      # @return [String]
+      def content_security_policy
+        @data[:content_security_policy]
+      end
+
+      # @return [String]
+      def strict_transport_security
+        @data[:strict_transport_security]
+      end
+
+      # @return [String]
+      def x_content_type_options
+        @data[:x_content_type_options]
+      end
+
+      # @return [String]
+      def x_frame_options
+        @data[:x_frame_options]
+      end
+
+      # @return [String]
+      def x_amzn_error_type
+        @data[:x_amzn_error_type]
       end
 
       # @return [String]

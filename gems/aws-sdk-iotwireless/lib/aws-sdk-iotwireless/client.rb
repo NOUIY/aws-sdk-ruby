@@ -2584,6 +2584,10 @@ module Aws::IoTWireless
     #   not specified, the time at which the request was received will be
     #   used.
     #
+    # @option params [Types::AdvancedConfiguration] :advanced_configuration
+    #   Optional configuration to customize position estimates. If not
+    #   provided, defaults are applied.
+    #
     # @return [Types::GetPositionEstimateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetPositionEstimateResponse#geo_json_payload #geo_json_payload} => IO
@@ -2731,6 +2735,11 @@ module Aws::IoTWireless
     #       use_2_d_solver: false,
     #     },
     #     timestamp: Time.now,
+    #     advanced_configuration: {
+    #       wi_fi_cellular: {
+    #         confidence_percent: 1,
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -5465,7 +5474,7 @@ module Aws::IoTWireless
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-iotwireless'
-      context[:gem_version] = '1.83.0'
+      context[:gem_version] = '1.84.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

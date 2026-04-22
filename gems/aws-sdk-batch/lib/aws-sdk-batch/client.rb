@@ -1978,6 +1978,10 @@ module Aws::Batch
     #   resp.job_definitions[0].container_properties.volumes[0].efs_volume_configuration.transit_encryption_port #=> Integer
     #   resp.job_definitions[0].container_properties.volumes[0].efs_volume_configuration.authorization_config.access_point_id #=> String
     #   resp.job_definitions[0].container_properties.volumes[0].efs_volume_configuration.authorization_config.iam #=> String, one of "ENABLED", "DISABLED"
+    #   resp.job_definitions[0].container_properties.volumes[0].s3files_volume_configuration.file_system_arn #=> String
+    #   resp.job_definitions[0].container_properties.volumes[0].s3files_volume_configuration.root_directory #=> String
+    #   resp.job_definitions[0].container_properties.volumes[0].s3files_volume_configuration.transit_encryption_port #=> Integer
+    #   resp.job_definitions[0].container_properties.volumes[0].s3files_volume_configuration.access_point_arn #=> String
     #   resp.job_definitions[0].container_properties.environment #=> Array
     #   resp.job_definitions[0].container_properties.environment[0].name #=> String
     #   resp.job_definitions[0].container_properties.environment[0].value #=> String
@@ -2047,6 +2051,10 @@ module Aws::Batch
     #   resp.job_definitions[0].node_properties.node_range_properties[0].container.volumes[0].efs_volume_configuration.transit_encryption_port #=> Integer
     #   resp.job_definitions[0].node_properties.node_range_properties[0].container.volumes[0].efs_volume_configuration.authorization_config.access_point_id #=> String
     #   resp.job_definitions[0].node_properties.node_range_properties[0].container.volumes[0].efs_volume_configuration.authorization_config.iam #=> String, one of "ENABLED", "DISABLED"
+    #   resp.job_definitions[0].node_properties.node_range_properties[0].container.volumes[0].s3files_volume_configuration.file_system_arn #=> String
+    #   resp.job_definitions[0].node_properties.node_range_properties[0].container.volumes[0].s3files_volume_configuration.root_directory #=> String
+    #   resp.job_definitions[0].node_properties.node_range_properties[0].container.volumes[0].s3files_volume_configuration.transit_encryption_port #=> Integer
+    #   resp.job_definitions[0].node_properties.node_range_properties[0].container.volumes[0].s3files_volume_configuration.access_point_arn #=> String
     #   resp.job_definitions[0].node_properties.node_range_properties[0].container.environment #=> Array
     #   resp.job_definitions[0].node_properties.node_range_properties[0].container.environment[0].name #=> String
     #   resp.job_definitions[0].node_properties.node_range_properties[0].container.environment[0].value #=> String
@@ -2151,6 +2159,8 @@ module Aws::Batch
     #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].containers[0].ulimits[0].name #=> String
     #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].containers[0].ulimits[0].soft_limit #=> Integer
     #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].containers[0].user #=> String
+    #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].containers[0].start_timeout #=> Integer
+    #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].containers[0].stop_timeout #=> Integer
     #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].ephemeral_storage.size_in_gi_b #=> Integer
     #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].execution_role_arn #=> String
     #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].platform_version #=> String
@@ -2169,6 +2179,10 @@ module Aws::Batch
     #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].volumes[0].efs_volume_configuration.transit_encryption_port #=> Integer
     #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].volumes[0].efs_volume_configuration.authorization_config.access_point_id #=> String
     #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].volumes[0].efs_volume_configuration.authorization_config.iam #=> String, one of "ENABLED", "DISABLED"
+    #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.file_system_arn #=> String
+    #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.root_directory #=> String
+    #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.transit_encryption_port #=> Integer
+    #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.access_point_arn #=> String
     #   resp.job_definitions[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].enable_execute_command #=> Boolean
     #   resp.job_definitions[0].node_properties.node_range_properties[0].eks_properties.pod_properties.service_account_name #=> String
     #   resp.job_definitions[0].node_properties.node_range_properties[0].eks_properties.pod_properties.host_network #=> Boolean
@@ -2304,6 +2318,8 @@ module Aws::Batch
     #   resp.job_definitions[0].ecs_properties.task_properties[0].containers[0].ulimits[0].name #=> String
     #   resp.job_definitions[0].ecs_properties.task_properties[0].containers[0].ulimits[0].soft_limit #=> Integer
     #   resp.job_definitions[0].ecs_properties.task_properties[0].containers[0].user #=> String
+    #   resp.job_definitions[0].ecs_properties.task_properties[0].containers[0].start_timeout #=> Integer
+    #   resp.job_definitions[0].ecs_properties.task_properties[0].containers[0].stop_timeout #=> Integer
     #   resp.job_definitions[0].ecs_properties.task_properties[0].ephemeral_storage.size_in_gi_b #=> Integer
     #   resp.job_definitions[0].ecs_properties.task_properties[0].execution_role_arn #=> String
     #   resp.job_definitions[0].ecs_properties.task_properties[0].platform_version #=> String
@@ -2322,6 +2338,10 @@ module Aws::Batch
     #   resp.job_definitions[0].ecs_properties.task_properties[0].volumes[0].efs_volume_configuration.transit_encryption_port #=> Integer
     #   resp.job_definitions[0].ecs_properties.task_properties[0].volumes[0].efs_volume_configuration.authorization_config.access_point_id #=> String
     #   resp.job_definitions[0].ecs_properties.task_properties[0].volumes[0].efs_volume_configuration.authorization_config.iam #=> String, one of "ENABLED", "DISABLED"
+    #   resp.job_definitions[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.file_system_arn #=> String
+    #   resp.job_definitions[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.root_directory #=> String
+    #   resp.job_definitions[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.transit_encryption_port #=> Integer
+    #   resp.job_definitions[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.access_point_arn #=> String
     #   resp.job_definitions[0].ecs_properties.task_properties[0].enable_execute_command #=> Boolean
     #   resp.job_definitions[0].eks_properties.pod_properties.service_account_name #=> String
     #   resp.job_definitions[0].eks_properties.pod_properties.host_network #=> Boolean
@@ -2651,6 +2671,10 @@ module Aws::Batch
     #   resp.jobs[0].container.volumes[0].efs_volume_configuration.transit_encryption_port #=> Integer
     #   resp.jobs[0].container.volumes[0].efs_volume_configuration.authorization_config.access_point_id #=> String
     #   resp.jobs[0].container.volumes[0].efs_volume_configuration.authorization_config.iam #=> String, one of "ENABLED", "DISABLED"
+    #   resp.jobs[0].container.volumes[0].s3files_volume_configuration.file_system_arn #=> String
+    #   resp.jobs[0].container.volumes[0].s3files_volume_configuration.root_directory #=> String
+    #   resp.jobs[0].container.volumes[0].s3files_volume_configuration.transit_encryption_port #=> Integer
+    #   resp.jobs[0].container.volumes[0].s3files_volume_configuration.access_point_arn #=> String
     #   resp.jobs[0].container.environment #=> Array
     #   resp.jobs[0].container.environment[0].name #=> String
     #   resp.jobs[0].container.environment[0].value #=> String
@@ -2730,6 +2754,10 @@ module Aws::Batch
     #   resp.jobs[0].node_properties.node_range_properties[0].container.volumes[0].efs_volume_configuration.transit_encryption_port #=> Integer
     #   resp.jobs[0].node_properties.node_range_properties[0].container.volumes[0].efs_volume_configuration.authorization_config.access_point_id #=> String
     #   resp.jobs[0].node_properties.node_range_properties[0].container.volumes[0].efs_volume_configuration.authorization_config.iam #=> String, one of "ENABLED", "DISABLED"
+    #   resp.jobs[0].node_properties.node_range_properties[0].container.volumes[0].s3files_volume_configuration.file_system_arn #=> String
+    #   resp.jobs[0].node_properties.node_range_properties[0].container.volumes[0].s3files_volume_configuration.root_directory #=> String
+    #   resp.jobs[0].node_properties.node_range_properties[0].container.volumes[0].s3files_volume_configuration.transit_encryption_port #=> Integer
+    #   resp.jobs[0].node_properties.node_range_properties[0].container.volumes[0].s3files_volume_configuration.access_point_arn #=> String
     #   resp.jobs[0].node_properties.node_range_properties[0].container.environment #=> Array
     #   resp.jobs[0].node_properties.node_range_properties[0].container.environment[0].name #=> String
     #   resp.jobs[0].node_properties.node_range_properties[0].container.environment[0].value #=> String
@@ -2834,6 +2862,8 @@ module Aws::Batch
     #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].containers[0].ulimits[0].name #=> String
     #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].containers[0].ulimits[0].soft_limit #=> Integer
     #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].containers[0].user #=> String
+    #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].containers[0].start_timeout #=> Integer
+    #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].containers[0].stop_timeout #=> Integer
     #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].ephemeral_storage.size_in_gi_b #=> Integer
     #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].execution_role_arn #=> String
     #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].platform_version #=> String
@@ -2852,6 +2882,10 @@ module Aws::Batch
     #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].volumes[0].efs_volume_configuration.transit_encryption_port #=> Integer
     #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].volumes[0].efs_volume_configuration.authorization_config.access_point_id #=> String
     #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].volumes[0].efs_volume_configuration.authorization_config.iam #=> String, one of "ENABLED", "DISABLED"
+    #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.file_system_arn #=> String
+    #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.root_directory #=> String
+    #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.transit_encryption_port #=> Integer
+    #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.access_point_arn #=> String
     #   resp.jobs[0].node_properties.node_range_properties[0].ecs_properties.task_properties[0].enable_execute_command #=> Boolean
     #   resp.jobs[0].node_properties.node_range_properties[0].eks_properties.pod_properties.service_account_name #=> String
     #   resp.jobs[0].node_properties.node_range_properties[0].eks_properties.pod_properties.host_network #=> Boolean
@@ -3089,6 +3123,8 @@ module Aws::Batch
     #   resp.jobs[0].ecs_properties.task_properties[0].containers[0].ulimits[0].name #=> String
     #   resp.jobs[0].ecs_properties.task_properties[0].containers[0].ulimits[0].soft_limit #=> Integer
     #   resp.jobs[0].ecs_properties.task_properties[0].containers[0].user #=> String
+    #   resp.jobs[0].ecs_properties.task_properties[0].containers[0].start_timeout #=> Integer
+    #   resp.jobs[0].ecs_properties.task_properties[0].containers[0].stop_timeout #=> Integer
     #   resp.jobs[0].ecs_properties.task_properties[0].containers[0].exit_code #=> Integer
     #   resp.jobs[0].ecs_properties.task_properties[0].containers[0].reason #=> String
     #   resp.jobs[0].ecs_properties.task_properties[0].containers[0].log_stream_name #=> String
@@ -3116,6 +3152,10 @@ module Aws::Batch
     #   resp.jobs[0].ecs_properties.task_properties[0].volumes[0].efs_volume_configuration.transit_encryption_port #=> Integer
     #   resp.jobs[0].ecs_properties.task_properties[0].volumes[0].efs_volume_configuration.authorization_config.access_point_id #=> String
     #   resp.jobs[0].ecs_properties.task_properties[0].volumes[0].efs_volume_configuration.authorization_config.iam #=> String, one of "ENABLED", "DISABLED"
+    #   resp.jobs[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.file_system_arn #=> String
+    #   resp.jobs[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.root_directory #=> String
+    #   resp.jobs[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.transit_encryption_port #=> Integer
+    #   resp.jobs[0].ecs_properties.task_properties[0].volumes[0].s3files_volume_configuration.access_point_arn #=> String
     #   resp.jobs[0].ecs_properties.task_properties[0].enable_execute_command #=> Boolean
     #   resp.jobs[0].is_cancelled #=> Boolean
     #   resp.jobs[0].is_terminated #=> Boolean
@@ -4467,6 +4507,12 @@ module Aws::Batch
     #               iam: "ENABLED", # accepts ENABLED, DISABLED
     #             },
     #           },
+    #           s3files_volume_configuration: {
+    #             file_system_arn: "String", # required
+    #             root_directory: "String",
+    #             transit_encryption_port: 1,
+    #             access_point_arn: "String",
+    #           },
     #         },
     #       ],
     #       environment: [
@@ -4583,6 +4629,12 @@ module Aws::Batch
     #                     access_point_id: "String",
     #                     iam: "ENABLED", # accepts ENABLED, DISABLED
     #                   },
+    #                 },
+    #                 s3files_volume_configuration: {
+    #                   file_system_arn: "String", # required
+    #                   root_directory: "String",
+    #                   transit_encryption_port: 1,
+    #                   access_point_arn: "String",
     #                 },
     #               },
     #             ],
@@ -4764,6 +4816,8 @@ module Aws::Batch
     #                       },
     #                     ],
     #                     user: "String",
+    #                     start_timeout: 1,
+    #                     stop_timeout: 1,
     #                   },
     #                 ],
     #                 ephemeral_storage: {
@@ -4796,6 +4850,12 @@ module Aws::Batch
     #                         access_point_id: "String",
     #                         iam: "ENABLED", # accepts ENABLED, DISABLED
     #                       },
+    #                     },
+    #                     s3files_volume_configuration: {
+    #                       file_system_arn: "String", # required
+    #                       root_directory: "String",
+    #                       transit_encryption_port: 1,
+    #                       access_point_arn: "String",
     #                     },
     #                   },
     #                 ],
@@ -5164,6 +5224,8 @@ module Aws::Batch
     #                 },
     #               ],
     #               user: "String",
+    #               start_timeout: 1,
+    #               stop_timeout: 1,
     #             },
     #           ],
     #           ephemeral_storage: {
@@ -5196,6 +5258,12 @@ module Aws::Batch
     #                   access_point_id: "String",
     #                   iam: "ENABLED", # accepts ENABLED, DISABLED
     #                 },
+    #               },
+    #               s3files_volume_configuration: {
+    #                 file_system_arn: "String", # required
+    #                 root_directory: "String",
+    #                 transit_encryption_port: 1,
+    #                 access_point_arn: "String",
     #               },
     #             },
     #           ],
@@ -6598,7 +6666,7 @@ module Aws::Batch
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-batch'
-      context[:gem_version] = '1.140.0'
+      context[:gem_version] = '1.141.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

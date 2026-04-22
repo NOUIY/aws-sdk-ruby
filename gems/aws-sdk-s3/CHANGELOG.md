@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.220.0 (2026-04-22)
+------------------
+
+* Feature - This release adds five additional checksum algorithms for S3 data integrity (MD5, SHA-512, XXHash3, XXHash64, XXHash128) and support for S3 Inventory on directory buckets (S3 Express One Zone).
+
 1.219.0 (2026-04-07)
 ------------------
 

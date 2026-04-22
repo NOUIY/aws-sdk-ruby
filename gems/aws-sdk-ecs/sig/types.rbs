@@ -60,6 +60,11 @@ module Aws::ECS
       SENSITIVE: []
     end
 
+    class AutoRepairConfiguration
+      attr_accessor actions_status: ("ENABLED" | "DISABLED")
+      SENSITIVE: []
+    end
+
     class AutoScalingGroupProvider
       attr_accessor auto_scaling_group_arn: ::String
       attr_accessor managed_scaling: Types::ManagedScaling
@@ -420,6 +425,7 @@ module Aws::ECS
       attr_accessor instance_launch_template: Types::InstanceLaunchTemplate
       attr_accessor propagate_tags: ("CAPACITY_PROVIDER" | "NONE")
       attr_accessor infrastructure_optimization: Types::InfrastructureOptimization
+      attr_accessor auto_repair_configuration: Types::AutoRepairConfiguration
       SENSITIVE: []
     end
 
@@ -1336,6 +1342,7 @@ module Aws::ECS
     class InstanceHealthCheckResult
       attr_accessor type: ("CONTAINER_RUNTIME" | "ACCELERATED_COMPUTE" | "DAEMON")
       attr_accessor status: ("OK" | "IMPAIRED" | "INSUFFICIENT_DATA" | "INITIALIZING")
+      attr_accessor status_reason: ::String
       attr_accessor last_updated: ::Time
       attr_accessor last_status_change: ::Time
       SENSITIVE: []
@@ -1729,6 +1736,7 @@ module Aws::ECS
       attr_accessor instance_launch_template: Types::InstanceLaunchTemplate
       attr_accessor propagate_tags: ("CAPACITY_PROVIDER" | "NONE")
       attr_accessor infrastructure_optimization: Types::InfrastructureOptimization
+      attr_accessor auto_repair_configuration: Types::AutoRepairConfiguration
       SENSITIVE: []
     end
 
@@ -2852,6 +2860,7 @@ module Aws::ECS
       attr_accessor instance_launch_template: Types::InstanceLaunchTemplateUpdate
       attr_accessor propagate_tags: ("CAPACITY_PROVIDER" | "NONE")
       attr_accessor infrastructure_optimization: Types::InfrastructureOptimization
+      attr_accessor auto_repair_configuration: Types::AutoRepairConfiguration
       SENSITIVE: []
     end
 

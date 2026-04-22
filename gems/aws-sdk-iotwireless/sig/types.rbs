@@ -33,6 +33,11 @@ module Aws::IoTWireless
       SENSITIVE: []
     end
 
+    class AdvancedConfiguration
+      attr_accessor wi_fi_cellular: Types::WiFiCellular
+      SENSITIVE: []
+    end
+
     class ApplicationConfig
       attr_accessor f_port: ::Integer
       attr_accessor type: ("SemtechGeolocation")
@@ -778,6 +783,7 @@ module Aws::IoTWireless
       attr_accessor ip: Types::Ip
       attr_accessor gnss: Types::Gnss
       attr_accessor timestamp: ::Time
+      attr_accessor advanced_configuration: Types::AdvancedConfiguration
       SENSITIVE: []
     end
 
@@ -2295,6 +2301,11 @@ module Aws::IoTWireless
     class WiFiAccessPoint
       attr_accessor mac_address: ::String
       attr_accessor rss: ::Integer
+      SENSITIVE: []
+    end
+
+    class WiFiCellular
+      attr_accessor confidence_percent: ::Integer
       SENSITIVE: []
     end
 

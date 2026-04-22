@@ -731,9 +731,9 @@ module Aws::Batch
     #   compute environment. For example, if your compute environment uses
     #   A1 instance types, the compute resource AMI that you choose must
     #   support ARM instances. Amazon ECS vends both x86 and ARM versions of
-    #   the Amazon ECS-optimized Amazon Linux 2 AMI. For more information,
-    #   see [Amazon ECS-optimized Amazon Linux 2 AMI][1] in the *Amazon
-    #   Elastic Container Service Developer Guide*.
+    #   the Amazon ECS-optimized Amazon Linux 2023 AMI. For more
+    #   information, see [Amazon ECS-optimized Amazon Linux 2023 AMI][1] in
+    #   the *Amazon Elastic Container Service Developer Guide*.
     #
     #    </note>
     #
@@ -916,7 +916,7 @@ module Aws::Batch
     # @!attribute [rw] ec2_configuration
     #   Provides information that's used to select Amazon Machine Images
     #   (AMIs) for Amazon EC2 instances in the compute environment. If
-    #   `Ec2Configuration` isn't specified, the default is `ECS_AL2` for
+    #   `Ec2Configuration` isn't specified, the default is `ECS_AL2023` for
     #   EC2 (ECS) compute environments and `EKS_AL2023` for EKS compute
     #   environments.
     #
@@ -1359,7 +1359,7 @@ module Aws::Batch
     # @!attribute [rw] ec2_configuration
     #   Provides information used to select Amazon Machine Images (AMIs) for
     #   Amazon EC2 instances in the compute environment. If
-    #   `Ec2Configuration` isn't specified, the default is `ECS_AL2` for
+    #   `Ec2Configuration` isn't specified, the default is `ECS_AL2023` for
     #   EC2 (ECS) compute environments and `EKS_AL2023` for EKS compute
     #   environments.
     #
@@ -1450,9 +1450,9 @@ module Aws::Batch
     #   compute environment. For example, if your compute environment uses
     #   A1 instance types, the compute resource AMI that you choose must
     #   support ARM instances. Amazon ECS vends both x86 and ARM versions of
-    #   the Amazon ECS-optimized Amazon Linux 2 AMI. For more information,
-    #   see [Amazon ECS-optimized Amazon Linux 2 AMI][2] in the *Amazon
-    #   Elastic Container Service Developer Guide*.
+    #   the Amazon ECS-optimized Amazon Linux 2023 AMI. For more
+    #   information, see [Amazon ECS-optimized Amazon Linux 2023 AMI][2] in
+    #   the *Amazon Elastic Container Service Developer Guide*.
     #
     #    </note>
     #
@@ -3827,8 +3827,8 @@ module Aws::Batch
 
     # Provides information used to select Amazon Machine Images (AMIs) for
     # instances in the compute environment. If `Ec2Configuration` isn't
-    # specified, the default is `ECS_AL2` ([Amazon ECS-optimized Amazon
-    # Linux 2][1]) for EC2 (ECS) compute environments and `EKS_AL2023`
+    # specified, the default is `ECS_AL2023` ([Amazon ECS-optimized Amazon
+    # Linux 2023][1]) for EC2 (ECS) compute environments and `EKS_AL2023`
     # ([Amazon EKS-optimized Amazon Linux 2023 AMI][2]) for EKS compute
     # environments.
     #
@@ -3839,7 +3839,7 @@ module Aws::Batch
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami
+    # [1]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html
     # [2]: https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html
     #
     # @!attribute [rw] image_type
@@ -3849,34 +3849,37 @@ module Aws::Batch
     #   ECS
     #
     #   : If the `imageIdOverride` parameter isn't specified, then a recent
-    #     [Amazon ECS-optimized Amazon Linux 2 AMI][1] (`ECS_AL2`) is used.
-    #     If a new image type is specified in an update, but neither an
-    #     `imageId` nor a `imageIdOverride` parameter is specified, then the
-    #     latest Amazon ECS optimized AMI for that image type that's
+    #     [Amazon ECS-optimized Amazon Linux 2023 AMI][1] (`ECS_AL2023`) is
+    #     used. If a new image type is specified in an update, but neither
+    #     an `imageId` nor a `imageIdOverride` parameter is specified, then
+    #     the latest Amazon ECS optimized AMI for that image type that's
     #     supported by Batch is used.
     #
-    #     Amazon Web Services will end support for Amazon ECS optimized
-    #     AL2-optimized and AL2-accelerated AMIs. Starting in January 2026,
-    #     Batch will change the default AMI for new Amazon ECS compute
-    #     environments from Amazon Linux 2 to Amazon Linux 2023. We
-    #     recommend migrating Batch Amazon ECS compute environments to
-    #     Amazon Linux 2023 to maintain optimal performance and security.
-    #     For more information on upgrading from AL2 to AL2023, see [How to
-    #     migrate from ECS AL2 to ECS AL2023][2] in the *Batch User Guide*.
+    #     Amazon Web Services is ending support for Amazon ECS Amazon Linux
+    #     2-optimized and accelerated AMIs on June 30, 2026. On January 12,
+    #     2026, Batch changed the default AMI for new Amazon ECS compute
+    #     environments from Amazon Linux 2 to Amazon Linux 2023. Effective
+    #     June 30, 2026, Batch will block creation of new Amazon ECS compute
+    #     environments using Batch-provided Amazon Linux 2 AMIs. We strongly
+    #     recommend migrating your existing Batch Amazon ECS compute
+    #     environments to Amazon Linux 2023 prior to June 30, 2026. For more
+    #     information on upgrading from AL2 to AL2023, see [How to migrate
+    #     from ECS AL2 to ECS AL2023][2] in the *Batch User Guide*.
     #
     #     ECS\_AL2
     #
-    #     : [Amazon Linux 2][1]: Default for all non-GPU instance families.
+    #     : [Amazon Linux 2][1]: Used for non-GPU instance families.
     #
     #     ECS\_AL2\_NVIDIA
     #
-    #     : [Amazon Linux 2 (GPU)][3]: Default for all GPU instance families
-    #       (for example `P4` and `G4`) and can be used for all non Amazon
-    #       Web Services Graviton-based instance types.
+    #     : [Amazon Linux 2 (GPU)][3]: Used for GPU instance families (for
+    #       example `P4` and `G4`) and non Amazon Web Services
+    #       Graviton-based instance types.
     #
     #     ECS\_AL2023
     #
-    #     : [Amazon Linux 2023][4]: Batch supports Amazon Linux 2023.
+    #     : [Amazon Linux 2023][1]: Default for all non-GPU instance
+    #       families.
     #
     #       <note markdown="1"> Amazon Linux 2023 does not support `A1` instances.
     #
@@ -3884,9 +3887,9 @@ module Aws::Batch
     #
     #     ECS\_AL2023\_NVIDIA
     #
-    #     : [Amazon Linux 2023 (GPU)][3]: For all GPU instance families and
-    #       can be used for all non Amazon Web Services Graviton-based
-    #       instance types.
+    #     : [Amazon Linux 2023 (GPU)][3]: Default for all GPU instance
+    #       families and can be used for all non Amazon Web Services
+    #       Graviton-based instance types.
     #
     #       <note markdown="1"> ECS\_AL2023\_NVIDIA doesn't support `p3` and `g3` instance
     #       types.
@@ -3896,7 +3899,7 @@ module Aws::Batch
     #   EKS
     #
     #   : If the `imageIdOverride` parameter isn't specified, then a recent
-    #     [Amazon EKS-optimized Amazon Linux 2023 AMI][5] (`EKS_AL2023`) is
+    #     [Amazon EKS-optimized Amazon Linux 2023 AMI][4] (`EKS_AL2023`) is
     #     used. If a new image type is specified in an update, but neither
     #     an `imageId` nor a `imageIdOverride` parameter is specified, then
     #     the latest Amazon EKS optimized AMI for that image type that Batch
@@ -3904,29 +3907,28 @@ module Aws::Batch
     #
     #     Amazon Linux 2023 AMIs are the default on Batch for Amazon EKS.
     #
-    #      Amazon Web Services will end support for Amazon EKS AL2-optimized
-    #     and AL2-accelerated AMIs, starting 11/26/25. You can continue
-    #     using Batch-provided Amazon EKS optimized Amazon Linux 2 AMIs on
-    #     your Amazon EKS compute environments beyond the 11/26/25
-    #     end-of-support date, these compute environments will no longer
-    #     receive any new software updates, security patches, or bug fixes
-    #     from Amazon Web Services. For more information on upgrading from
-    #     AL2 to AL2023, see [How to upgrade from EKS AL2 to EKS AL2023][6]
-    #     in the *Batch User Guide*.
+    #      Amazon Web Services ended support for Amazon EKS AL2-optimized
+    #     and
+    #     AL2-accelerated AMIs on November 26, 2025. Batch Amazon EKS
+    #     compute environments using Amazon Linux 2 will no longer receive
+    #     software updates, security patches, or bug fixes from Amazon Web
+    #     Services. We recommend migrating to Amazon Linux 2023. For more
+    #     information on upgrading from AL2 to AL2023, see [How to upgrade
+    #     from EKS AL2 to EKS AL2023][5] in the *Batch User Guide*.
     #
     #     EKS\_AL2
     #
-    #     : [Amazon Linux 2][5]: Used for non-GPU instance families.
+    #     : [Amazon Linux 2][4]: Used for non-GPU instance families.
     #
     #     EKS\_AL2\_NVIDIA
     #
-    #     : [Amazon Linux 2 (accelerated)][5]: Used for GPU instance
+    #     : [Amazon Linux 2 (accelerated)][4]: Used for GPU instance
     #       families (for example, `P4` and `G4`) and can be used for all
     #       non Amazon Web Services Graviton-based instance types.
     #
     #     EKS\_AL2023
     #
-    #     : [Amazon Linux 2023][5]: Default for non-GPU instance families.
+    #     : [Amazon Linux 2023][4]: Default for non-GPU instance families.
     #
     #       <note markdown="1"> Amazon Linux 2023 does not support `A1` instances.
     #
@@ -3934,18 +3936,17 @@ module Aws::Batch
     #
     #     EKS\_AL2023\_NVIDIA
     #
-    #     : [Amazon Linux 2023 (accelerated)][5]: Default for GPU instance
+    #     : [Amazon Linux 2023 (accelerated)][4]: Default for GPU instance
     #       families and can be used for all non Amazon Web Services
     #       Graviton-based instance types.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami
+    #   [1]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html
     #   [2]: https://docs.aws.amazon.com/batch/latest/userguide/ecs-migration-2023.html
     #   [3]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami
-    #   [4]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html
-    #   [5]: https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html
-    #   [6]: https://docs.aws.amazon.com/batch/latest/userguide/eks-migration-2023.html
+    #   [4]: https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html
+    #   [5]: https://docs.aws.amazon.com/batch/latest/userguide/eks-migration-2023.html
     #   @return [String]
     #
     # @!attribute [rw] image_id_override
@@ -3958,9 +3959,9 @@ module Aws::Batch
     #   compute environment. For example, if your compute environment uses
     #   A1 instance types, the compute resource AMI that you choose must
     #   support ARM instances. Amazon ECS vends both x86 and ARM versions of
-    #   the Amazon ECS-optimized Amazon Linux 2 AMI. For more information,
-    #   see [Amazon ECS-optimized Amazon Linux 2 AMI][1] in the *Amazon
-    #   Elastic Container Service Developer Guide*.
+    #   the Amazon ECS-optimized Amazon Linux 2023 AMI. For more
+    #   information, see [Amazon ECS-optimized Amazon Linux 2023 AMI][1] in
+    #   the *Amazon Elastic Container Service Developer Guide*.
     #
     #    </note>
     #
@@ -9056,6 +9057,38 @@ module Aws::Batch
       include Aws::Structure
     end
 
+    # This is used when you're using an S3Files file system for job
+    # storage.
+    #
+    # @!attribute [rw] file_system_arn
+    #   The Amazon Resource Name (ARN) of the S3Files file system to use.
+    #   @return [String]
+    #
+    # @!attribute [rw] root_directory
+    #   The directory within the S3Files file system to mount as the root
+    #   directory.
+    #   @return [String]
+    #
+    # @!attribute [rw] transit_encryption_port
+    #   The port to use when sending encrypted data between the Amazon ECS
+    #   host and the S3Files file system server.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] access_point_arn
+    #   The Amazon Resource Name (ARN) of the S3Files access point to use.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/S3FilesVolumeConfiguration AWS API Documentation
+    #
+    class S3FilesVolumeConfiguration < Struct.new(
+      :file_system_arn,
+      :root_directory,
+      :transit_encryption_port,
+      :access_point_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An object that represents a scheduling policy.
     #
     # @!attribute [rw] name
@@ -10288,6 +10321,25 @@ module Aws::Batch
     #    </note>
     #   @return [String]
     #
+    # @!attribute [rw] start_timeout
+    #   Time duration (in seconds) to wait before giving up on resolving
+    #   dependencies for a container. The minimum value is 2 seconds and the
+    #   maximum value for Fargate is 120 seconds.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] stop_timeout
+    #   Time duration (in seconds) to wait before the container is
+    #   forcefully killed if it doesn't exit normally on its own. The
+    #   minimum value is 2 seconds and the maximum value for Fargate is 120
+    #   seconds. If the parameter is not specified, the default value of 30
+    #   seconds is used. For tasks that use the EC2 launch type, if the
+    #   `stopTimeout` parameter isn't specified, the value set for the
+    #   Amazon ECS container agent configuration variable
+    #   `ECS_CONTAINER_STOP_TIMEOUT` is used. If neither the `stopTimeout`
+    #   parameter nor the `ECS_CONTAINER_STOP_TIMEOUT` agent configuration
+    #   variable are set, then the default value of 30 seconds is used.
+    #   @return [Integer]
+    #
     # @!attribute [rw] exit_code
     #   The exit code returned upon completion.
     #   @return [Integer]
@@ -10328,6 +10380,8 @@ module Aws::Batch
       :secrets,
       :ulimits,
       :user,
+      :start_timeout,
+      :stop_timeout,
       :exit_code,
       :reason,
       :log_stream_name,
@@ -10679,6 +10733,25 @@ module Aws::Batch
     #    </note>
     #   @return [String]
     #
+    # @!attribute [rw] start_timeout
+    #   Time duration (in seconds) to wait before giving up on resolving
+    #   dependencies for a container. The minimum value is 2 seconds and the
+    #   maximum value for Fargate is 120 seconds.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] stop_timeout
+    #   Time duration (in seconds) to wait before the container is
+    #   forcefully killed if it doesn't exit normally on its own. The
+    #   minimum value is 2 seconds and the maximum value for Fargate is 120
+    #   seconds. If the parameter is not specified, the default value of 30
+    #   seconds is used. For tasks that use the EC2 launch type, if the
+    #   `stopTimeout` parameter isn't specified, the value set for the
+    #   Amazon ECS container agent configuration variable
+    #   `ECS_CONTAINER_STOP_TIMEOUT` is used. If neither the `stopTimeout`
+    #   parameter nor the `ECS_CONTAINER_STOP_TIMEOUT` agent configuration
+    #   variable are set, then the default value of 30 seconds is used.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/TaskContainerProperties AWS API Documentation
     #
     class TaskContainerProperties < Struct.new(
@@ -10698,7 +10771,9 @@ module Aws::Batch
       :resource_requirements,
       :secrets,
       :ulimits,
-      :user)
+      :user,
+      :start_timeout,
+      :stop_timeout)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11413,12 +11488,18 @@ module Aws::Batch
     #   `1.4.0`.
     #   @return [Types::EFSVolumeConfiguration]
     #
+    # @!attribute [rw] s3files_volume_configuration
+    #   This parameter is specified when you're using an S3Files file
+    #   system for job storage.
+    #   @return [Types::S3FilesVolumeConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/Volume AWS API Documentation
     #
     class Volume < Struct.new(
       :host,
       :name,
-      :efs_volume_configuration)
+      :efs_volume_configuration,
+      :s3files_volume_configuration)
       SENSITIVE = []
       include Aws::Structure
     end

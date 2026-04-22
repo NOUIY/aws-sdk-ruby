@@ -178,6 +178,9 @@ module Aws
                                         propagate_tags: ("CAPACITY_PROVIDER" | "NONE")?,
                                         infrastructure_optimization: {
                                           scale_in_after: ::Integer?
+                                        }?,
+                                        auto_repair_configuration: {
+                                          actions_status: ("ENABLED" | "DISABLED")?
                                         }?
                                       },
                                       ?tags: Array[
@@ -2127,6 +2130,9 @@ module Aws
                                         propagate_tags: ("CAPACITY_PROVIDER" | "NONE")?,
                                         infrastructure_optimization: {
                                           scale_in_after: ::Integer?
+                                        }?,
+                                        auto_repair_configuration: {
+                                          actions_status: ("ENABLED" | "DISABLED")?
                                         }?
                                       }
                                     ) -> _UpdateCapacityProviderResponseSuccess

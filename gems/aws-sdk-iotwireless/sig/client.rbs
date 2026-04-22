@@ -1028,7 +1028,12 @@ module Aws
                                      assist_altitude: ::Float?,
                                      use_2_d_solver: bool?
                                    },
-                                   ?timestamp: ::Time
+                                   ?timestamp: ::Time,
+                                   ?advanced_configuration: {
+                                     wi_fi_cellular: {
+                                       confidence_percent: ::Integer?
+                                     }?
+                                   }
                                  ) ?{ (*untyped) -> void } -> _GetPositionEstimateResponseSuccess
                                | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _GetPositionEstimateResponseSuccess
 

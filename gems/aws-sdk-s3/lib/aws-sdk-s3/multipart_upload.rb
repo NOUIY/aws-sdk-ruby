@@ -312,6 +312,11 @@ module Aws::S3
     #           checksum_crc64nvme: "ChecksumCRC64NVME",
     #           checksum_sha1: "ChecksumSHA1",
     #           checksum_sha256: "ChecksumSHA256",
+    #           checksum_sha512: "ChecksumSHA512",
+    #           checksum_md5: "ChecksumMD5",
+    #           checksum_xxhash64: "ChecksumXXHASH64",
+    #           checksum_xxhash3: "ChecksumXXHASH3",
+    #           checksum_xxhash128: "ChecksumXXHASH128",
     #           part_number: 1,
     #         },
     #       ],
@@ -321,6 +326,11 @@ module Aws::S3
     #     checksum_crc64nvme: "ChecksumCRC64NVME",
     #     checksum_sha1: "ChecksumSHA1",
     #     checksum_sha256: "ChecksumSHA256",
+    #     checksum_sha512: "ChecksumSHA512",
+    #     checksum_md5: "ChecksumMD5",
+    #     checksum_xxhash64: "ChecksumXXHASH64",
+    #     checksum_xxhash3: "ChecksumXXHASH3",
+    #     checksum_xxhash128: "ChecksumXXHASH128",
     #     checksum_type: "COMPOSITE", # accepts COMPOSITE, FULL_OBJECT
     #     mpu_object_size: 1,
     #     request_payer: "requester", # accepts requester
@@ -381,6 +391,56 @@ module Aws::S3
     #   specifies the Base64 encoded, 256-bit `SHA256` digest of the object.
     #   For more information, see [Checking object integrity][1] in the
     #   *Amazon S3 User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html
+    # @option options [String] :checksum_sha512
+    #   This header can be used as a data integrity check to verify that the
+    #   data received is the same data that was originally sent. This header
+    #   specifies the Base64 encoded, 512-bit `SHA512` digest of the object.
+    #   For more information, see [Checking object integrity in the Amazon S3
+    #   User Guide][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html
+    # @option options [String] :checksum_md5
+    #   This header can be used as a data integrity check to verify that the
+    #   data received is the same data that was originally sent. This header
+    #   specifies the Base64 encoded, 128-bit `MD5` digest of the object. For
+    #   more information, see [Checking object integrity in the Amazon S3 User
+    #   Guide][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html
+    # @option options [String] :checksum_xxhash64
+    #   This header can be used as a data integrity check to verify that the
+    #   data received is the same data that was originally sent. This header
+    #   specifies the Base64 encoded, 64-bit `XXHASH64` checksum of the
+    #   object. For more information, see [Checking object integrity in the
+    #   Amazon S3 User Guide][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html
+    # @option options [String] :checksum_xxhash3
+    #   This header can be used as a data integrity check to verify that the
+    #   data received is the same data that was originally sent. This header
+    #   specifies the Base64 encoded, 64-bit `XXHASH3` checksum of the object.
+    #   For more information, see [Checking object integrity in the Amazon S3
+    #   User Guide][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html
+    # @option options [String] :checksum_xxhash128
+    #   This header can be used as a data integrity check to verify that the
+    #   data received is the same data that was originally sent. This header
+    #   specifies the Base64 encoded, 128-bit `XXHASH128` checksum of the
+    #   object. For more information, see [Checking object integrity in the
+    #   Amazon S3 User Guide][1].
     #
     #
     #

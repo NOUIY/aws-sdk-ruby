@@ -230,7 +230,7 @@ module Aws::S3
     # @example Request syntax with placeholder values
     #
     #   bucket_lifecycle_configuration.put({
-    #     checksum_algorithm: "CRC32", # accepts CRC32, CRC32C, SHA1, SHA256, CRC64NVME
+    #     checksum_algorithm: "CRC32", # accepts CRC32, CRC32C, SHA1, SHA256, CRC64NVME, SHA512, MD5, XXHASH64, XXHASH3, XXHASH128
     #     lifecycle_configuration: {
     #       rules: [ # required
     #         {

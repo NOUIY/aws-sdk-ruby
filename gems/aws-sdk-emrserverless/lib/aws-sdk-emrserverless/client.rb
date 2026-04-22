@@ -702,6 +702,7 @@ module Aws::EMRServerless
     #     interactive_configuration: {
     #       studio_enabled: false,
     #       livy_endpoint_enabled: false,
+    #       session_enabled: false,
     #     },
     #     scheduler_configuration: {
     #       queue_timeout_minutes: 1,
@@ -826,6 +827,7 @@ module Aws::EMRServerless
     #   resp.application.disk_encryption_configuration.encryption_key_arn #=> String
     #   resp.application.interactive_configuration.studio_enabled #=> Boolean
     #   resp.application.interactive_configuration.livy_endpoint_enabled #=> Boolean
+    #   resp.application.interactive_configuration.session_enabled #=> Boolean
     #   resp.application.scheduler_configuration.queue_timeout_minutes #=> Integer
     #   resp.application.scheduler_configuration.max_concurrent_runs #=> Integer
     #   resp.application.identity_center_configuration.identity_center_instance_arn #=> String
@@ -995,6 +997,162 @@ module Aws::EMRServerless
     # @param [Hash] params ({})
     def get_job_run(params = {}, options = {})
       req = build_request(:get_job_run, params)
+      req.send_request(options)
+    end
+
+    # Returns a URL that you can use to access the application UIs for a
+    # specified resource, such as a session.
+    #
+    # For resources in a running state, the application UI is a live user
+    # interface such as the Spark web UI. For terminated resources, the
+    # application UI is a persistent application user interface such as the
+    # Spark History Server.
+    #
+    # <note markdown="1"> The URL is valid for one hour after you generate it. To access the
+    # application UI after that hour elapses, you must invoke the API again
+    # to generate a new URL.
+    #
+    #  </note>
+    #
+    # @option params [required, String] :application_id
+    #   The ID of the application that the resource belongs to.
+    #
+    # @option params [required, String] :resource_id
+    #   The ID of the resource.
+    #
+    # @option params [required, String] :resource_type
+    #   The type of resource to access the dashboard for. Currently, only
+    #   `Session` is supported.
+    #
+    # @return [Types::GetResourceDashboardResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetResourceDashboardResponse#url #url} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_resource_dashboard({
+    #     application_id: "ApplicationId", # required
+    #     resource_id: "ResourceId", # required
+    #     resource_type: "SESSION", # required, accepts SESSION
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.url #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/emr-serverless-2021-07-13/GetResourceDashboard AWS API Documentation
+    #
+    # @overload get_resource_dashboard(params = {})
+    # @param [Hash] params ({})
+    def get_resource_dashboard(params = {}, options = {})
+      req = build_request(:get_resource_dashboard, params)
+      req.send_request(options)
+    end
+
+    # Displays detailed information about a session.
+    #
+    # @option params [required, String] :application_id
+    #   The ID of the application that the session belongs to.
+    #
+    # @option params [required, String] :session_id
+    #   The ID of the session.
+    #
+    # @return [Types::GetSessionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetSessionResponse#session #session} => Types::Session
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_session({
+    #     application_id: "ApplicationId", # required
+    #     session_id: "SessionId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.session.application_id #=> String
+    #   resp.session.session_id #=> String
+    #   resp.session.arn #=> String
+    #   resp.session.name #=> String
+    #   resp.session.state #=> String, one of "SUBMITTED", "STARTING", "STARTED", "IDLE", "BUSY", "FAILED", "TERMINATING", "TERMINATED"
+    #   resp.session.state_details #=> String
+    #   resp.session.release_label #=> String
+    #   resp.session.execution_role_arn #=> String
+    #   resp.session.created_by #=> String
+    #   resp.session.created_at #=> Time
+    #   resp.session.updated_at #=> Time
+    #   resp.session.started_at #=> Time
+    #   resp.session.ended_at #=> Time
+    #   resp.session.idle_since #=> Time
+    #   resp.session.configuration_overrides.runtime_configuration #=> Array
+    #   resp.session.configuration_overrides.runtime_configuration[0].classification #=> String
+    #   resp.session.configuration_overrides.runtime_configuration[0].properties #=> Hash
+    #   resp.session.configuration_overrides.runtime_configuration[0].properties["ConfigurationPropertyKey"] #=> String
+    #   resp.session.configuration_overrides.runtime_configuration[0].configurations #=> Types::ConfigurationList
+    #   resp.session.network_configuration.subnet_ids #=> Array
+    #   resp.session.network_configuration.subnet_ids[0] #=> String
+    #   resp.session.network_configuration.security_group_ids #=> Array
+    #   resp.session.network_configuration.security_group_ids[0] #=> String
+    #   resp.session.idle_timeout_minutes #=> Integer
+    #   resp.session.tags #=> Hash
+    #   resp.session.tags["TagKey"] #=> String
+    #   resp.session.total_resource_utilization.v_cpu_hour #=> Float
+    #   resp.session.total_resource_utilization.memory_gb_hour #=> Float
+    #   resp.session.total_resource_utilization.storage_gb_hour #=> Float
+    #   resp.session.billed_resource_utilization.v_cpu_hour #=> Float
+    #   resp.session.billed_resource_utilization.memory_gb_hour #=> Float
+    #   resp.session.billed_resource_utilization.storage_gb_hour #=> Float
+    #   resp.session.total_execution_duration_seconds #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/emr-serverless-2021-07-13/GetSession AWS API Documentation
+    #
+    # @overload get_session(params = {})
+    # @param [Hash] params ({})
+    def get_session(params = {}, options = {})
+      req = build_request(:get_session, params)
+      req.send_request(options)
+    end
+
+    # Returns the session endpoint URL and a time-limited authentication
+    # token for the specified session. Use the endpoint and token to connect
+    # a client to the session. Call this operation again when the
+    # authentication token expires to obtain a new token.
+    #
+    # @option params [required, String] :application_id
+    #   The ID of the application that the session belongs to.
+    #
+    # @option params [required, String] :session_id
+    #   The ID of the session.
+    #
+    # @return [Types::GetSessionEndpointResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetSessionEndpointResponse#application_id #application_id} => String
+    #   * {Types::GetSessionEndpointResponse#session_id #session_id} => String
+    #   * {Types::GetSessionEndpointResponse#endpoint #endpoint} => String
+    #   * {Types::GetSessionEndpointResponse#auth_token #auth_token} => String
+    #   * {Types::GetSessionEndpointResponse#auth_token_expires_at #auth_token_expires_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_session_endpoint({
+    #     application_id: "ApplicationId", # required
+    #     session_id: "SessionId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.application_id #=> String
+    #   resp.session_id #=> String
+    #   resp.endpoint #=> String
+    #   resp.auth_token #=> String
+    #   resp.auth_token_expires_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/emr-serverless-2021-07-13/GetSessionEndpoint AWS API Documentation
+    #
+    # @overload get_session_endpoint(params = {})
+    # @param [Hash] params ({})
+    def get_session_endpoint(params = {}, options = {})
+      req = build_request(:get_session_endpoint, params)
       req.send_request(options)
     end
 
@@ -1180,6 +1338,72 @@ module Aws::EMRServerless
     # @param [Hash] params ({})
     def list_job_runs(params = {}, options = {})
       req = build_request(:list_job_runs, params)
+      req.send_request(options)
+    end
+
+    # Lists sessions for the specified application. You can filter sessions
+    # by state and creation time.
+    #
+    # @option params [required, String] :application_id
+    #   The ID of the application to list sessions for.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of session results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of sessions to return in each page of results.
+    #
+    # @option params [Array<String>] :states
+    #   An optional filter for session states. Note that if this filter
+    #   contains multiple states, the resulting list will be grouped by the
+    #   state.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :created_at_after
+    #   The lower bound of the option to filter by creation date and time.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :created_at_before
+    #   The upper bound of the option to filter by creation date and time.
+    #
+    # @return [Types::ListSessionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListSessionsResponse#sessions #sessions} => Array&lt;Types::SessionSummary&gt;
+    #   * {Types::ListSessionsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_sessions({
+    #     application_id: "ApplicationId", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #     states: ["SUBMITTED"], # accepts SUBMITTED, STARTING, STARTED, IDLE, BUSY, FAILED, TERMINATING, TERMINATED
+    #     created_at_after: Time.now,
+    #     created_at_before: Time.now,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.sessions #=> Array
+    #   resp.sessions[0].application_id #=> String
+    #   resp.sessions[0].session_id #=> String
+    #   resp.sessions[0].arn #=> String
+    #   resp.sessions[0].name #=> String
+    #   resp.sessions[0].state #=> String, one of "SUBMITTED", "STARTING", "STARTED", "IDLE", "BUSY", "FAILED", "TERMINATING", "TERMINATED"
+    #   resp.sessions[0].state_details #=> String
+    #   resp.sessions[0].release_label #=> String
+    #   resp.sessions[0].execution_role_arn #=> String
+    #   resp.sessions[0].created_by #=> String
+    #   resp.sessions[0].created_at #=> Time
+    #   resp.sessions[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/emr-serverless-2021-07-13/ListSessions AWS API Documentation
+    #
+    # @overload list_sessions(params = {})
+    # @param [Hash] params ({})
+    def list_sessions(params = {}, options = {})
+      req = build_request(:list_sessions, params)
       req.send_request(options)
     end
 
@@ -1375,6 +1599,90 @@ module Aws::EMRServerless
       req.send_request(options)
     end
 
+    # Creates and starts a new session on the specified application. The
+    # application must be in the `STARTED` state or have `AutoStart`
+    # enabled, and have interactive sessions enabled. This operation is
+    # supported for EMR release 7.13.0 and later.
+    #
+    # @option params [required, String] :application_id
+    #   The ID of the application on which to start the session.
+    #
+    # @option params [required, String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If you retry a request that completed
+    #   successfully using the same client token, the server returns the
+    #   successful response without performing the operation again.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, String] :execution_role_arn
+    #   The execution role ARN for the session. Amazon EMR Serverless uses
+    #   this role to access Amazon Web Services resources on your behalf
+    #   during session execution.
+    #
+    # @option params [Types::SessionConfigurationOverrides] :configuration_overrides
+    #   The configuration overrides for the session. Only runtime
+    #   configuration overrides are supported.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   The tags to assign to the session.
+    #
+    # @option params [Integer] :idle_timeout_minutes
+    #   The idle timeout in minutes for the session. After the session remains
+    #   idle for this duration, Amazon EMR Serverless automatically terminates
+    #   it.
+    #
+    # @option params [String] :name
+    #   The optional name for the session.
+    #
+    # @return [Types::StartSessionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartSessionResponse#application_id #application_id} => String
+    #   * {Types::StartSessionResponse#session_id #session_id} => String
+    #   * {Types::StartSessionResponse#arn #arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_session({
+    #     application_id: "ApplicationId", # required
+    #     client_token: "ClientToken", # required
+    #     execution_role_arn: "IAMRoleArn", # required
+    #     configuration_overrides: {
+    #       runtime_configuration: [
+    #         {
+    #           classification: "String1024", # required
+    #           properties: {
+    #             "ConfigurationPropertyKey" => "ConfigurationPropertyValue",
+    #           },
+    #           configurations: {
+    #             # recursive ConfigurationList
+    #           },
+    #         },
+    #       ],
+    #     },
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #     idle_timeout_minutes: 1,
+    #     name: "String256",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.application_id #=> String
+    #   resp.session_id #=> String
+    #   resp.arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/emr-serverless-2021-07-13/StartSession AWS API Documentation
+    #
+    # @overload start_session(params = {})
+    # @param [Hash] params ({})
+    def start_session(params = {}, options = {})
+      req = build_request(:start_session, params)
+      req.send_request(options)
+    end
+
     # Stops a specified application and releases initial capacity if
     # configured. All scheduled and running jobs must be completed or
     # cancelled before stopping an application.
@@ -1432,6 +1740,43 @@ module Aws::EMRServerless
     # @param [Hash] params ({})
     def tag_resource(params = {}, options = {})
       req = build_request(:tag_resource, params)
+      req.send_request(options)
+    end
+
+    # Terminates the specified session. After you terminate a session, it
+    # enters the `TERMINATING` state and then the `TERMINATED` state. You
+    # can still access the Spark History Server for a terminated session
+    # through the `GetResourceDashboard` operation.
+    #
+    # @option params [required, String] :application_id
+    #   The ID of the application that the session belongs to.
+    #
+    # @option params [required, String] :session_id
+    #   The ID of the session to terminate.
+    #
+    # @return [Types::TerminateSessionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::TerminateSessionResponse#application_id #application_id} => String
+    #   * {Types::TerminateSessionResponse#session_id #session_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.terminate_session({
+    #     application_id: "ApplicationId", # required
+    #     session_id: "SessionId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.application_id #=> String
+    #   resp.session_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/emr-serverless-2021-07-13/TerminateSession AWS API Documentation
+    #
+    # @overload terminate_session(params = {})
+    # @param [Hash] params ({})
+    def terminate_session(params = {}, options = {})
+      req = build_request(:terminate_session, params)
       req.send_request(options)
     end
 
@@ -1600,6 +1945,7 @@ module Aws::EMRServerless
     #     interactive_configuration: {
     #       studio_enabled: false,
     #       livy_endpoint_enabled: false,
+    #       session_enabled: false,
     #     },
     #     release_label: "ReleaseLabel",
     #     runtime_configuration: [
@@ -1711,6 +2057,7 @@ module Aws::EMRServerless
     #   resp.application.disk_encryption_configuration.encryption_key_arn #=> String
     #   resp.application.interactive_configuration.studio_enabled #=> Boolean
     #   resp.application.interactive_configuration.livy_endpoint_enabled #=> Boolean
+    #   resp.application.interactive_configuration.session_enabled #=> Boolean
     #   resp.application.scheduler_configuration.queue_timeout_minutes #=> Integer
     #   resp.application.scheduler_configuration.max_concurrent_runs #=> Integer
     #   resp.application.identity_center_configuration.identity_center_instance_arn #=> String
@@ -1745,7 +2092,7 @@ module Aws::EMRServerless
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-emrserverless'
-      context[:gem_version] = '1.63.0'
+      context[:gem_version] = '1.64.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

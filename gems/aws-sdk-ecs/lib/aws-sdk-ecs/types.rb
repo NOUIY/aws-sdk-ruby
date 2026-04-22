@@ -245,6 +245,28 @@ module Aws::ECS
       include Aws::Structure
     end
 
+    # The auto repair configuration for an Amazon ECS Managed Instances
+    # capacity provider. When enabled, Amazon ECS automatically replaces
+    # container instances that are detected as unhealthy based on container
+    # instance health checks, including accelerated compute device and
+    # daemon health checks.
+    #
+    # @!attribute [rw] actions_status
+    #   The status of auto repair actions for the capacity provider. When
+    #   set to `ENABLED`, Amazon ECS automatically replaces container
+    #   instances with an `IMPAIRED` health status. When set to `DISABLED`,
+    #   Amazon ECS still monitors container instance health but does not
+    #   automatically replace impaired instances.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/AutoRepairConfiguration AWS API Documentation
+    #
+    class AutoRepairConfiguration < Struct.new(
+      :actions_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The details of the Auto Scaling group for the capacity provider.
     #
     # @!attribute [rw] auto_scaling_group_arn
@@ -3292,13 +3314,20 @@ module Aws::ECS
     #   and when Amazon ECS optimizes them.
     #   @return [Types::InfrastructureOptimization]
     #
+    # @!attribute [rw] auto_repair_configuration
+    #   The auto repair configuration for the Amazon ECS Managed Instances
+    #   capacity provider. Use this to enable or disable automatic
+    #   replacement of container instances that are detected as unhealthy.
+    #   @return [Types::AutoRepairConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/CreateManagedInstancesProviderConfiguration AWS API Documentation
     #
     class CreateManagedInstancesProviderConfiguration < Struct.new(
       :infrastructure_role_arn,
       :instance_launch_template,
       :propagate_tags,
-      :infrastructure_optimization)
+      :infrastructure_optimization,
+      :auto_repair_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8287,6 +8316,10 @@ module Aws::ECS
     #   The container instance health status.
     #   @return [String]
     #
+    # @!attribute [rw] status_reason
+    #   The reason for the container instance health status.
+    #   @return [String]
+    #
     # @!attribute [rw] last_updated
     #   The Unix timestamp for when the container instance health status was
     #   last updated.
@@ -8302,6 +8335,7 @@ module Aws::ECS
     class InstanceHealthCheckResult < Struct.new(
       :type,
       :status,
+      :status_reason,
       :last_updated,
       :last_status_change)
       SENSITIVE = []
@@ -10914,13 +10948,20 @@ module Aws::ECS
     #   delay.
     #   @return [Types::InfrastructureOptimization]
     #
+    # @!attribute [rw] auto_repair_configuration
+    #   The auto repair configuration for the Amazon ECS Managed Instances
+    #   capacity provider. Indicates whether Amazon ECS automatically
+    #   replaces container instances that are detected as unhealthy.
+    #   @return [Types::AutoRepairConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/ManagedInstancesProvider AWS API Documentation
     #
     class ManagedInstancesProvider < Struct.new(
       :infrastructure_role_arn,
       :instance_launch_template,
       :propagate_tags,
-      :infrastructure_optimization)
+      :infrastructure_optimization,
+      :auto_repair_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -18422,13 +18463,19 @@ module Aws::ECS
     #   forward.
     #   @return [Types::InfrastructureOptimization]
     #
+    # @!attribute [rw] auto_repair_configuration
+    #   The updated auto repair configuration for the Amazon ECS Managed
+    #   Instances capacity provider.
+    #   @return [Types::AutoRepairConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/UpdateManagedInstancesProviderConfiguration AWS API Documentation
     #
     class UpdateManagedInstancesProviderConfiguration < Struct.new(
       :infrastructure_role_arn,
       :instance_launch_template,
       :propagate_tags,
-      :infrastructure_optimization)
+      :infrastructure_optimization,
+      :auto_repair_configuration)
       SENSITIVE = []
       include Aws::Structure
     end

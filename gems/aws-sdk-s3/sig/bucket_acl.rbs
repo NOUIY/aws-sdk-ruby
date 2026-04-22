@@ -58,7 +58,7 @@ module Aws
                    }?
                  },
                  ?content_md5: ::String,
-                 ?checksum_algorithm: ("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME"),
+                 ?checksum_algorithm: ("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME" | "SHA512" | "MD5" | "XXHASH64" | "XXHASH3" | "XXHASH128"),
                  ?grant_full_control: ::String,
                  ?grant_read: ::String,
                  ?grant_read_acp: ::String,

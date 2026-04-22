@@ -2130,6 +2130,136 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # @!attribute [rw] harness_name
+    #   The name of the harness. Must start with a letter and contain only
+    #   alphanumeric characters and underscores.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_role_arn
+    #   The ARN of the IAM role that the harness assumes when running. This
+    #   role must have permissions for the services the agent needs to
+    #   access, such as Amazon Bedrock for model invocation.
+    #   @return [String]
+    #
+    # @!attribute [rw] environment
+    #   The compute environment configuration for the harness, including
+    #   network and lifecycle settings.
+    #   @return [Types::HarnessEnvironmentProviderRequest]
+    #
+    # @!attribute [rw] environment_artifact
+    #   The environment artifact for the harness, such as a custom container
+    #   image containing additional dependencies.
+    #   @return [Types::HarnessEnvironmentArtifact]
+    #
+    # @!attribute [rw] environment_variables
+    #   Environment variables to set in the harness runtime environment.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] authorizer_configuration
+    #   Represents inbound authorization configuration options used to
+    #   authenticate incoming requests.
+    #   @return [Types::AuthorizerConfiguration]
+    #
+    # @!attribute [rw] model
+    #   The model configuration for the harness. Supports Amazon Bedrock,
+    #   OpenAI, and Google Gemini model providers.
+    #   @return [Types::HarnessModelConfiguration]
+    #
+    # @!attribute [rw] system_prompt
+    #   The system prompt that defines the agent's behavior and
+    #   instructions.
+    #   @return [Array<Types::HarnessSystemContentBlock>]
+    #
+    # @!attribute [rw] tools
+    #   The tools available to the agent, such as remote MCP servers,
+    #   AgentCore Gateway, AgentCore Browser, Code Interpreter, or inline
+    #   functions.
+    #   @return [Array<Types::HarnessTool>]
+    #
+    # @!attribute [rw] skills
+    #   The skills available to the agent. Skills are bundles of files that
+    #   the agent can pull into its context on demand.
+    #   @return [Array<Types::HarnessSkill>]
+    #
+    # @!attribute [rw] allowed_tools
+    #   The tools that the agent is allowed to use. Supports glob patterns
+    #   such as * for all tools, @builtin for all built-in tools, or
+    #   @serverName/toolName for specific MCP server tools.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] memory
+    #   The AgentCore Memory configuration for persisting conversation
+    #   context across sessions.
+    #   @return [Types::HarnessMemoryConfiguration]
+    #
+    # @!attribute [rw] truncation
+    #   The truncation configuration for managing conversation context when
+    #   it exceeds model limits.
+    #   @return [Types::HarnessTruncationConfiguration]
+    #
+    # @!attribute [rw] max_iterations
+    #   The maximum number of iterations the agent loop can execute per
+    #   invocation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_tokens
+    #   The maximum number of tokens the agent can generate per iteration.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] timeout_seconds
+    #   The maximum duration in seconds for the agent loop execution per
+    #   invocation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tags
+    #   Tags to apply to the harness resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateHarnessRequest AWS API Documentation
+    #
+    class CreateHarnessRequest < Struct.new(
+      :harness_name,
+      :client_token,
+      :execution_role_arn,
+      :environment,
+      :environment_artifact,
+      :environment_variables,
+      :authorizer_configuration,
+      :model,
+      :system_prompt,
+      :tools,
+      :skills,
+      :allowed_tools,
+      :memory,
+      :truncation,
+      :max_iterations,
+      :max_tokens,
+      :timeout_seconds,
+      :tags)
+      SENSITIVE = [:environment_variables]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] harness
+    #   The harness that was created.
+    #   @return [Types::Harness]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateHarnessResponse AWS API Documentation
+    #
+    class CreateHarnessResponse < Struct.new(
+      :harness)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier to ensure that the operation
     #   completes no more than one time. If this token matches a previous
@@ -3736,6 +3866,39 @@ module Aws::BedrockAgentCoreControl
       :target_id,
       :status,
       :status_reasons)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] harness_id
+    #   The ID of the harness to delete.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteHarnessRequest AWS API Documentation
+    #
+    class DeleteHarnessRequest < Struct.new(
+      :harness_id,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] harness
+    #   The harness that was deleted.
+    #   @return [Types::Harness]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteHarnessResponse AWS API Documentation
+    #
+    class DeleteHarnessResponse < Struct.new(
+      :harness)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5744,6 +5907,30 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # @!attribute [rw] harness_id
+    #   The ID of the harness to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetHarnessRequest AWS API Documentation
+    #
+    class GetHarnessRequest < Struct.new(
+      :harness_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] harness
+    #   The harness resource.
+    #   @return [Types::Harness]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetHarnessResponse AWS API Documentation
+    #
+    class GetHarnessResponse < Struct.new(
+      :harness)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] memory_id
     #   The unique identifier of the memory to retrieve.
     #   @return [String]
@@ -6574,6 +6761,854 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # Representation of a Harness.
+    #
+    # @!attribute [rw] harness_id
+    #   The ID of the Harness.
+    #   @return [String]
+    #
+    # @!attribute [rw] harness_name
+    #   The name of the Harness.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The ARN of the Harness.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the Harness.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_role_arn
+    #   IAM role the Harness assumes when running.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The createdAt time of the Harness.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The updatedAt time of the Harness.
+    #   @return [Time]
+    #
+    # @!attribute [rw] model
+    #   The configuration of the default model used by the Harness.
+    #   @return [Types::HarnessModelConfiguration]
+    #
+    # @!attribute [rw] system_prompt
+    #   The system prompt of the Harness.
+    #   @return [Array<Types::HarnessSystemContentBlock>]
+    #
+    # @!attribute [rw] tools
+    #   The tools of the Harness.
+    #   @return [Array<Types::HarnessTool>]
+    #
+    # @!attribute [rw] skills
+    #   The skills of the Harness.
+    #   @return [Array<Types::HarnessSkill>]
+    #
+    # @!attribute [rw] allowed_tools
+    #   The allowed tools of the Harness. All tools are allowed by default.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] truncation
+    #   Configuration for truncating model context.
+    #   @return [Types::HarnessTruncationConfiguration]
+    #
+    # @!attribute [rw] environment
+    #   The compute environment on which the Harness runs.
+    #   @return [Types::HarnessEnvironmentProvider]
+    #
+    # @!attribute [rw] environment_artifact
+    #   The environment artifact (e.g., container) in which the Harness
+    #   operates.
+    #   @return [Types::HarnessEnvironmentArtifact]
+    #
+    # @!attribute [rw] environment_variables
+    #   Environment variables exposed in the environment in which the
+    #   Harness operates.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] authorizer_configuration
+    #   Represents inbound authorization configuration options used to
+    #   authenticate incoming requests.
+    #   @return [Types::AuthorizerConfiguration]
+    #
+    # @!attribute [rw] memory
+    #   AgentCore Memory instance configuration for short and long term
+    #   memory.
+    #   @return [Types::HarnessMemoryConfiguration]
+    #
+    # @!attribute [rw] max_iterations
+    #   The maximum number of iterations in the agent loop allowed before
+    #   exiting per invocation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_tokens
+    #   The maximum number of tokens allowed before exiting per invocation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] timeout_seconds
+    #   The maximum duration per invocation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] failure_reason
+    #   Reason why create or update operations fail.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/Harness AWS API Documentation
+    #
+    class Harness < Struct.new(
+      :harness_id,
+      :harness_name,
+      :arn,
+      :status,
+      :execution_role_arn,
+      :created_at,
+      :updated_at,
+      :model,
+      :system_prompt,
+      :tools,
+      :skills,
+      :allowed_tools,
+      :truncation,
+      :environment,
+      :environment_artifact,
+      :environment_variables,
+      :authorizer_configuration,
+      :memory,
+      :max_iterations,
+      :max_tokens,
+      :timeout_seconds,
+      :failure_reason)
+      SENSITIVE = [:environment_variables]
+      include Aws::Structure
+    end
+
+    # Configuration for AgentCore Browser.
+    #
+    # @!attribute [rw] browser_arn
+    #   If not populated, the built-in Browser ARN is used.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessAgentCoreBrowserConfig AWS API Documentation
+    #
+    class HarnessAgentCoreBrowserConfig < Struct.new(
+      :browser_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for AgentCore Code Interpreter.
+    #
+    # @!attribute [rw] code_interpreter_arn
+    #   If not populated, the built-in Code Interpreter ARN is used.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessAgentCoreCodeInterpreterConfig AWS API Documentation
+    #
+    class HarnessAgentCoreCodeInterpreterConfig < Struct.new(
+      :code_interpreter_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for AgentCore Gateway.
+    #
+    # @!attribute [rw] gateway_arn
+    #   The ARN of the desired AgentCore Gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] outbound_auth
+    #   How Loopy authenticates to this Gateway. Defaults to AWS\_IAM
+    #   (SigV4) if omitted.
+    #   @return [Types::HarnessGatewayOutboundAuth]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessAgentCoreGatewayConfig AWS API Documentation
+    #
+    class HarnessAgentCoreGatewayConfig < Struct.new(
+      :gateway_arn,
+      :outbound_auth)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for AgentCore Memory integration.
+    #
+    # @!attribute [rw] arn
+    #   The ARN of the AgentCore Memory resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] actor_id
+    #   The actor ID for memory operations.
+    #   @return [String]
+    #
+    # @!attribute [rw] messages_count
+    #   The number of messages to retrieve from memory.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] retrieval_config
+    #   The retrieval configuration for long-term memory, mapping namespace
+    #   path templates to retrieval settings.
+    #   @return [Hash<String,Types::HarnessAgentCoreMemoryRetrievalConfig>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessAgentCoreMemoryConfiguration AWS API Documentation
+    #
+    class HarnessAgentCoreMemoryConfiguration < Struct.new(
+      :arn,
+      :actor_id,
+      :messages_count,
+      :retrieval_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for memory retrieval within a namespace.
+    #
+    # @!attribute [rw] top_k
+    #   The maximum number of memory entries to retrieve.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] relevance_score
+    #   The minimum relevance score for retrieved memories.
+    #   @return [Float]
+    #
+    # @!attribute [rw] strategy_id
+    #   The ID of the retrieval strategy to use.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessAgentCoreMemoryRetrievalConfig AWS API Documentation
+    #
+    class HarnessAgentCoreMemoryRetrievalConfig < Struct.new(
+      :top_k,
+      :relevance_score,
+      :strategy_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The AgentCore Runtime environment for a harness.
+    #
+    # @!attribute [rw] agent_runtime_arn
+    #   The ARN of the underlying AgentCore Runtime.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_runtime_name
+    #   The name of the underlying AgentCore Runtime.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_runtime_id
+    #   The ID of the underlying AgentCore Runtime.
+    #   @return [String]
+    #
+    # @!attribute [rw] lifecycle_configuration
+    #   LifecycleConfiguration lets you manage the lifecycle of runtime
+    #   sessions and resources in AgentCore Runtime. This configuration
+    #   helps optimize resource utilization by automatically cleaning up
+    #   idle sessions and preventing long-running instances from consuming
+    #   resources indefinitely.
+    #   @return [Types::LifecycleConfiguration]
+    #
+    # @!attribute [rw] network_configuration
+    #   SecurityConfig for the Agent.
+    #   @return [Types::NetworkConfiguration]
+    #
+    # @!attribute [rw] filesystem_configurations
+    #   The filesystem configurations for the runtime environment.
+    #   @return [Array<Types::FilesystemConfiguration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessAgentCoreRuntimeEnvironment AWS API Documentation
+    #
+    class HarnessAgentCoreRuntimeEnvironment < Struct.new(
+      :agent_runtime_arn,
+      :agent_runtime_name,
+      :agent_runtime_id,
+      :lifecycle_configuration,
+      :network_configuration,
+      :filesystem_configurations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The AgentCore Runtime environment request configuration.
+    #
+    # @!attribute [rw] lifecycle_configuration
+    #   LifecycleConfiguration lets you manage the lifecycle of runtime
+    #   sessions and resources in AgentCore Runtime. This configuration
+    #   helps optimize resource utilization by automatically cleaning up
+    #   idle sessions and preventing long-running instances from consuming
+    #   resources indefinitely.
+    #   @return [Types::LifecycleConfiguration]
+    #
+    # @!attribute [rw] network_configuration
+    #   SecurityConfig for the Agent.
+    #   @return [Types::NetworkConfiguration]
+    #
+    # @!attribute [rw] filesystem_configurations
+    #   The filesystem configurations for the runtime environment.
+    #   @return [Array<Types::FilesystemConfiguration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessAgentCoreRuntimeEnvironmentRequest AWS API Documentation
+    #
+    class HarnessAgentCoreRuntimeEnvironmentRequest < Struct.new(
+      :lifecycle_configuration,
+      :network_configuration,
+      :filesystem_configurations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for an Amazon Bedrock model provider.
+    #
+    # @!attribute [rw] model_id
+    #   The Bedrock model ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_tokens
+    #   The maximum number of tokens to allow in the generated response per
+    #   iteration.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] temperature
+    #   The temperature to set when calling the model.
+    #   @return [Float]
+    #
+    # @!attribute [rw] top_p
+    #   The topP set when calling the model.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessBedrockModelConfig AWS API Documentation
+    #
+    class HarnessBedrockModelConfig < Struct.new(
+      :model_id,
+      :max_tokens,
+      :temperature,
+      :top_p)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The environment artifact for a harness, such as a container image
+    # containing custom dependencies.
+    #
+    # @note HarnessEnvironmentArtifact is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note HarnessEnvironmentArtifact is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of HarnessEnvironmentArtifact corresponding to the set member.
+    #
+    # @!attribute [rw] container_configuration
+    #   Representation of a container configuration.
+    #   @return [Types::ContainerConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessEnvironmentArtifact AWS API Documentation
+    #
+    class HarnessEnvironmentArtifact < Struct.new(
+      :container_configuration,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class ContainerConfiguration < HarnessEnvironmentArtifact; end
+      class Unknown < HarnessEnvironmentArtifact; end
+    end
+
+    # The environment provider for a harness.
+    #
+    # @note HarnessEnvironmentProvider is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of HarnessEnvironmentProvider corresponding to the set member.
+    #
+    # @!attribute [rw] agent_core_runtime_environment
+    #   The AgentCore Runtime environment configuration.
+    #   @return [Types::HarnessAgentCoreRuntimeEnvironment]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessEnvironmentProvider AWS API Documentation
+    #
+    class HarnessEnvironmentProvider < Struct.new(
+      :agent_core_runtime_environment,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class AgentCoreRuntimeEnvironment < HarnessEnvironmentProvider; end
+      class Unknown < HarnessEnvironmentProvider; end
+    end
+
+    # The environment provider request configuration.
+    #
+    # @note HarnessEnvironmentProviderRequest is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] agent_core_runtime_environment
+    #   The AgentCore Runtime environment configuration.
+    #   @return [Types::HarnessAgentCoreRuntimeEnvironmentRequest]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessEnvironmentProviderRequest AWS API Documentation
+    #
+    class HarnessEnvironmentProviderRequest < Struct.new(
+      :agent_core_runtime_environment,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class AgentCoreRuntimeEnvironment < HarnessEnvironmentProviderRequest; end
+      class Unknown < HarnessEnvironmentProviderRequest; end
+    end
+
+    # Authentication method for calling a Gateway.
+    #
+    # @note HarnessGatewayOutboundAuth is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note HarnessGatewayOutboundAuth is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of HarnessGatewayOutboundAuth corresponding to the set member.
+    #
+    # @!attribute [rw] aws_iam
+    #   SigV4-sign requests using the agent's execution role.
+    #   @return [Types::Unit]
+    #
+    # @!attribute [rw] none
+    #   No authentication.
+    #   @return [Types::Unit]
+    #
+    # @!attribute [rw] oauth
+    #   An OAuth credential provider for gateway authentication. This
+    #   structure contains the configuration for authenticating with the
+    #   target endpoint using OAuth.
+    #   @return [Types::OAuthCredentialProvider]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessGatewayOutboundAuth AWS API Documentation
+    #
+    class HarnessGatewayOutboundAuth < Struct.new(
+      :aws_iam,
+      :none,
+      :oauth,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class AwsIam < HarnessGatewayOutboundAuth; end
+      class None < HarnessGatewayOutboundAuth; end
+      class Oauth < HarnessGatewayOutboundAuth; end
+      class Unknown < HarnessGatewayOutboundAuth; end
+    end
+
+    # Configuration for a Google Gemini model provider. Requires an API key
+    # stored in AgentCore Identity.
+    #
+    # @!attribute [rw] model_id
+    #   The Gemini model ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] api_key_arn
+    #   The ARN of your Gemini API key on AgentCore Identity.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_tokens
+    #   The maximum number of tokens to allow in the generated response per
+    #   iteration.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] temperature
+    #   The temperature to set when calling the model.
+    #   @return [Float]
+    #
+    # @!attribute [rw] top_p
+    #   The topP set when calling the model.
+    #   @return [Float]
+    #
+    # @!attribute [rw] top_k
+    #   The topK set when calling the model.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessGeminiModelConfig AWS API Documentation
+    #
+    class HarnessGeminiModelConfig < Struct.new(
+      :model_id,
+      :api_key_arn,
+      :max_tokens,
+      :temperature,
+      :top_p,
+      :top_k)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for an inline function tool. When the agent calls this
+    # tool, the tool call is returned to the caller for external execution.
+    #
+    # @!attribute [rw] description
+    #   Description of what the tool does, provided to the model.
+    #   @return [String]
+    #
+    # @!attribute [rw] input_schema
+    #   JSON Schema describing the tool's input parameters.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessInlineFunctionConfig AWS API Documentation
+    #
+    class HarnessInlineFunctionConfig < Struct.new(
+      :description,
+      :input_schema)
+      SENSITIVE = [:description, :input_schema]
+      include Aws::Structure
+    end
+
+    # The memory configuration for a harness.
+    #
+    # @note HarnessMemoryConfiguration is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note HarnessMemoryConfiguration is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of HarnessMemoryConfiguration corresponding to the set member.
+    #
+    # @!attribute [rw] agent_core_memory_configuration
+    #   The AgentCore Memory configuration.
+    #   @return [Types::HarnessAgentCoreMemoryConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessMemoryConfiguration AWS API Documentation
+    #
+    class HarnessMemoryConfiguration < Struct.new(
+      :agent_core_memory_configuration,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class AgentCoreMemoryConfiguration < HarnessMemoryConfiguration; end
+      class Unknown < HarnessMemoryConfiguration; end
+    end
+
+    # Specification of which model to use.
+    #
+    # @note HarnessModelConfiguration is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note HarnessModelConfiguration is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of HarnessModelConfiguration corresponding to the set member.
+    #
+    # @!attribute [rw] bedrock_model_config
+    #   Configuration for an Amazon Bedrock model.
+    #   @return [Types::HarnessBedrockModelConfig]
+    #
+    # @!attribute [rw] open_ai_model_config
+    #   Configuration for an OpenAI model.
+    #   @return [Types::HarnessOpenAiModelConfig]
+    #
+    # @!attribute [rw] gemini_model_config
+    #   Configuration for a Google Gemini model.
+    #   @return [Types::HarnessGeminiModelConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessModelConfiguration AWS API Documentation
+    #
+    class HarnessModelConfiguration < Struct.new(
+      :bedrock_model_config,
+      :open_ai_model_config,
+      :gemini_model_config,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class BedrockModelConfig < HarnessModelConfiguration; end
+      class OpenAiModelConfig < HarnessModelConfiguration; end
+      class GeminiModelConfig < HarnessModelConfiguration; end
+      class Unknown < HarnessModelConfiguration; end
+    end
+
+    # Configuration for an OpenAI model provider. Requires an API key stored
+    # in AgentCore Identity.
+    #
+    # @!attribute [rw] model_id
+    #   The OpenAI model ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] api_key_arn
+    #   The ARN of your OpenAI API key on AgentCore Identity.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_tokens
+    #   The maximum number of tokens to allow in the generated response per
+    #   iteration.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] temperature
+    #   The temperature to set when calling the model.
+    #   @return [Float]
+    #
+    # @!attribute [rw] top_p
+    #   The topP set when calling the model.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessOpenAiModelConfig AWS API Documentation
+    #
+    class HarnessOpenAiModelConfig < Struct.new(
+      :model_id,
+      :api_key_arn,
+      :max_tokens,
+      :temperature,
+      :top_p)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for connecting to a remote MCP server.
+    #
+    # @!attribute [rw] url
+    #   URL of the MCP endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] headers
+    #   Map of key/value pairs for HTTP headers.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessRemoteMcpConfig AWS API Documentation
+    #
+    class HarnessRemoteMcpConfig < Struct.new(
+      :url,
+      :headers)
+      SENSITIVE = [:url, :headers]
+      include Aws::Structure
+    end
+
+    # A skill available to the agent.
+    #
+    # @note HarnessSkill is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note HarnessSkill is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of HarnessSkill corresponding to the set member.
+    #
+    # @!attribute [rw] path
+    #   The filesystem path to the skill definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessSkill AWS API Documentation
+    #
+    class HarnessSkill < Struct.new(
+      :path,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Path < HarnessSkill; end
+      class Unknown < HarnessSkill; end
+    end
+
+    # Configuration for sliding window truncation strategy.
+    #
+    # @!attribute [rw] messages_count
+    #   The number of recent messages to retain in the context window.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessSlidingWindowConfiguration AWS API Documentation
+    #
+    class HarnessSlidingWindowConfiguration < Struct.new(
+      :messages_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for summarization-based truncation strategy.
+    #
+    # @!attribute [rw] summary_ratio
+    #   The ratio of content to summarize.
+    #   @return [Float]
+    #
+    # @!attribute [rw] preserve_recent_messages
+    #   The number of recent messages to preserve without summarization.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] summarization_system_prompt
+    #   The system prompt used for generating summaries.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessSummarizationConfiguration AWS API Documentation
+    #
+    class HarnessSummarizationConfiguration < Struct.new(
+      :summary_ratio,
+      :preserve_recent_messages,
+      :summarization_system_prompt)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about a harness.
+    #
+    # @!attribute [rw] harness_id
+    #   The ID of the harness.
+    #   @return [String]
+    #
+    # @!attribute [rw] harness_name
+    #   The name of the harness.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The ARN of the harness.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the harness.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the harness was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the harness was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessSummary AWS API Documentation
+    #
+    class HarnessSummary < Struct.new(
+      :harness_id,
+      :harness_name,
+      :arn,
+      :status,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A content block in the system prompt.
+    #
+    # @note HarnessSystemContentBlock is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note HarnessSystemContentBlock is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of HarnessSystemContentBlock corresponding to the set member.
+    #
+    # @!attribute [rw] text
+    #   The text content of the system prompt block.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessSystemContentBlock AWS API Documentation
+    #
+    class HarnessSystemContentBlock < Struct.new(
+      :text,
+      :unknown)
+      SENSITIVE = [:text]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Text < HarnessSystemContentBlock; end
+      class Unknown < HarnessSystemContentBlock; end
+    end
+
+    # A tool available to the agent loop.
+    #
+    # @!attribute [rw] type
+    #   The type of tool.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Unique name for the tool. If not provided, a name will be inferred
+    #   or generated.
+    #   @return [String]
+    #
+    # @!attribute [rw] config
+    #   Tool-specific configuration.
+    #   @return [Types::HarnessToolConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessTool AWS API Documentation
+    #
+    class HarnessTool < Struct.new(
+      :type,
+      :name,
+      :config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration union for different tool types.
+    #
+    # @note HarnessToolConfiguration is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note HarnessToolConfiguration is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of HarnessToolConfiguration corresponding to the set member.
+    #
+    # @!attribute [rw] remote_mcp
+    #   Configuration for remote MCP server.
+    #   @return [Types::HarnessRemoteMcpConfig]
+    #
+    # @!attribute [rw] agent_core_browser
+    #   Configuration for AgentCore Browser.
+    #   @return [Types::HarnessAgentCoreBrowserConfig]
+    #
+    # @!attribute [rw] agent_core_gateway
+    #   Configuration for AgentCore Gateway.
+    #   @return [Types::HarnessAgentCoreGatewayConfig]
+    #
+    # @!attribute [rw] inline_function
+    #   Configuration for an inline function tool.
+    #   @return [Types::HarnessInlineFunctionConfig]
+    #
+    # @!attribute [rw] agent_core_code_interpreter
+    #   Configuration for AgentCore Code Interpreter.
+    #   @return [Types::HarnessAgentCoreCodeInterpreterConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessToolConfiguration AWS API Documentation
+    #
+    class HarnessToolConfiguration < Struct.new(
+      :remote_mcp,
+      :agent_core_browser,
+      :agent_core_gateway,
+      :inline_function,
+      :agent_core_code_interpreter,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class RemoteMcp < HarnessToolConfiguration; end
+      class AgentCoreBrowser < HarnessToolConfiguration; end
+      class AgentCoreGateway < HarnessToolConfiguration; end
+      class InlineFunction < HarnessToolConfiguration; end
+      class AgentCoreCodeInterpreter < HarnessToolConfiguration; end
+      class Unknown < HarnessToolConfiguration; end
+    end
+
+    # Configuration for truncating conversation context when it exceeds
+    # model limits.
+    #
+    # @!attribute [rw] strategy
+    #   The truncation strategy to use.
+    #   @return [String]
+    #
+    # @!attribute [rw] config
+    #   The strategy-specific configuration.
+    #   @return [Types::HarnessTruncationStrategyConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessTruncationConfiguration AWS API Documentation
+    #
+    class HarnessTruncationConfiguration < Struct.new(
+      :strategy,
+      :config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Strategy-specific truncation configuration.
+    #
+    # @note HarnessTruncationStrategyConfiguration is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note HarnessTruncationStrategyConfiguration is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of HarnessTruncationStrategyConfiguration corresponding to the set member.
+    #
+    # @!attribute [rw] sliding_window
+    #   Configuration for sliding window truncation.
+    #   @return [Types::HarnessSlidingWindowConfiguration]
+    #
+    # @!attribute [rw] summarization
+    #   Configuration for summarization-based truncation.
+    #   @return [Types::HarnessSummarizationConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessTruncationStrategyConfiguration AWS API Documentation
+    #
+    class HarnessTruncationStrategyConfiguration < Struct.new(
+      :sliding_window,
+      :summarization,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class SlidingWindow < HarnessTruncationStrategyConfiguration; end
+      class Summarization < HarnessTruncationStrategyConfiguration; end
+      class Unknown < HarnessTruncationStrategyConfiguration; end
+    end
+
     # An IAM credential provider for gateway authentication. This structure
     # contains the configuration for authenticating with the target endpoint
     # using IAM credentials and SigV4 signing.
@@ -7330,6 +8365,40 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListHarnessesRequest AWS API Documentation
+    #
+    class ListHarnessesRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] harnesses
+    #   The list of harness summaries.
+    #   @return [Array<Types::HarnessSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListHarnessesResponse AWS API Documentation
+    #
+    class ListHarnessesResponse < Struct.new(
+      :harnesses,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
     #   The maximum number of results to return in a single call. The
     #   default value is 10. The maximum value is 50.
     #   @return [Integer]
@@ -8035,6 +9104,11 @@ module Aws::BedrockAgentCoreControl
     #   with mcpToolSchema.
     #   @return [Types::McpToolSchemaConfiguration]
     #
+    # @!attribute [rw] resource_priority
+    #   Priority for resolving MCP server targets with shared resource URIs.
+    #   Lower values take precedence. Defaults to 1000 when not set.
+    #   @return [Integer]
+    #
     # @!attribute [rw] listing_mode
     #   The listing mode for the MCP server target configuration. MCP
     #   resources for default targets are cached at the control plane for
@@ -8047,6 +9121,7 @@ module Aws::BedrockAgentCoreControl
     class McpServerTargetConfiguration < Struct.new(
       :endpoint,
       :mcp_tool_schema,
+      :resource_priority,
       :listing_mode)
       SENSITIVE = []
       include Aws::Structure
@@ -10999,6 +12074,11 @@ module Aws::BedrockAgentCoreControl
     #   The timestamp when the target was last updated.
     #   @return [Time]
     #
+    # @!attribute [rw] resource_priority
+    #   Priority for resolving resource URI conflicts across targets. Lower
+    #   values take precedence. Defaults to 1000 when not set.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/TargetSummary AWS API Documentation
     #
     class TargetSummary < Struct.new(
@@ -11007,7 +12087,8 @@ module Aws::BedrockAgentCoreControl
       :status,
       :description,
       :created_at,
-      :updated_at)
+      :updated_at,
+      :resource_priority)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -11262,6 +12343,12 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/Unit AWS API Documentation
+    #
+    class Unit < Aws::EmptyStructure; end
 
     # @!attribute [rw] resource_arn
     #   The Amazon Resource Name (ARN) of the resource that you want to
@@ -11940,6 +13027,136 @@ module Aws::BedrockAgentCoreControl
       :private_endpoint_managed_resources,
       :authorization_data)
       SENSITIVE = [:name, :description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] harness_id
+    #   The ID of the harness to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_role_arn
+    #   The ARN of the IAM role that the harness assumes when running. If
+    #   not specified, the existing value is retained.
+    #   @return [String]
+    #
+    # @!attribute [rw] environment
+    #   The compute environment configuration for the harness. If not
+    #   specified, the existing value is retained.
+    #   @return [Types::HarnessEnvironmentProviderRequest]
+    #
+    # @!attribute [rw] environment_artifact
+    #   The environment artifact for the harness. Use the optionalValue
+    #   wrapper to set a new value, or set it to null to clear the existing
+    #   configuration.
+    #   @return [Types::UpdatedHarnessEnvironmentArtifact]
+    #
+    # @!attribute [rw] environment_variables
+    #   Environment variables to set in the harness runtime environment. If
+    #   specified, this replaces all existing environment variables. If not
+    #   specified, the existing value is retained.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] authorizer_configuration
+    #   Wrapper for updating an optional AuthorizerConfiguration field with
+    #   PATCH semantics. When present in an update request, the authorizer
+    #   configuration is replaced with optionalValue. When absent, the
+    #   authorizer configuration is left unchanged. To unset, include the
+    #   wrapper with optionalValue not specified.
+    #   @return [Types::UpdatedAuthorizerConfiguration]
+    #
+    # @!attribute [rw] model
+    #   The model configuration for the harness. If not specified, the
+    #   existing value is retained.
+    #   @return [Types::HarnessModelConfiguration]
+    #
+    # @!attribute [rw] system_prompt
+    #   The system prompt that defines the agent's behavior. If not
+    #   specified, the existing value is retained.
+    #   @return [Array<Types::HarnessSystemContentBlock>]
+    #
+    # @!attribute [rw] tools
+    #   The tools available to the agent. If specified, this replaces all
+    #   existing tools. If not specified, the existing value is retained.
+    #   @return [Array<Types::HarnessTool>]
+    #
+    # @!attribute [rw] skills
+    #   The skills available to the agent. If specified, this replaces all
+    #   existing skills. If not specified, the existing value is retained.
+    #   @return [Array<Types::HarnessSkill>]
+    #
+    # @!attribute [rw] allowed_tools
+    #   The tools that the agent is allowed to use. If specified, this
+    #   replaces all existing allowed tools. If not specified, the existing
+    #   value is retained.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] memory
+    #   The AgentCore Memory configuration. Use the optionalValue wrapper to
+    #   set a new value, or set it to null to clear the existing
+    #   configuration.
+    #   @return [Types::UpdatedHarnessMemoryConfiguration]
+    #
+    # @!attribute [rw] truncation
+    #   The truncation configuration for managing conversation context. If
+    #   not specified, the existing value is retained.
+    #   @return [Types::HarnessTruncationConfiguration]
+    #
+    # @!attribute [rw] max_iterations
+    #   The maximum number of iterations the agent loop can execute per
+    #   invocation. If not specified, the existing value is retained.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_tokens
+    #   The maximum number of tokens the agent can generate per iteration.
+    #   If not specified, the existing value is retained.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] timeout_seconds
+    #   The maximum duration in seconds for the agent loop execution per
+    #   invocation. If not specified, the existing value is retained.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateHarnessRequest AWS API Documentation
+    #
+    class UpdateHarnessRequest < Struct.new(
+      :harness_id,
+      :client_token,
+      :execution_role_arn,
+      :environment,
+      :environment_artifact,
+      :environment_variables,
+      :authorizer_configuration,
+      :model,
+      :system_prompt,
+      :tools,
+      :skills,
+      :allowed_tools,
+      :memory,
+      :truncation,
+      :max_iterations,
+      :max_tokens,
+      :timeout_seconds)
+      SENSITIVE = [:environment_variables]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] harness
+    #   The updated harness.
+    #   @return [Types::Harness]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateHarnessResponse AWS API Documentation
+    #
+    class UpdateHarnessResponse < Struct.new(
+      :harness)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -12917,6 +14134,36 @@ module Aws::BedrockAgentCoreControl
       :a2a,
       :custom,
       :agent_skills)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Wrapper for updating the environment artifact configuration.
+    #
+    # @!attribute [rw] optional_value
+    #   The updated environment artifact value, or null to clear the
+    #   existing configuration.
+    #   @return [Types::HarnessEnvironmentArtifact]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedHarnessEnvironmentArtifact AWS API Documentation
+    #
+    class UpdatedHarnessEnvironmentArtifact < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Wrapper for updating the memory configuration.
+    #
+    # @!attribute [rw] optional_value
+    #   The updated memory configuration value, or null to clear the
+    #   existing configuration.
+    #   @return [Types::HarnessMemoryConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatedHarnessMemoryConfiguration AWS API Documentation
+    #
+    class UpdatedHarnessMemoryConfiguration < Struct.new(
+      :optional_value)
       SENSITIVE = []
       include Aws::Structure
     end

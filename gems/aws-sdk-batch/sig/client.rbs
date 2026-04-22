@@ -639,6 +639,12 @@ module Aws
                                                access_point_id: ::String?,
                                                iam: ("ENABLED" | "DISABLED")?
                                              }?
+                                           }?,
+                                           s3files_volume_configuration: {
+                                             file_system_arn: ::String,
+                                             root_directory: ::String?,
+                                             transit_encryption_port: ::Integer?,
+                                             access_point_arn: ::String?
                                            }?
                                          },
                                        ]?,
@@ -754,6 +760,12 @@ module Aws
                                                      access_point_id: ::String?,
                                                      iam: ("ENABLED" | "DISABLED")?
                                                    }?
+                                                 }?,
+                                                 s3files_volume_configuration: {
+                                                   file_system_arn: ::String,
+                                                   root_directory: ::String?,
+                                                   transit_encryption_port: ::Integer?,
+                                                   access_point_arn: ::String?
                                                  }?
                                                },
                                              ]?,
@@ -928,7 +940,9 @@ module Aws
                                                          soft_limit: ::Integer
                                                        },
                                                      ]?,
-                                                     user: ::String?
+                                                     user: ::String?,
+                                                     start_timeout: ::Integer?,
+                                                     stop_timeout: ::Integer?
                                                    },
                                                  ],
                                                  ephemeral_storage: {
@@ -961,6 +975,12 @@ module Aws
                                                          access_point_id: ::String?,
                                                          iam: ("ENABLED" | "DISABLED")?
                                                        }?
+                                                     }?,
+                                                     s3files_volume_configuration: {
+                                                       file_system_arn: ::String,
+                                                       root_directory: ::String?,
+                                                       transit_encryption_port: ::Integer?,
+                                                       access_point_arn: ::String?
                                                      }?
                                                    },
                                                  ]?,
@@ -1298,7 +1318,9 @@ module Aws
                                                    soft_limit: ::Integer
                                                  },
                                                ]?,
-                                               user: ::String?
+                                               user: ::String?,
+                                               start_timeout: ::Integer?,
+                                               stop_timeout: ::Integer?
                                              },
                                            ],
                                            ephemeral_storage: {
@@ -1331,6 +1353,12 @@ module Aws
                                                    access_point_id: ::String?,
                                                    iam: ("ENABLED" | "DISABLED")?
                                                  }?
+                                               }?,
+                                               s3files_volume_configuration: {
+                                                 file_system_arn: ::String,
+                                                 root_directory: ::String?,
+                                                 transit_encryption_port: ::Integer?,
+                                                 access_point_arn: ::String?
                                                }?
                                              },
                                            ]?,

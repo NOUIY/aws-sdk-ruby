@@ -26150,6 +26150,13 @@ module Aws::EC2
     #   request.
     #   @return [String]
     #
+    # @!attribute [rw] include_managed_resources
+    #   Indicates whether to include managed resources in the output. If
+    #   this parameter is set to `true`, the output includes resources that
+    #   are managed by Amazon Web Services services, even if managed
+    #   resource visibility is set to hidden.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] dry_run
     #   Checks whether you have the required permissions for the operation,
     #   without actually making the request, and provides an error response.
@@ -26234,6 +26241,7 @@ module Aws::EC2
       :instance_ids,
       :max_results,
       :next_token,
+      :include_managed_resources,
       :dry_run,
       :filters,
       :include_all_instances)
@@ -26681,6 +26689,13 @@ module Aws::EC2
     #
     #   Default: Describes all your instances.
     #   @return [Array<String>]
+    #
+    # @!attribute [rw] include_managed_resources
+    #   Indicates whether to include managed resources in the output. If
+    #   this parameter is set to `true`, the output includes resources that
+    #   are managed by Amazon Web Services services, even if managed
+    #   resource visibility is set to hidden.
+    #   @return [Boolean]
     #
     # @!attribute [rw] dry_run
     #   Checks whether you have the required permissions for the operation,
@@ -27170,6 +27185,7 @@ module Aws::EC2
     #
     class DescribeInstancesRequest < Struct.new(
       :instance_ids,
+      :include_managed_resources,
       :dry_run,
       :filters,
       :next_token,
@@ -28125,6 +28141,13 @@ module Aws::EC2
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-launch-template.html#use-an-ssm-parameter-instead-of-an-ami-id
     #   @return [Boolean]
     #
+    # @!attribute [rw] include_managed_resources
+    #   Indicates whether to include managed resources in the output. If
+    #   this parameter is set to `true`, the output includes resources that
+    #   are managed by Amazon Web Services services, even if managed
+    #   resource visibility is set to hidden.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLaunchTemplateVersionsRequest AWS API Documentation
     #
     class DescribeLaunchTemplateVersionsRequest < Struct.new(
@@ -28137,7 +28160,8 @@ module Aws::EC2
       :next_token,
       :max_results,
       :filters,
-      :resolve_alias)
+      :resolve_alias,
+      :include_managed_resources)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -28203,6 +28227,13 @@ module Aws::EC2
     #   `NextToken` value. This value can be between 1 and 200.
     #   @return [Integer]
     #
+    # @!attribute [rw] include_managed_resources
+    #   Indicates whether to include managed resources in the output. If
+    #   this parameter is set to `true`, the output includes resources that
+    #   are managed by Amazon Web Services services, even if managed
+    #   resource visibility is set to hidden.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLaunchTemplatesRequest AWS API Documentation
     #
     class DescribeLaunchTemplatesRequest < Struct.new(
@@ -28211,7 +28242,8 @@ module Aws::EC2
       :launch_template_names,
       :filters,
       :next_token,
-      :max_results)
+      :max_results,
+      :include_managed_resources)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -29620,6 +29652,13 @@ module Aws::EC2
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination
     #   @return [Integer]
     #
+    # @!attribute [rw] include_managed_resources
+    #   Indicates whether to include managed resources in the output. If
+    #   this parameter is set to `true`, the output includes resources that
+    #   are managed by Amazon Web Services services, even if managed
+    #   resource visibility is set to hidden.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
@@ -29766,6 +29805,7 @@ module Aws::EC2
     class DescribeNetworkInterfacesRequest < Struct.new(
       :next_token,
       :max_results,
+      :include_managed_resources,
       :dry_run,
       :network_interface_ids,
       :filters)
@@ -34411,6 +34451,13 @@ module Aws::EC2
     #   Default: Describes all your volumes.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] include_managed_resources
+    #   Indicates whether to include managed resources in the output. If
+    #   this parameter is set to `true`, the output includes resources that
+    #   are managed by Amazon Web Services services, even if managed
+    #   resource visibility is set to hidden.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
@@ -34460,6 +34507,7 @@ module Aws::EC2
       :max_results,
       :next_token,
       :volume_ids,
+      :include_managed_resources,
       :dry_run,
       :filters)
       SENSITIVE = []
@@ -34576,6 +34624,13 @@ module Aws::EC2
     #   the response.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] include_managed_resources
+    #   Indicates whether to include managed resources in the output. If
+    #   this parameter is set to `true`, the output includes resources that
+    #   are managed by Amazon Web Services services, even if managed
+    #   resource visibility is set to hidden.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
@@ -34668,6 +34723,7 @@ module Aws::EC2
     #
     class DescribeVolumesRequest < Struct.new(
       :volume_ids,
+      :include_managed_resources,
       :dry_run,
       :filters,
       :next_token,
@@ -45572,6 +45628,33 @@ module Aws::EC2
     class GetManagedPrefixListEntriesResult < Struct.new(
       :entries,
       :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetManagedResourceVisibilityRequest AWS API Documentation
+    #
+    class GetManagedResourceVisibilityRequest < Struct.new(
+      :dry_run)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] visibility
+    #   The managed resource visibility settings for the account.
+    #   @return [Types::ManagedResourceVisibilitySettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetManagedResourceVisibilityResult AWS API Documentation
+    #
+    class GetManagedResourceVisibilityResult < Struct.new(
+      :visibility)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -60021,6 +60104,23 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # Describes the managed resource visibility settings for the account.
+    #
+    # @!attribute [rw] default_visibility
+    #   The default visibility setting for managed resources. A value of
+    #   `hidden` indicates that managed resources are not included in
+    #   Describe operation responses by default. A value of `visible`
+    #   indicates that managed resources are included by default.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ManagedResourceVisibilitySettings AWS API Documentation
+    #
+    class ManagedResourceVisibilitySettings < Struct.new(
+      :default_visibility)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Describes the media accelerators for the instance type.
     #
     # @!attribute [rw] accelerators
@@ -61332,7 +61432,18 @@ module Aws::EC2
       :ebs_optimized,
       :sriov_net_support,
       :ena_support)
-      SENSITIVE = []
+      SENSITIVE = [:value]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] value
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyInstanceAttributeUserDataRequest AWS API Documentation
+    #
+    class ModifyInstanceAttributeUserDataRequest < Struct.new(
+      :value)
+      SENSITIVE = [:value]
       include Aws::Structure
     end
 
@@ -62853,6 +62964,39 @@ module Aws::EC2
     #
     class ModifyManagedPrefixListResult < Struct.new(
       :prefix_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] default_visibility
+    #   The default visibility setting for managed resources. Valid values:
+    #   `hidden` \| `visible`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyManagedResourceVisibilityRequest AWS API Documentation
+    #
+    class ModifyManagedResourceVisibilityRequest < Struct.new(
+      :dry_run,
+      :default_visibility)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] visibility
+    #   The updated managed resource visibility settings for the account.
+    #   @return [Types::ManagedResourceVisibilitySettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyManagedResourceVisibilityResult AWS API Documentation
+    #
+    class ModifyManagedResourceVisibilityResult < Struct.new(
+      :visibility)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -67988,11 +68132,17 @@ module Aws::EC2
     #   principal is the service provider that manages the resource.
     #   @return [String]
     #
+    # @!attribute [rw] hidden_by_default
+    #   If `true`, the resource is hidden by default based on the managed
+    #   resource visibility settings for the account.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/OperatorResponse AWS API Documentation
     #
     class OperatorResponse < Struct.new(
       :managed,
-      :principal)
+      :principal,
+      :hidden_by_default)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -85632,6 +85782,11 @@ module Aws::EC2
     #   The modification completion or failure time.
     #   @return [Time]
     #
+    # @!attribute [rw] operator
+    #   Describes whether the resource is managed by a service provider and,
+    #   if so, describes the service provider that manages it.
+    #   @return [Types::OperatorResponse]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/VolumeModification AWS API Documentation
     #
     class VolumeModification < Struct.new(
@@ -85650,7 +85805,8 @@ module Aws::EC2
       :original_multi_attach_enabled,
       :progress,
       :start_time,
-      :end_time)
+      :end_time,
+      :operator)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -85934,6 +86090,10 @@ module Aws::EC2
     #   The ID of the Availability Zone.
     #   @return [String]
     #
+    # @!attribute [rw] operator
+    #   The service provider that manages the resource.
+    #   @return [Types::OperatorResponse]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/VolumeStatusItem AWS API Documentation
     #
     class VolumeStatusItem < Struct.new(
@@ -85945,7 +86105,8 @@ module Aws::EC2
       :volume_status,
       :attachment_statuses,
       :initialization_status_details,
-      :availability_zone_id)
+      :availability_zone_id,
+      :operator)
       SENSITIVE = []
       include Aws::Structure
     end

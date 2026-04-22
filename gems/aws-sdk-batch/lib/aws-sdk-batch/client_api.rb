@@ -287,6 +287,7 @@ module Aws::Batch
     RetryAction = Shapes::StringShape.new(name: 'RetryAction')
     RetryStrategy = Shapes::StructureShape.new(name: 'RetryStrategy')
     RuntimePlatform = Shapes::StructureShape.new(name: 'RuntimePlatform')
+    S3FilesVolumeConfiguration = Shapes::StructureShape.new(name: 'S3FilesVolumeConfiguration')
     SchedulingPolicyDetail = Shapes::StructureShape.new(name: 'SchedulingPolicyDetail')
     SchedulingPolicyDetailList = Shapes::ListShape.new(name: 'SchedulingPolicyDetailList')
     SchedulingPolicyListingDetail = Shapes::StructureShape.new(name: 'SchedulingPolicyListingDetail')
@@ -1535,6 +1536,12 @@ module Aws::Batch
     RuntimePlatform.add_member(:cpu_architecture, Shapes::ShapeRef.new(shape: String, location_name: "cpuArchitecture"))
     RuntimePlatform.struct_class = Types::RuntimePlatform
 
+    S3FilesVolumeConfiguration.add_member(:file_system_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "fileSystemArn"))
+    S3FilesVolumeConfiguration.add_member(:root_directory, Shapes::ShapeRef.new(shape: String, location_name: "rootDirectory"))
+    S3FilesVolumeConfiguration.add_member(:transit_encryption_port, Shapes::ShapeRef.new(shape: Integer, location_name: "transitEncryptionPort"))
+    S3FilesVolumeConfiguration.add_member(:access_point_arn, Shapes::ShapeRef.new(shape: String, location_name: "accessPointArn"))
+    S3FilesVolumeConfiguration.struct_class = Types::S3FilesVolumeConfiguration
+
     SchedulingPolicyDetail.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
     SchedulingPolicyDetail.add_member(:arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "arn"))
     SchedulingPolicyDetail.add_member(:quota_share_policy, Shapes::ShapeRef.new(shape: QuotaSharePolicy, location_name: "quotaSharePolicy"))
@@ -1733,6 +1740,8 @@ module Aws::Batch
     TaskContainerDetails.add_member(:secrets, Shapes::ShapeRef.new(shape: SecretList, location_name: "secrets"))
     TaskContainerDetails.add_member(:ulimits, Shapes::ShapeRef.new(shape: Ulimits, location_name: "ulimits"))
     TaskContainerDetails.add_member(:user, Shapes::ShapeRef.new(shape: String, location_name: "user"))
+    TaskContainerDetails.add_member(:start_timeout, Shapes::ShapeRef.new(shape: Integer, location_name: "startTimeout"))
+    TaskContainerDetails.add_member(:stop_timeout, Shapes::ShapeRef.new(shape: Integer, location_name: "stopTimeout"))
     TaskContainerDetails.add_member(:exit_code, Shapes::ShapeRef.new(shape: Integer, location_name: "exitCode"))
     TaskContainerDetails.add_member(:reason, Shapes::ShapeRef.new(shape: String, location_name: "reason"))
     TaskContainerDetails.add_member(:log_stream_name, Shapes::ShapeRef.new(shape: String, location_name: "logStreamName"))
@@ -1762,6 +1771,8 @@ module Aws::Batch
     TaskContainerProperties.add_member(:secrets, Shapes::ShapeRef.new(shape: SecretList, location_name: "secrets"))
     TaskContainerProperties.add_member(:ulimits, Shapes::ShapeRef.new(shape: Ulimits, location_name: "ulimits"))
     TaskContainerProperties.add_member(:user, Shapes::ShapeRef.new(shape: String, location_name: "user"))
+    TaskContainerProperties.add_member(:start_timeout, Shapes::ShapeRef.new(shape: Integer, location_name: "startTimeout"))
+    TaskContainerProperties.add_member(:stop_timeout, Shapes::ShapeRef.new(shape: Integer, location_name: "stopTimeout"))
     TaskContainerProperties.struct_class = Types::TaskContainerProperties
 
     TaskPropertiesOverride.add_member(:containers, Shapes::ShapeRef.new(shape: ListTaskContainerOverrides, location_name: "containers"))
@@ -1879,6 +1890,7 @@ module Aws::Batch
     Volume.add_member(:host, Shapes::ShapeRef.new(shape: Host, location_name: "host"))
     Volume.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
     Volume.add_member(:efs_volume_configuration, Shapes::ShapeRef.new(shape: EFSVolumeConfiguration, location_name: "efsVolumeConfiguration"))
+    Volume.add_member(:s3files_volume_configuration, Shapes::ShapeRef.new(shape: S3FilesVolumeConfiguration, location_name: "s3filesVolumeConfiguration"))
     Volume.struct_class = Types::Volume
 
     Volumes.member = Shapes::ShapeRef.new(shape: Volume)

@@ -493,6 +493,9 @@ module Aws::OpenSearchService
     RolesKey = Shapes::StringShape.new(name: 'RolesKey')
     RolesKeyIdCOption = Shapes::StringShape.new(name: 'RolesKeyIdCOption')
     RollbackOnDisable = Shapes::StringShape.new(name: 'RollbackOnDisable')
+    RollbackServiceSoftwareOptions = Shapes::StructureShape.new(name: 'RollbackServiceSoftwareOptions')
+    RollbackServiceSoftwareUpdateRequest = Shapes::StructureShape.new(name: 'RollbackServiceSoftwareUpdateRequest')
+    RollbackServiceSoftwareUpdateResponse = Shapes::StructureShape.new(name: 'RollbackServiceSoftwareUpdateResponse')
     S3BucketName = Shapes::StringShape.new(name: 'S3BucketName')
     S3GlueDataCatalog = Shapes::StructureShape.new(name: 'S3GlueDataCatalog')
     S3Key = Shapes::StringShape.new(name: 'S3Key')
@@ -2080,6 +2083,18 @@ module Aws::OpenSearchService
 
     RevokeVpcEndpointAccessResponse.struct_class = Types::RevokeVpcEndpointAccessResponse
 
+    RollbackServiceSoftwareOptions.add_member(:current_version, Shapes::ShapeRef.new(shape: String, location_name: "CurrentVersion"))
+    RollbackServiceSoftwareOptions.add_member(:new_version, Shapes::ShapeRef.new(shape: String, location_name: "NewVersion"))
+    RollbackServiceSoftwareOptions.add_member(:rollback_available, Shapes::ShapeRef.new(shape: Boolean, location_name: "RollbackAvailable"))
+    RollbackServiceSoftwareOptions.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "Description"))
+    RollbackServiceSoftwareOptions.struct_class = Types::RollbackServiceSoftwareOptions
+
+    RollbackServiceSoftwareUpdateRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: DomainName, required: true, location_name: "DomainName"))
+    RollbackServiceSoftwareUpdateRequest.struct_class = Types::RollbackServiceSoftwareUpdateRequest
+
+    RollbackServiceSoftwareUpdateResponse.add_member(:rollback_service_software_options, Shapes::ShapeRef.new(shape: RollbackServiceSoftwareOptions, location_name: "RollbackServiceSoftwareOptions"))
+    RollbackServiceSoftwareUpdateResponse.struct_class = Types::RollbackServiceSoftwareUpdateResponse
+
     S3GlueDataCatalog.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "RoleArn"))
     S3GlueDataCatalog.struct_class = Types::S3GlueDataCatalog
 
@@ -2156,6 +2171,7 @@ module Aws::OpenSearchService
     SnapshotOptionsStatus.struct_class = Types::SnapshotOptionsStatus
 
     SoftwareUpdateOptions.add_member(:auto_software_update_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "AutoSoftwareUpdateEnabled"))
+    SoftwareUpdateOptions.add_member(:use_latest_service_software_for_blue_green, Shapes::ShapeRef.new(shape: Boolean, location_name: "UseLatestServiceSoftwareForBlueGreen"))
     SoftwareUpdateOptions.struct_class = Types::SoftwareUpdateOptions
 
     SoftwareUpdateOptionsStatus.add_member(:options, Shapes::ShapeRef.new(shape: SoftwareUpdateOptions, location_name: "Options"))
@@ -3478,6 +3494,19 @@ module Aws::OpenSearchService
         o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalException)
         o.errors << Shapes::ShapeRef.new(shape: BaseException)
+      end)
+
+      api.add_operation(:rollback_service_software_update, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "RollbackServiceSoftwareUpdate"
+        o.http_method = "POST"
+        o.http_request_uri = "/2021-01-01/opensearch/serviceSoftwareUpdate/rollback"
+        o.input = Shapes::ShapeRef.new(shape: RollbackServiceSoftwareUpdateRequest)
+        o.output = Shapes::ShapeRef.new(shape: RollbackServiceSoftwareUpdateResponse)
+        o.errors << Shapes::ShapeRef.new(shape: BaseException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
       end)
 
       api.add_operation(:start_domain_maintenance, Seahorse::Model::Operation.new.tap do |o|

@@ -650,6 +650,361 @@ module Aws::BedrockAgentCore
       SENSITIVE: [:workload_access_token]
     end
 
+    class HarnessAgentCoreBrowserConfig
+      attr_accessor browser_arn: ::String
+      SENSITIVE: []
+    end
+
+    class HarnessAgentCoreCodeInterpreterConfig
+      attr_accessor code_interpreter_arn: ::String
+      SENSITIVE: []
+    end
+
+    class HarnessAgentCoreGatewayConfig
+      attr_accessor gateway_arn: ::String
+      attr_accessor outbound_auth: Types::HarnessGatewayOutboundAuth
+      SENSITIVE: []
+    end
+
+    class HarnessBedrockModelConfig
+      attr_accessor model_id: ::String
+      attr_accessor max_tokens: ::Integer
+      attr_accessor temperature: ::Float
+      attr_accessor top_p: ::Float
+      SENSITIVE: []
+    end
+
+    class HarnessContentBlock
+      attr_accessor text: ::String
+      attr_accessor tool_use: Types::HarnessToolUseBlock
+      attr_accessor tool_result: Types::HarnessToolResultBlock
+      attr_accessor reasoning_content: Types::HarnessReasoningContentBlock
+      attr_accessor unknown: untyped
+      SENSITIVE: [:text, :reasoning_content]
+
+      class Text < HarnessContentBlock
+      end
+      class ToolUse < HarnessContentBlock
+      end
+      class ToolResult < HarnessContentBlock
+      end
+      class ReasoningContent < HarnessContentBlock
+      end
+      class Unknown < HarnessContentBlock
+      end
+    end
+
+    class HarnessContentBlockDelta
+      attr_accessor text: ::String
+      attr_accessor tool_use: Types::HarnessToolUseBlockDelta
+      attr_accessor tool_result: ::Array[Types::HarnessToolResultBlockDelta]
+      attr_accessor reasoning_content: Types::HarnessReasoningContentBlockDelta
+      attr_accessor unknown: untyped
+      SENSITIVE: [:text, :reasoning_content]
+
+      class Text < HarnessContentBlockDelta
+      end
+      class ToolUse < HarnessContentBlockDelta
+      end
+      class ToolResult < HarnessContentBlockDelta
+      end
+      class ReasoningContent < HarnessContentBlockDelta
+      end
+      class Unknown < HarnessContentBlockDelta
+      end
+    end
+
+    class HarnessContentBlockDeltaEvent
+      attr_accessor content_block_index: ::Integer
+      attr_accessor delta: Types::HarnessContentBlockDelta
+      attr_accessor event_type: untyped
+      SENSITIVE: []
+    end
+
+    class HarnessContentBlockStart
+      attr_accessor tool_use: Types::HarnessToolUseBlockStart
+      attr_accessor tool_result: Types::HarnessToolResultBlockStart
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class ToolUse < HarnessContentBlockStart
+      end
+      class ToolResult < HarnessContentBlockStart
+      end
+      class Unknown < HarnessContentBlockStart
+      end
+    end
+
+    class HarnessContentBlockStartEvent
+      attr_accessor content_block_index: ::Integer
+      attr_accessor start: Types::HarnessContentBlockStart
+      attr_accessor event_type: untyped
+      SENSITIVE: []
+    end
+
+    class HarnessContentBlockStopEvent
+      attr_accessor content_block_index: ::Integer
+      attr_accessor event_type: untyped
+      SENSITIVE: []
+    end
+
+    class HarnessGatewayOutboundAuth
+      attr_accessor aws_iam: Types::Unit
+      attr_accessor none: Types::Unit
+      attr_accessor oauth: Types::OAuthCredentialProvider
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class AwsIam < HarnessGatewayOutboundAuth
+      end
+      class None < HarnessGatewayOutboundAuth
+      end
+      class Oauth < HarnessGatewayOutboundAuth
+      end
+      class Unknown < HarnessGatewayOutboundAuth
+      end
+    end
+
+    class HarnessGeminiModelConfig
+      attr_accessor model_id: ::String
+      attr_accessor api_key_arn: ::String
+      attr_accessor max_tokens: ::Integer
+      attr_accessor temperature: ::Float
+      attr_accessor top_p: ::Float
+      attr_accessor top_k: ::Integer
+      SENSITIVE: []
+    end
+
+    class HarnessInlineFunctionConfig
+      attr_accessor description: ::String
+      attr_accessor input_schema: untyped
+      SENSITIVE: [:description, :input_schema]
+    end
+
+    class HarnessMessage
+      attr_accessor role: ("user" | "assistant")
+      attr_accessor content: ::Array[Types::HarnessContentBlock]
+      SENSITIVE: []
+    end
+
+    class HarnessMessageStartEvent
+      attr_accessor role: ("user" | "assistant")
+      attr_accessor event_type: untyped
+      SENSITIVE: []
+    end
+
+    class HarnessMessageStopEvent
+      attr_accessor stop_reason: ("end_turn" | "tool_use" | "tool_result" | "max_tokens" | "stop_sequence" | "content_filtered" | "malformed_model_output" | "malformed_tool_use" | "interrupted" | "partial_turn" | "model_context_window_exceeded" | "max_iterations_exceeded" | "max_output_tokens_exceeded" | "timeout_exceeded")
+      attr_accessor event_type: untyped
+      SENSITIVE: []
+    end
+
+    class HarnessMetadataEvent
+      attr_accessor usage: Types::HarnessTokenUsage
+      attr_accessor metrics: Types::HarnessStreamMetrics
+      attr_accessor event_type: untyped
+      SENSITIVE: []
+    end
+
+    class HarnessModelConfiguration
+      attr_accessor bedrock_model_config: Types::HarnessBedrockModelConfig
+      attr_accessor open_ai_model_config: Types::HarnessOpenAiModelConfig
+      attr_accessor gemini_model_config: Types::HarnessGeminiModelConfig
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class BedrockModelConfig < HarnessModelConfiguration
+      end
+      class OpenAiModelConfig < HarnessModelConfiguration
+      end
+      class GeminiModelConfig < HarnessModelConfiguration
+      end
+      class Unknown < HarnessModelConfiguration
+      end
+    end
+
+    class HarnessOpenAiModelConfig
+      attr_accessor model_id: ::String
+      attr_accessor api_key_arn: ::String
+      attr_accessor max_tokens: ::Integer
+      attr_accessor temperature: ::Float
+      attr_accessor top_p: ::Float
+      SENSITIVE: []
+    end
+
+    class HarnessReasoningContentBlock
+      attr_accessor reasoning_text: Types::HarnessReasoningTextBlock
+      attr_accessor redacted_content: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: [:reasoning_text]
+
+      class ReasoningText < HarnessReasoningContentBlock
+      end
+      class RedactedContent < HarnessReasoningContentBlock
+      end
+      class Unknown < HarnessReasoningContentBlock
+      end
+    end
+
+    class HarnessReasoningContentBlockDelta
+      attr_accessor text: ::String
+      attr_accessor redacted_content: ::String
+      attr_accessor signature: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: [:redacted_content]
+
+      class Text < HarnessReasoningContentBlockDelta
+      end
+      class RedactedContent < HarnessReasoningContentBlockDelta
+      end
+      class Signature < HarnessReasoningContentBlockDelta
+      end
+      class Unknown < HarnessReasoningContentBlockDelta
+      end
+    end
+
+    class HarnessReasoningTextBlock
+      attr_accessor text: ::String
+      attr_accessor signature: ::String
+      SENSITIVE: []
+    end
+
+    class HarnessRemoteMcpConfig
+      attr_accessor url: ::String
+      attr_accessor headers: ::Hash[::String, ::String]
+      SENSITIVE: [:url, :headers]
+    end
+
+    class HarnessSkill
+      attr_accessor path: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Path < HarnessSkill
+      end
+      class Unknown < HarnessSkill
+      end
+    end
+
+    class HarnessStreamMetrics
+      attr_accessor latency_ms: ::Integer
+      SENSITIVE: []
+    end
+
+    class HarnessSystemContentBlock
+      attr_accessor text: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: [:text]
+
+      class Text < HarnessSystemContentBlock
+      end
+      class Unknown < HarnessSystemContentBlock
+      end
+    end
+
+    class HarnessTokenUsage
+      attr_accessor input_tokens: ::Integer
+      attr_accessor output_tokens: ::Integer
+      attr_accessor total_tokens: ::Integer
+      attr_accessor cache_read_input_tokens: ::Integer
+      attr_accessor cache_write_input_tokens: ::Integer
+      SENSITIVE: []
+    end
+
+    class HarnessTool
+      attr_accessor type: ("remote_mcp" | "agentcore_browser" | "agentcore_gateway" | "inline_function" | "agentcore_code_interpreter")
+      attr_accessor name: ::String
+      attr_accessor config: Types::HarnessToolConfiguration
+      SENSITIVE: []
+    end
+
+    class HarnessToolConfiguration
+      attr_accessor remote_mcp: Types::HarnessRemoteMcpConfig
+      attr_accessor agent_core_browser: Types::HarnessAgentCoreBrowserConfig
+      attr_accessor agent_core_gateway: Types::HarnessAgentCoreGatewayConfig
+      attr_accessor inline_function: Types::HarnessInlineFunctionConfig
+      attr_accessor agent_core_code_interpreter: Types::HarnessAgentCoreCodeInterpreterConfig
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class RemoteMcp < HarnessToolConfiguration
+      end
+      class AgentCoreBrowser < HarnessToolConfiguration
+      end
+      class AgentCoreGateway < HarnessToolConfiguration
+      end
+      class InlineFunction < HarnessToolConfiguration
+      end
+      class AgentCoreCodeInterpreter < HarnessToolConfiguration
+      end
+      class Unknown < HarnessToolConfiguration
+      end
+    end
+
+    class HarnessToolResultBlock
+      attr_accessor tool_use_id: ::String
+      attr_accessor content: ::Array[Types::HarnessToolResultContentBlock]
+      attr_accessor status: ("success" | "error")
+      attr_accessor type: ("tool_use" | "server_tool_use" | "mcp_tool_use")
+      SENSITIVE: []
+    end
+
+    class HarnessToolResultBlockDelta
+      attr_accessor text: ::String
+      attr_accessor json: untyped
+      attr_accessor unknown: untyped
+      SENSITIVE: [:text, :json]
+
+      class Text < HarnessToolResultBlockDelta
+      end
+      class Json < HarnessToolResultBlockDelta
+      end
+      class Unknown < HarnessToolResultBlockDelta
+      end
+    end
+
+    class HarnessToolResultBlockStart
+      attr_accessor tool_use_id: ::String
+      attr_accessor status: ("success" | "error")
+      SENSITIVE: []
+    end
+
+    class HarnessToolResultContentBlock
+      attr_accessor text: ::String
+      attr_accessor json: untyped
+      attr_accessor unknown: untyped
+      SENSITIVE: [:text, :json]
+
+      class Text < HarnessToolResultContentBlock
+      end
+      class Json < HarnessToolResultContentBlock
+      end
+      class Unknown < HarnessToolResultContentBlock
+      end
+    end
+
+    class HarnessToolUseBlock
+      attr_accessor name: ::String
+      attr_accessor tool_use_id: ::String
+      attr_accessor input: untyped
+      attr_accessor type: ("tool_use" | "server_tool_use" | "mcp_tool_use")
+      attr_accessor server_name: ::String
+      SENSITIVE: [:input]
+    end
+
+    class HarnessToolUseBlockDelta
+      attr_accessor input: ::String
+      SENSITIVE: [:input]
+    end
+
+    class HarnessToolUseBlockStart
+      attr_accessor tool_use_id: ::String
+      attr_accessor name: ::String
+      attr_accessor type: ("tool_use" | "server_tool_use" | "mcp_tool_use")
+      attr_accessor server_name: ::String
+      SENSITIVE: []
+    end
+
     class InputContentBlock
       attr_accessor path: ::String
       attr_accessor text: ::String
@@ -759,6 +1114,27 @@ module Aws::BedrockAgentCore
     class InvokeCodeInterpreterResponse
       attr_accessor session_id: ::String
       attr_accessor stream: Types::CodeInterpreterStreamOutput
+      SENSITIVE: []
+    end
+
+    class InvokeHarnessRequest
+      attr_accessor harness_arn: ::String
+      attr_accessor runtime_session_id: ::String
+      attr_accessor messages: ::Array[Types::HarnessMessage]
+      attr_accessor model: Types::HarnessModelConfiguration
+      attr_accessor system_prompt: ::Array[Types::HarnessSystemContentBlock]
+      attr_accessor tools: ::Array[Types::HarnessTool]
+      attr_accessor skills: ::Array[Types::HarnessSkill]
+      attr_accessor allowed_tools: ::Array[::String]
+      attr_accessor max_iterations: ::Integer
+      attr_accessor max_tokens: ::Integer
+      attr_accessor timeout_seconds: ::Integer
+      attr_accessor actor_id: ::String
+      SENSITIVE: []
+    end
+
+    class InvokeHarnessResponse
+      attr_accessor stream: Types::InvokeHarnessStreamOutput
       SENSITIVE: []
     end
 
@@ -1061,6 +1437,15 @@ module Aws::BedrockAgentCore
     class MouseScrollResult
       attr_accessor status: ("SUCCESS" | "FAILED")
       attr_accessor error: ::String
+      SENSITIVE: []
+    end
+
+    class OAuthCredentialProvider
+      attr_accessor provider_arn: ::String
+      attr_accessor scopes: ::Array[::String]
+      attr_accessor custom_parameters: ::Hash[::String, ::String]
+      attr_accessor grant_type: ("CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE")
+      attr_accessor default_return_url: ::String
       SENSITIVE: []
     end
 
@@ -1472,6 +1857,9 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class Unit < Aws::EmptyStructure
+    end
+
     class UpdateBrowserStreamRequest
       attr_accessor browser_identifier: ::String
       attr_accessor session_id: ::String
@@ -1528,6 +1916,10 @@ module Aws::BedrockAgentCore
 
     class InvokeAgentRuntimeCommandStreamOutput < Enumerator[untyped, untyped]
       def event_types: () -> [:chunk, :access_denied_exception, :internal_server_exception, :resource_not_found_exception, :service_quota_exceeded_exception, :throttling_exception, :validation_exception, :runtime_client_error]
+    end
+
+    class InvokeHarnessStreamOutput < Enumerator[untyped, untyped]
+      def event_types: () -> [:message_start, :content_block_start, :content_block_delta, :content_block_stop, :message_stop, :metadata, :internal_server_exception, :validation_exception, :runtime_client_error]
     end
   end
 end

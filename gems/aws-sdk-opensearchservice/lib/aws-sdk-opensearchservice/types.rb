@@ -7476,6 +7476,64 @@ module Aws::OpenSearchService
     #
     class RevokeVpcEndpointAccessResponse < Aws::EmptyStructure; end
 
+    # Details about the rollback options for a service software update.
+    #
+    # @!attribute [rw] current_version
+    #   The current service software version on the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] new_version
+    #   The service software version that the domain will roll back to.
+    #   @return [String]
+    #
+    # @!attribute [rw] rollback_available
+    #   Whether a service software rollback is available for the domain.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] description
+    #   A description of the rollback status.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/RollbackServiceSoftwareOptions AWS API Documentation
+    #
+    class RollbackServiceSoftwareOptions < Struct.new(
+      :current_version,
+      :new_version,
+      :rollback_available,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Container for the request parameters to the
+    # `RollbackServiceSoftwareUpdate` operation.
+    #
+    # @!attribute [rw] domain_name
+    #   The name of the domain to roll back the service software update on.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/RollbackServiceSoftwareUpdateRequest AWS API Documentation
+    #
+    class RollbackServiceSoftwareUpdateRequest < Struct.new(
+      :domain_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains details about the rolled-back service software update.
+    #
+    # @!attribute [rw] rollback_service_software_options
+    #   The rollback options for the service software update.
+    #   @return [Types::RollbackServiceSoftwareOptions]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/RollbackServiceSoftwareUpdateResponse AWS API Documentation
+    #
+    class RollbackServiceSoftwareUpdateResponse < Struct.new(
+      :rollback_service_software_options)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information about the Amazon S3 Glue Data Catalog.
     #
     # @!attribute [rw] role_arn
@@ -7872,10 +7930,18 @@ module Aws::OpenSearchService
     #   domain.
     #   @return [Boolean]
     #
+    # @!attribute [rw] use_latest_service_software_for_blue_green
+    #   Whether the domain should use the latest service software version
+    #   during a blue/green deployment. If enabled, the domain will
+    #   automatically use the latest available service software when a
+    #   blue/green deployment is triggered.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/SoftwareUpdateOptions AWS API Documentation
     #
     class SoftwareUpdateOptions < Struct.new(
-      :auto_software_update_enabled)
+      :auto_software_update_enabled,
+      :use_latest_service_software_for_blue_green)
       SENSITIVE = []
       include Aws::Structure
     end

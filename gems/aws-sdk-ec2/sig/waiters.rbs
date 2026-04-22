@@ -180,6 +180,7 @@ module Aws
 
         def wait: (
                     ?instance_ids: Array[::String],
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -199,6 +200,7 @@ module Aws
 
         def wait: (
                     ?instance_ids: Array[::String],
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -220,6 +222,7 @@ module Aws
                     ?instance_ids: Array[::String],
                     ?max_results: ::Integer,
                     ?next_token: ::String,
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -238,6 +241,7 @@ module Aws
 
         def wait: (
                     ?instance_ids: Array[::String],
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -257,6 +261,7 @@ module Aws
 
         def wait: (
                     ?instance_ids: Array[::String],
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -353,6 +358,7 @@ module Aws
         def wait: (
                     ?next_token: ::String,
                     ?max_results: ::Integer,
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?network_interface_ids: Array[::String],
                     ?filters: Array[
@@ -613,6 +619,7 @@ module Aws
                     ?instance_ids: Array[::String],
                     ?max_results: ::Integer,
                     ?next_token: ::String,
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -631,6 +638,7 @@ module Aws
 
         def wait: (
                     ?volume_ids: Array[::String],
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -650,6 +658,7 @@ module Aws
 
         def wait: (
                     ?volume_ids: Array[::String],
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -669,6 +678,7 @@ module Aws
 
         def wait: (
                     ?volume_ids: Array[::String],
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {

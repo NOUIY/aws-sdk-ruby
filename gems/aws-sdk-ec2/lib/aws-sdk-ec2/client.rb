@@ -5660,6 +5660,7 @@ module Aws::EC2
     #   resp.volumes[0].sse_type #=> String, one of "sse-ebs", "sse-kms", "none"
     #   resp.volumes[0].operator.managed #=> Boolean
     #   resp.volumes[0].operator.principal #=> String
+    #   resp.volumes[0].operator.hidden_by_default #=> Boolean
     #   resp.volumes[0].volume_initialization_rate #=> Integer
     #   resp.volumes[0].volume_id #=> String
     #   resp.volumes[0].size #=> Integer
@@ -10660,6 +10661,7 @@ module Aws::EC2
     #   resp.launch_template.tags[0].value #=> String
     #   resp.launch_template.operator.managed #=> Boolean
     #   resp.launch_template.operator.principal #=> String
+    #   resp.launch_template.operator.hidden_by_default #=> Boolean
     #   resp.warning.errors #=> Array
     #   resp.warning.errors[0].code #=> String
     #   resp.warning.errors[0].message #=> String
@@ -11250,6 +11252,7 @@ module Aws::EC2
     #   resp.launch_template_version.launch_template_data.disable_api_stop #=> Boolean
     #   resp.launch_template_version.launch_template_data.operator.managed #=> Boolean
     #   resp.launch_template_version.launch_template_data.operator.principal #=> String
+    #   resp.launch_template_version.launch_template_data.operator.hidden_by_default #=> Boolean
     #   resp.launch_template_version.launch_template_data.network_performance_options.bandwidth_weighting #=> String, one of "default", "vpc-1", "ebs-1"
     #   resp.launch_template_version.launch_template_data.secondary_interfaces #=> Array
     #   resp.launch_template_version.launch_template_data.secondary_interfaces[0].delete_on_termination #=> Boolean
@@ -11262,6 +11265,7 @@ module Aws::EC2
     #   resp.launch_template_version.launch_template_data.secondary_interfaces[0].network_card_index #=> Integer
     #   resp.launch_template_version.operator.managed #=> Boolean
     #   resp.launch_template_version.operator.principal #=> String
+    #   resp.launch_template_version.operator.hidden_by_default #=> Boolean
     #   resp.warning.errors #=> Array
     #   resp.warning.errors[0].code #=> String
     #   resp.warning.errors[0].message #=> String
@@ -13225,6 +13229,7 @@ module Aws::EC2
     #   resp.network_interface.ipv_6_address #=> String
     #   resp.network_interface.operator.managed #=> Boolean
     #   resp.network_interface.operator.principal #=> String
+    #   resp.network_interface.operator.hidden_by_default #=> Boolean
     #   resp.network_interface.associated_subnets #=> Array
     #   resp.network_interface.associated_subnets[0] #=> String
     #   resp.network_interface.availability_zone_id #=> String
@@ -13407,6 +13412,7 @@ module Aws::EC2
     #   resp.placement_group.linked_group_id #=> String
     #   resp.placement_group.operator.managed #=> Boolean
     #   resp.placement_group.operator.principal #=> String
+    #   resp.placement_group.operator.hidden_by_default #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreatePlacementGroup AWS API Documentation
     #
@@ -18040,6 +18046,7 @@ module Aws::EC2
     #   resp.sse_type #=> String, one of "sse-ebs", "sse-kms", "none"
     #   resp.operator.managed #=> Boolean
     #   resp.operator.principal #=> String
+    #   resp.operator.hidden_by_default #=> Boolean
     #   resp.volume_initialization_rate #=> Integer
     #   resp.volume_id #=> String
     #   resp.size #=> Integer
@@ -20806,6 +20813,7 @@ module Aws::EC2
     #   resp.launch_template.tags[0].value #=> String
     #   resp.launch_template.operator.managed #=> Boolean
     #   resp.launch_template.operator.principal #=> String
+    #   resp.launch_template.operator.hidden_by_default #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteLaunchTemplate AWS API Documentation
     #
@@ -30503,6 +30511,7 @@ module Aws::EC2
     #   resp.block_device_mappings[0].ebs.volume_owner_id #=> String
     #   resp.block_device_mappings[0].ebs.operator.managed #=> Boolean
     #   resp.block_device_mappings[0].ebs.operator.principal #=> String
+    #   resp.block_device_mappings[0].ebs.operator.hidden_by_default #=> Boolean
     #   resp.block_device_mappings[0].ebs.ebs_card_index #=> Integer
     #   resp.disable_api_termination.value #=> Boolean
     #   resp.ena_support.value #=> Boolean
@@ -31064,6 +31073,7 @@ module Aws::EC2
     #   resp.instance_image_metadata[0].image_metadata.is_public #=> Boolean
     #   resp.instance_image_metadata[0].operator.managed #=> Boolean
     #   resp.instance_image_metadata[0].operator.principal #=> String
+    #   resp.instance_image_metadata[0].operator.hidden_by_default #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeInstanceImageMetadata AWS API Documentation
@@ -31329,6 +31339,12 @@ module Aws::EC2
     #   The token returned from a previous paginated request. Pagination
     #   continues from the end of the items returned by the previous request.
     #
+    # @option params [Boolean] :include_managed_resources
+    #   Indicates whether to include managed resources in the output. If this
+    #   parameter is set to `true`, the output includes resources that are
+    #   managed by Amazon Web Services services, even if managed resource
+    #   visibility is set to hidden.
+    #
     # @option params [Boolean] :dry_run
     #   Checks whether you have the required permissions for the operation,
     #   without actually making the request, and provides an error response.
@@ -31459,6 +31475,7 @@ module Aws::EC2
     #     instance_ids: ["InstanceId"],
     #     max_results: 1,
     #     next_token: "String",
+    #     include_managed_resources: false,
     #     dry_run: false,
     #     filters: [
     #       {
@@ -31477,6 +31494,7 @@ module Aws::EC2
     #   resp.instance_statuses[0].outpost_arn #=> String
     #   resp.instance_statuses[0].operator.managed #=> Boolean
     #   resp.instance_statuses[0].operator.principal #=> String
+    #   resp.instance_statuses[0].operator.hidden_by_default #=> Boolean
     #   resp.instance_statuses[0].events #=> Array
     #   resp.instance_statuses[0].events[0].instance_event_id #=> String
     #   resp.instance_statuses[0].events[0].code #=> String, one of "instance-reboot", "system-reboot", "system-maintenance", "instance-retirement", "instance-stop"
@@ -32166,6 +32184,12 @@ module Aws::EC2
     #
     #   Default: Describes all your instances.
     #
+    # @option params [Boolean] :include_managed_resources
+    #   Indicates whether to include managed resources in the output. If this
+    #   parameter is set to `true`, the output includes resources that are
+    #   managed by Amazon Web Services services, even if managed resource
+    #   visibility is set to hidden.
+    #
     # @option params [Boolean] :dry_run
     #   Checks whether you have the required permissions for the operation,
     #   without actually making the request, and provides an error response.
@@ -32710,6 +32734,7 @@ module Aws::EC2
     #
     #   resp = client.describe_instances({
     #     instance_ids: ["InstanceId"],
+    #     include_managed_resources: false,
     #     dry_run: false,
     #     filters: [
     #       {
@@ -32743,6 +32768,7 @@ module Aws::EC2
     #   resp.reservations[0].instances[0].block_device_mappings[0].ebs.volume_owner_id #=> String
     #   resp.reservations[0].instances[0].block_device_mappings[0].ebs.operator.managed #=> Boolean
     #   resp.reservations[0].instances[0].block_device_mappings[0].ebs.operator.principal #=> String
+    #   resp.reservations[0].instances[0].block_device_mappings[0].ebs.operator.hidden_by_default #=> Boolean
     #   resp.reservations[0].instances[0].block_device_mappings[0].ebs.ebs_card_index #=> Integer
     #   resp.reservations[0].instances[0].client_token #=> String
     #   resp.reservations[0].instances[0].ebs_optimized #=> Boolean
@@ -32811,6 +32837,7 @@ module Aws::EC2
     #   resp.reservations[0].instances[0].network_interfaces[0].connection_tracking_configuration.udp_timeout #=> Integer
     #   resp.reservations[0].instances[0].network_interfaces[0].operator.managed #=> Boolean
     #   resp.reservations[0].instances[0].network_interfaces[0].operator.principal #=> String
+    #   resp.reservations[0].instances[0].network_interfaces[0].operator.hidden_by_default #=> Boolean
     #   resp.reservations[0].instances[0].outpost_arn #=> String
     #   resp.reservations[0].instances[0].root_device_name #=> String
     #   resp.reservations[0].instances[0].root_device_type #=> String, one of "ebs", "instance-store"
@@ -32860,6 +32887,7 @@ module Aws::EC2
     #   resp.reservations[0].instances[0].network_performance_options.bandwidth_weighting #=> String, one of "default", "vpc-1", "ebs-1"
     #   resp.reservations[0].instances[0].operator.managed #=> Boolean
     #   resp.reservations[0].instances[0].operator.principal #=> String
+    #   resp.reservations[0].instances[0].operator.hidden_by_default #=> Boolean
     #   resp.reservations[0].instances[0].secondary_interfaces #=> Array
     #   resp.reservations[0].instances[0].secondary_interfaces[0].attachment.attach_time #=> Time
     #   resp.reservations[0].instances[0].secondary_interfaces[0].attachment.attachment_id #=> String
@@ -34152,6 +34180,12 @@ module Aws::EC2
     #
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-launch-template.html#use-an-ssm-parameter-instead-of-an-ami-id
     #
+    # @option params [Boolean] :include_managed_resources
+    #   Indicates whether to include managed resources in the output. If this
+    #   parameter is set to `true`, the output includes resources that are
+    #   managed by Amazon Web Services services, even if managed resource
+    #   visibility is set to hidden.
+    #
     # @return [Types::DescribeLaunchTemplateVersionsResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DescribeLaunchTemplateVersionsResult#launch_template_versions #launch_template_versions} => Array&lt;Types::LaunchTemplateVersion&gt;
@@ -34239,6 +34273,7 @@ module Aws::EC2
     #       },
     #     ],
     #     resolve_alias: false,
+    #     include_managed_resources: false,
     #   })
     #
     # @example Response structure
@@ -34410,6 +34445,7 @@ module Aws::EC2
     #   resp.launch_template_versions[0].launch_template_data.disable_api_stop #=> Boolean
     #   resp.launch_template_versions[0].launch_template_data.operator.managed #=> Boolean
     #   resp.launch_template_versions[0].launch_template_data.operator.principal #=> String
+    #   resp.launch_template_versions[0].launch_template_data.operator.hidden_by_default #=> Boolean
     #   resp.launch_template_versions[0].launch_template_data.network_performance_options.bandwidth_weighting #=> String, one of "default", "vpc-1", "ebs-1"
     #   resp.launch_template_versions[0].launch_template_data.secondary_interfaces #=> Array
     #   resp.launch_template_versions[0].launch_template_data.secondary_interfaces[0].delete_on_termination #=> Boolean
@@ -34422,6 +34458,7 @@ module Aws::EC2
     #   resp.launch_template_versions[0].launch_template_data.secondary_interfaces[0].network_card_index #=> Integer
     #   resp.launch_template_versions[0].operator.managed #=> Boolean
     #   resp.launch_template_versions[0].operator.principal #=> String
+    #   resp.launch_template_versions[0].operator.hidden_by_default #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLaunchTemplateVersions AWS API Documentation
@@ -34472,6 +34509,12 @@ module Aws::EC2
     #   the remaining results, make another call with the returned `NextToken`
     #   value. This value can be between 1 and 200.
     #
+    # @option params [Boolean] :include_managed_resources
+    #   Indicates whether to include managed resources in the output. If this
+    #   parameter is set to `true`, the output includes resources that are
+    #   managed by Amazon Web Services services, even if managed resource
+    #   visibility is set to hidden.
+    #
     # @return [Types::DescribeLaunchTemplatesResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DescribeLaunchTemplatesResult#launch_templates #launch_templates} => Array&lt;Types::LaunchTemplate&gt;
@@ -34518,6 +34561,7 @@ module Aws::EC2
     #     ],
     #     next_token: "String",
     #     max_results: 1,
+    #     include_managed_resources: false,
     #   })
     #
     # @example Response structure
@@ -34534,6 +34578,7 @@ module Aws::EC2
     #   resp.launch_templates[0].tags[0].value #=> String
     #   resp.launch_templates[0].operator.managed #=> Boolean
     #   resp.launch_templates[0].operator.principal #=> String
+    #   resp.launch_templates[0].operator.hidden_by_default #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLaunchTemplates AWS API Documentation
@@ -37269,6 +37314,12 @@ module Aws::EC2
     #
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination
     #
+    # @option params [Boolean] :include_managed_resources
+    #   Indicates whether to include managed resources in the output. If this
+    #   parameter is set to `true`, the output includes resources that are
+    #   managed by Amazon Web Services services, even if managed resource
+    #   visibility is set to hidden.
+    #
     # @option params [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
@@ -37483,6 +37534,7 @@ module Aws::EC2
     #   resp = client.describe_network_interfaces({
     #     next_token: "String",
     #     max_results: 1,
+    #     include_managed_resources: false,
     #     dry_run: false,
     #     network_interface_ids: ["NetworkInterfaceId"],
     #     filters: [
@@ -37567,6 +37619,7 @@ module Aws::EC2
     #   resp.network_interfaces[0].ipv_6_address #=> String
     #   resp.network_interfaces[0].operator.managed #=> Boolean
     #   resp.network_interfaces[0].operator.principal #=> String
+    #   resp.network_interfaces[0].operator.hidden_by_default #=> Boolean
     #   resp.network_interfaces[0].associated_subnets #=> Array
     #   resp.network_interfaces[0].associated_subnets[0] #=> String
     #   resp.network_interfaces[0].availability_zone_id #=> String
@@ -37783,6 +37836,7 @@ module Aws::EC2
     #   resp.placement_groups[0].linked_group_id #=> String
     #   resp.placement_groups[0].operator.managed #=> Boolean
     #   resp.placement_groups[0].operator.principal #=> String
+    #   resp.placement_groups[0].operator.hidden_by_default #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribePlacementGroups AWS API Documentation
     #
@@ -44821,6 +44875,12 @@ module Aws::EC2
     #
     #   Default: Describes all your volumes.
     #
+    # @option params [Boolean] :include_managed_resources
+    #   Indicates whether to include managed resources in the output. If this
+    #   parameter is set to `true`, the output includes resources that are
+    #   managed by Amazon Web Services services, even if managed resource
+    #   visibility is set to hidden.
+    #
     # @option params [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
@@ -44935,6 +44995,7 @@ module Aws::EC2
     #     max_results: 1,
     #     next_token: "String",
     #     volume_ids: ["VolumeId"],
+    #     include_managed_resources: false,
     #     dry_run: false,
     #     filters: [
     #       {
@@ -44974,6 +45035,9 @@ module Aws::EC2
     #   resp.volume_statuses[0].initialization_status_details.progress #=> Integer
     #   resp.volume_statuses[0].initialization_status_details.estimated_time_to_complete_in_seconds #=> Integer
     #   resp.volume_statuses[0].availability_zone_id #=> String
+    #   resp.volume_statuses[0].operator.managed #=> Boolean
+    #   resp.volume_statuses[0].operator.principal #=> String
+    #   resp.volume_statuses[0].operator.hidden_by_default #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeVolumeStatus AWS API Documentation
     #
@@ -45010,6 +45074,12 @@ module Aws::EC2
     # @option params [Array<String>] :volume_ids
     #   The volume IDs. If not specified, then all volumes are included in the
     #   response.
+    #
+    # @option params [Boolean] :include_managed_resources
+    #   Indicates whether to include managed resources in the output. If this
+    #   parameter is set to `true`, the output includes resources that are
+    #   managed by Amazon Web Services services, even if managed resource
+    #   visibility is set to hidden.
     #
     # @option params [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
@@ -45186,6 +45256,7 @@ module Aws::EC2
     #
     #   resp = client.describe_volumes({
     #     volume_ids: ["VolumeId"],
+    #     include_managed_resources: false,
     #     dry_run: false,
     #     filters: [
     #       {
@@ -45215,6 +45286,7 @@ module Aws::EC2
     #   resp.volumes[0].sse_type #=> String, one of "sse-ebs", "sse-kms", "none"
     #   resp.volumes[0].operator.managed #=> Boolean
     #   resp.volumes[0].operator.principal #=> String
+    #   resp.volumes[0].operator.hidden_by_default #=> Boolean
     #   resp.volumes[0].volume_initialization_rate #=> Integer
     #   resp.volumes[0].volume_id #=> String
     #   resp.volumes[0].size #=> Integer
@@ -45354,6 +45426,9 @@ module Aws::EC2
     #   resp.volumes_modifications[0].progress #=> Integer
     #   resp.volumes_modifications[0].start_time #=> Time
     #   resp.volumes_modifications[0].end_time #=> Time
+    #   resp.volumes_modifications[0].operator.managed #=> Boolean
+    #   resp.volumes_modifications[0].operator.principal #=> String
+    #   resp.volumes_modifications[0].operator.hidden_by_default #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeVolumesModifications AWS API Documentation
     #
@@ -54095,6 +54170,7 @@ module Aws::EC2
     #   resp.launch_template_data.disable_api_stop #=> Boolean
     #   resp.launch_template_data.operator.managed #=> Boolean
     #   resp.launch_template_data.operator.principal #=> String
+    #   resp.launch_template_data.operator.hidden_by_default #=> Boolean
     #   resp.launch_template_data.network_performance_options.bandwidth_weighting #=> String, one of "default", "vpc-1", "ebs-1"
     #   resp.launch_template_data.secondary_interfaces #=> Array
     #   resp.launch_template_data.secondary_interfaces[0].delete_on_termination #=> Boolean
@@ -54221,6 +54297,39 @@ module Aws::EC2
     # @param [Hash] params ({})
     def get_managed_prefix_list_entries(params = {}, options = {})
       req = build_request(:get_managed_prefix_list_entries, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the managed resource visibility configuration for the
+    # account. The response indicates whether managed resources are hidden
+    # or visible by default.
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @return [Types::GetManagedResourceVisibilityResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetManagedResourceVisibilityResult#visibility #visibility} => Types::ManagedResourceVisibilitySettings
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_managed_resource_visibility({
+    #     dry_run: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.visibility.default_visibility #=> String, one of "hidden", "visible"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetManagedResourceVisibility AWS API Documentation
+    #
+    # @overload get_managed_resource_visibility(params = {})
+    # @param [Hash] params ({})
+    def get_managed_resource_visibility(params = {}, options = {})
+      req = build_request(:get_managed_resource_visibility, params)
       req.send_request(options)
     end
 
@@ -57431,6 +57540,7 @@ module Aws::EC2
     #   resp.volumes[0].snapshot_id #=> String
     #   resp.volumes[0].operator.managed #=> Boolean
     #   resp.volumes[0].operator.principal #=> String
+    #   resp.volumes[0].operator.hidden_by_default #=> Boolean
     #   resp.volumes[0].create_time #=> Time
     #   resp.volumes[0].recycle_bin_enter_time #=> Time
     #   resp.volumes[0].recycle_bin_exit_time #=> Time
@@ -59078,7 +59188,7 @@ module Aws::EC2
     #     dry_run: false,
     #     instance_id: "InstanceId", # required
     #     attribute: "instanceType", # accepts instanceType, kernel, ramdisk, userData, disableApiTermination, instanceInitiatedShutdownBehavior, rootDeviceName, blockDeviceMapping, productCodes, sourceDestCheck, groupSet, ebsOptimized, sriovNetSupport, enaSupport, enclaveOptions, disableApiStop
-    #     value: "String",
+    #     value: "ModifyInstanceAttributeValue",
     #     block_device_mappings: [
     #       {
     #         device_name: "String",
@@ -60860,6 +60970,7 @@ module Aws::EC2
     #   resp.launch_template.tags[0].value #=> String
     #   resp.launch_template.operator.managed #=> Boolean
     #   resp.launch_template.operator.principal #=> String
+    #   resp.launch_template.operator.hidden_by_default #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyLaunchTemplate AWS API Documentation
     #
@@ -61029,6 +61140,46 @@ module Aws::EC2
     # @param [Hash] params ({})
     def modify_managed_prefix_list(params = {}, options = {})
       req = build_request(:modify_managed_prefix_list, params)
+      req.send_request(options)
+    end
+
+    # Modifies the managed resource visibility configuration for the
+    # account. Use this operation to control whether managed resources are
+    # hidden or visible by default. Visibility settings are account-wide and
+    # affect all IAM principals uniformly. Hidden resources remain fully
+    # operational and billable.
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @option params [String] :default_visibility
+    #   The default visibility setting for managed resources. Valid values:
+    #   `hidden` \| `visible`.
+    #
+    # @return [Types::ModifyManagedResourceVisibilityResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ModifyManagedResourceVisibilityResult#visibility #visibility} => Types::ManagedResourceVisibilitySettings
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.modify_managed_resource_visibility({
+    #     dry_run: false,
+    #     default_visibility: "hidden", # accepts hidden, visible
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.visibility.default_visibility #=> String, one of "hidden", "visible"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyManagedResourceVisibility AWS API Documentation
+    #
+    # @overload modify_managed_resource_visibility(params = {})
+    # @param [Hash] params ({})
+    def modify_managed_resource_visibility(params = {}, options = {})
+      req = build_request(:modify_managed_resource_visibility, params)
       req.send_request(options)
     end
 
@@ -63395,6 +63546,9 @@ module Aws::EC2
     #   resp.volume_modification.progress #=> Integer
     #   resp.volume_modification.start_time #=> Time
     #   resp.volume_modification.end_time #=> Time
+    #   resp.volume_modification.operator.managed #=> Boolean
+    #   resp.volume_modification.operator.principal #=> String
+    #   resp.volume_modification.operator.hidden_by_default #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyVolume AWS API Documentation
     #
@@ -70373,6 +70527,7 @@ module Aws::EC2
     #   resp.instances[0].block_device_mappings[0].ebs.volume_owner_id #=> String
     #   resp.instances[0].block_device_mappings[0].ebs.operator.managed #=> Boolean
     #   resp.instances[0].block_device_mappings[0].ebs.operator.principal #=> String
+    #   resp.instances[0].block_device_mappings[0].ebs.operator.hidden_by_default #=> Boolean
     #   resp.instances[0].block_device_mappings[0].ebs.ebs_card_index #=> Integer
     #   resp.instances[0].client_token #=> String
     #   resp.instances[0].ebs_optimized #=> Boolean
@@ -70441,6 +70596,7 @@ module Aws::EC2
     #   resp.instances[0].network_interfaces[0].connection_tracking_configuration.udp_timeout #=> Integer
     #   resp.instances[0].network_interfaces[0].operator.managed #=> Boolean
     #   resp.instances[0].network_interfaces[0].operator.principal #=> String
+    #   resp.instances[0].network_interfaces[0].operator.hidden_by_default #=> Boolean
     #   resp.instances[0].outpost_arn #=> String
     #   resp.instances[0].root_device_name #=> String
     #   resp.instances[0].root_device_type #=> String, one of "ebs", "instance-store"
@@ -70490,6 +70646,7 @@ module Aws::EC2
     #   resp.instances[0].network_performance_options.bandwidth_weighting #=> String, one of "default", "vpc-1", "ebs-1"
     #   resp.instances[0].operator.managed #=> Boolean
     #   resp.instances[0].operator.principal #=> String
+    #   resp.instances[0].operator.hidden_by_default #=> Boolean
     #   resp.instances[0].secondary_interfaces #=> Array
     #   resp.instances[0].secondary_interfaces[0].attachment.attach_time #=> Time
     #   resp.instances[0].secondary_interfaces[0].attachment.attachment_id #=> String
@@ -73390,7 +73547,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.612.0'
+      context[:gem_version] = '1.613.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

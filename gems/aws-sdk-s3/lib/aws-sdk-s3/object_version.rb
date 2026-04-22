@@ -849,7 +849,7 @@ module Aws::S3
       #     request_payer: "requester", # accepts requester
       #     bypass_governance_retention: false,
       #     expected_bucket_owner: "AccountId",
-      #     checksum_algorithm: "CRC32", # accepts CRC32, CRC32C, SHA1, SHA256, CRC64NVME
+      #     checksum_algorithm: "CRC32", # accepts CRC32, CRC32C, SHA1, SHA256, CRC64NVME, SHA512, MD5, XXHASH64, XXHASH3, XXHASH128
       #   })
       # @param options ({})
       # @option options [String] :mfa
@@ -919,9 +919,19 @@ module Aws::S3
       #
       #   * `CRC64NVME`
       #
+      #   * `MD5`
+      #
       #   * `SHA1`
       #
       #   * `SHA256`
+      #
+      #   * `SHA512`
+      #
+      #   * `XXHASH3`
+      #
+      #   * `XXHASH64`
+      #
+      #   * `XXHASH128`
       #
       #   For more information, see [Checking object integrity][1] in the
       #   *Amazon S3 User Guide*.

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.83.0 (2026-04-22)
+------------------
+
+* Feature - Adds support for Amazon IVS server-side ad insertion
+
 1.82.0 (2026-03-18)
 ------------------
 

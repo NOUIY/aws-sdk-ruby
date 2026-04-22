@@ -680,6 +680,9 @@ module Aws::ECS
     #       infrastructure_optimization: {
     #         scale_in_after: 1,
     #       },
+    #       auto_repair_configuration: {
+    #         actions_status: "ENABLED", # accepts ENABLED, DISABLED
+    #       },
     #     },
     #     tags: [
     #       {
@@ -760,6 +763,7 @@ module Aws::ECS
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.capacity_reservations.reservation_preference #=> String, one of "RESERVATIONS_ONLY", "RESERVATIONS_FIRST", "RESERVATIONS_EXCLUDED"
     #   resp.capacity_provider.managed_instances_provider.propagate_tags #=> String, one of "CAPACITY_PROVIDER", "NONE"
     #   resp.capacity_provider.managed_instances_provider.infrastructure_optimization.scale_in_after #=> Integer
+    #   resp.capacity_provider.managed_instances_provider.auto_repair_configuration.actions_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.capacity_provider.update_status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_COMPLETE", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_COMPLETE", "DELETE_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_COMPLETE", "UPDATE_FAILED"
     #   resp.capacity_provider.update_status_reason #=> String
     #   resp.capacity_provider.tags #=> Array
@@ -3220,6 +3224,7 @@ module Aws::ECS
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.capacity_reservations.reservation_preference #=> String, one of "RESERVATIONS_ONLY", "RESERVATIONS_FIRST", "RESERVATIONS_EXCLUDED"
     #   resp.capacity_provider.managed_instances_provider.propagate_tags #=> String, one of "CAPACITY_PROVIDER", "NONE"
     #   resp.capacity_provider.managed_instances_provider.infrastructure_optimization.scale_in_after #=> Integer
+    #   resp.capacity_provider.managed_instances_provider.auto_repair_configuration.actions_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.capacity_provider.update_status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_COMPLETE", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_COMPLETE", "DELETE_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_COMPLETE", "UPDATE_FAILED"
     #   resp.capacity_provider.update_status_reason #=> String
     #   resp.capacity_provider.tags #=> Array
@@ -4388,6 +4393,7 @@ module Aws::ECS
     #   resp.container_instance.health_status.details #=> Array
     #   resp.container_instance.health_status.details[0].type #=> String, one of "CONTAINER_RUNTIME", "ACCELERATED_COMPUTE", "DAEMON"
     #   resp.container_instance.health_status.details[0].status #=> String, one of "OK", "IMPAIRED", "INSUFFICIENT_DATA", "INITIALIZING"
+    #   resp.container_instance.health_status.details[0].status_reason #=> String
     #   resp.container_instance.health_status.details[0].last_updated #=> Time
     #   resp.container_instance.health_status.details[0].last_status_change #=> Time
     #
@@ -4882,6 +4888,7 @@ module Aws::ECS
     #   resp.capacity_providers[0].managed_instances_provider.instance_launch_template.capacity_reservations.reservation_preference #=> String, one of "RESERVATIONS_ONLY", "RESERVATIONS_FIRST", "RESERVATIONS_EXCLUDED"
     #   resp.capacity_providers[0].managed_instances_provider.propagate_tags #=> String, one of "CAPACITY_PROVIDER", "NONE"
     #   resp.capacity_providers[0].managed_instances_provider.infrastructure_optimization.scale_in_after #=> Integer
+    #   resp.capacity_providers[0].managed_instances_provider.auto_repair_configuration.actions_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.capacity_providers[0].update_status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_COMPLETE", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_COMPLETE", "DELETE_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_COMPLETE", "UPDATE_FAILED"
     #   resp.capacity_providers[0].update_status_reason #=> String
     #   resp.capacity_providers[0].tags #=> Array
@@ -5204,6 +5211,7 @@ module Aws::ECS
     #   resp.container_instances[0].health_status.details #=> Array
     #   resp.container_instances[0].health_status.details[0].type #=> String, one of "CONTAINER_RUNTIME", "ACCELERATED_COMPUTE", "DAEMON"
     #   resp.container_instances[0].health_status.details[0].status #=> String, one of "OK", "IMPAIRED", "INSUFFICIENT_DATA", "INITIALIZING"
+    #   resp.container_instances[0].health_status.details[0].status_reason #=> String
     #   resp.container_instances[0].health_status.details[0].last_updated #=> Time
     #   resp.container_instances[0].health_status.details[0].last_status_change #=> Time
     #   resp.failures #=> Array
@@ -9963,6 +9971,7 @@ module Aws::ECS
     #   resp.container_instance.health_status.details #=> Array
     #   resp.container_instance.health_status.details[0].type #=> String, one of "CONTAINER_RUNTIME", "ACCELERATED_COMPUTE", "DAEMON"
     #   resp.container_instance.health_status.details[0].status #=> String, one of "OK", "IMPAIRED", "INSUFFICIENT_DATA", "INITIALIZING"
+    #   resp.container_instance.health_status.details[0].status_reason #=> String
     #   resp.container_instance.health_status.details[0].last_updated #=> Time
     #   resp.container_instance.health_status.details[0].last_status_change #=> Time
     #
@@ -12973,6 +12982,9 @@ module Aws::ECS
     #       infrastructure_optimization: {
     #         scale_in_after: 1,
     #       },
+    #       auto_repair_configuration: {
+    #         actions_status: "ENABLED", # accepts ENABLED, DISABLED
+    #       },
     #     },
     #   })
     #
@@ -13047,6 +13059,7 @@ module Aws::ECS
     #   resp.capacity_provider.managed_instances_provider.instance_launch_template.capacity_reservations.reservation_preference #=> String, one of "RESERVATIONS_ONLY", "RESERVATIONS_FIRST", "RESERVATIONS_EXCLUDED"
     #   resp.capacity_provider.managed_instances_provider.propagate_tags #=> String, one of "CAPACITY_PROVIDER", "NONE"
     #   resp.capacity_provider.managed_instances_provider.infrastructure_optimization.scale_in_after #=> Integer
+    #   resp.capacity_provider.managed_instances_provider.auto_repair_configuration.actions_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.capacity_provider.update_status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_COMPLETE", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_COMPLETE", "DELETE_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_COMPLETE", "UPDATE_FAILED"
     #   resp.capacity_provider.update_status_reason #=> String
     #   resp.capacity_provider.tags #=> Array
@@ -13634,6 +13647,7 @@ module Aws::ECS
     #   resp.container_instance.health_status.details #=> Array
     #   resp.container_instance.health_status.details[0].type #=> String, one of "CONTAINER_RUNTIME", "ACCELERATED_COMPUTE", "DAEMON"
     #   resp.container_instance.health_status.details[0].status #=> String, one of "OK", "IMPAIRED", "INSUFFICIENT_DATA", "INITIALIZING"
+    #   resp.container_instance.health_status.details[0].status_reason #=> String
     #   resp.container_instance.health_status.details[0].last_updated #=> Time
     #   resp.container_instance.health_status.details[0].last_status_change #=> Time
     #
@@ -13961,6 +13975,7 @@ module Aws::ECS
     #   resp.container_instances[0].health_status.details #=> Array
     #   resp.container_instances[0].health_status.details[0].type #=> String, one of "CONTAINER_RUNTIME", "ACCELERATED_COMPUTE", "DAEMON"
     #   resp.container_instances[0].health_status.details[0].status #=> String, one of "OK", "IMPAIRED", "INSUFFICIENT_DATA", "INITIALIZING"
+    #   resp.container_instances[0].health_status.details[0].status_reason #=> String
     #   resp.container_instances[0].health_status.details[0].last_updated #=> Time
     #   resp.container_instances[0].health_status.details[0].last_status_change #=> Time
     #   resp.failures #=> Array
@@ -15630,7 +15645,7 @@ module Aws::ECS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ecs'
-      context[:gem_version] = '1.228.0'
+      context[:gem_version] = '1.229.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

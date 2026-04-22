@@ -21,6 +21,7 @@ module Aws::IoTWireless
     Accuracy = Shapes::StructureShape.new(name: 'Accuracy')
     AckModeRetryDurationSecs = Shapes::IntegerShape.new(name: 'AckModeRetryDurationSecs')
     AddGwMetadata = Shapes::BooleanShape.new(name: 'AddGwMetadata')
+    AdvancedConfiguration = Shapes::StructureShape.new(name: 'AdvancedConfiguration')
     AggregationPeriod = Shapes::StringShape.new(name: 'AggregationPeriod')
     AmazonId = Shapes::StringShape.new(name: 'AmazonId')
     AmazonResourceName = Shapes::StringShape.new(name: 'AmazonResourceName')
@@ -78,6 +79,7 @@ module Aws::IoTWireless
     ClassBTimeout = Shapes::IntegerShape.new(name: 'ClassBTimeout')
     ClassCTimeout = Shapes::IntegerShape.new(name: 'ClassCTimeout')
     ClientRequestToken = Shapes::StringShape.new(name: 'ClientRequestToken')
+    ConfidencePercent = Shapes::IntegerShape.new(name: 'ConfidencePercent')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     ConnectionStatus = Shapes::StringShape.new(name: 'ConnectionStatus')
     ConnectionStatusEventConfiguration = Shapes::StructureShape.new(name: 'ConnectionStatusEventConfiguration')
@@ -681,6 +683,7 @@ module Aws::IoTWireless
     WcdmaObj = Shapes::StructureShape.new(name: 'WcdmaObj')
     WiFiAccessPoint = Shapes::StructureShape.new(name: 'WiFiAccessPoint')
     WiFiAccessPoints = Shapes::ListShape.new(name: 'WiFiAccessPoints')
+    WiFiCellular = Shapes::StructureShape.new(name: 'WiFiCellular')
     WirelessDeviceArn = Shapes::StringShape.new(name: 'WirelessDeviceArn')
     WirelessDeviceEvent = Shapes::StringShape.new(name: 'WirelessDeviceEvent')
     WirelessDeviceEventLogOption = Shapes::StructureShape.new(name: 'WirelessDeviceEventLogOption')
@@ -736,6 +739,9 @@ module Aws::IoTWireless
     Accuracy.add_member(:horizontal_accuracy, Shapes::ShapeRef.new(shape: HorizontalAccuracy, location_name: "HorizontalAccuracy"))
     Accuracy.add_member(:vertical_accuracy, Shapes::ShapeRef.new(shape: VerticalAccuracy, location_name: "VerticalAccuracy"))
     Accuracy.struct_class = Types::Accuracy
+
+    AdvancedConfiguration.add_member(:wi_fi_cellular, Shapes::ShapeRef.new(shape: WiFiCellular, location_name: "WiFiCellular"))
+    AdvancedConfiguration.struct_class = Types::AdvancedConfiguration
 
     ApplicationConfig.add_member(:f_port, Shapes::ShapeRef.new(shape: FPort, location_name: "FPort"))
     ApplicationConfig.add_member(:type, Shapes::ShapeRef.new(shape: ApplicationConfigType, location_name: "Type"))
@@ -1300,6 +1306,7 @@ module Aws::IoTWireless
     GetPositionEstimateRequest.add_member(:ip, Shapes::ShapeRef.new(shape: Ip, location_name: "Ip"))
     GetPositionEstimateRequest.add_member(:gnss, Shapes::ShapeRef.new(shape: Gnss, location_name: "Gnss"))
     GetPositionEstimateRequest.add_member(:timestamp, Shapes::ShapeRef.new(shape: CreationDate, location_name: "Timestamp"))
+    GetPositionEstimateRequest.add_member(:advanced_configuration, Shapes::ShapeRef.new(shape: AdvancedConfiguration, location_name: "AdvancedConfiguration"))
     GetPositionEstimateRequest.struct_class = Types::GetPositionEstimateRequest
 
     GetPositionEstimateResponse.add_member(:geo_json_payload, Shapes::ShapeRef.new(shape: GeoJsonPayload, location_name: "GeoJsonPayload"))
@@ -2462,6 +2469,9 @@ module Aws::IoTWireless
     WiFiAccessPoint.struct_class = Types::WiFiAccessPoint
 
     WiFiAccessPoints.member = Shapes::ShapeRef.new(shape: WiFiAccessPoint)
+
+    WiFiCellular.add_member(:confidence_percent, Shapes::ShapeRef.new(shape: ConfidencePercent, location_name: "ConfidencePercent"))
+    WiFiCellular.struct_class = Types::WiFiCellular
 
     WirelessDeviceEventLogOption.add_member(:event, Shapes::ShapeRef.new(shape: WirelessDeviceEvent, required: true, location_name: "Event"))
     WirelessDeviceEventLogOption.add_member(:log_level, Shapes::ShapeRef.new(shape: LogLevel, required: true, location_name: "LogLevel"))

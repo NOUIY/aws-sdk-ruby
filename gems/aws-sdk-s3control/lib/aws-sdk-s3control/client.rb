@@ -1419,7 +1419,7 @@ module Aws::S3Control
     #         object_lock_mode: "COMPLIANCE", # accepts COMPLIANCE, GOVERNANCE
     #         object_lock_retain_until_date: Time.now,
     #         bucket_key_enabled: false,
-    #         checksum_algorithm: "CRC32", # accepts CRC32, CRC32C, SHA1, SHA256, CRC64NVME
+    #         checksum_algorithm: "CRC32", # accepts CRC32, CRC32C, SHA1, SHA256, CRC64NVME, SHA512, MD5, XXHASH64, XXHASH3, XXHASH128
     #       },
     #       s3_put_object_acl: {
     #         access_control_policy: {
@@ -1471,7 +1471,7 @@ module Aws::S3Control
     #       s3_replicate_object: {
     #       },
     #       s3_compute_object_checksum: {
-    #         checksum_algorithm: "CRC32", # accepts CRC32, CRC32C, CRC64NVME, MD5, SHA1, SHA256
+    #         checksum_algorithm: "CRC32", # accepts CRC32, CRC32C, CRC64NVME, MD5, SHA1, SHA256, SHA512, XXHASH64, XXHASH3, XXHASH128
     #         checksum_type: "FULL_OBJECT", # accepts FULL_OBJECT, COMPOSITE
     #       },
     #       s3_update_object_encryption: {
@@ -2998,7 +2998,7 @@ module Aws::S3Control
     #   resp.job.operation.s3_put_object_copy.object_lock_mode #=> String, one of "COMPLIANCE", "GOVERNANCE"
     #   resp.job.operation.s3_put_object_copy.object_lock_retain_until_date #=> Time
     #   resp.job.operation.s3_put_object_copy.bucket_key_enabled #=> Boolean
-    #   resp.job.operation.s3_put_object_copy.checksum_algorithm #=> String, one of "CRC32", "CRC32C", "SHA1", "SHA256", "CRC64NVME"
+    #   resp.job.operation.s3_put_object_copy.checksum_algorithm #=> String, one of "CRC32", "CRC32C", "SHA1", "SHA256", "CRC64NVME", "SHA512", "MD5", "XXHASH64", "XXHASH3", "XXHASH128"
     #   resp.job.operation.s3_put_object_acl.access_control_policy.access_control_list.owner.id #=> String
     #   resp.job.operation.s3_put_object_acl.access_control_policy.access_control_list.owner.display_name #=> String
     #   resp.job.operation.s3_put_object_acl.access_control_policy.access_control_list.grants #=> Array
@@ -3016,7 +3016,7 @@ module Aws::S3Control
     #   resp.job.operation.s3_put_object_retention.bypass_governance_retention #=> Boolean
     #   resp.job.operation.s3_put_object_retention.retention.retain_until_date #=> Time
     #   resp.job.operation.s3_put_object_retention.retention.mode #=> String, one of "COMPLIANCE", "GOVERNANCE"
-    #   resp.job.operation.s3_compute_object_checksum.checksum_algorithm #=> String, one of "CRC32", "CRC32C", "CRC64NVME", "MD5", "SHA1", "SHA256"
+    #   resp.job.operation.s3_compute_object_checksum.checksum_algorithm #=> String, one of "CRC32", "CRC32C", "CRC64NVME", "MD5", "SHA1", "SHA256", "SHA512", "XXHASH64", "XXHASH3", "XXHASH128"
     #   resp.job.operation.s3_compute_object_checksum.checksum_type #=> String, one of "FULL_OBJECT", "COMPOSITE"
     #   resp.job.operation.s3_update_object_encryption.object_encryption.ssekms.kms_key_arn #=> String
     #   resp.job.operation.s3_update_object_encryption.object_encryption.ssekms.bucket_key_enabled #=> Boolean
@@ -8220,7 +8220,7 @@ module Aws::S3Control
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-s3control'
-      context[:gem_version] = '1.128.0'
+      context[:gem_version] = '1.129.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

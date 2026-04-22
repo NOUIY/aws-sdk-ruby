@@ -1479,6 +1479,7 @@ module Aws::BedrockAgentCoreControl
     #             },
     #             inline_payload: "InlinePayload",
     #           },
+    #           resource_priority: 1,
     #           listing_mode: "DEFAULT", # accepts DEFAULT, DYNAMIC
     #         },
     #         api_gateway: {
@@ -1592,6 +1593,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
+    #   resp.target_configuration.mcp.mcp_server.resource_priority #=> Integer
     #   resp.target_configuration.mcp.mcp_server.listing_mode #=> String, one of "DEFAULT", "DYNAMIC"
     #   resp.target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.target_configuration.mcp.api_gateway.stage #=> String
@@ -1649,6 +1651,357 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def create_gateway_target(params = {}, options = {})
       req = build_request(:create_gateway_target, params)
+      req.send_request(options)
+    end
+
+    # Operation to create a Harness.
+    #
+    # @option params [required, String] :harness_name
+    #   The name of the harness. Must start with a letter and contain only
+    #   alphanumeric characters and underscores.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, String] :execution_role_arn
+    #   The ARN of the IAM role that the harness assumes when running. This
+    #   role must have permissions for the services the agent needs to access,
+    #   such as Amazon Bedrock for model invocation.
+    #
+    # @option params [Types::HarnessEnvironmentProviderRequest] :environment
+    #   The compute environment configuration for the harness, including
+    #   network and lifecycle settings.
+    #
+    # @option params [Types::HarnessEnvironmentArtifact] :environment_artifact
+    #   The environment artifact for the harness, such as a custom container
+    #   image containing additional dependencies.
+    #
+    # @option params [Hash<String,String>] :environment_variables
+    #   Environment variables to set in the harness runtime environment.
+    #
+    # @option params [Types::AuthorizerConfiguration] :authorizer_configuration
+    #   Represents inbound authorization configuration options used to
+    #   authenticate incoming requests.
+    #
+    # @option params [Types::HarnessModelConfiguration] :model
+    #   The model configuration for the harness. Supports Amazon Bedrock,
+    #   OpenAI, and Google Gemini model providers.
+    #
+    # @option params [Array<Types::HarnessSystemContentBlock>] :system_prompt
+    #   The system prompt that defines the agent's behavior and instructions.
+    #
+    # @option params [Array<Types::HarnessTool>] :tools
+    #   The tools available to the agent, such as remote MCP servers,
+    #   AgentCore Gateway, AgentCore Browser, Code Interpreter, or inline
+    #   functions.
+    #
+    # @option params [Array<Types::HarnessSkill>] :skills
+    #   The skills available to the agent. Skills are bundles of files that
+    #   the agent can pull into its context on demand.
+    #
+    # @option params [Array<String>] :allowed_tools
+    #   The tools that the agent is allowed to use. Supports glob patterns
+    #   such as * for all tools, @builtin for all built-in tools, or
+    #   @serverName/toolName for specific MCP server tools.
+    #
+    # @option params [Types::HarnessMemoryConfiguration] :memory
+    #   The AgentCore Memory configuration for persisting conversation context
+    #   across sessions.
+    #
+    # @option params [Types::HarnessTruncationConfiguration] :truncation
+    #   The truncation configuration for managing conversation context when it
+    #   exceeds model limits.
+    #
+    # @option params [Integer] :max_iterations
+    #   The maximum number of iterations the agent loop can execute per
+    #   invocation.
+    #
+    # @option params [Integer] :max_tokens
+    #   The maximum number of tokens the agent can generate per iteration.
+    #
+    # @option params [Integer] :timeout_seconds
+    #   The maximum duration in seconds for the agent loop execution per
+    #   invocation.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   Tags to apply to the harness resource.
+    #
+    # @return [Types::CreateHarnessResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateHarnessResponse#harness #harness} => Types::Harness
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_harness({
+    #     harness_name: "HarnessName", # required
+    #     client_token: "ClientToken",
+    #     execution_role_arn: "RoleArn", # required
+    #     environment: {
+    #       agent_core_runtime_environment: {
+    #         lifecycle_configuration: {
+    #           idle_runtime_session_timeout: 1,
+    #           max_lifetime: 1,
+    #         },
+    #         network_configuration: {
+    #           network_mode: "PUBLIC", # required, accepts PUBLIC, VPC
+    #           network_mode_config: {
+    #             security_groups: ["SecurityGroupId"], # required
+    #             subnets: ["SubnetId"], # required
+    #           },
+    #         },
+    #         filesystem_configurations: [
+    #           {
+    #             session_storage: {
+    #               mount_path: "MountPath", # required
+    #             },
+    #           },
+    #         ],
+    #       },
+    #     },
+    #     environment_artifact: {
+    #       container_configuration: {
+    #         container_uri: "RuntimeContainerUri", # required
+    #       },
+    #     },
+    #     environment_variables: {
+    #       "EnvironmentVariableKey" => "EnvironmentVariableValue",
+    #     },
+    #     authorizer_configuration: {
+    #       custom_jwt_authorizer: {
+    #         discovery_url: "DiscoveryUrl", # required
+    #         allowed_audience: ["AllowedAudience"],
+    #         allowed_clients: ["AllowedClient"],
+    #         allowed_scopes: ["AllowedScopeType"],
+    #         custom_claims: [
+    #           {
+    #             inbound_token_claim_name: "InboundTokenClaimNameType", # required
+    #             inbound_token_claim_value_type: "STRING", # required, accepts STRING, STRING_ARRAY
+    #             authorizing_claim_match_value: { # required
+    #               claim_match_value: { # required
+    #                 match_value_string: "MatchValueString",
+    #                 match_value_string_list: ["MatchValueString"],
+    #               },
+    #               claim_match_operator: "EQUALS", # required, accepts EQUALS, CONTAINS, CONTAINS_ANY
+    #             },
+    #           },
+    #         ],
+    #       },
+    #     },
+    #     model: {
+    #       bedrock_model_config: {
+    #         model_id: "ModelId", # required
+    #         max_tokens: 1,
+    #         temperature: 1.0,
+    #         top_p: 1.0,
+    #       },
+    #       open_ai_model_config: {
+    #         model_id: "ModelId", # required
+    #         api_key_arn: "ApiKeyArn", # required
+    #         max_tokens: 1,
+    #         temperature: 1.0,
+    #         top_p: 1.0,
+    #       },
+    #       gemini_model_config: {
+    #         model_id: "ModelId", # required
+    #         api_key_arn: "ApiKeyArn", # required
+    #         max_tokens: 1,
+    #         temperature: 1.0,
+    #         top_p: 1.0,
+    #         top_k: 1,
+    #       },
+    #     },
+    #     system_prompt: [
+    #       {
+    #         text: "SensitiveText",
+    #       },
+    #     ],
+    #     tools: [
+    #       {
+    #         type: "remote_mcp", # required, accepts remote_mcp, agentcore_browser, agentcore_gateway, inline_function, agentcore_code_interpreter
+    #         name: "HarnessToolName",
+    #         config: {
+    #           remote_mcp: {
+    #             url: "HarnessRemoteMcpUrl", # required
+    #             headers: {
+    #               "HttpHeaderKey" => "HttpHeaderValue",
+    #             },
+    #           },
+    #           agent_core_browser: {
+    #             browser_arn: "BrowserArn",
+    #           },
+    #           agent_core_gateway: {
+    #             gateway_arn: "GatewayArn", # required
+    #             outbound_auth: {
+    #               aws_iam: {
+    #               },
+    #               none: {
+    #               },
+    #               oauth: {
+    #                 provider_arn: "OAuthCredentialProviderArn", # required
+    #                 scopes: ["OAuthScope"], # required
+    #                 custom_parameters: {
+    #                   "OAuthCustomParametersKey" => "OAuthCustomParametersValue",
+    #                 },
+    #                 grant_type: "CLIENT_CREDENTIALS", # accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE
+    #                 default_return_url: "OAuthDefaultReturnUrl",
+    #               },
+    #             },
+    #           },
+    #           inline_function: {
+    #             description: "HarnessInlineFunctionDescription", # required
+    #             input_schema: { # required
+    #             },
+    #           },
+    #           agent_core_code_interpreter: {
+    #             code_interpreter_arn: "CodeInterpreterArn",
+    #           },
+    #         },
+    #       },
+    #     ],
+    #     skills: [
+    #       {
+    #         path: "HarnessSkillPath",
+    #       },
+    #     ],
+    #     allowed_tools: ["HarnessAllowedTool"],
+    #     memory: {
+    #       agent_core_memory_configuration: {
+    #         arn: "MemoryArn", # required
+    #         actor_id: "String",
+    #         messages_count: 1,
+    #         retrieval_config: {
+    #           "String" => {
+    #             top_k: 1,
+    #             relevance_score: 1.0,
+    #             strategy_id: "String",
+    #           },
+    #         },
+    #       },
+    #     },
+    #     truncation: {
+    #       strategy: "sliding_window", # required, accepts sliding_window, summarization, none
+    #       config: {
+    #         sliding_window: {
+    #           messages_count: 1,
+    #         },
+    #         summarization: {
+    #           summary_ratio: 1.0,
+    #           preserve_recent_messages: 1,
+    #           summarization_system_prompt: "String",
+    #         },
+    #       },
+    #     },
+    #     max_iterations: 1,
+    #     max_tokens: 1,
+    #     timeout_seconds: 1,
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.harness.harness_id #=> String
+    #   resp.harness.harness_name #=> String
+    #   resp.harness.arn #=> String
+    #   resp.harness.status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.harness.execution_role_arn #=> String
+    #   resp.harness.created_at #=> Time
+    #   resp.harness.updated_at #=> Time
+    #   resp.harness.model.bedrock_model_config.model_id #=> String
+    #   resp.harness.model.bedrock_model_config.max_tokens #=> Integer
+    #   resp.harness.model.bedrock_model_config.temperature #=> Float
+    #   resp.harness.model.bedrock_model_config.top_p #=> Float
+    #   resp.harness.model.open_ai_model_config.model_id #=> String
+    #   resp.harness.model.open_ai_model_config.api_key_arn #=> String
+    #   resp.harness.model.open_ai_model_config.max_tokens #=> Integer
+    #   resp.harness.model.open_ai_model_config.temperature #=> Float
+    #   resp.harness.model.open_ai_model_config.top_p #=> Float
+    #   resp.harness.model.gemini_model_config.model_id #=> String
+    #   resp.harness.model.gemini_model_config.api_key_arn #=> String
+    #   resp.harness.model.gemini_model_config.max_tokens #=> Integer
+    #   resp.harness.model.gemini_model_config.temperature #=> Float
+    #   resp.harness.model.gemini_model_config.top_p #=> Float
+    #   resp.harness.model.gemini_model_config.top_k #=> Integer
+    #   resp.harness.system_prompt #=> Array
+    #   resp.harness.system_prompt[0].text #=> String
+    #   resp.harness.tools #=> Array
+    #   resp.harness.tools[0].type #=> String, one of "remote_mcp", "agentcore_browser", "agentcore_gateway", "inline_function", "agentcore_code_interpreter"
+    #   resp.harness.tools[0].name #=> String
+    #   resp.harness.tools[0].config.remote_mcp.url #=> String
+    #   resp.harness.tools[0].config.remote_mcp.headers #=> Hash
+    #   resp.harness.tools[0].config.remote_mcp.headers["HttpHeaderKey"] #=> String
+    #   resp.harness.tools[0].config.agent_core_browser.browser_arn #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.gateway_arn #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.provider_arn #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.scopes #=> Array
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.scopes[0] #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters #=> Hash
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters["OAuthCustomParametersKey"] #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE"
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.default_return_url #=> String
+    #   resp.harness.tools[0].config.inline_function.description #=> String
+    #   resp.harness.tools[0].config.agent_core_code_interpreter.code_interpreter_arn #=> String
+    #   resp.harness.skills #=> Array
+    #   resp.harness.skills[0].path #=> String
+    #   resp.harness.allowed_tools #=> Array
+    #   resp.harness.allowed_tools[0] #=> String
+    #   resp.harness.truncation.strategy #=> String, one of "sliding_window", "summarization", "none"
+    #   resp.harness.truncation.config.sliding_window.messages_count #=> Integer
+    #   resp.harness.truncation.config.summarization.summary_ratio #=> Float
+    #   resp.harness.truncation.config.summarization.preserve_recent_messages #=> Integer
+    #   resp.harness.truncation.config.summarization.summarization_system_prompt #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.agent_runtime_arn #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.agent_runtime_name #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.agent_runtime_id #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.lifecycle_configuration.idle_runtime_session_timeout #=> Integer
+    #   resp.harness.environment.agent_core_runtime_environment.lifecycle_configuration.max_lifetime #=> Integer
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode #=> String, one of "PUBLIC", "VPC"
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.security_groups #=> Array
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.security_groups[0] #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.subnets #=> Array
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.subnets[0] #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations #=> Array
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].session_storage.mount_path #=> String
+    #   resp.harness.environment_artifact.container_configuration.container_uri #=> String
+    #   resp.harness.environment_variables #=> Hash
+    #   resp.harness.environment_variables["EnvironmentVariableKey"] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.discovery_url #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_audience #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_audience[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_clients #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_clients[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_scopes #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_scopes[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].inbound_token_claim_name #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].inbound_token_claim_value_type #=> String, one of "STRING", "STRING_ARRAY"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.harness.memory.agent_core_memory_configuration.arn #=> String
+    #   resp.harness.memory.agent_core_memory_configuration.actor_id #=> String
+    #   resp.harness.memory.agent_core_memory_configuration.messages_count #=> Integer
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config #=> Hash
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].top_k #=> Integer
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].relevance_score #=> Float
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].strategy_id #=> String
+    #   resp.harness.max_iterations #=> Integer
+    #   resp.harness.max_tokens #=> Integer
+    #   resp.harness.timeout_seconds #=> Integer
+    #   resp.harness.failure_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateHarness AWS API Documentation
+    #
+    # @overload create_harness(params = {})
+    # @param [Hash] params ({})
+    def create_harness(params = {}, options = {})
+      req = build_request(:create_harness, params)
       req.send_request(options)
     end
 
@@ -2199,7 +2552,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.online_evaluation_config_id #=> String
     #   resp.created_at #=> Time
     #   resp.output_config.cloud_watch_config.log_group_name #=> String
-    #   resp.status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING"
+    #   resp.status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING", "ERROR"
     #   resp.execution_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.failure_reason #=> String
     #
@@ -3061,6 +3414,131 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
+    # Operation to delete a Harness.
+    #
+    # @option params [required, String] :harness_id
+    #   The ID of the harness to delete.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::DeleteHarnessResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteHarnessResponse#harness #harness} => Types::Harness
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_harness({
+    #     harness_id: "HarnessId", # required
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.harness.harness_id #=> String
+    #   resp.harness.harness_name #=> String
+    #   resp.harness.arn #=> String
+    #   resp.harness.status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.harness.execution_role_arn #=> String
+    #   resp.harness.created_at #=> Time
+    #   resp.harness.updated_at #=> Time
+    #   resp.harness.model.bedrock_model_config.model_id #=> String
+    #   resp.harness.model.bedrock_model_config.max_tokens #=> Integer
+    #   resp.harness.model.bedrock_model_config.temperature #=> Float
+    #   resp.harness.model.bedrock_model_config.top_p #=> Float
+    #   resp.harness.model.open_ai_model_config.model_id #=> String
+    #   resp.harness.model.open_ai_model_config.api_key_arn #=> String
+    #   resp.harness.model.open_ai_model_config.max_tokens #=> Integer
+    #   resp.harness.model.open_ai_model_config.temperature #=> Float
+    #   resp.harness.model.open_ai_model_config.top_p #=> Float
+    #   resp.harness.model.gemini_model_config.model_id #=> String
+    #   resp.harness.model.gemini_model_config.api_key_arn #=> String
+    #   resp.harness.model.gemini_model_config.max_tokens #=> Integer
+    #   resp.harness.model.gemini_model_config.temperature #=> Float
+    #   resp.harness.model.gemini_model_config.top_p #=> Float
+    #   resp.harness.model.gemini_model_config.top_k #=> Integer
+    #   resp.harness.system_prompt #=> Array
+    #   resp.harness.system_prompt[0].text #=> String
+    #   resp.harness.tools #=> Array
+    #   resp.harness.tools[0].type #=> String, one of "remote_mcp", "agentcore_browser", "agentcore_gateway", "inline_function", "agentcore_code_interpreter"
+    #   resp.harness.tools[0].name #=> String
+    #   resp.harness.tools[0].config.remote_mcp.url #=> String
+    #   resp.harness.tools[0].config.remote_mcp.headers #=> Hash
+    #   resp.harness.tools[0].config.remote_mcp.headers["HttpHeaderKey"] #=> String
+    #   resp.harness.tools[0].config.agent_core_browser.browser_arn #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.gateway_arn #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.provider_arn #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.scopes #=> Array
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.scopes[0] #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters #=> Hash
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters["OAuthCustomParametersKey"] #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE"
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.default_return_url #=> String
+    #   resp.harness.tools[0].config.inline_function.description #=> String
+    #   resp.harness.tools[0].config.agent_core_code_interpreter.code_interpreter_arn #=> String
+    #   resp.harness.skills #=> Array
+    #   resp.harness.skills[0].path #=> String
+    #   resp.harness.allowed_tools #=> Array
+    #   resp.harness.allowed_tools[0] #=> String
+    #   resp.harness.truncation.strategy #=> String, one of "sliding_window", "summarization", "none"
+    #   resp.harness.truncation.config.sliding_window.messages_count #=> Integer
+    #   resp.harness.truncation.config.summarization.summary_ratio #=> Float
+    #   resp.harness.truncation.config.summarization.preserve_recent_messages #=> Integer
+    #   resp.harness.truncation.config.summarization.summarization_system_prompt #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.agent_runtime_arn #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.agent_runtime_name #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.agent_runtime_id #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.lifecycle_configuration.idle_runtime_session_timeout #=> Integer
+    #   resp.harness.environment.agent_core_runtime_environment.lifecycle_configuration.max_lifetime #=> Integer
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode #=> String, one of "PUBLIC", "VPC"
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.security_groups #=> Array
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.security_groups[0] #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.subnets #=> Array
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.subnets[0] #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations #=> Array
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].session_storage.mount_path #=> String
+    #   resp.harness.environment_artifact.container_configuration.container_uri #=> String
+    #   resp.harness.environment_variables #=> Hash
+    #   resp.harness.environment_variables["EnvironmentVariableKey"] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.discovery_url #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_audience #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_audience[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_clients #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_clients[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_scopes #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_scopes[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].inbound_token_claim_name #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].inbound_token_claim_value_type #=> String, one of "STRING", "STRING_ARRAY"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.harness.memory.agent_core_memory_configuration.arn #=> String
+    #   resp.harness.memory.agent_core_memory_configuration.actor_id #=> String
+    #   resp.harness.memory.agent_core_memory_configuration.messages_count #=> Integer
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config #=> Hash
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].top_k #=> Integer
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].relevance_score #=> Float
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].strategy_id #=> String
+    #   resp.harness.max_iterations #=> Integer
+    #   resp.harness.max_tokens #=> Integer
+    #   resp.harness.timeout_seconds #=> Integer
+    #   resp.harness.failure_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteHarness AWS API Documentation
+    #
+    # @overload delete_harness(params = {})
+    # @param [Hash] params ({})
+    def delete_harness(params = {}, options = {})
+      req = build_request(:delete_harness, params)
+      req.send_request(options)
+    end
+
     # Deletes an Amazon Bedrock AgentCore Memory resource.
     #
     # @option params [String] :client_token
@@ -3145,7 +3623,7 @@ module Aws::BedrockAgentCoreControl
     #
     #   resp.online_evaluation_config_arn #=> String
     #   resp.online_evaluation_config_id #=> String
-    #   resp.status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING"
+    #   resp.status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING", "ERROR"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteOnlineEvaluationConfig AWS API Documentation
     #
@@ -3952,6 +4430,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
+    #   resp.target_configuration.mcp.mcp_server.resource_priority #=> Integer
     #   resp.target_configuration.mcp.mcp_server.listing_mode #=> String, one of "DEFAULT", "DYNAMIC"
     #   resp.target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.target_configuration.mcp.api_gateway.stage #=> String
@@ -4009,6 +4488,123 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def get_gateway_target(params = {}, options = {})
       req = build_request(:get_gateway_target, params)
+      req.send_request(options)
+    end
+
+    # Operation to get a single Harness.
+    #
+    # @option params [required, String] :harness_id
+    #   The ID of the harness to retrieve.
+    #
+    # @return [Types::GetHarnessResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetHarnessResponse#harness #harness} => Types::Harness
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_harness({
+    #     harness_id: "HarnessId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.harness.harness_id #=> String
+    #   resp.harness.harness_name #=> String
+    #   resp.harness.arn #=> String
+    #   resp.harness.status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.harness.execution_role_arn #=> String
+    #   resp.harness.created_at #=> Time
+    #   resp.harness.updated_at #=> Time
+    #   resp.harness.model.bedrock_model_config.model_id #=> String
+    #   resp.harness.model.bedrock_model_config.max_tokens #=> Integer
+    #   resp.harness.model.bedrock_model_config.temperature #=> Float
+    #   resp.harness.model.bedrock_model_config.top_p #=> Float
+    #   resp.harness.model.open_ai_model_config.model_id #=> String
+    #   resp.harness.model.open_ai_model_config.api_key_arn #=> String
+    #   resp.harness.model.open_ai_model_config.max_tokens #=> Integer
+    #   resp.harness.model.open_ai_model_config.temperature #=> Float
+    #   resp.harness.model.open_ai_model_config.top_p #=> Float
+    #   resp.harness.model.gemini_model_config.model_id #=> String
+    #   resp.harness.model.gemini_model_config.api_key_arn #=> String
+    #   resp.harness.model.gemini_model_config.max_tokens #=> Integer
+    #   resp.harness.model.gemini_model_config.temperature #=> Float
+    #   resp.harness.model.gemini_model_config.top_p #=> Float
+    #   resp.harness.model.gemini_model_config.top_k #=> Integer
+    #   resp.harness.system_prompt #=> Array
+    #   resp.harness.system_prompt[0].text #=> String
+    #   resp.harness.tools #=> Array
+    #   resp.harness.tools[0].type #=> String, one of "remote_mcp", "agentcore_browser", "agentcore_gateway", "inline_function", "agentcore_code_interpreter"
+    #   resp.harness.tools[0].name #=> String
+    #   resp.harness.tools[0].config.remote_mcp.url #=> String
+    #   resp.harness.tools[0].config.remote_mcp.headers #=> Hash
+    #   resp.harness.tools[0].config.remote_mcp.headers["HttpHeaderKey"] #=> String
+    #   resp.harness.tools[0].config.agent_core_browser.browser_arn #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.gateway_arn #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.provider_arn #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.scopes #=> Array
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.scopes[0] #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters #=> Hash
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters["OAuthCustomParametersKey"] #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE"
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.default_return_url #=> String
+    #   resp.harness.tools[0].config.inline_function.description #=> String
+    #   resp.harness.tools[0].config.agent_core_code_interpreter.code_interpreter_arn #=> String
+    #   resp.harness.skills #=> Array
+    #   resp.harness.skills[0].path #=> String
+    #   resp.harness.allowed_tools #=> Array
+    #   resp.harness.allowed_tools[0] #=> String
+    #   resp.harness.truncation.strategy #=> String, one of "sliding_window", "summarization", "none"
+    #   resp.harness.truncation.config.sliding_window.messages_count #=> Integer
+    #   resp.harness.truncation.config.summarization.summary_ratio #=> Float
+    #   resp.harness.truncation.config.summarization.preserve_recent_messages #=> Integer
+    #   resp.harness.truncation.config.summarization.summarization_system_prompt #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.agent_runtime_arn #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.agent_runtime_name #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.agent_runtime_id #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.lifecycle_configuration.idle_runtime_session_timeout #=> Integer
+    #   resp.harness.environment.agent_core_runtime_environment.lifecycle_configuration.max_lifetime #=> Integer
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode #=> String, one of "PUBLIC", "VPC"
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.security_groups #=> Array
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.security_groups[0] #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.subnets #=> Array
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.subnets[0] #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations #=> Array
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].session_storage.mount_path #=> String
+    #   resp.harness.environment_artifact.container_configuration.container_uri #=> String
+    #   resp.harness.environment_variables #=> Hash
+    #   resp.harness.environment_variables["EnvironmentVariableKey"] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.discovery_url #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_audience #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_audience[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_clients #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_clients[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_scopes #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_scopes[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].inbound_token_claim_name #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].inbound_token_claim_value_type #=> String, one of "STRING", "STRING_ARRAY"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.harness.memory.agent_core_memory_configuration.arn #=> String
+    #   resp.harness.memory.agent_core_memory_configuration.actor_id #=> String
+    #   resp.harness.memory.agent_core_memory_configuration.messages_count #=> Integer
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config #=> Hash
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].top_k #=> Integer
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].relevance_score #=> Float
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].strategy_id #=> String
+    #   resp.harness.max_iterations #=> Integer
+    #   resp.harness.max_tokens #=> Integer
+    #   resp.harness.timeout_seconds #=> Integer
+    #   resp.harness.failure_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetHarness AWS API Documentation
+    #
+    # @overload get_harness(params = {})
+    # @param [Hash] params ({})
+    def get_harness(params = {}, options = {})
+      req = build_request(:get_harness, params)
       req.send_request(options)
     end
 
@@ -4283,7 +4879,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.evaluators[0].evaluator_id #=> String
     #   resp.output_config.cloud_watch_config.log_group_name #=> String
     #   resp.evaluation_execution_role_arn #=> String
-    #   resp.status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING"
+    #   resp.status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING", "ERROR"
     #   resp.execution_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
@@ -5147,6 +5743,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.items[0].description #=> String
     #   resp.items[0].created_at #=> Time
     #   resp.items[0].updated_at #=> Time
+    #   resp.items[0].resource_priority #=> Integer
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListGatewayTargets AWS API Documentation
@@ -5205,6 +5802,48 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def list_gateways(params = {}, options = {})
       req = build_request(:list_gateways, params)
+      req.send_request(options)
+    end
+
+    # Operation to list Harnesses.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results.
+    #
+    # @return [Types::ListHarnessesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListHarnessesResponse#harnesses #harnesses} => Array&lt;Types::HarnessSummary&gt;
+    #   * {Types::ListHarnessesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_harnesses({
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.harnesses #=> Array
+    #   resp.harnesses[0].harness_id #=> String
+    #   resp.harnesses[0].harness_name #=> String
+    #   resp.harnesses[0].arn #=> String
+    #   resp.harnesses[0].status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.harnesses[0].created_at #=> Time
+    #   resp.harnesses[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListHarnesses AWS API Documentation
+    #
+    # @overload list_harnesses(params = {})
+    # @param [Hash] params ({})
+    def list_harnesses(params = {}, options = {})
+      req = build_request(:list_harnesses, params)
       req.send_request(options)
     end
 
@@ -5326,7 +5965,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.online_evaluation_configs[0].online_evaluation_config_id #=> String
     #   resp.online_evaluation_configs[0].online_evaluation_config_name #=> String
     #   resp.online_evaluation_configs[0].description #=> String
-    #   resp.online_evaluation_configs[0].status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING"
+    #   resp.online_evaluation_configs[0].status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING", "ERROR"
     #   resp.online_evaluation_configs[0].execution_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.online_evaluation_configs[0].created_at #=> Time
     #   resp.online_evaluation_configs[0].updated_at #=> Time
@@ -6100,6 +6739,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
     #   resp.targets[0].target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
     #   resp.targets[0].target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
+    #   resp.targets[0].target_configuration.mcp.mcp_server.resource_priority #=> Integer
     #   resp.targets[0].target_configuration.mcp.mcp_server.listing_mode #=> String, one of "DEFAULT", "DYNAMIC"
     #   resp.targets[0].target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.targets[0].target_configuration.mcp.api_gateway.stage #=> String
@@ -6899,6 +7539,7 @@ module Aws::BedrockAgentCoreControl
     #             },
     #             inline_payload: "InlinePayload",
     #           },
+    #           resource_priority: 1,
     #           listing_mode: "DEFAULT", # accepts DEFAULT, DYNAMIC
     #         },
     #         api_gateway: {
@@ -7012,6 +7653,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
+    #   resp.target_configuration.mcp.mcp_server.resource_priority #=> Integer
     #   resp.target_configuration.mcp.mcp_server.listing_mode #=> String, one of "DEFAULT", "DYNAMIC"
     #   resp.target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.target_configuration.mcp.api_gateway.stage #=> String
@@ -7069,6 +7711,363 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def update_gateway_target(params = {}, options = {})
       req = build_request(:update_gateway_target, params)
+      req.send_request(options)
+    end
+
+    # Operation to update a Harness.
+    #
+    # @option params [required, String] :harness_id
+    #   The ID of the harness to update.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [String] :execution_role_arn
+    #   The ARN of the IAM role that the harness assumes when running. If not
+    #   specified, the existing value is retained.
+    #
+    # @option params [Types::HarnessEnvironmentProviderRequest] :environment
+    #   The compute environment configuration for the harness. If not
+    #   specified, the existing value is retained.
+    #
+    # @option params [Types::UpdatedHarnessEnvironmentArtifact] :environment_artifact
+    #   The environment artifact for the harness. Use the optionalValue
+    #   wrapper to set a new value, or set it to null to clear the existing
+    #   configuration.
+    #
+    # @option params [Hash<String,String>] :environment_variables
+    #   Environment variables to set in the harness runtime environment. If
+    #   specified, this replaces all existing environment variables. If not
+    #   specified, the existing value is retained.
+    #
+    # @option params [Types::UpdatedAuthorizerConfiguration] :authorizer_configuration
+    #   Wrapper for updating an optional AuthorizerConfiguration field with
+    #   PATCH semantics. When present in an update request, the authorizer
+    #   configuration is replaced with optionalValue. When absent, the
+    #   authorizer configuration is left unchanged. To unset, include the
+    #   wrapper with optionalValue not specified.
+    #
+    # @option params [Types::HarnessModelConfiguration] :model
+    #   The model configuration for the harness. If not specified, the
+    #   existing value is retained.
+    #
+    # @option params [Array<Types::HarnessSystemContentBlock>] :system_prompt
+    #   The system prompt that defines the agent's behavior. If not
+    #   specified, the existing value is retained.
+    #
+    # @option params [Array<Types::HarnessTool>] :tools
+    #   The tools available to the agent. If specified, this replaces all
+    #   existing tools. If not specified, the existing value is retained.
+    #
+    # @option params [Array<Types::HarnessSkill>] :skills
+    #   The skills available to the agent. If specified, this replaces all
+    #   existing skills. If not specified, the existing value is retained.
+    #
+    # @option params [Array<String>] :allowed_tools
+    #   The tools that the agent is allowed to use. If specified, this
+    #   replaces all existing allowed tools. If not specified, the existing
+    #   value is retained.
+    #
+    # @option params [Types::UpdatedHarnessMemoryConfiguration] :memory
+    #   The AgentCore Memory configuration. Use the optionalValue wrapper to
+    #   set a new value, or set it to null to clear the existing
+    #   configuration.
+    #
+    # @option params [Types::HarnessTruncationConfiguration] :truncation
+    #   The truncation configuration for managing conversation context. If not
+    #   specified, the existing value is retained.
+    #
+    # @option params [Integer] :max_iterations
+    #   The maximum number of iterations the agent loop can execute per
+    #   invocation. If not specified, the existing value is retained.
+    #
+    # @option params [Integer] :max_tokens
+    #   The maximum number of tokens the agent can generate per iteration. If
+    #   not specified, the existing value is retained.
+    #
+    # @option params [Integer] :timeout_seconds
+    #   The maximum duration in seconds for the agent loop execution per
+    #   invocation. If not specified, the existing value is retained.
+    #
+    # @return [Types::UpdateHarnessResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateHarnessResponse#harness #harness} => Types::Harness
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_harness({
+    #     harness_id: "HarnessId", # required
+    #     client_token: "ClientToken",
+    #     execution_role_arn: "RoleArn",
+    #     environment: {
+    #       agent_core_runtime_environment: {
+    #         lifecycle_configuration: {
+    #           idle_runtime_session_timeout: 1,
+    #           max_lifetime: 1,
+    #         },
+    #         network_configuration: {
+    #           network_mode: "PUBLIC", # required, accepts PUBLIC, VPC
+    #           network_mode_config: {
+    #             security_groups: ["SecurityGroupId"], # required
+    #             subnets: ["SubnetId"], # required
+    #           },
+    #         },
+    #         filesystem_configurations: [
+    #           {
+    #             session_storage: {
+    #               mount_path: "MountPath", # required
+    #             },
+    #           },
+    #         ],
+    #       },
+    #     },
+    #     environment_artifact: {
+    #       optional_value: {
+    #         container_configuration: {
+    #           container_uri: "RuntimeContainerUri", # required
+    #         },
+    #       },
+    #     },
+    #     environment_variables: {
+    #       "EnvironmentVariableKey" => "EnvironmentVariableValue",
+    #     },
+    #     authorizer_configuration: {
+    #       optional_value: {
+    #         custom_jwt_authorizer: {
+    #           discovery_url: "DiscoveryUrl", # required
+    #           allowed_audience: ["AllowedAudience"],
+    #           allowed_clients: ["AllowedClient"],
+    #           allowed_scopes: ["AllowedScopeType"],
+    #           custom_claims: [
+    #             {
+    #               inbound_token_claim_name: "InboundTokenClaimNameType", # required
+    #               inbound_token_claim_value_type: "STRING", # required, accepts STRING, STRING_ARRAY
+    #               authorizing_claim_match_value: { # required
+    #                 claim_match_value: { # required
+    #                   match_value_string: "MatchValueString",
+    #                   match_value_string_list: ["MatchValueString"],
+    #                 },
+    #                 claim_match_operator: "EQUALS", # required, accepts EQUALS, CONTAINS, CONTAINS_ANY
+    #               },
+    #             },
+    #           ],
+    #         },
+    #       },
+    #     },
+    #     model: {
+    #       bedrock_model_config: {
+    #         model_id: "ModelId", # required
+    #         max_tokens: 1,
+    #         temperature: 1.0,
+    #         top_p: 1.0,
+    #       },
+    #       open_ai_model_config: {
+    #         model_id: "ModelId", # required
+    #         api_key_arn: "ApiKeyArn", # required
+    #         max_tokens: 1,
+    #         temperature: 1.0,
+    #         top_p: 1.0,
+    #       },
+    #       gemini_model_config: {
+    #         model_id: "ModelId", # required
+    #         api_key_arn: "ApiKeyArn", # required
+    #         max_tokens: 1,
+    #         temperature: 1.0,
+    #         top_p: 1.0,
+    #         top_k: 1,
+    #       },
+    #     },
+    #     system_prompt: [
+    #       {
+    #         text: "SensitiveText",
+    #       },
+    #     ],
+    #     tools: [
+    #       {
+    #         type: "remote_mcp", # required, accepts remote_mcp, agentcore_browser, agentcore_gateway, inline_function, agentcore_code_interpreter
+    #         name: "HarnessToolName",
+    #         config: {
+    #           remote_mcp: {
+    #             url: "HarnessRemoteMcpUrl", # required
+    #             headers: {
+    #               "HttpHeaderKey" => "HttpHeaderValue",
+    #             },
+    #           },
+    #           agent_core_browser: {
+    #             browser_arn: "BrowserArn",
+    #           },
+    #           agent_core_gateway: {
+    #             gateway_arn: "GatewayArn", # required
+    #             outbound_auth: {
+    #               aws_iam: {
+    #               },
+    #               none: {
+    #               },
+    #               oauth: {
+    #                 provider_arn: "OAuthCredentialProviderArn", # required
+    #                 scopes: ["OAuthScope"], # required
+    #                 custom_parameters: {
+    #                   "OAuthCustomParametersKey" => "OAuthCustomParametersValue",
+    #                 },
+    #                 grant_type: "CLIENT_CREDENTIALS", # accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE
+    #                 default_return_url: "OAuthDefaultReturnUrl",
+    #               },
+    #             },
+    #           },
+    #           inline_function: {
+    #             description: "HarnessInlineFunctionDescription", # required
+    #             input_schema: { # required
+    #             },
+    #           },
+    #           agent_core_code_interpreter: {
+    #             code_interpreter_arn: "CodeInterpreterArn",
+    #           },
+    #         },
+    #       },
+    #     ],
+    #     skills: [
+    #       {
+    #         path: "HarnessSkillPath",
+    #       },
+    #     ],
+    #     allowed_tools: ["HarnessAllowedTool"],
+    #     memory: {
+    #       optional_value: {
+    #         agent_core_memory_configuration: {
+    #           arn: "MemoryArn", # required
+    #           actor_id: "String",
+    #           messages_count: 1,
+    #           retrieval_config: {
+    #             "String" => {
+    #               top_k: 1,
+    #               relevance_score: 1.0,
+    #               strategy_id: "String",
+    #             },
+    #           },
+    #         },
+    #       },
+    #     },
+    #     truncation: {
+    #       strategy: "sliding_window", # required, accepts sliding_window, summarization, none
+    #       config: {
+    #         sliding_window: {
+    #           messages_count: 1,
+    #         },
+    #         summarization: {
+    #           summary_ratio: 1.0,
+    #           preserve_recent_messages: 1,
+    #           summarization_system_prompt: "String",
+    #         },
+    #       },
+    #     },
+    #     max_iterations: 1,
+    #     max_tokens: 1,
+    #     timeout_seconds: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.harness.harness_id #=> String
+    #   resp.harness.harness_name #=> String
+    #   resp.harness.arn #=> String
+    #   resp.harness.status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.harness.execution_role_arn #=> String
+    #   resp.harness.created_at #=> Time
+    #   resp.harness.updated_at #=> Time
+    #   resp.harness.model.bedrock_model_config.model_id #=> String
+    #   resp.harness.model.bedrock_model_config.max_tokens #=> Integer
+    #   resp.harness.model.bedrock_model_config.temperature #=> Float
+    #   resp.harness.model.bedrock_model_config.top_p #=> Float
+    #   resp.harness.model.open_ai_model_config.model_id #=> String
+    #   resp.harness.model.open_ai_model_config.api_key_arn #=> String
+    #   resp.harness.model.open_ai_model_config.max_tokens #=> Integer
+    #   resp.harness.model.open_ai_model_config.temperature #=> Float
+    #   resp.harness.model.open_ai_model_config.top_p #=> Float
+    #   resp.harness.model.gemini_model_config.model_id #=> String
+    #   resp.harness.model.gemini_model_config.api_key_arn #=> String
+    #   resp.harness.model.gemini_model_config.max_tokens #=> Integer
+    #   resp.harness.model.gemini_model_config.temperature #=> Float
+    #   resp.harness.model.gemini_model_config.top_p #=> Float
+    #   resp.harness.model.gemini_model_config.top_k #=> Integer
+    #   resp.harness.system_prompt #=> Array
+    #   resp.harness.system_prompt[0].text #=> String
+    #   resp.harness.tools #=> Array
+    #   resp.harness.tools[0].type #=> String, one of "remote_mcp", "agentcore_browser", "agentcore_gateway", "inline_function", "agentcore_code_interpreter"
+    #   resp.harness.tools[0].name #=> String
+    #   resp.harness.tools[0].config.remote_mcp.url #=> String
+    #   resp.harness.tools[0].config.remote_mcp.headers #=> Hash
+    #   resp.harness.tools[0].config.remote_mcp.headers["HttpHeaderKey"] #=> String
+    #   resp.harness.tools[0].config.agent_core_browser.browser_arn #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.gateway_arn #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.provider_arn #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.scopes #=> Array
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.scopes[0] #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters #=> Hash
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters["OAuthCustomParametersKey"] #=> String
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE"
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.default_return_url #=> String
+    #   resp.harness.tools[0].config.inline_function.description #=> String
+    #   resp.harness.tools[0].config.agent_core_code_interpreter.code_interpreter_arn #=> String
+    #   resp.harness.skills #=> Array
+    #   resp.harness.skills[0].path #=> String
+    #   resp.harness.allowed_tools #=> Array
+    #   resp.harness.allowed_tools[0] #=> String
+    #   resp.harness.truncation.strategy #=> String, one of "sliding_window", "summarization", "none"
+    #   resp.harness.truncation.config.sliding_window.messages_count #=> Integer
+    #   resp.harness.truncation.config.summarization.summary_ratio #=> Float
+    #   resp.harness.truncation.config.summarization.preserve_recent_messages #=> Integer
+    #   resp.harness.truncation.config.summarization.summarization_system_prompt #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.agent_runtime_arn #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.agent_runtime_name #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.agent_runtime_id #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.lifecycle_configuration.idle_runtime_session_timeout #=> Integer
+    #   resp.harness.environment.agent_core_runtime_environment.lifecycle_configuration.max_lifetime #=> Integer
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode #=> String, one of "PUBLIC", "VPC"
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.security_groups #=> Array
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.security_groups[0] #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.subnets #=> Array
+    #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.subnets[0] #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations #=> Array
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].session_storage.mount_path #=> String
+    #   resp.harness.environment_artifact.container_configuration.container_uri #=> String
+    #   resp.harness.environment_variables #=> Hash
+    #   resp.harness.environment_variables["EnvironmentVariableKey"] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.discovery_url #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_audience #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_audience[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_clients #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_clients[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_scopes #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_scopes[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].inbound_token_claim_name #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].inbound_token_claim_value_type #=> String, one of "STRING", "STRING_ARRAY"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.harness.memory.agent_core_memory_configuration.arn #=> String
+    #   resp.harness.memory.agent_core_memory_configuration.actor_id #=> String
+    #   resp.harness.memory.agent_core_memory_configuration.messages_count #=> Integer
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config #=> Hash
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].top_k #=> Integer
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].relevance_score #=> Float
+    #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].strategy_id #=> String
+    #   resp.harness.max_iterations #=> Integer
+    #   resp.harness.max_tokens #=> Integer
+    #   resp.harness.timeout_seconds #=> Integer
+    #   resp.harness.failure_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateHarness AWS API Documentation
+    #
+    # @overload update_harness(params = {})
+    # @param [Hash] params ({})
+    def update_harness(params = {}, options = {})
+      req = build_request(:update_harness, params)
       req.send_request(options)
     end
 
@@ -7671,7 +8670,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.online_evaluation_config_arn #=> String
     #   resp.online_evaluation_config_id #=> String
     #   resp.updated_at #=> Time
-    #   resp.status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING"
+    #   resp.status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING", "ERROR"
     #   resp.execution_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.failure_reason #=> String
     #
@@ -8263,7 +9262,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.38.0'
+      context[:gem_version] = '1.39.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

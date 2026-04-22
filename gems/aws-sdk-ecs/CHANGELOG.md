@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.229.0 (2026-04-22)
+------------------
+
+* Feature - GPU health monitoring and auto-repair for ECS Managed Instances
+
 1.228.0 (2026-04-10)
 ------------------
 

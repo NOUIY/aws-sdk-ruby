@@ -552,6 +552,7 @@ module Aws::EC2
     #   volume.describe_status({
     #     max_results: 1,
     #     next_token: "String",
+    #     include_managed_resources: false,
     #     dry_run: false,
     #     filters: [
     #       {
@@ -572,6 +573,11 @@ module Aws::EC2
     # @option options [String] :next_token
     #   The token returned from a previous paginated request. Pagination
     #   continues from the end of the items returned by the previous request.
+    # @option options [Boolean] :include_managed_resources
+    #   Indicates whether to include managed resources in the output. If this
+    #   parameter is set to `true`, the output includes resources that are
+    #   managed by Amazon Web Services services, even if managed resource
+    #   visibility is set to hidden.
     # @option options [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.

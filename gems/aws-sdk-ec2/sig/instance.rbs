@@ -489,6 +489,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Instance.html#volumes-instance_method
       def volumes: (
                      ?volume_ids: Array[::String],
+                     ?include_managed_resources: bool,
                      ?dry_run: bool,
                      ?filters: Array[
                        {

@@ -38,6 +38,8 @@ module Aws::ECS
     Attribute = Shapes::StructureShape.new(name: 'Attribute')
     AttributeLimitExceededException = Shapes::StructureShape.new(name: 'AttributeLimitExceededException')
     Attributes = Shapes::ListShape.new(name: 'Attributes')
+    AutoRepairActionsStatus = Shapes::StringShape.new(name: 'AutoRepairActionsStatus')
+    AutoRepairConfiguration = Shapes::StructureShape.new(name: 'AutoRepairConfiguration')
     AutoScalingGroupProvider = Shapes::StructureShape.new(name: 'AutoScalingGroupProvider')
     AutoScalingGroupProviderUpdate = Shapes::StructureShape.new(name: 'AutoScalingGroupProviderUpdate')
     AvailabilityZoneRebalancing = Shapes::StringShape.new(name: 'AvailabilityZoneRebalancing')
@@ -682,6 +684,9 @@ module Aws::ECS
 
     Attributes.member = Shapes::ShapeRef.new(shape: Attribute)
 
+    AutoRepairConfiguration.add_member(:actions_status, Shapes::ShapeRef.new(shape: AutoRepairActionsStatus, location_name: "actionsStatus"))
+    AutoRepairConfiguration.struct_class = Types::AutoRepairConfiguration
+
     AutoScalingGroupProvider.add_member(:auto_scaling_group_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "autoScalingGroupArn"))
     AutoScalingGroupProvider.add_member(:managed_scaling, Shapes::ShapeRef.new(shape: ManagedScaling, location_name: "managedScaling"))
     AutoScalingGroupProvider.add_member(:managed_termination_protection, Shapes::ShapeRef.new(shape: ManagedTerminationProtection, location_name: "managedTerminationProtection"))
@@ -997,6 +1002,7 @@ module Aws::ECS
     CreateManagedInstancesProviderConfiguration.add_member(:instance_launch_template, Shapes::ShapeRef.new(shape: InstanceLaunchTemplate, required: true, location_name: "instanceLaunchTemplate"))
     CreateManagedInstancesProviderConfiguration.add_member(:propagate_tags, Shapes::ShapeRef.new(shape: PropagateMITags, location_name: "propagateTags"))
     CreateManagedInstancesProviderConfiguration.add_member(:infrastructure_optimization, Shapes::ShapeRef.new(shape: InfrastructureOptimization, location_name: "infrastructureOptimization"))
+    CreateManagedInstancesProviderConfiguration.add_member(:auto_repair_configuration, Shapes::ShapeRef.new(shape: AutoRepairConfiguration, location_name: "autoRepairConfiguration"))
     CreateManagedInstancesProviderConfiguration.struct_class = Types::CreateManagedInstancesProviderConfiguration
 
     CreateServiceRequest.add_member(:cluster, Shapes::ShapeRef.new(shape: String, location_name: "cluster"))
@@ -1737,6 +1743,7 @@ module Aws::ECS
 
     InstanceHealthCheckResult.add_member(:type, Shapes::ShapeRef.new(shape: InstanceHealthCheckType, location_name: "type"))
     InstanceHealthCheckResult.add_member(:status, Shapes::ShapeRef.new(shape: InstanceHealthCheckState, location_name: "status"))
+    InstanceHealthCheckResult.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
     InstanceHealthCheckResult.add_member(:last_updated, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastUpdated"))
     InstanceHealthCheckResult.add_member(:last_status_change, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastStatusChange"))
     InstanceHealthCheckResult.struct_class = Types::InstanceHealthCheckResult
@@ -2053,6 +2060,7 @@ module Aws::ECS
     ManagedInstancesProvider.add_member(:instance_launch_template, Shapes::ShapeRef.new(shape: InstanceLaunchTemplate, location_name: "instanceLaunchTemplate"))
     ManagedInstancesProvider.add_member(:propagate_tags, Shapes::ShapeRef.new(shape: PropagateMITags, location_name: "propagateTags"))
     ManagedInstancesProvider.add_member(:infrastructure_optimization, Shapes::ShapeRef.new(shape: InfrastructureOptimization, location_name: "infrastructureOptimization"))
+    ManagedInstancesProvider.add_member(:auto_repair_configuration, Shapes::ShapeRef.new(shape: AutoRepairConfiguration, location_name: "autoRepairConfiguration"))
     ManagedInstancesProvider.struct_class = Types::ManagedInstancesProvider
 
     ManagedInstancesStorageConfiguration.add_member(:storage_size_gi_b, Shapes::ShapeRef.new(shape: TaskVolumeStorageGiB, location_name: "storageSizeGiB"))
@@ -3005,6 +3013,7 @@ module Aws::ECS
     UpdateManagedInstancesProviderConfiguration.add_member(:instance_launch_template, Shapes::ShapeRef.new(shape: InstanceLaunchTemplateUpdate, required: true, location_name: "instanceLaunchTemplate"))
     UpdateManagedInstancesProviderConfiguration.add_member(:propagate_tags, Shapes::ShapeRef.new(shape: PropagateMITags, location_name: "propagateTags"))
     UpdateManagedInstancesProviderConfiguration.add_member(:infrastructure_optimization, Shapes::ShapeRef.new(shape: InfrastructureOptimization, location_name: "infrastructureOptimization"))
+    UpdateManagedInstancesProviderConfiguration.add_member(:auto_repair_configuration, Shapes::ShapeRef.new(shape: AutoRepairConfiguration, location_name: "autoRepairConfiguration"))
     UpdateManagedInstancesProviderConfiguration.struct_class = Types::UpdateManagedInstancesProviderConfiguration
 
     UpdateServicePrimaryTaskSetRequest.add_member(:cluster, Shapes::ShapeRef.new(shape: String, required: true, location_name: "cluster"))

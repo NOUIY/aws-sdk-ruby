@@ -1873,6 +1873,8 @@ module Aws::EC2
     GetManagedPrefixListAssociationsResult = Shapes::StructureShape.new(name: 'GetManagedPrefixListAssociationsResult')
     GetManagedPrefixListEntriesRequest = Shapes::StructureShape.new(name: 'GetManagedPrefixListEntriesRequest')
     GetManagedPrefixListEntriesResult = Shapes::StructureShape.new(name: 'GetManagedPrefixListEntriesResult')
+    GetManagedResourceVisibilityRequest = Shapes::StructureShape.new(name: 'GetManagedResourceVisibilityRequest')
+    GetManagedResourceVisibilityResult = Shapes::StructureShape.new(name: 'GetManagedResourceVisibilityResult')
     GetNetworkInsightsAccessScopeAnalysisFindingsMaxResults = Shapes::IntegerShape.new(name: 'GetNetworkInsightsAccessScopeAnalysisFindingsMaxResults')
     GetNetworkInsightsAccessScopeAnalysisFindingsRequest = Shapes::StructureShape.new(name: 'GetNetworkInsightsAccessScopeAnalysisFindingsRequest')
     GetNetworkInsightsAccessScopeAnalysisFindingsResult = Shapes::StructureShape.new(name: 'GetNetworkInsightsAccessScopeAnalysisFindingsResult')
@@ -2581,6 +2583,8 @@ module Aws::EC2
     ManagedBy = Shapes::StringShape.new(name: 'ManagedBy')
     ManagedPrefixList = Shapes::StructureShape.new(name: 'ManagedPrefixList')
     ManagedPrefixListSet = Shapes::ListShape.new(name: 'ManagedPrefixListSet')
+    ManagedResourceDefaultVisibility = Shapes::StringShape.new(name: 'ManagedResourceDefaultVisibility')
+    ManagedResourceVisibilitySettings = Shapes::StructureShape.new(name: 'ManagedResourceVisibilitySettings')
     MarketType = Shapes::StringShape.new(name: 'MarketType')
     MarketplaceProductCode = Shapes::StringShape.new(name: 'MarketplaceProductCode')
     MarketplaceProductCodeList = Shapes::ListShape.new(name: 'MarketplaceProductCodeList')
@@ -2655,6 +2659,8 @@ module Aws::EC2
     ModifyIdentityIdFormatRequest = Shapes::StructureShape.new(name: 'ModifyIdentityIdFormatRequest')
     ModifyImageAttributeRequest = Shapes::StructureShape.new(name: 'ModifyImageAttributeRequest')
     ModifyInstanceAttributeRequest = Shapes::StructureShape.new(name: 'ModifyInstanceAttributeRequest')
+    ModifyInstanceAttributeUserDataRequest = Shapes::StructureShape.new(name: 'ModifyInstanceAttributeUserDataRequest')
+    ModifyInstanceAttributeValue = Shapes::StringShape.new(name: 'ModifyInstanceAttributeValue')
     ModifyInstanceCapacityReservationAttributesRequest = Shapes::StructureShape.new(name: 'ModifyInstanceCapacityReservationAttributesRequest')
     ModifyInstanceCapacityReservationAttributesResult = Shapes::StructureShape.new(name: 'ModifyInstanceCapacityReservationAttributesResult')
     ModifyInstanceConnectEndpointRequest = Shapes::StructureShape.new(name: 'ModifyInstanceConnectEndpointRequest')
@@ -2699,6 +2705,8 @@ module Aws::EC2
     ModifyLocalGatewayRouteResult = Shapes::StructureShape.new(name: 'ModifyLocalGatewayRouteResult')
     ModifyManagedPrefixListRequest = Shapes::StructureShape.new(name: 'ModifyManagedPrefixListRequest')
     ModifyManagedPrefixListResult = Shapes::StructureShape.new(name: 'ModifyManagedPrefixListResult')
+    ModifyManagedResourceVisibilityRequest = Shapes::StructureShape.new(name: 'ModifyManagedResourceVisibilityRequest')
+    ModifyManagedResourceVisibilityResult = Shapes::StructureShape.new(name: 'ModifyManagedResourceVisibilityResult')
     ModifyNetworkInterfaceAttributeRequest = Shapes::StructureShape.new(name: 'ModifyNetworkInterfaceAttributeRequest')
     ModifyPrivateDnsNameOptionsRequest = Shapes::StructureShape.new(name: 'ModifyPrivateDnsNameOptionsRequest')
     ModifyPrivateDnsNameOptionsResult = Shapes::StructureShape.new(name: 'ModifyPrivateDnsNameOptionsResult')
@@ -8605,6 +8613,7 @@ module Aws::EC2
     DescribeInstanceStatusRequest.add_member(:instance_ids, Shapes::ShapeRef.new(shape: InstanceIdStringList, location_name: "InstanceId"))
     DescribeInstanceStatusRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: Integer, location_name: "MaxResults"))
     DescribeInstanceStatusRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
+    DescribeInstanceStatusRequest.add_member(:include_managed_resources, Shapes::ShapeRef.new(shape: Boolean, location_name: "IncludeManagedResources"))
     DescribeInstanceStatusRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "dryRun"))
     DescribeInstanceStatusRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "Filter"))
     DescribeInstanceStatusRequest.add_member(:include_all_instances, Shapes::ShapeRef.new(shape: Boolean, location_name: "includeAllInstances"))
@@ -8653,6 +8662,7 @@ module Aws::EC2
     DescribeInstanceTypesResult.struct_class = Types::DescribeInstanceTypesResult
 
     DescribeInstancesRequest.add_member(:instance_ids, Shapes::ShapeRef.new(shape: InstanceIdStringList, location_name: "InstanceId"))
+    DescribeInstancesRequest.add_member(:include_managed_resources, Shapes::ShapeRef.new(shape: Boolean, location_name: "IncludeManagedResources"))
     DescribeInstancesRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "dryRun"))
     DescribeInstancesRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "Filter"))
     DescribeInstancesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
@@ -8814,6 +8824,7 @@ module Aws::EC2
     DescribeLaunchTemplateVersionsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: Integer, location_name: "MaxResults"))
     DescribeLaunchTemplateVersionsRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "Filter"))
     DescribeLaunchTemplateVersionsRequest.add_member(:resolve_alias, Shapes::ShapeRef.new(shape: Boolean, location_name: "ResolveAlias"))
+    DescribeLaunchTemplateVersionsRequest.add_member(:include_managed_resources, Shapes::ShapeRef.new(shape: Boolean, location_name: "IncludeManagedResources"))
     DescribeLaunchTemplateVersionsRequest.struct_class = Types::DescribeLaunchTemplateVersionsRequest
 
     DescribeLaunchTemplateVersionsResult.add_member(:launch_template_versions, Shapes::ShapeRef.new(shape: LaunchTemplateVersionSet, location_name: "launchTemplateVersionSet"))
@@ -8826,6 +8837,7 @@ module Aws::EC2
     DescribeLaunchTemplatesRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "Filter"))
     DescribeLaunchTemplatesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
     DescribeLaunchTemplatesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: DescribeLaunchTemplatesMaxResults, location_name: "MaxResults"))
+    DescribeLaunchTemplatesRequest.add_member(:include_managed_resources, Shapes::ShapeRef.new(shape: Boolean, location_name: "IncludeManagedResources"))
     DescribeLaunchTemplatesRequest.struct_class = Types::DescribeLaunchTemplatesRequest
 
     DescribeLaunchTemplatesResult.add_member(:launch_templates, Shapes::ShapeRef.new(shape: LaunchTemplateSet, location_name: "launchTemplates"))
@@ -9049,6 +9061,7 @@ module Aws::EC2
 
     DescribeNetworkInterfacesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
     DescribeNetworkInterfacesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: DescribeNetworkInterfacesMaxResults, location_name: "MaxResults"))
+    DescribeNetworkInterfacesRequest.add_member(:include_managed_resources, Shapes::ShapeRef.new(shape: Boolean, location_name: "IncludeManagedResources"))
     DescribeNetworkInterfacesRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "dryRun"))
     DescribeNetworkInterfacesRequest.add_member(:network_interface_ids, Shapes::ShapeRef.new(shape: NetworkInterfaceIdList, location_name: "NetworkInterfaceId"))
     DescribeNetworkInterfacesRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "filter"))
@@ -9724,6 +9737,7 @@ module Aws::EC2
     DescribeVolumeStatusRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: Integer, location_name: "MaxResults"))
     DescribeVolumeStatusRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
     DescribeVolumeStatusRequest.add_member(:volume_ids, Shapes::ShapeRef.new(shape: VolumeIdStringList, location_name: "VolumeId"))
+    DescribeVolumeStatusRequest.add_member(:include_managed_resources, Shapes::ShapeRef.new(shape: Boolean, location_name: "IncludeManagedResources"))
     DescribeVolumeStatusRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "dryRun"))
     DescribeVolumeStatusRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "Filter"))
     DescribeVolumeStatusRequest.struct_class = Types::DescribeVolumeStatusRequest
@@ -9744,6 +9758,7 @@ module Aws::EC2
     DescribeVolumesModificationsResult.struct_class = Types::DescribeVolumesModificationsResult
 
     DescribeVolumesRequest.add_member(:volume_ids, Shapes::ShapeRef.new(shape: VolumeIdStringList, location_name: "VolumeId"))
+    DescribeVolumesRequest.add_member(:include_managed_resources, Shapes::ShapeRef.new(shape: Boolean, location_name: "IncludeManagedResources"))
     DescribeVolumesRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "dryRun"))
     DescribeVolumesRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "Filter"))
     DescribeVolumesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
@@ -11696,6 +11711,12 @@ module Aws::EC2
     GetManagedPrefixListEntriesResult.add_member(:entries, Shapes::ShapeRef.new(shape: PrefixListEntrySet, location_name: "entrySet"))
     GetManagedPrefixListEntriesResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     GetManagedPrefixListEntriesResult.struct_class = Types::GetManagedPrefixListEntriesResult
+
+    GetManagedResourceVisibilityRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    GetManagedResourceVisibilityRequest.struct_class = Types::GetManagedResourceVisibilityRequest
+
+    GetManagedResourceVisibilityResult.add_member(:visibility, Shapes::ShapeRef.new(shape: ManagedResourceVisibilitySettings, location_name: "visibility"))
+    GetManagedResourceVisibilityResult.struct_class = Types::GetManagedResourceVisibilityResult
 
     GetNetworkInsightsAccessScopeAnalysisFindingsRequest.add_member(:network_insights_access_scope_analysis_id, Shapes::ShapeRef.new(shape: NetworkInsightsAccessScopeAnalysisId, required: true, location_name: "NetworkInsightsAccessScopeAnalysisId"))
     GetNetworkInsightsAccessScopeAnalysisFindingsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: GetNetworkInsightsAccessScopeAnalysisFindingsMaxResults, location_name: "MaxResults"))
@@ -14289,6 +14310,9 @@ module Aws::EC2
 
     ManagedPrefixListSet.member = Shapes::ShapeRef.new(shape: ManagedPrefixList, location_name: "item")
 
+    ManagedResourceVisibilitySettings.add_member(:default_visibility, Shapes::ShapeRef.new(shape: ManagedResourceDefaultVisibility, location_name: "defaultVisibility"))
+    ManagedResourceVisibilitySettings.struct_class = Types::ManagedResourceVisibilitySettings
+
     MarketplaceProductCodeList.member = Shapes::ShapeRef.new(shape: MarketplaceProductCode, location_name: "item")
 
     MarketplaceProductCodeRequestList.member = Shapes::ShapeRef.new(shape: MarketplaceProductCodeRequest, location_name: "item")
@@ -14495,7 +14519,7 @@ module Aws::EC2
     ModifyInstanceAttributeRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "dryRun"))
     ModifyInstanceAttributeRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "instanceId"))
     ModifyInstanceAttributeRequest.add_member(:attribute, Shapes::ShapeRef.new(shape: InstanceAttributeName, location_name: "attribute"))
-    ModifyInstanceAttributeRequest.add_member(:value, Shapes::ShapeRef.new(shape: String, location_name: "value"))
+    ModifyInstanceAttributeRequest.add_member(:value, Shapes::ShapeRef.new(shape: ModifyInstanceAttributeValue, location_name: "value"))
     ModifyInstanceAttributeRequest.add_member(:block_device_mappings, Shapes::ShapeRef.new(shape: InstanceBlockDeviceMappingSpecificationList, location_name: "blockDeviceMapping"))
     ModifyInstanceAttributeRequest.add_member(:disable_api_termination, Shapes::ShapeRef.new(shape: AttributeBooleanValue, location_name: "disableApiTermination"))
     ModifyInstanceAttributeRequest.add_member(:instance_type, Shapes::ShapeRef.new(shape: AttributeValue, location_name: "instanceType"))
@@ -14508,6 +14532,9 @@ module Aws::EC2
     ModifyInstanceAttributeRequest.add_member(:sriov_net_support, Shapes::ShapeRef.new(shape: AttributeValue, location_name: "sriovNetSupport"))
     ModifyInstanceAttributeRequest.add_member(:ena_support, Shapes::ShapeRef.new(shape: AttributeBooleanValue, location_name: "enaSupport"))
     ModifyInstanceAttributeRequest.struct_class = Types::ModifyInstanceAttributeRequest
+
+    ModifyInstanceAttributeUserDataRequest.add_member(:value, Shapes::ShapeRef.new(shape: ModifyInstanceAttributeValue, location_name: "Value"))
+    ModifyInstanceAttributeUserDataRequest.struct_class = Types::ModifyInstanceAttributeUserDataRequest
 
     ModifyInstanceCapacityReservationAttributesRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "InstanceId"))
     ModifyInstanceCapacityReservationAttributesRequest.add_member(:capacity_reservation_specification, Shapes::ShapeRef.new(shape: CapacityReservationSpecification, required: true, location_name: "CapacityReservationSpecification"))
@@ -14749,6 +14776,13 @@ module Aws::EC2
 
     ModifyManagedPrefixListResult.add_member(:prefix_list, Shapes::ShapeRef.new(shape: ManagedPrefixList, location_name: "prefixList"))
     ModifyManagedPrefixListResult.struct_class = Types::ModifyManagedPrefixListResult
+
+    ModifyManagedResourceVisibilityRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    ModifyManagedResourceVisibilityRequest.add_member(:default_visibility, Shapes::ShapeRef.new(shape: ManagedResourceDefaultVisibility, location_name: "DefaultVisibility"))
+    ModifyManagedResourceVisibilityRequest.struct_class = Types::ModifyManagedResourceVisibilityRequest
+
+    ModifyManagedResourceVisibilityResult.add_member(:visibility, Shapes::ShapeRef.new(shape: ManagedResourceVisibilitySettings, location_name: "visibility"))
+    ModifyManagedResourceVisibilityResult.struct_class = Types::ModifyManagedResourceVisibilityResult
 
     ModifyNetworkInterfaceAttributeRequest.add_member(:ena_srd_specification, Shapes::ShapeRef.new(shape: EnaSrdSpecification, location_name: "EnaSrdSpecification"))
     ModifyNetworkInterfaceAttributeRequest.add_member(:enable_primary_ipv_6, Shapes::ShapeRef.new(shape: Boolean, location_name: "EnablePrimaryIpv6"))
@@ -15702,6 +15736,7 @@ module Aws::EC2
 
     OperatorResponse.add_member(:managed, Shapes::ShapeRef.new(shape: Boolean, location_name: "managed"))
     OperatorResponse.add_member(:principal, Shapes::ShapeRef.new(shape: String, location_name: "principal"))
+    OperatorResponse.add_member(:hidden_by_default, Shapes::ShapeRef.new(shape: Boolean, location_name: "hiddenByDefault"))
     OperatorResponse.struct_class = Types::OperatorResponse
 
     OrganizationArnStringList.member = Shapes::ShapeRef.new(shape: String, location_name: "OrganizationArn")
@@ -19233,6 +19268,7 @@ module Aws::EC2
     VolumeModification.add_member(:progress, Shapes::ShapeRef.new(shape: Long, location_name: "progress"))
     VolumeModification.add_member(:start_time, Shapes::ShapeRef.new(shape: DateTime, location_name: "startTime"))
     VolumeModification.add_member(:end_time, Shapes::ShapeRef.new(shape: DateTime, location_name: "endTime"))
+    VolumeModification.add_member(:operator, Shapes::ShapeRef.new(shape: OperatorResponse, location_name: "operator"))
     VolumeModification.struct_class = Types::VolumeModification
 
     VolumeModificationList.member = Shapes::ShapeRef.new(shape: VolumeModification, location_name: "item")
@@ -19299,6 +19335,7 @@ module Aws::EC2
     VolumeStatusItem.add_member(:attachment_statuses, Shapes::ShapeRef.new(shape: VolumeStatusAttachmentStatusList, location_name: "attachmentStatuses"))
     VolumeStatusItem.add_member(:initialization_status_details, Shapes::ShapeRef.new(shape: InitializationStatusDetails, location_name: "initializationStatusDetails"))
     VolumeStatusItem.add_member(:availability_zone_id, Shapes::ShapeRef.new(shape: String, location_name: "availabilityZoneId"))
+    VolumeStatusItem.add_member(:operator, Shapes::ShapeRef.new(shape: OperatorResponse, location_name: "operator"))
     VolumeStatusItem.struct_class = Types::VolumeStatusItem
 
     VolumeStatusList.member = Shapes::ShapeRef.new(shape: VolumeStatusItem, location_name: "item")
@@ -25137,6 +25174,14 @@ module Aws::EC2
         )
       end)
 
+      api.add_operation(:get_managed_resource_visibility, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetManagedResourceVisibility"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetManagedResourceVisibilityRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetManagedResourceVisibilityResult)
+      end)
+
       api.add_operation(:get_network_insights_access_scope_analysis_findings, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetNetworkInsightsAccessScopeAnalysisFindings"
         o.http_method = "POST"
@@ -25791,6 +25836,14 @@ module Aws::EC2
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ModifyManagedPrefixListRequest)
         o.output = Shapes::ShapeRef.new(shape: ModifyManagedPrefixListResult)
+      end)
+
+      api.add_operation(:modify_managed_resource_visibility, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ModifyManagedResourceVisibility"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ModifyManagedResourceVisibilityRequest)
+        o.output = Shapes::ShapeRef.new(shape: ModifyManagedResourceVisibilityResult)
       end)
 
       api.add_operation(:modify_network_interface_attribute, Seahorse::Model::Operation.new.tap do |o|

@@ -171,7 +171,8 @@ module Aws
                                 },
                                 ?interactive_configuration: {
                                   studio_enabled: bool?,
-                                  livy_endpoint_enabled: bool?
+                                  livy_endpoint_enabled: bool?,
+                                  session_enabled: bool?
                                 },
                                 ?scheduler_configuration: {
                                   queue_timeout_minutes: ::Integer?,
@@ -231,6 +232,44 @@ module Aws
                        ) -> _GetJobRunResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetJobRunResponseSuccess
 
+      interface _GetResourceDashboardResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetResourceDashboardResponse]
+        def url: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EMRServerless/Client.html#get_resource_dashboard-instance_method
+      def get_resource_dashboard: (
+                                    application_id: ::String,
+                                    resource_id: ::String,
+                                    resource_type: ("SESSION")
+                                  ) -> _GetResourceDashboardResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetResourceDashboardResponseSuccess
+
+      interface _GetSessionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetSessionResponse]
+        def session: () -> Types::Session
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EMRServerless/Client.html#get_session-instance_method
+      def get_session: (
+                         application_id: ::String,
+                         session_id: ::String
+                       ) -> _GetSessionResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetSessionResponseSuccess
+
+      interface _GetSessionEndpointResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetSessionEndpointResponse]
+        def application_id: () -> ::String
+        def session_id: () -> ::String
+        def endpoint: () -> ::String
+        def auth_token: () -> ::String
+        def auth_token_expires_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EMRServerless/Client.html#get_session_endpoint-instance_method
+      def get_session_endpoint: (
+                                  application_id: ::String,
+                                  session_id: ::String
+                                ) -> _GetSessionEndpointResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetSessionEndpointResponseSuccess
+
       interface _ListApplicationsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListApplicationsResponse]
         def applications: () -> ::Array[Types::ApplicationSummary]
@@ -274,6 +313,22 @@ module Aws
                            ?mode: ("BATCH" | "STREAMING")
                          ) -> _ListJobRunsResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListJobRunsResponseSuccess
+
+      interface _ListSessionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListSessionsResponse]
+        def sessions: () -> ::Array[Types::SessionSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EMRServerless/Client.html#list_sessions-instance_method
+      def list_sessions: (
+                           application_id: ::String,
+                           ?next_token: ::String,
+                           ?max_results: ::Integer,
+                           ?states: Array[("SUBMITTED" | "STARTING" | "STARTED" | "IDLE" | "BUSY" | "FAILED" | "TERMINATING" | "TERMINATED")],
+                           ?created_at_after: ::Time,
+                           ?created_at_before: ::Time
+                         ) -> _ListSessionsResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListSessionsResponseSuccess
 
       interface _ListTagsForResourceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListTagsForResourceResponse]
@@ -365,6 +420,32 @@ module Aws
                          ) -> _StartJobRunResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartJobRunResponseSuccess
 
+      interface _StartSessionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StartSessionResponse]
+        def application_id: () -> ::String
+        def session_id: () -> ::String
+        def arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EMRServerless/Client.html#start_session-instance_method
+      def start_session: (
+                           application_id: ::String,
+                           client_token: ::String,
+                           execution_role_arn: ::String,
+                           ?configuration_overrides: {
+                             runtime_configuration: Array[
+                               {
+                                 classification: ::String,
+                                 properties: Hash[::String, ::String]?,
+                                 configurations: untyped?
+                               },
+                             ]?
+                           },
+                           ?tags: Hash[::String, ::String],
+                           ?idle_timeout_minutes: ::Integer,
+                           ?name: ::String
+                         ) -> _StartSessionResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartSessionResponseSuccess
+
       interface _StopApplicationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StopApplicationResponse]
       end
@@ -383,6 +464,18 @@ module Aws
                           tags: Hash[::String, ::String]
                         ) -> _TagResourceResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _TagResourceResponseSuccess
+
+      interface _TerminateSessionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::TerminateSessionResponse]
+        def application_id: () -> ::String
+        def session_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EMRServerless/Client.html#terminate_session-instance_method
+      def terminate_session: (
+                               application_id: ::String,
+                               session_id: ::String
+                             ) -> _TerminateSessionResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _TerminateSessionResponseSuccess
 
       interface _UntagResourceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UntagResourceResponse]
@@ -438,7 +531,8 @@ module Aws
                                   }],
                                 ?interactive_configuration: {
                                   studio_enabled: bool?,
-                                  livy_endpoint_enabled: bool?
+                                  livy_endpoint_enabled: bool?,
+                                  session_enabled: bool?
                                 },
                                 ?release_label: ::String,
                                 ?runtime_configuration: Array[

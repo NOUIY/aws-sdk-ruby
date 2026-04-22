@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.95.0 (2026-04-22)
+------------------
+
+* Feature - Adds support for RollbackServiceSoftwareUpdate API
+
 1.94.0 (2026-04-01)
 ------------------
 

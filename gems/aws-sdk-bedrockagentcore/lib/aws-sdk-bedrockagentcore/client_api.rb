@@ -23,6 +23,7 @@ module Aws::BedrockAgentCore
     AgentCard = Shapes::DocumentShape.new(name: 'AgentCard', document: true)
     AgentCardDefinition = Shapes::StructureShape.new(name: 'AgentCardDefinition')
     AgentSkillsDescriptor = Shapes::StructureShape.new(name: 'AgentSkillsDescriptor')
+    ApiKeyArn = Shapes::StringShape.new(name: 'ApiKeyArn')
     ApiKeyType = Shapes::StringShape.new(name: 'ApiKeyType')
     AuthorizationUrlType = Shapes::StringShape.new(name: 'AuthorizationUrlType')
     AutomationStream = Shapes::StructureShape.new(name: 'AutomationStream')
@@ -44,6 +45,7 @@ module Aws::BedrockAgentCore
     BrowserAction = Shapes::UnionShape.new(name: 'BrowserAction')
     BrowserActionResult = Shapes::UnionShape.new(name: 'BrowserActionResult')
     BrowserActionStatus = Shapes::StringShape.new(name: 'BrowserActionStatus')
+    BrowserArn = Shapes::StringShape.new(name: 'BrowserArn')
     BrowserEnterprisePolicies = Shapes::ListShape.new(name: 'BrowserEnterprisePolicies')
     BrowserEnterprisePolicy = Shapes::StructureShape.new(name: 'BrowserEnterprisePolicy')
     BrowserEnterprisePolicyType = Shapes::StringShape.new(name: 'BrowserEnterprisePolicyType')
@@ -62,6 +64,7 @@ module Aws::BedrockAgentCore
     CertificateLocation = Shapes::UnionShape.new(name: 'CertificateLocation')
     Certificates = Shapes::ListShape.new(name: 'Certificates')
     ClientToken = Shapes::StringShape.new(name: 'ClientToken')
+    CodeInterpreterArn = Shapes::StringShape.new(name: 'CodeInterpreterArn')
     CodeInterpreterResult = Shapes::StructureShape.new(name: 'CodeInterpreterResult')
     CodeInterpreterSessionId = Shapes::StringShape.new(name: 'CodeInterpreterSessionId')
     CodeInterpreterSessionStatus = Shapes::StringShape.new(name: 'CodeInterpreterSessionStatus')
@@ -138,6 +141,7 @@ module Aws::BedrockAgentCore
     ExtractionJobMetadataList = Shapes::ListShape.new(name: 'ExtractionJobMetadataList')
     ExtractionJobStatus = Shapes::StringShape.new(name: 'ExtractionJobStatus')
     FilterInput = Shapes::StructureShape.new(name: 'FilterInput')
+    GatewayArn = Shapes::StringShape.new(name: 'GatewayArn')
     GetAgentCardRequest = Shapes::StructureShape.new(name: 'GetAgentCardRequest')
     GetAgentCardResponse = Shapes::StructureShape.new(name: 'GetAgentCardResponse')
     GetBrowserSessionRequest = Shapes::StructureShape.new(name: 'GetBrowserSessionRequest')
@@ -158,7 +162,71 @@ module Aws::BedrockAgentCore
     GetWorkloadAccessTokenForUserIdResponse = Shapes::StructureShape.new(name: 'GetWorkloadAccessTokenForUserIdResponse')
     GetWorkloadAccessTokenRequest = Shapes::StructureShape.new(name: 'GetWorkloadAccessTokenRequest')
     GetWorkloadAccessTokenResponse = Shapes::StructureShape.new(name: 'GetWorkloadAccessTokenResponse')
+    HarnessAgentCoreBrowserConfig = Shapes::StructureShape.new(name: 'HarnessAgentCoreBrowserConfig')
+    HarnessAgentCoreCodeInterpreterConfig = Shapes::StructureShape.new(name: 'HarnessAgentCoreCodeInterpreterConfig')
+    HarnessAgentCoreGatewayConfig = Shapes::StructureShape.new(name: 'HarnessAgentCoreGatewayConfig')
+    HarnessAllowedTool = Shapes::StringShape.new(name: 'HarnessAllowedTool')
+    HarnessAllowedTools = Shapes::ListShape.new(name: 'HarnessAllowedTools')
+    HarnessArn = Shapes::StringShape.new(name: 'HarnessArn')
+    HarnessBedrockModelConfig = Shapes::StructureShape.new(name: 'HarnessBedrockModelConfig')
+    HarnessContentBlock = Shapes::UnionShape.new(name: 'HarnessContentBlock')
+    HarnessContentBlockDelta = Shapes::UnionShape.new(name: 'HarnessContentBlockDelta')
+    HarnessContentBlockDeltaEvent = Shapes::StructureShape.new(name: 'HarnessContentBlockDeltaEvent')
+    HarnessContentBlockStart = Shapes::UnionShape.new(name: 'HarnessContentBlockStart')
+    HarnessContentBlockStartEvent = Shapes::StructureShape.new(name: 'HarnessContentBlockStartEvent')
+    HarnessContentBlockStopEvent = Shapes::StructureShape.new(name: 'HarnessContentBlockStopEvent')
+    HarnessContentBlocks = Shapes::ListShape.new(name: 'HarnessContentBlocks')
+    HarnessConversationRole = Shapes::StringShape.new(name: 'HarnessConversationRole')
+    HarnessGatewayOutboundAuth = Shapes::UnionShape.new(name: 'HarnessGatewayOutboundAuth')
+    HarnessGeminiModelConfig = Shapes::StructureShape.new(name: 'HarnessGeminiModelConfig')
+    HarnessInlineFunctionConfig = Shapes::StructureShape.new(name: 'HarnessInlineFunctionConfig')
+    HarnessInlineFunctionDescription = Shapes::StringShape.new(name: 'HarnessInlineFunctionDescription')
+    HarnessMessage = Shapes::StructureShape.new(name: 'HarnessMessage')
+    HarnessMessageStartEvent = Shapes::StructureShape.new(name: 'HarnessMessageStartEvent')
+    HarnessMessageStopEvent = Shapes::StructureShape.new(name: 'HarnessMessageStopEvent')
+    HarnessMessages = Shapes::ListShape.new(name: 'HarnessMessages')
+    HarnessMetadataEvent = Shapes::StructureShape.new(name: 'HarnessMetadataEvent')
+    HarnessModelConfiguration = Shapes::UnionShape.new(name: 'HarnessModelConfiguration')
+    HarnessOpenAiModelConfig = Shapes::StructureShape.new(name: 'HarnessOpenAiModelConfig')
+    HarnessReasoningContentBlock = Shapes::UnionShape.new(name: 'HarnessReasoningContentBlock')
+    HarnessReasoningContentBlockDelta = Shapes::UnionShape.new(name: 'HarnessReasoningContentBlockDelta')
+    HarnessReasoningTextBlock = Shapes::StructureShape.new(name: 'HarnessReasoningTextBlock')
+    HarnessRemoteMcpConfig = Shapes::StructureShape.new(name: 'HarnessRemoteMcpConfig')
+    HarnessRemoteMcpUrl = Shapes::StringShape.new(name: 'HarnessRemoteMcpUrl')
+    HarnessSkill = Shapes::UnionShape.new(name: 'HarnessSkill')
+    HarnessSkillPath = Shapes::StringShape.new(name: 'HarnessSkillPath')
+    HarnessSkills = Shapes::ListShape.new(name: 'HarnessSkills')
+    HarnessStopReason = Shapes::StringShape.new(name: 'HarnessStopReason')
+    HarnessStreamMetrics = Shapes::StructureShape.new(name: 'HarnessStreamMetrics')
+    HarnessSystemContentBlock = Shapes::UnionShape.new(name: 'HarnessSystemContentBlock')
+    HarnessSystemPrompt = Shapes::ListShape.new(name: 'HarnessSystemPrompt')
+    HarnessTokenUsage = Shapes::StructureShape.new(name: 'HarnessTokenUsage')
+    HarnessTokenUsageCacheReadInputTokensInteger = Shapes::IntegerShape.new(name: 'HarnessTokenUsageCacheReadInputTokensInteger')
+    HarnessTokenUsageCacheWriteInputTokensInteger = Shapes::IntegerShape.new(name: 'HarnessTokenUsageCacheWriteInputTokensInteger')
+    HarnessTokenUsageInputTokensInteger = Shapes::IntegerShape.new(name: 'HarnessTokenUsageInputTokensInteger')
+    HarnessTokenUsageOutputTokensInteger = Shapes::IntegerShape.new(name: 'HarnessTokenUsageOutputTokensInteger')
+    HarnessTokenUsageTotalTokensInteger = Shapes::IntegerShape.new(name: 'HarnessTokenUsageTotalTokensInteger')
+    HarnessTool = Shapes::StructureShape.new(name: 'HarnessTool')
+    HarnessToolConfiguration = Shapes::UnionShape.new(name: 'HarnessToolConfiguration')
+    HarnessToolName = Shapes::StringShape.new(name: 'HarnessToolName')
+    HarnessToolResultBlock = Shapes::StructureShape.new(name: 'HarnessToolResultBlock')
+    HarnessToolResultBlockDelta = Shapes::UnionShape.new(name: 'HarnessToolResultBlockDelta')
+    HarnessToolResultBlockStart = Shapes::StructureShape.new(name: 'HarnessToolResultBlockStart')
+    HarnessToolResultBlocksDelta = Shapes::ListShape.new(name: 'HarnessToolResultBlocksDelta')
+    HarnessToolResultContentBlock = Shapes::UnionShape.new(name: 'HarnessToolResultContentBlock')
+    HarnessToolResultContentBlocks = Shapes::ListShape.new(name: 'HarnessToolResultContentBlocks')
+    HarnessToolType = Shapes::StringShape.new(name: 'HarnessToolType')
+    HarnessToolUseBlock = Shapes::StructureShape.new(name: 'HarnessToolUseBlock')
+    HarnessToolUseBlockDelta = Shapes::StructureShape.new(name: 'HarnessToolUseBlockDelta')
+    HarnessToolUseBlockStart = Shapes::StructureShape.new(name: 'HarnessToolUseBlockStart')
+    HarnessToolUseId = Shapes::StringShape.new(name: 'HarnessToolUseId')
+    HarnessToolUseStatus = Shapes::StringShape.new(name: 'HarnessToolUseStatus')
+    HarnessToolUseType = Shapes::StringShape.new(name: 'HarnessToolUseType')
+    HarnessTools = Shapes::ListShape.new(name: 'HarnessTools')
     HostName = Shapes::StringShape.new(name: 'HostName')
+    HttpHeaderKey = Shapes::StringShape.new(name: 'HttpHeaderKey')
+    HttpHeaderValue = Shapes::StringShape.new(name: 'HttpHeaderValue')
+    HttpHeadersMap = Shapes::MapShape.new(name: 'HttpHeadersMap')
     HttpResponseCode = Shapes::IntegerShape.new(name: 'HttpResponseCode')
     IgnoredReferenceInputField = Shapes::StringShape.new(name: 'IgnoredReferenceInputField')
     IgnoredReferenceInputFields = Shapes::ListShape.new(name: 'IgnoredReferenceInputFields')
@@ -191,6 +259,9 @@ module Aws::BedrockAgentCore
     InvokeCodeInterpreterRequestTraceIdString = Shapes::StringShape.new(name: 'InvokeCodeInterpreterRequestTraceIdString')
     InvokeCodeInterpreterRequestTraceParentString = Shapes::StringShape.new(name: 'InvokeCodeInterpreterRequestTraceParentString')
     InvokeCodeInterpreterResponse = Shapes::StructureShape.new(name: 'InvokeCodeInterpreterResponse')
+    InvokeHarnessRequest = Shapes::StructureShape.new(name: 'InvokeHarnessRequest')
+    InvokeHarnessResponse = Shapes::StructureShape.new(name: 'InvokeHarnessResponse')
+    InvokeHarnessStreamOutput = Shapes::StructureShape.new(name: 'InvokeHarnessStreamOutput')
     KeyList = Shapes::ListShape.new(name: 'KeyList')
     KeyPressArguments = Shapes::StructureShape.new(name: 'KeyPressArguments')
     KeyPressArgumentsPressesInteger = Shapes::IntegerShape.new(name: 'KeyPressArgumentsPressesInteger')
@@ -221,6 +292,7 @@ module Aws::BedrockAgentCore
     Long = Shapes::IntegerShape.new(name: 'Long')
     MaxLenString = Shapes::StringShape.new(name: 'MaxLenString')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
+    MaxTokens = Shapes::IntegerShape.new(name: 'MaxTokens')
     McpDescriptor = Shapes::StructureShape.new(name: 'McpDescriptor')
     MemoryContent = Shapes::UnionShape.new(name: 'MemoryContent')
     MemoryContentTextString = Shapes::StringShape.new(name: 'MemoryContentTextString')
@@ -249,6 +321,7 @@ module Aws::BedrockAgentCore
     MetadataValue = Shapes::UnionShape.new(name: 'MetadataValue')
     MetadataValueStringValueString = Shapes::StringShape.new(name: 'MetadataValueStringValueString')
     MimeType = Shapes::StringShape.new(name: 'MimeType')
+    ModelId = Shapes::StringShape.new(name: 'ModelId')
     MouseButton = Shapes::StringShape.new(name: 'MouseButton')
     MouseClickArguments = Shapes::StructureShape.new(name: 'MouseClickArguments')
     MouseClickArgumentsClickCountInteger = Shapes::IntegerShape.new(name: 'MouseClickArgumentsClickCountInteger')
@@ -266,6 +339,15 @@ module Aws::BedrockAgentCore
     NamespacesList = Shapes::ListShape.new(name: 'NamespacesList')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     NonBlankString = Shapes::StringShape.new(name: 'NonBlankString')
+    OAuthCredentialProvider = Shapes::StructureShape.new(name: 'OAuthCredentialProvider')
+    OAuthCredentialProviderArn = Shapes::StringShape.new(name: 'OAuthCredentialProviderArn')
+    OAuthCustomParameters = Shapes::MapShape.new(name: 'OAuthCustomParameters')
+    OAuthCustomParametersKey = Shapes::StringShape.new(name: 'OAuthCustomParametersKey')
+    OAuthCustomParametersValue = Shapes::StringShape.new(name: 'OAuthCustomParametersValue')
+    OAuthDefaultReturnUrl = Shapes::StringShape.new(name: 'OAuthDefaultReturnUrl')
+    OAuthGrantType = Shapes::StringShape.new(name: 'OAuthGrantType')
+    OAuthScope = Shapes::StringShape.new(name: 'OAuthScope')
+    OAuthScopes = Shapes::ListShape.new(name: 'OAuthScopes')
     Oauth2FlowType = Shapes::StringShape.new(name: 'Oauth2FlowType')
     OperatorType = Shapes::StringShape.new(name: 'OperatorType')
     PaginationToken = Shapes::StringShape.new(name: 'PaginationToken')
@@ -325,6 +407,8 @@ module Aws::BedrockAgentCore
     SearchRegistryRecordsResponse = Shapes::StructureShape.new(name: 'SearchRegistryRecordsResponse')
     SecretArn = Shapes::StringShape.new(name: 'SecretArn')
     SecretsManagerLocation = Shapes::StructureShape.new(name: 'SecretsManagerLocation')
+    SensitiveJson = Shapes::DocumentShape.new(name: 'SensitiveJson', document: true)
+    SensitiveText = Shapes::StringShape.new(name: 'SensitiveText')
     ServerDefinition = Shapes::StructureShape.new(name: 'ServerDefinition')
     ServiceException = Shapes::StructureShape.new(name: 'ServiceException')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
@@ -367,6 +451,7 @@ module Aws::BedrockAgentCore
     StringList = Shapes::ListShape.new(name: 'StringList')
     StringType = Shapes::StringShape.new(name: 'StringType')
     TaskStatus = Shapes::StringShape.new(name: 'TaskStatus')
+    Temperature = Shapes::FloatShape.new(name: 'Temperature')
     ThrottledException = Shapes::StructureShape.new(name: 'ThrottledException')
     ThrottlingException = Shapes::StructureShape.new(name: 'ThrottlingException')
     Timestamp = Shapes::TimestampShape.new(name: 'Timestamp')
@@ -375,9 +460,12 @@ module Aws::BedrockAgentCore
     ToolName = Shapes::StringShape.new(name: 'ToolName')
     ToolResultStructuredContent = Shapes::StructureShape.new(name: 'ToolResultStructuredContent')
     ToolsDefinition = Shapes::StructureShape.new(name: 'ToolsDefinition')
+    TopK = Shapes::IntegerShape.new(name: 'TopK')
+    TopP = Shapes::FloatShape.new(name: 'TopP')
     TraceId = Shapes::StringShape.new(name: 'TraceId')
     TraceIds = Shapes::ListShape.new(name: 'TraceIds')
     UnauthorizedException = Shapes::StructureShape.new(name: 'UnauthorizedException')
+    Unit = Shapes::StructureShape.new(name: 'Unit')
     UpdateBrowserStreamRequest = Shapes::StructureShape.new(name: 'UpdateBrowserStreamRequest')
     UpdateBrowserStreamResponse = Shapes::StructureShape.new(name: 'UpdateBrowserStreamResponse')
     UserIdType = Shapes::StringShape.new(name: 'UserIdType')
@@ -873,6 +961,246 @@ module Aws::BedrockAgentCore
     GetWorkloadAccessTokenResponse.add_member(:workload_access_token, Shapes::ShapeRef.new(shape: WorkloadIdentityTokenType, required: true, location_name: "workloadAccessToken"))
     GetWorkloadAccessTokenResponse.struct_class = Types::GetWorkloadAccessTokenResponse
 
+    HarnessAgentCoreBrowserConfig.add_member(:browser_arn, Shapes::ShapeRef.new(shape: BrowserArn, location_name: "browserArn"))
+    HarnessAgentCoreBrowserConfig.struct_class = Types::HarnessAgentCoreBrowserConfig
+
+    HarnessAgentCoreCodeInterpreterConfig.add_member(:code_interpreter_arn, Shapes::ShapeRef.new(shape: CodeInterpreterArn, location_name: "codeInterpreterArn"))
+    HarnessAgentCoreCodeInterpreterConfig.struct_class = Types::HarnessAgentCoreCodeInterpreterConfig
+
+    HarnessAgentCoreGatewayConfig.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayArn, required: true, location_name: "gatewayArn"))
+    HarnessAgentCoreGatewayConfig.add_member(:outbound_auth, Shapes::ShapeRef.new(shape: HarnessGatewayOutboundAuth, location_name: "outboundAuth"))
+    HarnessAgentCoreGatewayConfig.struct_class = Types::HarnessAgentCoreGatewayConfig
+
+    HarnessAllowedTools.member = Shapes::ShapeRef.new(shape: HarnessAllowedTool)
+
+    HarnessBedrockModelConfig.add_member(:model_id, Shapes::ShapeRef.new(shape: ModelId, required: true, location_name: "modelId"))
+    HarnessBedrockModelConfig.add_member(:max_tokens, Shapes::ShapeRef.new(shape: MaxTokens, location_name: "maxTokens"))
+    HarnessBedrockModelConfig.add_member(:temperature, Shapes::ShapeRef.new(shape: Temperature, location_name: "temperature"))
+    HarnessBedrockModelConfig.add_member(:top_p, Shapes::ShapeRef.new(shape: TopP, location_name: "topP"))
+    HarnessBedrockModelConfig.struct_class = Types::HarnessBedrockModelConfig
+
+    HarnessContentBlock.add_member(:text, Shapes::ShapeRef.new(shape: SensitiveText, location_name: "text"))
+    HarnessContentBlock.add_member(:tool_use, Shapes::ShapeRef.new(shape: HarnessToolUseBlock, location_name: "toolUse"))
+    HarnessContentBlock.add_member(:tool_result, Shapes::ShapeRef.new(shape: HarnessToolResultBlock, location_name: "toolResult"))
+    HarnessContentBlock.add_member(:reasoning_content, Shapes::ShapeRef.new(shape: HarnessReasoningContentBlock, location_name: "reasoningContent"))
+    HarnessContentBlock.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    HarnessContentBlock.add_member_subclass(:text, Types::HarnessContentBlock::Text)
+    HarnessContentBlock.add_member_subclass(:tool_use, Types::HarnessContentBlock::ToolUse)
+    HarnessContentBlock.add_member_subclass(:tool_result, Types::HarnessContentBlock::ToolResult)
+    HarnessContentBlock.add_member_subclass(:reasoning_content, Types::HarnessContentBlock::ReasoningContent)
+    HarnessContentBlock.add_member_subclass(:unknown, Types::HarnessContentBlock::Unknown)
+    HarnessContentBlock.struct_class = Types::HarnessContentBlock
+
+    HarnessContentBlockDelta.add_member(:text, Shapes::ShapeRef.new(shape: SensitiveText, location_name: "text"))
+    HarnessContentBlockDelta.add_member(:tool_use, Shapes::ShapeRef.new(shape: HarnessToolUseBlockDelta, location_name: "toolUse"))
+    HarnessContentBlockDelta.add_member(:tool_result, Shapes::ShapeRef.new(shape: HarnessToolResultBlocksDelta, location_name: "toolResult"))
+    HarnessContentBlockDelta.add_member(:reasoning_content, Shapes::ShapeRef.new(shape: HarnessReasoningContentBlockDelta, location_name: "reasoningContent"))
+    HarnessContentBlockDelta.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    HarnessContentBlockDelta.add_member_subclass(:text, Types::HarnessContentBlockDelta::Text)
+    HarnessContentBlockDelta.add_member_subclass(:tool_use, Types::HarnessContentBlockDelta::ToolUse)
+    HarnessContentBlockDelta.add_member_subclass(:tool_result, Types::HarnessContentBlockDelta::ToolResult)
+    HarnessContentBlockDelta.add_member_subclass(:reasoning_content, Types::HarnessContentBlockDelta::ReasoningContent)
+    HarnessContentBlockDelta.add_member_subclass(:unknown, Types::HarnessContentBlockDelta::Unknown)
+    HarnessContentBlockDelta.struct_class = Types::HarnessContentBlockDelta
+
+    HarnessContentBlockDeltaEvent.add_member(:content_block_index, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "contentBlockIndex"))
+    HarnessContentBlockDeltaEvent.add_member(:delta, Shapes::ShapeRef.new(shape: HarnessContentBlockDelta, required: true, location_name: "delta"))
+    HarnessContentBlockDeltaEvent.struct_class = Types::HarnessContentBlockDeltaEvent
+
+    HarnessContentBlockStart.add_member(:tool_use, Shapes::ShapeRef.new(shape: HarnessToolUseBlockStart, location_name: "toolUse"))
+    HarnessContentBlockStart.add_member(:tool_result, Shapes::ShapeRef.new(shape: HarnessToolResultBlockStart, location_name: "toolResult"))
+    HarnessContentBlockStart.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    HarnessContentBlockStart.add_member_subclass(:tool_use, Types::HarnessContentBlockStart::ToolUse)
+    HarnessContentBlockStart.add_member_subclass(:tool_result, Types::HarnessContentBlockStart::ToolResult)
+    HarnessContentBlockStart.add_member_subclass(:unknown, Types::HarnessContentBlockStart::Unknown)
+    HarnessContentBlockStart.struct_class = Types::HarnessContentBlockStart
+
+    HarnessContentBlockStartEvent.add_member(:content_block_index, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "contentBlockIndex"))
+    HarnessContentBlockStartEvent.add_member(:start, Shapes::ShapeRef.new(shape: HarnessContentBlockStart, required: true, location_name: "start"))
+    HarnessContentBlockStartEvent.struct_class = Types::HarnessContentBlockStartEvent
+
+    HarnessContentBlockStopEvent.add_member(:content_block_index, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "contentBlockIndex"))
+    HarnessContentBlockStopEvent.struct_class = Types::HarnessContentBlockStopEvent
+
+    HarnessContentBlocks.member = Shapes::ShapeRef.new(shape: HarnessContentBlock)
+
+    HarnessGatewayOutboundAuth.add_member(:aws_iam, Shapes::ShapeRef.new(shape: Unit, location_name: "awsIam"))
+    HarnessGatewayOutboundAuth.add_member(:none, Shapes::ShapeRef.new(shape: Unit, location_name: "none"))
+    HarnessGatewayOutboundAuth.add_member(:oauth, Shapes::ShapeRef.new(shape: OAuthCredentialProvider, location_name: "oauth"))
+    HarnessGatewayOutboundAuth.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    HarnessGatewayOutboundAuth.add_member_subclass(:aws_iam, Types::HarnessGatewayOutboundAuth::AwsIam)
+    HarnessGatewayOutboundAuth.add_member_subclass(:none, Types::HarnessGatewayOutboundAuth::None)
+    HarnessGatewayOutboundAuth.add_member_subclass(:oauth, Types::HarnessGatewayOutboundAuth::Oauth)
+    HarnessGatewayOutboundAuth.add_member_subclass(:unknown, Types::HarnessGatewayOutboundAuth::Unknown)
+    HarnessGatewayOutboundAuth.struct_class = Types::HarnessGatewayOutboundAuth
+
+    HarnessGeminiModelConfig.add_member(:model_id, Shapes::ShapeRef.new(shape: ModelId, required: true, location_name: "modelId"))
+    HarnessGeminiModelConfig.add_member(:api_key_arn, Shapes::ShapeRef.new(shape: ApiKeyArn, required: true, location_name: "apiKeyArn"))
+    HarnessGeminiModelConfig.add_member(:max_tokens, Shapes::ShapeRef.new(shape: MaxTokens, location_name: "maxTokens"))
+    HarnessGeminiModelConfig.add_member(:temperature, Shapes::ShapeRef.new(shape: Temperature, location_name: "temperature"))
+    HarnessGeminiModelConfig.add_member(:top_p, Shapes::ShapeRef.new(shape: TopP, location_name: "topP"))
+    HarnessGeminiModelConfig.add_member(:top_k, Shapes::ShapeRef.new(shape: TopK, location_name: "topK"))
+    HarnessGeminiModelConfig.struct_class = Types::HarnessGeminiModelConfig
+
+    HarnessInlineFunctionConfig.add_member(:description, Shapes::ShapeRef.new(shape: HarnessInlineFunctionDescription, required: true, location_name: "description"))
+    HarnessInlineFunctionConfig.add_member(:input_schema, Shapes::ShapeRef.new(shape: SensitiveJson, required: true, location_name: "inputSchema"))
+    HarnessInlineFunctionConfig.struct_class = Types::HarnessInlineFunctionConfig
+
+    HarnessMessage.add_member(:role, Shapes::ShapeRef.new(shape: HarnessConversationRole, required: true, location_name: "role"))
+    HarnessMessage.add_member(:content, Shapes::ShapeRef.new(shape: HarnessContentBlocks, required: true, location_name: "content"))
+    HarnessMessage.struct_class = Types::HarnessMessage
+
+    HarnessMessageStartEvent.add_member(:role, Shapes::ShapeRef.new(shape: HarnessConversationRole, required: true, location_name: "role"))
+    HarnessMessageStartEvent.struct_class = Types::HarnessMessageStartEvent
+
+    HarnessMessageStopEvent.add_member(:stop_reason, Shapes::ShapeRef.new(shape: HarnessStopReason, required: true, location_name: "stopReason"))
+    HarnessMessageStopEvent.struct_class = Types::HarnessMessageStopEvent
+
+    HarnessMessages.member = Shapes::ShapeRef.new(shape: HarnessMessage)
+
+    HarnessMetadataEvent.add_member(:usage, Shapes::ShapeRef.new(shape: HarnessTokenUsage, required: true, location_name: "usage"))
+    HarnessMetadataEvent.add_member(:metrics, Shapes::ShapeRef.new(shape: HarnessStreamMetrics, required: true, location_name: "metrics"))
+    HarnessMetadataEvent.struct_class = Types::HarnessMetadataEvent
+
+    HarnessModelConfiguration.add_member(:bedrock_model_config, Shapes::ShapeRef.new(shape: HarnessBedrockModelConfig, location_name: "bedrockModelConfig"))
+    HarnessModelConfiguration.add_member(:open_ai_model_config, Shapes::ShapeRef.new(shape: HarnessOpenAiModelConfig, location_name: "openAiModelConfig"))
+    HarnessModelConfiguration.add_member(:gemini_model_config, Shapes::ShapeRef.new(shape: HarnessGeminiModelConfig, location_name: "geminiModelConfig"))
+    HarnessModelConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    HarnessModelConfiguration.add_member_subclass(:bedrock_model_config, Types::HarnessModelConfiguration::BedrockModelConfig)
+    HarnessModelConfiguration.add_member_subclass(:open_ai_model_config, Types::HarnessModelConfiguration::OpenAiModelConfig)
+    HarnessModelConfiguration.add_member_subclass(:gemini_model_config, Types::HarnessModelConfiguration::GeminiModelConfig)
+    HarnessModelConfiguration.add_member_subclass(:unknown, Types::HarnessModelConfiguration::Unknown)
+    HarnessModelConfiguration.struct_class = Types::HarnessModelConfiguration
+
+    HarnessOpenAiModelConfig.add_member(:model_id, Shapes::ShapeRef.new(shape: ModelId, required: true, location_name: "modelId"))
+    HarnessOpenAiModelConfig.add_member(:api_key_arn, Shapes::ShapeRef.new(shape: ApiKeyArn, required: true, location_name: "apiKeyArn"))
+    HarnessOpenAiModelConfig.add_member(:max_tokens, Shapes::ShapeRef.new(shape: MaxTokens, location_name: "maxTokens"))
+    HarnessOpenAiModelConfig.add_member(:temperature, Shapes::ShapeRef.new(shape: Temperature, location_name: "temperature"))
+    HarnessOpenAiModelConfig.add_member(:top_p, Shapes::ShapeRef.new(shape: TopP, location_name: "topP"))
+    HarnessOpenAiModelConfig.struct_class = Types::HarnessOpenAiModelConfig
+
+    HarnessReasoningContentBlock.add_member(:reasoning_text, Shapes::ShapeRef.new(shape: HarnessReasoningTextBlock, location_name: "reasoningText"))
+    HarnessReasoningContentBlock.add_member(:redacted_content, Shapes::ShapeRef.new(shape: Blob, location_name: "redactedContent"))
+    HarnessReasoningContentBlock.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    HarnessReasoningContentBlock.add_member_subclass(:reasoning_text, Types::HarnessReasoningContentBlock::ReasoningText)
+    HarnessReasoningContentBlock.add_member_subclass(:redacted_content, Types::HarnessReasoningContentBlock::RedactedContent)
+    HarnessReasoningContentBlock.add_member_subclass(:unknown, Types::HarnessReasoningContentBlock::Unknown)
+    HarnessReasoningContentBlock.struct_class = Types::HarnessReasoningContentBlock
+
+    HarnessReasoningContentBlockDelta.add_member(:text, Shapes::ShapeRef.new(shape: String, location_name: "text"))
+    HarnessReasoningContentBlockDelta.add_member(:redacted_content, Shapes::ShapeRef.new(shape: Body, location_name: "redactedContent"))
+    HarnessReasoningContentBlockDelta.add_member(:signature, Shapes::ShapeRef.new(shape: String, location_name: "signature"))
+    HarnessReasoningContentBlockDelta.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    HarnessReasoningContentBlockDelta.add_member_subclass(:text, Types::HarnessReasoningContentBlockDelta::Text)
+    HarnessReasoningContentBlockDelta.add_member_subclass(:redacted_content, Types::HarnessReasoningContentBlockDelta::RedactedContent)
+    HarnessReasoningContentBlockDelta.add_member_subclass(:signature, Types::HarnessReasoningContentBlockDelta::Signature)
+    HarnessReasoningContentBlockDelta.add_member_subclass(:unknown, Types::HarnessReasoningContentBlockDelta::Unknown)
+    HarnessReasoningContentBlockDelta.struct_class = Types::HarnessReasoningContentBlockDelta
+
+    HarnessReasoningTextBlock.add_member(:text, Shapes::ShapeRef.new(shape: String, required: true, location_name: "text"))
+    HarnessReasoningTextBlock.add_member(:signature, Shapes::ShapeRef.new(shape: String, location_name: "signature"))
+    HarnessReasoningTextBlock.struct_class = Types::HarnessReasoningTextBlock
+
+    HarnessRemoteMcpConfig.add_member(:url, Shapes::ShapeRef.new(shape: HarnessRemoteMcpUrl, required: true, location_name: "url"))
+    HarnessRemoteMcpConfig.add_member(:headers, Shapes::ShapeRef.new(shape: HttpHeadersMap, location_name: "headers"))
+    HarnessRemoteMcpConfig.struct_class = Types::HarnessRemoteMcpConfig
+
+    HarnessSkill.add_member(:path, Shapes::ShapeRef.new(shape: HarnessSkillPath, location_name: "path"))
+    HarnessSkill.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    HarnessSkill.add_member_subclass(:path, Types::HarnessSkill::Path)
+    HarnessSkill.add_member_subclass(:unknown, Types::HarnessSkill::Unknown)
+    HarnessSkill.struct_class = Types::HarnessSkill
+
+    HarnessSkills.member = Shapes::ShapeRef.new(shape: HarnessSkill)
+
+    HarnessStreamMetrics.add_member(:latency_ms, Shapes::ShapeRef.new(shape: Long, required: true, location_name: "latencyMs"))
+    HarnessStreamMetrics.struct_class = Types::HarnessStreamMetrics
+
+    HarnessSystemContentBlock.add_member(:text, Shapes::ShapeRef.new(shape: SensitiveText, location_name: "text"))
+    HarnessSystemContentBlock.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    HarnessSystemContentBlock.add_member_subclass(:text, Types::HarnessSystemContentBlock::Text)
+    HarnessSystemContentBlock.add_member_subclass(:unknown, Types::HarnessSystemContentBlock::Unknown)
+    HarnessSystemContentBlock.struct_class = Types::HarnessSystemContentBlock
+
+    HarnessSystemPrompt.member = Shapes::ShapeRef.new(shape: HarnessSystemContentBlock)
+
+    HarnessTokenUsage.add_member(:input_tokens, Shapes::ShapeRef.new(shape: HarnessTokenUsageInputTokensInteger, required: true, location_name: "inputTokens"))
+    HarnessTokenUsage.add_member(:output_tokens, Shapes::ShapeRef.new(shape: HarnessTokenUsageOutputTokensInteger, required: true, location_name: "outputTokens"))
+    HarnessTokenUsage.add_member(:total_tokens, Shapes::ShapeRef.new(shape: HarnessTokenUsageTotalTokensInteger, required: true, location_name: "totalTokens"))
+    HarnessTokenUsage.add_member(:cache_read_input_tokens, Shapes::ShapeRef.new(shape: HarnessTokenUsageCacheReadInputTokensInteger, location_name: "cacheReadInputTokens"))
+    HarnessTokenUsage.add_member(:cache_write_input_tokens, Shapes::ShapeRef.new(shape: HarnessTokenUsageCacheWriteInputTokensInteger, location_name: "cacheWriteInputTokens"))
+    HarnessTokenUsage.struct_class = Types::HarnessTokenUsage
+
+    HarnessTool.add_member(:type, Shapes::ShapeRef.new(shape: HarnessToolType, required: true, location_name: "type"))
+    HarnessTool.add_member(:name, Shapes::ShapeRef.new(shape: HarnessToolName, location_name: "name"))
+    HarnessTool.add_member(:config, Shapes::ShapeRef.new(shape: HarnessToolConfiguration, location_name: "config"))
+    HarnessTool.struct_class = Types::HarnessTool
+
+    HarnessToolConfiguration.add_member(:remote_mcp, Shapes::ShapeRef.new(shape: HarnessRemoteMcpConfig, location_name: "remoteMcp"))
+    HarnessToolConfiguration.add_member(:agent_core_browser, Shapes::ShapeRef.new(shape: HarnessAgentCoreBrowserConfig, location_name: "agentCoreBrowser"))
+    HarnessToolConfiguration.add_member(:agent_core_gateway, Shapes::ShapeRef.new(shape: HarnessAgentCoreGatewayConfig, location_name: "agentCoreGateway"))
+    HarnessToolConfiguration.add_member(:inline_function, Shapes::ShapeRef.new(shape: HarnessInlineFunctionConfig, location_name: "inlineFunction"))
+    HarnessToolConfiguration.add_member(:agent_core_code_interpreter, Shapes::ShapeRef.new(shape: HarnessAgentCoreCodeInterpreterConfig, location_name: "agentCoreCodeInterpreter"))
+    HarnessToolConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    HarnessToolConfiguration.add_member_subclass(:remote_mcp, Types::HarnessToolConfiguration::RemoteMcp)
+    HarnessToolConfiguration.add_member_subclass(:agent_core_browser, Types::HarnessToolConfiguration::AgentCoreBrowser)
+    HarnessToolConfiguration.add_member_subclass(:agent_core_gateway, Types::HarnessToolConfiguration::AgentCoreGateway)
+    HarnessToolConfiguration.add_member_subclass(:inline_function, Types::HarnessToolConfiguration::InlineFunction)
+    HarnessToolConfiguration.add_member_subclass(:agent_core_code_interpreter, Types::HarnessToolConfiguration::AgentCoreCodeInterpreter)
+    HarnessToolConfiguration.add_member_subclass(:unknown, Types::HarnessToolConfiguration::Unknown)
+    HarnessToolConfiguration.struct_class = Types::HarnessToolConfiguration
+
+    HarnessToolResultBlock.add_member(:tool_use_id, Shapes::ShapeRef.new(shape: HarnessToolUseId, required: true, location_name: "toolUseId"))
+    HarnessToolResultBlock.add_member(:content, Shapes::ShapeRef.new(shape: HarnessToolResultContentBlocks, required: true, location_name: "content"))
+    HarnessToolResultBlock.add_member(:status, Shapes::ShapeRef.new(shape: HarnessToolUseStatus, location_name: "status"))
+    HarnessToolResultBlock.add_member(:type, Shapes::ShapeRef.new(shape: HarnessToolUseType, location_name: "type"))
+    HarnessToolResultBlock.struct_class = Types::HarnessToolResultBlock
+
+    HarnessToolResultBlockDelta.add_member(:text, Shapes::ShapeRef.new(shape: SensitiveText, location_name: "text"))
+    HarnessToolResultBlockDelta.add_member(:json, Shapes::ShapeRef.new(shape: SensitiveJson, location_name: "json"))
+    HarnessToolResultBlockDelta.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    HarnessToolResultBlockDelta.add_member_subclass(:text, Types::HarnessToolResultBlockDelta::Text)
+    HarnessToolResultBlockDelta.add_member_subclass(:json, Types::HarnessToolResultBlockDelta::Json)
+    HarnessToolResultBlockDelta.add_member_subclass(:unknown, Types::HarnessToolResultBlockDelta::Unknown)
+    HarnessToolResultBlockDelta.struct_class = Types::HarnessToolResultBlockDelta
+
+    HarnessToolResultBlockStart.add_member(:tool_use_id, Shapes::ShapeRef.new(shape: HarnessToolUseId, required: true, location_name: "toolUseId"))
+    HarnessToolResultBlockStart.add_member(:status, Shapes::ShapeRef.new(shape: HarnessToolUseStatus, location_name: "status"))
+    HarnessToolResultBlockStart.struct_class = Types::HarnessToolResultBlockStart
+
+    HarnessToolResultBlocksDelta.member = Shapes::ShapeRef.new(shape: HarnessToolResultBlockDelta)
+
+    HarnessToolResultContentBlock.add_member(:text, Shapes::ShapeRef.new(shape: SensitiveText, location_name: "text"))
+    HarnessToolResultContentBlock.add_member(:json, Shapes::ShapeRef.new(shape: SensitiveJson, location_name: "json"))
+    HarnessToolResultContentBlock.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    HarnessToolResultContentBlock.add_member_subclass(:text, Types::HarnessToolResultContentBlock::Text)
+    HarnessToolResultContentBlock.add_member_subclass(:json, Types::HarnessToolResultContentBlock::Json)
+    HarnessToolResultContentBlock.add_member_subclass(:unknown, Types::HarnessToolResultContentBlock::Unknown)
+    HarnessToolResultContentBlock.struct_class = Types::HarnessToolResultContentBlock
+
+    HarnessToolResultContentBlocks.member = Shapes::ShapeRef.new(shape: HarnessToolResultContentBlock)
+
+    HarnessToolUseBlock.add_member(:name, Shapes::ShapeRef.new(shape: HarnessToolName, required: true, location_name: "name"))
+    HarnessToolUseBlock.add_member(:tool_use_id, Shapes::ShapeRef.new(shape: HarnessToolUseId, required: true, location_name: "toolUseId"))
+    HarnessToolUseBlock.add_member(:input, Shapes::ShapeRef.new(shape: SensitiveJson, required: true, location_name: "input"))
+    HarnessToolUseBlock.add_member(:type, Shapes::ShapeRef.new(shape: HarnessToolUseType, location_name: "type"))
+    HarnessToolUseBlock.add_member(:server_name, Shapes::ShapeRef.new(shape: String, location_name: "serverName"))
+    HarnessToolUseBlock.struct_class = Types::HarnessToolUseBlock
+
+    HarnessToolUseBlockDelta.add_member(:input, Shapes::ShapeRef.new(shape: SensitiveText, required: true, location_name: "input"))
+    HarnessToolUseBlockDelta.struct_class = Types::HarnessToolUseBlockDelta
+
+    HarnessToolUseBlockStart.add_member(:tool_use_id, Shapes::ShapeRef.new(shape: HarnessToolUseId, required: true, location_name: "toolUseId"))
+    HarnessToolUseBlockStart.add_member(:name, Shapes::ShapeRef.new(shape: HarnessToolName, required: true, location_name: "name"))
+    HarnessToolUseBlockStart.add_member(:type, Shapes::ShapeRef.new(shape: HarnessToolUseType, location_name: "type"))
+    HarnessToolUseBlockStart.add_member(:server_name, Shapes::ShapeRef.new(shape: String, location_name: "serverName"))
+    HarnessToolUseBlockStart.struct_class = Types::HarnessToolUseBlockStart
+
+    HarnessTools.member = Shapes::ShapeRef.new(shape: HarnessTool)
+
+    HttpHeadersMap.key = Shapes::ShapeRef.new(shape: HttpHeaderKey)
+    HttpHeadersMap.value = Shapes::ShapeRef.new(shape: HttpHeaderValue)
+
     IgnoredReferenceInputFields.member = Shapes::ShapeRef.new(shape: IgnoredReferenceInputField)
 
     InputContentBlock.add_member(:path, Shapes::ShapeRef.new(shape: MaxLenString, required: true, location_name: "path"))
@@ -983,6 +1311,36 @@ module Aws::BedrockAgentCore
     InvokeCodeInterpreterResponse.struct_class = Types::InvokeCodeInterpreterResponse
     InvokeCodeInterpreterResponse[:payload] = :stream
     InvokeCodeInterpreterResponse[:payload_member] = InvokeCodeInterpreterResponse.member(:stream)
+
+    InvokeHarnessRequest.add_member(:harness_arn, Shapes::ShapeRef.new(shape: HarnessArn, required: true, location: "querystring", location_name: "harnessArn"))
+    InvokeHarnessRequest.add_member(:runtime_session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location: "header", location_name: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"))
+    InvokeHarnessRequest.add_member(:messages, Shapes::ShapeRef.new(shape: HarnessMessages, required: true, location_name: "messages"))
+    InvokeHarnessRequest.add_member(:model, Shapes::ShapeRef.new(shape: HarnessModelConfiguration, location_name: "model"))
+    InvokeHarnessRequest.add_member(:system_prompt, Shapes::ShapeRef.new(shape: HarnessSystemPrompt, location_name: "systemPrompt"))
+    InvokeHarnessRequest.add_member(:tools, Shapes::ShapeRef.new(shape: HarnessTools, location_name: "tools"))
+    InvokeHarnessRequest.add_member(:skills, Shapes::ShapeRef.new(shape: HarnessSkills, location_name: "skills"))
+    InvokeHarnessRequest.add_member(:allowed_tools, Shapes::ShapeRef.new(shape: HarnessAllowedTools, location_name: "allowedTools"))
+    InvokeHarnessRequest.add_member(:max_iterations, Shapes::ShapeRef.new(shape: Integer, location_name: "maxIterations"))
+    InvokeHarnessRequest.add_member(:max_tokens, Shapes::ShapeRef.new(shape: Integer, location_name: "maxTokens"))
+    InvokeHarnessRequest.add_member(:timeout_seconds, Shapes::ShapeRef.new(shape: Integer, location_name: "timeoutSeconds"))
+    InvokeHarnessRequest.add_member(:actor_id, Shapes::ShapeRef.new(shape: String, location_name: "actorId"))
+    InvokeHarnessRequest.struct_class = Types::InvokeHarnessRequest
+
+    InvokeHarnessResponse.add_member(:stream, Shapes::ShapeRef.new(shape: InvokeHarnessStreamOutput, required: true, eventstream: true, location_name: "stream"))
+    InvokeHarnessResponse.struct_class = Types::InvokeHarnessResponse
+    InvokeHarnessResponse[:payload] = :stream
+    InvokeHarnessResponse[:payload_member] = InvokeHarnessResponse.member(:stream)
+
+    InvokeHarnessStreamOutput.add_member(:message_start, Shapes::ShapeRef.new(shape: HarnessMessageStartEvent, event: true, location_name: "messageStart"))
+    InvokeHarnessStreamOutput.add_member(:content_block_start, Shapes::ShapeRef.new(shape: HarnessContentBlockStartEvent, event: true, location_name: "contentBlockStart"))
+    InvokeHarnessStreamOutput.add_member(:content_block_delta, Shapes::ShapeRef.new(shape: HarnessContentBlockDeltaEvent, event: true, location_name: "contentBlockDelta"))
+    InvokeHarnessStreamOutput.add_member(:content_block_stop, Shapes::ShapeRef.new(shape: HarnessContentBlockStopEvent, event: true, location_name: "contentBlockStop"))
+    InvokeHarnessStreamOutput.add_member(:message_stop, Shapes::ShapeRef.new(shape: HarnessMessageStopEvent, event: true, location_name: "messageStop"))
+    InvokeHarnessStreamOutput.add_member(:metadata, Shapes::ShapeRef.new(shape: HarnessMetadataEvent, event: true, location_name: "metadata"))
+    InvokeHarnessStreamOutput.add_member(:internal_server_exception, Shapes::ShapeRef.new(shape: InternalServerException, location_name: "internalServerException"))
+    InvokeHarnessStreamOutput.add_member(:validation_exception, Shapes::ShapeRef.new(shape: ValidationException, location_name: "validationException"))
+    InvokeHarnessStreamOutput.add_member(:runtime_client_error, Shapes::ShapeRef.new(shape: RuntimeClientError, location_name: "runtimeClientError"))
+    InvokeHarnessStreamOutput.struct_class = Types::InvokeHarnessStreamOutput
 
     KeyList.member = Shapes::ShapeRef.new(shape: String)
 
@@ -1215,6 +1573,18 @@ module Aws::BedrockAgentCore
     MouseScrollResult.struct_class = Types::MouseScrollResult
 
     NamespacesList.member = Shapes::ShapeRef.new(shape: Namespace)
+
+    OAuthCredentialProvider.add_member(:provider_arn, Shapes::ShapeRef.new(shape: OAuthCredentialProviderArn, required: true, location_name: "providerArn"))
+    OAuthCredentialProvider.add_member(:scopes, Shapes::ShapeRef.new(shape: OAuthScopes, required: true, location_name: "scopes"))
+    OAuthCredentialProvider.add_member(:custom_parameters, Shapes::ShapeRef.new(shape: OAuthCustomParameters, location_name: "customParameters"))
+    OAuthCredentialProvider.add_member(:grant_type, Shapes::ShapeRef.new(shape: OAuthGrantType, location_name: "grantType"))
+    OAuthCredentialProvider.add_member(:default_return_url, Shapes::ShapeRef.new(shape: OAuthDefaultReturnUrl, location_name: "defaultReturnUrl"))
+    OAuthCredentialProvider.struct_class = Types::OAuthCredentialProvider
+
+    OAuthCustomParameters.key = Shapes::ShapeRef.new(shape: OAuthCustomParametersKey)
+    OAuthCustomParameters.value = Shapes::ShapeRef.new(shape: OAuthCustomParametersValue)
+
+    OAuthScopes.member = Shapes::ShapeRef.new(shape: OAuthScope)
 
     PayloadType.add_member(:conversational, Shapes::ShapeRef.new(shape: Conversational, location_name: "conversational"))
     PayloadType.add_member(:blob, Shapes::ShapeRef.new(shape: Document, location_name: "blob"))
@@ -1515,6 +1885,8 @@ module Aws::BedrockAgentCore
 
     UnauthorizedException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     UnauthorizedException.struct_class = Types::UnauthorizedException
+
+    Unit.struct_class = Types::Unit
 
     UpdateBrowserStreamRequest.add_member(:browser_identifier, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "browserIdentifier"))
     UpdateBrowserStreamRequest.add_member(:session_id, Shapes::ShapeRef.new(shape: BrowserSessionId, required: true, location: "querystring", location_name: "sessionId"))
@@ -1883,6 +2255,19 @@ module Aws::BedrockAgentCore
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:invoke_harness, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "InvokeHarness"
+        o.http_method = "POST"
+        o.http_request_uri = "/harnesses/invoke"
+        o.input = Shapes::ShapeRef.new(shape: InvokeHarnessRequest)
+        o.output = Shapes::ShapeRef.new(shape: InvokeHarnessResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)

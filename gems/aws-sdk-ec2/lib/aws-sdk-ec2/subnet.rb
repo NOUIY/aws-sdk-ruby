@@ -1198,6 +1198,7 @@ module Aws::EC2
     #
     #   instances = subnet.instances({
     #     instance_ids: ["InstanceId"],
+    #     include_managed_resources: false,
     #     dry_run: false,
     #     filters: [
     #       {
@@ -1211,6 +1212,11 @@ module Aws::EC2
     #   The instance IDs.
     #
     #   Default: Describes all your instances.
+    # @option options [Boolean] :include_managed_resources
+    #   Indicates whether to include managed resources in the output. If this
+    #   parameter is set to `true`, the output includes resources that are
+    #   managed by Amazon Web Services services, even if managed resource
+    #   visibility is set to hidden.
     # @option options [Boolean] :dry_run
     #   Checks whether you have the required permissions for the operation,
     #   without actually making the request, and provides an error response.
@@ -1759,6 +1765,7 @@ module Aws::EC2
     # @example Request syntax with placeholder values
     #
     #   network_interfaces = subnet.network_interfaces({
+    #     include_managed_resources: false,
     #     dry_run: false,
     #     network_interface_ids: ["NetworkInterfaceId"],
     #     filters: [
@@ -1769,6 +1776,11 @@ module Aws::EC2
     #     ],
     #   })
     # @param [Hash] options ({})
+    # @option options [Boolean] :include_managed_resources
+    #   Indicates whether to include managed resources in the output. If this
+    #   parameter is set to `true`, the output includes resources that are
+    #   managed by Amazon Web Services services, even if managed resource
+    #   visibility is set to hidden.
     # @option options [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.

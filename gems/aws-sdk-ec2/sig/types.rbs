@@ -5956,6 +5956,7 @@ module Aws::EC2
       attr_accessor instance_ids: ::Array[::String]
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
+      attr_accessor include_managed_resources: bool
       attr_accessor dry_run: bool
       attr_accessor filters: ::Array[Types::Filter]
       attr_accessor include_all_instances: bool
@@ -6016,6 +6017,7 @@ module Aws::EC2
 
     class DescribeInstancesRequest
       attr_accessor instance_ids: ::Array[::String]
+      attr_accessor include_managed_resources: bool
       attr_accessor dry_run: bool
       attr_accessor filters: ::Array[Types::Filter]
       attr_accessor next_token: ::String
@@ -6233,6 +6235,7 @@ module Aws::EC2
       attr_accessor max_results: ::Integer
       attr_accessor filters: ::Array[Types::Filter]
       attr_accessor resolve_alias: bool
+      attr_accessor include_managed_resources: bool
       SENSITIVE: []
     end
 
@@ -6249,6 +6252,7 @@ module Aws::EC2
       attr_accessor filters: ::Array[Types::Filter]
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
+      attr_accessor include_managed_resources: bool
       SENSITIVE: []
     end
 
@@ -6552,6 +6556,7 @@ module Aws::EC2
     class DescribeNetworkInterfacesRequest
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
+      attr_accessor include_managed_resources: bool
       attr_accessor dry_run: bool
       attr_accessor network_interface_ids: ::Array[::String]
       attr_accessor filters: ::Array[Types::Filter]
@@ -7471,6 +7476,7 @@ module Aws::EC2
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
       attr_accessor volume_ids: ::Array[::String]
+      attr_accessor include_managed_resources: bool
       attr_accessor dry_run: bool
       attr_accessor filters: ::Array[Types::Filter]
       SENSITIVE: []
@@ -7499,6 +7505,7 @@ module Aws::EC2
 
     class DescribeVolumesRequest
       attr_accessor volume_ids: ::Array[::String]
+      attr_accessor include_managed_resources: bool
       attr_accessor dry_run: bool
       attr_accessor filters: ::Array[Types::Filter]
       attr_accessor next_token: ::String
@@ -10044,6 +10051,16 @@ module Aws::EC2
     class GetManagedPrefixListEntriesResult
       attr_accessor entries: ::Array[Types::PrefixListEntry]
       attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class GetManagedResourceVisibilityRequest
+      attr_accessor dry_run: bool
+      SENSITIVE: []
+    end
+
+    class GetManagedResourceVisibilityResult
+      attr_accessor visibility: Types::ManagedResourceVisibilitySettings
       SENSITIVE: []
     end
 
@@ -12875,6 +12892,11 @@ module Aws::EC2
       SENSITIVE: []
     end
 
+    class ManagedResourceVisibilitySettings
+      attr_accessor default_visibility: ("hidden" | "visible")
+      SENSITIVE: []
+    end
+
     class MediaAcceleratorInfo
       attr_accessor accelerators: ::Array[Types::MediaDeviceInfo]
       attr_accessor total_media_memory_in_mi_b: ::Integer
@@ -13146,7 +13168,12 @@ module Aws::EC2
       attr_accessor ebs_optimized: Types::AttributeBooleanValue
       attr_accessor sriov_net_support: Types::AttributeValue
       attr_accessor ena_support: Types::AttributeBooleanValue
-      SENSITIVE: []
+      SENSITIVE: [:value]
+    end
+
+    class ModifyInstanceAttributeUserDataRequest
+      attr_accessor value: ::String
+      SENSITIVE: [:value]
     end
 
     class ModifyInstanceCapacityReservationAttributesRequest
@@ -13475,6 +13502,17 @@ module Aws::EC2
 
     class ModifyManagedPrefixListResult
       attr_accessor prefix_list: Types::ManagedPrefixList
+      SENSITIVE: []
+    end
+
+    class ModifyManagedResourceVisibilityRequest
+      attr_accessor dry_run: bool
+      attr_accessor default_visibility: ("hidden" | "visible")
+      SENSITIVE: []
+    end
+
+    class ModifyManagedResourceVisibilityResult
+      attr_accessor visibility: Types::ManagedResourceVisibilitySettings
       SENSITIVE: []
     end
 
@@ -14631,6 +14669,7 @@ module Aws::EC2
     class OperatorResponse
       attr_accessor managed: bool
       attr_accessor principal: ::String
+      attr_accessor hidden_by_default: bool
       SENSITIVE: []
     end
 
@@ -18506,6 +18545,7 @@ module Aws::EC2
       attr_accessor progress: ::Integer
       attr_accessor start_time: ::Time
       attr_accessor end_time: ::Time
+      attr_accessor operator: Types::OperatorResponse
       SENSITIVE: []
     end
 
@@ -18574,6 +18614,7 @@ module Aws::EC2
       attr_accessor attachment_statuses: ::Array[Types::VolumeStatusAttachmentStatus]
       attr_accessor initialization_status_details: Types::InitializationStatusDetails
       attr_accessor availability_zone_id: ::String
+      attr_accessor operator: Types::OperatorResponse
       SENSITIVE: []
     end
 

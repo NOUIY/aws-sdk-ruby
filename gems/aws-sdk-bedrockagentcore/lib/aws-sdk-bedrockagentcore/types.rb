@@ -2178,6 +2178,913 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # Configuration for AgentCore Browser.
+    #
+    # @!attribute [rw] browser_arn
+    #   If not populated, the built-in Browser ARN is used.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessAgentCoreBrowserConfig AWS API Documentation
+    #
+    class HarnessAgentCoreBrowserConfig < Struct.new(
+      :browser_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for AgentCore Code Interpreter.
+    #
+    # @!attribute [rw] code_interpreter_arn
+    #   If not populated, the built-in Code Interpreter ARN is used.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessAgentCoreCodeInterpreterConfig AWS API Documentation
+    #
+    class HarnessAgentCoreCodeInterpreterConfig < Struct.new(
+      :code_interpreter_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for AgentCore Gateway.
+    #
+    # @!attribute [rw] gateway_arn
+    #   The ARN of the desired AgentCore Gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] outbound_auth
+    #   How Loopy authenticates to this Gateway. Defaults to AWS\_IAM
+    #   (SigV4) if omitted.
+    #   @return [Types::HarnessGatewayOutboundAuth]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessAgentCoreGatewayConfig AWS API Documentation
+    #
+    class HarnessAgentCoreGatewayConfig < Struct.new(
+      :gateway_arn,
+      :outbound_auth)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for an Amazon Bedrock model provider.
+    #
+    # @!attribute [rw] model_id
+    #   The Bedrock model ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_tokens
+    #   The maximum number of tokens to allow in the generated response per
+    #   iteration.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] temperature
+    #   The temperature to set when calling the model.
+    #   @return [Float]
+    #
+    # @!attribute [rw] top_p
+    #   The topP set when calling the model.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessBedrockModelConfig AWS API Documentation
+    #
+    class HarnessBedrockModelConfig < Struct.new(
+      :model_id,
+      :max_tokens,
+      :temperature,
+      :top_p)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A content block within a message.
+    #
+    # @note HarnessContentBlock is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] text
+    #   Text content.
+    #   @return [String]
+    #
+    # @!attribute [rw] tool_use
+    #   A tool use request from the model.
+    #   @return [Types::HarnessToolUseBlock]
+    #
+    # @!attribute [rw] tool_result
+    #   A tool execution result.
+    #   @return [Types::HarnessToolResultBlock]
+    #
+    # @!attribute [rw] reasoning_content
+    #   Model reasoning content.
+    #   @return [Types::HarnessReasoningContentBlock]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessContentBlock AWS API Documentation
+    #
+    class HarnessContentBlock < Struct.new(
+      :text,
+      :tool_use,
+      :tool_result,
+      :reasoning_content,
+      :unknown)
+      SENSITIVE = [:text, :reasoning_content]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Text < HarnessContentBlock; end
+      class ToolUse < HarnessContentBlock; end
+      class ToolResult < HarnessContentBlock; end
+      class ReasoningContent < HarnessContentBlock; end
+      class Unknown < HarnessContentBlock; end
+    end
+
+    # A delta update to a content block.
+    #
+    # @note HarnessContentBlockDelta is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of HarnessContentBlockDelta corresponding to the set member.
+    #
+    # @!attribute [rw] text
+    #   A text delta.
+    #   @return [String]
+    #
+    # @!attribute [rw] tool_use
+    #   A tool use input delta.
+    #   @return [Types::HarnessToolUseBlockDelta]
+    #
+    # @!attribute [rw] tool_result
+    #   A tool result delta.
+    #   @return [Array<Types::HarnessToolResultBlockDelta>]
+    #
+    # @!attribute [rw] reasoning_content
+    #   A reasoning content delta.
+    #   @return [Types::HarnessReasoningContentBlockDelta]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessContentBlockDelta AWS API Documentation
+    #
+    class HarnessContentBlockDelta < Struct.new(
+      :text,
+      :tool_use,
+      :tool_result,
+      :reasoning_content,
+      :unknown)
+      SENSITIVE = [:text, :reasoning_content]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Text < HarnessContentBlockDelta; end
+      class ToolUse < HarnessContentBlockDelta; end
+      class ToolResult < HarnessContentBlockDelta; end
+      class ReasoningContent < HarnessContentBlockDelta; end
+      class Unknown < HarnessContentBlockDelta; end
+    end
+
+    # Event containing a delta update to a content block.
+    #
+    # @!attribute [rw] content_block_index
+    #   The index of the content block being updated.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] delta
+    #   The delta payload.
+    #   @return [Types::HarnessContentBlockDelta]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessContentBlockDeltaEvent AWS API Documentation
+    #
+    class HarnessContentBlockDeltaEvent < Struct.new(
+      :content_block_index,
+      :delta,
+      :event_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The start payload for a content block.
+    #
+    # @note HarnessContentBlockStart is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of HarnessContentBlockStart corresponding to the set member.
+    #
+    # @!attribute [rw] tool_use
+    #   Start of a tool use content block.
+    #   @return [Types::HarnessToolUseBlockStart]
+    #
+    # @!attribute [rw] tool_result
+    #   Start of a tool result content block.
+    #   @return [Types::HarnessToolResultBlockStart]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessContentBlockStart AWS API Documentation
+    #
+    class HarnessContentBlockStart < Struct.new(
+      :tool_use,
+      :tool_result,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class ToolUse < HarnessContentBlockStart; end
+      class ToolResult < HarnessContentBlockStart; end
+      class Unknown < HarnessContentBlockStart; end
+    end
+
+    # Event indicating the start of a content block.
+    #
+    # @!attribute [rw] content_block_index
+    #   The index of the content block within the message.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] start
+    #   The content block start payload.
+    #   @return [Types::HarnessContentBlockStart]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessContentBlockStartEvent AWS API Documentation
+    #
+    class HarnessContentBlockStartEvent < Struct.new(
+      :content_block_index,
+      :start,
+      :event_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Event indicating the end of a content block.
+    #
+    # @!attribute [rw] content_block_index
+    #   The index of the content block that ended.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessContentBlockStopEvent AWS API Documentation
+    #
+    class HarnessContentBlockStopEvent < Struct.new(
+      :content_block_index,
+      :event_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Authentication method for calling a Gateway.
+    #
+    # @note HarnessGatewayOutboundAuth is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] aws_iam
+    #   SigV4-sign requests using the agent's execution role.
+    #   @return [Types::Unit]
+    #
+    # @!attribute [rw] none
+    #   No authentication.
+    #   @return [Types::Unit]
+    #
+    # @!attribute [rw] oauth
+    #   OAuth 2.0 authentication via AgentCore Identity.
+    #   @return [Types::OAuthCredentialProvider]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessGatewayOutboundAuth AWS API Documentation
+    #
+    class HarnessGatewayOutboundAuth < Struct.new(
+      :aws_iam,
+      :none,
+      :oauth,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class AwsIam < HarnessGatewayOutboundAuth; end
+      class None < HarnessGatewayOutboundAuth; end
+      class Oauth < HarnessGatewayOutboundAuth; end
+      class Unknown < HarnessGatewayOutboundAuth; end
+    end
+
+    # Configuration for a Google Gemini model provider. Requires an API key
+    # stored in AgentCore Identity.
+    #
+    # @!attribute [rw] model_id
+    #   The Gemini model ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] api_key_arn
+    #   The ARN of your Gemini API key on AgentCore Identity.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_tokens
+    #   The maximum number of tokens to allow in the generated response per
+    #   iteration.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] temperature
+    #   The temperature to set when calling the model.
+    #   @return [Float]
+    #
+    # @!attribute [rw] top_p
+    #   The topP set when calling the model.
+    #   @return [Float]
+    #
+    # @!attribute [rw] top_k
+    #   The topK set when calling the model.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessGeminiModelConfig AWS API Documentation
+    #
+    class HarnessGeminiModelConfig < Struct.new(
+      :model_id,
+      :api_key_arn,
+      :max_tokens,
+      :temperature,
+      :top_p,
+      :top_k)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for an inline function tool. When the agent calls this
+    # tool, the tool call is returned to the caller for external execution.
+    #
+    # @!attribute [rw] description
+    #   Description of what the tool does, provided to the model.
+    #   @return [String]
+    #
+    # @!attribute [rw] input_schema
+    #   JSON Schema describing the tool's input parameters.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessInlineFunctionConfig AWS API Documentation
+    #
+    class HarnessInlineFunctionConfig < Struct.new(
+      :description,
+      :input_schema)
+      SENSITIVE = [:description, :input_schema]
+      include Aws::Structure
+    end
+
+    # A message in the conversation.
+    #
+    # @!attribute [rw] role
+    #   The role of the message sender.
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   The content blocks of the message.
+    #   @return [Array<Types::HarnessContentBlock>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessMessage AWS API Documentation
+    #
+    class HarnessMessage < Struct.new(
+      :role,
+      :content)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Event indicating the start of a message.
+    #
+    # @!attribute [rw] role
+    #   The role of the message sender.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessMessageStartEvent AWS API Documentation
+    #
+    class HarnessMessageStartEvent < Struct.new(
+      :role,
+      :event_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Event indicating the end of a message.
+    #
+    # @!attribute [rw] stop_reason
+    #   The reason the agent stopped generating.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessMessageStopEvent AWS API Documentation
+    #
+    class HarnessMessageStopEvent < Struct.new(
+      :stop_reason,
+      :event_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Token usage and latency metrics for the invocation.
+    #
+    # @!attribute [rw] usage
+    #   Token usage counts.
+    #   @return [Types::HarnessTokenUsage]
+    #
+    # @!attribute [rw] metrics
+    #   Latency metrics.
+    #   @return [Types::HarnessStreamMetrics]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessMetadataEvent AWS API Documentation
+    #
+    class HarnessMetadataEvent < Struct.new(
+      :usage,
+      :metrics,
+      :event_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specification of which model to use.
+    #
+    # @note HarnessModelConfiguration is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] bedrock_model_config
+    #   Configuration for an Amazon Bedrock model.
+    #   @return [Types::HarnessBedrockModelConfig]
+    #
+    # @!attribute [rw] open_ai_model_config
+    #   Configuration for an OpenAI model.
+    #   @return [Types::HarnessOpenAiModelConfig]
+    #
+    # @!attribute [rw] gemini_model_config
+    #   Configuration for a Google Gemini model.
+    #   @return [Types::HarnessGeminiModelConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessModelConfiguration AWS API Documentation
+    #
+    class HarnessModelConfiguration < Struct.new(
+      :bedrock_model_config,
+      :open_ai_model_config,
+      :gemini_model_config,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class BedrockModelConfig < HarnessModelConfiguration; end
+      class OpenAiModelConfig < HarnessModelConfiguration; end
+      class GeminiModelConfig < HarnessModelConfiguration; end
+      class Unknown < HarnessModelConfiguration; end
+    end
+
+    # Configuration for an OpenAI model provider. Requires an API key stored
+    # in AgentCore Identity.
+    #
+    # @!attribute [rw] model_id
+    #   The OpenAI model ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] api_key_arn
+    #   The ARN of your OpenAI API key on AgentCore Identity.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_tokens
+    #   The maximum number of tokens to allow in the generated response per
+    #   iteration.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] temperature
+    #   The temperature to set when calling the model.
+    #   @return [Float]
+    #
+    # @!attribute [rw] top_p
+    #   The topP set when calling the model.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessOpenAiModelConfig AWS API Documentation
+    #
+    class HarnessOpenAiModelConfig < Struct.new(
+      :model_id,
+      :api_key_arn,
+      :max_tokens,
+      :temperature,
+      :top_p)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Reasoning content from the model.
+    #
+    # @note HarnessReasoningContentBlock is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] reasoning_text
+    #   The reasoning text.
+    #   @return [Types::HarnessReasoningTextBlock]
+    #
+    # @!attribute [rw] redacted_content
+    #   Redacted reasoning content.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessReasoningContentBlock AWS API Documentation
+    #
+    class HarnessReasoningContentBlock < Struct.new(
+      :reasoning_text,
+      :redacted_content,
+      :unknown)
+      SENSITIVE = [:reasoning_text]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class ReasoningText < HarnessReasoningContentBlock; end
+      class RedactedContent < HarnessReasoningContentBlock; end
+      class Unknown < HarnessReasoningContentBlock; end
+    end
+
+    # A delta update to a reasoning content block.
+    #
+    # @note HarnessReasoningContentBlockDelta is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of HarnessReasoningContentBlockDelta corresponding to the set member.
+    #
+    # @!attribute [rw] text
+    #   Reasoning text delta.
+    #   @return [String]
+    #
+    # @!attribute [rw] redacted_content
+    #   Redacted reasoning content.
+    #   @return [String]
+    #
+    # @!attribute [rw] signature
+    #   Signature for the reasoning content.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessReasoningContentBlockDelta AWS API Documentation
+    #
+    class HarnessReasoningContentBlockDelta < Struct.new(
+      :text,
+      :redacted_content,
+      :signature,
+      :unknown)
+      SENSITIVE = [:redacted_content]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Text < HarnessReasoningContentBlockDelta; end
+      class RedactedContent < HarnessReasoningContentBlockDelta; end
+      class Signature < HarnessReasoningContentBlockDelta; end
+      class Unknown < HarnessReasoningContentBlockDelta; end
+    end
+
+    # A block of reasoning text from the model.
+    #
+    # @!attribute [rw] text
+    #   The reasoning text.
+    #   @return [String]
+    #
+    # @!attribute [rw] signature
+    #   Signature for verifying the reasoning content.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessReasoningTextBlock AWS API Documentation
+    #
+    class HarnessReasoningTextBlock < Struct.new(
+      :text,
+      :signature)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for connecting to a remote MCP server.
+    #
+    # @!attribute [rw] url
+    #   URL of the MCP endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] headers
+    #   Map of key/value pairs for HTTP headers.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessRemoteMcpConfig AWS API Documentation
+    #
+    class HarnessRemoteMcpConfig < Struct.new(
+      :url,
+      :headers)
+      SENSITIVE = [:url, :headers]
+      include Aws::Structure
+    end
+
+    # A skill available to the agent.
+    #
+    # @note HarnessSkill is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] path
+    #   The filesystem path to the skill definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessSkill AWS API Documentation
+    #
+    class HarnessSkill < Struct.new(
+      :path,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Path < HarnessSkill; end
+      class Unknown < HarnessSkill; end
+    end
+
+    # Latency metrics for the invocation.
+    #
+    # @!attribute [rw] latency_ms
+    #   The end-to-end latency of the invocation in milliseconds.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessStreamMetrics AWS API Documentation
+    #
+    class HarnessStreamMetrics < Struct.new(
+      :latency_ms)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A content block in the system prompt.
+    #
+    # @note HarnessSystemContentBlock is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] text
+    #   The text content of the system prompt block.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessSystemContentBlock AWS API Documentation
+    #
+    class HarnessSystemContentBlock < Struct.new(
+      :text,
+      :unknown)
+      SENSITIVE = [:text]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Text < HarnessSystemContentBlock; end
+      class Unknown < HarnessSystemContentBlock; end
+    end
+
+    # Token usage counts for the invocation.
+    #
+    # @!attribute [rw] input_tokens
+    #   The number of input tokens consumed.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] output_tokens
+    #   The number of output tokens generated.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] total_tokens
+    #   The total number of tokens consumed.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] cache_read_input_tokens
+    #   The number of input tokens read from cache.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] cache_write_input_tokens
+    #   The number of input tokens written to cache.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessTokenUsage AWS API Documentation
+    #
+    class HarnessTokenUsage < Struct.new(
+      :input_tokens,
+      :output_tokens,
+      :total_tokens,
+      :cache_read_input_tokens,
+      :cache_write_input_tokens)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A tool available to the agent loop.
+    #
+    # @!attribute [rw] type
+    #   The type of tool.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Unique name for the tool. If not provided, a name will be inferred
+    #   or generated.
+    #   @return [String]
+    #
+    # @!attribute [rw] config
+    #   Tool-specific configuration.
+    #   @return [Types::HarnessToolConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessTool AWS API Documentation
+    #
+    class HarnessTool < Struct.new(
+      :type,
+      :name,
+      :config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration union for different tool types.
+    #
+    # @note HarnessToolConfiguration is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] remote_mcp
+    #   Configuration for remote MCP server.
+    #   @return [Types::HarnessRemoteMcpConfig]
+    #
+    # @!attribute [rw] agent_core_browser
+    #   Configuration for AgentCore Browser.
+    #   @return [Types::HarnessAgentCoreBrowserConfig]
+    #
+    # @!attribute [rw] agent_core_gateway
+    #   Configuration for AgentCore Gateway.
+    #   @return [Types::HarnessAgentCoreGatewayConfig]
+    #
+    # @!attribute [rw] inline_function
+    #   Configuration for an inline function tool.
+    #   @return [Types::HarnessInlineFunctionConfig]
+    #
+    # @!attribute [rw] agent_core_code_interpreter
+    #   Configuration for AgentCore Code Interpreter.
+    #   @return [Types::HarnessAgentCoreCodeInterpreterConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessToolConfiguration AWS API Documentation
+    #
+    class HarnessToolConfiguration < Struct.new(
+      :remote_mcp,
+      :agent_core_browser,
+      :agent_core_gateway,
+      :inline_function,
+      :agent_core_code_interpreter,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class RemoteMcp < HarnessToolConfiguration; end
+      class AgentCoreBrowser < HarnessToolConfiguration; end
+      class AgentCoreGateway < HarnessToolConfiguration; end
+      class InlineFunction < HarnessToolConfiguration; end
+      class AgentCoreCodeInterpreter < HarnessToolConfiguration; end
+      class Unknown < HarnessToolConfiguration; end
+    end
+
+    # The result of a tool execution.
+    #
+    # @!attribute [rw] tool_use_id
+    #   The tool use ID that this result corresponds to.
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   The content of the tool result.
+    #   @return [Array<Types::HarnessToolResultContentBlock>]
+    #
+    # @!attribute [rw] status
+    #   The status of the tool execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of tool use that produced this result.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessToolResultBlock AWS API Documentation
+    #
+    class HarnessToolResultBlock < Struct.new(
+      :tool_use_id,
+      :content,
+      :status,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A delta update to a tool result content block.
+    #
+    # @note HarnessToolResultBlockDelta is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of HarnessToolResultBlockDelta corresponding to the set member.
+    #
+    # @!attribute [rw] text
+    #   A text tool result delta.
+    #   @return [String]
+    #
+    # @!attribute [rw] json
+    #   A JSON tool result delta.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessToolResultBlockDelta AWS API Documentation
+    #
+    class HarnessToolResultBlockDelta < Struct.new(
+      :text,
+      :json,
+      :unknown)
+      SENSITIVE = [:text, :json]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Text < HarnessToolResultBlockDelta; end
+      class Json < HarnessToolResultBlockDelta; end
+      class Unknown < HarnessToolResultBlockDelta; end
+    end
+
+    # Start payload for a tool result content block.
+    #
+    # @!attribute [rw] tool_use_id
+    #   The tool use ID that this result corresponds to.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the tool execution.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessToolResultBlockStart AWS API Documentation
+    #
+    class HarnessToolResultBlockStart < Struct.new(
+      :tool_use_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A content block within a tool result.
+    #
+    # @note HarnessToolResultContentBlock is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] text
+    #   Text content.
+    #   @return [String]
+    #
+    # @!attribute [rw] json
+    #   JSON content.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessToolResultContentBlock AWS API Documentation
+    #
+    class HarnessToolResultContentBlock < Struct.new(
+      :text,
+      :json,
+      :unknown)
+      SENSITIVE = [:text, :json]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Text < HarnessToolResultContentBlock; end
+      class Json < HarnessToolResultContentBlock; end
+      class Unknown < HarnessToolResultContentBlock; end
+    end
+
+    # A tool use request from the model.
+    #
+    # @!attribute [rw] name
+    #   The name of the tool to call.
+    #   @return [String]
+    #
+    # @!attribute [rw] tool_use_id
+    #   The unique ID of this tool use.
+    #   @return [String]
+    #
+    # @!attribute [rw] input
+    #   The JSON input to pass to the tool.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @!attribute [rw] type
+    #   The type of tool use.
+    #   @return [String]
+    #
+    # @!attribute [rw] server_name
+    #   The name of the MCP server providing this tool.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessToolUseBlock AWS API Documentation
+    #
+    class HarnessToolUseBlock < Struct.new(
+      :name,
+      :tool_use_id,
+      :input,
+      :type,
+      :server_name)
+      SENSITIVE = [:input]
+      include Aws::Structure
+    end
+
+    # Delta payload for tool use input.
+    #
+    # @!attribute [rw] input
+    #   The partial JSON input for the tool call.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessToolUseBlockDelta AWS API Documentation
+    #
+    class HarnessToolUseBlockDelta < Struct.new(
+      :input)
+      SENSITIVE = [:input]
+      include Aws::Structure
+    end
+
+    # Start payload for a tool use content block.
+    #
+    # @!attribute [rw] tool_use_id
+    #   The unique ID of this tool use.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the tool being called.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of tool use.
+    #   @return [String]
+    #
+    # @!attribute [rw] server_name
+    #   The name of the MCP server providing this tool.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessToolUseBlockStart AWS API Documentation
+    #
+    class HarnessToolUseBlockStart < Struct.new(
+      :tool_use_id,
+      :name,
+      :type,
+      :server_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A block of input content.
     #
     # @!attribute [rw] path
@@ -2662,6 +3569,95 @@ module Aws::BedrockAgentCore
     #
     class InvokeCodeInterpreterResponse < Struct.new(
       :session_id,
+      :stream)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] harness_arn
+    #   The ARN of the harness to invoke.
+    #   @return [String]
+    #
+    # @!attribute [rw] runtime_session_id
+    #   The session ID for the invocation. Use the same session ID across
+    #   requests to continue a conversation.
+    #   @return [String]
+    #
+    # @!attribute [rw] messages
+    #   The messages to send to the agent.
+    #   @return [Array<Types::HarnessMessage>]
+    #
+    # @!attribute [rw] model
+    #   The model configuration to use for this invocation. If specified,
+    #   overrides the harness default.
+    #   @return [Types::HarnessModelConfiguration]
+    #
+    # @!attribute [rw] system_prompt
+    #   The system prompt to use for this invocation. If specified,
+    #   overrides the harness default.
+    #   @return [Array<Types::HarnessSystemContentBlock>]
+    #
+    # @!attribute [rw] tools
+    #   The tools available to the agent for this invocation. If specified,
+    #   overrides the harness default.
+    #   @return [Array<Types::HarnessTool>]
+    #
+    # @!attribute [rw] skills
+    #   The skills available to the agent for this invocation. If specified,
+    #   overrides the harness default.
+    #   @return [Array<Types::HarnessSkill>]
+    #
+    # @!attribute [rw] allowed_tools
+    #   The tools that the agent is allowed to use for this invocation. If
+    #   specified, overrides the harness default.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] max_iterations
+    #   The maximum number of iterations the agent loop can execute. If
+    #   specified, overrides the harness default.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_tokens
+    #   The maximum number of tokens the agent can generate per iteration.
+    #   If specified, overrides the harness default.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] timeout_seconds
+    #   The maximum duration in seconds for the agent loop execution. If
+    #   specified, overrides the harness default.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] actor_id
+    #   The actor ID for memory operations. Overrides the actor ID
+    #   configured on the harness.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InvokeHarnessRequest AWS API Documentation
+    #
+    class InvokeHarnessRequest < Struct.new(
+      :harness_arn,
+      :runtime_session_id,
+      :messages,
+      :model,
+      :system_prompt,
+      :tools,
+      :skills,
+      :allowed_tools,
+      :max_iterations,
+      :max_tokens,
+      :timeout_seconds,
+      :actor_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] stream
+    #   The streaming output from the harness invocation.
+    #   @return [Types::InvokeHarnessStreamOutput]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InvokeHarnessResponse AWS API Documentation
+    #
+    class InvokeHarnessResponse < Struct.new(
       :stream)
       SENSITIVE = []
       include Aws::Structure
@@ -3710,6 +4706,42 @@ module Aws::BedrockAgentCore
       :status,
       :error)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for an OAuth 2.0 credential provider used to
+    # authenticate tool calls.
+    #
+    # @!attribute [rw] provider_arn
+    #   The ARN of the OAuth 2.0 credential provider in AgentCore Identity.
+    #   @return [String]
+    #
+    # @!attribute [rw] scopes
+    #   The OAuth 2.0 scopes to request when obtaining an access token.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] custom_parameters
+    #   Additional custom parameters to include in the OAuth 2.0 token
+    #   request.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] grant_type
+    #   The OAuth 2.0 grant type to use for authentication.
+    #   @return [String]
+    #
+    # @!attribute [rw] default_return_url
+    #   The default return URL for the OAuth 2.0 authorization flow.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/OAuthCredentialProvider AWS API Documentation
+    #
+    class OAuthCredentialProvider < Struct.new(
+      :provider_arn,
+      :scopes,
+      :custom_parameters,
+      :grant_type,
+      :default_return_url)
+      SENSITIVE = [:custom_parameters]
       include Aws::Structure
     end
 
@@ -5161,6 +6193,12 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/Unit AWS API Documentation
+    #
+    class Unit < Aws::EmptyStructure; end
+
     # @!attribute [rw] browser_identifier
     #   The identifier of the browser.
     #   @return [String]
@@ -5371,6 +6409,31 @@ module Aws::BedrockAgentCore
           :resource_not_found_exception,
           :service_quota_exceeded_exception,
           :throttling_exception,
+          :validation_exception,
+          :runtime_client_error
+        ]
+      end
+
+    end
+
+    # The streaming events returned by a harness invocation.
+    #
+    # EventStream is an Enumerator of Events.
+    #  #event_types #=> Array, returns all modeled event types in the stream
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InvokeHarnessStreamOutput AWS API Documentation
+    #
+    class InvokeHarnessStreamOutput < Enumerator
+
+      def event_types
+        [
+          :message_start,
+          :content_block_start,
+          :content_block_delta,
+          :content_block_stop,
+          :message_stop,
+          :metadata,
+          :internal_server_exception,
           :validation_exception,
           :runtime_client_error
         ]

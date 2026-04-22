@@ -7225,6 +7225,7 @@ module Aws
                                       ?instance_ids: Array[::String],
                                       ?max_results: ::Integer,
                                       ?next_token: ::String,
+                                      ?include_managed_resources: bool,
                                       ?dry_run: bool,
                                       ?filters: Array[
                                         {
@@ -7305,6 +7306,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#describe_instances-instance_method
       def describe_instances: (
                                 ?instance_ids: Array[::String],
+                                ?include_managed_resources: bool,
                                 ?dry_run: bool,
                                 ?filters: Array[
                                   {
@@ -7591,7 +7593,8 @@ module Aws
                                                    values: Array[::String]?
                                                  },
                                                ],
-                                               ?resolve_alias: bool
+                                               ?resolve_alias: bool,
+                                               ?include_managed_resources: bool
                                              ) -> _DescribeLaunchTemplateVersionsResponseSuccess
                                            | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeLaunchTemplateVersionsResponseSuccess
 
@@ -7612,7 +7615,8 @@ module Aws
                                          },
                                        ],
                                        ?next_token: ::String,
-                                       ?max_results: ::Integer
+                                       ?max_results: ::Integer,
+                                       ?include_managed_resources: bool
                                      ) -> _DescribeLaunchTemplatesResponseSuccess
                                    | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeLaunchTemplatesResponseSuccess
 
@@ -8006,6 +8010,7 @@ module Aws
       def describe_network_interfaces: (
                                          ?next_token: ::String,
                                          ?max_results: ::Integer,
+                                         ?include_managed_resources: bool,
                                          ?dry_run: bool,
                                          ?network_interface_ids: Array[::String],
                                          ?filters: Array[
@@ -9197,6 +9202,7 @@ module Aws
                                     ?max_results: ::Integer,
                                     ?next_token: ::String,
                                     ?volume_ids: Array[::String],
+                                    ?include_managed_resources: bool,
                                     ?dry_run: bool,
                                     ?filters: Array[
                                       {
@@ -9215,6 +9221,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#describe_volumes-instance_method
       def describe_volumes: (
                               ?volume_ids: Array[::String],
+                              ?include_managed_resources: bool,
                               ?dry_run: bool,
                               ?filters: Array[
                                 {
@@ -11249,6 +11256,16 @@ module Aws
                                            ) -> _GetManagedPrefixListEntriesResponseSuccess
                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetManagedPrefixListEntriesResponseSuccess
 
+      interface _GetManagedResourceVisibilityResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetManagedResourceVisibilityResult]
+        def visibility: () -> Types::ManagedResourceVisibilitySettings
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#get_managed_resource_visibility-instance_method
+      def get_managed_resource_visibility: (
+                                             ?dry_run: bool
+                                           ) -> _GetManagedResourceVisibilityResponseSuccess
+                                         | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetManagedResourceVisibilityResponseSuccess
+
       interface _GetNetworkInsightsAccessScopeAnalysisFindingsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetNetworkInsightsAccessScopeAnalysisFindingsResult]
         def network_insights_access_scope_analysis_id: () -> ::String
@@ -12865,6 +12882,17 @@ module Aws
                                         ?ipam_prefix_list_resolver_sync_enabled: bool
                                       ) -> _ModifyManagedPrefixListResponseSuccess
                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ModifyManagedPrefixListResponseSuccess
+
+      interface _ModifyManagedResourceVisibilityResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ModifyManagedResourceVisibilityResult]
+        def visibility: () -> Types::ManagedResourceVisibilitySettings
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#modify_managed_resource_visibility-instance_method
+      def modify_managed_resource_visibility: (
+                                                ?dry_run: bool,
+                                                ?default_visibility: ("hidden" | "visible")
+                                              ) -> _ModifyManagedResourceVisibilityResponseSuccess
+                                            | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ModifyManagedResourceVisibilityResponseSuccess
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#modify_network_interface_attribute-instance_method
       def modify_network_interface_attribute: (
@@ -15974,6 +16002,7 @@ module Aws
                     | (:image_usage_report_available waiter_name, ?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_DescribeImageUsageReportsResponseSuccess
                     | (:instance_exists waiter_name, 
                     ?instance_ids: Array[::String],
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -15987,6 +16016,7 @@ module Aws
                     | (:instance_exists waiter_name, ?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_DescribeInstancesResponseSuccess
                     | (:instance_running waiter_name, 
                     ?instance_ids: Array[::String],
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -16002,6 +16032,7 @@ module Aws
                     ?instance_ids: Array[::String],
                     ?max_results: ::Integer,
                     ?next_token: ::String,
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -16014,6 +16045,7 @@ module Aws
                     | (:instance_status_ok waiter_name, ?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_DescribeInstanceStatusResponseSuccess
                     | (:instance_stopped waiter_name, 
                     ?instance_ids: Array[::String],
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -16027,6 +16059,7 @@ module Aws
                     | (:instance_stopped waiter_name, ?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_DescribeInstancesResponseSuccess
                     | (:instance_terminated waiter_name, 
                     ?instance_ids: Array[::String],
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -16093,6 +16126,7 @@ module Aws
                     | (:network_interface_available waiter_name, 
                     ?next_token: ::String,
                     ?max_results: ::Integer,
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?network_interface_ids: Array[::String],
                     ?filters: Array[
@@ -16269,6 +16303,7 @@ module Aws
                     ?instance_ids: Array[::String],
                     ?max_results: ::Integer,
                     ?next_token: ::String,
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -16281,6 +16316,7 @@ module Aws
                     | (:system_status_ok waiter_name, ?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_DescribeInstanceStatusResponseSuccess
                     | (:volume_available waiter_name, 
                     ?volume_ids: Array[::String],
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -16294,6 +16330,7 @@ module Aws
                     | (:volume_available waiter_name, ?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_DescribeVolumesResponseSuccess
                     | (:volume_deleted waiter_name, 
                     ?volume_ids: Array[::String],
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {
@@ -16307,6 +16344,7 @@ module Aws
                     | (:volume_deleted waiter_name, ?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_DescribeVolumesResponseSuccess
                     | (:volume_in_use waiter_name, 
                     ?volume_ids: Array[::String],
+                    ?include_managed_resources: bool,
                     ?dry_run: bool,
                     ?filters: Array[
                       {

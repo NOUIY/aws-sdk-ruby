@@ -102,7 +102,7 @@ module Aws
                             ?request_payer: ("requester"),
                             ?bypass_governance_retention: bool,
                             ?expected_bucket_owner: ::String,
-                            ?checksum_algorithm: ("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME")
+                            ?checksum_algorithm: ("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME" | "SHA512" | "MD5" | "XXHASH64" | "XXHASH3" | "XXHASH128")
                           ) -> Types::DeleteObjectsOutput
                         | (?Hash[Symbol, untyped]) -> Types::DeleteObjectsOutput
 
@@ -117,12 +117,17 @@ module Aws
                         ?content_length: ::Integer,
                         ?content_md5: ::String,
                         ?content_type: ::String,
-                        ?checksum_algorithm: ("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME"),
+                        ?checksum_algorithm: ("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME" | "SHA512" | "MD5" | "XXHASH64" | "XXHASH3" | "XXHASH128"),
                         ?checksum_crc32: ::String,
                         ?checksum_crc32c: ::String,
                         ?checksum_crc64nvme: ::String,
                         ?checksum_sha1: ::String,
                         ?checksum_sha256: ::String,
+                        ?checksum_sha512: ::String,
+                        ?checksum_md5: ::String,
+                        ?checksum_xxhash64: ::String,
+                        ?checksum_xxhash3: ::String,
+                        ?checksum_xxhash128: ::String,
                         ?expires: ::Time,
                         ?if_match: ::String,
                         ?if_none_match: ::String,

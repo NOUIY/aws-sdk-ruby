@@ -413,6 +413,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Subnet.html#instances-instance_method
       def instances: (
                        ?instance_ids: Array[::String],
+                       ?include_managed_resources: bool,
                        ?dry_run: bool,
                        ?filters: Array[
                          {
@@ -438,6 +439,7 @@ module Aws
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Subnet.html#network_interfaces-instance_method
       def network_interfaces: (
+                                ?include_managed_resources: bool,
                                 ?dry_run: bool,
                                 ?network_interface_ids: Array[::String],
                                 ?filters: Array[

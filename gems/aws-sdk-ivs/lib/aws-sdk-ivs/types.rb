@@ -10,6 +10,30 @@
 module Aws::IVS
   module Types
 
+    # @!attribute [rw] access_control_allow_origin
+    #   @return [String]
+    #
+    # @!attribute [rw] access_control_expose_headers
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_control
+    #   @return [String]
+    #
+    # @!attribute [rw] content_security_policy
+    #   @return [String]
+    #
+    # @!attribute [rw] strict_transport_security
+    #   @return [String]
+    #
+    # @!attribute [rw] x_content_type_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_frame_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_amzn_error_type
+    #   @return [String]
+    #
     # @!attribute [rw] exception_message
     #   User does not have sufficient access to perform this action.
     #   @return [String]
@@ -17,7 +41,92 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/AccessDeniedException AWS API Documentation
     #
     class AccessDeniedException < Struct.new(
+      :access_control_allow_origin,
+      :access_control_expose_headers,
+      :cache_control,
+      :content_security_policy,
+      :strict_transport_security,
+      :x_content_type_options,
+      :x_frame_options,
+      :x_amzn_error_type,
       :exception_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Object specifying a configuration for a server-side advertising
+    # insertion (which can be triggered with the operation).
+    #
+    # @!attribute [rw] arn
+    #   Ad configuration ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Ad configuration name. Defaults to “”.
+    #   @return [String]
+    #
+    # @!attribute [rw] media_tailor_playback_configurations
+    #   List of integration configurations with media tailor resources.
+    #   @return [Array<Types::MediaTailorPlaybackConfiguration>]
+    #
+    # @!attribute [rw] tags
+    #   Tags attached to the resource. Array of 1-50 maps, each of the form
+    #   `string:string (key:value)`. See [Best practices and strategies][1]
+    #   in *Tagging Amazon Web Services Resources and Tag Editor* for
+    #   details, including restrictions that apply to tags and "Tag naming
+    #   limits and requirements"; Amazon IVS has no service-specific
+    #   constraints beyond what is documented there.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/AdConfiguration AWS API Documentation
+    #
+    class AdConfiguration < Struct.new(
+      :arn,
+      :name,
+      :media_tailor_playback_configurations,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about an ad configuration.
+    #
+    # @!attribute [rw] arn
+    #   Ad configuration ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Ad configuration name. Defaults to “”.
+    #   @return [String]
+    #
+    # @!attribute [rw] media_tailor_playback_configurations
+    #   List of integration configurations with media tailor resources.
+    #   @return [Array<Types::MediaTailorPlaybackConfiguration>]
+    #
+    # @!attribute [rw] tags
+    #   Tags attached to the resource. Array of 1-50 maps, each of the form
+    #   `string:string (key:value)`. See [Best practices and strategies][1]
+    #   in *Tagging Amazon Web Services Resources and Tag Editor* for
+    #   details, including restrictions that apply to tags and "Tag naming
+    #   limits and requirements"; Amazon IVS has no service-specific
+    #   constraints beyond what is documented there.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/AdConfigurationSummary AWS API Documentation
+    #
+    class AdConfigurationSummary < Struct.new(
+      :arn,
+      :name,
+      :media_tailor_playback_configurations,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -27,35 +136,35 @@ module Aws::IVS
     # IngestConfigurations object and the deprecated IngestConfiguration
     # object. It is used for monitoring stream health.
     #
-    # @!attribute [rw] channels
-    #   Number of audio channels.
-    #   @return [Integer]
-    #
     # @!attribute [rw] codec
     #   Codec used for the audio encoding.
     #   @return [String]
-    #
-    # @!attribute [rw] sample_rate
-    #   Number of audio samples recorded per second.
-    #   @return [Integer]
     #
     # @!attribute [rw] target_bitrate
     #   The expected ingest bitrate (bits per second). This is configured in
     #   the encoder.
     #   @return [Integer]
     #
+    # @!attribute [rw] sample_rate
+    #   Number of audio samples recorded per second.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] channels
+    #   Number of audio channels.
+    #   @return [Integer]
+    #
     # @!attribute [rw] track
     #   Name of the audio track (if the stream has an audio track). If
-    #   multitrack is not enabled, this is track0 (the sole track).
+    #   multitrack is not enabled, this is Track0 (the sole track).
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/AudioConfiguration AWS API Documentation
     #
     class AudioConfiguration < Struct.new(
-      :channels,
       :codec,
-      :sample_rate,
       :target_bitrate,
+      :sample_rate,
+      :channels,
       :track)
       SENSITIVE = []
       include Aws::Structure
@@ -97,6 +206,62 @@ module Aws::IVS
       include Aws::Structure
     end
 
+    # @!attribute [rw] access_control_allow_origin
+    #   See [Access-Control-Allow-Origin][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin
+    #   @return [String]
+    #
+    # @!attribute [rw] access_control_expose_headers
+    #   See [Access-Control-Expose-Headers][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Expose-Headers
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_control
+    #   See [Cache-Control][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control
+    #   @return [String]
+    #
+    # @!attribute [rw] content_security_policy
+    #   See [Content-Security-Policy][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy
+    #   @return [String]
+    #
+    # @!attribute [rw] strict_transport_security
+    #   See [Strict-Transport-Security][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Strict-Transport-Security
+    #   @return [String]
+    #
+    # @!attribute [rw] x_content_type_options
+    #   See [X-Content-Type-Options][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Content-Type-Options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_frame_options
+    #   See [X-Frame-Options][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options
+    #   @return [String]
+    #
     # @!attribute [rw] channels
     #   @return [Array<Types::Channel>]
     #
@@ -107,6 +272,13 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/BatchGetChannelResponse AWS API Documentation
     #
     class BatchGetChannelResponse < Struct.new(
+      :access_control_allow_origin,
+      :access_control_expose_headers,
+      :cache_control,
+      :content_security_policy,
+      :strict_transport_security,
+      :x_content_type_options,
+      :x_frame_options,
       :channels,
       :errors)
       SENSITIVE = []
@@ -125,17 +297,80 @@ module Aws::IVS
       include Aws::Structure
     end
 
-    # @!attribute [rw] errors
-    #   @return [Array<Types::BatchError>]
+    # @!attribute [rw] access_control_allow_origin
+    #   See [Access-Control-Allow-Origin][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin
+    #   @return [String]
+    #
+    # @!attribute [rw] access_control_expose_headers
+    #   See [Access-Control-Expose-Headers][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Expose-Headers
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_control
+    #   See [Cache-Control][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control
+    #   @return [String]
+    #
+    # @!attribute [rw] content_security_policy
+    #   See [Content-Security-Policy][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy
+    #   @return [String]
+    #
+    # @!attribute [rw] strict_transport_security
+    #   See [Strict-Transport-Security][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Strict-Transport-Security
+    #   @return [String]
+    #
+    # @!attribute [rw] x_content_type_options
+    #   See [X-Content-Type-Options][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Content-Type-Options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_frame_options
+    #   See [X-Frame-Options][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options
+    #   @return [String]
     #
     # @!attribute [rw] stream_keys
     #   @return [Array<Types::StreamKey>]
     #
+    # @!attribute [rw] errors
+    #   @return [Array<Types::BatchError>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/BatchGetStreamKeyResponse AWS API Documentation
     #
     class BatchGetStreamKeyResponse < Struct.new(
-      :errors,
-      :stream_keys)
+      :access_control_allow_origin,
+      :access_control_expose_headers,
+      :cache_control,
+      :content_security_policy,
+      :strict_transport_security,
+      :x_content_type_options,
+      :x_frame_options,
+      :stream_keys,
+      :errors)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -148,6 +383,10 @@ module Aws::IVS
     #   Channel ARN.
     #   @return [String]
     #
+    # @!attribute [rw] viewer_id
+    #   The ID of the viewer session to revoke.
+    #   @return [String]
+    #
     # @!attribute [rw] code
     #   Error code.
     #   @return [String]
@@ -156,17 +395,13 @@ module Aws::IVS
     #   Error message, determined by the application.
     #   @return [String]
     #
-    # @!attribute [rw] viewer_id
-    #   The ID of the viewer session to revoke.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/BatchStartViewerSessionRevocationError AWS API Documentation
     #
     class BatchStartViewerSessionRevocationError < Struct.new(
       :channel_arn,
+      :viewer_id,
       :code,
-      :message,
-      :viewer_id)
+      :message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -183,6 +418,62 @@ module Aws::IVS
       include Aws::Structure
     end
 
+    # @!attribute [rw] access_control_allow_origin
+    #   See [Access-Control-Allow-Origin][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin
+    #   @return [String]
+    #
+    # @!attribute [rw] access_control_expose_headers
+    #   See [Access-Control-Expose-Headers][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Expose-Headers
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_control
+    #   See [Cache-Control][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control
+    #   @return [String]
+    #
+    # @!attribute [rw] content_security_policy
+    #   See [Content-Security-Policy][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy
+    #   @return [String]
+    #
+    # @!attribute [rw] strict_transport_security
+    #   See [Strict-Transport-Security][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Strict-Transport-Security
+    #   @return [String]
+    #
+    # @!attribute [rw] x_content_type_options
+    #   See [X-Content-Type-Options][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Content-Type-Options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_frame_options
+    #   See [X-Frame-Options][1] in the MDN Web Docs.
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options
+    #   @return [String]
+    #
     # @!attribute [rw] errors
     #   Each error object is related to a specific `channelArn` and
     #   `viewerId` pair in the request.
@@ -191,6 +482,13 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/BatchStartViewerSessionRevocationResponse AWS API Documentation
     #
     class BatchStartViewerSessionRevocationResponse < Struct.new(
+      :access_control_allow_origin,
+      :access_control_expose_headers,
+      :cache_control,
+      :content_security_policy,
+      :strict_transport_security,
+      :x_content_type_options,
+      :x_frame_options,
       :errors)
       SENSITIVE = []
       include Aws::Structure
@@ -231,27 +529,9 @@ module Aws::IVS
     #   Channel ARN.
     #   @return [String]
     #
-    # @!attribute [rw] authorized
-    #   Whether the channel is private (enabled for playback authorization).
-    #   Default: `false`.
-    #   @return [Boolean]
-    #
-    # @!attribute [rw] container_format
-    #   Indicates which content-packaging format is used (MPEG-TS or fMP4).
-    #   If `multitrackInputConfiguration` is specified and `enabled` is
-    #   `true`, then `containerFormat` is required and must be set to
-    #   `FRAGMENTED_MP4`. Otherwise, `containerFormat` may be set to `TS` or
-    #   `FRAGMENTED_MP4`. Default: `TS`.
+    # @!attribute [rw] name
+    #   Channel name.
     #   @return [String]
-    #
-    # @!attribute [rw] ingest_endpoint
-    #   Channel ingest endpoint, part of the definition of an ingest server,
-    #   used when you set up streaming software.
-    #   @return [String]
-    #
-    # @!attribute [rw] insecure_ingest
-    #   Whether the channel allows insecure RTMP ingest. Default: `false`.
-    #   @return [Boolean]
     #
     # @!attribute [rw] latency_mode
     #   Channel latency mode. Use `NORMAL` to broadcast and deliver live
@@ -259,31 +539,15 @@ module Aws::IVS
     #   viewers. Default: `LOW`.
     #   @return [String]
     #
-    # @!attribute [rw] multitrack_input_configuration
-    #   Object specifying multitrack input configuration. Default: no
-    #   multitrack input configuration is specified.
-    #   @return [Types::MultitrackInputConfiguration]
+    # @!attribute [rw] type
+    #   Channel type, which determines the allowable resolution and bitrate.
+    #   *If you exceed the allowable input resolution or bitrate, the stream
+    #   probably will disconnect immediately.* Default: `STANDARD`. For
+    #   details, see [Channel Types][1].
     #
-    # @!attribute [rw] name
-    #   Channel name.
-    #   @return [String]
     #
-    # @!attribute [rw] playback_restriction_policy_arn
-    #   Playback-restriction-policy ARN. A valid ARN value here both
-    #   specifies the ARN and enables playback restriction. Default: ""
-    #   (empty string, no playback restriction policy is applied).
-    #   @return [String]
     #
-    # @!attribute [rw] playback_url
-    #   Channel playback URL.
-    #   @return [String]
-    #
-    # @!attribute [rw] preset
-    #   Optional transcode preset for the channel. This is selectable only
-    #   for `ADVANCED_HD` and `ADVANCED_SD` channel types. For those channel
-    #   types, the default `preset` is `HIGHER_BANDWIDTH_DELIVERY`. For
-    #   other channel types (`BASIC` and `STANDARD`), `preset` is the empty
-    #   string (`""`).
+    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html
     #   @return [String]
     #
     # @!attribute [rw] recording_configuration_arn
@@ -292,10 +556,19 @@ module Aws::IVS
     #   recording is disabled).
     #   @return [String]
     #
-    # @!attribute [rw] srt
-    #   Specifies the endpoint and optional passphrase for streaming with
-    #   the SRT protocol.
-    #   @return [Types::Srt]
+    # @!attribute [rw] ingest_endpoint
+    #   Channel ingest endpoint, part of the definition of an ingest server,
+    #   used when you set up streaming software.
+    #   @return [String]
+    #
+    # @!attribute [rw] playback_url
+    #   Channel playback URL.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorized
+    #   Whether the channel is private (enabled for playback authorization).
+    #   Default: `false`.
+    #   @return [Boolean]
     #
     # @!attribute [rw] tags
     #   Tags attached to the resource. Array of 1-50 maps, each of the form
@@ -310,39 +583,93 @@ module Aws::IVS
     #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
     #   @return [Hash<String,String>]
     #
-    # @!attribute [rw] type
-    #   Channel type, which determines the allowable resolution and bitrate.
-    #   *If you exceed the allowable input resolution or bitrate, the stream
-    #   probably will disconnect immediately.* Default: `STANDARD`. For
-    #   details, see [Channel Types][1].
+    # @!attribute [rw] insecure_ingest
+    #   Whether the channel allows insecure RTMP ingest. Default: `false`.
+    #   @return [Boolean]
     #
+    # @!attribute [rw] preset
+    #   Optional transcode preset for the channel. This is selectable only
+    #   for `ADVANCED_HD` and `ADVANCED_SD` channel types. For those channel
+    #   types, the default `preset` is `HIGHER_BANDWIDTH_DELIVERY`. For
+    #   other channel types (`BASIC` and `STANDARD`), `preset` is the empty
+    #   string (`""`).
+    #   @return [String]
     #
+    # @!attribute [rw] srt
+    #   Specifies the endpoint and optional passphrase for streaming with
+    #   the SRT protocol.
+    #   @return [Types::Srt]
     #
-    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html
+    # @!attribute [rw] playback_restriction_policy_arn
+    #   Playback-restriction-policy ARN. A valid ARN value here both
+    #   specifies the ARN and enables playback restriction. Default: ""
+    #   (empty string, no playback restriction policy is applied).
+    #   @return [String]
+    #
+    # @!attribute [rw] multitrack_input_configuration
+    #   Object specifying multitrack input configuration. Default: no
+    #   multitrack input configuration is specified.
+    #   @return [Types::MultitrackInputConfiguration]
+    #
+    # @!attribute [rw] container_format
+    #   Indicates which content-packaging format is used (MPEG-TS or fMP4).
+    #   If `multitrackInputConfiguration` is specified and `enabled` is
+    #   `true`, then `containerFormat` is required and must be set to
+    #   `FRAGMENTED_MP4`. Otherwise, `containerFormat` may be set to `TS` or
+    #   `FRAGMENTED_MP4`. Default: `TS`.
+    #   @return [String]
+    #
+    # @!attribute [rw] ad_configuration_arn
+    #   ARN of the ad configuration associated with the channel.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/Channel AWS API Documentation
     #
     class Channel < Struct.new(
       :arn,
-      :authorized,
-      :container_format,
-      :ingest_endpoint,
-      :insecure_ingest,
-      :latency_mode,
-      :multitrack_input_configuration,
       :name,
-      :playback_restriction_policy_arn,
-      :playback_url,
-      :preset,
+      :latency_mode,
+      :type,
       :recording_configuration_arn,
-      :srt,
+      :ingest_endpoint,
+      :playback_url,
+      :authorized,
       :tags,
-      :type)
+      :insecure_ingest,
+      :preset,
+      :srt,
+      :playback_restriction_policy_arn,
+      :multitrack_input_configuration,
+      :container_format,
+      :ad_configuration_arn)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] access_control_allow_origin
+    #   @return [String]
+    #
+    # @!attribute [rw] access_control_expose_headers
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_control
+    #   @return [String]
+    #
+    # @!attribute [rw] content_security_policy
+    #   @return [String]
+    #
+    # @!attribute [rw] strict_transport_security
+    #   @return [String]
+    #
+    # @!attribute [rw] x_content_type_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_frame_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_amzn_error_type
+    #   @return [String]
+    #
     # @!attribute [rw] exception_message
     #   The stream is offline for the given channel ARN.
     #   @return [String]
@@ -350,6 +677,14 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ChannelNotBroadcasting AWS API Documentation
     #
     class ChannelNotBroadcasting < Struct.new(
+      :access_control_allow_origin,
+      :access_control_expose_headers,
+      :cache_control,
+      :content_security_policy,
+      :strict_transport_security,
+      :x_content_type_options,
+      :x_frame_options,
+      :x_amzn_error_type,
       :exception_message)
       SENSITIVE = []
       include Aws::Structure
@@ -361,14 +696,9 @@ module Aws::IVS
     #   Channel ARN.
     #   @return [String]
     #
-    # @!attribute [rw] authorized
-    #   Whether the channel is private (enabled for playback authorization).
-    #   Default: `false`.
-    #   @return [Boolean]
-    #
-    # @!attribute [rw] insecure_ingest
-    #   Whether the channel allows insecure RTMP ingest. Default: `false`.
-    #   @return [Boolean]
+    # @!attribute [rw] name
+    #   Channel name.
+    #   @return [String]
     #
     # @!attribute [rw] latency_mode
     #   Channel latency mode. Use `NORMAL` to broadcast and deliver live
@@ -376,23 +706,10 @@ module Aws::IVS
     #   viewers. Default: `LOW`.
     #   @return [String]
     #
-    # @!attribute [rw] name
-    #   Channel name.
-    #   @return [String]
-    #
-    # @!attribute [rw] playback_restriction_policy_arn
-    #   Playback-restriction-policy ARN. A valid ARN value here both
-    #   specifies the ARN and enables playback restriction. Default: ""
-    #   (empty string, no playback restriction policy is applied).
-    #   @return [String]
-    #
-    # @!attribute [rw] preset
-    #   Optional transcode preset for the channel. This is selectable only
-    #   for `ADVANCED_HD` and `ADVANCED_SD` channel types. For those channel
-    #   types, the default `preset` is `HIGHER_BANDWIDTH_DELIVERY`. For
-    #   other channel types (`BASIC` and `STANDARD`), `preset` is the empty
-    #   string (`""`).
-    #   @return [String]
+    # @!attribute [rw] authorized
+    #   Whether the channel is private (enabled for playback authorization).
+    #   Default: `false`.
+    #   @return [Boolean]
     #
     # @!attribute [rw] recording_configuration_arn
     #   Recording-configuration ARN. A valid ARN value here both specifies
@@ -413,6 +730,10 @@ module Aws::IVS
     #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] insecure_ingest
+    #   Whether the channel allows insecure RTMP ingest. Default: `false`.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] type
     #   Channel type, which determines the allowable resolution and bitrate.
     #   *If you exceed the allowable input resolution or bitrate, the stream
@@ -424,66 +745,12 @@ module Aws::IVS
     #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html
     #   @return [String]
     #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ChannelSummary AWS API Documentation
-    #
-    class ChannelSummary < Struct.new(
-      :arn,
-      :authorized,
-      :insecure_ingest,
-      :latency_mode,
-      :name,
-      :playback_restriction_policy_arn,
-      :preset,
-      :recording_configuration_arn,
-      :tags,
-      :type)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # @!attribute [rw] exception_message
-    #   Updating or deleting a resource can cause an inconsistent state.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ConflictException AWS API Documentation
-    #
-    class ConflictException < Struct.new(
-      :exception_message)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # @!attribute [rw] authorized
-    #   Whether the channel is private (enabled for playback authorization).
-    #   Default: `false`.
-    #   @return [Boolean]
-    #
-    # @!attribute [rw] container_format
-    #   Indicates which content-packaging format is used (MPEG-TS or fMP4).
-    #   If `multitrackInputConfiguration` is specified and `enabled` is
-    #   `true`, then `containerFormat` is required and must be set to
-    #   `FRAGMENTED_MP4`. Otherwise, `containerFormat` may be set to `TS` or
-    #   `FRAGMENTED_MP4`. Default: `TS`.
-    #   @return [String]
-    #
-    # @!attribute [rw] insecure_ingest
-    #   Whether the channel allows insecure RTMP and SRT ingest. Default:
-    #   `false`.
-    #   @return [Boolean]
-    #
-    # @!attribute [rw] latency_mode
-    #   Channel latency mode. Use `NORMAL` to broadcast and deliver live
-    #   video up to Full HD. Use `LOW` for near-real-time interaction with
-    #   viewers. Default: `LOW`.
-    #   @return [String]
-    #
-    # @!attribute [rw] multitrack_input_configuration
-    #   Object specifying multitrack input configuration. Default: no
-    #   multitrack input configuration is specified.
-    #   @return [Types::MultitrackInputConfiguration]
-    #
-    # @!attribute [rw] name
-    #   Channel name.
+    # @!attribute [rw] preset
+    #   Optional transcode preset for the channel. This is selectable only
+    #   for `ADVANCED_HD` and `ADVANCED_SD` channel types. For those channel
+    #   types, the default `preset` is `HIGHER_BANDWIDTH_DELIVERY`. For
+    #   other channel types (`BASIC` and `STANDARD`), `preset` is the empty
+    #   string (`""`).
     #   @return [String]
     #
     # @!attribute [rw] playback_restriction_policy_arn
@@ -492,13 +759,125 @@ module Aws::IVS
     #   (empty string, no playback restriction policy is applied).
     #   @return [String]
     #
-    # @!attribute [rw] preset
-    #   Optional transcode preset for the channel. This is selectable only
-    #   for `ADVANCED_HD` and `ADVANCED_SD` channel types. For those channel
-    #   types, the default `preset` is `HIGHER_BANDWIDTH_DELIVERY`. For
-    #   other channel types (`BASIC` and `STANDARD`), `preset` is the empty
-    #   string (`""`).
+    # @!attribute [rw] ad_configuration_arn
+    #   ARN of the ad configuration associated with the channel.
     #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ChannelSummary AWS API Documentation
+    #
+    class ChannelSummary < Struct.new(
+      :arn,
+      :name,
+      :latency_mode,
+      :authorized,
+      :recording_configuration_arn,
+      :tags,
+      :insecure_ingest,
+      :type,
+      :preset,
+      :playback_restriction_policy_arn,
+      :ad_configuration_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] access_control_allow_origin
+    #   @return [String]
+    #
+    # @!attribute [rw] access_control_expose_headers
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_control
+    #   @return [String]
+    #
+    # @!attribute [rw] content_security_policy
+    #   @return [String]
+    #
+    # @!attribute [rw] strict_transport_security
+    #   @return [String]
+    #
+    # @!attribute [rw] x_content_type_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_frame_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_amzn_error_type
+    #   @return [String]
+    #
+    # @!attribute [rw] exception_message
+    #   Updating or deleting a resource can cause an inconsistent state.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ConflictException AWS API Documentation
+    #
+    class ConflictException < Struct.new(
+      :access_control_allow_origin,
+      :access_control_expose_headers,
+      :cache_control,
+      :content_security_policy,
+      :strict_transport_security,
+      :x_content_type_options,
+      :x_frame_options,
+      :x_amzn_error_type,
+      :exception_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   Ad configuration name. Defaults to “”.
+    #   @return [String]
+    #
+    # @!attribute [rw] media_tailor_playback_configurations
+    #   List of integration configurations with media tailor resources.
+    #   @return [Array<Types::MediaTailorPlaybackConfiguration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/CreateAdConfigurationRequest AWS API Documentation
+    #
+    class CreateAdConfigurationRequest < Struct.new(
+      :name,
+      :media_tailor_playback_configurations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ad_configuration
+    #   @return [Types::AdConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/CreateAdConfigurationResponse AWS API Documentation
+    #
+    class CreateAdConfigurationResponse < Struct.new(
+      :ad_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   Channel name.
+    #   @return [String]
+    #
+    # @!attribute [rw] latency_mode
+    #   Channel latency mode. Use `NORMAL` to broadcast and deliver live
+    #   video up to Full HD. Use `LOW` for near-real-time interaction with
+    #   viewers. Default: `LOW`.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   Channel type, which determines the allowable resolution and bitrate.
+    #   *If you exceed the allowable input resolution or bitrate, the stream
+    #   probably will disconnect immediately.* Default: `STANDARD`. For
+    #   details, see [Channel Types][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html
+    #   @return [String]
+    #
+    # @!attribute [rw] authorized
+    #   Whether the channel is private (enabled for playback authorization).
+    #   Default: `false`.
+    #   @return [Boolean]
     #
     # @!attribute [rw] recording_configuration_arn
     #   Recording-configuration ARN. A valid ARN value here both specifies
@@ -519,31 +898,57 @@ module Aws::IVS
     #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
     #   @return [Hash<String,String>]
     #
-    # @!attribute [rw] type
-    #   Channel type, which determines the allowable resolution and bitrate.
-    #   *If you exceed the allowable input resolution or bitrate, the stream
-    #   probably will disconnect immediately.* Default: `STANDARD`. For
-    #   details, see [Channel Types][1].
+    # @!attribute [rw] insecure_ingest
+    #   Whether the channel allows insecure RTMP and SRT ingest. Default:
+    #   `false`.
+    #   @return [Boolean]
     #
+    # @!attribute [rw] preset
+    #   Optional transcode preset for the channel. This is selectable only
+    #   for `ADVANCED_HD` and `ADVANCED_SD` channel types. For those channel
+    #   types, the default `preset` is `HIGHER_BANDWIDTH_DELIVERY`. For
+    #   other channel types (`BASIC` and `STANDARD`), `preset` is the empty
+    #   string (`""`).
+    #   @return [String]
     #
+    # @!attribute [rw] playback_restriction_policy_arn
+    #   Playback-restriction-policy ARN. A valid ARN value here both
+    #   specifies the ARN and enables playback restriction. Default: ""
+    #   (empty string, no playback restriction policy is applied).
+    #   @return [String]
     #
-    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html
+    # @!attribute [rw] multitrack_input_configuration
+    #   Object specifying multitrack input configuration. Default: no
+    #   multitrack input configuration is specified.
+    #   @return [Types::MultitrackInputConfiguration]
+    #
+    # @!attribute [rw] container_format
+    #   Indicates which content-packaging format is used (MPEG-TS or fMP4).
+    #   If `multitrackInputConfiguration` is specified and `enabled` is
+    #   `true`, then `containerFormat` is required and must be set to
+    #   `FRAGMENTED_MP4`. Otherwise, `containerFormat` may be set to `TS` or
+    #   `FRAGMENTED_MP4`. Default: `TS`.
+    #   @return [String]
+    #
+    # @!attribute [rw] ad_configuration_arn
+    #   ARN of the ad configuration associated with the channel.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/CreateChannelRequest AWS API Documentation
     #
     class CreateChannelRequest < Struct.new(
-      :authorized,
-      :container_format,
-      :insecure_ingest,
-      :latency_mode,
-      :multitrack_input_configuration,
       :name,
-      :playback_restriction_policy_arn,
-      :preset,
+      :latency_mode,
+      :type,
+      :authorized,
       :recording_configuration_arn,
       :tags,
-      :type)
+      :insecure_ingest,
+      :preset,
+      :playback_restriction_policy_arn,
+      :multitrack_input_configuration,
+      :container_format,
+      :ad_configuration_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -630,25 +1035,14 @@ module Aws::IVS
       include Aws::Structure
     end
 
-    # @!attribute [rw] destination_configuration
-    #   A complex type that contains a destination configuration for where
-    #   recorded video will be stored.
-    #   @return [Types::DestinationConfiguration]
-    #
     # @!attribute [rw] name
     #   Recording-configuration name. The value does not need to be unique.
     #   @return [String]
     #
-    # @!attribute [rw] recording_reconnect_window_seconds
-    #   If a broadcast disconnects and then reconnects within the specified
-    #   interval, the multiple streams will be considered a single broadcast
-    #   and merged together. Default: 0.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] rendition_configuration
-    #   Object that describes which renditions should be recorded for a
-    #   stream.
-    #   @return [Types::RenditionConfiguration]
+    # @!attribute [rw] destination_configuration
+    #   A complex type that contains a destination configuration for where
+    #   recorded video will be stored.
+    #   @return [Types::DestinationConfiguration]
     #
     # @!attribute [rw] tags
     #   Array of 1-50 maps, each of the form `string:string (key:value)`.
@@ -669,15 +1063,26 @@ module Aws::IVS
     #   thumbnails are generated for the live session.
     #   @return [Types::ThumbnailConfiguration]
     #
+    # @!attribute [rw] recording_reconnect_window_seconds
+    #   If a broadcast disconnects and then reconnects within the specified
+    #   interval, the multiple streams will be considered a single broadcast
+    #   and merged together. Default: 0.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] rendition_configuration
+    #   Object that describes which renditions should be recorded for a
+    #   stream.
+    #   @return [Types::RenditionConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/CreateRecordingConfigurationRequest AWS API Documentation
     #
     class CreateRecordingConfigurationRequest < Struct.new(
-      :destination_configuration,
       :name,
-      :recording_reconnect_window_seconds,
-      :rendition_configuration,
+      :destination_configuration,
       :tags,
-      :thumbnail_configuration)
+      :thumbnail_configuration,
+      :recording_reconnect_window_seconds,
+      :rendition_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -730,6 +1135,18 @@ module Aws::IVS
     #
     class CreateStreamKeyResponse < Struct.new(
       :stream_key)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   ARN of the ad configuration to be deleted.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/DeleteAdConfigurationRequest AWS API Documentation
+    #
+    class DeleteAdConfigurationRequest < Struct.new(
+      :arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -812,6 +1229,29 @@ module Aws::IVS
     #
     class DestinationConfiguration < Struct.new(
       :s3)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   ARN of the ad configuration to be retrieved.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/GetAdConfigurationRequest AWS API Documentation
+    #
+    class GetAdConfigurationRequest < Struct.new(
+      :arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ad_configuration
+    #   @return [Types::AdConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/GetAdConfigurationResponse AWS API Documentation
+    #
+    class GetAdConfigurationResponse < Struct.new(
+      :ad_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -994,12 +1434,12 @@ module Aws::IVS
       include Aws::Structure
     end
 
-    # @!attribute [rw] name
-    #   Playback-key-pair name. The value does not need to be unique.
-    #   @return [String]
-    #
     # @!attribute [rw] public_key_material
     #   The public portion of a customer-generated key pair.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Playback-key-pair name. The value does not need to be unique.
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -1018,8 +1458,8 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ImportPlaybackKeyPairRequest AWS API Documentation
     #
     class ImportPlaybackKeyPairRequest < Struct.new(
-      :name,
       :public_key_material,
+      :name,
       :tags)
       SENSITIVE = []
       include Aws::Structure
@@ -1043,23 +1483,23 @@ module Aws::IVS
     # IngestConfigurations but retained to ensure backward compatibility. If
     # multitrack is not enabled, IngestConfiguration and
     # IngestConfigurations contain the same data, namely information about
-    # track0 (the sole track). If multitrack is enabled, IngestConfiguration
-    # contains data for only the first track (track0) and
+    # Track0 (the sole track). If multitrack is enabled, IngestConfiguration
+    # contains data for only the first track (Track0) and
     # IngestConfigurations contains data for all tracks.
-    #
-    # @!attribute [rw] audio
-    #   Encoder settings for audio.
-    #   @return [Types::AudioConfiguration]
     #
     # @!attribute [rw] video
     #   Encoder settings for video.
     #   @return [Types::VideoConfiguration]
     #
+    # @!attribute [rw] audio
+    #   Encoder settings for audio.
+    #   @return [Types::AudioConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/IngestConfiguration AWS API Documentation
     #
     class IngestConfiguration < Struct.new(
-      :audio,
-      :video)
+      :video,
+      :audio)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1070,27 +1510,81 @@ module Aws::IVS
     # **Note:** Use IngestConfigurations instead of IngestConfiguration
     # (which is deprecated). If multitrack is not enabled,
     # IngestConfiguration and IngestConfigurations contain the same data,
-    # namely information about track0 (the sole track). If multitrack is
+    # namely information about Track0 (the sole track). If multitrack is
     # enabled, IngestConfiguration contains data for only the first track
-    # (track0) and IngestConfigurations contains data for all tracks.
-    #
-    # @!attribute [rw] audio_configurations
-    #   Encoder settings for audio.
-    #   @return [Array<Types::AudioConfiguration>]
+    # (Track0) and IngestConfigurations contains data for all tracks.
     #
     # @!attribute [rw] video_configurations
     #   Encoder settings for video
     #   @return [Array<Types::VideoConfiguration>]
     #
+    # @!attribute [rw] audio_configurations
+    #   Encoder settings for audio.
+    #   @return [Array<Types::AudioConfiguration>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/IngestConfigurations AWS API Documentation
     #
     class IngestConfigurations < Struct.new(
-      :audio_configurations,
-      :video_configurations)
+      :video_configurations,
+      :audio_configurations)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] channel_arn
+    #   ARN of the channel into which the ad break is inserted.
+    #   @return [String]
+    #
+    # @!attribute [rw] duration_seconds
+    #   Maximum duration of the ad break, in seconds.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/InsertAdBreakRequest AWS API Documentation
+    #
+    class InsertAdBreakRequest < Struct.new(
+      :channel_arn,
+      :duration_seconds)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ad_break_id
+    #   Unique identifier for the ad break that was inserted into the
+    #   playlist.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/InsertAdBreakResponse AWS API Documentation
+    #
+    class InsertAdBreakResponse < Struct.new(
+      :ad_break_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] access_control_allow_origin
+    #   @return [String]
+    #
+    # @!attribute [rw] access_control_expose_headers
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_control
+    #   @return [String]
+    #
+    # @!attribute [rw] content_security_policy
+    #   @return [String]
+    #
+    # @!attribute [rw] strict_transport_security
+    #   @return [String]
+    #
+    # @!attribute [rw] x_content_type_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_frame_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_amzn_error_type
+    #   @return [String]
+    #
     # @!attribute [rw] exception_message
     #   Unexpected error during processing of request.
     #   @return [String]
@@ -1098,7 +1592,52 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/InternalServerException AWS API Documentation
     #
     class InternalServerException < Struct.new(
+      :access_control_allow_origin,
+      :access_control_expose_headers,
+      :cache_control,
+      :content_security_policy,
+      :strict_transport_security,
+      :x_content_type_options,
+      :x_frame_options,
+      :x_amzn_error_type,
       :exception_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The first ad configuration to retrieve. This is used for pagination;
+    #   see the `nextToken` response field.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   Maximum number of ad configurations to return. Default: your service
+    #   quota or 100, whichever is smaller.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ListAdConfigurationsRequest AWS API Documentation
+    #
+    class ListAdConfigurationsRequest < Struct.new(
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ad_configurations
+    #   List of the matching ad configurations.
+    #   @return [Array<Types::AdConfigurationSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If there are more ad configurations than `maxResults`, use
+    #   `nextToken` in the request to get the next set.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ListAdConfigurationsResponse AWS API Documentation
+    #
+    class ListAdConfigurationsResponse < Struct.new(
+      :ad_configurations,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1107,32 +1646,38 @@ module Aws::IVS
     #   Filters the channel list to match the specified name.
     #   @return [String]
     #
-    # @!attribute [rw] filter_by_playback_restriction_policy_arn
-    #   Filters the channel list to match the specified policy.
-    #   @return [String]
-    #
     # @!attribute [rw] filter_by_recording_configuration_arn
     #   Filters the channel list to match the specified
     #   recording-configuration ARN.
     #   @return [String]
     #
-    # @!attribute [rw] max_results
-    #   Maximum number of channels to return. Default: 100.
-    #   @return [Integer]
+    # @!attribute [rw] filter_by_playback_restriction_policy_arn
+    #   Filters the channel list to match the specified policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] filter_by_ad_configuration_arn
+    #   Filters the channel list to match the specified ad configuration
+    #   ARN.
+    #   @return [String]
     #
     # @!attribute [rw] next_token
     #   The first channel to retrieve. This is used for pagination; see the
     #   `nextToken` response field.
     #   @return [String]
     #
+    # @!attribute [rw] max_results
+    #   Maximum number of channels to return. Default: 100.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ListChannelsRequest AWS API Documentation
     #
     class ListChannelsRequest < Struct.new(
       :filter_by_name,
-      :filter_by_playback_restriction_policy_arn,
       :filter_by_recording_configuration_arn,
-      :max_results,
-      :next_token)
+      :filter_by_playback_restriction_policy_arn,
+      :filter_by_ad_configuration_arn,
+      :next_token,
+      :max_results)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1155,21 +1700,21 @@ module Aws::IVS
       include Aws::Structure
     end
 
-    # @!attribute [rw] max_results
-    #   Maximum number of key pairs to return. Default: your service quota
-    #   or 100, whichever is smaller.
-    #   @return [Integer]
-    #
     # @!attribute [rw] next_token
     #   The first key pair to retrieve. This is used for pagination; see the
     #   `nextToken` response field.
     #   @return [String]
     #
+    # @!attribute [rw] max_results
+    #   Maximum number of key pairs to return. Default: your service quota
+    #   or 100, whichever is smaller.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ListPlaybackKeyPairsRequest AWS API Documentation
     #
     class ListPlaybackKeyPairsRequest < Struct.new(
-      :max_results,
-      :next_token)
+      :next_token,
+      :max_results)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1192,75 +1737,75 @@ module Aws::IVS
       include Aws::Structure
     end
 
-    # @!attribute [rw] max_results
-    #   Maximum number of policies to return. Default: 1.
-    #   @return [Integer]
-    #
     # @!attribute [rw] next_token
     #   The first policy to retrieve. This is used for pagination; see the
     #   `nextToken` response field.
     #   @return [String]
     #
+    # @!attribute [rw] max_results
+    #   Maximum number of policies to return. Default: 1.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ListPlaybackRestrictionPoliciesRequest AWS API Documentation
     #
     class ListPlaybackRestrictionPoliciesRequest < Struct.new(
-      :max_results,
-      :next_token)
+      :next_token,
+      :max_results)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] playback_restriction_policies
+    #   List of the matching policies.
+    #   @return [Array<Types::PlaybackRestrictionPolicySummary>]
+    #
     # @!attribute [rw] next_token
     #   If there are more channels than `maxResults`, use `nextToken` in the
     #   request to get the next set.
     #   @return [String]
     #
-    # @!attribute [rw] playback_restriction_policies
-    #   List of the matching policies.
-    #   @return [Array<Types::PlaybackRestrictionPolicySummary>]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ListPlaybackRestrictionPoliciesResponse AWS API Documentation
     #
     class ListPlaybackRestrictionPoliciesResponse < Struct.new(
-      :next_token,
-      :playback_restriction_policies)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # @!attribute [rw] max_results
-    #   Maximum number of recording configurations to return. Default: your
-    #   service quota or 100, whichever is smaller.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] next_token
-    #   The first recording configuration to retrieve. This is used for
-    #   pagination; see the `nextToken` response field.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ListRecordingConfigurationsRequest AWS API Documentation
-    #
-    class ListRecordingConfigurationsRequest < Struct.new(
-      :max_results,
+      :playback_restriction_policies,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # @!attribute [rw] next_token
-    #   If there are more recording configurations than `maxResults`, use
-    #   `nextToken` in the request to get the next set.
+    #   The first recording configuration to retrieve. This is used for
+    #   pagination; see the `nextToken` response field.
     #   @return [String]
     #
+    # @!attribute [rw] max_results
+    #   Maximum number of recording configurations to return. Default: your
+    #   service quota or 100, whichever is smaller.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ListRecordingConfigurationsRequest AWS API Documentation
+    #
+    class ListRecordingConfigurationsRequest < Struct.new(
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] recording_configurations
     #   List of the matching recording configurations.
     #   @return [Array<Types::RecordingConfigurationSummary>]
     #
+    # @!attribute [rw] next_token
+    #   If there are more recording configurations than `maxResults`, use
+    #   `nextToken` in the request to get the next set.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ListRecordingConfigurationsResponse AWS API Documentation
     #
     class ListRecordingConfigurationsResponse < Struct.new(
-      :next_token,
-      :recording_configurations)
+      :recording_configurations,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1268,40 +1813,40 @@ module Aws::IVS
     # @!attribute [rw] channel_arn
     #   Channel ARN used to filter the list.
     #   @return [String]
-    #
-    # @!attribute [rw] max_results
-    #   Maximum number of streamKeys to return. Default: 1.
-    #   @return [Integer]
     #
     # @!attribute [rw] next_token
     #   The first stream key to retrieve. This is used for pagination; see
     #   the `nextToken` response field.
     #   @return [String]
     #
+    # @!attribute [rw] max_results
+    #   Maximum number of streamKeys to return. Default: 1.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ListStreamKeysRequest AWS API Documentation
     #
     class ListStreamKeysRequest < Struct.new(
       :channel_arn,
-      :max_results,
-      :next_token)
+      :next_token,
+      :max_results)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] stream_keys
+    #   List of stream keys.
+    #   @return [Array<Types::StreamKeySummary>]
+    #
     # @!attribute [rw] next_token
     #   If there are more stream keys than `maxResults`, use `nextToken` in
     #   the request to get the next set.
     #   @return [String]
     #
-    # @!attribute [rw] stream_keys
-    #   List of stream keys.
-    #   @return [Array<Types::StreamKeySummary>]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ListStreamKeysResponse AWS API Documentation
     #
     class ListStreamKeysResponse < Struct.new(
-      :next_token,
-      :stream_keys)
+      :stream_keys,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1310,39 +1855,39 @@ module Aws::IVS
     #   Channel ARN used to filter the list.
     #   @return [String]
     #
-    # @!attribute [rw] max_results
-    #   Maximum number of streams to return. Default: 100.
-    #   @return [Integer]
-    #
     # @!attribute [rw] next_token
     #   The first stream to retrieve. This is used for pagination; see the
     #   `nextToken` response field.
     #   @return [String]
     #
+    # @!attribute [rw] max_results
+    #   Maximum number of streams to return. Default: 100.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ListStreamSessionsRequest AWS API Documentation
     #
     class ListStreamSessionsRequest < Struct.new(
       :channel_arn,
-      :max_results,
-      :next_token)
+      :next_token,
+      :max_results)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] stream_sessions
+    #   List of stream sessions.
+    #   @return [Array<Types::StreamSessionSummary>]
+    #
     # @!attribute [rw] next_token
     #   If there are more streams than `maxResults`, use `nextToken` in the
     #   request to get the next set.
     #   @return [String]
     #
-    # @!attribute [rw] stream_sessions
-    #   List of stream sessions.
-    #   @return [Array<Types::StreamSessionSummary>]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ListStreamSessionsResponse AWS API Documentation
     #
     class ListStreamSessionsResponse < Struct.new(
-      :next_token,
-      :stream_sessions)
+      :stream_sessions,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1351,39 +1896,39 @@ module Aws::IVS
     #   Filters the stream list to match the specified criterion.
     #   @return [Types::StreamFilters]
     #
-    # @!attribute [rw] max_results
-    #   Maximum number of streams to return. Default: 100.
-    #   @return [Integer]
-    #
     # @!attribute [rw] next_token
     #   The first stream to retrieve. This is used for pagination; see the
     #   `nextToken` response field.
     #   @return [String]
     #
+    # @!attribute [rw] max_results
+    #   Maximum number of streams to return. Default: 100.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ListStreamsRequest AWS API Documentation
     #
     class ListStreamsRequest < Struct.new(
       :filter_by,
-      :max_results,
-      :next_token)
+      :next_token,
+      :max_results)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] streams
+    #   List of streams.
+    #   @return [Array<Types::StreamSummary>]
+    #
     # @!attribute [rw] next_token
     #   If there are more streams than `maxResults`, use `nextToken` in the
     #   request to get the next set.
     #   @return [String]
     #
-    # @!attribute [rw] streams
-    #   List of streams.
-    #   @return [Array<Types::StreamSummary>]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ListStreamsResponse AWS API Documentation
     #
     class ListStreamsResponse < Struct.new(
-      :next_token,
-      :streams)
+      :streams,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1414,6 +1959,22 @@ module Aws::IVS
       include Aws::Structure
     end
 
+    # Object specifying a configuration for integration with an AWS
+    # Elemental MediaTailor (EMT).
+    #
+    # @!attribute [rw] playback_configuration_arn
+    #   ARN of the customer-created EMT PlaybackConfiguration resource in
+    #   the same region and account.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/MediaTailorPlaybackConfiguration AWS API Documentation
+    #
+    class MediaTailorPlaybackConfiguration < Struct.new(
+      :playback_configuration_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A complex type that specifies multitrack input configuration.
     #
     # @!attribute [rw] enabled
@@ -1425,26 +1986,50 @@ module Aws::IVS
     #   `false`.
     #   @return [Boolean]
     #
-    # @!attribute [rw] maximum_resolution
-    #   Maximum resolution for multitrack input. Required if `enabled` is
-    #   `true`.
-    #   @return [String]
-    #
     # @!attribute [rw] policy
     #   Indicates whether multitrack input is allowed or required. Required
     #   if `enabled` is `true`.
+    #   @return [String]
+    #
+    # @!attribute [rw] maximum_resolution
+    #   Maximum resolution for multitrack input. Required if `enabled` is
+    #   `true`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/MultitrackInputConfiguration AWS API Documentation
     #
     class MultitrackInputConfiguration < Struct.new(
       :enabled,
-      :maximum_resolution,
-      :policy)
+      :policy,
+      :maximum_resolution)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] access_control_allow_origin
+    #   @return [String]
+    #
+    # @!attribute [rw] access_control_expose_headers
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_control
+    #   @return [String]
+    #
+    # @!attribute [rw] content_security_policy
+    #   @return [String]
+    #
+    # @!attribute [rw] strict_transport_security
+    #   @return [String]
+    #
+    # @!attribute [rw] x_content_type_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_frame_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_amzn_error_type
+    #   @return [String]
+    #
     # @!attribute [rw] exception_message
     #   Your account is pending verification.
     #   @return [String]
@@ -1452,6 +2037,14 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/PendingVerification AWS API Documentation
     #
     class PendingVerification < Struct.new(
+      :access_control_allow_origin,
+      :access_control_expose_headers,
+      :cache_control,
+      :content_security_policy,
+      :strict_transport_security,
+      :x_content_type_options,
+      :x_frame_options,
+      :x_amzn_error_type,
       :exception_message)
       SENSITIVE = []
       include Aws::Structure
@@ -1463,12 +2056,12 @@ module Aws::IVS
     #   Key-pair ARN.
     #   @return [String]
     #
-    # @!attribute [rw] fingerprint
-    #   Key-pair identifier.
-    #   @return [String]
-    #
     # @!attribute [rw] name
     #   Playback-key-pair name. The value does not need to be unique.
+    #   @return [String]
+    #
+    # @!attribute [rw] fingerprint
+    #   Key-pair identifier.
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -1488,8 +2081,8 @@ module Aws::IVS
     #
     class PlaybackKeyPair < Struct.new(
       :arn,
-      :fingerprint,
       :name,
+      :fingerprint,
       :tags)
       SENSITIVE = []
       include Aws::Structure
@@ -1531,6 +2124,10 @@ module Aws::IVS
     # An object representing a policy to constrain playback by country
     # and/or origin sites.
     #
+    # @!attribute [rw] arn
+    #   Playback-restriction-policy ARN
+    #   @return [String]
+    #
     # @!attribute [rw] allowed_countries
     #   A list of country codes that control geoblocking restriction.
     #   Allowed values are the officially assigned [ISO 3166-1 alpha-2][1]
@@ -1551,10 +2148,6 @@ module Aws::IVS
     #
     #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin
     #   @return [Array<String>]
-    #
-    # @!attribute [rw] arn
-    #   Playback-restriction-policy ARN
-    #   @return [String]
     #
     # @!attribute [rw] enable_strict_origin_enforcement
     #   Whether channel playback is constrained by origin site. Default:
@@ -1582,9 +2175,9 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/PlaybackRestrictionPolicy AWS API Documentation
     #
     class PlaybackRestrictionPolicy < Struct.new(
+      :arn,
       :allowed_countries,
       :allowed_origins,
-      :arn,
       :enable_strict_origin_enforcement,
       :name,
       :tags)
@@ -1593,6 +2186,10 @@ module Aws::IVS
     end
 
     # Summary information about a PlaybackRestrictionPolicy.
+    #
+    # @!attribute [rw] arn
+    #   Playback-restriction-policy ARN
+    #   @return [String]
     #
     # @!attribute [rw] allowed_countries
     #   A list of country codes that control geoblocking restriction.
@@ -1614,10 +2211,6 @@ module Aws::IVS
     #
     #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin
     #   @return [Array<String>]
-    #
-    # @!attribute [rw] arn
-    #   Playback-restriction-policy ARN
-    #   @return [String]
     #
     # @!attribute [rw] enable_strict_origin_enforcement
     #   Whether channel playback is constrained by origin site. Default:
@@ -1645,9 +2238,9 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/PlaybackRestrictionPolicySummary AWS API Documentation
     #
     class PlaybackRestrictionPolicySummary < Struct.new(
+      :arn,
       :allowed_countries,
       :allowed_origins,
-      :arn,
       :enable_strict_origin_enforcement,
       :name,
       :tags)
@@ -1679,25 +2272,14 @@ module Aws::IVS
     #   Recording-configuration ARN.
     #   @return [String]
     #
-    # @!attribute [rw] destination_configuration
-    #   A complex type that contains information about where recorded video
-    #   will be stored.
-    #   @return [Types::DestinationConfiguration]
-    #
     # @!attribute [rw] name
     #   Recording-configuration name. The value does not need to be unique.
     #   @return [String]
     #
-    # @!attribute [rw] recording_reconnect_window_seconds
-    #   If a broadcast disconnects and then reconnects within the specified
-    #   interval, the multiple streams will be considered a single broadcast
-    #   and merged together. Default: 0.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] rendition_configuration
-    #   Object that describes which renditions should be recorded for a
-    #   stream.
-    #   @return [Types::RenditionConfiguration]
+    # @!attribute [rw] destination_configuration
+    #   A complex type that contains information about where recorded video
+    #   will be stored.
+    #   @return [Types::DestinationConfiguration]
     #
     # @!attribute [rw] state
     #   Indicates the current state of the recording configuration. When the
@@ -1724,17 +2306,28 @@ module Aws::IVS
     #   thumbnails are generated for the live session.
     #   @return [Types::ThumbnailConfiguration]
     #
+    # @!attribute [rw] recording_reconnect_window_seconds
+    #   If a broadcast disconnects and then reconnects within the specified
+    #   interval, the multiple streams will be considered a single broadcast
+    #   and merged together. Default: 0.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] rendition_configuration
+    #   Object that describes which renditions should be recorded for a
+    #   stream.
+    #   @return [Types::RenditionConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/RecordingConfiguration AWS API Documentation
     #
     class RecordingConfiguration < Struct.new(
       :arn,
-      :destination_configuration,
       :name,
-      :recording_reconnect_window_seconds,
-      :rendition_configuration,
+      :destination_configuration,
       :state,
       :tags,
-      :thumbnail_configuration)
+      :thumbnail_configuration,
+      :recording_reconnect_window_seconds,
+      :rendition_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1745,14 +2338,14 @@ module Aws::IVS
     #   Recording-configuration ARN.
     #   @return [String]
     #
+    # @!attribute [rw] name
+    #   Recording-configuration name. The value does not need to be unique.
+    #   @return [String]
+    #
     # @!attribute [rw] destination_configuration
     #   A complex type that contains information about where recorded video
     #   will be stored.
     #   @return [Types::DestinationConfiguration]
-    #
-    # @!attribute [rw] name
-    #   Recording-configuration name. The value does not need to be unique.
-    #   @return [String]
     #
     # @!attribute [rw] state
     #   Indicates the current state of the recording configuration. When the
@@ -1777,8 +2370,8 @@ module Aws::IVS
     #
     class RecordingConfigurationSummary < Struct.new(
       :arn,
-      :destination_configuration,
       :name,
+      :destination_configuration,
       :state,
       :tags)
       SENSITIVE = []
@@ -1818,6 +2411,30 @@ module Aws::IVS
       include Aws::Structure
     end
 
+    # @!attribute [rw] access_control_allow_origin
+    #   @return [String]
+    #
+    # @!attribute [rw] access_control_expose_headers
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_control
+    #   @return [String]
+    #
+    # @!attribute [rw] content_security_policy
+    #   @return [String]
+    #
+    # @!attribute [rw] strict_transport_security
+    #   @return [String]
+    #
+    # @!attribute [rw] x_content_type_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_frame_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_amzn_error_type
+    #   @return [String]
+    #
     # @!attribute [rw] exception_message
     #   Request references a resource which does not exist.
     #   @return [String]
@@ -1825,6 +2442,14 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ResourceNotFoundException AWS API Documentation
     #
     class ResourceNotFoundException < Struct.new(
+      :access_control_allow_origin,
+      :access_control_expose_headers,
+      :cache_control,
+      :content_security_policy,
+      :strict_transport_security,
+      :x_content_type_options,
+      :x_frame_options,
+      :x_amzn_error_type,
       :exception_message)
       SENSITIVE = []
       include Aws::Structure
@@ -1845,6 +2470,30 @@ module Aws::IVS
       include Aws::Structure
     end
 
+    # @!attribute [rw] access_control_allow_origin
+    #   @return [String]
+    #
+    # @!attribute [rw] access_control_expose_headers
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_control
+    #   @return [String]
+    #
+    # @!attribute [rw] content_security_policy
+    #   @return [String]
+    #
+    # @!attribute [rw] strict_transport_security
+    #   @return [String]
+    #
+    # @!attribute [rw] x_content_type_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_frame_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_amzn_error_type
+    #   @return [String]
+    #
     # @!attribute [rw] exception_message
     #   Request would cause a service quota to be exceeded.
     #   @return [String]
@@ -1852,6 +2501,57 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ServiceQuotaExceededException AWS API Documentation
     #
     class ServiceQuotaExceededException < Struct.new(
+      :access_control_allow_origin,
+      :access_control_expose_headers,
+      :cache_control,
+      :content_security_policy,
+      :strict_transport_security,
+      :x_content_type_options,
+      :x_frame_options,
+      :x_amzn_error_type,
+      :exception_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] access_control_allow_origin
+    #   @return [String]
+    #
+    # @!attribute [rw] access_control_expose_headers
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_control
+    #   @return [String]
+    #
+    # @!attribute [rw] content_security_policy
+    #   @return [String]
+    #
+    # @!attribute [rw] strict_transport_security
+    #   @return [String]
+    #
+    # @!attribute [rw] x_content_type_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_frame_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_amzn_error_type
+    #   @return [String]
+    #
+    # @!attribute [rw] exception_message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ServiceUnavailable AWS API Documentation
+    #
+    class ServiceUnavailable < Struct.new(
+      :access_control_allow_origin,
+      :access_control_expose_headers,
+      :cache_control,
+      :content_security_policy,
+      :strict_transport_security,
+      :x_content_type_options,
+      :x_frame_options,
+      :x_amzn_error_type,
       :exception_message)
       SENSITIVE = []
       include Aws::Structure
@@ -1931,8 +2631,9 @@ module Aws::IVS
     #   Channel ARN for the stream.
     #   @return [String]
     #
-    # @!attribute [rw] health
-    #   The stream’s health.
+    # @!attribute [rw] stream_id
+    #   Unique identifier for a live or previously live stream in the
+    #   specified channel.
     #   @return [String]
     #
     # @!attribute [rw] playback_url
@@ -1951,9 +2652,8 @@ module Aws::IVS
     #   indicate that the stream is not live.
     #   @return [String]
     #
-    # @!attribute [rw] stream_id
-    #   Unique identifier for a live or previously live stream in the
-    #   specified channel.
+    # @!attribute [rw] health
+    #   The stream’s health.
     #   @return [String]
     #
     # @!attribute [rw] viewer_count
@@ -1968,11 +2668,11 @@ module Aws::IVS
     #
     class Stream < Struct.new(
       :channel_arn,
-      :health,
+      :stream_id,
       :playback_url,
       :start_time,
       :state,
-      :stream_id,
+      :health,
       :viewer_count)
       SENSITIVE = []
       include Aws::Structure
@@ -1984,6 +2684,19 @@ module Aws::IVS
     #
     #
     # [1]: https://docs.aws.amazon.com/ivs/latest/userguide/eventbridge.html
+    #
+    # @!attribute [rw] name
+    #   Name that identifies the stream event within a `type`.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   Logical group for certain events.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_time
+    #   Time when the event occurred. This is an ISO 8601 timestamp; *note
+    #   that this is returned as a string*.
+    #   @return [Time]
     #
     # @!attribute [rw] code
     #   Provides additional details about the stream event. There are
@@ -2031,26 +2744,13 @@ module Aws::IVS
     #     maximum allowed takeover attempts for this stream.
     #   @return [String]
     #
-    # @!attribute [rw] event_time
-    #   Time when the event occurred. This is an ISO 8601 timestamp; *note
-    #   that this is returned as a string*.
-    #   @return [Time]
-    #
-    # @!attribute [rw] name
-    #   Name that identifies the stream event within a `type`.
-    #   @return [String]
-    #
-    # @!attribute [rw] type
-    #   Logical group for certain events.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/StreamEvent AWS API Documentation
     #
     class StreamEvent < Struct.new(
-      :code,
-      :event_time,
       :name,
-      :type)
+      :type,
+      :event_time,
+      :code)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2075,6 +2775,10 @@ module Aws::IVS
     #   Stream-key ARN.
     #   @return [String]
     #
+    # @!attribute [rw] value
+    #   Stream-key value.
+    #   @return [String]
+    #
     # @!attribute [rw] channel_arn
     #   Channel ARN for the stream.
     #   @return [String]
@@ -2092,17 +2796,13 @@ module Aws::IVS
     #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
     #   @return [Hash<String,String>]
     #
-    # @!attribute [rw] value
-    #   Stream-key value.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/StreamKey AWS API Documentation
     #
     class StreamKey < Struct.new(
       :arn,
+      :value,
       :channel_arn,
-      :tags,
-      :value)
+      :tags)
       SENSITIVE = [:value]
       include Aws::Structure
     end
@@ -2144,15 +2844,25 @@ module Aws::IVS
     # provisioned, the ingest configurations that the broadcaster used, and
     # the most recent Amazon IVS stream events it encountered.
     #
-    # @!attribute [rw] channel
-    #   The properties of the channel at the time of going live.
-    #   @return [Types::Channel]
+    # @!attribute [rw] stream_id
+    #   Unique identifier for a live or previously live stream in the
+    #   specified channel.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   Time when the channel went live. This is an ISO 8601 timestamp;
+    #   *note that this is returned as a string*.
+    #   @return [Time]
     #
     # @!attribute [rw] end_time
     #   Time when the channel went offline. This is an ISO 8601 timestamp;
     #   *note that this is returned as a string*. For live streams, this is
     #   `NULL`.
     #   @return [Time]
+    #
+    # @!attribute [rw] channel
+    #   The properties of the channel at the time of going live.
+    #   @return [Types::Channel]
     #
     # @!attribute [rw] ingest_configuration
     #   The properties of the incoming RTMP stream.
@@ -2161,30 +2871,20 @@ module Aws::IVS
     #   `ingestConfigurations` but retained to ensure backward
     #   compatibility. If multitrack is not enabled, `ingestConfiguration`
     #   and `ingestConfigurations` contain the same data, namely information
-    #   about track0 (the sole track). If multitrack is enabled,
+    #   about Track0 (the sole track). If multitrack is enabled,
     #   `ingestConfiguration` contains data for only the first track
-    #   (track0) and `ingestConfigurations` contains data for all tracks.
+    #   (Track0) and `ingestConfigurations` contains data for all tracks.
     #   @return [Types::IngestConfiguration]
     #
     # @!attribute [rw] ingest_configurations
     #   The properties of the incoming RTMP stream. If multitrack is
     #   enabled, `ingestConfigurations` contains data for all tracks;
-    #   otherwise, it contains data only for track0 (the sole track).
+    #   otherwise, it contains data only for Track0 (the sole track).
     #   @return [Types::IngestConfigurations]
     #
     # @!attribute [rw] recording_configuration
     #   The properties of recording the live stream.
     #   @return [Types::RecordingConfiguration]
-    #
-    # @!attribute [rw] start_time
-    #   Time when the channel went live. This is an ISO 8601 timestamp;
-    #   *note that this is returned as a string*.
-    #   @return [Time]
-    #
-    # @!attribute [rw] stream_id
-    #   Unique identifier for a live or previously live stream in the
-    #   specified channel.
-    #   @return [String]
     #
     # @!attribute [rw] truncated_events
     #   List of Amazon IVS events that the stream encountered. The list is
@@ -2200,19 +2900,29 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/StreamSession AWS API Documentation
     #
     class StreamSession < Struct.new(
-      :channel,
+      :stream_id,
+      :start_time,
       :end_time,
+      :channel,
       :ingest_configuration,
       :ingest_configurations,
       :recording_configuration,
-      :start_time,
-      :stream_id,
       :truncated_events)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Summary information about a stream session.
+    #
+    # @!attribute [rw] stream_id
+    #   Unique identifier for a live or previously live stream in the
+    #   specified channel.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   Time when the channel went live. This is an ISO 8601 timestamp;
+    #   *note that this is returned as a string*.
+    #   @return [Time]
     #
     # @!attribute [rw] end_time
     #   Time when the channel went offline. This is an ISO 8601 timestamp;
@@ -2224,23 +2934,13 @@ module Aws::IVS
     #   If `true`, this stream encountered a quota breach or failure.
     #   @return [Boolean]
     #
-    # @!attribute [rw] start_time
-    #   Time when the channel went live. This is an ISO 8601 timestamp;
-    #   *note that this is returned as a string*.
-    #   @return [Time]
-    #
-    # @!attribute [rw] stream_id
-    #   Unique identifier for a live or previously live stream in the
-    #   specified channel.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/StreamSessionSummary AWS API Documentation
     #
     class StreamSessionSummary < Struct.new(
-      :end_time,
-      :has_error_event,
+      :stream_id,
       :start_time,
-      :stream_id)
+      :end_time,
+      :has_error_event)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2251,14 +2951,10 @@ module Aws::IVS
     #   Channel ARN for the stream.
     #   @return [String]
     #
-    # @!attribute [rw] health
-    #   The stream’s health.
+    # @!attribute [rw] stream_id
+    #   Unique identifier for a live or previously live stream in the
+    #   specified channel.
     #   @return [String]
-    #
-    # @!attribute [rw] start_time
-    #   Time of the stream’s start. This is an ISO 8601 timestamp; *note
-    #   that this is returned as a string*.
-    #   @return [Time]
     #
     # @!attribute [rw] state
     #   The stream’s state. Do not rely on the `OFFLINE` state, as the API
@@ -2266,9 +2962,8 @@ module Aws::IVS
     #   indicate that the stream is not live.
     #   @return [String]
     #
-    # @!attribute [rw] stream_id
-    #   Unique identifier for a live or previously live stream in the
-    #   specified channel.
+    # @!attribute [rw] health
+    #   The stream’s health.
     #   @return [String]
     #
     # @!attribute [rw] viewer_count
@@ -2279,19 +2974,48 @@ module Aws::IVS
     #   timed out; in this case, retry.
     #   @return [Integer]
     #
+    # @!attribute [rw] start_time
+    #   Time of the stream’s start. This is an ISO 8601 timestamp; *note
+    #   that this is returned as a string*.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/StreamSummary AWS API Documentation
     #
     class StreamSummary < Struct.new(
       :channel_arn,
-      :health,
-      :start_time,
-      :state,
       :stream_id,
-      :viewer_count)
+      :state,
+      :health,
+      :viewer_count,
+      :start_time)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] access_control_allow_origin
+    #   @return [String]
+    #
+    # @!attribute [rw] access_control_expose_headers
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_control
+    #   @return [String]
+    #
+    # @!attribute [rw] content_security_policy
+    #   @return [String]
+    #
+    # @!attribute [rw] strict_transport_security
+    #   @return [String]
+    #
+    # @!attribute [rw] x_content_type_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_frame_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_amzn_error_type
+    #   @return [String]
+    #
     # @!attribute [rw] exception_message
     #   The stream is temporarily unavailable.
     #   @return [String]
@@ -2299,6 +3023,14 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/StreamUnavailable AWS API Documentation
     #
     class StreamUnavailable < Struct.new(
+      :access_control_allow_origin,
+      :access_control_expose_headers,
+      :cache_control,
+      :content_security_policy,
+      :strict_transport_security,
+      :x_content_type_options,
+      :x_frame_options,
+      :x_amzn_error_type,
       :exception_message)
       SENSITIVE = []
       include Aws::Structure
@@ -2335,6 +3067,30 @@ module Aws::IVS
     #
     class TagResourceResponse < Aws::EmptyStructure; end
 
+    # @!attribute [rw] access_control_allow_origin
+    #   @return [String]
+    #
+    # @!attribute [rw] access_control_expose_headers
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_control
+    #   @return [String]
+    #
+    # @!attribute [rw] content_security_policy
+    #   @return [String]
+    #
+    # @!attribute [rw] strict_transport_security
+    #   @return [String]
+    #
+    # @!attribute [rw] x_content_type_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_frame_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_amzn_error_type
+    #   @return [String]
+    #
     # @!attribute [rw] exception_message
     #   Request was denied due to request throttling.
     #   @return [String]
@@ -2342,6 +3098,14 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ThrottlingException AWS API Documentation
     #
     class ThrottlingException < Struct.new(
+      :access_control_allow_origin,
+      :access_control_expose_headers,
+      :cache_control,
+      :content_security_policy,
+      :strict_transport_security,
+      :x_content_type_options,
+      :x_frame_options,
+      :x_amzn_error_type,
       :exception_message)
       SENSITIVE = []
       include Aws::Structure
@@ -2353,6 +3117,26 @@ module Aws::IVS
     # @!attribute [rw] recording_mode
     #   Thumbnail recording mode. Default: `INTERVAL`.
     #   @return [String]
+    #
+    # @!attribute [rw] target_interval_seconds
+    #   The targeted thumbnail-generation interval in seconds. This is
+    #   configurable (and required) only if `recordingMode` is `INTERVAL`.
+    #   Default: 60.
+    #
+    #   **Important:** For the `BASIC` channel type, or the `STANDARD`
+    #   channel type with multitrack input, setting a value for
+    #   `targetIntervalSeconds` does not guarantee that thumbnails are
+    #   generated at the specified interval. For thumbnails to be generated
+    #   at the `targetIntervalSeconds` interval, the `IDR/Keyframe` value
+    #   for the input video must be less than the `targetIntervalSeconds`
+    #   value. See [ Amazon IVS Streaming Configuration][1] for information
+    #   on setting `IDR/Keyframe` to the recommended value in video-encoder
+    #   settings.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ivs/latest/userguide/streaming-config.html
+    #   @return [Integer]
     #
     # @!attribute [rw] resolution
     #   Indicates the desired resolution of recorded thumbnails. Thumbnails
@@ -2377,33 +3161,13 @@ module Aws::IVS
     #   `SEQUENTIAL` and `LATEST`. Default: `SEQUENTIAL`.
     #   @return [Array<String>]
     #
-    # @!attribute [rw] target_interval_seconds
-    #   The targeted thumbnail-generation interval in seconds. This is
-    #   configurable (and required) only if `recordingMode` is `INTERVAL`.
-    #   Default: 60.
-    #
-    #   **Important:** For the `BASIC` channel type, or the `STANDARD`
-    #   channel type with multitrack input, setting a value for
-    #   `targetIntervalSeconds` does not guarantee that thumbnails are
-    #   generated at the specified interval. For thumbnails to be generated
-    #   at the `targetIntervalSeconds` interval, the `IDR/Keyframe` value
-    #   for the input video must be less than the `targetIntervalSeconds`
-    #   value. See [ Amazon IVS Streaming Configuration][1] for information
-    #   on setting `IDR/Keyframe` to the recommended value in video-encoder
-    #   settings.
-    #
-    #
-    #
-    #   [1]: https://docs.aws.amazon.com/ivs/latest/userguide/streaming-config.html
-    #   @return [Integer]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ThumbnailConfiguration AWS API Documentation
     #
     class ThumbnailConfiguration < Struct.new(
       :recording_mode,
+      :target_interval_seconds,
       :resolution,
-      :storage,
-      :target_interval_seconds)
+      :storage)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2414,12 +3178,11 @@ module Aws::IVS
     #   @return [String]
     #
     # @!attribute [rw] tag_keys
-    #   Array of tags to be removed. Array of maps, each of the form
-    #   `string:string (key:value)`. See [Best practices and strategies][1]
-    #   in *Tagging Amazon Web Services Resources and Tag Editor* for
-    #   details, including restrictions that apply to tags and "Tag naming
-    #   limits and requirements"; Amazon IVS has no service-specific
-    #   constraints beyond what is documented there.
+    #   Array of tag keys (strings) for the tags to be removed. See [Best
+    #   practices and strategies][1] in *Tagging Amazon Web Services
+    #   Resources and Tag Editor* for details, including restrictions that
+    #   apply to tags and "Tag naming limits and requirements"; Amazon IVS
+    #   has no service-specific constraints beyond what is documented there.
     #
     #
     #
@@ -2443,56 +3206,14 @@ module Aws::IVS
     #   ARN of the channel to be updated.
     #   @return [String]
     #
-    # @!attribute [rw] authorized
-    #   Whether the channel is private (enabled for playback authorization).
-    #   @return [Boolean]
-    #
-    # @!attribute [rw] container_format
-    #   Indicates which content-packaging format is used (MPEG-TS or fMP4).
-    #   If `multitrackInputConfiguration` is specified and `enabled` is
-    #   `true`, then `containerFormat` is required and must be set to
-    #   `FRAGMENTED_MP4`. Otherwise, `containerFormat` may be set to `TS` or
-    #   `FRAGMENTED_MP4`. Default: `TS`.
+    # @!attribute [rw] name
+    #   Channel name.
     #   @return [String]
-    #
-    # @!attribute [rw] insecure_ingest
-    #   Whether the channel allows insecure RTMP and SRT ingest. Default:
-    #   `false`.
-    #   @return [Boolean]
     #
     # @!attribute [rw] latency_mode
     #   Channel latency mode. Use `NORMAL` to broadcast and deliver live
     #   video up to Full HD. Use `LOW` for near-real-time interaction with
     #   viewers.
-    #   @return [String]
-    #
-    # @!attribute [rw] multitrack_input_configuration
-    #   Object specifying multitrack input configuration. Default: no
-    #   multitrack input configuration is specified.
-    #   @return [Types::MultitrackInputConfiguration]
-    #
-    # @!attribute [rw] name
-    #   Channel name.
-    #   @return [String]
-    #
-    # @!attribute [rw] playback_restriction_policy_arn
-    #   Playback-restriction-policy ARN. A valid ARN value here both
-    #   specifies the ARN and enables playback restriction. If this is set
-    #   to an empty string, playback restriction policy is disabled.
-    #   @return [String]
-    #
-    # @!attribute [rw] preset
-    #   Optional transcode preset for the channel. This is selectable only
-    #   for `ADVANCED_HD` and `ADVANCED_SD` channel types. For those channel
-    #   types, the default `preset` is `HIGHER_BANDWIDTH_DELIVERY`. For
-    #   other channel types (`BASIC` and `STANDARD`), `preset` is the empty
-    #   string (`""`).
-    #   @return [String]
-    #
-    # @!attribute [rw] recording_configuration_arn
-    #   Recording-configuration ARN. A valid ARN value here both specifies
-    #   the ARN and enables recording. If this is set to an empty string,
-    #   recording is disabled.
     #   @return [String]
     #
     # @!attribute [rw] type
@@ -2506,20 +3227,67 @@ module Aws::IVS
     #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html
     #   @return [String]
     #
+    # @!attribute [rw] authorized
+    #   Whether the channel is private (enabled for playback authorization).
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] recording_configuration_arn
+    #   Recording-configuration ARN. A valid ARN value here both specifies
+    #   the ARN and enables recording. If this is set to an empty string,
+    #   recording is disabled.
+    #   @return [String]
+    #
+    # @!attribute [rw] insecure_ingest
+    #   Whether the channel allows insecure RTMP and SRT ingest. Default:
+    #   `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] preset
+    #   Optional transcode preset for the channel. This is selectable only
+    #   for `ADVANCED_HD` and `ADVANCED_SD` channel types. For those channel
+    #   types, the default `preset` is `HIGHER_BANDWIDTH_DELIVERY`. For
+    #   other channel types (`BASIC` and `STANDARD`), `preset` is the empty
+    #   string (`""`).
+    #   @return [String]
+    #
+    # @!attribute [rw] playback_restriction_policy_arn
+    #   Playback-restriction-policy ARN. A valid ARN value here both
+    #   specifies the ARN and enables playback restriction. If this is set
+    #   to an empty string, playback restriction policy is disabled.
+    #   @return [String]
+    #
+    # @!attribute [rw] multitrack_input_configuration
+    #   Object specifying multitrack input configuration. Default: no
+    #   multitrack input configuration is specified.
+    #   @return [Types::MultitrackInputConfiguration]
+    #
+    # @!attribute [rw] container_format
+    #   Indicates which content-packaging format is used (MPEG-TS or fMP4).
+    #   If `multitrackInputConfiguration` is specified and `enabled` is
+    #   `true`, then `containerFormat` is required and must be set to
+    #   `FRAGMENTED_MP4`. Otherwise, `containerFormat` may be set to `TS` or
+    #   `FRAGMENTED_MP4`. Default: `TS`.
+    #   @return [String]
+    #
+    # @!attribute [rw] ad_configuration_arn
+    #   ARN of the ad configuration associated with the channel.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/UpdateChannelRequest AWS API Documentation
     #
     class UpdateChannelRequest < Struct.new(
       :arn,
-      :authorized,
-      :container_format,
-      :insecure_ingest,
-      :latency_mode,
-      :multitrack_input_configuration,
       :name,
-      :playback_restriction_policy_arn,
-      :preset,
+      :latency_mode,
+      :type,
+      :authorized,
       :recording_configuration_arn,
-      :type)
+      :insecure_ingest,
+      :preset,
+      :playback_restriction_policy_arn,
+      :multitrack_input_configuration,
+      :container_format,
+      :ad_configuration_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2536,6 +3304,10 @@ module Aws::IVS
       include Aws::Structure
     end
 
+    # @!attribute [rw] arn
+    #   ARN of the playback-restriction-policy to be updated.
+    #   @return [String]
+    #
     # @!attribute [rw] allowed_countries
     #   A list of country codes that control geoblocking restriction.
     #   Allowed values are the officially assigned [ISO 3166-1 alpha-2][1]
@@ -2557,10 +3329,6 @@ module Aws::IVS
     #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin
     #   @return [Array<String>]
     #
-    # @!attribute [rw] arn
-    #   ARN of the playback-restriction-policy to be updated.
-    #   @return [String]
-    #
     # @!attribute [rw] enable_strict_origin_enforcement
     #   Whether channel playback is constrained by origin site. Default:
     #   `false`.
@@ -2574,9 +3342,9 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/UpdatePlaybackRestrictionPolicyRequest AWS API Documentation
     #
     class UpdatePlaybackRestrictionPolicyRequest < Struct.new(
+      :arn,
       :allowed_countries,
       :allowed_origins,
-      :arn,
       :enable_strict_origin_enforcement,
       :name)
       SENSITIVE = []
@@ -2595,6 +3363,30 @@ module Aws::IVS
       include Aws::Structure
     end
 
+    # @!attribute [rw] access_control_allow_origin
+    #   @return [String]
+    #
+    # @!attribute [rw] access_control_expose_headers
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_control
+    #   @return [String]
+    #
+    # @!attribute [rw] content_security_policy
+    #   @return [String]
+    #
+    # @!attribute [rw] strict_transport_security
+    #   @return [String]
+    #
+    # @!attribute [rw] x_content_type_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_frame_options
+    #   @return [String]
+    #
+    # @!attribute [rw] x_amzn_error_type
+    #   @return [String]
+    #
     # @!attribute [rw] exception_message
     #   The input fails to satisfy the constraints specified by an Amazon
     #   Web Services service.
@@ -2603,6 +3395,14 @@ module Aws::IVS
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ValidationException AWS API Documentation
     #
     class ValidationException < Struct.new(
+      :access_control_allow_origin,
+      :access_control_expose_headers,
+      :cache_control,
+      :content_security_policy,
+      :strict_transport_security,
+      :x_content_type_options,
+      :x_frame_options,
+      :x_amzn_error_type,
       :exception_message)
       SENSITIVE = []
       include Aws::Structure
@@ -2613,15 +3413,20 @@ module Aws::IVS
     # IngestConfigurations object and the deprecated IngestConfiguration
     # object. It is used for monitoring stream health.
     #
-    # @!attribute [rw] avc_level
-    #   Indicates the degree of required decoder performance for a profile.
-    #   Normally this is set automatically by the encoder. For details, see
-    #   the H.264 specification.
+    # @!attribute [rw] avc_profile
+    #   (Deprecated) Indicates to the decoder the requirements for decoding
+    #   the stream. For definitions of the valid values, see the H.264
+    #   specification. This is populated only when VideoConfiguration is
+    #   part of the deprecated IngestConfiguration; otherwise, this is an
+    #   empty string.
     #   @return [String]
     #
-    # @!attribute [rw] avc_profile
-    #   Indicates to the decoder the requirements for decoding the stream.
-    #   For definitions of the valid values, see the H.264 specification.
+    # @!attribute [rw] avc_level
+    #   (Deprecated) Indicates the degree of required decoder performance
+    #   for a profile. Normally this is set automatically by the encoder.
+    #   For details, see the H.264 specification. This is populated only
+    #   when VideoConfiguration is part of the deprecated
+    #   IngestConfiguration; otherwise, this is an empty string.
     #   @return [String]
     #
     # @!attribute [rw] codec
@@ -2630,18 +3435,6 @@ module Aws::IVS
     #
     # @!attribute [rw] encoder
     #   Software or hardware used to encode the video.
-    #   @return [String]
-    #
-    # @!attribute [rw] level
-    #   Indicates the degree of required decoder performance for a profile.
-    #   Normally this is set automatically by the encoder. When an AVC codec
-    #   is used, this field has the same value as `avcLevel`.
-    #   @return [String]
-    #
-    # @!attribute [rw] profile
-    #   Indicates to the decoder the requirements for decoding the stream.
-    #   When an AVC codec is used, this field has the same value as
-    #   `avcProfile`.
     #   @return [String]
     #
     # @!attribute [rw] target_bitrate
@@ -2653,11 +3446,6 @@ module Aws::IVS
     #   The expected ingest framerate. This is configured in the encoder.
     #   @return [Integer]
     #
-    # @!attribute [rw] track
-    #   Name of the video track. If multitrack is not enabled, this is
-    #   track0 (the sole track).
-    #   @return [String]
-    #
     # @!attribute [rw] video_height
     #   Video-resolution height in pixels.
     #   @return [Integer]
@@ -2666,20 +3454,37 @@ module Aws::IVS
     #   Video-resolution width in pixels.
     #   @return [Integer]
     #
+    # @!attribute [rw] level
+    #   Indicates the degree of required decoder performance for a profile.
+    #   Normally this is set automatically by the encoder. When an AVC codec
+    #   is used, this field has the same value as `avcLevel`.
+    #   @return [String]
+    #
+    # @!attribute [rw] track
+    #   Name of the video track. If multitrack is not enabled, this is
+    #   Track0 (the sole track).
+    #   @return [String]
+    #
+    # @!attribute [rw] profile
+    #   Indicates to the decoder the requirements for decoding the stream.
+    #   When an AVC codec is used, this field has the same value as
+    #   `avcProfile`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/VideoConfiguration AWS API Documentation
     #
     class VideoConfiguration < Struct.new(
-      :avc_level,
       :avc_profile,
+      :avc_level,
       :codec,
       :encoder,
-      :level,
-      :profile,
       :target_bitrate,
       :target_framerate,
-      :track,
       :video_height,
-      :video_width)
+      :video_width,
+      :level,
+      :track,
+      :profile)
       SENSITIVE = []
       include Aws::Structure
     end

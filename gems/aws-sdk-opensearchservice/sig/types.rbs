@@ -1930,6 +1930,24 @@ module Aws::OpenSearchService
     class RevokeVpcEndpointAccessResponse < Aws::EmptyStructure
     end
 
+    class RollbackServiceSoftwareOptions
+      attr_accessor current_version: ::String
+      attr_accessor new_version: ::String
+      attr_accessor rollback_available: bool
+      attr_accessor description: ::String
+      SENSITIVE: []
+    end
+
+    class RollbackServiceSoftwareUpdateRequest
+      attr_accessor domain_name: ::String
+      SENSITIVE: []
+    end
+
+    class RollbackServiceSoftwareUpdateResponse
+      attr_accessor rollback_service_software_options: Types::RollbackServiceSoftwareOptions
+      SENSITIVE: []
+    end
+
     class S3GlueDataCatalog
       attr_accessor role_arn: ::String
       SENSITIVE: []
@@ -2030,6 +2048,7 @@ module Aws::OpenSearchService
 
     class SoftwareUpdateOptions
       attr_accessor auto_software_update_enabled: bool
+      attr_accessor use_latest_service_software_for_blue_green: bool
       SENSITIVE: []
     end
 

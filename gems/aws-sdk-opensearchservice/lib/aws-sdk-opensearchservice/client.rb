@@ -1342,6 +1342,7 @@ module Aws::OpenSearchService
     #     },
     #     software_update_options: {
     #       auto_software_update_enabled: false,
+    #       use_latest_service_software_for_blue_green: false,
     #     },
     #     aiml_options: {
     #       natural_language_query_generation_options: {
@@ -1467,6 +1468,7 @@ module Aws::OpenSearchService
     #   resp.domain_status.off_peak_window_options.off_peak_window.window_start_time.hours #=> Integer
     #   resp.domain_status.off_peak_window_options.off_peak_window.window_start_time.minutes #=> Integer
     #   resp.domain_status.software_update_options.auto_software_update_enabled #=> Boolean
+    #   resp.domain_status.software_update_options.use_latest_service_software_for_blue_green #=> Boolean
     #   resp.domain_status.domain_processing_status #=> String, one of "Creating", "Active", "Modifying", "UpgradingEngineVersion", "UpdatingServiceSoftware", "Isolated", "Deleting"
     #   resp.domain_status.modifying_properties #=> Array
     #   resp.domain_status.modifying_properties[0].name #=> String
@@ -1996,6 +1998,7 @@ module Aws::OpenSearchService
     #   resp.domain_status.off_peak_window_options.off_peak_window.window_start_time.hours #=> Integer
     #   resp.domain_status.off_peak_window_options.off_peak_window.window_start_time.minutes #=> Integer
     #   resp.domain_status.software_update_options.auto_software_update_enabled #=> Boolean
+    #   resp.domain_status.software_update_options.use_latest_service_software_for_blue_green #=> Boolean
     #   resp.domain_status.domain_processing_status #=> String, one of "Creating", "Active", "Modifying", "UpgradingEngineVersion", "UpdatingServiceSoftware", "Isolated", "Deleting"
     #   resp.domain_status.modifying_properties #=> Array
     #   resp.domain_status.modifying_properties[0].name #=> String
@@ -2392,6 +2395,7 @@ module Aws::OpenSearchService
     #   resp.domain_status.off_peak_window_options.off_peak_window.window_start_time.hours #=> Integer
     #   resp.domain_status.off_peak_window_options.off_peak_window.window_start_time.minutes #=> Integer
     #   resp.domain_status.software_update_options.auto_software_update_enabled #=> Boolean
+    #   resp.domain_status.software_update_options.use_latest_service_software_for_blue_green #=> Boolean
     #   resp.domain_status.domain_processing_status #=> String, one of "Creating", "Active", "Modifying", "UpgradingEngineVersion", "UpdatingServiceSoftware", "Isolated", "Deleting"
     #   resp.domain_status.modifying_properties #=> Array
     #   resp.domain_status.modifying_properties[0].name #=> String
@@ -2718,6 +2722,7 @@ module Aws::OpenSearchService
     #   resp.domain_config.off_peak_window_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
     #   resp.domain_config.off_peak_window_options.status.pending_deletion #=> Boolean
     #   resp.domain_config.software_update_options.options.auto_software_update_enabled #=> Boolean
+    #   resp.domain_config.software_update_options.options.use_latest_service_software_for_blue_green #=> Boolean
     #   resp.domain_config.software_update_options.status.creation_date #=> Time
     #   resp.domain_config.software_update_options.status.update_date #=> Time
     #   resp.domain_config.software_update_options.status.update_version #=> Integer
@@ -2978,6 +2983,7 @@ module Aws::OpenSearchService
     #   resp.domain_status_list[0].off_peak_window_options.off_peak_window.window_start_time.hours #=> Integer
     #   resp.domain_status_list[0].off_peak_window_options.off_peak_window.window_start_time.minutes #=> Integer
     #   resp.domain_status_list[0].software_update_options.auto_software_update_enabled #=> Boolean
+    #   resp.domain_status_list[0].software_update_options.use_latest_service_software_for_blue_green #=> Boolean
     #   resp.domain_status_list[0].domain_processing_status #=> String, one of "Creating", "Active", "Modifying", "UpgradingEngineVersion", "UpdatingServiceSoftware", "Isolated", "Deleting"
     #   resp.domain_status_list[0].modifying_properties #=> Array
     #   resp.domain_status_list[0].modifying_properties[0].name #=> String
@@ -3147,6 +3153,7 @@ module Aws::OpenSearchService
     #   resp.dry_run_config.off_peak_window_options.off_peak_window.window_start_time.hours #=> Integer
     #   resp.dry_run_config.off_peak_window_options.off_peak_window.window_start_time.minutes #=> Integer
     #   resp.dry_run_config.software_update_options.auto_software_update_enabled #=> Boolean
+    #   resp.dry_run_config.software_update_options.use_latest_service_software_for_blue_green #=> Boolean
     #   resp.dry_run_config.domain_processing_status #=> String, one of "Creating", "Active", "Modifying", "UpgradingEngineVersion", "UpdatingServiceSoftware", "Isolated", "Deleting"
     #   resp.dry_run_config.modifying_properties #=> Array
     #   resp.dry_run_config.modifying_properties[0].name #=> String
@@ -5227,6 +5234,43 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
+    # Rolls back a service software update for a domain to the previous
+    # version. For more information, see [Service software updates in Amazon
+    # OpenSearch Service][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html
+    #
+    # @option params [required, String] :domain_name
+    #   The name of the domain to roll back the service software update on.
+    #
+    # @return [Types::RollbackServiceSoftwareUpdateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::RollbackServiceSoftwareUpdateResponse#rollback_service_software_options #rollback_service_software_options} => Types::RollbackServiceSoftwareOptions
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.rollback_service_software_update({
+    #     domain_name: "DomainName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.rollback_service_software_options.current_version #=> String
+    #   resp.rollback_service_software_options.new_version #=> String
+    #   resp.rollback_service_software_options.rollback_available #=> Boolean
+    #   resp.rollback_service_software_options.description #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/RollbackServiceSoftwareUpdate AWS API Documentation
+    #
+    # @overload rollback_service_software_update(params = {})
+    # @param [Hash] params ({})
+    def rollback_service_software_update(params = {}, options = {})
+      req = build_request(:rollback_service_software_update, params)
+      req.send_request(options)
+    end
+
     # Starts the node maintenance process on the data node. These processes
     # can include a node reboot, an Opensearch or Elasticsearch process
     # restart, or a Dashboard or Kibana restart.
@@ -5793,6 +5837,7 @@ module Aws::OpenSearchService
     #     },
     #     software_update_options: {
     #       auto_software_update_enabled: false,
+    #       use_latest_service_software_for_blue_green: false,
     #     },
     #     aiml_options: {
     #       natural_language_query_generation_options: {
@@ -5989,6 +6034,7 @@ module Aws::OpenSearchService
     #   resp.domain_config.off_peak_window_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
     #   resp.domain_config.off_peak_window_options.status.pending_deletion #=> Boolean
     #   resp.domain_config.software_update_options.options.auto_software_update_enabled #=> Boolean
+    #   resp.domain_config.software_update_options.options.use_latest_service_software_for_blue_green #=> Boolean
     #   resp.domain_config.software_update_options.status.creation_date #=> Time
     #   resp.domain_config.software_update_options.status.update_date #=> Time
     #   resp.domain_config.software_update_options.status.update_version #=> Integer
@@ -6429,7 +6475,7 @@ module Aws::OpenSearchService
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-opensearchservice'
-      context[:gem_version] = '1.94.0'
+      context[:gem_version] = '1.95.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

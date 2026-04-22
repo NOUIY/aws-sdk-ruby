@@ -514,6 +514,7 @@ module Aws
                                            }?,
                                            inline_payload: ::String?
                                          }?,
+                                         resource_priority: ::Integer?,
                                          listing_mode: ("DEFAULT" | "DYNAMIC")?
                                        }?,
                                        api_gateway: {
@@ -582,6 +583,169 @@ module Aws
                                    }
                                  ) -> _CreateGatewayTargetResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateGatewayTargetResponseSuccess
+
+      interface _CreateHarnessResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateHarnessResponse]
+        def harness: () -> Types::Harness
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#create_harness-instance_method
+      def create_harness: (
+                            harness_name: ::String,
+                            ?client_token: ::String,
+                            execution_role_arn: ::String,
+                            ?environment: {
+                              agent_core_runtime_environment: {
+                                lifecycle_configuration: {
+                                  idle_runtime_session_timeout: ::Integer?,
+                                  max_lifetime: ::Integer?
+                                }?,
+                                network_configuration: {
+                                  network_mode: ("PUBLIC" | "VPC"),
+                                  network_mode_config: {
+                                    security_groups: Array[::String],
+                                    subnets: Array[::String]
+                                  }?
+                                }?,
+                                filesystem_configurations: Array[
+                                  {
+                                    session_storage: {
+                                      mount_path: ::String
+                                    }?
+                                  },
+                                ]?
+                              }?
+                            },
+                            ?environment_artifact: {
+                              container_configuration: {
+                                container_uri: ::String
+                              }?
+                            },
+                            ?environment_variables: Hash[::String, ::String],
+                            ?authorizer_configuration: {
+                              custom_jwt_authorizer: {
+                                discovery_url: ::String,
+                                allowed_audience: Array[::String]?,
+                                allowed_clients: Array[::String]?,
+                                allowed_scopes: Array[::String]?,
+                                custom_claims: Array[
+                                  {
+                                    inbound_token_claim_name: ::String,
+                                    inbound_token_claim_value_type: ("STRING" | "STRING_ARRAY"),
+                                    authorizing_claim_match_value: {
+                                      claim_match_value: {
+                                        match_value_string: ::String?,
+                                        match_value_string_list: Array[::String]?
+                                      },
+                                      claim_match_operator: ("EQUALS" | "CONTAINS" | "CONTAINS_ANY")
+                                    }
+                                  },
+                                ]?
+                              }?
+                            },
+                            ?model: {
+                              bedrock_model_config: {
+                                model_id: ::String,
+                                max_tokens: ::Integer?,
+                                temperature: ::Float?,
+                                top_p: ::Float?
+                              }?,
+                              open_ai_model_config: {
+                                model_id: ::String,
+                                api_key_arn: ::String,
+                                max_tokens: ::Integer?,
+                                temperature: ::Float?,
+                                top_p: ::Float?
+                              }?,
+                              gemini_model_config: {
+                                model_id: ::String,
+                                api_key_arn: ::String,
+                                max_tokens: ::Integer?,
+                                temperature: ::Float?,
+                                top_p: ::Float?,
+                                top_k: ::Integer?
+                              }?
+                            },
+                            ?system_prompt: Array[
+                              {
+                                text: ::String?
+                              },
+                            ],
+                            ?tools: Array[
+                              {
+                                type: ("remote_mcp" | "agentcore_browser" | "agentcore_gateway" | "inline_function" | "agentcore_code_interpreter"),
+                                name: ::String?,
+                                config: {
+                                  remote_mcp: {
+                                    url: ::String,
+                                    headers: Hash[::String, ::String]?
+                                  }?,
+                                  agent_core_browser: {
+                                    browser_arn: ::String?
+                                  }?,
+                                  agent_core_gateway: {
+                                    gateway_arn: ::String,
+                                    outbound_auth: {
+                                      aws_iam: {
+                                      }?,
+                                      none: {
+                                      }?,
+                                      oauth: {
+                                        provider_arn: ::String,
+                                        scopes: Array[::String],
+                                        custom_parameters: Hash[::String, ::String]?,
+                                        grant_type: ("CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE")?,
+                                        default_return_url: ::String?
+                                      }?
+                                    }?
+                                  }?,
+                                  inline_function: {
+                                    description: ::String,
+                                    input_schema: {
+                                    }
+                                  }?,
+                                  agent_core_code_interpreter: {
+                                    code_interpreter_arn: ::String?
+                                  }?
+                                }?
+                              },
+                            ],
+                            ?skills: Array[
+                              {
+                                path: ::String?
+                              },
+                            ],
+                            ?allowed_tools: Array[::String],
+                            ?memory: {
+                              agent_core_memory_configuration: {
+                                arn: ::String,
+                                actor_id: ::String?,
+                                messages_count: ::Integer?,
+                                retrieval_config: Hash[::String, {
+                                    top_k: ::Integer?,
+                                    relevance_score: ::Float?,
+                                    strategy_id: ::String?
+                                  }]?
+                              }?
+                            },
+                            ?truncation: {
+                              strategy: ("sliding_window" | "summarization" | "none"),
+                              config: {
+                                sliding_window: {
+                                  messages_count: ::Integer?
+                                }?,
+                                summarization: {
+                                  summary_ratio: ::Float?,
+                                  preserve_recent_messages: ::Integer?,
+                                  summarization_system_prompt: ::String?
+                                }?
+                              }?
+                            },
+                            ?max_iterations: ::Integer,
+                            ?max_tokens: ::Integer,
+                            ?timeout_seconds: ::Integer,
+                            ?tags: Hash[::String, ::String]
+                          ) -> _CreateHarnessResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateHarnessResponseSuccess
 
       interface _CreateMemoryResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateMemoryOutput]
@@ -790,7 +954,7 @@ module Aws
         def online_evaluation_config_id: () -> ::String
         def created_at: () -> ::Time
         def output_config: () -> Types::OutputConfig
-        def status: () -> ("ACTIVE" | "CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING")
+        def status: () -> ("ACTIVE" | "CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "ERROR")
         def execution_status: () -> ("ENABLED" | "DISABLED")
         def failure_reason: () -> ::String
       end
@@ -1124,6 +1288,17 @@ module Aws
                                  ) -> _DeleteGatewayTargetResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteGatewayTargetResponseSuccess
 
+      interface _DeleteHarnessResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteHarnessResponse]
+        def harness: () -> Types::Harness
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#delete_harness-instance_method
+      def delete_harness: (
+                            harness_id: ::String,
+                            ?client_token: ::String
+                          ) -> _DeleteHarnessResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteHarnessResponseSuccess
+
       interface _DeleteMemoryResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteMemoryOutput]
         def memory_id: () -> ::String
@@ -1149,7 +1324,7 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteOnlineEvaluationConfigResponse]
         def online_evaluation_config_arn: () -> ::String
         def online_evaluation_config_id: () -> ::String
-        def status: () -> ("ACTIVE" | "CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING")
+        def status: () -> ("ACTIVE" | "CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "ERROR")
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#delete_online_evaluation_config-instance_method
       def delete_online_evaluation_config: (
@@ -1432,6 +1607,16 @@ module Aws
                               ) -> _GetGatewayTargetResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetGatewayTargetResponseSuccess
 
+      interface _GetHarnessResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetHarnessResponse]
+        def harness: () -> Types::Harness
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_harness-instance_method
+      def get_harness: (
+                         harness_id: ::String
+                       ) -> _GetHarnessResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetHarnessResponseSuccess
+
       interface _GetMemoryResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetMemoryOutput]
         def memory: () -> Types::Memory
@@ -1471,7 +1656,7 @@ module Aws
         def evaluators: () -> ::Array[Types::EvaluatorReference]
         def output_config: () -> Types::OutputConfig
         def evaluation_execution_role_arn: () -> ::String
-        def status: () -> ("ACTIVE" | "CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING")
+        def status: () -> ("ACTIVE" | "CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "ERROR")
         def execution_status: () -> ("ENABLED" | "DISABLED")
         def created_at: () -> ::Time
         def updated_at: () -> ::Time
@@ -1746,6 +1931,18 @@ module Aws
                            ?next_token: ::String
                          ) -> _ListGatewaysResponseSuccess
                        | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListGatewaysResponseSuccess
+
+      interface _ListHarnessesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListHarnessesResponse]
+        def harnesses: () -> ::Array[Types::HarnessSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#list_harnesses-instance_method
+      def list_harnesses: (
+                            ?max_results: ::Integer,
+                            ?next_token: ::String
+                          ) -> _ListHarnessesResponseSuccess
+                        | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListHarnessesResponseSuccess
 
       interface _ListMemoriesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListMemoriesOutput]
@@ -2319,6 +2516,7 @@ module Aws
                                            }?,
                                            inline_payload: ::String?
                                          }?,
+                                         resource_priority: ::Integer?,
                                          listing_mode: ("DEFAULT" | "DYNAMIC")?
                                        }?,
                                        api_gateway: {
@@ -2387,6 +2585,174 @@ module Aws
                                    }
                                  ) -> _UpdateGatewayTargetResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateGatewayTargetResponseSuccess
+
+      interface _UpdateHarnessResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateHarnessResponse]
+        def harness: () -> Types::Harness
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#update_harness-instance_method
+      def update_harness: (
+                            harness_id: ::String,
+                            ?client_token: ::String,
+                            ?execution_role_arn: ::String,
+                            ?environment: {
+                              agent_core_runtime_environment: {
+                                lifecycle_configuration: {
+                                  idle_runtime_session_timeout: ::Integer?,
+                                  max_lifetime: ::Integer?
+                                }?,
+                                network_configuration: {
+                                  network_mode: ("PUBLIC" | "VPC"),
+                                  network_mode_config: {
+                                    security_groups: Array[::String],
+                                    subnets: Array[::String]
+                                  }?
+                                }?,
+                                filesystem_configurations: Array[
+                                  {
+                                    session_storage: {
+                                      mount_path: ::String
+                                    }?
+                                  },
+                                ]?
+                              }?
+                            },
+                            ?environment_artifact: {
+                              optional_value: {
+                                container_configuration: {
+                                  container_uri: ::String
+                                }?
+                              }?
+                            },
+                            ?environment_variables: Hash[::String, ::String],
+                            ?authorizer_configuration: {
+                              optional_value: {
+                                custom_jwt_authorizer: {
+                                  discovery_url: ::String,
+                                  allowed_audience: Array[::String]?,
+                                  allowed_clients: Array[::String]?,
+                                  allowed_scopes: Array[::String]?,
+                                  custom_claims: Array[
+                                    {
+                                      inbound_token_claim_name: ::String,
+                                      inbound_token_claim_value_type: ("STRING" | "STRING_ARRAY"),
+                                      authorizing_claim_match_value: {
+                                        claim_match_value: {
+                                          match_value_string: ::String?,
+                                          match_value_string_list: Array[::String]?
+                                        },
+                                        claim_match_operator: ("EQUALS" | "CONTAINS" | "CONTAINS_ANY")
+                                      }
+                                    },
+                                  ]?
+                                }?
+                              }?
+                            },
+                            ?model: {
+                              bedrock_model_config: {
+                                model_id: ::String,
+                                max_tokens: ::Integer?,
+                                temperature: ::Float?,
+                                top_p: ::Float?
+                              }?,
+                              open_ai_model_config: {
+                                model_id: ::String,
+                                api_key_arn: ::String,
+                                max_tokens: ::Integer?,
+                                temperature: ::Float?,
+                                top_p: ::Float?
+                              }?,
+                              gemini_model_config: {
+                                model_id: ::String,
+                                api_key_arn: ::String,
+                                max_tokens: ::Integer?,
+                                temperature: ::Float?,
+                                top_p: ::Float?,
+                                top_k: ::Integer?
+                              }?
+                            },
+                            ?system_prompt: Array[
+                              {
+                                text: ::String?
+                              },
+                            ],
+                            ?tools: Array[
+                              {
+                                type: ("remote_mcp" | "agentcore_browser" | "agentcore_gateway" | "inline_function" | "agentcore_code_interpreter"),
+                                name: ::String?,
+                                config: {
+                                  remote_mcp: {
+                                    url: ::String,
+                                    headers: Hash[::String, ::String]?
+                                  }?,
+                                  agent_core_browser: {
+                                    browser_arn: ::String?
+                                  }?,
+                                  agent_core_gateway: {
+                                    gateway_arn: ::String,
+                                    outbound_auth: {
+                                      aws_iam: {
+                                      }?,
+                                      none: {
+                                      }?,
+                                      oauth: {
+                                        provider_arn: ::String,
+                                        scopes: Array[::String],
+                                        custom_parameters: Hash[::String, ::String]?,
+                                        grant_type: ("CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE")?,
+                                        default_return_url: ::String?
+                                      }?
+                                    }?
+                                  }?,
+                                  inline_function: {
+                                    description: ::String,
+                                    input_schema: {
+                                    }
+                                  }?,
+                                  agent_core_code_interpreter: {
+                                    code_interpreter_arn: ::String?
+                                  }?
+                                }?
+                              },
+                            ],
+                            ?skills: Array[
+                              {
+                                path: ::String?
+                              },
+                            ],
+                            ?allowed_tools: Array[::String],
+                            ?memory: {
+                              optional_value: {
+                                agent_core_memory_configuration: {
+                                  arn: ::String,
+                                  actor_id: ::String?,
+                                  messages_count: ::Integer?,
+                                  retrieval_config: Hash[::String, {
+                                      top_k: ::Integer?,
+                                      relevance_score: ::Float?,
+                                      strategy_id: ::String?
+                                    }]?
+                                }?
+                              }?
+                            },
+                            ?truncation: {
+                              strategy: ("sliding_window" | "summarization" | "none"),
+                              config: {
+                                sliding_window: {
+                                  messages_count: ::Integer?
+                                }?,
+                                summarization: {
+                                  summary_ratio: ::Float?,
+                                  preserve_recent_messages: ::Integer?,
+                                  summarization_system_prompt: ::String?
+                                }?
+                              }?
+                            },
+                            ?max_iterations: ::Integer,
+                            ?max_tokens: ::Integer,
+                            ?timeout_seconds: ::Integer
+                          ) -> _UpdateHarnessResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateHarnessResponseSuccess
 
       interface _UpdateMemoryResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateMemoryOutput]
@@ -2681,7 +3047,7 @@ module Aws
         def online_evaluation_config_arn: () -> ::String
         def online_evaluation_config_id: () -> ::String
         def updated_at: () -> ::Time
-        def status: () -> ("ACTIVE" | "CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING")
+        def status: () -> ("ACTIVE" | "CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "ERROR")
         def execution_status: () -> ("ENABLED" | "DISABLED")
         def failure_reason: () -> ::String
       end

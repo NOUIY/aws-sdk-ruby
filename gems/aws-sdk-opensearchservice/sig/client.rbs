@@ -413,7 +413,8 @@ module Aws
                              }?
                            },
                            ?software_update_options: {
-                             auto_software_update_enabled: bool?
+                             auto_software_update_enabled: bool?,
+                             use_latest_service_software_for_blue_green: bool?
                            },
                            ?aiml_options: {
                              natural_language_query_generation_options: {
@@ -1276,6 +1277,16 @@ module Aws
                                       ) -> _RevokeVpcEndpointAccessResponseSuccess
                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RevokeVpcEndpointAccessResponseSuccess
 
+      interface _RollbackServiceSoftwareUpdateResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::RollbackServiceSoftwareUpdateResponse]
+        def rollback_service_software_options: () -> Types::RollbackServiceSoftwareOptions
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/OpenSearchService/Client.html#rollback_service_software_update-instance_method
+      def rollback_service_software_update: (
+                                              domain_name: ::String
+                                            ) -> _RollbackServiceSoftwareUpdateResponseSuccess
+                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RollbackServiceSoftwareUpdateResponseSuccess
+
       interface _StartDomainMaintenanceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StartDomainMaintenanceResponse]
         def maintenance_id: () -> ::String
@@ -1517,7 +1528,8 @@ module Aws
                                     }?
                                   },
                                   ?software_update_options: {
-                                    auto_software_update_enabled: bool?
+                                    auto_software_update_enabled: bool?,
+                                    use_latest_service_software_for_blue_green: bool?
                                   },
                                   ?aiml_options: {
                                     natural_language_query_generation_options: {

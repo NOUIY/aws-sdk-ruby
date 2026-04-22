@@ -543,6 +543,131 @@ module Aws
                                    ) ?{ (*untyped) -> void } -> _InvokeCodeInterpreterResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _InvokeCodeInterpreterResponseSuccess
 
+      interface _InvokeHarnessResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::InvokeHarnessResponse]
+        def stream: () -> Types::InvokeHarnessStreamOutput
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#invoke_harness-instance_method
+      def invoke_harness: (
+                            harness_arn: ::String,
+                            runtime_session_id: ::String,
+                            messages: Array[
+                              {
+                                role: ("user" | "assistant"),
+                                content: Array[
+                                  {
+                                    text: ::String?,
+                                    tool_use: {
+                                      name: ::String,
+                                      tool_use_id: ::String,
+                                      input: {
+                                      },
+                                      type: ("tool_use" | "server_tool_use" | "mcp_tool_use")?,
+                                      server_name: ::String?
+                                    }?,
+                                    tool_result: {
+                                      tool_use_id: ::String,
+                                      content: Array[
+                                        {
+                                          text: ::String?,
+                                          json: {
+                                          }?
+                                        },
+                                      ],
+                                      status: ("success" | "error")?,
+                                      type: ("tool_use" | "server_tool_use" | "mcp_tool_use")?
+                                    }?,
+                                    reasoning_content: {
+                                      reasoning_text: {
+                                        text: ::String,
+                                        signature: ::String?
+                                      }?,
+                                      redacted_content: ::String?
+                                    }?
+                                  },
+                                ]
+                              },
+                            ],
+                            ?model: {
+                              bedrock_model_config: {
+                                model_id: ::String,
+                                max_tokens: ::Integer?,
+                                temperature: ::Float?,
+                                top_p: ::Float?
+                              }?,
+                              open_ai_model_config: {
+                                model_id: ::String,
+                                api_key_arn: ::String,
+                                max_tokens: ::Integer?,
+                                temperature: ::Float?,
+                                top_p: ::Float?
+                              }?,
+                              gemini_model_config: {
+                                model_id: ::String,
+                                api_key_arn: ::String,
+                                max_tokens: ::Integer?,
+                                temperature: ::Float?,
+                                top_p: ::Float?,
+                                top_k: ::Integer?
+                              }?
+                            },
+                            ?system_prompt: Array[
+                              {
+                                text: ::String?
+                              },
+                            ],
+                            ?tools: Array[
+                              {
+                                type: ("remote_mcp" | "agentcore_browser" | "agentcore_gateway" | "inline_function" | "agentcore_code_interpreter"),
+                                name: ::String?,
+                                config: {
+                                  remote_mcp: {
+                                    url: ::String,
+                                    headers: Hash[::String, ::String]?
+                                  }?,
+                                  agent_core_browser: {
+                                    browser_arn: ::String?
+                                  }?,
+                                  agent_core_gateway: {
+                                    gateway_arn: ::String,
+                                    outbound_auth: {
+                                      aws_iam: {
+                                      }?,
+                                      none: {
+                                      }?,
+                                      oauth: {
+                                        provider_arn: ::String,
+                                        scopes: Array[::String],
+                                        custom_parameters: Hash[::String, ::String]?,
+                                        grant_type: ("CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE")?,
+                                        default_return_url: ::String?
+                                      }?
+                                    }?
+                                  }?,
+                                  inline_function: {
+                                    description: ::String,
+                                    input_schema: {
+                                    }
+                                  }?,
+                                  agent_core_code_interpreter: {
+                                    code_interpreter_arn: ::String?
+                                  }?
+                                }?
+                              },
+                            ],
+                            ?skills: Array[
+                              {
+                                path: ::String?
+                              },
+                            ],
+                            ?allowed_tools: Array[::String],
+                            ?max_iterations: ::Integer,
+                            ?max_tokens: ::Integer,
+                            ?timeout_seconds: ::Integer,
+                            ?actor_id: ::String
+                          ) ?{ (*untyped) -> void } -> _InvokeHarnessResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _InvokeHarnessResponseSuccess
+
       interface _ListActorsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListActorsOutput]
         def actor_summaries: () -> ::Array[Types::ActorSummary]

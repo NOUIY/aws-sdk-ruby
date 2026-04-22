@@ -306,7 +306,7 @@ module Aws
                             object_lock_mode: ("COMPLIANCE" | "GOVERNANCE")?,
                             object_lock_retain_until_date: ::Time?,
                             bucket_key_enabled: bool?,
-                            checksum_algorithm: ("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME")?
+                            checksum_algorithm: ("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME" | "SHA512" | "MD5" | "XXHASH64" | "XXHASH3" | "XXHASH128")?
                           }?,
                           s3_put_object_acl: {
                             access_control_policy: {
@@ -358,7 +358,7 @@ module Aws
                           s3_replicate_object: {
                           }?,
                           s3_compute_object_checksum: {
-                            checksum_algorithm: ("CRC32" | "CRC32C" | "CRC64NVME" | "MD5" | "SHA1" | "SHA256")?,
+                            checksum_algorithm: ("CRC32" | "CRC32C" | "CRC64NVME" | "MD5" | "SHA1" | "SHA256" | "SHA512" | "XXHASH64" | "XXHASH3" | "XXHASH128")?,
                             checksum_type: ("FULL_OBJECT" | "COMPOSITE")?
                           }?,
                           s3_update_object_encryption: {

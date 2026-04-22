@@ -2394,6 +2394,426 @@ module Aws::BedrockAgentCore
       req.send_request(options, &block)
     end
 
+    # Operation to invoke a Harness.
+    #
+    # @option params [required, String] :harness_arn
+    #   The ARN of the harness to invoke.
+    #
+    # @option params [required, String] :runtime_session_id
+    #   The session ID for the invocation. Use the same session ID across
+    #   requests to continue a conversation.
+    #
+    # @option params [required, Array<Types::HarnessMessage>] :messages
+    #   The messages to send to the agent.
+    #
+    # @option params [Types::HarnessModelConfiguration] :model
+    #   The model configuration to use for this invocation. If specified,
+    #   overrides the harness default.
+    #
+    # @option params [Array<Types::HarnessSystemContentBlock>] :system_prompt
+    #   The system prompt to use for this invocation. If specified, overrides
+    #   the harness default.
+    #
+    # @option params [Array<Types::HarnessTool>] :tools
+    #   The tools available to the agent for this invocation. If specified,
+    #   overrides the harness default.
+    #
+    # @option params [Array<Types::HarnessSkill>] :skills
+    #   The skills available to the agent for this invocation. If specified,
+    #   overrides the harness default.
+    #
+    # @option params [Array<String>] :allowed_tools
+    #   The tools that the agent is allowed to use for this invocation. If
+    #   specified, overrides the harness default.
+    #
+    # @option params [Integer] :max_iterations
+    #   The maximum number of iterations the agent loop can execute. If
+    #   specified, overrides the harness default.
+    #
+    # @option params [Integer] :max_tokens
+    #   The maximum number of tokens the agent can generate per iteration. If
+    #   specified, overrides the harness default.
+    #
+    # @option params [Integer] :timeout_seconds
+    #   The maximum duration in seconds for the agent loop execution. If
+    #   specified, overrides the harness default.
+    #
+    # @option params [String] :actor_id
+    #   The actor ID for memory operations. Overrides the actor ID configured
+    #   on the harness.
+    #
+    # @return [Types::InvokeHarnessResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::InvokeHarnessResponse#stream #stream} => Types::InvokeHarnessStreamOutput
+    #
+    # @example EventStream Operation Example
+    #
+    #   # You can process the event once it arrives immediately, or wait until the
+    #   # full response is complete and iterate through the eventstream enumerator.
+    #
+    #   # To interact with event immediately, you need to register invoke_harness
+    #   # with callbacks. Callbacks can be registered for specific events or for all
+    #   # events, including error events.
+    #
+    #   # Callbacks can be passed into the `:event_stream_handler` option or within a
+    #   # block statement attached to the #invoke_harness call directly. Hybrid
+    #   # pattern of both is also supported.
+    #
+    #   # `:event_stream_handler` option takes in either a Proc object or
+    #   # Aws::BedrockAgentCore::EventStreams::InvokeHarnessStreamOutput object.
+    #
+    #   # Usage pattern a): Callbacks with a block attached to #invoke_harness
+    #   # Example for registering callbacks for all event types and an error event
+    #   client.invoke_harness(
+    #     # params input
+    #   ) do |stream|
+    #     stream.on_error_event do |event|
+    #       # catch unmodeled error event in the stream
+    #       raise event
+    #       # => Aws::Errors::EventError
+    #       # event.event_type => :error
+    #       # event.error_code => String
+    #       # event.error_message => String
+    #     end
+    #
+    #     stream.on_event do |event|
+    #       # process all events arrive
+    #       puts event.event_type
+    #       # ...
+    #     end
+    #   end
+    #
+    #   # Usage pattern b): Pass in `:event_stream_handler` for #invoke_harness
+    #   #  1) Create a Aws::BedrockAgentCore::EventStreams::InvokeHarnessStreamOutput object
+    #   #  Example for registering callbacks with specific events
+    #
+    #   handler = Aws::BedrockAgentCore::EventStreams::InvokeHarnessStreamOutput.new
+    #   handler.on_message_start_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::messageStart
+    #   end
+    #   handler.on_content_block_start_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::contentBlockStart
+    #   end
+    #   handler.on_content_block_delta_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::contentBlockDelta
+    #   end
+    #   handler.on_content_block_stop_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::contentBlockStop
+    #   end
+    #   handler.on_message_stop_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::messageStop
+    #   end
+    #   handler.on_metadata_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::metadata
+    #   end
+    #   handler.on_internal_server_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::internalServerException
+    #   end
+    #   handler.on_validation_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::validationException
+    #   end
+    #   handler.on_runtime_client_error_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::runtimeClientError
+    #   end
+    #
+    #   client.invoke_harness(
+    #     # params inputs
+    #     event_stream_handler: handler
+    #   )
+    #
+    #   #  2) Use a Ruby Proc object
+    #   #  Example for registering callbacks with specific events
+    #   handler = Proc.new do |stream|
+    #     stream.on_message_start_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::messageStart
+    #     end
+    #     stream.on_content_block_start_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::contentBlockStart
+    #     end
+    #     stream.on_content_block_delta_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::contentBlockDelta
+    #     end
+    #     stream.on_content_block_stop_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::contentBlockStop
+    #     end
+    #     stream.on_message_stop_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::messageStop
+    #     end
+    #     stream.on_metadata_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::metadata
+    #     end
+    #     stream.on_internal_server_exception_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::internalServerException
+    #     end
+    #     stream.on_validation_exception_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::validationException
+    #     end
+    #     stream.on_runtime_client_error_event do |event|
+    #       event # => Aws::BedrockAgentCore::Types::runtimeClientError
+    #     end
+    #   end
+    #
+    #   client.invoke_harness(
+    #     # params inputs
+    #     event_stream_handler: handler
+    #   )
+    #
+    #   #  Usage pattern c): Hybrid pattern of a) and b)
+    #   handler = Aws::BedrockAgentCore::EventStreams::InvokeHarnessStreamOutput.new
+    #   handler.on_message_start_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::messageStart
+    #   end
+    #   handler.on_content_block_start_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::contentBlockStart
+    #   end
+    #   handler.on_content_block_delta_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::contentBlockDelta
+    #   end
+    #   handler.on_content_block_stop_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::contentBlockStop
+    #   end
+    #   handler.on_message_stop_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::messageStop
+    #   end
+    #   handler.on_metadata_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::metadata
+    #   end
+    #   handler.on_internal_server_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::internalServerException
+    #   end
+    #   handler.on_validation_exception_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::validationException
+    #   end
+    #   handler.on_runtime_client_error_event do |event|
+    #     event # => Aws::BedrockAgentCore::Types::runtimeClientError
+    #   end
+    #
+    #   client.invoke_harness(
+    #     # params input
+    #     event_stream_handler: handler
+    #   ) do |stream|
+    #     stream.on_error_event do |event|
+    #       # catch unmodeled error event in the stream
+    #       raise event
+    #       # => Aws::Errors::EventError
+    #       # event.event_type => :error
+    #       # event.error_code => String
+    #       # event.error_message => String
+    #     end
+    #   end
+    #
+    #   # You can also iterate through events after the response complete.
+    #   # Events are available at
+    #   resp.stream # => Enumerator
+    #   # For parameter input example, please refer to following request syntax.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.invoke_harness({
+    #     harness_arn: "HarnessArn", # required
+    #     runtime_session_id: "SessionId", # required
+    #     messages: [ # required
+    #       {
+    #         role: "user", # required, accepts user, assistant
+    #         content: [ # required
+    #           {
+    #             text: "SensitiveText",
+    #             tool_use: {
+    #               name: "HarnessToolName", # required
+    #               tool_use_id: "HarnessToolUseId", # required
+    #               input: { # required
+    #               },
+    #               type: "tool_use", # accepts tool_use, server_tool_use, mcp_tool_use
+    #               server_name: "String",
+    #             },
+    #             tool_result: {
+    #               tool_use_id: "HarnessToolUseId", # required
+    #               content: [ # required
+    #                 {
+    #                   text: "SensitiveText",
+    #                   json: {
+    #                   },
+    #                 },
+    #               ],
+    #               status: "success", # accepts success, error
+    #               type: "tool_use", # accepts tool_use, server_tool_use, mcp_tool_use
+    #             },
+    #             reasoning_content: {
+    #               reasoning_text: {
+    #                 text: "String", # required
+    #                 signature: "String",
+    #               },
+    #               redacted_content: "data",
+    #             },
+    #           },
+    #         ],
+    #       },
+    #     ],
+    #     model: {
+    #       bedrock_model_config: {
+    #         model_id: "ModelId", # required
+    #         max_tokens: 1,
+    #         temperature: 1.0,
+    #         top_p: 1.0,
+    #       },
+    #       open_ai_model_config: {
+    #         model_id: "ModelId", # required
+    #         api_key_arn: "ApiKeyArn", # required
+    #         max_tokens: 1,
+    #         temperature: 1.0,
+    #         top_p: 1.0,
+    #       },
+    #       gemini_model_config: {
+    #         model_id: "ModelId", # required
+    #         api_key_arn: "ApiKeyArn", # required
+    #         max_tokens: 1,
+    #         temperature: 1.0,
+    #         top_p: 1.0,
+    #         top_k: 1,
+    #       },
+    #     },
+    #     system_prompt: [
+    #       {
+    #         text: "SensitiveText",
+    #       },
+    #     ],
+    #     tools: [
+    #       {
+    #         type: "remote_mcp", # required, accepts remote_mcp, agentcore_browser, agentcore_gateway, inline_function, agentcore_code_interpreter
+    #         name: "HarnessToolName",
+    #         config: {
+    #           remote_mcp: {
+    #             url: "HarnessRemoteMcpUrl", # required
+    #             headers: {
+    #               "HttpHeaderKey" => "HttpHeaderValue",
+    #             },
+    #           },
+    #           agent_core_browser: {
+    #             browser_arn: "BrowserArn",
+    #           },
+    #           agent_core_gateway: {
+    #             gateway_arn: "GatewayArn", # required
+    #             outbound_auth: {
+    #               aws_iam: {
+    #               },
+    #               none: {
+    #               },
+    #               oauth: {
+    #                 provider_arn: "OAuthCredentialProviderArn", # required
+    #                 scopes: ["OAuthScope"], # required
+    #                 custom_parameters: {
+    #                   "OAuthCustomParametersKey" => "OAuthCustomParametersValue",
+    #                 },
+    #                 grant_type: "CLIENT_CREDENTIALS", # accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE
+    #                 default_return_url: "OAuthDefaultReturnUrl",
+    #               },
+    #             },
+    #           },
+    #           inline_function: {
+    #             description: "HarnessInlineFunctionDescription", # required
+    #             input_schema: { # required
+    #             },
+    #           },
+    #           agent_core_code_interpreter: {
+    #             code_interpreter_arn: "CodeInterpreterArn",
+    #           },
+    #         },
+    #       },
+    #     ],
+    #     skills: [
+    #       {
+    #         path: "HarnessSkillPath",
+    #       },
+    #     ],
+    #     allowed_tools: ["HarnessAllowedTool"],
+    #     max_iterations: 1,
+    #     max_tokens: 1,
+    #     timeout_seconds: 1,
+    #     actor_id: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   # All events are available at resp.stream:
+    #   resp.stream #=> Enumerator
+    #   resp.stream.event_types #=> [:message_start, :content_block_start, :content_block_delta, :content_block_stop, :message_stop, :metadata, :internal_server_exception, :validation_exception, :runtime_client_error]
+    #
+    #   # For :message_start event available at #on_message_start_event callback and response eventstream enumerator:
+    #   event.role #=> String, one of "user", "assistant"
+    #
+    #   # For :content_block_start event available at #on_content_block_start_event callback and response eventstream enumerator:
+    #   event.content_block_index #=> Integer
+    #   event.start.tool_use.tool_use_id #=> String
+    #   event.start.tool_use.name #=> String
+    #   event.start.tool_use.type #=> String, one of "tool_use", "server_tool_use", "mcp_tool_use"
+    #   event.start.tool_use.server_name #=> String
+    #   event.start.tool_result.tool_use_id #=> String
+    #   event.start.tool_result.status #=> String, one of "success", "error"
+    #
+    #   # For :content_block_delta event available at #on_content_block_delta_event callback and response eventstream enumerator:
+    #   event.content_block_index #=> Integer
+    #   event.delta.text #=> String
+    #   event.delta.tool_use.input #=> String
+    #   event.delta.tool_result #=> Array
+    #   event.delta.tool_result[0].text #=> String
+    #   event.delta.reasoning_content.text #=> String
+    #   event.delta.reasoning_content.redacted_content #=> String
+    #   event.delta.reasoning_content.signature #=> String
+    #
+    #   # For :content_block_stop event available at #on_content_block_stop_event callback and response eventstream enumerator:
+    #   event.content_block_index #=> Integer
+    #
+    #   # For :message_stop event available at #on_message_stop_event callback and response eventstream enumerator:
+    #   event.stop_reason #=> String, one of "end_turn", "tool_use", "tool_result", "max_tokens", "stop_sequence", "content_filtered", "malformed_model_output", "malformed_tool_use", "interrupted", "partial_turn", "model_context_window_exceeded", "max_iterations_exceeded", "max_output_tokens_exceeded", "timeout_exceeded"
+    #
+    #   # For :metadata event available at #on_metadata_event callback and response eventstream enumerator:
+    #   event.usage.input_tokens #=> Integer
+    #   event.usage.output_tokens #=> Integer
+    #   event.usage.total_tokens #=> Integer
+    #   event.usage.cache_read_input_tokens #=> Integer
+    #   event.usage.cache_write_input_tokens #=> Integer
+    #   event.metrics.latency_ms #=> Integer
+    #
+    #   # For :internal_server_exception event available at #on_internal_server_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    #   # For :validation_exception event available at #on_validation_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #   event.reason #=> String, one of "CannotParse", "FieldValidationFailed", "IdempotentParameterMismatchException", "EventInOtherSession", "ResourceConflict"
+    #   event.field_list #=> Array
+    #   event.field_list[0].name #=> String
+    #   event.field_list[0].message #=> String
+    #
+    #   # For :runtime_client_error event available at #on_runtime_client_error_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InvokeHarness AWS API Documentation
+    #
+    # @overload invoke_harness(params = {})
+    # @param [Hash] params ({})
+    def invoke_harness(params = {}, options = {}, &block)
+      params = params.dup
+      event_stream_handler = case handler = params.delete(:event_stream_handler)
+        when EventStreams::InvokeHarnessStreamOutput then handler
+        when Proc then EventStreams::InvokeHarnessStreamOutput.new.tap(&handler)
+        when nil then EventStreams::InvokeHarnessStreamOutput.new
+        else
+          msg = "expected :event_stream_handler to be a block or "\
+                "instance of Aws::BedrockAgentCore::EventStreams::InvokeHarnessStreamOutput"\
+                ", got `#{handler.inspect}` instead"
+          raise ArgumentError, msg
+        end
+
+      yield(event_stream_handler) if block_given?
+
+      req = build_request(:invoke_harness, params)
+
+      req.context[:event_stream_handler] = event_stream_handler
+      req.handlers.add(Aws::Binary::DecodeHandler, priority: 95)
+
+      req.send_request(options, &block)
+    end
+
     # Lists all actors in an AgentCore Memory resource. We recommend using
     # pagination to ensure that the operation returns quickly and
     # successfully.
@@ -3762,7 +4182,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.28.0'
+      context[:gem_version] = '1.29.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

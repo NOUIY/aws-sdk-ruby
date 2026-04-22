@@ -67,6 +67,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/PlacementGroup.html#instances-instance_method
       def instances: (
                        ?instance_ids: Array[::String],
+                       ?include_managed_resources: bool,
                        ?dry_run: bool,
                        ?filters: Array[
                          {

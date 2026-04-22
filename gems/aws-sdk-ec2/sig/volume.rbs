@@ -161,6 +161,7 @@ module Aws
       def describe_status: (
                              ?max_results: ::Integer,
                              ?next_token: ::String,
+                             ?include_managed_resources: bool,
                              ?dry_run: bool,
                              ?filters: Array[
                                {

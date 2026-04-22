@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.141.0 (2026-04-22)
+------------------
+
+* Feature - Support of S3Files volume type, container start and stop timeouts.
+
 1.140.0 (2026-03-25)
 ------------------
 

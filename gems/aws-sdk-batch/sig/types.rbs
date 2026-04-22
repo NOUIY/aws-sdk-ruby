@@ -1364,6 +1364,14 @@ module Aws::Batch
       SENSITIVE: []
     end
 
+    class S3FilesVolumeConfiguration
+      attr_accessor file_system_arn: ::String
+      attr_accessor root_directory: ::String
+      attr_accessor transit_encryption_port: ::Integer
+      attr_accessor access_point_arn: ::String
+      SENSITIVE: []
+    end
+
     class SchedulingPolicyDetail
       attr_accessor name: ::String
       attr_accessor arn: ::String
@@ -1576,6 +1584,8 @@ module Aws::Batch
       attr_accessor secrets: ::Array[Types::Secret]
       attr_accessor ulimits: ::Array[Types::Ulimit]
       attr_accessor user: ::String
+      attr_accessor start_timeout: ::Integer
+      attr_accessor stop_timeout: ::Integer
       attr_accessor exit_code: ::Integer
       attr_accessor reason: ::String
       attr_accessor log_stream_name: ::String
@@ -1609,6 +1619,8 @@ module Aws::Batch
       attr_accessor secrets: ::Array[Types::Secret]
       attr_accessor ulimits: ::Array[Types::Ulimit]
       attr_accessor user: ::String
+      attr_accessor start_timeout: ::Integer
+      attr_accessor stop_timeout: ::Integer
       SENSITIVE: []
     end
 
@@ -1768,6 +1780,7 @@ module Aws::Batch
       attr_accessor host: Types::Host
       attr_accessor name: ::String
       attr_accessor efs_volume_configuration: Types::EFSVolumeConfiguration
+      attr_accessor s3files_volume_configuration: Types::S3FilesVolumeConfiguration
       SENSITIVE: []
     end
   end

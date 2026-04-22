@@ -50,6 +50,21 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/S3/MultipartUploadPart.html#checksum_sha256-instance_method
       def checksum_sha256: () -> ::String
 
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/S3/MultipartUploadPart.html#checksum_sha512-instance_method
+      def checksum_sha512: () -> ::String
+
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/S3/MultipartUploadPart.html#checksum_md5-instance_method
+      def checksum_md5: () -> ::String
+
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/S3/MultipartUploadPart.html#checksum_xxhash64-instance_method
+      def checksum_xxhash64: () -> ::String
+
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/S3/MultipartUploadPart.html#checksum_xxhash3-instance_method
+      def checksum_xxhash3: () -> ::String
+
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/S3/MultipartUploadPart.html#checksum_xxhash128-instance_method
+      def checksum_xxhash128: () -> ::String
+
       def client: () -> Client
 
 
@@ -85,12 +100,17 @@ module Aws
                     ?body: ::String | ::StringIO | ::File,
                     ?content_length: ::Integer,
                     ?content_md5: ::String,
-                    ?checksum_algorithm: ("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME"),
+                    ?checksum_algorithm: ("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME" | "SHA512" | "MD5" | "XXHASH64" | "XXHASH3" | "XXHASH128"),
                     ?checksum_crc32: ::String,
                     ?checksum_crc32c: ::String,
                     ?checksum_crc64nvme: ::String,
                     ?checksum_sha1: ::String,
                     ?checksum_sha256: ::String,
+                    ?checksum_sha512: ::String,
+                    ?checksum_md5: ::String,
+                    ?checksum_xxhash64: ::String,
+                    ?checksum_xxhash3: ::String,
+                    ?checksum_xxhash128: ::String,
                     ?sse_customer_algorithm: ::String,
                     ?sse_customer_key: ::String,
                     ?sse_customer_key_md5: ::String,

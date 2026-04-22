@@ -1105,7 +1105,7 @@ module Aws::EC2
     #     },
     #     dry_run: false,
     #     attribute: "instanceType", # accepts instanceType, kernel, ramdisk, userData, disableApiTermination, instanceInitiatedShutdownBehavior, rootDeviceName, blockDeviceMapping, productCodes, sourceDestCheck, groupSet, ebsOptimized, sriovNetSupport, enaSupport, enclaveOptions, disableApiStop
-    #     value: "String",
+    #     value: "ModifyInstanceAttributeValue",
     #     block_device_mappings: [
     #       {
     #         device_name: "String",
@@ -1701,6 +1701,7 @@ module Aws::EC2
     #
     #   volumes = instance.volumes({
     #     volume_ids: ["VolumeId"],
+    #     include_managed_resources: false,
     #     dry_run: false,
     #     filters: [
     #       {
@@ -1713,6 +1714,11 @@ module Aws::EC2
     # @option options [Array<String>] :volume_ids
     #   The volume IDs. If not specified, then all volumes are included in the
     #   response.
+    # @option options [Boolean] :include_managed_resources
+    #   Indicates whether to include managed resources in the output. If this
+    #   parameter is set to `true`, the output includes resources that are
+    #   managed by Amazon Web Services services, even if managed resource
+    #   visibility is set to hidden.
     # @option options [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.

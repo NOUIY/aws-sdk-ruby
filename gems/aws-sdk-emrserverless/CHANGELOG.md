@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.64.0 (2026-04-22)
+------------------
+
+* Feature - This release adds support for Spark connect sessions starting with release label emr-7.13.0.
+
 1.63.0 (2026-03-18)
 ------------------
 

@@ -90,6 +90,19 @@ module Aws::IoTWireless
       include Aws::Structure
     end
 
+    # Optional configuration to customize location estimates.
+    #
+    # @!attribute [rw] wi_fi_cellular
+    #   Configuration for WiFi and cellular-based payloads for location
+    #   estimates.
+    #   @return [Types::WiFiCellular]
+    #
+    class AdvancedConfiguration < Struct.new(
+      :wi_fi_cellular)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # LoRaWAN application configuration, which can be used to perform
     # geolocation.
     #
@@ -2354,12 +2367,18 @@ module Aws::IoTWireless
     #   used.
     #   @return [Time]
     #
+    # @!attribute [rw] advanced_configuration
+    #   Optional configuration to customize position estimates. If not
+    #   provided, defaults are applied.
+    #   @return [Types::AdvancedConfiguration]
+    #
     class GetPositionEstimateRequest < Struct.new(
       :wi_fi_access_points,
       :cell_towers,
       :ip,
       :gnss,
-      :timestamp)
+      :timestamp,
+      :advanced_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7226,6 +7245,20 @@ module Aws::IoTWireless
     class WiFiAccessPoint < Struct.new(
       :mac_address,
       :rss)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for WiFi and cellular location payloads.
+    #
+    # @!attribute [rw] confidence_percent
+    #   Confidence level for WiFi and cellular position estimates, expressed
+    #   as a percentage. Valid range: 50–99 inclusive. Defaults to 68 if not
+    #   specified.
+    #   @return [Integer]
+    #
+    class WiFiCellular < Struct.new(
+      :confidence_percent)
       SENSITIVE = []
       include Aws::Structure
     end
