@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.74.0 (2026-04-23)
+------------------
+
+* Feature - Releasing For LakehouseProperties attributes in the Connections API's
+
 1.73.0 (2026-04-16)
 ------------------
 

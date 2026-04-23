@@ -2088,6 +2088,10 @@ module Aws::DataZone
     #   The MWAA serverless properties of a connection.
     #   @return [Types::WorkflowsServerlessPropertiesInput]
     #
+    # @!attribute [rw] lakehouse_properties
+    #   The lakehouse properties of a connection.
+    #   @return [Types::LakehousePropertiesInput]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ConnectionPropertiesInput AWS API Documentation
     #
     class ConnectionPropertiesInput < Struct.new(
@@ -2103,6 +2107,7 @@ module Aws::DataZone
       :mlflow_properties,
       :workflows_mwaa_properties,
       :workflows_serverless_properties,
+      :lakehouse_properties,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -2120,6 +2125,7 @@ module Aws::DataZone
       class MlflowProperties < ConnectionPropertiesInput; end
       class WorkflowsMwaaProperties < ConnectionPropertiesInput; end
       class WorkflowsServerlessProperties < ConnectionPropertiesInput; end
+      class LakehouseProperties < ConnectionPropertiesInput; end
       class Unknown < ConnectionPropertiesInput; end
     end
 
@@ -2175,6 +2181,10 @@ module Aws::DataZone
     #   The MWAA serverless properties of a connection.
     #   @return [Types::WorkflowsServerlessPropertiesOutput]
     #
+    # @!attribute [rw] lakehouse_properties
+    #   The lakehouse properties of a connection.
+    #   @return [Types::LakehousePropertiesOutput]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ConnectionPropertiesOutput AWS API Documentation
     #
     class ConnectionPropertiesOutput < Struct.new(
@@ -2190,6 +2200,7 @@ module Aws::DataZone
       :mlflow_properties,
       :workflows_mwaa_properties,
       :workflows_serverless_properties,
+      :lakehouse_properties,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -2207,6 +2218,7 @@ module Aws::DataZone
       class MlflowProperties < ConnectionPropertiesOutput; end
       class WorkflowsMwaaProperties < ConnectionPropertiesOutput; end
       class WorkflowsServerlessProperties < ConnectionPropertiesOutput; end
+      class LakehouseProperties < ConnectionPropertiesOutput; end
       class Unknown < ConnectionPropertiesOutput; end
     end
 
@@ -2247,6 +2259,10 @@ module Aws::DataZone
     #   The MLflow properties of a connection.
     #   @return [Types::MlflowPropertiesPatch]
     #
+    # @!attribute [rw] lakehouse_properties
+    #   The lakehouse properties of a connection properties patch.
+    #   @return [Types::LakehousePropertiesPatch]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ConnectionPropertiesPatch AWS API Documentation
     #
     class ConnectionPropertiesPatch < Struct.new(
@@ -2258,6 +2274,7 @@ module Aws::DataZone
       :s3_properties,
       :amazon_q_properties,
       :mlflow_properties,
+      :lakehouse_properties,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -2271,6 +2288,7 @@ module Aws::DataZone
       class S3Properties < ConnectionPropertiesPatch; end
       class AmazonQProperties < ConnectionPropertiesPatch; end
       class MlflowProperties < ConnectionPropertiesPatch; end
+      class LakehouseProperties < ConnectionPropertiesPatch; end
       class Unknown < ConnectionPropertiesPatch; end
     end
 
@@ -12670,6 +12688,51 @@ module Aws::DataZone
     class LakeFormationConfiguration < Struct.new(
       :location_registration_role,
       :location_registration_exclude_s3_locations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The lakehouse properties of a connection.
+    #
+    # @!attribute [rw] glue_lineage_sync_enabled
+    #   Specifies whether to enable Glue lineage sync for tables managed by
+    #   Glue crawlers.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/LakehousePropertiesInput AWS API Documentation
+    #
+    class LakehousePropertiesInput < Struct.new(
+      :glue_lineage_sync_enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The lakehouse properties of a connection.
+    #
+    # @!attribute [rw] glue_lineage_sync_enabled
+    #   Specifies whether Glue lineage sync is enabled for tables managed by
+    #   Glue crawlers.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/LakehousePropertiesOutput AWS API Documentation
+    #
+    class LakehousePropertiesOutput < Struct.new(
+      :glue_lineage_sync_enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The lakehouse properties of a connection properties patch.
+    #
+    # @!attribute [rw] glue_lineage_sync_enabled
+    #   Specifies whether to enable Glue lineage sync for tables managed by
+    #   Glue crawlers.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/LakehousePropertiesPatch AWS API Documentation
+    #
+    class LakehousePropertiesPatch < Struct.new(
+      :glue_lineage_sync_enabled)
       SENSITIVE = []
       include Aws::Structure
     end

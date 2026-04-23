@@ -636,6 +636,9 @@ module Aws::DataZone
     JobType = Shapes::StringShape.new(name: 'JobType')
     KmsKeyArn = Shapes::StringShape.new(name: 'KmsKeyArn')
     LakeFormationConfiguration = Shapes::StructureShape.new(name: 'LakeFormationConfiguration')
+    LakehousePropertiesInput = Shapes::StructureShape.new(name: 'LakehousePropertiesInput')
+    LakehousePropertiesOutput = Shapes::StructureShape.new(name: 'LakehousePropertiesOutput')
+    LakehousePropertiesPatch = Shapes::StructureShape.new(name: 'LakehousePropertiesPatch')
     LambdaExecutionRoleArn = Shapes::StringShape.new(name: 'LambdaExecutionRoleArn')
     LambdaFunctionArn = Shapes::StringShape.new(name: 'LambdaFunctionArn')
     LastName = Shapes::StringShape.new(name: 'LastName')
@@ -1706,6 +1709,7 @@ module Aws::DataZone
     ConnectionPropertiesInput.add_member(:mlflow_properties, Shapes::ShapeRef.new(shape: MlflowPropertiesInput, location_name: "mlflowProperties"))
     ConnectionPropertiesInput.add_member(:workflows_mwaa_properties, Shapes::ShapeRef.new(shape: WorkflowsMwaaPropertiesInput, location_name: "workflowsMwaaProperties"))
     ConnectionPropertiesInput.add_member(:workflows_serverless_properties, Shapes::ShapeRef.new(shape: WorkflowsServerlessPropertiesInput, location_name: "workflowsServerlessProperties"))
+    ConnectionPropertiesInput.add_member(:lakehouse_properties, Shapes::ShapeRef.new(shape: LakehousePropertiesInput, location_name: "lakehouseProperties"))
     ConnectionPropertiesInput.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     ConnectionPropertiesInput.add_member_subclass(:athena_properties, Types::ConnectionPropertiesInput::AthenaProperties)
     ConnectionPropertiesInput.add_member_subclass(:glue_properties, Types::ConnectionPropertiesInput::GlueProperties)
@@ -1719,6 +1723,7 @@ module Aws::DataZone
     ConnectionPropertiesInput.add_member_subclass(:mlflow_properties, Types::ConnectionPropertiesInput::MlflowProperties)
     ConnectionPropertiesInput.add_member_subclass(:workflows_mwaa_properties, Types::ConnectionPropertiesInput::WorkflowsMwaaProperties)
     ConnectionPropertiesInput.add_member_subclass(:workflows_serverless_properties, Types::ConnectionPropertiesInput::WorkflowsServerlessProperties)
+    ConnectionPropertiesInput.add_member_subclass(:lakehouse_properties, Types::ConnectionPropertiesInput::LakehouseProperties)
     ConnectionPropertiesInput.add_member_subclass(:unknown, Types::ConnectionPropertiesInput::Unknown)
     ConnectionPropertiesInput.struct_class = Types::ConnectionPropertiesInput
 
@@ -1734,6 +1739,7 @@ module Aws::DataZone
     ConnectionPropertiesOutput.add_member(:mlflow_properties, Shapes::ShapeRef.new(shape: MlflowPropertiesOutput, location_name: "mlflowProperties"))
     ConnectionPropertiesOutput.add_member(:workflows_mwaa_properties, Shapes::ShapeRef.new(shape: WorkflowsMwaaPropertiesOutput, location_name: "workflowsMwaaProperties"))
     ConnectionPropertiesOutput.add_member(:workflows_serverless_properties, Shapes::ShapeRef.new(shape: WorkflowsServerlessPropertiesOutput, location_name: "workflowsServerlessProperties"))
+    ConnectionPropertiesOutput.add_member(:lakehouse_properties, Shapes::ShapeRef.new(shape: LakehousePropertiesOutput, location_name: "lakehouseProperties"))
     ConnectionPropertiesOutput.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     ConnectionPropertiesOutput.add_member_subclass(:athena_properties, Types::ConnectionPropertiesOutput::AthenaProperties)
     ConnectionPropertiesOutput.add_member_subclass(:glue_properties, Types::ConnectionPropertiesOutput::GlueProperties)
@@ -1747,6 +1753,7 @@ module Aws::DataZone
     ConnectionPropertiesOutput.add_member_subclass(:mlflow_properties, Types::ConnectionPropertiesOutput::MlflowProperties)
     ConnectionPropertiesOutput.add_member_subclass(:workflows_mwaa_properties, Types::ConnectionPropertiesOutput::WorkflowsMwaaProperties)
     ConnectionPropertiesOutput.add_member_subclass(:workflows_serverless_properties, Types::ConnectionPropertiesOutput::WorkflowsServerlessProperties)
+    ConnectionPropertiesOutput.add_member_subclass(:lakehouse_properties, Types::ConnectionPropertiesOutput::LakehouseProperties)
     ConnectionPropertiesOutput.add_member_subclass(:unknown, Types::ConnectionPropertiesOutput::Unknown)
     ConnectionPropertiesOutput.struct_class = Types::ConnectionPropertiesOutput
 
@@ -1758,6 +1765,7 @@ module Aws::DataZone
     ConnectionPropertiesPatch.add_member(:s3_properties, Shapes::ShapeRef.new(shape: S3PropertiesPatch, location_name: "s3Properties"))
     ConnectionPropertiesPatch.add_member(:amazon_q_properties, Shapes::ShapeRef.new(shape: AmazonQPropertiesPatch, location_name: "amazonQProperties"))
     ConnectionPropertiesPatch.add_member(:mlflow_properties, Shapes::ShapeRef.new(shape: MlflowPropertiesPatch, location_name: "mlflowProperties"))
+    ConnectionPropertiesPatch.add_member(:lakehouse_properties, Shapes::ShapeRef.new(shape: LakehousePropertiesPatch, location_name: "lakehouseProperties"))
     ConnectionPropertiesPatch.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     ConnectionPropertiesPatch.add_member_subclass(:athena_properties, Types::ConnectionPropertiesPatch::AthenaProperties)
     ConnectionPropertiesPatch.add_member_subclass(:glue_properties, Types::ConnectionPropertiesPatch::GlueProperties)
@@ -1767,6 +1775,7 @@ module Aws::DataZone
     ConnectionPropertiesPatch.add_member_subclass(:s3_properties, Types::ConnectionPropertiesPatch::S3Properties)
     ConnectionPropertiesPatch.add_member_subclass(:amazon_q_properties, Types::ConnectionPropertiesPatch::AmazonQProperties)
     ConnectionPropertiesPatch.add_member_subclass(:mlflow_properties, Types::ConnectionPropertiesPatch::MlflowProperties)
+    ConnectionPropertiesPatch.add_member_subclass(:lakehouse_properties, Types::ConnectionPropertiesPatch::LakehouseProperties)
     ConnectionPropertiesPatch.add_member_subclass(:unknown, Types::ConnectionPropertiesPatch::Unknown)
     ConnectionPropertiesPatch.struct_class = Types::ConnectionPropertiesPatch
 
@@ -4037,6 +4046,15 @@ module Aws::DataZone
     LakeFormationConfiguration.add_member(:location_registration_role, Shapes::ShapeRef.new(shape: RoleArn, location_name: "locationRegistrationRole"))
     LakeFormationConfiguration.add_member(:location_registration_exclude_s3_locations, Shapes::ShapeRef.new(shape: S3LocationList, location_name: "locationRegistrationExcludeS3Locations"))
     LakeFormationConfiguration.struct_class = Types::LakeFormationConfiguration
+
+    LakehousePropertiesInput.add_member(:glue_lineage_sync_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "glueLineageSyncEnabled"))
+    LakehousePropertiesInput.struct_class = Types::LakehousePropertiesInput
+
+    LakehousePropertiesOutput.add_member(:glue_lineage_sync_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "glueLineageSyncEnabled"))
+    LakehousePropertiesOutput.struct_class = Types::LakehousePropertiesOutput
+
+    LakehousePropertiesPatch.add_member(:glue_lineage_sync_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "glueLineageSyncEnabled"))
+    LakehousePropertiesPatch.struct_class = Types::LakehousePropertiesPatch
 
     LessThanExpression.add_member(:column_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "columnName"))
     LessThanExpression.add_member(:value, Shapes::ShapeRef.new(shape: String, required: true, location_name: "value"))

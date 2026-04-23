@@ -472,6 +472,7 @@ module Aws::OpenSearchService
     RecurringChargeList = Shapes::ListShape.new(name: 'RecurringChargeList')
     ReferencePath = Shapes::StringShape.new(name: 'ReferencePath')
     Region = Shapes::StringShape.new(name: 'Region')
+    RegionsList = Shapes::ListShape.new(name: 'RegionsList')
     RegisterCapabilityRequest = Shapes::StructureShape.new(name: 'RegisterCapabilityRequest')
     RegisterCapabilityResponse = Shapes::StructureShape.new(name: 'RegisterCapabilityResponse')
     RejectInboundConnectionRequest = Shapes::StructureShape.new(name: 'RejectInboundConnectionRequest')
@@ -515,6 +516,7 @@ module Aws::OpenSearchService
     ScheduledBy = Shapes::StringShape.new(name: 'ScheduledBy')
     SecurityLakeDirectQueryDataSource = Shapes::StructureShape.new(name: 'SecurityLakeDirectQueryDataSource')
     ServerlessVectorAcceleration = Shapes::StructureShape.new(name: 'ServerlessVectorAcceleration')
+    ServiceOptions = Shapes::StructureShape.new(name: 'ServiceOptions')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     ServiceSoftwareOptions = Shapes::StructureShape.new(name: 'ServiceSoftwareOptions')
     ServiceUrl = Shapes::StringShape.new(name: 'ServiceUrl')
@@ -740,6 +742,7 @@ module Aws::OpenSearchService
     AuthorizeVpcEndpointAccessRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: DomainName, required: true, location: "uri", location_name: "DomainName"))
     AuthorizeVpcEndpointAccessRequest.add_member(:account, Shapes::ShapeRef.new(shape: AWSAccount, location_name: "Account"))
     AuthorizeVpcEndpointAccessRequest.add_member(:service, Shapes::ShapeRef.new(shape: AWSServicePrincipal, location_name: "Service"))
+    AuthorizeVpcEndpointAccessRequest.add_member(:service_options, Shapes::ShapeRef.new(shape: ServiceOptions, location_name: "ServiceOptions"))
     AuthorizeVpcEndpointAccessRequest.struct_class = Types::AuthorizeVpcEndpointAccessRequest
 
     AuthorizeVpcEndpointAccessResponse.add_member(:authorized_principal, Shapes::ShapeRef.new(shape: AuthorizedPrincipal, required: true, location_name: "AuthorizedPrincipal"))
@@ -747,6 +750,7 @@ module Aws::OpenSearchService
 
     AuthorizedPrincipal.add_member(:principal_type, Shapes::ShapeRef.new(shape: PrincipalType, location_name: "PrincipalType"))
     AuthorizedPrincipal.add_member(:principal, Shapes::ShapeRef.new(shape: String, location_name: "Principal"))
+    AuthorizedPrincipal.add_member(:service_options, Shapes::ShapeRef.new(shape: ServiceOptions, location_name: "ServiceOptions"))
     AuthorizedPrincipal.struct_class = Types::AuthorizedPrincipal
 
     AuthorizedPrincipalList.member = Shapes::ShapeRef.new(shape: AuthorizedPrincipal)
@@ -1607,6 +1611,7 @@ module Aws::OpenSearchService
 
     IdentityCenterOptions.add_member(:enabled_api_access, Shapes::ShapeRef.new(shape: Boolean, location_name: "EnabledAPIAccess"))
     IdentityCenterOptions.add_member(:identity_center_instance_arn, Shapes::ShapeRef.new(shape: IdentityCenterInstanceARN, location_name: "IdentityCenterInstanceARN"))
+    IdentityCenterOptions.add_member(:identity_center_instance_region, Shapes::ShapeRef.new(shape: Region, location_name: "IdentityCenterInstanceRegion"))
     IdentityCenterOptions.add_member(:subject_key, Shapes::ShapeRef.new(shape: SubjectKeyIdCOption, location_name: "SubjectKey"))
     IdentityCenterOptions.add_member(:roles_key, Shapes::ShapeRef.new(shape: RolesKeyIdCOption, location_name: "RolesKey"))
     IdentityCenterOptions.add_member(:identity_center_application_arn, Shapes::ShapeRef.new(shape: IdentityCenterApplicationARN, location_name: "IdentityCenterApplicationARN"))
@@ -1615,6 +1620,7 @@ module Aws::OpenSearchService
 
     IdentityCenterOptionsInput.add_member(:enabled_api_access, Shapes::ShapeRef.new(shape: Boolean, location_name: "EnabledAPIAccess"))
     IdentityCenterOptionsInput.add_member(:identity_center_instance_arn, Shapes::ShapeRef.new(shape: IdentityCenterInstanceARN, location_name: "IdentityCenterInstanceARN"))
+    IdentityCenterOptionsInput.add_member(:identity_center_instance_region, Shapes::ShapeRef.new(shape: Region, location_name: "IdentityCenterInstanceRegion"))
     IdentityCenterOptionsInput.add_member(:subject_key, Shapes::ShapeRef.new(shape: SubjectKeyIdCOption, location_name: "SubjectKey"))
     IdentityCenterOptionsInput.add_member(:roles_key, Shapes::ShapeRef.new(shape: RolesKeyIdCOption, location_name: "RolesKey"))
     IdentityCenterOptionsInput.struct_class = Types::IdentityCenterOptionsInput
@@ -2021,6 +2027,8 @@ module Aws::OpenSearchService
 
     RecurringChargeList.member = Shapes::ShapeRef.new(shape: RecurringCharge)
 
+    RegionsList.member = Shapes::ShapeRef.new(shape: Region)
+
     RegisterCapabilityRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: ApplicationId, required: true, location: "uri", location_name: "ApplicationId"))
     RegisterCapabilityRequest.add_member(:capability_name, Shapes::ShapeRef.new(shape: CapabilityName, required: true, location_name: "capabilityName"))
     RegisterCapabilityRequest.add_member(:capability_config, Shapes::ShapeRef.new(shape: CapabilityBaseRequestConfig, required: true, location_name: "capabilityConfig"))
@@ -2079,6 +2087,7 @@ module Aws::OpenSearchService
     RevokeVpcEndpointAccessRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: DomainName, required: true, location: "uri", location_name: "DomainName"))
     RevokeVpcEndpointAccessRequest.add_member(:account, Shapes::ShapeRef.new(shape: AWSAccount, location_name: "Account"))
     RevokeVpcEndpointAccessRequest.add_member(:service, Shapes::ShapeRef.new(shape: AWSServicePrincipal, location_name: "Service"))
+    RevokeVpcEndpointAccessRequest.add_member(:service_options, Shapes::ShapeRef.new(shape: ServiceOptions, location_name: "ServiceOptions"))
     RevokeVpcEndpointAccessRequest.struct_class = Types::RevokeVpcEndpointAccessRequest
 
     RevokeVpcEndpointAccessResponse.struct_class = Types::RevokeVpcEndpointAccessResponse
@@ -2145,6 +2154,9 @@ module Aws::OpenSearchService
 
     ServerlessVectorAcceleration.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "Enabled"))
     ServerlessVectorAcceleration.struct_class = Types::ServerlessVectorAcceleration
+
+    ServiceOptions.add_member(:supported_regions, Shapes::ShapeRef.new(shape: RegionsList, location_name: "SupportedRegions"))
+    ServiceOptions.struct_class = Types::ServiceOptions
 
     ServiceQuotaExceededException.struct_class = Types::ServiceQuotaExceededException
 

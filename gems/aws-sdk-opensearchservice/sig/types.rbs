@@ -176,6 +176,7 @@ module Aws::OpenSearchService
       attr_accessor domain_name: ::String
       attr_accessor account: ::String
       attr_accessor service: ("application.opensearchservice.amazonaws.com")
+      attr_accessor service_options: Types::ServiceOptions
       SENSITIVE: []
     end
 
@@ -187,6 +188,7 @@ module Aws::OpenSearchService
     class AuthorizedPrincipal
       attr_accessor principal_type: ("AWS_ACCOUNT" | "AWS_SERVICE")
       attr_accessor principal: ::String
+      attr_accessor service_options: Types::ServiceOptions
       SENSITIVE: []
     end
 
@@ -1320,6 +1322,7 @@ module Aws::OpenSearchService
     class IdentityCenterOptions
       attr_accessor enabled_api_access: bool
       attr_accessor identity_center_instance_arn: ::String
+      attr_accessor identity_center_instance_region: ::String
       attr_accessor subject_key: ("UserName" | "UserId" | "Email")
       attr_accessor roles_key: ("GroupName" | "GroupId")
       attr_accessor identity_center_application_arn: ::String
@@ -1330,6 +1333,7 @@ module Aws::OpenSearchService
     class IdentityCenterOptionsInput
       attr_accessor enabled_api_access: bool
       attr_accessor identity_center_instance_arn: ::String
+      attr_accessor identity_center_instance_region: ::String
       attr_accessor subject_key: ("UserName" | "UserId" | "Email")
       attr_accessor roles_key: ("GroupName" | "GroupId")
       SENSITIVE: []
@@ -1924,6 +1928,7 @@ module Aws::OpenSearchService
       attr_accessor domain_name: ::String
       attr_accessor account: ::String
       attr_accessor service: ("application.opensearchservice.amazonaws.com")
+      attr_accessor service_options: Types::ServiceOptions
       SENSITIVE: []
     end
 
@@ -2012,6 +2017,11 @@ module Aws::OpenSearchService
 
     class ServerlessVectorAcceleration
       attr_accessor enabled: bool
+      SENSITIVE: []
+    end
+
+    class ServiceOptions
+      attr_accessor supported_regions: ::Array[::String]
       SENSITIVE: []
     end
 

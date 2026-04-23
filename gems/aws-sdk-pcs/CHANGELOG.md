@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.44.0 (2026-04-23)
+------------------
+
+* Feature - This release adds support for Slurm 25.11 with expedited requeue enabled by default for jobs failing due to node issues, configurable requeue delay, health checks at node startup only, and unauthenticated HTTP endpoints disabled by default for improved security.
+
 1.43.0 (2026-03-24)
 ------------------
 

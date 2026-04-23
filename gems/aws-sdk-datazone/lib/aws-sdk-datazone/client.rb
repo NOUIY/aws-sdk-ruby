@@ -2084,6 +2084,9 @@ module Aws::DataZone
     #       },
     #       workflows_serverless_properties: {
     #       },
+    #       lakehouse_properties: {
+    #         glue_lineage_sync_enabled: false,
+    #       },
     #     },
     #     enable_trusted_identity_propagation: false,
     #     scope: "DOMAIN", # accepts DOMAIN, PROJECT
@@ -2215,6 +2218,7 @@ module Aws::DataZone
     #   resp.props.amazon_q_properties.auth_mode #=> String
     #   resp.props.mlflow_properties.tracking_server_arn #=> String
     #   resp.props.workflows_mwaa_properties.mwaa_environment_name #=> String
+    #   resp.props.lakehouse_properties.glue_lineage_sync_enabled #=> Boolean
     #   resp.type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
     #   resp.scope #=> String, one of "DOMAIN", "PROJECT"
     #
@@ -6188,6 +6192,7 @@ module Aws::DataZone
     #   resp.props.amazon_q_properties.auth_mode #=> String
     #   resp.props.mlflow_properties.tracking_server_arn #=> String
     #   resp.props.workflows_mwaa_properties.mwaa_environment_name #=> String
+    #   resp.props.lakehouse_properties.glue_lineage_sync_enabled #=> Boolean
     #   resp.type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
     #   resp.scope #=> String, one of "DOMAIN", "PROJECT"
     #
@@ -8775,6 +8780,7 @@ module Aws::DataZone
     #   resp.items[0].props.amazon_q_properties.auth_mode #=> String
     #   resp.items[0].props.mlflow_properties.tracking_server_arn #=> String
     #   resp.items[0].props.workflows_mwaa_properties.mwaa_environment_name #=> String
+    #   resp.items[0].props.lakehouse_properties.glue_lineage_sync_enabled #=> Boolean
     #   resp.items[0].type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
     #   resp.items[0].scope #=> String, one of "DOMAIN", "PROJECT"
     #   resp.next_token #=> String
@@ -13253,6 +13259,9 @@ module Aws::DataZone
     #       mlflow_properties: {
     #         tracking_server_arn: "String",
     #       },
+    #       lakehouse_properties: {
+    #         glue_lineage_sync_enabled: false,
+    #       },
     #     },
     #   })
     #
@@ -13382,6 +13391,7 @@ module Aws::DataZone
     #   resp.props.amazon_q_properties.auth_mode #=> String
     #   resp.props.mlflow_properties.tracking_server_arn #=> String
     #   resp.props.workflows_mwaa_properties.mwaa_environment_name #=> String
+    #   resp.props.lakehouse_properties.glue_lineage_sync_enabled #=> Boolean
     #   resp.type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
     #   resp.scope #=> String, one of "DOMAIN", "PROJECT"
     #
@@ -15199,7 +15209,7 @@ module Aws::DataZone
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-datazone'
-      context[:gem_version] = '1.73.0'
+      context[:gem_version] = '1.74.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

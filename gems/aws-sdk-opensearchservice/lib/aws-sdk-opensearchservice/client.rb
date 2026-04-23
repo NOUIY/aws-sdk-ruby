@@ -824,6 +824,10 @@ module Aws::OpenSearchService
     # @option params [String] :service
     #   The Amazon Web Services service SP to grant access to.
     #
+    # @option params [Types::ServiceOptions] :service_options
+    #   The options for the service, including the supported Regions for the
+    #   endpoint access.
+    #
     # @return [Types::AuthorizeVpcEndpointAccessResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::AuthorizeVpcEndpointAccessResponse#authorized_principal #authorized_principal} => Types::AuthorizedPrincipal
@@ -834,12 +838,17 @@ module Aws::OpenSearchService
     #     domain_name: "DomainName", # required
     #     account: "AWSAccount",
     #     service: "application.opensearchservice.amazonaws.com", # accepts application.opensearchservice.amazonaws.com
+    #     service_options: {
+    #       supported_regions: ["Region"],
+    #     },
     #   })
     #
     # @example Response structure
     #
     #   resp.authorized_principal.principal_type #=> String, one of "AWS_ACCOUNT", "AWS_SERVICE"
     #   resp.authorized_principal.principal #=> String
+    #   resp.authorized_principal.service_options.supported_regions #=> Array
+    #   resp.authorized_principal.service_options.supported_regions[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/AuthorizeVpcEndpointAccess AWS API Documentation
     #
@@ -1308,6 +1317,7 @@ module Aws::OpenSearchService
     #     identity_center_options: {
     #       enabled_api_access: false,
     #       identity_center_instance_arn: "IdentityCenterInstanceARN",
+    #       identity_center_instance_region: "Region",
     #       subject_key: "UserName", # accepts UserName, UserId, Email
     #       roles_key: "GroupName", # accepts GroupName, GroupId
     #     },
@@ -1451,6 +1461,7 @@ module Aws::OpenSearchService
     #   resp.domain_status.advanced_security_options.anonymous_auth_enabled #=> Boolean
     #   resp.domain_status.identity_center_options.enabled_api_access #=> Boolean
     #   resp.domain_status.identity_center_options.identity_center_instance_arn #=> String
+    #   resp.domain_status.identity_center_options.identity_center_instance_region #=> String
     #   resp.domain_status.identity_center_options.subject_key #=> String, one of "UserName", "UserId", "Email"
     #   resp.domain_status.identity_center_options.roles_key #=> String, one of "GroupName", "GroupId"
     #   resp.domain_status.identity_center_options.identity_center_application_arn #=> String
@@ -1981,6 +1992,7 @@ module Aws::OpenSearchService
     #   resp.domain_status.advanced_security_options.anonymous_auth_enabled #=> Boolean
     #   resp.domain_status.identity_center_options.enabled_api_access #=> Boolean
     #   resp.domain_status.identity_center_options.identity_center_instance_arn #=> String
+    #   resp.domain_status.identity_center_options.identity_center_instance_region #=> String
     #   resp.domain_status.identity_center_options.subject_key #=> String, one of "UserName", "UserId", "Email"
     #   resp.domain_status.identity_center_options.roles_key #=> String, one of "GroupName", "GroupId"
     #   resp.domain_status.identity_center_options.identity_center_application_arn #=> String
@@ -2378,6 +2390,7 @@ module Aws::OpenSearchService
     #   resp.domain_status.advanced_security_options.anonymous_auth_enabled #=> Boolean
     #   resp.domain_status.identity_center_options.enabled_api_access #=> Boolean
     #   resp.domain_status.identity_center_options.identity_center_instance_arn #=> String
+    #   resp.domain_status.identity_center_options.identity_center_instance_region #=> String
     #   resp.domain_status.identity_center_options.subject_key #=> String, one of "UserName", "UserId", "Email"
     #   resp.domain_status.identity_center_options.roles_key #=> String, one of "GroupName", "GroupId"
     #   resp.domain_status.identity_center_options.identity_center_application_arn #=> String
@@ -2684,6 +2697,7 @@ module Aws::OpenSearchService
     #   resp.domain_config.advanced_security_options.status.pending_deletion #=> Boolean
     #   resp.domain_config.identity_center_options.options.enabled_api_access #=> Boolean
     #   resp.domain_config.identity_center_options.options.identity_center_instance_arn #=> String
+    #   resp.domain_config.identity_center_options.options.identity_center_instance_region #=> String
     #   resp.domain_config.identity_center_options.options.subject_key #=> String, one of "UserName", "UserId", "Email"
     #   resp.domain_config.identity_center_options.options.roles_key #=> String, one of "GroupName", "GroupId"
     #   resp.domain_config.identity_center_options.options.identity_center_application_arn #=> String
@@ -2966,6 +2980,7 @@ module Aws::OpenSearchService
     #   resp.domain_status_list[0].advanced_security_options.anonymous_auth_enabled #=> Boolean
     #   resp.domain_status_list[0].identity_center_options.enabled_api_access #=> Boolean
     #   resp.domain_status_list[0].identity_center_options.identity_center_instance_arn #=> String
+    #   resp.domain_status_list[0].identity_center_options.identity_center_instance_region #=> String
     #   resp.domain_status_list[0].identity_center_options.subject_key #=> String, one of "UserName", "UserId", "Email"
     #   resp.domain_status_list[0].identity_center_options.roles_key #=> String, one of "GroupName", "GroupId"
     #   resp.domain_status_list[0].identity_center_options.identity_center_application_arn #=> String
@@ -3136,6 +3151,7 @@ module Aws::OpenSearchService
     #   resp.dry_run_config.advanced_security_options.anonymous_auth_enabled #=> Boolean
     #   resp.dry_run_config.identity_center_options.enabled_api_access #=> Boolean
     #   resp.dry_run_config.identity_center_options.identity_center_instance_arn #=> String
+    #   resp.dry_run_config.identity_center_options.identity_center_instance_region #=> String
     #   resp.dry_run_config.identity_center_options.subject_key #=> String, one of "UserName", "UserId", "Email"
     #   resp.dry_run_config.identity_center_options.roles_key #=> String, one of "GroupName", "GroupId"
     #   resp.dry_run_config.identity_center_options.identity_center_application_arn #=> String
@@ -4901,6 +4917,8 @@ module Aws::OpenSearchService
     #   resp.authorized_principal_list #=> Array
     #   resp.authorized_principal_list[0].principal_type #=> String, one of "AWS_ACCOUNT", "AWS_SERVICE"
     #   resp.authorized_principal_list[0].principal #=> String
+    #   resp.authorized_principal_list[0].service_options.supported_regions #=> Array
+    #   resp.authorized_principal_list[0].service_options.supported_regions[0] #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListVpcEndpointAccess AWS API Documentation
@@ -5215,6 +5233,10 @@ module Aws::OpenSearchService
     # @option params [String] :service
     #   The service SP to revoke access from.
     #
+    # @option params [Types::ServiceOptions] :service_options
+    #   The options for the service, including the supported Regions for the
+    #   endpoint access.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -5223,6 +5245,9 @@ module Aws::OpenSearchService
     #     domain_name: "DomainName", # required
     #     account: "AWSAccount",
     #     service: "application.opensearchservice.amazonaws.com", # accepts application.opensearchservice.amazonaws.com
+    #     service_options: {
+    #       supported_regions: ["Region"],
+    #     },
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/RevokeVpcEndpointAccess AWS API Documentation
@@ -5806,6 +5831,7 @@ module Aws::OpenSearchService
     #     identity_center_options: {
     #       enabled_api_access: false,
     #       identity_center_instance_arn: "IdentityCenterInstanceARN",
+    #       identity_center_instance_region: "Region",
     #       subject_key: "UserName", # accepts UserName, UserId, Email
     #       roles_key: "GroupName", # accepts GroupName, GroupId
     #     },
@@ -5996,6 +6022,7 @@ module Aws::OpenSearchService
     #   resp.domain_config.advanced_security_options.status.pending_deletion #=> Boolean
     #   resp.domain_config.identity_center_options.options.enabled_api_access #=> Boolean
     #   resp.domain_config.identity_center_options.options.identity_center_instance_arn #=> String
+    #   resp.domain_config.identity_center_options.options.identity_center_instance_region #=> String
     #   resp.domain_config.identity_center_options.options.subject_key #=> String, one of "UserName", "UserId", "Email"
     #   resp.domain_config.identity_center_options.options.roles_key #=> String, one of "GroupName", "GroupId"
     #   resp.domain_config.identity_center_options.options.identity_center_application_arn #=> String
@@ -6475,7 +6502,7 @@ module Aws::OpenSearchService
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-opensearchservice'
-      context[:gem_version] = '1.95.0'
+      context[:gem_version] = '1.96.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

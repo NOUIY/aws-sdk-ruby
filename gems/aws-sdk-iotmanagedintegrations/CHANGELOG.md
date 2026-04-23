@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.20.0 (2026-04-23)
+------------------
+
+* Feature - Adds "Status" field to provisioning profile operation response types, giving users visibility into the readiness of a provisioning profile to be used for device provisioning.
+
 1.19.0 (2026-03-18)
 ------------------
 

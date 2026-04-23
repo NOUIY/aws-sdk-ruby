@@ -196,7 +196,10 @@ module Aws
       def authorize_vpc_endpoint_access: (
                                            domain_name: ::String,
                                            ?account: ::String,
-                                           ?service: ("application.opensearchservice.amazonaws.com")
+                                           ?service: ("application.opensearchservice.amazonaws.com"),
+                                           ?service_options: {
+                                             supported_regions: Array[::String]?
+                                           }
                                          ) -> _AuthorizeVpcEndpointAccessResponseSuccess
                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AuthorizeVpcEndpointAccessResponseSuccess
 
@@ -380,6 +383,7 @@ module Aws
                            ?identity_center_options: {
                              enabled_api_access: bool?,
                              identity_center_instance_arn: ::String?,
+                             identity_center_instance_region: ::String?,
                              subject_key: ("UserName" | "UserId" | "Email")?,
                              roles_key: ("GroupName" | "GroupId")?
                            },
@@ -1273,7 +1277,10 @@ module Aws
       def revoke_vpc_endpoint_access: (
                                         domain_name: ::String,
                                         ?account: ::String,
-                                        ?service: ("application.opensearchservice.amazonaws.com")
+                                        ?service: ("application.opensearchservice.amazonaws.com"),
+                                        ?service_options: {
+                                          supported_regions: Array[::String]?
+                                        }
                                       ) -> _RevokeVpcEndpointAccessResponseSuccess
                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RevokeVpcEndpointAccessResponseSuccess
 
@@ -1498,6 +1505,7 @@ module Aws
                                   ?identity_center_options: {
                                     enabled_api_access: bool?,
                                     identity_center_instance_arn: ::String?,
+                                    identity_center_instance_region: ::String?,
                                     subject_key: ("UserName" | "UserId" | "Email")?,
                                     roles_key: ("GroupName" | "GroupId")?
                                   },

@@ -393,6 +393,7 @@ module Aws::IoTManagedIntegrations
     ProvisioningProfileId = Shapes::StringShape.new(name: 'ProvisioningProfileId')
     ProvisioningProfileListDefinition = Shapes::ListShape.new(name: 'ProvisioningProfileListDefinition')
     ProvisioningProfileName = Shapes::StringShape.new(name: 'ProvisioningProfileName')
+    ProvisioningProfileStatus = Shapes::StringShape.new(name: 'ProvisioningProfileStatus')
     ProvisioningProfileSummary = Shapes::StructureShape.new(name: 'ProvisioningProfileSummary')
     ProvisioningStatus = Shapes::StringShape.new(name: 'ProvisioningStatus')
     ProvisioningType = Shapes::StringShape.new(name: 'ProvisioningType')
@@ -696,7 +697,7 @@ module Aws::IoTManagedIntegrations
     CreateManagedThingRequest.add_member(:name, Shapes::ShapeRef.new(shape: Name, location_name: "Name"))
     CreateManagedThingRequest.add_member(:capability_report, Shapes::ShapeRef.new(shape: CapabilityReport, location_name: "CapabilityReport"))
     CreateManagedThingRequest.add_member(:capability_schemas, Shapes::ShapeRef.new(shape: CapabilitySchemas, location_name: "CapabilitySchemas"))
-    CreateManagedThingRequest.add_member(:capabilities, Shapes::ShapeRef.new(shape: Capabilities, location_name: "Capabilities"))
+    CreateManagedThingRequest.add_member(:capabilities, Shapes::ShapeRef.new(shape: Capabilities, deprecated: true, location_name: "Capabilities", metadata: {"deprecatedMessage" => "Capabilities has been deprecated, use CapabilityReport instead", "deprecatedSince" => "06-25-2025"}))
     CreateManagedThingRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     CreateManagedThingRequest.add_member(:classification, Shapes::ShapeRef.new(shape: Classification, location_name: "Classification"))
     CreateManagedThingRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "Tags"))
@@ -757,6 +758,7 @@ module Aws::IoTManagedIntegrations
     CreateProvisioningProfileResponse.add_member(:name, Shapes::ShapeRef.new(shape: ProvisioningProfileName, location_name: "Name"))
     CreateProvisioningProfileResponse.add_member(:provisioning_type, Shapes::ShapeRef.new(shape: ProvisioningType, location_name: "ProvisioningType"))
     CreateProvisioningProfileResponse.add_member(:id, Shapes::ShapeRef.new(shape: ProvisioningProfileId, location_name: "Id"))
+    CreateProvisioningProfileResponse.add_member(:status, Shapes::ShapeRef.new(shape: ProvisioningProfileStatus, location_name: "Status"))
     CreateProvisioningProfileResponse.add_member(:claim_certificate, Shapes::ShapeRef.new(shape: ClaimCertificate, location_name: "ClaimCertificate"))
     CreateProvisioningProfileResponse.add_member(:claim_certificate_private_key, Shapes::ShapeRef.new(shape: ClaimCertificatePrivateKey, location_name: "ClaimCertificatePrivateKey"))
     CreateProvisioningProfileResponse.struct_class = Types::CreateProvisioningProfileResponse
@@ -983,7 +985,7 @@ module Aws::IoTManagedIntegrations
     GetManagedThingCapabilitiesRequest.struct_class = Types::GetManagedThingCapabilitiesRequest
 
     GetManagedThingCapabilitiesResponse.add_member(:managed_thing_id, Shapes::ShapeRef.new(shape: ManagedThingId, location_name: "ManagedThingId"))
-    GetManagedThingCapabilitiesResponse.add_member(:capabilities, Shapes::ShapeRef.new(shape: Capabilities, location_name: "Capabilities"))
+    GetManagedThingCapabilitiesResponse.add_member(:capabilities, Shapes::ShapeRef.new(shape: Capabilities, deprecated: true, location_name: "Capabilities", metadata: {"deprecatedMessage" => "Capabilities has been deprecated, use CapabilityReport instead", "deprecatedSince" => "06-25-2025"}))
     GetManagedThingCapabilitiesResponse.add_member(:capability_report, Shapes::ShapeRef.new(shape: CapabilityReport, location_name: "CapabilityReport"))
     GetManagedThingCapabilitiesResponse.struct_class = Types::GetManagedThingCapabilitiesResponse
 
@@ -1097,6 +1099,7 @@ module Aws::IoTManagedIntegrations
     GetProvisioningProfileResponse.add_member(:name, Shapes::ShapeRef.new(shape: ProvisioningProfileName, location_name: "Name"))
     GetProvisioningProfileResponse.add_member(:provisioning_type, Shapes::ShapeRef.new(shape: ProvisioningType, location_name: "ProvisioningType"))
     GetProvisioningProfileResponse.add_member(:id, Shapes::ShapeRef.new(shape: ProvisioningProfileId, location_name: "Id"))
+    GetProvisioningProfileResponse.add_member(:status, Shapes::ShapeRef.new(shape: ProvisioningProfileStatus, location_name: "Status"))
     GetProvisioningProfileResponse.add_member(:claim_certificate, Shapes::ShapeRef.new(shape: ClaimCertificate, location_name: "ClaimCertificate"))
     GetProvisioningProfileResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "Tags"))
     GetProvisioningProfileResponse.struct_class = Types::GetProvisioningProfileResponse
@@ -1491,6 +1494,7 @@ module Aws::IoTManagedIntegrations
     ProvisioningProfileSummary.add_member(:id, Shapes::ShapeRef.new(shape: ProvisioningProfileId, location_name: "Id"))
     ProvisioningProfileSummary.add_member(:arn, Shapes::ShapeRef.new(shape: ProvisioningProfileArn, location_name: "Arn"))
     ProvisioningProfileSummary.add_member(:provisioning_type, Shapes::ShapeRef.new(shape: ProvisioningType, location_name: "ProvisioningType"))
+    ProvisioningProfileSummary.add_member(:status, Shapes::ShapeRef.new(shape: ProvisioningProfileStatus, location_name: "Status"))
     ProvisioningProfileSummary.struct_class = Types::ProvisioningProfileSummary
 
     PushConfig.add_member(:abort_config, Shapes::ShapeRef.new(shape: OtaTaskAbortConfig, location_name: "AbortConfig"))
@@ -1724,7 +1728,7 @@ module Aws::IoTManagedIntegrations
     UpdateManagedThingRequest.add_member(:name, Shapes::ShapeRef.new(shape: Name, location_name: "Name"))
     UpdateManagedThingRequest.add_member(:capability_report, Shapes::ShapeRef.new(shape: CapabilityReport, location_name: "CapabilityReport"))
     UpdateManagedThingRequest.add_member(:capability_schemas, Shapes::ShapeRef.new(shape: CapabilitySchemas, location_name: "CapabilitySchemas"))
-    UpdateManagedThingRequest.add_member(:capabilities, Shapes::ShapeRef.new(shape: Capabilities, location_name: "Capabilities"))
+    UpdateManagedThingRequest.add_member(:capabilities, Shapes::ShapeRef.new(shape: Capabilities, deprecated: true, location_name: "Capabilities", metadata: {"deprecatedMessage" => "Capabilities has been deprecated, use CapabilityReport instead", "deprecatedSince" => "06-25-2025"}))
     UpdateManagedThingRequest.add_member(:classification, Shapes::ShapeRef.new(shape: Classification, location_name: "Classification"))
     UpdateManagedThingRequest.add_member(:hub_network_mode, Shapes::ShapeRef.new(shape: HubNetworkMode, location_name: "HubNetworkMode"))
     UpdateManagedThingRequest.add_member(:meta_data, Shapes::ShapeRef.new(shape: MetaData, location_name: "MetaData"))
@@ -2072,6 +2076,7 @@ module Aws::IoTManagedIntegrations
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)

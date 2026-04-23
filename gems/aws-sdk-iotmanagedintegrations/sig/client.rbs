@@ -356,6 +356,7 @@ module Aws
         def name: () -> ::String
         def provisioning_type: () -> ("FLEET_PROVISIONING" | "JITR")
         def id: () -> ::String
+        def status: () -> ("CREATE_IN_PROGRESS" | "CREATE_FAILED" | "CREATED" | "DELETE_IN_PROGRESS" | "DELETE_FAILED")
         def claim_certificate: () -> ::String
         def claim_certificate_private_key: () -> ::String
       end
@@ -741,6 +742,7 @@ module Aws
         def name: () -> ::String
         def provisioning_type: () -> ("FLEET_PROVISIONING" | "JITR")
         def id: () -> ::String
+        def status: () -> ("CREATE_IN_PROGRESS" | "CREATE_FAILED" | "CREATED" | "DELETE_IN_PROGRESS" | "DELETE_FAILED")
         def claim_certificate: () -> ::String
         def tags: () -> ::Hash[::String, ::String]
       end

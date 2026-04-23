@@ -749,6 +749,9 @@ module Aws
                                    mwaa_environment_name: ::String?
                                  }?,
                                  workflows_serverless_properties: {
+                                 }?,
+                                 lakehouse_properties: {
+                                   glue_lineage_sync_enabled: bool?
                                  }?
                                },
                                ?enable_trusted_identity_propagation: bool,
@@ -3986,6 +3989,9 @@ module Aws
                                  }?,
                                  mlflow_properties: {
                                    tracking_server_arn: ::String?
+                                 }?,
+                                 lakehouse_properties: {
+                                   glue_lineage_sync_enabled: bool?
                                  }?
                                }
                              ) -> _UpdateConnectionResponseSuccess

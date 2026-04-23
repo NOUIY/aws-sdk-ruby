@@ -603,6 +603,7 @@ module Aws::DataZone
       attr_accessor mlflow_properties: Types::MlflowPropertiesInput
       attr_accessor workflows_mwaa_properties: Types::WorkflowsMwaaPropertiesInput
       attr_accessor workflows_serverless_properties: Types::WorkflowsServerlessPropertiesInput
+      attr_accessor lakehouse_properties: Types::LakehousePropertiesInput
       attr_accessor unknown: untyped
       SENSITIVE: []
 
@@ -630,6 +631,8 @@ module Aws::DataZone
       end
       class WorkflowsServerlessProperties < ConnectionPropertiesInput
       end
+      class LakehouseProperties < ConnectionPropertiesInput
+      end
       class Unknown < ConnectionPropertiesInput
       end
     end
@@ -647,6 +650,7 @@ module Aws::DataZone
       attr_accessor mlflow_properties: Types::MlflowPropertiesOutput
       attr_accessor workflows_mwaa_properties: Types::WorkflowsMwaaPropertiesOutput
       attr_accessor workflows_serverless_properties: Types::WorkflowsServerlessPropertiesOutput
+      attr_accessor lakehouse_properties: Types::LakehousePropertiesOutput
       attr_accessor unknown: untyped
       SENSITIVE: []
 
@@ -674,6 +678,8 @@ module Aws::DataZone
       end
       class WorkflowsServerlessProperties < ConnectionPropertiesOutput
       end
+      class LakehouseProperties < ConnectionPropertiesOutput
+      end
       class Unknown < ConnectionPropertiesOutput
       end
     end
@@ -687,6 +693,7 @@ module Aws::DataZone
       attr_accessor s3_properties: Types::S3PropertiesPatch
       attr_accessor amazon_q_properties: Types::AmazonQPropertiesPatch
       attr_accessor mlflow_properties: Types::MlflowPropertiesPatch
+      attr_accessor lakehouse_properties: Types::LakehousePropertiesPatch
       attr_accessor unknown: untyped
       SENSITIVE: []
 
@@ -705,6 +712,8 @@ module Aws::DataZone
       class AmazonQProperties < ConnectionPropertiesPatch
       end
       class MlflowProperties < ConnectionPropertiesPatch
+      end
+      class LakehouseProperties < ConnectionPropertiesPatch
       end
       class Unknown < ConnectionPropertiesPatch
       end
@@ -3431,6 +3440,21 @@ module Aws::DataZone
     class LakeFormationConfiguration
       attr_accessor location_registration_role: ::String
       attr_accessor location_registration_exclude_s3_locations: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class LakehousePropertiesInput
+      attr_accessor glue_lineage_sync_enabled: bool
+      SENSITIVE: []
+    end
+
+    class LakehousePropertiesOutput
+      attr_accessor glue_lineage_sync_enabled: bool
+      SENSITIVE: []
+    end
+
+    class LakehousePropertiesPatch
+      attr_accessor glue_lineage_sync_enabled: bool
       SENSITIVE: []
     end
 

@@ -1821,7 +1821,7 @@ module Aws::PCS
     #   manage cluster scaling and job scheduling. For more information, see
     #   [Slurm versions in PCS][1] in the *PCS User Guide*.
     #
-    #   Valid Values: `23.11 | 24.05 | 24.11 | 25.05`
+    #   Valid Values: `23.11 | 24.05 | 24.11 | 25.05 | 25.11`
     #
     #
     #
@@ -1849,7 +1849,7 @@ module Aws::PCS
     #   manage cluster scaling and job scheduling. For more information, see
     #   [Slurm versions in PCS][1] in the *PCS User Guide*.
     #
-    #   Valid Values: `24.11 | 25.05`
+    #   Valid Values: `24.11 | 25.05 | 25.11`
     #
     #
     #

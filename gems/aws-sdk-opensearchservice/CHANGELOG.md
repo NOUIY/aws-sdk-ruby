@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.96.0 (2026-04-23)
+------------------
+
+* Feature - Amazon OpenSearch UI applications now support cross-Region domain association, enabling you to connect OpenSearch Dashboards in one AWS Region to OpenSearch domains in other Regions within the same partition for centralized data visualization.
+
 1.95.0 (2026-04-22)
 ------------------
 

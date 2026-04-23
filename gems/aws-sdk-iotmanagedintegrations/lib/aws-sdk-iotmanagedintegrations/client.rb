@@ -1261,23 +1261,25 @@ module Aws::IoTManagedIntegrations
       req.send_request(options)
     end
 
-    # Create a provisioning profile for a device to execute the provisioning
-    # flows using a provisioning template. The provisioning template is a
-    # document that defines the set of resources and policies applied to a
-    # device during the provisioning process.
+    # Create a provisioning profile for executing device provisioning flows.
+    # The provisioning profile is a document that defines the set of
+    # resources and policies applied to a device during the provisioning
+    # process.
     #
     # @option params [required, String] :provisioning_type
     #   The type of provisioning workflow the device uses for onboarding to
     #   IoT managed integrations.
     #
     # @option params [String] :ca_certificate
-    #   The id of the certificate authority (CA) certificate.
+    #   The body of the PEM-encoded certificate authority (CA) certificate.
     #
     # @option params [String] :claim_certificate
-    #   The claim certificate.
+    #   The body of the PEM-encoded claim certificate. If a claim certificate
+    #   is provided, it will be used for the provisioning profile. Otherwise,
+    #   a claim certificate will be generated.
     #
     # @option params [String] :name
-    #   The name of the provisioning template.
+    #   The name of the provisioning profile.
     #
     # @option params [String] :client_token
     #   An idempotency token. If you retry a request that completed
@@ -1298,6 +1300,7 @@ module Aws::IoTManagedIntegrations
     #   * {Types::CreateProvisioningProfileResponse#name #name} => String
     #   * {Types::CreateProvisioningProfileResponse#provisioning_type #provisioning_type} => String
     #   * {Types::CreateProvisioningProfileResponse#id #id} => String
+    #   * {Types::CreateProvisioningProfileResponse#status #status} => String
     #   * {Types::CreateProvisioningProfileResponse#claim_certificate #claim_certificate} => String
     #   * {Types::CreateProvisioningProfileResponse#claim_certificate_private_key #claim_certificate_private_key} => String
     #
@@ -1320,6 +1323,7 @@ module Aws::IoTManagedIntegrations
     #   resp.name #=> String
     #   resp.provisioning_type #=> String, one of "FLEET_PROVISIONING", "JITR"
     #   resp.id #=> String
+    #   resp.status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_FAILED", "CREATED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
     #   resp.claim_certificate #=> String
     #   resp.claim_certificate_private_key #=> String
     #
@@ -1560,7 +1564,7 @@ module Aws::IoTManagedIntegrations
     # Delete a provisioning profile.
     #
     # @option params [required, String] :identifier
-    #   The name of the provisioning template.
+    #   The id of the provisioning profile.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -2421,11 +2425,10 @@ module Aws::IoTManagedIntegrations
       req.send_request(options)
     end
 
-    # Get a provisioning profile by template name.
+    # Get details of a provisioning profile.
     #
     # @option params [required, String] :identifier
-    #   The provisioning template the device uses for the provisioning
-    #   process.
+    #   The id of a provisioning profile.
     #
     # @return [Types::GetProvisioningProfileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2433,6 +2436,7 @@ module Aws::IoTManagedIntegrations
     #   * {Types::GetProvisioningProfileResponse#name #name} => String
     #   * {Types::GetProvisioningProfileResponse#provisioning_type #provisioning_type} => String
     #   * {Types::GetProvisioningProfileResponse#id #id} => String
+    #   * {Types::GetProvisioningProfileResponse#status #status} => String
     #   * {Types::GetProvisioningProfileResponse#claim_certificate #claim_certificate} => String
     #   * {Types::GetProvisioningProfileResponse#tags #tags} => Hash&lt;String,String&gt;
     #
@@ -2448,6 +2452,7 @@ module Aws::IoTManagedIntegrations
     #   resp.name #=> String
     #   resp.provisioning_type #=> String, one of "FLEET_PROVISIONING", "JITR"
     #   resp.id #=> String
+    #   resp.status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_FAILED", "CREATED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
     #   resp.claim_certificate #=> String
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
@@ -3316,6 +3321,7 @@ module Aws::IoTManagedIntegrations
     #   resp.items[0].id #=> String
     #   resp.items[0].arn #=> String
     #   resp.items[0].provisioning_type #=> String, one of "FLEET_PROVISIONING", "JITR"
+    #   resp.items[0].status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_FAILED", "CREATED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
     #   resp.next_token #=> String
     #
     # @overload list_provisioning_profiles(params = {})
@@ -4440,7 +4446,7 @@ module Aws::IoTManagedIntegrations
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-iotmanagedintegrations'
-      context[:gem_version] = '1.19.0'
+      context[:gem_version] = '1.20.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

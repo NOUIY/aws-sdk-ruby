@@ -125,7 +125,7 @@ module Aws::IoTManagedIntegrations
     #
     # @!attribute [rw] general_authorization_update
     #   The General Authorization update information containing
-    #   authorization materials to add or update in Kinesis Data Streams.
+    #   authorization materials to add or update.
     #   @return [Types::GeneralAuthorizationUpdate]
     #
     class AuthConfigUpdate < Struct.new(
@@ -1105,15 +1105,17 @@ module Aws::IoTManagedIntegrations
     #   @return [String]
     #
     # @!attribute [rw] ca_certificate
-    #   The id of the certificate authority (CA) certificate.
+    #   The body of the PEM-encoded certificate authority (CA) certificate.
     #   @return [String]
     #
     # @!attribute [rw] claim_certificate
-    #   The claim certificate.
+    #   The body of the PEM-encoded claim certificate. If a claim
+    #   certificate is provided, it will be used for the provisioning
+    #   profile. Otherwise, a claim certificate will be generated.
     #   @return [String]
     #
     # @!attribute [rw] name
-    #   The name of the provisioning template.
+    #   The name of the provisioning profile.
     #   @return [String]
     #
     # @!attribute [rw] client_token
@@ -1143,12 +1145,11 @@ module Aws::IoTManagedIntegrations
     end
 
     # @!attribute [rw] arn
-    #   The Amazon Resource Name (ARN) of the provisioning template used in
-    #   the provisioning profile.
+    #   The Amazon Resource Name (ARN) of the provisioning profile.
     #   @return [String]
     #
     # @!attribute [rw] name
-    #   The name of the provisioning template.
+    #   The name of the provisioning profile.
     #   @return [String]
     #
     # @!attribute [rw] provisioning_type
@@ -1160,14 +1161,18 @@ module Aws::IoTManagedIntegrations
     #   The identifier of the provisioning profile.
     #   @return [String]
     #
+    # @!attribute [rw] status
+    #   The status of a provisioning profile.
+    #   @return [String]
+    #
     # @!attribute [rw] claim_certificate
-    #   The id of the claim certificate.
+    #   The body of the PEM-encoded claim certificate.
     #   @return [String]
     #
     # @!attribute [rw] claim_certificate_private_key
-    #   The private key of the claim certificate. This is stored securely on
-    #   the device for validating the connection endpoint with IoT managed
-    #   integrations using the public key.
+    #   The private key of the claim certificate. This may be stored
+    #   securely on the device for validating the connection endpoint with
+    #   IoT managed integrations using the public key.
     #   @return [String]
     #
     class CreateProvisioningProfileResponse < Struct.new(
@@ -1175,6 +1180,7 @@ module Aws::IoTManagedIntegrations
       :name,
       :provisioning_type,
       :id,
+      :status,
       :claim_certificate,
       :claim_certificate_private_key)
       SENSITIVE = [:claim_certificate, :claim_certificate_private_key]
@@ -1317,7 +1323,7 @@ module Aws::IoTManagedIntegrations
     end
 
     # @!attribute [rw] identifier
-    #   The name of the provisioning template.
+    #   The id of the provisioning profile.
     #   @return [String]
     #
     class DeleteProvisioningProfileRequest < Struct.new(
@@ -2542,8 +2548,7 @@ module Aws::IoTManagedIntegrations
     end
 
     # @!attribute [rw] identifier
-    #   The provisioning template the device uses for the provisioning
-    #   process.
+    #   The id of a provisioning profile.
     #   @return [String]
     #
     class GetProvisioningProfileRequest < Struct.new(
@@ -2553,12 +2558,11 @@ module Aws::IoTManagedIntegrations
     end
 
     # @!attribute [rw] arn
-    #   The Amazon Resource Name (ARN) of the provisioning template used in
-    #   the provisioning profile.
+    #   The Amazon Resource Name (ARN) of the provisioning profile.
     #   @return [String]
     #
     # @!attribute [rw] name
-    #   The name of the provisioning template.
+    #   The name of the provisioning profile.
     #   @return [String]
     #
     # @!attribute [rw] provisioning_type
@@ -2570,8 +2574,12 @@ module Aws::IoTManagedIntegrations
     #   The provisioning profile id.
     #   @return [String]
     #
+    # @!attribute [rw] status
+    #   The status of a provisioning profile.
+    #   @return [String]
+    #
     # @!attribute [rw] claim_certificate
-    #   The id of the claim certificate.
+    #   The body of the PEM-encoded claim certificate.
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -2584,6 +2592,7 @@ module Aws::IoTManagedIntegrations
       :name,
       :provisioning_type,
       :id,
+      :status,
       :claim_certificate,
       :tags)
       SENSITIVE = [:claim_certificate, :tags]
@@ -4113,7 +4122,7 @@ module Aws::IoTManagedIntegrations
     # Structure describing a provisioning profile.
     #
     # @!attribute [rw] name
-    #   The name of the provisioning template.
+    #   The name of the provisioning profile.
     #   @return [String]
     #
     # @!attribute [rw] id
@@ -4121,8 +4130,7 @@ module Aws::IoTManagedIntegrations
     #   @return [String]
     #
     # @!attribute [rw] arn
-    #   The Amazon Resource Name (ARN) of the provisioning template used in
-    #   the provisioning profile.
+    #   The Amazon Resource Name (ARN) of the provisioning profile.
     #   @return [String]
     #
     # @!attribute [rw] provisioning_type
@@ -4130,11 +4138,16 @@ module Aws::IoTManagedIntegrations
     #   IoT managed integrations.
     #   @return [String]
     #
+    # @!attribute [rw] status
+    #   The status of a provisioning profile.
+    #   @return [String]
+    #
     class ProvisioningProfileSummary < Struct.new(
       :name,
       :id,
       :arn,
-      :provisioning_type)
+      :provisioning_type,
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end

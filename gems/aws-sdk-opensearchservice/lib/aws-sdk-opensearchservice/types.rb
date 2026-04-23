@@ -691,12 +691,18 @@ module Aws::OpenSearchService
     #   The Amazon Web Services service SP to grant access to.
     #   @return [String]
     #
+    # @!attribute [rw] service_options
+    #   The options for the service, including the supported Regions for the
+    #   endpoint access.
+    #   @return [Types::ServiceOptions]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/AuthorizeVpcEndpointAccessRequest AWS API Documentation
     #
     class AuthorizeVpcEndpointAccessRequest < Struct.new(
       :domain_name,
       :account,
-      :service)
+      :service,
+      :service_options)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -730,11 +736,17 @@ module Aws::OpenSearchService
     #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html
     #   @return [String]
     #
+    # @!attribute [rw] service_options
+    #   The options for the service, including the supported Regions for the
+    #   endpoint access.
+    #   @return [Types::ServiceOptions]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/AuthorizedPrincipal AWS API Documentation
     #
     class AuthorizedPrincipal < Struct.new(
       :principal_type,
-      :principal)
+      :principal,
+      :service_options)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5123,6 +5135,10 @@ module Aws::OpenSearchService
     #   The Amazon Resource Name (ARN) of the IAM Identity Center instance.
     #   @return [String]
     #
+    # @!attribute [rw] identity_center_instance_region
+    #   The Region of the IAM Identity Center instance.
+    #   @return [String]
+    #
     # @!attribute [rw] subject_key
     #   Specifies the attribute that contains the subject identifier (such
     #   as username, user ID, or email) in IAM Identity Center.
@@ -5147,6 +5163,7 @@ module Aws::OpenSearchService
     class IdentityCenterOptions < Struct.new(
       :enabled_api_access,
       :identity_center_instance_arn,
+      :identity_center_instance_region,
       :subject_key,
       :roles_key,
       :identity_center_application_arn,
@@ -5168,6 +5185,10 @@ module Aws::OpenSearchService
     #   authentication.
     #   @return [String]
     #
+    # @!attribute [rw] identity_center_instance_region
+    #   The Region of the IAM Identity Center instance.
+    #   @return [String]
+    #
     # @!attribute [rw] subject_key
     #   Specifies the attribute that contains the subject identifier (such
     #   as username, user ID, or email) in IAM Identity Center.
@@ -5183,6 +5204,7 @@ module Aws::OpenSearchService
     class IdentityCenterOptionsInput < Struct.new(
       :enabled_api_access,
       :identity_center_instance_arn,
+      :identity_center_instance_region,
       :subject_key,
       :roles_key)
       SENSITIVE = []
@@ -7462,12 +7484,18 @@ module Aws::OpenSearchService
     #   The service SP to revoke access from.
     #   @return [String]
     #
+    # @!attribute [rw] service_options
+    #   The options for the service, including the supported Regions for the
+    #   endpoint access.
+    #   @return [Types::ServiceOptions]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/RevokeVpcEndpointAccessRequest AWS API Documentation
     #
     class RevokeVpcEndpointAccessRequest < Struct.new(
       :domain_name,
       :account,
-      :service)
+      :service,
+      :service_options)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7799,6 +7827,20 @@ module Aws::OpenSearchService
     #
     class ServerlessVectorAcceleration < Struct.new(
       :enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Options for the service, such as the supported Regions.
+    #
+    # @!attribute [rw] supported_regions
+    #   The list of supported Regions for the service.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ServiceOptions AWS API Documentation
+    #
+    class ServiceOptions < Struct.new(
+      :supported_regions)
       SENSITIVE = []
       include Aws::Structure
     end
