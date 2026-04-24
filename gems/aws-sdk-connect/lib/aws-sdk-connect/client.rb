@@ -7369,6 +7369,55 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Describes the attached files configuration for the specified Amazon
+    # Connect instance and attachment scope.
+    #
+    # If a custom configuration exists for the specified attachment scope,
+    # the custom configuration is returned. If no custom configuration
+    # exists, the default configuration values for that attachment scope are
+    # returned.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :attachment_scope
+    #   The scope of the attachment. Valid values are `EMAIL`, `CHAT`, `CASE`,
+    #   and `TASK`.
+    #
+    # @return [Types::DescribeAttachedFilesConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeAttachedFilesConfigurationResponse#attached_files_configuration #attached_files_configuration} => Types::AttachedFilesConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_attached_files_configuration({
+    #     instance_id: "InstanceId", # required
+    #     attachment_scope: "EMAIL", # required, accepts EMAIL, CHAT, CASE, TASK
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.attached_files_configuration.instance_id #=> String
+    #   resp.attached_files_configuration.attachment_scope #=> String, one of "EMAIL", "CHAT", "CASE", "TASK"
+    #   resp.attached_files_configuration.maximum_size_limit_in_bytes #=> Integer
+    #   resp.attached_files_configuration.extension_configuration.allowed_extensions #=> Array
+    #   resp.attached_files_configuration.extension_configuration.allowed_extensions[0].extension #=> String
+    #   resp.attached_files_configuration.last_modified_time #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeAttachedFilesConfiguration AWS API Documentation
+    #
+    # @overload describe_attached_files_configuration(params = {})
+    # @param [Hash] params ({})
+    def describe_attached_files_configuration(params = {}, options = {})
+      req = build_request(:describe_attached_files_configuration, params)
+      req.send_request(options)
+    end
+
     # This API is in preview release for Amazon Connect and is subject to
     # change. To request access to this API, contact Amazon Web Services
     # Support.
@@ -14750,6 +14799,64 @@ module Aws::Connect
     # @param [Hash] params ({})
     def list_associated_contacts(params = {}, options = {})
       req = build_request(:list_associated_contacts, params)
+      req.send_request(options)
+    end
+
+    # Provides summary information about the attached files configurations
+    # for the specified Amazon Connect instance.
+    #
+    # This API returns effective configurations (custom overrides or
+    # defaults) for each attachment scope. If no custom configuration exists
+    # for a scope, the default configuration values are returned.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return per page. The default
+    #   MaxResult size is 100.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #
+    # @return [Types::ListAttachedFilesConfigurationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAttachedFilesConfigurationsResponse#attached_files_configurations #attached_files_configurations} => Array&lt;Types::AttachedFilesConfigurationSummary&gt;
+    #   * {Types::ListAttachedFilesConfigurationsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_attached_files_configurations({
+    #     instance_id: "InstanceId", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.attached_files_configurations #=> Array
+    #   resp.attached_files_configurations[0].instance_id #=> String
+    #   resp.attached_files_configurations[0].attachment_scope #=> String, one of "EMAIL", "CHAT", "CASE", "TASK"
+    #   resp.attached_files_configurations[0].maximum_size_limit_in_bytes #=> Integer
+    #   resp.attached_files_configurations[0].extension_configuration.allowed_extensions #=> Array
+    #   resp.attached_files_configurations[0].extension_configuration.allowed_extensions[0].extension #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListAttachedFilesConfigurations AWS API Documentation
+    #
+    # @overload list_attached_files_configurations(params = {})
+    # @param [Hash] params ({})
+    def list_attached_files_configurations(params = {}, options = {})
+      req = build_request(:list_attached_files_configurations, params)
       req.send_request(options)
     end
 
@@ -24822,6 +24929,73 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Updates the attached files configuration for the specified Amazon
+    # Connect instance and attachment scope.
+    #
+    # If no instance-specific configuration exists, this operation creates
+    # one. Partial updates are supported—only specified fields are updated,
+    # while unspecified fields retain their current values.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :attachment_scope
+    #   The scope of the attachment. Valid values are `EMAIL`, `CHAT`, `CASE`,
+    #   and `TASK`.
+    #
+    # @option params [Integer] :maximum_size_limit_in_bytes
+    #   The maximum size limit for attached files in bytes. The minimum value
+    #   is 1 and the maximum value is 104857600 (100 MB).
+    #
+    # @option params [Types::ExtensionConfiguration] :extension_configuration
+    #   The configuration for allowed file extensions.
+    #
+    # @return [Types::UpdateAttachedFilesConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateAttachedFilesConfigurationResponse#instance_id #instance_id} => String
+    #   * {Types::UpdateAttachedFilesConfigurationResponse#attachment_scope #attachment_scope} => String
+    #   * {Types::UpdateAttachedFilesConfigurationResponse#maximum_size_limit_in_bytes #maximum_size_limit_in_bytes} => Integer
+    #   * {Types::UpdateAttachedFilesConfigurationResponse#extension_configuration #extension_configuration} => Types::ExtensionConfiguration
+    #   * {Types::UpdateAttachedFilesConfigurationResponse#last_modified_time #last_modified_time} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_attached_files_configuration({
+    #     instance_id: "InstanceId", # required
+    #     attachment_scope: "EMAIL", # required, accepts EMAIL, CHAT, CASE, TASK
+    #     maximum_size_limit_in_bytes: 1,
+    #     extension_configuration: {
+    #       allowed_extensions: [ # required
+    #         {
+    #           extension: "FileExtension", # required
+    #         },
+    #       ],
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.instance_id #=> String
+    #   resp.attachment_scope #=> String, one of "EMAIL", "CHAT", "CASE", "TASK"
+    #   resp.maximum_size_limit_in_bytes #=> Integer
+    #   resp.extension_configuration.allowed_extensions #=> Array
+    #   resp.extension_configuration.allowed_extensions[0].extension #=> String
+    #   resp.last_modified_time #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateAttachedFilesConfiguration AWS API Documentation
+    #
+    # @overload update_attached_files_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_attached_files_configuration(params = {}, options = {})
+      req = build_request(:update_attached_files_configuration, params)
+      req.send_request(options)
+    end
+
     # This API is in preview release for Amazon Connect and is subject to
     # change. To request access to this API, contact Amazon Web Services
     # Support.
@@ -28902,7 +29076,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.253.0'
+      context[:gem_version] = '1.254.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

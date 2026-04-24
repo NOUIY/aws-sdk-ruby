@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.2.0 (2026-04-24)
+------------------
+
+* Feature - Corrected CreateWebAppConfiguration documentation. Adding slash as an allowed character for the Ambient documentation agent to allow pronoun specifications.
+
 1.1.0 (2026-03-18)
 ------------------
 

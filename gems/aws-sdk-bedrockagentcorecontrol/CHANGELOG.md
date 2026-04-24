@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.40.0 (2026-04-24)
+------------------
+
+* Feature - Added support for configuring identity providers and inbound authorizers within a private VPC for AWS Bedrock AgentCore, enabling secure network connection without public internet access
+
 1.39.0 (2026-04-22)
 ------------------
 

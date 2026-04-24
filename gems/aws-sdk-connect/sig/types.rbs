@@ -180,6 +180,11 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class AllowedExtension
+      attr_accessor extension: ::String
+      SENSITIVE: []
+    end
+
     class AnalyticsDataAssociationResult
       attr_accessor data_set_id: ::String
       attr_accessor target_account_id: ::String
@@ -434,6 +439,23 @@ module Aws::Connect
       attr_accessor error_code: ::String
       attr_accessor error_message: ::String
       attr_accessor file_id: ::String
+      SENSITIVE: []
+    end
+
+    class AttachedFilesConfiguration
+      attr_accessor instance_id: ::String
+      attr_accessor attachment_scope: ("EMAIL" | "CHAT" | "CASE" | "TASK")
+      attr_accessor maximum_size_limit_in_bytes: ::Integer
+      attr_accessor extension_configuration: Types::ExtensionConfiguration
+      attr_accessor last_modified_time: ::Time
+      SENSITIVE: []
+    end
+
+    class AttachedFilesConfigurationSummary
+      attr_accessor instance_id: ::String
+      attr_accessor attachment_scope: ("EMAIL" | "CHAT" | "CASE" | "TASK")
+      attr_accessor maximum_size_limit_in_bytes: ::Integer
+      attr_accessor extension_configuration: Types::ExtensionConfiguration
       SENSITIVE: []
     end
 
@@ -2360,6 +2382,17 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class DescribeAttachedFilesConfigurationRequest
+      attr_accessor instance_id: ::String
+      attr_accessor attachment_scope: ("EMAIL" | "CHAT" | "CASE" | "TASK")
+      SENSITIVE: []
+    end
+
+    class DescribeAttachedFilesConfigurationResponse
+      attr_accessor attached_files_configuration: Types::AttachedFilesConfiguration
+      SENSITIVE: []
+    end
+
     class DescribeAuthenticationProfileRequest
       attr_accessor authentication_profile_id: ::String
       attr_accessor instance_id: ::String
@@ -3684,6 +3717,11 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class ExtensionConfiguration
+      attr_accessor allowed_extensions: ::Array[Types::AllowedExtension]
+      SENSITIVE: []
+    end
+
     class ExternalInvocationConfiguration
       attr_accessor enabled: bool
       SENSITIVE: []
@@ -4479,6 +4517,19 @@ module Aws::Connect
 
     class ListAssociatedContactsResponse
       attr_accessor contact_summary_list: ::Array[Types::AssociatedContactSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListAttachedFilesConfigurationsRequest
+      attr_accessor instance_id: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListAttachedFilesConfigurationsResponse
+      attr_accessor attached_files_configurations: ::Array[Types::AttachedFilesConfigurationSummary]
       attr_accessor next_token: ::String
       SENSITIVE: []
     end
@@ -7868,6 +7919,23 @@ module Aws::Connect
       attr_accessor state: ("ENABLED" | "DISABLED")
       attr_accessor display_order: ::Integer
       attr_accessor reset_order_number: bool
+      SENSITIVE: []
+    end
+
+    class UpdateAttachedFilesConfigurationRequest
+      attr_accessor instance_id: ::String
+      attr_accessor attachment_scope: ("EMAIL" | "CHAT" | "CASE" | "TASK")
+      attr_accessor maximum_size_limit_in_bytes: ::Integer
+      attr_accessor extension_configuration: Types::ExtensionConfiguration
+      SENSITIVE: []
+    end
+
+    class UpdateAttachedFilesConfigurationResponse
+      attr_accessor instance_id: ::String
+      attr_accessor attachment_scope: ("EMAIL" | "CHAT" | "CASE" | "TASK")
+      attr_accessor maximum_size_limit_in_bytes: ::Integer
+      attr_accessor extension_configuration: Types::ExtensionConfiguration
+      attr_accessor last_modified_time: ::Time
       SENSITIVE: []
     end
 

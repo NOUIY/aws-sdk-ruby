@@ -407,6 +407,7 @@ module Aws::Transfer
     WebAppUnitCount = Shapes::IntegerShape.new(name: 'WebAppUnitCount')
     WebAppUnits = Shapes::UnionShape.new(name: 'WebAppUnits')
     WebAppVpcConfig = Shapes::StructureShape.new(name: 'WebAppVpcConfig')
+    WebAppVpcEndpointIpAddressType = Shapes::StringShape.new(name: 'WebAppVpcEndpointIpAddressType')
     WorkflowDescription = Shapes::StringShape.new(name: 'WorkflowDescription')
     WorkflowDetail = Shapes::StructureShape.new(name: 'WorkflowDetail')
     WorkflowDetails = Shapes::StructureShape.new(name: 'WorkflowDetails')
@@ -1591,6 +1592,7 @@ module Aws::Transfer
     UpdateWebAppResponse.struct_class = Types::UpdateWebAppResponse
 
     UpdateWebAppVpcConfig.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: SubnetIds, location_name: "SubnetIds"))
+    UpdateWebAppVpcConfig.add_member(:ip_address_type, Shapes::ShapeRef.new(shape: WebAppVpcEndpointIpAddressType, location_name: "IpAddressType"))
     UpdateWebAppVpcConfig.struct_class = Types::UpdateWebAppVpcConfig
 
     UserDetails.add_member(:user_name, Shapes::ShapeRef.new(shape: UserName, required: true, location_name: "UserName"))
@@ -1619,6 +1621,7 @@ module Aws::Transfer
     WebAppVpcConfig.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: SubnetIds, location_name: "SubnetIds"))
     WebAppVpcConfig.add_member(:vpc_id, Shapes::ShapeRef.new(shape: VpcId, location_name: "VpcId"))
     WebAppVpcConfig.add_member(:security_group_ids, Shapes::ShapeRef.new(shape: SecurityGroupIds, location_name: "SecurityGroupIds"))
+    WebAppVpcConfig.add_member(:ip_address_type, Shapes::ShapeRef.new(shape: WebAppVpcEndpointIpAddressType, location_name: "IpAddressType"))
     WebAppVpcConfig.struct_class = Types::WebAppVpcConfig
 
     WorkflowDetail.add_member(:workflow_id, Shapes::ShapeRef.new(shape: WorkflowId, required: true, location_name: "WorkflowId"))

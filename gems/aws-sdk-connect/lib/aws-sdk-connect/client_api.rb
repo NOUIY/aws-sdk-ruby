@@ -77,6 +77,8 @@ module Aws::Connect
     AliasConfigurationList = Shapes::ListShape.new(name: 'AliasConfigurationList')
     AllowedAccessControlTags = Shapes::MapShape.new(name: 'AllowedAccessControlTags')
     AllowedCapabilities = Shapes::StructureShape.new(name: 'AllowedCapabilities')
+    AllowedExtension = Shapes::StructureShape.new(name: 'AllowedExtension')
+    AllowedExtensionsList = Shapes::ListShape.new(name: 'AllowedExtensionsList')
     AllowedFlowModules = Shapes::ListShape.new(name: 'AllowedFlowModules')
     AllowedMonitorCapabilities = Shapes::ListShape.new(name: 'AllowedMonitorCapabilities')
     AllowedUserAction = Shapes::StringShape.new(name: 'AllowedUserAction')
@@ -134,9 +136,13 @@ module Aws::Connect
     AttachedFileErrorsList = Shapes::ListShape.new(name: 'AttachedFileErrorsList')
     AttachedFileInvalidRequestExceptionReason = Shapes::StringShape.new(name: 'AttachedFileInvalidRequestExceptionReason')
     AttachedFileServiceQuotaExceededExceptionReason = Shapes::StringShape.new(name: 'AttachedFileServiceQuotaExceededExceptionReason')
+    AttachedFilesConfiguration = Shapes::StructureShape.new(name: 'AttachedFilesConfiguration')
+    AttachedFilesConfigurationSummary = Shapes::StructureShape.new(name: 'AttachedFilesConfigurationSummary')
+    AttachedFilesConfigurationSummaryList = Shapes::ListShape.new(name: 'AttachedFilesConfigurationSummaryList')
     AttachedFilesList = Shapes::ListShape.new(name: 'AttachedFilesList')
     AttachmentName = Shapes::StringShape.new(name: 'AttachmentName')
     AttachmentReference = Shapes::StructureShape.new(name: 'AttachmentReference')
+    AttachmentScope = Shapes::StringShape.new(name: 'AttachmentScope')
     Attendee = Shapes::StructureShape.new(name: 'Attendee')
     AttendeeId = Shapes::StringShape.new(name: 'AttendeeId')
     Attribute = Shapes::StructureShape.new(name: 'Attribute')
@@ -535,6 +541,8 @@ module Aws::Connect
     DeleteWorkspaceResponse = Shapes::StructureShape.new(name: 'DeleteWorkspaceResponse')
     DescribeAgentStatusRequest = Shapes::StructureShape.new(name: 'DescribeAgentStatusRequest')
     DescribeAgentStatusResponse = Shapes::StructureShape.new(name: 'DescribeAgentStatusResponse')
+    DescribeAttachedFilesConfigurationRequest = Shapes::StructureShape.new(name: 'DescribeAttachedFilesConfigurationRequest')
+    DescribeAttachedFilesConfigurationResponse = Shapes::StructureShape.new(name: 'DescribeAttachedFilesConfigurationResponse')
     DescribeAuthenticationProfileRequest = Shapes::StructureShape.new(name: 'DescribeAuthenticationProfileRequest')
     DescribeAuthenticationProfileResponse = Shapes::StructureShape.new(name: 'DescribeAuthenticationProfileResponse')
     DescribeContactEvaluationRequest = Shapes::StructureShape.new(name: 'DescribeContactEvaluationRequest')
@@ -844,6 +852,7 @@ module Aws::Connect
     ExportLocation = Shapes::StringShape.new(name: 'ExportLocation')
     Expression = Shapes::StructureShape.new(name: 'Expression')
     Expressions = Shapes::ListShape.new(name: 'Expressions')
+    ExtensionConfiguration = Shapes::StructureShape.new(name: 'ExtensionConfiguration')
     ExternalInvocationConfiguration = Shapes::StructureShape.new(name: 'ExternalInvocationConfiguration')
     FailedBatchAssociationSummary = Shapes::StructureShape.new(name: 'FailedBatchAssociationSummary')
     FailedBatchAssociationSummaryList = Shapes::ListShape.new(name: 'FailedBatchAssociationSummaryList')
@@ -855,6 +864,7 @@ module Aws::Connect
     FieldValueId = Shapes::StringShape.new(name: 'FieldValueId')
     FieldValueUnion = Shapes::StructureShape.new(name: 'FieldValueUnion')
     FieldValues = Shapes::ListShape.new(name: 'FieldValues')
+    FileExtension = Shapes::StringShape.new(name: 'FileExtension')
     FileId = Shapes::StringShape.new(name: 'FileId')
     FileIdList = Shapes::ListShape.new(name: 'FileIdList')
     FileName = Shapes::StringShape.new(name: 'FileName')
@@ -1053,6 +1063,8 @@ module Aws::Connect
     ListAssociatedContactsRequest = Shapes::StructureShape.new(name: 'ListAssociatedContactsRequest')
     ListAssociatedContactsRequestMaxResults = Shapes::IntegerShape.new(name: 'ListAssociatedContactsRequestMaxResults')
     ListAssociatedContactsResponse = Shapes::StructureShape.new(name: 'ListAssociatedContactsResponse')
+    ListAttachedFilesConfigurationsRequest = Shapes::StructureShape.new(name: 'ListAttachedFilesConfigurationsRequest')
+    ListAttachedFilesConfigurationsResponse = Shapes::StructureShape.new(name: 'ListAttachedFilesConfigurationsResponse')
     ListAuthenticationProfilesRequest = Shapes::StructureShape.new(name: 'ListAuthenticationProfilesRequest')
     ListAuthenticationProfilesResponse = Shapes::StructureShape.new(name: 'ListAuthenticationProfilesResponse')
     ListBotsRequest = Shapes::StructureShape.new(name: 'ListBotsRequest')
@@ -1197,6 +1209,7 @@ module Aws::Connect
     MaxResult7 = Shapes::IntegerShape.new(name: 'MaxResult7')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
     MaximumResultReturnedException = Shapes::StructureShape.new(name: 'MaximumResultReturnedException')
+    MaximumSizeLimitInBytes = Shapes::IntegerShape.new(name: 'MaximumSizeLimitInBytes')
     MediaConcurrencies = Shapes::ListShape.new(name: 'MediaConcurrencies')
     MediaConcurrency = Shapes::StructureShape.new(name: 'MediaConcurrency')
     MediaItem = Shapes::StructureShape.new(name: 'MediaItem')
@@ -1901,6 +1914,8 @@ module Aws::Connect
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
     UpdateAgentStatusDescription = Shapes::StringShape.new(name: 'UpdateAgentStatusDescription')
     UpdateAgentStatusRequest = Shapes::StructureShape.new(name: 'UpdateAgentStatusRequest')
+    UpdateAttachedFilesConfigurationRequest = Shapes::StructureShape.new(name: 'UpdateAttachedFilesConfigurationRequest')
+    UpdateAttachedFilesConfigurationResponse = Shapes::StructureShape.new(name: 'UpdateAttachedFilesConfigurationResponse')
     UpdateAuthenticationProfileRequest = Shapes::StructureShape.new(name: 'UpdateAuthenticationProfileRequest')
     UpdateCaseActionDefinition = Shapes::StructureShape.new(name: 'UpdateCaseActionDefinition')
     UpdateContactAttributesRequest = Shapes::StructureShape.new(name: 'UpdateContactAttributesRequest')
@@ -2285,6 +2300,11 @@ module Aws::Connect
     AllowedCapabilities.add_member(:agent, Shapes::ShapeRef.new(shape: ParticipantCapabilities, location_name: "Agent"))
     AllowedCapabilities.struct_class = Types::AllowedCapabilities
 
+    AllowedExtension.add_member(:extension, Shapes::ShapeRef.new(shape: FileExtension, required: true, location_name: "Extension"))
+    AllowedExtension.struct_class = Types::AllowedExtension
+
+    AllowedExtensionsList.member = Shapes::ShapeRef.new(shape: AllowedExtension)
+
     AllowedFlowModules.member = Shapes::ShapeRef.new(shape: FlowModule)
 
     AllowedMonitorCapabilities.member = Shapes::ShapeRef.new(shape: MonitorCapability)
@@ -2491,6 +2511,21 @@ module Aws::Connect
     AttachedFileError.struct_class = Types::AttachedFileError
 
     AttachedFileErrorsList.member = Shapes::ShapeRef.new(shape: AttachedFileError)
+
+    AttachedFilesConfiguration.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "InstanceId"))
+    AttachedFilesConfiguration.add_member(:attachment_scope, Shapes::ShapeRef.new(shape: AttachmentScope, required: true, location_name: "AttachmentScope"))
+    AttachedFilesConfiguration.add_member(:maximum_size_limit_in_bytes, Shapes::ShapeRef.new(shape: MaximumSizeLimitInBytes, location_name: "MaximumSizeLimitInBytes"))
+    AttachedFilesConfiguration.add_member(:extension_configuration, Shapes::ShapeRef.new(shape: ExtensionConfiguration, location_name: "ExtensionConfiguration"))
+    AttachedFilesConfiguration.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: timestamp, location_name: "LastModifiedTime"))
+    AttachedFilesConfiguration.struct_class = Types::AttachedFilesConfiguration
+
+    AttachedFilesConfigurationSummary.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "InstanceId"))
+    AttachedFilesConfigurationSummary.add_member(:attachment_scope, Shapes::ShapeRef.new(shape: AttachmentScope, required: true, location_name: "AttachmentScope"))
+    AttachedFilesConfigurationSummary.add_member(:maximum_size_limit_in_bytes, Shapes::ShapeRef.new(shape: MaximumSizeLimitInBytes, location_name: "MaximumSizeLimitInBytes"))
+    AttachedFilesConfigurationSummary.add_member(:extension_configuration, Shapes::ShapeRef.new(shape: ExtensionConfiguration, location_name: "ExtensionConfiguration"))
+    AttachedFilesConfigurationSummary.struct_class = Types::AttachedFilesConfigurationSummary
+
+    AttachedFilesConfigurationSummaryList.member = Shapes::ShapeRef.new(shape: AttachedFilesConfigurationSummary)
 
     AttachedFilesList.member = Shapes::ShapeRef.new(shape: AttachedFile)
 
@@ -4042,6 +4077,13 @@ module Aws::Connect
     DescribeAgentStatusResponse.add_member(:agent_status, Shapes::ShapeRef.new(shape: AgentStatus, location_name: "AgentStatus"))
     DescribeAgentStatusResponse.struct_class = Types::DescribeAgentStatusResponse
 
+    DescribeAttachedFilesConfigurationRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    DescribeAttachedFilesConfigurationRequest.add_member(:attachment_scope, Shapes::ShapeRef.new(shape: AttachmentScope, required: true, location: "uri", location_name: "AttachmentScope"))
+    DescribeAttachedFilesConfigurationRequest.struct_class = Types::DescribeAttachedFilesConfigurationRequest
+
+    DescribeAttachedFilesConfigurationResponse.add_member(:attached_files_configuration, Shapes::ShapeRef.new(shape: AttachedFilesConfiguration, required: true, location_name: "AttachedFilesConfiguration"))
+    DescribeAttachedFilesConfigurationResponse.struct_class = Types::DescribeAttachedFilesConfigurationResponse
+
     DescribeAuthenticationProfileRequest.add_member(:authentication_profile_id, Shapes::ShapeRef.new(shape: AuthenticationProfileId, required: true, location: "uri", location_name: "AuthenticationProfileId"))
     DescribeAuthenticationProfileRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     DescribeAuthenticationProfileRequest.struct_class = Types::DescribeAuthenticationProfileRequest
@@ -5056,6 +5098,9 @@ module Aws::Connect
 
     Expressions.member = Shapes::ShapeRef.new(shape: Expression)
 
+    ExtensionConfiguration.add_member(:allowed_extensions, Shapes::ShapeRef.new(shape: AllowedExtensionsList, required: true, location_name: "AllowedExtensions"))
+    ExtensionConfiguration.struct_class = Types::ExtensionConfiguration
+
     ExternalInvocationConfiguration.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "Enabled"))
     ExternalInvocationConfiguration.struct_class = Types::ExternalInvocationConfiguration
 
@@ -5698,6 +5743,15 @@ module Aws::Connect
     ListAssociatedContactsResponse.add_member(:contact_summary_list, Shapes::ShapeRef.new(shape: AssociatedContactSummaryList, location_name: "ContactSummaryList"))
     ListAssociatedContactsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     ListAssociatedContactsResponse.struct_class = Types::ListAssociatedContactsResponse
+
+    ListAttachedFilesConfigurationsRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    ListAttachedFilesConfigurationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResult100, location: "querystring", location_name: "maxResults"))
+    ListAttachedFilesConfigurationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListAttachedFilesConfigurationsRequest.struct_class = Types::ListAttachedFilesConfigurationsRequest
+
+    ListAttachedFilesConfigurationsResponse.add_member(:attached_files_configurations, Shapes::ShapeRef.new(shape: AttachedFilesConfigurationSummaryList, location_name: "AttachedFilesConfigurations"))
+    ListAttachedFilesConfigurationsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListAttachedFilesConfigurationsResponse.struct_class = Types::ListAttachedFilesConfigurationsResponse
 
     ListAuthenticationProfilesRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     ListAuthenticationProfilesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResult1000, location: "querystring", location_name: "maxResults", metadata: {"box" => true}))
@@ -8426,6 +8480,19 @@ module Aws::Connect
     UpdateAgentStatusRequest.add_member(:reset_order_number, Shapes::ShapeRef.new(shape: Boolean, location_name: "ResetOrderNumber"))
     UpdateAgentStatusRequest.struct_class = Types::UpdateAgentStatusRequest
 
+    UpdateAttachedFilesConfigurationRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    UpdateAttachedFilesConfigurationRequest.add_member(:attachment_scope, Shapes::ShapeRef.new(shape: AttachmentScope, required: true, location: "uri", location_name: "AttachmentScope"))
+    UpdateAttachedFilesConfigurationRequest.add_member(:maximum_size_limit_in_bytes, Shapes::ShapeRef.new(shape: MaximumSizeLimitInBytes, location_name: "MaximumSizeLimitInBytes"))
+    UpdateAttachedFilesConfigurationRequest.add_member(:extension_configuration, Shapes::ShapeRef.new(shape: ExtensionConfiguration, location_name: "ExtensionConfiguration"))
+    UpdateAttachedFilesConfigurationRequest.struct_class = Types::UpdateAttachedFilesConfigurationRequest
+
+    UpdateAttachedFilesConfigurationResponse.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "InstanceId"))
+    UpdateAttachedFilesConfigurationResponse.add_member(:attachment_scope, Shapes::ShapeRef.new(shape: AttachmentScope, required: true, location_name: "AttachmentScope"))
+    UpdateAttachedFilesConfigurationResponse.add_member(:maximum_size_limit_in_bytes, Shapes::ShapeRef.new(shape: MaximumSizeLimitInBytes, location_name: "MaximumSizeLimitInBytes"))
+    UpdateAttachedFilesConfigurationResponse.add_member(:extension_configuration, Shapes::ShapeRef.new(shape: ExtensionConfiguration, location_name: "ExtensionConfiguration"))
+    UpdateAttachedFilesConfigurationResponse.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: timestamp, location_name: "LastModifiedTime"))
+    UpdateAttachedFilesConfigurationResponse.struct_class = Types::UpdateAttachedFilesConfigurationResponse
+
     UpdateAuthenticationProfileRequest.add_member(:authentication_profile_id, Shapes::ShapeRef.new(shape: AuthenticationProfileId, required: true, location: "uri", location_name: "AuthenticationProfileId"))
     UpdateAuthenticationProfileRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     UpdateAuthenticationProfileRequest.add_member(:name, Shapes::ShapeRef.new(shape: AuthenticationProfileName, location_name: "Name"))
@@ -10910,6 +10977,19 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
       end)
 
+      api.add_operation(:describe_attached_files_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeAttachedFilesConfiguration"
+        o.http_method = "GET"
+        o.http_request_uri = "/attached-files-configurations/{InstanceId}/{AttachmentScope}"
+        o.input = Shapes::ShapeRef.new(shape: DescribeAttachedFilesConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeAttachedFilesConfigurationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:describe_authentication_profile, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DescribeAuthenticationProfile"
         o.http_method = "GET"
@@ -11918,6 +11998,25 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:list_attached_files_configurations, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAttachedFilesConfigurations"
+        o.http_method = "GET"
+        o.http_request_uri = "/attached-files-configurations/{InstanceId}"
+        o.input = Shapes::ShapeRef.new(shape: ListAttachedFilesConfigurationsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListAttachedFilesConfigurationsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:list_authentication_profiles, Seahorse::Model::Operation.new.tap do |o|
@@ -14060,6 +14159,19 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+      end)
+
+      api.add_operation(:update_attached_files_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateAttachedFilesConfiguration"
+        o.http_method = "POST"
+        o.http_request_uri = "/attached-files-configurations/{InstanceId}/{AttachmentScope}"
+        o.input = Shapes::ShapeRef.new(shape: UpdateAttachedFilesConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateAttachedFilesConfigurationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
       api.add_operation(:update_authentication_profile, Seahorse::Model::Operation.new.tap do |o|

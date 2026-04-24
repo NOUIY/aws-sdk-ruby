@@ -500,8 +500,8 @@ module Aws::BedrockAgentCoreControl
     LlmAsAJudgeEvaluatorConfig = Shapes::StructureShape.new(name: 'LlmAsAJudgeEvaluatorConfig')
     LogGroupName = Shapes::StringShape.new(name: 'LogGroupName')
     MCPGatewayConfiguration = Shapes::StructureShape.new(name: 'MCPGatewayConfiguration')
-    ManagedLatticeResource = Shapes::StructureShape.new(name: 'ManagedLatticeResource')
     ManagedResourceDetails = Shapes::StructureShape.new(name: 'ManagedResourceDetails')
+    ManagedVpcResource = Shapes::StructureShape.new(name: 'ManagedVpcResource')
     MatchValueString = Shapes::StringShape.new(name: 'MatchValueString')
     MatchValueStringList = Shapes::ListShape.new(name: 'MatchValueStringList')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
@@ -612,6 +612,9 @@ module Aws::BedrockAgentCoreControl
     PolicyValidationMode = Shapes::StringShape.new(name: 'PolicyValidationMode')
     PrivateEndpoint = Shapes::UnionShape.new(name: 'PrivateEndpoint')
     PrivateEndpointManagedResources = Shapes::ListShape.new(name: 'PrivateEndpointManagedResources')
+    PrivateEndpointOverride = Shapes::StructureShape.new(name: 'PrivateEndpointOverride')
+    PrivateEndpointOverrideDomain = Shapes::StringShape.new(name: 'PrivateEndpointOverrideDomain')
+    PrivateEndpointOverrides = Shapes::ListShape.new(name: 'PrivateEndpointOverrides')
     Prompt = Shapes::StringShape.new(name: 'Prompt')
     ProtocolConfiguration = Shapes::StructureShape.new(name: 'ProtocolConfiguration')
     PutResourcePolicyRequest = Shapes::StructureShape.new(name: 'PutResourcePolicyRequest')
@@ -719,6 +722,7 @@ module Aws::BedrockAgentCoreControl
     StartPolicyGenerationRequest = Shapes::StructureShape.new(name: 'StartPolicyGenerationRequest')
     StartPolicyGenerationResponse = Shapes::StructureShape.new(name: 'StartPolicyGenerationResponse')
     Statement = Shapes::StringShape.new(name: 'Statement')
+    Status = Shapes::StringShape.new(name: 'Status')
     StatusReason = Shapes::StringShape.new(name: 'StatusReason')
     StatusReasons = Shapes::ListShape.new(name: 'StatusReasons')
     StrategyConfiguration = Shapes::StructureShape.new(name: 'StrategyConfiguration')
@@ -1356,6 +1360,7 @@ module Aws::BedrockAgentCoreControl
     CreateOauth2CredentialProviderResponse.add_member(:credential_provider_arn, Shapes::ShapeRef.new(shape: CredentialProviderArnType, required: true, location_name: "credentialProviderArn"))
     CreateOauth2CredentialProviderResponse.add_member(:callback_url, Shapes::ShapeRef.new(shape: String, location_name: "callbackUrl"))
     CreateOauth2CredentialProviderResponse.add_member(:oauth2_provider_config_output, Shapes::ShapeRef.new(shape: Oauth2ProviderConfigOutput, location_name: "oauth2ProviderConfigOutput"))
+    CreateOauth2CredentialProviderResponse.add_member(:status, Shapes::ShapeRef.new(shape: Status, location_name: "status"))
     CreateOauth2CredentialProviderResponse.struct_class = Types::CreateOauth2CredentialProviderResponse
 
     CreateOnlineEvaluationConfigRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
@@ -1541,6 +1546,8 @@ module Aws::BedrockAgentCoreControl
     CustomJWTAuthorizerConfiguration.add_member(:allowed_clients, Shapes::ShapeRef.new(shape: AllowedClientsList, location_name: "allowedClients"))
     CustomJWTAuthorizerConfiguration.add_member(:allowed_scopes, Shapes::ShapeRef.new(shape: AllowedScopesType, location_name: "allowedScopes"))
     CustomJWTAuthorizerConfiguration.add_member(:custom_claims, Shapes::ShapeRef.new(shape: CustomClaimValidationsType, location_name: "customClaims"))
+    CustomJWTAuthorizerConfiguration.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, location_name: "privateEndpoint"))
+    CustomJWTAuthorizerConfiguration.add_member(:private_endpoint_overrides, Shapes::ShapeRef.new(shape: PrivateEndpointOverrides, location_name: "privateEndpointOverrides"))
     CustomJWTAuthorizerConfiguration.struct_class = Types::CustomJWTAuthorizerConfiguration
 
     CustomMemoryStrategyInput.add_member(:name, Shapes::ShapeRef.new(shape: Name, required: true, location_name: "name"))
@@ -1553,10 +1560,14 @@ module Aws::BedrockAgentCoreControl
     CustomOauth2ProviderConfigInput.add_member(:oauth_discovery, Shapes::ShapeRef.new(shape: Oauth2Discovery, required: true, location_name: "oauthDiscovery"))
     CustomOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, required: true, location_name: "clientId"))
     CustomOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecretType, required: true, location_name: "clientSecret"))
+    CustomOauth2ProviderConfigInput.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, location_name: "privateEndpoint"))
+    CustomOauth2ProviderConfigInput.add_member(:private_endpoint_overrides, Shapes::ShapeRef.new(shape: PrivateEndpointOverrides, location_name: "privateEndpointOverrides"))
     CustomOauth2ProviderConfigInput.struct_class = Types::CustomOauth2ProviderConfigInput
 
     CustomOauth2ProviderConfigOutput.add_member(:oauth_discovery, Shapes::ShapeRef.new(shape: Oauth2Discovery, required: true, location_name: "oauthDiscovery"))
     CustomOauth2ProviderConfigOutput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, location_name: "clientId"))
+    CustomOauth2ProviderConfigOutput.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, location_name: "privateEndpoint"))
+    CustomOauth2ProviderConfigOutput.add_member(:private_endpoint_overrides, Shapes::ShapeRef.new(shape: PrivateEndpointOverrides, location_name: "privateEndpointOverrides"))
     CustomOauth2ProviderConfigOutput.struct_class = Types::CustomOauth2ProviderConfigOutput
 
     CustomParameterMap.key = Shapes::ShapeRef.new(shape: String)
@@ -2120,6 +2131,8 @@ module Aws::BedrockAgentCoreControl
     GetOauth2CredentialProviderResponse.add_member(:oauth2_provider_config_output, Shapes::ShapeRef.new(shape: Oauth2ProviderConfigOutput, required: true, location_name: "oauth2ProviderConfigOutput"))
     GetOauth2CredentialProviderResponse.add_member(:created_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdTime"))
     GetOauth2CredentialProviderResponse.add_member(:last_updated_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "lastUpdatedTime"))
+    GetOauth2CredentialProviderResponse.add_member(:status, Shapes::ShapeRef.new(shape: Status, location_name: "status"))
+    GetOauth2CredentialProviderResponse.add_member(:failure_reason, Shapes::ShapeRef.new(shape: String, location_name: "failureReason"))
     GetOauth2CredentialProviderResponse.struct_class = Types::GetOauth2CredentialProviderResponse
 
     GetOnlineEvaluationConfigRequest.add_member(:online_evaluation_config_id, Shapes::ShapeRef.new(shape: OnlineEvaluationConfigId, required: true, location: "uri", location_name: "onlineEvaluationConfigId"))
@@ -2741,18 +2754,18 @@ module Aws::BedrockAgentCoreControl
     MCPGatewayConfiguration.add_member(:search_type, Shapes::ShapeRef.new(shape: SearchType, location_name: "searchType"))
     MCPGatewayConfiguration.struct_class = Types::MCPGatewayConfiguration
 
-    ManagedLatticeResource.add_member(:vpc_identifier, Shapes::ShapeRef.new(shape: VpcIdentifier, required: true, location_name: "vpcIdentifier"))
-    ManagedLatticeResource.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: SubnetIds, required: true, location_name: "subnetIds"))
-    ManagedLatticeResource.add_member(:endpoint_ip_address_type, Shapes::ShapeRef.new(shape: EndpointIpAddressType, required: true, location_name: "endpointIpAddressType"))
-    ManagedLatticeResource.add_member(:security_group_ids, Shapes::ShapeRef.new(shape: SecurityGroupIds, location_name: "securityGroupIds"))
-    ManagedLatticeResource.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
-    ManagedLatticeResource.add_member(:routing_domain, Shapes::ShapeRef.new(shape: RoutingDomain, location_name: "routingDomain"))
-    ManagedLatticeResource.struct_class = Types::ManagedLatticeResource
-
     ManagedResourceDetails.add_member(:domain, Shapes::ShapeRef.new(shape: DomainName, location_name: "domain"))
     ManagedResourceDetails.add_member(:resource_gateway_arn, Shapes::ShapeRef.new(shape: ResourceGatewayArn, location_name: "resourceGatewayArn"))
     ManagedResourceDetails.add_member(:resource_association_arn, Shapes::ShapeRef.new(shape: ResourceAssociationArn, location_name: "resourceAssociationArn"))
     ManagedResourceDetails.struct_class = Types::ManagedResourceDetails
+
+    ManagedVpcResource.add_member(:vpc_identifier, Shapes::ShapeRef.new(shape: VpcIdentifier, required: true, location_name: "vpcIdentifier"))
+    ManagedVpcResource.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: SubnetIds, required: true, location_name: "subnetIds"))
+    ManagedVpcResource.add_member(:endpoint_ip_address_type, Shapes::ShapeRef.new(shape: EndpointIpAddressType, required: true, location_name: "endpointIpAddressType"))
+    ManagedVpcResource.add_member(:security_group_ids, Shapes::ShapeRef.new(shape: SecurityGroupIds, location_name: "securityGroupIds"))
+    ManagedVpcResource.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
+    ManagedVpcResource.add_member(:routing_domain, Shapes::ShapeRef.new(shape: RoutingDomain, location_name: "routingDomain"))
+    ManagedVpcResource.struct_class = Types::ManagedVpcResource
 
     MatchValueStringList.member = Shapes::ShapeRef.new(shape: MatchValueString)
 
@@ -3094,14 +3107,20 @@ module Aws::BedrockAgentCoreControl
     PolicyStatusReasons.member = Shapes::ShapeRef.new(shape: String)
 
     PrivateEndpoint.add_member(:self_managed_lattice_resource, Shapes::ShapeRef.new(shape: SelfManagedLatticeResource, location_name: "selfManagedLatticeResource"))
-    PrivateEndpoint.add_member(:managed_lattice_resource, Shapes::ShapeRef.new(shape: ManagedLatticeResource, location_name: "managedLatticeResource"))
+    PrivateEndpoint.add_member(:managed_vpc_resource, Shapes::ShapeRef.new(shape: ManagedVpcResource, location_name: "managedVpcResource"))
     PrivateEndpoint.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     PrivateEndpoint.add_member_subclass(:self_managed_lattice_resource, Types::PrivateEndpoint::SelfManagedLatticeResource)
-    PrivateEndpoint.add_member_subclass(:managed_lattice_resource, Types::PrivateEndpoint::ManagedLatticeResource)
+    PrivateEndpoint.add_member_subclass(:managed_vpc_resource, Types::PrivateEndpoint::ManagedVpcResource)
     PrivateEndpoint.add_member_subclass(:unknown, Types::PrivateEndpoint::Unknown)
     PrivateEndpoint.struct_class = Types::PrivateEndpoint
 
     PrivateEndpointManagedResources.member = Shapes::ShapeRef.new(shape: ManagedResourceDetails)
+
+    PrivateEndpointOverride.add_member(:domain, Shapes::ShapeRef.new(shape: PrivateEndpointOverrideDomain, required: true, location_name: "domain"))
+    PrivateEndpointOverride.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, required: true, location_name: "privateEndpoint"))
+    PrivateEndpointOverride.struct_class = Types::PrivateEndpointOverride
+
+    PrivateEndpointOverrides.member = Shapes::ShapeRef.new(shape: PrivateEndpointOverride)
 
     ProtocolConfiguration.add_member(:server_protocol, Shapes::ShapeRef.new(shape: ServerProtocol, required: true, location_name: "serverProtocol"))
     ProtocolConfiguration.struct_class = Types::ProtocolConfiguration
@@ -3710,6 +3729,7 @@ module Aws::BedrockAgentCoreControl
     UpdateOauth2CredentialProviderResponse.add_member(:oauth2_provider_config_output, Shapes::ShapeRef.new(shape: Oauth2ProviderConfigOutput, required: true, location_name: "oauth2ProviderConfigOutput"))
     UpdateOauth2CredentialProviderResponse.add_member(:created_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdTime"))
     UpdateOauth2CredentialProviderResponse.add_member(:last_updated_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "lastUpdatedTime"))
+    UpdateOauth2CredentialProviderResponse.add_member(:status, Shapes::ShapeRef.new(shape: Status, location_name: "status"))
     UpdateOauth2CredentialProviderResponse.struct_class = Types::UpdateOauth2CredentialProviderResponse
 
     UpdateOnlineEvaluationConfigRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
@@ -4398,6 +4418,7 @@ module Aws::BedrockAgentCoreControl
         o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)

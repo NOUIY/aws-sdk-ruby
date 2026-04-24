@@ -4647,6 +4647,14 @@ module Aws::CloudWatchLogs
     # @option params [required, String] :query_id
     #   The ID number of the query.
     #
+    # @option params [String] :next_token
+    #   The token for the next set of items to return. The token expires after
+    #   1 hour.
+    #
+    # @option params [Integer] :max_items
+    #   The maximum number of log events to return in the response. The
+    #   maximum is 10,000 log events.
+    #
     # @return [Types::GetQueryResultsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetQueryResultsResponse#query_language #query_language} => String
@@ -4654,11 +4662,14 @@ module Aws::CloudWatchLogs
     #   * {Types::GetQueryResultsResponse#statistics #statistics} => Types::QueryStatistics
     #   * {Types::GetQueryResultsResponse#status #status} => String
     #   * {Types::GetQueryResultsResponse#encryption_key #encryption_key} => String
+    #   * {Types::GetQueryResultsResponse#next_token #next_token} => String
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.get_query_results({
     #     query_id: "QueryId", # required
+    #     next_token: "GetQueryResultsNextToken",
+    #     max_items: 1,
     #   })
     #
     # @example Response structure
@@ -4676,6 +4687,7 @@ module Aws::CloudWatchLogs
     #   resp.statistics.log_groups_scanned #=> Float
     #   resp.status #=> String, one of "Scheduled", "Running", "Complete", "Failed", "Cancelled", "Timeout", "Unknown"
     #   resp.encryption_key #=> String
+    #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetQueryResults AWS API Documentation
     #
@@ -9232,7 +9244,7 @@ module Aws::CloudWatchLogs
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatchlogs'
-      context[:gem_version] = '1.145.0'
+      context[:gem_version] = '1.146.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

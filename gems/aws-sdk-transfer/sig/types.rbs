@@ -1540,6 +1540,7 @@ module Aws::Transfer
 
     class UpdateWebAppVpcConfig
       attr_accessor subnet_ids: ::Array[::String]
+      attr_accessor ip_address_type: ("IPV4" | "DUALSTACK")
       SENSITIVE: []
     end
 
@@ -1587,6 +1588,7 @@ module Aws::Transfer
       attr_accessor subnet_ids: ::Array[::String]
       attr_accessor vpc_id: ::String
       attr_accessor security_group_ids: ::Array[::String]
+      attr_accessor ip_address_type: ("IPV4" | "DUALSTACK")
       SENSITIVE: []
     end
 

@@ -167,7 +167,7 @@ module Aws
                                   {
                                     host_name: ::String,
                                     key_name: ::String,
-                                    instance_type: ("i4i.metal"),
+                                    instance_type: ("i4i.metal" | "i7i.metal-24xl"),
                                     placement_group_id: ::String?,
                                     dedicated_host_id: ::String?
                                   },
@@ -216,7 +216,7 @@ module Aws
                                      host: {
                                        host_name: ::String,
                                        key_name: ::String,
-                                       instance_type: ("i4i.metal"),
+                                       instance_type: ("i4i.metal" | "i7i.metal-24xl"),
                                        placement_group_id: ::String?,
                                        dedicated_host_id: ::String?
                                      },

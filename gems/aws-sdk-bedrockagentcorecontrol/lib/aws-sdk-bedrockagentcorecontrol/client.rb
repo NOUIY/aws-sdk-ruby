@@ -552,7 +552,7 @@ module Aws::BedrockAgentCoreControl
     #             version_id: "S3LocationVersionIdString",
     #           },
     #         },
-    #         runtime: "PYTHON_3_10", # required, accepts PYTHON_3_10, PYTHON_3_11, PYTHON_3_12, PYTHON_3_13, PYTHON_3_14
+    #         runtime: "PYTHON_3_10", # required, accepts PYTHON_3_10, PYTHON_3_11, PYTHON_3_12, PYTHON_3_13, PYTHON_3_14, NODE_22
     #         entry_point: ["entryPoint"], # required
     #       },
     #     },
@@ -582,6 +582,41 @@ module Aws::BedrockAgentCoreControl
     #                 match_value_string_list: ["MatchValueString"],
     #               },
     #               claim_match_operator: "EQUALS", # required, accepts EQUALS, CONTAINS, CONTAINS_ANY
+    #             },
+    #           },
+    #         ],
+    #         private_endpoint: {
+    #           self_managed_lattice_resource: {
+    #             resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #           },
+    #           managed_vpc_resource: {
+    #             vpc_identifier: "VpcIdentifier", # required
+    #             subnet_ids: ["SubnetId"], # required
+    #             endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #             security_group_ids: ["SecurityGroupIdentifier"],
+    #             tags: {
+    #               "TagKey" => "TagValue",
+    #             },
+    #             routing_domain: "RoutingDomain",
+    #           },
+    #         },
+    #         private_endpoint_overrides: [
+    #           {
+    #             domain: "PrivateEndpointOverrideDomain", # required
+    #             private_endpoint: { # required
+    #               self_managed_lattice_resource: {
+    #                 resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #               },
+    #               managed_vpc_resource: {
+    #                 vpc_identifier: "VpcIdentifier", # required
+    #                 subnet_ids: ["SubnetId"], # required
+    #                 endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #                 security_group_ids: ["SecurityGroupIdentifier"],
+    #                 tags: {
+    #                   "TagKey" => "TagValue",
+    #                 },
+    #                 routing_domain: "RoutingDomain",
+    #               },
     #             },
     #           },
     #         ],
@@ -1265,6 +1300,41 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #         ],
+    #         private_endpoint: {
+    #           self_managed_lattice_resource: {
+    #             resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #           },
+    #           managed_vpc_resource: {
+    #             vpc_identifier: "VpcIdentifier", # required
+    #             subnet_ids: ["SubnetId"], # required
+    #             endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #             security_group_ids: ["SecurityGroupIdentifier"],
+    #             tags: {
+    #               "TagKey" => "TagValue",
+    #             },
+    #             routing_domain: "RoutingDomain",
+    #           },
+    #         },
+    #         private_endpoint_overrides: [
+    #           {
+    #             domain: "PrivateEndpointOverrideDomain", # required
+    #             private_endpoint: { # required
+    #               self_managed_lattice_resource: {
+    #                 resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #               },
+    #               managed_vpc_resource: {
+    #                 vpc_identifier: "VpcIdentifier", # required
+    #                 subnet_ids: ["SubnetId"], # required
+    #                 endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #                 security_group_ids: ["SecurityGroupIdentifier"],
+    #                 tags: {
+    #                   "TagKey" => "TagValue",
+    #                 },
+    #                 routing_domain: "RoutingDomain",
+    #               },
+    #             },
+    #           },
+    #         ],
     #       },
     #     },
     #     kms_key_arn: "KmsKeyArn",
@@ -1324,6 +1394,28 @@ module Aws::BedrockAgentCoreControl
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.kms_key_arn #=> String
     #   resp.interceptor_configurations #=> Array
     #   resp.interceptor_configurations[0].interceptor.lambda.arn #=> String
@@ -1539,7 +1631,7 @@ module Aws::BedrockAgentCoreControl
     #       self_managed_lattice_resource: {
     #         resource_configuration_identifier: "ResourceConfigurationIdentifier",
     #       },
-    #       managed_lattice_resource: {
+    #       managed_vpc_resource: {
     #         vpc_identifier: "VpcIdentifier", # required
     #         subnet_ids: ["SubnetId"], # required
     #         endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
@@ -1629,15 +1721,15 @@ module Aws::BedrockAgentCoreControl
     #   resp.metadata_configuration.allowed_response_headers #=> Array
     #   resp.metadata_configuration.allowed_response_headers[0] #=> String
     #   resp.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
-    #   resp.private_endpoint.managed_lattice_resource.vpc_identifier #=> String
-    #   resp.private_endpoint.managed_lattice_resource.subnet_ids #=> Array
-    #   resp.private_endpoint.managed_lattice_resource.subnet_ids[0] #=> String
-    #   resp.private_endpoint.managed_lattice_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
-    #   resp.private_endpoint.managed_lattice_resource.security_group_ids #=> Array
-    #   resp.private_endpoint.managed_lattice_resource.security_group_ids[0] #=> String
-    #   resp.private_endpoint.managed_lattice_resource.tags #=> Hash
-    #   resp.private_endpoint.managed_lattice_resource.tags["TagKey"] #=> String
-    #   resp.private_endpoint.managed_lattice_resource.routing_domain #=> String
+    #   resp.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.private_endpoint_managed_resources #=> Array
     #   resp.private_endpoint_managed_resources[0].domain #=> String
     #   resp.private_endpoint_managed_resources[0].resource_gateway_arn #=> String
@@ -1786,6 +1878,41 @@ module Aws::BedrockAgentCoreControl
     #                 match_value_string_list: ["MatchValueString"],
     #               },
     #               claim_match_operator: "EQUALS", # required, accepts EQUALS, CONTAINS, CONTAINS_ANY
+    #             },
+    #           },
+    #         ],
+    #         private_endpoint: {
+    #           self_managed_lattice_resource: {
+    #             resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #           },
+    #           managed_vpc_resource: {
+    #             vpc_identifier: "VpcIdentifier", # required
+    #             subnet_ids: ["SubnetId"], # required
+    #             endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #             security_group_ids: ["SecurityGroupIdentifier"],
+    #             tags: {
+    #               "TagKey" => "TagValue",
+    #             },
+    #             routing_domain: "RoutingDomain",
+    #           },
+    #         },
+    #         private_endpoint_overrides: [
+    #           {
+    #             domain: "PrivateEndpointOverrideDomain", # required
+    #             private_endpoint: { # required
+    #               self_managed_lattice_resource: {
+    #                 resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #               },
+    #               managed_vpc_resource: {
+    #                 vpc_identifier: "VpcIdentifier", # required
+    #                 subnet_ids: ["SubnetId"], # required
+    #                 endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #                 security_group_ids: ["SecurityGroupIdentifier"],
+    #                 tags: {
+    #                   "TagKey" => "TagValue",
+    #                 },
+    #                 routing_domain: "RoutingDomain",
+    #               },
     #             },
     #           },
     #         ],
@@ -1984,6 +2111,28 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].domain #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.harness.memory.agent_core_memory_configuration.arn #=> String
     #   resp.harness.memory.agent_core_memory_configuration.actor_id #=> String
     #   resp.harness.memory.agent_core_memory_configuration.messages_count #=> Integer
@@ -2279,6 +2428,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::CreateOauth2CredentialProviderResponse#credential_provider_arn #credential_provider_arn} => String
     #   * {Types::CreateOauth2CredentialProviderResponse#callback_url #callback_url} => String
     #   * {Types::CreateOauth2CredentialProviderResponse#oauth2_provider_config_output #oauth2_provider_config_output} => Types::Oauth2ProviderConfigOutput
+    #   * {Types::CreateOauth2CredentialProviderResponse#status #status} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -2299,6 +2449,41 @@ module Aws::BedrockAgentCoreControl
     #         },
     #         client_id: "ClientIdType", # required
     #         client_secret: "ClientSecretType", # required
+    #         private_endpoint: {
+    #           self_managed_lattice_resource: {
+    #             resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #           },
+    #           managed_vpc_resource: {
+    #             vpc_identifier: "VpcIdentifier", # required
+    #             subnet_ids: ["SubnetId"], # required
+    #             endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #             security_group_ids: ["SecurityGroupIdentifier"],
+    #             tags: {
+    #               "TagKey" => "TagValue",
+    #             },
+    #             routing_domain: "RoutingDomain",
+    #           },
+    #         },
+    #         private_endpoint_overrides: [
+    #           {
+    #             domain: "PrivateEndpointOverrideDomain", # required
+    #             private_endpoint: { # required
+    #               self_managed_lattice_resource: {
+    #                 resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #               },
+    #               managed_vpc_resource: {
+    #                 vpc_identifier: "VpcIdentifier", # required
+    #                 subnet_ids: ["SubnetId"], # required
+    #                 endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #                 security_group_ids: ["SecurityGroupIdentifier"],
+    #                 tags: {
+    #                   "TagKey" => "TagValue",
+    #                 },
+    #                 routing_domain: "RoutingDomain",
+    #               },
+    #             },
+    #           },
+    #         ],
     #       },
     #       google_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
@@ -2357,6 +2542,28 @@ module Aws::BedrockAgentCoreControl
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.token_endpoint_auth_methods #=> Array
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.token_endpoint_auth_methods[0] #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.client_id #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].domain #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.discovery_url #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.issuer #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.authorization_endpoint #=> String
@@ -2429,6 +2636,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.oauth2_provider_config_output.included_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.token_endpoint_auth_methods #=> Array
     #   resp.oauth2_provider_config_output.included_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.token_endpoint_auth_methods[0] #=> String
     #   resp.oauth2_provider_config_output.included_oauth_2_provider_config.client_id #=> String
+    #   resp.status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateOauth2CredentialProvider AWS API Documentation
     #
@@ -2852,6 +3060,41 @@ module Aws::BedrockAgentCoreControl
     #                 match_value_string_list: ["MatchValueString"],
     #               },
     #               claim_match_operator: "EQUALS", # required, accepts EQUALS, CONTAINS, CONTAINS_ANY
+    #             },
+    #           },
+    #         ],
+    #         private_endpoint: {
+    #           self_managed_lattice_resource: {
+    #             resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #           },
+    #           managed_vpc_resource: {
+    #             vpc_identifier: "VpcIdentifier", # required
+    #             subnet_ids: ["SubnetId"], # required
+    #             endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #             security_group_ids: ["SecurityGroupIdentifier"],
+    #             tags: {
+    #               "TagKey" => "TagValue",
+    #             },
+    #             routing_domain: "RoutingDomain",
+    #           },
+    #         },
+    #         private_endpoint_overrides: [
+    #           {
+    #             domain: "PrivateEndpointOverrideDomain", # required
+    #             private_endpoint: { # required
+    #               self_managed_lattice_resource: {
+    #                 resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #               },
+    #               managed_vpc_resource: {
+    #                 vpc_identifier: "VpcIdentifier", # required
+    #                 subnet_ids: ["SubnetId"], # required
+    #                 endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #                 security_group_ids: ["SecurityGroupIdentifier"],
+    #                 tags: {
+    #                   "TagKey" => "TagValue",
+    #                 },
+    #                 routing_domain: "RoutingDomain",
+    #               },
     #             },
     #           },
     #         ],
@@ -3518,6 +3761,28 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].domain #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.harness.memory.agent_core_memory_configuration.arn #=> String
     #   resp.harness.memory.agent_core_memory_configuration.actor_id #=> String
     #   resp.harness.memory.agent_core_memory_configuration.messages_count #=> Integer
@@ -3917,7 +4182,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.agent_runtime_artifact.code_configuration.code.s3.bucket #=> String
     #   resp.agent_runtime_artifact.code_configuration.code.s3.prefix #=> String
     #   resp.agent_runtime_artifact.code_configuration.code.s3.version_id #=> String
-    #   resp.agent_runtime_artifact.code_configuration.runtime #=> String, one of "PYTHON_3_10", "PYTHON_3_11", "PYTHON_3_12", "PYTHON_3_13", "PYTHON_3_14"
+    #   resp.agent_runtime_artifact.code_configuration.runtime #=> String, one of "PYTHON_3_10", "PYTHON_3_11", "PYTHON_3_12", "PYTHON_3_13", "PYTHON_3_14", "NODE_22"
     #   resp.agent_runtime_artifact.code_configuration.entry_point #=> Array
     #   resp.agent_runtime_artifact.code_configuration.entry_point[0] #=> String
     #   resp.protocol_configuration.server_protocol #=> String, one of "MCP", "HTTP", "A2A", "AGUI"
@@ -3937,6 +4202,28 @@ module Aws::BedrockAgentCoreControl
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.request_header_configuration.request_header_allowlist #=> Array
     #   resp.request_header_configuration.request_header_allowlist[0] #=> String
     #   resp.metadata_configuration.require_mmdsv2 #=> Boolean
@@ -4336,6 +4623,28 @@ module Aws::BedrockAgentCoreControl
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.kms_key_arn #=> String
     #   resp.interceptor_configurations #=> Array
     #   resp.interceptor_configurations[0].interceptor.lambda.arn #=> String
@@ -4466,15 +4775,15 @@ module Aws::BedrockAgentCoreControl
     #   resp.metadata_configuration.allowed_response_headers #=> Array
     #   resp.metadata_configuration.allowed_response_headers[0] #=> String
     #   resp.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
-    #   resp.private_endpoint.managed_lattice_resource.vpc_identifier #=> String
-    #   resp.private_endpoint.managed_lattice_resource.subnet_ids #=> Array
-    #   resp.private_endpoint.managed_lattice_resource.subnet_ids[0] #=> String
-    #   resp.private_endpoint.managed_lattice_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
-    #   resp.private_endpoint.managed_lattice_resource.security_group_ids #=> Array
-    #   resp.private_endpoint.managed_lattice_resource.security_group_ids[0] #=> String
-    #   resp.private_endpoint.managed_lattice_resource.tags #=> Hash
-    #   resp.private_endpoint.managed_lattice_resource.tags["TagKey"] #=> String
-    #   resp.private_endpoint.managed_lattice_resource.routing_domain #=> String
+    #   resp.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.private_endpoint_managed_resources #=> Array
     #   resp.private_endpoint_managed_resources[0].domain #=> String
     #   resp.private_endpoint_managed_resources[0].resource_gateway_arn #=> String
@@ -4587,6 +4896,28 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].domain #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.harness.memory.agent_core_memory_configuration.arn #=> String
     #   resp.harness.memory.agent_core_memory_configuration.actor_id #=> String
     #   resp.harness.memory.agent_core_memory_configuration.messages_count #=> Integer
@@ -4719,6 +5050,8 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetOauth2CredentialProviderResponse#oauth2_provider_config_output #oauth2_provider_config_output} => Types::Oauth2ProviderConfigOutput
     #   * {Types::GetOauth2CredentialProviderResponse#created_time #created_time} => Time
     #   * {Types::GetOauth2CredentialProviderResponse#last_updated_time #last_updated_time} => Time
+    #   * {Types::GetOauth2CredentialProviderResponse#status #status} => String
+    #   * {Types::GetOauth2CredentialProviderResponse#failure_reason #failure_reason} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -4742,6 +5075,28 @@ module Aws::BedrockAgentCoreControl
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.token_endpoint_auth_methods #=> Array
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.token_endpoint_auth_methods[0] #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.client_id #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].domain #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.discovery_url #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.issuer #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.authorization_endpoint #=> String
@@ -4816,6 +5171,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.oauth2_provider_config_output.included_oauth_2_provider_config.client_id #=> String
     #   resp.created_time #=> Time
     #   resp.last_updated_time #=> Time
+    #   resp.status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.failure_reason #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetOauth2CredentialProvider AWS API Documentation
     #
@@ -5127,6 +5484,28 @@ module Aws::BedrockAgentCoreControl
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.approval_configuration.auto_approval #=> Boolean
     #   resp.status #=> String, one of "CREATING", "READY", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED", "DELETING", "DELETE_FAILED"
     #   resp.status_reason #=> String
@@ -6775,15 +7154,15 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].metadata_configuration.allowed_response_headers #=> Array
     #   resp.targets[0].metadata_configuration.allowed_response_headers[0] #=> String
     #   resp.targets[0].private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
-    #   resp.targets[0].private_endpoint.managed_lattice_resource.vpc_identifier #=> String
-    #   resp.targets[0].private_endpoint.managed_lattice_resource.subnet_ids #=> Array
-    #   resp.targets[0].private_endpoint.managed_lattice_resource.subnet_ids[0] #=> String
-    #   resp.targets[0].private_endpoint.managed_lattice_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
-    #   resp.targets[0].private_endpoint.managed_lattice_resource.security_group_ids #=> Array
-    #   resp.targets[0].private_endpoint.managed_lattice_resource.security_group_ids[0] #=> String
-    #   resp.targets[0].private_endpoint.managed_lattice_resource.tags #=> Hash
-    #   resp.targets[0].private_endpoint.managed_lattice_resource.tags["TagKey"] #=> String
-    #   resp.targets[0].private_endpoint.managed_lattice_resource.routing_domain #=> String
+    #   resp.targets[0].private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.targets[0].private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.targets[0].private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.targets[0].private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.targets[0].private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.targets[0].private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.targets[0].private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.targets[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.targets[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.targets[0].private_endpoint_managed_resources #=> Array
     #   resp.targets[0].private_endpoint_managed_resources[0].domain #=> String
     #   resp.targets[0].private_endpoint_managed_resources[0].resource_gateway_arn #=> String
@@ -6944,7 +7323,7 @@ module Aws::BedrockAgentCoreControl
     #             version_id: "S3LocationVersionIdString",
     #           },
     #         },
-    #         runtime: "PYTHON_3_10", # required, accepts PYTHON_3_10, PYTHON_3_11, PYTHON_3_12, PYTHON_3_13, PYTHON_3_14
+    #         runtime: "PYTHON_3_10", # required, accepts PYTHON_3_10, PYTHON_3_11, PYTHON_3_12, PYTHON_3_13, PYTHON_3_14, NODE_22
     #         entry_point: ["entryPoint"], # required
     #       },
     #     },
@@ -6973,6 +7352,41 @@ module Aws::BedrockAgentCoreControl
     #                 match_value_string_list: ["MatchValueString"],
     #               },
     #               claim_match_operator: "EQUALS", # required, accepts EQUALS, CONTAINS, CONTAINS_ANY
+    #             },
+    #           },
+    #         ],
+    #         private_endpoint: {
+    #           self_managed_lattice_resource: {
+    #             resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #           },
+    #           managed_vpc_resource: {
+    #             vpc_identifier: "VpcIdentifier", # required
+    #             subnet_ids: ["SubnetId"], # required
+    #             endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #             security_group_ids: ["SecurityGroupIdentifier"],
+    #             tags: {
+    #               "TagKey" => "TagValue",
+    #             },
+    #             routing_domain: "RoutingDomain",
+    #           },
+    #         },
+    #         private_endpoint_overrides: [
+    #           {
+    #             domain: "PrivateEndpointOverrideDomain", # required
+    #             private_endpoint: { # required
+    #               self_managed_lattice_resource: {
+    #                 resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #               },
+    #               managed_vpc_resource: {
+    #                 vpc_identifier: "VpcIdentifier", # required
+    #                 subnet_ids: ["SubnetId"], # required
+    #                 endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #                 security_group_ids: ["SecurityGroupIdentifier"],
+    #                 tags: {
+    #                   "TagKey" => "TagValue",
+    #                 },
+    #                 routing_domain: "RoutingDomain",
+    #               },
     #             },
     #           },
     #         ],
@@ -7338,6 +7752,41 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #         ],
+    #         private_endpoint: {
+    #           self_managed_lattice_resource: {
+    #             resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #           },
+    #           managed_vpc_resource: {
+    #             vpc_identifier: "VpcIdentifier", # required
+    #             subnet_ids: ["SubnetId"], # required
+    #             endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #             security_group_ids: ["SecurityGroupIdentifier"],
+    #             tags: {
+    #               "TagKey" => "TagValue",
+    #             },
+    #             routing_domain: "RoutingDomain",
+    #           },
+    #         },
+    #         private_endpoint_overrides: [
+    #           {
+    #             domain: "PrivateEndpointOverrideDomain", # required
+    #             private_endpoint: { # required
+    #               self_managed_lattice_resource: {
+    #                 resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #               },
+    #               managed_vpc_resource: {
+    #                 vpc_identifier: "VpcIdentifier", # required
+    #                 subnet_ids: ["SubnetId"], # required
+    #                 endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #                 security_group_ids: ["SecurityGroupIdentifier"],
+    #                 tags: {
+    #                   "TagKey" => "TagValue",
+    #                 },
+    #                 routing_domain: "RoutingDomain",
+    #               },
+    #             },
+    #           },
+    #         ],
     #       },
     #     },
     #     kms_key_arn: "KmsKeyArn",
@@ -7394,6 +7843,28 @@ module Aws::BedrockAgentCoreControl
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.kms_key_arn #=> String
     #   resp.interceptor_configurations #=> Array
     #   resp.interceptor_configurations[0].interceptor.lambda.arn #=> String
@@ -7599,7 +8070,7 @@ module Aws::BedrockAgentCoreControl
     #       self_managed_lattice_resource: {
     #         resource_configuration_identifier: "ResourceConfigurationIdentifier",
     #       },
-    #       managed_lattice_resource: {
+    #       managed_vpc_resource: {
     #         vpc_identifier: "VpcIdentifier", # required
     #         subnet_ids: ["SubnetId"], # required
     #         endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
@@ -7689,15 +8160,15 @@ module Aws::BedrockAgentCoreControl
     #   resp.metadata_configuration.allowed_response_headers #=> Array
     #   resp.metadata_configuration.allowed_response_headers[0] #=> String
     #   resp.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
-    #   resp.private_endpoint.managed_lattice_resource.vpc_identifier #=> String
-    #   resp.private_endpoint.managed_lattice_resource.subnet_ids #=> Array
-    #   resp.private_endpoint.managed_lattice_resource.subnet_ids[0] #=> String
-    #   resp.private_endpoint.managed_lattice_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
-    #   resp.private_endpoint.managed_lattice_resource.security_group_ids #=> Array
-    #   resp.private_endpoint.managed_lattice_resource.security_group_ids[0] #=> String
-    #   resp.private_endpoint.managed_lattice_resource.tags #=> Hash
-    #   resp.private_endpoint.managed_lattice_resource.tags["TagKey"] #=> String
-    #   resp.private_endpoint.managed_lattice_resource.routing_domain #=> String
+    #   resp.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.private_endpoint_managed_resources #=> Array
     #   resp.private_endpoint_managed_resources[0].domain #=> String
     #   resp.private_endpoint_managed_resources[0].resource_gateway_arn #=> String
@@ -7852,6 +8323,41 @@ module Aws::BedrockAgentCoreControl
     #                   match_value_string_list: ["MatchValueString"],
     #                 },
     #                 claim_match_operator: "EQUALS", # required, accepts EQUALS, CONTAINS, CONTAINS_ANY
+    #               },
+    #             },
+    #           ],
+    #           private_endpoint: {
+    #             self_managed_lattice_resource: {
+    #               resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #             },
+    #             managed_vpc_resource: {
+    #               vpc_identifier: "VpcIdentifier", # required
+    #               subnet_ids: ["SubnetId"], # required
+    #               endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #               security_group_ids: ["SecurityGroupIdentifier"],
+    #               tags: {
+    #                 "TagKey" => "TagValue",
+    #               },
+    #               routing_domain: "RoutingDomain",
+    #             },
+    #           },
+    #           private_endpoint_overrides: [
+    #             {
+    #               domain: "PrivateEndpointOverrideDomain", # required
+    #               private_endpoint: { # required
+    #                 self_managed_lattice_resource: {
+    #                   resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #                 },
+    #                 managed_vpc_resource: {
+    #                   vpc_identifier: "VpcIdentifier", # required
+    #                   subnet_ids: ["SubnetId"], # required
+    #                   endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #                   security_group_ids: ["SecurityGroupIdentifier"],
+    #                   tags: {
+    #                     "TagKey" => "TagValue",
+    #                   },
+    #                   routing_domain: "RoutingDomain",
+    #                 },
     #               },
     #             },
     #           ],
@@ -8050,6 +8556,28 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].domain #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.harness.memory.agent_core_memory_configuration.arn #=> String
     #   resp.harness.memory.agent_core_memory_configuration.actor_id #=> String
     #   resp.harness.memory.agent_core_memory_configuration.messages_count #=> Integer
@@ -8412,6 +8940,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::UpdateOauth2CredentialProviderResponse#oauth2_provider_config_output #oauth2_provider_config_output} => Types::Oauth2ProviderConfigOutput
     #   * {Types::UpdateOauth2CredentialProviderResponse#created_time #created_time} => Time
     #   * {Types::UpdateOauth2CredentialProviderResponse#last_updated_time #last_updated_time} => Time
+    #   * {Types::UpdateOauth2CredentialProviderResponse#status #status} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -8432,6 +8961,41 @@ module Aws::BedrockAgentCoreControl
     #         },
     #         client_id: "ClientIdType", # required
     #         client_secret: "ClientSecretType", # required
+    #         private_endpoint: {
+    #           self_managed_lattice_resource: {
+    #             resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #           },
+    #           managed_vpc_resource: {
+    #             vpc_identifier: "VpcIdentifier", # required
+    #             subnet_ids: ["SubnetId"], # required
+    #             endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #             security_group_ids: ["SecurityGroupIdentifier"],
+    #             tags: {
+    #               "TagKey" => "TagValue",
+    #             },
+    #             routing_domain: "RoutingDomain",
+    #           },
+    #         },
+    #         private_endpoint_overrides: [
+    #           {
+    #             domain: "PrivateEndpointOverrideDomain", # required
+    #             private_endpoint: { # required
+    #               self_managed_lattice_resource: {
+    #                 resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #               },
+    #               managed_vpc_resource: {
+    #                 vpc_identifier: "VpcIdentifier", # required
+    #                 subnet_ids: ["SubnetId"], # required
+    #                 endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #                 security_group_ids: ["SecurityGroupIdentifier"],
+    #                 tags: {
+    #                   "TagKey" => "TagValue",
+    #                 },
+    #                 routing_domain: "RoutingDomain",
+    #               },
+    #             },
+    #           },
+    #         ],
     #       },
     #       google_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
@@ -8488,6 +9052,28 @@ module Aws::BedrockAgentCoreControl
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.token_endpoint_auth_methods #=> Array
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.token_endpoint_auth_methods[0] #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.client_id #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].domain #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.discovery_url #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.issuer #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.authorization_endpoint #=> String
@@ -8562,6 +9148,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.oauth2_provider_config_output.included_oauth_2_provider_config.client_id #=> String
     #   resp.created_time #=> Time
     #   resp.last_updated_time #=> Time
+    #   resp.status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateOauth2CredentialProvider AWS API Documentation
     #
@@ -8900,6 +9487,41 @@ module Aws::BedrockAgentCoreControl
     #               },
     #             },
     #           ],
+    #           private_endpoint: {
+    #             self_managed_lattice_resource: {
+    #               resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #             },
+    #             managed_vpc_resource: {
+    #               vpc_identifier: "VpcIdentifier", # required
+    #               subnet_ids: ["SubnetId"], # required
+    #               endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #               security_group_ids: ["SecurityGroupIdentifier"],
+    #               tags: {
+    #                 "TagKey" => "TagValue",
+    #               },
+    #               routing_domain: "RoutingDomain",
+    #             },
+    #           },
+    #           private_endpoint_overrides: [
+    #             {
+    #               domain: "PrivateEndpointOverrideDomain", # required
+    #               private_endpoint: { # required
+    #                 self_managed_lattice_resource: {
+    #                   resource_configuration_identifier: "ResourceConfigurationIdentifier",
+    #                 },
+    #                 managed_vpc_resource: {
+    #                   vpc_identifier: "VpcIdentifier", # required
+    #                   subnet_ids: ["SubnetId"], # required
+    #                   endpoint_ip_address_type: "IPV4", # required, accepts IPV4, IPV6
+    #                   security_group_ids: ["SecurityGroupIdentifier"],
+    #                   tags: {
+    #                     "TagKey" => "TagValue",
+    #                   },
+    #                   routing_domain: "RoutingDomain",
+    #                 },
+    #               },
+    #             },
+    #           ],
     #         },
     #       },
     #     },
@@ -8931,6 +9553,28 @@ module Aws::BedrockAgentCoreControl
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list #=> Array
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_value.match_value_string_list[0] #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.custom_claims[0].authorizing_claim_match_value.claim_match_operator #=> String, one of "EQUALS", "CONTAINS", "CONTAINS_ANY"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.vpc_identifier #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.subnet_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.endpoint_ip_address_type #=> String, one of "IPV4", "IPV6"
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.security_group_ids[0] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
     #   resp.approval_configuration.auto_approval #=> Boolean
     #   resp.status #=> String, one of "CREATING", "READY", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED", "DELETING", "DELETE_FAILED"
     #   resp.status_reason #=> String
@@ -9262,7 +9906,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.39.0'
+      context[:gem_version] = '1.40.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

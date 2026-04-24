@@ -329,7 +329,8 @@ module Aws
                               vpc: {
                                 subnet_ids: Array[::String]?,
                                 vpc_id: ::String?,
-                                security_group_ids: Array[::String]?
+                                security_group_ids: Array[::String]?,
+                                ip_address_type: ("IPV4" | "DUALSTACK")?
                               }?
                             }
                           ) -> _CreateWebAppResponseSuccess
@@ -1283,7 +1284,8 @@ module Aws
                             },
                             ?endpoint_details: {
                               vpc: {
-                                subnet_ids: Array[::String]?
+                                subnet_ids: Array[::String]?,
+                                ip_address_type: ("IPV4" | "DUALSTACK")?
                               }?
                             }
                           ) -> _UpdateWebAppResponseSuccess

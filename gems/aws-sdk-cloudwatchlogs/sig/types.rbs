@@ -1010,6 +1010,8 @@ module Aws::CloudWatchLogs
 
     class GetQueryResultsRequest
       attr_accessor query_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_items: ::Integer
       SENSITIVE: []
     end
 
@@ -1019,6 +1021,7 @@ module Aws::CloudWatchLogs
       attr_accessor statistics: Types::QueryStatistics
       attr_accessor status: ("Scheduled" | "Running" | "Complete" | "Failed" | "Cancelled" | "Timeout" | "Unknown")
       attr_accessor encryption_key: ::String
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 

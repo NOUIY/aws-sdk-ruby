@@ -7973,10 +7973,17 @@ module Aws::Transfer
     #   should be deployed during the update operation.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] ip_address_type
+    #   The IP address type for the web app's VPC endpoint. This determines
+    #   whether the endpoint is accessible over IPv4 only, or over both IPv4
+    #   and IPv6.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/UpdateWebAppVpcConfig AWS API Documentation
     #
     class UpdateWebAppVpcConfig < Struct.new(
-      :subnet_ids)
+      :subnet_ids,
+      :ip_address_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8102,12 +8109,19 @@ module Aws::Transfer
     #   the endpoint based on IP addresses and port configurations.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] ip_address_type
+    #   The IP address type for the web app's VPC endpoint. This determines
+    #   whether the endpoint is accessible over IPv4 only, or over both IPv4
+    #   and IPv6.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/WebAppVpcConfig AWS API Documentation
     #
     class WebAppVpcConfig < Struct.new(
       :subnet_ids,
       :vpc_id,
-      :security_group_ids)
+      :security_group_ids,
+      :ip_address_type)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -980,8 +980,9 @@ module Aws::BedrockAgentCoreControl
     #   @return [Types::Code]
     #
     # @!attribute [rw] runtime
-    #   The runtime environment for executing the code (for example, Python
-    #   3.9 or Node.js 18).
+    #   The runtime environment for executing the agent code. Specify the
+    #   programming language and version to use for the agent runtime. For
+    #   valid values, see the list of supported runtimes.
     #   @return [String]
     #
     # @!attribute [rw] entry_point
@@ -2393,6 +2394,10 @@ module Aws::BedrockAgentCoreControl
     #   Contains the output configuration for an OAuth2 provider.
     #   @return [Types::Oauth2ProviderConfigOutput]
     #
+    # @!attribute [rw] status
+    #   The current status of the OAuth2 credential provider.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateOauth2CredentialProviderResponse AWS API Documentation
     #
     class CreateOauth2CredentialProviderResponse < Struct.new(
@@ -2400,7 +2405,8 @@ module Aws::BedrockAgentCoreControl
       :name,
       :credential_provider_arn,
       :callback_url,
-      :oauth2_provider_config_output)
+      :oauth2_provider_config_output,
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3343,6 +3349,17 @@ module Aws::BedrockAgentCoreControl
     #   value, and operation
     #   @return [Array<Types::CustomClaimValidationType>]
     #
+    # @!attribute [rw] private_endpoint
+    #   The private endpoint configuration for a gateway target. Defines how
+    #   the gateway connects to private resources in your VPC.
+    #   @return [Types::PrivateEndpoint]
+    #
+    # @!attribute [rw] private_endpoint_overrides
+    #   A list of private endpoint overrides for the JWT authorizer. Each
+    #   override maps a specific domain to a private endpoint, enabling
+    #   secure connectivity through VPC Lattice resource configurations.
+    #   @return [Array<Types::PrivateEndpointOverride>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CustomJWTAuthorizerConfiguration AWS API Documentation
     #
     class CustomJWTAuthorizerConfiguration < Struct.new(
@@ -3350,7 +3367,9 @@ module Aws::BedrockAgentCoreControl
       :allowed_audience,
       :allowed_clients,
       :allowed_scopes,
-      :custom_claims)
+      :custom_claims,
+      :private_endpoint,
+      :private_endpoint_overrides)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3403,12 +3422,27 @@ module Aws::BedrockAgentCoreControl
     #   The client secret for the custom OAuth2 provider.
     #   @return [String]
     #
+    # @!attribute [rw] private_endpoint
+    #   The default private endpoint for the custom OAuth2 provider,
+    #   enabling secure connectivity through a VPC Lattice resource
+    #   configuration.
+    #   @return [Types::PrivateEndpoint]
+    #
+    # @!attribute [rw] private_endpoint_overrides
+    #   The list of private endpoint overrides for the custom OAuth2
+    #   provider. Each override maps a specific domain to a private
+    #   endpoint, enabling secure connectivity through VPC Lattice resource
+    #   configurations.
+    #   @return [Array<Types::PrivateEndpointOverride>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CustomOauth2ProviderConfigInput AWS API Documentation
     #
     class CustomOauth2ProviderConfigInput < Struct.new(
       :oauth_discovery,
       :client_id,
-      :client_secret)
+      :client_secret,
+      :private_endpoint,
+      :private_endpoint_overrides)
       SENSITIVE = [:client_secret]
       include Aws::Structure
     end
@@ -3423,11 +3457,26 @@ module Aws::BedrockAgentCoreControl
     #   The client ID for the custom OAuth2 provider.
     #   @return [String]
     #
+    # @!attribute [rw] private_endpoint
+    #   The default private endpoint for the custom OAuth2 provider,
+    #   enabling secure connectivity through a VPC Lattice resource
+    #   configuration.
+    #   @return [Types::PrivateEndpoint]
+    #
+    # @!attribute [rw] private_endpoint_overrides
+    #   The list of private endpoint overrides for the custom OAuth2
+    #   provider. Each override maps a specific domain to a private
+    #   endpoint, enabling secure connectivity through VPC Lattice resource
+    #   configurations.
+    #   @return [Array<Types::PrivateEndpointOverride>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CustomOauth2ProviderConfigOutput AWS API Documentation
     #
     class CustomOauth2ProviderConfigOutput < Struct.new(
       :oauth_discovery,
-      :client_id)
+      :client_id,
+      :private_endpoint,
+      :private_endpoint_overrides)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6007,6 +6056,15 @@ module Aws::BedrockAgentCoreControl
     #   The timestamp when the OAuth2 credential provider was last updated.
     #   @return [Time]
     #
+    # @!attribute [rw] status
+    #   The current status of the OAuth2 credential provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_reason
+    #   The reason for the failure if the OAuth2 credential provider is in a
+    #   failed state.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetOauth2CredentialProviderResponse AWS API Documentation
     #
     class GetOauth2CredentialProviderResponse < Struct.new(
@@ -6017,7 +6075,9 @@ module Aws::BedrockAgentCoreControl
       :callback_url,
       :oauth2_provider_config_output,
       :created_time,
-      :last_updated_time)
+      :last_updated_time,
+      :status,
+      :failure_reason)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8972,6 +9032,31 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # Details of a resource created and managed by the gateway for private
+    # endpoint connectivity.
+    #
+    # @!attribute [rw] domain
+    #   The domain associated with this managed resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_gateway_arn
+    #   The ARN of the VPC Lattice resource gateway created in your account.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_association_arn
+    #   The ARN of the service network resource association.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ManagedResourceDetails AWS API Documentation
+    #
+    class ManagedResourceDetails < Struct.new(
+      :domain,
+      :resource_gateway_arn,
+      :resource_association_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Configuration for a managed VPC Lattice resource. The gateway creates
     # and manages the VPC Lattice resource gateway and resource
     # configuration on your behalf using a service-linked role.
@@ -9005,40 +9090,15 @@ module Aws::BedrockAgentCoreControl
     #   uses a domain that is not publicly resolvable.
     #   @return [String]
     #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ManagedLatticeResource AWS API Documentation
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ManagedVpcResource AWS API Documentation
     #
-    class ManagedLatticeResource < Struct.new(
+    class ManagedVpcResource < Struct.new(
       :vpc_identifier,
       :subnet_ids,
       :endpoint_ip_address_type,
       :security_group_ids,
       :tags,
       :routing_domain)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # Details of a resource created and managed by the gateway for private
-    # endpoint connectivity.
-    #
-    # @!attribute [rw] domain
-    #   The domain associated with this managed resource.
-    #   @return [String]
-    #
-    # @!attribute [rw] resource_gateway_arn
-    #   The ARN of the VPC Lattice resource gateway created in your account.
-    #   @return [String]
-    #
-    # @!attribute [rw] resource_association_arn
-    #   The ARN of the service network resource association.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ManagedResourceDetails AWS API Documentation
-    #
-    class ManagedResourceDetails < Struct.new(
-      :domain,
-      :resource_gateway_arn,
-      :resource_association_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10532,25 +10592,45 @@ module Aws::BedrockAgentCoreControl
     #   self-managed VPC Lattice resource configuration.
     #   @return [Types::SelfManagedLatticeResource]
     #
-    # @!attribute [rw] managed_lattice_resource
+    # @!attribute [rw] managed_vpc_resource
     #   Configuration for connecting to a private resource using a managed
     #   VPC Lattice resource. The gateway creates and manages the VPC
     #   Lattice resources on your behalf.
-    #   @return [Types::ManagedLatticeResource]
+    #   @return [Types::ManagedVpcResource]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PrivateEndpoint AWS API Documentation
     #
     class PrivateEndpoint < Struct.new(
       :self_managed_lattice_resource,
-      :managed_lattice_resource,
+      :managed_vpc_resource,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
       class SelfManagedLatticeResource < PrivateEndpoint; end
-      class ManagedLatticeResource < PrivateEndpoint; end
+      class ManagedVpcResource < PrivateEndpoint; end
       class Unknown < PrivateEndpoint; end
+    end
+
+    # A mapping of a specific domain to a private endpoint for secure
+    # connectivity through a VPC Lattice resource configuration.
+    #
+    # @!attribute [rw] domain
+    #   The domain to override with a private endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] private_endpoint
+    #   The private endpoint configuration for the specified domain.
+    #   @return [Types::PrivateEndpoint]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PrivateEndpointOverride AWS API Documentation
+    #
+    class PrivateEndpointOverride < Struct.new(
+      :domain,
+      :private_endpoint)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # The protocol configuration for an agent runtime. This structure
@@ -13279,6 +13359,10 @@ module Aws::BedrockAgentCoreControl
     #   The timestamp when the OAuth2 credential provider was last updated.
     #   @return [Time]
     #
+    # @!attribute [rw] status
+    #   The current status of the OAuth2 credential provider.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateOauth2CredentialProviderResponse AWS API Documentation
     #
     class UpdateOauth2CredentialProviderResponse < Struct.new(
@@ -13289,7 +13373,8 @@ module Aws::BedrockAgentCoreControl
       :callback_url,
       :oauth2_provider_config_output,
       :created_time,
-      :last_updated_time)
+      :last_updated_time,
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -683,6 +683,22 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # Information about an allowed file extension.
+    #
+    # @!attribute [rw] extension
+    #   The file extension. The extension must be between 1 and 10
+    #   characters and can contain only alphanumeric characters, hyphens,
+    #   and underscores.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/AllowedExtension AWS API Documentation
+    #
+    class AllowedExtension < Struct.new(
+      :extension)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # This API is in preview release for Amazon Connect and is subject to
     # change.
     #
@@ -1769,6 +1785,72 @@ module Aws::Connect
       :error_code,
       :error_message,
       :file_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for attached files for a specific attachment scope.
+    #
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] attachment_scope
+    #   The scope of the attachment. Valid values are `EMAIL`, `CHAT`,
+    #   `CASE`, and `TASK`.
+    #   @return [String]
+    #
+    # @!attribute [rw] maximum_size_limit_in_bytes
+    #   The maximum size limit for attached files in bytes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] extension_configuration
+    #   The configuration for allowed file extensions.
+    #   @return [Types::ExtensionConfiguration]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The timestamp when the configuration was last modified.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/AttachedFilesConfiguration AWS API Documentation
+    #
+    class AttachedFilesConfiguration < Struct.new(
+      :instance_id,
+      :attachment_scope,
+      :maximum_size_limit_in_bytes,
+      :extension_configuration,
+      :last_modified_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of the attached files configuration.
+    #
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] attachment_scope
+    #   The scope of the attachment. Valid values are `EMAIL`, `CHAT`,
+    #   `CASE`, and `TASK`.
+    #   @return [String]
+    #
+    # @!attribute [rw] maximum_size_limit_in_bytes
+    #   The maximum size limit for attached files in bytes. The minimum
+    #   value is 1 and the maximum value is 104857600 (100 MB).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] extension_configuration
+    #   The configuration for allowed file extensions.
+    #   @return [Types::ExtensionConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/AttachedFilesConfigurationSummary AWS API Documentation
+    #
+    class AttachedFilesConfigurationSummary < Struct.new(
+      :instance_id,
+      :attachment_scope,
+      :maximum_size_limit_in_bytes,
+      :extension_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9697,6 +9779,41 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] attachment_scope
+    #   The scope of the attachment. Valid values are `EMAIL`, `CHAT`,
+    #   `CASE`, and `TASK`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeAttachedFilesConfigurationRequest AWS API Documentation
+    #
+    class DescribeAttachedFilesConfigurationRequest < Struct.new(
+      :instance_id,
+      :attachment_scope)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] attached_files_configuration
+    #   Information about the attached files configuration.
+    #   @return [Types::AttachedFilesConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeAttachedFilesConfigurationResponse AWS API Documentation
+    #
+    class DescribeAttachedFilesConfigurationResponse < Struct.new(
+      :attached_files_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] authentication_profile_id
     #   A unique identifier for the authentication profile.
     #   @return [String]
@@ -14336,6 +14453,20 @@ module Aws::Connect
       :and_expression,
       :or_expression,
       :not_attribute_condition)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for allowed file extensions.
+    #
+    # @!attribute [rw] allowed_extensions
+    #   The list of allowed file extensions.
+    #   @return [Array<Types::AllowedExtension>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ExtensionConfiguration AWS API Documentation
+    #
+    class ExtensionConfiguration < Struct.new(
+      :allowed_extensions)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -20207,6 +20338,54 @@ module Aws::Connect
     #
     class ListAssociatedContactsResponse < Struct.new(
       :contact_summary_list,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page. The default
+    #   MaxResult size is 100.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListAttachedFilesConfigurationsRequest AWS API Documentation
+    #
+    class ListAttachedFilesConfigurationsRequest < Struct.new(
+      :instance_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] attached_files_configurations
+    #   Information about the attached files configurations.
+    #   @return [Array<Types::AttachedFilesConfigurationSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If there are additional results, this is the token for the next set
+    #   of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListAttachedFilesConfigurationsResponse AWS API Documentation
+    #
+    class ListAttachedFilesConfigurationsResponse < Struct.new(
+      :attached_files_configurations,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -33770,6 +33949,72 @@ module Aws::Connect
       :state,
       :display_order,
       :reset_order_number)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] attachment_scope
+    #   The scope of the attachment. Valid values are `EMAIL`, `CHAT`,
+    #   `CASE`, and `TASK`.
+    #   @return [String]
+    #
+    # @!attribute [rw] maximum_size_limit_in_bytes
+    #   The maximum size limit for attached files in bytes. The minimum
+    #   value is 1 and the maximum value is 104857600 (100 MB).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] extension_configuration
+    #   The configuration for allowed file extensions.
+    #   @return [Types::ExtensionConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateAttachedFilesConfigurationRequest AWS API Documentation
+    #
+    class UpdateAttachedFilesConfigurationRequest < Struct.new(
+      :instance_id,
+      :attachment_scope,
+      :maximum_size_limit_in_bytes,
+      :extension_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Amazon Connect instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] attachment_scope
+    #   The scope of the attachment.
+    #   @return [String]
+    #
+    # @!attribute [rw] maximum_size_limit_in_bytes
+    #   The maximum size limit for attached files in bytes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] extension_configuration
+    #   The configuration for allowed file extensions.
+    #   @return [Types::ExtensionConfiguration]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The timestamp when the configuration was last modified.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateAttachedFilesConfigurationResponse AWS API Documentation
+    #
+    class UpdateAttachedFilesConfigurationResponse < Struct.new(
+      :instance_id,
+      :attachment_scope,
+      :maximum_size_limit_in_bytes,
+      :extension_configuration,
+      :last_modified_time)
       SENSITIVE = []
       include Aws::Structure
     end

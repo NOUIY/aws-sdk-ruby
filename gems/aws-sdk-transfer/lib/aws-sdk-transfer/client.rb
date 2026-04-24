@@ -1697,6 +1697,7 @@ module Aws::Transfer
     #         subnet_ids: ["SubnetId"],
     #         vpc_id: "VpcId",
     #         security_group_ids: ["SecurityGroupId"],
+    #         ip_address_type: "IPV4", # accepts IPV4, DUALSTACK
     #       },
     #     },
     #   })
@@ -5693,6 +5694,7 @@ module Aws::Transfer
     #     endpoint_details: {
     #       vpc: {
     #         subnet_ids: ["SubnetId"],
+    #         ip_address_type: "IPV4", # accepts IPV4, DUALSTACK
     #       },
     #     },
     #   })
@@ -5769,7 +5771,7 @@ module Aws::Transfer
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-transfer'
-      context[:gem_version] = '1.135.0'
+      context[:gem_version] = '1.136.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

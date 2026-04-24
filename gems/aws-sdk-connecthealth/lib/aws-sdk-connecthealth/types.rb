@@ -264,7 +264,7 @@ module Aws::ConnectHealth
       include Aws::Structure
     end
 
-    # Input configuration for creating a Pulse web application. Used only in
+    # Input configuration for creating a web application. Used only in
     # CreateDomain operation input.
     #
     # @!attribute [rw] ehr_role

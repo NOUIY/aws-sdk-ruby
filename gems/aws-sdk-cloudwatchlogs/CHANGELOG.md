@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.146.0 (2026-04-24)
+------------------
+
+* Feature - Adding nextToken and maxItems to the GetQueryResults API.
+
 1.145.0 (2026-04-16)
 ------------------
 

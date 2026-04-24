@@ -279,6 +279,8 @@ module Aws::CloudWatchLogs
     GetLogRecordResponse = Shapes::StructureShape.new(name: 'GetLogRecordResponse')
     GetLookupTableRequest = Shapes::StructureShape.new(name: 'GetLookupTableRequest')
     GetLookupTableResponse = Shapes::StructureShape.new(name: 'GetLookupTableResponse')
+    GetQueryResultsMaxItems = Shapes::IntegerShape.new(name: 'GetQueryResultsMaxItems')
+    GetQueryResultsNextToken = Shapes::StringShape.new(name: 'GetQueryResultsNextToken')
     GetQueryResultsRequest = Shapes::StructureShape.new(name: 'GetQueryResultsRequest')
     GetQueryResultsResponse = Shapes::StructureShape.new(name: 'GetQueryResultsResponse')
     GetScheduledQueryHistoryMaxResults = Shapes::IntegerShape.new(name: 'GetScheduledQueryHistoryMaxResults')
@@ -1463,6 +1465,8 @@ module Aws::CloudWatchLogs
     GetLookupTableResponse.struct_class = Types::GetLookupTableResponse
 
     GetQueryResultsRequest.add_member(:query_id, Shapes::ShapeRef.new(shape: QueryId, required: true, location_name: "queryId"))
+    GetQueryResultsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: GetQueryResultsNextToken, location_name: "nextToken"))
+    GetQueryResultsRequest.add_member(:max_items, Shapes::ShapeRef.new(shape: GetQueryResultsMaxItems, location_name: "maxItems"))
     GetQueryResultsRequest.struct_class = Types::GetQueryResultsRequest
 
     GetQueryResultsResponse.add_member(:query_language, Shapes::ShapeRef.new(shape: QueryLanguage, location_name: "queryLanguage"))
@@ -1470,6 +1474,7 @@ module Aws::CloudWatchLogs
     GetQueryResultsResponse.add_member(:statistics, Shapes::ShapeRef.new(shape: QueryStatistics, location_name: "statistics"))
     GetQueryResultsResponse.add_member(:status, Shapes::ShapeRef.new(shape: QueryStatus, location_name: "status"))
     GetQueryResultsResponse.add_member(:encryption_key, Shapes::ShapeRef.new(shape: EncryptionKey, location_name: "encryptionKey"))
+    GetQueryResultsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: GetQueryResultsNextToken, location_name: "nextToken"))
     GetQueryResultsResponse.struct_class = Types::GetQueryResultsResponse
 
     GetScheduledQueryHistoryRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: ScheduledQueryIdentifier, required: true, location_name: "identifier"))

@@ -2153,6 +2153,17 @@ module Aws
                                  ) -> _DescribeAgentStatusResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeAgentStatusResponseSuccess
 
+      interface _DescribeAttachedFilesConfigurationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeAttachedFilesConfigurationResponse]
+        def attached_files_configuration: () -> Types::AttachedFilesConfiguration
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#describe_attached_files_configuration-instance_method
+      def describe_attached_files_configuration: (
+                                                   instance_id: ::String,
+                                                   attachment_scope: ("EMAIL" | "CHAT" | "CASE" | "TASK")
+                                                 ) -> _DescribeAttachedFilesConfigurationResponseSuccess
+                                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeAttachedFilesConfigurationResponseSuccess
+
       interface _DescribeAuthenticationProfileResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeAuthenticationProfileResponse]
         def authentication_profile: () -> Types::AuthenticationProfile
@@ -3144,6 +3155,19 @@ module Aws
                                       ?next_token: ::String
                                     ) -> _ListAssociatedContactsResponseSuccess
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAssociatedContactsResponseSuccess
+
+      interface _ListAttachedFilesConfigurationsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAttachedFilesConfigurationsResponse]
+        def attached_files_configurations: () -> ::Array[Types::AttachedFilesConfigurationSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#list_attached_files_configurations-instance_method
+      def list_attached_files_configurations: (
+                                                instance_id: ::String,
+                                                ?max_results: ::Integer,
+                                                ?next_token: ::String
+                                              ) -> _ListAttachedFilesConfigurationsResponseSuccess
+                                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAttachedFilesConfigurationsResponseSuccess
 
       interface _ListAuthenticationProfilesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListAuthenticationProfilesResponse]
@@ -6213,6 +6237,29 @@ module Aws
                                  ?reset_order_number: bool
                                ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
+      interface _UpdateAttachedFilesConfigurationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateAttachedFilesConfigurationResponse]
+        def instance_id: () -> ::String
+        def attachment_scope: () -> ("EMAIL" | "CHAT" | "CASE" | "TASK")
+        def maximum_size_limit_in_bytes: () -> ::Integer
+        def extension_configuration: () -> Types::ExtensionConfiguration
+        def last_modified_time: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#update_attached_files_configuration-instance_method
+      def update_attached_files_configuration: (
+                                                 instance_id: ::String,
+                                                 attachment_scope: ("EMAIL" | "CHAT" | "CASE" | "TASK"),
+                                                 ?maximum_size_limit_in_bytes: ::Integer,
+                                                 ?extension_configuration: {
+                                                   allowed_extensions: Array[
+                                                     {
+                                                       extension: ::String
+                                                     },
+                                                   ]
+                                                 }
+                                               ) -> _UpdateAttachedFilesConfigurationResponseSuccess
+                                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateAttachedFilesConfigurationResponseSuccess
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#update_authentication_profile-instance_method
       def update_authentication_profile: (

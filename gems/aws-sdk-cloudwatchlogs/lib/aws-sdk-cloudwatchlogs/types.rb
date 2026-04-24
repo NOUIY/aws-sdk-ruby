@@ -4179,10 +4179,22 @@ module Aws::CloudWatchLogs
     #   The ID number of the query.
     #   @return [String]
     #
+    # @!attribute [rw] next_token
+    #   The token for the next set of items to return. The token expires
+    #   after 1 hour.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_items
+    #   The maximum number of log events to return in the response. The
+    #   maximum is 10,000 log events.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetQueryResultsRequest AWS API Documentation
     #
     class GetQueryResultsRequest < Struct.new(
-      :query_id)
+      :query_id,
+      :next_token,
+      :max_items)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4234,6 +4246,12 @@ module Aws::CloudWatchLogs
     #   [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html
     #   @return [String]
     #
+    # @!attribute [rw] next_token
+    #   If there are more log events remaining in the results, the response
+    #   includes a `nextToken`. You can use this token in a subsequent
+    #   `GetQueryResults` request to get the next set of results.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetQueryResultsResponse AWS API Documentation
     #
     class GetQueryResultsResponse < Struct.new(
@@ -4241,7 +4259,8 @@ module Aws::CloudWatchLogs
       :results,
       :statistics,
       :status,
-      :encryption_key)
+      :encryption_key,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end

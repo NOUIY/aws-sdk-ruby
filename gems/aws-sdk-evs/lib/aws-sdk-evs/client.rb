@@ -741,14 +741,21 @@ module Aws::Evs
     # @option params [required, Array<Types::LicenseInfo>] :license_info
     #   The license information that Amazon EVS requires to create an
     #   environment. Amazon EVS requires two license keys: a VCF solution key
-    #   and a vSAN license key. The VCF solution key must cover a minimum of
-    #   256 cores. The vSAN license key must provide at least 110 TiB of vSAN
-    #   capacity.
+    #   and a vSAN license key. The VCF solution key must meet minimum core
+    #   requirements, and the vSAN license key must meet minimum capacity
+    #   requirements for your selected instance type.
+    #
+    #   For information about minimum license requirements, see [the VCF
+    #   subscriptions section][1] in the *Amazon EVS User Guide*.
     #
     #   VCF licenses can be used for only one Amazon EVS environment. Amazon
     #   EVS does not support reuse of VCF licenses for multiple environments.
     #
     #   VCF license information can be retrieved from the Broadcom portal.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/evs/latest/userguide/vcf-license-mgmt.html
     #
     # @option params [required, Types::InitialVlans] :initial_vlans
     #   The initial VLAN subnets for the Amazon EVS environment.
@@ -853,7 +860,7 @@ module Aws::Evs
     #       {
     #         host_name: "HostName", # required
     #         key_name: "KeyName", # required
-    #         instance_type: "i4i.metal", # required, accepts i4i.metal
+    #         instance_type: "i4i.metal", # required, accepts i4i.metal, i7i.metal-24xl
     #         placement_group_id: "PlacementGroupId",
     #         dedicated_host_id: "DedicatedHostId",
     #       },
@@ -1064,7 +1071,7 @@ module Aws::Evs
     #     host: { # required
     #       host_name: "HostName", # required
     #       key_name: "KeyName", # required
-    #       instance_type: "i4i.metal", # required, accepts i4i.metal
+    #       instance_type: "i4i.metal", # required, accepts i4i.metal, i7i.metal-24xl
     #       placement_group_id: "PlacementGroupId",
     #       dedicated_host_id: "DedicatedHostId",
     #     },
@@ -1084,7 +1091,7 @@ module Aws::Evs
     #   resp.host.host_name #=> String
     #   resp.host.ip_address #=> String
     #   resp.host.key_name #=> String
-    #   resp.host.instance_type #=> String, one of "i4i.metal"
+    #   resp.host.instance_type #=> String, one of "i4i.metal", "i7i.metal-24xl"
     #   resp.host.placement_group_id #=> String
     #   resp.host.dedicated_host_id #=> String
     #   resp.host.created_at #=> Time
@@ -1393,7 +1400,7 @@ module Aws::Evs
     #   resp.host.host_name #=> String
     #   resp.host.ip_address #=> String
     #   resp.host.key_name #=> String
-    #   resp.host.instance_type #=> String, one of "i4i.metal"
+    #   resp.host.instance_type #=> String, one of "i4i.metal", "i7i.metal-24xl"
     #   resp.host.placement_group_id #=> String
     #   resp.host.dedicated_host_id #=> String
     #   resp.host.created_at #=> Time
@@ -1561,9 +1568,9 @@ module Aws::Evs
     #   resp.vcf_versions[0].status #=> String
     #   resp.vcf_versions[0].default_esx_version #=> String
     #   resp.vcf_versions[0].instance_types #=> Array
-    #   resp.vcf_versions[0].instance_types[0] #=> String, one of "i4i.metal"
+    #   resp.vcf_versions[0].instance_types[0] #=> String, one of "i4i.metal", "i7i.metal-24xl"
     #   resp.instance_type_esx_versions #=> Array
-    #   resp.instance_type_esx_versions[0].instance_type #=> String, one of "i4i.metal"
+    #   resp.instance_type_esx_versions[0].instance_type #=> String, one of "i4i.metal", "i7i.metal-24xl"
     #   resp.instance_type_esx_versions[0].esx_versions #=> Array
     #   resp.instance_type_esx_versions[0].esx_versions[0] #=> String
     #
@@ -1677,7 +1684,7 @@ module Aws::Evs
     #   resp.environment_hosts[0].host_name #=> String
     #   resp.environment_hosts[0].ip_address #=> String
     #   resp.environment_hosts[0].key_name #=> String
-    #   resp.environment_hosts[0].instance_type #=> String, one of "i4i.metal"
+    #   resp.environment_hosts[0].instance_type #=> String, one of "i4i.metal", "i7i.metal-24xl"
     #   resp.environment_hosts[0].placement_group_id #=> String
     #   resp.environment_hosts[0].dedicated_host_id #=> String
     #   resp.environment_hosts[0].created_at #=> Time
@@ -2072,7 +2079,7 @@ module Aws::Evs
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-evs'
-      context[:gem_version] = '1.15.0'
+      context[:gem_version] = '1.16.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -873,10 +873,13 @@ module Aws
         def statistics: () -> Types::QueryStatistics
         def status: () -> ("Scheduled" | "Running" | "Complete" | "Failed" | "Cancelled" | "Timeout" | "Unknown")
         def encryption_key: () -> ::String
+        def next_token: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatchLogs/Client.html#get_query_results-instance_method
       def get_query_results: (
-                               query_id: ::String
+                               query_id: ::String,
+                               ?next_token: ::String,
+                               ?max_items: ::Integer
                              ) -> _GetQueryResultsResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetQueryResultsResponseSuccess
 

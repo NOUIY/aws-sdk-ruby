@@ -503,15 +503,22 @@ module Aws::Evs
     # @!attribute [rw] license_info
     #   The license information that Amazon EVS requires to create an
     #   environment. Amazon EVS requires two license keys: a VCF solution
-    #   key and a vSAN license key. The VCF solution key must cover a
-    #   minimum of 256 cores. The vSAN license key must provide at least 110
-    #   TiB of vSAN capacity.
+    #   key and a vSAN license key. The VCF solution key must meet minimum
+    #   core requirements, and the vSAN license key must meet minimum
+    #   capacity requirements for your selected instance type.
+    #
+    #   For information about minimum license requirements, see [the VCF
+    #   subscriptions section][1] in the *Amazon EVS User Guide*.
     #
     #   VCF licenses can be used for only one Amazon EVS environment. Amazon
     #   EVS does not support reuse of VCF licenses for multiple
     #   environments.
     #
     #   VCF license information can be retrieved from the Broadcom portal.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/evs/latest/userguide/vcf-license-mgmt.html
     #   @return [Array<Types::LicenseInfo>]
     #
     # @!attribute [rw] initial_vlans
@@ -930,9 +937,16 @@ module Aws::Evs
     # @!attribute [rw] license_info
     #   The license information that Amazon EVS requires to create an
     #   environment. Amazon EVS requires two license keys: a VCF solution
-    #   key and a vSAN license key. The VCF solution key must cover a
-    #   minimum of 256 cores. The vSAN license key must provide at least 110
-    #   TiB of vSAN capacity.
+    #   key and a vSAN license key. The VCF solution key must meet minimum
+    #   core requirements, and the vSAN license key must meet minimum
+    #   capacity requirements for your selected instance type.
+    #
+    #   For information about minimum license requirements, see [the VCF
+    #   subscriptions section][1] in the *Amazon EVS User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/evs/latest/userguide/vcf-license-mgmt.html
     #   @return [Array<Types::LicenseInfo>]
     #
     # @!attribute [rw] site_id
@@ -1161,10 +1175,6 @@ module Aws::Evs
     # @!attribute [rw] instance_type
     #   The EC2 instance type of the host.
     #
-    #   <note markdown="1"> Currently, Amazon EVS supports only the `i4i.metal` instance type.
-    #
-    #    </note>
-    #
     #   <note markdown="1"> EC2 instances created through Amazon EVS do not support associating
     #   an IAM instance profile.
     #
@@ -1241,10 +1251,6 @@ module Aws::Evs
     #
     # @!attribute [rw] instance_type
     #   The EC2 instance type that represents the host.
-    #
-    #   <note markdown="1"> Currently, Amazon EVS supports only the `i4i.metal` instance type.
-    #
-    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] placement_group_id
@@ -1440,12 +1446,14 @@ module Aws::Evs
     # @!attribute [rw] solution_key
     #   The VCF solution key. This license unlocks VMware VCF product
     #   features, including vSphere, NSX, SDDC Manager, and vCenter Server.
-    #   The VCF solution key must cover a minimum of 256 cores.
+    #   The VCF solution key must meet the instance-type-specific minimum
+    #   core requirements.
     #   @return [String]
     #
     # @!attribute [rw] vsan_key
     #   The VSAN license key. This license unlocks vSAN features. The vSAN
-    #   license key must provide at least 110 TiB of vSAN capacity.
+    #   license key must meet the instance-type-specific minimum capacity
+    #   requirements.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/LicenseInfo AWS API Documentation
