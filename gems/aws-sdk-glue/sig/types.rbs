@@ -3551,6 +3551,7 @@ module Aws::Glue
       attr_accessor database_name: ::String
       attr_accessor table_name: ::String
       attr_accessor partition_values: ::Array[::String]
+      attr_accessor audit_context: Types::AuditContext
       SENSITIVE: []
     end
 
@@ -3570,6 +3571,7 @@ module Aws::Glue
       attr_accessor exclude_column_schema: bool
       attr_accessor transaction_id: ::String
       attr_accessor query_as_of_time: ::Time
+      attr_accessor audit_context: Types::AuditContext
       SENSITIVE: []
     end
 
@@ -3785,6 +3787,7 @@ module Aws::Glue
       attr_accessor database_name: ::String
       attr_accessor table_name: ::String
       attr_accessor version_id: ::String
+      attr_accessor audit_context: Types::AuditContext
       SENSITIVE: []
     end
 
@@ -3799,6 +3802,7 @@ module Aws::Glue
       attr_accessor table_name: ::String
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
+      attr_accessor audit_context: Types::AuditContext
       SENSITIVE: []
     end
 

@@ -472,6 +472,58 @@ module Aws::ApplicationSignals
       include Aws::Structure
     end
 
+    # Identifies a single operation to include in a composite SLI for a
+    # service-level SLO. Used as an element of the `Components` list in
+    # `CompositeSliConfig`.
+    #
+    # @note CompositeSliComponent is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note CompositeSliComponent is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of CompositeSliComponent corresponding to the set member.
+    #
+    # @!attribute [rw] operation_name
+    #   The name of the operation to include in the composite SLI.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/CompositeSliComponent AWS API Documentation
+    #
+    class CompositeSliComponent < Struct.new(
+      :operation_name,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class OperationName < CompositeSliComponent; end
+      class Unknown < CompositeSliComponent; end
+    end
+
+    # This structure contains the configuration for a composite service
+    # level indicator (SLI) that aggregates metrics across multiple
+    # operations of a service for service-level SLOs.
+    #
+    # @!attribute [rw] selection_config
+    #   Specifies how operations are selected for this service-level SLO.
+    #   Operations can be selected explicitly by listing them, by specifying
+    #   a prefix to match operation names, or by providing a regular
+    #   expression pattern.
+    #   @return [Types::SelectionConfig]
+    #
+    # @!attribute [rw] components
+    #   The list of operations included in this composite SLI. You must
+    #   specify between 2 and 20 components. Each component is a
+    #   `CompositeSliComponent` that identifies a single operation by its
+    #   `OperationName`.
+    #   @return [Array<Types::CompositeSliComponent>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/CompositeSliConfig AWS API Documentation
+    #
+    class CompositeSliConfig < Struct.new(
+      :selection_config,
+      :components)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # This operation attempted to create a resource that already exists.
     #
     # @!attribute [rw] message
@@ -542,6 +594,11 @@ module Aws::ApplicationSignals
     #   dependency.
     #   @return [Boolean]
     #
+    # @!attribute [rw] auto_investigation_enabled
+    #   Indicates whether DevOps Agent will automatically investigate this
+    #   SLO when it is breached
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/CreateServiceLevelObjectiveInput AWS API Documentation
     #
     class CreateServiceLevelObjectiveInput < Struct.new(
@@ -552,7 +609,8 @@ module Aws::ApplicationSignals
       :goal,
       :tags,
       :burn_rate_configurations,
-      :create_recommended_slo)
+      :create_recommended_slo,
+      :auto_investigation_enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2548,6 +2606,11 @@ module Aws::ApplicationSignals
     #   Application Signals services.
     #   @return [Types::MetricSource]
     #
+    # @!attribute [rw] composite_sli_config
+    #   The composite SLI configuration for service-level SLOs that monitor
+    #   multiple operations of a service.
+    #   @return [Types::CompositeSliConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/RequestBasedServiceLevelIndicatorMetric AWS API Documentation
     #
     class RequestBasedServiceLevelIndicatorMetric < Struct.new(
@@ -2557,7 +2620,8 @@ module Aws::ApplicationSignals
       :total_request_count_metric,
       :monitored_request_count_metric,
       :dependency_config,
-      :metric_source)
+      :metric_source,
+      :composite_sli_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2633,6 +2697,11 @@ module Aws::ApplicationSignals
     #   Signals services.
     #   @return [String]
     #
+    # @!attribute [rw] composite_sli_config
+    #   The composite SLI configuration for service-level SLOs that monitor
+    #   multiple operations of a service.
+    #   @return [Types::CompositeSliConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/RequestBasedServiceLevelIndicatorMetricConfig AWS API Documentation
     #
     class RequestBasedServiceLevelIndicatorMetricConfig < Struct.new(
@@ -2643,7 +2712,8 @@ module Aws::ApplicationSignals
       :monitored_request_count_metric,
       :dependency_config,
       :metric_source,
-      :metric_name)
+      :metric_name,
+      :composite_sli_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2689,6 +2759,41 @@ module Aws::ApplicationSignals
     class RollingInterval < Struct.new(
       :duration_unit,
       :duration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines how operations are selected for a service-level SLO.
+    #
+    # @!attribute [rw] type
+    #   The strategy for selecting operations to include in a service-level
+    #   SLO.
+    #
+    #   * `EXPLICIT` — You provide a specific list of operations in the
+    #     `Components` field of `CompositeSliConfig`.
+    #
+    #   * `PREFIX` — You provide a prefix string in the `Pattern` field of
+    #     `SelectionConfig`, and all operations whose names start with the
+    #     prefix are included.
+    #
+    #   * `REGEX` — You provide a regular expression in the `Pattern` field
+    #     of `SelectionConfig`, and all operations whose names match the
+    #     pattern are included.
+    #   @return [String]
+    #
+    # @!attribute [rw] pattern
+    #   A prefix string or regular expression that specifies which
+    #   operations to include in a service-level SLO. When `SelectionType`
+    #   is `PREFIX`, this value is a prefix string that matches the
+    #   beginning of operation names. When `SelectionType` is `REGEX`, this
+    #   value is a regular expression that matches operation names.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/SelectionConfig AWS API Documentation
+    #
+    class SelectionConfig < Struct.new(
+      :type,
+      :pattern)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3084,6 +3189,11 @@ module Aws::ApplicationSignals
     #   Application Signals services.
     #   @return [Types::MetricSource]
     #
+    # @!attribute [rw] composite_sli_config
+    #   The composite SLI configuration for service-level SLOs that monitor
+    #   multiple operations of a service.
+    #   @return [Types::CompositeSliConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/ServiceLevelIndicatorMetric AWS API Documentation
     #
     class ServiceLevelIndicatorMetric < Struct.new(
@@ -3092,7 +3202,8 @@ module Aws::ApplicationSignals
       :metric_type,
       :metric_data_queries,
       :dependency_config,
-      :metric_source)
+      :metric_source,
+      :composite_sli_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3175,6 +3286,11 @@ module Aws::ApplicationSignals
     #   `DependencyOperationName`.
     #   @return [Types::DependencyConfig]
     #
+    # @!attribute [rw] composite_sli_config
+    #   The composite SLI configuration for service-level SLOs that monitor
+    #   multiple operations of a service.
+    #   @return [Types::CompositeSliConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/ServiceLevelIndicatorMetricConfig AWS API Documentation
     #
     class ServiceLevelIndicatorMetricConfig < Struct.new(
@@ -3186,7 +3302,8 @@ module Aws::ApplicationSignals
       :period_seconds,
       :metric_source,
       :metric_data_queries,
-      :dependency_config)
+      :dependency_config,
+      :composite_sli_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3268,6 +3385,11 @@ module Aws::ApplicationSignals
     #   * Canary
     #   @return [String]
     #
+    # @!attribute [rw] auto_investigation_enabled
+    #   Indicates whether DevOps Agent will automatically investigate this
+    #   SLO when it is breached
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/ServiceLevelObjective AWS API Documentation
     #
     class ServiceLevelObjective < Struct.new(
@@ -3281,7 +3403,8 @@ module Aws::ApplicationSignals
       :evaluation_type,
       :goal,
       :burn_rate_configurations,
-      :metric_source_type)
+      :metric_source_type,
+      :auto_investigation_enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3537,6 +3660,11 @@ module Aws::ApplicationSignals
     #   Application Signals services.
     #   @return [Types::MetricSource]
     #
+    # @!attribute [rw] composite_sli_config
+    #   The composite SLI configuration for service-level SLOs that monitor
+    #   multiple operations of a service.
+    #   @return [Types::CompositeSliConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/ServiceLevelObjectiveSummary AWS API Documentation
     #
     class ServiceLevelObjectiveSummary < Struct.new(
@@ -3548,7 +3676,8 @@ module Aws::ApplicationSignals
       :created_time,
       :evaluation_type,
       :metric_source_type,
-      :metric_source)
+      :metric_source,
+      :composite_sli_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3889,6 +4018,11 @@ module Aws::ApplicationSignals
     #   error budget, relative to the attainment goal of the SLO.
     #   @return [Array<Types::BurnRateConfiguration>]
     #
+    # @!attribute [rw] auto_investigation_enabled
+    #   Indicates whether DevOps Agent will automatically investigate this
+    #   SLO when it is breached
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/UpdateServiceLevelObjectiveInput AWS API Documentation
     #
     class UpdateServiceLevelObjectiveInput < Struct.new(
@@ -3897,7 +4031,8 @@ module Aws::ApplicationSignals
       :sli_config,
       :request_based_sli_config,
       :goal,
-      :burn_rate_configurations)
+      :burn_rate_configurations,
+      :auto_investigation_enabled)
       SENSITIVE = []
       include Aws::Structure
     end

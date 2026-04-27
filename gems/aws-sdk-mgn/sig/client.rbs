@@ -1424,7 +1424,26 @@ module Aws
                                                         construct_id: ::String,
                                                         construct_type: ::String,
                                                         operation: {
+                                                          merge: {
+                                                            merge_constructs: Array[
+                                                              {
+                                                                segment_id: ::String?,
+                                                                construct_id: ::String?
+                                                              },
+                                                            ]?
+                                                          }?,
+                                                          split: {
+                                                            split_constructs: Array[
+                                                              {
+                                                                cidr_block: ::String?
+                                                              },
+                                                            ]?
+                                                          }?,
+                                                          delete: {
+                                                          }?,
                                                           update: {
+                                                            name: ::String?,
+                                                            excluded: bool?,
                                                             properties: Hash[::String, ::String]?
                                                           }?
                                                         }?

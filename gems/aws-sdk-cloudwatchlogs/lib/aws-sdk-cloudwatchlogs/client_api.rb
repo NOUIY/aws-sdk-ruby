@@ -2271,6 +2271,7 @@ module Aws::CloudWatchLogs
     S3TableIntegrationSource.add_member(:status, Shapes::ShapeRef.new(shape: S3TableIntegrationSourceStatus, location_name: "status"))
     S3TableIntegrationSource.add_member(:status_reason, Shapes::ShapeRef.new(shape: S3TableIntegrationSourceStatusReason, location_name: "statusReason"))
     S3TableIntegrationSource.add_member(:created_time_stamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "createdTimeStamp"))
+    S3TableIntegrationSource.add_member(:parent_source_identifier, Shapes::ShapeRef.new(shape: S3TableIntegrationSourceIdentifier, location_name: "parentSourceIdentifier"))
     S3TableIntegrationSource.struct_class = Types::S3TableIntegrationSource
 
     S3TableIntegrationSources.member = Shapes::ShapeRef.new(shape: S3TableIntegrationSource)

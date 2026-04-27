@@ -385,6 +385,7 @@ module Aws::IVS
 
     CreateAdConfigurationRequest.add_member(:name, Shapes::ShapeRef.new(shape: AdConfigurationName, location_name: "name"))
     CreateAdConfigurationRequest.add_member(:media_tailor_playback_configurations, Shapes::ShapeRef.new(shape: MediaTailorPlaybackConfigurationsList, required: true, location_name: "mediaTailorPlaybackConfigurations"))
+    CreateAdConfigurationRequest.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
     CreateAdConfigurationRequest.struct_class = Types::CreateAdConfigurationRequest
 
     CreateAdConfigurationResponse.add_member(:ad_configuration, Shapes::ShapeRef.new(shape: AdConfiguration, required: true, location_name: "adConfiguration"))

@@ -14252,13 +14252,18 @@ module Aws::Glue
     #   The values that define the partition.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] audit_context
+    #   A structure containing the Lake Formation audit context.
+    #   @return [Types::AuditContext]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetPartitionRequest AWS API Documentation
     #
     class GetPartitionRequest < Struct.new(
       :catalog_id,
       :database_name,
       :table_name,
-      :partition_values)
+      :partition_values,
+      :audit_context)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -14416,6 +14421,10 @@ module Aws::Glue
     #   specified along with `TransactionId`.
     #   @return [Time]
     #
+    # @!attribute [rw] audit_context
+    #   A structure containing the Lake Formation audit context.
+    #   @return [Types::AuditContext]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetPartitionsRequest AWS API Documentation
     #
     class GetPartitionsRequest < Struct.new(
@@ -14428,7 +14437,8 @@ module Aws::Glue
       :max_results,
       :exclude_column_schema,
       :transaction_id,
-      :query_as_of_time)
+      :query_as_of_time,
+      :audit_context)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -15182,13 +15192,18 @@ module Aws::Glue
     #   by 1.
     #   @return [String]
     #
+    # @!attribute [rw] audit_context
+    #   A structure containing the Lake Formation audit context.
+    #   @return [Types::AuditContext]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetTableVersionRequest AWS API Documentation
     #
     class GetTableVersionRequest < Struct.new(
       :catalog_id,
       :database_name,
       :table_name,
-      :version_id)
+      :version_id,
+      :audit_context)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -15228,6 +15243,10 @@ module Aws::Glue
     #   The maximum number of table versions to return in one response.
     #   @return [Integer]
     #
+    # @!attribute [rw] audit_context
+    #   A structure containing the Lake Formation audit context.
+    #   @return [Types::AuditContext]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetTableVersionsRequest AWS API Documentation
     #
     class GetTableVersionsRequest < Struct.new(
@@ -15235,7 +15254,8 @@ module Aws::Glue
       :database_name,
       :table_name,
       :next_token,
-      :max_results)
+      :max_results,
+      :audit_context)
       SENSITIVE = []
       include Aws::Structure
     end

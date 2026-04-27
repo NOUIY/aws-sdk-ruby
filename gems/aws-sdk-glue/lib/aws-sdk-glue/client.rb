@@ -9415,6 +9415,9 @@ module Aws::Glue
     # @option params [required, Array<String>] :partition_values
     #   The values that define the partition.
     #
+    # @option params [Types::AuditContext] :audit_context
+    #   A structure containing the Lake Formation audit context.
+    #
     # @return [Types::GetPartitionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetPartitionResponse#partition #data.partition} => Types::Partition (This method conflicts with a method on Response, call it through the data member)
@@ -9426,6 +9429,11 @@ module Aws::Glue
     #     database_name: "NameString", # required
     #     table_name: "NameString", # required
     #     partition_values: ["ValueString"], # required
+    #     audit_context: {
+    #       additional_audit_context: "AuditContextString",
+    #       requested_columns: ["ColumnNameString"],
+    #       all_columns_requested: false,
+    #     },
     #   })
     #
     # @example Response structure
@@ -9672,6 +9680,9 @@ module Aws::Glue
     #   most recent transaction commit time will be used. Cannot be specified
     #   along with `TransactionId`.
     #
+    # @option params [Types::AuditContext] :audit_context
+    #   A structure containing the Lake Formation audit context.
+    #
     # @return [Types::GetPartitionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetPartitionsResponse#partitions #partitions} => Array&lt;Types::Partition&gt;
@@ -9695,6 +9706,11 @@ module Aws::Glue
     #     exclude_column_schema: false,
     #     transaction_id: "TransactionIdString",
     #     query_as_of_time: Time.now,
+    #     audit_context: {
+    #       additional_audit_context: "AuditContextString",
+    #       requested_columns: ["ColumnNameString"],
+    #       all_columns_requested: false,
+    #     },
     #   })
     #
     # @example Response structure
@@ -10693,6 +10709,9 @@ module Aws::Glue
     #   The ID value of the table version to be retrieved. A `VersionID` is a
     #   string representation of an integer. Each version is incremented by 1.
     #
+    # @option params [Types::AuditContext] :audit_context
+    #   A structure containing the Lake Formation audit context.
+    #
     # @return [Types::GetTableVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetTableVersionResponse#table_version #table_version} => Types::TableVersion
@@ -10704,6 +10723,11 @@ module Aws::Glue
     #     database_name: "NameString", # required
     #     table_name: "NameString", # required
     #     version_id: "VersionString",
+    #     audit_context: {
+    #       additional_audit_context: "AuditContextString",
+    #       requested_columns: ["ColumnNameString"],
+    #       all_columns_requested: false,
+    #     },
     #   })
     #
     # @example Response structure
@@ -10844,6 +10868,9 @@ module Aws::Glue
     # @option params [Integer] :max_results
     #   The maximum number of table versions to return in one response.
     #
+    # @option params [Types::AuditContext] :audit_context
+    #   A structure containing the Lake Formation audit context.
+    #
     # @return [Types::GetTableVersionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetTableVersionsResponse#table_versions #table_versions} => Array&lt;Types::TableVersion&gt;
@@ -10859,6 +10886,11 @@ module Aws::Glue
     #     table_name: "NameString", # required
     #     next_token: "Token",
     #     max_results: 1,
+    #     audit_context: {
+    #       additional_audit_context: "AuditContextString",
+    #       requested_columns: ["ColumnNameString"],
+    #       all_columns_requested: false,
+    #     },
     #   })
     #
     # @example Response structure
@@ -19018,7 +19050,7 @@ module Aws::Glue
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-glue'
-      context[:gem_version] = '1.253.0'
+      context[:gem_version] = '1.254.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

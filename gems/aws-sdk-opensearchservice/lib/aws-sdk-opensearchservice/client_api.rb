@@ -344,6 +344,7 @@ module Aws::OpenSearchService
     Issues = Shapes::ListShape.new(name: 'Issues')
     JWTOptionsInput = Shapes::StructureShape.new(name: 'JWTOptionsInput')
     JWTOptionsOutput = Shapes::StructureShape.new(name: 'JWTOptionsOutput')
+    JwksUrl = Shapes::StringShape.new(name: 'JwksUrl')
     KeyStoreAccessOption = Shapes::StructureShape.new(name: 'KeyStoreAccessOption')
     KmsKeyArn = Shapes::StringShape.new(name: 'KmsKeyArn')
     KmsKeyId = Shapes::StringShape.new(name: 'KmsKeyId')
@@ -1701,12 +1702,14 @@ module Aws::OpenSearchService
     JWTOptionsInput.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "Enabled"))
     JWTOptionsInput.add_member(:subject_key, Shapes::ShapeRef.new(shape: SubjectKey, location_name: "SubjectKey"))
     JWTOptionsInput.add_member(:roles_key, Shapes::ShapeRef.new(shape: RolesKey, location_name: "RolesKey"))
+    JWTOptionsInput.add_member(:jwks_url, Shapes::ShapeRef.new(shape: JwksUrl, location_name: "JwksUrl"))
     JWTOptionsInput.add_member(:public_key, Shapes::ShapeRef.new(shape: String, location_name: "PublicKey"))
     JWTOptionsInput.struct_class = Types::JWTOptionsInput
 
     JWTOptionsOutput.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "Enabled"))
     JWTOptionsOutput.add_member(:subject_key, Shapes::ShapeRef.new(shape: String, location_name: "SubjectKey"))
     JWTOptionsOutput.add_member(:roles_key, Shapes::ShapeRef.new(shape: String, location_name: "RolesKey"))
+    JWTOptionsOutput.add_member(:jwks_url, Shapes::ShapeRef.new(shape: JwksUrl, location_name: "JwksUrl"))
     JWTOptionsOutput.add_member(:public_key, Shapes::ShapeRef.new(shape: String, location_name: "PublicKey"))
     JWTOptionsOutput.struct_class = Types::JWTOptionsOutput
 

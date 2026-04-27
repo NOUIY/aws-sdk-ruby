@@ -2000,6 +2000,7 @@ module Aws::CloudWatchLogs
       attr_accessor status: ("ACTIVE" | "UNHEALTHY" | "FAILED" | "DATA_SOURCE_DELETE_IN_PROGRESS")
       attr_accessor status_reason: ::String
       attr_accessor created_time_stamp: ::Integer
+      attr_accessor parent_source_identifier: ::String
       SENSITIVE: []
     end
 

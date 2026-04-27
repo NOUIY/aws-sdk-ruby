@@ -185,6 +185,7 @@ module Aws::IVS
     class CreateAdConfigurationRequest
       attr_accessor name: ::String
       attr_accessor media_tailor_playback_configurations: ::Array[Types::MediaTailorPlaybackConfiguration]
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 

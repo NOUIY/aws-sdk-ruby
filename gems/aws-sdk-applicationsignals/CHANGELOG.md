@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.40.0 (2026-04-27)
+------------------
+
+* Feature - Application Signals now supports creating composite Service Level Objectives on Service Operations. Users can now create service SLO on multiple operations.
+
 1.39.0 (2026-04-20)
 ------------------
 

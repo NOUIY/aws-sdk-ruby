@@ -371,6 +371,7 @@ module Aws
                                enabled: bool?,
                                subject_key: ::String?,
                                roles_key: ::String?,
+                               jwks_url: ::String?,
                                public_key: ::String?
                              }?,
                              iam_federation_options: {
@@ -1493,6 +1494,7 @@ module Aws
                                       enabled: bool?,
                                       subject_key: ::String?,
                                       roles_key: ::String?,
+                                      jwks_url: ::String?,
                                       public_key: ::String?
                                     }?,
                                     iam_federation_options: {

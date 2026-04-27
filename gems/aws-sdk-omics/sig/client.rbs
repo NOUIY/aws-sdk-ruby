@@ -738,7 +738,7 @@ module Aws
         def arn: () -> ::String
         def uuid: () -> ::String
         def name: () -> ::String
-        def status: () -> ("PENDING" | "SUBMITTING" | "INPROGRESS" | "STOPPING" | "CANCELLED" | "FAILED" | "PROCESSED" | "RUNS_DELETING" | "RUNS_DELETED")
+        def status: () -> ("CREATING" | "PENDING" | "SUBMITTING" | "INPROGRESS" | "STOPPING" | "CANCELLED" | "FAILED" | "PROCESSED" | "RUNS_DELETING" | "RUNS_DELETED")
         def tags: () -> ::Hash[::String, ::String]
         def total_runs: () -> ::Integer
         def default_run_setting: () -> Types::DefaultRunSetting
@@ -1265,7 +1265,7 @@ module Aws
       def list_batch: (
                         ?max_items: ::Integer,
                         ?starting_token: ::String,
-                        ?status: ("PENDING" | "SUBMITTING" | "INPROGRESS" | "STOPPING" | "CANCELLED" | "FAILED" | "PROCESSED" | "RUNS_DELETING" | "RUNS_DELETED"),
+                        ?status: ("CREATING" | "PENDING" | "SUBMITTING" | "INPROGRESS" | "STOPPING" | "CANCELLED" | "FAILED" | "PROCESSED" | "RUNS_DELETING" | "RUNS_DELETED"),
                         ?name: ::String,
                         ?run_group_id: ::String
                       ) -> _ListBatchResponseSuccess
@@ -1818,7 +1818,7 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::StartRunBatchResponse]
         def id: () -> ::String
         def arn: () -> ::String
-        def status: () -> ("PENDING" | "SUBMITTING" | "INPROGRESS" | "STOPPING" | "CANCELLED" | "FAILED" | "PROCESSED" | "RUNS_DELETING" | "RUNS_DELETED")
+        def status: () -> ("CREATING" | "PENDING" | "SUBMITTING" | "INPROGRESS" | "STOPPING" | "CANCELLED" | "FAILED" | "PROCESSED" | "RUNS_DELETING" | "RUNS_DELETED")
         def uuid: () -> ::String
         def tags: () -> ::Hash[::String, ::String]
       end
@@ -1846,7 +1846,9 @@ module Aws
                                storage_type: ("STATIC" | "DYNAMIC")?,
                                workflow_owner_id: ::String?,
                                output_bucket_owner_id: ::String?,
-                               workflow_version_name: ::String?
+                               workflow_version_name: ::String?,
+                               networking_mode: ("RESTRICTED" | "VPC")?,
+                               configuration_name: ::String?
                              },
                              batch_run_settings: {
                                inline_settings: Array[

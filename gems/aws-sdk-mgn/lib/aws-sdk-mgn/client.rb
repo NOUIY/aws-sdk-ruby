@@ -2647,6 +2647,7 @@ module Aws::Mgn
     #   resp.construct.name #=> String
     #   resp.construct.description #=> String
     #   resp.construct.logical_id #=> String
+    #   resp.construct.excluded #=> Boolean
     #   resp.construct.created_at #=> Time
     #   resp.construct.updated_at #=> Time
     #   resp.construct.properties #=> Hash
@@ -3982,6 +3983,7 @@ module Aws::Mgn
     #   resp.items[0].name #=> String
     #   resp.items[0].description #=> String
     #   resp.items[0].logical_id #=> String
+    #   resp.items[0].excluded #=> Boolean
     #   resp.items[0].created_at #=> Time
     #   resp.items[0].updated_at #=> Time
     #   resp.items[0].properties #=> Hash
@@ -5755,7 +5757,26 @@ module Aws::Mgn
     #         construct_id: "ConstructID", # required
     #         construct_type: "NetworkMigrationMapperSegmentConstructType", # required
     #         operation: {
+    #           merge: {
+    #             merge_constructs: [
+    #               {
+    #                 segment_id: "SegmentID",
+    #                 construct_id: "ConstructID",
+    #               },
+    #             ],
+    #           },
+    #           split: {
+    #             split_constructs: [
+    #               {
+    #                 cidr_block: "CidrBlock",
+    #               },
+    #             ],
+    #           },
+    #           delete: {
+    #           },
     #           update: {
+    #             name: "SegmentConstructName",
+    #             excluded: false,
     #             properties: {
     #               "ConstructPropertyKey" => "MarshalledResourceDefinition",
     #             },
@@ -7628,7 +7649,7 @@ module Aws::Mgn
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-mgn'
-      context[:gem_version] = '1.64.0'
+      context[:gem_version] = '1.65.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

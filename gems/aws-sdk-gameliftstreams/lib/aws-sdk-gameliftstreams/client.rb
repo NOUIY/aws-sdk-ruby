@@ -667,6 +667,8 @@ module Aws::GameLiftStreams
     #
     #     * Microsoft Windows Server 2022 Base (`Type=WINDOWS, Version=2022`)
     #
+    #     * Proton 10.0-4 (`Type=PROTON, Version=20260204`)
+    #
     #     * Proton 9.0-2 (`Type=PROTON, Version=20250516`)
     #
     #     * Proton 8.0-5 (`Type=PROTON, Version=20241007`)
@@ -971,6 +973,28 @@ module Aws::GameLiftStreams
     #     * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     #
     #     * Tenancy: Supports up to 12 concurrent stream sessions
+    #   * <b> <code>gen6n_medium_win2022</code> (NVIDIA, medium)</b> Supports
+    #     applications with low 3D scene complexity. Uses NVIDIA L4 Tensor
+    #     Core GPU.
+    #
+    #     * Reference resolution: 1080p
+    #
+    #     * Reference frame rate: 60 fps
+    #
+    #     * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+    #
+    #     * Tenancy: Supports 1 concurrent stream session
+    #   * <b> <code>gen6n_small_win2022</code> (NVIDIA, small)</b> Supports
+    #     applications with low 3D scene complexity. Uses NVIDIA L4 Tensor
+    #     Core GPU.
+    #
+    #     * Reference resolution: 1080p
+    #
+    #     * Reference frame rate: 60 fps
+    #
+    #     * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+    #
+    #     * Tenancy: Supports 1 concurrent stream session
     #   * <b> <code>gen5n_win2022</code> (NVIDIA, ultra)</b> Supports
     #     applications with extremely high 3D scene complexity. Runs
     #     applications on Microsoft Windows Server 2022 Base and supports
@@ -2264,9 +2288,6 @@ module Aws::GameLiftStreams
     #   terminates the stream session. This value is specified by
     #   `ConnectionTimeoutSeconds` in the `StartStreamSession` parameters.
     #
-    # * **Idle timeout**: A stream session will be terminated if no user
-    #   input has been received for 60 minutes.
-    #
     # * **Maximum session length**: A stream session will be terminated
     #   after this amount of time has elapsed since it started, regardless
     #   of any existing client connections. This value is specified by
@@ -2906,7 +2927,7 @@ module Aws::GameLiftStreams
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-gameliftstreams'
-      context[:gem_version] = '1.24.0'
+      context[:gem_version] = '1.25.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

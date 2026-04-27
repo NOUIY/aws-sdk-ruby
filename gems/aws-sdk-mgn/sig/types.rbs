@@ -280,6 +280,9 @@ module Aws::Mgn
     class DeleteNetworkMigrationDefinitionResponse < Aws::EmptyStructure
     end
 
+    class DeleteOperation < Aws::EmptyStructure
+    end
+
     class DeleteReplicationConfigurationTemplateRequest
       attr_accessor replication_configuration_template_id: ::String
       SENSITIVE: []
@@ -1207,6 +1210,17 @@ module Aws::Mgn
       SENSITIVE: []
     end
 
+    class MergeConstruct
+      attr_accessor segment_id: ::String
+      attr_accessor construct_id: ::String
+      SENSITIVE: []
+    end
+
+    class MergeOperation
+      attr_accessor merge_constructs: ::Array[Types::MergeConstruct]
+      SENSITIVE: []
+    end
+
     class NetworkInterface
       attr_accessor mac_address: ::String
       attr_accessor ips: ::Array[::String]
@@ -1376,6 +1390,7 @@ module Aws::Mgn
       attr_accessor name: ::String
       attr_accessor description: ::String
       attr_accessor logical_id: ::String
+      attr_accessor excluded: bool
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
       attr_accessor properties: ::Hash[::String, ::String]
@@ -1410,10 +1425,19 @@ module Aws::Mgn
     end
 
     class OperationUnion
+      attr_accessor merge: Types::MergeOperation
+      attr_accessor split: Types::SplitOperation
+      attr_accessor delete: Types::DeleteOperation
       attr_accessor update: Types::UpdateOperation
       attr_accessor unknown: untyped
       SENSITIVE: []
 
+      class Merge < OperationUnion
+      end
+      class Split < OperationUnion
+      end
+      class Delete < OperationUnion
+      end
       class Update < OperationUnion
       end
       class Unknown < OperationUnion
@@ -1669,6 +1693,16 @@ module Aws::Mgn
     class SourceServerConnectorAction
       attr_accessor credentials_secret_arn: ::String
       attr_accessor connector_arn: ::String
+      SENSITIVE: []
+    end
+
+    class SplitConstruct
+      attr_accessor cidr_block: ::String
+      SENSITIVE: []
+    end
+
+    class SplitOperation
+      attr_accessor split_constructs: ::Array[Types::SplitConstruct]
       SENSITIVE: []
     end
 
@@ -2019,6 +2053,8 @@ module Aws::Mgn
     end
 
     class UpdateOperation
+      attr_accessor name: ::String
+      attr_accessor excluded: bool
       attr_accessor properties: ::Hash[::String, ::String]
       SENSITIVE: []
     end

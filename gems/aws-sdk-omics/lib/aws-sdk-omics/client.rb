@@ -2930,7 +2930,7 @@ module Aws::Omics
     #   resp.arn #=> String
     #   resp.uuid #=> String
     #   resp.name #=> String
-    #   resp.status #=> String, one of "PENDING", "SUBMITTING", "INPROGRESS", "STOPPING", "CANCELLED", "FAILED", "PROCESSED", "RUNS_DELETING", "RUNS_DELETED"
+    #   resp.status #=> String, one of "CREATING", "PENDING", "SUBMITTING", "INPROGRESS", "STOPPING", "CANCELLED", "FAILED", "PROCESSED", "RUNS_DELETING", "RUNS_DELETED"
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
     #   resp.total_runs #=> Integer
@@ -2952,6 +2952,8 @@ module Aws::Omics
     #   resp.default_run_setting.workflow_owner_id #=> String
     #   resp.default_run_setting.output_bucket_owner_id #=> String
     #   resp.default_run_setting.workflow_version_name #=> String
+    #   resp.default_run_setting.networking_mode #=> String, one of "RESTRICTED", "VPC"
+    #   resp.default_run_setting.configuration_name #=> String
     #   resp.submission_summary.successful_start_submission_count #=> Integer
     #   resp.submission_summary.failed_start_submission_count #=> Integer
     #   resp.submission_summary.pending_start_submission_count #=> Integer
@@ -4579,7 +4581,7 @@ module Aws::Omics
     #   resp = client.list_batch({
     #     max_items: 1,
     #     starting_token: "ListToken",
-    #     status: "PENDING", # accepts PENDING, SUBMITTING, INPROGRESS, STOPPING, CANCELLED, FAILED, PROCESSED, RUNS_DELETING, RUNS_DELETED
+    #     status: "CREATING", # accepts CREATING, PENDING, SUBMITTING, INPROGRESS, STOPPING, CANCELLED, FAILED, PROCESSED, RUNS_DELETING, RUNS_DELETED
     #     name: "BatchName",
     #     run_group_id: "RunGroupId",
     #   })
@@ -4589,7 +4591,7 @@ module Aws::Omics
     #   resp.items #=> Array
     #   resp.items[0].id #=> String
     #   resp.items[0].name #=> String
-    #   resp.items[0].status #=> String, one of "PENDING", "SUBMITTING", "INPROGRESS", "STOPPING", "CANCELLED", "FAILED", "PROCESSED", "RUNS_DELETING", "RUNS_DELETED"
+    #   resp.items[0].status #=> String, one of "CREATING", "PENDING", "SUBMITTING", "INPROGRESS", "STOPPING", "CANCELLED", "FAILED", "PROCESSED", "RUNS_DELETING", "RUNS_DELETED"
     #   resp.items[0].created_at #=> Time
     #   resp.items[0].total_runs #=> Integer
     #   resp.items[0].workflow_id #=> String
@@ -6577,9 +6579,10 @@ module Aws::Omics
     # Amazon S3 via `s3UriSettings` (up to 100,000 runs).
     #
     # `StartRunBatch` validates common fields synchronously and returns
-    # immediately with a batch ID and status `PENDING`. Runs are submitted
-    # gradually and asynchronously at a rate governed by your `StartRun`
-    # throughput quota.
+    # immediately with a batch ID and status `CREATING`. The batch
+    # transitions to `PENDING` once initial setup completes. Runs are then
+    # submitted gradually and asynchronously at a rate governed by your
+    # `StartRun` throughput quota.
     #
     # @option params [String] :batch_name
     #   An optional user-friendly name for the run batch.
@@ -6642,6 +6645,8 @@ module Aws::Omics
     #       workflow_owner_id: "WorkflowOwnerId",
     #       output_bucket_owner_id: "AwsAccountId",
     #       workflow_version_name: "WorkflowVersionName",
+    #       networking_mode: "RESTRICTED", # accepts RESTRICTED, VPC
+    #       configuration_name: "ConfigurationName",
     #     },
     #     batch_run_settings: { # required
     #       inline_settings: [
@@ -6666,7 +6671,7 @@ module Aws::Omics
     #
     #   resp.id #=> String
     #   resp.arn #=> String
-    #   resp.status #=> String, one of "PENDING", "SUBMITTING", "INPROGRESS", "STOPPING", "CANCELLED", "FAILED", "PROCESSED", "RUNS_DELETING", "RUNS_DELETED"
+    #   resp.status #=> String, one of "CREATING", "PENDING", "SUBMITTING", "INPROGRESS", "STOPPING", "CANCELLED", "FAILED", "PROCESSED", "RUNS_DELETING", "RUNS_DELETED"
     #   resp.uuid #=> String
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
@@ -7364,7 +7369,7 @@ module Aws::Omics
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-omics'
-      context[:gem_version] = '1.65.0'
+      context[:gem_version] = '1.66.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

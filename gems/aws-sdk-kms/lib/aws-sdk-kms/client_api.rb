@@ -35,6 +35,7 @@ module Aws::KMS
     CloudHsmClusterNotActiveException = Shapes::StructureShape.new(name: 'CloudHsmClusterNotActiveException')
     CloudHsmClusterNotFoundException = Shapes::StructureShape.new(name: 'CloudHsmClusterNotFoundException')
     CloudHsmClusterNotRelatedException = Shapes::StructureShape.new(name: 'CloudHsmClusterNotRelatedException')
+    CloudTrailEventIdType = Shapes::StringShape.new(name: 'CloudTrailEventIdType')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     ConnectCustomKeyStoreRequest = Shapes::StructureShape.new(name: 'ConnectCustomKeyStoreRequest')
     ConnectCustomKeyStoreResponse = Shapes::StructureShape.new(name: 'ConnectCustomKeyStoreResponse')
@@ -107,6 +108,8 @@ module Aws::KMS
     GenerateMacResponse = Shapes::StructureShape.new(name: 'GenerateMacResponse')
     GenerateRandomRequest = Shapes::StructureShape.new(name: 'GenerateRandomRequest')
     GenerateRandomResponse = Shapes::StructureShape.new(name: 'GenerateRandomResponse')
+    GetKeyLastUsageRequest = Shapes::StructureShape.new(name: 'GetKeyLastUsageRequest')
+    GetKeyLastUsageResponse = Shapes::StructureShape.new(name: 'GetKeyLastUsageResponse')
     GetKeyPolicyRequest = Shapes::StructureShape.new(name: 'GetKeyPolicyRequest')
     GetKeyPolicyResponse = Shapes::StructureShape.new(name: 'GetKeyPolicyResponse')
     GetKeyRotationStatusRequest = Shapes::StructureShape.new(name: 'GetKeyRotationStatusRequest')
@@ -148,6 +151,8 @@ module Aws::KMS
     KeyAgreementAlgorithmSpecList = Shapes::ListShape.new(name: 'KeyAgreementAlgorithmSpecList')
     KeyEncryptionMechanism = Shapes::StringShape.new(name: 'KeyEncryptionMechanism')
     KeyIdType = Shapes::StringShape.new(name: 'KeyIdType')
+    KeyLastUsageData = Shapes::StructureShape.new(name: 'KeyLastUsageData')
+    KeyLastUsageTrackingOperation = Shapes::StringShape.new(name: 'KeyLastUsageTrackingOperation')
     KeyList = Shapes::ListShape.new(name: 'KeyList')
     KeyListEntry = Shapes::StructureShape.new(name: 'KeyListEntry')
     KeyManagerType = Shapes::StringShape.new(name: 'KeyManagerType')
@@ -159,6 +164,7 @@ module Aws::KMS
     KeyStorePasswordType = Shapes::StringShape.new(name: 'KeyStorePasswordType')
     KeyUnavailableException = Shapes::StructureShape.new(name: 'KeyUnavailableException')
     KeyUsageType = Shapes::StringShape.new(name: 'KeyUsageType')
+    KmsRequestIdType = Shapes::StringShape.new(name: 'KmsRequestIdType')
     LimitExceededException = Shapes::StructureShape.new(name: 'LimitExceededException')
     LimitType = Shapes::IntegerShape.new(name: 'LimitType')
     ListAliasesRequest = Shapes::StructureShape.new(name: 'ListAliasesRequest')
@@ -571,6 +577,15 @@ module Aws::KMS
     GenerateRandomResponse.add_member(:ciphertext_for_recipient, Shapes::ShapeRef.new(shape: CiphertextType, location_name: "CiphertextForRecipient"))
     GenerateRandomResponse.struct_class = Types::GenerateRandomResponse
 
+    GetKeyLastUsageRequest.add_member(:key_id, Shapes::ShapeRef.new(shape: KeyIdType, required: true, location_name: "KeyId"))
+    GetKeyLastUsageRequest.struct_class = Types::GetKeyLastUsageRequest
+
+    GetKeyLastUsageResponse.add_member(:key_id, Shapes::ShapeRef.new(shape: KeyIdType, location_name: "KeyId"))
+    GetKeyLastUsageResponse.add_member(:key_last_usage, Shapes::ShapeRef.new(shape: KeyLastUsageData, location_name: "KeyLastUsage"))
+    GetKeyLastUsageResponse.add_member(:tracking_start_date, Shapes::ShapeRef.new(shape: DateType, location_name: "TrackingStartDate"))
+    GetKeyLastUsageResponse.add_member(:key_creation_date, Shapes::ShapeRef.new(shape: DateType, location_name: "KeyCreationDate"))
+    GetKeyLastUsageResponse.struct_class = Types::GetKeyLastUsageResponse
+
     GetKeyPolicyRequest.add_member(:key_id, Shapes::ShapeRef.new(shape: KeyIdType, required: true, location_name: "KeyId"))
     GetKeyPolicyRequest.add_member(:policy_name, Shapes::ShapeRef.new(shape: PolicyNameType, location_name: "PolicyName"))
     GetKeyPolicyRequest.struct_class = Types::GetKeyPolicyRequest
@@ -695,6 +710,12 @@ module Aws::KMS
     KMSInvalidStateException.struct_class = Types::KMSInvalidStateException
 
     KeyAgreementAlgorithmSpecList.member = Shapes::ShapeRef.new(shape: KeyAgreementAlgorithmSpec)
+
+    KeyLastUsageData.add_member(:operation, Shapes::ShapeRef.new(shape: KeyLastUsageTrackingOperation, location_name: "Operation"))
+    KeyLastUsageData.add_member(:timestamp, Shapes::ShapeRef.new(shape: DateType, location_name: "Timestamp"))
+    KeyLastUsageData.add_member(:cloud_trail_event_id, Shapes::ShapeRef.new(shape: CloudTrailEventIdType, location_name: "CloudTrailEventId"))
+    KeyLastUsageData.add_member(:kms_request_id, Shapes::ShapeRef.new(shape: KmsRequestIdType, location_name: "KmsRequestId"))
+    KeyLastUsageData.struct_class = Types::KeyLastUsageData
 
     KeyList.member = Shapes::ShapeRef.new(shape: KeyListEntry)
 
@@ -1460,6 +1481,18 @@ module Aws::KMS
         o.errors << Shapes::ShapeRef.new(shape: UnsupportedOperationException)
         o.errors << Shapes::ShapeRef.new(shape: CustomKeyStoreNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: CustomKeyStoreInvalidStateException)
+      end)
+
+      api.add_operation(:get_key_last_usage, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetKeyLastUsage"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetKeyLastUsageRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetKeyLastUsageResponse)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidArnException)
+        o.errors << Shapes::ShapeRef.new(shape: DependencyTimeoutException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSInternalException)
       end)
 
       api.add_operation(:get_key_policy, Seahorse::Model::Operation.new.tap do |o|

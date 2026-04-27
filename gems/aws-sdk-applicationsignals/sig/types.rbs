@@ -125,6 +125,23 @@ module Aws::ApplicationSignals
       SENSITIVE: []
     end
 
+    class CompositeSliComponent
+      attr_accessor operation_name: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class OperationName < CompositeSliComponent
+      end
+      class Unknown < CompositeSliComponent
+      end
+    end
+
+    class CompositeSliConfig
+      attr_accessor selection_config: Types::SelectionConfig
+      attr_accessor components: ::Array[Types::CompositeSliComponent]
+      SENSITIVE: []
+    end
+
     class ConflictException
       attr_accessor message: ::String
       SENSITIVE: []
@@ -139,6 +156,7 @@ module Aws::ApplicationSignals
       attr_accessor tags: ::Array[Types::Tag]
       attr_accessor burn_rate_configurations: ::Array[Types::BurnRateConfiguration]
       attr_accessor create_recommended_slo: bool
+      attr_accessor auto_investigation_enabled: bool
       SENSITIVE: []
     end
 
@@ -541,6 +559,7 @@ module Aws::ApplicationSignals
       attr_accessor monitored_request_count_metric: Types::MonitoredRequestCountMetricDataQueries
       attr_accessor dependency_config: Types::DependencyConfig
       attr_accessor metric_source: Types::MetricSource
+      attr_accessor composite_sli_config: Types::CompositeSliConfig
       SENSITIVE: []
     end
 
@@ -553,6 +572,7 @@ module Aws::ApplicationSignals
       attr_accessor dependency_config: Types::DependencyConfig
       attr_accessor metric_source: Types::MetricSource
       attr_accessor metric_name: ::String
+      attr_accessor composite_sli_config: Types::CompositeSliConfig
       SENSITIVE: []
     end
 
@@ -566,6 +586,12 @@ module Aws::ApplicationSignals
     class RollingInterval
       attr_accessor duration_unit: ("MINUTE" | "HOUR" | "DAY" | "MONTH")
       attr_accessor duration: ::Integer
+      SENSITIVE: []
+    end
+
+    class SelectionConfig
+      attr_accessor type: ("EXPLICIT" | "PREFIX" | "REGEX")
+      attr_accessor pattern: ::String
       SENSITIVE: []
     end
 
@@ -631,6 +657,7 @@ module Aws::ApplicationSignals
       attr_accessor metric_data_queries: ::Array[Types::MetricDataQuery]
       attr_accessor dependency_config: Types::DependencyConfig
       attr_accessor metric_source: Types::MetricSource
+      attr_accessor composite_sli_config: Types::CompositeSliConfig
       SENSITIVE: []
     end
 
@@ -644,6 +671,7 @@ module Aws::ApplicationSignals
       attr_accessor metric_source: Types::MetricSource
       attr_accessor metric_data_queries: ::Array[Types::MetricDataQuery]
       attr_accessor dependency_config: Types::DependencyConfig
+      attr_accessor composite_sli_config: Types::CompositeSliConfig
       SENSITIVE: []
     end
 
@@ -659,6 +687,7 @@ module Aws::ApplicationSignals
       attr_accessor goal: Types::Goal
       attr_accessor burn_rate_configurations: ::Array[Types::BurnRateConfiguration]
       attr_accessor metric_source_type: ("ServiceOperation" | "CloudWatchMetric" | "ServiceDependency" | "AppMonitor" | "Canary" | "Service")
+      attr_accessor auto_investigation_enabled: bool
       SENSITIVE: []
     end
 
@@ -702,6 +731,7 @@ module Aws::ApplicationSignals
       attr_accessor evaluation_type: ("PeriodBased" | "RequestBased")
       attr_accessor metric_source_type: ("ServiceOperation" | "CloudWatchMetric" | "ServiceDependency" | "AppMonitor" | "Canary" | "Service")
       attr_accessor metric_source: Types::MetricSource
+      attr_accessor composite_sli_config: Types::CompositeSliConfig
       SENSITIVE: []
     end
 
@@ -780,6 +810,7 @@ module Aws::ApplicationSignals
       attr_accessor request_based_sli_config: Types::RequestBasedServiceLevelIndicatorConfig
       attr_accessor goal: Types::Goal
       attr_accessor burn_rate_configurations: ::Array[Types::BurnRateConfiguration]
+      attr_accessor auto_investigation_enabled: bool
       SENSITIVE: []
     end
 

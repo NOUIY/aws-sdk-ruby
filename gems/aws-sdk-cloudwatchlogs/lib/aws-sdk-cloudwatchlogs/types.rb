@@ -7739,8 +7739,10 @@ module Aws::CloudWatchLogs
     #   `arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234`
     #
     #   For the `SECURITY_FINDING_LOGS` logType, use a wildcard ARN for the
-    #   hub resource. For example,
-    #   `arn:aws:securityhub:us-east-1:111122223333:hub/*`
+    #   hub resource. For Amazon Web Services Security Hub CSPM, use
+    #   `arn:aws:securityhub:us-east-1:111122223333:hub/*` and for Amazon
+    #   Web Services Security Hub, use
+    #   `arn:aws:securityhub:us-east-1:111122223333:hubv2/*`
     #   @return [String]
     #
     # @!attribute [rw] log_type
@@ -7793,8 +7795,8 @@ module Aws::CloudWatchLogs
     #
     #   * For Network Load Balancer, the valid value is `NLB_ACCESS_LOGS`.
     #
-    #   * For PCS, the valid values are `PCS_SCHEDULER_LOGS` and
-    #     `PCS_JOBCOMP_LOGS`.
+    #   * For PCS, the valid values are `PCS_SCHEDULER_LOGS`,
+    #     `PCS_JOBCOMP_LOGS`, and `PCS_SCHEDULER_AUDIT_LOGS`.
     #
     #   * For Quick, the valid values are `CHAT_LOGS` and `FEEDBACK_LOGS`.
     #
@@ -7805,6 +7807,9 @@ module Aws::CloudWatchLogs
     #     `SYNC_JOB_LOGS`.
     #
     #   * For Amazon Web Services Security Hub CSPM, the valid value is
+    #     `SECURITY_FINDING_LOGS`.
+    #
+    #   * For Amazon Web Services Security Hub, the valid value is
     #     `SECURITY_FINDING_LOGS`.
     #
     #   * For Amazon SES mail manager, the valid values are
@@ -9117,6 +9122,10 @@ module Aws::CloudWatchLogs
     #   The timestamp when the data source association was created.
     #   @return [Integer]
     #
+    # @!attribute [rw] parent_source_identifier
+    #   The identifier of the parent data source for this association.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/S3TableIntegrationSource AWS API Documentation
     #
     class S3TableIntegrationSource < Struct.new(
@@ -9124,7 +9133,8 @@ module Aws::CloudWatchLogs
       :data_source,
       :status,
       :status_reason,
-      :created_time_stamp)
+      :created_time_stamp,
+      :parent_source_identifier)
       SENSITIVE = []
       include Aws::Structure
     end

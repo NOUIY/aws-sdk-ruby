@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.55.0 (2026-04-27)
+------------------
+
+* Feature - Add support for Passthrough pricing plan
+
 1.54.0 (2026-03-18)
 ------------------
 

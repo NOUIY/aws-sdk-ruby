@@ -50,6 +50,7 @@ module Aws::Mgn
     ChangeServerLifeCycleStateSourceServerLifecycleState = Shapes::StringShape.new(name: 'ChangeServerLifeCycleStateSourceServerLifecycleState')
     Checksum = Shapes::StructureShape.new(name: 'Checksum')
     Cidr = Shapes::StringShape.new(name: 'Cidr')
+    CidrBlock = Shapes::StringShape.new(name: 'CidrBlock')
     ClientIdempotencyToken = Shapes::StringShape.new(name: 'ClientIdempotencyToken')
     CloudWatchLogGroupName = Shapes::StringShape.new(name: 'CloudWatchLogGroupName')
     CodeGenerationOutputFormatStatus = Shapes::StringShape.new(name: 'CodeGenerationOutputFormatStatus')
@@ -96,6 +97,7 @@ module Aws::Mgn
     DeleteLaunchConfigurationTemplateResponse = Shapes::StructureShape.new(name: 'DeleteLaunchConfigurationTemplateResponse')
     DeleteNetworkMigrationDefinitionRequest = Shapes::StructureShape.new(name: 'DeleteNetworkMigrationDefinitionRequest')
     DeleteNetworkMigrationDefinitionResponse = Shapes::StructureShape.new(name: 'DeleteNetworkMigrationDefinitionResponse')
+    DeleteOperation = Shapes::StructureShape.new(name: 'DeleteOperation')
     DeleteReplicationConfigurationTemplateRequest = Shapes::StructureShape.new(name: 'DeleteReplicationConfigurationTemplateRequest')
     DeleteReplicationConfigurationTemplateResponse = Shapes::StructureShape.new(name: 'DeleteReplicationConfigurationTemplateResponse')
     DeleteSourceServerRequest = Shapes::StructureShape.new(name: 'DeleteSourceServerRequest')
@@ -300,6 +302,9 @@ module Aws::Mgn
     MarkAsArchivedRequest = Shapes::StructureShape.new(name: 'MarkAsArchivedRequest')
     MarshalledResourceDefinition = Shapes::StringShape.new(name: 'MarshalledResourceDefinition')
     MaxResultsType = Shapes::IntegerShape.new(name: 'MaxResultsType')
+    MergeConstruct = Shapes::StructureShape.new(name: 'MergeConstruct')
+    MergeConstructs = Shapes::ListShape.new(name: 'MergeConstructs')
+    MergeOperation = Shapes::StructureShape.new(name: 'MergeOperation')
     NetworkInterface = Shapes::StructureShape.new(name: 'NetworkInterface')
     NetworkInterfaces = Shapes::ListShape.new(name: 'NetworkInterfaces')
     NetworkMigrationAnalysesList = Shapes::ListShape.new(name: 'NetworkMigrationAnalysesList')
@@ -421,6 +426,9 @@ module Aws::Mgn
     SourceServerConnectorAction = Shapes::StructureShape.new(name: 'SourceServerConnectorAction')
     SourceServerID = Shapes::StringShape.new(name: 'SourceServerID')
     SourceServersList = Shapes::ListShape.new(name: 'SourceServersList')
+    SplitConstruct = Shapes::StructureShape.new(name: 'SplitConstruct')
+    SplitConstructs = Shapes::ListShape.new(name: 'SplitConstructs')
+    SplitOperation = Shapes::StructureShape.new(name: 'SplitOperation')
     SsmDocument = Shapes::StructureShape.new(name: 'SsmDocument')
     SsmDocumentExternalParameters = Shapes::MapShape.new(name: 'SsmDocumentExternalParameters')
     SsmDocumentName = Shapes::StringShape.new(name: 'SsmDocumentName')
@@ -757,6 +765,8 @@ module Aws::Mgn
     DeleteNetworkMigrationDefinitionRequest.struct_class = Types::DeleteNetworkMigrationDefinitionRequest
 
     DeleteNetworkMigrationDefinitionResponse.struct_class = Types::DeleteNetworkMigrationDefinitionResponse
+
+    DeleteOperation.struct_class = Types::DeleteOperation
 
     DeleteReplicationConfigurationTemplateRequest.add_member(:replication_configuration_template_id, Shapes::ShapeRef.new(shape: ReplicationConfigurationTemplateID, required: true, location_name: "replicationConfigurationTemplateID"))
     DeleteReplicationConfigurationTemplateRequest.struct_class = Types::DeleteReplicationConfigurationTemplateRequest
@@ -1476,6 +1486,15 @@ module Aws::Mgn
     MarkAsArchivedRequest.add_member(:account_id, Shapes::ShapeRef.new(shape: AccountID, location_name: "accountID"))
     MarkAsArchivedRequest.struct_class = Types::MarkAsArchivedRequest
 
+    MergeConstruct.add_member(:segment_id, Shapes::ShapeRef.new(shape: SegmentID, location_name: "segmentID"))
+    MergeConstruct.add_member(:construct_id, Shapes::ShapeRef.new(shape: ConstructID, location_name: "constructID"))
+    MergeConstruct.struct_class = Types::MergeConstruct
+
+    MergeConstructs.member = Shapes::ShapeRef.new(shape: MergeConstruct)
+
+    MergeOperation.add_member(:merge_constructs, Shapes::ShapeRef.new(shape: MergeConstructs, location_name: "mergeConstructs"))
+    MergeOperation.struct_class = Types::MergeOperation
+
     NetworkInterface.add_member(:mac_address, Shapes::ShapeRef.new(shape: BoundedString, location_name: "macAddress"))
     NetworkInterface.add_member(:ips, Shapes::ShapeRef.new(shape: IPsList, location_name: "ips"))
     NetworkInterface.add_member(:is_primary, Shapes::ShapeRef.new(shape: Boolean, location_name: "isPrimary"))
@@ -1642,6 +1661,7 @@ module Aws::Mgn
     NetworkMigrationMapperSegmentConstruct.add_member(:name, Shapes::ShapeRef.new(shape: SegmentConstructName, location_name: "name"))
     NetworkMigrationMapperSegmentConstruct.add_member(:description, Shapes::ShapeRef.new(shape: SegmentConstructDescription, location_name: "description"))
     NetworkMigrationMapperSegmentConstruct.add_member(:logical_id, Shapes::ShapeRef.new(shape: LogicalID, location_name: "logicalID"))
+    NetworkMigrationMapperSegmentConstruct.add_member(:excluded, Shapes::ShapeRef.new(shape: Boolean, location_name: "excluded"))
     NetworkMigrationMapperSegmentConstruct.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "createdAt"))
     NetworkMigrationMapperSegmentConstruct.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "updatedAt"))
     NetworkMigrationMapperSegmentConstruct.add_member(:properties, Shapes::ShapeRef.new(shape: ConstructProperties, location_name: "properties"))
@@ -1676,8 +1696,14 @@ module Aws::Mgn
     OS.add_member(:full_string, Shapes::ShapeRef.new(shape: BoundedString, location_name: "fullString"))
     OS.struct_class = Types::OS
 
+    OperationUnion.add_member(:merge, Shapes::ShapeRef.new(shape: MergeOperation, location_name: "merge"))
+    OperationUnion.add_member(:split, Shapes::ShapeRef.new(shape: SplitOperation, location_name: "split"))
+    OperationUnion.add_member(:delete, Shapes::ShapeRef.new(shape: DeleteOperation, location_name: "delete"))
     OperationUnion.add_member(:update, Shapes::ShapeRef.new(shape: UpdateOperation, location_name: "update"))
     OperationUnion.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    OperationUnion.add_member_subclass(:merge, Types::OperationUnion::Merge)
+    OperationUnion.add_member_subclass(:split, Types::OperationUnion::Split)
+    OperationUnion.add_member_subclass(:delete, Types::OperationUnion::Delete)
     OperationUnion.add_member_subclass(:update, Types::OperationUnion::Update)
     OperationUnion.add_member_subclass(:unknown, Types::OperationUnion::Unknown)
     OperationUnion.struct_class = Types::OperationUnion
@@ -1906,6 +1932,14 @@ module Aws::Mgn
     SourceServerConnectorAction.struct_class = Types::SourceServerConnectorAction
 
     SourceServersList.member = Shapes::ShapeRef.new(shape: SourceServer)
+
+    SplitConstruct.add_member(:cidr_block, Shapes::ShapeRef.new(shape: CidrBlock, location_name: "cidrBlock"))
+    SplitConstruct.struct_class = Types::SplitConstruct
+
+    SplitConstructs.member = Shapes::ShapeRef.new(shape: SplitConstruct)
+
+    SplitOperation.add_member(:split_constructs, Shapes::ShapeRef.new(shape: SplitConstructs, location_name: "splitConstructs"))
+    SplitOperation.struct_class = Types::SplitOperation
 
     SsmDocument.add_member(:action_name, Shapes::ShapeRef.new(shape: BoundedString, required: true, location_name: "actionName"))
     SsmDocument.add_member(:ssm_document_name, Shapes::ShapeRef.new(shape: SsmDocumentName, required: true, location_name: "ssmDocumentName"))
@@ -2183,6 +2217,8 @@ module Aws::Mgn
     UpdateNetworkMigrationMapperSegmentRequest.add_member(:scope_tags, Shapes::ShapeRef.new(shape: ScopeTagsMap, location_name: "scopeTags"))
     UpdateNetworkMigrationMapperSegmentRequest.struct_class = Types::UpdateNetworkMigrationMapperSegmentRequest
 
+    UpdateOperation.add_member(:name, Shapes::ShapeRef.new(shape: SegmentConstructName, location_name: "name"))
+    UpdateOperation.add_member(:excluded, Shapes::ShapeRef.new(shape: Boolean, location_name: "excluded"))
     UpdateOperation.add_member(:properties, Shapes::ShapeRef.new(shape: ConstructProperties, location_name: "properties"))
     UpdateOperation.struct_class = Types::UpdateOperation
 

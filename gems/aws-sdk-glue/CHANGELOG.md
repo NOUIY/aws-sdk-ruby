@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.254.0 (2026-04-27)
+------------------
+
+* Feature - Addition of AdditionalAuditContext to GetPartition, GetPartitions, GetTableVersion, and GetTableVersions
+
 1.253.0 (2026-04-13)
 ------------------
 

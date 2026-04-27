@@ -55,6 +55,9 @@ module Aws::ApplicationSignals
     ChangeEvent = Shapes::StructureShape.new(name: 'ChangeEvent')
     ChangeEventType = Shapes::StringShape.new(name: 'ChangeEventType')
     ChangeEvents = Shapes::ListShape.new(name: 'ChangeEvents')
+    CompositeSliComponent = Shapes::UnionShape.new(name: 'CompositeSliComponent')
+    CompositeSliComponents = Shapes::ListShape.new(name: 'CompositeSliComponents')
+    CompositeSliConfig = Shapes::StructureShape.new(name: 'CompositeSliConfig')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     ConnectionType = Shapes::StringShape.new(name: 'ConnectionType')
     CreateServiceLevelObjectiveInput = Shapes::StructureShape.new(name: 'CreateServiceLevelObjectiveInput')
@@ -169,6 +172,9 @@ module Aws::ApplicationSignals
     RollingInterval = Shapes::StructureShape.new(name: 'RollingInterval')
     RollingIntervalDuration = Shapes::IntegerShape.new(name: 'RollingIntervalDuration')
     SLIPeriodSeconds = Shapes::IntegerShape.new(name: 'SLIPeriodSeconds')
+    SelectionConfig = Shapes::StructureShape.new(name: 'SelectionConfig')
+    SelectionPattern = Shapes::StringShape.new(name: 'SelectionPattern')
+    SelectionType = Shapes::StringShape.new(name: 'SelectionType')
     Service = Shapes::StructureShape.new(name: 'Service')
     ServiceDependencies = Shapes::ListShape.new(name: 'ServiceDependencies')
     ServiceDependency = Shapes::StructureShape.new(name: 'ServiceDependency')
@@ -343,6 +349,18 @@ module Aws::ApplicationSignals
 
     ChangeEvents.member = Shapes::ShapeRef.new(shape: ChangeEvent)
 
+    CompositeSliComponent.add_member(:operation_name, Shapes::ShapeRef.new(shape: OperationName, location_name: "OperationName"))
+    CompositeSliComponent.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    CompositeSliComponent.add_member_subclass(:operation_name, Types::CompositeSliComponent::OperationName)
+    CompositeSliComponent.add_member_subclass(:unknown, Types::CompositeSliComponent::Unknown)
+    CompositeSliComponent.struct_class = Types::CompositeSliComponent
+
+    CompositeSliComponents.member = Shapes::ShapeRef.new(shape: CompositeSliComponent)
+
+    CompositeSliConfig.add_member(:selection_config, Shapes::ShapeRef.new(shape: SelectionConfig, required: true, location_name: "SelectionConfig"))
+    CompositeSliConfig.add_member(:components, Shapes::ShapeRef.new(shape: CompositeSliComponents, location_name: "Components"))
+    CompositeSliConfig.struct_class = Types::CompositeSliConfig
+
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Message"))
     ConflictException.struct_class = Types::ConflictException
 
@@ -354,6 +372,7 @@ module Aws::ApplicationSignals
     CreateServiceLevelObjectiveInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     CreateServiceLevelObjectiveInput.add_member(:burn_rate_configurations, Shapes::ShapeRef.new(shape: BurnRateConfigurations, location_name: "BurnRateConfigurations"))
     CreateServiceLevelObjectiveInput.add_member(:create_recommended_slo, Shapes::ShapeRef.new(shape: Boolean, location_name: "CreateRecommendedSlo"))
+    CreateServiceLevelObjectiveInput.add_member(:auto_investigation_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "AutoInvestigationEnabled"))
     CreateServiceLevelObjectiveInput.struct_class = Types::CreateServiceLevelObjectiveInput
 
     CreateServiceLevelObjectiveOutput.add_member(:slo, Shapes::ShapeRef.new(shape: ServiceLevelObjective, required: true, location_name: "Slo"))
@@ -669,6 +688,7 @@ module Aws::ApplicationSignals
     RequestBasedServiceLevelIndicatorMetric.add_member(:monitored_request_count_metric, Shapes::ShapeRef.new(shape: MonitoredRequestCountMetricDataQueries, required: true, location_name: "MonitoredRequestCountMetric"))
     RequestBasedServiceLevelIndicatorMetric.add_member(:dependency_config, Shapes::ShapeRef.new(shape: DependencyConfig, location_name: "DependencyConfig"))
     RequestBasedServiceLevelIndicatorMetric.add_member(:metric_source, Shapes::ShapeRef.new(shape: MetricSource, location_name: "MetricSource"))
+    RequestBasedServiceLevelIndicatorMetric.add_member(:composite_sli_config, Shapes::ShapeRef.new(shape: CompositeSliConfig, location_name: "CompositeSliConfig"))
     RequestBasedServiceLevelIndicatorMetric.struct_class = Types::RequestBasedServiceLevelIndicatorMetric
 
     RequestBasedServiceLevelIndicatorMetricConfig.add_member(:key_attributes, Shapes::ShapeRef.new(shape: Attributes, location_name: "KeyAttributes"))
@@ -679,6 +699,7 @@ module Aws::ApplicationSignals
     RequestBasedServiceLevelIndicatorMetricConfig.add_member(:dependency_config, Shapes::ShapeRef.new(shape: DependencyConfig, location_name: "DependencyConfig"))
     RequestBasedServiceLevelIndicatorMetricConfig.add_member(:metric_source, Shapes::ShapeRef.new(shape: MetricSource, location_name: "MetricSource"))
     RequestBasedServiceLevelIndicatorMetricConfig.add_member(:metric_name, Shapes::ShapeRef.new(shape: MetricName, location_name: "MetricName"))
+    RequestBasedServiceLevelIndicatorMetricConfig.add_member(:composite_sli_config, Shapes::ShapeRef.new(shape: CompositeSliConfig, location_name: "CompositeSliConfig"))
     RequestBasedServiceLevelIndicatorMetricConfig.struct_class = Types::RequestBasedServiceLevelIndicatorMetricConfig
 
     ResourceNotFoundException.add_member(:resource_type, Shapes::ShapeRef.new(shape: ResourceType, required: true, location_name: "ResourceType"))
@@ -689,6 +710,10 @@ module Aws::ApplicationSignals
     RollingInterval.add_member(:duration_unit, Shapes::ShapeRef.new(shape: DurationUnit, required: true, location_name: "DurationUnit"))
     RollingInterval.add_member(:duration, Shapes::ShapeRef.new(shape: RollingIntervalDuration, required: true, location_name: "Duration"))
     RollingInterval.struct_class = Types::RollingInterval
+
+    SelectionConfig.add_member(:type, Shapes::ShapeRef.new(shape: SelectionType, required: true, location_name: "Type"))
+    SelectionConfig.add_member(:pattern, Shapes::ShapeRef.new(shape: SelectionPattern, location_name: "Pattern"))
+    SelectionConfig.struct_class = Types::SelectionConfig
 
     Service.add_member(:key_attributes, Shapes::ShapeRef.new(shape: Attributes, required: true, location_name: "KeyAttributes"))
     Service.add_member(:attribute_maps, Shapes::ShapeRef.new(shape: AttributeMaps, location_name: "AttributeMaps"))
@@ -743,6 +768,7 @@ module Aws::ApplicationSignals
     ServiceLevelIndicatorMetric.add_member(:metric_data_queries, Shapes::ShapeRef.new(shape: MetricDataQueries, required: true, location_name: "MetricDataQueries"))
     ServiceLevelIndicatorMetric.add_member(:dependency_config, Shapes::ShapeRef.new(shape: DependencyConfig, location_name: "DependencyConfig"))
     ServiceLevelIndicatorMetric.add_member(:metric_source, Shapes::ShapeRef.new(shape: MetricSource, location_name: "MetricSource"))
+    ServiceLevelIndicatorMetric.add_member(:composite_sli_config, Shapes::ShapeRef.new(shape: CompositeSliConfig, location_name: "CompositeSliConfig"))
     ServiceLevelIndicatorMetric.struct_class = Types::ServiceLevelIndicatorMetric
 
     ServiceLevelIndicatorMetricConfig.add_member(:key_attributes, Shapes::ShapeRef.new(shape: Attributes, location_name: "KeyAttributes"))
@@ -754,6 +780,7 @@ module Aws::ApplicationSignals
     ServiceLevelIndicatorMetricConfig.add_member(:metric_source, Shapes::ShapeRef.new(shape: MetricSource, location_name: "MetricSource"))
     ServiceLevelIndicatorMetricConfig.add_member(:metric_data_queries, Shapes::ShapeRef.new(shape: MetricDataQueries, location_name: "MetricDataQueries"))
     ServiceLevelIndicatorMetricConfig.add_member(:dependency_config, Shapes::ShapeRef.new(shape: DependencyConfig, location_name: "DependencyConfig"))
+    ServiceLevelIndicatorMetricConfig.add_member(:composite_sli_config, Shapes::ShapeRef.new(shape: CompositeSliConfig, location_name: "CompositeSliConfig"))
     ServiceLevelIndicatorMetricConfig.struct_class = Types::ServiceLevelIndicatorMetricConfig
 
     ServiceLevelObjective.add_member(:arn, Shapes::ShapeRef.new(shape: ServiceLevelObjectiveArn, required: true, location_name: "Arn"))
@@ -767,6 +794,7 @@ module Aws::ApplicationSignals
     ServiceLevelObjective.add_member(:goal, Shapes::ShapeRef.new(shape: Goal, required: true, location_name: "Goal"))
     ServiceLevelObjective.add_member(:burn_rate_configurations, Shapes::ShapeRef.new(shape: BurnRateConfigurations, location_name: "BurnRateConfigurations"))
     ServiceLevelObjective.add_member(:metric_source_type, Shapes::ShapeRef.new(shape: MetricSourceType, location_name: "MetricSourceType"))
+    ServiceLevelObjective.add_member(:auto_investigation_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "AutoInvestigationEnabled"))
     ServiceLevelObjective.struct_class = Types::ServiceLevelObjective
 
     ServiceLevelObjectiveBudgetReport.add_member(:arn, Shapes::ShapeRef.new(shape: ServiceLevelObjectiveArn, required: true, location_name: "Arn"))
@@ -810,6 +838,7 @@ module Aws::ApplicationSignals
     ServiceLevelObjectiveSummary.add_member(:evaluation_type, Shapes::ShapeRef.new(shape: EvaluationType, location_name: "EvaluationType"))
     ServiceLevelObjectiveSummary.add_member(:metric_source_type, Shapes::ShapeRef.new(shape: MetricSourceType, location_name: "MetricSourceType"))
     ServiceLevelObjectiveSummary.add_member(:metric_source, Shapes::ShapeRef.new(shape: MetricSource, location_name: "MetricSource"))
+    ServiceLevelObjectiveSummary.add_member(:composite_sli_config, Shapes::ShapeRef.new(shape: CompositeSliConfig, location_name: "CompositeSliConfig"))
     ServiceLevelObjectiveSummary.struct_class = Types::ServiceLevelObjectiveSummary
 
     ServiceOperation.add_member(:name, Shapes::ShapeRef.new(shape: OperationName, required: true, location_name: "Name"))
@@ -874,6 +903,7 @@ module Aws::ApplicationSignals
     UpdateServiceLevelObjectiveInput.add_member(:request_based_sli_config, Shapes::ShapeRef.new(shape: RequestBasedServiceLevelIndicatorConfig, location_name: "RequestBasedSliConfig"))
     UpdateServiceLevelObjectiveInput.add_member(:goal, Shapes::ShapeRef.new(shape: Goal, location_name: "Goal"))
     UpdateServiceLevelObjectiveInput.add_member(:burn_rate_configurations, Shapes::ShapeRef.new(shape: BurnRateConfigurations, location_name: "BurnRateConfigurations"))
+    UpdateServiceLevelObjectiveInput.add_member(:auto_investigation_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "AutoInvestigationEnabled"))
     UpdateServiceLevelObjectiveInput.struct_class = Types::UpdateServiceLevelObjectiveInput
 
     UpdateServiceLevelObjectiveOutput.add_member(:slo, Shapes::ShapeRef.new(shape: ServiceLevelObjective, required: true, location_name: "Slo"))

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.362.0 (2026-04-27)
+------------------
+
+* Feature - Updated API documentation for endpoint MetricsConfig. Added details on supported metric publish frequencies and clarified how EnableEnhancedMetrics controls utilization and invocation metric behavior.
+
 1.361.0 (2026-04-21)
 ------------------
 

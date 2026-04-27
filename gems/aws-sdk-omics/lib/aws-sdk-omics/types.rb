@@ -2125,6 +2125,15 @@ module Aws::Omics
     #   The version name of the specified workflow.
     #   @return [String]
     #
+    # @!attribute [rw] networking_mode
+    #   Optional configuration for run networking behavior. If not
+    #   specified, this will default to RESTRICTED.
+    #   @return [String]
+    #
+    # @!attribute [rw] configuration_name
+    #   Optional configuration name to use for the workflow run.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/DefaultRunSetting AWS API Documentation
     #
     class DefaultRunSetting < Struct.new(
@@ -2145,7 +2154,9 @@ module Aws::Omics
       :storage_type,
       :workflow_owner_id,
       :output_bucket_owner_id,
-      :workflow_version_name)
+      :workflow_version_name,
+      :networking_mode,
+      :configuration_name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3028,7 +3039,12 @@ module Aws::Omics
     #   @return [String]
     #
     # @!attribute [rw] status
-    #   The current status of the run batch.
+    #   The current status of the run batch. Possible values: `CREATING`
+    #   (initial setup), `PENDING` (ready to submit runs), `SUBMITTING`
+    #   (submitting runs), `INPROGRESS` (runs executing), `STOPPING`
+    #   (cancellation in progress), `PROCESSED` (all runs completed),
+    #   `CANCELLED` (batch cancelled), `FAILED` (batch failed),
+    #   `RUNS_DELETING` (deleting runs), `RUNS_DELETED` (runs deleted).
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -8189,7 +8205,8 @@ module Aws::Omics
     #   @return [String]
     #
     # @!attribute [rw] status
-    #   The initial status of the run batch.
+    #   The initial status of the run batch. Returns `CREATING` while the
+    #   batch is being initialized.
     #   @return [String]
     #
     # @!attribute [rw] uuid

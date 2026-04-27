@@ -148,7 +148,8 @@ module Aws
                                        {
                                          playback_configuration_arn: ::String?
                                        },
-                                     ]
+                                     ],
+                                     ?tags: Hash[::String, ::String]
                                    ) -> _CreateAdConfigurationResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAdConfigurationResponseSuccess
 

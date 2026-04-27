@@ -1245,9 +1245,11 @@ module Aws::KMS
     #   This operation is valid for all other `ConnectionState` values.
     #
     # * You requested the UpdateCustomKeyStore or DeleteCustomKeyStore
-    #   operation on a custom key store that is not disconnected. This
-    #   operation is valid only when the custom key store `ConnectionState`
-    #   is `DISCONNECTED`.
+    #   operation on a custom key store that is not disconnected.
+    #   `UpdateCustomKeyStore` can be called on a custom key store in the
+    #   `CONNECTED` state only to update `NewCustomKeyStoreName`. For all
+    #   other properties, the custom key store `ConnectionState` must be
+    #   `DISCONNECTED`.
     #
     # * You requested the GenerateRandom operation in an CloudHSM key store
     #   that is not connected. This operation is valid only when the
@@ -1619,7 +1621,7 @@ module Aws::KMS
     #
     #   To specify a KMS key, use its key ID, key ARN, alias name, or alias
     #   ARN. When using an alias name, prefix it with `"alias/"`. To specify
-    #   a KMS key in a different Amazon Web Services account, you must use
+    #   a KMS key in a different Amazon Web Services account, you should use
     #   the key ARN or alias ARN.
     #
     #   For example:
@@ -3426,6 +3428,61 @@ module Aws::KMS
     end
 
     # @!attribute [rw] key_id
+    #   Identifies the KMS key to get usage information for. To specify a
+    #   KMS key, use its key ID or key ARN. Alias names are not supported.
+    #
+    #   Specify the key ID or key ARN of the KMS key.
+    #
+    #   For example:
+    #
+    #   * Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
+    #
+    #   * Key ARN:
+    #     `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
+    #
+    #   To get the key ID and key ARN for a KMS key, use ListKeys or
+    #   DescribeKey.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GetKeyLastUsageRequest AWS API Documentation
+    #
+    class GetKeyLastUsageRequest < Struct.new(
+      :key_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] key_id
+    #   The globally unique identifier for the KMS key.
+    #   @return [String]
+    #
+    # @!attribute [rw] key_last_usage
+    #   Contains usage information about the last time the KMS key was used
+    #   for a successful cryptographic operation. If the key has not been
+    #   used since tracking began, this response element is empty.
+    #   @return [Types::KeyLastUsageData]
+    #
+    # @!attribute [rw] tracking_start_date
+    #   The date from which KMS began recording cryptographic activity for
+    #   this key, or the date the KMS key was created, whichever is later.
+    #   @return [Time]
+    #
+    # @!attribute [rw] key_creation_date
+    #   The date and time when the KMS key was created.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GetKeyLastUsageResponse AWS API Documentation
+    #
+    class GetKeyLastUsageResponse < Struct.new(
+      :key_id,
+      :key_last_usage,
+      :tracking_start_date,
+      :key_creation_date)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] key_id
     #   Gets the key policy for the specified KMS key.
     #
     #   Specify the key ID or key ARN of the KMS key.
@@ -4352,6 +4409,43 @@ module Aws::KMS
     #
     class KMSInvalidStateException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains usage information about the last time the KMS key was used
+    # for a successful cryptographic operation.
+    #
+    # @!attribute [rw] operation
+    #   The last successful cryptographic operation the KMS key was used
+    #   for. Absent if the key has not been used since KMS began tracking.
+    #   @return [String]
+    #
+    # @!attribute [rw] timestamp
+    #   The date and time when the KMS key was most recently used for a
+    #   successful cryptographic operation. Absent if the key has not been
+    #   used since KMS began tracking.
+    #   @return [Time]
+    #
+    # @!attribute [rw] cloud_trail_event_id
+    #   The CloudTrail `eventId` associated with the last successful
+    #   cryptographic operation. Absent if the key has not been used since
+    #   KMS began tracking.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_request_id
+    #   The KMS request ID associated with the last successful cryptographic
+    #   operation. Absent if the key has not been used since KMS began
+    #   tracking.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/KeyLastUsageData AWS API Documentation
+    #
+    class KeyLastUsageData < Struct.new(
+      :operation,
+      :timestamp,
+      :cloud_trail_event_id,
+      :kms_request_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5407,7 +5501,7 @@ module Aws::KMS
     #
     #   To specify a KMS key, use its key ID, key ARN, alias name, or alias
     #   ARN. When using an alias name, prefix it with `"alias/"`. To specify
-    #   a KMS key in a different Amazon Web Services account, you must use
+    #   a KMS key in a different Amazon Web Services account, you should use
     #   the key ARN or alias ARN.
     #
     #   For example:
@@ -6277,6 +6371,11 @@ module Aws::KMS
     #   * ED25519\_PH\_SHA\_512 signing algorithm requires KMS
     #     `MessageType:DIGEST`
     #
+    #   When you specify the ED25519\_PH\_SHA\_512 signing algorithm with
+    #   `MessageType:DIGEST`, KMS still performs the SHA-512 prehash
+    #   described in [Step 1 of Section 7.8.1 in FIPS 186-5][1]. This means
+    #   the input is hashed twice: once by you and once by KMS.
+    #
     #   When the value of `MessageType` is `DIGEST`, the length of the
     #   `Message` value must match the length of hashed messages for the
     #   specified signing algorithm.
@@ -6305,11 +6404,12 @@ module Aws::KMS
     #     hashing algorithm.
     #
     #   * SM2DSA uses the SM3 hashing algorithm. For details, see [Offline
-    #     verification with SM2 key pairs][1].
+    #     verification with SM2 key pairs][2].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
+    #   [1]: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf#page=39
+    #   [2]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
     #   @return [String]
     #
     # @!attribute [rw] grant_tokens
@@ -6597,8 +6697,8 @@ module Aws::KMS
     #   This field may be displayed in plaintext in CloudTrail logs and
     #   other output.
     #
-    #   To change this value, an CloudHSM key store must be disconnected. An
-    #   external key store can be connected or disconnected.
+    #   To change this value, the custom key store can be connected or
+    #   disconnected.
     #   @return [String]
     #
     # @!attribute [rw] key_store_password
@@ -6978,6 +7078,11 @@ module Aws::KMS
     #   * ED25519\_PH\_SHA\_512 signing algorithm requires KMS
     #     `MessageType:DIGEST`
     #
+    #   When you specify the ED25519\_PH\_SHA\_512 signing algorithm with
+    #   `MessageType:DIGEST`, KMS still performs the SHA-512 prehash
+    #   described in [Step 1 of Section 7.8.1 in FIPS 186-5][1]. This means
+    #   the input is hashed twice: once by you and once by KMS.
+    #
     #   When the value of `MessageType` is `DIGEST`, the length of the
     #   `Message` value must match the length of hashed messages for the
     #   specified signing algorithm.
@@ -7007,11 +7112,12 @@ module Aws::KMS
     #     hashing algorithm.
     #
     #   * SM2DSA uses the SM3 hashing algorithm. For details, see [Offline
-    #     verification with SM2 key pairs][1].
+    #     verification with SM2 key pairs][2].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
+    #   [1]: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf#page=39
+    #   [2]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
     #   @return [String]
     #
     # @!attribute [rw] signature

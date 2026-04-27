@@ -657,6 +657,17 @@ module Aws::IVS
     # @option params [required, Array<Types::MediaTailorPlaybackConfiguration>] :media_tailor_playback_configurations
     #   List of integration configurations with media tailor resources.
     #
+    # @option params [Hash<String,String>] :tags
+    #   Array of 1-50 maps, each of the form `string:string (key:value)`. See
+    #   [Best practices and strategies][1] in *Tagging Amazon Web Services
+    #   Resources and Tag Editor* for details, including restrictions that
+    #   apply to tags and "Tag naming limits and requirements"; Amazon IVS
+    #   has no service-specific constraints beyond what is documented there.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
+    #
     # @return [Types::CreateAdConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateAdConfigurationResponse#ad_configuration #ad_configuration} => Types::AdConfiguration
@@ -670,6 +681,9 @@ module Aws::IVS
     #         playback_configuration_arn: "MediaTailorPlaybackConfigurationArn",
     #       },
     #     ],
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
     #   })
     #
     # @example Response structure
@@ -2506,7 +2520,7 @@ module Aws::IVS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ivs'
-      context[:gem_version] = '1.83.0'
+      context[:gem_version] = '1.84.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

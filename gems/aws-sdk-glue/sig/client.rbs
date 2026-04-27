@@ -4251,7 +4251,12 @@ module Aws
                            ?catalog_id: ::String,
                            database_name: ::String,
                            table_name: ::String,
-                           partition_values: Array[::String]
+                           partition_values: Array[::String],
+                           ?audit_context: {
+                             additional_audit_context: ::String?,
+                             requested_columns: Array[::String]?,
+                             all_columns_requested: bool?
+                           }
                          ) -> _GetPartitionResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetPartitionResponseSuccess
 
@@ -4288,7 +4293,12 @@ module Aws
                             ?max_results: ::Integer,
                             ?exclude_column_schema: bool,
                             ?transaction_id: ::String,
-                            ?query_as_of_time: ::Time
+                            ?query_as_of_time: ::Time,
+                            ?audit_context: {
+                              additional_audit_context: ::String?,
+                              requested_columns: Array[::String]?,
+                              all_columns_requested: bool?
+                            }
                           ) -> _GetPartitionsResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetPartitionsResponseSuccess
 
@@ -4573,7 +4583,12 @@ module Aws
                                ?catalog_id: ::String,
                                database_name: ::String,
                                table_name: ::String,
-                               ?version_id: ::String
+                               ?version_id: ::String,
+                               ?audit_context: {
+                                 additional_audit_context: ::String?,
+                                 requested_columns: Array[::String]?,
+                                 all_columns_requested: bool?
+                               }
                              ) -> _GetTableVersionResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetTableVersionResponseSuccess
 
@@ -4588,7 +4603,12 @@ module Aws
                                 database_name: ::String,
                                 table_name: ::String,
                                 ?next_token: ::String,
-                                ?max_results: ::Integer
+                                ?max_results: ::Integer,
+                                ?audit_context: {
+                                  additional_audit_context: ::String?,
+                                  requested_columns: Array[::String]?,
+                                  all_columns_requested: bool?
+                                }
                               ) -> _GetTableVersionsResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetTableVersionsResponseSuccess
 

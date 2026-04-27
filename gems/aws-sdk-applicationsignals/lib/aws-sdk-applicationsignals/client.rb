@@ -555,6 +555,10 @@ module Aws::ApplicationSignals
     #   resp.reports[0].sli.sli_metric.metric_source.metric_source_key_attributes["KeyAttributeName"] #=> String
     #   resp.reports[0].sli.sli_metric.metric_source.metric_source_attributes #=> Hash
     #   resp.reports[0].sli.sli_metric.metric_source.metric_source_attributes["KeyAttributeName"] #=> String
+    #   resp.reports[0].sli.sli_metric.composite_sli_config.selection_config.type #=> String, one of "EXPLICIT", "PREFIX", "REGEX"
+    #   resp.reports[0].sli.sli_metric.composite_sli_config.selection_config.pattern #=> String
+    #   resp.reports[0].sli.sli_metric.composite_sli_config.components #=> Array
+    #   resp.reports[0].sli.sli_metric.composite_sli_config.components[0].operation_name #=> String
     #   resp.reports[0].sli.metric_threshold #=> Float
     #   resp.reports[0].sli.comparison_operator #=> String, one of "GreaterThanOrEqualTo", "GreaterThan", "LessThan", "LessThanOrEqualTo"
     #   resp.reports[0].request_based_sli.request_based_sli_metric.key_attributes #=> Hash
@@ -613,6 +617,10 @@ module Aws::ApplicationSignals
     #   resp.reports[0].request_based_sli.request_based_sli_metric.metric_source.metric_source_key_attributes["KeyAttributeName"] #=> String
     #   resp.reports[0].request_based_sli.request_based_sli_metric.metric_source.metric_source_attributes #=> Hash
     #   resp.reports[0].request_based_sli.request_based_sli_metric.metric_source.metric_source_attributes["KeyAttributeName"] #=> String
+    #   resp.reports[0].request_based_sli.request_based_sli_metric.composite_sli_config.selection_config.type #=> String, one of "EXPLICIT", "PREFIX", "REGEX"
+    #   resp.reports[0].request_based_sli.request_based_sli_metric.composite_sli_config.selection_config.pattern #=> String
+    #   resp.reports[0].request_based_sli.request_based_sli_metric.composite_sli_config.components #=> Array
+    #   resp.reports[0].request_based_sli.request_based_sli_metric.composite_sli_config.components[0].operation_name #=> String
     #   resp.reports[0].request_based_sli.metric_threshold #=> Float
     #   resp.reports[0].request_based_sli.comparison_operator #=> String, one of "GreaterThanOrEqualTo", "GreaterThan", "LessThan", "LessThanOrEqualTo"
     #   resp.reports[0].goal.interval.rolling_interval.duration_unit #=> String, one of "MINUTE", "HOUR", "DAY", "MONTH"
@@ -847,6 +855,10 @@ module Aws::ApplicationSignals
     #   This is supported for SLOs on a service, service operation, or a
     #   dependency.
     #
+    # @option params [Boolean] :auto_investigation_enabled
+    #   Indicates whether DevOps Agent will automatically investigate this SLO
+    #   when it is breached
+    #
     # @return [Types::CreateServiceLevelObjectiveOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateServiceLevelObjectiveOutput#slo #slo} => Types::ServiceLevelObjective
@@ -904,6 +916,17 @@ module Aws::ApplicationSignals
     #             "KeyAttributeName" => "KeyAttributeValue",
     #           },
     #           dependency_operation_name: "OperationName", # required
+    #         },
+    #         composite_sli_config: {
+    #           selection_config: { # required
+    #             type: "EXPLICIT", # required, accepts EXPLICIT, PREFIX, REGEX
+    #             pattern: "SelectionPattern",
+    #           },
+    #           components: [
+    #             {
+    #               operation_name: "OperationName",
+    #             },
+    #           ],
     #         },
     #       },
     #       metric_threshold: 1.0,
@@ -1008,6 +1031,17 @@ module Aws::ApplicationSignals
     #           },
     #         },
     #         metric_name: "MetricName",
+    #         composite_sli_config: {
+    #           selection_config: { # required
+    #             type: "EXPLICIT", # required, accepts EXPLICIT, PREFIX, REGEX
+    #             pattern: "SelectionPattern",
+    #           },
+    #           components: [
+    #             {
+    #               operation_name: "OperationName",
+    #             },
+    #           ],
+    #         },
     #       },
     #       metric_threshold: 1.0,
     #       comparison_operator: "GreaterThanOrEqualTo", # accepts GreaterThanOrEqualTo, GreaterThan, LessThan, LessThanOrEqualTo
@@ -1039,6 +1073,7 @@ module Aws::ApplicationSignals
     #       },
     #     ],
     #     create_recommended_slo: false,
+    #     auto_investigation_enabled: false,
     #   })
     #
     # @example Response structure
@@ -1074,6 +1109,10 @@ module Aws::ApplicationSignals
     #   resp.slo.sli.sli_metric.metric_source.metric_source_key_attributes["KeyAttributeName"] #=> String
     #   resp.slo.sli.sli_metric.metric_source.metric_source_attributes #=> Hash
     #   resp.slo.sli.sli_metric.metric_source.metric_source_attributes["KeyAttributeName"] #=> String
+    #   resp.slo.sli.sli_metric.composite_sli_config.selection_config.type #=> String, one of "EXPLICIT", "PREFIX", "REGEX"
+    #   resp.slo.sli.sli_metric.composite_sli_config.selection_config.pattern #=> String
+    #   resp.slo.sli.sli_metric.composite_sli_config.components #=> Array
+    #   resp.slo.sli.sli_metric.composite_sli_config.components[0].operation_name #=> String
     #   resp.slo.sli.metric_threshold #=> Float
     #   resp.slo.sli.comparison_operator #=> String, one of "GreaterThanOrEqualTo", "GreaterThan", "LessThan", "LessThanOrEqualTo"
     #   resp.slo.request_based_sli.request_based_sli_metric.key_attributes #=> Hash
@@ -1132,6 +1171,10 @@ module Aws::ApplicationSignals
     #   resp.slo.request_based_sli.request_based_sli_metric.metric_source.metric_source_key_attributes["KeyAttributeName"] #=> String
     #   resp.slo.request_based_sli.request_based_sli_metric.metric_source.metric_source_attributes #=> Hash
     #   resp.slo.request_based_sli.request_based_sli_metric.metric_source.metric_source_attributes["KeyAttributeName"] #=> String
+    #   resp.slo.request_based_sli.request_based_sli_metric.composite_sli_config.selection_config.type #=> String, one of "EXPLICIT", "PREFIX", "REGEX"
+    #   resp.slo.request_based_sli.request_based_sli_metric.composite_sli_config.selection_config.pattern #=> String
+    #   resp.slo.request_based_sli.request_based_sli_metric.composite_sli_config.components #=> Array
+    #   resp.slo.request_based_sli.request_based_sli_metric.composite_sli_config.components[0].operation_name #=> String
     #   resp.slo.request_based_sli.metric_threshold #=> Float
     #   resp.slo.request_based_sli.comparison_operator #=> String, one of "GreaterThanOrEqualTo", "GreaterThan", "LessThan", "LessThanOrEqualTo"
     #   resp.slo.evaluation_type #=> String, one of "PeriodBased", "RequestBased"
@@ -1145,6 +1188,7 @@ module Aws::ApplicationSignals
     #   resp.slo.burn_rate_configurations #=> Array
     #   resp.slo.burn_rate_configurations[0].look_back_window_minutes #=> Integer
     #   resp.slo.metric_source_type #=> String, one of "ServiceOperation", "CloudWatchMetric", "ServiceDependency", "AppMonitor", "Canary", "Service"
+    #   resp.slo.auto_investigation_enabled #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/CreateServiceLevelObjective AWS API Documentation
     #
@@ -1340,6 +1384,10 @@ module Aws::ApplicationSignals
     #   resp.slo.sli.sli_metric.metric_source.metric_source_key_attributes["KeyAttributeName"] #=> String
     #   resp.slo.sli.sli_metric.metric_source.metric_source_attributes #=> Hash
     #   resp.slo.sli.sli_metric.metric_source.metric_source_attributes["KeyAttributeName"] #=> String
+    #   resp.slo.sli.sli_metric.composite_sli_config.selection_config.type #=> String, one of "EXPLICIT", "PREFIX", "REGEX"
+    #   resp.slo.sli.sli_metric.composite_sli_config.selection_config.pattern #=> String
+    #   resp.slo.sli.sli_metric.composite_sli_config.components #=> Array
+    #   resp.slo.sli.sli_metric.composite_sli_config.components[0].operation_name #=> String
     #   resp.slo.sli.metric_threshold #=> Float
     #   resp.slo.sli.comparison_operator #=> String, one of "GreaterThanOrEqualTo", "GreaterThan", "LessThan", "LessThanOrEqualTo"
     #   resp.slo.request_based_sli.request_based_sli_metric.key_attributes #=> Hash
@@ -1398,6 +1446,10 @@ module Aws::ApplicationSignals
     #   resp.slo.request_based_sli.request_based_sli_metric.metric_source.metric_source_key_attributes["KeyAttributeName"] #=> String
     #   resp.slo.request_based_sli.request_based_sli_metric.metric_source.metric_source_attributes #=> Hash
     #   resp.slo.request_based_sli.request_based_sli_metric.metric_source.metric_source_attributes["KeyAttributeName"] #=> String
+    #   resp.slo.request_based_sli.request_based_sli_metric.composite_sli_config.selection_config.type #=> String, one of "EXPLICIT", "PREFIX", "REGEX"
+    #   resp.slo.request_based_sli.request_based_sli_metric.composite_sli_config.selection_config.pattern #=> String
+    #   resp.slo.request_based_sli.request_based_sli_metric.composite_sli_config.components #=> Array
+    #   resp.slo.request_based_sli.request_based_sli_metric.composite_sli_config.components[0].operation_name #=> String
     #   resp.slo.request_based_sli.metric_threshold #=> Float
     #   resp.slo.request_based_sli.comparison_operator #=> String, one of "GreaterThanOrEqualTo", "GreaterThan", "LessThan", "LessThanOrEqualTo"
     #   resp.slo.evaluation_type #=> String, one of "PeriodBased", "RequestBased"
@@ -1411,6 +1463,7 @@ module Aws::ApplicationSignals
     #   resp.slo.burn_rate_configurations #=> Array
     #   resp.slo.burn_rate_configurations[0].look_back_window_minutes #=> Integer
     #   resp.slo.metric_source_type #=> String, one of "ServiceOperation", "CloudWatchMetric", "ServiceDependency", "AppMonitor", "Canary", "Service"
+    #   resp.slo.auto_investigation_enabled #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/GetServiceLevelObjective AWS API Documentation
     #
@@ -2140,6 +2193,10 @@ module Aws::ApplicationSignals
     #   resp.slo_summaries[0].metric_source.metric_source_key_attributes["KeyAttributeName"] #=> String
     #   resp.slo_summaries[0].metric_source.metric_source_attributes #=> Hash
     #   resp.slo_summaries[0].metric_source.metric_source_attributes["KeyAttributeName"] #=> String
+    #   resp.slo_summaries[0].composite_sli_config.selection_config.type #=> String, one of "EXPLICIT", "PREFIX", "REGEX"
+    #   resp.slo_summaries[0].composite_sli_config.selection_config.pattern #=> String
+    #   resp.slo_summaries[0].composite_sli_config.components #=> Array
+    #   resp.slo_summaries[0].composite_sli_config.components[0].operation_name #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/ListServiceLevelObjectives AWS API Documentation
@@ -2688,6 +2745,10 @@ module Aws::ApplicationSignals
     #   a metric that indicates how fast the service is consuming the error
     #   budget, relative to the attainment goal of the SLO.
     #
+    # @option params [Boolean] :auto_investigation_enabled
+    #   Indicates whether DevOps Agent will automatically investigate this SLO
+    #   when it is breached
+    #
     # @return [Types::UpdateServiceLevelObjectiveOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateServiceLevelObjectiveOutput#slo #slo} => Types::ServiceLevelObjective
@@ -2745,6 +2806,17 @@ module Aws::ApplicationSignals
     #             "KeyAttributeName" => "KeyAttributeValue",
     #           },
     #           dependency_operation_name: "OperationName", # required
+    #         },
+    #         composite_sli_config: {
+    #           selection_config: { # required
+    #             type: "EXPLICIT", # required, accepts EXPLICIT, PREFIX, REGEX
+    #             pattern: "SelectionPattern",
+    #           },
+    #           components: [
+    #             {
+    #               operation_name: "OperationName",
+    #             },
+    #           ],
     #         },
     #       },
     #       metric_threshold: 1.0,
@@ -2849,6 +2921,17 @@ module Aws::ApplicationSignals
     #           },
     #         },
     #         metric_name: "MetricName",
+    #         composite_sli_config: {
+    #           selection_config: { # required
+    #             type: "EXPLICIT", # required, accepts EXPLICIT, PREFIX, REGEX
+    #             pattern: "SelectionPattern",
+    #           },
+    #           components: [
+    #             {
+    #               operation_name: "OperationName",
+    #             },
+    #           ],
+    #         },
     #       },
     #       metric_threshold: 1.0,
     #       comparison_operator: "GreaterThanOrEqualTo", # accepts GreaterThanOrEqualTo, GreaterThan, LessThan, LessThanOrEqualTo
@@ -2873,6 +2956,7 @@ module Aws::ApplicationSignals
     #         look_back_window_minutes: 1, # required
     #       },
     #     ],
+    #     auto_investigation_enabled: false,
     #   })
     #
     # @example Response structure
@@ -2908,6 +2992,10 @@ module Aws::ApplicationSignals
     #   resp.slo.sli.sli_metric.metric_source.metric_source_key_attributes["KeyAttributeName"] #=> String
     #   resp.slo.sli.sli_metric.metric_source.metric_source_attributes #=> Hash
     #   resp.slo.sli.sli_metric.metric_source.metric_source_attributes["KeyAttributeName"] #=> String
+    #   resp.slo.sli.sli_metric.composite_sli_config.selection_config.type #=> String, one of "EXPLICIT", "PREFIX", "REGEX"
+    #   resp.slo.sli.sli_metric.composite_sli_config.selection_config.pattern #=> String
+    #   resp.slo.sli.sli_metric.composite_sli_config.components #=> Array
+    #   resp.slo.sli.sli_metric.composite_sli_config.components[0].operation_name #=> String
     #   resp.slo.sli.metric_threshold #=> Float
     #   resp.slo.sli.comparison_operator #=> String, one of "GreaterThanOrEqualTo", "GreaterThan", "LessThan", "LessThanOrEqualTo"
     #   resp.slo.request_based_sli.request_based_sli_metric.key_attributes #=> Hash
@@ -2966,6 +3054,10 @@ module Aws::ApplicationSignals
     #   resp.slo.request_based_sli.request_based_sli_metric.metric_source.metric_source_key_attributes["KeyAttributeName"] #=> String
     #   resp.slo.request_based_sli.request_based_sli_metric.metric_source.metric_source_attributes #=> Hash
     #   resp.slo.request_based_sli.request_based_sli_metric.metric_source.metric_source_attributes["KeyAttributeName"] #=> String
+    #   resp.slo.request_based_sli.request_based_sli_metric.composite_sli_config.selection_config.type #=> String, one of "EXPLICIT", "PREFIX", "REGEX"
+    #   resp.slo.request_based_sli.request_based_sli_metric.composite_sli_config.selection_config.pattern #=> String
+    #   resp.slo.request_based_sli.request_based_sli_metric.composite_sli_config.components #=> Array
+    #   resp.slo.request_based_sli.request_based_sli_metric.composite_sli_config.components[0].operation_name #=> String
     #   resp.slo.request_based_sli.metric_threshold #=> Float
     #   resp.slo.request_based_sli.comparison_operator #=> String, one of "GreaterThanOrEqualTo", "GreaterThan", "LessThan", "LessThanOrEqualTo"
     #   resp.slo.evaluation_type #=> String, one of "PeriodBased", "RequestBased"
@@ -2979,6 +3071,7 @@ module Aws::ApplicationSignals
     #   resp.slo.burn_rate_configurations #=> Array
     #   resp.slo.burn_rate_configurations[0].look_back_window_minutes #=> Integer
     #   resp.slo.metric_source_type #=> String, one of "ServiceOperation", "CloudWatchMetric", "ServiceDependency", "AppMonitor", "Canary", "Service"
+    #   resp.slo.auto_investigation_enabled #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/UpdateServiceLevelObjective AWS API Documentation
     #
@@ -3007,7 +3100,7 @@ module Aws::ApplicationSignals
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-applicationsignals'
-      context[:gem_version] = '1.39.0'
+      context[:gem_version] = '1.40.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

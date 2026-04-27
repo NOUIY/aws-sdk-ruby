@@ -2560,11 +2560,13 @@ module Aws::KMS
     # key state. For details, see [Key states of KMS keys][8] in the *Key
     # Management Service Developer Guide*.
     #
-    # **Cross-account use**: Yes. If you use the `KeyId` parameter to
-    # identify a KMS key in a different Amazon Web Services account, specify
-    # the key ARN or the alias ARN of the KMS key.
+    # **Cross-account use**: Yes. To specify a KMS key in a different Amazon
+    # Web Services account, use the [key ARN][9] or [alias ARN][10]. A short
+    # [key ID][11] is also acceptable when decrypting symmetric ciphertexts,
+    # though using a full key ARN is recommended to be more explicit about
+    # the intended KMS key.
     #
-    # **Required permissions**: [kms:Decrypt][9] (key policy)
+    # **Required permissions**: [kms:Decrypt][12] (key policy)
     #
     # **Related operations:**
     #
@@ -2577,7 +2579,7 @@ module Aws::KMS
     # * ReEncrypt
     #
     # **Eventual consistency**: The KMS API follows an eventual consistency
-    # model. For more information, see [KMS eventual consistency][10].
+    # model. For more information, see [KMS eventual consistency][13].
     #
     #
     #
@@ -2589,8 +2591,11 @@ module Aws::KMS
     # [6]: https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk
     # [7]: https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html
     # [8]: https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html
-    # [9]: https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html
-    # [10]: https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency
+    # [9]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN
+    # [10]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-alias-ARN
+    # [11]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-id
+    # [12]: https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html
+    # [13]: https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency
     #
     # @option params [String, StringIO, File] :ciphertext_blob
     #   Ciphertext to be decrypted. The blob includes metadata.
@@ -2651,7 +2656,7 @@ module Aws::KMS
     #
     #   To specify a KMS key, use its key ID, key ARN, alias name, or alias
     #   ARN. When using an alias name, prefix it with `"alias/"`. To specify a
-    #   KMS key in a different Amazon Web Services account, you must use the
+    #   KMS key in a different Amazon Web Services account, you should use the
     #   key ARN or alias ARN.
     #
     #   For example:
@@ -6152,6 +6157,143 @@ module Aws::KMS
       req.send_request(options)
     end
 
+    # Returns usage information about the last successful cryptographic
+    # operation performed with a specified KMS key, including the operation
+    # type, timestamp, and associated CloudTrail event ID.
+    #
+    # The `TrackingStartDate` in the `GetKeyLastUsage` response indicates
+    # the date from which KMS began recording cryptographic activity for a
+    # given key. Use this value together with `KeyCreationDate` to
+    # understand the key's usage history:
+    #
+    # * If the `KeyLastUsage` response element is *present*, the key has
+    #   been used for a successful cryptographic operation since the
+    #   `TrackingStartDate`. The response includes the operation type,
+    #   timestamp, and associated CloudTrail event ID.
+    #
+    # * If the `KeyLastUsage` response element is *empty* and
+    #   `KeyCreationDate` is on or after `TrackingStartDate`, the key has
+    #   not been used for a successful cryptographic operation since it was
+    #   created.
+    #
+    # * If the `KeyLastUsage` response element is *empty* and
+    #   `KeyCreationDate` is before `TrackingStartDate`, there is no record
+    #   of the key being used for a successful cryptographic operation since
+    #   the `TrackingStartDate`. However, the key may have been used before
+    #   tracking began. To determine whether the key was used before the
+    #   `TrackingStartDate`, examine your past CloudTrail logs.
+    #
+    # For multi-Region KMS keys, primary and replica keys track last usage
+    # independently. Each key in a multi-Region key set maintains its own
+    # usage information.
+    #
+    # The `ReEncrypt` operation uses two keys: a source key for decryption
+    # and a destination key for encryption. Usage information is recorded
+    # for both keys independently, each with the CloudTrail event ID from
+    # the respective key owner's account.
+    #
+    # <note markdown="1"> Do not use `GetKeyLastUsage` as the sole indicator when scheduling a
+    # key for deletion. Instead, first [disable the key][1] and monitor
+    # CloudTrail for `DisabledException` entries, as there could be
+    # infrequent workflows that are dependent on the key. By looking for
+    # this exception, you can identify potential dependencies and workload
+    # failures before they occur.
+    #
+    #  </note>
+    #
+    # **Cross-account use**: No. You cannot perform this operation on a KMS
+    # key in a different Amazon Web Services account.
+    #
+    # **Required permissions**: [kms:GetKeyLastUsage][2] (key policy)
+    #
+    # **Related operations:**
+    #
+    # * DescribeKey
+    #
+    # * DisableKey
+    #
+    # * ScheduleKeyDeletion
+    #
+    # **Eventual consistency**: The KMS API follows an eventual consistency
+    # model. For more information, see [KMS eventual consistency][3].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html
+    # [2]: https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html
+    # [3]: https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency
+    #
+    # @option params [required, String] :key_id
+    #   Identifies the KMS key to get usage information for. To specify a KMS
+    #   key, use its key ID or key ARN. Alias names are not supported.
+    #
+    #   Specify the key ID or key ARN of the KMS key.
+    #
+    #   For example:
+    #
+    #   * Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
+    #
+    #   * Key ARN:
+    #     `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
+    #
+    #   To get the key ID and key ARN for a KMS key, use ListKeys or
+    #   DescribeKey.
+    #
+    # @return [Types::GetKeyLastUsageResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetKeyLastUsageResponse#key_id #key_id} => String
+    #   * {Types::GetKeyLastUsageResponse#key_last_usage #key_last_usage} => Types::KeyLastUsageData
+    #   * {Types::GetKeyLastUsageResponse#tracking_start_date #tracking_start_date} => Time
+    #   * {Types::GetKeyLastUsageResponse#key_creation_date #key_creation_date} => Time
+    #
+    #
+    # @example Example: To retrieve the last usage for a KMS key
+    #
+    #   # The following example retrieves usage information about the last successful cryptographic operation performed with the
+    #   # specified KMS key, including the operation type, timestamp, and associated AWS CloudTrail event ID.
+    #
+    #   resp = client.get_key_last_usage({
+    #     key_id: "1234abcd-12ab-34cd-56ef-1234567890ab", # The identifier of the KMS key to get usage information for. You can use the key ID or the Amazon Resource Name (ARN) of the KMS key. Alias names are not supported.
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     key_creation_date: Time.parse(1773253425.56), # The date and time when the KMS key was created.
+    #     key_id: "1234abcd-12ab-34cd-56ef-1234567890ab", # The globally unique identifier for the KMS key.
+    #     key_last_usage: {
+    #       cloud_trail_event_id: "2cfd5892-ea8c-4342-ad49-4b9594b06a8b", 
+    #       kms_request_id: "040cce3e-9ef3-4651-b8cf-e47c9bafdc9b", 
+    #       operation: "Encrypt", 
+    #       timestamp: Time.parse(1773253497.0), 
+    #     }, # Contains usage information about the last time the KMS key was used for a successful cryptographic operation.
+    #     tracking_start_date: Time.parse(1773253425.56), # The date from which AWS KMS began recording cryptographic activity for this key, or the date the KMS key was created, whichever is later.
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_key_last_usage({
+    #     key_id: "KeyIdType", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.key_id #=> String
+    #   resp.key_last_usage.operation #=> String, one of "Decrypt", "DeriveSharedSecret", "Encrypt", "GenerateDataKey", "GenerateDataKeyPair", "GenerateDataKeyPairWithoutPlaintext", "GenerateDataKeyWithoutPlaintext", "GenerateMac", "ReEncrypt", "Sign", "Verify", "VerifyMac"
+    #   resp.key_last_usage.timestamp #=> Time
+    #   resp.key_last_usage.cloud_trail_event_id #=> String
+    #   resp.key_last_usage.kms_request_id #=> String
+    #   resp.tracking_start_date #=> Time
+    #   resp.key_creation_date #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GetKeyLastUsage AWS API Documentation
+    #
+    # @overload get_key_last_usage(params = {})
+    # @param [Hash] params ({})
+    def get_key_last_usage(params = {}, options = {})
+      req = build_request(:get_key_last_usage, params)
+      req.send_request(options)
+    end
+
     # Gets a key policy attached to the specified KMS key.
     #
     # **Cross-account use**: No. You cannot perform this operation on a KMS
@@ -8379,21 +8521,25 @@ module Aws::KMS
     # **Cross-account use**: Yes. The source KMS key and destination KMS key
     # can be in different Amazon Web Services accounts. Either or both KMS
     # keys can be in a different account than the caller. To specify a KMS
-    # key in a different account, you must use its key ARN or alias ARN.
+    # key in a different account, use the [key ARN][7] or [alias ARN][8]. A
+    # short [key ID][9] is also acceptable for the source key when
+    # decrypting symmetric ciphertexts, though using a full key ARN is
+    # recommended to be more explicit about the intended KMS key.
     #
     # **Required permissions**:
     #
-    # * [kms:ReEncryptFrom][7] permission on the source KMS key (key policy)
+    # * [kms:ReEncryptFrom][10] permission on the source KMS key (key
+    #   policy)
     #
-    # * [kms:ReEncryptTo][7] permission on the destination KMS key (key
+    # * [kms:ReEncryptTo][10] permission on the destination KMS key (key
     #   policy)
     #
     # To permit reencryption from or to a KMS key, include the
-    # `"kms:ReEncrypt*"` permission in your [key policy][8]. This permission
-    # is automatically included in the key policy when you use the console
-    # to create a KMS key. But you must include it manually when you create
-    # a KMS key programmatically or when you use the PutKeyPolicy operation
-    # to set a key policy.
+    # `"kms:ReEncrypt*"` permission in your [key policy][11]. This
+    # permission is automatically included in the key policy when you use
+    # the console to create a KMS key. But you must include it manually when
+    # you create a KMS key programmatically or when you use the PutKeyPolicy
+    # operation to set a key policy.
     #
     # **Related operations:**
     #
@@ -8406,7 +8552,7 @@ module Aws::KMS
     # * GenerateDataKeyPair
     #
     # **Eventual consistency**: The KMS API follows an eventual consistency
-    # model. For more information, see [KMS eventual consistency][9].
+    # model. For more information, see [KMS eventual consistency][12].
     #
     #
     #
@@ -8416,9 +8562,12 @@ module Aws::KMS
     # [4]: https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/
     # [5]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html
     # [6]: https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html
-    # [7]: https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html
-    # [8]: https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html
-    # [9]: https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency
+    # [7]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN
+    # [8]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-alias-ARN
+    # [9]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-id
+    # [10]: https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html
+    # [11]: https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html
+    # [12]: https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency
     #
     # @option params [String, StringIO, File] :ciphertext_blob
     #   Ciphertext of the data to reencrypt.
@@ -8464,7 +8613,7 @@ module Aws::KMS
     #
     #   To specify a KMS key, use its key ID, key ARN, alias name, or alias
     #   ARN. When using an alias name, prefix it with `"alias/"`. To specify a
-    #   KMS key in a different Amazon Web Services account, you must use the
+    #   KMS key in a different Amazon Web Services account, you should use the
     #   key ARN or alias ARN.
     #
     #   For example:
@@ -9699,6 +9848,11 @@ module Aws::KMS
     #   * ED25519\_PH\_SHA\_512 signing algorithm requires KMS
     #     `MessageType:DIGEST`
     #
+    #   When you specify the ED25519\_PH\_SHA\_512 signing algorithm with
+    #   `MessageType:DIGEST`, KMS still performs the SHA-512 prehash described
+    #   in [Step 1 of Section 7.8.1 in FIPS 186-5][1]. This means the input is
+    #   hashed twice: once by you and once by KMS.
+    #
     #   When the value of `MessageType` is `DIGEST`, the length of the
     #   `Message` value must match the length of hashed messages for the
     #   specified signing algorithm.
@@ -9727,11 +9881,12 @@ module Aws::KMS
     #     algorithm.
     #
     #   * SM2DSA uses the SM3 hashing algorithm. For details, see [Offline
-    #     verification with SM2 key pairs][1].
+    #     verification with SM2 key pairs][2].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
+    #   [1]: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf#page=39
+    #   [2]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
     #
     # @option params [Array<String>] :grant_tokens
     #   A list of grant tokens.
@@ -10239,8 +10394,10 @@ module Aws::KMS
     # about a change to the `kmsuser` crypto user password
     # (`KeyStorePassword`), or to associate the custom key store with a
     # different, but related, CloudHSM cluster (`CloudHsmClusterId`). To
-    # update any property of an CloudHSM key store, the `ConnectionState` of
-    # the CloudHSM key store must be `DISCONNECTED`.
+    # update most properties of an CloudHSM key store, the `ConnectionState`
+    # of the CloudHSM key store must be `DISCONNECTED`. However, you can
+    # update the `CustomKeyStoreName` of an AWS CloudHSM key store when it
+    # is in the `CONNECTED` or `DISCONNECTED` state.
     #
     # For an external key store, you can use this operation to change the
     # custom key store friendly name (`NewCustomKeyStoreName`), or to tell
@@ -10313,8 +10470,8 @@ module Aws::KMS
     #   This field may be displayed in plaintext in CloudTrail logs and other
     #   output.
     #
-    #   To change this value, an CloudHSM key store must be disconnected. An
-    #   external key store can be connected or disconnected.
+    #   To change this value, the custom key store can be connected or
+    #   disconnected.
     #
     # @option params [String] :key_store_password
     #   Enter the current password of the `kmsuser` crypto user (CU) in the
@@ -10902,6 +11059,11 @@ module Aws::KMS
     #   * ED25519\_PH\_SHA\_512 signing algorithm requires KMS
     #     `MessageType:DIGEST`
     #
+    #   When you specify the ED25519\_PH\_SHA\_512 signing algorithm with
+    #   `MessageType:DIGEST`, KMS still performs the SHA-512 prehash described
+    #   in [Step 1 of Section 7.8.1 in FIPS 186-5][1]. This means the input is
+    #   hashed twice: once by you and once by KMS.
+    #
     #   When the value of `MessageType` is `DIGEST`, the length of the
     #   `Message` value must match the length of hashed messages for the
     #   specified signing algorithm.
@@ -10930,11 +11092,12 @@ module Aws::KMS
     #     algorithm.
     #
     #   * SM2DSA uses the SM3 hashing algorithm. For details, see [Offline
-    #     verification with SM2 key pairs][1].
+    #     verification with SM2 key pairs][2].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
+    #   [1]: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf#page=39
+    #   [2]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
     #
     # @option params [required, String, StringIO, File] :signature
     #   The signature that the `Sign` operation generated.
@@ -11200,7 +11363,7 @@ module Aws::KMS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-kms'
-      context[:gem_version] = '1.123.0'
+      context[:gem_version] = '1.124.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

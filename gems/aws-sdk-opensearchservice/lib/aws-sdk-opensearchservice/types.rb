@@ -5557,6 +5557,11 @@ module Aws::OpenSearchService
     #   Element of the JWT assertion to use for roles.
     #   @return [String]
     #
+    # @!attribute [rw] jwks_url
+    #   The URL endpoint that hosts the JSON Web Key Set (JWKS) containing
+    #   public keys used to verify JWT signatures.
+    #   @return [String]
+    #
     # @!attribute [rw] public_key
     #   Element of the JWT assertion used by the cluster to verify JWT
     #   signatures.
@@ -5568,6 +5573,7 @@ module Aws::OpenSearchService
       :enabled,
       :subject_key,
       :roles_key,
+      :jwks_url,
       :public_key)
       SENSITIVE = []
       include Aws::Structure
@@ -5587,6 +5593,11 @@ module Aws::OpenSearchService
     #   The key used for matching the JWT roles attribute.
     #   @return [String]
     #
+    # @!attribute [rw] jwks_url
+    #   The configured JWKS URL endpoint from which the cluster retrieves
+    #   public keys to verify JWT requests.
+    #   @return [String]
+    #
     # @!attribute [rw] public_key
     #   The key used to verify the signature of incoming JWT requests.
     #   @return [String]
@@ -5597,6 +5608,7 @@ module Aws::OpenSearchService
       :enabled,
       :subject_key,
       :roles_key,
+      :jwks_url,
       :public_key)
       SENSITIVE = []
       include Aws::Structure

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.147.0 (2026-04-27)
+------------------
+
+* Feature - Adds support for selecting all logs sources and types in a single association.
+
 1.146.0 (2026-04-24)
 ------------------
 

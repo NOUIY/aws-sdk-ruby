@@ -833,11 +833,25 @@ module Aws::IVS
     #   List of integration configurations with media tailor resources.
     #   @return [Array<Types::MediaTailorPlaybackConfiguration>]
     #
+    # @!attribute [rw] tags
+    #   Array of 1-50 maps, each of the form `string:string (key:value)`.
+    #   See [Best practices and strategies][1] in *Tagging Amazon Web
+    #   Services Resources and Tag Editor* for details, including
+    #   restrictions that apply to tags and "Tag naming limits and
+    #   requirements"; Amazon IVS has no service-specific constraints
+    #   beyond what is documented there.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/CreateAdConfigurationRequest AWS API Documentation
     #
     class CreateAdConfigurationRequest < Struct.new(
       :name,
-      :media_tailor_playback_configurations)
+      :media_tailor_playback_configurations,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end

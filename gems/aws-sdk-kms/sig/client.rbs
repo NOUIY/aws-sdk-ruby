@@ -438,6 +438,19 @@ module Aws
                            ) -> _GenerateRandomResponseSuccess
                          | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GenerateRandomResponseSuccess
 
+      interface _GetKeyLastUsageResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetKeyLastUsageResponse]
+        def key_id: () -> ::String
+        def key_last_usage: () -> Types::KeyLastUsageData
+        def tracking_start_date: () -> ::Time
+        def key_creation_date: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/KMS/Client.html#get_key_last_usage-instance_method
+      def get_key_last_usage: (
+                                key_id: ::String
+                              ) -> _GetKeyLastUsageResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetKeyLastUsageResponseSuccess
+
       interface _GetKeyPolicyResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetKeyPolicyResponse]
         def policy: () -> ::String

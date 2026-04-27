@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.156.0 (2026-04-27)
+------------------
+
+* Feature - Added support for Protocol as modified resource and added update failure as modification state
+
 1.155.0 (2026-03-18)
 ------------------
 

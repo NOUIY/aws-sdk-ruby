@@ -942,6 +942,14 @@ module Aws::Mgn
     #
     class DeleteNetworkMigrationDefinitionResponse < Aws::EmptyStructure; end
 
+    # An operation that deletes a construct from the mapping.
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/DeleteOperation AWS API Documentation
+    #
+    class DeleteOperation < Aws::EmptyStructure; end
+
     # @!attribute [rw] replication_configuration_template_id
     #   Request to delete Replication Configuration Template from service by
     #   Replication Configuration Template ID.
@@ -3981,6 +3989,41 @@ module Aws::Mgn
       include Aws::Structure
     end
 
+    # A construct reference specifying the source segment and construct to
+    # merge.
+    #
+    # @!attribute [rw] segment_id
+    #   The segment ID of the construct to merge.
+    #   @return [String]
+    #
+    # @!attribute [rw] construct_id
+    #   The construct ID to merge.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/MergeConstruct AWS API Documentation
+    #
+    class MergeConstruct < Struct.new(
+      :segment_id,
+      :construct_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An operation that merges constructs from different segments into the
+    # target construct.
+    #
+    # @!attribute [rw] merge_constructs
+    #   The list of constructs to merge into the target.
+    #   @return [Array<Types::MergeConstruct>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/MergeOperation AWS API Documentation
+    #
+    class MergeOperation < Struct.new(
+      :merge_constructs)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Network interface.
     #
     # @!attribute [rw] mac_address
@@ -4661,6 +4704,10 @@ module Aws::Mgn
     #   The logical identifier for the construct in the infrastructure code.
     #   @return [String]
     #
+    # @!attribute [rw] excluded
+    #   Whether this construct is excluded from the migration.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] created_at
     #   The timestamp when the construct was created.
     #   @return [Time]
@@ -4681,6 +4728,7 @@ module Aws::Mgn
       :name,
       :description,
       :logical_id,
+      :excluded,
       :created_at,
       :updated_at,
       :properties)
@@ -4795,6 +4843,19 @@ module Aws::Mgn
     #
     # @note OperationUnion is a union - when making an API calls you must set exactly one of the members.
     #
+    # @!attribute [rw] merge
+    #   A merge operation to combine constructs from different segments.
+    #   @return [Types::MergeOperation]
+    #
+    # @!attribute [rw] split
+    #   A split operation to divide a construct into multiple constructs
+    #   with specified CIDR blocks.
+    #   @return [Types::SplitOperation]
+    #
+    # @!attribute [rw] delete
+    #   A delete operation to remove a construct from the mapping.
+    #   @return [Types::DeleteOperation]
+    #
     # @!attribute [rw] update
     #   An update operation to modify construct properties.
     #   @return [Types::UpdateOperation]
@@ -4802,12 +4863,18 @@ module Aws::Mgn
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/OperationUnion AWS API Documentation
     #
     class OperationUnion < Struct.new(
+      :merge,
+      :split,
+      :delete,
       :update,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
+      class Merge < OperationUnion; end
+      class Split < OperationUnion; end
+      class Delete < OperationUnion; end
       class Update < OperationUnion; end
       class Unknown < OperationUnion; end
     end
@@ -5765,6 +5832,35 @@ module Aws::Mgn
     class SourceServerConnectorAction < Struct.new(
       :credentials_secret_arn,
       :connector_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A split target specifying the CIDR block for the new construct.
+    #
+    # @!attribute [rw] cidr_block
+    #   The CIDR block for the split construct.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/SplitConstruct AWS API Documentation
+    #
+    class SplitConstruct < Struct.new(
+      :cidr_block)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An operation that splits a construct into multiple constructs with
+    # different CIDR blocks.
+    #
+    # @!attribute [rw] split_constructs
+    #   The list of split targets with their CIDR blocks.
+    #   @return [Array<Types::SplitConstruct>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/SplitOperation AWS API Documentation
+    #
+    class SplitOperation < Struct.new(
+      :split_constructs)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6912,6 +7008,14 @@ module Aws::Mgn
 
     # An operation that updates the properties of a construct.
     #
+    # @!attribute [rw] name
+    #   The updated name for the construct.
+    #   @return [String]
+    #
+    # @!attribute [rw] excluded
+    #   Whether to exclude this construct from the migration.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] properties
     #   The properties to update on the construct.
     #   @return [Hash<String,String>]
@@ -6919,6 +7023,8 @@ module Aws::Mgn
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/UpdateOperation AWS API Documentation
     #
     class UpdateOperation < Struct.new(
+      :name,
+      :excluded,
       :properties)
       SENSITIVE = []
       include Aws::Structure

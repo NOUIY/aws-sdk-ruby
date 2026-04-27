@@ -1117,6 +1117,8 @@ module Aws::Omics
     DefaultRunSetting.add_member(:workflow_owner_id, Shapes::ShapeRef.new(shape: WorkflowOwnerId, location_name: "workflowOwnerId"))
     DefaultRunSetting.add_member(:output_bucket_owner_id, Shapes::ShapeRef.new(shape: AwsAccountId, location_name: "outputBucketOwnerId"))
     DefaultRunSetting.add_member(:workflow_version_name, Shapes::ShapeRef.new(shape: WorkflowVersionName, location_name: "workflowVersionName"))
+    DefaultRunSetting.add_member(:networking_mode, Shapes::ShapeRef.new(shape: NetworkingMode, location_name: "networkingMode"))
+    DefaultRunSetting.add_member(:configuration_name, Shapes::ShapeRef.new(shape: ConfigurationName, location_name: "configurationName"))
     DefaultRunSetting.struct_class = Types::DefaultRunSetting
 
     DefinitionRepository.add_member(:connection_arn, Shapes::ShapeRef.new(shape: ConnectionArn, required: true, location_name: "connectionArn"))

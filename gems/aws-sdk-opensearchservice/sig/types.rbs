@@ -1427,6 +1427,7 @@ module Aws::OpenSearchService
       attr_accessor enabled: bool
       attr_accessor subject_key: ::String
       attr_accessor roles_key: ::String
+      attr_accessor jwks_url: ::String
       attr_accessor public_key: ::String
       SENSITIVE: []
     end
@@ -1435,6 +1436,7 @@ module Aws::OpenSearchService
       attr_accessor enabled: bool
       attr_accessor subject_key: ::String
       attr_accessor roles_key: ::String
+      attr_accessor jwks_url: ::String
       attr_accessor public_key: ::String
       SENSITIVE: []
     end

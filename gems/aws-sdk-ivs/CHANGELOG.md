@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.84.0 (2026-04-27)
+------------------
+
+* Feature - Adds tags parameter to the CreateAdConfiguration operation
+
 1.83.0 (2026-04-22)
 ------------------
 

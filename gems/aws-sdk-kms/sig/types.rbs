@@ -429,6 +429,19 @@ module Aws::KMS
       SENSITIVE: [:plaintext]
     end
 
+    class GetKeyLastUsageRequest
+      attr_accessor key_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetKeyLastUsageResponse
+      attr_accessor key_id: ::String
+      attr_accessor key_last_usage: Types::KeyLastUsageData
+      attr_accessor tracking_start_date: ::Time
+      attr_accessor key_creation_date: ::Time
+      SENSITIVE: []
+    end
+
     class GetKeyPolicyRequest
       attr_accessor key_id: ::String
       attr_accessor policy_name: ::String
@@ -597,6 +610,14 @@ module Aws::KMS
 
     class KMSInvalidStateException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class KeyLastUsageData
+      attr_accessor operation: ("Decrypt" | "DeriveSharedSecret" | "Encrypt" | "GenerateDataKey" | "GenerateDataKeyPair" | "GenerateDataKeyPairWithoutPlaintext" | "GenerateDataKeyWithoutPlaintext" | "GenerateMac" | "ReEncrypt" | "Sign" | "Verify" | "VerifyMac")
+      attr_accessor timestamp: ::Time
+      attr_accessor cloud_trail_event_id: ::String
+      attr_accessor kms_request_id: ::String
       SENSITIVE: []
     end
 

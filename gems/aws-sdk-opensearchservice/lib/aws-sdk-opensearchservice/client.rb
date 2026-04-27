@@ -1305,6 +1305,7 @@ module Aws::OpenSearchService
     #         enabled: false,
     #         subject_key: "SubjectKey",
     #         roles_key: "RolesKey",
+    #         jwks_url: "JwksUrl",
     #         public_key: "String",
     #       },
     #       iam_federation_options: {
@@ -1453,6 +1454,7 @@ module Aws::OpenSearchService
     #   resp.domain_status.advanced_security_options.jwt_options.enabled #=> Boolean
     #   resp.domain_status.advanced_security_options.jwt_options.subject_key #=> String
     #   resp.domain_status.advanced_security_options.jwt_options.roles_key #=> String
+    #   resp.domain_status.advanced_security_options.jwt_options.jwks_url #=> String
     #   resp.domain_status.advanced_security_options.jwt_options.public_key #=> String
     #   resp.domain_status.advanced_security_options.iam_federation_options.enabled #=> Boolean
     #   resp.domain_status.advanced_security_options.iam_federation_options.subject_key #=> String
@@ -1984,6 +1986,7 @@ module Aws::OpenSearchService
     #   resp.domain_status.advanced_security_options.jwt_options.enabled #=> Boolean
     #   resp.domain_status.advanced_security_options.jwt_options.subject_key #=> String
     #   resp.domain_status.advanced_security_options.jwt_options.roles_key #=> String
+    #   resp.domain_status.advanced_security_options.jwt_options.jwks_url #=> String
     #   resp.domain_status.advanced_security_options.jwt_options.public_key #=> String
     #   resp.domain_status.advanced_security_options.iam_federation_options.enabled #=> Boolean
     #   resp.domain_status.advanced_security_options.iam_federation_options.subject_key #=> String
@@ -2382,6 +2385,7 @@ module Aws::OpenSearchService
     #   resp.domain_status.advanced_security_options.jwt_options.enabled #=> Boolean
     #   resp.domain_status.advanced_security_options.jwt_options.subject_key #=> String
     #   resp.domain_status.advanced_security_options.jwt_options.roles_key #=> String
+    #   resp.domain_status.advanced_security_options.jwt_options.jwks_url #=> String
     #   resp.domain_status.advanced_security_options.jwt_options.public_key #=> String
     #   resp.domain_status.advanced_security_options.iam_federation_options.enabled #=> Boolean
     #   resp.domain_status.advanced_security_options.iam_federation_options.subject_key #=> String
@@ -2684,6 +2688,7 @@ module Aws::OpenSearchService
     #   resp.domain_config.advanced_security_options.options.jwt_options.enabled #=> Boolean
     #   resp.domain_config.advanced_security_options.options.jwt_options.subject_key #=> String
     #   resp.domain_config.advanced_security_options.options.jwt_options.roles_key #=> String
+    #   resp.domain_config.advanced_security_options.options.jwt_options.jwks_url #=> String
     #   resp.domain_config.advanced_security_options.options.jwt_options.public_key #=> String
     #   resp.domain_config.advanced_security_options.options.iam_federation_options.enabled #=> Boolean
     #   resp.domain_config.advanced_security_options.options.iam_federation_options.subject_key #=> String
@@ -2972,6 +2977,7 @@ module Aws::OpenSearchService
     #   resp.domain_status_list[0].advanced_security_options.jwt_options.enabled #=> Boolean
     #   resp.domain_status_list[0].advanced_security_options.jwt_options.subject_key #=> String
     #   resp.domain_status_list[0].advanced_security_options.jwt_options.roles_key #=> String
+    #   resp.domain_status_list[0].advanced_security_options.jwt_options.jwks_url #=> String
     #   resp.domain_status_list[0].advanced_security_options.jwt_options.public_key #=> String
     #   resp.domain_status_list[0].advanced_security_options.iam_federation_options.enabled #=> Boolean
     #   resp.domain_status_list[0].advanced_security_options.iam_federation_options.subject_key #=> String
@@ -3143,6 +3149,7 @@ module Aws::OpenSearchService
     #   resp.dry_run_config.advanced_security_options.jwt_options.enabled #=> Boolean
     #   resp.dry_run_config.advanced_security_options.jwt_options.subject_key #=> String
     #   resp.dry_run_config.advanced_security_options.jwt_options.roles_key #=> String
+    #   resp.dry_run_config.advanced_security_options.jwt_options.jwks_url #=> String
     #   resp.dry_run_config.advanced_security_options.jwt_options.public_key #=> String
     #   resp.dry_run_config.advanced_security_options.iam_federation_options.enabled #=> Boolean
     #   resp.dry_run_config.advanced_security_options.iam_federation_options.subject_key #=> String
@@ -5819,6 +5826,7 @@ module Aws::OpenSearchService
     #         enabled: false,
     #         subject_key: "SubjectKey",
     #         roles_key: "RolesKey",
+    #         jwks_url: "JwksUrl",
     #         public_key: "String",
     #       },
     #       iam_federation_options: {
@@ -6009,6 +6017,7 @@ module Aws::OpenSearchService
     #   resp.domain_config.advanced_security_options.options.jwt_options.enabled #=> Boolean
     #   resp.domain_config.advanced_security_options.options.jwt_options.subject_key #=> String
     #   resp.domain_config.advanced_security_options.options.jwt_options.roles_key #=> String
+    #   resp.domain_config.advanced_security_options.options.jwt_options.jwks_url #=> String
     #   resp.domain_config.advanced_security_options.options.jwt_options.public_key #=> String
     #   resp.domain_config.advanced_security_options.options.iam_federation_options.enabled #=> Boolean
     #   resp.domain_config.advanced_security_options.options.iam_federation_options.subject_key #=> String
@@ -6502,7 +6511,7 @@ module Aws::OpenSearchService
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-opensearchservice'
-      context[:gem_version] = '1.96.0'
+      context[:gem_version] = '1.97.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

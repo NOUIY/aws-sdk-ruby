@@ -1107,8 +1107,8 @@ module Aws::WorkSpaces
     end
 
     class ModificationState
-      attr_accessor resource: ("ROOT_VOLUME" | "USER_VOLUME" | "COMPUTE_TYPE")
-      attr_accessor state: ("UPDATE_INITIATED" | "UPDATE_IN_PROGRESS")
+      attr_accessor resource: ("ROOT_VOLUME" | "USER_VOLUME" | "COMPUTE_TYPE" | "PROTOCOL")
+      attr_accessor state: ("UPDATE_INITIATED" | "UPDATE_IN_PROGRESS" | "UPDATE_FAILED")
       SENSITIVE: []
     end
 

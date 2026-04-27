@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.66.0 (2026-04-27)
+------------------
+
+* Feature - Enable Public Internet or VPC configuration to BatchRun
+
 1.65.0 (2026-03-27)
 ------------------
 

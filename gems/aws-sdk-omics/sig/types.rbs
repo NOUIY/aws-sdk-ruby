@@ -125,7 +125,7 @@ module Aws::Omics
     class BatchListItem
       attr_accessor id: ::String
       attr_accessor name: ::String
-      attr_accessor status: ("PENDING" | "SUBMITTING" | "INPROGRESS" | "STOPPING" | "CANCELLED" | "FAILED" | "PROCESSED" | "RUNS_DELETING" | "RUNS_DELETED")
+      attr_accessor status: ("CREATING" | "PENDING" | "SUBMITTING" | "INPROGRESS" | "STOPPING" | "CANCELLED" | "FAILED" | "PROCESSED" | "RUNS_DELETING" | "RUNS_DELETED")
       attr_accessor created_at: ::Time
       attr_accessor total_runs: ::Integer
       attr_accessor workflow_id: ::String
@@ -519,6 +519,8 @@ module Aws::Omics
       attr_accessor workflow_owner_id: ::String
       attr_accessor output_bucket_owner_id: ::String
       attr_accessor workflow_version_name: ::String
+      attr_accessor networking_mode: ("RESTRICTED" | "VPC")
+      attr_accessor configuration_name: ::String
       SENSITIVE: []
     end
 
@@ -804,7 +806,7 @@ module Aws::Omics
       attr_accessor arn: ::String
       attr_accessor uuid: ::String
       attr_accessor name: ::String
-      attr_accessor status: ("PENDING" | "SUBMITTING" | "INPROGRESS" | "STOPPING" | "CANCELLED" | "FAILED" | "PROCESSED" | "RUNS_DELETING" | "RUNS_DELETED")
+      attr_accessor status: ("CREATING" | "PENDING" | "SUBMITTING" | "INPROGRESS" | "STOPPING" | "CANCELLED" | "FAILED" | "PROCESSED" | "RUNS_DELETING" | "RUNS_DELETED")
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor total_runs: ::Integer
       attr_accessor default_run_setting: Types::DefaultRunSetting
@@ -1420,7 +1422,7 @@ module Aws::Omics
     class ListBatchRequest
       attr_accessor max_items: ::Integer
       attr_accessor starting_token: ::String
-      attr_accessor status: ("PENDING" | "SUBMITTING" | "INPROGRESS" | "STOPPING" | "CANCELLED" | "FAILED" | "PROCESSED" | "RUNS_DELETING" | "RUNS_DELETED")
+      attr_accessor status: ("CREATING" | "PENDING" | "SUBMITTING" | "INPROGRESS" | "STOPPING" | "CANCELLED" | "FAILED" | "PROCESSED" | "RUNS_DELETING" | "RUNS_DELETED")
       attr_accessor name: ::String
       attr_accessor run_group_id: ::String
       SENSITIVE: []
@@ -2219,7 +2221,7 @@ module Aws::Omics
     class StartRunBatchResponse
       attr_accessor id: ::String
       attr_accessor arn: ::String
-      attr_accessor status: ("PENDING" | "SUBMITTING" | "INPROGRESS" | "STOPPING" | "CANCELLED" | "FAILED" | "PROCESSED" | "RUNS_DELETING" | "RUNS_DELETED")
+      attr_accessor status: ("CREATING" | "PENDING" | "SUBMITTING" | "INPROGRESS" | "STOPPING" | "CANCELLED" | "FAILED" | "PROCESSED" | "RUNS_DELETING" | "RUNS_DELETED")
       attr_accessor uuid: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []

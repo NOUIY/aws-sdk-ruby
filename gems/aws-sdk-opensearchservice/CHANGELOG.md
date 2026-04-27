@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.97.0 (2026-04-27)
+------------------
+
+* Feature - Amazon OpenSearch Service now supports JWKS URL configuration for JWT authentication
+
 1.96.0 (2026-04-23)
 ------------------
 
