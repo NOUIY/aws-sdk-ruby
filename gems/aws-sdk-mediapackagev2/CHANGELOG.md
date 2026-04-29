@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.61.0 (2026-04-29)
+------------------
+
+* Feature - This feature adds configuration for specifying SCTE marker handling and allow greater control over generated manifest and segment URIs
+
 1.60.0 (2026-03-24)
 ------------------
 

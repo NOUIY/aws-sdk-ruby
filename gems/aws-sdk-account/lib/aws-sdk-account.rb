@@ -49,12 +49,13 @@ module Aws::Account
   end
   autoload :Client, 'aws-sdk-account/client'
   autoload :Errors, 'aws-sdk-account/errors'
+  autoload :Waiters, 'aws-sdk-account/waiters'
   autoload :Resource, 'aws-sdk-account/resource'
   autoload :EndpointParameters, 'aws-sdk-account/endpoint_parameters'
   autoload :EndpointProvider, 'aws-sdk-account/endpoint_provider'
   autoload :Endpoints, 'aws-sdk-account/endpoints'
 
-  GEM_VERSION = '1.56.0'
+  GEM_VERSION = '1.57.0'
 
 end
 

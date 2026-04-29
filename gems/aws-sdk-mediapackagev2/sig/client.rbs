@@ -218,6 +218,7 @@ module Aws
         def dash_manifests: () -> ::Array[Types::GetDashManifestConfiguration]
         def mss_manifests: () -> ::Array[Types::GetMssManifestConfiguration]
         def force_endpoint_error_configuration: () -> Types::ForceEndpointErrorConfiguration
+        def uri_separator: () -> ("UNDERSCORE" | "HYPHEN")
         def etag: () -> ::String
         def tags: () -> ::Hash[::String, ::String]
       end
@@ -234,8 +235,9 @@ module Aws
                                       include_iframe_only_streams: bool?,
                                       ts_include_dvb_subtitles: bool?,
                                       scte: {
-                                        scte_filter: Array[("SPLICE_INSERT" | "BREAK" | "PROVIDER_ADVERTISEMENT" | "DISTRIBUTOR_ADVERTISEMENT" | "PROVIDER_PLACEMENT_OPPORTUNITY" | "DISTRIBUTOR_PLACEMENT_OPPORTUNITY" | "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY" | "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY" | "PROGRAM")]?,
-                                        scte_in_segments: ("NONE" | "ALL")?
+                                        scte_filter: Array[("SPLICE_INSERT" | "BREAK" | "PROVIDER_ADVERTISEMENT" | "DISTRIBUTOR_ADVERTISEMENT" | "PROVIDER_PLACEMENT_OPPORTUNITY" | "DISTRIBUTOR_PLACEMENT_OPPORTUNITY" | "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY" | "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY" | "PROGRAM" | "CHAPTER" | "UNSCHEDULED_EVENT" | "ALTERNATE_CONTENT_OPPORTUNITY" | "NETWORK" | "PROVIDER_PROMO" | "DISTRIBUTOR_PROMO" | "PROVIDER_AD_BLOCK" | "DISTRIBUTOR_AD_BLOCK")]?,
+                                        scte_in_segments: ("NONE" | "ALL" | "MATCHES_FILTER")?,
+                                        custom_ad_types: Array[("PROGRAM" | "CHAPTER" | "UNSCHEDULED_EVENT" | "ALTERNATE_CONTENT_OPPORTUNITY" | "NETWORK")]?
                                       }?,
                                       encryption: {
                                         constant_initialization_vector: ::String?,
@@ -267,7 +269,8 @@ module Aws
                                         manifest_name: ::String,
                                         child_manifest_name: ::String?,
                                         scte_hls: {
-                                          ad_marker_hls: ("DATERANGE" | "SCTE35_ENHANCED")?
+                                          ad_marker_hls: ("DATERANGE" | "SCTE35_ENHANCED")?,
+                                          scte_in_manifests: ("ALL" | "MATCHES_FILTER")?
                                         }?,
                                         start_tag: {
                                           time_offset: ::Float,
@@ -283,7 +286,8 @@ module Aws
                                           time_delay_seconds: ::Integer?,
                                           clip_start_time: ::Time?
                                         }?,
-                                        url_encode_child_manifest: bool?
+                                        url_encode_child_manifest: bool?,
+                                        uri_path_type: ("LEAF" | "ROOT")?
                                       },
                                     ],
                                     ?low_latency_hls_manifests: Array[
@@ -291,7 +295,8 @@ module Aws
                                         manifest_name: ::String,
                                         child_manifest_name: ::String?,
                                         scte_hls: {
-                                          ad_marker_hls: ("DATERANGE" | "SCTE35_ENHANCED")?
+                                          ad_marker_hls: ("DATERANGE" | "SCTE35_ENHANCED")?,
+                                          scte_in_manifests: ("ALL" | "MATCHES_FILTER")?
                                         }?,
                                         start_tag: {
                                           time_offset: ::Float,
@@ -307,7 +312,8 @@ module Aws
                                           time_delay_seconds: ::Integer?,
                                           clip_start_time: ::Time?
                                         }?,
-                                        url_encode_child_manifest: bool?
+                                        url_encode_child_manifest: bool?,
+                                        uri_path_type: ("LEAF" | "ROOT")?
                                       },
                                     ],
                                     ?dash_manifests: Array[
@@ -328,7 +334,8 @@ module Aws
                                         segment_template_format: ("NUMBER_WITH_TIMELINE")?,
                                         period_triggers: Array[("AVAILS" | "DRM_KEY_ROTATION" | "SOURCE_CHANGES" | "SOURCE_DISRUPTIONS" | "NONE")]?,
                                         scte_dash: {
-                                          ad_marker_dash: ("BINARY" | "XML")?
+                                          ad_marker_dash: ("BINARY" | "XML")?,
+                                          scte_in_manifests: ("ALL" | "MATCHES_FILTER")?
                                         }?,
                                         drm_signaling: ("INDIVIDUAL" | "REFERENCED")?,
                                         utc_timing: {
@@ -369,7 +376,8 @@ module Aws
                                           ttml_configuration: {
                                             ttml_profile: ("IMSC_1" | "EBU_TT_D_101")
                                           }?
-                                        }?
+                                        }?,
+                                        uri_path_type: ("LEAF" | "ROOT")?
                                       },
                                     ],
                                     ?mss_manifests: Array[
@@ -390,6 +398,7 @@ module Aws
                                     ?force_endpoint_error_configuration: {
                                       endpoint_error_conditions: Array[("STALE_MANIFEST" | "INCOMPLETE_MANIFEST" | "MISSING_DRM_KEY" | "SLATE_INPUT")]?
                                     },
+                                    ?uri_separator: ("UNDERSCORE" | "HYPHEN"),
                                     ?tags: Hash[::String, ::String]
                                   ) -> _CreateOriginEndpointResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateOriginEndpointResponseSuccess
@@ -543,6 +552,7 @@ module Aws
         def dash_manifests: () -> ::Array[Types::GetDashManifestConfiguration]
         def mss_manifests: () -> ::Array[Types::GetMssManifestConfiguration]
         def force_endpoint_error_configuration: () -> Types::ForceEndpointErrorConfiguration
+        def uri_separator: () -> ("UNDERSCORE" | "HYPHEN")
         def etag: () -> ::String
         def tags: () -> ::Hash[::String, ::String]
       end
@@ -772,6 +782,7 @@ module Aws
         def low_latency_hls_manifests: () -> ::Array[Types::GetLowLatencyHlsManifestConfiguration]
         def mss_manifests: () -> ::Array[Types::GetMssManifestConfiguration]
         def force_endpoint_error_configuration: () -> Types::ForceEndpointErrorConfiguration
+        def uri_separator: () -> ("UNDERSCORE" | "HYPHEN")
         def etag: () -> ::String
         def tags: () -> ::Hash[::String, ::String]
         def dash_manifests: () -> ::Array[Types::GetDashManifestConfiguration]
@@ -789,8 +800,9 @@ module Aws
                                       include_iframe_only_streams: bool?,
                                       ts_include_dvb_subtitles: bool?,
                                       scte: {
-                                        scte_filter: Array[("SPLICE_INSERT" | "BREAK" | "PROVIDER_ADVERTISEMENT" | "DISTRIBUTOR_ADVERTISEMENT" | "PROVIDER_PLACEMENT_OPPORTUNITY" | "DISTRIBUTOR_PLACEMENT_OPPORTUNITY" | "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY" | "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY" | "PROGRAM")]?,
-                                        scte_in_segments: ("NONE" | "ALL")?
+                                        scte_filter: Array[("SPLICE_INSERT" | "BREAK" | "PROVIDER_ADVERTISEMENT" | "DISTRIBUTOR_ADVERTISEMENT" | "PROVIDER_PLACEMENT_OPPORTUNITY" | "DISTRIBUTOR_PLACEMENT_OPPORTUNITY" | "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY" | "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY" | "PROGRAM" | "CHAPTER" | "UNSCHEDULED_EVENT" | "ALTERNATE_CONTENT_OPPORTUNITY" | "NETWORK" | "PROVIDER_PROMO" | "DISTRIBUTOR_PROMO" | "PROVIDER_AD_BLOCK" | "DISTRIBUTOR_AD_BLOCK")]?,
+                                        scte_in_segments: ("NONE" | "ALL" | "MATCHES_FILTER")?,
+                                        custom_ad_types: Array[("PROGRAM" | "CHAPTER" | "UNSCHEDULED_EVENT" | "ALTERNATE_CONTENT_OPPORTUNITY" | "NETWORK")]?
                                       }?,
                                       encryption: {
                                         constant_initialization_vector: ::String?,
@@ -821,7 +833,8 @@ module Aws
                                         manifest_name: ::String,
                                         child_manifest_name: ::String?,
                                         scte_hls: {
-                                          ad_marker_hls: ("DATERANGE" | "SCTE35_ENHANCED")?
+                                          ad_marker_hls: ("DATERANGE" | "SCTE35_ENHANCED")?,
+                                          scte_in_manifests: ("ALL" | "MATCHES_FILTER")?
                                         }?,
                                         start_tag: {
                                           time_offset: ::Float,
@@ -837,7 +850,8 @@ module Aws
                                           time_delay_seconds: ::Integer?,
                                           clip_start_time: ::Time?
                                         }?,
-                                        url_encode_child_manifest: bool?
+                                        url_encode_child_manifest: bool?,
+                                        uri_path_type: ("LEAF" | "ROOT")?
                                       },
                                     ],
                                     ?low_latency_hls_manifests: Array[
@@ -845,7 +859,8 @@ module Aws
                                         manifest_name: ::String,
                                         child_manifest_name: ::String?,
                                         scte_hls: {
-                                          ad_marker_hls: ("DATERANGE" | "SCTE35_ENHANCED")?
+                                          ad_marker_hls: ("DATERANGE" | "SCTE35_ENHANCED")?,
+                                          scte_in_manifests: ("ALL" | "MATCHES_FILTER")?
                                         }?,
                                         start_tag: {
                                           time_offset: ::Float,
@@ -861,7 +876,8 @@ module Aws
                                           time_delay_seconds: ::Integer?,
                                           clip_start_time: ::Time?
                                         }?,
-                                        url_encode_child_manifest: bool?
+                                        url_encode_child_manifest: bool?,
+                                        uri_path_type: ("LEAF" | "ROOT")?
                                       },
                                     ],
                                     ?dash_manifests: Array[
@@ -882,7 +898,8 @@ module Aws
                                         segment_template_format: ("NUMBER_WITH_TIMELINE")?,
                                         period_triggers: Array[("AVAILS" | "DRM_KEY_ROTATION" | "SOURCE_CHANGES" | "SOURCE_DISRUPTIONS" | "NONE")]?,
                                         scte_dash: {
-                                          ad_marker_dash: ("BINARY" | "XML")?
+                                          ad_marker_dash: ("BINARY" | "XML")?,
+                                          scte_in_manifests: ("ALL" | "MATCHES_FILTER")?
                                         }?,
                                         drm_signaling: ("INDIVIDUAL" | "REFERENCED")?,
                                         utc_timing: {
@@ -923,7 +940,8 @@ module Aws
                                           ttml_configuration: {
                                             ttml_profile: ("IMSC_1" | "EBU_TT_D_101")
                                           }?
-                                        }?
+                                        }?,
+                                        uri_path_type: ("LEAF" | "ROOT")?
                                       },
                                     ],
                                     ?mss_manifests: Array[
@@ -944,6 +962,7 @@ module Aws
                                     ?force_endpoint_error_configuration: {
                                       endpoint_error_conditions: Array[("STALE_MANIFEST" | "INCOMPLETE_MANIFEST" | "MISSING_DRM_KEY" | "SLATE_INPUT")]?
                                     },
+                                    ?uri_separator: ("UNDERSCORE" | "HYPHEN"),
                                     ?etag: ::String
                                   ) -> _UpdateOriginEndpointResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateOriginEndpointResponseSuccess

@@ -692,6 +692,116 @@ module Aws::BedrockAgentCore
       req.send_request(options)
     end
 
+    # Creates an A/B test for comparing agent configurations. A/B tests
+    # split traffic between a control variant and a treatment variant
+    # through a gateway, then evaluate performance using online evaluation
+    # configurations to determine which variant performs better.
+    #
+    # @option params [required, String] :name
+    #   The name of the A/B test. Must be unique within your account.
+    #
+    # @option params [String] :description
+    #   The description of the A/B test.
+    #
+    # @option params [required, String] :gateway_arn
+    #   The Amazon Resource Name (ARN) of the gateway to use for traffic
+    #   splitting.
+    #
+    # @option params [required, Array<Types::Variant>] :variants
+    #   The list of variants for the A/B test. Must contain exactly two
+    #   variants: a control (C) and a treatment (T1), each with a
+    #   configuration bundle or target reference and a traffic weight.
+    #
+    # @option params [Types::GatewayFilter] :gateway_filter
+    #   Optional filter to restrict which gateway target paths are included in
+    #   the A/B test.
+    #
+    # @option params [required, Types::ABTestEvaluationConfig] :evaluation_config
+    #   The evaluation configuration specifying which online evaluation
+    #   configurations to use for measuring variant performance.
+    #
+    # @option params [required, String] :role_arn
+    #   The IAM role ARN that grants permissions for the A/B test to access
+    #   gateway and evaluation resources.
+    #
+    # @option params [Boolean] :enable_on_create
+    #   Whether to enable the A/B test immediately upon creation. If true,
+    #   traffic splitting begins automatically.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If this token matches a previous
+    #   request, the service ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateABTestResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateABTestResponse#ab_test_id #ab_test_id} => String
+    #   * {Types::CreateABTestResponse#ab_test_arn #ab_test_arn} => String
+    #   * {Types::CreateABTestResponse#name #name} => String
+    #   * {Types::CreateABTestResponse#status #status} => String
+    #   * {Types::CreateABTestResponse#execution_status #execution_status} => String
+    #   * {Types::CreateABTestResponse#created_at #created_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_ab_test({
+    #     name: "ABTestName", # required
+    #     description: "ABTestDescription",
+    #     gateway_arn: "GatewayArn", # required
+    #     variants: [ # required
+    #       {
+    #         name: "VariantName", # required
+    #         weight: 1, # required
+    #         variant_configuration: { # required
+    #           configuration_bundle: {
+    #             bundle_arn: "ConfigurationBundleArn", # required
+    #             bundle_version: "ConfigurationBundleVersion", # required
+    #           },
+    #           target: {
+    #             name: "TargetName", # required
+    #           },
+    #         },
+    #       },
+    #     ],
+    #     gateway_filter: {
+    #       target_paths: ["PathPattern"],
+    #     },
+    #     evaluation_config: { # required
+    #       online_evaluation_config_arn: "OnlineEvaluationConfigArn",
+    #       per_variant_online_evaluation_config: [
+    #         {
+    #           name: "VariantName", # required
+    #           online_evaluation_config_arn: "OnlineEvaluationConfigArn", # required
+    #         },
+    #       ],
+    #     },
+    #     role_arn: "RoleArn", # required
+    #     enable_on_create: false,
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ab_test_id #=> String
+    #   resp.ab_test_arn #=> String
+    #   resp.name #=> String
+    #   resp.status #=> String, one of "CREATING", "ACTIVE", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING", "DELETE_FAILED", "FAILED"
+    #   resp.execution_status #=> String, one of "PAUSED", "RUNNING", "STOPPED", "NOT_STARTED"
+    #   resp.created_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CreateABTest AWS API Documentation
+    #
+    # @overload create_ab_test(params = {})
+    # @param [Hash] params ({})
+    def create_ab_test(params = {}, options = {})
+      req = build_request(:create_ab_test, params)
+      req.send_request(options)
+    end
+
     # Creates an event in an AgentCore Memory resource. Events represent
     # interactions or activities that occur within a session and are
     # associated with specific actors.
@@ -796,6 +906,70 @@ module Aws::BedrockAgentCore
       req.send_request(options)
     end
 
+    # Deletes an A/B test and its associated gateway rules.
+    #
+    # @option params [required, String] :ab_test_id
+    #   The unique identifier of the A/B test to delete.
+    #
+    # @return [Types::DeleteABTestResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteABTestResponse#ab_test_id #ab_test_id} => String
+    #   * {Types::DeleteABTestResponse#ab_test_arn #ab_test_arn} => String
+    #   * {Types::DeleteABTestResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_ab_test({
+    #     ab_test_id: "ABTestId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ab_test_id #=> String
+    #   resp.ab_test_arn #=> String
+    #   resp.status #=> String, one of "CREATING", "ACTIVE", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING", "DELETE_FAILED", "FAILED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DeleteABTest AWS API Documentation
+    #
+    # @overload delete_ab_test(params = {})
+    # @param [Hash] params ({})
+    def delete_ab_test(params = {}, options = {})
+      req = build_request(:delete_ab_test, params)
+      req.send_request(options)
+    end
+
+    # Deletes a batch evaluation and its associated results.
+    #
+    # @option params [required, String] :batch_evaluation_id
+    #   The unique identifier of the batch evaluation to delete.
+    #
+    # @return [Types::DeleteBatchEvaluationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteBatchEvaluationResponse#batch_evaluation_id #batch_evaluation_id} => String
+    #   * {Types::DeleteBatchEvaluationResponse#batch_evaluation_arn #batch_evaluation_arn} => String
+    #   * {Types::DeleteBatchEvaluationResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_batch_evaluation({
+    #     batch_evaluation_id: "BatchEvaluationId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.batch_evaluation_id #=> String
+    #   resp.batch_evaluation_arn #=> String
+    #   resp.status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "COMPLETED_WITH_ERRORS", "FAILED", "STOPPING", "STOPPED", "DELETING"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DeleteBatchEvaluation AWS API Documentation
+    #
+    # @overload delete_batch_evaluation(params = {})
+    # @param [Hash] params ({})
+    def delete_batch_evaluation(params = {}, options = {})
+      req = build_request(:delete_batch_evaluation, params)
+      req.send_request(options)
+    end
+
     # Deletes an event from an AgentCore Memory resource. When you delete an
     # event, it is permanently removed.
     #
@@ -875,6 +1049,36 @@ module Aws::BedrockAgentCore
     # @param [Hash] params ({})
     def delete_memory_record(params = {}, options = {})
       req = build_request(:delete_memory_record, params)
+      req.send_request(options)
+    end
+
+    # Deletes a recommendation and its associated results.
+    #
+    # @option params [required, String] :recommendation_id
+    #   The unique identifier of the recommendation to delete.
+    #
+    # @return [Types::DeleteRecommendationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteRecommendationResponse#recommendation_id #recommendation_id} => String
+    #   * {Types::DeleteRecommendationResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_recommendation({
+    #     recommendation_id: "RecommendationId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.recommendation_id #=> String
+    #   resp.status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "FAILED", "DELETING"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DeleteRecommendation AWS API Documentation
+    #
+    # @overload delete_recommendation(params = {})
+    # @param [Hash] params ({})
+    def delete_recommendation(params = {}, options = {})
+      req = build_request(:delete_recommendation, params)
       req.send_request(options)
     end
 
@@ -979,6 +1183,96 @@ module Aws::BedrockAgentCore
       req.send_request(options)
     end
 
+    # Retrieves detailed information about an A/B test, including its
+    # configuration, status, and statistical results.
+    #
+    # @option params [required, String] :ab_test_id
+    #   The unique identifier of the A/B test to retrieve.
+    #
+    # @return [Types::GetABTestResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetABTestResponse#ab_test_id #ab_test_id} => String
+    #   * {Types::GetABTestResponse#ab_test_arn #ab_test_arn} => String
+    #   * {Types::GetABTestResponse#name #name} => String
+    #   * {Types::GetABTestResponse#description #description} => String
+    #   * {Types::GetABTestResponse#status #status} => String
+    #   * {Types::GetABTestResponse#execution_status #execution_status} => String
+    #   * {Types::GetABTestResponse#gateway_arn #gateway_arn} => String
+    #   * {Types::GetABTestResponse#variants #variants} => Array&lt;Types::Variant&gt;
+    #   * {Types::GetABTestResponse#gateway_filter #gateway_filter} => Types::GatewayFilter
+    #   * {Types::GetABTestResponse#evaluation_config #evaluation_config} => Types::ABTestEvaluationConfig
+    #   * {Types::GetABTestResponse#role_arn #role_arn} => String
+    #   * {Types::GetABTestResponse#current_run_id #current_run_id} => String
+    #   * {Types::GetABTestResponse#error_details #error_details} => Array&lt;String&gt;
+    #   * {Types::GetABTestResponse#started_at #started_at} => Time
+    #   * {Types::GetABTestResponse#stopped_at #stopped_at} => Time
+    #   * {Types::GetABTestResponse#max_duration_expires_at #max_duration_expires_at} => Time
+    #   * {Types::GetABTestResponse#created_at #created_at} => Time
+    #   * {Types::GetABTestResponse#updated_at #updated_at} => Time
+    #   * {Types::GetABTestResponse#results #results} => Types::ABTestResults
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_ab_test({
+    #     ab_test_id: "ABTestId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ab_test_id #=> String
+    #   resp.ab_test_arn #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.status #=> String, one of "CREATING", "ACTIVE", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING", "DELETE_FAILED", "FAILED"
+    #   resp.execution_status #=> String, one of "PAUSED", "RUNNING", "STOPPED", "NOT_STARTED"
+    #   resp.gateway_arn #=> String
+    #   resp.variants #=> Array
+    #   resp.variants[0].name #=> String
+    #   resp.variants[0].weight #=> Integer
+    #   resp.variants[0].variant_configuration.configuration_bundle.bundle_arn #=> String
+    #   resp.variants[0].variant_configuration.configuration_bundle.bundle_version #=> String
+    #   resp.variants[0].variant_configuration.target.name #=> String
+    #   resp.gateway_filter.target_paths #=> Array
+    #   resp.gateway_filter.target_paths[0] #=> String
+    #   resp.evaluation_config.online_evaluation_config_arn #=> String
+    #   resp.evaluation_config.per_variant_online_evaluation_config #=> Array
+    #   resp.evaluation_config.per_variant_online_evaluation_config[0].name #=> String
+    #   resp.evaluation_config.per_variant_online_evaluation_config[0].online_evaluation_config_arn #=> String
+    #   resp.role_arn #=> String
+    #   resp.current_run_id #=> String
+    #   resp.error_details #=> Array
+    #   resp.error_details[0] #=> String
+    #   resp.started_at #=> Time
+    #   resp.stopped_at #=> Time
+    #   resp.max_duration_expires_at #=> Time
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #   resp.results.analysis_timestamp #=> Time
+    #   resp.results.evaluator_metrics #=> Array
+    #   resp.results.evaluator_metrics[0].evaluator_arn #=> String
+    #   resp.results.evaluator_metrics[0].control_stats.variant_name #=> String
+    #   resp.results.evaluator_metrics[0].control_stats.sample_size #=> Integer
+    #   resp.results.evaluator_metrics[0].control_stats.mean #=> Float
+    #   resp.results.evaluator_metrics[0].variant_results #=> Array
+    #   resp.results.evaluator_metrics[0].variant_results[0].variant_name #=> String
+    #   resp.results.evaluator_metrics[0].variant_results[0].sample_size #=> Integer
+    #   resp.results.evaluator_metrics[0].variant_results[0].mean #=> Float
+    #   resp.results.evaluator_metrics[0].variant_results[0].absolute_change #=> Float
+    #   resp.results.evaluator_metrics[0].variant_results[0].percent_change #=> Float
+    #   resp.results.evaluator_metrics[0].variant_results[0].p_value #=> Float
+    #   resp.results.evaluator_metrics[0].variant_results[0].confidence_interval.lower #=> Float
+    #   resp.results.evaluator_metrics[0].variant_results[0].confidence_interval.upper #=> Float
+    #   resp.results.evaluator_metrics[0].variant_results[0].is_significant #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetABTest AWS API Documentation
+    #
+    # @overload get_ab_test(params = {})
+    # @param [Hash] params ({})
+    def get_ab_test(params = {}, options = {})
+      req = build_request(:get_ab_test, params)
+      req.send_request(options)
+    end
+
     # Retrieves the A2A agent card associated with an AgentCore Runtime
     # agent.
     #
@@ -1021,6 +1315,76 @@ module Aws::BedrockAgentCore
     # @param [Hash] params ({})
     def get_agent_card(params = {}, options = {})
       req = build_request(:get_agent_card, params)
+      req.send_request(options)
+    end
+
+    # Retrieves detailed information about a batch evaluation, including its
+    # status, configuration, results, and any error details.
+    #
+    # @option params [required, String] :batch_evaluation_id
+    #   The unique identifier of the batch evaluation to retrieve.
+    #
+    # @return [Types::GetBatchEvaluationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetBatchEvaluationResponse#batch_evaluation_id #batch_evaluation_id} => String
+    #   * {Types::GetBatchEvaluationResponse#batch_evaluation_arn #batch_evaluation_arn} => String
+    #   * {Types::GetBatchEvaluationResponse#batch_evaluation_name #batch_evaluation_name} => String
+    #   * {Types::GetBatchEvaluationResponse#status #status} => String
+    #   * {Types::GetBatchEvaluationResponse#created_at #created_at} => Time
+    #   * {Types::GetBatchEvaluationResponse#evaluators #evaluators} => Array&lt;Types::Evaluator&gt;
+    #   * {Types::GetBatchEvaluationResponse#data_source_config #data_source_config} => Types::DataSourceConfig
+    #   * {Types::GetBatchEvaluationResponse#output_config #output_config} => Types::OutputConfig
+    #   * {Types::GetBatchEvaluationResponse#evaluation_results #evaluation_results} => Types::EvaluationJobResults
+    #   * {Types::GetBatchEvaluationResponse#error_details #error_details} => Array&lt;String&gt;
+    #   * {Types::GetBatchEvaluationResponse#description #description} => String
+    #   * {Types::GetBatchEvaluationResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_batch_evaluation({
+    #     batch_evaluation_id: "BatchEvaluationId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.batch_evaluation_id #=> String
+    #   resp.batch_evaluation_arn #=> String
+    #   resp.batch_evaluation_name #=> String
+    #   resp.status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "COMPLETED_WITH_ERRORS", "FAILED", "STOPPING", "STOPPED", "DELETING"
+    #   resp.created_at #=> Time
+    #   resp.evaluators #=> Array
+    #   resp.evaluators[0].evaluator_id #=> String
+    #   resp.data_source_config.cloud_watch_logs.service_names #=> Array
+    #   resp.data_source_config.cloud_watch_logs.service_names[0] #=> String
+    #   resp.data_source_config.cloud_watch_logs.log_group_names #=> Array
+    #   resp.data_source_config.cloud_watch_logs.log_group_names[0] #=> String
+    #   resp.data_source_config.cloud_watch_logs.filter_config.session_ids #=> Array
+    #   resp.data_source_config.cloud_watch_logs.filter_config.session_ids[0] #=> String
+    #   resp.data_source_config.cloud_watch_logs.filter_config.time_range.start_time #=> Time
+    #   resp.data_source_config.cloud_watch_logs.filter_config.time_range.end_time #=> Time
+    #   resp.output_config.cloud_watch_config.log_group_name #=> String
+    #   resp.output_config.cloud_watch_config.log_stream_name #=> String
+    #   resp.evaluation_results.number_of_sessions_completed #=> Integer
+    #   resp.evaluation_results.number_of_sessions_in_progress #=> Integer
+    #   resp.evaluation_results.number_of_sessions_failed #=> Integer
+    #   resp.evaluation_results.total_number_of_sessions #=> Integer
+    #   resp.evaluation_results.number_of_sessions_ignored #=> Integer
+    #   resp.evaluation_results.evaluator_summaries #=> Array
+    #   resp.evaluation_results.evaluator_summaries[0].evaluator_id #=> String
+    #   resp.evaluation_results.evaluator_summaries[0].statistics.average_score #=> Float
+    #   resp.evaluation_results.evaluator_summaries[0].total_evaluated #=> Integer
+    #   resp.evaluation_results.evaluator_summaries[0].total_failed #=> Integer
+    #   resp.error_details #=> Array
+    #   resp.error_details[0] #=> String
+    #   resp.description #=> String
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetBatchEvaluation AWS API Documentation
+    #
+    # @overload get_batch_evaluation(params = {})
+    # @param [Hash] params ({})
+    def get_batch_evaluation(params = {}, options = {})
+      req = build_request(:get_batch_evaluation, params)
       req.send_request(options)
     end
 
@@ -1284,6 +1648,103 @@ module Aws::BedrockAgentCore
     # @param [Hash] params ({})
     def get_memory_record(params = {}, options = {})
       req = build_request(:get_memory_record, params)
+      req.send_request(options)
+    end
+
+    # Retrieves detailed information about a recommendation, including its
+    # configuration, status, and results.
+    #
+    # @option params [required, String] :recommendation_id
+    #   The unique identifier of the recommendation to retrieve.
+    #
+    # @return [Types::GetRecommendationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetRecommendationResponse#recommendation_id #recommendation_id} => String
+    #   * {Types::GetRecommendationResponse#recommendation_arn #recommendation_arn} => String
+    #   * {Types::GetRecommendationResponse#name #name} => String
+    #   * {Types::GetRecommendationResponse#description #description} => String
+    #   * {Types::GetRecommendationResponse#type #type} => String
+    #   * {Types::GetRecommendationResponse#recommendation_config #recommendation_config} => Types::RecommendationConfig
+    #   * {Types::GetRecommendationResponse#status #status} => String
+    #   * {Types::GetRecommendationResponse#created_at #created_at} => Time
+    #   * {Types::GetRecommendationResponse#updated_at #updated_at} => Time
+    #   * {Types::GetRecommendationResponse#recommendation_result #recommendation_result} => Types::RecommendationResult
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_recommendation({
+    #     recommendation_id: "RecommendationId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.recommendation_id #=> String
+    #   resp.recommendation_arn #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.type #=> String, one of "SYSTEM_PROMPT_RECOMMENDATION", "TOOL_DESCRIPTION_RECOMMENDATION"
+    #   resp.recommendation_config.system_prompt_recommendation_config.system_prompt.text #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.system_prompt.configuration_bundle.bundle_arn #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.system_prompt.configuration_bundle.version_id #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.system_prompt.configuration_bundle.system_prompt_json_path #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.session_spans #=> Array
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.log_group_arns #=> Array
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.log_group_arns[0] #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.service_names #=> Array
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.service_names[0] #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.start_time #=> Time
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.end_time #=> Time
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters #=> Array
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].key #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].operator #=> String, one of "Equals", "NotEquals", "GreaterThan", "LessThan", "GreaterThanOrEqual", "LessThanOrEqual", "Contains", "NotContains"
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.string_value #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.double_value #=> Float
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.boolean_value #=> Boolean
+    #   resp.recommendation_config.system_prompt_recommendation_config.evaluation_config.evaluators #=> Array
+    #   resp.recommendation_config.system_prompt_recommendation_config.evaluation_config.evaluators[0].evaluator_arn #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.tool_description_text.tools #=> Array
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.tool_description_text.tools[0].tool_name #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.tool_description_text.tools[0].tool_description.text #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.configuration_bundle.bundle_arn #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.configuration_bundle.version_id #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.configuration_bundle.tools #=> Array
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.configuration_bundle.tools[0].tool_name #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.configuration_bundle.tools[0].tool_description_json_path #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.session_spans #=> Array
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.log_group_arns #=> Array
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.log_group_arns[0] #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.service_names #=> Array
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.service_names[0] #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.start_time #=> Time
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.end_time #=> Time
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters #=> Array
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].key #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].operator #=> String, one of "Equals", "NotEquals", "GreaterThan", "LessThan", "GreaterThanOrEqual", "LessThanOrEqual", "Contains", "NotContains"
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.string_value #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.double_value #=> Float
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.boolean_value #=> Boolean
+    #   resp.status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "FAILED", "DELETING"
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #   resp.recommendation_result.system_prompt_recommendation_result.recommended_system_prompt #=> String
+    #   resp.recommendation_result.system_prompt_recommendation_result.configuration_bundle.bundle_arn #=> String
+    #   resp.recommendation_result.system_prompt_recommendation_result.configuration_bundle.version_id #=> String
+    #   resp.recommendation_result.system_prompt_recommendation_result.error_code #=> String
+    #   resp.recommendation_result.system_prompt_recommendation_result.error_message #=> String
+    #   resp.recommendation_result.tool_description_recommendation_result.tools #=> Array
+    #   resp.recommendation_result.tool_description_recommendation_result.tools[0].tool_name #=> String
+    #   resp.recommendation_result.tool_description_recommendation_result.tools[0].recommended_tool_description #=> String
+    #   resp.recommendation_result.tool_description_recommendation_result.configuration_bundle.bundle_arn #=> String
+    #   resp.recommendation_result.tool_description_recommendation_result.configuration_bundle.version_id #=> String
+    #   resp.recommendation_result.tool_description_recommendation_result.error_code #=> String
+    #   resp.recommendation_result.tool_description_recommendation_result.error_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetRecommendation AWS API Documentation
+    #
+    # @overload get_recommendation(params = {})
+    # @param [Hash] params ({})
+    def get_recommendation(params = {}, options = {})
+      req = build_request(:get_recommendation, params)
       req.send_request(options)
     end
 
@@ -2814,6 +3275,57 @@ module Aws::BedrockAgentCore
       req.send_request(options, &block)
     end
 
+    # Lists all A/B tests in the account.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response. If the total
+    #   number of results is greater than this value, use the token returned
+    #   in the response in the `nextToken` field when making another request
+    #   to return the next batch of results.
+    #
+    # @option params [String] :next_token
+    #   If the total number of results is greater than the `maxResults` value
+    #   provided in the request, enter the token returned in the `nextToken`
+    #   field in the response in this field to return the next batch of
+    #   results.
+    #
+    # @return [Types::ListABTestsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListABTestsResponse#ab_tests #ab_tests} => Array&lt;Types::ABTestSummary&gt;
+    #   * {Types::ListABTestsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_ab_tests({
+    #     max_results: 1,
+    #     next_token: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ab_tests #=> Array
+    #   resp.ab_tests[0].ab_test_id #=> String
+    #   resp.ab_tests[0].ab_test_arn #=> String
+    #   resp.ab_tests[0].name #=> String
+    #   resp.ab_tests[0].status #=> String, one of "CREATING", "ACTIVE", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING", "DELETE_FAILED", "FAILED"
+    #   resp.ab_tests[0].execution_status #=> String, one of "PAUSED", "RUNNING", "STOPPED", "NOT_STARTED"
+    #   resp.ab_tests[0].description #=> String
+    #   resp.ab_tests[0].gateway_arn #=> String
+    #   resp.ab_tests[0].created_at #=> Time
+    #   resp.ab_tests[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ListABTests AWS API Documentation
+    #
+    # @overload list_ab_tests(params = {})
+    # @param [Hash] params ({})
+    def list_ab_tests(params = {}, options = {})
+      req = build_request(:list_ab_tests, params)
+      req.send_request(options)
+    end
+
     # Lists all actors in an AgentCore Memory resource. We recommend using
     # pagination to ensure that the operation returns quickly and
     # successfully.
@@ -2861,6 +3373,70 @@ module Aws::BedrockAgentCore
     # @param [Hash] params ({})
     def list_actors(params = {}, options = {})
       req = build_request(:list_actors, params)
+      req.send_request(options)
+    end
+
+    # Lists all batch evaluations in the account, providing summary
+    # information about each evaluation's status and configuration.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response. If the total
+    #   number of results is greater than this value, use the token returned
+    #   in the response in the `nextToken` field when making another request
+    #   to return the next batch of results.
+    #
+    # @option params [String] :next_token
+    #   If the total number of results is greater than the `maxResults` value
+    #   provided in the request, enter the token returned in the `nextToken`
+    #   field in the response in this field to return the next batch of
+    #   results.
+    #
+    # @return [Types::ListBatchEvaluationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListBatchEvaluationsResponse#batch_evaluations #batch_evaluations} => Array&lt;Types::BatchEvaluationSummary&gt;
+    #   * {Types::ListBatchEvaluationsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_batch_evaluations({
+    #     max_results: 1,
+    #     next_token: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.batch_evaluations #=> Array
+    #   resp.batch_evaluations[0].batch_evaluation_id #=> String
+    #   resp.batch_evaluations[0].batch_evaluation_arn #=> String
+    #   resp.batch_evaluations[0].batch_evaluation_name #=> String
+    #   resp.batch_evaluations[0].status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "COMPLETED_WITH_ERRORS", "FAILED", "STOPPING", "STOPPED", "DELETING"
+    #   resp.batch_evaluations[0].created_at #=> Time
+    #   resp.batch_evaluations[0].description #=> String
+    #   resp.batch_evaluations[0].evaluators #=> Array
+    #   resp.batch_evaluations[0].evaluators[0].evaluator_id #=> String
+    #   resp.batch_evaluations[0].evaluation_results.number_of_sessions_completed #=> Integer
+    #   resp.batch_evaluations[0].evaluation_results.number_of_sessions_in_progress #=> Integer
+    #   resp.batch_evaluations[0].evaluation_results.number_of_sessions_failed #=> Integer
+    #   resp.batch_evaluations[0].evaluation_results.total_number_of_sessions #=> Integer
+    #   resp.batch_evaluations[0].evaluation_results.number_of_sessions_ignored #=> Integer
+    #   resp.batch_evaluations[0].evaluation_results.evaluator_summaries #=> Array
+    #   resp.batch_evaluations[0].evaluation_results.evaluator_summaries[0].evaluator_id #=> String
+    #   resp.batch_evaluations[0].evaluation_results.evaluator_summaries[0].statistics.average_score #=> Float
+    #   resp.batch_evaluations[0].evaluation_results.evaluator_summaries[0].total_evaluated #=> Integer
+    #   resp.batch_evaluations[0].evaluation_results.evaluator_summaries[0].total_failed #=> Integer
+    #   resp.batch_evaluations[0].error_details #=> Array
+    #   resp.batch_evaluations[0].error_details[0] #=> String
+    #   resp.batch_evaluations[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ListBatchEvaluations AWS API Documentation
+    #
+    # @overload list_batch_evaluations(params = {})
+    # @param [Hash] params ({})
+    def list_batch_evaluations(params = {}, options = {})
+      req = build_request(:list_batch_evaluations, params)
       req.send_request(options)
     end
 
@@ -3256,6 +3832,62 @@ module Aws::BedrockAgentCore
       req.send_request(options)
     end
 
+    # Lists all recommendations in the account, with optional filtering by
+    # status.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response. If the total
+    #   number of results is greater than this value, use the token returned
+    #   in the response in the `nextToken` field when making another request
+    #   to return the next batch of results.
+    #
+    # @option params [String] :next_token
+    #   If the total number of results is greater than the `maxResults` value
+    #   provided in the request, enter the token returned in the `nextToken`
+    #   field in the response in this field to return the next batch of
+    #   results.
+    #
+    # @option params [String] :status_filter
+    #   Optional filter to return only recommendations with the specified
+    #   status.
+    #
+    # @return [Types::ListRecommendationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListRecommendationsResponse#recommendation_summaries #recommendation_summaries} => Array&lt;Types::RecommendationSummary&gt;
+    #   * {Types::ListRecommendationsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_recommendations({
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #     status_filter: "PENDING", # accepts PENDING, IN_PROGRESS, COMPLETED, FAILED, DELETING
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.recommendation_summaries #=> Array
+    #   resp.recommendation_summaries[0].recommendation_id #=> String
+    #   resp.recommendation_summaries[0].recommendation_arn #=> String
+    #   resp.recommendation_summaries[0].name #=> String
+    #   resp.recommendation_summaries[0].description #=> String
+    #   resp.recommendation_summaries[0].type #=> String, one of "SYSTEM_PROMPT_RECOMMENDATION", "TOOL_DESCRIPTION_RECOMMENDATION"
+    #   resp.recommendation_summaries[0].status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "FAILED", "DELETING"
+    #   resp.recommendation_summaries[0].created_at #=> Time
+    #   resp.recommendation_summaries[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ListRecommendations AWS API Documentation
+    #
+    # @overload list_recommendations(params = {})
+    # @param [Hash] params ({})
+    def list_recommendations(params = {}, options = {})
+      req = build_request(:list_recommendations, params)
+      req.send_request(options)
+    end
+
     # Lists sessions in an AgentCore Memory resource based on specified
     # criteria. We recommend using pagination to ensure that the operation
     # returns quickly and successfully.
@@ -3577,6 +4209,131 @@ module Aws::BedrockAgentCore
     # @param [Hash] params ({})
     def search_registry_records(params = {}, options = {})
       req = build_request(:search_registry_records, params)
+      req.send_request(options)
+    end
+
+    # Starts a batch evaluation job that evaluates agent performance across
+    # multiple sessions. Batch evaluations pull agent traces from CloudWatch
+    # Logs or an existing online evaluation configuration and run specified
+    # evaluators and insights against them.
+    #
+    # @option params [required, String] :batch_evaluation_name
+    #   The name of the batch evaluation. Must be unique within your account.
+    #
+    # @option params [Array<Types::Evaluator>] :evaluators
+    #   The list of evaluators to apply during the batch evaluation. Can
+    #   include both built-in evaluators and custom evaluators. Maximum of 10
+    #   evaluators.
+    #
+    # @option params [required, Types::DataSourceConfig] :data_source_config
+    #   The data source configuration that specifies where to pull agent
+    #   session traces from for evaluation.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If this token matches a previous
+    #   request, the service ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [Types::EvaluationMetadata] :evaluation_metadata
+    #   Optional metadata for the evaluation, including session-specific
+    #   ground truth data and test scenario identifiers.
+    #
+    # @option params [String] :description
+    #   The description of the batch evaluation.
+    #
+    # @return [Types::StartBatchEvaluationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartBatchEvaluationResponse#batch_evaluation_id #batch_evaluation_id} => String
+    #   * {Types::StartBatchEvaluationResponse#batch_evaluation_arn #batch_evaluation_arn} => String
+    #   * {Types::StartBatchEvaluationResponse#batch_evaluation_name #batch_evaluation_name} => String
+    #   * {Types::StartBatchEvaluationResponse#evaluators #evaluators} => Array&lt;Types::Evaluator&gt;
+    #   * {Types::StartBatchEvaluationResponse#status #status} => String
+    #   * {Types::StartBatchEvaluationResponse#created_at #created_at} => Time
+    #   * {Types::StartBatchEvaluationResponse#output_config #output_config} => Types::OutputConfig
+    #   * {Types::StartBatchEvaluationResponse#description #description} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_batch_evaluation({
+    #     batch_evaluation_name: "BatchEvaluationName", # required
+    #     evaluators: [
+    #       {
+    #         evaluator_id: "EvaluatorId", # required
+    #       },
+    #     ],
+    #     data_source_config: { # required
+    #       cloud_watch_logs: {
+    #         service_names: ["String"], # required
+    #         log_group_names: ["String"], # required
+    #         filter_config: {
+    #           session_ids: ["String"],
+    #           time_range: {
+    #             start_time: Time.now,
+    #             end_time: Time.now,
+    #           },
+    #         },
+    #       },
+    #     },
+    #     client_token: "ClientToken",
+    #     evaluation_metadata: {
+    #       session_metadata: [
+    #         {
+    #           session_id: "String", # required
+    #           test_scenario_id: "String",
+    #           ground_truth: {
+    #             inline: {
+    #               assertions: [
+    #                 {
+    #                   text: "EvaluationContentTextString",
+    #                 },
+    #               ],
+    #               expected_trajectory: {
+    #                 tool_names: ["EvaluationToolName"],
+    #               },
+    #               turns: [
+    #                 {
+    #                   input: {
+    #                     prompt: "GroundTruthTurnInputPromptString",
+    #                   },
+    #                   expected_response: {
+    #                     text: "EvaluationContentTextString",
+    #                   },
+    #                 },
+    #               ],
+    #             },
+    #           },
+    #           metadata: {
+    #             "String" => "String",
+    #           },
+    #         },
+    #       ],
+    #     },
+    #     description: "BatchEvaluationDescription",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.batch_evaluation_id #=> String
+    #   resp.batch_evaluation_arn #=> String
+    #   resp.batch_evaluation_name #=> String
+    #   resp.evaluators #=> Array
+    #   resp.evaluators[0].evaluator_id #=> String
+    #   resp.status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "COMPLETED_WITH_ERRORS", "FAILED", "STOPPING", "STOPPED", "DELETING"
+    #   resp.created_at #=> Time
+    #   resp.output_config.cloud_watch_config.log_group_name #=> String
+    #   resp.output_config.cloud_watch_config.log_stream_name #=> String
+    #   resp.description #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/StartBatchEvaluation AWS API Documentation
+    #
+    # @overload start_batch_evaluation(params = {})
+    # @param [Hash] params ({})
+    def start_batch_evaluation(params = {}, options = {})
+      req = build_request(:start_batch_evaluation, params)
       req.send_request(options)
     end
 
@@ -3912,6 +4669,243 @@ module Aws::BedrockAgentCore
       req.send_request(options)
     end
 
+    # Starts a recommendation job that analyzes agent traces and generates
+    # optimization suggestions for system prompts or tool descriptions to
+    # improve agent performance.
+    #
+    # @option params [required, String] :name
+    #   The name of the recommendation. Must be unique within your account.
+    #
+    # @option params [String] :description
+    #   The description of the recommendation.
+    #
+    # @option params [required, String] :type
+    #   The type of recommendation to generate. Valid values are
+    #   `SYSTEM_PROMPT_RECOMMENDATION` for system prompt optimization or
+    #   `TOOL_DESCRIPTION_RECOMMENDATION` for tool description optimization.
+    #
+    # @option params [required, Types::RecommendationConfig] :recommendation_config
+    #   The configuration for the recommendation, including the input to
+    #   optimize, agent traces to analyze, and evaluation settings.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If this token matches a previous
+    #   request, the service ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::StartRecommendationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartRecommendationResponse#recommendation_id #recommendation_id} => String
+    #   * {Types::StartRecommendationResponse#recommendation_arn #recommendation_arn} => String
+    #   * {Types::StartRecommendationResponse#name #name} => String
+    #   * {Types::StartRecommendationResponse#description #description} => String
+    #   * {Types::StartRecommendationResponse#type #type} => String
+    #   * {Types::StartRecommendationResponse#recommendation_config #recommendation_config} => Types::RecommendationConfig
+    #   * {Types::StartRecommendationResponse#status #status} => String
+    #   * {Types::StartRecommendationResponse#created_at #created_at} => Time
+    #   * {Types::StartRecommendationResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_recommendation({
+    #     name: "RecommendationName", # required
+    #     description: "RecommendationDescription",
+    #     type: "SYSTEM_PROMPT_RECOMMENDATION", # required, accepts SYSTEM_PROMPT_RECOMMENDATION, TOOL_DESCRIPTION_RECOMMENDATION
+    #     recommendation_config: { # required
+    #       system_prompt_recommendation_config: {
+    #         system_prompt: { # required
+    #           text: "SystemPromptText",
+    #           configuration_bundle: {
+    #             bundle_arn: "ConfigurationBundleArn", # required
+    #             version_id: "ConfigurationBundleVersionId", # required
+    #             system_prompt_json_path: "String", # required
+    #           },
+    #         },
+    #         agent_traces: { # required
+    #           session_spans: [
+    #             {
+    #             },
+    #           ],
+    #           cloudwatch_logs: {
+    #             log_group_arns: ["String"], # required
+    #             service_names: ["ServiceName"], # required
+    #             start_time: Time.now, # required
+    #             end_time: Time.now, # required
+    #             rule: {
+    #               filters: [
+    #                 {
+    #                   key: "CloudWatchLogsFilterKeyString", # required
+    #                   operator: "Equals", # required, accepts Equals, NotEquals, GreaterThan, LessThan, GreaterThanOrEqual, LessThanOrEqual, Contains, NotContains
+    #                   value: { # required
+    #                     string_value: "FilterStringValue",
+    #                     double_value: 1.0,
+    #                     boolean_value: false,
+    #                   },
+    #                 },
+    #               ],
+    #             },
+    #           },
+    #         },
+    #         evaluation_config: { # required
+    #           evaluators: [ # required
+    #             {
+    #               evaluator_arn: "EvaluatorArn", # required
+    #             },
+    #           ],
+    #         },
+    #       },
+    #       tool_description_recommendation_config: {
+    #         tool_description: { # required
+    #           tool_description_text: {
+    #             tools: [ # required
+    #               {
+    #                 tool_name: "RecommendationToolName", # required
+    #                 tool_description: { # required
+    #                   text: "ToolDescriptionText",
+    #                 },
+    #               },
+    #             ],
+    #           },
+    #           configuration_bundle: {
+    #             bundle_arn: "ConfigurationBundleArn", # required
+    #             version_id: "ConfigurationBundleVersionId", # required
+    #             tools: [ # required
+    #               {
+    #                 tool_name: "RecommendationToolName", # required
+    #                 tool_description_json_path: "String", # required
+    #               },
+    #             ],
+    #           },
+    #         },
+    #         agent_traces: { # required
+    #           session_spans: [
+    #             {
+    #             },
+    #           ],
+    #           cloudwatch_logs: {
+    #             log_group_arns: ["String"], # required
+    #             service_names: ["ServiceName"], # required
+    #             start_time: Time.now, # required
+    #             end_time: Time.now, # required
+    #             rule: {
+    #               filters: [
+    #                 {
+    #                   key: "CloudWatchLogsFilterKeyString", # required
+    #                   operator: "Equals", # required, accepts Equals, NotEquals, GreaterThan, LessThan, GreaterThanOrEqual, LessThanOrEqual, Contains, NotContains
+    #                   value: { # required
+    #                     string_value: "FilterStringValue",
+    #                     double_value: 1.0,
+    #                     boolean_value: false,
+    #                   },
+    #                 },
+    #               ],
+    #             },
+    #           },
+    #         },
+    #       },
+    #     },
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.recommendation_id #=> String
+    #   resp.recommendation_arn #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.type #=> String, one of "SYSTEM_PROMPT_RECOMMENDATION", "TOOL_DESCRIPTION_RECOMMENDATION"
+    #   resp.recommendation_config.system_prompt_recommendation_config.system_prompt.text #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.system_prompt.configuration_bundle.bundle_arn #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.system_prompt.configuration_bundle.version_id #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.system_prompt.configuration_bundle.system_prompt_json_path #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.session_spans #=> Array
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.log_group_arns #=> Array
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.log_group_arns[0] #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.service_names #=> Array
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.service_names[0] #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.start_time #=> Time
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.end_time #=> Time
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters #=> Array
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].key #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].operator #=> String, one of "Equals", "NotEquals", "GreaterThan", "LessThan", "GreaterThanOrEqual", "LessThanOrEqual", "Contains", "NotContains"
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.string_value #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.double_value #=> Float
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.boolean_value #=> Boolean
+    #   resp.recommendation_config.system_prompt_recommendation_config.evaluation_config.evaluators #=> Array
+    #   resp.recommendation_config.system_prompt_recommendation_config.evaluation_config.evaluators[0].evaluator_arn #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.tool_description_text.tools #=> Array
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.tool_description_text.tools[0].tool_name #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.tool_description_text.tools[0].tool_description.text #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.configuration_bundle.bundle_arn #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.configuration_bundle.version_id #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.configuration_bundle.tools #=> Array
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.configuration_bundle.tools[0].tool_name #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.tool_description.configuration_bundle.tools[0].tool_description_json_path #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.session_spans #=> Array
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.log_group_arns #=> Array
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.log_group_arns[0] #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.service_names #=> Array
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.service_names[0] #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.start_time #=> Time
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.end_time #=> Time
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters #=> Array
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].key #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].operator #=> String, one of "Equals", "NotEquals", "GreaterThan", "LessThan", "GreaterThanOrEqual", "LessThanOrEqual", "Contains", "NotContains"
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.string_value #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.double_value #=> Float
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.boolean_value #=> Boolean
+    #   resp.status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "FAILED", "DELETING"
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/StartRecommendation AWS API Documentation
+    #
+    # @overload start_recommendation(params = {})
+    # @param [Hash] params ({})
+    def start_recommendation(params = {}, options = {})
+      req = build_request(:start_recommendation, params)
+      req.send_request(options)
+    end
+
+    # Stops a running batch evaluation. Sessions that have already been
+    # evaluated retain their results.
+    #
+    # @option params [required, String] :batch_evaluation_id
+    #   The unique identifier of the batch evaluation to stop.
+    #
+    # @return [Types::StopBatchEvaluationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StopBatchEvaluationResponse#batch_evaluation_id #batch_evaluation_id} => String
+    #   * {Types::StopBatchEvaluationResponse#batch_evaluation_arn #batch_evaluation_arn} => String
+    #   * {Types::StopBatchEvaluationResponse#status #status} => String
+    #   * {Types::StopBatchEvaluationResponse#description #description} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.stop_batch_evaluation({
+    #     batch_evaluation_id: "BatchEvaluationId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.batch_evaluation_id #=> String
+    #   resp.batch_evaluation_arn #=> String
+    #   resp.status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "COMPLETED_WITH_ERRORS", "FAILED", "STOPPING", "STOPPED", "DELETING"
+    #   resp.description #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/StopBatchEvaluation AWS API Documentation
+    #
+    # @overload stop_batch_evaluation(params = {})
+    # @param [Hash] params ({})
+    def stop_batch_evaluation(params = {}, options = {})
+      req = build_request(:stop_batch_evaluation, params)
+      req.send_request(options)
+    end
+
     # Terminates an active browser session in Amazon Bedrock AgentCore. This
     # operation stops the session, releases associated resources, and makes
     # the session unavailable for further use.
@@ -4105,6 +5099,105 @@ module Aws::BedrockAgentCore
       req.send_request(options)
     end
 
+    # Updates an A/B test's configuration, including variants, traffic
+    # allocation, evaluation settings, or execution status.
+    #
+    # @option params [required, String] :ab_test_id
+    #   The unique identifier of the A/B test to update.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If this token matches a previous
+    #   request, the service ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [String] :name
+    #   The updated name of the A/B test.
+    #
+    # @option params [String] :description
+    #   The updated description of the A/B test.
+    #
+    # @option params [Array<Types::Variant>] :variants
+    #   The updated list of variants.
+    #
+    # @option params [Types::GatewayFilter] :gateway_filter
+    #   The updated gateway filter.
+    #
+    # @option params [Types::ABTestEvaluationConfig] :evaluation_config
+    #   The updated evaluation configuration.
+    #
+    # @option params [String] :role_arn
+    #   The updated IAM role ARN.
+    #
+    # @option params [String] :execution_status
+    #   The updated execution status to enable or disable the A/B test.
+    #
+    # @return [Types::UpdateABTestResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateABTestResponse#ab_test_id #ab_test_id} => String
+    #   * {Types::UpdateABTestResponse#ab_test_arn #ab_test_arn} => String
+    #   * {Types::UpdateABTestResponse#status #status} => String
+    #   * {Types::UpdateABTestResponse#execution_status #execution_status} => String
+    #   * {Types::UpdateABTestResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_ab_test({
+    #     ab_test_id: "ABTestId", # required
+    #     client_token: "ClientToken",
+    #     name: "ABTestName",
+    #     description: "ABTestDescription",
+    #     variants: [
+    #       {
+    #         name: "VariantName", # required
+    #         weight: 1, # required
+    #         variant_configuration: { # required
+    #           configuration_bundle: {
+    #             bundle_arn: "ConfigurationBundleArn", # required
+    #             bundle_version: "ConfigurationBundleVersion", # required
+    #           },
+    #           target: {
+    #             name: "TargetName", # required
+    #           },
+    #         },
+    #       },
+    #     ],
+    #     gateway_filter: {
+    #       target_paths: ["PathPattern"],
+    #     },
+    #     evaluation_config: {
+    #       online_evaluation_config_arn: "OnlineEvaluationConfigArn",
+    #       per_variant_online_evaluation_config: [
+    #         {
+    #           name: "VariantName", # required
+    #           online_evaluation_config_arn: "OnlineEvaluationConfigArn", # required
+    #         },
+    #       ],
+    #     },
+    #     role_arn: "RoleArn",
+    #     execution_status: "PAUSED", # accepts PAUSED, RUNNING, STOPPED, NOT_STARTED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ab_test_id #=> String
+    #   resp.ab_test_arn #=> String
+    #   resp.status #=> String, one of "CREATING", "ACTIVE", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING", "DELETE_FAILED", "FAILED"
+    #   resp.execution_status #=> String, one of "PAUSED", "RUNNING", "STOPPED", "NOT_STARTED"
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/UpdateABTest AWS API Documentation
+    #
+    # @overload update_ab_test(params = {})
+    # @param [Hash] params ({})
+    def update_ab_test(params = {}, options = {})
+      req = build_request(:update_ab_test, params)
+      req.send_request(options)
+    end
+
     # Updates a browser stream. To use this operation, you must have
     # permissions to perform the bedrock:UpdateBrowserStream action.
     #
@@ -4182,7 +5275,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.29.0'
+      context[:gem_version] = '1.30.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

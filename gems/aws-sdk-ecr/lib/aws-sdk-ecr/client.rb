@@ -3273,8 +3273,8 @@ module Aws::ECR
     #
     # @option params [required, String] :value
     #   Setting value that is specified. Valid value for basic scan type:
-    #   `AWS_NATIVE`. Valid values for registry policy scope: `V1` or `V2`.
-    #   Valid values for blob mounting: `ENABLED` or `DISABLED`.
+    #   `AWS_NATIVE`. Valid values for registry policy scope: `V2`. Valid
+    #   values for blob mounting: `ENABLED` or `DISABLED`.
     #
     # @return [Types::PutAccountSettingResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -4527,7 +4527,7 @@ module Aws::ECR
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ecr'
-      context[:gem_version] = '1.125.0'
+      context[:gem_version] = '1.126.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

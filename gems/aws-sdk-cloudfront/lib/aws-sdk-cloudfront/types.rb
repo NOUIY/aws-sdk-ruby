@@ -1353,6 +1353,28 @@ module Aws::CloudFront
       include Aws::Structure
     end
 
+    # A complex type that specifies the HTTP header name from which
+    # CloudFront extracts cache tags from origin responses. When you add
+    # `CacheTagConfig` to a distribution, CloudFront reads the specified
+    # header from origin responses, parses the comma-separated tag values,
+    # and stores them with the cached object. You can then invalidate cached
+    # objects by tag using the `CreateInvalidation` API.
+    #
+    # @!attribute [rw] header_name
+    #   The name of the HTTP header that your origin includes in responses.
+    #   CloudFront uses this header to extract cache tags. The header value
+    #   must contain comma-separated tag values (for example,
+    #   `product:electronics, category:tv, brand:example`).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/CacheTagConfig AWS API Documentation
+    #
+    class CacheTagConfig < Struct.new(
+      :header_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A complex type that controls whether CloudFront caches the response to
     # requests using the specified HTTP methods. There are two choices:
     #
@@ -5239,6 +5261,27 @@ module Aws::CloudFront
     #   The distribution's connection function association.
     #   @return [Types::ConnectionFunctionAssociation]
     #
+    # @!attribute [rw] cache_tag_config
+    #   Configuration for cache tag extraction from origin responses. When
+    #   specified, CloudFront reads the header named in `HeaderName` from
+    #   origin responses and stores the comma-separated values as cache tags
+    #   on the object.
+    #
+    #   Distributions without `CacheTagConfig` do not extract tags. When
+    #   `CacheTagConfig` is removed from a distribution via
+    #   `UpdateDistribution`, CloudFront stops extracting tags from origin
+    #   responses.
+    #
+    #   <note markdown="1"> Changing the `HeaderName` on an existing distribution does not
+    #   retroactively affect previously cached objects. Tag-based
+    #   invalidations will not apply to objects already cached using a
+    #   previous header. To ensure tag invalidations function after updating
+    #   the header name, use path-based invalidations to recache all objects
+    #   that use cache tags.
+    #
+    #    </note>
+    #   @return [Types::CacheTagConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/DistributionConfig AWS API Documentation
     #
     class DistributionConfig < Struct.new(
@@ -5265,7 +5308,8 @@ module Aws::CloudFront
       :tenant_config,
       :connection_mode,
       :viewer_mtls_config,
-      :connection_function_association)
+      :connection_function_association,
+      :cache_tag_config)
       SENSITIVE = [:comment]
       include Aws::Structure
     end

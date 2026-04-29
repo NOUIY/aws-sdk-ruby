@@ -27,6 +27,8 @@ module Aws::Deadline
     #
     # * `l40s`: Uses G6e instance family
     #
+    # * `rtx-pro-server-6000`: Uses G7e instance family
+    #
     #  </note>
     #
     # @!attribute [rw] selections
@@ -100,6 +102,9 @@ module Aws::Deadline
     #   * `l4` - NVIDIA L4 Tensor Core GPU (24 GiB memory)
     #
     #   * `l40s` - NVIDIA L40S Tensor Core GPU (48 GiB memory)
+    #
+    #   * `rtx-pro-server-6000` - NVIDIA RTX PRO Server 6000 GPU (96 GiB
+    #     memory)
     #   @return [String]
     #
     # @!attribute [rw] runtime
@@ -112,9 +117,11 @@ module Aws::Deadline
     #     specify `latest` and a new version of the runtime is released, the
     #     new version of the runtime is used.
     #
-    #   * `grid:r570` - [NVIDIA vGPU software 18][1]
+    #   * `grid:r580` - [NVIDIA vGPU software 19][1]
     #
-    #   * `grid:r535` - [NVIDIA vGPU software 16][2]
+    #   * `grid:r570` - [NVIDIA vGPU software 18][2]
+    #
+    #   * `grid:r535` - [NVIDIA vGPU software 16][3]
     #
     #   If you don't specify a runtime, Amazon Web Services Deadline Cloud
     #   uses `latest` as the default. However, if you have multiple
@@ -123,22 +130,26 @@ module Aws::Deadline
     #
     #   Not all runtimes are compatible with all accelerator types:
     #
-    #    * `t4` and `a10g`: Support all runtimes (`grid:r570`, `grid:r535`)
+    #    * `t4` and `a10g`: Support all runtimes (`grid:r580`, `grid:r570`,
+    #     `grid:r535`)
     #
     #   * `l4` and `l40s`: Only support `grid:r570` and newer
+    #
+    #   * `rtx-pro-server-6000`: Only supports `grid:r580`
     #
     #    All accelerators in a fleet must use the same runtime version. You
     #   cannot mix different runtime versions within a single fleet.
     #
-    #   <note markdown="1"> When you specify `latest`, it resolves to `grid:r570` for all
+    #   <note markdown="1"> When you specify `latest`, it resolves to `grid:r580` for all
     #   currently supported accelerators.
     #
     #    </note>
     #
     #
     #
-    #   [1]: https://docs.nvidia.com/vgpu/18.0/index.html
-    #   [2]: https://docs.nvidia.com/vgpu/16.0/index.html
+    #   [1]: https://docs.nvidia.com/vgpu/19.0/index.html
+    #   [2]: https://docs.nvidia.com/vgpu/18.0/index.html
+    #   [3]: https://docs.nvidia.com/vgpu/16.0/index.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/AcceleratorSelection AWS API Documentation
@@ -3006,8 +3017,8 @@ module Aws::Deadline
     #   @return [String]
     #
     # @!attribute [rw] identity_center_region
-    #   The AWS region where IAM Identity Center is enabled. Required when
-    #   Identity Center is in a different region than the monitor.
+    #   The AWS Region where IAM Identity Center is enabled. Required when
+    #   IAM Identity Center is in a different Region than the monitor.
     #   @return [String]
     #
     # @!attribute [rw] subdomain
@@ -3398,8 +3409,7 @@ module Aws::Deadline
     #
     # @!attribute [rw] scale_out_workers_per_minute
     #   The number of workers that can be added per minute to the fleet. The
-    #   default is a service-defined value that balances efficiency with
-    #   cost.
+    #   default is 10 workers per minute.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/CustomerManagedAutoScalingConfiguration AWS API Documentation
@@ -5210,7 +5220,7 @@ module Aws::Deadline
     #   @return [String]
     #
     # @!attribute [rw] identity_center_region
-    #   The AWS region where IAM Identity Center is enabled.
+    #   The AWS Region where IAM Identity Center is enabled.
     #   @return [String]
     #
     # @!attribute [rw] identity_center_application_arn
@@ -5258,7 +5268,7 @@ module Aws::Deadline
     # @!attribute [rw] monitor_id
     #   The unique identifier of the monitor. This ID is returned by the
     #   `CreateMonitor` operation, and is included in the response to the
-    #   `GetMonitor` operation.
+    #   `ListMonitors` operation.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/GetMonitorSettingsRequest AWS API Documentation
@@ -5270,7 +5280,7 @@ module Aws::Deadline
     end
 
     # @!attribute [rw] settings
-    #   Monitor settings as key-value pairs.
+    #   The monitor settings as key-value pairs.
     #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/GetMonitorSettingsResponse AWS API Documentation
@@ -9028,7 +9038,7 @@ module Aws::Deadline
     #   @return [String]
     #
     # @!attribute [rw] identity_center_region
-    #   The AWS region where IAM Identity Center is enabled.
+    #   The AWS Region where IAM Identity Center is enabled.
     #   @return [String]
     #
     # @!attribute [rw] identity_center_application_arn
@@ -10077,8 +10087,7 @@ module Aws::Deadline
     #
     # @!attribute [rw] scale_out_workers_per_minute
     #   The number of workers that can be added per minute to the fleet. The
-    #   default is a service-defined value that balances efficiency with
-    #   cost.
+    #   default is 10 workers per minute.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/ServiceManagedEc2AutoScalingConfiguration AWS API Documentation
@@ -11945,9 +11954,9 @@ module Aws::Deadline
     #   @return [String]
     #
     # @!attribute [rw] settings
-    #   Monitor settings as key-value pairs. Keys present in the request are
-    #   upserted; keys absent are left unchanged. Send an empty string value
-    #   to delete a key.
+    #   The monitor settings to update as key-value pairs. Keys present in
+    #   the request are upserted; keys absent are left unchanged. Send an
+    #   empty string value to delete a key.
     #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/UpdateMonitorSettingsRequest AWS API Documentation

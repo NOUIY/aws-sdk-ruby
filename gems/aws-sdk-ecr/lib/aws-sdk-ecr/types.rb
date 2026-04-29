@@ -1854,8 +1854,8 @@ module Aws::ECR
     #
     # @!attribute [rw] value
     #   The setting value for the setting name. Valid value for basic scan
-    #   type: `AWS_NATIVE`. Valid values for registry policy scope: `V1` or
-    #   `V2`. Valid values for blob mounting: `ENABLED` or `DISABLED`.
+    #   type: `AWS_NATIVE`. Valid values for registry policy scope: `V2`.
+    #   Valid values for blob mounting: `ENABLED` or `DISABLED`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetAccountSettingResponse AWS API Documentation
@@ -3587,8 +3587,8 @@ module Aws::ECR
     #
     # @!attribute [rw] value
     #   Setting value that is specified. Valid value for basic scan type:
-    #   `AWS_NATIVE`. Valid values for registry policy scope: `V1` or `V2`.
-    #   Valid values for blob mounting: `ENABLED` or `DISABLED`.
+    #   `AWS_NATIVE`. Valid values for registry policy scope: `V2`. Valid
+    #   values for blob mounting: `ENABLED` or `DISABLED`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutAccountSettingRequest AWS API Documentation

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.57.0 (2026-04-29)
+------------------
+
+* Feature - Adds AccountState in the response for the GetAccountInformation API. Each state represents a specific phase in the account lifecycle. Use this information to manage account access, automate workflows, or trigger actions based on account state changes.
+
 1.56.0 (2026-03-18)
 ------------------
 

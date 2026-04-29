@@ -26,6 +26,112 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # The evaluation configuration for an A/B test, specifying which online
+    # evaluation configurations to use for measuring variant performance.
+    #
+    # @note ABTestEvaluationConfig is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note ABTestEvaluationConfig is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of ABTestEvaluationConfig corresponding to the set member.
+    #
+    # @!attribute [rw] online_evaluation_config_arn
+    #   The Amazon Resource Name (ARN) of a single online evaluation
+    #   configuration to use for both variants.
+    #   @return [String]
+    #
+    # @!attribute [rw] per_variant_online_evaluation_config
+    #   Per-variant online evaluation configurations, allowing different
+    #   evaluation settings for each variant.
+    #   @return [Array<Types::PerVariantOnlineEvaluationConfig>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ABTestEvaluationConfig AWS API Documentation
+    #
+    class ABTestEvaluationConfig < Struct.new(
+      :online_evaluation_config_arn,
+      :per_variant_online_evaluation_config,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class OnlineEvaluationConfigArn < ABTestEvaluationConfig; end
+      class PerVariantOnlineEvaluationConfig < ABTestEvaluationConfig; end
+      class Unknown < ABTestEvaluationConfig; end
+    end
+
+    # The statistical results of an A/B test.
+    #
+    # @!attribute [rw] analysis_timestamp
+    #   The timestamp when the analysis was performed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] evaluator_metrics
+    #   The per-evaluator metrics comparing control and treatment variants.
+    #   @return [Array<Types::EvaluatorMetric>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ABTestResults AWS API Documentation
+    #
+    class ABTestResults < Struct.new(
+      :analysis_timestamp,
+      :evaluator_metrics)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about an A/B test.
+    #
+    # @!attribute [rw] ab_test_id
+    #   The unique identifier of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] ab_test_arn
+    #   The Amazon Resource Name (ARN) of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_status
+    #   The execution status of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] gateway_arn
+    #   The Amazon Resource Name (ARN) of the gateway used for traffic
+    #   splitting.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the A/B test was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the A/B test was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ABTestSummary AWS API Documentation
+    #
+    class ABTestSummary < Struct.new(
+      :ab_test_id,
+      :ab_test_arn,
+      :name,
+      :status,
+      :execution_status,
+      :description,
+      :gateway_arn,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The exception that occurs when you do not have sufficient permissions
     # to perform an action. Verify that your IAM policy includes the
     # necessary permissions for the operation you are trying to perform.
@@ -94,6 +200,37 @@ module Aws::BedrockAgentCore
       :skill_definition)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # The configuration specifying where to read agent traces from for
+    # recommendation analysis.
+    #
+    # @note AgentTracesConfig is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note AgentTracesConfig is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of AgentTracesConfig corresponding to the set member.
+    #
+    # @!attribute [rw] session_spans
+    #   Agent traces provided as inline session spans in OpenTelemetry
+    #   format.
+    #   @return [Array<Hash,Array,String,Numeric,Boolean>]
+    #
+    # @!attribute [rw] cloudwatch_logs
+    #   Agent traces read from CloudWatch Logs.
+    #   @return [Types::CloudWatchLogsTraceConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/AgentTracesConfig AWS API Documentation
+    #
+    class AgentTracesConfig < Struct.new(
+      :session_spans,
+      :cloudwatch_logs,
+      :unknown)
+      SENSITIVE = [:session_spans]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class SessionSpans < AgentTracesConfig; end
+      class CloudwatchLogs < AgentTracesConfig; end
+      class Unknown < AgentTracesConfig; end
     end
 
     # The configuration for a stream that enables programmatic control of a
@@ -242,6 +379,65 @@ module Aws::BedrockAgentCore
     class BatchDeleteMemoryRecordsOutput < Struct.new(
       :successful_records,
       :failed_records)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary representation for list responses
+    #
+    # @!attribute [rw] batch_evaluation_id
+    #   The unique identifier of the batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] batch_evaluation_arn
+    #   The Amazon Resource Name (ARN) of the batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] batch_evaluation_name
+    #   The name of the batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the batch evaluation was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] description
+    #   The description of the batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluators
+    #   The list of evaluators applied during the batch evaluation.
+    #   @return [Array<Types::Evaluator>]
+    #
+    # @!attribute [rw] evaluation_results
+    #   The aggregated evaluation results.
+    #   @return [Types::EvaluationJobResults]
+    #
+    # @!attribute [rw] error_details
+    #   The error details if the batch evaluation encountered failures.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the batch evaluation was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/BatchEvaluationSummary AWS API Documentation
+    #
+    class BatchEvaluationSummary < Struct.new(
+      :batch_evaluation_id,
+      :batch_evaluation_arn,
+      :batch_evaluation_name,
+      :status,
+      :created_at,
+      :description,
+      :evaluators,
+      :evaluation_results,
+      :error_details,
+      :updated_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -620,6 +816,150 @@ module Aws::BedrockAgentCore
       class Unknown < CertificateLocation; end
     end
 
+    # Filter configuration for narrowing down CloudWatch Logs sessions for
+    # evaluation.
+    #
+    # @!attribute [rw] session_ids
+    #   A list of specific session IDs to evaluate. If specified, only these
+    #   sessions are included in the evaluation.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] time_range
+    #   The time range filter for selecting sessions to evaluate.
+    #   @return [Types::SessionFilterConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CloudWatchFilterConfig AWS API Documentation
+    #
+    class CloudWatchFilterConfig < Struct.new(
+      :session_ids,
+      :time_range)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A filter for narrowing down agent traces from CloudWatch Logs based on
+    # key-value comparisons.
+    #
+    # @!attribute [rw] key
+    #   The key or field name to filter on within the agent trace data.
+    #   @return [String]
+    #
+    # @!attribute [rw] operator
+    #   The comparison operator to use for filtering.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value to compare against using the specified operator.
+    #   @return [Types::FilterValue]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CloudWatchLogsFilter AWS API Documentation
+    #
+    class CloudWatchLogsFilter < Struct.new(
+      :key,
+      :operator,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A rule configuration for filtering agent traces from CloudWatch Logs.
+    #
+    # @!attribute [rw] filters
+    #   The list of filters to apply when reading agent traces.
+    #   @return [Array<Types::CloudWatchLogsFilter>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CloudWatchLogsRule AWS API Documentation
+    #
+    class CloudWatchLogsRule < Struct.new(
+      :filters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for reading agent traces from CloudWatch Logs.
+    #
+    # @!attribute [rw] service_names
+    #   The list of agent service names to filter traces within the
+    #   specified log groups.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] log_group_names
+    #   The list of CloudWatch log group names to read agent traces from.
+    #   Maximum of 5 log groups.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] filter_config
+    #   Optional filter configuration to narrow down which sessions to
+    #   evaluate.
+    #   @return [Types::CloudWatchFilterConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CloudWatchLogsSource AWS API Documentation
+    #
+    class CloudWatchLogsSource < Struct.new(
+      :service_names,
+      :log_group_names,
+      :filter_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for reading agent traces from CloudWatch Logs for
+    # recommendation analysis.
+    #
+    # @!attribute [rw] log_group_arns
+    #   The list of CloudWatch log group ARNs to read agent traces from.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] service_names
+    #   The list of service names to filter traces within the specified log
+    #   groups.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] start_time
+    #   The start time of the time range to read traces from.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The end time of the time range to read traces from.
+    #   @return [Time]
+    #
+    # @!attribute [rw] rule
+    #   Optional rule configuration for filtering traces.
+    #   @return [Types::CloudWatchLogsRule]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CloudWatchLogsTraceConfig AWS API Documentation
+    #
+    class CloudWatchLogsTraceConfig < Struct.new(
+      :log_group_arns,
+      :service_names,
+      :start_time,
+      :end_time,
+      :rule)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # CloudWatch Logs destination for batch evaluation results
+    #
+    # @!attribute [rw] log_group_name
+    #   The name of the CloudWatch log group where evaluation results will
+    #   be written.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_stream_name
+    #   The name of the CloudWatch log stream where evaluation results will
+    #   be written.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CloudWatchOutputConfig AWS API Documentation
+    #
+    class CloudWatchOutputConfig < Struct.new(
+      :log_group_name,
+      :log_stream_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The output produced by executing code in a code interpreter session in
     # Amazon Bedrock AgentCore. This structure contains the results of code
     # execution, including textual output, structured data, and error
@@ -731,6 +1071,64 @@ module Aws::BedrockAgentCore
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CompleteResourceTokenAuthResponse AWS API Documentation
     #
     class CompleteResourceTokenAuthResponse < Aws::EmptyStructure; end
+
+    # A confidence interval for a statistical measurement.
+    #
+    # @!attribute [rw] lower
+    #   The lower bound of the confidence interval.
+    #   @return [Float]
+    #
+    # @!attribute [rw] upper
+    #   The upper bound of the confidence interval.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ConfidenceInterval AWS API Documentation
+    #
+    class ConfidenceInterval < Struct.new(
+      :lower,
+      :upper)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A reference to a specific version of a configuration bundle.
+    #
+    # @!attribute [rw] bundle_arn
+    #   The Amazon Resource Name (ARN) of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] bundle_version
+    #   The version of the configuration bundle.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ConfigurationBundleRef AWS API Documentation
+    #
+    class ConfigurationBundleRef < Struct.new(
+      :bundle_arn,
+      :bundle_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Maps a tool name to its JSON path within a configuration bundle.
+    #
+    # @!attribute [rw] tool_name
+    #   The name of the tool.
+    #   @return [String]
+    #
+    # @!attribute [rw] tool_description_json_path
+    #   The JSON path within the configuration bundle's components that
+    #   contains the tool description.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ConfigurationBundleToolEntry AWS API Documentation
+    #
+    class ConfigurationBundleToolEntry < Struct.new(
+      :tool_name,
+      :tool_description_json_path)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # The exception that occurs when the request conflicts with the current
     # state of the resource. This can happen when trying to modify a
@@ -910,6 +1308,30 @@ module Aws::BedrockAgentCore
       class Unknown < Context; end
     end
 
+    # Statistics for the control variant in an A/B test.
+    #
+    # @!attribute [rw] variant_name
+    #   The name of the control variant.
+    #   @return [String]
+    #
+    # @!attribute [rw] sample_size
+    #   The number of sessions evaluated for the control variant.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] mean
+    #   The mean evaluation score for the control variant.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ControlStats AWS API Documentation
+    #
+    class ControlStats < Struct.new(
+      :variant_name,
+      :sample_size,
+      :mean)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains conversational content for an event payload.
     #
     # @!attribute [rw] content
@@ -926,6 +1348,109 @@ module Aws::BedrockAgentCore
     class Conversational < Struct.new(
       :content,
       :role)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the A/B test. Must be unique within your account.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] gateway_arn
+    #   The Amazon Resource Name (ARN) of the gateway to use for traffic
+    #   splitting.
+    #   @return [String]
+    #
+    # @!attribute [rw] variants
+    #   The list of variants for the A/B test. Must contain exactly two
+    #   variants: a control (C) and a treatment (T1), each with a
+    #   configuration bundle or target reference and a traffic weight.
+    #   @return [Array<Types::Variant>]
+    #
+    # @!attribute [rw] gateway_filter
+    #   Optional filter to restrict which gateway target paths are included
+    #   in the A/B test.
+    #   @return [Types::GatewayFilter]
+    #
+    # @!attribute [rw] evaluation_config
+    #   The evaluation configuration specifying which online evaluation
+    #   configurations to use for measuring variant performance.
+    #   @return [Types::ABTestEvaluationConfig]
+    #
+    # @!attribute [rw] role_arn
+    #   The IAM role ARN that grants permissions for the A/B test to access
+    #   gateway and evaluation resources.
+    #   @return [String]
+    #
+    # @!attribute [rw] enable_on_create
+    #   Whether to enable the A/B test immediately upon creation. If true,
+    #   traffic splitting begins automatically.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If this token matches a previous
+    #   request, the service ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CreateABTestRequest AWS API Documentation
+    #
+    class CreateABTestRequest < Struct.new(
+      :name,
+      :description,
+      :gateway_arn,
+      :variants,
+      :gateway_filter,
+      :evaluation_config,
+      :role_arn,
+      :enable_on_create,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ab_test_id
+    #   The unique identifier of the created A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] ab_test_arn
+    #   The Amazon Resource Name (ARN) of the created A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_status
+    #   The execution status indicating whether the A/B test is currently
+    #   running.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the A/B test was created.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CreateABTestResponse AWS API Documentation
+    #
+    class CreateABTestResponse < Struct.new(
+      :ab_test_id,
+      :ab_test_arn,
+      :name,
+      :status,
+      :execution_status,
+      :created_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1016,6 +1541,97 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # Where to pull session spans from
+    #
+    # @note DataSourceConfig is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note DataSourceConfig is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of DataSourceConfig corresponding to the set member.
+    #
+    # @!attribute [rw] cloud_watch_logs
+    #   Pull session spans from CloudWatch
+    #   @return [Types::CloudWatchLogsSource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DataSourceConfig AWS API Documentation
+    #
+    class DataSourceConfig < Struct.new(
+      :cloud_watch_logs,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class CloudWatchLogs < DataSourceConfig; end
+      class Unknown < DataSourceConfig; end
+    end
+
+    # @!attribute [rw] ab_test_id
+    #   The unique identifier of the A/B test to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DeleteABTestRequest AWS API Documentation
+    #
+    class DeleteABTestRequest < Struct.new(
+      :ab_test_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ab_test_id
+    #   The unique identifier of the deleted A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] ab_test_arn
+    #   The Amazon Resource Name (ARN) of the deleted A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the A/B test deletion operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DeleteABTestResponse AWS API Documentation
+    #
+    class DeleteABTestResponse < Struct.new(
+      :ab_test_id,
+      :ab_test_arn,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] batch_evaluation_id
+    #   The unique identifier of the batch evaluation to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DeleteBatchEvaluationRequest AWS API Documentation
+    #
+    class DeleteBatchEvaluationRequest < Struct.new(
+      :batch_evaluation_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] batch_evaluation_id
+    #   The unique identifier of the deleted batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] batch_evaluation_arn
+    #   The Amazon Resource Name (ARN) of the deleted batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the batch evaluation deletion operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DeleteBatchEvaluationResponse AWS API Documentation
+    #
+    class DeleteBatchEvaluationResponse < Struct.new(
+      :batch_evaluation_id,
+      :batch_evaluation_arn,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] memory_id
     #   The identifier of the AgentCore Memory resource from which to delete
     #   the event.
@@ -1082,6 +1698,35 @@ module Aws::BedrockAgentCore
     #
     class DeleteMemoryRecordOutput < Struct.new(
       :memory_record_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] recommendation_id
+    #   The unique identifier of the recommendation to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DeleteRecommendationRequest AWS API Documentation
+    #
+    class DeleteRecommendationRequest < Struct.new(
+      :recommendation_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] recommendation_id
+    #   The unique identifier of the deleted recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the recommendation deletion operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DeleteRecommendationResponse AWS API Documentation
+    #
+    class DeleteRecommendationResponse < Struct.new(
+      :recommendation_id,
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1254,6 +1899,69 @@ module Aws::BedrockAgentCore
       class Unknown < EvaluationInput; end
     end
 
+    # Aggregated results from a batch evaluation, including session
+    # completion counts and evaluator score summaries.
+    #
+    # @!attribute [rw] number_of_sessions_completed
+    #   The number of sessions that have been successfully evaluated.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] number_of_sessions_in_progress
+    #   The number of sessions currently being evaluated.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] number_of_sessions_failed
+    #   The number of sessions that failed evaluation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] total_number_of_sessions
+    #   The total number of sessions included in the batch evaluation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] number_of_sessions_ignored
+    #   The number of sessions that were ignored during evaluation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] evaluator_summaries
+    #   A list of per-evaluator summary statistics.
+    #   @return [Array<Types::EvaluatorSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/EvaluationJobResults AWS API Documentation
+    #
+    class EvaluationJobResults < Struct.new(
+      :number_of_sessions_completed,
+      :number_of_sessions_in_progress,
+      :number_of_sessions_failed,
+      :total_number_of_sessions,
+      :number_of_sessions_ignored,
+      :evaluator_summaries)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Metadata for the evaluation, including session-specific ground truth
+    # data.
+    #
+    # @note EvaluationMetadata is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] session_metadata
+    #   A list of session metadata entries containing ground truth data and
+    #   test scenario identifiers for specific sessions.
+    #   @return [Array<Types::SessionMetadataShape>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/EvaluationMetadata AWS API Documentation
+    #
+    class EvaluationMetadata < Struct.new(
+      :session_metadata,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class SessionMetadata < EvaluationMetadata; end
+      class Unknown < EvaluationMetadata; end
+    end
+
     # A reference input containing ground truth data for evaluation, scoped
     # to a specific context level (session or trace) through its span
     # context.
@@ -1423,6 +2131,90 @@ module Aws::BedrockAgentCore
       class SpanIds < EvaluationTarget; end
       class TraceIds < EvaluationTarget; end
       class Unknown < EvaluationTarget; end
+    end
+
+    # An evaluator to run against sessions
+    #
+    # @!attribute [rw] evaluator_id
+    #   The unique identifier of the evaluator. Can reference built-in
+    #   evaluators (e.g., `Builtin.Helpfulness`) or custom evaluators.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/Evaluator AWS API Documentation
+    #
+    class Evaluator < Struct.new(
+      :evaluator_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Statistical metrics for a single evaluator comparing control and
+    # treatment variants.
+    #
+    # @!attribute [rw] evaluator_arn
+    #   The Amazon Resource Name (ARN) of the evaluator.
+    #   @return [String]
+    #
+    # @!attribute [rw] control_stats
+    #   The statistics for the control variant.
+    #   @return [Types::ControlStats]
+    #
+    # @!attribute [rw] variant_results
+    #   The results for each treatment variant compared against the control.
+    #   @return [Array<Types::VariantResult>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/EvaluatorMetric AWS API Documentation
+    #
+    class EvaluatorMetric < Struct.new(
+      :evaluator_arn,
+      :control_stats,
+      :variant_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Aggregated statistics for an evaluator.
+    #
+    # @!attribute [rw] average_score
+    #   The average score across all evaluated sessions for this evaluator.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/EvaluatorStatistics AWS API Documentation
+    #
+    class EvaluatorStatistics < Struct.new(
+      :average_score)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary statistics for a single evaluator within a batch evaluation.
+    #
+    # @!attribute [rw] evaluator_id
+    #   The unique identifier of the evaluator.
+    #   @return [String]
+    #
+    # @!attribute [rw] statistics
+    #   The aggregated statistics for this evaluator.
+    #   @return [Types::EvaluatorStatistics]
+    #
+    # @!attribute [rw] total_evaluated
+    #   The total number of sessions evaluated by this evaluator.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] total_failed
+    #   The total number of sessions that failed evaluation by this
+    #   evaluator.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/EvaluatorSummary AWS API Documentation
+    #
+    class EvaluatorSummary < Struct.new(
+      :evaluator_id,
+      :statistics,
+      :total_evaluated,
+      :total_failed)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # Contains information about an event in an AgentCore Memory resource.
@@ -1671,6 +2463,173 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # A value used in filter comparisons, supporting different data types.
+    #
+    # @note FilterValue is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note FilterValue is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of FilterValue corresponding to the set member.
+    #
+    # @!attribute [rw] string_value
+    #   A string value for text-based filtering.
+    #   @return [String]
+    #
+    # @!attribute [rw] double_value
+    #   A numeric value for numerical filtering and comparisons.
+    #   @return [Float]
+    #
+    # @!attribute [rw] boolean_value
+    #   A boolean value for true/false filtering conditions.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/FilterValue AWS API Documentation
+    #
+    class FilterValue < Struct.new(
+      :string_value,
+      :double_value,
+      :boolean_value,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class StringValue < FilterValue; end
+      class DoubleValue < FilterValue; end
+      class BooleanValue < FilterValue; end
+      class Unknown < FilterValue; end
+    end
+
+    # A filter to restrict which gateway target paths are included in the
+    # A/B test.
+    #
+    # @!attribute [rw] target_paths
+    #   A list of target path patterns to include in the A/B test.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GatewayFilter AWS API Documentation
+    #
+    class GatewayFilter < Struct.new(
+      :target_paths)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ab_test_id
+    #   The unique identifier of the A/B test to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetABTestRequest AWS API Documentation
+    #
+    class GetABTestRequest < Struct.new(
+      :ab_test_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ab_test_id
+    #   The unique identifier of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] ab_test_arn
+    #   The Amazon Resource Name (ARN) of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_status
+    #   The execution status indicating whether the A/B test is currently
+    #   running.
+    #   @return [String]
+    #
+    # @!attribute [rw] gateway_arn
+    #   The Amazon Resource Name (ARN) of the gateway used for traffic
+    #   splitting.
+    #   @return [String]
+    #
+    # @!attribute [rw] variants
+    #   The list of variants in the A/B test.
+    #   @return [Array<Types::Variant>]
+    #
+    # @!attribute [rw] gateway_filter
+    #   The gateway filter restricting which target paths are included.
+    #   @return [Types::GatewayFilter]
+    #
+    # @!attribute [rw] evaluation_config
+    #   The evaluation configuration for measuring variant performance.
+    #   @return [Types::ABTestEvaluationConfig]
+    #
+    # @!attribute [rw] role_arn
+    #   The IAM role ARN used by the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_run_id
+    #   The identifier of the current run of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_details
+    #   The error details if the A/B test encountered failures.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] started_at
+    #   The timestamp when the A/B test was started.
+    #   @return [Time]
+    #
+    # @!attribute [rw] stopped_at
+    #   The timestamp when the A/B test was stopped.
+    #   @return [Time]
+    #
+    # @!attribute [rw] max_duration_expires_at
+    #   The timestamp when the A/B test will automatically expire.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the A/B test was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the A/B test was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] results
+    #   The statistical results of the A/B test, including per-evaluator
+    #   metrics and significance analysis.
+    #   @return [Types::ABTestResults]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetABTestResponse AWS API Documentation
+    #
+    class GetABTestResponse < Struct.new(
+      :ab_test_id,
+      :ab_test_arn,
+      :name,
+      :description,
+      :status,
+      :execution_status,
+      :gateway_arn,
+      :variants,
+      :gateway_filter,
+      :evaluation_config,
+      :role_arn,
+      :current_run_id,
+      :error_details,
+      :started_at,
+      :stopped_at,
+      :max_duration_expires_at,
+      :created_at,
+      :updated_at,
+      :results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] runtime_session_id
     #   The session ID that the AgentCore Runtime agent is using.
     #
@@ -1717,6 +2676,88 @@ module Aws::BedrockAgentCore
       :runtime_session_id,
       :agent_card,
       :status_code)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] batch_evaluation_id
+    #   The unique identifier of the batch evaluation to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetBatchEvaluationRequest AWS API Documentation
+    #
+    class GetBatchEvaluationRequest < Struct.new(
+      :batch_evaluation_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] batch_evaluation_id
+    #   The unique identifier of the batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] batch_evaluation_arn
+    #   The Amazon Resource Name (ARN) of the batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] batch_evaluation_name
+    #   The name of the batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the batch evaluation was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] evaluators
+    #   The list of evaluators applied during the batch evaluation.
+    #   @return [Array<Types::Evaluator>]
+    #
+    # @!attribute [rw] data_source_config
+    #   The data source configuration specifying where agent traces are
+    #   pulled from.
+    #   @return [Types::DataSourceConfig]
+    #
+    # @!attribute [rw] output_config
+    #   The output configuration specifying where evaluation results are
+    #   written.
+    #   @return [Types::OutputConfig]
+    #
+    # @!attribute [rw] evaluation_results
+    #   The aggregated evaluation results, including session completion
+    #   counts and evaluator score summaries.
+    #   @return [Types::EvaluationJobResults]
+    #
+    # @!attribute [rw] error_details
+    #   The error details if the batch evaluation encountered failures.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] description
+    #   The description of the batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the batch evaluation was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetBatchEvaluationResponse AWS API Documentation
+    #
+    class GetBatchEvaluationResponse < Struct.new(
+      :batch_evaluation_id,
+      :batch_evaluation_arn,
+      :batch_evaluation_name,
+      :status,
+      :created_at,
+      :evaluators,
+      :data_source_config,
+      :output_config,
+      :evaluation_results,
+      :error_details,
+      :description,
+      :updated_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1965,6 +3006,77 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # @!attribute [rw] recommendation_id
+    #   The unique identifier of the recommendation to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetRecommendationRequest AWS API Documentation
+    #
+    class GetRecommendationRequest < Struct.new(
+      :recommendation_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] recommendation_id
+    #   The unique identifier of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommendation_arn
+    #   The Amazon Resource Name (ARN) of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommendation_config
+    #   The configuration for the recommendation.
+    #   @return [Types::RecommendationConfig]
+    #
+    # @!attribute [rw] status
+    #   The current status of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the recommendation was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the recommendation was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] recommendation_result
+    #   The result of the recommendation, containing the optimized system
+    #   prompt or tool descriptions. Only present when the recommendation
+    #   status is `COMPLETED`.
+    #   @return [Types::RecommendationResult]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetRecommendationResponse AWS API Documentation
+    #
+    class GetRecommendationResponse < Struct.new(
+      :recommendation_id,
+      :recommendation_arn,
+      :name,
+      :description,
+      :type,
+      :recommendation_config,
+      :status,
+      :created_at,
+      :updated_at,
+      :recommendation_result)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] workload_identity_token
     #   The identity token of the workload from which you want to retrieve
     #   the API key.
@@ -2178,6 +3290,67 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # Where to pull ground truth from
+    #
+    # @note GroundTruthSource is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] inline
+    #   Provide ground truth inline
+    #   @return [Types::InlineGroundTruth]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GroundTruthSource AWS API Documentation
+    #
+    class GroundTruthSource < Struct.new(
+      :inline,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Inline < GroundTruthSource; end
+      class Unknown < GroundTruthSource; end
+    end
+
+    # Ground truth data for a single conversation turn.
+    #
+    # @!attribute [rw] input
+    #   The input for this conversation turn.
+    #   @return [Types::GroundTruthTurnInput]
+    #
+    # @!attribute [rw] expected_response
+    #   The expected response for this conversation turn.
+    #   @return [Types::EvaluationContent]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GroundTruthTurn AWS API Documentation
+    #
+    class GroundTruthTurn < Struct.new(
+      :input,
+      :expected_response)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The input for a ground truth conversation turn.
+    #
+    # @note GroundTruthTurnInput is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] prompt
+    #   The text prompt for this conversation turn.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GroundTruthTurnInput AWS API Documentation
+    #
+    class GroundTruthTurnInput < Struct.new(
+      :prompt,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Prompt < GroundTruthTurnInput; end
+      class Unknown < GroundTruthTurnInput; end
+    end
+
     # Configuration for AgentCore Browser.
     #
     # @!attribute [rw] browser_arn
@@ -2213,7 +3386,7 @@ module Aws::BedrockAgentCore
     #   @return [String]
     #
     # @!attribute [rw] outbound_auth
-    #   How Loopy authenticates to this Gateway. Defaults to AWS\_IAM
+    #   How harness authenticates to this Gateway. Defaults to AWS\_IAM
     #   (SigV4) if omitted.
     #   @return [Types::HarnessGatewayOutboundAuth]
     #
@@ -2734,7 +3907,7 @@ module Aws::BedrockAgentCore
     #   @return [String]
     #
     # @!attribute [rw] headers
-    #   Map of key/value pairs for HTTP headers.
+    #   Custom headers to include when connecting to the remote MCP server.
     #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessRemoteMcpConfig AWS API Documentation
@@ -3081,6 +4254,33 @@ module Aws::BedrockAgentCore
       :name,
       :type,
       :server_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Inline ground truth data containing assertions, expected trajectories,
+    # and per-turn expected responses.
+    #
+    # @!attribute [rw] assertions
+    #   assertions for evaluation, reuses common model EvaluationContentList
+    #   @return [Array<Types::EvaluationContent>]
+    #
+    # @!attribute [rw] expected_trajectory
+    #   expectedTrajectory for evaluation, reuses common model
+    #   EvaluationExpectedTrajectory
+    #   @return [Types::EvaluationExpectedTrajectory]
+    #
+    # @!attribute [rw] turns
+    #   A list of per-turn ground truth data, each containing an input
+    #   prompt and expected response.
+    #   @return [Array<Types::GroundTruthTurn>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InlineGroundTruth AWS API Documentation
+    #
+    class InlineGroundTruth < Struct.new(
+      :assertions,
+      :expected_trajectory,
+      :turns)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3790,6 +4990,49 @@ module Aws::BedrockAgentCore
       class Unknown < LeftExpression; end
     end
 
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in the response. If the
+    #   total number of results is greater than this value, use the token
+    #   returned in the response in the `nextToken` field when making
+    #   another request to return the next batch of results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   If the total number of results is greater than the `maxResults`
+    #   value provided in the request, enter the token returned in the
+    #   `nextToken` field in the response in this field to return the next
+    #   batch of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ListABTestsRequest AWS API Documentation
+    #
+    class ListABTestsRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ab_tests
+    #   The list of A/B test summaries.
+    #   @return [Array<Types::ABTestSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If the total number of results is greater than the `maxResults`
+    #   value provided in the request, use this token when making another
+    #   request in the `nextToken` field to return the next batch of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ListABTestsResponse AWS API Documentation
+    #
+    class ListABTestsResponse < Struct.new(
+      :ab_tests,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] memory_id
     #   The identifier of the AgentCore Memory resource for which to list
     #   actors.
@@ -3830,6 +5073,49 @@ module Aws::BedrockAgentCore
     #
     class ListActorsOutput < Struct.new(
       :actor_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in the response. If the
+    #   total number of results is greater than this value, use the token
+    #   returned in the response in the `nextToken` field when making
+    #   another request to return the next batch of results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   If the total number of results is greater than the `maxResults`
+    #   value provided in the request, enter the token returned in the
+    #   `nextToken` field in the response in this field to return the next
+    #   batch of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ListBatchEvaluationsRequest AWS API Documentation
+    #
+    class ListBatchEvaluationsRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] batch_evaluations
+    #   The list of batch evaluation summaries.
+    #   @return [Array<Types::BatchEvaluationSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If the total number of results is greater than the `maxResults`
+    #   value provided in the request, use this token when making another
+    #   request in the `nextToken` field to return the next batch of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ListBatchEvaluationsResponse AWS API Documentation
+    #
+    class ListBatchEvaluationsResponse < Struct.new(
+      :batch_evaluations,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -4118,6 +5404,55 @@ module Aws::BedrockAgentCore
     #
     class ListMemoryRecordsOutput < Struct.new(
       :memory_record_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in the response. If the
+    #   total number of results is greater than this value, use the token
+    #   returned in the response in the `nextToken` field when making
+    #   another request to return the next batch of results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   If the total number of results is greater than the `maxResults`
+    #   value provided in the request, enter the token returned in the
+    #   `nextToken` field in the response in this field to return the next
+    #   batch of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_filter
+    #   Optional filter to return only recommendations with the specified
+    #   status.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ListRecommendationsRequest AWS API Documentation
+    #
+    class ListRecommendationsRequest < Struct.new(
+      :max_results,
+      :next_token,
+      :status_filter)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] recommendation_summaries
+    #   The list of recommendation summaries.
+    #   @return [Array<Types::RecommendationSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If the total number of results is greater than the `maxResults`
+    #   value provided in the request, use this token when making another
+    #   request in the `nextToken` field to return the next batch of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ListRecommendationsResponse AWS API Documentation
+    #
+    class ListRecommendationsResponse < Struct.new(
+      :recommendation_summaries,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -4745,6 +6080,27 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # Output destination configuration
+    #
+    # @note OutputConfig is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of OutputConfig corresponding to the set member.
+    #
+    # @!attribute [rw] cloud_watch_config
+    #   The CloudWatch Logs configuration for writing evaluation results.
+    #   @return [Types::CloudWatchOutputConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/OutputConfig AWS API Documentation
+    #
+    class OutputConfig < Struct.new(
+      :cloud_watch_config,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class CloudWatchConfig < OutputConfig; end
+      class Unknown < OutputConfig; end
+    end
+
     # Contains the payload content for an event.
     #
     # @note PayloadType is a union - when making an API calls you must set exactly one of the members.
@@ -4772,6 +6128,27 @@ module Aws::BedrockAgentCore
       class Conversational < PayloadType; end
       class Blob < PayloadType; end
       class Unknown < PayloadType; end
+    end
+
+    # An online evaluation configuration associated with a specific A/B test
+    # variant.
+    #
+    # @!attribute [rw] name
+    #   The name of the variant this evaluation configuration applies to.
+    #   @return [String]
+    #
+    # @!attribute [rw] online_evaluation_config_arn
+    #   The Amazon Resource Name (ARN) of the online evaluation
+    #   configuration for this variant.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/PerVariantOnlineEvaluationConfig AWS API Documentation
+    #
+    class PerVariantOnlineEvaluationConfig < Struct.new(
+      :name,
+      :online_evaluation_config_arn)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # Union type representing different proxy configurations. Currently
@@ -4866,6 +6243,160 @@ module Aws::BedrockAgentCore
 
       class BasicAuth < ProxyCredentials; end
       class Unknown < ProxyCredentials; end
+    end
+
+    # The configuration for a recommendation, varying by recommendation
+    # type.
+    #
+    # @note RecommendationConfig is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note RecommendationConfig is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of RecommendationConfig corresponding to the set member.
+    #
+    # @!attribute [rw] system_prompt_recommendation_config
+    #   The configuration for a system prompt recommendation.
+    #   @return [Types::SystemPromptRecommendationConfig]
+    #
+    # @!attribute [rw] tool_description_recommendation_config
+    #   The configuration for a tool description recommendation.
+    #   @return [Types::ToolDescriptionRecommendationConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/RecommendationConfig AWS API Documentation
+    #
+    class RecommendationConfig < Struct.new(
+      :system_prompt_recommendation_config,
+      :tool_description_recommendation_config,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class SystemPromptRecommendationConfig < RecommendationConfig; end
+      class ToolDescriptionRecommendationConfig < RecommendationConfig; end
+      class Unknown < RecommendationConfig; end
+    end
+
+    # The evaluation configuration for assessing recommendation quality.
+    #
+    # @!attribute [rw] evaluators
+    #   The list of evaluators to use for assessing recommendation quality.
+    #   @return [Array<Types::RecommendationEvaluatorReference>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/RecommendationEvaluationConfig AWS API Documentation
+    #
+    class RecommendationEvaluationConfig < Struct.new(
+      :evaluators)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A reference to an evaluator used for recommendation assessment.
+    #
+    # @!attribute [rw] evaluator_arn
+    #   The Amazon Resource Name (ARN) of the evaluator.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/RecommendationEvaluatorReference AWS API Documentation
+    #
+    class RecommendationEvaluatorReference < Struct.new(
+      :evaluator_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a recommendation, containing the optimized output.
+    #
+    # @note RecommendationResult is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of RecommendationResult corresponding to the set member.
+    #
+    # @!attribute [rw] system_prompt_recommendation_result
+    #   The result of a system prompt recommendation.
+    #   @return [Types::SystemPromptRecommendationResult]
+    #
+    # @!attribute [rw] tool_description_recommendation_result
+    #   The result of a tool description recommendation.
+    #   @return [Types::ToolDescriptionRecommendationResult]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/RecommendationResult AWS API Documentation
+    #
+    class RecommendationResult < Struct.new(
+      :system_prompt_recommendation_result,
+      :tool_description_recommendation_result,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class SystemPromptRecommendationResult < RecommendationResult; end
+      class ToolDescriptionRecommendationResult < RecommendationResult; end
+      class Unknown < RecommendationResult; end
+    end
+
+    # A configuration bundle reference in a recommendation result.
+    #
+    # @!attribute [rw] bundle_arn
+    #   The Amazon Resource Name (ARN) of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   The version identifier of the configuration bundle containing the
+    #   recommendation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/RecommendationResultConfigurationBundle AWS API Documentation
+    #
+    class RecommendationResultConfigurationBundle < Struct.new(
+      :bundle_arn,
+      :version_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about a recommendation.
+    #
+    # @!attribute [rw] recommendation_id
+    #   The unique identifier of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommendation_arn
+    #   The Amazon Resource Name (ARN) of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the recommendation was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the recommendation was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/RecommendationSummary AWS API Documentation
+    #
+    class RecommendationSummary < Struct.new(
+      :recommendation_id,
+      :recommendation_arn,
+      :name,
+      :description,
+      :type,
+      :status,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # Summary information about a registry record.
@@ -5462,6 +6993,60 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # A time range filter for selecting sessions. Specifies the start and
+    # end times to narrow down which sessions are included.
+    #
+    # @!attribute [rw] start_time
+    #   The start time of the time range. Only sessions with activity at or
+    #   after this timestamp are included.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The end time of the time range. Only sessions with activity before
+    #   this timestamp are included.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/SessionFilterConfig AWS API Documentation
+    #
+    class SessionFilterConfig < Struct.new(
+      :start_time,
+      :end_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Metadata for a specific session in a batch evaluation, including
+    # ground truth data and test scenario identifiers.
+    #
+    # @!attribute [rw] session_id
+    #   The unique identifier of the session this metadata applies to.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_scenario_id
+    #   An optional test scenario identifier for categorizing and tracking
+    #   evaluation results.
+    #   @return [String]
+    #
+    # @!attribute [rw] ground_truth
+    #   The ground truth data for this session, including expected responses
+    #   and assertions.
+    #   @return [Types::GroundTruthSource]
+    #
+    # @!attribute [rw] metadata
+    #   Additional key-value metadata associated with this session.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/SessionMetadataShape AWS API Documentation
+    #
+    class SessionMetadataShape < Struct.new(
+      :session_id,
+      :test_scenario_id,
+      :ground_truth,
+      :metadata)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains summary information about a session in an AgentCore Memory
     # resource.
     #
@@ -5551,6 +7136,102 @@ module Aws::BedrockAgentCore
       :session_id,
       :trace_id,
       :span_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] batch_evaluation_name
+    #   The name of the batch evaluation. Must be unique within your
+    #   account.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluators
+    #   The list of evaluators to apply during the batch evaluation. Can
+    #   include both built-in evaluators and custom evaluators. Maximum of
+    #   10 evaluators.
+    #   @return [Array<Types::Evaluator>]
+    #
+    # @!attribute [rw] data_source_config
+    #   The data source configuration that specifies where to pull agent
+    #   session traces from for evaluation.
+    #   @return [Types::DataSourceConfig]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If this token matches a previous
+    #   request, the service ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluation_metadata
+    #   Optional metadata for the evaluation, including session-specific
+    #   ground truth data and test scenario identifiers.
+    #   @return [Types::EvaluationMetadata]
+    #
+    # @!attribute [rw] description
+    #   The description of the batch evaluation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/StartBatchEvaluationRequest AWS API Documentation
+    #
+    class StartBatchEvaluationRequest < Struct.new(
+      :batch_evaluation_name,
+      :evaluators,
+      :data_source_config,
+      :client_token,
+      :evaluation_metadata,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] batch_evaluation_id
+    #   The unique identifier of the created batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] batch_evaluation_arn
+    #   The Amazon Resource Name (ARN) of the created batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] batch_evaluation_name
+    #   The name of the batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluators
+    #   The list of evaluators applied during the batch evaluation.
+    #   @return [Array<Types::Evaluator>]
+    #
+    # @!attribute [rw] status
+    #   The status of the batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the batch evaluation was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] output_config
+    #   The output configuration specifying where evaluation results are
+    #   written.
+    #   @return [Types::OutputConfig]
+    #
+    # @!attribute [rw] description
+    #   The description of the batch evaluation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/StartBatchEvaluationResponse AWS API Documentation
+    #
+    class StartBatchEvaluationResponse < Struct.new(
+      :batch_evaluation_id,
+      :batch_evaluation_arn,
+      :batch_evaluation_name,
+      :evaluators,
+      :status,
+      :created_at,
+      :output_config,
+      :description)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5792,6 +7473,138 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # @!attribute [rw] name
+    #   The name of the recommendation. Must be unique within your account.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of recommendation to generate. Valid values are
+    #   `SYSTEM_PROMPT_RECOMMENDATION` for system prompt optimization or
+    #   `TOOL_DESCRIPTION_RECOMMENDATION` for tool description optimization.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommendation_config
+    #   The configuration for the recommendation, including the input to
+    #   optimize, agent traces to analyze, and evaluation settings.
+    #   @return [Types::RecommendationConfig]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If this token matches a previous
+    #   request, the service ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/StartRecommendationRequest AWS API Documentation
+    #
+    class StartRecommendationRequest < Struct.new(
+      :name,
+      :description,
+      :type,
+      :recommendation_config,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] recommendation_id
+    #   The unique identifier of the created recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommendation_arn
+    #   The Amazon Resource Name (ARN) of the created recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommendation_config
+    #   The configuration for the recommendation.
+    #   @return [Types::RecommendationConfig]
+    #
+    # @!attribute [rw] status
+    #   The status of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the recommendation was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the recommendation was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/StartRecommendationResponse AWS API Documentation
+    #
+    class StartRecommendationResponse < Struct.new(
+      :recommendation_id,
+      :recommendation_arn,
+      :name,
+      :description,
+      :type,
+      :recommendation_config,
+      :status,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] batch_evaluation_id
+    #   The unique identifier of the batch evaluation to stop.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/StopBatchEvaluationRequest AWS API Documentation
+    #
+    class StopBatchEvaluationRequest < Struct.new(
+      :batch_evaluation_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] batch_evaluation_id
+    #   The unique identifier of the stopped batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] batch_evaluation_arn
+    #   The Amazon Resource Name (ARN) of the stopped batch evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the batch evaluation after the stop request.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the batch evaluation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/StopBatchEvaluationResponse AWS API Documentation
+    #
+    class StopBatchEvaluationResponse < Struct.new(
+      :batch_evaluation_id,
+      :batch_evaluation_arn,
+      :status,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] trace_id
     #   The trace identifier for request tracking.
     #   @return [String]
@@ -5986,6 +7799,132 @@ module Aws::BedrockAgentCore
       class Unknown < StreamUpdate; end
     end
 
+    # The system prompt input, either as inline text or from a configuration
+    # bundle.
+    #
+    # @note SystemPromptConfig is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note SystemPromptConfig is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of SystemPromptConfig corresponding to the set member.
+    #
+    # @!attribute [rw] text
+    #   The system prompt text provided inline.
+    #   @return [String]
+    #
+    # @!attribute [rw] configuration_bundle
+    #   The system prompt sourced from a configuration bundle version.
+    #   @return [Types::SystemPromptConfigurationBundle]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/SystemPromptConfig AWS API Documentation
+    #
+    class SystemPromptConfig < Struct.new(
+      :text,
+      :configuration_bundle,
+      :unknown)
+      SENSITIVE = [:text]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Text < SystemPromptConfig; end
+      class ConfigurationBundle < SystemPromptConfig; end
+      class Unknown < SystemPromptConfig; end
+    end
+
+    # A system prompt sourced from a configuration bundle version.
+    #
+    # @!attribute [rw] bundle_arn
+    #   The Amazon Resource Name (ARN) of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   The version identifier of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] system_prompt_json_path
+    #   The JSON path within the configuration bundle that contains the
+    #   system prompt.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/SystemPromptConfigurationBundle AWS API Documentation
+    #
+    class SystemPromptConfigurationBundle < Struct.new(
+      :bundle_arn,
+      :version_id,
+      :system_prompt_json_path)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for generating system prompt optimization
+    # recommendations.
+    #
+    # @!attribute [rw] system_prompt
+    #   The current system prompt to optimize.
+    #   @return [Types::SystemPromptConfig]
+    #
+    # @!attribute [rw] agent_traces
+    #   The agent traces to analyze for generating recommendations.
+    #   @return [Types::AgentTracesConfig]
+    #
+    # @!attribute [rw] evaluation_config
+    #   The evaluation configuration specifying which evaluator to use for
+    #   assessing recommendation quality.
+    #   @return [Types::RecommendationEvaluationConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/SystemPromptRecommendationConfig AWS API Documentation
+    #
+    class SystemPromptRecommendationConfig < Struct.new(
+      :system_prompt,
+      :agent_traces,
+      :evaluation_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a system prompt recommendation, containing the optimized
+    # prompt.
+    #
+    # @!attribute [rw] recommended_system_prompt
+    #   The optimized system prompt text generated by the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] configuration_bundle
+    #   The configuration bundle containing the recommended system prompt,
+    #   if the input was sourced from a configuration bundle.
+    #   @return [Types::RecommendationResultConfigurationBundle]
+    #
+    # @!attribute [rw] error_code
+    #   The error code if the recommendation failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_message
+    #   The error message if the recommendation failed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/SystemPromptRecommendationResult AWS API Documentation
+    #
+    class SystemPromptRecommendationResult < Struct.new(
+      :recommended_system_prompt,
+      :configuration_bundle,
+      :error_code,
+      :error_message)
+      SENSITIVE = [:recommended_system_prompt]
+      include Aws::Structure
+    end
+
+    # A reference to a gateway target.
+    #
+    # @!attribute [rw] name
+    #   The name of the gateway target.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/TargetRef AWS API Documentation
+    #
+    class TargetRef < Struct.new(
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The request was denied due to request throttling. Reduce the frequency
     # of requests and try again.
     #
@@ -6116,6 +8055,189 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # The tool description content.
+    #
+    # @note ToolDescriptionConfig is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note ToolDescriptionConfig is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of ToolDescriptionConfig corresponding to the set member.
+    #
+    # @!attribute [rw] text
+    #   The tool description as inline text.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ToolDescriptionConfig AWS API Documentation
+    #
+    class ToolDescriptionConfig < Struct.new(
+      :text,
+      :unknown)
+      SENSITIVE = [:text]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Text < ToolDescriptionConfig; end
+      class Unknown < ToolDescriptionConfig; end
+    end
+
+    # Tool descriptions sourced from a configuration bundle version.
+    #
+    # @!attribute [rw] bundle_arn
+    #   The Amazon Resource Name (ARN) of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   The version identifier of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] tools
+    #   The list of tool entries mapping tool names to their JSON paths
+    #   within the bundle.
+    #   @return [Array<Types::ConfigurationBundleToolEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ToolDescriptionConfigurationBundle AWS API Documentation
+    #
+    class ToolDescriptionConfigurationBundle < Struct.new(
+      :bundle_arn,
+      :version_id,
+      :tools)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A tool description input containing the tool name and its current
+    # description.
+    #
+    # @!attribute [rw] tool_name
+    #   The name of the tool.
+    #   @return [String]
+    #
+    # @!attribute [rw] tool_description
+    #   The current description of the tool to optimize.
+    #   @return [Types::ToolDescriptionConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ToolDescriptionInput AWS API Documentation
+    #
+    class ToolDescriptionInput < Struct.new(
+      :tool_name,
+      :tool_description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The output for a single tool description recommendation.
+    #
+    # @!attribute [rw] tool_name
+    #   The name of the tool.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommended_tool_description
+    #   The optimized tool description text generated by the recommendation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ToolDescriptionOutput AWS API Documentation
+    #
+    class ToolDescriptionOutput < Struct.new(
+      :tool_name,
+      :recommended_tool_description)
+      SENSITIVE = [:recommended_tool_description]
+      include Aws::Structure
+    end
+
+    # Configuration for generating tool description optimization
+    # recommendations.
+    #
+    # @!attribute [rw] tool_description
+    #   The current tool descriptions to optimize.
+    #   @return [Types::ToolDescriptionSource]
+    #
+    # @!attribute [rw] agent_traces
+    #   The agent traces to analyze for generating tool description
+    #   recommendations.
+    #   @return [Types::AgentTracesConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ToolDescriptionRecommendationConfig AWS API Documentation
+    #
+    class ToolDescriptionRecommendationConfig < Struct.new(
+      :tool_description,
+      :agent_traces)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a tool description recommendation, containing optimized
+    # descriptions.
+    #
+    # @!attribute [rw] tools
+    #   The list of tools with their recommended descriptions.
+    #   @return [Array<Types::ToolDescriptionOutput>]
+    #
+    # @!attribute [rw] configuration_bundle
+    #   The configuration bundle containing the recommended tool
+    #   descriptions, if the input was sourced from a configuration bundle.
+    #   @return [Types::RecommendationResultConfigurationBundle]
+    #
+    # @!attribute [rw] error_code
+    #   The error code if the recommendation failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_message
+    #   The error message if the recommendation failed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ToolDescriptionRecommendationResult AWS API Documentation
+    #
+    class ToolDescriptionRecommendationResult < Struct.new(
+      :tools,
+      :configuration_bundle,
+      :error_code,
+      :error_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The source of tool descriptions, either inline text or from a
+    # configuration bundle.
+    #
+    # @note ToolDescriptionSource is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note ToolDescriptionSource is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of ToolDescriptionSource corresponding to the set member.
+    #
+    # @!attribute [rw] tool_description_text
+    #   Tool descriptions provided as inline text.
+    #   @return [Types::ToolDescriptionTextInput]
+    #
+    # @!attribute [rw] configuration_bundle
+    #   Tool descriptions sourced from a configuration bundle version.
+    #   @return [Types::ToolDescriptionConfigurationBundle]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ToolDescriptionSource AWS API Documentation
+    #
+    class ToolDescriptionSource < Struct.new(
+      :tool_description_text,
+      :configuration_bundle,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class ToolDescriptionText < ToolDescriptionSource; end
+      class ConfigurationBundle < ToolDescriptionSource; end
+      class Unknown < ToolDescriptionSource; end
+    end
+
+    # Inline tool description input containing a list of tools.
+    #
+    # @!attribute [rw] tools
+    #   The list of tool descriptions to optimize.
+    #   @return [Array<Types::ToolDescriptionInput>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ToolDescriptionTextInput AWS API Documentation
+    #
+    class ToolDescriptionTextInput < Struct.new(
+      :tools)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains structured content from a tool result.
     #
     # @!attribute [rw] task_id
@@ -6198,6 +8320,96 @@ module Aws::BedrockAgentCore
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/Unit AWS API Documentation
     #
     class Unit < Aws::EmptyStructure; end
+
+    # @!attribute [rw] ab_test_id
+    #   The unique identifier of the A/B test to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If this token matches a previous
+    #   request, the service ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The updated name of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The updated description of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] variants
+    #   The updated list of variants.
+    #   @return [Array<Types::Variant>]
+    #
+    # @!attribute [rw] gateway_filter
+    #   The updated gateway filter.
+    #   @return [Types::GatewayFilter]
+    #
+    # @!attribute [rw] evaluation_config
+    #   The updated evaluation configuration.
+    #   @return [Types::ABTestEvaluationConfig]
+    #
+    # @!attribute [rw] role_arn
+    #   The updated IAM role ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_status
+    #   The updated execution status to enable or disable the A/B test.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/UpdateABTestRequest AWS API Documentation
+    #
+    class UpdateABTestRequest < Struct.new(
+      :ab_test_id,
+      :client_token,
+      :name,
+      :description,
+      :variants,
+      :gateway_filter,
+      :evaluation_config,
+      :role_arn,
+      :execution_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ab_test_id
+    #   The unique identifier of the updated A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] ab_test_arn
+    #   The Amazon Resource Name (ARN) of the updated A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_status
+    #   The execution status of the A/B test.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the A/B test was updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/UpdateABTestResponse AWS API Documentation
+    #
+    class UpdateABTestResponse < Struct.new(
+      :ab_test_id,
+      :ab_test_arn,
+      :status,
+      :execution_status,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # @!attribute [rw] browser_identifier
     #   The identifier of the browser.
@@ -6335,6 +8547,106 @@ module Aws::BedrockAgentCore
     class ValidationExceptionField < Struct.new(
       :name,
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A variant in an A/B test, representing either the control (C) or
+    # treatment (T1) configuration.
+    #
+    # @!attribute [rw] name
+    #   The name of the variant. Must be `C` for control or `T1` for
+    #   treatment.
+    #   @return [String]
+    #
+    # @!attribute [rw] weight
+    #   The percentage of traffic to route to this variant. Weights across
+    #   all variants must sum to 100.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] variant_configuration
+    #   The configuration for this variant, including the configuration
+    #   bundle or target reference.
+    #   @return [Types::VariantConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/Variant AWS API Documentation
+    #
+    class Variant < Struct.new(
+      :name,
+      :weight,
+      :variant_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for an A/B test variant.
+    #
+    # @!attribute [rw] configuration_bundle
+    #   A reference to a configuration bundle version to use for this
+    #   variant.
+    #   @return [Types::ConfigurationBundleRef]
+    #
+    # @!attribute [rw] target
+    #   A reference to a gateway target to route traffic to for this
+    #   variant.
+    #   @return [Types::TargetRef]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/VariantConfiguration AWS API Documentation
+    #
+    class VariantConfiguration < Struct.new(
+      :configuration_bundle,
+      :target)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Statistical results for a treatment variant compared against the
+    # control.
+    #
+    # @!attribute [rw] variant_name
+    #   The name of the treatment variant.
+    #   @return [String]
+    #
+    # @!attribute [rw] sample_size
+    #   The number of sessions evaluated for this variant.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] mean
+    #   The mean evaluation score for this variant.
+    #   @return [Float]
+    #
+    # @!attribute [rw] absolute_change
+    #   The absolute change in mean score compared to the control variant.
+    #   @return [Float]
+    #
+    # @!attribute [rw] percent_change
+    #   The percentage change in mean score compared to the control variant.
+    #   @return [Float]
+    #
+    # @!attribute [rw] p_value
+    #   The p-value indicating the statistical significance of the observed
+    #   difference.
+    #   @return [Float]
+    #
+    # @!attribute [rw] confidence_interval
+    #   The confidence interval for the observed difference.
+    #   @return [Types::ConfidenceInterval]
+    #
+    # @!attribute [rw] is_significant
+    #   Whether the observed difference is statistically significant.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/VariantResult AWS API Documentation
+    #
+    class VariantResult < Struct.new(
+      :variant_name,
+      :sample_size,
+      :mean,
+      :absolute_change,
+      :percent_change,
+      :p_value,
+      :confidence_interval,
+      :is_significant)
       SENSITIVE = []
       include Aws::Structure
     end

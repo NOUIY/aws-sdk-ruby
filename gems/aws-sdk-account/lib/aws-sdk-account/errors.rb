@@ -51,13 +51,13 @@ module Aws::Account
       end
 
       # @return [String]
-      def error_type
-        @data[:error_type]
+      def message
+        @message || @data[:message]
       end
 
       # @return [String]
-      def message
-        @message || @data[:message]
+      def error_type
+        @data[:error_type]
       end
     end
 
@@ -71,13 +71,13 @@ module Aws::Account
       end
 
       # @return [String]
-      def error_type
-        @data[:error_type]
+      def message
+        @message || @data[:message]
       end
 
       # @return [String]
-      def message
-        @message || @data[:message]
+      def error_type
+        @data[:error_type]
       end
     end
 
@@ -91,13 +91,13 @@ module Aws::Account
       end
 
       # @return [String]
-      def error_type
-        @data[:error_type]
+      def message
+        @message || @data[:message]
       end
 
       # @return [String]
-      def message
-        @message || @data[:message]
+      def error_type
+        @data[:error_type]
       end
 
       def retryable?
@@ -115,13 +115,13 @@ module Aws::Account
       end
 
       # @return [String]
-      def error_type
-        @data[:error_type]
+      def message
+        @message || @data[:message]
       end
 
       # @return [String]
-      def message
-        @message || @data[:message]
+      def error_type
+        @data[:error_type]
       end
     end
 
@@ -135,13 +135,13 @@ module Aws::Account
       end
 
       # @return [String]
-      def error_type
-        @data[:error_type]
+      def message
+        @message || @data[:message]
       end
 
       # @return [String]
-      def message
-        @message || @data[:message]
+      def error_type
+        @data[:error_type]
       end
     end
 
@@ -155,13 +155,13 @@ module Aws::Account
       end
 
       # @return [String]
-      def error_type
-        @data[:error_type]
+      def message
+        @message || @data[:message]
       end
 
       # @return [String]
-      def message
-        @message || @data[:message]
+      def error_type
+        @data[:error_type]
       end
 
       def retryable?
@@ -183,11 +183,6 @@ module Aws::Account
       end
 
       # @return [String]
-      def field_list
-        @data[:field_list]
-      end
-
-      # @return [String]
       def message
         @message || @data[:message]
       end
@@ -195,6 +190,11 @@ module Aws::Account
       # @return [String]
       def reason
         @data[:reason]
+      end
+
+      # @return [String]
+      def field_list
+        @data[:field_list]
       end
     end
 

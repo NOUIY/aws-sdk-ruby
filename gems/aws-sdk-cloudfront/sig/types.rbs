@@ -234,6 +234,11 @@ module Aws::CloudFront
       SENSITIVE: []
     end
 
+    class CacheTagConfig
+      attr_accessor header_name: ::String
+      SENSITIVE: []
+    end
+
     class CachedMethods
       attr_accessor quantity: ::Integer
       attr_accessor items: ::Array[("GET" | "HEAD" | "POST" | "PUT" | "PATCH" | "OPTIONS" | "DELETE")]
@@ -1117,6 +1122,7 @@ module Aws::CloudFront
       attr_accessor connection_mode: ("direct" | "tenant-only")
       attr_accessor viewer_mtls_config: Types::ViewerMtlsConfig
       attr_accessor connection_function_association: Types::ConnectionFunctionAssociation
+      attr_accessor cache_tag_config: Types::CacheTagConfig
       SENSITIVE: [:comment]
     end
 

@@ -610,6 +610,9 @@ module Aws
                                    }?,
                                    connection_function_association: {
                                      id: ::String
+                                   }?,
+                                   cache_tag_config: {
+                                     header_name: ::String
                                    }?
                                  }
                                ) -> _CreateDistributionResponseSuccess
@@ -974,6 +977,9 @@ module Aws
                                                }?,
                                                connection_function_association: {
                                                  id: ::String
+                                               }?,
+                                               cache_tag_config: {
+                                                 header_name: ::String
                                                }?
                                              },
                                              tags: {
@@ -3152,6 +3158,9 @@ module Aws
                                    }?,
                                    connection_function_association: {
                                      id: ::String
+                                   }?,
+                                   cache_tag_config: {
+                                     header_name: ::String
                                    }?
                                  },
                                  id: ::String,

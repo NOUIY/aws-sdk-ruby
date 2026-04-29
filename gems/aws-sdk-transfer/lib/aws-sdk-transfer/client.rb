@@ -4025,7 +4025,7 @@ module Aws::Transfer
     #   of the items contained in the remote directory or not. If your
     #   `Truncated` output value is true, you can increase the value
     #   provided in the optional `max-items` input attribute to be able to
-    #   list more items (up to the maximum allowed list size of 10,000
+    #   list more items (up to the maximum allowed list size of 200,000
     #   items).
     #
     # @option params [required, String] :connector_id
@@ -5771,7 +5771,7 @@ module Aws::Transfer
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-transfer'
-      context[:gem_version] = '1.136.0'
+      context[:gem_version] = '1.137.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

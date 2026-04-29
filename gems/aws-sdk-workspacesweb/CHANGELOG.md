@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.61.0 (2026-04-29)
+------------------
+
+* Feature - Allow admins to configure IPv6 ranges on IP Access Settings.
+
 1.60.0 (2026-03-18)
 ------------------
 

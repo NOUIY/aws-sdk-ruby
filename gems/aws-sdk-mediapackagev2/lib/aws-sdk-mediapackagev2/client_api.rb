@@ -58,6 +58,8 @@ module Aws::MediaPackageV2
     CreateOriginEndpointRequest = Shapes::StructureShape.new(name: 'CreateOriginEndpointRequest')
     CreateOriginEndpointRequestStartoverWindowSecondsInteger = Shapes::IntegerShape.new(name: 'CreateOriginEndpointRequestStartoverWindowSecondsInteger')
     CreateOriginEndpointResponse = Shapes::StructureShape.new(name: 'CreateOriginEndpointResponse')
+    CustomAdType = Shapes::StringShape.new(name: 'CustomAdType')
+    CustomAdTypeList = Shapes::ListShape.new(name: 'CustomAdTypeList')
     DashBaseUrl = Shapes::StructureShape.new(name: 'DashBaseUrl')
     DashBaseUrlDvbPriorityInteger = Shapes::IntegerShape.new(name: 'DashBaseUrlDvbPriorityInteger')
     DashBaseUrlDvbWeightInteger = Shapes::IntegerShape.new(name: 'DashBaseUrlDvbWeightInteger')
@@ -208,6 +210,7 @@ module Aws::MediaPackageV2
     ScteFilter = Shapes::StringShape.new(name: 'ScteFilter')
     ScteFilterList = Shapes::ListShape.new(name: 'ScteFilterList')
     ScteHls = Shapes::StructureShape.new(name: 'ScteHls')
+    ScteInManifests = Shapes::StringShape.new(name: 'ScteInManifests')
     ScteInSegments = Shapes::StringShape.new(name: 'ScteInSegments')
     Segment = Shapes::StructureShape.new(name: 'Segment')
     SegmentSegmentDurationSecondsInteger = Shapes::IntegerShape.new(name: 'SegmentSegmentDurationSecondsInteger')
@@ -238,6 +241,8 @@ module Aws::MediaPackageV2
     UpdateOriginEndpointRequest = Shapes::StructureShape.new(name: 'UpdateOriginEndpointRequest')
     UpdateOriginEndpointRequestStartoverWindowSecondsInteger = Shapes::IntegerShape.new(name: 'UpdateOriginEndpointRequestStartoverWindowSecondsInteger')
     UpdateOriginEndpointResponse = Shapes::StructureShape.new(name: 'UpdateOriginEndpointResponse')
+    UriPathType = Shapes::StringShape.new(name: 'UriPathType')
+    UriSeparator = Shapes::StringShape.new(name: 'UriSeparator')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
     ValidationExceptionType = Shapes::StringShape.new(name: 'ValidationExceptionType')
 
@@ -340,6 +345,7 @@ module Aws::MediaPackageV2
     CreateDashManifestConfiguration.add_member(:dvb_settings, Shapes::ShapeRef.new(shape: DashDvbSettings, location_name: "DvbSettings"))
     CreateDashManifestConfiguration.add_member(:compactness, Shapes::ShapeRef.new(shape: DashCompactness, location_name: "Compactness"))
     CreateDashManifestConfiguration.add_member(:subtitle_configuration, Shapes::ShapeRef.new(shape: DashSubtitleConfiguration, location_name: "SubtitleConfiguration"))
+    CreateDashManifestConfiguration.add_member(:uri_path_type, Shapes::ShapeRef.new(shape: UriPathType, location_name: "UriPathType"))
     CreateDashManifestConfiguration.struct_class = Types::CreateDashManifestConfiguration
 
     CreateDashManifests.member = Shapes::ShapeRef.new(shape: CreateDashManifestConfiguration)
@@ -381,6 +387,7 @@ module Aws::MediaPackageV2
     CreateHlsManifestConfiguration.add_member(:program_date_time_interval_seconds, Shapes::ShapeRef.new(shape: CreateHlsManifestConfigurationProgramDateTimeIntervalSecondsInteger, location_name: "ProgramDateTimeIntervalSeconds"))
     CreateHlsManifestConfiguration.add_member(:filter_configuration, Shapes::ShapeRef.new(shape: FilterConfiguration, location_name: "FilterConfiguration"))
     CreateHlsManifestConfiguration.add_member(:url_encode_child_manifest, Shapes::ShapeRef.new(shape: Boolean, location_name: "UrlEncodeChildManifest"))
+    CreateHlsManifestConfiguration.add_member(:uri_path_type, Shapes::ShapeRef.new(shape: UriPathType, location_name: "UriPathType"))
     CreateHlsManifestConfiguration.struct_class = Types::CreateHlsManifestConfiguration
 
     CreateHlsManifests.member = Shapes::ShapeRef.new(shape: CreateHlsManifestConfiguration)
@@ -393,6 +400,7 @@ module Aws::MediaPackageV2
     CreateLowLatencyHlsManifestConfiguration.add_member(:program_date_time_interval_seconds, Shapes::ShapeRef.new(shape: CreateLowLatencyHlsManifestConfigurationProgramDateTimeIntervalSecondsInteger, location_name: "ProgramDateTimeIntervalSeconds"))
     CreateLowLatencyHlsManifestConfiguration.add_member(:filter_configuration, Shapes::ShapeRef.new(shape: FilterConfiguration, location_name: "FilterConfiguration"))
     CreateLowLatencyHlsManifestConfiguration.add_member(:url_encode_child_manifest, Shapes::ShapeRef.new(shape: Boolean, location_name: "UrlEncodeChildManifest"))
+    CreateLowLatencyHlsManifestConfiguration.add_member(:uri_path_type, Shapes::ShapeRef.new(shape: UriPathType, location_name: "UriPathType"))
     CreateLowLatencyHlsManifestConfiguration.struct_class = Types::CreateLowLatencyHlsManifestConfiguration
 
     CreateLowLatencyHlsManifests.member = Shapes::ShapeRef.new(shape: CreateLowLatencyHlsManifestConfiguration)
@@ -418,6 +426,7 @@ module Aws::MediaPackageV2
     CreateOriginEndpointRequest.add_member(:dash_manifests, Shapes::ShapeRef.new(shape: CreateDashManifests, location_name: "DashManifests"))
     CreateOriginEndpointRequest.add_member(:mss_manifests, Shapes::ShapeRef.new(shape: CreateMssManifests, location_name: "MssManifests"))
     CreateOriginEndpointRequest.add_member(:force_endpoint_error_configuration, Shapes::ShapeRef.new(shape: ForceEndpointErrorConfiguration, location_name: "ForceEndpointErrorConfiguration"))
+    CreateOriginEndpointRequest.add_member(:uri_separator, Shapes::ShapeRef.new(shape: UriSeparator, location_name: "UriSeparator"))
     CreateOriginEndpointRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
     CreateOriginEndpointRequest.struct_class = Types::CreateOriginEndpointRequest
 
@@ -436,9 +445,12 @@ module Aws::MediaPackageV2
     CreateOriginEndpointResponse.add_member(:dash_manifests, Shapes::ShapeRef.new(shape: GetDashManifests, location_name: "DashManifests"))
     CreateOriginEndpointResponse.add_member(:mss_manifests, Shapes::ShapeRef.new(shape: GetMssManifests, location_name: "MssManifests"))
     CreateOriginEndpointResponse.add_member(:force_endpoint_error_configuration, Shapes::ShapeRef.new(shape: ForceEndpointErrorConfiguration, location_name: "ForceEndpointErrorConfiguration"))
+    CreateOriginEndpointResponse.add_member(:uri_separator, Shapes::ShapeRef.new(shape: UriSeparator, location_name: "UriSeparator"))
     CreateOriginEndpointResponse.add_member(:etag, Shapes::ShapeRef.new(shape: EntityTag, location_name: "ETag"))
     CreateOriginEndpointResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
     CreateOriginEndpointResponse.struct_class = Types::CreateOriginEndpointResponse
+
+    CustomAdTypeList.member = Shapes::ShapeRef.new(shape: CustomAdType)
 
     DashBaseUrl.add_member(:url, Shapes::ShapeRef.new(shape: DashBaseUrlUrlString, required: true, location_name: "Url"))
     DashBaseUrl.add_member(:service_location, Shapes::ShapeRef.new(shape: DashBaseUrlServiceLocationString, location_name: "ServiceLocation"))
@@ -606,6 +618,7 @@ module Aws::MediaPackageV2
     GetDashManifestConfiguration.add_member(:dvb_settings, Shapes::ShapeRef.new(shape: DashDvbSettings, location_name: "DvbSettings"))
     GetDashManifestConfiguration.add_member(:compactness, Shapes::ShapeRef.new(shape: DashCompactness, location_name: "Compactness"))
     GetDashManifestConfiguration.add_member(:subtitle_configuration, Shapes::ShapeRef.new(shape: DashSubtitleConfiguration, location_name: "SubtitleConfiguration"))
+    GetDashManifestConfiguration.add_member(:uri_path_type, Shapes::ShapeRef.new(shape: UriPathType, location_name: "UriPathType"))
     GetDashManifestConfiguration.struct_class = Types::GetDashManifestConfiguration
 
     GetDashManifests.member = Shapes::ShapeRef.new(shape: GetDashManifestConfiguration)
@@ -642,6 +655,7 @@ module Aws::MediaPackageV2
     GetHlsManifestConfiguration.add_member(:filter_configuration, Shapes::ShapeRef.new(shape: FilterConfiguration, location_name: "FilterConfiguration"))
     GetHlsManifestConfiguration.add_member(:start_tag, Shapes::ShapeRef.new(shape: StartTag, location_name: "StartTag"))
     GetHlsManifestConfiguration.add_member(:url_encode_child_manifest, Shapes::ShapeRef.new(shape: Boolean, location_name: "UrlEncodeChildManifest"))
+    GetHlsManifestConfiguration.add_member(:uri_path_type, Shapes::ShapeRef.new(shape: UriPathType, location_name: "UriPathType"))
     GetHlsManifestConfiguration.struct_class = Types::GetHlsManifestConfiguration
 
     GetHlsManifests.member = Shapes::ShapeRef.new(shape: GetHlsManifestConfiguration)
@@ -655,6 +669,7 @@ module Aws::MediaPackageV2
     GetLowLatencyHlsManifestConfiguration.add_member(:filter_configuration, Shapes::ShapeRef.new(shape: FilterConfiguration, location_name: "FilterConfiguration"))
     GetLowLatencyHlsManifestConfiguration.add_member(:start_tag, Shapes::ShapeRef.new(shape: StartTag, location_name: "StartTag"))
     GetLowLatencyHlsManifestConfiguration.add_member(:url_encode_child_manifest, Shapes::ShapeRef.new(shape: Boolean, location_name: "UrlEncodeChildManifest"))
+    GetLowLatencyHlsManifestConfiguration.add_member(:uri_path_type, Shapes::ShapeRef.new(shape: UriPathType, location_name: "UriPathType"))
     GetLowLatencyHlsManifestConfiguration.struct_class = Types::GetLowLatencyHlsManifestConfiguration
 
     GetLowLatencyHlsManifests.member = Shapes::ShapeRef.new(shape: GetLowLatencyHlsManifestConfiguration)
@@ -701,6 +716,7 @@ module Aws::MediaPackageV2
     GetOriginEndpointResponse.add_member(:dash_manifests, Shapes::ShapeRef.new(shape: GetDashManifests, location_name: "DashManifests"))
     GetOriginEndpointResponse.add_member(:mss_manifests, Shapes::ShapeRef.new(shape: GetMssManifests, location_name: "MssManifests"))
     GetOriginEndpointResponse.add_member(:force_endpoint_error_configuration, Shapes::ShapeRef.new(shape: ForceEndpointErrorConfiguration, location_name: "ForceEndpointErrorConfiguration"))
+    GetOriginEndpointResponse.add_member(:uri_separator, Shapes::ShapeRef.new(shape: UriSeparator, location_name: "UriSeparator"))
     GetOriginEndpointResponse.add_member(:etag, Shapes::ShapeRef.new(shape: EntityTag, location_name: "ETag"))
     GetOriginEndpointResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
     GetOriginEndpointResponse.struct_class = Types::GetOriginEndpointResponse
@@ -844,6 +860,7 @@ module Aws::MediaPackageV2
     OriginEndpointListConfiguration.add_member(:dash_manifests, Shapes::ShapeRef.new(shape: ListDashManifests, location_name: "DashManifests"))
     OriginEndpointListConfiguration.add_member(:mss_manifests, Shapes::ShapeRef.new(shape: ListMssManifests, location_name: "MssManifests"))
     OriginEndpointListConfiguration.add_member(:force_endpoint_error_configuration, Shapes::ShapeRef.new(shape: ForceEndpointErrorConfiguration, location_name: "ForceEndpointErrorConfiguration"))
+    OriginEndpointListConfiguration.add_member(:uri_separator, Shapes::ShapeRef.new(shape: UriSeparator, location_name: "UriSeparator"))
     OriginEndpointListConfiguration.struct_class = Types::OriginEndpointListConfiguration
 
     OriginEndpointsList.member = Shapes::ShapeRef.new(shape: OriginEndpointListConfiguration)
@@ -899,14 +916,17 @@ module Aws::MediaPackageV2
 
     Scte.add_member(:scte_filter, Shapes::ShapeRef.new(shape: ScteFilterList, location_name: "ScteFilter"))
     Scte.add_member(:scte_in_segments, Shapes::ShapeRef.new(shape: ScteInSegments, location_name: "ScteInSegments"))
+    Scte.add_member(:custom_ad_types, Shapes::ShapeRef.new(shape: CustomAdTypeList, location_name: "CustomAdTypes"))
     Scte.struct_class = Types::Scte
 
     ScteDash.add_member(:ad_marker_dash, Shapes::ShapeRef.new(shape: AdMarkerDash, location_name: "AdMarkerDash"))
+    ScteDash.add_member(:scte_in_manifests, Shapes::ShapeRef.new(shape: ScteInManifests, location_name: "ScteInManifests"))
     ScteDash.struct_class = Types::ScteDash
 
     ScteFilterList.member = Shapes::ShapeRef.new(shape: ScteFilter)
 
     ScteHls.add_member(:ad_marker_hls, Shapes::ShapeRef.new(shape: AdMarkerHls, location_name: "AdMarkerHls"))
+    ScteHls.add_member(:scte_in_manifests, Shapes::ShapeRef.new(shape: ScteInManifests, location_name: "ScteInManifests"))
     ScteHls.struct_class = Types::ScteHls
 
     Segment.add_member(:segment_duration_seconds, Shapes::ShapeRef.new(shape: SegmentSegmentDurationSecondsInteger, location_name: "SegmentDurationSeconds"))
@@ -1000,6 +1020,7 @@ module Aws::MediaPackageV2
     UpdateOriginEndpointRequest.add_member(:dash_manifests, Shapes::ShapeRef.new(shape: CreateDashManifests, location_name: "DashManifests"))
     UpdateOriginEndpointRequest.add_member(:mss_manifests, Shapes::ShapeRef.new(shape: CreateMssManifests, location_name: "MssManifests"))
     UpdateOriginEndpointRequest.add_member(:force_endpoint_error_configuration, Shapes::ShapeRef.new(shape: ForceEndpointErrorConfiguration, location_name: "ForceEndpointErrorConfiguration"))
+    UpdateOriginEndpointRequest.add_member(:uri_separator, Shapes::ShapeRef.new(shape: UriSeparator, location_name: "UriSeparator"))
     UpdateOriginEndpointRequest.add_member(:etag, Shapes::ShapeRef.new(shape: EntityTag, location: "header", location_name: "x-amzn-update-if-match"))
     UpdateOriginEndpointRequest.struct_class = Types::UpdateOriginEndpointRequest
 
@@ -1017,6 +1038,7 @@ module Aws::MediaPackageV2
     UpdateOriginEndpointResponse.add_member(:low_latency_hls_manifests, Shapes::ShapeRef.new(shape: GetLowLatencyHlsManifests, location_name: "LowLatencyHlsManifests"))
     UpdateOriginEndpointResponse.add_member(:mss_manifests, Shapes::ShapeRef.new(shape: GetMssManifests, location_name: "MssManifests"))
     UpdateOriginEndpointResponse.add_member(:force_endpoint_error_configuration, Shapes::ShapeRef.new(shape: ForceEndpointErrorConfiguration, location_name: "ForceEndpointErrorConfiguration"))
+    UpdateOriginEndpointResponse.add_member(:uri_separator, Shapes::ShapeRef.new(shape: UriSeparator, location_name: "UriSeparator"))
     UpdateOriginEndpointResponse.add_member(:etag, Shapes::ShapeRef.new(shape: EntityTag, location_name: "ETag"))
     UpdateOriginEndpointResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
     UpdateOriginEndpointResponse.add_member(:dash_manifests, Shapes::ShapeRef.new(shape: GetDashManifests, location_name: "DashManifests"))

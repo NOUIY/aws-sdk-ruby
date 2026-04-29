@@ -1046,6 +1046,98 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
+    # Creates a new configuration bundle resource. A configuration bundle
+    # stores versioned component configurations for agent evaluation
+    # workflows.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a previous
+    #   request, the service ignores the request, but doesn't return an
+    #   error. For more information, see [Ensuring idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #
+    # @option params [required, String] :bundle_name
+    #   The name for the configuration bundle. Names must be unique within
+    #   your account.
+    #
+    # @option params [String] :description
+    #   The description for the configuration bundle.
+    #
+    # @option params [required, Hash<String,Types::ComponentConfiguration>] :components
+    #   A map of component identifiers to their configurations. Each component
+    #   represents a configurable element within the bundle.
+    #
+    # @option params [String] :branch_name
+    #   The branch name for version tracking. Defaults to `mainline` if not
+    #   specified.
+    #
+    # @option params [String] :commit_message
+    #   A commit message describing the initial version of the configuration
+    #   bundle.
+    #
+    # @option params [Types::VersionCreatedBySource] :created_by
+    #   The source that created this version, including the source name and
+    #   optional ARN.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   A map of tag keys and values to assign to the configuration bundle.
+    #   Tags enable you to categorize your resources in different ways, for
+    #   example, by purpose, owner, or environment.
+    #
+    # @return [Types::CreateConfigurationBundleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateConfigurationBundleResponse#bundle_arn #bundle_arn} => String
+    #   * {Types::CreateConfigurationBundleResponse#bundle_id #bundle_id} => String
+    #   * {Types::CreateConfigurationBundleResponse#version_id #version_id} => String
+    #   * {Types::CreateConfigurationBundleResponse#created_at #created_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_configuration_bundle({
+    #     client_token: "ClientToken",
+    #     bundle_name: "ConfigurationBundleName", # required
+    #     description: "ConfigurationBundleDescription",
+    #     components: { # required
+    #       "ComponentIdentifier" => {
+    #         configuration: { # required
+    #         },
+    #       },
+    #     },
+    #     branch_name: "BranchName",
+    #     commit_message: "CreateConfigurationBundleRequestCommitMessageString",
+    #     created_by: {
+    #       name: "String", # required
+    #       arn: "String",
+    #     },
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.bundle_arn #=> String
+    #   resp.bundle_id #=> String
+    #   resp.version_id #=> String
+    #   resp.created_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateConfigurationBundle AWS API Documentation
+    #
+    # @overload create_configuration_bundle(params = {})
+    # @param [Hash] params ({})
+    def create_configuration_bundle(params = {}, options = {})
+      req = build_request(:create_configuration_bundle, params)
+      req.send_request(options)
+    end
+
     # Creates a custom evaluator for agent quality assessment. Custom
     # evaluators can use either LLM-as-a-Judge configurations with
     # user-defined prompts, rating scales, and model settings, or code-based
@@ -1083,6 +1175,18 @@ module Aws::BedrockAgentCoreControl
     #   values are `TOOL_CALL` for individual tool invocations, `TRACE` for
     #   single request-response interactions, or `SESSION` for entire
     #   conversation sessions.
+    #
+    # @option params [String] :kms_key_arn
+    #   The Amazon Resource Name (ARN) of a customer managed KMS key to use
+    #   for encrypting sensitive evaluator data, including instructions and
+    #   rating scale. If you don't specify a KMS key, the evaluator data is
+    #   encrypted with an Amazon Web Services owned key. Only symmetric
+    #   encryption KMS keys are supported. For more information, see
+    #   [Encryption at rest for AgentCore Evaluations][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/evaluations-encryption.html
     #
     # @option params [Hash<String,String>] :tags
     #   A map of tag keys and values to assign to an AgentCore Evaluator. Tags
@@ -1142,6 +1246,7 @@ module Aws::BedrockAgentCoreControl
     #       },
     #     },
     #     level: "TOOL_CALL", # required, accepts TOOL_CALL, TRACE, SESSION
+    #     kms_key_arn: "KmsKeyArn",
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
@@ -1193,7 +1298,7 @@ module Aws::BedrockAgentCoreControl
     #   The Amazon Resource Name (ARN) of the IAM role that provides
     #   permissions for the gateway to access Amazon Web Services services.
     #
-    # @option params [required, String] :protocol_type
+    # @option params [String] :protocol_type
     #   The protocol type for the gateway.
     #
     # @option params [Types::GatewayProtocolConfiguration] :protocol_configuration
@@ -1272,7 +1377,7 @@ module Aws::BedrockAgentCoreControl
     #     description: "GatewayDescription",
     #     client_token: "ClientToken",
     #     role_arn: "RoleArn", # required
-    #     protocol_type: "MCP", # required, accepts MCP
+    #     protocol_type: "MCP", # accepts MCP
     #     protocol_configuration: {
     #       mcp: {
     #         supported_versions: ["McpVersion"],
@@ -1280,7 +1385,7 @@ module Aws::BedrockAgentCoreControl
     #         search_type: "SEMANTIC", # accepts SEMANTIC
     #       },
     #     },
-    #     authorizer_type: "CUSTOM_JWT", # required, accepts CUSTOM_JWT, AWS_IAM, NONE
+    #     authorizer_type: "CUSTOM_JWT", # required, accepts CUSTOM_JWT, AWS_IAM, NONE, AUTHENTICATE_ONLY
     #     authorizer_configuration: {
     #       custom_jwt_authorizer: {
     #         discovery_url: "DiscoveryUrl", # required
@@ -1379,7 +1484,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.protocol_configuration.mcp.supported_versions[0] #=> String
     #   resp.protocol_configuration.mcp.instructions #=> String
     #   resp.protocol_configuration.mcp.search_type #=> String, one of "SEMANTIC"
-    #   resp.authorizer_type #=> String, one of "CUSTOM_JWT", "AWS_IAM", "NONE"
+    #   resp.authorizer_type #=> String, one of "CUSTOM_JWT", "AWS_IAM", "NONE", "AUTHENTICATE_ONLY"
     #   resp.authorizer_configuration.custom_jwt_authorizer.discovery_url #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_audience #=> Array
     #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_audience[0] #=> String
@@ -1433,6 +1538,168 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def create_gateway(params = {}, options = {})
       req = build_request(:create_gateway, params)
+      req.send_request(options)
+    end
+
+    # Creates a rule for a gateway. Rules define conditions and actions that
+    # control how requests are routed and processed through the gateway,
+    # including principal-based access control and path-based routing.
+    #
+    # @option params [required, String] :gateway_identifier
+    #   The identifier of the gateway to create a rule for.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a previous
+    #   request, the service ignores the request, but doesn't return an
+    #   error. For more information, see [Ensuring idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #
+    # @option params [required, Integer] :priority
+    #   The priority of the rule. Rules are evaluated in order of priority,
+    #   with lower numbers evaluated first. Must be between 1 and 1,000,000.
+    #
+    # @option params [Array<Types::Condition>] :conditions
+    #   The conditions that must be met for the rule to apply. Conditions can
+    #   match on principals (IAM ARNs) or request paths.
+    #
+    # @option params [required, Array<Types::Action>] :actions
+    #   The actions to take when the rule conditions are met. Actions can
+    #   route to a specific target or apply a configuration bundle override.
+    #
+    # @option params [String] :description
+    #   The description of the gateway rule.
+    #
+    # @return [Types::CreateGatewayRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateGatewayRuleResponse#rule_id #rule_id} => String
+    #   * {Types::CreateGatewayRuleResponse#gateway_arn #gateway_arn} => String
+    #   * {Types::CreateGatewayRuleResponse#priority #priority} => Integer
+    #   * {Types::CreateGatewayRuleResponse#conditions #conditions} => Array&lt;Types::Condition&gt;
+    #   * {Types::CreateGatewayRuleResponse#actions #actions} => Array&lt;Types::Action&gt;
+    #   * {Types::CreateGatewayRuleResponse#description #description} => String
+    #   * {Types::CreateGatewayRuleResponse#created_at #created_at} => Time
+    #   * {Types::CreateGatewayRuleResponse#status #status} => String
+    #   * {Types::CreateGatewayRuleResponse#system #system} => Types::SystemManagedBlock
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_gateway_rule({
+    #     gateway_identifier: "GatewayIdentifier", # required
+    #     client_token: "ClientToken",
+    #     priority: 1, # required
+    #     conditions: [
+    #       {
+    #         match_principals: {
+    #           any_of: [ # required
+    #             {
+    #               iam_principal: {
+    #                 arn: "IamPrincipalArn", # required
+    #                 operator: "StringEquals", # accepts StringEquals, StringLike
+    #               },
+    #             },
+    #           ],
+    #         },
+    #         match_paths: {
+    #           any_of: ["MatchPathPattern"], # required
+    #         },
+    #       },
+    #     ],
+    #     actions: [ # required
+    #       {
+    #         configuration_bundle: {
+    #           static_override: {
+    #             bundle_arn: "GatewayConfigurationBundleArn", # required
+    #             bundle_version: "StaticOverrideBundleVersionString", # required
+    #           },
+    #           weighted_override: {
+    #             traffic_split: [ # required
+    #               {
+    #                 name: "TrafficSplitEntryNameString", # required
+    #                 weight: 1, # required
+    #                 configuration_bundle: { # required
+    #                   bundle_arn: "GatewayConfigurationBundleArn", # required
+    #                   bundle_version: "ConfigurationBundleReferenceBundleVersionString", # required
+    #                 },
+    #                 description: "TrafficSplitEntryDescriptionString",
+    #                 metadata: {
+    #                   "TrafficSplitMetadataKey" => "TrafficSplitMetadataValue",
+    #                 },
+    #               },
+    #             ],
+    #           },
+    #         },
+    #         route_to_target: {
+    #           static_route: {
+    #             target_name: "TargetName", # required
+    #           },
+    #           weighted_route: {
+    #             traffic_split: [ # required
+    #               {
+    #                 name: "TargetTrafficSplitEntryNameString", # required
+    #                 weight: 1, # required
+    #                 target_name: "TargetName", # required
+    #                 description: "TargetTrafficSplitEntryDescriptionString",
+    #                 metadata: {
+    #                   "TrafficSplitMetadataKey" => "TrafficSplitMetadataValue",
+    #                 },
+    #               },
+    #             ],
+    #           },
+    #         },
+    #       },
+    #     ],
+    #     description: "GatewayRuleDescription",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.rule_id #=> String
+    #   resp.gateway_arn #=> String
+    #   resp.priority #=> Integer
+    #   resp.conditions #=> Array
+    #   resp.conditions[0].match_principals.any_of #=> Array
+    #   resp.conditions[0].match_principals.any_of[0].iam_principal.arn #=> String
+    #   resp.conditions[0].match_principals.any_of[0].iam_principal.operator #=> String, one of "StringEquals", "StringLike"
+    #   resp.conditions[0].match_paths.any_of #=> Array
+    #   resp.conditions[0].match_paths.any_of[0] #=> String
+    #   resp.actions #=> Array
+    #   resp.actions[0].configuration_bundle.static_override.bundle_arn #=> String
+    #   resp.actions[0].configuration_bundle.static_override.bundle_version #=> String
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split #=> Array
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].name #=> String
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].weight #=> Integer
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].configuration_bundle.bundle_arn #=> String
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].configuration_bundle.bundle_version #=> String
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].description #=> String
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].metadata #=> Hash
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].metadata["TrafficSplitMetadataKey"] #=> String
+    #   resp.actions[0].route_to_target.static_route.target_name #=> String
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split #=> Array
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].name #=> String
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].weight #=> Integer
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].target_name #=> String
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].description #=> String
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].metadata #=> Hash
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].metadata["TrafficSplitMetadataKey"] #=> String
+    #   resp.description #=> String
+    #   resp.created_at #=> Time
+    #   resp.status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING"
+    #   resp.system.managed_by #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateGatewayRule AWS API Documentation
+    #
+    # @overload create_gateway_rule(params = {})
+    # @param [Hash] params ({})
+    def create_gateway_rule(params = {}, options = {})
+      req = build_request(:create_gateway_rule, params)
       req.send_request(options)
     end
 
@@ -1497,6 +1764,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::CreateGatewayTargetResponse#private_endpoint #private_endpoint} => Types::PrivateEndpoint
     #   * {Types::CreateGatewayTargetResponse#private_endpoint_managed_resources #private_endpoint_managed_resources} => Array&lt;Types::ManagedResourceDetails&gt;
     #   * {Types::CreateGatewayTargetResponse#authorization_data #authorization_data} => Types::AuthorizationData
+    #   * {Types::CreateGatewayTargetResponse#protocol_type #protocol_type} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -1571,8 +1839,8 @@ module Aws::BedrockAgentCoreControl
     #             },
     #             inline_payload: "InlinePayload",
     #           },
-    #           resource_priority: 1,
     #           listing_mode: "DEFAULT", # accepts DEFAULT, DYNAMIC
+    #           resource_priority: 1,
     #         },
     #         api_gateway: {
     #           rest_api_id: "String", # required
@@ -1595,10 +1863,16 @@ module Aws::BedrockAgentCoreControl
     #           },
     #         },
     #       },
+    #       http: {
+    #         agentcore_runtime: {
+    #           arn: "RuntimeArn", # required
+    #           qualifier: "RuntimeQualifier",
+    #         },
+    #       },
     #     },
     #     credential_provider_configurations: [
     #       {
-    #         credential_provider_type: "GATEWAY_IAM_ROLE", # required, accepts GATEWAY_IAM_ROLE, OAUTH, API_KEY
+    #         credential_provider_type: "GATEWAY_IAM_ROLE", # required, accepts GATEWAY_IAM_ROLE, OAUTH, API_KEY, CALLER_IAM_CREDENTIALS, JWT_PASSTHROUGH
     #         credential_provider: {
     #           oauth_credential_provider: {
     #             provider_arn: "OAuthCredentialProviderArn", # required
@@ -1685,8 +1959,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
-    #   resp.target_configuration.mcp.mcp_server.resource_priority #=> Integer
     #   resp.target_configuration.mcp.mcp_server.listing_mode #=> String, one of "DEFAULT", "DYNAMIC"
+    #   resp.target_configuration.mcp.mcp_server.resource_priority #=> Integer
     #   resp.target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.target_configuration.mcp.api_gateway.stage #=> String
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_overrides #=> Array
@@ -1698,8 +1972,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].filter_path #=> String
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods #=> Array
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods[0] #=> String, one of "GET", "DELETE", "HEAD", "OPTIONS", "PATCH", "PUT", "POST"
+    #   resp.target_configuration.http.agentcore_runtime.arn #=> String
+    #   resp.target_configuration.http.agentcore_runtime.qualifier #=> String
     #   resp.credential_provider_configurations #=> Array
-    #   resp.credential_provider_configurations[0].credential_provider_type #=> String, one of "GATEWAY_IAM_ROLE", "OAUTH", "API_KEY"
+    #   resp.credential_provider_configurations[0].credential_provider_type #=> String, one of "GATEWAY_IAM_ROLE", "OAUTH", "API_KEY", "CALLER_IAM_CREDENTIALS", "JWT_PASSTHROUGH"
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.provider_arn #=> String
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes #=> Array
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes[0] #=> String
@@ -1736,6 +2012,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.private_endpoint_managed_resources[0].resource_association_arn #=> String
     #   resp.authorization_data.oauth2.authorization_url #=> String
     #   resp.authorization_data.oauth2.user_id #=> String
+    #   resp.protocol_type #=> String, one of "MCP", "HTTP"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateGatewayTarget AWS API Documentation
     #
@@ -1813,7 +2090,8 @@ module Aws::BedrockAgentCoreControl
     #   invocation.
     #
     # @option params [Integer] :max_tokens
-    #   The maximum number of tokens the agent can generate per iteration.
+    #   The maximum total number of output tokens the agent can generate
+    #   across all model calls within a single invocation.
     #
     # @option params [Integer] :timeout_seconds
     #   The maximum duration in seconds for the agent loop execution per
@@ -2690,7 +2968,15 @@ module Aws::BedrockAgentCoreControl
     # @option params [required, String] :evaluation_execution_role_arn
     #   The Amazon Resource Name (ARN) of the IAM role that grants permissions
     #   to read from CloudWatch logs, write evaluation results, and invoke
-    #   Amazon Bedrock models for evaluation.
+    #   Amazon Bedrock models for evaluation. If the configuration references
+    #   evaluators encrypted with a customer managed KMS key, this role must
+    #   also have `kms:Decrypt` permission on the KMS key. The service
+    #   validates this permission at configuration creation time. For more
+    #   information, see [Encryption at rest for AgentCore Evaluations][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/evaluations-encryption.html
     #
     # @option params [required, Boolean] :enable_on_create
     #   Whether to enable the online evaluation configuration immediately upon
@@ -3546,6 +3832,36 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
+    # Deletes a configuration bundle and all of its versions.
+    #
+    # @option params [required, String] :bundle_id
+    #   The unique identifier of the configuration bundle to delete.
+    #
+    # @return [Types::DeleteConfigurationBundleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteConfigurationBundleResponse#bundle_id #bundle_id} => String
+    #   * {Types::DeleteConfigurationBundleResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_configuration_bundle({
+    #     bundle_id: "ConfigurationBundleId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.bundle_id #=> String
+    #   resp.status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING", "DELETE_FAILED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteConfigurationBundle AWS API Documentation
+    #
+    # @overload delete_configuration_bundle(params = {})
+    # @param [Hash] params ({})
+    def delete_configuration_bundle(params = {}, options = {})
+      req = build_request(:delete_configuration_bundle, params)
+      req.send_request(options)
+    end
+
     # Deletes a custom evaluator. Builtin evaluators cannot be deleted. The
     # evaluator must not be referenced by any active online evaluation
     # configurations.
@@ -3610,6 +3926,40 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def delete_gateway(params = {}, options = {})
       req = build_request(:delete_gateway, params)
+      req.send_request(options)
+    end
+
+    # Deletes a gateway rule.
+    #
+    # @option params [required, String] :gateway_identifier
+    #   The identifier of the gateway containing the rule.
+    #
+    # @option params [required, String] :rule_id
+    #   The unique identifier of the rule to delete.
+    #
+    # @return [Types::DeleteGatewayRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteGatewayRuleResponse#rule_id #rule_id} => String
+    #   * {Types::DeleteGatewayRuleResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_gateway_rule({
+    #     gateway_identifier: "GatewayIdentifier", # required
+    #     rule_id: "GatewayRuleId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.rule_id #=> String
+    #   resp.status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteGatewayRule AWS API Documentation
+    #
+    # @overload delete_gateway_rule(params = {})
+    # @param [Hash] params ({})
+    def delete_gateway_rule(params = {}, options = {})
+      req = build_request(:delete_gateway_rule, params)
       req.send_request(options)
     end
 
@@ -4493,6 +4843,118 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
+    # Gets the latest version of a configuration bundle. By default, returns
+    # the latest version on the mainline branch. Use
+    # `GetConfigurationBundleVersion` to retrieve a specific historical
+    # version.
+    #
+    # @option params [required, String] :bundle_id
+    #   The unique identifier of the configuration bundle to retrieve.
+    #
+    # @option params [String] :branch_name
+    #   The branch name to get the latest version from. If not specified,
+    #   returns the latest version on the mainline branch.
+    #
+    # @return [Types::GetConfigurationBundleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetConfigurationBundleResponse#bundle_arn #bundle_arn} => String
+    #   * {Types::GetConfigurationBundleResponse#bundle_id #bundle_id} => String
+    #   * {Types::GetConfigurationBundleResponse#bundle_name #bundle_name} => String
+    #   * {Types::GetConfigurationBundleResponse#description #description} => String
+    #   * {Types::GetConfigurationBundleResponse#version_id #version_id} => String
+    #   * {Types::GetConfigurationBundleResponse#components #components} => Hash&lt;String,Types::ComponentConfiguration&gt;
+    #   * {Types::GetConfigurationBundleResponse#lineage_metadata #lineage_metadata} => Types::VersionLineageMetadata
+    #   * {Types::GetConfigurationBundleResponse#created_at #created_at} => Time
+    #   * {Types::GetConfigurationBundleResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_configuration_bundle({
+    #     bundle_id: "ConfigurationBundleId", # required
+    #     branch_name: "BranchName",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.bundle_arn #=> String
+    #   resp.bundle_id #=> String
+    #   resp.bundle_name #=> String
+    #   resp.description #=> String
+    #   resp.version_id #=> String
+    #   resp.components #=> Hash
+    #   resp.lineage_metadata.parent_version_ids #=> Array
+    #   resp.lineage_metadata.parent_version_ids[0] #=> String
+    #   resp.lineage_metadata.branch_name #=> String
+    #   resp.lineage_metadata.created_by.name #=> String
+    #   resp.lineage_metadata.created_by.arn #=> String
+    #   resp.lineage_metadata.commit_message #=> String
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetConfigurationBundle AWS API Documentation
+    #
+    # @overload get_configuration_bundle(params = {})
+    # @param [Hash] params ({})
+    def get_configuration_bundle(params = {}, options = {})
+      req = build_request(:get_configuration_bundle, params)
+      req.send_request(options)
+    end
+
+    # Gets a specific version of a configuration bundle by its version
+    # identifier.
+    #
+    # @option params [required, String] :bundle_id
+    #   The unique identifier of the configuration bundle.
+    #
+    # @option params [required, String] :version_id
+    #   The version identifier of the configuration bundle version to
+    #   retrieve.
+    #
+    # @return [Types::GetConfigurationBundleVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetConfigurationBundleVersionResponse#bundle_arn #bundle_arn} => String
+    #   * {Types::GetConfigurationBundleVersionResponse#bundle_id #bundle_id} => String
+    #   * {Types::GetConfigurationBundleVersionResponse#bundle_name #bundle_name} => String
+    #   * {Types::GetConfigurationBundleVersionResponse#description #description} => String
+    #   * {Types::GetConfigurationBundleVersionResponse#version_id #version_id} => String
+    #   * {Types::GetConfigurationBundleVersionResponse#components #components} => Hash&lt;String,Types::ComponentConfiguration&gt;
+    #   * {Types::GetConfigurationBundleVersionResponse#lineage_metadata #lineage_metadata} => Types::VersionLineageMetadata
+    #   * {Types::GetConfigurationBundleVersionResponse#created_at #created_at} => Time
+    #   * {Types::GetConfigurationBundleVersionResponse#version_created_at #version_created_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_configuration_bundle_version({
+    #     bundle_id: "ConfigurationBundleId", # required
+    #     version_id: "ConfigurationBundleVersion", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.bundle_arn #=> String
+    #   resp.bundle_id #=> String
+    #   resp.bundle_name #=> String
+    #   resp.description #=> String
+    #   resp.version_id #=> String
+    #   resp.components #=> Hash
+    #   resp.lineage_metadata.parent_version_ids #=> Array
+    #   resp.lineage_metadata.parent_version_ids[0] #=> String
+    #   resp.lineage_metadata.branch_name #=> String
+    #   resp.lineage_metadata.created_by.name #=> String
+    #   resp.lineage_metadata.created_by.arn #=> String
+    #   resp.lineage_metadata.commit_message #=> String
+    #   resp.created_at #=> Time
+    #   resp.version_created_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetConfigurationBundleVersion AWS API Documentation
+    #
+    # @overload get_configuration_bundle_version(params = {})
+    # @param [Hash] params ({})
+    def get_configuration_bundle_version(params = {}, options = {})
+      req = build_request(:get_configuration_bundle_version, params)
+      req.send_request(options)
+    end
+
     # Retrieves detailed information about an evaluator, including its
     # configuration, status, and metadata. Works with both built-in and
     # custom evaluators.
@@ -4500,6 +4962,14 @@ module Aws::BedrockAgentCoreControl
     # @option params [required, String] :evaluator_id
     #   The unique identifier of the evaluator to retrieve. Can be a built-in
     #   evaluator ID (e.g., Builtin.Helpfulness) or a custom evaluator ID.
+    #
+    # @option params [String] :included_data
+    #   Controls which data is returned in the response. `ALL_DATA` (default)
+    #   returns the full evaluator including decrypted instructions and rating
+    #   scale. For evaluators encrypted with a customer managed KMS key, this
+    #   requires `kms:Decrypt` permission on the key. `METADATA_ONLY` returns
+    #   evaluator metadata and model configuration without instructions or
+    #   rating scale, and does not require any KMS permissions.
     #
     # @return [Types::GetEvaluatorResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -4513,11 +4983,13 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetEvaluatorResponse#created_at #created_at} => Time
     #   * {Types::GetEvaluatorResponse#updated_at #updated_at} => Time
     #   * {Types::GetEvaluatorResponse#locked_for_modification #locked_for_modification} => Boolean
+    #   * {Types::GetEvaluatorResponse#kms_key_arn #kms_key_arn} => String
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.get_evaluator({
     #     evaluator_id: "EvaluatorId", # required
+    #     included_data: "ALL_DATA", # accepts ALL_DATA, METADATA_ONLY
     #   })
     #
     # @example Response structure
@@ -4547,6 +5019,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
     #   resp.locked_for_modification #=> Boolean
+    #   resp.kms_key_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetEvaluator AWS API Documentation
     #
@@ -4608,7 +5081,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.protocol_configuration.mcp.supported_versions[0] #=> String
     #   resp.protocol_configuration.mcp.instructions #=> String
     #   resp.protocol_configuration.mcp.search_type #=> String, one of "SEMANTIC"
-    #   resp.authorizer_type #=> String, one of "CUSTOM_JWT", "AWS_IAM", "NONE"
+    #   resp.authorizer_type #=> String, one of "CUSTOM_JWT", "AWS_IAM", "NONE", "AUTHENTICATE_ONLY"
     #   resp.authorizer_configuration.custom_jwt_authorizer.discovery_url #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_audience #=> Array
     #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_audience[0] #=> String
@@ -4665,6 +5138,79 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
+    # Retrieves detailed information about a specific gateway rule.
+    #
+    # @option params [required, String] :gateway_identifier
+    #   The identifier of the gateway containing the rule.
+    #
+    # @option params [required, String] :rule_id
+    #   The unique identifier of the rule to retrieve.
+    #
+    # @return [Types::GetGatewayRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetGatewayRuleResponse#rule_id #rule_id} => String
+    #   * {Types::GetGatewayRuleResponse#gateway_arn #gateway_arn} => String
+    #   * {Types::GetGatewayRuleResponse#priority #priority} => Integer
+    #   * {Types::GetGatewayRuleResponse#conditions #conditions} => Array&lt;Types::Condition&gt;
+    #   * {Types::GetGatewayRuleResponse#actions #actions} => Array&lt;Types::Action&gt;
+    #   * {Types::GetGatewayRuleResponse#description #description} => String
+    #   * {Types::GetGatewayRuleResponse#created_at #created_at} => Time
+    #   * {Types::GetGatewayRuleResponse#status #status} => String
+    #   * {Types::GetGatewayRuleResponse#system #system} => Types::SystemManagedBlock
+    #   * {Types::GetGatewayRuleResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_gateway_rule({
+    #     gateway_identifier: "GatewayIdentifier", # required
+    #     rule_id: "GatewayRuleId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.rule_id #=> String
+    #   resp.gateway_arn #=> String
+    #   resp.priority #=> Integer
+    #   resp.conditions #=> Array
+    #   resp.conditions[0].match_principals.any_of #=> Array
+    #   resp.conditions[0].match_principals.any_of[0].iam_principal.arn #=> String
+    #   resp.conditions[0].match_principals.any_of[0].iam_principal.operator #=> String, one of "StringEquals", "StringLike"
+    #   resp.conditions[0].match_paths.any_of #=> Array
+    #   resp.conditions[0].match_paths.any_of[0] #=> String
+    #   resp.actions #=> Array
+    #   resp.actions[0].configuration_bundle.static_override.bundle_arn #=> String
+    #   resp.actions[0].configuration_bundle.static_override.bundle_version #=> String
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split #=> Array
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].name #=> String
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].weight #=> Integer
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].configuration_bundle.bundle_arn #=> String
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].configuration_bundle.bundle_version #=> String
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].description #=> String
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].metadata #=> Hash
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].metadata["TrafficSplitMetadataKey"] #=> String
+    #   resp.actions[0].route_to_target.static_route.target_name #=> String
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split #=> Array
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].name #=> String
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].weight #=> Integer
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].target_name #=> String
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].description #=> String
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].metadata #=> Hash
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].metadata["TrafficSplitMetadataKey"] #=> String
+    #   resp.description #=> String
+    #   resp.created_at #=> Time
+    #   resp.status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING"
+    #   resp.system.managed_by #=> String
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetGatewayRule AWS API Documentation
+    #
+    # @overload get_gateway_rule(params = {})
+    # @param [Hash] params ({})
+    def get_gateway_rule(params = {}, options = {})
+      req = build_request(:get_gateway_rule, params)
+      req.send_request(options)
+    end
+
     # Retrieves information about a specific gateway target.
     #
     # @option params [required, String] :gateway_identifier
@@ -4690,6 +5236,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetGatewayTargetResponse#private_endpoint #private_endpoint} => Types::PrivateEndpoint
     #   * {Types::GetGatewayTargetResponse#private_endpoint_managed_resources #private_endpoint_managed_resources} => Array&lt;Types::ManagedResourceDetails&gt;
     #   * {Types::GetGatewayTargetResponse#authorization_data #authorization_data} => Types::AuthorizationData
+    #   * {Types::GetGatewayTargetResponse#protocol_type #protocol_type} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -4739,8 +5286,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
-    #   resp.target_configuration.mcp.mcp_server.resource_priority #=> Integer
     #   resp.target_configuration.mcp.mcp_server.listing_mode #=> String, one of "DEFAULT", "DYNAMIC"
+    #   resp.target_configuration.mcp.mcp_server.resource_priority #=> Integer
     #   resp.target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.target_configuration.mcp.api_gateway.stage #=> String
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_overrides #=> Array
@@ -4752,8 +5299,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].filter_path #=> String
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods #=> Array
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods[0] #=> String, one of "GET", "DELETE", "HEAD", "OPTIONS", "PATCH", "PUT", "POST"
+    #   resp.target_configuration.http.agentcore_runtime.arn #=> String
+    #   resp.target_configuration.http.agentcore_runtime.qualifier #=> String
     #   resp.credential_provider_configurations #=> Array
-    #   resp.credential_provider_configurations[0].credential_provider_type #=> String, one of "GATEWAY_IAM_ROLE", "OAUTH", "API_KEY"
+    #   resp.credential_provider_configurations[0].credential_provider_type #=> String, one of "GATEWAY_IAM_ROLE", "OAUTH", "API_KEY", "CALLER_IAM_CREDENTIALS", "JWT_PASSTHROUGH"
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.provider_arn #=> String
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes #=> Array
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes[0] #=> String
@@ -4790,6 +5339,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.private_endpoint_managed_resources[0].resource_association_arn #=> String
     #   resp.authorization_data.oauth2.authorization_url #=> String
     #   resp.authorization_data.oauth2.user_id #=> String
+    #   resp.protocol_type #=> String, one of "MCP", "HTTP"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetGatewayTarget AWS API Documentation
     #
@@ -6033,6 +6583,120 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
+    # Lists all versions of a configuration bundle, with optional filtering
+    # by branch name or creation source.
+    #
+    # @option params [required, String] :bundle_id
+    #   The unique identifier of the configuration bundle to list versions
+    #   for.
+    #
+    # @option params [String] :next_token
+    #   If the total number of results is greater than the `maxResults` value
+    #   provided in the request, enter the token returned in the `nextToken`
+    #   field in the response in this field to return the next batch of
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response. If the total
+    #   number of results is greater than this value, use the token returned
+    #   in the response in the `nextToken` field when making another request
+    #   to return the next batch of results.
+    #
+    # @option params [Types::VersionFilter] :filter
+    #   An optional filter for listing versions, including branch name,
+    #   creation source, and whether to return only the latest version per
+    #   branch.
+    #
+    # @return [Types::ListConfigurationBundleVersionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListConfigurationBundleVersionsResponse#versions #versions} => Array&lt;Types::ConfigurationBundleVersionSummary&gt;
+    #   * {Types::ListConfigurationBundleVersionsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_configuration_bundle_versions({
+    #     bundle_id: "ConfigurationBundleId", # required
+    #     next_token: "String",
+    #     max_results: 1,
+    #     filter: {
+    #       branch_name: "BranchName",
+    #       created_by_name: "String",
+    #       latest_per_branch: false,
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.versions #=> Array
+    #   resp.versions[0].bundle_arn #=> String
+    #   resp.versions[0].bundle_id #=> String
+    #   resp.versions[0].version_id #=> String
+    #   resp.versions[0].lineage_metadata.parent_version_ids #=> Array
+    #   resp.versions[0].lineage_metadata.parent_version_ids[0] #=> String
+    #   resp.versions[0].lineage_metadata.branch_name #=> String
+    #   resp.versions[0].lineage_metadata.created_by.name #=> String
+    #   resp.versions[0].lineage_metadata.created_by.arn #=> String
+    #   resp.versions[0].lineage_metadata.commit_message #=> String
+    #   resp.versions[0].version_created_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListConfigurationBundleVersions AWS API Documentation
+    #
+    # @overload list_configuration_bundle_versions(params = {})
+    # @param [Hash] params ({})
+    def list_configuration_bundle_versions(params = {}, options = {})
+      req = build_request(:list_configuration_bundle_versions, params)
+      req.send_request(options)
+    end
+
+    # Lists all configuration bundles in the account.
+    #
+    # @option params [String] :next_token
+    #   If the total number of results is greater than the `maxResults` value
+    #   provided in the request, enter the token returned in the `nextToken`
+    #   field in the response in this field to return the next batch of
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response. If the total
+    #   number of results is greater than this value, use the token returned
+    #   in the response in the `nextToken` field when making another request
+    #   to return the next batch of results.
+    #
+    # @return [Types::ListConfigurationBundlesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListConfigurationBundlesResponse#bundles #bundles} => Array&lt;Types::ConfigurationBundleSummary&gt;
+    #   * {Types::ListConfigurationBundlesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_configuration_bundles({
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.bundles #=> Array
+    #   resp.bundles[0].bundle_arn #=> String
+    #   resp.bundles[0].bundle_id #=> String
+    #   resp.bundles[0].bundle_name #=> String
+    #   resp.bundles[0].description #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListConfigurationBundles AWS API Documentation
+    #
+    # @overload list_configuration_bundles(params = {})
+    # @param [Hash] params ({})
+    def list_configuration_bundles(params = {}, options = {})
+      req = build_request(:list_configuration_bundles, params)
+      req.send_request(options)
+    end
+
     # Lists all available evaluators, including both builtin evaluators
     # provided by the service and custom evaluators created by the user.
     #
@@ -6070,6 +6734,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.evaluators[0].created_at #=> Time
     #   resp.evaluators[0].updated_at #=> Time
     #   resp.evaluators[0].locked_for_modification #=> Boolean
+    #   resp.evaluators[0].kms_key_arn #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListEvaluators AWS API Documentation
@@ -6078,6 +6743,82 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def list_evaluators(params = {}, options = {})
       req = build_request(:list_evaluators, params)
+      req.send_request(options)
+    end
+
+    # Lists all rules for a gateway.
+    #
+    # @option params [required, String] :gateway_identifier
+    #   The identifier of the gateway to list rules for.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response. If the total
+    #   number of results is greater than this value, use the token returned
+    #   in the response in the `nextToken` field when making another request
+    #   to return the next batch of results.
+    #
+    # @option params [String] :next_token
+    #   The pagination token from a previous request.
+    #
+    # @return [Types::ListGatewayRulesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListGatewayRulesResponse#gateway_rules #gateway_rules} => Array&lt;Types::GatewayRuleDetail&gt;
+    #   * {Types::ListGatewayRulesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_gateway_rules({
+    #     gateway_identifier: "GatewayIdentifier", # required
+    #     max_results: 1,
+    #     next_token: "GatewayRuleNextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.gateway_rules #=> Array
+    #   resp.gateway_rules[0].rule_id #=> String
+    #   resp.gateway_rules[0].gateway_arn #=> String
+    #   resp.gateway_rules[0].priority #=> Integer
+    #   resp.gateway_rules[0].conditions #=> Array
+    #   resp.gateway_rules[0].conditions[0].match_principals.any_of #=> Array
+    #   resp.gateway_rules[0].conditions[0].match_principals.any_of[0].iam_principal.arn #=> String
+    #   resp.gateway_rules[0].conditions[0].match_principals.any_of[0].iam_principal.operator #=> String, one of "StringEquals", "StringLike"
+    #   resp.gateway_rules[0].conditions[0].match_paths.any_of #=> Array
+    #   resp.gateway_rules[0].conditions[0].match_paths.any_of[0] #=> String
+    #   resp.gateway_rules[0].actions #=> Array
+    #   resp.gateway_rules[0].actions[0].configuration_bundle.static_override.bundle_arn #=> String
+    #   resp.gateway_rules[0].actions[0].configuration_bundle.static_override.bundle_version #=> String
+    #   resp.gateway_rules[0].actions[0].configuration_bundle.weighted_override.traffic_split #=> Array
+    #   resp.gateway_rules[0].actions[0].configuration_bundle.weighted_override.traffic_split[0].name #=> String
+    #   resp.gateway_rules[0].actions[0].configuration_bundle.weighted_override.traffic_split[0].weight #=> Integer
+    #   resp.gateway_rules[0].actions[0].configuration_bundle.weighted_override.traffic_split[0].configuration_bundle.bundle_arn #=> String
+    #   resp.gateway_rules[0].actions[0].configuration_bundle.weighted_override.traffic_split[0].configuration_bundle.bundle_version #=> String
+    #   resp.gateway_rules[0].actions[0].configuration_bundle.weighted_override.traffic_split[0].description #=> String
+    #   resp.gateway_rules[0].actions[0].configuration_bundle.weighted_override.traffic_split[0].metadata #=> Hash
+    #   resp.gateway_rules[0].actions[0].configuration_bundle.weighted_override.traffic_split[0].metadata["TrafficSplitMetadataKey"] #=> String
+    #   resp.gateway_rules[0].actions[0].route_to_target.static_route.target_name #=> String
+    #   resp.gateway_rules[0].actions[0].route_to_target.weighted_route.traffic_split #=> Array
+    #   resp.gateway_rules[0].actions[0].route_to_target.weighted_route.traffic_split[0].name #=> String
+    #   resp.gateway_rules[0].actions[0].route_to_target.weighted_route.traffic_split[0].weight #=> Integer
+    #   resp.gateway_rules[0].actions[0].route_to_target.weighted_route.traffic_split[0].target_name #=> String
+    #   resp.gateway_rules[0].actions[0].route_to_target.weighted_route.traffic_split[0].description #=> String
+    #   resp.gateway_rules[0].actions[0].route_to_target.weighted_route.traffic_split[0].metadata #=> Hash
+    #   resp.gateway_rules[0].actions[0].route_to_target.weighted_route.traffic_split[0].metadata["TrafficSplitMetadataKey"] #=> String
+    #   resp.gateway_rules[0].description #=> String
+    #   resp.gateway_rules[0].created_at #=> Time
+    #   resp.gateway_rules[0].status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING"
+    #   resp.gateway_rules[0].system.managed_by #=> String
+    #   resp.gateway_rules[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListGatewayRules AWS API Documentation
+    #
+    # @overload list_gateway_rules(params = {})
+    # @param [Hash] params ({})
+    def list_gateway_rules(params = {}, options = {})
+      req = build_request(:list_gateway_rules, params)
       req.send_request(options)
     end
 
@@ -6171,7 +6912,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.items[0].description #=> String
     #   resp.items[0].created_at #=> Time
     #   resp.items[0].updated_at #=> Time
-    #   resp.items[0].authorizer_type #=> String, one of "CUSTOM_JWT", "AWS_IAM", "NONE"
+    #   resp.items[0].authorizer_type #=> String, one of "CUSTOM_JWT", "AWS_IAM", "NONE", "AUTHENTICATE_ONLY"
     #   resp.items[0].protocol_type #=> String, one of "MCP"
     #   resp.next_token #=> String
     #
@@ -7118,8 +7859,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
     #   resp.targets[0].target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
     #   resp.targets[0].target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
-    #   resp.targets[0].target_configuration.mcp.mcp_server.resource_priority #=> Integer
     #   resp.targets[0].target_configuration.mcp.mcp_server.listing_mode #=> String, one of "DEFAULT", "DYNAMIC"
+    #   resp.targets[0].target_configuration.mcp.mcp_server.resource_priority #=> Integer
     #   resp.targets[0].target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.targets[0].target_configuration.mcp.api_gateway.stage #=> String
     #   resp.targets[0].target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_overrides #=> Array
@@ -7131,8 +7872,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].filter_path #=> String
     #   resp.targets[0].target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods #=> Array
     #   resp.targets[0].target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods[0] #=> String, one of "GET", "DELETE", "HEAD", "OPTIONS", "PATCH", "PUT", "POST"
+    #   resp.targets[0].target_configuration.http.agentcore_runtime.arn #=> String
+    #   resp.targets[0].target_configuration.http.agentcore_runtime.qualifier #=> String
     #   resp.targets[0].credential_provider_configurations #=> Array
-    #   resp.targets[0].credential_provider_configurations[0].credential_provider_type #=> String, one of "GATEWAY_IAM_ROLE", "OAUTH", "API_KEY"
+    #   resp.targets[0].credential_provider_configurations[0].credential_provider_type #=> String, one of "GATEWAY_IAM_ROLE", "OAUTH", "API_KEY", "CALLER_IAM_CREDENTIALS", "JWT_PASSTHROUGH"
     #   resp.targets[0].credential_provider_configurations[0].credential_provider.oauth_credential_provider.provider_arn #=> String
     #   resp.targets[0].credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes #=> Array
     #   resp.targets[0].credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes[0] #=> String
@@ -7169,6 +7912,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].private_endpoint_managed_resources[0].resource_association_arn #=> String
     #   resp.targets[0].authorization_data.oauth2.authorization_url #=> String
     #   resp.targets[0].authorization_data.oauth2.user_id #=> String
+    #   resp.targets[0].protocol_type #=> String, one of "MCP", "HTTP"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SynchronizeGatewayTargets AWS API Documentation
     #
@@ -7539,6 +8283,100 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
+    # Updates a configuration bundle by creating a new version with the
+    # specified changes. Each update creates a new version in the version
+    # history.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a previous
+    #   request, the service ignores the request, but doesn't return an
+    #   error. For more information, see [Ensuring idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #
+    # @option params [required, String] :bundle_id
+    #   The unique identifier of the configuration bundle to update.
+    #
+    # @option params [String] :bundle_name
+    #   The updated name for the configuration bundle.
+    #
+    # @option params [String] :description
+    #   The updated description for the configuration bundle.
+    #
+    # @option params [Hash<String,Types::ComponentConfiguration>] :components
+    #   The updated component configurations. Creates a new version of the
+    #   bundle.
+    #
+    # @option params [Array<String>] :parent_version_ids
+    #   A list of parent version identifiers for lineage tracking. Regular
+    #   commits have a single parent. Merge commits have two parents: the
+    #   target branch parent and the source branch parent. If the branch
+    #   already exists, the first parent must be the latest version on that
+    #   branch.
+    #
+    # @option params [String] :branch_name
+    #   The branch name for this version. If not specified, inherits the
+    #   parent's branch or defaults to `mainline`.
+    #
+    # @option params [String] :commit_message
+    #   A commit message describing the changes in this version.
+    #
+    # @option params [Types::VersionCreatedBySource] :created_by
+    #   The source that created this version, including the source name and
+    #   optional ARN.
+    #
+    # @return [Types::UpdateConfigurationBundleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateConfigurationBundleResponse#bundle_arn #bundle_arn} => String
+    #   * {Types::UpdateConfigurationBundleResponse#bundle_id #bundle_id} => String
+    #   * {Types::UpdateConfigurationBundleResponse#version_id #version_id} => String
+    #   * {Types::UpdateConfigurationBundleResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_configuration_bundle({
+    #     client_token: "ClientToken",
+    #     bundle_id: "ConfigurationBundleId", # required
+    #     bundle_name: "ConfigurationBundleName",
+    #     description: "ConfigurationBundleDescription",
+    #     components: {
+    #       "ComponentIdentifier" => {
+    #         configuration: { # required
+    #         },
+    #       },
+    #     },
+    #     parent_version_ids: ["ConfigurationBundleVersion"],
+    #     branch_name: "BranchName",
+    #     commit_message: "UpdateConfigurationBundleRequestCommitMessageString",
+    #     created_by: {
+    #       name: "String", # required
+    #       arn: "String",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.bundle_arn #=> String
+    #   resp.bundle_id #=> String
+    #   resp.version_id #=> String
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateConfigurationBundle AWS API Documentation
+    #
+    # @overload update_configuration_bundle(params = {})
+    # @param [Hash] params ({})
+    def update_configuration_bundle(params = {}, options = {})
+      req = build_request(:update_configuration_bundle, params)
+      req.send_request(options)
+    end
+
     # Updates a custom evaluator's configuration, description, or
     # evaluation level. Built-in evaluators cannot be updated. The evaluator
     # must not be locked for modification.
@@ -7572,6 +8410,20 @@ module Aws::BedrockAgentCoreControl
     # @option params [String] :level
     #   The updated evaluation level (`TOOL_CALL`, `TRACE`, or `SESSION`) that
     #   determines the scope of evaluation.
+    #
+    # @option params [String] :kms_key_arn
+    #   The Amazon Resource Name (ARN) of a customer managed KMS key to use
+    #   for encrypting sensitive evaluator data. Specify a new key ARN to
+    #   rotate the encryption key, or specify a key ARN to add encryption to
+    #   an evaluator that was previously created without one. When you rotate
+    #   to a new key, the service decrypts the existing data with the old key
+    #   and re-encrypts it with the new key. Only symmetric encryption KMS
+    #   keys are supported. For more information, see [Encryption at rest for
+    #   AgentCore Evaluations][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/evaluations-encryption.html
     #
     # @return [Types::UpdateEvaluatorResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -7626,6 +8478,7 @@ module Aws::BedrockAgentCoreControl
     #       },
     #     },
     #     level: "TOOL_CALL", # accepts TOOL_CALL, TRACE, SESSION
+    #     kms_key_arn: "KmsKeyArn",
     #   })
     #
     # @example Response structure
@@ -7659,7 +8512,7 @@ module Aws::BedrockAgentCoreControl
     # @option params [required, String] :role_arn
     #   The updated IAM role ARN that provides permissions for the gateway.
     #
-    # @option params [required, String] :protocol_type
+    # @option params [String] :protocol_type
     #   The updated protocol type for the gateway.
     #
     # @option params [Types::GatewayProtocolConfiguration] :protocol_configuration
@@ -7724,7 +8577,7 @@ module Aws::BedrockAgentCoreControl
     #     name: "GatewayName", # required
     #     description: "GatewayDescription",
     #     role_arn: "RoleArn", # required
-    #     protocol_type: "MCP", # required, accepts MCP
+    #     protocol_type: "MCP", # accepts MCP
     #     protocol_configuration: {
     #       mcp: {
     #         supported_versions: ["McpVersion"],
@@ -7732,7 +8585,7 @@ module Aws::BedrockAgentCoreControl
     #         search_type: "SEMANTIC", # accepts SEMANTIC
     #       },
     #     },
-    #     authorizer_type: "CUSTOM_JWT", # required, accepts CUSTOM_JWT, AWS_IAM, NONE
+    #     authorizer_type: "CUSTOM_JWT", # required, accepts CUSTOM_JWT, AWS_IAM, NONE, AUTHENTICATE_ONLY
     #     authorizer_configuration: {
     #       custom_jwt_authorizer: {
     #         discovery_url: "DiscoveryUrl", # required
@@ -7828,7 +8681,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.protocol_configuration.mcp.supported_versions[0] #=> String
     #   resp.protocol_configuration.mcp.instructions #=> String
     #   resp.protocol_configuration.mcp.search_type #=> String, one of "SEMANTIC"
-    #   resp.authorizer_type #=> String, one of "CUSTOM_JWT", "AWS_IAM", "NONE"
+    #   resp.authorizer_type #=> String, one of "CUSTOM_JWT", "AWS_IAM", "NONE", "AUTHENTICATE_ONLY"
     #   resp.authorizer_configuration.custom_jwt_authorizer.discovery_url #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_audience #=> Array
     #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_audience[0] #=> String
@@ -7885,6 +8738,155 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
+    # Updates a gateway rule's priority, conditions, actions, or
+    # description.
+    #
+    # @option params [required, String] :gateway_identifier
+    #   The identifier of the gateway containing the rule.
+    #
+    # @option params [required, String] :rule_id
+    #   The unique identifier of the rule to update.
+    #
+    # @option params [Integer] :priority
+    #   The updated priority of the rule.
+    #
+    # @option params [Array<Types::Condition>] :conditions
+    #   The updated conditions for the rule.
+    #
+    # @option params [Array<Types::Action>] :actions
+    #   The updated actions for the rule.
+    #
+    # @option params [String] :description
+    #   The updated description of the rule.
+    #
+    # @return [Types::UpdateGatewayRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateGatewayRuleResponse#rule_id #rule_id} => String
+    #   * {Types::UpdateGatewayRuleResponse#gateway_arn #gateway_arn} => String
+    #   * {Types::UpdateGatewayRuleResponse#priority #priority} => Integer
+    #   * {Types::UpdateGatewayRuleResponse#conditions #conditions} => Array&lt;Types::Condition&gt;
+    #   * {Types::UpdateGatewayRuleResponse#actions #actions} => Array&lt;Types::Action&gt;
+    #   * {Types::UpdateGatewayRuleResponse#description #description} => String
+    #   * {Types::UpdateGatewayRuleResponse#created_at #created_at} => Time
+    #   * {Types::UpdateGatewayRuleResponse#status #status} => String
+    #   * {Types::UpdateGatewayRuleResponse#system #system} => Types::SystemManagedBlock
+    #   * {Types::UpdateGatewayRuleResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_gateway_rule({
+    #     gateway_identifier: "GatewayIdentifier", # required
+    #     rule_id: "GatewayRuleId", # required
+    #     priority: 1,
+    #     conditions: [
+    #       {
+    #         match_principals: {
+    #           any_of: [ # required
+    #             {
+    #               iam_principal: {
+    #                 arn: "IamPrincipalArn", # required
+    #                 operator: "StringEquals", # accepts StringEquals, StringLike
+    #               },
+    #             },
+    #           ],
+    #         },
+    #         match_paths: {
+    #           any_of: ["MatchPathPattern"], # required
+    #         },
+    #       },
+    #     ],
+    #     actions: [
+    #       {
+    #         configuration_bundle: {
+    #           static_override: {
+    #             bundle_arn: "GatewayConfigurationBundleArn", # required
+    #             bundle_version: "StaticOverrideBundleVersionString", # required
+    #           },
+    #           weighted_override: {
+    #             traffic_split: [ # required
+    #               {
+    #                 name: "TrafficSplitEntryNameString", # required
+    #                 weight: 1, # required
+    #                 configuration_bundle: { # required
+    #                   bundle_arn: "GatewayConfigurationBundleArn", # required
+    #                   bundle_version: "ConfigurationBundleReferenceBundleVersionString", # required
+    #                 },
+    #                 description: "TrafficSplitEntryDescriptionString",
+    #                 metadata: {
+    #                   "TrafficSplitMetadataKey" => "TrafficSplitMetadataValue",
+    #                 },
+    #               },
+    #             ],
+    #           },
+    #         },
+    #         route_to_target: {
+    #           static_route: {
+    #             target_name: "TargetName", # required
+    #           },
+    #           weighted_route: {
+    #             traffic_split: [ # required
+    #               {
+    #                 name: "TargetTrafficSplitEntryNameString", # required
+    #                 weight: 1, # required
+    #                 target_name: "TargetName", # required
+    #                 description: "TargetTrafficSplitEntryDescriptionString",
+    #                 metadata: {
+    #                   "TrafficSplitMetadataKey" => "TrafficSplitMetadataValue",
+    #                 },
+    #               },
+    #             ],
+    #           },
+    #         },
+    #       },
+    #     ],
+    #     description: "GatewayRuleDescription",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.rule_id #=> String
+    #   resp.gateway_arn #=> String
+    #   resp.priority #=> Integer
+    #   resp.conditions #=> Array
+    #   resp.conditions[0].match_principals.any_of #=> Array
+    #   resp.conditions[0].match_principals.any_of[0].iam_principal.arn #=> String
+    #   resp.conditions[0].match_principals.any_of[0].iam_principal.operator #=> String, one of "StringEquals", "StringLike"
+    #   resp.conditions[0].match_paths.any_of #=> Array
+    #   resp.conditions[0].match_paths.any_of[0] #=> String
+    #   resp.actions #=> Array
+    #   resp.actions[0].configuration_bundle.static_override.bundle_arn #=> String
+    #   resp.actions[0].configuration_bundle.static_override.bundle_version #=> String
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split #=> Array
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].name #=> String
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].weight #=> Integer
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].configuration_bundle.bundle_arn #=> String
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].configuration_bundle.bundle_version #=> String
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].description #=> String
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].metadata #=> Hash
+    #   resp.actions[0].configuration_bundle.weighted_override.traffic_split[0].metadata["TrafficSplitMetadataKey"] #=> String
+    #   resp.actions[0].route_to_target.static_route.target_name #=> String
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split #=> Array
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].name #=> String
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].weight #=> Integer
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].target_name #=> String
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].description #=> String
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].metadata #=> Hash
+    #   resp.actions[0].route_to_target.weighted_route.traffic_split[0].metadata["TrafficSplitMetadataKey"] #=> String
+    #   resp.description #=> String
+    #   resp.created_at #=> Time
+    #   resp.status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING"
+    #   resp.system.managed_by #=> String
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateGatewayRule AWS API Documentation
+    #
+    # @overload update_gateway_rule(params = {})
+    # @param [Hash] params ({})
+    def update_gateway_rule(params = {}, options = {})
+      req = build_request(:update_gateway_rule, params)
+      req.send_request(options)
+    end
+
     # Updates an existing gateway target.
     #
     # You cannot update a target that is in a pending authorization state
@@ -7936,6 +8938,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::UpdateGatewayTargetResponse#private_endpoint #private_endpoint} => Types::PrivateEndpoint
     #   * {Types::UpdateGatewayTargetResponse#private_endpoint_managed_resources #private_endpoint_managed_resources} => Array&lt;Types::ManagedResourceDetails&gt;
     #   * {Types::UpdateGatewayTargetResponse#authorization_data #authorization_data} => Types::AuthorizationData
+    #   * {Types::UpdateGatewayTargetResponse#protocol_type #protocol_type} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -8010,8 +9013,8 @@ module Aws::BedrockAgentCoreControl
     #             },
     #             inline_payload: "InlinePayload",
     #           },
-    #           resource_priority: 1,
     #           listing_mode: "DEFAULT", # accepts DEFAULT, DYNAMIC
+    #           resource_priority: 1,
     #         },
     #         api_gateway: {
     #           rest_api_id: "String", # required
@@ -8034,10 +9037,16 @@ module Aws::BedrockAgentCoreControl
     #           },
     #         },
     #       },
+    #       http: {
+    #         agentcore_runtime: {
+    #           arn: "RuntimeArn", # required
+    #           qualifier: "RuntimeQualifier",
+    #         },
+    #       },
     #     },
     #     credential_provider_configurations: [
     #       {
-    #         credential_provider_type: "GATEWAY_IAM_ROLE", # required, accepts GATEWAY_IAM_ROLE, OAUTH, API_KEY
+    #         credential_provider_type: "GATEWAY_IAM_ROLE", # required, accepts GATEWAY_IAM_ROLE, OAUTH, API_KEY, CALLER_IAM_CREDENTIALS, JWT_PASSTHROUGH
     #         credential_provider: {
     #           oauth_credential_provider: {
     #             provider_arn: "OAuthCredentialProviderArn", # required
@@ -8124,8 +9133,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.uri #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.s3.bucket_owner_account_id #=> String
     #   resp.target_configuration.mcp.mcp_server.mcp_tool_schema.inline_payload #=> String
-    #   resp.target_configuration.mcp.mcp_server.resource_priority #=> Integer
     #   resp.target_configuration.mcp.mcp_server.listing_mode #=> String, one of "DEFAULT", "DYNAMIC"
+    #   resp.target_configuration.mcp.mcp_server.resource_priority #=> Integer
     #   resp.target_configuration.mcp.api_gateway.rest_api_id #=> String
     #   resp.target_configuration.mcp.api_gateway.stage #=> String
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_overrides #=> Array
@@ -8137,8 +9146,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].filter_path #=> String
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods #=> Array
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods[0] #=> String, one of "GET", "DELETE", "HEAD", "OPTIONS", "PATCH", "PUT", "POST"
+    #   resp.target_configuration.http.agentcore_runtime.arn #=> String
+    #   resp.target_configuration.http.agentcore_runtime.qualifier #=> String
     #   resp.credential_provider_configurations #=> Array
-    #   resp.credential_provider_configurations[0].credential_provider_type #=> String, one of "GATEWAY_IAM_ROLE", "OAUTH", "API_KEY"
+    #   resp.credential_provider_configurations[0].credential_provider_type #=> String, one of "GATEWAY_IAM_ROLE", "OAUTH", "API_KEY", "CALLER_IAM_CREDENTIALS", "JWT_PASSTHROUGH"
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.provider_arn #=> String
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes #=> Array
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes[0] #=> String
@@ -8175,6 +9186,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.private_endpoint_managed_resources[0].resource_association_arn #=> String
     #   resp.authorization_data.oauth2.authorization_url #=> String
     #   resp.authorization_data.oauth2.user_id #=> String
+    #   resp.protocol_type #=> String, one of "MCP", "HTTP"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateGatewayTarget AWS API Documentation
     #
@@ -8257,8 +9269,9 @@ module Aws::BedrockAgentCoreControl
     #   invocation. If not specified, the existing value is retained.
     #
     # @option params [Integer] :max_tokens
-    #   The maximum number of tokens the agent can generate per iteration. If
-    #   not specified, the existing value is retained.
+    #   The maximum total number of output tokens the agent can generate
+    #   across all model calls within a single invocation. If not specified,
+    #   the existing value is retained.
     #
     # @option params [Integer] :timeout_seconds
     #   The maximum duration in seconds for the agent loop execution per
@@ -9906,7 +10919,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.40.0'
+      context[:gem_version] = '1.41.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

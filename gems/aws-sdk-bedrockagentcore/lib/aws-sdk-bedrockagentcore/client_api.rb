@@ -15,6 +15,16 @@ module Aws::BedrockAgentCore
     include Seahorse::Model
 
     A2aDescriptor = Shapes::StructureShape.new(name: 'A2aDescriptor')
+    ABTestArn = Shapes::StringShape.new(name: 'ABTestArn')
+    ABTestDescription = Shapes::StringShape.new(name: 'ABTestDescription')
+    ABTestEvaluationConfig = Shapes::UnionShape.new(name: 'ABTestEvaluationConfig')
+    ABTestExecutionStatus = Shapes::StringShape.new(name: 'ABTestExecutionStatus')
+    ABTestId = Shapes::StringShape.new(name: 'ABTestId')
+    ABTestName = Shapes::StringShape.new(name: 'ABTestName')
+    ABTestResults = Shapes::StructureShape.new(name: 'ABTestResults')
+    ABTestStatus = Shapes::StringShape.new(name: 'ABTestStatus')
+    ABTestSummary = Shapes::StructureShape.new(name: 'ABTestSummary')
+    ABTestSummaryList = Shapes::ListShape.new(name: 'ABTestSummaryList')
     AccessDeniedException = Shapes::StructureShape.new(name: 'AccessDeniedException')
     AccessTokenType = Shapes::StringShape.new(name: 'AccessTokenType')
     ActorId = Shapes::StringShape.new(name: 'ActorId')
@@ -23,6 +33,7 @@ module Aws::BedrockAgentCore
     AgentCard = Shapes::DocumentShape.new(name: 'AgentCard', document: true)
     AgentCardDefinition = Shapes::StructureShape.new(name: 'AgentCardDefinition')
     AgentSkillsDescriptor = Shapes::StructureShape.new(name: 'AgentSkillsDescriptor')
+    AgentTracesConfig = Shapes::UnionShape.new(name: 'AgentTracesConfig')
     ApiKeyArn = Shapes::StringShape.new(name: 'ApiKeyArn')
     ApiKeyType = Shapes::StringShape.new(name: 'ApiKeyType')
     AuthorizationUrlType = Shapes::StringShape.new(name: 'AuthorizationUrlType')
@@ -34,6 +45,13 @@ module Aws::BedrockAgentCore
     BatchCreateMemoryRecordsOutput = Shapes::StructureShape.new(name: 'BatchCreateMemoryRecordsOutput')
     BatchDeleteMemoryRecordsInput = Shapes::StructureShape.new(name: 'BatchDeleteMemoryRecordsInput')
     BatchDeleteMemoryRecordsOutput = Shapes::StructureShape.new(name: 'BatchDeleteMemoryRecordsOutput')
+    BatchEvaluationArn = Shapes::StringShape.new(name: 'BatchEvaluationArn')
+    BatchEvaluationDescription = Shapes::StringShape.new(name: 'BatchEvaluationDescription')
+    BatchEvaluationId = Shapes::StringShape.new(name: 'BatchEvaluationId')
+    BatchEvaluationName = Shapes::StringShape.new(name: 'BatchEvaluationName')
+    BatchEvaluationStatus = Shapes::StringShape.new(name: 'BatchEvaluationStatus')
+    BatchEvaluationSummary = Shapes::StructureShape.new(name: 'BatchEvaluationSummary')
+    BatchEvaluationSummaryList = Shapes::ListShape.new(name: 'BatchEvaluationSummaryList')
     BatchUpdateMemoryRecordsInput = Shapes::StructureShape.new(name: 'BatchUpdateMemoryRecordsInput')
     BatchUpdateMemoryRecordsOutput = Shapes::StructureShape.new(name: 'BatchUpdateMemoryRecordsOutput')
     Blob = Shapes::BlobShape.new(name: 'Blob')
@@ -64,6 +82,19 @@ module Aws::BedrockAgentCore
     CertificateLocation = Shapes::UnionShape.new(name: 'CertificateLocation')
     Certificates = Shapes::ListShape.new(name: 'Certificates')
     ClientToken = Shapes::StringShape.new(name: 'ClientToken')
+    CloudWatchFilterConfig = Shapes::StructureShape.new(name: 'CloudWatchFilterConfig')
+    CloudWatchFilterConfigSessionIdsList = Shapes::ListShape.new(name: 'CloudWatchFilterConfigSessionIdsList')
+    CloudWatchLogsFilter = Shapes::StructureShape.new(name: 'CloudWatchLogsFilter')
+    CloudWatchLogsFilterKeyString = Shapes::StringShape.new(name: 'CloudWatchLogsFilterKeyString')
+    CloudWatchLogsFilterList = Shapes::ListShape.new(name: 'CloudWatchLogsFilterList')
+    CloudWatchLogsFilterOperator = Shapes::StringShape.new(name: 'CloudWatchLogsFilterOperator')
+    CloudWatchLogsRule = Shapes::StructureShape.new(name: 'CloudWatchLogsRule')
+    CloudWatchLogsSource = Shapes::StructureShape.new(name: 'CloudWatchLogsSource')
+    CloudWatchLogsSourceLogGroupNamesList = Shapes::ListShape.new(name: 'CloudWatchLogsSourceLogGroupNamesList')
+    CloudWatchLogsSourceServiceNamesList = Shapes::ListShape.new(name: 'CloudWatchLogsSourceServiceNamesList')
+    CloudWatchLogsTraceConfig = Shapes::StructureShape.new(name: 'CloudWatchLogsTraceConfig')
+    CloudWatchLogsTraceConfigLogGroupArnsList = Shapes::ListShape.new(name: 'CloudWatchLogsTraceConfigLogGroupArnsList')
+    CloudWatchOutputConfig = Shapes::StructureShape.new(name: 'CloudWatchOutputConfig')
     CodeInterpreterArn = Shapes::StringShape.new(name: 'CodeInterpreterArn')
     CodeInterpreterResult = Shapes::StructureShape.new(name: 'CodeInterpreterResult')
     CodeInterpreterSessionId = Shapes::StringShape.new(name: 'CodeInterpreterSessionId')
@@ -75,6 +106,13 @@ module Aws::BedrockAgentCore
     CommandExecutionStatus = Shapes::StringShape.new(name: 'CommandExecutionStatus')
     CompleteResourceTokenAuthRequest = Shapes::StructureShape.new(name: 'CompleteResourceTokenAuthRequest')
     CompleteResourceTokenAuthResponse = Shapes::StructureShape.new(name: 'CompleteResourceTokenAuthResponse')
+    ConfidenceInterval = Shapes::StructureShape.new(name: 'ConfidenceInterval')
+    ConfigurationBundleArn = Shapes::StringShape.new(name: 'ConfigurationBundleArn')
+    ConfigurationBundleRef = Shapes::StructureShape.new(name: 'ConfigurationBundleRef')
+    ConfigurationBundleToolEntry = Shapes::StructureShape.new(name: 'ConfigurationBundleToolEntry')
+    ConfigurationBundleToolEntryList = Shapes::ListShape.new(name: 'ConfigurationBundleToolEntryList')
+    ConfigurationBundleVersion = Shapes::StringShape.new(name: 'ConfigurationBundleVersion')
+    ConfigurationBundleVersionId = Shapes::StringShape.new(name: 'ConfigurationBundleVersionId')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     Content = Shapes::UnionShape.new(name: 'Content')
     ContentBlock = Shapes::StructureShape.new(name: 'ContentBlock')
@@ -85,7 +123,10 @@ module Aws::BedrockAgentCore
     ContentStopEvent = Shapes::StructureShape.new(name: 'ContentStopEvent')
     ContentTextString = Shapes::StringShape.new(name: 'ContentTextString')
     Context = Shapes::UnionShape.new(name: 'Context')
+    ControlStats = Shapes::StructureShape.new(name: 'ControlStats')
     Conversational = Shapes::StructureShape.new(name: 'Conversational')
+    CreateABTestRequest = Shapes::StructureShape.new(name: 'CreateABTestRequest')
+    CreateABTestResponse = Shapes::StructureShape.new(name: 'CreateABTestResponse')
     CreateEventInput = Shapes::StructureShape.new(name: 'CreateEventInput')
     CreateEventOutput = Shapes::StructureShape.new(name: 'CreateEventOutput')
     CredentialProviderName = Shapes::StringShape.new(name: 'CredentialProviderName')
@@ -93,11 +134,18 @@ module Aws::BedrockAgentCore
     CustomRequestKeyType = Shapes::StringShape.new(name: 'CustomRequestKeyType')
     CustomRequestParametersType = Shapes::MapShape.new(name: 'CustomRequestParametersType')
     CustomRequestValueType = Shapes::StringShape.new(name: 'CustomRequestValueType')
+    DataSourceConfig = Shapes::UnionShape.new(name: 'DataSourceConfig')
     DateTimestamp = Shapes::TimestampShape.new(name: 'DateTimestamp', timestampFormat: "iso8601")
+    DeleteABTestRequest = Shapes::StructureShape.new(name: 'DeleteABTestRequest')
+    DeleteABTestResponse = Shapes::StructureShape.new(name: 'DeleteABTestResponse')
+    DeleteBatchEvaluationRequest = Shapes::StructureShape.new(name: 'DeleteBatchEvaluationRequest')
+    DeleteBatchEvaluationResponse = Shapes::StructureShape.new(name: 'DeleteBatchEvaluationResponse')
     DeleteEventInput = Shapes::StructureShape.new(name: 'DeleteEventInput')
     DeleteEventOutput = Shapes::StructureShape.new(name: 'DeleteEventOutput')
     DeleteMemoryRecordInput = Shapes::StructureShape.new(name: 'DeleteMemoryRecordInput')
     DeleteMemoryRecordOutput = Shapes::StructureShape.new(name: 'DeleteMemoryRecordOutput')
+    DeleteRecommendationRequest = Shapes::StructureShape.new(name: 'DeleteRecommendationRequest')
+    DeleteRecommendationResponse = Shapes::StructureShape.new(name: 'DeleteRecommendationResponse')
     Description = Shapes::StringShape.new(name: 'Description')
     DescriptorType = Shapes::StringShape.new(name: 'DescriptorType')
     Descriptors = Shapes::StructureShape.new(name: 'Descriptors')
@@ -106,6 +154,8 @@ module Aws::BedrockAgentCore
     DomainPatterns = Shapes::ListShape.new(name: 'DomainPatterns')
     Double = Shapes::FloatShape.new(name: 'Double')
     DuplicateIdException = Shapes::StructureShape.new(name: 'DuplicateIdException')
+    ErrorDetailsList = Shapes::ListShape.new(name: 'ErrorDetailsList')
+    ErrorDetailsListMemberString = Shapes::StringShape.new(name: 'ErrorDetailsListMemberString')
     EvaluateRequest = Shapes::StructureShape.new(name: 'EvaluateRequest')
     EvaluateResponse = Shapes::StructureShape.new(name: 'EvaluateResponse')
     EvaluationContent = Shapes::UnionShape.new(name: 'EvaluationContent')
@@ -116,6 +166,8 @@ module Aws::BedrockAgentCore
     EvaluationExpectedTrajectory = Shapes::StructureShape.new(name: 'EvaluationExpectedTrajectory')
     EvaluationExplanation = Shapes::StringShape.new(name: 'EvaluationExplanation')
     EvaluationInput = Shapes::UnionShape.new(name: 'EvaluationInput')
+    EvaluationJobResults = Shapes::StructureShape.new(name: 'EvaluationJobResults')
+    EvaluationMetadata = Shapes::UnionShape.new(name: 'EvaluationMetadata')
     EvaluationReferenceInput = Shapes::StructureShape.new(name: 'EvaluationReferenceInput')
     EvaluationReferenceInputs = Shapes::ListShape.new(name: 'EvaluationReferenceInputs')
     EvaluationResultContent = Shapes::StructureShape.new(name: 'EvaluationResultContent')
@@ -123,9 +175,16 @@ module Aws::BedrockAgentCore
     EvaluationTarget = Shapes::UnionShape.new(name: 'EvaluationTarget')
     EvaluationToolName = Shapes::StringShape.new(name: 'EvaluationToolName')
     EvaluationToolNames = Shapes::ListShape.new(name: 'EvaluationToolNames')
+    Evaluator = Shapes::StructureShape.new(name: 'Evaluator')
     EvaluatorArn = Shapes::StringShape.new(name: 'EvaluatorArn')
     EvaluatorId = Shapes::StringShape.new(name: 'EvaluatorId')
+    EvaluatorList = Shapes::ListShape.new(name: 'EvaluatorList')
+    EvaluatorMetric = Shapes::StructureShape.new(name: 'EvaluatorMetric')
+    EvaluatorMetricList = Shapes::ListShape.new(name: 'EvaluatorMetricList')
     EvaluatorName = Shapes::StringShape.new(name: 'EvaluatorName')
+    EvaluatorStatistics = Shapes::StructureShape.new(name: 'EvaluatorStatistics')
+    EvaluatorSummary = Shapes::StructureShape.new(name: 'EvaluatorSummary')
+    EvaluatorSummaryList = Shapes::ListShape.new(name: 'EvaluatorSummaryList')
     Event = Shapes::StructureShape.new(name: 'Event')
     EventFilterCondition = Shapes::StringShape.new(name: 'EventFilterCondition')
     EventId = Shapes::StringShape.new(name: 'EventId')
@@ -141,9 +200,16 @@ module Aws::BedrockAgentCore
     ExtractionJobMetadataList = Shapes::ListShape.new(name: 'ExtractionJobMetadataList')
     ExtractionJobStatus = Shapes::StringShape.new(name: 'ExtractionJobStatus')
     FilterInput = Shapes::StructureShape.new(name: 'FilterInput')
+    FilterStringValue = Shapes::StringShape.new(name: 'FilterStringValue')
+    FilterValue = Shapes::UnionShape.new(name: 'FilterValue')
     GatewayArn = Shapes::StringShape.new(name: 'GatewayArn')
+    GatewayFilter = Shapes::StructureShape.new(name: 'GatewayFilter')
+    GetABTestRequest = Shapes::StructureShape.new(name: 'GetABTestRequest')
+    GetABTestResponse = Shapes::StructureShape.new(name: 'GetABTestResponse')
     GetAgentCardRequest = Shapes::StructureShape.new(name: 'GetAgentCardRequest')
     GetAgentCardResponse = Shapes::StructureShape.new(name: 'GetAgentCardResponse')
+    GetBatchEvaluationRequest = Shapes::StructureShape.new(name: 'GetBatchEvaluationRequest')
+    GetBatchEvaluationResponse = Shapes::StructureShape.new(name: 'GetBatchEvaluationResponse')
     GetBrowserSessionRequest = Shapes::StructureShape.new(name: 'GetBrowserSessionRequest')
     GetBrowserSessionResponse = Shapes::StructureShape.new(name: 'GetBrowserSessionResponse')
     GetCodeInterpreterSessionRequest = Shapes::StructureShape.new(name: 'GetCodeInterpreterSessionRequest')
@@ -152,6 +218,8 @@ module Aws::BedrockAgentCore
     GetEventOutput = Shapes::StructureShape.new(name: 'GetEventOutput')
     GetMemoryRecordInput = Shapes::StructureShape.new(name: 'GetMemoryRecordInput')
     GetMemoryRecordOutput = Shapes::StructureShape.new(name: 'GetMemoryRecordOutput')
+    GetRecommendationRequest = Shapes::StructureShape.new(name: 'GetRecommendationRequest')
+    GetRecommendationResponse = Shapes::StructureShape.new(name: 'GetRecommendationResponse')
     GetResourceApiKeyRequest = Shapes::StructureShape.new(name: 'GetResourceApiKeyRequest')
     GetResourceApiKeyResponse = Shapes::StructureShape.new(name: 'GetResourceApiKeyResponse')
     GetResourceOauth2TokenRequest = Shapes::StructureShape.new(name: 'GetResourceOauth2TokenRequest')
@@ -162,6 +230,10 @@ module Aws::BedrockAgentCore
     GetWorkloadAccessTokenForUserIdResponse = Shapes::StructureShape.new(name: 'GetWorkloadAccessTokenForUserIdResponse')
     GetWorkloadAccessTokenRequest = Shapes::StructureShape.new(name: 'GetWorkloadAccessTokenRequest')
     GetWorkloadAccessTokenResponse = Shapes::StructureShape.new(name: 'GetWorkloadAccessTokenResponse')
+    GroundTruthSource = Shapes::UnionShape.new(name: 'GroundTruthSource')
+    GroundTruthTurn = Shapes::StructureShape.new(name: 'GroundTruthTurn')
+    GroundTruthTurnInput = Shapes::UnionShape.new(name: 'GroundTruthTurnInput')
+    GroundTruthTurnInputPromptString = Shapes::StringShape.new(name: 'GroundTruthTurnInputPromptString')
     HarnessAgentCoreBrowserConfig = Shapes::StructureShape.new(name: 'HarnessAgentCoreBrowserConfig')
     HarnessAgentCoreCodeInterpreterConfig = Shapes::StructureShape.new(name: 'HarnessAgentCoreCodeInterpreterConfig')
     HarnessAgentCoreGatewayConfig = Shapes::StructureShape.new(name: 'HarnessAgentCoreGatewayConfig')
@@ -231,6 +303,8 @@ module Aws::BedrockAgentCore
     IgnoredReferenceInputField = Shapes::StringShape.new(name: 'IgnoredReferenceInputField')
     IgnoredReferenceInputFields = Shapes::ListShape.new(name: 'IgnoredReferenceInputFields')
     InlineContent = Shapes::StringShape.new(name: 'InlineContent')
+    InlineGroundTruth = Shapes::StructureShape.new(name: 'InlineGroundTruth')
+    InlineGroundTruthTurnsList = Shapes::ListShape.new(name: 'InlineGroundTruthTurnsList')
     InputContentBlock = Shapes::StructureShape.new(name: 'InputContentBlock')
     InputContentBlockList = Shapes::ListShape.new(name: 'InputContentBlockList')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
@@ -273,8 +347,14 @@ module Aws::BedrockAgentCore
     KeyTypeResult = Shapes::StructureShape.new(name: 'KeyTypeResult')
     LanguageRuntime = Shapes::StringShape.new(name: 'LanguageRuntime')
     LeftExpression = Shapes::UnionShape.new(name: 'LeftExpression')
+    ListABTestsRequest = Shapes::StructureShape.new(name: 'ListABTestsRequest')
+    ListABTestsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListABTestsRequestMaxResultsInteger')
+    ListABTestsResponse = Shapes::StructureShape.new(name: 'ListABTestsResponse')
     ListActorsInput = Shapes::StructureShape.new(name: 'ListActorsInput')
     ListActorsOutput = Shapes::StructureShape.new(name: 'ListActorsOutput')
+    ListBatchEvaluationsRequest = Shapes::StructureShape.new(name: 'ListBatchEvaluationsRequest')
+    ListBatchEvaluationsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListBatchEvaluationsRequestMaxResultsInteger')
+    ListBatchEvaluationsResponse = Shapes::StructureShape.new(name: 'ListBatchEvaluationsResponse')
     ListBrowserSessionsRequest = Shapes::StructureShape.new(name: 'ListBrowserSessionsRequest')
     ListBrowserSessionsResponse = Shapes::StructureShape.new(name: 'ListBrowserSessionsResponse')
     ListCodeInterpreterSessionsRequest = Shapes::StructureShape.new(name: 'ListCodeInterpreterSessionsRequest')
@@ -286,6 +366,9 @@ module Aws::BedrockAgentCore
     ListMemoryExtractionJobsOutput = Shapes::StructureShape.new(name: 'ListMemoryExtractionJobsOutput')
     ListMemoryRecordsInput = Shapes::StructureShape.new(name: 'ListMemoryRecordsInput')
     ListMemoryRecordsOutput = Shapes::StructureShape.new(name: 'ListMemoryRecordsOutput')
+    ListRecommendationsRequest = Shapes::StructureShape.new(name: 'ListRecommendationsRequest')
+    ListRecommendationsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListRecommendationsRequestMaxResultsInteger')
+    ListRecommendationsResponse = Shapes::StructureShape.new(name: 'ListRecommendationsResponse')
     ListSessionsInput = Shapes::StructureShape.new(name: 'ListSessionsInput')
     ListSessionsOutput = Shapes::StructureShape.new(name: 'ListSessionsOutput')
     LiveViewStream = Shapes::StructureShape.new(name: 'LiveViewStream')
@@ -349,16 +432,38 @@ module Aws::BedrockAgentCore
     OAuthScope = Shapes::StringShape.new(name: 'OAuthScope')
     OAuthScopes = Shapes::ListShape.new(name: 'OAuthScopes')
     Oauth2FlowType = Shapes::StringShape.new(name: 'Oauth2FlowType')
+    OnlineEvaluationConfigArn = Shapes::StringShape.new(name: 'OnlineEvaluationConfigArn')
     OperatorType = Shapes::StringShape.new(name: 'OperatorType')
+    OutputConfig = Shapes::UnionShape.new(name: 'OutputConfig')
     PaginationToken = Shapes::StringShape.new(name: 'PaginationToken')
+    PathPattern = Shapes::StringShape.new(name: 'PathPattern')
     PayloadType = Shapes::UnionShape.new(name: 'PayloadType')
     PayloadTypeList = Shapes::ListShape.new(name: 'PayloadTypeList')
+    PerVariantOnlineEvaluationConfig = Shapes::StructureShape.new(name: 'PerVariantOnlineEvaluationConfig')
+    PerVariantOnlineEvaluationConfigList = Shapes::ListShape.new(name: 'PerVariantOnlineEvaluationConfigList')
     ProgrammingLanguage = Shapes::StringShape.new(name: 'ProgrammingLanguage')
     Proxy = Shapes::UnionShape.new(name: 'Proxy')
     ProxyBypass = Shapes::StructureShape.new(name: 'ProxyBypass')
     ProxyConfiguration = Shapes::StructureShape.new(name: 'ProxyConfiguration')
     ProxyConfigurationProxiesList = Shapes::ListShape.new(name: 'ProxyConfigurationProxiesList')
     ProxyCredentials = Shapes::UnionShape.new(name: 'ProxyCredentials')
+    RecommendationArn = Shapes::StringShape.new(name: 'RecommendationArn')
+    RecommendationConfig = Shapes::UnionShape.new(name: 'RecommendationConfig')
+    RecommendationDescription = Shapes::StringShape.new(name: 'RecommendationDescription')
+    RecommendationErrorCode = Shapes::StringShape.new(name: 'RecommendationErrorCode')
+    RecommendationErrorMessage = Shapes::StringShape.new(name: 'RecommendationErrorMessage')
+    RecommendationEvaluationConfig = Shapes::StructureShape.new(name: 'RecommendationEvaluationConfig')
+    RecommendationEvaluationConfigEvaluatorsList = Shapes::ListShape.new(name: 'RecommendationEvaluationConfigEvaluatorsList')
+    RecommendationEvaluatorReference = Shapes::StructureShape.new(name: 'RecommendationEvaluatorReference')
+    RecommendationId = Shapes::StringShape.new(name: 'RecommendationId')
+    RecommendationName = Shapes::StringShape.new(name: 'RecommendationName')
+    RecommendationResult = Shapes::UnionShape.new(name: 'RecommendationResult')
+    RecommendationResultConfigurationBundle = Shapes::StructureShape.new(name: 'RecommendationResultConfigurationBundle')
+    RecommendationStatus = Shapes::StringShape.new(name: 'RecommendationStatus')
+    RecommendationSummary = Shapes::StructureShape.new(name: 'RecommendationSummary')
+    RecommendationSummaryList = Shapes::ListShape.new(name: 'RecommendationSummaryList')
+    RecommendationToolName = Shapes::StringShape.new(name: 'RecommendationToolName')
+    RecommendationType = Shapes::StringShape.new(name: 'RecommendationType')
     RegistryArn = Shapes::StringShape.new(name: 'RegistryArn')
     RegistryIdentifier = Shapes::StringShape.new(name: 'RegistryIdentifier')
     RegistryRecordArn = Shapes::StringShape.new(name: 'RegistryRecordArn')
@@ -382,6 +487,7 @@ module Aws::BedrockAgentCore
     RetryableConflictException = Shapes::StructureShape.new(name: 'RetryableConflictException')
     RightExpression = Shapes::UnionShape.new(name: 'RightExpression')
     Role = Shapes::StringShape.new(name: 'Role')
+    RoleArn = Shapes::StringShape.new(name: 'RoleArn')
     RuntimeClientError = Shapes::StructureShape.new(name: 'RuntimeClientError')
     S3Location = Shapes::StructureShape.new(name: 'S3Location')
     S3LocationBucketString = Shapes::StringShape.new(name: 'S3LocationBucketString')
@@ -411,9 +517,14 @@ module Aws::BedrockAgentCore
     SensitiveText = Shapes::StringShape.new(name: 'SensitiveText')
     ServerDefinition = Shapes::StructureShape.new(name: 'ServerDefinition')
     ServiceException = Shapes::StructureShape.new(name: 'ServiceException')
+    ServiceName = Shapes::StringShape.new(name: 'ServiceName')
+    ServiceNameList = Shapes::ListShape.new(name: 'ServiceNameList')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     SessionFilter = Shapes::StructureShape.new(name: 'SessionFilter')
+    SessionFilterConfig = Shapes::StructureShape.new(name: 'SessionFilterConfig')
     SessionId = Shapes::StringShape.new(name: 'SessionId')
+    SessionMetadataList = Shapes::ListShape.new(name: 'SessionMetadataList')
+    SessionMetadataShape = Shapes::StructureShape.new(name: 'SessionMetadataShape')
     SessionStatus = Shapes::StringShape.new(name: 'SessionStatus')
     SessionSummary = Shapes::StructureShape.new(name: 'SessionSummary')
     SessionSummaryList = Shapes::ListShape.new(name: 'SessionSummaryList')
@@ -425,6 +536,9 @@ module Aws::BedrockAgentCore
     SpanId = Shapes::StringShape.new(name: 'SpanId')
     SpanIds = Shapes::ListShape.new(name: 'SpanIds')
     Spans = Shapes::ListShape.new(name: 'Spans')
+    StartBatchEvaluationRequest = Shapes::StructureShape.new(name: 'StartBatchEvaluationRequest')
+    StartBatchEvaluationRequestEvaluatorsList = Shapes::ListShape.new(name: 'StartBatchEvaluationRequestEvaluatorsList')
+    StartBatchEvaluationResponse = Shapes::StructureShape.new(name: 'StartBatchEvaluationResponse')
     StartBrowserSessionRequest = Shapes::StructureShape.new(name: 'StartBrowserSessionRequest')
     StartBrowserSessionRequestTraceIdString = Shapes::StringShape.new(name: 'StartBrowserSessionRequestTraceIdString')
     StartBrowserSessionRequestTraceParentString = Shapes::StringShape.new(name: 'StartBrowserSessionRequestTraceParentString')
@@ -435,7 +549,11 @@ module Aws::BedrockAgentCore
     StartCodeInterpreterSessionResponse = Shapes::StructureShape.new(name: 'StartCodeInterpreterSessionResponse')
     StartMemoryExtractionJobInput = Shapes::StructureShape.new(name: 'StartMemoryExtractionJobInput')
     StartMemoryExtractionJobOutput = Shapes::StructureShape.new(name: 'StartMemoryExtractionJobOutput')
+    StartRecommendationRequest = Shapes::StructureShape.new(name: 'StartRecommendationRequest')
+    StartRecommendationResponse = Shapes::StructureShape.new(name: 'StartRecommendationResponse')
     State = Shapes::StringShape.new(name: 'State')
+    StopBatchEvaluationRequest = Shapes::StructureShape.new(name: 'StopBatchEvaluationRequest')
+    StopBatchEvaluationResponse = Shapes::StructureShape.new(name: 'StopBatchEvaluationResponse')
     StopBrowserSessionRequest = Shapes::StructureShape.new(name: 'StopBrowserSessionRequest')
     StopBrowserSessionRequestTraceIdString = Shapes::StringShape.new(name: 'StopBrowserSessionRequestTraceIdString')
     StopBrowserSessionRequestTraceParentString = Shapes::StringShape.new(name: 'StopBrowserSessionRequestTraceParentString')
@@ -449,7 +567,17 @@ module Aws::BedrockAgentCore
     StreamUpdate = Shapes::UnionShape.new(name: 'StreamUpdate')
     String = Shapes::StringShape.new(name: 'String')
     StringList = Shapes::ListShape.new(name: 'StringList')
+    StringMap = Shapes::MapShape.new(name: 'StringMap')
     StringType = Shapes::StringShape.new(name: 'StringType')
+    SyntheticTimestamp_date_time = Shapes::TimestampShape.new(name: 'SyntheticTimestamp_date_time', timestampFormat: "iso8601")
+    SystemPromptConfig = Shapes::UnionShape.new(name: 'SystemPromptConfig')
+    SystemPromptConfigurationBundle = Shapes::StructureShape.new(name: 'SystemPromptConfigurationBundle')
+    SystemPromptRecommendationConfig = Shapes::StructureShape.new(name: 'SystemPromptRecommendationConfig')
+    SystemPromptRecommendationResult = Shapes::StructureShape.new(name: 'SystemPromptRecommendationResult')
+    SystemPromptText = Shapes::StringShape.new(name: 'SystemPromptText')
+    TargetName = Shapes::StringShape.new(name: 'TargetName')
+    TargetPathList = Shapes::ListShape.new(name: 'TargetPathList')
+    TargetRef = Shapes::StructureShape.new(name: 'TargetRef')
     TaskStatus = Shapes::StringShape.new(name: 'TaskStatus')
     Temperature = Shapes::FloatShape.new(name: 'Temperature')
     ThrottledException = Shapes::StructureShape.new(name: 'ThrottledException')
@@ -457,6 +585,17 @@ module Aws::BedrockAgentCore
     Timestamp = Shapes::TimestampShape.new(name: 'Timestamp')
     TokenUsage = Shapes::StructureShape.new(name: 'TokenUsage')
     ToolArguments = Shapes::StructureShape.new(name: 'ToolArguments')
+    ToolDescriptionConfig = Shapes::UnionShape.new(name: 'ToolDescriptionConfig')
+    ToolDescriptionConfigurationBundle = Shapes::StructureShape.new(name: 'ToolDescriptionConfigurationBundle')
+    ToolDescriptionInput = Shapes::StructureShape.new(name: 'ToolDescriptionInput')
+    ToolDescriptionList = Shapes::ListShape.new(name: 'ToolDescriptionList')
+    ToolDescriptionOutput = Shapes::StructureShape.new(name: 'ToolDescriptionOutput')
+    ToolDescriptionRecommendationConfig = Shapes::StructureShape.new(name: 'ToolDescriptionRecommendationConfig')
+    ToolDescriptionRecommendationResult = Shapes::StructureShape.new(name: 'ToolDescriptionRecommendationResult')
+    ToolDescriptionResultList = Shapes::ListShape.new(name: 'ToolDescriptionResultList')
+    ToolDescriptionSource = Shapes::UnionShape.new(name: 'ToolDescriptionSource')
+    ToolDescriptionText = Shapes::StringShape.new(name: 'ToolDescriptionText')
+    ToolDescriptionTextInput = Shapes::StructureShape.new(name: 'ToolDescriptionTextInput')
     ToolName = Shapes::StringShape.new(name: 'ToolName')
     ToolResultStructuredContent = Shapes::StructureShape.new(name: 'ToolResultStructuredContent')
     ToolsDefinition = Shapes::StructureShape.new(name: 'ToolsDefinition')
@@ -466,6 +605,8 @@ module Aws::BedrockAgentCore
     TraceIds = Shapes::ListShape.new(name: 'TraceIds')
     UnauthorizedException = Shapes::StructureShape.new(name: 'UnauthorizedException')
     Unit = Shapes::StructureShape.new(name: 'Unit')
+    UpdateABTestRequest = Shapes::StructureShape.new(name: 'UpdateABTestRequest')
+    UpdateABTestResponse = Shapes::StructureShape.new(name: 'UpdateABTestResponse')
     UpdateBrowserStreamRequest = Shapes::StructureShape.new(name: 'UpdateBrowserStreamRequest')
     UpdateBrowserStreamResponse = Shapes::StructureShape.new(name: 'UpdateBrowserStreamResponse')
     UserIdType = Shapes::StringShape.new(name: 'UserIdType')
@@ -475,6 +616,13 @@ module Aws::BedrockAgentCore
     ValidationExceptionField = Shapes::StructureShape.new(name: 'ValidationExceptionField')
     ValidationExceptionFieldList = Shapes::ListShape.new(name: 'ValidationExceptionFieldList')
     ValidationExceptionReason = Shapes::StringShape.new(name: 'ValidationExceptionReason')
+    Variant = Shapes::StructureShape.new(name: 'Variant')
+    VariantConfiguration = Shapes::StructureShape.new(name: 'VariantConfiguration')
+    VariantList = Shapes::ListShape.new(name: 'VariantList')
+    VariantName = Shapes::StringShape.new(name: 'VariantName')
+    VariantResult = Shapes::StructureShape.new(name: 'VariantResult')
+    VariantResultList = Shapes::ListShape.new(name: 'VariantResultList')
+    VariantWeightInteger = Shapes::IntegerShape.new(name: 'VariantWeightInteger')
     ViewPort = Shapes::StructureShape.new(name: 'ViewPort')
     ViewPortHeight = Shapes::IntegerShape.new(name: 'ViewPortHeight')
     ViewPortWidth = Shapes::IntegerShape.new(name: 'ViewPortWidth')
@@ -483,6 +631,31 @@ module Aws::BedrockAgentCore
 
     A2aDescriptor.add_member(:agent_card, Shapes::ShapeRef.new(shape: AgentCardDefinition, required: true, location_name: "agentCard"))
     A2aDescriptor.struct_class = Types::A2aDescriptor
+
+    ABTestEvaluationConfig.add_member(:online_evaluation_config_arn, Shapes::ShapeRef.new(shape: OnlineEvaluationConfigArn, location_name: "onlineEvaluationConfigArn"))
+    ABTestEvaluationConfig.add_member(:per_variant_online_evaluation_config, Shapes::ShapeRef.new(shape: PerVariantOnlineEvaluationConfigList, location_name: "perVariantOnlineEvaluationConfig"))
+    ABTestEvaluationConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    ABTestEvaluationConfig.add_member_subclass(:online_evaluation_config_arn, Types::ABTestEvaluationConfig::OnlineEvaluationConfigArn)
+    ABTestEvaluationConfig.add_member_subclass(:per_variant_online_evaluation_config, Types::ABTestEvaluationConfig::PerVariantOnlineEvaluationConfig)
+    ABTestEvaluationConfig.add_member_subclass(:unknown, Types::ABTestEvaluationConfig::Unknown)
+    ABTestEvaluationConfig.struct_class = Types::ABTestEvaluationConfig
+
+    ABTestResults.add_member(:analysis_timestamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "analysisTimestamp"))
+    ABTestResults.add_member(:evaluator_metrics, Shapes::ShapeRef.new(shape: EvaluatorMetricList, required: true, location_name: "evaluatorMetrics"))
+    ABTestResults.struct_class = Types::ABTestResults
+
+    ABTestSummary.add_member(:ab_test_id, Shapes::ShapeRef.new(shape: ABTestId, required: true, location_name: "abTestId"))
+    ABTestSummary.add_member(:ab_test_arn, Shapes::ShapeRef.new(shape: ABTestArn, required: true, location_name: "abTestArn"))
+    ABTestSummary.add_member(:name, Shapes::ShapeRef.new(shape: ABTestName, required: true, location_name: "name"))
+    ABTestSummary.add_member(:status, Shapes::ShapeRef.new(shape: ABTestStatus, required: true, location_name: "status"))
+    ABTestSummary.add_member(:execution_status, Shapes::ShapeRef.new(shape: ABTestExecutionStatus, required: true, location_name: "executionStatus"))
+    ABTestSummary.add_member(:description, Shapes::ShapeRef.new(shape: ABTestDescription, location_name: "description"))
+    ABTestSummary.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayArn, location_name: "gatewayArn"))
+    ABTestSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
+    ABTestSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    ABTestSummary.struct_class = Types::ABTestSummary
+
+    ABTestSummaryList.member = Shapes::ShapeRef.new(shape: ABTestSummary)
 
     AccessDeniedException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     AccessDeniedException.struct_class = Types::AccessDeniedException
@@ -499,6 +672,14 @@ module Aws::BedrockAgentCore
     AgentSkillsDescriptor.add_member(:skill_md, Shapes::ShapeRef.new(shape: SkillMdDefinition, required: true, location_name: "skillMd"))
     AgentSkillsDescriptor.add_member(:skill_definition, Shapes::ShapeRef.new(shape: SkillDefinition, location_name: "skillDefinition"))
     AgentSkillsDescriptor.struct_class = Types::AgentSkillsDescriptor
+
+    AgentTracesConfig.add_member(:session_spans, Shapes::ShapeRef.new(shape: Spans, location_name: "sessionSpans"))
+    AgentTracesConfig.add_member(:cloudwatch_logs, Shapes::ShapeRef.new(shape: CloudWatchLogsTraceConfig, location_name: "cloudwatchLogs"))
+    AgentTracesConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    AgentTracesConfig.add_member_subclass(:session_spans, Types::AgentTracesConfig::SessionSpans)
+    AgentTracesConfig.add_member_subclass(:cloudwatch_logs, Types::AgentTracesConfig::CloudwatchLogs)
+    AgentTracesConfig.add_member_subclass(:unknown, Types::AgentTracesConfig::Unknown)
+    AgentTracesConfig.struct_class = Types::AgentTracesConfig
 
     AutomationStream.add_member(:stream_endpoint, Shapes::ShapeRef.new(shape: BrowserStreamEndpoint, required: true, location_name: "streamEndpoint"))
     AutomationStream.add_member(:stream_status, Shapes::ShapeRef.new(shape: AutomationStreamStatus, required: true, location_name: "streamStatus"))
@@ -526,6 +707,20 @@ module Aws::BedrockAgentCore
     BatchDeleteMemoryRecordsOutput.add_member(:successful_records, Shapes::ShapeRef.new(shape: MemoryRecordsOutputList, required: true, location_name: "successfulRecords"))
     BatchDeleteMemoryRecordsOutput.add_member(:failed_records, Shapes::ShapeRef.new(shape: MemoryRecordsOutputList, required: true, location_name: "failedRecords"))
     BatchDeleteMemoryRecordsOutput.struct_class = Types::BatchDeleteMemoryRecordsOutput
+
+    BatchEvaluationSummary.add_member(:batch_evaluation_id, Shapes::ShapeRef.new(shape: BatchEvaluationId, required: true, location_name: "batchEvaluationId"))
+    BatchEvaluationSummary.add_member(:batch_evaluation_arn, Shapes::ShapeRef.new(shape: BatchEvaluationArn, required: true, location_name: "batchEvaluationArn"))
+    BatchEvaluationSummary.add_member(:batch_evaluation_name, Shapes::ShapeRef.new(shape: BatchEvaluationName, required: true, location_name: "batchEvaluationName"))
+    BatchEvaluationSummary.add_member(:status, Shapes::ShapeRef.new(shape: BatchEvaluationStatus, required: true, location_name: "status"))
+    BatchEvaluationSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
+    BatchEvaluationSummary.add_member(:description, Shapes::ShapeRef.new(shape: BatchEvaluationDescription, location_name: "description"))
+    BatchEvaluationSummary.add_member(:evaluators, Shapes::ShapeRef.new(shape: EvaluatorList, location_name: "evaluators"))
+    BatchEvaluationSummary.add_member(:evaluation_results, Shapes::ShapeRef.new(shape: EvaluationJobResults, location_name: "evaluationResults"))
+    BatchEvaluationSummary.add_member(:error_details, Shapes::ShapeRef.new(shape: ErrorDetailsList, location_name: "errorDetails"))
+    BatchEvaluationSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    BatchEvaluationSummary.struct_class = Types::BatchEvaluationSummary
+
+    BatchEvaluationSummaryList.member = Shapes::ShapeRef.new(shape: BatchEvaluationSummary)
 
     BatchUpdateMemoryRecordsInput.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location: "uri", location_name: "memoryId"))
     BatchUpdateMemoryRecordsInput.add_member(:records, Shapes::ShapeRef.new(shape: MemoryRecordsUpdateInputList, required: true, location_name: "records"))
@@ -622,6 +817,44 @@ module Aws::BedrockAgentCore
 
     Certificates.member = Shapes::ShapeRef.new(shape: Certificate)
 
+    CloudWatchFilterConfig.add_member(:session_ids, Shapes::ShapeRef.new(shape: CloudWatchFilterConfigSessionIdsList, location_name: "sessionIds"))
+    CloudWatchFilterConfig.add_member(:time_range, Shapes::ShapeRef.new(shape: SessionFilterConfig, location_name: "timeRange"))
+    CloudWatchFilterConfig.struct_class = Types::CloudWatchFilterConfig
+
+    CloudWatchFilterConfigSessionIdsList.member = Shapes::ShapeRef.new(shape: String)
+
+    CloudWatchLogsFilter.add_member(:key, Shapes::ShapeRef.new(shape: CloudWatchLogsFilterKeyString, required: true, location_name: "key"))
+    CloudWatchLogsFilter.add_member(:operator, Shapes::ShapeRef.new(shape: CloudWatchLogsFilterOperator, required: true, location_name: "operator"))
+    CloudWatchLogsFilter.add_member(:value, Shapes::ShapeRef.new(shape: FilterValue, required: true, location_name: "value"))
+    CloudWatchLogsFilter.struct_class = Types::CloudWatchLogsFilter
+
+    CloudWatchLogsFilterList.member = Shapes::ShapeRef.new(shape: CloudWatchLogsFilter)
+
+    CloudWatchLogsRule.add_member(:filters, Shapes::ShapeRef.new(shape: CloudWatchLogsFilterList, location_name: "filters"))
+    CloudWatchLogsRule.struct_class = Types::CloudWatchLogsRule
+
+    CloudWatchLogsSource.add_member(:service_names, Shapes::ShapeRef.new(shape: CloudWatchLogsSourceServiceNamesList, required: true, location_name: "serviceNames"))
+    CloudWatchLogsSource.add_member(:log_group_names, Shapes::ShapeRef.new(shape: CloudWatchLogsSourceLogGroupNamesList, required: true, location_name: "logGroupNames"))
+    CloudWatchLogsSource.add_member(:filter_config, Shapes::ShapeRef.new(shape: CloudWatchFilterConfig, location_name: "filterConfig"))
+    CloudWatchLogsSource.struct_class = Types::CloudWatchLogsSource
+
+    CloudWatchLogsSourceLogGroupNamesList.member = Shapes::ShapeRef.new(shape: String)
+
+    CloudWatchLogsSourceServiceNamesList.member = Shapes::ShapeRef.new(shape: String)
+
+    CloudWatchLogsTraceConfig.add_member(:log_group_arns, Shapes::ShapeRef.new(shape: CloudWatchLogsTraceConfigLogGroupArnsList, required: true, location_name: "logGroupArns"))
+    CloudWatchLogsTraceConfig.add_member(:service_names, Shapes::ShapeRef.new(shape: ServiceNameList, required: true, location_name: "serviceNames"))
+    CloudWatchLogsTraceConfig.add_member(:start_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "startTime"))
+    CloudWatchLogsTraceConfig.add_member(:end_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "endTime"))
+    CloudWatchLogsTraceConfig.add_member(:rule, Shapes::ShapeRef.new(shape: CloudWatchLogsRule, location_name: "rule"))
+    CloudWatchLogsTraceConfig.struct_class = Types::CloudWatchLogsTraceConfig
+
+    CloudWatchLogsTraceConfigLogGroupArnsList.member = Shapes::ShapeRef.new(shape: String)
+
+    CloudWatchOutputConfig.add_member(:log_group_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "logGroupName"))
+    CloudWatchOutputConfig.add_member(:log_stream_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "logStreamName"))
+    CloudWatchOutputConfig.struct_class = Types::CloudWatchOutputConfig
+
     CodeInterpreterResult.add_member(:content, Shapes::ShapeRef.new(shape: ContentBlockList, required: true, location_name: "content"))
     CodeInterpreterResult.add_member(:structured_content, Shapes::ShapeRef.new(shape: ToolResultStructuredContent, location_name: "structuredContent"))
     CodeInterpreterResult.add_member(:is_error, Shapes::ShapeRef.new(shape: Boolean, location_name: "isError"))
@@ -652,6 +885,20 @@ module Aws::BedrockAgentCore
     CompleteResourceTokenAuthRequest.struct_class = Types::CompleteResourceTokenAuthRequest
 
     CompleteResourceTokenAuthResponse.struct_class = Types::CompleteResourceTokenAuthResponse
+
+    ConfidenceInterval.add_member(:lower, Shapes::ShapeRef.new(shape: Double, location_name: "lower"))
+    ConfidenceInterval.add_member(:upper, Shapes::ShapeRef.new(shape: Double, location_name: "upper"))
+    ConfidenceInterval.struct_class = Types::ConfidenceInterval
+
+    ConfigurationBundleRef.add_member(:bundle_arn, Shapes::ShapeRef.new(shape: ConfigurationBundleArn, required: true, location_name: "bundleArn"))
+    ConfigurationBundleRef.add_member(:bundle_version, Shapes::ShapeRef.new(shape: ConfigurationBundleVersion, required: true, location_name: "bundleVersion"))
+    ConfigurationBundleRef.struct_class = Types::ConfigurationBundleRef
+
+    ConfigurationBundleToolEntry.add_member(:tool_name, Shapes::ShapeRef.new(shape: RecommendationToolName, required: true, location_name: "toolName"))
+    ConfigurationBundleToolEntry.add_member(:tool_description_json_path, Shapes::ShapeRef.new(shape: String, required: true, location_name: "toolDescriptionJsonPath"))
+    ConfigurationBundleToolEntry.struct_class = Types::ConfigurationBundleToolEntry
+
+    ConfigurationBundleToolEntryList.member = Shapes::ShapeRef.new(shape: ConfigurationBundleToolEntry)
 
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     ConflictException.struct_class = Types::ConflictException
@@ -691,9 +938,33 @@ module Aws::BedrockAgentCore
     Context.add_member_subclass(:unknown, Types::Context::Unknown)
     Context.struct_class = Types::Context
 
+    ControlStats.add_member(:variant_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "variantName"))
+    ControlStats.add_member(:sample_size, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "sampleSize"))
+    ControlStats.add_member(:mean, Shapes::ShapeRef.new(shape: Double, required: true, location_name: "mean"))
+    ControlStats.struct_class = Types::ControlStats
+
     Conversational.add_member(:content, Shapes::ShapeRef.new(shape: Content, required: true, location_name: "content"))
     Conversational.add_member(:role, Shapes::ShapeRef.new(shape: Role, required: true, location_name: "role"))
     Conversational.struct_class = Types::Conversational
+
+    CreateABTestRequest.add_member(:name, Shapes::ShapeRef.new(shape: ABTestName, required: true, location_name: "name"))
+    CreateABTestRequest.add_member(:description, Shapes::ShapeRef.new(shape: ABTestDescription, location_name: "description"))
+    CreateABTestRequest.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayArn, required: true, location_name: "gatewayArn"))
+    CreateABTestRequest.add_member(:variants, Shapes::ShapeRef.new(shape: VariantList, required: true, location_name: "variants"))
+    CreateABTestRequest.add_member(:gateway_filter, Shapes::ShapeRef.new(shape: GatewayFilter, location_name: "gatewayFilter"))
+    CreateABTestRequest.add_member(:evaluation_config, Shapes::ShapeRef.new(shape: ABTestEvaluationConfig, required: true, location_name: "evaluationConfig"))
+    CreateABTestRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "roleArn"))
+    CreateABTestRequest.add_member(:enable_on_create, Shapes::ShapeRef.new(shape: Boolean, location_name: "enableOnCreate"))
+    CreateABTestRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateABTestRequest.struct_class = Types::CreateABTestRequest
+
+    CreateABTestResponse.add_member(:ab_test_id, Shapes::ShapeRef.new(shape: ABTestId, required: true, location_name: "abTestId"))
+    CreateABTestResponse.add_member(:ab_test_arn, Shapes::ShapeRef.new(shape: ABTestArn, required: true, location_name: "abTestArn"))
+    CreateABTestResponse.add_member(:name, Shapes::ShapeRef.new(shape: ABTestName, location_name: "name"))
+    CreateABTestResponse.add_member(:status, Shapes::ShapeRef.new(shape: ABTestStatus, required: true, location_name: "status"))
+    CreateABTestResponse.add_member(:execution_status, Shapes::ShapeRef.new(shape: ABTestExecutionStatus, required: true, location_name: "executionStatus"))
+    CreateABTestResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
+    CreateABTestResponse.struct_class = Types::CreateABTestResponse
 
     CreateEventInput.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location: "uri", location_name: "memoryId"))
     CreateEventInput.add_member(:actor_id, Shapes::ShapeRef.new(shape: ActorId, required: true, location_name: "actorId"))
@@ -714,6 +985,28 @@ module Aws::BedrockAgentCore
     CustomRequestParametersType.key = Shapes::ShapeRef.new(shape: CustomRequestKeyType)
     CustomRequestParametersType.value = Shapes::ShapeRef.new(shape: CustomRequestValueType)
 
+    DataSourceConfig.add_member(:cloud_watch_logs, Shapes::ShapeRef.new(shape: CloudWatchLogsSource, location_name: "cloudWatchLogs"))
+    DataSourceConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    DataSourceConfig.add_member_subclass(:cloud_watch_logs, Types::DataSourceConfig::CloudWatchLogs)
+    DataSourceConfig.add_member_subclass(:unknown, Types::DataSourceConfig::Unknown)
+    DataSourceConfig.struct_class = Types::DataSourceConfig
+
+    DeleteABTestRequest.add_member(:ab_test_id, Shapes::ShapeRef.new(shape: ABTestId, required: true, location: "uri", location_name: "abTestId"))
+    DeleteABTestRequest.struct_class = Types::DeleteABTestRequest
+
+    DeleteABTestResponse.add_member(:ab_test_id, Shapes::ShapeRef.new(shape: ABTestId, required: true, location_name: "abTestId"))
+    DeleteABTestResponse.add_member(:ab_test_arn, Shapes::ShapeRef.new(shape: ABTestArn, required: true, location_name: "abTestArn"))
+    DeleteABTestResponse.add_member(:status, Shapes::ShapeRef.new(shape: ABTestStatus, required: true, location_name: "status"))
+    DeleteABTestResponse.struct_class = Types::DeleteABTestResponse
+
+    DeleteBatchEvaluationRequest.add_member(:batch_evaluation_id, Shapes::ShapeRef.new(shape: BatchEvaluationId, required: true, location: "uri", location_name: "batchEvaluationId"))
+    DeleteBatchEvaluationRequest.struct_class = Types::DeleteBatchEvaluationRequest
+
+    DeleteBatchEvaluationResponse.add_member(:batch_evaluation_id, Shapes::ShapeRef.new(shape: BatchEvaluationId, required: true, location_name: "batchEvaluationId"))
+    DeleteBatchEvaluationResponse.add_member(:batch_evaluation_arn, Shapes::ShapeRef.new(shape: BatchEvaluationArn, required: true, location_name: "batchEvaluationArn"))
+    DeleteBatchEvaluationResponse.add_member(:status, Shapes::ShapeRef.new(shape: BatchEvaluationStatus, required: true, location_name: "status"))
+    DeleteBatchEvaluationResponse.struct_class = Types::DeleteBatchEvaluationResponse
+
     DeleteEventInput.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location: "uri", location_name: "memoryId"))
     DeleteEventInput.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location: "uri", location_name: "sessionId"))
     DeleteEventInput.add_member(:event_id, Shapes::ShapeRef.new(shape: EventId, required: true, location: "uri", location_name: "eventId"))
@@ -730,6 +1023,13 @@ module Aws::BedrockAgentCore
     DeleteMemoryRecordOutput.add_member(:memory_record_id, Shapes::ShapeRef.new(shape: MemoryRecordId, required: true, location_name: "memoryRecordId"))
     DeleteMemoryRecordOutput.struct_class = Types::DeleteMemoryRecordOutput
 
+    DeleteRecommendationRequest.add_member(:recommendation_id, Shapes::ShapeRef.new(shape: RecommendationId, required: true, location: "uri", location_name: "recommendationId"))
+    DeleteRecommendationRequest.struct_class = Types::DeleteRecommendationRequest
+
+    DeleteRecommendationResponse.add_member(:recommendation_id, Shapes::ShapeRef.new(shape: RecommendationId, required: true, location_name: "recommendationId"))
+    DeleteRecommendationResponse.add_member(:status, Shapes::ShapeRef.new(shape: RecommendationStatus, required: true, location_name: "status"))
+    DeleteRecommendationResponse.struct_class = Types::DeleteRecommendationResponse
+
     Descriptors.add_member(:mcp, Shapes::ShapeRef.new(shape: McpDescriptor, location_name: "mcp"))
     Descriptors.add_member(:a2a, Shapes::ShapeRef.new(shape: A2aDescriptor, location_name: "a2a"))
     Descriptors.add_member(:custom, Shapes::ShapeRef.new(shape: CustomDescriptor, location_name: "custom"))
@@ -740,6 +1040,8 @@ module Aws::BedrockAgentCore
 
     DuplicateIdException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     DuplicateIdException.struct_class = Types::DuplicateIdException
+
+    ErrorDetailsList.member = Shapes::ShapeRef.new(shape: ErrorDetailsListMemberString)
 
     EvaluateRequest.add_member(:evaluator_id, Shapes::ShapeRef.new(shape: EvaluatorId, required: true, location: "uri", location_name: "evaluatorId"))
     EvaluateRequest.add_member(:evaluation_input, Shapes::ShapeRef.new(shape: EvaluationInput, required: true, location_name: "evaluationInput"))
@@ -766,6 +1068,20 @@ module Aws::BedrockAgentCore
     EvaluationInput.add_member_subclass(:session_spans, Types::EvaluationInput::SessionSpans)
     EvaluationInput.add_member_subclass(:unknown, Types::EvaluationInput::Unknown)
     EvaluationInput.struct_class = Types::EvaluationInput
+
+    EvaluationJobResults.add_member(:number_of_sessions_completed, Shapes::ShapeRef.new(shape: Integer, location_name: "numberOfSessionsCompleted"))
+    EvaluationJobResults.add_member(:number_of_sessions_in_progress, Shapes::ShapeRef.new(shape: Integer, location_name: "numberOfSessionsInProgress"))
+    EvaluationJobResults.add_member(:number_of_sessions_failed, Shapes::ShapeRef.new(shape: Integer, location_name: "numberOfSessionsFailed"))
+    EvaluationJobResults.add_member(:total_number_of_sessions, Shapes::ShapeRef.new(shape: Integer, location_name: "totalNumberOfSessions"))
+    EvaluationJobResults.add_member(:number_of_sessions_ignored, Shapes::ShapeRef.new(shape: Integer, location_name: "numberOfSessionsIgnored"))
+    EvaluationJobResults.add_member(:evaluator_summaries, Shapes::ShapeRef.new(shape: EvaluatorSummaryList, location_name: "evaluatorSummaries"))
+    EvaluationJobResults.struct_class = Types::EvaluationJobResults
+
+    EvaluationMetadata.add_member(:session_metadata, Shapes::ShapeRef.new(shape: SessionMetadataList, location_name: "sessionMetadata"))
+    EvaluationMetadata.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    EvaluationMetadata.add_member_subclass(:session_metadata, Types::EvaluationMetadata::SessionMetadata)
+    EvaluationMetadata.add_member_subclass(:unknown, Types::EvaluationMetadata::Unknown)
+    EvaluationMetadata.struct_class = Types::EvaluationMetadata
 
     EvaluationReferenceInput.add_member(:context, Shapes::ShapeRef.new(shape: Context, required: true, location_name: "context"))
     EvaluationReferenceInput.add_member(:expected_response, Shapes::ShapeRef.new(shape: EvaluationContent, location_name: "expectedResponse"))
@@ -799,6 +1115,29 @@ module Aws::BedrockAgentCore
     EvaluationTarget.struct_class = Types::EvaluationTarget
 
     EvaluationToolNames.member = Shapes::ShapeRef.new(shape: EvaluationToolName)
+
+    Evaluator.add_member(:evaluator_id, Shapes::ShapeRef.new(shape: EvaluatorId, required: true, location_name: "evaluatorId"))
+    Evaluator.struct_class = Types::Evaluator
+
+    EvaluatorList.member = Shapes::ShapeRef.new(shape: Evaluator)
+
+    EvaluatorMetric.add_member(:evaluator_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "evaluatorArn"))
+    EvaluatorMetric.add_member(:control_stats, Shapes::ShapeRef.new(shape: ControlStats, required: true, location_name: "controlStats"))
+    EvaluatorMetric.add_member(:variant_results, Shapes::ShapeRef.new(shape: VariantResultList, required: true, location_name: "variantResults"))
+    EvaluatorMetric.struct_class = Types::EvaluatorMetric
+
+    EvaluatorMetricList.member = Shapes::ShapeRef.new(shape: EvaluatorMetric)
+
+    EvaluatorStatistics.add_member(:average_score, Shapes::ShapeRef.new(shape: Double, location_name: "averageScore"))
+    EvaluatorStatistics.struct_class = Types::EvaluatorStatistics
+
+    EvaluatorSummary.add_member(:evaluator_id, Shapes::ShapeRef.new(shape: String, location_name: "evaluatorId"))
+    EvaluatorSummary.add_member(:statistics, Shapes::ShapeRef.new(shape: EvaluatorStatistics, location_name: "statistics"))
+    EvaluatorSummary.add_member(:total_evaluated, Shapes::ShapeRef.new(shape: Integer, location_name: "totalEvaluated"))
+    EvaluatorSummary.add_member(:total_failed, Shapes::ShapeRef.new(shape: Integer, location_name: "totalFailed"))
+    EvaluatorSummary.struct_class = Types::EvaluatorSummary
+
+    EvaluatorSummaryList.member = Shapes::ShapeRef.new(shape: EvaluatorSummary)
 
     Event.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location_name: "memoryId"))
     Event.add_member(:actor_id, Shapes::ShapeRef.new(shape: ActorId, required: true, location_name: "actorId"))
@@ -855,6 +1194,43 @@ module Aws::BedrockAgentCore
     FilterInput.add_member(:event_metadata, Shapes::ShapeRef.new(shape: EventMetadataFilterList, location_name: "eventMetadata"))
     FilterInput.struct_class = Types::FilterInput
 
+    FilterValue.add_member(:string_value, Shapes::ShapeRef.new(shape: FilterStringValue, location_name: "stringValue"))
+    FilterValue.add_member(:double_value, Shapes::ShapeRef.new(shape: Double, location_name: "doubleValue"))
+    FilterValue.add_member(:boolean_value, Shapes::ShapeRef.new(shape: Boolean, location_name: "booleanValue"))
+    FilterValue.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    FilterValue.add_member_subclass(:string_value, Types::FilterValue::StringValue)
+    FilterValue.add_member_subclass(:double_value, Types::FilterValue::DoubleValue)
+    FilterValue.add_member_subclass(:boolean_value, Types::FilterValue::BooleanValue)
+    FilterValue.add_member_subclass(:unknown, Types::FilterValue::Unknown)
+    FilterValue.struct_class = Types::FilterValue
+
+    GatewayFilter.add_member(:target_paths, Shapes::ShapeRef.new(shape: TargetPathList, location_name: "targetPaths"))
+    GatewayFilter.struct_class = Types::GatewayFilter
+
+    GetABTestRequest.add_member(:ab_test_id, Shapes::ShapeRef.new(shape: ABTestId, required: true, location: "uri", location_name: "abTestId"))
+    GetABTestRequest.struct_class = Types::GetABTestRequest
+
+    GetABTestResponse.add_member(:ab_test_id, Shapes::ShapeRef.new(shape: ABTestId, required: true, location_name: "abTestId"))
+    GetABTestResponse.add_member(:ab_test_arn, Shapes::ShapeRef.new(shape: ABTestArn, required: true, location_name: "abTestArn"))
+    GetABTestResponse.add_member(:name, Shapes::ShapeRef.new(shape: ABTestName, required: true, location_name: "name"))
+    GetABTestResponse.add_member(:description, Shapes::ShapeRef.new(shape: ABTestDescription, location_name: "description"))
+    GetABTestResponse.add_member(:status, Shapes::ShapeRef.new(shape: ABTestStatus, required: true, location_name: "status"))
+    GetABTestResponse.add_member(:execution_status, Shapes::ShapeRef.new(shape: ABTestExecutionStatus, required: true, location_name: "executionStatus"))
+    GetABTestResponse.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayArn, required: true, location_name: "gatewayArn"))
+    GetABTestResponse.add_member(:variants, Shapes::ShapeRef.new(shape: VariantList, required: true, location_name: "variants"))
+    GetABTestResponse.add_member(:gateway_filter, Shapes::ShapeRef.new(shape: GatewayFilter, location_name: "gatewayFilter"))
+    GetABTestResponse.add_member(:evaluation_config, Shapes::ShapeRef.new(shape: ABTestEvaluationConfig, required: true, location_name: "evaluationConfig"))
+    GetABTestResponse.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "roleArn"))
+    GetABTestResponse.add_member(:current_run_id, Shapes::ShapeRef.new(shape: String, location_name: "currentRunId"))
+    GetABTestResponse.add_member(:error_details, Shapes::ShapeRef.new(shape: ErrorDetailsList, location_name: "errorDetails"))
+    GetABTestResponse.add_member(:started_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "startedAt"))
+    GetABTestResponse.add_member(:stopped_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "stoppedAt"))
+    GetABTestResponse.add_member(:max_duration_expires_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "maxDurationExpiresAt"))
+    GetABTestResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
+    GetABTestResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    GetABTestResponse.add_member(:results, Shapes::ShapeRef.new(shape: ABTestResults, location_name: "results"))
+    GetABTestResponse.struct_class = Types::GetABTestResponse
+
     GetAgentCardRequest.add_member(:runtime_session_id, Shapes::ShapeRef.new(shape: SessionType, location: "header", location_name: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id", metadata: {"idempotencyToken" => true}))
     GetAgentCardRequest.add_member(:agent_runtime_arn, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "agentRuntimeArn"))
     GetAgentCardRequest.add_member(:qualifier, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "qualifier"))
@@ -866,6 +1242,23 @@ module Aws::BedrockAgentCore
     GetAgentCardResponse.struct_class = Types::GetAgentCardResponse
     GetAgentCardResponse[:payload] = :agent_card
     GetAgentCardResponse[:payload_member] = GetAgentCardResponse.member(:agent_card)
+
+    GetBatchEvaluationRequest.add_member(:batch_evaluation_id, Shapes::ShapeRef.new(shape: BatchEvaluationId, required: true, location: "uri", location_name: "batchEvaluationId"))
+    GetBatchEvaluationRequest.struct_class = Types::GetBatchEvaluationRequest
+
+    GetBatchEvaluationResponse.add_member(:batch_evaluation_id, Shapes::ShapeRef.new(shape: BatchEvaluationId, required: true, location_name: "batchEvaluationId"))
+    GetBatchEvaluationResponse.add_member(:batch_evaluation_arn, Shapes::ShapeRef.new(shape: BatchEvaluationArn, required: true, location_name: "batchEvaluationArn"))
+    GetBatchEvaluationResponse.add_member(:batch_evaluation_name, Shapes::ShapeRef.new(shape: BatchEvaluationName, required: true, location_name: "batchEvaluationName"))
+    GetBatchEvaluationResponse.add_member(:status, Shapes::ShapeRef.new(shape: BatchEvaluationStatus, required: true, location_name: "status"))
+    GetBatchEvaluationResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
+    GetBatchEvaluationResponse.add_member(:evaluators, Shapes::ShapeRef.new(shape: EvaluatorList, location_name: "evaluators"))
+    GetBatchEvaluationResponse.add_member(:data_source_config, Shapes::ShapeRef.new(shape: DataSourceConfig, location_name: "dataSourceConfig"))
+    GetBatchEvaluationResponse.add_member(:output_config, Shapes::ShapeRef.new(shape: OutputConfig, location_name: "outputConfig"))
+    GetBatchEvaluationResponse.add_member(:evaluation_results, Shapes::ShapeRef.new(shape: EvaluationJobResults, location_name: "evaluationResults"))
+    GetBatchEvaluationResponse.add_member(:error_details, Shapes::ShapeRef.new(shape: ErrorDetailsList, location_name: "errorDetails"))
+    GetBatchEvaluationResponse.add_member(:description, Shapes::ShapeRef.new(shape: BatchEvaluationDescription, location_name: "description"))
+    GetBatchEvaluationResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    GetBatchEvaluationResponse.struct_class = Types::GetBatchEvaluationResponse
 
     GetBrowserSessionRequest.add_member(:browser_identifier, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "browserIdentifier"))
     GetBrowserSessionRequest.add_member(:session_id, Shapes::ShapeRef.new(shape: BrowserSessionId, required: true, location: "querystring", location_name: "sessionId"))
@@ -917,6 +1310,21 @@ module Aws::BedrockAgentCore
     GetMemoryRecordOutput.add_member(:memory_record, Shapes::ShapeRef.new(shape: MemoryRecord, required: true, location_name: "memoryRecord"))
     GetMemoryRecordOutput.struct_class = Types::GetMemoryRecordOutput
 
+    GetRecommendationRequest.add_member(:recommendation_id, Shapes::ShapeRef.new(shape: RecommendationId, required: true, location: "uri", location_name: "recommendationId"))
+    GetRecommendationRequest.struct_class = Types::GetRecommendationRequest
+
+    GetRecommendationResponse.add_member(:recommendation_id, Shapes::ShapeRef.new(shape: RecommendationId, required: true, location_name: "recommendationId"))
+    GetRecommendationResponse.add_member(:recommendation_arn, Shapes::ShapeRef.new(shape: RecommendationArn, required: true, location_name: "recommendationArn"))
+    GetRecommendationResponse.add_member(:name, Shapes::ShapeRef.new(shape: RecommendationName, required: true, location_name: "name"))
+    GetRecommendationResponse.add_member(:description, Shapes::ShapeRef.new(shape: RecommendationDescription, location_name: "description"))
+    GetRecommendationResponse.add_member(:type, Shapes::ShapeRef.new(shape: RecommendationType, required: true, location_name: "type"))
+    GetRecommendationResponse.add_member(:recommendation_config, Shapes::ShapeRef.new(shape: RecommendationConfig, required: true, location_name: "recommendationConfig"))
+    GetRecommendationResponse.add_member(:status, Shapes::ShapeRef.new(shape: RecommendationStatus, required: true, location_name: "status"))
+    GetRecommendationResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
+    GetRecommendationResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "updatedAt"))
+    GetRecommendationResponse.add_member(:recommendation_result, Shapes::ShapeRef.new(shape: RecommendationResult, location_name: "recommendationResult"))
+    GetRecommendationResponse.struct_class = Types::GetRecommendationResponse
+
     GetResourceApiKeyRequest.add_member(:workload_identity_token, Shapes::ShapeRef.new(shape: WorkloadIdentityTokenType, required: true, location_name: "workloadIdentityToken"))
     GetResourceApiKeyRequest.add_member(:resource_credential_provider_name, Shapes::ShapeRef.new(shape: CredentialProviderName, required: true, location_name: "resourceCredentialProviderName"))
     GetResourceApiKeyRequest.struct_class = Types::GetResourceApiKeyRequest
@@ -960,6 +1368,22 @@ module Aws::BedrockAgentCore
 
     GetWorkloadAccessTokenResponse.add_member(:workload_access_token, Shapes::ShapeRef.new(shape: WorkloadIdentityTokenType, required: true, location_name: "workloadAccessToken"))
     GetWorkloadAccessTokenResponse.struct_class = Types::GetWorkloadAccessTokenResponse
+
+    GroundTruthSource.add_member(:inline, Shapes::ShapeRef.new(shape: InlineGroundTruth, location_name: "inline"))
+    GroundTruthSource.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    GroundTruthSource.add_member_subclass(:inline, Types::GroundTruthSource::Inline)
+    GroundTruthSource.add_member_subclass(:unknown, Types::GroundTruthSource::Unknown)
+    GroundTruthSource.struct_class = Types::GroundTruthSource
+
+    GroundTruthTurn.add_member(:input, Shapes::ShapeRef.new(shape: GroundTruthTurnInput, location_name: "input"))
+    GroundTruthTurn.add_member(:expected_response, Shapes::ShapeRef.new(shape: EvaluationContent, location_name: "expectedResponse"))
+    GroundTruthTurn.struct_class = Types::GroundTruthTurn
+
+    GroundTruthTurnInput.add_member(:prompt, Shapes::ShapeRef.new(shape: GroundTruthTurnInputPromptString, location_name: "prompt"))
+    GroundTruthTurnInput.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    GroundTruthTurnInput.add_member_subclass(:prompt, Types::GroundTruthTurnInput::Prompt)
+    GroundTruthTurnInput.add_member_subclass(:unknown, Types::GroundTruthTurnInput::Unknown)
+    GroundTruthTurnInput.struct_class = Types::GroundTruthTurnInput
 
     HarnessAgentCoreBrowserConfig.add_member(:browser_arn, Shapes::ShapeRef.new(shape: BrowserArn, location_name: "browserArn"))
     HarnessAgentCoreBrowserConfig.struct_class = Types::HarnessAgentCoreBrowserConfig
@@ -1203,6 +1627,13 @@ module Aws::BedrockAgentCore
 
     IgnoredReferenceInputFields.member = Shapes::ShapeRef.new(shape: IgnoredReferenceInputField)
 
+    InlineGroundTruth.add_member(:assertions, Shapes::ShapeRef.new(shape: EvaluationContentList, location_name: "assertions"))
+    InlineGroundTruth.add_member(:expected_trajectory, Shapes::ShapeRef.new(shape: EvaluationExpectedTrajectory, location_name: "expectedTrajectory"))
+    InlineGroundTruth.add_member(:turns, Shapes::ShapeRef.new(shape: InlineGroundTruthTurnsList, location_name: "turns"))
+    InlineGroundTruth.struct_class = Types::InlineGroundTruth
+
+    InlineGroundTruthTurnsList.member = Shapes::ShapeRef.new(shape: GroundTruthTurn)
+
     InputContentBlock.add_member(:path, Shapes::ShapeRef.new(shape: MaxLenString, required: true, location_name: "path"))
     InputContentBlock.add_member(:text, Shapes::ShapeRef.new(shape: MaxLenString, location_name: "text"))
     InputContentBlock.add_member(:blob, Shapes::ShapeRef.new(shape: Body, location_name: "blob"))
@@ -1372,6 +1803,14 @@ module Aws::BedrockAgentCore
     LeftExpression.add_member_subclass(:unknown, Types::LeftExpression::Unknown)
     LeftExpression.struct_class = Types::LeftExpression
 
+    ListABTestsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListABTestsRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
+    ListABTestsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "nextToken"))
+    ListABTestsRequest.struct_class = Types::ListABTestsRequest
+
+    ListABTestsResponse.add_member(:ab_tests, Shapes::ShapeRef.new(shape: ABTestSummaryList, required: true, location_name: "abTests"))
+    ListABTestsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListABTestsResponse.struct_class = Types::ListABTestsResponse
+
     ListActorsInput.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location: "uri", location_name: "memoryId"))
     ListActorsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
     ListActorsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
@@ -1380,6 +1819,14 @@ module Aws::BedrockAgentCore
     ListActorsOutput.add_member(:actor_summaries, Shapes::ShapeRef.new(shape: ActorSummaryList, required: true, location_name: "actorSummaries"))
     ListActorsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
     ListActorsOutput.struct_class = Types::ListActorsOutput
+
+    ListBatchEvaluationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListBatchEvaluationsRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
+    ListBatchEvaluationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "nextToken"))
+    ListBatchEvaluationsRequest.struct_class = Types::ListBatchEvaluationsRequest
+
+    ListBatchEvaluationsResponse.add_member(:batch_evaluations, Shapes::ShapeRef.new(shape: BatchEvaluationSummaryList, required: true, location_name: "batchEvaluations"))
+    ListBatchEvaluationsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListBatchEvaluationsResponse.struct_class = Types::ListBatchEvaluationsResponse
 
     ListBrowserSessionsRequest.add_member(:browser_identifier, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "browserIdentifier"))
     ListBrowserSessionsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
@@ -1435,6 +1882,15 @@ module Aws::BedrockAgentCore
     ListMemoryRecordsOutput.add_member(:memory_record_summaries, Shapes::ShapeRef.new(shape: MemoryRecordSummaryList, required: true, location_name: "memoryRecordSummaries"))
     ListMemoryRecordsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
     ListMemoryRecordsOutput.struct_class = Types::ListMemoryRecordsOutput
+
+    ListRecommendationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListRecommendationsRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
+    ListRecommendationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListRecommendationsRequest.add_member(:status_filter, Shapes::ShapeRef.new(shape: RecommendationStatus, location: "querystring", location_name: "status"))
+    ListRecommendationsRequest.struct_class = Types::ListRecommendationsRequest
+
+    ListRecommendationsResponse.add_member(:recommendation_summaries, Shapes::ShapeRef.new(shape: RecommendationSummaryList, required: true, location_name: "recommendationSummaries"))
+    ListRecommendationsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListRecommendationsResponse.struct_class = Types::ListRecommendationsResponse
 
     ListSessionsInput.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location: "uri", location_name: "memoryId"))
     ListSessionsInput.add_member(:actor_id, Shapes::ShapeRef.new(shape: ActorId, required: true, location: "uri", location_name: "actorId"))
@@ -1586,6 +2042,12 @@ module Aws::BedrockAgentCore
 
     OAuthScopes.member = Shapes::ShapeRef.new(shape: OAuthScope)
 
+    OutputConfig.add_member(:cloud_watch_config, Shapes::ShapeRef.new(shape: CloudWatchOutputConfig, location_name: "cloudWatchConfig"))
+    OutputConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    OutputConfig.add_member_subclass(:cloud_watch_config, Types::OutputConfig::CloudWatchConfig)
+    OutputConfig.add_member_subclass(:unknown, Types::OutputConfig::Unknown)
+    OutputConfig.struct_class = Types::OutputConfig
+
     PayloadType.add_member(:conversational, Shapes::ShapeRef.new(shape: Conversational, location_name: "conversational"))
     PayloadType.add_member(:blob, Shapes::ShapeRef.new(shape: Document, location_name: "blob"))
     PayloadType.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
@@ -1595,6 +2057,12 @@ module Aws::BedrockAgentCore
     PayloadType.struct_class = Types::PayloadType
 
     PayloadTypeList.member = Shapes::ShapeRef.new(shape: PayloadType)
+
+    PerVariantOnlineEvaluationConfig.add_member(:name, Shapes::ShapeRef.new(shape: VariantName, required: true, location_name: "name"))
+    PerVariantOnlineEvaluationConfig.add_member(:online_evaluation_config_arn, Shapes::ShapeRef.new(shape: OnlineEvaluationConfigArn, required: true, location_name: "onlineEvaluationConfigArn"))
+    PerVariantOnlineEvaluationConfig.struct_class = Types::PerVariantOnlineEvaluationConfig
+
+    PerVariantOnlineEvaluationConfigList.member = Shapes::ShapeRef.new(shape: PerVariantOnlineEvaluationConfig)
 
     Proxy.add_member(:external_proxy, Shapes::ShapeRef.new(shape: ExternalProxy, location_name: "externalProxy"))
     Proxy.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
@@ -1616,6 +2084,46 @@ module Aws::BedrockAgentCore
     ProxyCredentials.add_member_subclass(:basic_auth, Types::ProxyCredentials::BasicAuth)
     ProxyCredentials.add_member_subclass(:unknown, Types::ProxyCredentials::Unknown)
     ProxyCredentials.struct_class = Types::ProxyCredentials
+
+    RecommendationConfig.add_member(:system_prompt_recommendation_config, Shapes::ShapeRef.new(shape: SystemPromptRecommendationConfig, location_name: "systemPromptRecommendationConfig"))
+    RecommendationConfig.add_member(:tool_description_recommendation_config, Shapes::ShapeRef.new(shape: ToolDescriptionRecommendationConfig, location_name: "toolDescriptionRecommendationConfig"))
+    RecommendationConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    RecommendationConfig.add_member_subclass(:system_prompt_recommendation_config, Types::RecommendationConfig::SystemPromptRecommendationConfig)
+    RecommendationConfig.add_member_subclass(:tool_description_recommendation_config, Types::RecommendationConfig::ToolDescriptionRecommendationConfig)
+    RecommendationConfig.add_member_subclass(:unknown, Types::RecommendationConfig::Unknown)
+    RecommendationConfig.struct_class = Types::RecommendationConfig
+
+    RecommendationEvaluationConfig.add_member(:evaluators, Shapes::ShapeRef.new(shape: RecommendationEvaluationConfigEvaluatorsList, required: true, location_name: "evaluators"))
+    RecommendationEvaluationConfig.struct_class = Types::RecommendationEvaluationConfig
+
+    RecommendationEvaluationConfigEvaluatorsList.member = Shapes::ShapeRef.new(shape: RecommendationEvaluatorReference)
+
+    RecommendationEvaluatorReference.add_member(:evaluator_arn, Shapes::ShapeRef.new(shape: EvaluatorArn, required: true, location_name: "evaluatorArn"))
+    RecommendationEvaluatorReference.struct_class = Types::RecommendationEvaluatorReference
+
+    RecommendationResult.add_member(:system_prompt_recommendation_result, Shapes::ShapeRef.new(shape: SystemPromptRecommendationResult, location_name: "systemPromptRecommendationResult"))
+    RecommendationResult.add_member(:tool_description_recommendation_result, Shapes::ShapeRef.new(shape: ToolDescriptionRecommendationResult, location_name: "toolDescriptionRecommendationResult"))
+    RecommendationResult.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    RecommendationResult.add_member_subclass(:system_prompt_recommendation_result, Types::RecommendationResult::SystemPromptRecommendationResult)
+    RecommendationResult.add_member_subclass(:tool_description_recommendation_result, Types::RecommendationResult::ToolDescriptionRecommendationResult)
+    RecommendationResult.add_member_subclass(:unknown, Types::RecommendationResult::Unknown)
+    RecommendationResult.struct_class = Types::RecommendationResult
+
+    RecommendationResultConfigurationBundle.add_member(:bundle_arn, Shapes::ShapeRef.new(shape: ConfigurationBundleArn, required: true, location_name: "bundleArn"))
+    RecommendationResultConfigurationBundle.add_member(:version_id, Shapes::ShapeRef.new(shape: ConfigurationBundleVersionId, required: true, location_name: "versionId"))
+    RecommendationResultConfigurationBundle.struct_class = Types::RecommendationResultConfigurationBundle
+
+    RecommendationSummary.add_member(:recommendation_id, Shapes::ShapeRef.new(shape: RecommendationId, required: true, location_name: "recommendationId"))
+    RecommendationSummary.add_member(:recommendation_arn, Shapes::ShapeRef.new(shape: RecommendationArn, required: true, location_name: "recommendationArn"))
+    RecommendationSummary.add_member(:name, Shapes::ShapeRef.new(shape: RecommendationName, required: true, location_name: "name"))
+    RecommendationSummary.add_member(:description, Shapes::ShapeRef.new(shape: RecommendationDescription, location_name: "description"))
+    RecommendationSummary.add_member(:type, Shapes::ShapeRef.new(shape: RecommendationType, required: true, location_name: "type"))
+    RecommendationSummary.add_member(:status, Shapes::ShapeRef.new(shape: RecommendationStatus, required: true, location_name: "status"))
+    RecommendationSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
+    RecommendationSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "updatedAt"))
+    RecommendationSummary.struct_class = Types::RecommendationSummary
+
+    RecommendationSummaryList.member = Shapes::ShapeRef.new(shape: RecommendationSummary)
 
     RegistryRecordSummary.add_member(:registry_arn, Shapes::ShapeRef.new(shape: RegistryArn, required: true, location_name: "registryArn"))
     RegistryRecordSummary.add_member(:record_arn, Shapes::ShapeRef.new(shape: RegistryRecordArn, required: true, location_name: "recordArn"))
@@ -1733,11 +2241,25 @@ module Aws::BedrockAgentCore
     ServiceException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ServiceException.struct_class = Types::ServiceException
 
+    ServiceNameList.member = Shapes::ShapeRef.new(shape: ServiceName)
+
     ServiceQuotaExceededException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     ServiceQuotaExceededException.struct_class = Types::ServiceQuotaExceededException
 
     SessionFilter.add_member(:event_filter, Shapes::ShapeRef.new(shape: EventFilterCondition, location_name: "eventFilter"))
     SessionFilter.struct_class = Types::SessionFilter
+
+    SessionFilterConfig.add_member(:start_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "startTime"))
+    SessionFilterConfig.add_member(:end_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "endTime"))
+    SessionFilterConfig.struct_class = Types::SessionFilterConfig
+
+    SessionMetadataList.member = Shapes::ShapeRef.new(shape: SessionMetadataShape)
+
+    SessionMetadataShape.add_member(:session_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "sessionId"))
+    SessionMetadataShape.add_member(:test_scenario_id, Shapes::ShapeRef.new(shape: String, location_name: "testScenarioId"))
+    SessionMetadataShape.add_member(:ground_truth, Shapes::ShapeRef.new(shape: GroundTruthSource, location_name: "groundTruth"))
+    SessionMetadataShape.add_member(:metadata, Shapes::ShapeRef.new(shape: StringMap, location_name: "metadata"))
+    SessionMetadataShape.struct_class = Types::SessionMetadataShape
 
     SessionSummary.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location_name: "sessionId"))
     SessionSummary.add_member(:actor_id, Shapes::ShapeRef.new(shape: ActorId, required: true, location_name: "actorId"))
@@ -1761,6 +2283,26 @@ module Aws::BedrockAgentCore
     SpanIds.member = Shapes::ShapeRef.new(shape: SpanId)
 
     Spans.member = Shapes::ShapeRef.new(shape: Span)
+
+    StartBatchEvaluationRequest.add_member(:batch_evaluation_name, Shapes::ShapeRef.new(shape: BatchEvaluationName, required: true, location_name: "batchEvaluationName"))
+    StartBatchEvaluationRequest.add_member(:evaluators, Shapes::ShapeRef.new(shape: StartBatchEvaluationRequestEvaluatorsList, location_name: "evaluators"))
+    StartBatchEvaluationRequest.add_member(:data_source_config, Shapes::ShapeRef.new(shape: DataSourceConfig, required: true, location_name: "dataSourceConfig"))
+    StartBatchEvaluationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    StartBatchEvaluationRequest.add_member(:evaluation_metadata, Shapes::ShapeRef.new(shape: EvaluationMetadata, location_name: "evaluationMetadata"))
+    StartBatchEvaluationRequest.add_member(:description, Shapes::ShapeRef.new(shape: BatchEvaluationDescription, location_name: "description"))
+    StartBatchEvaluationRequest.struct_class = Types::StartBatchEvaluationRequest
+
+    StartBatchEvaluationRequestEvaluatorsList.member = Shapes::ShapeRef.new(shape: Evaluator)
+
+    StartBatchEvaluationResponse.add_member(:batch_evaluation_id, Shapes::ShapeRef.new(shape: BatchEvaluationId, required: true, location_name: "batchEvaluationId"))
+    StartBatchEvaluationResponse.add_member(:batch_evaluation_arn, Shapes::ShapeRef.new(shape: BatchEvaluationArn, required: true, location_name: "batchEvaluationArn"))
+    StartBatchEvaluationResponse.add_member(:batch_evaluation_name, Shapes::ShapeRef.new(shape: BatchEvaluationName, required: true, location_name: "batchEvaluationName"))
+    StartBatchEvaluationResponse.add_member(:evaluators, Shapes::ShapeRef.new(shape: EvaluatorList, location_name: "evaluators"))
+    StartBatchEvaluationResponse.add_member(:status, Shapes::ShapeRef.new(shape: BatchEvaluationStatus, required: true, location_name: "status"))
+    StartBatchEvaluationResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
+    StartBatchEvaluationResponse.add_member(:output_config, Shapes::ShapeRef.new(shape: OutputConfig, location_name: "outputConfig"))
+    StartBatchEvaluationResponse.add_member(:description, Shapes::ShapeRef.new(shape: BatchEvaluationDescription, location_name: "description"))
+    StartBatchEvaluationResponse.struct_class = Types::StartBatchEvaluationResponse
 
     StartBrowserSessionRequest.add_member(:trace_id, Shapes::ShapeRef.new(shape: StartBrowserSessionRequestTraceIdString, location: "header", location_name: "X-Amzn-Trace-Id"))
     StartBrowserSessionRequest.add_member(:trace_parent, Shapes::ShapeRef.new(shape: StartBrowserSessionRequestTraceParentString, location: "header", location_name: "traceparent"))
@@ -1804,6 +2346,33 @@ module Aws::BedrockAgentCore
     StartMemoryExtractionJobOutput.add_member(:job_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "jobId"))
     StartMemoryExtractionJobOutput.struct_class = Types::StartMemoryExtractionJobOutput
 
+    StartRecommendationRequest.add_member(:name, Shapes::ShapeRef.new(shape: RecommendationName, required: true, location_name: "name"))
+    StartRecommendationRequest.add_member(:description, Shapes::ShapeRef.new(shape: RecommendationDescription, location_name: "description"))
+    StartRecommendationRequest.add_member(:type, Shapes::ShapeRef.new(shape: RecommendationType, required: true, location_name: "type"))
+    StartRecommendationRequest.add_member(:recommendation_config, Shapes::ShapeRef.new(shape: RecommendationConfig, required: true, location_name: "recommendationConfig"))
+    StartRecommendationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    StartRecommendationRequest.struct_class = Types::StartRecommendationRequest
+
+    StartRecommendationResponse.add_member(:recommendation_id, Shapes::ShapeRef.new(shape: RecommendationId, required: true, location_name: "recommendationId"))
+    StartRecommendationResponse.add_member(:recommendation_arn, Shapes::ShapeRef.new(shape: RecommendationArn, required: true, location_name: "recommendationArn"))
+    StartRecommendationResponse.add_member(:name, Shapes::ShapeRef.new(shape: RecommendationName, required: true, location_name: "name"))
+    StartRecommendationResponse.add_member(:description, Shapes::ShapeRef.new(shape: RecommendationDescription, location_name: "description"))
+    StartRecommendationResponse.add_member(:type, Shapes::ShapeRef.new(shape: RecommendationType, required: true, location_name: "type"))
+    StartRecommendationResponse.add_member(:recommendation_config, Shapes::ShapeRef.new(shape: RecommendationConfig, required: true, location_name: "recommendationConfig"))
+    StartRecommendationResponse.add_member(:status, Shapes::ShapeRef.new(shape: RecommendationStatus, required: true, location_name: "status"))
+    StartRecommendationResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
+    StartRecommendationResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "updatedAt"))
+    StartRecommendationResponse.struct_class = Types::StartRecommendationResponse
+
+    StopBatchEvaluationRequest.add_member(:batch_evaluation_id, Shapes::ShapeRef.new(shape: BatchEvaluationId, required: true, location: "uri", location_name: "batchEvaluationId"))
+    StopBatchEvaluationRequest.struct_class = Types::StopBatchEvaluationRequest
+
+    StopBatchEvaluationResponse.add_member(:batch_evaluation_id, Shapes::ShapeRef.new(shape: BatchEvaluationId, required: true, location_name: "batchEvaluationId"))
+    StopBatchEvaluationResponse.add_member(:batch_evaluation_arn, Shapes::ShapeRef.new(shape: BatchEvaluationArn, required: true, location_name: "batchEvaluationArn"))
+    StopBatchEvaluationResponse.add_member(:status, Shapes::ShapeRef.new(shape: BatchEvaluationStatus, required: true, location_name: "status"))
+    StopBatchEvaluationResponse.add_member(:description, Shapes::ShapeRef.new(shape: BatchEvaluationDescription, location_name: "description"))
+    StopBatchEvaluationResponse.struct_class = Types::StopBatchEvaluationResponse
+
     StopBrowserSessionRequest.add_member(:trace_id, Shapes::ShapeRef.new(shape: StopBrowserSessionRequestTraceIdString, location: "header", location_name: "X-Amzn-Trace-Id"))
     StopBrowserSessionRequest.add_member(:trace_parent, Shapes::ShapeRef.new(shape: StopBrowserSessionRequestTraceParentString, location: "header", location_name: "traceparent"))
     StopBrowserSessionRequest.add_member(:browser_identifier, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "browserIdentifier"))
@@ -1846,6 +2415,38 @@ module Aws::BedrockAgentCore
 
     StringList.member = Shapes::ShapeRef.new(shape: MaxLenString)
 
+    StringMap.key = Shapes::ShapeRef.new(shape: String)
+    StringMap.value = Shapes::ShapeRef.new(shape: String)
+
+    SystemPromptConfig.add_member(:text, Shapes::ShapeRef.new(shape: SystemPromptText, location_name: "text"))
+    SystemPromptConfig.add_member(:configuration_bundle, Shapes::ShapeRef.new(shape: SystemPromptConfigurationBundle, location_name: "configurationBundle"))
+    SystemPromptConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    SystemPromptConfig.add_member_subclass(:text, Types::SystemPromptConfig::Text)
+    SystemPromptConfig.add_member_subclass(:configuration_bundle, Types::SystemPromptConfig::ConfigurationBundle)
+    SystemPromptConfig.add_member_subclass(:unknown, Types::SystemPromptConfig::Unknown)
+    SystemPromptConfig.struct_class = Types::SystemPromptConfig
+
+    SystemPromptConfigurationBundle.add_member(:bundle_arn, Shapes::ShapeRef.new(shape: ConfigurationBundleArn, required: true, location_name: "bundleArn"))
+    SystemPromptConfigurationBundle.add_member(:version_id, Shapes::ShapeRef.new(shape: ConfigurationBundleVersionId, required: true, location_name: "versionId"))
+    SystemPromptConfigurationBundle.add_member(:system_prompt_json_path, Shapes::ShapeRef.new(shape: String, required: true, location_name: "systemPromptJsonPath"))
+    SystemPromptConfigurationBundle.struct_class = Types::SystemPromptConfigurationBundle
+
+    SystemPromptRecommendationConfig.add_member(:system_prompt, Shapes::ShapeRef.new(shape: SystemPromptConfig, required: true, location_name: "systemPrompt"))
+    SystemPromptRecommendationConfig.add_member(:agent_traces, Shapes::ShapeRef.new(shape: AgentTracesConfig, required: true, location_name: "agentTraces"))
+    SystemPromptRecommendationConfig.add_member(:evaluation_config, Shapes::ShapeRef.new(shape: RecommendationEvaluationConfig, required: true, location_name: "evaluationConfig"))
+    SystemPromptRecommendationConfig.struct_class = Types::SystemPromptRecommendationConfig
+
+    SystemPromptRecommendationResult.add_member(:recommended_system_prompt, Shapes::ShapeRef.new(shape: SystemPromptText, location_name: "recommendedSystemPrompt"))
+    SystemPromptRecommendationResult.add_member(:configuration_bundle, Shapes::ShapeRef.new(shape: RecommendationResultConfigurationBundle, location_name: "configurationBundle"))
+    SystemPromptRecommendationResult.add_member(:error_code, Shapes::ShapeRef.new(shape: RecommendationErrorCode, location_name: "errorCode"))
+    SystemPromptRecommendationResult.add_member(:error_message, Shapes::ShapeRef.new(shape: RecommendationErrorMessage, location_name: "errorMessage"))
+    SystemPromptRecommendationResult.struct_class = Types::SystemPromptRecommendationResult
+
+    TargetPathList.member = Shapes::ShapeRef.new(shape: PathPattern)
+
+    TargetRef.add_member(:name, Shapes::ShapeRef.new(shape: TargetName, required: true, location_name: "name"))
+    TargetRef.struct_class = Types::TargetRef
+
     ThrottledException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ThrottledException.struct_class = Types::ThrottledException
 
@@ -1869,6 +2470,50 @@ module Aws::BedrockAgentCore
     ToolArguments.add_member(:runtime, Shapes::ShapeRef.new(shape: LanguageRuntime, location_name: "runtime"))
     ToolArguments.struct_class = Types::ToolArguments
 
+    ToolDescriptionConfig.add_member(:text, Shapes::ShapeRef.new(shape: ToolDescriptionText, location_name: "text"))
+    ToolDescriptionConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    ToolDescriptionConfig.add_member_subclass(:text, Types::ToolDescriptionConfig::Text)
+    ToolDescriptionConfig.add_member_subclass(:unknown, Types::ToolDescriptionConfig::Unknown)
+    ToolDescriptionConfig.struct_class = Types::ToolDescriptionConfig
+
+    ToolDescriptionConfigurationBundle.add_member(:bundle_arn, Shapes::ShapeRef.new(shape: ConfigurationBundleArn, required: true, location_name: "bundleArn"))
+    ToolDescriptionConfigurationBundle.add_member(:version_id, Shapes::ShapeRef.new(shape: ConfigurationBundleVersionId, required: true, location_name: "versionId"))
+    ToolDescriptionConfigurationBundle.add_member(:tools, Shapes::ShapeRef.new(shape: ConfigurationBundleToolEntryList, required: true, location_name: "tools"))
+    ToolDescriptionConfigurationBundle.struct_class = Types::ToolDescriptionConfigurationBundle
+
+    ToolDescriptionInput.add_member(:tool_name, Shapes::ShapeRef.new(shape: RecommendationToolName, required: true, location_name: "toolName"))
+    ToolDescriptionInput.add_member(:tool_description, Shapes::ShapeRef.new(shape: ToolDescriptionConfig, required: true, location_name: "toolDescription"))
+    ToolDescriptionInput.struct_class = Types::ToolDescriptionInput
+
+    ToolDescriptionList.member = Shapes::ShapeRef.new(shape: ToolDescriptionInput)
+
+    ToolDescriptionOutput.add_member(:tool_name, Shapes::ShapeRef.new(shape: RecommendationToolName, required: true, location_name: "toolName"))
+    ToolDescriptionOutput.add_member(:recommended_tool_description, Shapes::ShapeRef.new(shape: ToolDescriptionText, location_name: "recommendedToolDescription"))
+    ToolDescriptionOutput.struct_class = Types::ToolDescriptionOutput
+
+    ToolDescriptionRecommendationConfig.add_member(:tool_description, Shapes::ShapeRef.new(shape: ToolDescriptionSource, required: true, location_name: "toolDescription"))
+    ToolDescriptionRecommendationConfig.add_member(:agent_traces, Shapes::ShapeRef.new(shape: AgentTracesConfig, required: true, location_name: "agentTraces"))
+    ToolDescriptionRecommendationConfig.struct_class = Types::ToolDescriptionRecommendationConfig
+
+    ToolDescriptionRecommendationResult.add_member(:tools, Shapes::ShapeRef.new(shape: ToolDescriptionResultList, location_name: "tools"))
+    ToolDescriptionRecommendationResult.add_member(:configuration_bundle, Shapes::ShapeRef.new(shape: RecommendationResultConfigurationBundle, location_name: "configurationBundle"))
+    ToolDescriptionRecommendationResult.add_member(:error_code, Shapes::ShapeRef.new(shape: RecommendationErrorCode, location_name: "errorCode"))
+    ToolDescriptionRecommendationResult.add_member(:error_message, Shapes::ShapeRef.new(shape: RecommendationErrorMessage, location_name: "errorMessage"))
+    ToolDescriptionRecommendationResult.struct_class = Types::ToolDescriptionRecommendationResult
+
+    ToolDescriptionResultList.member = Shapes::ShapeRef.new(shape: ToolDescriptionOutput)
+
+    ToolDescriptionSource.add_member(:tool_description_text, Shapes::ShapeRef.new(shape: ToolDescriptionTextInput, location_name: "toolDescriptionText"))
+    ToolDescriptionSource.add_member(:configuration_bundle, Shapes::ShapeRef.new(shape: ToolDescriptionConfigurationBundle, location_name: "configurationBundle"))
+    ToolDescriptionSource.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    ToolDescriptionSource.add_member_subclass(:tool_description_text, Types::ToolDescriptionSource::ToolDescriptionText)
+    ToolDescriptionSource.add_member_subclass(:configuration_bundle, Types::ToolDescriptionSource::ConfigurationBundle)
+    ToolDescriptionSource.add_member_subclass(:unknown, Types::ToolDescriptionSource::Unknown)
+    ToolDescriptionSource.struct_class = Types::ToolDescriptionSource
+
+    ToolDescriptionTextInput.add_member(:tools, Shapes::ShapeRef.new(shape: ToolDescriptionList, required: true, location_name: "tools"))
+    ToolDescriptionTextInput.struct_class = Types::ToolDescriptionTextInput
+
     ToolResultStructuredContent.add_member(:task_id, Shapes::ShapeRef.new(shape: String, location_name: "taskId"))
     ToolResultStructuredContent.add_member(:task_status, Shapes::ShapeRef.new(shape: TaskStatus, location_name: "taskStatus"))
     ToolResultStructuredContent.add_member(:stdout, Shapes::ShapeRef.new(shape: String, location_name: "stdout"))
@@ -1887,6 +2532,24 @@ module Aws::BedrockAgentCore
     UnauthorizedException.struct_class = Types::UnauthorizedException
 
     Unit.struct_class = Types::Unit
+
+    UpdateABTestRequest.add_member(:ab_test_id, Shapes::ShapeRef.new(shape: ABTestId, required: true, location: "uri", location_name: "abTestId"))
+    UpdateABTestRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    UpdateABTestRequest.add_member(:name, Shapes::ShapeRef.new(shape: ABTestName, location_name: "name"))
+    UpdateABTestRequest.add_member(:description, Shapes::ShapeRef.new(shape: ABTestDescription, location_name: "description"))
+    UpdateABTestRequest.add_member(:variants, Shapes::ShapeRef.new(shape: VariantList, location_name: "variants"))
+    UpdateABTestRequest.add_member(:gateway_filter, Shapes::ShapeRef.new(shape: GatewayFilter, location_name: "gatewayFilter"))
+    UpdateABTestRequest.add_member(:evaluation_config, Shapes::ShapeRef.new(shape: ABTestEvaluationConfig, location_name: "evaluationConfig"))
+    UpdateABTestRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "roleArn"))
+    UpdateABTestRequest.add_member(:execution_status, Shapes::ShapeRef.new(shape: ABTestExecutionStatus, location_name: "executionStatus"))
+    UpdateABTestRequest.struct_class = Types::UpdateABTestRequest
+
+    UpdateABTestResponse.add_member(:ab_test_id, Shapes::ShapeRef.new(shape: ABTestId, required: true, location_name: "abTestId"))
+    UpdateABTestResponse.add_member(:ab_test_arn, Shapes::ShapeRef.new(shape: ABTestArn, required: true, location_name: "abTestArn"))
+    UpdateABTestResponse.add_member(:status, Shapes::ShapeRef.new(shape: ABTestStatus, required: true, location_name: "status"))
+    UpdateABTestResponse.add_member(:execution_status, Shapes::ShapeRef.new(shape: ABTestExecutionStatus, required: true, location_name: "executionStatus"))
+    UpdateABTestResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    UpdateABTestResponse.struct_class = Types::UpdateABTestResponse
 
     UpdateBrowserStreamRequest.add_member(:browser_identifier, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "browserIdentifier"))
     UpdateBrowserStreamRequest.add_member(:session_id, Shapes::ShapeRef.new(shape: BrowserSessionId, required: true, location: "querystring", location_name: "sessionId"))
@@ -1918,6 +2581,29 @@ module Aws::BedrockAgentCore
     ValidationExceptionField.struct_class = Types::ValidationExceptionField
 
     ValidationExceptionFieldList.member = Shapes::ShapeRef.new(shape: ValidationExceptionField)
+
+    Variant.add_member(:name, Shapes::ShapeRef.new(shape: VariantName, required: true, location_name: "name"))
+    Variant.add_member(:weight, Shapes::ShapeRef.new(shape: VariantWeightInteger, required: true, location_name: "weight"))
+    Variant.add_member(:variant_configuration, Shapes::ShapeRef.new(shape: VariantConfiguration, required: true, location_name: "variantConfiguration"))
+    Variant.struct_class = Types::Variant
+
+    VariantConfiguration.add_member(:configuration_bundle, Shapes::ShapeRef.new(shape: ConfigurationBundleRef, location_name: "configurationBundle"))
+    VariantConfiguration.add_member(:target, Shapes::ShapeRef.new(shape: TargetRef, location_name: "target"))
+    VariantConfiguration.struct_class = Types::VariantConfiguration
+
+    VariantList.member = Shapes::ShapeRef.new(shape: Variant)
+
+    VariantResult.add_member(:variant_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "variantName"))
+    VariantResult.add_member(:sample_size, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "sampleSize"))
+    VariantResult.add_member(:mean, Shapes::ShapeRef.new(shape: Double, required: true, location_name: "mean"))
+    VariantResult.add_member(:absolute_change, Shapes::ShapeRef.new(shape: Double, location_name: "absoluteChange"))
+    VariantResult.add_member(:percent_change, Shapes::ShapeRef.new(shape: Double, location_name: "percentChange"))
+    VariantResult.add_member(:p_value, Shapes::ShapeRef.new(shape: Double, location_name: "pValue"))
+    VariantResult.add_member(:confidence_interval, Shapes::ShapeRef.new(shape: ConfidenceInterval, location_name: "confidenceInterval"))
+    VariantResult.add_member(:is_significant, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "isSignificant"))
+    VariantResult.struct_class = Types::VariantResult
+
+    VariantResultList.member = Shapes::ShapeRef.new(shape: VariantResult)
 
     ViewPort.add_member(:width, Shapes::ShapeRef.new(shape: ViewPortWidth, required: true, location_name: "width"))
     ViewPort.add_member(:height, Shapes::ShapeRef.new(shape: ViewPortHeight, required: true, location_name: "height"))
@@ -1998,6 +2684,21 @@ module Aws::BedrockAgentCore
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
+      api.add_operation(:create_ab_test, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateABTest"
+        o.http_method = "POST"
+        o.http_request_uri = "/ab-tests"
+        o.input = Shapes::ShapeRef.new(shape: CreateABTestRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateABTestResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:create_event, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateEvent"
         o.http_method = "POST"
@@ -2012,6 +2713,36 @@ module Aws::BedrockAgentCore
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:delete_ab_test, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteABTest"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/ab-tests/{abTestId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteABTestRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteABTestResponse)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:delete_batch_evaluation, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteBatchEvaluation"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/evaluations/batch-evaluate/{batchEvaluationId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteBatchEvaluationRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteBatchEvaluationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:delete_event, Seahorse::Model::Operation.new.tap do |o|
@@ -2044,6 +2775,20 @@ module Aws::BedrockAgentCore
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
+      api.add_operation(:delete_recommendation, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteRecommendation"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/recommendations/{recommendationId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteRecommendationRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteRecommendationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:evaluate, Seahorse::Model::Operation.new.tap do |o|
         o.name = "Evaluate"
         o.http_method = "POST"
@@ -2061,6 +2806,20 @@ module Aws::BedrockAgentCore
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
+      api.add_operation(:get_ab_test, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetABTest"
+        o.http_method = "GET"
+        o.http_request_uri = "/ab-tests/{abTestId}"
+        o.input = Shapes::ShapeRef.new(shape: GetABTestRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetABTestResponse)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:get_agent_card, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetAgentCard"
         o.http_method = "GET"
@@ -2071,6 +2830,20 @@ module Aws::BedrockAgentCore
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: RuntimeClientError)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:get_batch_evaluation, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetBatchEvaluation"
+        o.http_method = "GET"
+        o.http_request_uri = "/evaluations/batch-evaluate/{batchEvaluationId}"
+        o.input = Shapes::ShapeRef.new(shape: GetBatchEvaluationRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetBatchEvaluationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
@@ -2130,6 +2903,19 @@ module Aws::BedrockAgentCore
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:get_recommendation, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetRecommendation"
+        o.http_method = "GET"
+        o.http_request_uri = "/recommendations/{recommendationId}"
+        o.input = Shapes::ShapeRef.new(shape: GetRecommendationRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetRecommendationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:get_resource_api_key, Seahorse::Model::Operation.new.tap do |o|
@@ -2274,6 +3060,25 @@ module Aws::BedrockAgentCore
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
+      api.add_operation(:list_ab_tests, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListABTests"
+        o.http_method = "GET"
+        o.http_request_uri = "/ab-tests"
+        o.input = Shapes::ShapeRef.new(shape: ListABTestsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListABTestsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_actors, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListActors"
         o.http_method = "POST"
@@ -2287,6 +3092,25 @@ module Aws::BedrockAgentCore
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_batch_evaluations, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListBatchEvaluations"
+        o.http_method = "GET"
+        o.http_request_uri = "/evaluations/batch-evaluate"
+        o.input = Shapes::ShapeRef.new(shape: ListBatchEvaluationsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListBatchEvaluationsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -2383,6 +3207,24 @@ module Aws::BedrockAgentCore
         )
       end)
 
+      api.add_operation(:list_recommendations, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListRecommendations"
+        o.http_method = "GET"
+        o.http_request_uri = "/recommendations"
+        o.input = Shapes::ShapeRef.new(shape: ListRecommendationsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListRecommendationsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_sessions, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListSessions"
         o.http_method = "POST"
@@ -2453,6 +3295,21 @@ module Aws::BedrockAgentCore
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
+      api.add_operation(:start_batch_evaluation, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartBatchEvaluation"
+        o.http_method = "POST"
+        o.http_request_uri = "/evaluations/batch-evaluate"
+        o.input = Shapes::ShapeRef.new(shape: StartBatchEvaluationRequest)
+        o.output = Shapes::ShapeRef.new(shape: StartBatchEvaluationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:start_browser_session, Seahorse::Model::Operation.new.tap do |o|
         o.name = "StartBrowserSession"
         o.http_method = "PUT"
@@ -2497,6 +3354,35 @@ module Aws::BedrockAgentCore
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
+      api.add_operation(:start_recommendation, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartRecommendation"
+        o.http_method = "POST"
+        o.http_request_uri = "/recommendations"
+        o.input = Shapes::ShapeRef.new(shape: StartRecommendationRequest)
+        o.output = Shapes::ShapeRef.new(shape: StartRecommendationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:stop_batch_evaluation, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StopBatchEvaluation"
+        o.http_method = "POST"
+        o.http_request_uri = "/evaluations/batch-evaluate/{batchEvaluationId}/stop"
+        o.input = Shapes::ShapeRef.new(shape: StopBatchEvaluationRequest)
+        o.output = Shapes::ShapeRef.new(shape: StopBatchEvaluationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:stop_browser_session, Seahorse::Model::Operation.new.tap do |o|
         o.name = "StopBrowserSession"
         o.http_method = "PUT"
@@ -2539,6 +3425,22 @@ module Aws::BedrockAgentCore
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: RuntimeClientError)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:update_ab_test, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateABTest"
+        o.http_method = "PUT"
+        o.http_request_uri = "/ab-tests/{abTestId}"
+        o.input = Shapes::ShapeRef.new(shape: UpdateABTestRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateABTestResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)

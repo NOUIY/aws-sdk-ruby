@@ -515,7 +515,7 @@ module Aws
                                 accelerator_capabilities: {
                                   selections: Array[
                                     {
-                                      name: ("t4" | "a10g" | "l4" | "l40s"),
+                                      name: ("t4" | "a10g" | "l4" | "l40s" | "rtx-pro-server-6000"),
                                       runtime: ::String?
                                     },
                                   ],
@@ -2223,7 +2223,7 @@ module Aws
                                 accelerator_capabilities: {
                                   selections: Array[
                                     {
-                                      name: ("t4" | "a10g" | "l4" | "l40s"),
+                                      name: ("t4" | "a10g" | "l4" | "l40s" | "rtx-pro-server-6000"),
                                       runtime: ::String?
                                     },
                                   ],

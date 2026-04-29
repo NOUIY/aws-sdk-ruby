@@ -85,15 +85,15 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Account/Client.html#accept_primary_email_update-instance_method
       def accept_primary_email_update: (
                                          account_id: ::String,
-                                         otp: ::String,
-                                         primary_email: ::String
+                                         primary_email: ::String,
+                                         otp: ::String
                                        ) -> _AcceptPrimaryEmailUpdateResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AcceptPrimaryEmailUpdateResponseSuccess
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Account/Client.html#delete_alternate_contact-instance_method
       def delete_alternate_contact: (
-                                      ?account_id: ::String,
-                                      alternate_contact_type: ("BILLING" | "OPERATIONS" | "SECURITY")
+                                      alternate_contact_type: ("BILLING" | "OPERATIONS" | "SECURITY"),
+                                      ?account_id: ::String
                                     ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
@@ -113,9 +113,10 @@ module Aws
 
       interface _GetAccountInformationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetAccountInformationResponse]
-        def account_created_date: () -> ::Time
         def account_id: () -> ::String
         def account_name: () -> ::String
+        def account_created_date: () -> ::Time
+        def account_state: () -> ("PENDING_ACTIVATION" | "ACTIVE" | "SUSPENDED" | "CLOSED")
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Account/Client.html#get_account_information-instance_method
       def get_account_information: (
@@ -129,8 +130,8 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Account/Client.html#get_alternate_contact-instance_method
       def get_alternate_contact: (
-                                   ?account_id: ::String,
-                                   alternate_contact_type: ("BILLING" | "OPERATIONS" | "SECURITY")
+                                   alternate_contact_type: ("BILLING" | "OPERATIONS" | "SECURITY"),
+                                   ?account_id: ::String
                                  ) -> _GetAlternateContactResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetAlternateContactResponseSuccess
 
@@ -146,8 +147,8 @@ module Aws
 
       interface _GetGovCloudAccountInformationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetGovCloudAccountInformationResponse]
-        def account_state: () -> ("PENDING_ACTIVATION" | "ACTIVE" | "SUSPENDED" | "CLOSED")
         def gov_cloud_account_id: () -> ::String
+        def account_state: () -> ("PENDING_ACTIVATION" | "ACTIVE" | "SUSPENDED" | "CLOSED")
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Account/Client.html#get_gov_cloud_account_information-instance_method
       def get_gov_cloud_account_information: (
@@ -193,39 +194,39 @@ module Aws
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Account/Client.html#put_account_name-instance_method
       def put_account_name: (
-                              ?account_id: ::String,
-                              account_name: ::String
+                              account_name: ::String,
+                              ?account_id: ::String
                             ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Account/Client.html#put_alternate_contact-instance_method
       def put_alternate_contact: (
-                                   ?account_id: ::String,
-                                   alternate_contact_type: ("BILLING" | "OPERATIONS" | "SECURITY"),
-                                   email_address: ::String,
                                    name: ::String,
+                                   title: ::String,
+                                   email_address: ::String,
                                    phone_number: ::String,
-                                   title: ::String
+                                   alternate_contact_type: ("BILLING" | "OPERATIONS" | "SECURITY"),
+                                   ?account_id: ::String
                                  ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Account/Client.html#put_contact_information-instance_method
       def put_contact_information: (
-                                     ?account_id: ::String,
                                      contact_information: {
+                                       full_name: ::String,
                                        address_line_1: ::String,
                                        address_line_2: ::String?,
                                        address_line_3: ::String?,
                                        city: ::String,
-                                       company_name: ::String?,
-                                       country_code: ::String,
-                                       district_or_county: ::String?,
-                                       full_name: ::String,
-                                       phone_number: ::String,
-                                       postal_code: ::String,
                                        state_or_region: ::String?,
+                                       district_or_county: ::String?,
+                                       postal_code: ::String,
+                                       country_code: ::String,
+                                       phone_number: ::String,
+                                       company_name: ::String?,
                                        website_url: ::String?
-                                     }
+                                     },
+                                     ?account_id: ::String
                                    ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 

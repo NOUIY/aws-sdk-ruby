@@ -13,6 +13,39 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class ABTestEvaluationConfig
+      attr_accessor online_evaluation_config_arn: ::String
+      attr_accessor per_variant_online_evaluation_config: ::Array[Types::PerVariantOnlineEvaluationConfig]
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class OnlineEvaluationConfigArn < ABTestEvaluationConfig
+      end
+      class PerVariantOnlineEvaluationConfig < ABTestEvaluationConfig
+      end
+      class Unknown < ABTestEvaluationConfig
+      end
+    end
+
+    class ABTestResults
+      attr_accessor analysis_timestamp: ::Time
+      attr_accessor evaluator_metrics: ::Array[Types::EvaluatorMetric]
+      SENSITIVE: []
+    end
+
+    class ABTestSummary
+      attr_accessor ab_test_id: ::String
+      attr_accessor ab_test_arn: ::String
+      attr_accessor name: ::String
+      attr_accessor status: ("CREATING" | "ACTIVE" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "FAILED")
+      attr_accessor execution_status: ("PAUSED" | "RUNNING" | "STOPPED" | "NOT_STARTED")
+      attr_accessor description: ::String
+      attr_accessor gateway_arn: ::String
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
     class AccessDeniedException
       attr_accessor message: ::String
       attr_accessor event_type: untyped
@@ -34,6 +67,20 @@ module Aws::BedrockAgentCore
       attr_accessor skill_md: Types::SkillMdDefinition
       attr_accessor skill_definition: Types::SkillDefinition
       SENSITIVE: []
+    end
+
+    class AgentTracesConfig
+      attr_accessor session_spans: ::Array[untyped]
+      attr_accessor cloudwatch_logs: Types::CloudWatchLogsTraceConfig
+      attr_accessor unknown: untyped
+      SENSITIVE: [:session_spans]
+
+      class SessionSpans < AgentTracesConfig
+      end
+      class CloudwatchLogs < AgentTracesConfig
+      end
+      class Unknown < AgentTracesConfig
+      end
     end
 
     class AutomationStream
@@ -74,6 +121,20 @@ module Aws::BedrockAgentCore
     class BatchDeleteMemoryRecordsOutput
       attr_accessor successful_records: ::Array[Types::MemoryRecordOutput]
       attr_accessor failed_records: ::Array[Types::MemoryRecordOutput]
+      SENSITIVE: []
+    end
+
+    class BatchEvaluationSummary
+      attr_accessor batch_evaluation_id: ::String
+      attr_accessor batch_evaluation_arn: ::String
+      attr_accessor batch_evaluation_name: ::String
+      attr_accessor status: ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "COMPLETED_WITH_ERRORS" | "FAILED" | "STOPPING" | "STOPPED" | "DELETING")
+      attr_accessor created_at: ::Time
+      attr_accessor description: ::String
+      attr_accessor evaluators: ::Array[Types::Evaluator]
+      attr_accessor evaluation_results: Types::EvaluationJobResults
+      attr_accessor error_details: ::Array[::String]
+      attr_accessor updated_at: ::Time
       SENSITIVE: []
     end
 
@@ -213,6 +274,46 @@ module Aws::BedrockAgentCore
       end
     end
 
+    class CloudWatchFilterConfig
+      attr_accessor session_ids: ::Array[::String]
+      attr_accessor time_range: Types::SessionFilterConfig
+      SENSITIVE: []
+    end
+
+    class CloudWatchLogsFilter
+      attr_accessor key: ::String
+      attr_accessor operator: ("Equals" | "NotEquals" | "GreaterThan" | "LessThan" | "GreaterThanOrEqual" | "LessThanOrEqual" | "Contains" | "NotContains")
+      attr_accessor value: Types::FilterValue
+      SENSITIVE: []
+    end
+
+    class CloudWatchLogsRule
+      attr_accessor filters: ::Array[Types::CloudWatchLogsFilter]
+      SENSITIVE: []
+    end
+
+    class CloudWatchLogsSource
+      attr_accessor service_names: ::Array[::String]
+      attr_accessor log_group_names: ::Array[::String]
+      attr_accessor filter_config: Types::CloudWatchFilterConfig
+      SENSITIVE: []
+    end
+
+    class CloudWatchLogsTraceConfig
+      attr_accessor log_group_arns: ::Array[::String]
+      attr_accessor service_names: ::Array[::String]
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor rule: Types::CloudWatchLogsRule
+      SENSITIVE: []
+    end
+
+    class CloudWatchOutputConfig
+      attr_accessor log_group_name: ::String
+      attr_accessor log_stream_name: ::String
+      SENSITIVE: []
+    end
+
     class CodeInterpreterResult
       attr_accessor content: ::Array[Types::ContentBlock]
       attr_accessor structured_content: Types::ToolResultStructuredContent
@@ -238,6 +339,24 @@ module Aws::BedrockAgentCore
     end
 
     class CompleteResourceTokenAuthResponse < Aws::EmptyStructure
+    end
+
+    class ConfidenceInterval
+      attr_accessor lower: ::Float
+      attr_accessor upper: ::Float
+      SENSITIVE: []
+    end
+
+    class ConfigurationBundleRef
+      attr_accessor bundle_arn: ::String
+      attr_accessor bundle_version: ::String
+      SENSITIVE: []
+    end
+
+    class ConfigurationBundleToolEntry
+      attr_accessor tool_name: ::String
+      attr_accessor tool_description_json_path: ::String
+      SENSITIVE: []
     end
 
     class ConflictException
@@ -296,9 +415,39 @@ module Aws::BedrockAgentCore
       end
     end
 
+    class ControlStats
+      attr_accessor variant_name: ::String
+      attr_accessor sample_size: ::Integer
+      attr_accessor mean: ::Float
+      SENSITIVE: []
+    end
+
     class Conversational
       attr_accessor content: Types::Content
       attr_accessor role: ("ASSISTANT" | "USER" | "TOOL" | "OTHER")
+      SENSITIVE: []
+    end
+
+    class CreateABTestRequest
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor gateway_arn: ::String
+      attr_accessor variants: ::Array[Types::Variant]
+      attr_accessor gateway_filter: Types::GatewayFilter
+      attr_accessor evaluation_config: Types::ABTestEvaluationConfig
+      attr_accessor role_arn: ::String
+      attr_accessor enable_on_create: bool
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class CreateABTestResponse
+      attr_accessor ab_test_id: ::String
+      attr_accessor ab_test_arn: ::String
+      attr_accessor name: ::String
+      attr_accessor status: ("CREATING" | "ACTIVE" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "FAILED")
+      attr_accessor execution_status: ("PAUSED" | "RUNNING" | "STOPPED" | "NOT_STARTED")
+      attr_accessor created_at: ::Time
       SENSITIVE: []
     end
 
@@ -324,6 +473,41 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class DataSourceConfig
+      attr_accessor cloud_watch_logs: Types::CloudWatchLogsSource
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class CloudWatchLogs < DataSourceConfig
+      end
+      class Unknown < DataSourceConfig
+      end
+    end
+
+    class DeleteABTestRequest
+      attr_accessor ab_test_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteABTestResponse
+      attr_accessor ab_test_id: ::String
+      attr_accessor ab_test_arn: ::String
+      attr_accessor status: ("CREATING" | "ACTIVE" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "FAILED")
+      SENSITIVE: []
+    end
+
+    class DeleteBatchEvaluationRequest
+      attr_accessor batch_evaluation_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteBatchEvaluationResponse
+      attr_accessor batch_evaluation_id: ::String
+      attr_accessor batch_evaluation_arn: ::String
+      attr_accessor status: ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "COMPLETED_WITH_ERRORS" | "FAILED" | "STOPPING" | "STOPPED" | "DELETING")
+      SENSITIVE: []
+    end
+
     class DeleteEventInput
       attr_accessor memory_id: ::String
       attr_accessor session_id: ::String
@@ -345,6 +529,17 @@ module Aws::BedrockAgentCore
 
     class DeleteMemoryRecordOutput
       attr_accessor memory_record_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteRecommendationRequest
+      attr_accessor recommendation_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteRecommendationResponse
+      attr_accessor recommendation_id: ::String
+      attr_accessor status: ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | "DELETING")
       SENSITIVE: []
     end
 
@@ -401,6 +596,27 @@ module Aws::BedrockAgentCore
       end
     end
 
+    class EvaluationJobResults
+      attr_accessor number_of_sessions_completed: ::Integer
+      attr_accessor number_of_sessions_in_progress: ::Integer
+      attr_accessor number_of_sessions_failed: ::Integer
+      attr_accessor total_number_of_sessions: ::Integer
+      attr_accessor number_of_sessions_ignored: ::Integer
+      attr_accessor evaluator_summaries: ::Array[Types::EvaluatorSummary]
+      SENSITIVE: []
+    end
+
+    class EvaluationMetadata
+      attr_accessor session_metadata: ::Array[Types::SessionMetadataShape]
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class SessionMetadata < EvaluationMetadata
+      end
+      class Unknown < EvaluationMetadata
+      end
+    end
+
     class EvaluationReferenceInput
       attr_accessor context: Types::Context
       attr_accessor expected_response: Types::EvaluationContent
@@ -436,6 +652,31 @@ module Aws::BedrockAgentCore
       end
       class Unknown < EvaluationTarget
       end
+    end
+
+    class Evaluator
+      attr_accessor evaluator_id: ::String
+      SENSITIVE: []
+    end
+
+    class EvaluatorMetric
+      attr_accessor evaluator_arn: ::String
+      attr_accessor control_stats: Types::ControlStats
+      attr_accessor variant_results: ::Array[Types::VariantResult]
+      SENSITIVE: []
+    end
+
+    class EvaluatorStatistics
+      attr_accessor average_score: ::Float
+      SENSITIVE: []
+    end
+
+    class EvaluatorSummary
+      attr_accessor evaluator_id: ::String
+      attr_accessor statistics: Types::EvaluatorStatistics
+      attr_accessor total_evaluated: ::Integer
+      attr_accessor total_failed: ::Integer
+      SENSITIVE: []
     end
 
     class Event
@@ -506,6 +747,56 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class FilterValue
+      attr_accessor string_value: ::String
+      attr_accessor double_value: ::Float
+      attr_accessor boolean_value: bool
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class StringValue < FilterValue
+      end
+      class DoubleValue < FilterValue
+      end
+      class BooleanValue < FilterValue
+      end
+      class Unknown < FilterValue
+      end
+    end
+
+    class GatewayFilter
+      attr_accessor target_paths: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class GetABTestRequest
+      attr_accessor ab_test_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetABTestResponse
+      attr_accessor ab_test_id: ::String
+      attr_accessor ab_test_arn: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor status: ("CREATING" | "ACTIVE" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "FAILED")
+      attr_accessor execution_status: ("PAUSED" | "RUNNING" | "STOPPED" | "NOT_STARTED")
+      attr_accessor gateway_arn: ::String
+      attr_accessor variants: ::Array[Types::Variant]
+      attr_accessor gateway_filter: Types::GatewayFilter
+      attr_accessor evaluation_config: Types::ABTestEvaluationConfig
+      attr_accessor role_arn: ::String
+      attr_accessor current_run_id: ::String
+      attr_accessor error_details: ::Array[::String]
+      attr_accessor started_at: ::Time
+      attr_accessor stopped_at: ::Time
+      attr_accessor max_duration_expires_at: ::Time
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      attr_accessor results: Types::ABTestResults
+      SENSITIVE: []
+    end
+
     class GetAgentCardRequest
       attr_accessor runtime_session_id: ::String
       attr_accessor agent_runtime_arn: ::String
@@ -517,6 +808,27 @@ module Aws::BedrockAgentCore
       attr_accessor runtime_session_id: ::String
       attr_accessor agent_card: untyped
       attr_accessor status_code: ::Integer
+      SENSITIVE: []
+    end
+
+    class GetBatchEvaluationRequest
+      attr_accessor batch_evaluation_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetBatchEvaluationResponse
+      attr_accessor batch_evaluation_id: ::String
+      attr_accessor batch_evaluation_arn: ::String
+      attr_accessor batch_evaluation_name: ::String
+      attr_accessor status: ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "COMPLETED_WITH_ERRORS" | "FAILED" | "STOPPING" | "STOPPED" | "DELETING")
+      attr_accessor created_at: ::Time
+      attr_accessor evaluators: ::Array[Types::Evaluator]
+      attr_accessor data_source_config: Types::DataSourceConfig
+      attr_accessor output_config: Types::OutputConfig
+      attr_accessor evaluation_results: Types::EvaluationJobResults
+      attr_accessor error_details: ::Array[::String]
+      attr_accessor description: ::String
+      attr_accessor updated_at: ::Time
       SENSITIVE: []
     end
 
@@ -586,6 +898,25 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class GetRecommendationRequest
+      attr_accessor recommendation_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetRecommendationResponse
+      attr_accessor recommendation_id: ::String
+      attr_accessor recommendation_arn: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor type: ("SYSTEM_PROMPT_RECOMMENDATION" | "TOOL_DESCRIPTION_RECOMMENDATION")
+      attr_accessor recommendation_config: Types::RecommendationConfig
+      attr_accessor status: ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | "DELETING")
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      attr_accessor recommendation_result: Types::RecommendationResult
+      SENSITIVE: []
+    end
+
     class GetResourceApiKeyRequest
       attr_accessor workload_identity_token: ::String
       attr_accessor resource_credential_provider_name: ::String
@@ -648,6 +979,34 @@ module Aws::BedrockAgentCore
     class GetWorkloadAccessTokenResponse
       attr_accessor workload_access_token: ::String
       SENSITIVE: [:workload_access_token]
+    end
+
+    class GroundTruthSource
+      attr_accessor inline: Types::InlineGroundTruth
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Inline < GroundTruthSource
+      end
+      class Unknown < GroundTruthSource
+      end
+    end
+
+    class GroundTruthTurn
+      attr_accessor input: Types::GroundTruthTurnInput
+      attr_accessor expected_response: Types::EvaluationContent
+      SENSITIVE: []
+    end
+
+    class GroundTruthTurnInput
+      attr_accessor prompt: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Prompt < GroundTruthTurnInput
+      end
+      class Unknown < GroundTruthTurnInput
+      end
     end
 
     class HarnessAgentCoreBrowserConfig
@@ -1005,6 +1364,13 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class InlineGroundTruth
+      attr_accessor assertions: ::Array[Types::EvaluationContent]
+      attr_accessor expected_trajectory: Types::EvaluationExpectedTrajectory
+      attr_accessor turns: ::Array[Types::GroundTruthTurn]
+      SENSITIVE: []
+    end
+
     class InputContentBlock
       attr_accessor path: ::String
       attr_accessor text: ::String
@@ -1183,6 +1549,18 @@ module Aws::BedrockAgentCore
       end
     end
 
+    class ListABTestsRequest
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListABTestsResponse
+      attr_accessor ab_tests: ::Array[Types::ABTestSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListActorsInput
       attr_accessor memory_id: ::String
       attr_accessor max_results: ::Integer
@@ -1192,6 +1570,18 @@ module Aws::BedrockAgentCore
 
     class ListActorsOutput
       attr_accessor actor_summaries: ::Array[Types::ActorSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListBatchEvaluationsRequest
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListBatchEvaluationsResponse
+      attr_accessor batch_evaluations: ::Array[Types::BatchEvaluationSummary]
       attr_accessor next_token: ::String
       SENSITIVE: []
     end
@@ -1267,6 +1657,19 @@ module Aws::BedrockAgentCore
 
     class ListMemoryRecordsOutput
       attr_accessor memory_record_summaries: ::Array[Types::MemoryRecordSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListRecommendationsRequest
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      attr_accessor status_filter: ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | "DELETING")
+      SENSITIVE: []
+    end
+
+    class ListRecommendationsResponse
+      attr_accessor recommendation_summaries: ::Array[Types::RecommendationSummary]
       attr_accessor next_token: ::String
       SENSITIVE: []
     end
@@ -1449,6 +1852,17 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class OutputConfig
+      attr_accessor cloud_watch_config: Types::CloudWatchOutputConfig
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class CloudWatchConfig < OutputConfig
+      end
+      class Unknown < OutputConfig
+      end
+    end
+
     class PayloadType
       attr_accessor conversational: Types::Conversational
       attr_accessor blob: untyped
@@ -1461,6 +1875,12 @@ module Aws::BedrockAgentCore
       end
       class Unknown < PayloadType
       end
+    end
+
+    class PerVariantOnlineEvaluationConfig
+      attr_accessor name: ::String
+      attr_accessor online_evaluation_config_arn: ::String
+      SENSITIVE: []
     end
 
     class Proxy
@@ -1494,6 +1914,62 @@ module Aws::BedrockAgentCore
       end
       class Unknown < ProxyCredentials
       end
+    end
+
+    class RecommendationConfig
+      attr_accessor system_prompt_recommendation_config: Types::SystemPromptRecommendationConfig
+      attr_accessor tool_description_recommendation_config: Types::ToolDescriptionRecommendationConfig
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class SystemPromptRecommendationConfig < RecommendationConfig
+      end
+      class ToolDescriptionRecommendationConfig < RecommendationConfig
+      end
+      class Unknown < RecommendationConfig
+      end
+    end
+
+    class RecommendationEvaluationConfig
+      attr_accessor evaluators: ::Array[Types::RecommendationEvaluatorReference]
+      SENSITIVE: []
+    end
+
+    class RecommendationEvaluatorReference
+      attr_accessor evaluator_arn: ::String
+      SENSITIVE: []
+    end
+
+    class RecommendationResult
+      attr_accessor system_prompt_recommendation_result: Types::SystemPromptRecommendationResult
+      attr_accessor tool_description_recommendation_result: Types::ToolDescriptionRecommendationResult
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class SystemPromptRecommendationResult < RecommendationResult
+      end
+      class ToolDescriptionRecommendationResult < RecommendationResult
+      end
+      class Unknown < RecommendationResult
+      end
+    end
+
+    class RecommendationResultConfigurationBundle
+      attr_accessor bundle_arn: ::String
+      attr_accessor version_id: ::String
+      SENSITIVE: []
+    end
+
+    class RecommendationSummary
+      attr_accessor recommendation_id: ::String
+      attr_accessor recommendation_arn: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor type: ("SYSTEM_PROMPT_RECOMMENDATION" | "TOOL_DESCRIPTION_RECOMMENDATION")
+      attr_accessor status: ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | "DELETING")
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
     end
 
     class RegistryRecordSummary
@@ -1668,6 +2144,20 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class SessionFilterConfig
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      SENSITIVE: []
+    end
+
+    class SessionMetadataShape
+      attr_accessor session_id: ::String
+      attr_accessor test_scenario_id: ::String
+      attr_accessor ground_truth: Types::GroundTruthSource
+      attr_accessor metadata: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
     class SessionSummary
       attr_accessor session_id: ::String
       attr_accessor actor_id: ::String
@@ -1690,6 +2180,28 @@ module Aws::BedrockAgentCore
       attr_accessor session_id: ::String
       attr_accessor trace_id: ::String
       attr_accessor span_id: ::String
+      SENSITIVE: []
+    end
+
+    class StartBatchEvaluationRequest
+      attr_accessor batch_evaluation_name: ::String
+      attr_accessor evaluators: ::Array[Types::Evaluator]
+      attr_accessor data_source_config: Types::DataSourceConfig
+      attr_accessor client_token: ::String
+      attr_accessor evaluation_metadata: Types::EvaluationMetadata
+      attr_accessor description: ::String
+      SENSITIVE: []
+    end
+
+    class StartBatchEvaluationResponse
+      attr_accessor batch_evaluation_id: ::String
+      attr_accessor batch_evaluation_arn: ::String
+      attr_accessor batch_evaluation_name: ::String
+      attr_accessor evaluators: ::Array[Types::Evaluator]
+      attr_accessor status: ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "COMPLETED_WITH_ERRORS" | "FAILED" | "STOPPING" | "STOPPED" | "DELETING")
+      attr_accessor created_at: ::Time
+      attr_accessor output_config: Types::OutputConfig
+      attr_accessor description: ::String
       SENSITIVE: []
     end
 
@@ -1744,6 +2256,41 @@ module Aws::BedrockAgentCore
 
     class StartMemoryExtractionJobOutput
       attr_accessor job_id: ::String
+      SENSITIVE: []
+    end
+
+    class StartRecommendationRequest
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor type: ("SYSTEM_PROMPT_RECOMMENDATION" | "TOOL_DESCRIPTION_RECOMMENDATION")
+      attr_accessor recommendation_config: Types::RecommendationConfig
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class StartRecommendationResponse
+      attr_accessor recommendation_id: ::String
+      attr_accessor recommendation_arn: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor type: ("SYSTEM_PROMPT_RECOMMENDATION" | "TOOL_DESCRIPTION_RECOMMENDATION")
+      attr_accessor recommendation_config: Types::RecommendationConfig
+      attr_accessor status: ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | "DELETING")
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
+    class StopBatchEvaluationRequest
+      attr_accessor batch_evaluation_id: ::String
+      SENSITIVE: []
+    end
+
+    class StopBatchEvaluationResponse
+      attr_accessor batch_evaluation_id: ::String
+      attr_accessor batch_evaluation_arn: ::String
+      attr_accessor status: ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "COMPLETED_WITH_ERRORS" | "FAILED" | "STOPPING" | "STOPPED" | "DELETING")
+      attr_accessor description: ::String
       SENSITIVE: []
     end
 
@@ -1804,6 +2351,47 @@ module Aws::BedrockAgentCore
       end
     end
 
+    class SystemPromptConfig
+      attr_accessor text: ::String
+      attr_accessor configuration_bundle: Types::SystemPromptConfigurationBundle
+      attr_accessor unknown: untyped
+      SENSITIVE: [:text]
+
+      class Text < SystemPromptConfig
+      end
+      class ConfigurationBundle < SystemPromptConfig
+      end
+      class Unknown < SystemPromptConfig
+      end
+    end
+
+    class SystemPromptConfigurationBundle
+      attr_accessor bundle_arn: ::String
+      attr_accessor version_id: ::String
+      attr_accessor system_prompt_json_path: ::String
+      SENSITIVE: []
+    end
+
+    class SystemPromptRecommendationConfig
+      attr_accessor system_prompt: Types::SystemPromptConfig
+      attr_accessor agent_traces: Types::AgentTracesConfig
+      attr_accessor evaluation_config: Types::RecommendationEvaluationConfig
+      SENSITIVE: []
+    end
+
+    class SystemPromptRecommendationResult
+      attr_accessor recommended_system_prompt: ::String
+      attr_accessor configuration_bundle: Types::RecommendationResultConfigurationBundle
+      attr_accessor error_code: ::String
+      attr_accessor error_message: ::String
+      SENSITIVE: [:recommended_system_prompt]
+    end
+
+    class TargetRef
+      attr_accessor name: ::String
+      SENSITIVE: []
+    end
+
     class ThrottledException
       attr_accessor message: ::String
       SENSITIVE: []
@@ -1836,6 +2424,69 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class ToolDescriptionConfig
+      attr_accessor text: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: [:text]
+
+      class Text < ToolDescriptionConfig
+      end
+      class Unknown < ToolDescriptionConfig
+      end
+    end
+
+    class ToolDescriptionConfigurationBundle
+      attr_accessor bundle_arn: ::String
+      attr_accessor version_id: ::String
+      attr_accessor tools: ::Array[Types::ConfigurationBundleToolEntry]
+      SENSITIVE: []
+    end
+
+    class ToolDescriptionInput
+      attr_accessor tool_name: ::String
+      attr_accessor tool_description: Types::ToolDescriptionConfig
+      SENSITIVE: []
+    end
+
+    class ToolDescriptionOutput
+      attr_accessor tool_name: ::String
+      attr_accessor recommended_tool_description: ::String
+      SENSITIVE: [:recommended_tool_description]
+    end
+
+    class ToolDescriptionRecommendationConfig
+      attr_accessor tool_description: Types::ToolDescriptionSource
+      attr_accessor agent_traces: Types::AgentTracesConfig
+      SENSITIVE: []
+    end
+
+    class ToolDescriptionRecommendationResult
+      attr_accessor tools: ::Array[Types::ToolDescriptionOutput]
+      attr_accessor configuration_bundle: Types::RecommendationResultConfigurationBundle
+      attr_accessor error_code: ::String
+      attr_accessor error_message: ::String
+      SENSITIVE: []
+    end
+
+    class ToolDescriptionSource
+      attr_accessor tool_description_text: Types::ToolDescriptionTextInput
+      attr_accessor configuration_bundle: Types::ToolDescriptionConfigurationBundle
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class ToolDescriptionText < ToolDescriptionSource
+      end
+      class ConfigurationBundle < ToolDescriptionSource
+      end
+      class Unknown < ToolDescriptionSource
+      end
+    end
+
+    class ToolDescriptionTextInput
+      attr_accessor tools: ::Array[Types::ToolDescriptionInput]
+      SENSITIVE: []
+    end
+
     class ToolResultStructuredContent
       attr_accessor task_id: ::String
       attr_accessor task_status: ("submitted" | "working" | "completed" | "canceled" | "failed")
@@ -1858,6 +2509,28 @@ module Aws::BedrockAgentCore
     end
 
     class Unit < Aws::EmptyStructure
+    end
+
+    class UpdateABTestRequest
+      attr_accessor ab_test_id: ::String
+      attr_accessor client_token: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor variants: ::Array[Types::Variant]
+      attr_accessor gateway_filter: Types::GatewayFilter
+      attr_accessor evaluation_config: Types::ABTestEvaluationConfig
+      attr_accessor role_arn: ::String
+      attr_accessor execution_status: ("PAUSED" | "RUNNING" | "STOPPED" | "NOT_STARTED")
+      SENSITIVE: []
+    end
+
+    class UpdateABTestResponse
+      attr_accessor ab_test_id: ::String
+      attr_accessor ab_test_arn: ::String
+      attr_accessor status: ("CREATING" | "ACTIVE" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "FAILED")
+      attr_accessor execution_status: ("PAUSED" | "RUNNING" | "STOPPED" | "NOT_STARTED")
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
     end
 
     class UpdateBrowserStreamRequest
@@ -1901,6 +2574,31 @@ module Aws::BedrockAgentCore
     class ValidationExceptionField
       attr_accessor name: ::String
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class Variant
+      attr_accessor name: ::String
+      attr_accessor weight: ::Integer
+      attr_accessor variant_configuration: Types::VariantConfiguration
+      SENSITIVE: []
+    end
+
+    class VariantConfiguration
+      attr_accessor configuration_bundle: Types::ConfigurationBundleRef
+      attr_accessor target: Types::TargetRef
+      SENSITIVE: []
+    end
+
+    class VariantResult
+      attr_accessor variant_name: ::String
+      attr_accessor sample_size: ::Integer
+      attr_accessor mean: ::Float
+      attr_accessor absolute_change: ::Float
+      attr_accessor percent_change: ::Float
+      attr_accessor p_value: ::Float
+      attr_accessor confidence_interval: Types::ConfidenceInterval
+      attr_accessor is_significant: bool
       SENSITIVE: []
     end
 

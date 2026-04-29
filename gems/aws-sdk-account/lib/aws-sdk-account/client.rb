@@ -506,14 +506,14 @@ module Aws::Account
     #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html
     #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin
     #
-    # @option params [required, String] :otp
-    #   The OTP code sent to the `PrimaryEmail` specified on the
-    #   `StartPrimaryEmailUpdate` API call.
-    #
     # @option params [required, String] :primary_email
     #   The new primary email address for use with the specified account. This
     #   must match the `PrimaryEmail` from the `StartPrimaryEmailUpdate` API
     #   call.
+    #
+    # @option params [required, String] :otp
+    #   The OTP code sent to the `PrimaryEmail` specified on the
+    #   `StartPrimaryEmailUpdate` API call.
     #
     # @return [Types::AcceptPrimaryEmailUpdateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -523,8 +523,8 @@ module Aws::Account
     #
     #   resp = client.accept_primary_email_update({
     #     account_id: "AccountId", # required
-    #     otp: "Otp", # required
     #     primary_email: "PrimaryEmailAddress", # required
+    #     otp: "Otp", # required
     #   })
     #
     # @example Response structure
@@ -560,6 +560,9 @@ module Aws::Account
     # [1]: https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-alternate.html
     # [2]: https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html
     #
+    # @option params [required, String] :alternate_contact_type
+    #   Specifies which of the alternate contacts to delete.
+    #
     # @option params [String] :account_id
     #   Specifies the 12 digit account ID number of the Amazon Web Services
     #   account that you want to access or modify with this operation.
@@ -593,16 +596,13 @@ module Aws::Account
     #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html
     #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin
     #
-    # @option params [required, String] :alternate_contact_type
-    #   Specifies which of the alternate contacts to delete.
-    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.delete_alternate_contact({
-    #     account_id: "AccountId",
     #     alternate_contact_type: "BILLING", # required, accepts BILLING, OPERATIONS, SECURITY
+    #     account_id: "AccountId",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/DeleteAlternateContact AWS API Documentation
@@ -739,8 +739,8 @@ module Aws::Account
     end
 
     # Retrieves information about the specified account including its
-    # account name, account ID, and account creation date and time. To use
-    # this API, an IAM user or role must have the
+    # account name, account ID, account creation date and time, and account
+    # state. To use this API, an IAM user or role must have the
     # `account:GetAccountInformation` IAM permission.
     #
     # @option params [String] :account_id
@@ -778,9 +778,10 @@ module Aws::Account
     #
     # @return [Types::GetAccountInformationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
-    #   * {Types::GetAccountInformationResponse#account_created_date #account_created_date} => Time
     #   * {Types::GetAccountInformationResponse#account_id #account_id} => String
     #   * {Types::GetAccountInformationResponse#account_name #account_name} => String
+    #   * {Types::GetAccountInformationResponse#account_created_date #account_created_date} => Time
+    #   * {Types::GetAccountInformationResponse#account_state #account_state} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -790,9 +791,10 @@ module Aws::Account
     #
     # @example Response structure
     #
-    #   resp.account_created_date #=> Time
     #   resp.account_id #=> String
     #   resp.account_name #=> String
+    #   resp.account_created_date #=> Time
+    #   resp.account_state #=> String, one of "PENDING_ACTIVATION", "ACTIVE", "SUSPENDED", "CLOSED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/GetAccountInformation AWS API Documentation
     #
@@ -822,6 +824,9 @@ module Aws::Account
     #
     # [1]: https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-alternate.html
     # [2]: https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html
+    #
+    # @option params [required, String] :alternate_contact_type
+    #   Specifies which alternate contact you want to retrieve.
     #
     # @option params [String] :account_id
     #   Specifies the 12 digit account ID number of the Amazon Web Services
@@ -856,9 +861,6 @@ module Aws::Account
     #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html
     #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin
     #
-    # @option params [required, String] :alternate_contact_type
-    #   Specifies which alternate contact you want to retrieve.
-    #
     # @return [Types::GetAlternateContactResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetAlternateContactResponse#alternate_contact #alternate_contact} => Types::AlternateContact
@@ -866,17 +868,17 @@ module Aws::Account
     # @example Request syntax with placeholder values
     #
     #   resp = client.get_alternate_contact({
-    #     account_id: "AccountId",
     #     alternate_contact_type: "BILLING", # required, accepts BILLING, OPERATIONS, SECURITY
+    #     account_id: "AccountId",
     #   })
     #
     # @example Response structure
     #
-    #   resp.alternate_contact.alternate_contact_type #=> String, one of "BILLING", "OPERATIONS", "SECURITY"
-    #   resp.alternate_contact.email_address #=> String
     #   resp.alternate_contact.name #=> String
-    #   resp.alternate_contact.phone_number #=> String
     #   resp.alternate_contact.title #=> String
+    #   resp.alternate_contact.email_address #=> String
+    #   resp.alternate_contact.phone_number #=> String
+    #   resp.alternate_contact.alternate_contact_type #=> String, one of "BILLING", "OPERATIONS", "SECURITY"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/GetAlternateContact AWS API Documentation
     #
@@ -941,17 +943,17 @@ module Aws::Account
     #
     # @example Response structure
     #
+    #   resp.contact_information.full_name #=> String
     #   resp.contact_information.address_line_1 #=> String
     #   resp.contact_information.address_line_2 #=> String
     #   resp.contact_information.address_line_3 #=> String
     #   resp.contact_information.city #=> String
-    #   resp.contact_information.company_name #=> String
-    #   resp.contact_information.country_code #=> String
-    #   resp.contact_information.district_or_county #=> String
-    #   resp.contact_information.full_name #=> String
-    #   resp.contact_information.phone_number #=> String
-    #   resp.contact_information.postal_code #=> String
     #   resp.contact_information.state_or_region #=> String
+    #   resp.contact_information.district_or_county #=> String
+    #   resp.contact_information.postal_code #=> String
+    #   resp.contact_information.country_code #=> String
+    #   resp.contact_information.phone_number #=> String
+    #   resp.contact_information.company_name #=> String
     #   resp.contact_information.website_url #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/GetContactInformation AWS API Documentation
@@ -1003,8 +1005,8 @@ module Aws::Account
     #
     # @return [Types::GetGovCloudAccountInformationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
-    #   * {Types::GetGovCloudAccountInformationResponse#account_state #account_state} => String
     #   * {Types::GetGovCloudAccountInformationResponse#gov_cloud_account_id #gov_cloud_account_id} => String
+    #   * {Types::GetGovCloudAccountInformationResponse#account_state #account_state} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -1014,8 +1016,8 @@ module Aws::Account
     #
     # @example Response structure
     #
-    #   resp.account_state #=> String, one of "PENDING_ACTIVATION", "ACTIVE", "SUSPENDED", "CLOSED"
     #   resp.gov_cloud_account_id #=> String
+    #   resp.account_state #=> String, one of "PENDING_ACTIVATION", "ACTIVE", "SUSPENDED", "CLOSED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/GetGovCloudAccountInformation AWS API Documentation
     #
@@ -1241,6 +1243,9 @@ module Aws::Account
     # Updates the account name of the specified account. To use this API,
     # IAM principals must have the `account:PutAccountName` IAM permission.
     #
+    # @option params [required, String] :account_name
+    #   The name of the account.
+    #
     # @option params [String] :account_id
     #   Specifies the 12 digit account ID number of the Amazon Web Services
     #   account that you want to access or modify with this operation.
@@ -1274,16 +1279,13 @@ module Aws::Account
     #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html
     #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin
     #
-    # @option params [required, String] :account_name
-    #   The name of the account.
-    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.put_account_name({
-    #     account_id: "AccountId",
     #     account_name: "AccountName", # required
+    #     account_id: "AccountId",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/PutAccountName AWS API Documentation
@@ -1315,6 +1317,21 @@ module Aws::Account
     # [1]: https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-alternate.html
     # [2]: https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html
     #
+    # @option params [required, String] :name
+    #   Specifies a name for the alternate contact.
+    #
+    # @option params [required, String] :title
+    #   Specifies a title for the alternate contact.
+    #
+    # @option params [required, String] :email_address
+    #   Specifies an email address for the alternate contact.
+    #
+    # @option params [required, String] :phone_number
+    #   Specifies a phone number for the alternate contact.
+    #
+    # @option params [required, String] :alternate_contact_type
+    #   Specifies which alternate contact you want to create or update.
+    #
     # @option params [String] :account_id
     #   Specifies the 12 digit account ID number of the Amazon Web Services
     #   account that you want to access or modify with this operation.
@@ -1348,32 +1365,17 @@ module Aws::Account
     #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html
     #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin
     #
-    # @option params [required, String] :alternate_contact_type
-    #   Specifies which alternate contact you want to create or update.
-    #
-    # @option params [required, String] :email_address
-    #   Specifies an email address for the alternate contact.
-    #
-    # @option params [required, String] :name
-    #   Specifies a name for the alternate contact.
-    #
-    # @option params [required, String] :phone_number
-    #   Specifies a phone number for the alternate contact.
-    #
-    # @option params [required, String] :title
-    #   Specifies a title for the alternate contact.
-    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.put_alternate_contact({
-    #     account_id: "AccountId",
-    #     alternate_contact_type: "BILLING", # required, accepts BILLING, OPERATIONS, SECURITY
-    #     email_address: "EmailAddress", # required
     #     name: "Name", # required
-    #     phone_number: "PhoneNumber", # required
     #     title: "Title", # required
+    #     email_address: "EmailAddress", # required
+    #     phone_number: "PhoneNumber", # required
+    #     alternate_contact_type: "BILLING", # required, accepts BILLING, OPERATIONS, SECURITY
+    #     account_id: "AccountId",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/PutAlternateContact AWS API Documentation
@@ -1395,6 +1397,10 @@ module Aws::Account
     #
     #
     # [1]: https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-primary.html
+    #
+    # @option params [required, Types::ContactInformation] :contact_information
+    #   Contains the details of the primary contact information associated
+    #   with an Amazon Web Services account.
     #
     # @option params [String] :account_id
     #   Specifies the 12-digit account ID number of the Amazon Web Services
@@ -1427,30 +1433,26 @@ module Aws::Account
     #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html
     #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin
     #
-    # @option params [required, Types::ContactInformation] :contact_information
-    #   Contains the details of the primary contact information associated
-    #   with an Amazon Web Services account.
-    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.put_contact_information({
-    #     account_id: "AccountId",
     #     contact_information: { # required
+    #       full_name: "FullName", # required
     #       address_line_1: "AddressLine", # required
     #       address_line_2: "AddressLine",
     #       address_line_3: "AddressLine",
     #       city: "City", # required
-    #       company_name: "CompanyName",
-    #       country_code: "CountryCode", # required
-    #       district_or_county: "DistrictOrCounty",
-    #       full_name: "FullName", # required
-    #       phone_number: "ContactInformationPhoneNumber", # required
-    #       postal_code: "PostalCode", # required
     #       state_or_region: "StateOrRegion",
+    #       district_or_county: "DistrictOrCounty",
+    #       postal_code: "PostalCode", # required
+    #       country_code: "CountryCode", # required
+    #       phone_number: "ContactInformationPhoneNumber", # required
+    #       company_name: "CompanyName",
     #       website_url: "WebsiteUrl",
     #     },
+    #     account_id: "AccountId",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/PutContactInformation AWS API Documentation
@@ -1537,7 +1539,7 @@ module Aws::Account
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-account'
-      context[:gem_version] = '1.56.0'
+      context[:gem_version] = '1.57.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

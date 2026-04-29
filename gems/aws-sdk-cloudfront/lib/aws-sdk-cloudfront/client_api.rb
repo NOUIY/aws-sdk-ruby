@@ -60,6 +60,7 @@ module Aws::CloudFront
     CachePolicySummary = Shapes::StructureShape.new(name: 'CachePolicySummary')
     CachePolicySummaryList = Shapes::ListShape.new(name: 'CachePolicySummaryList')
     CachePolicyType = Shapes::StringShape.new(name: 'CachePolicyType')
+    CacheTagConfig = Shapes::StructureShape.new(name: 'CacheTagConfig')
     CachedMethods = Shapes::StructureShape.new(name: 'CachedMethods')
     CannotChangeImmutablePublicKeyFields = Shapes::StructureShape.new(name: 'CannotChangeImmutablePublicKeyFields')
     CannotDeleteEntityWhileInUse = Shapes::StructureShape.new(name: 'CannotDeleteEntityWhileInUse')
@@ -1025,6 +1026,9 @@ module Aws::CloudFront
 
     CachePolicySummaryList.member = Shapes::ShapeRef.new(shape: CachePolicySummary, location_name: "CachePolicySummary")
 
+    CacheTagConfig.add_member(:header_name, Shapes::ShapeRef.new(shape: string, required: true, location_name: "HeaderName"))
+    CacheTagConfig.struct_class = Types::CacheTagConfig
+
     CachedMethods.add_member(:quantity, Shapes::ShapeRef.new(shape: integer, required: true, location_name: "Quantity"))
     CachedMethods.add_member(:items, Shapes::ShapeRef.new(shape: MethodsList, required: true, location_name: "Items"))
     CachedMethods.struct_class = Types::CachedMethods
@@ -1760,6 +1764,7 @@ module Aws::CloudFront
     DistributionConfig.add_member(:connection_mode, Shapes::ShapeRef.new(shape: ConnectionMode, location_name: "ConnectionMode"))
     DistributionConfig.add_member(:viewer_mtls_config, Shapes::ShapeRef.new(shape: ViewerMtlsConfig, location_name: "ViewerMtlsConfig"))
     DistributionConfig.add_member(:connection_function_association, Shapes::ShapeRef.new(shape: ConnectionFunctionAssociation, location_name: "ConnectionFunctionAssociation"))
+    DistributionConfig.add_member(:cache_tag_config, Shapes::ShapeRef.new(shape: CacheTagConfig, location_name: "CacheTagConfig"))
     DistributionConfig.struct_class = Types::DistributionConfig
 
     DistributionConfigWithTags.add_member(:distribution_config, Shapes::ShapeRef.new(shape: DistributionConfig, required: true, location_name: "DistributionConfig"))

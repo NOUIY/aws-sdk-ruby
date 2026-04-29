@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.144.0 (2026-04-29)
+------------------
+
+* Feature - Amazon CloudFront now supports cache tag. Tag objects via response headers and invalidate all matching objects in a single request, replacing manual URL tracking and broad wildcards.
+
 1.143.0 (2026-03-31)
 ------------------
 

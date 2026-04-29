@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.52.0 (2026-04-29)
+------------------
+
+* Feature - Adds support for rtx-pro-server-6000 GPU accelerator for service-managed fleets.
+
 1.51.0 (2026-04-13)
 ------------------
 

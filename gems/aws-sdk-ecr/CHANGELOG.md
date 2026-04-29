@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.126.0 (2026-04-29)
+------------------
+
+* Feature - Removes support for registry policy V1
+
 1.125.0 (2026-04-08)
 ------------------
 

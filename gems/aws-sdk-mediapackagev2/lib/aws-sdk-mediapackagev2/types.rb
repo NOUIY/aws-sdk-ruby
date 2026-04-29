@@ -575,6 +575,14 @@ module Aws::MediaPackageV2
     #   The configuration for DASH subtitles.
     #   @return [Types::DashSubtitleConfiguration]
     #
+    # @!attribute [rw] uri_path_type
+    #   The type of path to use in manifest URIs. `LEAF` uses leaf-relative
+    #   paths (for example, `index_1.mpd`). `ROOT` uses root-relative paths
+    #   that include the full path from root (for example,
+    #   `/out/v1/channel-group/channel/endpoint/index_1.mpd`). If you don't
+    #   specify a value, the default is `LEAF`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediapackagev2-2022-12-25/CreateDashManifestConfiguration AWS API Documentation
     #
     class CreateDashManifestConfiguration < Struct.new(
@@ -594,7 +602,8 @@ module Aws::MediaPackageV2
       :program_information,
       :dvb_settings,
       :compactness,
-      :subtitle_configuration)
+      :subtitle_configuration,
+      :uri_path_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -820,6 +829,14 @@ module Aws::MediaPackageV2
     #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html
     #   @return [Boolean]
     #
+    # @!attribute [rw] uri_path_type
+    #   The type of path to use in manifest URIs. `LEAF` uses leaf-relative
+    #   paths (for example, `index_1.m3u8`). `ROOT` uses root-relative paths
+    #   that include the full path from root (for example,
+    #   `/out/v1/channel-group/channel/endpoint/index_1.m3u8`). If you
+    #   don't specify a value, the default is `LEAF`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediapackagev2-2022-12-25/CreateHlsManifestConfiguration AWS API Documentation
     #
     class CreateHlsManifestConfiguration < Struct.new(
@@ -830,7 +847,8 @@ module Aws::MediaPackageV2
       :manifest_window_seconds,
       :program_date_time_interval_seconds,
       :filter_configuration,
-      :url_encode_child_manifest)
+      :url_encode_child_manifest,
+      :uri_path_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -901,6 +919,14 @@ module Aws::MediaPackageV2
     #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html
     #   @return [Boolean]
     #
+    # @!attribute [rw] uri_path_type
+    #   The type of path to use in manifest URIs. `LEAF` uses leaf-relative
+    #   paths (for example, `index_1.m3u8`). `ROOT` uses root-relative paths
+    #   that include the full path from root (for example,
+    #   `/out/v1/channel-group/channel/endpoint/index_1.m3u8`). If you
+    #   don't specify a value, the default is `LEAF`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediapackagev2-2022-12-25/CreateLowLatencyHlsManifestConfiguration AWS API Documentation
     #
     class CreateLowLatencyHlsManifestConfiguration < Struct.new(
@@ -911,7 +937,8 @@ module Aws::MediaPackageV2
       :manifest_window_seconds,
       :program_date_time_interval_seconds,
       :filter_configuration,
-      :url_encode_child_manifest)
+      :url_encode_child_manifest,
+      :uri_path_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1034,6 +1061,13 @@ module Aws::MediaPackageV2
     #   The failover settings for the endpoint.
     #   @return [Types::ForceEndpointErrorConfiguration]
     #
+    # @!attribute [rw] uri_separator
+    #   The separator character to use in generated URIs for this origin
+    #   endpoint. This setting applies to all manifest types on the
+    #   endpoint. If you don't specify a value, the default is
+    #   `UNDERSCORE`.
+    #   @return [String]
+    #
     # @!attribute [rw] tags
     #   A comma-separated list of tag key:value pairs that you define. For
     #   example:
@@ -1059,6 +1093,7 @@ module Aws::MediaPackageV2
       :dash_manifests,
       :mss_manifests,
       :force_endpoint_error_configuration,
+      :uri_separator,
       :tags)
       SENSITIVE = []
       include Aws::Structure
@@ -1134,6 +1169,11 @@ module Aws::MediaPackageV2
     #   The failover settings for the endpoint.
     #   @return [Types::ForceEndpointErrorConfiguration]
     #
+    # @!attribute [rw] uri_separator
+    #   The separator character used in generated URIs for this origin
+    #   endpoint.
+    #   @return [String]
+    #
     # @!attribute [rw] etag
     #   The current Entity Tag (ETag) associated with this resource. The
     #   entity tag can be used to safely make concurrent updates to the
@@ -1163,6 +1203,7 @@ module Aws::MediaPackageV2
       :dash_manifests,
       :mss_manifests,
       :force_endpoint_error_configuration,
+      :uri_separator,
       :etag,
       :tags)
       SENSITIVE = []
@@ -2122,6 +2163,12 @@ module Aws::MediaPackageV2
     #   The configuration for DASH subtitles.
     #   @return [Types::DashSubtitleConfiguration]
     #
+    # @!attribute [rw] uri_path_type
+    #   The type of path used in manifest URIs. `LEAF` indicates
+    #   leaf-relative paths. `ROOT` indicates root-relative paths that
+    #   include the full path from root.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediapackagev2-2022-12-25/GetDashManifestConfiguration AWS API Documentation
     #
     class GetDashManifestConfiguration < Struct.new(
@@ -2142,7 +2189,8 @@ module Aws::MediaPackageV2
       :program_information,
       :dvb_settings,
       :compactness,
-      :subtitle_configuration)
+      :subtitle_configuration,
+      :uri_path_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2335,6 +2383,12 @@ module Aws::MediaPackageV2
     #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html
     #   @return [Boolean]
     #
+    # @!attribute [rw] uri_path_type
+    #   The type of path used in manifest URIs. `LEAF` indicates
+    #   leaf-relative paths. `ROOT` indicates root-relative paths that
+    #   include the full path from root.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediapackagev2-2022-12-25/GetHlsManifestConfiguration AWS API Documentation
     #
     class GetHlsManifestConfiguration < Struct.new(
@@ -2346,7 +2400,8 @@ module Aws::MediaPackageV2
       :scte_hls,
       :filter_configuration,
       :start_tag,
-      :url_encode_child_manifest)
+      :url_encode_child_manifest,
+      :uri_path_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2421,6 +2476,12 @@ module Aws::MediaPackageV2
     #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html
     #   @return [Boolean]
     #
+    # @!attribute [rw] uri_path_type
+    #   The type of path used in manifest URIs. `LEAF` indicates
+    #   leaf-relative paths. `ROOT` indicates root-relative paths that
+    #   include the full path from root.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediapackagev2-2022-12-25/GetLowLatencyHlsManifestConfiguration AWS API Documentation
     #
     class GetLowLatencyHlsManifestConfiguration < Struct.new(
@@ -2432,7 +2493,8 @@ module Aws::MediaPackageV2
       :scte_hls,
       :filter_configuration,
       :start_tag,
-      :url_encode_child_manifest)
+      :url_encode_child_manifest,
+      :uri_path_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2658,6 +2720,11 @@ module Aws::MediaPackageV2
     #   The failover settings for the endpoint.
     #   @return [Types::ForceEndpointErrorConfiguration]
     #
+    # @!attribute [rw] uri_separator
+    #   The separator character used in generated URIs for this origin
+    #   endpoint.
+    #   @return [String]
+    #
     # @!attribute [rw] etag
     #   The current Entity Tag (ETag) associated with this resource. The
     #   entity tag can be used to safely make concurrent updates to the
@@ -2688,6 +2755,7 @@ module Aws::MediaPackageV2
       :dash_manifests,
       :mss_manifests,
       :force_endpoint_error_configuration,
+      :uri_separator,
       :etag,
       :tags)
       SENSITIVE = []
@@ -3320,6 +3388,11 @@ module Aws::MediaPackageV2
     #   The failover settings for the endpoint.
     #   @return [Types::ForceEndpointErrorConfiguration]
     #
+    # @!attribute [rw] uri_separator
+    #   The separator character used in generated URIs for this origin
+    #   endpoint.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediapackagev2-2022-12-25/OriginEndpointListConfiguration AWS API Documentation
     #
     class OriginEndpointListConfiguration < Struct.new(
@@ -3335,7 +3408,8 @@ module Aws::MediaPackageV2
       :low_latency_hls_manifests,
       :dash_manifests,
       :mss_manifests,
-      :force_endpoint_error_configuration)
+      :force_endpoint_error_configuration,
+      :uri_separator)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3596,16 +3670,33 @@ module Aws::MediaPackageV2
     #
     #   * All – SCTE-35 messages are embedded in segment data
     #
-    #   For DASH manifests, when set to `All`, an `InbandEventStream` tag
-    #   signals that SCTE messages are present in segments. This setting
-    #   works independently of manifest ad markers.
+    #   * MatchesFilter – SCTE-35 messages which match the ScteFilter are
+    #     embedded in segment data
+    #
+    #   For DASH manifests, when set to `All` or `MatchesFilter`, an
+    #   `InbandEventStream` tag signals that SCTE messages are present in
+    #   segments. This setting works independently of manifest ad markers.
     #   @return [String]
+    #
+    # @!attribute [rw] custom_ad_types
+    #   A list of additional non-Ad SCTE-35 event types to treat as
+    #   advertisements. When configured, events matching these types produce
+    #   ad markers (such as `SCTE35-OUT` and `SCTE35-IN` in HLS DATERANGE
+    #   tags) in manifests.
+    #
+    #   Valid values: `PROGRAM` \| `CHAPTER` \| `UNSCHEDULED_EVENT` \|
+    #   `ALTERNATE_CONTENT_OPPORTUNITY` \| `NETWORK`
+    #
+    #   If you don't specify any values, the default is empty (only default
+    #   ad types are used).
+    #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediapackagev2-2022-12-25/Scte AWS API Documentation
     #
     class Scte < Struct.new(
       :scte_filter,
-      :scte_in_segments)
+      :scte_in_segments,
+      :custom_ad_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3626,10 +3717,19 @@ module Aws::MediaPackageV2
     #   * `XML` - The SCTE marker is expressed fully in XML.
     #   @return [String]
     #
+    # @!attribute [rw] scte_in_manifests
+    #   Controls which SCTE-35 events appear in DASH manifests. `ALL`
+    #   includes all non-implicit SCTE-35 events. `MATCHES_FILTER` includes
+    #   only events whose type matches the configured `ScteFilter`.
+    #
+    #   If you don't specify a value, the default is `ALL`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediapackagev2-2022-12-25/ScteDash AWS API Documentation
     #
     class ScteDash < Struct.new(
-      :ad_marker_dash)
+      :ad_marker_dash,
+      :scte_in_manifests)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3660,10 +3760,19 @@ module Aws::MediaPackageV2
     #   [1]: http://docs.aws.amazon.com/mediapackage/latest/ug/scte-35-ad-marker-ext-x-daterange.html
     #   @return [String]
     #
+    # @!attribute [rw] scte_in_manifests
+    #   Controls which SCTE-35 events appear in HLS manifests. `ALL`
+    #   includes all non-implicit SCTE-35 events. `MATCHES_FILTER` includes
+    #   only events whose type matches the configured `ScteFilter`.
+    #
+    #   If you don't specify a value, the default is `ALL`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediapackagev2-2022-12-25/ScteHls AWS API Documentation
     #
     class ScteHls < Struct.new(
-      :ad_marker_hls)
+      :ad_marker_hls,
+      :scte_in_manifests)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4169,6 +4278,13 @@ module Aws::MediaPackageV2
     #   The failover settings for the endpoint.
     #   @return [Types::ForceEndpointErrorConfiguration]
     #
+    # @!attribute [rw] uri_separator
+    #   The separator character to use in generated URIs for this origin
+    #   endpoint. This setting applies to all manifest types on the
+    #   endpoint. If you don't specify a value in the update request, the
+    #   current value is preserved.
+    #   @return [String]
+    #
     # @!attribute [rw] etag
     #   The expected current Entity Tag (ETag) for the resource. If the
     #   specified ETag does not match the resource's current entity tag,
@@ -4190,6 +4306,7 @@ module Aws::MediaPackageV2
       :dash_manifests,
       :mss_manifests,
       :force_endpoint_error_configuration,
+      :uri_separator,
       :etag)
       SENSITIVE = []
       include Aws::Structure
@@ -4261,6 +4378,11 @@ module Aws::MediaPackageV2
     #   The failover settings for the endpoint.
     #   @return [Types::ForceEndpointErrorConfiguration]
     #
+    # @!attribute [rw] uri_separator
+    #   The separator character used in generated URIs for this origin
+    #   endpoint.
+    #   @return [String]
+    #
     # @!attribute [rw] etag
     #   The current Entity Tag (ETag) associated with this resource. The
     #   entity tag can be used to safely make concurrent updates to the
@@ -4293,6 +4415,7 @@ module Aws::MediaPackageV2
       :low_latency_hls_manifests,
       :mss_manifests,
       :force_endpoint_error_configuration,
+      :uri_separator,
       :etag,
       :tags,
       :dash_manifests)

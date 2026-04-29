@@ -185,6 +185,13 @@ module Aws::GameLift
       SENSITIVE: []
     end
 
+    class ContainerGroupPortMapping
+      attr_accessor container_name: ::String
+      attr_accessor container_runtime_id: ::String
+      attr_accessor container_port_mappings: ::Array[Types::ContainerPortMapping]
+      SENSITIVE: []
+    end
+
     class ContainerHealthCheck
       attr_accessor command: ::Array[::String]
       attr_accessor interval: ::Integer
@@ -210,6 +217,13 @@ module Aws::GameLift
     class ContainerPortConfiguration
       attr_accessor container_port_ranges: ::Array[Types::ContainerPortRange]
       SENSITIVE: []
+    end
+
+    class ContainerPortMapping
+      attr_accessor container_port: ::Integer
+      attr_accessor connection_port: ::Integer
+      attr_accessor protocol: ("TCP" | "UDP")
+      SENSITIVE: [:container_port, :connection_port]
     end
 
     class ContainerPortRange
@@ -698,6 +712,26 @@ module Aws::GameLift
 
     class DescribeContainerGroupDefinitionOutput
       attr_accessor container_group_definition: Types::ContainerGroupDefinition
+      SENSITIVE: []
+    end
+
+    class DescribeContainerGroupPortMappingsInput
+      attr_accessor fleet_id: ::String
+      attr_accessor container_group_type: ("GAME_SERVER" | "PER_INSTANCE")
+      attr_accessor compute_name: ::String
+      attr_accessor instance_id: ::String
+      attr_accessor container_name: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeContainerGroupPortMappingsOutput
+      attr_accessor fleet_id: ::String
+      attr_accessor location: ::String
+      attr_accessor container_group_definition_arn: ::String
+      attr_accessor container_group_type: ("GAME_SERVER" | "PER_INSTANCE")
+      attr_accessor compute_name: ::String
+      attr_accessor instance_id: ::String
+      attr_accessor container_group_port_mappings: ::Array[Types::ContainerGroupPortMapping]
       SENSITIVE: []
     end
 

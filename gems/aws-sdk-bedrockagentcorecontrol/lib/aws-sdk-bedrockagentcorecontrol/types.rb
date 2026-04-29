@@ -41,6 +41,36 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # An action to take when a gateway rule's conditions are met.
+    #
+    # @note Action is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note Action is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of Action corresponding to the set member.
+    #
+    # @!attribute [rw] configuration_bundle
+    #   An action that applies a configuration bundle override to the
+    #   request.
+    #   @return [Types::ConfigurationBundleAction]
+    #
+    # @!attribute [rw] route_to_target
+    #   An action that routes the request to a specific target.
+    #   @return [Types::RouteToTargetAction]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/Action AWS API Documentation
+    #
+    class Action < Struct.new(
+      :configuration_bundle,
+      :route_to_target,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class ConfigurationBundle < Action; end
+      class RouteToTarget < Action; end
+      class Unknown < Action; end
+    end
+
     # The agent card definition for an A2A descriptor. Contains the schema
     # version and inline content for the agent card.
     #
@@ -1066,6 +1096,21 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The configuration for a component within a configuration bundle. The
+    # component type is inferred from the component identifier ARN.
+    #
+    # @!attribute [rw] configuration
+    #   The configuration values as a flexible JSON document.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ComponentConfiguration AWS API Documentation
+    #
+    class ComponentConfiguration < Struct.new(
+      :configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Exception thrown when a resource is modified concurrently by multiple
     # requests.
     #
@@ -1076,6 +1121,152 @@ module Aws::BedrockAgentCoreControl
     #
     class ConcurrentModificationException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A condition that determines when a gateway rule applies. Conditions
+    # can match on principals or request paths.
+    #
+    # @note Condition is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note Condition is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of Condition corresponding to the set member.
+    #
+    # @!attribute [rw] match_principals
+    #   A condition that matches on the identity of the caller making the
+    #   request.
+    #   @return [Types::MatchPrincipals]
+    #
+    # @!attribute [rw] match_paths
+    #   A condition that matches on the request path.
+    #   @return [Types::MatchPaths]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/Condition AWS API Documentation
+    #
+    class Condition < Struct.new(
+      :match_principals,
+      :match_paths,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class MatchPrincipals < Condition; end
+      class MatchPaths < Condition; end
+      class Unknown < Condition; end
+    end
+
+    # An action that applies a configuration bundle override, either as a
+    # static override or a weighted split for A/B testing.
+    #
+    # @note ConfigurationBundleAction is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note ConfigurationBundleAction is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of ConfigurationBundleAction corresponding to the set member.
+    #
+    # @!attribute [rw] static_override
+    #   A static configuration bundle override that applies a single bundle
+    #   version to all matching requests.
+    #   @return [Types::StaticOverride]
+    #
+    # @!attribute [rw] weighted_override
+    #   A weighted configuration bundle override that splits traffic between
+    #   multiple bundle versions based on configured weights.
+    #   @return [Types::WeightedOverride]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ConfigurationBundleAction AWS API Documentation
+    #
+    class ConfigurationBundleAction < Struct.new(
+      :static_override,
+      :weighted_override,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class StaticOverride < ConfigurationBundleAction; end
+      class WeightedOverride < ConfigurationBundleAction; end
+      class Unknown < ConfigurationBundleAction; end
+    end
+
+    # A reference to a specific version of a configuration bundle.
+    #
+    # @!attribute [rw] bundle_arn
+    #   The Amazon Resource Name (ARN) of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] bundle_version
+    #   The version of the configuration bundle.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ConfigurationBundleReference AWS API Documentation
+    #
+    class ConfigurationBundleReference < Struct.new(
+      :bundle_arn,
+      :bundle_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about a configuration bundle.
+    #
+    # @!attribute [rw] bundle_arn
+    #   The Amazon Resource Name (ARN) of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] bundle_id
+    #   The unique identifier of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] bundle_name
+    #   The name of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the configuration bundle.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ConfigurationBundleSummary AWS API Documentation
+    #
+    class ConfigurationBundleSummary < Struct.new(
+      :bundle_arn,
+      :bundle_id,
+      :bundle_name,
+      :description)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # Summary information about a configuration bundle version.
+    #
+    # @!attribute [rw] bundle_arn
+    #   The Amazon Resource Name (ARN) of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] bundle_id
+    #   The unique identifier of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   The version identifier of this configuration bundle version.
+    #   @return [String]
+    #
+    # @!attribute [rw] lineage_metadata
+    #   The version lineage metadata, including parent versions, branch
+    #   name, and creation source.
+    #   @return [Types::VersionLineageMetadata]
+    #
+    # @!attribute [rw] version_created_at
+    #   The timestamp when this version was created.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ConfigurationBundleVersionSummary AWS API Documentation
+    #
+    class ConfigurationBundleVersionSummary < Struct.new(
+      :bundle_arn,
+      :bundle_id,
+      :version_id,
+      :lineage_metadata,
+      :version_created_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1691,6 +1882,99 @@ module Aws::BedrockAgentCoreControl
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
     #   @return [String]
     #
+    # @!attribute [rw] bundle_name
+    #   The name for the configuration bundle. Names must be unique within
+    #   your account.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description for the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] components
+    #   A map of component identifiers to their configurations. Each
+    #   component represents a configurable element within the bundle.
+    #   @return [Hash<String,Types::ComponentConfiguration>]
+    #
+    # @!attribute [rw] branch_name
+    #   The branch name for version tracking. Defaults to `mainline` if not
+    #   specified.
+    #   @return [String]
+    #
+    # @!attribute [rw] commit_message
+    #   A commit message describing the initial version of the configuration
+    #   bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_by
+    #   The source that created this version, including the source name and
+    #   optional ARN.
+    #   @return [Types::VersionCreatedBySource]
+    #
+    # @!attribute [rw] tags
+    #   A map of tag keys and values to assign to the configuration bundle.
+    #   Tags enable you to categorize your resources in different ways, for
+    #   example, by purpose, owner, or environment.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateConfigurationBundleRequest AWS API Documentation
+    #
+    class CreateConfigurationBundleRequest < Struct.new(
+      :client_token,
+      :bundle_name,
+      :description,
+      :components,
+      :branch_name,
+      :commit_message,
+      :created_by,
+      :tags)
+      SENSITIVE = [:description, :components]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] bundle_arn
+    #   The Amazon Resource Name (ARN) of the created configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] bundle_id
+    #   The unique identifier of the created configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   The initial version identifier of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the configuration bundle was created.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateConfigurationBundleResponse AWS API Documentation
+    #
+    class CreateConfigurationBundleResponse < Struct.new(
+      :bundle_arn,
+      :bundle_id,
+      :version_id,
+      :created_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a
+    #   previous request, the service ignores the request, but doesn't
+    #   return an error. For more information, see [Ensuring
+    #   idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #   @return [String]
+    #
     # @!attribute [rw] evaluator_name
     #   The name of the evaluator. Must be unique within your account.
     #   @return [String]
@@ -1713,6 +1997,19 @@ module Aws::BedrockAgentCoreControl
     #   conversation sessions.
     #   @return [String]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of a customer managed KMS key to use
+    #   for encrypting sensitive evaluator data, including instructions and
+    #   rating scale. If you don't specify a KMS key, the evaluator data is
+    #   encrypted with an Amazon Web Services owned key. Only symmetric
+    #   encryption KMS keys are supported. For more information, see
+    #   [Encryption at rest for AgentCore Evaluations][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/evaluations-encryption.html
+    #   @return [String]
+    #
     # @!attribute [rw] tags
     #   A map of tag keys and values to assign to an AgentCore Evaluator.
     #   Tags enable you to categorize your resources in different ways, for
@@ -1727,6 +2024,7 @@ module Aws::BedrockAgentCoreControl
       :description,
       :evaluator_config,
       :level,
+      :kms_key_arn,
       :tags)
       SENSITIVE = [:description]
       include Aws::Structure
@@ -1981,6 +2279,112 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!attribute [rw] gateway_identifier
+    #   The identifier of the gateway to create a rule for.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a
+    #   previous request, the service ignores the request, but doesn't
+    #   return an error. For more information, see [Ensuring
+    #   idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #   @return [String]
+    #
+    # @!attribute [rw] priority
+    #   The priority of the rule. Rules are evaluated in order of priority,
+    #   with lower numbers evaluated first. Must be between 1 and 1,000,000.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] conditions
+    #   The conditions that must be met for the rule to apply. Conditions
+    #   can match on principals (IAM ARNs) or request paths.
+    #   @return [Array<Types::Condition>]
+    #
+    # @!attribute [rw] actions
+    #   The actions to take when the rule conditions are met. Actions can
+    #   route to a specific target or apply a configuration bundle override.
+    #   @return [Array<Types::Action>]
+    #
+    # @!attribute [rw] description
+    #   The description of the gateway rule.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateGatewayRuleRequest AWS API Documentation
+    #
+    class CreateGatewayRuleRequest < Struct.new(
+      :gateway_identifier,
+      :client_token,
+      :priority,
+      :conditions,
+      :actions,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] rule_id
+    #   The unique identifier of the gateway rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] gateway_arn
+    #   The Amazon Resource Name (ARN) of the gateway that the rule belongs
+    #   to.
+    #   @return [String]
+    #
+    # @!attribute [rw] priority
+    #   The priority of the rule. Rules are evaluated in order of priority,
+    #   with lower numbers evaluated first.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] conditions
+    #   The conditions that must be met for the rule to apply.
+    #   @return [Array<Types::Condition>]
+    #
+    # @!attribute [rw] actions
+    #   The actions to take when the rule conditions are met.
+    #   @return [Array<Types::Action>]
+    #
+    # @!attribute [rw] description
+    #   The description of the gateway rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the rule was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The current status of the rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] system
+    #   System-managed metadata for rules created by automated processes.
+    #   @return [Types::SystemManagedBlock]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateGatewayRuleResponse AWS API Documentation
+    #
+    class CreateGatewayRuleResponse < Struct.new(
+      :rule_id,
+      :gateway_arn,
+      :priority,
+      :conditions,
+      :actions,
+      :description,
+      :created_at,
+      :status,
+      :system)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] gateway_identifier
     #   The identifier of the gateway to create a target for.
     #   @return [String]
     #
@@ -2109,6 +2513,10 @@ module Aws::BedrockAgentCoreControl
     #   with authorization code grant type and requires user federation.
     #   @return [Types::AuthorizationData]
     #
+    # @!attribute [rw] protocol_type
+    #   The protocol type of the created gateway target.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateGatewayTargetResponse AWS API Documentation
     #
     class CreateGatewayTargetResponse < Struct.new(
@@ -2126,7 +2534,8 @@ module Aws::BedrockAgentCoreControl
       :metadata_configuration,
       :private_endpoint,
       :private_endpoint_managed_resources,
-      :authorization_data)
+      :authorization_data,
+      :protocol_type)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -2212,7 +2621,8 @@ module Aws::BedrockAgentCoreControl
     #   @return [Integer]
     #
     # @!attribute [rw] max_tokens
-    #   The maximum number of tokens the agent can generate per iteration.
+    #   The maximum total number of output tokens the agent can generate
+    #   across all model calls within a single invocation.
     #   @return [Integer]
     #
     # @!attribute [rw] timeout_seconds
@@ -2456,7 +2866,16 @@ module Aws::BedrockAgentCoreControl
     # @!attribute [rw] evaluation_execution_role_arn
     #   The Amazon Resource Name (ARN) of the IAM role that grants
     #   permissions to read from CloudWatch logs, write evaluation results,
-    #   and invoke Amazon Bedrock models for evaluation.
+    #   and invoke Amazon Bedrock models for evaluation. If the
+    #   configuration references evaluators encrypted with a customer
+    #   managed KMS key, this role must also have `kms:Decrypt` permission
+    #   on the KMS key. The service validates this permission at
+    #   configuration creation time. For more information, see [Encryption
+    #   at rest for AgentCore Evaluations][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/evaluations-encryption.html
     #   @return [String]
     #
     # @!attribute [rw] enable_on_create
@@ -3807,6 +4226,35 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # @!attribute [rw] bundle_id
+    #   The unique identifier of the configuration bundle to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteConfigurationBundleRequest AWS API Documentation
+    #
+    class DeleteConfigurationBundleRequest < Struct.new(
+      :bundle_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] bundle_id
+    #   The unique identifier of the deleted configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the configuration bundle deletion operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteConfigurationBundleResponse AWS API Documentation
+    #
+    class DeleteConfigurationBundleResponse < Struct.new(
+      :bundle_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] evaluator_id
     #   The unique identifier of the evaluator to delete.
     #   @return [String]
@@ -3871,6 +4319,40 @@ module Aws::BedrockAgentCoreControl
       :gateway_id,
       :status,
       :status_reasons)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] gateway_identifier
+    #   The identifier of the gateway containing the rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] rule_id
+    #   The unique identifier of the rule to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteGatewayRuleRequest AWS API Documentation
+    #
+    class DeleteGatewayRuleRequest < Struct.new(
+      :gateway_identifier,
+      :rule_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] rule_id
+    #   The unique identifier of the deleted rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the rule deletion operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteGatewayRuleResponse AWS API Documentation
+    #
+    class DeleteGatewayRuleResponse < Struct.new(
+      :rule_id,
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4748,6 +5230,12 @@ module Aws::BedrockAgentCoreControl
     #   referenced by active online evaluation configurations.
     #   @return [Boolean]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of the customer managed KMS key used
+    #   to encrypt the evaluator's sensitive data. This field is only
+    #   present for evaluators encrypted with a customer managed key.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/EvaluatorSummary AWS API Documentation
     #
     class EvaluatorSummary < Struct.new(
@@ -4760,7 +5248,8 @@ module Aws::BedrockAgentCoreControl
       :status,
       :created_at,
       :updated_at,
-      :locked_for_modification)
+      :locked_for_modification,
+      :kms_key_arn)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -5020,6 +5509,67 @@ module Aws::BedrockAgentCoreControl
       class Unknown < GatewayProtocolConfiguration; end
     end
 
+    # Detailed information about a gateway rule.
+    #
+    # @!attribute [rw] rule_id
+    #   The unique identifier of the gateway rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] gateway_arn
+    #   The Amazon Resource Name (ARN) of the gateway that the rule belongs
+    #   to.
+    #   @return [String]
+    #
+    # @!attribute [rw] priority
+    #   The priority of the rule. Rules are evaluated in order of priority,
+    #   with lower numbers evaluated first.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] conditions
+    #   The conditions that must be met for the rule to apply.
+    #   @return [Array<Types::Condition>]
+    #
+    # @!attribute [rw] actions
+    #   The actions to take when the rule conditions are met.
+    #   @return [Array<Types::Action>]
+    #
+    # @!attribute [rw] description
+    #   The description of the gateway rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the rule was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The current status of the rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] system
+    #   System-managed metadata for rules created by automated processes.
+    #   @return [Types::SystemManagedBlock]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the rule was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GatewayRuleDetail AWS API Documentation
+    #
+    class GatewayRuleDetail < Struct.new(
+      :rule_id,
+      :gateway_arn,
+      :priority,
+      :conditions,
+      :actions,
+      :description,
+      :created_at,
+      :status,
+      :system,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains summary information about a gateway.
     #
     # @!attribute [rw] gateway_id
@@ -5138,6 +5688,10 @@ module Aws::BedrockAgentCoreControl
     #   authorization code grant type and requires user federation.
     #   @return [Types::AuthorizationData]
     #
+    # @!attribute [rw] protocol_type
+    #   The protocol type of the gateway target.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GatewayTarget AWS API Documentation
     #
     class GatewayTarget < Struct.new(
@@ -5155,7 +5709,8 @@ module Aws::BedrockAgentCoreControl
       :metadata_configuration,
       :private_endpoint,
       :private_endpoint_managed_resources,
-      :authorization_data)
+      :authorization_data,
+      :protocol_type)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -5655,16 +6210,171 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # @!attribute [rw] bundle_id
+    #   The unique identifier of the configuration bundle to retrieve.
+    #   @return [String]
+    #
+    # @!attribute [rw] branch_name
+    #   The branch name to get the latest version from. If not specified,
+    #   returns the latest version on the mainline branch.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetConfigurationBundleRequest AWS API Documentation
+    #
+    class GetConfigurationBundleRequest < Struct.new(
+      :bundle_id,
+      :branch_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] bundle_arn
+    #   The Amazon Resource Name (ARN) of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] bundle_id
+    #   The unique identifier of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] bundle_name
+    #   The name of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   The version identifier of this configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] components
+    #   A map of component identifiers to their configurations for this
+    #   version.
+    #   @return [Hash<String,Types::ComponentConfiguration>]
+    #
+    # @!attribute [rw] lineage_metadata
+    #   The version lineage metadata, including parent versions, branch
+    #   name, and creation source.
+    #   @return [Types::VersionLineageMetadata]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the configuration bundle was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the configuration bundle was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetConfigurationBundleResponse AWS API Documentation
+    #
+    class GetConfigurationBundleResponse < Struct.new(
+      :bundle_arn,
+      :bundle_id,
+      :bundle_name,
+      :description,
+      :version_id,
+      :components,
+      :lineage_metadata,
+      :created_at,
+      :updated_at)
+      SENSITIVE = [:description, :components]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] bundle_id
+    #   The unique identifier of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   The version identifier of the configuration bundle version to
+    #   retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetConfigurationBundleVersionRequest AWS API Documentation
+    #
+    class GetConfigurationBundleVersionRequest < Struct.new(
+      :bundle_id,
+      :version_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] bundle_arn
+    #   The Amazon Resource Name (ARN) of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] bundle_id
+    #   The unique identifier of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] bundle_name
+    #   The name of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   The version identifier of this configuration bundle version.
+    #   @return [String]
+    #
+    # @!attribute [rw] components
+    #   A map of component identifiers to their configurations for this
+    #   version.
+    #   @return [Hash<String,Types::ComponentConfiguration>]
+    #
+    # @!attribute [rw] lineage_metadata
+    #   The version lineage metadata, including parent versions, branch
+    #   name, and creation source.
+    #   @return [Types::VersionLineageMetadata]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the configuration bundle was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] version_created_at
+    #   The timestamp when this specific version was created.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetConfigurationBundleVersionResponse AWS API Documentation
+    #
+    class GetConfigurationBundleVersionResponse < Struct.new(
+      :bundle_arn,
+      :bundle_id,
+      :bundle_name,
+      :description,
+      :version_id,
+      :components,
+      :lineage_metadata,
+      :created_at,
+      :version_created_at)
+      SENSITIVE = [:description, :components]
+      include Aws::Structure
+    end
+
     # @!attribute [rw] evaluator_id
     #   The unique identifier of the evaluator to retrieve. Can be a
     #   built-in evaluator ID (e.g., Builtin.Helpfulness) or a custom
     #   evaluator ID.
     #   @return [String]
     #
+    # @!attribute [rw] included_data
+    #   Controls which data is returned in the response. `ALL_DATA`
+    #   (default) returns the full evaluator including decrypted
+    #   instructions and rating scale. For evaluators encrypted with a
+    #   customer managed KMS key, this requires `kms:Decrypt` permission on
+    #   the key. `METADATA_ONLY` returns evaluator metadata and model
+    #   configuration without instructions or rating scale, and does not
+    #   require any KMS permissions.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetEvaluatorRequest AWS API Documentation
     #
     class GetEvaluatorRequest < Struct.new(
-      :evaluator_id)
+      :evaluator_id,
+      :included_data)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5712,6 +6422,12 @@ module Aws::BedrockAgentCoreControl
     #   referenced by active online evaluation configurations.
     #   @return [Boolean]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of the customer managed KMS key used
+    #   to encrypt the evaluator's sensitive data. This field is only
+    #   present for evaluators encrypted with a customer managed key.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetEvaluatorResponse AWS API Documentation
     #
     class GetEvaluatorResponse < Struct.new(
@@ -5724,7 +6440,8 @@ module Aws::BedrockAgentCoreControl
       :status,
       :created_at,
       :updated_at,
-      :locked_for_modification)
+      :locked_for_modification,
+      :kms_key_arn)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -5853,6 +6570,85 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!attribute [rw] gateway_identifier
+    #   The identifier of the gateway containing the rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] rule_id
+    #   The unique identifier of the rule to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetGatewayRuleRequest AWS API Documentation
+    #
+    class GetGatewayRuleRequest < Struct.new(
+      :gateway_identifier,
+      :rule_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Create response excludes updatedAt (redundant on create). Get/Update
+    # responses include it via their own output structures.
+    #
+    # @!attribute [rw] rule_id
+    #   The unique identifier of the gateway rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] gateway_arn
+    #   The Amazon Resource Name (ARN) of the gateway that the rule belongs
+    #   to.
+    #   @return [String]
+    #
+    # @!attribute [rw] priority
+    #   The priority of the rule. Rules are evaluated in order of priority,
+    #   with lower numbers evaluated first.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] conditions
+    #   The conditions that must be met for the rule to apply.
+    #   @return [Array<Types::Condition>]
+    #
+    # @!attribute [rw] actions
+    #   The actions to take when the rule conditions are met.
+    #   @return [Array<Types::Action>]
+    #
+    # @!attribute [rw] description
+    #   The description of the gateway rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the rule was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The current status of the rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] system
+    #   System-managed metadata for rules created by automated processes.
+    #   @return [Types::SystemManagedBlock]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the rule was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetGatewayRuleResponse AWS API Documentation
+    #
+    class GetGatewayRuleResponse < Struct.new(
+      :rule_id,
+      :gateway_arn,
+      :priority,
+      :conditions,
+      :actions,
+      :description,
+      :created_at,
+      :status,
+      :system,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] gateway_identifier
     #   The identifier of the gateway that contains the target.
     #   @return [String]
     #
@@ -5934,6 +6730,10 @@ module Aws::BedrockAgentCoreControl
     #   authorization code grant type and requires user federation.
     #   @return [Types::AuthorizationData]
     #
+    # @!attribute [rw] protocol_type
+    #   The protocol type of the gateway target.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetGatewayTargetResponse AWS API Documentation
     #
     class GetGatewayTargetResponse < Struct.new(
@@ -5951,7 +6751,8 @@ module Aws::BedrockAgentCoreControl
       :metadata_configuration,
       :private_endpoint,
       :private_endpoint_managed_resources,
-      :authorization_data)
+      :authorization_data,
+      :protocol_type)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -6905,7 +7706,8 @@ module Aws::BedrockAgentCoreControl
     #   @return [Integer]
     #
     # @!attribute [rw] max_tokens
-    #   The maximum number of tokens allowed before exiting per invocation.
+    #   The maximum total number of output tokens the agent can generate
+    #   across all model calls within a single invocation.
     #   @return [Integer]
     #
     # @!attribute [rw] timeout_seconds
@@ -6980,7 +7782,7 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] outbound_auth
-    #   How Loopy authenticates to this Gateway. Defaults to AWS\_IAM
+    #   How harness authenticates to this Gateway. Defaults to AWS\_IAM
     #   (SigV4) if omitted.
     #   @return [Types::HarnessGatewayOutboundAuth]
     #
@@ -7126,7 +7928,7 @@ module Aws::BedrockAgentCoreControl
     #
     # @!attribute [rw] max_tokens
     #   The maximum number of tokens to allow in the generated response per
-    #   iteration.
+    #   model call.
     #   @return [Integer]
     #
     # @!attribute [rw] temperature
@@ -7264,7 +8066,7 @@ module Aws::BedrockAgentCoreControl
     #
     # @!attribute [rw] max_tokens
     #   The maximum number of tokens to allow in the generated response per
-    #   iteration.
+    #   model call.
     #   @return [Integer]
     #
     # @!attribute [rw] temperature
@@ -7383,7 +8185,7 @@ module Aws::BedrockAgentCoreControl
     #
     # @!attribute [rw] max_tokens
     #   The maximum number of tokens to allow in the generated response per
-    #   iteration.
+    #   model call.
     #   @return [Integer]
     #
     # @!attribute [rw] temperature
@@ -7413,7 +8215,7 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] headers
-    #   Map of key/value pairs for HTTP headers.
+    #   Custom headers to include when connecting to the remote MCP server.
     #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessRemoteMcpConfig AWS API Documentation
@@ -7669,6 +8471,31 @@ module Aws::BedrockAgentCoreControl
       class Unknown < HarnessTruncationStrategyConfiguration; end
     end
 
+    # The HTTP target configuration for a gateway target. Contains the
+    # configuration for HTTP-based target endpoints.
+    #
+    # @note HttpTargetConfiguration is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note HttpTargetConfiguration is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of HttpTargetConfiguration corresponding to the set member.
+    #
+    # @!attribute [rw] agentcore_runtime
+    #   The AgentCore Runtime target configuration for HTTP-based
+    #   communication with an agent runtime.
+    #   @return [Types::RuntimeTargetConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HttpTargetConfiguration AWS API Documentation
+    #
+    class HttpTargetConfiguration < Struct.new(
+      :agentcore_runtime,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class AgentcoreRuntime < HttpTargetConfiguration; end
+      class Unknown < HttpTargetConfiguration; end
+    end
+
     # An IAM credential provider for gateway authentication. This structure
     # contains the configuration for authenticating with the target endpoint
     # using IAM credentials and SigV4 signing.
@@ -7689,6 +8516,28 @@ module Aws::BedrockAgentCoreControl
     class IamCredentialProvider < Struct.new(
       :service,
       :region)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An IAM principal specification for rule matching.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the IAM principal. Supports user,
+    #   role, and assumed-role ARNs. Wildcards can be used with the
+    #   `StringLike` operator.
+    #   @return [String]
+    #
+    # @!attribute [rw] operator
+    #   The match operator. `StringEquals` requires an exact match.
+    #   `StringLike` supports wildcard patterns using `*` and `?`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/IamPrincipal AWS API Documentation
+    #
+    class IamPrincipal < Struct.new(
+      :arn,
+      :operator)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8296,6 +9145,105 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # @!attribute [rw] bundle_id
+    #   The unique identifier of the configuration bundle to list versions
+    #   for.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   If the total number of results is greater than the `maxResults`
+    #   value provided in the request, enter the token returned in the
+    #   `nextToken` field in the response in this field to return the next
+    #   batch of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in the response. If the
+    #   total number of results is greater than this value, use the token
+    #   returned in the response in the `nextToken` field when making
+    #   another request to return the next batch of results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] filter
+    #   An optional filter for listing versions, including branch name,
+    #   creation source, and whether to return only the latest version per
+    #   branch.
+    #   @return [Types::VersionFilter]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListConfigurationBundleVersionsRequest AWS API Documentation
+    #
+    class ListConfigurationBundleVersionsRequest < Struct.new(
+      :bundle_id,
+      :next_token,
+      :max_results,
+      :filter)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] versions
+    #   The list of configuration bundle version summaries.
+    #   @return [Array<Types::ConfigurationBundleVersionSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If the total number of results is greater than the `maxResults`
+    #   value provided in the request, use this token when making another
+    #   request in the `nextToken` field to return the next batch of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListConfigurationBundleVersionsResponse AWS API Documentation
+    #
+    class ListConfigurationBundleVersionsResponse < Struct.new(
+      :versions,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   If the total number of results is greater than the `maxResults`
+    #   value provided in the request, enter the token returned in the
+    #   `nextToken` field in the response in this field to return the next
+    #   batch of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in the response. If the
+    #   total number of results is greater than this value, use the token
+    #   returned in the response in the `nextToken` field when making
+    #   another request to return the next batch of results.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListConfigurationBundlesRequest AWS API Documentation
+    #
+    class ListConfigurationBundlesRequest < Struct.new(
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] bundles
+    #   The list of configuration bundle summaries.
+    #   @return [Array<Types::ConfigurationBundleSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If the total number of results is greater than the `maxResults`
+    #   value provided in the request, use this token when making another
+    #   request in the `nextToken` field to return the next batch of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListConfigurationBundlesResponse AWS API Documentation
+    #
+    class ListConfigurationBundlesResponse < Struct.new(
+      :bundles,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] next_token
     #   The pagination token from a previous request to retrieve the next
     #   page of results.
@@ -8328,6 +9276,48 @@ module Aws::BedrockAgentCoreControl
     #
     class ListEvaluatorsResponse < Struct.new(
       :evaluators,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] gateway_identifier
+    #   The identifier of the gateway to list rules for.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in the response. If the
+    #   total number of results is greater than this value, use the token
+    #   returned in the response in the `nextToken` field when making
+    #   another request to return the next batch of results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token from a previous request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListGatewayRulesRequest AWS API Documentation
+    #
+    class ListGatewayRulesRequest < Struct.new(
+      :gateway_identifier,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] gateway_rules
+    #   The list of gateway rules.
+    #   @return [Array<Types::GatewayRuleDetail>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token to use in a subsequent request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListGatewayRulesResponse AWS API Documentation
+    #
+    class ListGatewayRulesResponse < Struct.new(
+      :gateway_rules,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -9103,6 +10093,61 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # A condition that matches requests based on the request path.
+    #
+    # @!attribute [rw] any_of
+    #   A list of path patterns. The condition is met if the request path
+    #   matches any of the patterns.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/MatchPaths AWS API Documentation
+    #
+    class MatchPaths < Struct.new(
+      :any_of)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Union for principal matching. Currently supports IAM principal ARN
+    # glob matching. Extensible for future principal types (e.g., OAuth
+    # client ID).
+    #
+    # @note MatchPrincipalEntry is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note MatchPrincipalEntry is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of MatchPrincipalEntry corresponding to the set member.
+    #
+    # @!attribute [rw] iam_principal
+    #   An IAM principal to match against, specified by ARN.
+    #   @return [Types::IamPrincipal]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/MatchPrincipalEntry AWS API Documentation
+    #
+    class MatchPrincipalEntry < Struct.new(
+      :iam_principal,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class IamPrincipal < MatchPrincipalEntry; end
+      class Unknown < MatchPrincipalEntry; end
+    end
+
+    # A condition that matches requests based on the caller's identity.
+    #
+    # @!attribute [rw] any_of
+    #   A list of principal entries. The condition is met if any of the
+    #   entries match the caller's identity.
+    #   @return [Array<Types::MatchPrincipalEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/MatchPrincipals AWS API Documentation
+    #
+    class MatchPrincipals < Struct.new(
+      :any_of)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The Model Context Protocol (MCP) descriptor for a registry record.
     # Contains the server definition and tools definition for an
     # MCP-compatible server. The schema is validated against the MCP
@@ -9164,11 +10209,6 @@ module Aws::BedrockAgentCoreControl
     #   with mcpToolSchema.
     #   @return [Types::McpToolSchemaConfiguration]
     #
-    # @!attribute [rw] resource_priority
-    #   Priority for resolving MCP server targets with shared resource URIs.
-    #   Lower values take precedence. Defaults to 1000 when not set.
-    #   @return [Integer]
-    #
     # @!attribute [rw] listing_mode
     #   The listing mode for the MCP server target configuration. MCP
     #   resources for default targets are cached at the control plane for
@@ -9176,13 +10216,18 @@ module Aws::BedrockAgentCoreControl
     #   retrieved when listing tools.
     #   @return [String]
     #
+    # @!attribute [rw] resource_priority
+    #   Priority for resolving MCP server targets with shared resource URIs.
+    #   Lower values take precedence. Defaults to 1000 when not set.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/McpServerTargetConfiguration AWS API Documentation
     #
     class McpServerTargetConfiguration < Struct.new(
       :endpoint,
       :mcp_tool_schema,
-      :resource_priority,
-      :listing_mode)
+      :listing_mode,
+      :resource_priority)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11109,6 +12154,36 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # An action that routes requests to a gateway target, either statically
+    # or with weighted traffic splitting.
+    #
+    # @note RouteToTargetAction is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note RouteToTargetAction is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of RouteToTargetAction corresponding to the set member.
+    #
+    # @!attribute [rw] static_route
+    #   A static route that sends all matching requests to a single target.
+    #   @return [Types::StaticRoute]
+    #
+    # @!attribute [rw] weighted_route
+    #   A weighted route that splits traffic between multiple targets.
+    #   @return [Types::WeightedRoute]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/RouteToTargetAction AWS API Documentation
+    #
+    class RouteToTargetAction < Struct.new(
+      :static_route,
+      :weighted_route,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class StaticRoute < RouteToTargetAction; end
+      class WeightedRoute < RouteToTargetAction; end
+      class Unknown < RouteToTargetAction; end
+    end
+
     # The evaluation rule that defines sampling configuration, filtering
     # criteria, and session detection settings for online evaluation.
     #
@@ -11149,6 +12224,28 @@ module Aws::BedrockAgentCoreControl
     #
     class RuntimeMetadataConfiguration < Struct.new(
       :require_mmdsv2)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for an AgentCore Runtime target. Specifies the agent
+    # runtime to route requests to via HTTP.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the AgentCore Runtime to route
+    #   requests to.
+    #   @return [String]
+    #
+    # @!attribute [rw] qualifier
+    #   The qualifier for the agent runtime, used to target a specific
+    #   endpoint version. If not specified, the default endpoint is used.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/RuntimeTargetConfiguration AWS API Documentation
+    #
+    class RuntimeTargetConfiguration < Struct.new(
+      :arn,
+      :qualifier)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11829,6 +12926,39 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # A static configuration bundle override.
+    #
+    # @!attribute [rw] bundle_arn
+    #   The Amazon Resource Name (ARN) of the configuration bundle to apply.
+    #   @return [String]
+    #
+    # @!attribute [rw] bundle_version
+    #   The version of the configuration bundle to apply.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/StaticOverride AWS API Documentation
+    #
+    class StaticOverride < Struct.new(
+      :bundle_arn,
+      :bundle_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A static route to a single gateway target.
+    #
+    # @!attribute [rw] target_name
+    #   The name of the target to route requests to.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/StaticRoute AWS API Documentation
+    #
+    class StaticRoute < Struct.new(
+      :target_name)
+      SENSITIVE = [:target_name]
+      include Aws::Structure
+    end
+
     # Contains configuration information for a memory strategy.
     #
     # @!attribute [rw] type
@@ -12080,6 +13210,21 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # System-managed metadata for rules created by automated processes such
+    # as A/B tests.
+    #
+    # @!attribute [rw] managed_by
+    #   The identifier of the system or process that manages this rule.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SystemManagedBlock AWS API Documentation
+    #
+    class SystemManagedBlock < Struct.new(
+      :managed_by)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] resource_arn
     #   The Amazon Resource Name (ARN) of the resource that you want to tag.
     #   @return [String]
@@ -12114,16 +13259,23 @@ module Aws::BedrockAgentCoreControl
     #   the target.
     #   @return [Types::McpTargetConfiguration]
     #
+    # @!attribute [rw] http
+    #   The HTTP target configuration. Use this to route gateway requests to
+    #   an HTTP-based endpoint such as an AgentCore Runtime.
+    #   @return [Types::HttpTargetConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/TargetConfiguration AWS API Documentation
     #
     class TargetConfiguration < Struct.new(
       :mcp,
+      :http,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
       class Mcp < TargetConfiguration; end
+      class Http < TargetConfiguration; end
       class Unknown < TargetConfiguration; end
     end
 
@@ -12170,6 +13322,40 @@ module Aws::BedrockAgentCoreControl
       :updated_at,
       :resource_priority)
       SENSITIVE = [:name, :description]
+      include Aws::Structure
+    end
+
+    # An entry in a target traffic split configuration.
+    #
+    # @!attribute [rw] name
+    #   The name of this traffic split variant.
+    #   @return [String]
+    #
+    # @!attribute [rw] weight
+    #   The percentage of traffic to route to this variant.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] target_name
+    #   The name of the target to route traffic to.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of this traffic split variant.
+    #   @return [String]
+    #
+    # @!attribute [rw] metadata
+    #   Key-value metadata associated with this traffic split variant.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/TargetTrafficSplitEntry AWS API Documentation
+    #
+    class TargetTrafficSplitEntry < Struct.new(
+      :name,
+      :weight,
+      :target_name,
+      :description,
+      :metadata)
+      SENSITIVE = [:target_name]
       include Aws::Structure
     end
 
@@ -12340,6 +13526,42 @@ module Aws::BedrockAgentCoreControl
     class ToolsDefinition < Struct.new(
       :protocol_version,
       :inline_content)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An entry in a traffic split configuration, defining a named variant
+    # with a weight and configuration bundle reference.
+    #
+    # @!attribute [rw] name
+    #   The name of this traffic split variant.
+    #   @return [String]
+    #
+    # @!attribute [rw] weight
+    #   The percentage of traffic to route to this variant. Weights across
+    #   all entries must sum to 100.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] configuration_bundle
+    #   The configuration bundle reference for this variant.
+    #   @return [Types::ConfigurationBundleReference]
+    #
+    # @!attribute [rw] description
+    #   The description of this traffic split variant.
+    #   @return [String]
+    #
+    # @!attribute [rw] metadata
+    #   Key-value metadata associated with this traffic split variant.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/TrafficSplitEntry AWS API Documentation
+    #
+    class TrafficSplitEntry < Struct.new(
+      :name,
+      :weight,
+      :configuration_bundle,
+      :description,
+      :metadata)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -12723,6 +13945,104 @@ module Aws::BedrockAgentCoreControl
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
     #   @return [String]
     #
+    # @!attribute [rw] bundle_id
+    #   The unique identifier of the configuration bundle to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] bundle_name
+    #   The updated name for the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The updated description for the configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] components
+    #   The updated component configurations. Creates a new version of the
+    #   bundle.
+    #   @return [Hash<String,Types::ComponentConfiguration>]
+    #
+    # @!attribute [rw] parent_version_ids
+    #   A list of parent version identifiers for lineage tracking. Regular
+    #   commits have a single parent. Merge commits have two parents: the
+    #   target branch parent and the source branch parent. If the branch
+    #   already exists, the first parent must be the latest version on that
+    #   branch.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] branch_name
+    #   The branch name for this version. If not specified, inherits the
+    #   parent's branch or defaults to `mainline`.
+    #   @return [String]
+    #
+    # @!attribute [rw] commit_message
+    #   A commit message describing the changes in this version.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_by
+    #   The source that created this version, including the source name and
+    #   optional ARN.
+    #   @return [Types::VersionCreatedBySource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateConfigurationBundleRequest AWS API Documentation
+    #
+    class UpdateConfigurationBundleRequest < Struct.new(
+      :client_token,
+      :bundle_id,
+      :bundle_name,
+      :description,
+      :components,
+      :parent_version_ids,
+      :branch_name,
+      :commit_message,
+      :created_by)
+      SENSITIVE = [:description, :components]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] bundle_arn
+    #   The Amazon Resource Name (ARN) of the updated configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] bundle_id
+    #   The unique identifier of the updated configuration bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   The new version identifier created by this update.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the configuration bundle was updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateConfigurationBundleResponse AWS API Documentation
+    #
+    class UpdateConfigurationBundleResponse < Struct.new(
+      :bundle_arn,
+      :bundle_id,
+      :version_id,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a
+    #   previous request, the service ignores the request, but doesn't
+    #   return an error. For more information, see [Ensuring
+    #   idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #   @return [String]
+    #
     # @!attribute [rw] evaluator_id
     #   The unique identifier of the evaluator to update.
     #   @return [String]
@@ -12743,6 +14063,21 @@ module Aws::BedrockAgentCoreControl
     #   that determines the scope of evaluation.
     #   @return [String]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of a customer managed KMS key to use
+    #   for encrypting sensitive evaluator data. Specify a new key ARN to
+    #   rotate the encryption key, or specify a key ARN to add encryption to
+    #   an evaluator that was previously created without one. When you
+    #   rotate to a new key, the service decrypts the existing data with the
+    #   old key and re-encrypts it with the new key. Only symmetric
+    #   encryption KMS keys are supported. For more information, see
+    #   [Encryption at rest for AgentCore Evaluations][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/evaluations-encryption.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateEvaluatorRequest AWS API Documentation
     #
     class UpdateEvaluatorRequest < Struct.new(
@@ -12750,7 +14085,8 @@ module Aws::BedrockAgentCoreControl
       :evaluator_id,
       :description,
       :evaluator_config,
-      :level)
+      :level,
+      :kms_key_arn)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -12973,6 +14309,105 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!attribute [rw] gateway_identifier
+    #   The identifier of the gateway containing the rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] rule_id
+    #   The unique identifier of the rule to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] priority
+    #   The updated priority of the rule.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] conditions
+    #   The updated conditions for the rule.
+    #   @return [Array<Types::Condition>]
+    #
+    # @!attribute [rw] actions
+    #   The updated actions for the rule.
+    #   @return [Array<Types::Action>]
+    #
+    # @!attribute [rw] description
+    #   The updated description of the rule.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateGatewayRuleRequest AWS API Documentation
+    #
+    class UpdateGatewayRuleRequest < Struct.new(
+      :gateway_identifier,
+      :rule_id,
+      :priority,
+      :conditions,
+      :actions,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Create response excludes updatedAt (redundant on create). Get/Update
+    # responses include it via their own output structures.
+    #
+    # @!attribute [rw] rule_id
+    #   The unique identifier of the gateway rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] gateway_arn
+    #   The Amazon Resource Name (ARN) of the gateway that the rule belongs
+    #   to.
+    #   @return [String]
+    #
+    # @!attribute [rw] priority
+    #   The priority of the rule. Rules are evaluated in order of priority,
+    #   with lower numbers evaluated first.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] conditions
+    #   The conditions that must be met for the rule to apply.
+    #   @return [Array<Types::Condition>]
+    #
+    # @!attribute [rw] actions
+    #   The actions to take when the rule conditions are met.
+    #   @return [Array<Types::Action>]
+    #
+    # @!attribute [rw] description
+    #   The description of the gateway rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the rule was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The current status of the rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] system
+    #   System-managed metadata for rules created by automated processes.
+    #   @return [Types::SystemManagedBlock]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the rule was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateGatewayRuleResponse AWS API Documentation
+    #
+    class UpdateGatewayRuleResponse < Struct.new(
+      :rule_id,
+      :gateway_arn,
+      :priority,
+      :conditions,
+      :actions,
+      :description,
+      :created_at,
+      :status,
+      :system,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] gateway_identifier
     #   The unique identifier of the gateway associated with the target.
     #   @return [String]
     #
@@ -13088,6 +14523,10 @@ module Aws::BedrockAgentCoreControl
     #   with authorization code grant type and requires user federation.
     #   @return [Types::AuthorizationData]
     #
+    # @!attribute [rw] protocol_type
+    #   The protocol type of the updated gateway target.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateGatewayTargetResponse AWS API Documentation
     #
     class UpdateGatewayTargetResponse < Struct.new(
@@ -13105,7 +14544,8 @@ module Aws::BedrockAgentCoreControl
       :metadata_configuration,
       :private_endpoint,
       :private_endpoint_managed_resources,
-      :authorization_data)
+      :authorization_data,
+      :protocol_type)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -13195,8 +14635,9 @@ module Aws::BedrockAgentCoreControl
     #   @return [Integer]
     #
     # @!attribute [rw] max_tokens
-    #   The maximum number of tokens the agent can generate per iteration.
-    #   If not specified, the existing value is retained.
+    #   The maximum total number of output tokens the agent can generate
+    #   across all model calls within a single invocation. If not specified,
+    #   the existing value is retained.
     #   @return [Integer]
     #
     # @!attribute [rw] timeout_seconds
@@ -14550,6 +15991,87 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The source that created a configuration bundle version.
+    #
+    # @!attribute [rw] name
+    #   The name of the source (for example, `user`, `optimization-job`, or
+    #   `system`).
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the source, if applicable (for
+    #   example, a user ARN or optimization job ARN).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/VersionCreatedBySource AWS API Documentation
+    #
+    class VersionCreatedBySource < Struct.new(
+      :name,
+      :arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A filter for listing configuration bundle versions.
+    #
+    # @!attribute [rw] branch_name
+    #   Filter by branch name.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_by_name
+    #   Filter by creation source name.
+    #   @return [String]
+    #
+    # @!attribute [rw] latest_per_branch
+    #   When true, returns only the latest version for each branch. When
+    #   false or not specified, returns all versions. Can be combined with
+    #   `branchName` to get the latest version for a specific branch.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/VersionFilter AWS API Documentation
+    #
+    class VersionFilter < Struct.new(
+      :branch_name,
+      :created_by_name,
+      :latest_per_branch)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The version lineage metadata that tracks parent versions and creation
+    # source. Supports git-like two-parent merges for branch management.
+    #
+    # @!attribute [rw] parent_version_ids
+    #   A list of parent version identifiers. Regular commits have 0-1
+    #   parents. Merge commits have 2 parents: the target branch parent and
+    #   the source branch parent. The first parent represents the primary
+    #   lineage.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] branch_name
+    #   The branch name for this version. If not specified, inherits the
+    #   parent's branch or defaults to `mainline`.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_by
+    #   The source that created this version.
+    #   @return [Types::VersionCreatedBySource]
+    #
+    # @!attribute [rw] commit_message
+    #   A commit message describing the changes in this version.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/VersionLineageMetadata AWS API Documentation
+    #
+    class VersionLineageMetadata < Struct.new(
+      :parent_version_ids,
+      :branch_name,
+      :created_by,
+      :commit_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # VpcConfig for the Agent.
     #
     # @!attribute [rw] security_groups
@@ -14565,6 +16087,37 @@ module Aws::BedrockAgentCoreControl
     class VpcConfig < Struct.new(
       :security_groups,
       :subnets)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A weighted configuration bundle override that splits traffic between
+    # multiple bundle versions.
+    #
+    # @!attribute [rw] traffic_split
+    #   The traffic split entries defining how traffic is distributed
+    #   between configuration bundle versions.
+    #   @return [Array<Types::TrafficSplitEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/WeightedOverride AWS API Documentation
+    #
+    class WeightedOverride < Struct.new(
+      :traffic_split)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A weighted route that splits traffic between multiple gateway targets.
+    #
+    # @!attribute [rw] traffic_split
+    #   The traffic split entries defining how traffic is distributed
+    #   between targets.
+    #   @return [Array<Types::TargetTrafficSplitEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/WeightedRoute AWS API Documentation
+    #
+    class WeightedRoute < Struct.new(
+      :traffic_split)
       SENSITIVE = []
       include Aws::Structure
     end

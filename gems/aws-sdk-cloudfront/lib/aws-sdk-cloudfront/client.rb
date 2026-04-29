@@ -889,6 +889,7 @@ module Aws::CloudFront
     #   resp.distribution.distribution_config.viewer_mtls_config.trust_store_config.advertise_trust_store_ca_names #=> Boolean
     #   resp.distribution.distribution_config.viewer_mtls_config.trust_store_config.ignore_certificate_expiry #=> Boolean
     #   resp.distribution.distribution_config.connection_function_association.id #=> String
+    #   resp.distribution.distribution_config.cache_tag_config.header_name #=> String
     #   resp.distribution.alias_icp_recordals #=> Array
     #   resp.distribution.alias_icp_recordals[0].cname #=> String
     #   resp.distribution.alias_icp_recordals[0].icp_recordal_status #=> String, one of "APPROVED", "SUSPENDED", "PENDING"
@@ -1683,6 +1684,9 @@ module Aws::CloudFront
     #       connection_function_association: {
     #         id: "ResourceId", # required
     #       },
+    #       cache_tag_config: {
+    #         header_name: "string", # required
+    #       },
     #     },
     #   })
     #
@@ -1892,6 +1896,7 @@ module Aws::CloudFront
     #   resp.distribution.distribution_config.viewer_mtls_config.trust_store_config.advertise_trust_store_ca_names #=> Boolean
     #   resp.distribution.distribution_config.viewer_mtls_config.trust_store_config.ignore_certificate_expiry #=> Boolean
     #   resp.distribution.distribution_config.connection_function_association.id #=> String
+    #   resp.distribution.distribution_config.cache_tag_config.header_name #=> String
     #   resp.distribution.alias_icp_recordals #=> Array
     #   resp.distribution.alias_icp_recordals[0].cname #=> String
     #   resp.distribution.alias_icp_recordals[0].icp_recordal_status #=> String, one of "APPROVED", "SUSPENDED", "PENDING"
@@ -2364,6 +2369,9 @@ module Aws::CloudFront
     #         connection_function_association: {
     #           id: "ResourceId", # required
     #         },
+    #         cache_tag_config: {
+    #           header_name: "string", # required
+    #         },
     #       },
     #       tags: { # required
     #         items: [
@@ -2582,6 +2590,7 @@ module Aws::CloudFront
     #   resp.distribution.distribution_config.viewer_mtls_config.trust_store_config.advertise_trust_store_ca_names #=> Boolean
     #   resp.distribution.distribution_config.viewer_mtls_config.trust_store_config.ignore_certificate_expiry #=> Boolean
     #   resp.distribution.distribution_config.connection_function_association.id #=> String
+    #   resp.distribution.distribution_config.cache_tag_config.header_name #=> String
     #   resp.distribution.alias_icp_recordals #=> Array
     #   resp.distribution.alias_icp_recordals[0].cname #=> String
     #   resp.distribution.alias_icp_recordals[0].icp_recordal_status #=> String, one of "APPROVED", "SUSPENDED", "PENDING"
@@ -5658,6 +5667,7 @@ module Aws::CloudFront
     #   resp.distribution.distribution_config.viewer_mtls_config.trust_store_config.advertise_trust_store_ca_names #=> Boolean
     #   resp.distribution.distribution_config.viewer_mtls_config.trust_store_config.ignore_certificate_expiry #=> Boolean
     #   resp.distribution.distribution_config.connection_function_association.id #=> String
+    #   resp.distribution.distribution_config.cache_tag_config.header_name #=> String
     #   resp.distribution.alias_icp_recordals #=> Array
     #   resp.distribution.alias_icp_recordals[0].cname #=> String
     #   resp.distribution.alias_icp_recordals[0].icp_recordal_status #=> String, one of "APPROVED", "SUSPENDED", "PENDING"
@@ -5880,6 +5890,7 @@ module Aws::CloudFront
     #   resp.distribution_config.viewer_mtls_config.trust_store_config.advertise_trust_store_ca_names #=> Boolean
     #   resp.distribution_config.viewer_mtls_config.trust_store_config.ignore_certificate_expiry #=> Boolean
     #   resp.distribution_config.connection_function_association.id #=> String
+    #   resp.distribution_config.cache_tag_config.header_name #=> String
     #   resp.etag #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/GetDistributionConfig AWS API Documentation
@@ -11898,6 +11909,9 @@ module Aws::CloudFront
     #       connection_function_association: {
     #         id: "ResourceId", # required
     #       },
+    #       cache_tag_config: {
+    #         header_name: "string", # required
+    #       },
     #     },
     #     id: "string", # required
     #     if_match: "string",
@@ -12109,6 +12123,7 @@ module Aws::CloudFront
     #   resp.distribution.distribution_config.viewer_mtls_config.trust_store_config.advertise_trust_store_ca_names #=> Boolean
     #   resp.distribution.distribution_config.viewer_mtls_config.trust_store_config.ignore_certificate_expiry #=> Boolean
     #   resp.distribution.distribution_config.connection_function_association.id #=> String
+    #   resp.distribution.distribution_config.cache_tag_config.header_name #=> String
     #   resp.distribution.alias_icp_recordals #=> Array
     #   resp.distribution.alias_icp_recordals[0].cname #=> String
     #   resp.distribution.alias_icp_recordals[0].icp_recordal_status #=> String, one of "APPROVED", "SUSPENDED", "PENDING"
@@ -12507,6 +12522,7 @@ module Aws::CloudFront
     #   resp.distribution.distribution_config.viewer_mtls_config.trust_store_config.advertise_trust_store_ca_names #=> Boolean
     #   resp.distribution.distribution_config.viewer_mtls_config.trust_store_config.ignore_certificate_expiry #=> Boolean
     #   resp.distribution.distribution_config.connection_function_association.id #=> String
+    #   resp.distribution.distribution_config.cache_tag_config.header_name #=> String
     #   resp.distribution.alias_icp_recordals #=> Array
     #   resp.distribution.alias_icp_recordals[0].cname #=> String
     #   resp.distribution.alias_icp_recordals[0].icp_recordal_status #=> String, one of "APPROVED", "SUSPENDED", "PENDING"
@@ -13766,7 +13782,7 @@ module Aws::CloudFront
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudfront'
-      context[:gem_version] = '1.143.0'
+      context[:gem_version] = '1.144.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

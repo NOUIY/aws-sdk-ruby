@@ -155,6 +155,53 @@ module Aws
                                         ) -> _CompleteResourceTokenAuthResponseSuccess
                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CompleteResourceTokenAuthResponseSuccess
 
+      interface _CreateABTestResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateABTestResponse]
+        def ab_test_id: () -> ::String
+        def ab_test_arn: () -> ::String
+        def name: () -> ::String
+        def status: () -> ("CREATING" | "ACTIVE" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "FAILED")
+        def execution_status: () -> ("PAUSED" | "RUNNING" | "STOPPED" | "NOT_STARTED")
+        def created_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#create_ab_test-instance_method
+      def create_ab_test: (
+                            name: ::String,
+                            ?description: ::String,
+                            gateway_arn: ::String,
+                            variants: Array[
+                              {
+                                name: ::String,
+                                weight: ::Integer,
+                                variant_configuration: {
+                                  configuration_bundle: {
+                                    bundle_arn: ::String,
+                                    bundle_version: ::String
+                                  }?,
+                                  target: {
+                                    name: ::String
+                                  }?
+                                }
+                              },
+                            ],
+                            ?gateway_filter: {
+                              target_paths: Array[::String]?
+                            },
+                            evaluation_config: {
+                              online_evaluation_config_arn: ::String?,
+                              per_variant_online_evaluation_config: Array[
+                                {
+                                  name: ::String,
+                                  online_evaluation_config_arn: ::String
+                                },
+                              ]?
+                            },
+                            role_arn: ::String,
+                            ?enable_on_create: bool,
+                            ?client_token: ::String
+                          ) -> _CreateABTestResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateABTestResponseSuccess
+
       interface _CreateEventResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateEventOutput]
         def event: () -> Types::Event
@@ -188,6 +235,30 @@ module Aws
                         ) -> _CreateEventResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateEventResponseSuccess
 
+      interface _DeleteABTestResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteABTestResponse]
+        def ab_test_id: () -> ::String
+        def ab_test_arn: () -> ::String
+        def status: () -> ("CREATING" | "ACTIVE" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "FAILED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#delete_ab_test-instance_method
+      def delete_ab_test: (
+                            ab_test_id: ::String
+                          ) -> _DeleteABTestResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteABTestResponseSuccess
+
+      interface _DeleteBatchEvaluationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteBatchEvaluationResponse]
+        def batch_evaluation_id: () -> ::String
+        def batch_evaluation_arn: () -> ::String
+        def status: () -> ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "COMPLETED_WITH_ERRORS" | "FAILED" | "STOPPING" | "STOPPED" | "DELETING")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#delete_batch_evaluation-instance_method
+      def delete_batch_evaluation: (
+                                     batch_evaluation_id: ::String
+                                   ) -> _DeleteBatchEvaluationResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteBatchEvaluationResponseSuccess
+
       interface _DeleteEventResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteEventOutput]
         def event_id: () -> ::String
@@ -211,6 +282,17 @@ module Aws
                                   memory_record_id: ::String
                                 ) -> _DeleteMemoryRecordResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteMemoryRecordResponseSuccess
+
+      interface _DeleteRecommendationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteRecommendationResponse]
+        def recommendation_id: () -> ::String
+        def status: () -> ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | "DELETING")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#delete_recommendation-instance_method
+      def delete_recommendation: (
+                                   recommendation_id: ::String
+                                 ) -> _DeleteRecommendationResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteRecommendationResponseSuccess
 
       interface _EvaluateResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::EvaluateResponse]
@@ -254,6 +336,34 @@ module Aws
                     ) -> _EvaluateResponseSuccess
                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _EvaluateResponseSuccess
 
+      interface _GetABTestResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetABTestResponse]
+        def ab_test_id: () -> ::String
+        def ab_test_arn: () -> ::String
+        def name: () -> ::String
+        def description: () -> ::String
+        def status: () -> ("CREATING" | "ACTIVE" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "FAILED")
+        def execution_status: () -> ("PAUSED" | "RUNNING" | "STOPPED" | "NOT_STARTED")
+        def gateway_arn: () -> ::String
+        def variants: () -> ::Array[Types::Variant]
+        def gateway_filter: () -> Types::GatewayFilter
+        def evaluation_config: () -> Types::ABTestEvaluationConfig
+        def role_arn: () -> ::String
+        def current_run_id: () -> ::String
+        def error_details: () -> ::Array[::String]
+        def started_at: () -> ::Time
+        def stopped_at: () -> ::Time
+        def max_duration_expires_at: () -> ::Time
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+        def results: () -> Types::ABTestResults
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#get_ab_test-instance_method
+      def get_ab_test: (
+                         ab_test_id: ::String
+                       ) -> _GetABTestResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetABTestResponseSuccess
+
       interface _GetAgentCardResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetAgentCardResponse]
         def runtime_session_id: () -> ::String
@@ -267,6 +377,27 @@ module Aws
                             ?qualifier: ::String
                           ) -> _GetAgentCardResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetAgentCardResponseSuccess
+
+      interface _GetBatchEvaluationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetBatchEvaluationResponse]
+        def batch_evaluation_id: () -> ::String
+        def batch_evaluation_arn: () -> ::String
+        def batch_evaluation_name: () -> ::String
+        def status: () -> ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "COMPLETED_WITH_ERRORS" | "FAILED" | "STOPPING" | "STOPPED" | "DELETING")
+        def created_at: () -> ::Time
+        def evaluators: () -> ::Array[Types::Evaluator]
+        def data_source_config: () -> Types::DataSourceConfig
+        def output_config: () -> Types::OutputConfig
+        def evaluation_results: () -> Types::EvaluationJobResults
+        def error_details: () -> ::Array[::String]
+        def description: () -> ::String
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#get_batch_evaluation-instance_method
+      def get_batch_evaluation: (
+                                  batch_evaluation_id: ::String
+                                ) -> _GetBatchEvaluationResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetBatchEvaluationResponseSuccess
 
       interface _GetBrowserSessionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetBrowserSessionResponse]
@@ -333,6 +464,25 @@ module Aws
                                memory_record_id: ::String
                              ) -> _GetMemoryRecordResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetMemoryRecordResponseSuccess
+
+      interface _GetRecommendationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetRecommendationResponse]
+        def recommendation_id: () -> ::String
+        def recommendation_arn: () -> ::String
+        def name: () -> ::String
+        def description: () -> ::String
+        def type: () -> ("SYSTEM_PROMPT_RECOMMENDATION" | "TOOL_DESCRIPTION_RECOMMENDATION")
+        def recommendation_config: () -> Types::RecommendationConfig
+        def status: () -> ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | "DELETING")
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+        def recommendation_result: () -> Types::RecommendationResult
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#get_recommendation-instance_method
+      def get_recommendation: (
+                                recommendation_id: ::String
+                              ) -> _GetRecommendationResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetRecommendationResponseSuccess
 
       interface _GetResourceApiKeyResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetResourceApiKeyResponse]
@@ -668,6 +818,18 @@ module Aws
                           ) ?{ (*untyped) -> void } -> _InvokeHarnessResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _InvokeHarnessResponseSuccess
 
+      interface _ListABTestsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListABTestsResponse]
+        def ab_tests: () -> ::Array[Types::ABTestSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#list_ab_tests-instance_method
+      def list_ab_tests: (
+                           ?max_results: ::Integer,
+                           ?next_token: ::String
+                         ) -> _ListABTestsResponseSuccess
+                       | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListABTestsResponseSuccess
+
       interface _ListActorsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListActorsOutput]
         def actor_summaries: () -> ::Array[Types::ActorSummary]
@@ -680,6 +842,18 @@ module Aws
                          ?next_token: ::String
                        ) -> _ListActorsResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListActorsResponseSuccess
+
+      interface _ListBatchEvaluationsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListBatchEvaluationsResponse]
+        def batch_evaluations: () -> ::Array[Types::BatchEvaluationSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#list_batch_evaluations-instance_method
+      def list_batch_evaluations: (
+                                    ?max_results: ::Integer,
+                                    ?next_token: ::String
+                                  ) -> _ListBatchEvaluationsResponseSuccess
+                                | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListBatchEvaluationsResponseSuccess
 
       interface _ListBrowserSessionsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListBrowserSessionsResponse]
@@ -779,6 +953,19 @@ module Aws
                                ) -> _ListMemoryRecordsResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListMemoryRecordsResponseSuccess
 
+      interface _ListRecommendationsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListRecommendationsResponse]
+        def recommendation_summaries: () -> ::Array[Types::RecommendationSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#list_recommendations-instance_method
+      def list_recommendations: (
+                                  ?max_results: ::Integer,
+                                  ?next_token: ::String,
+                                  ?status_filter: ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | "DELETING")
+                                ) -> _ListRecommendationsResponseSuccess
+                              | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListRecommendationsResponseSuccess
+
       interface _ListSessionsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListSessionsOutput]
         def session_summaries: () -> ::Array[Types::SessionSummary]
@@ -860,6 +1047,74 @@ module Aws
                                      }
                                    ) -> _SearchRegistryRecordsResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchRegistryRecordsResponseSuccess
+
+      interface _StartBatchEvaluationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StartBatchEvaluationResponse]
+        def batch_evaluation_id: () -> ::String
+        def batch_evaluation_arn: () -> ::String
+        def batch_evaluation_name: () -> ::String
+        def evaluators: () -> ::Array[Types::Evaluator]
+        def status: () -> ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "COMPLETED_WITH_ERRORS" | "FAILED" | "STOPPING" | "STOPPED" | "DELETING")
+        def created_at: () -> ::Time
+        def output_config: () -> Types::OutputConfig
+        def description: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#start_batch_evaluation-instance_method
+      def start_batch_evaluation: (
+                                    batch_evaluation_name: ::String,
+                                    ?evaluators: Array[
+                                      {
+                                        evaluator_id: ::String
+                                      },
+                                    ],
+                                    data_source_config: {
+                                      cloud_watch_logs: {
+                                        service_names: Array[::String],
+                                        log_group_names: Array[::String],
+                                        filter_config: {
+                                          session_ids: Array[::String]?,
+                                          time_range: {
+                                            start_time: ::Time?,
+                                            end_time: ::Time?
+                                          }?
+                                        }?
+                                      }?
+                                    },
+                                    ?client_token: ::String,
+                                    ?evaluation_metadata: {
+                                      session_metadata: Array[
+                                        {
+                                          session_id: ::String,
+                                          test_scenario_id: ::String?,
+                                          ground_truth: {
+                                            inline: {
+                                              assertions: Array[
+                                                {
+                                                  text: ::String?
+                                                },
+                                              ]?,
+                                              expected_trajectory: {
+                                                tool_names: Array[::String]?
+                                              }?,
+                                              turns: Array[
+                                                {
+                                                  input: {
+                                                    prompt: ::String?
+                                                  }?,
+                                                  expected_response: {
+                                                    text: ::String?
+                                                  }?
+                                                },
+                                              ]?
+                                            }?
+                                          }?,
+                                          metadata: Hash[::String, ::String]?
+                                        },
+                                      ]?
+                                    },
+                                    ?description: ::String
+                                  ) -> _StartBatchEvaluationResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartBatchEvaluationResponseSuccess
 
       interface _StartBrowserSessionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StartBrowserSessionResponse]
@@ -977,6 +1232,133 @@ module Aws
                                        ) -> _StartMemoryExtractionJobResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartMemoryExtractionJobResponseSuccess
 
+      interface _StartRecommendationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StartRecommendationResponse]
+        def recommendation_id: () -> ::String
+        def recommendation_arn: () -> ::String
+        def name: () -> ::String
+        def description: () -> ::String
+        def type: () -> ("SYSTEM_PROMPT_RECOMMENDATION" | "TOOL_DESCRIPTION_RECOMMENDATION")
+        def recommendation_config: () -> Types::RecommendationConfig
+        def status: () -> ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | "DELETING")
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#start_recommendation-instance_method
+      def start_recommendation: (
+                                  name: ::String,
+                                  ?description: ::String,
+                                  type: ("SYSTEM_PROMPT_RECOMMENDATION" | "TOOL_DESCRIPTION_RECOMMENDATION"),
+                                  recommendation_config: {
+                                    system_prompt_recommendation_config: {
+                                      system_prompt: {
+                                        text: ::String?,
+                                        configuration_bundle: {
+                                          bundle_arn: ::String,
+                                          version_id: ::String,
+                                          system_prompt_json_path: ::String
+                                        }?
+                                      },
+                                      agent_traces: {
+                                        session_spans: Array[
+                                          {
+                                          },
+                                        ]?,
+                                        cloudwatch_logs: {
+                                          log_group_arns: Array[::String],
+                                          service_names: Array[::String],
+                                          start_time: ::Time,
+                                          end_time: ::Time,
+                                          rule: {
+                                            filters: Array[
+                                              {
+                                                key: ::String,
+                                                operator: ("Equals" | "NotEquals" | "GreaterThan" | "LessThan" | "GreaterThanOrEqual" | "LessThanOrEqual" | "Contains" | "NotContains"),
+                                                value: {
+                                                  string_value: ::String?,
+                                                  double_value: ::Float?,
+                                                  boolean_value: bool?
+                                                }
+                                              },
+                                            ]?
+                                          }?
+                                        }?
+                                      },
+                                      evaluation_config: {
+                                        evaluators: Array[
+                                          {
+                                            evaluator_arn: ::String
+                                          },
+                                        ]
+                                      }
+                                    }?,
+                                    tool_description_recommendation_config: {
+                                      tool_description: {
+                                        tool_description_text: {
+                                          tools: Array[
+                                            {
+                                              tool_name: ::String,
+                                              tool_description: {
+                                                text: ::String?
+                                              }
+                                            },
+                                          ]
+                                        }?,
+                                        configuration_bundle: {
+                                          bundle_arn: ::String,
+                                          version_id: ::String,
+                                          tools: Array[
+                                            {
+                                              tool_name: ::String,
+                                              tool_description_json_path: ::String
+                                            },
+                                          ]
+                                        }?
+                                      },
+                                      agent_traces: {
+                                        session_spans: Array[
+                                          {
+                                          },
+                                        ]?,
+                                        cloudwatch_logs: {
+                                          log_group_arns: Array[::String],
+                                          service_names: Array[::String],
+                                          start_time: ::Time,
+                                          end_time: ::Time,
+                                          rule: {
+                                            filters: Array[
+                                              {
+                                                key: ::String,
+                                                operator: ("Equals" | "NotEquals" | "GreaterThan" | "LessThan" | "GreaterThanOrEqual" | "LessThanOrEqual" | "Contains" | "NotContains"),
+                                                value: {
+                                                  string_value: ::String?,
+                                                  double_value: ::Float?,
+                                                  boolean_value: bool?
+                                                }
+                                              },
+                                            ]?
+                                          }?
+                                        }?
+                                      }
+                                    }?
+                                  },
+                                  ?client_token: ::String
+                                ) -> _StartRecommendationResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartRecommendationResponseSuccess
+
+      interface _StopBatchEvaluationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StopBatchEvaluationResponse]
+        def batch_evaluation_id: () -> ::String
+        def batch_evaluation_arn: () -> ::String
+        def status: () -> ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "COMPLETED_WITH_ERRORS" | "FAILED" | "STOPPING" | "STOPPED" | "DELETING")
+        def description: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#stop_batch_evaluation-instance_method
+      def stop_batch_evaluation: (
+                                   batch_evaluation_id: ::String
+                                 ) -> _StopBatchEvaluationResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StopBatchEvaluationResponseSuccess
+
       interface _StopBrowserSessionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StopBrowserSessionResponse]
         def browser_identifier: () -> ::String
@@ -1022,6 +1404,52 @@ module Aws
                                   ?client_token: ::String
                                 ) -> _StopRuntimeSessionResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StopRuntimeSessionResponseSuccess
+
+      interface _UpdateABTestResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateABTestResponse]
+        def ab_test_id: () -> ::String
+        def ab_test_arn: () -> ::String
+        def status: () -> ("CREATING" | "ACTIVE" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "FAILED")
+        def execution_status: () -> ("PAUSED" | "RUNNING" | "STOPPED" | "NOT_STARTED")
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#update_ab_test-instance_method
+      def update_ab_test: (
+                            ab_test_id: ::String,
+                            ?client_token: ::String,
+                            ?name: ::String,
+                            ?description: ::String,
+                            ?variants: Array[
+                              {
+                                name: ::String,
+                                weight: ::Integer,
+                                variant_configuration: {
+                                  configuration_bundle: {
+                                    bundle_arn: ::String,
+                                    bundle_version: ::String
+                                  }?,
+                                  target: {
+                                    name: ::String
+                                  }?
+                                }
+                              },
+                            ],
+                            ?gateway_filter: {
+                              target_paths: Array[::String]?
+                            },
+                            ?evaluation_config: {
+                              online_evaluation_config_arn: ::String?,
+                              per_variant_online_evaluation_config: Array[
+                                {
+                                  name: ::String,
+                                  online_evaluation_config_arn: ::String
+                                },
+                              ]?
+                            },
+                            ?role_arn: ::String,
+                            ?execution_status: ("PAUSED" | "RUNNING" | "STOPPED" | "NOT_STARTED")
+                          ) -> _UpdateABTestResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateABTestResponseSuccess
 
       interface _UpdateBrowserStreamResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateBrowserStreamResponse]

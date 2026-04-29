@@ -76,6 +76,8 @@ module Aws::GameLift
     ContainerGroupDefinitionName = Shapes::StringShape.new(name: 'ContainerGroupDefinitionName')
     ContainerGroupDefinitionNameOrArn = Shapes::StringShape.new(name: 'ContainerGroupDefinitionNameOrArn')
     ContainerGroupDefinitionStatus = Shapes::StringShape.new(name: 'ContainerGroupDefinitionStatus')
+    ContainerGroupPortMapping = Shapes::StructureShape.new(name: 'ContainerGroupPortMapping')
+    ContainerGroupPortMappingList = Shapes::ListShape.new(name: 'ContainerGroupPortMappingList')
     ContainerGroupType = Shapes::StringShape.new(name: 'ContainerGroupType')
     ContainerHealthCheck = Shapes::StructureShape.new(name: 'ContainerHealthCheck')
     ContainerHealthCheckInterval = Shapes::IntegerShape.new(name: 'ContainerHealthCheckInterval')
@@ -91,6 +93,8 @@ module Aws::GameLift
     ContainerOperatingSystem = Shapes::StringShape.new(name: 'ContainerOperatingSystem')
     ContainerPathString = Shapes::StringShape.new(name: 'ContainerPathString')
     ContainerPortConfiguration = Shapes::StructureShape.new(name: 'ContainerPortConfiguration')
+    ContainerPortMapping = Shapes::StructureShape.new(name: 'ContainerPortMapping')
+    ContainerPortMappingList = Shapes::ListShape.new(name: 'ContainerPortMappingList')
     ContainerPortRange = Shapes::StructureShape.new(name: 'ContainerPortRange')
     ContainerPortRangeList = Shapes::ListShape.new(name: 'ContainerPortRangeList')
     ContainerTotalMemoryLimit = Shapes::IntegerShape.new(name: 'ContainerTotalMemoryLimit')
@@ -177,6 +181,8 @@ module Aws::GameLift
     DescribeContainerFleetOutput = Shapes::StructureShape.new(name: 'DescribeContainerFleetOutput')
     DescribeContainerGroupDefinitionInput = Shapes::StructureShape.new(name: 'DescribeContainerGroupDefinitionInput')
     DescribeContainerGroupDefinitionOutput = Shapes::StructureShape.new(name: 'DescribeContainerGroupDefinitionOutput')
+    DescribeContainerGroupPortMappingsInput = Shapes::StructureShape.new(name: 'DescribeContainerGroupPortMappingsInput')
+    DescribeContainerGroupPortMappingsOutput = Shapes::StructureShape.new(name: 'DescribeContainerGroupPortMappingsOutput')
     DescribeEC2InstanceLimitsInput = Shapes::StructureShape.new(name: 'DescribeEC2InstanceLimitsInput')
     DescribeEC2InstanceLimitsOutput = Shapes::StructureShape.new(name: 'DescribeEC2InstanceLimitsOutput')
     DescribeFleetAttributesInput = Shapes::StructureShape.new(name: 'DescribeFleetAttributesInput')
@@ -785,6 +791,13 @@ module Aws::GameLift
 
     ContainerGroupDefinitionList.member = Shapes::ShapeRef.new(shape: ContainerGroupDefinition)
 
+    ContainerGroupPortMapping.add_member(:container_name, Shapes::ShapeRef.new(shape: NonZeroAnd128MaxAsciiString, location_name: "ContainerName"))
+    ContainerGroupPortMapping.add_member(:container_runtime_id, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "ContainerRuntimeId"))
+    ContainerGroupPortMapping.add_member(:container_port_mappings, Shapes::ShapeRef.new(shape: ContainerPortMappingList, location_name: "ContainerPortMappings"))
+    ContainerGroupPortMapping.struct_class = Types::ContainerGroupPortMapping
+
+    ContainerGroupPortMappingList.member = Shapes::ShapeRef.new(shape: ContainerGroupPortMapping)
+
     ContainerHealthCheck.add_member(:command, Shapes::ShapeRef.new(shape: ContainerCommandStringList, required: true, location_name: "Command"))
     ContainerHealthCheck.add_member(:interval, Shapes::ShapeRef.new(shape: ContainerHealthCheckInterval, location_name: "Interval"))
     ContainerHealthCheck.add_member(:retries, Shapes::ShapeRef.new(shape: ContainerHealthCheckRetries, location_name: "Retries"))
@@ -807,6 +820,13 @@ module Aws::GameLift
 
     ContainerPortConfiguration.add_member(:container_port_ranges, Shapes::ShapeRef.new(shape: ContainerPortRangeList, required: true, location_name: "ContainerPortRanges"))
     ContainerPortConfiguration.struct_class = Types::ContainerPortConfiguration
+
+    ContainerPortMapping.add_member(:container_port, Shapes::ShapeRef.new(shape: PortNumber, location_name: "ContainerPort"))
+    ContainerPortMapping.add_member(:connection_port, Shapes::ShapeRef.new(shape: PortNumber, location_name: "ConnectionPort"))
+    ContainerPortMapping.add_member(:protocol, Shapes::ShapeRef.new(shape: IpProtocol, location_name: "Protocol"))
+    ContainerPortMapping.struct_class = Types::ContainerPortMapping
+
+    ContainerPortMappingList.member = Shapes::ShapeRef.new(shape: ContainerPortMapping)
 
     ContainerPortRange.add_member(:from_port, Shapes::ShapeRef.new(shape: PortNumber, required: true, location_name: "FromPort"))
     ContainerPortRange.add_member(:to_port, Shapes::ShapeRef.new(shape: PortNumber, required: true, location_name: "ToPort"))
@@ -1158,6 +1178,22 @@ module Aws::GameLift
 
     DescribeContainerGroupDefinitionOutput.add_member(:container_group_definition, Shapes::ShapeRef.new(shape: ContainerGroupDefinition, location_name: "ContainerGroupDefinition"))
     DescribeContainerGroupDefinitionOutput.struct_class = Types::DescribeContainerGroupDefinitionOutput
+
+    DescribeContainerGroupPortMappingsInput.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetIdOrArn, required: true, location_name: "FleetId"))
+    DescribeContainerGroupPortMappingsInput.add_member(:container_group_type, Shapes::ShapeRef.new(shape: ContainerGroupType, required: true, location_name: "ContainerGroupType"))
+    DescribeContainerGroupPortMappingsInput.add_member(:compute_name, Shapes::ShapeRef.new(shape: ComputeNameOrArn, location_name: "ComputeName"))
+    DescribeContainerGroupPortMappingsInput.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, location_name: "InstanceId"))
+    DescribeContainerGroupPortMappingsInput.add_member(:container_name, Shapes::ShapeRef.new(shape: NonZeroAnd128MaxAsciiString, location_name: "ContainerName"))
+    DescribeContainerGroupPortMappingsInput.struct_class = Types::DescribeContainerGroupPortMappingsInput
+
+    DescribeContainerGroupPortMappingsOutput.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, location_name: "FleetId"))
+    DescribeContainerGroupPortMappingsOutput.add_member(:location, Shapes::ShapeRef.new(shape: LocationStringModel, location_name: "Location"))
+    DescribeContainerGroupPortMappingsOutput.add_member(:container_group_definition_arn, Shapes::ShapeRef.new(shape: ContainerGroupDefinitionArn, location_name: "ContainerGroupDefinitionArn"))
+    DescribeContainerGroupPortMappingsOutput.add_member(:container_group_type, Shapes::ShapeRef.new(shape: ContainerGroupType, location_name: "ContainerGroupType"))
+    DescribeContainerGroupPortMappingsOutput.add_member(:compute_name, Shapes::ShapeRef.new(shape: ComputeName, location_name: "ComputeName"))
+    DescribeContainerGroupPortMappingsOutput.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, location_name: "InstanceId"))
+    DescribeContainerGroupPortMappingsOutput.add_member(:container_group_port_mappings, Shapes::ShapeRef.new(shape: ContainerGroupPortMappingList, location_name: "ContainerGroupPortMappings"))
+    DescribeContainerGroupPortMappingsOutput.struct_class = Types::DescribeContainerGroupPortMappingsOutput
 
     DescribeEC2InstanceLimitsInput.add_member(:ec2_instance_type, Shapes::ShapeRef.new(shape: EC2InstanceType, location_name: "EC2InstanceType"))
     DescribeEC2InstanceLimitsInput.add_member(:location, Shapes::ShapeRef.new(shape: LocationStringModel, location_name: "Location"))
@@ -3150,6 +3186,20 @@ module Aws::GameLift
         o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
         o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: UnsupportedRegionException)
+      end)
+
+      api.add_operation(:describe_container_group_port_mappings, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeContainerGroupPortMappings"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeContainerGroupPortMappingsInput)
+        o.output = Shapes::ShapeRef.new(shape: DescribeContainerGroupPortMappingsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: UnsupportedRegionException)
       end)
 

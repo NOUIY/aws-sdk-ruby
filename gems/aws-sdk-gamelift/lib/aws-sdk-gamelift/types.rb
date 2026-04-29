@@ -566,6 +566,10 @@ module Aws::GameLift
     # Connection ports are used by inbound traffic to connect with processes
     # that are running in containers on the fleet.
     #
+    # The port range must not overlap with the Amazon GameLift Servers
+    # reserved port range `4092-4191`. This range is reserved for internal
+    # Amazon GameLift Servers services.
+    #
     # @!attribute [rw] from_port
     #   Starting value for the port range.
     #   @return [Integer]
@@ -760,6 +764,10 @@ module Aws::GameLift
     #   The set of port numbers to open on each instance in a container
     #   fleet. Connection ports are used by inbound traffic to connect with
     #   processes that are running in containers on the fleet.
+    #
+    #   The port range must not overlap with the Amazon GameLift Servers
+    #   reserved port range `4092-4191`. This range is reserved for internal
+    #   Amazon GameLift Servers services.
     #   @return [Types::ConnectionPortRange]
     #
     # @!attribute [rw] instance_inbound_permissions
@@ -1159,6 +1167,41 @@ module Aws::GameLift
       include Aws::Structure
     end
 
+    # Describes the port mappings for a single container in a container
+    # group. Each mapping shows how a container port maps to a connection
+    # port on the fleet instance.
+    #
+    # **Returned by:** [DescribeContainerGroupPortMappings][1]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupPortMappings.html
+    #
+    # @!attribute [rw] container_name
+    #   The name of the container, as defined in the container group
+    #   definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] container_runtime_id
+    #   The runtime ID for the container that's running in a compute. This
+    #   value is unique within the compute.
+    #   @return [String]
+    #
+    # @!attribute [rw] container_port_mappings
+    #   A list of `ContainerPortMapping` objects that describe the port
+    #   mappings for this container.
+    #   @return [Array<Types::ContainerPortMapping>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/ContainerGroupPortMapping AWS API Documentation
+    #
+    class ContainerGroupPortMapping < Struct.new(
+      :container_name,
+      :container_runtime_id,
+      :container_port_mappings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Instructions on when and how to check the health of a support
     # container in a container fleet. These properties override any Docker
     # health checks that are set in the container image. For more
@@ -1332,6 +1375,44 @@ module Aws::GameLift
     class ContainerPortConfiguration < Struct.new(
       :container_port_ranges)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes a mapping between a container port and a connection port on
+    # a fleet instance. You define container ports in a container group
+    # definition. Amazon GameLift Servers assigns connection ports when it
+    # deploys the container group to an instance.
+    #
+    # **Part of:** [ContainerGroupPortMapping][1]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupPortMapping.html
+    #
+    # @!attribute [rw] container_port
+    #   The port number on the container. This port is defined in the
+    #   container group definition. Container port numbers must be unique
+    #   within a container group definition.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] connection_port
+    #   The port number on the fleet instance that maps to the container
+    #   port. Connection ports are assigned by Amazon GameLift Servers when
+    #   the container group is deployed to an instance.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] protocol
+    #   The network protocol for the port mapping. Valid values are `TCP` or
+    #   `UDP`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/ContainerPortMapping AWS API Documentation
+    #
+    class ContainerPortMapping < Struct.new(
+      :container_port,
+      :connection_port,
+      :protocol)
+      SENSITIVE = [:container_port, :connection_port]
       include Aws::Structure
     end
 
@@ -1635,6 +1716,10 @@ module Aws::GameLift
     #   settings.
     #
     #    </note>
+    #
+    #   The port range must not overlap with the Amazon GameLift Servers
+    #   reserved port range `4092-4191`. This range is reserved for internal
+    #   Amazon GameLift Servers services.
     #   @return [Types::ConnectionPortRange]
     #
     # @!attribute [rw] instance_inbound_permissions
@@ -1666,6 +1751,10 @@ module Aws::GameLift
     #   settings.
     #
     #    </note>
+    #
+    #   The port range must not overlap with the Amazon GameLift Servers
+    #   reserved port range `4092-4191`. This range is reserved for internal
+    #   Amazon GameLift Servers services.
     #   @return [Array<Types::IpPermission>]
     #
     # @!attribute [rw] game_server_container_groups_per_instance
@@ -2658,12 +2747,12 @@ module Aws::GameLift
     #   idempotency token are processed only once. Subsequent requests with
     #   the same string return the original `GameSession` object, with an
     #   updated status. Maximum token length is 48 characters. If provided,
-    #   this string is included in the new game session's ID. A game
-    #   session ARN has the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<custom ID
-    #   string or idempotency token>`. Idempotency tokens remain in use for
-    #   30 days after a game session has ended; game session objects are
-    #   retained for this time period and then deleted.
+    #   this string is included in the new game session's ID. The value is
+    #   always a full ARN in the following format:
+    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   Idempotency tokens remain in use for 30 days after a game session
+    #   has ended; game session objects are retained for this time period
+    #   and then deleted.
     #   @return [String]
     #
     # @!attribute [rw] game_session_data
@@ -3091,7 +3180,10 @@ module Aws::GameLift
     end
 
     # @!attribute [rw] game_session_id
-    #   A unique identifier for the game session to add a player to.
+    #   An identifier for the game session that is unique across all regions
+    #   to add a player to. The value is always a full ARN in the following
+    #   format: `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
+    #   string>`.
     #   @return [String]
     #
     # @!attribute [rw] player_id
@@ -3127,7 +3219,10 @@ module Aws::GameLift
     end
 
     # @!attribute [rw] game_session_id
-    #   A unique identifier for the game session to add players to.
+    #   An identifier for the game session that is unique across all regions
+    #   to add players to. The value is always a full ARN in the following
+    #   format: `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
+    #   string>`.
     #   @return [String]
     #
     # @!attribute [rw] player_ids
@@ -3927,6 +4022,126 @@ module Aws::GameLift
       include Aws::Structure
     end
 
+    # @!attribute [rw] fleet_id
+    #   A unique identifier for the container fleet. You can use either the
+    #   fleet ID or ARN value.
+    #   @return [String]
+    #
+    # @!attribute [rw] container_group_type
+    #   The type of container group to retrieve port mappings for.
+    #
+    #   * `GAME_SERVER` -- Get port mappings for a game server container
+    #     group.
+    #
+    #   * `PER_INSTANCE` -- Get port mappings for a per-instance container
+    #     group.
+    #   @return [String]
+    #
+    # @!attribute [rw] compute_name
+    #   A unique identifier for the compute resource for which to retrieve
+    #   port mappings. For a container fleet, a compute represents a game
+    #   server container group running on a fleet instance. You can use
+    #   either the compute name or ARN value.
+    #
+    #   When `ContainerGroupType` is `GAME_SERVER`, this parameter is
+    #   required.
+    #
+    #   When `ContainerGroupType` is `PER_INSTANCE`, do not provide this
+    #   parameter. If you provide a compute name with `PER_INSTANCE`, the
+    #   request fails with an `InvalidRequestException`.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_id
+    #   A unique identifier for the fleet instance to retrieve port mappings
+    #   for.
+    #
+    #   When `ContainerGroupType` is `PER_INSTANCE`, this parameter is
+    #   required.
+    #
+    #   When `ContainerGroupType` is `GAME_SERVER`, this parameter is
+    #   optional. If you provide an instance ID, it must match the instance
+    #   that's running the specified compute. If the instance ID doesn't
+    #   match, the request fails with an `InvalidRequestException`.
+    #   @return [String]
+    #
+    # @!attribute [rw] container_name
+    #   A container name to filter the results. When provided, the operation
+    #   returns port mappings for the specified container only. If no
+    #   container with the specified name exists in the container group, the
+    #   request fails with a `NotFoundException`.
+    #
+    #   If not provided, the operation returns port mappings for all
+    #   containers in the container group.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/DescribeContainerGroupPortMappingsInput AWS API Documentation
+    #
+    class DescribeContainerGroupPortMappingsInput < Struct.new(
+      :fleet_id,
+      :container_group_type,
+      :compute_name,
+      :instance_id,
+      :container_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] fleet_id
+    #   A unique identifier for the container fleet.
+    #   @return [String]
+    #
+    # @!attribute [rw] location
+    #   The location of the fleet instance, expressed as an Amazon Web
+    #   Services Region code, such as `us-west-2`.
+    #   @return [String]
+    #
+    # @!attribute [rw] container_group_definition_arn
+    #   The Amazon Resource Name ([ARN][1]) that is assigned to the
+    #   container group definition. The ARN value also identifies the
+    #   specific container group definition version in use.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html
+    #   @return [String]
+    #
+    # @!attribute [rw] container_group_type
+    #   The type of container group that was specified in the request. Valid
+    #   values are `GAME_SERVER` or `PER_INSTANCE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] compute_name
+    #   A unique identifier for the compute resource running the game server
+    #   container group. Returned when `ContainerGroupType` is
+    #   `GAME_SERVER`.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_id
+    #   A unique identifier for the fleet instance. For `GAME_SERVER`
+    #   requests, this is the instance running the specified compute. For
+    #   `PER_INSTANCE` requests, this is the instance specified in the
+    #   request.
+    #   @return [String]
+    #
+    # @!attribute [rw] container_group_port_mappings
+    #   A list of `ContainerGroupPortMapping` objects that describe the port
+    #   mappings for each container in the container group.
+    #   @return [Array<Types::ContainerGroupPortMapping>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/DescribeContainerGroupPortMappingsOutput AWS API Documentation
+    #
+    class DescribeContainerGroupPortMappingsOutput < Struct.new(
+      :fleet_id,
+      :location,
+      :container_group_definition_arn,
+      :container_group_type,
+      :compute_name,
+      :instance_id,
+      :container_group_port_mappings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] ec2_instance_type
     #   Name of an Amazon EC2 instance type that is supported in Amazon
     #   GameLift Servers. A fleet instance type determines the computing
@@ -4538,7 +4753,9 @@ module Aws::GameLift
     #   @return [String]
     #
     # @!attribute [rw] game_session_id
-    #   A unique identifier for the game session to retrieve.
+    #   An identifier for the game session that is unique across all regions
+    #   to retrieve. The value is always a full ARN in the following format:
+    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] alias_id
@@ -4684,7 +4901,9 @@ module Aws::GameLift
     #   @return [String]
     #
     # @!attribute [rw] game_session_id
-    #   A unique identifier for the game session to retrieve.
+    #   An identifier for the game session that is unique across all regions
+    #   to retrieve. The value is always a full ARN in the following format:
+    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] alias_id
@@ -4941,8 +5160,10 @@ module Aws::GameLift
     end
 
     # @!attribute [rw] game_session_id
-    #   A unique identifier for the game session to retrieve player sessions
-    #   for.
+    #   An identifier for the game session that is unique across all regions
+    #   to retrieve player sessions for. The value is always a full ARN in
+    #   the following format:
+    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] player_id
@@ -6766,9 +6987,9 @@ module Aws::GameLift
     # [1]: https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets
     #
     # @!attribute [rw] game_session_id
-    #   A unique identifier for the game session. A game session ARN has the
-    #   following format: `arn:aws:gamelift:<location>::gamesession/<fleet
-    #   ID>/<custom ID string or idempotency token>`.
+    #   An identifier for the game session that is unique across all
+    #   regions. The value is always a full ARN in the following format:
+    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] name
@@ -6987,7 +7208,9 @@ module Aws::GameLift
     # matchmaking ticket.
     #
     # @!attribute [rw] game_session_arn
-    #   A unique identifier for the game session. Use the game session ID.
+    #   An identifier for the game session that is unique across all
+    #   regions. The value is always a full ARN in the following format:
+    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] ip_address
@@ -7209,14 +7432,19 @@ module Aws::GameLift
     #   @return [String]
     #
     # @!attribute [rw] game_session_id
-    #   A unique identifier for the game session. This value isn't final
+    #   An identifier for the game session that is unique across all
+    #   regions. The value is always a full ARN in the following format:
+    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   This value is the same as `GameSessionArn`. This value isn't final
     #   until placement status is `FULFILLED`.
     #   @return [String]
     #
     # @!attribute [rw] game_session_arn
-    #   Identifier for the game session created by this placement request.
-    #   This identifier is unique across all Regions. This value isn't
-    #   final until placement status is `FULFILLED`.
+    #   An identifier for the game session that is unique across all
+    #   regions. The value is always a full ARN in the following format:
+    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   This value is the same as `GameSessionId`. This value isn't final
+    #   until placement status is `FULFILLED`.
     #   @return [String]
     #
     # @!attribute [rw] game_session_region
@@ -7637,7 +7865,10 @@ module Aws::GameLift
     end
 
     # @!attribute [rw] game_session_id
-    #   A unique identifier for the game session to get logs for.
+    #   An identifier for the game session that is unique across all regions
+    #   to get logs for. The value is always a full ARN in the following
+    #   format: `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
+    #   string>`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/GetGameSessionLogUrlInput AWS API Documentation
@@ -7703,8 +7934,10 @@ module Aws::GameLift
     end
 
     # @!attribute [rw] game_session_id
-    #   A unique identifier for the game session for which to retrieve
-    #   player connection details.
+    #   An identifier for the game session that is unique across all regions
+    #   for which to retrieve player connection details. The value is always
+    #   a full ARN in the following format:
+    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] player_ids
@@ -7722,8 +7955,10 @@ module Aws::GameLift
     end
 
     # @!attribute [rw] game_session_id
-    #   A unique identifier for the game session for which the player
-    #   connection details were retrieved.
+    #   An identifier for the game session that is unique across all regions
+    #   for which the player connection details were retrieved. The value is
+    #   always a full ARN in the following format:
+    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] player_connection_details
@@ -9809,8 +10044,10 @@ module Aws::GameLift
     #   @return [String]
     #
     # @!attribute [rw] game_session_id
-    #   A unique identifier for the game session that the player session is
-    #   connected to.
+    #   An identifier for the game session that is unique across all regions
+    #   that the player session is connected to. The value is always a full
+    #   ARN in the following format:
+    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] fleet_id
@@ -11158,7 +11395,9 @@ module Aws::GameLift
     #   @return [String]
     #
     # @!attribute [rw] game_session_arn
-    #   A unique identifier for the game session. Use the game session ID.
+    #   An identifier for the game session that is unique across all
+    #   regions. The value is always a full ARN in the following format:
+    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
     #   When using FlexMatch as a standalone matchmaking solution, this
     #   parameter is not needed.
     #   @return [String]
@@ -11820,10 +12059,10 @@ module Aws::GameLift
     end
 
     # @!attribute [rw] game_session_id
-    #   A unique identifier for the game session to be terminated. A game
-    #   session ARN has the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<custom ID
-    #   string or idempotency token>`.
+    #   An identifier for the game session that is unique across all regions
+    #   to be terminated. The value is always a full ARN in the following
+    #   format: `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
+    #   string>`.
     #   @return [String]
     #
     # @!attribute [rw] termination_mode
@@ -12105,10 +12344,18 @@ module Aws::GameLift
     #   based on your fleet configuration. If you previously set this
     #   parameter manually, you can't reset this to use the calculated
     #   settings.
+    #
+    #   The port range must not overlap with the Amazon GameLift Servers
+    #   reserved port range `4092-4191`. This range is reserved for internal
+    #   Amazon GameLift Servers services.
     #   @return [Types::ConnectionPortRange]
     #
     # @!attribute [rw] instance_inbound_permission_authorizations
     #   A set of ports to add to the container fleet's inbound permissions.
+    #
+    #   The port range must not overlap with the Amazon GameLift Servers
+    #   reserved port range `4092-4191`. This range is reserved for internal
+    #   Amazon GameLift Servers services.
     #   @return [Array<Types::IpPermission>]
     #
     # @!attribute [rw] instance_inbound_permission_revocations
@@ -12645,7 +12892,9 @@ module Aws::GameLift
     end
 
     # @!attribute [rw] game_session_id
-    #   A unique identifier for the game session to update.
+    #   An identifier for the game session that is unique across all regions
+    #   to update. The value is always a full ARN in the following format:
+    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] maximum_player_session_count

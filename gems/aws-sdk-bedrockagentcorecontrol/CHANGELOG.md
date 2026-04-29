@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.41.0 (2026-04-29)
+------------------
+
+* Feature - Adds configuration bundles for versioned, immutable agent configuration snapshots with branch-based lineage
+
 1.40.0 (2026-04-24)
 ------------------
 

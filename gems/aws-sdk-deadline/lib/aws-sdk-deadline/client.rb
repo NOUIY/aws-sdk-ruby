@@ -2058,7 +2058,7 @@ module Aws::Deadline
     #           accelerator_capabilities: {
     #             selections: [ # required
     #               {
-    #                 name: "t4", # required, accepts t4, a10g, l4, l40s
+    #                 name: "t4", # required, accepts t4, a10g, l4, l40s, rtx-pro-server-6000
     #                 runtime: "AcceleratorRuntime",
     #               },
     #             ],
@@ -2411,8 +2411,8 @@ module Aws::Deadline
     #   authenticates monitor users.
     #
     # @option params [String] :identity_center_region
-    #   The AWS region where IAM Identity Center is enabled. Required when
-    #   Identity Center is in a different region than the monitor.
+    #   The AWS Region where IAM Identity Center is enabled. Required when IAM
+    #   Identity Center is in a different Region than the monitor.
     #
     # @option params [required, String] :subdomain
     #   The subdomain to use when creating the monitor URL. The full URL of
@@ -3518,7 +3518,7 @@ module Aws::Deadline
     #   resp.configuration.service_managed_ec2.instance_capabilities.root_ebs_volume.iops #=> Integer
     #   resp.configuration.service_managed_ec2.instance_capabilities.root_ebs_volume.throughput_mi_b #=> Integer
     #   resp.configuration.service_managed_ec2.instance_capabilities.accelerator_capabilities.selections #=> Array
-    #   resp.configuration.service_managed_ec2.instance_capabilities.accelerator_capabilities.selections[0].name #=> String, one of "t4", "a10g", "l4", "l40s"
+    #   resp.configuration.service_managed_ec2.instance_capabilities.accelerator_capabilities.selections[0].name #=> String, one of "t4", "a10g", "l4", "l40s", "rtx-pro-server-6000"
     #   resp.configuration.service_managed_ec2.instance_capabilities.accelerator_capabilities.selections[0].runtime #=> String
     #   resp.configuration.service_managed_ec2.instance_capabilities.accelerator_capabilities.count.min #=> Integer
     #   resp.configuration.service_managed_ec2.instance_capabilities.accelerator_capabilities.count.max #=> Integer
@@ -3828,7 +3828,7 @@ module Aws::Deadline
     # @option params [required, String] :monitor_id
     #   The unique identifier of the monitor. This ID is returned by the
     #   `CreateMonitor` operation, and is included in the response to the
-    #   `GetMonitor` operation.
+    #   `ListMonitors` operation.
     #
     # @return [Types::GetMonitorSettingsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -4997,7 +4997,7 @@ module Aws::Deadline
     #   resp.fleets[0].configuration.service_managed_ec2.instance_capabilities.root_ebs_volume.iops #=> Integer
     #   resp.fleets[0].configuration.service_managed_ec2.instance_capabilities.root_ebs_volume.throughput_mi_b #=> Integer
     #   resp.fleets[0].configuration.service_managed_ec2.instance_capabilities.accelerator_capabilities.selections #=> Array
-    #   resp.fleets[0].configuration.service_managed_ec2.instance_capabilities.accelerator_capabilities.selections[0].name #=> String, one of "t4", "a10g", "l4", "l40s"
+    #   resp.fleets[0].configuration.service_managed_ec2.instance_capabilities.accelerator_capabilities.selections[0].name #=> String, one of "t4", "a10g", "l4", "l40s", "rtx-pro-server-6000"
     #   resp.fleets[0].configuration.service_managed_ec2.instance_capabilities.accelerator_capabilities.selections[0].runtime #=> String
     #   resp.fleets[0].configuration.service_managed_ec2.instance_capabilities.accelerator_capabilities.count.min #=> Integer
     #   resp.fleets[0].configuration.service_managed_ec2.instance_capabilities.accelerator_capabilities.count.max #=> Integer
@@ -7231,7 +7231,7 @@ module Aws::Deadline
     #           accelerator_capabilities: {
     #             selections: [ # required
     #               {
-    #                 name: "t4", # required, accepts t4, a10g, l4, l40s
+    #                 name: "t4", # required, accepts t4, a10g, l4, l40s, rtx-pro-server-6000
     #                 runtime: "AcceleratorRuntime",
     #               },
     #             ],
@@ -7479,9 +7479,9 @@ module Aws::Deadline
     #   The unique identifier of the monitor to update settings for.
     #
     # @option params [required, Hash<String,String>] :settings
-    #   Monitor settings as key-value pairs. Keys present in the request are
-    #   upserted; keys absent are left unchanged. Send an empty string value
-    #   to delete a key.
+    #   The monitor settings to update as key-value pairs. Keys present in the
+    #   request are upserted; keys absent are left unchanged. Send an empty
+    #   string value to delete a key.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -8149,7 +8149,7 @@ module Aws::Deadline
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-deadline'
-      context[:gem_version] = '1.51.0'
+      context[:gem_version] = '1.52.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

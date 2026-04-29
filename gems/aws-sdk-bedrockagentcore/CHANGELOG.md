@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.30.0 (2026-04-29)
+------------------
+
+* Feature - Adds batch evaluation for running evaluators against multiple agent sessions with server-side orchestration, AI-powered recommendations for optimizing system prompts and tool descriptions, and AB testing with controlled traffic splitting and statistical significance reporting
+
 1.29.0 (2026-04-22)
 ------------------
 
