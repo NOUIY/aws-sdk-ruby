@@ -1070,6 +1070,7 @@ module Aws::Kafka
       attr_accessor client_authentication: Types::ClientAuthentication
       attr_accessor encryption_info: Types::EncryptionInfo
       attr_accessor connectivity_info: Types::ConnectivityInfo
+      attr_accessor zookeeper_access: Types::ZookeeperAccess
       attr_accessor storage_mode: ("LOCAL" | "TIERED")
       attr_accessor broker_count_update_info: Types::BrokerCountUpdateInfo
       attr_accessor rebalancing: Types::Rebalancing
@@ -1084,6 +1085,11 @@ module Aws::Kafka
       attr_accessor node_arn: ::String
       attr_accessor node_type: ("BROKER")
       attr_accessor zookeeper_node_info: Types::ZookeeperNodeInfo
+      SENSITIVE: []
+    end
+
+    class ZookeeperAccess
+      attr_accessor enabled: bool
       SENSITIVE: []
     end
 
@@ -1454,6 +1460,7 @@ module Aws::Kafka
       attr_accessor cluster_arn: ::String
       attr_accessor connectivity_info: Types::ConnectivityInfo
       attr_accessor current_version: ::String
+      attr_accessor zookeeper_access: Types::ZookeeperAccess
       SENSITIVE: []
     end
 

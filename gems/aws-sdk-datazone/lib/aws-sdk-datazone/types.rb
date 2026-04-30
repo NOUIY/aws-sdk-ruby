@@ -1901,6 +1901,12 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # The information about a cell in a notebook run in Amazon DataZone.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/CellInformation AWS API Documentation
+    #
+    class CellInformation < Aws::EmptyStructure; end
+
     # Part of the provisioning properties of the environment blueprint.
     #
     # @!attribute [rw] template_url
@@ -1926,6 +1932,25 @@ module Aws::DataZone
     #
     class ColumnFilterConfiguration < Struct.new(
       :included_column_names)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The compute configuration for a notebook run in Amazon DataZone.
+    #
+    # @!attribute [rw] instance_type
+    #   The instance type for the notebook run compute.
+    #   @return [String]
+    #
+    # @!attribute [rw] environment_version
+    #   The environment version for the notebook run compute.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ComputeConfig AWS API Documentation
+    #
+    class ComputeConfig < Struct.new(
+      :instance_type,
+      :environment_version)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7834,6 +7859,25 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # The environment configuration for a notebook run in Amazon DataZone.
+    #
+    # @!attribute [rw] image_version
+    #   The image version for the notebook run environment.
+    #   @return [String]
+    #
+    # @!attribute [rw] package_config
+    #   The package configuration for the notebook run environment.
+    #   @return [Types::PackageConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/EnvironmentConfig AWS API Documentation
+    #
+    class EnvironmentConfig < Struct.new(
+      :image_version,
+      :package_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The configuration of an environment.
     #
     # @!attribute [rw] name
@@ -10840,6 +10884,143 @@ module Aws::DataZone
       :owning_project_id,
       :type_stats)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_identifier
+    #   The identifier of the Amazon DataZone domain in which the notebook
+    #   run exists.
+    #   @return [String]
+    #
+    # @!attribute [rw] identifier
+    #   The identifier of the notebook run.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/GetNotebookRunInput AWS API Documentation
+    #
+    class GetNotebookRunInput < Struct.new(
+      :domain_identifier,
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The identifier of the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_id
+    #   The identifier of the Amazon DataZone domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] owning_project_id
+    #   The identifier of the project that owns the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] notebook_id
+    #   The identifier of the notebook.
+    #   @return [String]
+    #
+    # @!attribute [rw] schedule_id
+    #   The identifier of the schedule associated with the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] cell_order
+    #   The ordered list of cells in the notebook run.
+    #   @return [Array<Types::CellInformation>]
+    #
+    # @!attribute [rw] metadata
+    #   The metadata of the notebook run.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] parameters
+    #   The sensitive parameters of the notebook run.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] compute_configuration
+    #   The compute configuration of the notebook run.
+    #   @return [Types::ComputeConfig]
+    #
+    # @!attribute [rw] network_configuration
+    #   The network configuration of the notebook run.
+    #   @return [Types::NetworkConfig]
+    #
+    # @!attribute [rw] timeout_configuration
+    #   The timeout configuration of the notebook run.
+    #   @return [Types::TimeoutConfig]
+    #
+    # @!attribute [rw] environment_configuration
+    #   The environment configuration of the notebook run, including image
+    #   version and package settings.
+    #   @return [Types::EnvironmentConfig]
+    #
+    # @!attribute [rw] storage_configuration
+    #   The storage configuration of the notebook run, including the Amazon
+    #   Simple Storage Service path and KMS key ARN.
+    #   @return [Types::StorageConfig]
+    #
+    # @!attribute [rw] trigger_source
+    #   The source that triggered the notebook run.
+    #   @return [Types::TriggerSource]
+    #
+    # @!attribute [rw] error
+    #   The error details if the notebook run failed.
+    #   @return [Types::NotebookRunError]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the notebook run was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_by
+    #   The identifier of the user who created the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp of when the notebook run was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_by
+    #   The identifier of the user who last updated the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] started_at
+    #   The timestamp of when the notebook run started executing.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completed_at
+    #   The timestamp of when the notebook run completed.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/GetNotebookRunOutput AWS API Documentation
+    #
+    class GetNotebookRunOutput < Struct.new(
+      :id,
+      :domain_id,
+      :owning_project_id,
+      :notebook_id,
+      :schedule_id,
+      :status,
+      :cell_order,
+      :metadata,
+      :parameters,
+      :compute_configuration,
+      :network_configuration,
+      :timeout_configuration,
+      :environment_configuration,
+      :storage_configuration,
+      :trigger_source,
+      :error,
+      :created_at,
+      :created_by,
+      :updated_at,
+      :updated_by,
+      :started_at,
+      :completed_at)
+      SENSITIVE = [:metadata, :parameters]
       include Aws::Structure
     end
 
@@ -14601,6 +14782,83 @@ module Aws::DataZone
     end
 
     # @!attribute [rw] domain_identifier
+    #   The identifier of the Amazon DataZone domain in which to list
+    #   notebook runs.
+    #   @return [String]
+    #
+    # @!attribute [rw] owning_project_identifier
+    #   The identifier of the project that owns the notebook runs.
+    #   @return [String]
+    #
+    # @!attribute [rw] notebook_identifier
+    #   The identifier of the notebook to filter runs by.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status to filter notebook runs by.
+    #   @return [String]
+    #
+    # @!attribute [rw] schedule_identifier
+    #   The identifier of the schedule to filter notebook runs by.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of notebook runs to return in a single call. When
+    #   the number of notebook runs exceeds the value of `MaxResults`, the
+    #   response contains a `NextToken` value.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] sort_order
+    #   The sort order for the results.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   When the number of notebook runs is greater than the default value
+    #   for the `MaxResults` parameter, or if you explicitly specify a value
+    #   for `MaxResults` that is less than the number of notebook runs, the
+    #   response includes a pagination token named `NextToken`. You can
+    #   specify this `NextToken` value in a subsequent call to
+    #   `ListNotebookRuns` to list the next set of notebook runs.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ListNotebookRunsInput AWS API Documentation
+    #
+    class ListNotebookRunsInput < Struct.new(
+      :domain_identifier,
+      :owning_project_identifier,
+      :notebook_identifier,
+      :status,
+      :schedule_identifier,
+      :max_results,
+      :sort_order,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   The results of the `ListNotebookRuns` action.
+    #   @return [Array<Types::NotebookRunSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   When the number of notebook runs is greater than the default value
+    #   for the `MaxResults` parameter, or if you explicitly specify a value
+    #   for `MaxResults` that is less than the number of notebook runs, the
+    #   response includes a pagination token named `NextToken`. You can
+    #   specify this `NextToken` value in a subsequent call to
+    #   `ListNotebookRuns` to list the next set of notebook runs.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ListNotebookRunsOutput AWS API Documentation
+    #
+    class ListNotebookRunsOutput < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_identifier
     #   The identifier of the Amazon DataZone domain.
     #   @return [String]
     #
@@ -16060,6 +16318,39 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # The network configuration for a notebook run in Amazon DataZone.
+    #
+    # @!attribute [rw] network_access_type
+    #   The network access type for the notebook run. Valid values are
+    #   `PUBLIC_INTERNET_ONLY` and `VPC_ONLY`.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_id
+    #   The identifier of the VPC for the notebook run. This is required
+    #   when the network access type is `VPC_ONLY`.
+    #   @return [String]
+    #
+    # @!attribute [rw] subnet_ids
+    #   The identifiers of the subnets for the notebook run. You can specify
+    #   up to 10 subnets.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] security_group_ids
+    #   The identifiers of the security groups for the notebook run. You can
+    #   specify up to 5 security groups.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/NetworkConfig AWS API Documentation
+    #
+    class NetworkConfig < Struct.new(
+      :network_access_type,
+      :vpc_id,
+      :subnet_ids,
+      :security_group_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Specifies that a value is not equal to the expression.
     #
     # @!attribute [rw] column_name
@@ -16113,6 +16404,94 @@ module Aws::DataZone
     class NotLikeExpression < Struct.new(
       :column_name,
       :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The error details of a failed notebook run in Amazon DataZone.
+    #
+    # @!attribute [rw] message
+    #   The error message. The maximum length is 1024 characters.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/NotebookRunError AWS API Documentation
+    #
+    class NotebookRunError < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The summary of a notebook run in Amazon DataZone.
+    #
+    # @!attribute [rw] id
+    #   The identifier of the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_id
+    #   The identifier of the Amazon DataZone domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] owning_project_id
+    #   The identifier of the project that owns the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] notebook_id
+    #   The identifier of the notebook.
+    #   @return [String]
+    #
+    # @!attribute [rw] schedule_id
+    #   The identifier of the schedule associated with the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] trigger_source
+    #   The source that triggered the notebook run.
+    #   @return [Types::TriggerSource]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the notebook run was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_by
+    #   The identifier of the user who created the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp of when the notebook run was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_by
+    #   The identifier of the user who last updated the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] started_at
+    #   The timestamp of when the notebook run started executing.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completed_at
+    #   The timestamp of when the notebook run completed.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/NotebookRunSummary AWS API Documentation
+    #
+    class NotebookRunSummary < Struct.new(
+      :id,
+      :domain_id,
+      :owning_project_id,
+      :notebook_id,
+      :schedule_id,
+      :status,
+      :trigger_source,
+      :created_at,
+      :created_by,
+      :updated_at,
+      :updated_by,
+      :started_at,
+      :completed_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -16434,6 +16813,28 @@ module Aws::DataZone
     #
     class OwnerUserPropertiesOutput < Struct.new(
       :user_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The package configuration for a notebook run environment in Amazon
+    # DataZone.
+    #
+    # @!attribute [rw] package_manager
+    #   The package manager for the notebook run environment. The default
+    #   value is `UV`.
+    #   @return [String]
+    #
+    # @!attribute [rw] package_specification
+    #   The package specification content for the notebook run environment.
+    #   The maximum length is 10240 characters.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/PackageConfig AWS API Documentation
+    #
+    class PackageConfig < Struct.new(
+      :package_manager,
+      :package_specification)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -19995,6 +20396,273 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # @!attribute [rw] domain_identifier
+    #   The identifier of the Amazon DataZone domain in which the notebook
+    #   run is started.
+    #   @return [String]
+    #
+    # @!attribute [rw] owning_project_identifier
+    #   The identifier of the project that owns the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] notebook_identifier
+    #   The identifier of the notebook to run.
+    #   @return [String]
+    #
+    # @!attribute [rw] schedule_identifier
+    #   The identifier of the schedule associated with the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] compute_configuration
+    #   The compute configuration for the notebook run, including instance
+    #   type and environment version.
+    #   @return [Types::ComputeConfig]
+    #
+    # @!attribute [rw] network_configuration
+    #   The network configuration for the notebook run, including network
+    #   access type and optional VPC settings.
+    #   @return [Types::NetworkConfig]
+    #
+    # @!attribute [rw] timeout_configuration
+    #   The timeout configuration for the notebook run. The default timeout
+    #   is 720 minutes (12 hours) and the maximum is 1440 minutes (24
+    #   hours).
+    #   @return [Types::TimeoutConfig]
+    #
+    # @!attribute [rw] trigger_source
+    #   The source that triggered the notebook run.
+    #   @return [Types::TriggerSource]
+    #
+    # @!attribute [rw] metadata
+    #   The metadata for the notebook run, specified as key-value pairs. You
+    #   can specify up to 50 entries, with keys up to 128 characters and
+    #   values up to 1024 characters.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] parameters
+    #   The sensitive parameters for the notebook run, specified as
+    #   key-value pairs. You can specify up to 50 entries, with keys up to
+    #   128 characters and values up to 1024 characters.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request. This field is automatically populated if not provided.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/StartNotebookRunInput AWS API Documentation
+    #
+    class StartNotebookRunInput < Struct.new(
+      :domain_identifier,
+      :owning_project_identifier,
+      :notebook_identifier,
+      :schedule_identifier,
+      :compute_configuration,
+      :network_configuration,
+      :timeout_configuration,
+      :trigger_source,
+      :metadata,
+      :parameters,
+      :client_token)
+      SENSITIVE = [:metadata, :parameters]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The identifier of the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_id
+    #   The identifier of the Amazon DataZone domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] owning_project_id
+    #   The identifier of the project that owns the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] notebook_id
+    #   The identifier of the notebook.
+    #   @return [String]
+    #
+    # @!attribute [rw] schedule_id
+    #   The identifier of the schedule associated with the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] cell_order
+    #   The ordered list of cells in the notebook run.
+    #   @return [Array<Types::CellInformation>]
+    #
+    # @!attribute [rw] metadata
+    #   The metadata of the notebook run.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] parameters
+    #   The sensitive parameters of the notebook run.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] compute_configuration
+    #   The compute configuration of the notebook run.
+    #   @return [Types::ComputeConfig]
+    #
+    # @!attribute [rw] network_configuration
+    #   The network configuration of the notebook run.
+    #   @return [Types::NetworkConfig]
+    #
+    # @!attribute [rw] timeout_configuration
+    #   The timeout configuration of the notebook run.
+    #   @return [Types::TimeoutConfig]
+    #
+    # @!attribute [rw] environment_configuration
+    #   The environment configuration of the notebook run, including image
+    #   version and package settings.
+    #   @return [Types::EnvironmentConfig]
+    #
+    # @!attribute [rw] storage_configuration
+    #   The storage configuration of the notebook run, including the Amazon
+    #   Simple Storage Service path and KMS key ARN.
+    #   @return [Types::StorageConfig]
+    #
+    # @!attribute [rw] trigger_source
+    #   The source that triggered the notebook run.
+    #   @return [Types::TriggerSource]
+    #
+    # @!attribute [rw] error
+    #   The error details if the notebook run failed.
+    #   @return [Types::NotebookRunError]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the notebook run was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_by
+    #   The identifier of the user who created the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp of when the notebook run was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_by
+    #   The identifier of the user who last updated the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] started_at
+    #   The timestamp of when the notebook run started executing.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completed_at
+    #   The timestamp of when the notebook run completed.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/StartNotebookRunOutput AWS API Documentation
+    #
+    class StartNotebookRunOutput < Struct.new(
+      :id,
+      :domain_id,
+      :owning_project_id,
+      :notebook_id,
+      :schedule_id,
+      :status,
+      :cell_order,
+      :metadata,
+      :parameters,
+      :compute_configuration,
+      :network_configuration,
+      :timeout_configuration,
+      :environment_configuration,
+      :storage_configuration,
+      :trigger_source,
+      :error,
+      :created_at,
+      :created_by,
+      :updated_at,
+      :updated_by,
+      :started_at,
+      :completed_at)
+      SENSITIVE = [:metadata, :parameters]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_identifier
+    #   The identifier of the Amazon DataZone domain in which the notebook
+    #   run is stopped.
+    #   @return [String]
+    #
+    # @!attribute [rw] identifier
+    #   The identifier of the notebook run to stop.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request. This field is automatically populated if not provided.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/StopNotebookRunInput AWS API Documentation
+    #
+    class StopNotebookRunInput < Struct.new(
+      :domain_identifier,
+      :identifier,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The identifier of the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_id
+    #   The identifier of the Amazon DataZone domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] owning_project_id
+    #   The identifier of the project that owns the notebook run.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the notebook run.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/StopNotebookRunOutput AWS API Documentation
+    #
+    class StopNotebookRunOutput < Struct.new(
+      :id,
+      :domain_id,
+      :owning_project_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The storage configuration for a notebook run in Amazon DataZone.
+    #
+    # @!attribute [rw] project_s3_path
+    #   The Amazon Simple Storage Service path for the project storage.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_arn
+    #   The ARN of the KMS key used for encryption.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/StorageConfig AWS API Documentation
+    #
+    class StorageConfig < Struct.new(
+      :project_s3_path,
+      :kms_key_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The details of the asset for which the subscription grant is created.
     #
     # @!attribute [rw] asset_id
@@ -20959,6 +21627,22 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # The timeout configuration for a notebook run in Amazon DataZone.
+    #
+    # @!attribute [rw] run_timeout_in_minutes
+    #   The timeout for the notebook run, in minutes. The minimum value is
+    #   60 minutes (1 hour), the maximum value is 1440 minutes (24 hours),
+    #   and the default value is 720 minutes (12 hours).
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/TimeoutConfig AWS API Documentation
+    #
+    class TimeoutConfig < Struct.new(
+      :run_timeout_in_minutes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The topic of the notification.
     #
     # @!attribute [rw] subject
@@ -20979,6 +21663,26 @@ module Aws::DataZone
       :subject,
       :resource,
       :role)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The source that triggered a notebook run in Amazon DataZone.
+    #
+    # @!attribute [rw] type
+    #   The type of the trigger source. Valid values are `MANUAL`,
+    #   `SCHEDULED`, and `WORKFLOW`.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the trigger source.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/TriggerSource AWS API Documentation
+    #
+    class TriggerSource < Struct.new(
+      :type,
+      :name)
       SENSITIVE = []
       include Aws::Structure
     end

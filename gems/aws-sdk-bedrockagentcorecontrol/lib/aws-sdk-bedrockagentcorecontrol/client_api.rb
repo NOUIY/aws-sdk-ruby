@@ -18,6 +18,7 @@ module Aws::BedrockAgentCoreControl
     AccessDeniedException = Shapes::StructureShape.new(name: 'AccessDeniedException')
     Action = Shapes::UnionShape.new(name: 'Action')
     Actions = Shapes::ListShape.new(name: 'Actions')
+    ActorTokenContentType = Shapes::StringShape.new(name: 'ActorTokenContentType')
     AdditionalModelRequestFields = Shapes::DocumentShape.new(name: 'AdditionalModelRequestFields', document: true)
     AgentCardDefinition = Shapes::StructureShape.new(name: 'AgentCardDefinition')
     AgentEndpointDescription = Shapes::StringShape.new(name: 'AgentEndpointDescription')
@@ -45,6 +46,10 @@ module Aws::BedrockAgentCoreControl
     AllowedResponseHeaders = Shapes::ListShape.new(name: 'AllowedResponseHeaders')
     AllowedScopeType = Shapes::StringShape.new(name: 'AllowedScopeType')
     AllowedScopesType = Shapes::ListShape.new(name: 'AllowedScopesType')
+    AllowedStringListValue = Shapes::StringShape.new(name: 'AllowedStringListValue')
+    AllowedStringListValuesList = Shapes::ListShape.new(name: 'AllowedStringListValuesList')
+    AllowedStringValue = Shapes::StringShape.new(name: 'AllowedStringValue')
+    AllowedStringValuesList = Shapes::ListShape.new(name: 'AllowedStringValuesList')
     ApiGatewayTargetConfiguration = Shapes::StructureShape.new(name: 'ApiGatewayTargetConfiguration')
     ApiGatewayToolConfiguration = Shapes::StructureShape.new(name: 'ApiGatewayToolConfiguration')
     ApiGatewayToolFilter = Shapes::StructureShape.new(name: 'ApiGatewayToolFilter')
@@ -104,6 +109,7 @@ module Aws::BedrockAgentCoreControl
     Certificates = Shapes::ListShape.new(name: 'Certificates')
     ClaimMatchOperatorType = Shapes::StringShape.new(name: 'ClaimMatchOperatorType')
     ClaimMatchValueType = Shapes::UnionShape.new(name: 'ClaimMatchValueType')
+    ClientAuthenticationMethodType = Shapes::StringShape.new(name: 'ClientAuthenticationMethodType')
     ClientIdType = Shapes::StringShape.new(name: 'ClientIdType')
     ClientSecretType = Shapes::StringShape.new(name: 'ClientSecretType')
     ClientToken = Shapes::StringShape.new(name: 'ClientToken')
@@ -220,6 +226,9 @@ module Aws::BedrockAgentCoreControl
     DataSourceConfig = Shapes::UnionShape.new(name: 'DataSourceConfig')
     DateTimestamp = Shapes::TimestampShape.new(name: 'DateTimestamp', timestampFormat: "iso8601")
     DecryptionFailure = Shapes::StructureShape.new(name: 'DecryptionFailure')
+    DefaultClientIdType = Shapes::StringShape.new(name: 'DefaultClientIdType')
+    DefaultClientSecretType = Shapes::StringShape.new(name: 'DefaultClientSecretType')
+    Definition = Shapes::StringShape.new(name: 'Definition')
     DeleteAgentRuntimeEndpointRequest = Shapes::StructureShape.new(name: 'DeleteAgentRuntimeEndpointRequest')
     DeleteAgentRuntimeEndpointResponse = Shapes::StructureShape.new(name: 'DeleteAgentRuntimeEndpointResponse')
     DeleteAgentRuntimeRequest = Shapes::StructureShape.new(name: 'DeleteAgentRuntimeRequest')
@@ -306,6 +315,7 @@ module Aws::BedrockAgentCoreControl
     EvaluatorSummaryList = Shapes::ListShape.new(name: 'EvaluatorSummaryList')
     EvaluatorType = Shapes::StringShape.new(name: 'EvaluatorType')
     ExceptionLevel = Shapes::StringShape.new(name: 'ExceptionLevel')
+    ExtractionConfig = Shapes::UnionShape.new(name: 'ExtractionConfig')
     ExtractionConfiguration = Shapes::UnionShape.new(name: 'ExtractionConfiguration')
     FilesystemConfiguration = Shapes::UnionShape.new(name: 'FilesystemConfiguration')
     FilesystemConfigurations = Shapes::ListShape.new(name: 'FilesystemConfigurations')
@@ -468,6 +478,8 @@ module Aws::BedrockAgentCoreControl
     IncludedData = Shapes::StringShape.new(name: 'IncludedData')
     IncludedOauth2ProviderConfigInput = Shapes::StructureShape.new(name: 'IncludedOauth2ProviderConfigInput')
     IncludedOauth2ProviderConfigOutput = Shapes::StructureShape.new(name: 'IncludedOauth2ProviderConfigOutput')
+    IndexedKey = Shapes::StructureShape.new(name: 'IndexedKey')
+    IndexedKeysList = Shapes::ListShape.new(name: 'IndexedKeysList')
     InferenceConfiguration = Shapes::StructureShape.new(name: 'InferenceConfiguration')
     InferenceConfigurationMaxTokensInteger = Shapes::IntegerShape.new(name: 'InferenceConfigurationMaxTokensInteger')
     InferenceConfigurationStopSequencesList = Shapes::ListShape.new(name: 'InferenceConfigurationStopSequencesList')
@@ -557,6 +569,8 @@ module Aws::BedrockAgentCoreControl
     ListWorkloadIdentitiesResponse = Shapes::StructureShape.new(name: 'ListWorkloadIdentitiesResponse')
     ListingMode = Shapes::StringShape.new(name: 'ListingMode')
     LlmAsAJudgeEvaluatorConfig = Shapes::StructureShape.new(name: 'LlmAsAJudgeEvaluatorConfig')
+    LlmExtractionConfig = Shapes::StructureShape.new(name: 'LlmExtractionConfig')
+    LlmExtractionInstruction = Shapes::StringShape.new(name: 'LlmExtractionInstruction')
     LogGroupName = Shapes::StringShape.new(name: 'LogGroupName')
     MCPGatewayConfiguration = Shapes::StructureShape.new(name: 'MCPGatewayConfiguration')
     ManagedResourceDetails = Shapes::StructureShape.new(name: 'ManagedResourceDetails')
@@ -585,6 +599,7 @@ module Aws::BedrockAgentCoreControl
     MemoryArn = Shapes::StringShape.new(name: 'MemoryArn')
     MemoryEventExpiryDurationInteger = Shapes::IntegerShape.new(name: 'MemoryEventExpiryDurationInteger')
     MemoryId = Shapes::StringShape.new(name: 'MemoryId')
+    MemoryRecordSchema = Shapes::StructureShape.new(name: 'MemoryRecordSchema')
     MemoryStatus = Shapes::StringShape.new(name: 'MemoryStatus')
     MemoryStrategy = Shapes::StructureShape.new(name: 'MemoryStrategy')
     MemoryStrategyId = Shapes::StringShape.new(name: 'MemoryStrategyId')
@@ -600,6 +615,10 @@ module Aws::BedrockAgentCoreControl
     MessageBasedTriggerInput = Shapes::StructureShape.new(name: 'MessageBasedTriggerInput')
     MessageBasedTriggerInputMessageCountInteger = Shapes::IntegerShape.new(name: 'MessageBasedTriggerInputMessageCountInteger')
     MetadataConfiguration = Shapes::StructureShape.new(name: 'MetadataConfiguration')
+    MetadataKey = Shapes::StringShape.new(name: 'MetadataKey')
+    MetadataSchemaEntry = Shapes::StructureShape.new(name: 'MetadataSchemaEntry')
+    MetadataSchemaList = Shapes::ListShape.new(name: 'MetadataSchemaList')
+    MetadataValueType = Shapes::StringShape.new(name: 'MetadataValueType')
     MicrosoftOauth2ProviderConfigInput = Shapes::StructureShape.new(name: 'MicrosoftOauth2ProviderConfigInput')
     MicrosoftOauth2ProviderConfigOutput = Shapes::StructureShape.new(name: 'MicrosoftOauth2ProviderConfigOutput')
     ModelId = Shapes::StringShape.new(name: 'ModelId')
@@ -624,6 +643,7 @@ module Aws::BedrockAgentCoreControl
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     NonBlankString = Shapes::StringShape.new(name: 'NonBlankString')
     NonEmptyString = Shapes::StringShape.new(name: 'NonEmptyString')
+    NumberValidation = Shapes::StructureShape.new(name: 'NumberValidation')
     NumericalScaleDefinition = Shapes::StructureShape.new(name: 'NumericalScaleDefinition')
     NumericalScaleDefinitionLabelString = Shapes::StringShape.new(name: 'NumericalScaleDefinitionLabelString')
     NumericalScaleDefinitionValueDouble = Shapes::FloatShape.new(name: 'NumericalScaleDefinitionValueDouble')
@@ -646,6 +666,8 @@ module Aws::BedrockAgentCoreControl
     Oauth2Discovery = Shapes::UnionShape.new(name: 'Oauth2Discovery')
     Oauth2ProviderConfigInput = Shapes::UnionShape.new(name: 'Oauth2ProviderConfigInput')
     Oauth2ProviderConfigOutput = Shapes::UnionShape.new(name: 'Oauth2ProviderConfigOutput')
+    OnBehalfOfTokenExchangeConfigType = Shapes::StructureShape.new(name: 'OnBehalfOfTokenExchangeConfigType')
+    OnBehalfOfTokenExchangeGrantTypeType = Shapes::StringShape.new(name: 'OnBehalfOfTokenExchangeGrantTypeType')
     OnlineEvaluationConfigArn = Shapes::StringShape.new(name: 'OnlineEvaluationConfigArn')
     OnlineEvaluationConfigId = Shapes::StringShape.new(name: 'OnlineEvaluationConfigId')
     OnlineEvaluationConfigStatus = Shapes::StringShape.new(name: 'OnlineEvaluationConfigStatus')
@@ -755,6 +777,8 @@ module Aws::BedrockAgentCoreControl
     SchemaType = Shapes::StringShape.new(name: 'SchemaType')
     SchemaVersion = Shapes::StringShape.new(name: 'SchemaVersion')
     ScopeList = Shapes::ListShape.new(name: 'ScopeList')
+    ScopeType = Shapes::StringShape.new(name: 'ScopeType')
+    ScopesListType = Shapes::ListShape.new(name: 'ScopesListType')
     SearchType = Shapes::StringShape.new(name: 'SearchType')
     Secret = Shapes::StructureShape.new(name: 'Secret')
     SecretArn = Shapes::StringShape.new(name: 'SecretArn')
@@ -803,6 +827,9 @@ module Aws::BedrockAgentCoreControl
     StreamDeliveryResources = Shapes::StructureShape.new(name: 'StreamDeliveryResources')
     StreamDeliveryResourcesList = Shapes::ListShape.new(name: 'StreamDeliveryResourcesList')
     String = Shapes::StringShape.new(name: 'String')
+    StringListValidation = Shapes::StructureShape.new(name: 'StringListValidation')
+    StringListValidationMaxItemsInteger = Shapes::IntegerShape.new(name: 'StringListValidationMaxItemsInteger')
+    StringValidation = Shapes::StructureShape.new(name: 'StringValidation')
     SubmitRegistryRecordForApprovalRequest = Shapes::StructureShape.new(name: 'SubmitRegistryRecordForApprovalRequest')
     SubmitRegistryRecordForApprovalResponse = Shapes::StructureShape.new(name: 'SubmitRegistryRecordForApprovalResponse')
     SubnetId = Shapes::StringShape.new(name: 'SubnetId')
@@ -855,6 +882,7 @@ module Aws::BedrockAgentCoreControl
     TokenBasedTriggerInputTokenCountInteger = Shapes::IntegerShape.new(name: 'TokenBasedTriggerInputTokenCountInteger')
     TokenEndpointAuthMethodsType = Shapes::ListShape.new(name: 'TokenEndpointAuthMethodsType')
     TokenEndpointType = Shapes::StringShape.new(name: 'TokenEndpointType')
+    TokenExchangeGrantTypeConfigType = Shapes::StructureShape.new(name: 'TokenExchangeGrantTypeConfigType')
     TokenVaultIdType = Shapes::StringShape.new(name: 'TokenVaultIdType')
     ToolDefinition = Shapes::StructureShape.new(name: 'ToolDefinition')
     ToolDefinitions = Shapes::ListShape.new(name: 'ToolDefinitions')
@@ -944,6 +972,7 @@ module Aws::BedrockAgentCoreControl
     UserPreferenceOverrideConfigurationInput = Shapes::StructureShape.new(name: 'UserPreferenceOverrideConfigurationInput')
     UserPreferenceOverrideConsolidationConfigurationInput = Shapes::StructureShape.new(name: 'UserPreferenceOverrideConsolidationConfigurationInput')
     UserPreferenceOverrideExtractionConfigurationInput = Shapes::StructureShape.new(name: 'UserPreferenceOverrideExtractionConfigurationInput')
+    Validation = Shapes::UnionShape.new(name: 'Validation')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
     ValidationExceptionField = Shapes::StructureShape.new(name: 'ValidationExceptionField')
     ValidationExceptionFieldList = Shapes::ListShape.new(name: 'ValidationExceptionFieldList')
@@ -1032,6 +1061,10 @@ module Aws::BedrockAgentCoreControl
     AllowedResponseHeaders.member = Shapes::ShapeRef.new(shape: HttpHeaderName)
 
     AllowedScopesType.member = Shapes::ShapeRef.new(shape: AllowedScopeType)
+
+    AllowedStringListValuesList.member = Shapes::ShapeRef.new(shape: AllowedStringListValue)
+
+    AllowedStringValuesList.member = Shapes::ShapeRef.new(shape: AllowedStringValue)
 
     ApiGatewayTargetConfiguration.add_member(:rest_api_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "restApiId"))
     ApiGatewayTargetConfiguration.add_member(:stage, Shapes::ShapeRef.new(shape: String, required: true, location_name: "stage"))
@@ -1535,6 +1568,7 @@ module Aws::BedrockAgentCoreControl
     CreateMemoryInput.add_member(:memory_execution_role_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "memoryExecutionRoleArn"))
     CreateMemoryInput.add_member(:event_expiry_duration, Shapes::ShapeRef.new(shape: CreateMemoryInputEventExpiryDurationInteger, required: true, location_name: "eventExpiryDuration"))
     CreateMemoryInput.add_member(:memory_strategies, Shapes::ShapeRef.new(shape: MemoryStrategyInputList, location_name: "memoryStrategies"))
+    CreateMemoryInput.add_member(:indexed_keys, Shapes::ShapeRef.new(shape: IndexedKeysList, location_name: "indexedKeys"))
     CreateMemoryInput.add_member(:stream_delivery_resources, Shapes::ShapeRef.new(shape: StreamDeliveryResources, location_name: "streamDeliveryResources"))
     CreateMemoryInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     CreateMemoryInput.struct_class = Types::CreateMemoryInput
@@ -1748,19 +1782,24 @@ module Aws::BedrockAgentCoreControl
     CustomMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
     CustomMemoryStrategyInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
     CustomMemoryStrategyInput.add_member(:configuration, Shapes::ShapeRef.new(shape: CustomConfigurationInput, location_name: "configuration"))
+    CustomMemoryStrategyInput.add_member(:memory_record_schema, Shapes::ShapeRef.new(shape: MemoryRecordSchema, location_name: "memoryRecordSchema"))
     CustomMemoryStrategyInput.struct_class = Types::CustomMemoryStrategyInput
 
     CustomOauth2ProviderConfigInput.add_member(:oauth_discovery, Shapes::ShapeRef.new(shape: Oauth2Discovery, required: true, location_name: "oauthDiscovery"))
-    CustomOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, required: true, location_name: "clientId"))
-    CustomOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecretType, required: true, location_name: "clientSecret"))
+    CustomOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: DefaultClientIdType, location_name: "clientId"))
+    CustomOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: DefaultClientSecretType, location_name: "clientSecret"))
     CustomOauth2ProviderConfigInput.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, location_name: "privateEndpoint"))
     CustomOauth2ProviderConfigInput.add_member(:private_endpoint_overrides, Shapes::ShapeRef.new(shape: PrivateEndpointOverrides, location_name: "privateEndpointOverrides"))
+    CustomOauth2ProviderConfigInput.add_member(:on_behalf_of_token_exchange_config, Shapes::ShapeRef.new(shape: OnBehalfOfTokenExchangeConfigType, location_name: "onBehalfOfTokenExchangeConfig"))
+    CustomOauth2ProviderConfigInput.add_member(:client_authentication_method, Shapes::ShapeRef.new(shape: ClientAuthenticationMethodType, location_name: "clientAuthenticationMethod"))
     CustomOauth2ProviderConfigInput.struct_class = Types::CustomOauth2ProviderConfigInput
 
     CustomOauth2ProviderConfigOutput.add_member(:oauth_discovery, Shapes::ShapeRef.new(shape: Oauth2Discovery, required: true, location_name: "oauthDiscovery"))
     CustomOauth2ProviderConfigOutput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, location_name: "clientId"))
     CustomOauth2ProviderConfigOutput.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, location_name: "privateEndpoint"))
     CustomOauth2ProviderConfigOutput.add_member(:private_endpoint_overrides, Shapes::ShapeRef.new(shape: PrivateEndpointOverrides, location_name: "privateEndpointOverrides"))
+    CustomOauth2ProviderConfigOutput.add_member(:on_behalf_of_token_exchange_config, Shapes::ShapeRef.new(shape: OnBehalfOfTokenExchangeConfigType, location_name: "onBehalfOfTokenExchangeConfig"))
+    CustomOauth2ProviderConfigOutput.add_member(:client_authentication_method, Shapes::ShapeRef.new(shape: ClientAuthenticationMethodType, location_name: "clientAuthenticationMethod"))
     CustomOauth2ProviderConfigOutput.struct_class = Types::CustomOauth2ProviderConfigOutput
 
     CustomParameterMap.key = Shapes::ShapeRef.new(shape: String)
@@ -1990,6 +2029,7 @@ module Aws::BedrockAgentCoreControl
     EpisodicMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
     EpisodicMemoryStrategyInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
     EpisodicMemoryStrategyInput.add_member(:reflection_configuration, Shapes::ShapeRef.new(shape: EpisodicReflectionConfigurationInput, location_name: "reflectionConfiguration"))
+    EpisodicMemoryStrategyInput.add_member(:memory_record_schema, Shapes::ShapeRef.new(shape: MemoryRecordSchema, location_name: "memoryRecordSchema"))
     EpisodicMemoryStrategyInput.struct_class = Types::EpisodicMemoryStrategyInput
 
     EpisodicOverrideConfigurationInput.add_member(:extraction, Shapes::ShapeRef.new(shape: EpisodicOverrideExtractionConfigurationInput, location_name: "extraction"))
@@ -2009,20 +2049,24 @@ module Aws::BedrockAgentCoreControl
     EpisodicOverrideReflectionConfigurationInput.add_member(:model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "modelId"))
     EpisodicOverrideReflectionConfigurationInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
     EpisodicOverrideReflectionConfigurationInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
+    EpisodicOverrideReflectionConfigurationInput.add_member(:memory_record_schema, Shapes::ShapeRef.new(shape: MemoryRecordSchema, location_name: "memoryRecordSchema"))
     EpisodicOverrideReflectionConfigurationInput.struct_class = Types::EpisodicOverrideReflectionConfigurationInput
 
     EpisodicReflectionConfiguration.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
     EpisodicReflectionConfiguration.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
+    EpisodicReflectionConfiguration.add_member(:memory_record_schema, Shapes::ShapeRef.new(shape: MemoryRecordSchema, location_name: "memoryRecordSchema"))
     EpisodicReflectionConfiguration.struct_class = Types::EpisodicReflectionConfiguration
 
     EpisodicReflectionConfigurationInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
     EpisodicReflectionConfigurationInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
+    EpisodicReflectionConfigurationInput.add_member(:memory_record_schema, Shapes::ShapeRef.new(shape: MemoryRecordSchema, location_name: "memoryRecordSchema"))
     EpisodicReflectionConfigurationInput.struct_class = Types::EpisodicReflectionConfigurationInput
 
     EpisodicReflectionOverride.add_member(:append_to_prompt, Shapes::ShapeRef.new(shape: Prompt, required: true, location_name: "appendToPrompt"))
     EpisodicReflectionOverride.add_member(:model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "modelId"))
     EpisodicReflectionOverride.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
     EpisodicReflectionOverride.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
+    EpisodicReflectionOverride.add_member(:memory_record_schema, Shapes::ShapeRef.new(shape: MemoryRecordSchema, location_name: "memoryRecordSchema"))
     EpisodicReflectionOverride.struct_class = Types::EpisodicReflectionOverride
 
     EvaluatorConfig.add_member(:llm_as_a_judge, Shapes::ShapeRef.new(shape: LlmAsAJudgeEvaluatorConfig, location_name: "llmAsAJudge"))
@@ -2061,6 +2105,12 @@ module Aws::BedrockAgentCoreControl
     EvaluatorSummary.struct_class = Types::EvaluatorSummary
 
     EvaluatorSummaryList.member = Shapes::ShapeRef.new(shape: EvaluatorSummary)
+
+    ExtractionConfig.add_member(:llm_extraction_config, Shapes::ShapeRef.new(shape: LlmExtractionConfig, location_name: "llmExtractionConfig"))
+    ExtractionConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    ExtractionConfig.add_member_subclass(:llm_extraction_config, Types::ExtractionConfig::LlmExtractionConfig)
+    ExtractionConfig.add_member_subclass(:unknown, Types::ExtractionConfig::Unknown)
+    ExtractionConfig.struct_class = Types::ExtractionConfig
 
     ExtractionConfiguration.add_member(:custom_extraction_configuration, Shapes::ShapeRef.new(shape: CustomExtractionConfiguration, location_name: "customExtractionConfiguration"))
     ExtractionConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
@@ -2780,6 +2830,12 @@ module Aws::BedrockAgentCoreControl
     IncludedOauth2ProviderConfigOutput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, location_name: "clientId"))
     IncludedOauth2ProviderConfigOutput.struct_class = Types::IncludedOauth2ProviderConfigOutput
 
+    IndexedKey.add_member(:key, Shapes::ShapeRef.new(shape: MetadataKey, required: true, location_name: "key"))
+    IndexedKey.add_member(:type, Shapes::ShapeRef.new(shape: MetadataValueType, required: true, location_name: "type"))
+    IndexedKey.struct_class = Types::IndexedKey
+
+    IndexedKeysList.member = Shapes::ShapeRef.new(shape: IndexedKey)
+
     InferenceConfiguration.add_member(:max_tokens, Shapes::ShapeRef.new(shape: InferenceConfigurationMaxTokensInteger, location_name: "maxTokens"))
     InferenceConfiguration.add_member(:temperature, Shapes::ShapeRef.new(shape: InferenceConfigurationTemperatureFloat, location_name: "temperature"))
     InferenceConfiguration.add_member(:top_p, Shapes::ShapeRef.new(shape: InferenceConfigurationTopPFloat, location_name: "topP"))
@@ -3059,6 +3115,11 @@ module Aws::BedrockAgentCoreControl
     LlmAsAJudgeEvaluatorConfig.add_member(:model_config, Shapes::ShapeRef.new(shape: EvaluatorModelConfig, required: true, location_name: "modelConfig"))
     LlmAsAJudgeEvaluatorConfig.struct_class = Types::LlmAsAJudgeEvaluatorConfig
 
+    LlmExtractionConfig.add_member(:llm_extraction_instruction, Shapes::ShapeRef.new(shape: LlmExtractionInstruction, location_name: "llmExtractionInstruction"))
+    LlmExtractionConfig.add_member(:definition, Shapes::ShapeRef.new(shape: Definition, required: true, location_name: "definition"))
+    LlmExtractionConfig.add_member(:validation, Shapes::ShapeRef.new(shape: Validation, location_name: "validation"))
+    LlmExtractionConfig.struct_class = Types::LlmExtractionConfig
+
     MCPGatewayConfiguration.add_member(:supported_versions, Shapes::ShapeRef.new(shape: McpSupportedVersions, location_name: "supportedVersions"))
     MCPGatewayConfiguration.add_member(:instructions, Shapes::ShapeRef.new(shape: McpInstructions, location_name: "instructions"))
     MCPGatewayConfiguration.add_member(:search_type, Shapes::ShapeRef.new(shape: SearchType, location_name: "searchType"))
@@ -3145,8 +3206,12 @@ module Aws::BedrockAgentCoreControl
     Memory.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
     Memory.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
     Memory.add_member(:strategies, Shapes::ShapeRef.new(shape: MemoryStrategyList, location_name: "strategies"))
+    Memory.add_member(:indexed_keys, Shapes::ShapeRef.new(shape: IndexedKeysList, location_name: "indexedKeys"))
     Memory.add_member(:stream_delivery_resources, Shapes::ShapeRef.new(shape: StreamDeliveryResources, location_name: "streamDeliveryResources"))
     Memory.struct_class = Types::Memory
+
+    MemoryRecordSchema.add_member(:metadata_schema, Shapes::ShapeRef.new(shape: MetadataSchemaList, location_name: "metadataSchema"))
+    MemoryRecordSchema.struct_class = Types::MemoryRecordSchema
 
     MemoryStrategy.add_member(:strategy_id, Shapes::ShapeRef.new(shape: MemoryStrategyId, required: true, location_name: "strategyId"))
     MemoryStrategy.add_member(:name, Shapes::ShapeRef.new(shape: Name, required: true, location_name: "name"))
@@ -3158,6 +3223,7 @@ module Aws::BedrockAgentCoreControl
     MemoryStrategy.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "createdAt"))
     MemoryStrategy.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "updatedAt"))
     MemoryStrategy.add_member(:status, Shapes::ShapeRef.new(shape: MemoryStrategyStatus, location_name: "status"))
+    MemoryStrategy.add_member(:memory_record_schema, Shapes::ShapeRef.new(shape: MemoryRecordSchema, location_name: "memoryRecordSchema"))
     MemoryStrategy.struct_class = Types::MemoryStrategy
 
     MemoryStrategyInput.add_member(:semantic_memory_strategy, Shapes::ShapeRef.new(shape: SemanticMemoryStrategyInput, location_name: "semanticMemoryStrategy"))
@@ -3198,6 +3264,13 @@ module Aws::BedrockAgentCoreControl
     MetadataConfiguration.add_member(:allowed_response_headers, Shapes::ShapeRef.new(shape: AllowedResponseHeaders, location_name: "allowedResponseHeaders"))
     MetadataConfiguration.struct_class = Types::MetadataConfiguration
 
+    MetadataSchemaEntry.add_member(:key, Shapes::ShapeRef.new(shape: MetadataKey, required: true, location_name: "key"))
+    MetadataSchemaEntry.add_member(:type, Shapes::ShapeRef.new(shape: MetadataValueType, location_name: "type"))
+    MetadataSchemaEntry.add_member(:extraction_config, Shapes::ShapeRef.new(shape: ExtractionConfig, location_name: "extractionConfig"))
+    MetadataSchemaEntry.struct_class = Types::MetadataSchemaEntry
+
+    MetadataSchemaList.member = Shapes::ShapeRef.new(shape: MetadataSchemaEntry)
+
     MicrosoftOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, required: true, location_name: "clientId"))
     MicrosoftOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecretType, required: true, location_name: "clientSecret"))
     MicrosoftOauth2ProviderConfigInput.add_member(:tenant_id, Shapes::ShapeRef.new(shape: TenantIdType, location_name: "tenantId"))
@@ -3235,6 +3308,7 @@ module Aws::BedrockAgentCoreControl
     ModifyMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
     ModifyMemoryStrategyInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
     ModifyMemoryStrategyInput.add_member(:configuration, Shapes::ShapeRef.new(shape: ModifyStrategyConfiguration, location_name: "configuration"))
+    ModifyMemoryStrategyInput.add_member(:memory_record_schema, Shapes::ShapeRef.new(shape: MemoryRecordSchema, location_name: "memoryRecordSchema"))
     ModifyMemoryStrategyInput.struct_class = Types::ModifyMemoryStrategyInput
 
     ModifyReflectionConfiguration.add_member(:episodic_reflection_configuration, Shapes::ShapeRef.new(shape: EpisodicReflectionConfigurationInput, location_name: "episodicReflectionConfiguration"))
@@ -3261,6 +3335,10 @@ module Aws::BedrockAgentCoreControl
     NetworkConfiguration.add_member(:network_mode, Shapes::ShapeRef.new(shape: NetworkMode, required: true, location_name: "networkMode"))
     NetworkConfiguration.add_member(:network_mode_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "networkModeConfig"))
     NetworkConfiguration.struct_class = Types::NetworkConfiguration
+
+    NumberValidation.add_member(:min_value, Shapes::ShapeRef.new(shape: Double, location_name: "minValue"))
+    NumberValidation.add_member(:max_value, Shapes::ShapeRef.new(shape: Double, location_name: "maxValue"))
+    NumberValidation.struct_class = Types::NumberValidation
 
     NumericalScaleDefinition.add_member(:definition, Shapes::ShapeRef.new(shape: String, required: true, location_name: "definition"))
     NumericalScaleDefinition.add_member(:value, Shapes::ShapeRef.new(shape: NumericalScaleDefinitionValueDouble, required: true, location_name: "value"))
@@ -3352,6 +3430,10 @@ module Aws::BedrockAgentCoreControl
     Oauth2ProviderConfigOutput.add_member_subclass(:included_oauth_2_provider_config, Types::Oauth2ProviderConfigOutput::IncludedOauth2ProviderConfig)
     Oauth2ProviderConfigOutput.add_member_subclass(:unknown, Types::Oauth2ProviderConfigOutput::Unknown)
     Oauth2ProviderConfigOutput.struct_class = Types::Oauth2ProviderConfigOutput
+
+    OnBehalfOfTokenExchangeConfigType.add_member(:grant_type, Shapes::ShapeRef.new(shape: OnBehalfOfTokenExchangeGrantTypeType, required: true, location_name: "grantType"))
+    OnBehalfOfTokenExchangeConfigType.add_member(:token_exchange_grant_type_config, Shapes::ShapeRef.new(shape: TokenExchangeGrantTypeConfigType, location_name: "tokenExchangeGrantTypeConfig"))
+    OnBehalfOfTokenExchangeConfigType.struct_class = Types::OnBehalfOfTokenExchangeConfigType
 
     OnlineEvaluationConfigSummary.add_member(:online_evaluation_config_arn, Shapes::ShapeRef.new(shape: OnlineEvaluationConfigArn, required: true, location_name: "onlineEvaluationConfigArn"))
     OnlineEvaluationConfigSummary.add_member(:online_evaluation_config_id, Shapes::ShapeRef.new(shape: OnlineEvaluationConfigId, required: true, location_name: "onlineEvaluationConfigId"))
@@ -3616,6 +3698,8 @@ module Aws::BedrockAgentCoreControl
 
     ScopeList.member = Shapes::ShapeRef.new(shape: String)
 
+    ScopesListType.member = Shapes::ShapeRef.new(shape: ScopeType)
+
     Secret.add_member(:secret_arn, Shapes::ShapeRef.new(shape: SecretArn, required: true, location_name: "secretArn"))
     Secret.struct_class = Types::Secret
 
@@ -3654,6 +3738,7 @@ module Aws::BedrockAgentCoreControl
     SemanticMemoryStrategyInput.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     SemanticMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
     SemanticMemoryStrategyInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
+    SemanticMemoryStrategyInput.add_member(:memory_record_schema, Shapes::ShapeRef.new(shape: MemoryRecordSchema, location_name: "memoryRecordSchema"))
     SemanticMemoryStrategyInput.struct_class = Types::SemanticMemoryStrategyInput
 
     SemanticOverrideConfigurationInput.add_member(:extraction, Shapes::ShapeRef.new(shape: SemanticOverrideExtractionConfigurationInput, location_name: "extraction"))
@@ -3754,6 +3839,13 @@ module Aws::BedrockAgentCoreControl
 
     StreamDeliveryResourcesList.member = Shapes::ShapeRef.new(shape: StreamDeliveryResource)
 
+    StringListValidation.add_member(:allowed_values, Shapes::ShapeRef.new(shape: AllowedStringListValuesList, location_name: "allowedValues"))
+    StringListValidation.add_member(:max_items, Shapes::ShapeRef.new(shape: StringListValidationMaxItemsInteger, location_name: "maxItems"))
+    StringListValidation.struct_class = Types::StringListValidation
+
+    StringValidation.add_member(:allowed_values, Shapes::ShapeRef.new(shape: AllowedStringValuesList, required: true, location_name: "allowedValues"))
+    StringValidation.struct_class = Types::StringValidation
+
     SubmitRegistryRecordForApprovalRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryIdentifier, required: true, location: "uri", location_name: "registryId"))
     SubmitRegistryRecordForApprovalRequest.add_member(:record_id, Shapes::ShapeRef.new(shape: RecordIdentifier, required: true, location: "uri", location_name: "recordId"))
     SubmitRegistryRecordForApprovalRequest.struct_class = Types::SubmitRegistryRecordForApprovalRequest
@@ -3777,6 +3869,7 @@ module Aws::BedrockAgentCoreControl
     SummaryMemoryStrategyInput.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     SummaryMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
     SummaryMemoryStrategyInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
+    SummaryMemoryStrategyInput.add_member(:memory_record_schema, Shapes::ShapeRef.new(shape: MemoryRecordSchema, location_name: "memoryRecordSchema"))
     SummaryMemoryStrategyInput.struct_class = Types::SummaryMemoryStrategyInput
 
     SummaryOverrideConfigurationInput.add_member(:consolidation, Shapes::ShapeRef.new(shape: SummaryOverrideConsolidationConfigurationInput, location_name: "consolidation"))
@@ -3859,6 +3952,10 @@ module Aws::BedrockAgentCoreControl
     TokenBasedTriggerInput.struct_class = Types::TokenBasedTriggerInput
 
     TokenEndpointAuthMethodsType.member = Shapes::ShapeRef.new(shape: TokenAuthMethod)
+
+    TokenExchangeGrantTypeConfigType.add_member(:actor_token_content, Shapes::ShapeRef.new(shape: ActorTokenContentType, required: true, location_name: "actorTokenContent"))
+    TokenExchangeGrantTypeConfigType.add_member(:actor_token_scopes, Shapes::ShapeRef.new(shape: ScopesListType, location_name: "actorTokenScopes"))
+    TokenExchangeGrantTypeConfigType.struct_class = Types::TokenExchangeGrantTypeConfigType
 
     ToolDefinition.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
     ToolDefinition.add_member(:description, Shapes::ShapeRef.new(shape: String, required: true, location_name: "description"))
@@ -4120,6 +4217,7 @@ module Aws::BedrockAgentCoreControl
     UpdateMemoryInput.add_member(:event_expiry_duration, Shapes::ShapeRef.new(shape: UpdateMemoryInputEventExpiryDurationInteger, location_name: "eventExpiryDuration"))
     UpdateMemoryInput.add_member(:memory_execution_role_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "memoryExecutionRoleArn"))
     UpdateMemoryInput.add_member(:memory_strategies, Shapes::ShapeRef.new(shape: ModifyMemoryStrategies, location_name: "memoryStrategies"))
+    UpdateMemoryInput.add_member(:add_indexed_keys, Shapes::ShapeRef.new(shape: IndexedKeysList, location_name: "addIndexedKeys"))
     UpdateMemoryInput.add_member(:stream_delivery_resources, Shapes::ShapeRef.new(shape: StreamDeliveryResources, location_name: "streamDeliveryResources"))
     UpdateMemoryInput.struct_class = Types::UpdateMemoryInput
 
@@ -4341,6 +4439,7 @@ module Aws::BedrockAgentCoreControl
     UserPreferenceMemoryStrategyInput.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     UserPreferenceMemoryStrategyInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, deprecated: true, location_name: "namespaces", metadata: {"deprecatedMessage" => "Use namespaceTemplates instead", "deprecatedSince" => "2026-03-02"}))
     UserPreferenceMemoryStrategyInput.add_member(:namespace_templates, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaceTemplates"))
+    UserPreferenceMemoryStrategyInput.add_member(:memory_record_schema, Shapes::ShapeRef.new(shape: MemoryRecordSchema, location_name: "memoryRecordSchema"))
     UserPreferenceMemoryStrategyInput.struct_class = Types::UserPreferenceMemoryStrategyInput
 
     UserPreferenceOverrideConfigurationInput.add_member(:extraction, Shapes::ShapeRef.new(shape: UserPreferenceOverrideExtractionConfigurationInput, location_name: "extraction"))
@@ -4354,6 +4453,16 @@ module Aws::BedrockAgentCoreControl
     UserPreferenceOverrideExtractionConfigurationInput.add_member(:append_to_prompt, Shapes::ShapeRef.new(shape: Prompt, required: true, location_name: "appendToPrompt"))
     UserPreferenceOverrideExtractionConfigurationInput.add_member(:model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "modelId"))
     UserPreferenceOverrideExtractionConfigurationInput.struct_class = Types::UserPreferenceOverrideExtractionConfigurationInput
+
+    Validation.add_member(:string_validation, Shapes::ShapeRef.new(shape: StringValidation, location_name: "stringValidation"))
+    Validation.add_member(:string_list_validation, Shapes::ShapeRef.new(shape: StringListValidation, location_name: "stringListValidation"))
+    Validation.add_member(:number_validation, Shapes::ShapeRef.new(shape: NumberValidation, location_name: "numberValidation"))
+    Validation.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    Validation.add_member_subclass(:string_validation, Types::Validation::StringValidation)
+    Validation.add_member_subclass(:string_list_validation, Types::Validation::StringListValidation)
+    Validation.add_member_subclass(:number_validation, Types::Validation::NumberValidation)
+    Validation.add_member_subclass(:unknown, Types::Validation::Unknown)
+    Validation.struct_class = Types::Validation
 
     ValidationException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ValidationException.add_member(:reason, Shapes::ShapeRef.new(shape: ValidationExceptionReason, required: true, location_name: "reason"))

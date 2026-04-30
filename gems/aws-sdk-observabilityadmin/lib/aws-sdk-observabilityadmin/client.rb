@@ -675,7 +675,7 @@ module Aws::ObservabilityAdmin
     #   resp = client.create_telemetry_rule({
     #     rule_name: "RuleName", # required
     #     rule: { # required
-    #       resource_type: "AWS::EC2::Instance", # accepts AWS::EC2::Instance, AWS::EC2::VPC, AWS::Lambda::Function, AWS::CloudTrail, AWS::EKS::Cluster, AWS::WAFv2::WebACL, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Route53Resolver::ResolverEndpoint, AWS::BedrockAgentCore::Runtime, AWS::BedrockAgentCore::Browser, AWS::BedrockAgentCore::CodeInterpreter, AWS::BedrockAgentCore::Gateway, AWS::BedrockAgentCore::Memory, AWS::SecurityHub::Hub, AWS::CloudFront::Distribution, AWS::SecurityHub::HubV2
+    #       resource_type: "AWS::EC2::Instance", # accepts AWS::EC2::Instance, AWS::EC2::VPC, AWS::Lambda::Function, AWS::CloudTrail, AWS::EKS::Cluster, AWS::WAFv2::WebACL, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Route53Resolver::ResolverEndpoint, AWS::BedrockAgentCore::Runtime, AWS::BedrockAgentCore::Browser, AWS::BedrockAgentCore::CodeInterpreter, AWS::BedrockAgentCore::Gateway, AWS::BedrockAgentCore::Memory, AWS::BedrockAgentCore::WorkloadIdentity, AWS::SecurityHub::Hub, AWS::CloudFront::Distribution, AWS::SecurityHub::HubV2, AWS::CloudWatch::OTelEnrichment, AWS::MSK::Cluster
     #       telemetry_type: "Logs", # required, accepts Logs, Metrics, Traces
     #       telemetry_source_types: ["VPC_FLOW_LOGS"], # accepts VPC_FLOW_LOGS, ROUTE53_RESOLVER_QUERY_LOGS, EKS_AUDIT_LOGS, EKS_AUTHENTICATOR_LOGS, EKS_CONTROLLER_MANAGER_LOGS, EKS_SCHEDULER_LOGS, EKS_API_LOGS
     #       destination_configuration: {
@@ -743,6 +743,9 @@ module Aws::ObservabilityAdmin
     #         },
     #         log_delivery_parameters: {
     #           log_types: ["APPLICATION_LOGS"], # accepts APPLICATION_LOGS, USAGE_LOGS, SECURITY_FINDING_LOGS, ACCESS_LOGS, CONNECTION_LOGS
+    #         },
+    #         msk_monitoring_parameters: {
+    #           enhanced_monitoring: "DEFAULT", # accepts DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, PER_TOPIC_PER_PARTITION
     #         },
     #       },
     #       scope: "String",
@@ -795,7 +798,7 @@ module Aws::ObservabilityAdmin
     #   resp = client.create_telemetry_rule_for_organization({
     #     rule_name: "RuleName", # required
     #     rule: { # required
-    #       resource_type: "AWS::EC2::Instance", # accepts AWS::EC2::Instance, AWS::EC2::VPC, AWS::Lambda::Function, AWS::CloudTrail, AWS::EKS::Cluster, AWS::WAFv2::WebACL, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Route53Resolver::ResolverEndpoint, AWS::BedrockAgentCore::Runtime, AWS::BedrockAgentCore::Browser, AWS::BedrockAgentCore::CodeInterpreter, AWS::BedrockAgentCore::Gateway, AWS::BedrockAgentCore::Memory, AWS::SecurityHub::Hub, AWS::CloudFront::Distribution, AWS::SecurityHub::HubV2
+    #       resource_type: "AWS::EC2::Instance", # accepts AWS::EC2::Instance, AWS::EC2::VPC, AWS::Lambda::Function, AWS::CloudTrail, AWS::EKS::Cluster, AWS::WAFv2::WebACL, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Route53Resolver::ResolverEndpoint, AWS::BedrockAgentCore::Runtime, AWS::BedrockAgentCore::Browser, AWS::BedrockAgentCore::CodeInterpreter, AWS::BedrockAgentCore::Gateway, AWS::BedrockAgentCore::Memory, AWS::BedrockAgentCore::WorkloadIdentity, AWS::SecurityHub::Hub, AWS::CloudFront::Distribution, AWS::SecurityHub::HubV2, AWS::CloudWatch::OTelEnrichment, AWS::MSK::Cluster
     #       telemetry_type: "Logs", # required, accepts Logs, Metrics, Traces
     #       telemetry_source_types: ["VPC_FLOW_LOGS"], # accepts VPC_FLOW_LOGS, ROUTE53_RESOLVER_QUERY_LOGS, EKS_AUDIT_LOGS, EKS_AUTHENTICATOR_LOGS, EKS_CONTROLLER_MANAGER_LOGS, EKS_SCHEDULER_LOGS, EKS_API_LOGS
     #       destination_configuration: {
@@ -863,6 +866,9 @@ module Aws::ObservabilityAdmin
     #         },
     #         log_delivery_parameters: {
     #           log_types: ["APPLICATION_LOGS"], # accepts APPLICATION_LOGS, USAGE_LOGS, SECURITY_FINDING_LOGS, ACCESS_LOGS, CONNECTION_LOGS
+    #         },
+    #         msk_monitoring_parameters: {
+    #           enhanced_monitoring: "DEFAULT", # accepts DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, PER_TOPIC_PER_PARTITION
     #         },
     #       },
     #       scope: "String",
@@ -1263,7 +1269,7 @@ module Aws::ObservabilityAdmin
     #   resp.rule_arn #=> String
     #   resp.created_time_stamp #=> Integer
     #   resp.last_update_time_stamp #=> Integer
-    #   resp.telemetry_rule.resource_type #=> String, one of "AWS::EC2::Instance", "AWS::EC2::VPC", "AWS::Lambda::Function", "AWS::CloudTrail", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL", "AWS::ElasticLoadBalancingV2::LoadBalancer", "AWS::Route53Resolver::ResolverEndpoint", "AWS::BedrockAgentCore::Runtime", "AWS::BedrockAgentCore::Browser", "AWS::BedrockAgentCore::CodeInterpreter", "AWS::BedrockAgentCore::Gateway", "AWS::BedrockAgentCore::Memory", "AWS::SecurityHub::Hub", "AWS::CloudFront::Distribution", "AWS::SecurityHub::HubV2"
+    #   resp.telemetry_rule.resource_type #=> String, one of "AWS::EC2::Instance", "AWS::EC2::VPC", "AWS::Lambda::Function", "AWS::CloudTrail", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL", "AWS::ElasticLoadBalancingV2::LoadBalancer", "AWS::Route53Resolver::ResolverEndpoint", "AWS::BedrockAgentCore::Runtime", "AWS::BedrockAgentCore::Browser", "AWS::BedrockAgentCore::CodeInterpreter", "AWS::BedrockAgentCore::Gateway", "AWS::BedrockAgentCore::Memory", "AWS::BedrockAgentCore::WorkloadIdentity", "AWS::SecurityHub::Hub", "AWS::CloudFront::Distribution", "AWS::SecurityHub::HubV2", "AWS::CloudWatch::OTelEnrichment", "AWS::MSK::Cluster"
     #   resp.telemetry_rule.telemetry_type #=> String, one of "Logs", "Metrics", "Traces"
     #   resp.telemetry_rule.telemetry_source_types #=> Array
     #   resp.telemetry_rule.telemetry_source_types[0] #=> String, one of "VPC_FLOW_LOGS", "ROUTE53_RESOLVER_QUERY_LOGS", "EKS_AUDIT_LOGS", "EKS_AUTHENTICATOR_LOGS", "EKS_CONTROLLER_MANAGER_LOGS", "EKS_SCHEDULER_LOGS", "EKS_API_LOGS"
@@ -1306,6 +1312,7 @@ module Aws::ObservabilityAdmin
     #   resp.telemetry_rule.destination_configuration.waf_logging_parameters.log_type #=> String, one of "WAF_LOGS"
     #   resp.telemetry_rule.destination_configuration.log_delivery_parameters.log_types #=> Array
     #   resp.telemetry_rule.destination_configuration.log_delivery_parameters.log_types[0] #=> String, one of "APPLICATION_LOGS", "USAGE_LOGS", "SECURITY_FINDING_LOGS", "ACCESS_LOGS", "CONNECTION_LOGS"
+    #   resp.telemetry_rule.destination_configuration.msk_monitoring_parameters.enhanced_monitoring #=> String, one of "DEFAULT", "PER_BROKER", "PER_TOPIC_PER_BROKER", "PER_TOPIC_PER_PARTITION"
     #   resp.telemetry_rule.scope #=> String
     #   resp.telemetry_rule.selection_criteria #=> String
     #   resp.telemetry_rule.allow_field_updates #=> Boolean
@@ -1360,7 +1367,7 @@ module Aws::ObservabilityAdmin
     #   resp.rule_arn #=> String
     #   resp.created_time_stamp #=> Integer
     #   resp.last_update_time_stamp #=> Integer
-    #   resp.telemetry_rule.resource_type #=> String, one of "AWS::EC2::Instance", "AWS::EC2::VPC", "AWS::Lambda::Function", "AWS::CloudTrail", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL", "AWS::ElasticLoadBalancingV2::LoadBalancer", "AWS::Route53Resolver::ResolverEndpoint", "AWS::BedrockAgentCore::Runtime", "AWS::BedrockAgentCore::Browser", "AWS::BedrockAgentCore::CodeInterpreter", "AWS::BedrockAgentCore::Gateway", "AWS::BedrockAgentCore::Memory", "AWS::SecurityHub::Hub", "AWS::CloudFront::Distribution", "AWS::SecurityHub::HubV2"
+    #   resp.telemetry_rule.resource_type #=> String, one of "AWS::EC2::Instance", "AWS::EC2::VPC", "AWS::Lambda::Function", "AWS::CloudTrail", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL", "AWS::ElasticLoadBalancingV2::LoadBalancer", "AWS::Route53Resolver::ResolverEndpoint", "AWS::BedrockAgentCore::Runtime", "AWS::BedrockAgentCore::Browser", "AWS::BedrockAgentCore::CodeInterpreter", "AWS::BedrockAgentCore::Gateway", "AWS::BedrockAgentCore::Memory", "AWS::BedrockAgentCore::WorkloadIdentity", "AWS::SecurityHub::Hub", "AWS::CloudFront::Distribution", "AWS::SecurityHub::HubV2", "AWS::CloudWatch::OTelEnrichment", "AWS::MSK::Cluster"
     #   resp.telemetry_rule.telemetry_type #=> String, one of "Logs", "Metrics", "Traces"
     #   resp.telemetry_rule.telemetry_source_types #=> Array
     #   resp.telemetry_rule.telemetry_source_types[0] #=> String, one of "VPC_FLOW_LOGS", "ROUTE53_RESOLVER_QUERY_LOGS", "EKS_AUDIT_LOGS", "EKS_AUTHENTICATOR_LOGS", "EKS_CONTROLLER_MANAGER_LOGS", "EKS_SCHEDULER_LOGS", "EKS_API_LOGS"
@@ -1403,6 +1410,7 @@ module Aws::ObservabilityAdmin
     #   resp.telemetry_rule.destination_configuration.waf_logging_parameters.log_type #=> String, one of "WAF_LOGS"
     #   resp.telemetry_rule.destination_configuration.log_delivery_parameters.log_types #=> Array
     #   resp.telemetry_rule.destination_configuration.log_delivery_parameters.log_types[0] #=> String, one of "APPLICATION_LOGS", "USAGE_LOGS", "SECURITY_FINDING_LOGS", "ACCESS_LOGS", "CONNECTION_LOGS"
+    #   resp.telemetry_rule.destination_configuration.msk_monitoring_parameters.enhanced_monitoring #=> String, one of "DEFAULT", "PER_BROKER", "PER_TOPIC_PER_BROKER", "PER_TOPIC_PER_PARTITION"
     #   resp.telemetry_rule.scope #=> String
     #   resp.telemetry_rule.selection_criteria #=> String
     #   resp.telemetry_rule.allow_field_updates #=> Boolean
@@ -1535,7 +1543,7 @@ module Aws::ObservabilityAdmin
     #
     #   resp = client.list_resource_telemetry({
     #     resource_identifier_prefix: "ResourceIdentifierPrefix",
-    #     resource_types: ["AWS::EC2::Instance"], # accepts AWS::EC2::Instance, AWS::EC2::VPC, AWS::Lambda::Function, AWS::CloudTrail, AWS::EKS::Cluster, AWS::WAFv2::WebACL, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Route53Resolver::ResolverEndpoint, AWS::BedrockAgentCore::Runtime, AWS::BedrockAgentCore::Browser, AWS::BedrockAgentCore::CodeInterpreter, AWS::BedrockAgentCore::Gateway, AWS::BedrockAgentCore::Memory, AWS::SecurityHub::Hub, AWS::CloudFront::Distribution, AWS::SecurityHub::HubV2
+    #     resource_types: ["AWS::EC2::Instance"], # accepts AWS::EC2::Instance, AWS::EC2::VPC, AWS::Lambda::Function, AWS::CloudTrail, AWS::EKS::Cluster, AWS::WAFv2::WebACL, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Route53Resolver::ResolverEndpoint, AWS::BedrockAgentCore::Runtime, AWS::BedrockAgentCore::Browser, AWS::BedrockAgentCore::CodeInterpreter, AWS::BedrockAgentCore::Gateway, AWS::BedrockAgentCore::Memory, AWS::BedrockAgentCore::WorkloadIdentity, AWS::SecurityHub::Hub, AWS::CloudFront::Distribution, AWS::SecurityHub::HubV2, AWS::CloudWatch::OTelEnrichment, AWS::MSK::Cluster
     #     telemetry_configuration_state: {
     #       "Logs" => "Enabled", # accepts Enabled, Disabled, NotApplicable
     #     },
@@ -1552,7 +1560,7 @@ module Aws::ObservabilityAdmin
     #   resp.telemetry_configurations[0].account_identifier #=> String
     #   resp.telemetry_configurations[0].telemetry_configuration_state #=> Hash
     #   resp.telemetry_configurations[0].telemetry_configuration_state["TelemetryType"] #=> String, one of "Enabled", "Disabled", "NotApplicable"
-    #   resp.telemetry_configurations[0].resource_type #=> String, one of "AWS::EC2::Instance", "AWS::EC2::VPC", "AWS::Lambda::Function", "AWS::CloudTrail", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL", "AWS::ElasticLoadBalancingV2::LoadBalancer", "AWS::Route53Resolver::ResolverEndpoint", "AWS::BedrockAgentCore::Runtime", "AWS::BedrockAgentCore::Browser", "AWS::BedrockAgentCore::CodeInterpreter", "AWS::BedrockAgentCore::Gateway", "AWS::BedrockAgentCore::Memory", "AWS::SecurityHub::Hub", "AWS::CloudFront::Distribution", "AWS::SecurityHub::HubV2"
+    #   resp.telemetry_configurations[0].resource_type #=> String, one of "AWS::EC2::Instance", "AWS::EC2::VPC", "AWS::Lambda::Function", "AWS::CloudTrail", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL", "AWS::ElasticLoadBalancingV2::LoadBalancer", "AWS::Route53Resolver::ResolverEndpoint", "AWS::BedrockAgentCore::Runtime", "AWS::BedrockAgentCore::Browser", "AWS::BedrockAgentCore::CodeInterpreter", "AWS::BedrockAgentCore::Gateway", "AWS::BedrockAgentCore::Memory", "AWS::BedrockAgentCore::WorkloadIdentity", "AWS::SecurityHub::Hub", "AWS::CloudFront::Distribution", "AWS::SecurityHub::HubV2", "AWS::CloudWatch::OTelEnrichment", "AWS::MSK::Cluster"
     #   resp.telemetry_configurations[0].resource_identifier #=> String
     #   resp.telemetry_configurations[0].resource_tags #=> Hash
     #   resp.telemetry_configurations[0].resource_tags["String"] #=> String
@@ -1619,7 +1627,7 @@ module Aws::ObservabilityAdmin
     #   resp = client.list_resource_telemetry_for_organization({
     #     account_identifiers: ["AccountIdentifier"],
     #     resource_identifier_prefix: "ResourceIdentifierPrefix",
-    #     resource_types: ["AWS::EC2::Instance"], # accepts AWS::EC2::Instance, AWS::EC2::VPC, AWS::Lambda::Function, AWS::CloudTrail, AWS::EKS::Cluster, AWS::WAFv2::WebACL, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Route53Resolver::ResolverEndpoint, AWS::BedrockAgentCore::Runtime, AWS::BedrockAgentCore::Browser, AWS::BedrockAgentCore::CodeInterpreter, AWS::BedrockAgentCore::Gateway, AWS::BedrockAgentCore::Memory, AWS::SecurityHub::Hub, AWS::CloudFront::Distribution, AWS::SecurityHub::HubV2
+    #     resource_types: ["AWS::EC2::Instance"], # accepts AWS::EC2::Instance, AWS::EC2::VPC, AWS::Lambda::Function, AWS::CloudTrail, AWS::EKS::Cluster, AWS::WAFv2::WebACL, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Route53Resolver::ResolverEndpoint, AWS::BedrockAgentCore::Runtime, AWS::BedrockAgentCore::Browser, AWS::BedrockAgentCore::CodeInterpreter, AWS::BedrockAgentCore::Gateway, AWS::BedrockAgentCore::Memory, AWS::BedrockAgentCore::WorkloadIdentity, AWS::SecurityHub::Hub, AWS::CloudFront::Distribution, AWS::SecurityHub::HubV2, AWS::CloudWatch::OTelEnrichment, AWS::MSK::Cluster
     #     telemetry_configuration_state: {
     #       "Logs" => "Enabled", # accepts Enabled, Disabled, NotApplicable
     #     },
@@ -1636,7 +1644,7 @@ module Aws::ObservabilityAdmin
     #   resp.telemetry_configurations[0].account_identifier #=> String
     #   resp.telemetry_configurations[0].telemetry_configuration_state #=> Hash
     #   resp.telemetry_configurations[0].telemetry_configuration_state["TelemetryType"] #=> String, one of "Enabled", "Disabled", "NotApplicable"
-    #   resp.telemetry_configurations[0].resource_type #=> String, one of "AWS::EC2::Instance", "AWS::EC2::VPC", "AWS::Lambda::Function", "AWS::CloudTrail", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL", "AWS::ElasticLoadBalancingV2::LoadBalancer", "AWS::Route53Resolver::ResolverEndpoint", "AWS::BedrockAgentCore::Runtime", "AWS::BedrockAgentCore::Browser", "AWS::BedrockAgentCore::CodeInterpreter", "AWS::BedrockAgentCore::Gateway", "AWS::BedrockAgentCore::Memory", "AWS::SecurityHub::Hub", "AWS::CloudFront::Distribution", "AWS::SecurityHub::HubV2"
+    #   resp.telemetry_configurations[0].resource_type #=> String, one of "AWS::EC2::Instance", "AWS::EC2::VPC", "AWS::Lambda::Function", "AWS::CloudTrail", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL", "AWS::ElasticLoadBalancingV2::LoadBalancer", "AWS::Route53Resolver::ResolverEndpoint", "AWS::BedrockAgentCore::Runtime", "AWS::BedrockAgentCore::Browser", "AWS::BedrockAgentCore::CodeInterpreter", "AWS::BedrockAgentCore::Gateway", "AWS::BedrockAgentCore::Memory", "AWS::BedrockAgentCore::WorkloadIdentity", "AWS::SecurityHub::Hub", "AWS::CloudFront::Distribution", "AWS::SecurityHub::HubV2", "AWS::CloudWatch::OTelEnrichment", "AWS::MSK::Cluster"
     #   resp.telemetry_configurations[0].resource_identifier #=> String
     #   resp.telemetry_configurations[0].resource_tags #=> Hash
     #   resp.telemetry_configurations[0].resource_tags["String"] #=> String
@@ -1819,7 +1827,7 @@ module Aws::ObservabilityAdmin
     #   resp.telemetry_rule_summaries[0].rule_arn #=> String
     #   resp.telemetry_rule_summaries[0].created_time_stamp #=> Integer
     #   resp.telemetry_rule_summaries[0].last_update_time_stamp #=> Integer
-    #   resp.telemetry_rule_summaries[0].resource_type #=> String, one of "AWS::EC2::Instance", "AWS::EC2::VPC", "AWS::Lambda::Function", "AWS::CloudTrail", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL", "AWS::ElasticLoadBalancingV2::LoadBalancer", "AWS::Route53Resolver::ResolverEndpoint", "AWS::BedrockAgentCore::Runtime", "AWS::BedrockAgentCore::Browser", "AWS::BedrockAgentCore::CodeInterpreter", "AWS::BedrockAgentCore::Gateway", "AWS::BedrockAgentCore::Memory", "AWS::SecurityHub::Hub", "AWS::CloudFront::Distribution", "AWS::SecurityHub::HubV2"
+    #   resp.telemetry_rule_summaries[0].resource_type #=> String, one of "AWS::EC2::Instance", "AWS::EC2::VPC", "AWS::Lambda::Function", "AWS::CloudTrail", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL", "AWS::ElasticLoadBalancingV2::LoadBalancer", "AWS::Route53Resolver::ResolverEndpoint", "AWS::BedrockAgentCore::Runtime", "AWS::BedrockAgentCore::Browser", "AWS::BedrockAgentCore::CodeInterpreter", "AWS::BedrockAgentCore::Gateway", "AWS::BedrockAgentCore::Memory", "AWS::BedrockAgentCore::WorkloadIdentity", "AWS::SecurityHub::Hub", "AWS::CloudFront::Distribution", "AWS::SecurityHub::HubV2", "AWS::CloudWatch::OTelEnrichment", "AWS::MSK::Cluster"
     #   resp.telemetry_rule_summaries[0].telemetry_type #=> String, one of "Logs", "Metrics", "Traces"
     #   resp.telemetry_rule_summaries[0].telemetry_source_types #=> Array
     #   resp.telemetry_rule_summaries[0].telemetry_source_types[0] #=> String, one of "VPC_FLOW_LOGS", "ROUTE53_RESOLVER_QUERY_LOGS", "EKS_AUDIT_LOGS", "EKS_AUTHENTICATOR_LOGS", "EKS_CONTROLLER_MANAGER_LOGS", "EKS_SCHEDULER_LOGS", "EKS_API_LOGS"
@@ -1882,7 +1890,7 @@ module Aws::ObservabilityAdmin
     #   resp.telemetry_rule_summaries[0].rule_arn #=> String
     #   resp.telemetry_rule_summaries[0].created_time_stamp #=> Integer
     #   resp.telemetry_rule_summaries[0].last_update_time_stamp #=> Integer
-    #   resp.telemetry_rule_summaries[0].resource_type #=> String, one of "AWS::EC2::Instance", "AWS::EC2::VPC", "AWS::Lambda::Function", "AWS::CloudTrail", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL", "AWS::ElasticLoadBalancingV2::LoadBalancer", "AWS::Route53Resolver::ResolverEndpoint", "AWS::BedrockAgentCore::Runtime", "AWS::BedrockAgentCore::Browser", "AWS::BedrockAgentCore::CodeInterpreter", "AWS::BedrockAgentCore::Gateway", "AWS::BedrockAgentCore::Memory", "AWS::SecurityHub::Hub", "AWS::CloudFront::Distribution", "AWS::SecurityHub::HubV2"
+    #   resp.telemetry_rule_summaries[0].resource_type #=> String, one of "AWS::EC2::Instance", "AWS::EC2::VPC", "AWS::Lambda::Function", "AWS::CloudTrail", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL", "AWS::ElasticLoadBalancingV2::LoadBalancer", "AWS::Route53Resolver::ResolverEndpoint", "AWS::BedrockAgentCore::Runtime", "AWS::BedrockAgentCore::Browser", "AWS::BedrockAgentCore::CodeInterpreter", "AWS::BedrockAgentCore::Gateway", "AWS::BedrockAgentCore::Memory", "AWS::BedrockAgentCore::WorkloadIdentity", "AWS::SecurityHub::Hub", "AWS::CloudFront::Distribution", "AWS::SecurityHub::HubV2", "AWS::CloudWatch::OTelEnrichment", "AWS::MSK::Cluster"
     #   resp.telemetry_rule_summaries[0].telemetry_type #=> String, one of "Logs", "Metrics", "Traces"
     #   resp.telemetry_rule_summaries[0].telemetry_source_types #=> Array
     #   resp.telemetry_rule_summaries[0].telemetry_source_types[0] #=> String, one of "VPC_FLOW_LOGS", "ROUTE53_RESOLVER_QUERY_LOGS", "EKS_AUDIT_LOGS", "EKS_AUTHENTICATOR_LOGS", "EKS_CONTROLLER_MANAGER_LOGS", "EKS_SCHEDULER_LOGS", "EKS_API_LOGS"
@@ -2333,7 +2341,7 @@ module Aws::ObservabilityAdmin
     #   resp = client.update_telemetry_rule({
     #     rule_identifier: "RuleIdentifier", # required
     #     rule: { # required
-    #       resource_type: "AWS::EC2::Instance", # accepts AWS::EC2::Instance, AWS::EC2::VPC, AWS::Lambda::Function, AWS::CloudTrail, AWS::EKS::Cluster, AWS::WAFv2::WebACL, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Route53Resolver::ResolverEndpoint, AWS::BedrockAgentCore::Runtime, AWS::BedrockAgentCore::Browser, AWS::BedrockAgentCore::CodeInterpreter, AWS::BedrockAgentCore::Gateway, AWS::BedrockAgentCore::Memory, AWS::SecurityHub::Hub, AWS::CloudFront::Distribution, AWS::SecurityHub::HubV2
+    #       resource_type: "AWS::EC2::Instance", # accepts AWS::EC2::Instance, AWS::EC2::VPC, AWS::Lambda::Function, AWS::CloudTrail, AWS::EKS::Cluster, AWS::WAFv2::WebACL, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Route53Resolver::ResolverEndpoint, AWS::BedrockAgentCore::Runtime, AWS::BedrockAgentCore::Browser, AWS::BedrockAgentCore::CodeInterpreter, AWS::BedrockAgentCore::Gateway, AWS::BedrockAgentCore::Memory, AWS::BedrockAgentCore::WorkloadIdentity, AWS::SecurityHub::Hub, AWS::CloudFront::Distribution, AWS::SecurityHub::HubV2, AWS::CloudWatch::OTelEnrichment, AWS::MSK::Cluster
     #       telemetry_type: "Logs", # required, accepts Logs, Metrics, Traces
     #       telemetry_source_types: ["VPC_FLOW_LOGS"], # accepts VPC_FLOW_LOGS, ROUTE53_RESOLVER_QUERY_LOGS, EKS_AUDIT_LOGS, EKS_AUTHENTICATOR_LOGS, EKS_CONTROLLER_MANAGER_LOGS, EKS_SCHEDULER_LOGS, EKS_API_LOGS
     #       destination_configuration: {
@@ -2401,6 +2409,9 @@ module Aws::ObservabilityAdmin
     #         },
     #         log_delivery_parameters: {
     #           log_types: ["APPLICATION_LOGS"], # accepts APPLICATION_LOGS, USAGE_LOGS, SECURITY_FINDING_LOGS, ACCESS_LOGS, CONNECTION_LOGS
+    #         },
+    #         msk_monitoring_parameters: {
+    #           enhanced_monitoring: "DEFAULT", # accepts DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, PER_TOPIC_PER_PARTITION
     #         },
     #       },
     #       scope: "String",
@@ -2447,7 +2458,7 @@ module Aws::ObservabilityAdmin
     #   resp = client.update_telemetry_rule_for_organization({
     #     rule_identifier: "RuleIdentifier", # required
     #     rule: { # required
-    #       resource_type: "AWS::EC2::Instance", # accepts AWS::EC2::Instance, AWS::EC2::VPC, AWS::Lambda::Function, AWS::CloudTrail, AWS::EKS::Cluster, AWS::WAFv2::WebACL, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Route53Resolver::ResolverEndpoint, AWS::BedrockAgentCore::Runtime, AWS::BedrockAgentCore::Browser, AWS::BedrockAgentCore::CodeInterpreter, AWS::BedrockAgentCore::Gateway, AWS::BedrockAgentCore::Memory, AWS::SecurityHub::Hub, AWS::CloudFront::Distribution, AWS::SecurityHub::HubV2
+    #       resource_type: "AWS::EC2::Instance", # accepts AWS::EC2::Instance, AWS::EC2::VPC, AWS::Lambda::Function, AWS::CloudTrail, AWS::EKS::Cluster, AWS::WAFv2::WebACL, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Route53Resolver::ResolverEndpoint, AWS::BedrockAgentCore::Runtime, AWS::BedrockAgentCore::Browser, AWS::BedrockAgentCore::CodeInterpreter, AWS::BedrockAgentCore::Gateway, AWS::BedrockAgentCore::Memory, AWS::BedrockAgentCore::WorkloadIdentity, AWS::SecurityHub::Hub, AWS::CloudFront::Distribution, AWS::SecurityHub::HubV2, AWS::CloudWatch::OTelEnrichment, AWS::MSK::Cluster
     #       telemetry_type: "Logs", # required, accepts Logs, Metrics, Traces
     #       telemetry_source_types: ["VPC_FLOW_LOGS"], # accepts VPC_FLOW_LOGS, ROUTE53_RESOLVER_QUERY_LOGS, EKS_AUDIT_LOGS, EKS_AUTHENTICATOR_LOGS, EKS_CONTROLLER_MANAGER_LOGS, EKS_SCHEDULER_LOGS, EKS_API_LOGS
     #       destination_configuration: {
@@ -2515,6 +2526,9 @@ module Aws::ObservabilityAdmin
     #         },
     #         log_delivery_parameters: {
     #           log_types: ["APPLICATION_LOGS"], # accepts APPLICATION_LOGS, USAGE_LOGS, SECURITY_FINDING_LOGS, ACCESS_LOGS, CONNECTION_LOGS
+    #         },
+    #         msk_monitoring_parameters: {
+    #           enhanced_monitoring: "DEFAULT", # accepts DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, PER_TOPIC_PER_PARTITION
     #         },
     #       },
     #       scope: "String",
@@ -2592,7 +2606,7 @@ module Aws::ObservabilityAdmin
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-observabilityadmin'
-      context[:gem_version] = '1.26.0'
+      context[:gem_version] = '1.27.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

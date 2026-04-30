@@ -270,6 +270,7 @@ module Aws::Kafka
     VpcConnectivitySasl = Shapes::StructureShape.new(name: 'VpcConnectivitySasl')
     VpcConnectivityScram = Shapes::StructureShape.new(name: 'VpcConnectivityScram')
     VpcConnectivityTls = Shapes::StructureShape.new(name: 'VpcConnectivityTls')
+    ZookeeperAccess = Shapes::StructureShape.new(name: 'ZookeeperAccess')
     ZookeeperNodeInfo = Shapes::StructureShape.new(name: 'ZookeeperNodeInfo')
     __blob = Shapes::BlobShape.new(name: '__blob')
     __boolean = Shapes::BooleanShape.new(name: '__boolean')
@@ -1043,6 +1044,7 @@ module Aws::Kafka
     MutableClusterInfo.add_member(:client_authentication, Shapes::ShapeRef.new(shape: ClientAuthentication, location_name: "clientAuthentication"))
     MutableClusterInfo.add_member(:encryption_info, Shapes::ShapeRef.new(shape: EncryptionInfo, location_name: "encryptionInfo"))
     MutableClusterInfo.add_member(:connectivity_info, Shapes::ShapeRef.new(shape: ConnectivityInfo, location_name: "connectivityInfo"))
+    MutableClusterInfo.add_member(:zookeeper_access, Shapes::ShapeRef.new(shape: ZookeeperAccess, location_name: "zookeeperAccess"))
     MutableClusterInfo.add_member(:storage_mode, Shapes::ShapeRef.new(shape: StorageMode, location_name: "storageMode"))
     MutableClusterInfo.add_member(:broker_count_update_info, Shapes::ShapeRef.new(shape: BrokerCountUpdateInfo, location_name: "brokerCountUpdateInfo"))
     MutableClusterInfo.add_member(:rebalancing, Shapes::ShapeRef.new(shape: Rebalancing, location_name: "rebalancing"))
@@ -1370,8 +1372,9 @@ module Aws::Kafka
     UpdateConfigurationResponse.struct_class = Types::UpdateConfigurationResponse
 
     UpdateConnectivityRequest.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "clusterArn"))
-    UpdateConnectivityRequest.add_member(:connectivity_info, Shapes::ShapeRef.new(shape: ConnectivityInfo, required: true, location_name: "connectivityInfo"))
+    UpdateConnectivityRequest.add_member(:connectivity_info, Shapes::ShapeRef.new(shape: ConnectivityInfo, location_name: "connectivityInfo"))
     UpdateConnectivityRequest.add_member(:current_version, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "currentVersion"))
+    UpdateConnectivityRequest.add_member(:zookeeper_access, Shapes::ShapeRef.new(shape: ZookeeperAccess, location_name: "zookeeperAccess"))
     UpdateConnectivityRequest.struct_class = Types::UpdateConnectivityRequest
 
     UpdateConnectivityResponse.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, location_name: "clusterArn"))
@@ -1492,6 +1495,9 @@ module Aws::Kafka
 
     VpcConnectivityTls.add_member(:enabled, Shapes::ShapeRef.new(shape: __boolean, location_name: "enabled"))
     VpcConnectivityTls.struct_class = Types::VpcConnectivityTls
+
+    ZookeeperAccess.add_member(:enabled, Shapes::ShapeRef.new(shape: __boolean, location_name: "enabled"))
+    ZookeeperAccess.struct_class = Types::ZookeeperAccess
 
     ZookeeperNodeInfo.add_member(:attached_eni_id, Shapes::ShapeRef.new(shape: __string, location_name: "attachedENIId"))
     ZookeeperNodeInfo.add_member(:client_vpc_ip_address, Shapes::ShapeRef.new(shape: __string, location_name: "clientVpcIpAddress"))

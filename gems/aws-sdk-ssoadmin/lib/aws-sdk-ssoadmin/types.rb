@@ -302,6 +302,11 @@ module Aws::SSOAdmin
     #   with this application.
     #   @return [String]
     #
+    # @!attribute [rw] identity_store_arn
+    #   The ARN of the identity store that is connected to the instance of
+    #   IAM Identity Center.
+    #   @return [String]
+    #
     # @!attribute [rw] status
     #   The current status of the application in this instance of IAM
     #   Identity Center.
@@ -333,6 +338,7 @@ module Aws::SSOAdmin
       :name,
       :application_account,
       :instance_arn,
+      :identity_store_arn,
       :status,
       :portal_options,
       :description,
@@ -785,10 +791,25 @@ module Aws::SSOAdmin
     #   Specifies the ARN of the application.
     #   @return [String]
     #
+    # @!attribute [rw] instance_arn
+    #   The ARN of the instance of IAM Identity Center under which the
+    #   operation will run. For more information about ARNs, see [Amazon
+    #   Resource Names (ARNs) and Amazon Web Services Service
+    #   Namespaces](/general/latest/gr/aws-arns-and-namespaces.html) in the
+    #   *Amazon Web Services General Reference*.
+    #   @return [String]
+    #
+    # @!attribute [rw] identity_store_arn
+    #   The ARN of the identity store that is connected to the instance of
+    #   IAM Identity Center.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sso-admin-2020-07-20/CreateApplicationResponse AWS API Documentation
     #
     class CreateApplicationResponse < Struct.new(
-      :application_arn)
+      :application_arn,
+      :instance_arn,
+      :identity_store_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1541,6 +1562,11 @@ module Aws::SSOAdmin
     #   *Amazon Web Services General Reference*.
     #   @return [String]
     #
+    # @!attribute [rw] identity_store_arn
+    #   The ARN of the identity store that is connected to the instance of
+    #   IAM Identity Center.
+    #   @return [String]
+    #
     # @!attribute [rw] status
     #   Specifies whether the application is enabled or disabled.
     #   @return [String]
@@ -1571,6 +1597,7 @@ module Aws::SSOAdmin
       :name,
       :application_account,
       :instance_arn,
+      :identity_store_arn,
       :status,
       :portal_options,
       :description,

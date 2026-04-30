@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.110.0 (2026-04-30)
+------------------
+
+* Feature - Adds support for ZookeeperAccess field to control the Client-Zookeeper connectivity.
+
 1.109.0 (2026-04-20)
 ------------------
 

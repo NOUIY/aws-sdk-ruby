@@ -1535,6 +1535,7 @@ module Aws::Kafka
     #   resp.cluster_operation_info.source_cluster_info.connectivity_info.vpc_connectivity.client_authentication.sasl.iam.enabled #=> Boolean
     #   resp.cluster_operation_info.source_cluster_info.connectivity_info.vpc_connectivity.client_authentication.tls.enabled #=> Boolean
     #   resp.cluster_operation_info.source_cluster_info.connectivity_info.network_type #=> String, one of "IPV4", "DUAL"
+    #   resp.cluster_operation_info.source_cluster_info.zookeeper_access.enabled #=> Boolean
     #   resp.cluster_operation_info.source_cluster_info.storage_mode #=> String, one of "LOCAL", "TIERED"
     #   resp.cluster_operation_info.source_cluster_info.broker_count_update_info.created_broker_ids #=> Array
     #   resp.cluster_operation_info.source_cluster_info.broker_count_update_info.created_broker_ids[0] #=> Float
@@ -1575,6 +1576,7 @@ module Aws::Kafka
     #   resp.cluster_operation_info.target_cluster_info.connectivity_info.vpc_connectivity.client_authentication.sasl.iam.enabled #=> Boolean
     #   resp.cluster_operation_info.target_cluster_info.connectivity_info.vpc_connectivity.client_authentication.tls.enabled #=> Boolean
     #   resp.cluster_operation_info.target_cluster_info.connectivity_info.network_type #=> String, one of "IPV4", "DUAL"
+    #   resp.cluster_operation_info.target_cluster_info.zookeeper_access.enabled #=> Boolean
     #   resp.cluster_operation_info.target_cluster_info.storage_mode #=> String, one of "LOCAL", "TIERED"
     #   resp.cluster_operation_info.target_cluster_info.broker_count_update_info.created_broker_ids #=> Array
     #   resp.cluster_operation_info.target_cluster_info.broker_count_update_info.created_broker_ids[0] #=> Float
@@ -1656,6 +1658,7 @@ module Aws::Kafka
     #   resp.cluster_operation_info.provisioned.source_cluster_info.connectivity_info.vpc_connectivity.client_authentication.sasl.iam.enabled #=> Boolean
     #   resp.cluster_operation_info.provisioned.source_cluster_info.connectivity_info.vpc_connectivity.client_authentication.tls.enabled #=> Boolean
     #   resp.cluster_operation_info.provisioned.source_cluster_info.connectivity_info.network_type #=> String, one of "IPV4", "DUAL"
+    #   resp.cluster_operation_info.provisioned.source_cluster_info.zookeeper_access.enabled #=> Boolean
     #   resp.cluster_operation_info.provisioned.source_cluster_info.storage_mode #=> String, one of "LOCAL", "TIERED"
     #   resp.cluster_operation_info.provisioned.source_cluster_info.broker_count_update_info.created_broker_ids #=> Array
     #   resp.cluster_operation_info.provisioned.source_cluster_info.broker_count_update_info.created_broker_ids[0] #=> Float
@@ -1696,6 +1699,7 @@ module Aws::Kafka
     #   resp.cluster_operation_info.provisioned.target_cluster_info.connectivity_info.vpc_connectivity.client_authentication.sasl.iam.enabled #=> Boolean
     #   resp.cluster_operation_info.provisioned.target_cluster_info.connectivity_info.vpc_connectivity.client_authentication.tls.enabled #=> Boolean
     #   resp.cluster_operation_info.provisioned.target_cluster_info.connectivity_info.network_type #=> String, one of "IPV4", "DUAL"
+    #   resp.cluster_operation_info.provisioned.target_cluster_info.zookeeper_access.enabled #=> Boolean
     #   resp.cluster_operation_info.provisioned.target_cluster_info.storage_mode #=> String, one of "LOCAL", "TIERED"
     #   resp.cluster_operation_info.provisioned.target_cluster_info.broker_count_update_info.created_broker_ids #=> Array
     #   resp.cluster_operation_info.provisioned.target_cluster_info.broker_count_update_info.created_broker_ids[0] #=> Float
@@ -2228,6 +2232,7 @@ module Aws::Kafka
     #   resp.cluster_operation_info_list[0].source_cluster_info.connectivity_info.vpc_connectivity.client_authentication.sasl.iam.enabled #=> Boolean
     #   resp.cluster_operation_info_list[0].source_cluster_info.connectivity_info.vpc_connectivity.client_authentication.tls.enabled #=> Boolean
     #   resp.cluster_operation_info_list[0].source_cluster_info.connectivity_info.network_type #=> String, one of "IPV4", "DUAL"
+    #   resp.cluster_operation_info_list[0].source_cluster_info.zookeeper_access.enabled #=> Boolean
     #   resp.cluster_operation_info_list[0].source_cluster_info.storage_mode #=> String, one of "LOCAL", "TIERED"
     #   resp.cluster_operation_info_list[0].source_cluster_info.broker_count_update_info.created_broker_ids #=> Array
     #   resp.cluster_operation_info_list[0].source_cluster_info.broker_count_update_info.created_broker_ids[0] #=> Float
@@ -2268,6 +2273,7 @@ module Aws::Kafka
     #   resp.cluster_operation_info_list[0].target_cluster_info.connectivity_info.vpc_connectivity.client_authentication.sasl.iam.enabled #=> Boolean
     #   resp.cluster_operation_info_list[0].target_cluster_info.connectivity_info.vpc_connectivity.client_authentication.tls.enabled #=> Boolean
     #   resp.cluster_operation_info_list[0].target_cluster_info.connectivity_info.network_type #=> String, one of "IPV4", "DUAL"
+    #   resp.cluster_operation_info_list[0].target_cluster_info.zookeeper_access.enabled #=> Boolean
     #   resp.cluster_operation_info_list[0].target_cluster_info.storage_mode #=> String, one of "LOCAL", "TIERED"
     #   resp.cluster_operation_info_list[0].target_cluster_info.broker_count_update_info.created_broker_ids #=> Array
     #   resp.cluster_operation_info_list[0].target_cluster_info.broker_count_update_info.created_broker_ids[0] #=> Float
@@ -3413,11 +3419,14 @@ module Aws::Kafka
     #
     # @option params [required, String] :cluster_arn
     #
-    # @option params [required, Types::ConnectivityInfo] :connectivity_info
+    # @option params [Types::ConnectivityInfo] :connectivity_info
     #   Information about the broker access configuration.
     #
     # @option params [required, String] :current_version
     #   The current version of the cluster.
+    #
+    # @option params [Types::ZookeeperAccess] :zookeeper_access
+    #   Access control settings for zookeeper
     #
     # @return [Types::UpdateConnectivityResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3428,7 +3437,7 @@ module Aws::Kafka
     #
     #   resp = client.update_connectivity({
     #     cluster_arn: "__string", # required
-    #     connectivity_info: { # required
+    #     connectivity_info: {
     #       public_access: {
     #         type: "__string",
     #       },
@@ -3450,6 +3459,9 @@ module Aws::Kafka
     #       network_type: "IPV4", # accepts IPV4, DUAL
     #     },
     #     current_version: "__string", # required
+    #     zookeeper_access: {
+    #       enabled: false,
+    #     },
     #   })
     #
     # @example Response structure
@@ -3847,7 +3859,7 @@ module Aws::Kafka
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-kafka'
-      context[:gem_version] = '1.109.0'
+      context[:gem_version] = '1.110.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

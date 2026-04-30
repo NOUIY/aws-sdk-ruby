@@ -2526,6 +2526,37 @@ module Aws
                                        ) -> _GetMetadataGenerationRunResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetMetadataGenerationRunResponseSuccess
 
+      interface _GetNotebookRunResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetNotebookRunOutput]
+        def id: () -> ::String
+        def domain_id: () -> ::String
+        def owning_project_id: () -> ::String
+        def notebook_id: () -> ::String
+        def schedule_id: () -> ::String
+        def status: () -> ("QUEUED" | "STARTING" | "RUNNING" | "STOPPING" | "STOPPED" | "SUCCEEDED" | "FAILED")
+        def cell_order: () -> ::Array[Types::CellInformation]
+        def metadata: () -> ::Hash[::String, ::String]
+        def parameters: () -> ::Hash[::String, ::String]
+        def compute_configuration: () -> Types::ComputeConfig
+        def network_configuration: () -> Types::NetworkConfig
+        def timeout_configuration: () -> Types::TimeoutConfig
+        def environment_configuration: () -> Types::EnvironmentConfig
+        def storage_configuration: () -> Types::StorageConfig
+        def trigger_source: () -> Types::TriggerSource
+        def created_at: () -> ::Time
+        def created_by: () -> ::String
+        def updated_at: () -> ::Time
+        def updated_by: () -> ::String
+        def started_at: () -> ::Time
+        def completed_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#get_notebook_run-instance_method
+      def get_notebook_run: (
+                              domain_identifier: ::String,
+                              identifier: ::String
+                            ) -> _GetNotebookRunResponseSuccess
+                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetNotebookRunResponseSuccess
+
       interface _GetProjectResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetProjectOutput]
         def domain_id: () -> ::String
@@ -3060,6 +3091,24 @@ module Aws
                                            ?target_identifier: ::String
                                          ) -> _ListMetadataGenerationRunsResponseSuccess
                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListMetadataGenerationRunsResponseSuccess
+
+      interface _ListNotebookRunsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListNotebookRunsOutput]
+        def items: () -> ::Array[Types::NotebookRunSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#list_notebook_runs-instance_method
+      def list_notebook_runs: (
+                                domain_identifier: ::String,
+                                owning_project_identifier: ::String,
+                                ?notebook_identifier: ::String,
+                                ?status: ("QUEUED" | "STARTING" | "RUNNING" | "STOPPING" | "STOPPED" | "SUCCEEDED" | "FAILED"),
+                                ?schedule_identifier: ::String,
+                                ?max_results: ::Integer,
+                                ?sort_order: ("ASCENDING" | "DESCENDING"),
+                                ?next_token: ::String
+                              ) -> _ListNotebookRunsResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListNotebookRunsResponseSuccess
 
       interface _ListNotificationsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListNotificationsOutput]
@@ -3747,6 +3796,74 @@ module Aws
                                            owning_project_identifier: ::String
                                          ) -> _StartMetadataGenerationRunResponseSuccess
                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartMetadataGenerationRunResponseSuccess
+
+      interface _StartNotebookRunResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StartNotebookRunOutput]
+        def id: () -> ::String
+        def domain_id: () -> ::String
+        def owning_project_id: () -> ::String
+        def notebook_id: () -> ::String
+        def schedule_id: () -> ::String
+        def status: () -> ("QUEUED" | "STARTING" | "RUNNING" | "STOPPING" | "STOPPED" | "SUCCEEDED" | "FAILED")
+        def cell_order: () -> ::Array[Types::CellInformation]
+        def metadata: () -> ::Hash[::String, ::String]
+        def parameters: () -> ::Hash[::String, ::String]
+        def compute_configuration: () -> Types::ComputeConfig
+        def network_configuration: () -> Types::NetworkConfig
+        def timeout_configuration: () -> Types::TimeoutConfig
+        def environment_configuration: () -> Types::EnvironmentConfig
+        def storage_configuration: () -> Types::StorageConfig
+        def trigger_source: () -> Types::TriggerSource
+        def created_at: () -> ::Time
+        def created_by: () -> ::String
+        def updated_at: () -> ::Time
+        def updated_by: () -> ::String
+        def started_at: () -> ::Time
+        def completed_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#start_notebook_run-instance_method
+      def start_notebook_run: (
+                                domain_identifier: ::String,
+                                owning_project_identifier: ::String,
+                                notebook_identifier: ::String,
+                                ?schedule_identifier: ::String,
+                                ?compute_configuration: {
+                                  instance_type: ::String?,
+                                  environment_version: ::String?
+                                },
+                                ?network_configuration: {
+                                  network_access_type: ("PUBLIC_INTERNET_ONLY" | "VPC_ONLY"),
+                                  vpc_id: ::String?,
+                                  subnet_ids: Array[::String]?,
+                                  security_group_ids: Array[::String]?
+                                },
+                                ?timeout_configuration: {
+                                  run_timeout_in_minutes: ::Integer?
+                                },
+                                ?trigger_source: {
+                                  type: ("MANUAL" | "SCHEDULED" | "WORKFLOW")?,
+                                  name: ::String?
+                                },
+                                ?metadata: Hash[::String, ::String],
+                                ?parameters: Hash[::String, ::String],
+                                ?client_token: ::String
+                              ) -> _StartNotebookRunResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartNotebookRunResponseSuccess
+
+      interface _StopNotebookRunResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StopNotebookRunOutput]
+        def id: () -> ::String
+        def domain_id: () -> ::String
+        def owning_project_id: () -> ::String
+        def status: () -> ("QUEUED" | "STARTING" | "RUNNING" | "STOPPING" | "STOPPED" | "SUCCEEDED" | "FAILED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#stop_notebook_run-instance_method
+      def stop_notebook_run: (
+                               domain_identifier: ::String,
+                               identifier: ::String,
+                               ?client_token: ::String
+                             ) -> _StopNotebookRunResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StopNotebookRunResponseSuccess
 
       interface _TagResourceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::TagResourceResponse]

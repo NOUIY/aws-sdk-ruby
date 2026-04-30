@@ -782,6 +782,8 @@ module Aws::SSOAdmin
     # @return [Types::CreateApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateApplicationResponse#application_arn #application_arn} => String
+    #   * {Types::CreateApplicationResponse#instance_arn #instance_arn} => String
+    #   * {Types::CreateApplicationResponse#identity_store_arn #identity_store_arn} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -810,6 +812,8 @@ module Aws::SSOAdmin
     # @example Response structure
     #
     #   resp.application_arn #=> String
+    #   resp.instance_arn #=> String
+    #   resp.identity_store_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sso-admin-2020-07-20/CreateApplication AWS API Documentation
     #
@@ -1636,6 +1640,7 @@ module Aws::SSOAdmin
     #   * {Types::DescribeApplicationResponse#name #name} => String
     #   * {Types::DescribeApplicationResponse#application_account #application_account} => String
     #   * {Types::DescribeApplicationResponse#instance_arn #instance_arn} => String
+    #   * {Types::DescribeApplicationResponse#identity_store_arn #identity_store_arn} => String
     #   * {Types::DescribeApplicationResponse#status #status} => String
     #   * {Types::DescribeApplicationResponse#portal_options #portal_options} => Types::PortalOptions
     #   * {Types::DescribeApplicationResponse#description #description} => String
@@ -1655,6 +1660,7 @@ module Aws::SSOAdmin
     #   resp.name #=> String
     #   resp.application_account #=> String
     #   resp.instance_arn #=> String
+    #   resp.identity_store_arn #=> String
     #   resp.status #=> String, one of "ENABLED", "DISABLED"
     #   resp.portal_options.sign_in_options.origin #=> String, one of "IDENTITY_CENTER", "APPLICATION"
     #   resp.portal_options.sign_in_options.application_url #=> String
@@ -3069,6 +3075,7 @@ module Aws::SSOAdmin
     #   resp.applications[0].name #=> String
     #   resp.applications[0].application_account #=> String
     #   resp.applications[0].instance_arn #=> String
+    #   resp.applications[0].identity_store_arn #=> String
     #   resp.applications[0].status #=> String, one of "ENABLED", "DISABLED"
     #   resp.applications[0].portal_options.sign_in_options.origin #=> String, one of "IDENTITY_CENTER", "APPLICATION"
     #   resp.applications[0].portal_options.sign_in_options.application_url #=> String
@@ -4311,7 +4318,7 @@ module Aws::SSOAdmin
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ssoadmin'
-      context[:gem_version] = '1.70.0'
+      context[:gem_version] = '1.71.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

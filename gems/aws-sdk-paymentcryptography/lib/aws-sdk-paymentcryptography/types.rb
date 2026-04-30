@@ -98,6 +98,46 @@ module Aws::PaymentCryptography
       include Aws::Structure
     end
 
+    # @!attribute [rw] action
+    #   The protected operation to associate with the MPA team. Currently,
+    #   the only supported value is `IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] mpa_team_arn
+    #   The ARN of the MPA team to associate with the protected operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] requester_comment
+    #   The comment from the requester explaining the reason for the
+    #   association.
+    #
+    #   Don't include personal, confidential or sensitive information in
+    #   this field. This field may be displayed in plaintext in CloudTrail
+    #   logs and other output.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/AssociateMpaTeamInput AWS API Documentation
+    #
+    class AssociateMpaTeamInput < Struct.new(
+      :action,
+      :mpa_team_arn,
+      :requester_comment)
+      SENSITIVE = [:requester_comment]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] mpa_team_association
+    #   The details of the MPA team association.
+    #   @return [Types::MpaTeamAssociation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/AssociateMpaTeamOutput AWS API Documentation
+    #
+    class AssociateMpaTeamOutput < Struct.new(
+      :mpa_team_association)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The metadata used to create the certificate signing request.
     #
     # @!attribute [rw] common_name
@@ -345,6 +385,23 @@ module Aws::PaymentCryptography
       include Aws::Structure
     end
 
+    # @!attribute [rw] resource_arn
+    #   The `KeyARN` of the key whose resource-based policy you want to
+    #   delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/DeleteResourcePolicyInput AWS API Documentation
+    #
+    class DeleteResourcePolicyInput < Struct.new(
+      :resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/DeleteResourcePolicyOutput AWS API Documentation
+    #
+    class DeleteResourcePolicyOutput < Aws::EmptyStructure; end
+
     # The shared information used when deriving a key using ECDH.
     #
     # @note DiffieHellmanDerivationData is a union - when making an API calls you must set exactly one of the members.
@@ -408,6 +465,42 @@ module Aws::PaymentCryptography
     #
     class DisableDefaultKeyReplicationRegionsOutput < Struct.new(
       :enabled_replication_regions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] action
+    #   The protected operation to disassociate from the MPA team.
+    #   Currently, the only supported value is
+    #   `IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] requester_comment
+    #   The comment from the requester explaining the reason for the
+    #   disassociation.
+    #
+    #   Don't include personal, confidential or sensitive information in
+    #   this field. This field may be displayed in plaintext in CloudTrail
+    #   logs and other output.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/DisassociateMpaTeamInput AWS API Documentation
+    #
+    class DisassociateMpaTeamInput < Struct.new(
+      :action,
+      :requester_comment)
+      SENSITIVE = [:requester_comment]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] mpa_team_association
+    #   The details of the MPA team association.
+    #   @return [Types::MpaTeamAssociation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/DisassociateMpaTeamOutput AWS API Documentation
+    #
+    class DisassociateMpaTeamOutput < Struct.new(
+      :mpa_team_association)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -904,6 +997,32 @@ module Aws::PaymentCryptography
       include Aws::Structure
     end
 
+    # @!attribute [rw] action
+    #   The protected operation whose MPA team association you want to
+    #   retrieve. Currently, the only supported value is
+    #   `IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/GetMpaTeamAssociationInput AWS API Documentation
+    #
+    class GetMpaTeamAssociationInput < Struct.new(
+      :action)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] mpa_team_association
+    #   The details of the MPA team association.
+    #   @return [Types::MpaTeamAssociation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/GetMpaTeamAssociationOutput AWS API Documentation
+    #
+    class GetMpaTeamAssociationOutput < Struct.new(
+      :mpa_team_association)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] key_material_type
     #   The key block format type (for example, TR-34 or TR-31) to use
     #   during key material export. Export token is only required for a
@@ -1090,6 +1209,36 @@ module Aws::PaymentCryptography
     class GetPublicKeyCertificateOutput < Struct.new(
       :key_certificate,
       :key_certificate_chain)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_arn
+    #   The `KeyARN` of the key whose resource-based policy you want to
+    #   retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/GetResourcePolicyInput AWS API Documentation
+    #
+    class GetResourcePolicyInput < Struct.new(
+      :resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_arn
+    #   The `KeyARN` of the key.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy
+    #   The resource-based policy attached to the key, in JSON format.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/GetResourcePolicyOutput AWS API Documentation
+    #
+    class GetResourcePolicyOutput < Struct.new(
+      :resource_arn,
+      :policy)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1300,6 +1449,14 @@ module Aws::PaymentCryptography
     #   added to or removed from a key's replication configuration.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] requester_comment
+    #   The comment from the requester explaining the reason for the import.
+    #
+    #   Don't include personal, confidential or sensitive information in
+    #   this field. This field may be displayed in plaintext in CloudTrail
+    #   logs and other output.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/ImportKeyInput AWS API Documentation
     #
     class ImportKeyInput < Struct.new(
@@ -1307,8 +1464,9 @@ module Aws::PaymentCryptography
       :key_check_value_algorithm,
       :enabled,
       :tags,
-      :replication_regions)
-      SENSITIVE = []
+      :replication_regions,
+      :requester_comment)
+      SENSITIVE = [:requester_comment]
       include Aws::Structure
     end
 
@@ -1621,6 +1779,10 @@ module Aws::PaymentCryptography
     #   [1]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-multi-region-replication.html
     #   @return [Boolean]
     #
+    # @!attribute [rw] mpa_status
+    #   The Multi-Party Approval (MPA) status for the key, if applicable.
+    #   @return [Types::MpaStatus]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/Key AWS API Documentation
     #
     class Key < Struct.new(
@@ -1641,7 +1803,8 @@ module Aws::PaymentCryptography
       :multi_region_key_type,
       :primary_region,
       :replication_status,
-      :using_default_replication_regions)
+      :using_default_replication_regions,
+      :mpa_status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2030,6 +2193,116 @@ module Aws::PaymentCryptography
     class ListTagsForResourceOutput < Struct.new(
       :tags,
       :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The status of an MPA session.
+    #
+    # @!attribute [rw] mpa_session_arn
+    #   The ARN of the MPA session.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the MPA session.
+    #   @return [String]
+    #
+    # @!attribute [rw] initiation_date
+    #   The date and time when the MPA session was initiated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status_message
+    #   The message providing additional information about the MPA session
+    #   status.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/MpaStatus AWS API Documentation
+    #
+    class MpaStatus < Struct.new(
+      :mpa_session_arn,
+      :status,
+      :initiation_date,
+      :status_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of an MPA team association with a protected operation.
+    #
+    # @!attribute [rw] action
+    #   The protected operation associated with the MPA team.
+    #   @return [String]
+    #
+    # @!attribute [rw] mpa_team_arn
+    #   The ARN of the MPA team.
+    #   @return [String]
+    #
+    # @!attribute [rw] association_state
+    #   The state of the MPA team association.
+    #   @return [String]
+    #
+    # @!attribute [rw] mpa_status
+    #   The MPA session status for the association, if applicable.
+    #   @return [Types::MpaStatus]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/MpaTeamAssociation AWS API Documentation
+    #
+    class MpaTeamAssociation < Struct.new(
+      :action,
+      :mpa_team_arn,
+      :association_state,
+      :mpa_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The resource-based policy would grant public access to the key.
+    #
+    # Modify the policy to restrict access to specific principals and
+    # resubmit the request.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/PublicPolicyException AWS API Documentation
+    #
+    class PublicPolicyException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_arn
+    #   The `KeyARN` of the key to attach the resource-based policy to.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy
+    #   The resource-based policy to attach to the key, in JSON format.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/PutResourcePolicyInput AWS API Documentation
+    #
+    class PutResourcePolicyInput < Struct.new(
+      :resource_arn,
+      :policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_arn
+    #   The `KeyARN` of the key that the resource-based policy was attached
+    #   to.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy
+    #   The resource-based policy that was attached to the key.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/PutResourcePolicyOutput AWS API Documentation
+    #
+    class PutResourcePolicyOutput < Struct.new(
+      :resource_arn,
+      :policy)
       SENSITIVE = []
       include Aws::Structure
     end

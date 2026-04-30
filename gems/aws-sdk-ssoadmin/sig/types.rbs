@@ -78,6 +78,7 @@ module Aws::SSOAdmin
       attr_accessor name: ::String
       attr_accessor application_account: ::String
       attr_accessor instance_arn: ::String
+      attr_accessor identity_store_arn: ::String
       attr_accessor status: ("ENABLED" | "DISABLED")
       attr_accessor portal_options: Types::PortalOptions
       attr_accessor description: ::String
@@ -206,6 +207,8 @@ module Aws::SSOAdmin
 
     class CreateApplicationResponse
       attr_accessor application_arn: ::String
+      attr_accessor instance_arn: ::String
+      attr_accessor identity_store_arn: ::String
       SENSITIVE: []
     end
 
@@ -428,6 +431,7 @@ module Aws::SSOAdmin
       attr_accessor name: ::String
       attr_accessor application_account: ::String
       attr_accessor instance_arn: ::String
+      attr_accessor identity_store_arn: ::String
       attr_accessor status: ("ENABLED" | "DISABLED")
       attr_accessor portal_options: Types::PortalOptions
       attr_accessor description: ::String

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.6.0 (2026-04-30)
+------------------
+
+* Feature - Adds support for regions in the UpdateGlobalResolver input.
+
 1.5.0 (2026-03-18)
 ------------------
 

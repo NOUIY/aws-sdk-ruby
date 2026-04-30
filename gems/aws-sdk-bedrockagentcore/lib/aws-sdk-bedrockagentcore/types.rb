@@ -3157,6 +3157,17 @@ module Aws::BedrockAgentCore
     #   the response corresponds to the original request.
     #   @return [String]
     #
+    # @!attribute [rw] resources
+    #   The resources to include in the token request. These are used to
+    #   specify the target resources for which the OAuth2 token is being
+    #   requested.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] audiences
+    #   The audiences to include in the token request. These are used to
+    #   specify the intended recipients of the OAuth2 token.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetResourceOauth2TokenRequest AWS API Documentation
     #
     class GetResourceOauth2TokenRequest < Struct.new(
@@ -3168,7 +3179,9 @@ module Aws::BedrockAgentCore
       :resource_oauth_2_return_url,
       :force_authentication,
       :custom_parameters,
-      :custom_state)
+      :custom_state,
+      :resources,
+      :audiences)
       SENSITIVE = [:workload_identity_token, :custom_parameters, :custom_state]
       include Aws::Structure
     end
@@ -5376,6 +5389,11 @@ module Aws::BedrockAgentCore
     #   results.
     #   @return [String]
     #
+    # @!attribute [rw] metadata_filters
+    #   A list of metadata filter expressions to scope the returned memory
+    #   records.
+    #   @return [Array<Types::MemoryMetadataFilterExpression>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ListMemoryRecordsInput AWS API Documentation
     #
     class ListMemoryRecordsInput < Struct.new(
@@ -5384,7 +5402,8 @@ module Aws::BedrockAgentCore
       :namespace_path,
       :memory_strategy_id,
       :max_results,
-      :next_token)
+      :next_token,
+      :metadata_filters)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5580,8 +5599,8 @@ module Aws::BedrockAgentCore
     # `operator` field to define the relationship to match.
     #
     # @!attribute [rw] left
-    #   Left expression of the event metadata filter.
-    #   @return [Types::LeftExpression]
+    #   The metadata key to evaluate.
+    #   @return [Types::MemoryRecordLeftExpression]
     #
     # @!attribute [rw] operator
     #   The relationship between the metadata key and value to match when
@@ -5589,8 +5608,9 @@ module Aws::BedrockAgentCore
     #   @return [String]
     #
     # @!attribute [rw] right
-    #   Right expression of the `eventMetadata`filter.
-    #   @return [Types::RightExpression]
+    #   The value to compare against. Required for all operators except
+    #   EXISTS and NOT\_EXISTS.
+    #   @return [Types::MemoryRecordRightExpression]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MemoryMetadataFilterExpression AWS API Documentation
     #
@@ -5628,7 +5648,7 @@ module Aws::BedrockAgentCore
     #
     # @!attribute [rw] metadata
     #   A map of metadata key-value pairs associated with a memory record.
-    #   @return [Hash<String,Types::MetadataValue>]
+    #   @return [Hash<String,Types::MemoryRecordMetadataValue>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MemoryRecord AWS API Documentation
     #
@@ -5668,6 +5688,10 @@ module Aws::BedrockAgentCore
     #   grouped.
     #   @return [String]
     #
+    # @!attribute [rw] metadata
+    #   Metadata key-value pairs to be stored with the memory record.
+    #   @return [Hash<String,Types::MemoryRecordMetadataValue>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MemoryRecordCreateInput AWS API Documentation
     #
     class MemoryRecordCreateInput < Struct.new(
@@ -5675,7 +5699,8 @@ module Aws::BedrockAgentCore
       :namespaces,
       :content,
       :timestamp,
-      :memory_strategy_id)
+      :memory_strategy_id,
+      :metadata)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5692,6 +5717,68 @@ module Aws::BedrockAgentCore
       :memory_record_id)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # The left-hand side of a memory record metadata filter expression.
+    #
+    # @note MemoryRecordLeftExpression is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] metadata_key
+    #   The metadata key to filter on.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MemoryRecordLeftExpression AWS API Documentation
+    #
+    class MemoryRecordLeftExpression < Struct.new(
+      :metadata_key,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class MetadataKey < MemoryRecordLeftExpression; end
+      class Unknown < MemoryRecordLeftExpression; end
+    end
+
+    # The value of a memory record metadata entry.
+    #
+    # @note MemoryRecordMetadataValue is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note MemoryRecordMetadataValue is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of MemoryRecordMetadataValue corresponding to the set member.
+    #
+    # @!attribute [rw] string_value
+    #   A string value.
+    #   @return [String]
+    #
+    # @!attribute [rw] string_list_value
+    #   A list of string values.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] number_value
+    #   A numeric value.
+    #   @return [Float]
+    #
+    # @!attribute [rw] date_time_value
+    #   A timestamp value in ISO 8601 UTC format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MemoryRecordMetadataValue AWS API Documentation
+    #
+    class MemoryRecordMetadataValue < Struct.new(
+      :string_value,
+      :string_list_value,
+      :number_value,
+      :date_time_value,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class StringValue < MemoryRecordMetadataValue; end
+      class StringListValue < MemoryRecordMetadataValue; end
+      class NumberValue < MemoryRecordMetadataValue; end
+      class DateTimeValue < MemoryRecordMetadataValue; end
+      class Unknown < MemoryRecordMetadataValue; end
     end
 
     # Output information returned after processing a memory record
@@ -5731,6 +5818,27 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # The right-hand side of a memory record metadata filter expression.
+    #
+    # @note MemoryRecordRightExpression is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] metadata_value
+    #   The metadata value to compare against.
+    #   @return [Types::MemoryRecordMetadataValue]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MemoryRecordRightExpression AWS API Documentation
+    #
+    class MemoryRecordRightExpression < Struct.new(
+      :metadata_value,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class MetadataValue < MemoryRecordRightExpression; end
+      class Unknown < MemoryRecordRightExpression; end
+    end
+
     # Contains summary information about a memory record.
     #
     # @!attribute [rw] memory_record_id
@@ -5761,7 +5869,7 @@ module Aws::BedrockAgentCore
     #
     # @!attribute [rw] metadata
     #   A map of metadata key-value pairs associated with a memory record.
-    #   @return [Hash<String,Types::MetadataValue>]
+    #   @return [Hash<String,Types::MemoryRecordMetadataValue>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MemoryRecordSummary AWS API Documentation
     #
@@ -5801,6 +5909,10 @@ module Aws::BedrockAgentCore
     #   record is grouped.
     #   @return [String]
     #
+    # @!attribute [rw] metadata
+    #   Metadata key-value pairs to be stored with the memory record.
+    #   @return [Hash<String,Types::MemoryRecordMetadataValue>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MemoryRecordUpdateInput AWS API Documentation
     #
     class MemoryRecordUpdateInput < Struct.new(
@@ -5808,7 +5920,8 @@ module Aws::BedrockAgentCore
       :timestamp,
       :content,
       :namespaces,
-      :memory_strategy_id)
+      :memory_strategy_id,
+      :metadata)
       SENSITIVE = []
       include Aws::Structure
     end

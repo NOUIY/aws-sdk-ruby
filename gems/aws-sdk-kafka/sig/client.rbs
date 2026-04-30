@@ -1071,7 +1071,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Kafka/Client.html#update_connectivity-instance_method
       def update_connectivity: (
                                  cluster_arn: ::String,
-                                 connectivity_info: {
+                                 ?connectivity_info: {
                                    public_access: {
                                      type: ::String?
                                    }?,
@@ -1092,7 +1092,10 @@ module Aws
                                    }?,
                                    network_type: ("IPV4" | "DUAL")?
                                  },
-                                 current_version: ::String
+                                 current_version: ::String,
+                                 ?zookeeper_access: {
+                                   enabled: bool?
+                                 }
                                ) -> _UpdateConnectivityResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateConnectivityResponseSuccess
 

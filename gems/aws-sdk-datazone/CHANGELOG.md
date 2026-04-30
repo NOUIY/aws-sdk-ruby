@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.75.0 (2026-04-30)
+------------------
+
+* Feature - Adds support for asynchronous notebook runs
+
 1.74.0 (2026-04-23)
 ------------------
 

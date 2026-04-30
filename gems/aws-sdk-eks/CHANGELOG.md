@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.164.0 (2026-04-30)
+------------------
+
+* Feature - Vended logs update param for capability vended logs feature
+
 1.163.0 (2026-04-07)
 ------------------
 

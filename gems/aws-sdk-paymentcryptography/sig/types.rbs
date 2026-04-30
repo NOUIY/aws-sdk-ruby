@@ -30,6 +30,18 @@ module Aws::PaymentCryptography
       SENSITIVE: []
     end
 
+    class AssociateMpaTeamInput
+      attr_accessor action: ("IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE")
+      attr_accessor mpa_team_arn: ::String
+      attr_accessor requester_comment: ::String
+      SENSITIVE: [:requester_comment]
+    end
+
+    class AssociateMpaTeamOutput
+      attr_accessor mpa_team_association: Types::MpaTeamAssociation
+      SENSITIVE: []
+    end
+
     class CertificateSubjectType
       attr_accessor common_name: ::String
       attr_accessor organization_unit: ::String
@@ -92,6 +104,14 @@ module Aws::PaymentCryptography
       SENSITIVE: []
     end
 
+    class DeleteResourcePolicyInput
+      attr_accessor resource_arn: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteResourcePolicyOutput < Aws::EmptyStructure
+    end
+
     class DiffieHellmanDerivationData
       attr_accessor shared_information: ::String
       attr_accessor unknown: untyped
@@ -110,6 +130,17 @@ module Aws::PaymentCryptography
 
     class DisableDefaultKeyReplicationRegionsOutput
       attr_accessor enabled_replication_regions: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class DisassociateMpaTeamInput
+      attr_accessor action: ("IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE")
+      attr_accessor requester_comment: ::String
+      SENSITIVE: [:requester_comment]
+    end
+
+    class DisassociateMpaTeamOutput
+      attr_accessor mpa_team_association: Types::MpaTeamAssociation
       SENSITIVE: []
     end
 
@@ -252,6 +283,16 @@ module Aws::PaymentCryptography
       SENSITIVE: []
     end
 
+    class GetMpaTeamAssociationInput
+      attr_accessor action: ("IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE")
+      SENSITIVE: []
+    end
+
+    class GetMpaTeamAssociationOutput
+      attr_accessor mpa_team_association: Types::MpaTeamAssociation
+      SENSITIVE: []
+    end
+
     class GetParametersForExportInput
       attr_accessor key_material_type: ("TR34_KEY_BLOCK" | "TR31_KEY_BLOCK" | "ROOT_PUBLIC_KEY_CERTIFICATE" | "TRUSTED_PUBLIC_KEY_CERTIFICATE" | "KEY_CRYPTOGRAM")
       attr_accessor signing_key_algorithm: ("TDES_2KEY" | "TDES_3KEY" | "AES_128" | "AES_192" | "AES_256" | "HMAC_SHA256" | "HMAC_SHA384" | "HMAC_SHA512" | "HMAC_SHA224" | "RSA_2048" | "RSA_3072" | "RSA_4096" | "ECC_NIST_P256" | "ECC_NIST_P384" | "ECC_NIST_P521")
@@ -295,6 +336,17 @@ module Aws::PaymentCryptography
       SENSITIVE: []
     end
 
+    class GetResourcePolicyInput
+      attr_accessor resource_arn: ::String
+      SENSITIVE: []
+    end
+
+    class GetResourcePolicyOutput
+      attr_accessor resource_arn: ::String
+      attr_accessor policy: ::String
+      SENSITIVE: []
+    end
+
     class ImportAs2805KeyCryptogram
       attr_accessor as_2805_key_variant: ("TERMINAL_MAJOR_KEY_VARIANT_00" | "PIN_ENCRYPTION_KEY_VARIANT_28" | "MESSAGE_AUTHENTICATION_KEY_VARIANT_24" | "DATA_ENCRYPTION_KEY_VARIANT_22")
       attr_accessor key_modes_of_use: Types::KeyModesOfUse
@@ -332,7 +384,8 @@ module Aws::PaymentCryptography
       attr_accessor enabled: bool
       attr_accessor tags: ::Array[Types::Tag]
       attr_accessor replication_regions: ::Array[::String]
-      SENSITIVE: []
+      attr_accessor requester_comment: ::String
+      SENSITIVE: [:requester_comment]
     end
 
     class ImportKeyMaterial
@@ -411,6 +464,7 @@ module Aws::PaymentCryptography
       attr_accessor primary_region: ::String
       attr_accessor replication_status: ::Hash[::String, Types::ReplicationStatusType]
       attr_accessor using_default_replication_regions: bool
+      attr_accessor mpa_status: Types::MpaStatus
       SENSITIVE: []
     end
 
@@ -491,6 +545,39 @@ module Aws::PaymentCryptography
     class ListTagsForResourceOutput
       attr_accessor tags: ::Array[Types::Tag]
       attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class MpaStatus
+      attr_accessor mpa_session_arn: ::String
+      attr_accessor status: ("PENDING" | "APPROVED" | "FAILED" | "CANCELLED")
+      attr_accessor initiation_date: ::Time
+      attr_accessor status_message: ::String
+      SENSITIVE: []
+    end
+
+    class MpaTeamAssociation
+      attr_accessor action: ("IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE")
+      attr_accessor mpa_team_arn: ::String
+      attr_accessor association_state: ("ACTIVE" | "UPDATE_PENDING" | "DELETE_PENDING")
+      attr_accessor mpa_status: Types::MpaStatus
+      SENSITIVE: []
+    end
+
+    class PublicPolicyException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class PutResourcePolicyInput
+      attr_accessor resource_arn: ::String
+      attr_accessor policy: ::String
+      SENSITIVE: []
+    end
+
+    class PutResourcePolicyOutput
+      attr_accessor resource_arn: ::String
+      attr_accessor policy: ::String
       SENSITIVE: []
     end
 

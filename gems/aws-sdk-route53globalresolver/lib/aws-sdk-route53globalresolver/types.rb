@@ -4375,6 +4375,12 @@ module Aws::Route53GlobalResolver
     #   or DUAL\_STACK for both IPv4 and IPv6 support.
     #   @return [String]
     #
+    # @!attribute [rw] regions
+    #   The list of Amazon Web Services Regions where the Global Resolver
+    #   will operate. The resolver will be distributed across these Regions
+    #   to provide global availability and low-latency DNS resolution.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53globalresolver-2022-09-27/UpdateGlobalResolverInput AWS API Documentation
     #
     class UpdateGlobalResolverInput < Struct.new(
@@ -4382,7 +4388,8 @@ module Aws::Route53GlobalResolver
       :name,
       :observability_region,
       :description,
-      :ip_address_type)
+      :ip_address_type,
+      :regions)
       SENSITIVE = []
       include Aws::Structure
     end

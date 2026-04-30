@@ -721,7 +721,7 @@ module Aws
                                            provider_arn: ::String,
                                            scopes: Array[::String],
                                            custom_parameters: Hash[::String, ::String]?,
-                                           grant_type: ("CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE")?,
+                                           grant_type: ("CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE" | "TOKEN_EXCHANGE")?,
                                            default_return_url: ::String?
                                          }?,
                                          api_key_credential_provider: {
@@ -898,7 +898,7 @@ module Aws
                                         provider_arn: ::String,
                                         scopes: Array[::String],
                                         custom_parameters: Hash[::String, ::String]?,
-                                        grant_type: ("CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE")?,
+                                        grant_type: ("CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE" | "TOKEN_EXCHANGE")?,
                                         default_return_url: ::String?
                                       }?
                                     }?
@@ -970,19 +970,100 @@ module Aws
                                  name: ::String,
                                  description: ::String?,
                                  namespaces: Array[::String]?,
-                                 namespace_templates: Array[::String]?
+                                 namespace_templates: Array[::String]?,
+                                 memory_record_schema: {
+                                   metadata_schema: Array[
+                                     {
+                                       key: ::String,
+                                       type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                       extraction_config: {
+                                         llm_extraction_config: {
+                                           llm_extraction_instruction: ::String?,
+                                           definition: ::String,
+                                           validation: {
+                                             string_validation: {
+                                               allowed_values: Array[::String]
+                                             }?,
+                                             string_list_validation: {
+                                               allowed_values: Array[::String]?,
+                                               max_items: ::Integer?
+                                             }?,
+                                             number_validation: {
+                                               min_value: ::Float?,
+                                               max_value: ::Float?
+                                             }?
+                                           }?
+                                         }?
+                                       }?
+                                     },
+                                   ]?
+                                 }?
                                }?,
                                summary_memory_strategy: {
                                  name: ::String,
                                  description: ::String?,
                                  namespaces: Array[::String]?,
-                                 namespace_templates: Array[::String]?
+                                 namespace_templates: Array[::String]?,
+                                 memory_record_schema: {
+                                   metadata_schema: Array[
+                                     {
+                                       key: ::String,
+                                       type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                       extraction_config: {
+                                         llm_extraction_config: {
+                                           llm_extraction_instruction: ::String?,
+                                           definition: ::String,
+                                           validation: {
+                                             string_validation: {
+                                               allowed_values: Array[::String]
+                                             }?,
+                                             string_list_validation: {
+                                               allowed_values: Array[::String]?,
+                                               max_items: ::Integer?
+                                             }?,
+                                             number_validation: {
+                                               min_value: ::Float?,
+                                               max_value: ::Float?
+                                             }?
+                                           }?
+                                         }?
+                                       }?
+                                     },
+                                   ]?
+                                 }?
                                }?,
                                user_preference_memory_strategy: {
                                  name: ::String,
                                  description: ::String?,
                                  namespaces: Array[::String]?,
-                                 namespace_templates: Array[::String]?
+                                 namespace_templates: Array[::String]?,
+                                 memory_record_schema: {
+                                   metadata_schema: Array[
+                                     {
+                                       key: ::String,
+                                       type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                       extraction_config: {
+                                         llm_extraction_config: {
+                                           llm_extraction_instruction: ::String?,
+                                           definition: ::String,
+                                           validation: {
+                                             string_validation: {
+                                               allowed_values: Array[::String]
+                                             }?,
+                                             string_list_validation: {
+                                               allowed_values: Array[::String]?,
+                                               max_items: ::Integer?
+                                             }?,
+                                             number_validation: {
+                                               min_value: ::Float?,
+                                               max_value: ::Float?
+                                             }?
+                                           }?
+                                         }?
+                                       }?
+                                     },
+                                   ]?
+                                 }?
                                }?,
                                custom_memory_strategy: {
                                  name: ::String,
@@ -1029,7 +1110,34 @@ module Aws
                                        append_to_prompt: ::String,
                                        model_id: ::String,
                                        namespaces: Array[::String]?,
-                                       namespace_templates: Array[::String]?
+                                       namespace_templates: Array[::String]?,
+                                       memory_record_schema: {
+                                         metadata_schema: Array[
+                                           {
+                                             key: ::String,
+                                             type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                             extraction_config: {
+                                               llm_extraction_config: {
+                                                 llm_extraction_instruction: ::String?,
+                                                 definition: ::String,
+                                                 validation: {
+                                                   string_validation: {
+                                                     allowed_values: Array[::String]
+                                                   }?,
+                                                   string_list_validation: {
+                                                     allowed_values: Array[::String]?,
+                                                     max_items: ::Integer?
+                                                   }?,
+                                                   number_validation: {
+                                                     min_value: ::Float?,
+                                                     max_value: ::Float?
+                                                   }?
+                                                 }?
+                                               }?
+                                             }?
+                                           },
+                                         ]?
+                                       }?
                                      }?
                                    }?,
                                    self_managed_configuration: {
@@ -1052,6 +1160,33 @@ module Aws
                                      },
                                      historical_context_window_size: ::Integer?
                                    }?
+                                 }?,
+                                 memory_record_schema: {
+                                   metadata_schema: Array[
+                                     {
+                                       key: ::String,
+                                       type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                       extraction_config: {
+                                         llm_extraction_config: {
+                                           llm_extraction_instruction: ::String?,
+                                           definition: ::String,
+                                           validation: {
+                                             string_validation: {
+                                               allowed_values: Array[::String]
+                                             }?,
+                                             string_list_validation: {
+                                               allowed_values: Array[::String]?,
+                                               max_items: ::Integer?
+                                             }?,
+                                             number_validation: {
+                                               min_value: ::Float?,
+                                               max_value: ::Float?
+                                             }?
+                                           }?
+                                         }?
+                                       }?
+                                     },
+                                   ]?
                                  }?
                                }?,
                                episodic_memory_strategy: {
@@ -1061,9 +1196,69 @@ module Aws
                                  namespace_templates: Array[::String]?,
                                  reflection_configuration: {
                                    namespaces: Array[::String]?,
-                                   namespace_templates: Array[::String]?
+                                   namespace_templates: Array[::String]?,
+                                   memory_record_schema: {
+                                     metadata_schema: Array[
+                                       {
+                                         key: ::String,
+                                         type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                         extraction_config: {
+                                           llm_extraction_config: {
+                                             llm_extraction_instruction: ::String?,
+                                             definition: ::String,
+                                             validation: {
+                                               string_validation: {
+                                                 allowed_values: Array[::String]
+                                               }?,
+                                               string_list_validation: {
+                                                 allowed_values: Array[::String]?,
+                                                 max_items: ::Integer?
+                                               }?,
+                                               number_validation: {
+                                                 min_value: ::Float?,
+                                                 max_value: ::Float?
+                                               }?
+                                             }?
+                                           }?
+                                         }?
+                                       },
+                                     ]?
+                                   }?
+                                 }?,
+                                 memory_record_schema: {
+                                   metadata_schema: Array[
+                                     {
+                                       key: ::String,
+                                       type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                       extraction_config: {
+                                         llm_extraction_config: {
+                                           llm_extraction_instruction: ::String?,
+                                           definition: ::String,
+                                           validation: {
+                                             string_validation: {
+                                               allowed_values: Array[::String]
+                                             }?,
+                                             string_list_validation: {
+                                               allowed_values: Array[::String]?,
+                                               max_items: ::Integer?
+                                             }?,
+                                             number_validation: {
+                                               min_value: ::Float?,
+                                               max_value: ::Float?
+                                             }?
+                                           }?
+                                         }?
+                                       }?
+                                     },
+                                   ]?
                                  }?
                                }?
+                             },
+                           ],
+                           ?indexed_keys: Array[
+                             {
+                               key: ::String,
+                               type: ("STRING" | "STRINGLIST" | "NUMBER")
                              },
                            ],
                            ?stream_delivery_resources: {
@@ -1110,8 +1305,8 @@ module Aws
                                                         token_endpoint_auth_methods: Array[::String]?
                                                       }?
                                                     },
-                                                    client_id: ::String,
-                                                    client_secret: ::String,
+                                                    client_id: ::String?,
+                                                    client_secret: ::String?,
                                                     private_endpoint: {
                                                       self_managed_lattice_resource: {
                                                         resource_configuration_identifier: ::String?
@@ -1142,7 +1337,15 @@ module Aws
                                                           }?
                                                         }
                                                       },
-                                                    ]?
+                                                    ]?,
+                                                    on_behalf_of_token_exchange_config: {
+                                                      grant_type: ("TOKEN_EXCHANGE" | "JWT_AUTHORIZATION_GRANT"),
+                                                      token_exchange_grant_type_config: {
+                                                        actor_token_content: ("NONE" | "M2M" | "AWS_IAM_ID_TOKEN_JWT"),
+                                                        actor_token_scopes: Array[::String]?
+                                                      }?
+                                                    }?,
+                                                    client_authentication_method: ("CLIENT_SECRET_BASIC" | "CLIENT_SECRET_POST" | "AWS_IAM_ID_TOKEN_JWT")?
                                                   }?,
                                                   google_oauth_2_provider_config: {
                                                     client_id: ::String,
@@ -3122,7 +3325,7 @@ module Aws
                                            provider_arn: ::String,
                                            scopes: Array[::String],
                                            custom_parameters: Hash[::String, ::String]?,
-                                           grant_type: ("CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE")?,
+                                           grant_type: ("CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE" | "TOKEN_EXCHANGE")?,
                                            default_return_url: ::String?
                                          }?,
                                          api_key_credential_provider: {
@@ -3303,7 +3506,7 @@ module Aws
                                         provider_arn: ::String,
                                         scopes: Array[::String],
                                         custom_parameters: Hash[::String, ::String]?,
-                                        grant_type: ("CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE")?,
+                                        grant_type: ("CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE" | "TOKEN_EXCHANGE")?,
                                         default_return_url: ::String?
                                       }?
                                     }?
@@ -3376,19 +3579,100 @@ module Aws
                                    name: ::String,
                                    description: ::String?,
                                    namespaces: Array[::String]?,
-                                   namespace_templates: Array[::String]?
+                                   namespace_templates: Array[::String]?,
+                                   memory_record_schema: {
+                                     metadata_schema: Array[
+                                       {
+                                         key: ::String,
+                                         type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                         extraction_config: {
+                                           llm_extraction_config: {
+                                             llm_extraction_instruction: ::String?,
+                                             definition: ::String,
+                                             validation: {
+                                               string_validation: {
+                                                 allowed_values: Array[::String]
+                                               }?,
+                                               string_list_validation: {
+                                                 allowed_values: Array[::String]?,
+                                                 max_items: ::Integer?
+                                               }?,
+                                               number_validation: {
+                                                 min_value: ::Float?,
+                                                 max_value: ::Float?
+                                               }?
+                                             }?
+                                           }?
+                                         }?
+                                       },
+                                     ]?
+                                   }?
                                  }?,
                                  summary_memory_strategy: {
                                    name: ::String,
                                    description: ::String?,
                                    namespaces: Array[::String]?,
-                                   namespace_templates: Array[::String]?
+                                   namespace_templates: Array[::String]?,
+                                   memory_record_schema: {
+                                     metadata_schema: Array[
+                                       {
+                                         key: ::String,
+                                         type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                         extraction_config: {
+                                           llm_extraction_config: {
+                                             llm_extraction_instruction: ::String?,
+                                             definition: ::String,
+                                             validation: {
+                                               string_validation: {
+                                                 allowed_values: Array[::String]
+                                               }?,
+                                               string_list_validation: {
+                                                 allowed_values: Array[::String]?,
+                                                 max_items: ::Integer?
+                                               }?,
+                                               number_validation: {
+                                                 min_value: ::Float?,
+                                                 max_value: ::Float?
+                                               }?
+                                             }?
+                                           }?
+                                         }?
+                                       },
+                                     ]?
+                                   }?
                                  }?,
                                  user_preference_memory_strategy: {
                                    name: ::String,
                                    description: ::String?,
                                    namespaces: Array[::String]?,
-                                   namespace_templates: Array[::String]?
+                                   namespace_templates: Array[::String]?,
+                                   memory_record_schema: {
+                                     metadata_schema: Array[
+                                       {
+                                         key: ::String,
+                                         type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                         extraction_config: {
+                                           llm_extraction_config: {
+                                             llm_extraction_instruction: ::String?,
+                                             definition: ::String,
+                                             validation: {
+                                               string_validation: {
+                                                 allowed_values: Array[::String]
+                                               }?,
+                                               string_list_validation: {
+                                                 allowed_values: Array[::String]?,
+                                                 max_items: ::Integer?
+                                               }?,
+                                               number_validation: {
+                                                 min_value: ::Float?,
+                                                 max_value: ::Float?
+                                               }?
+                                             }?
+                                           }?
+                                         }?
+                                       },
+                                     ]?
+                                   }?
                                  }?,
                                  custom_memory_strategy: {
                                    name: ::String,
@@ -3435,7 +3719,34 @@ module Aws
                                          append_to_prompt: ::String,
                                          model_id: ::String,
                                          namespaces: Array[::String]?,
-                                         namespace_templates: Array[::String]?
+                                         namespace_templates: Array[::String]?,
+                                         memory_record_schema: {
+                                           metadata_schema: Array[
+                                             {
+                                               key: ::String,
+                                               type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                               extraction_config: {
+                                                 llm_extraction_config: {
+                                                   llm_extraction_instruction: ::String?,
+                                                   definition: ::String,
+                                                   validation: {
+                                                     string_validation: {
+                                                       allowed_values: Array[::String]
+                                                     }?,
+                                                     string_list_validation: {
+                                                       allowed_values: Array[::String]?,
+                                                       max_items: ::Integer?
+                                                     }?,
+                                                     number_validation: {
+                                                       min_value: ::Float?,
+                                                       max_value: ::Float?
+                                                     }?
+                                                   }?
+                                                 }?
+                                               }?
+                                             },
+                                           ]?
+                                         }?
                                        }?
                                      }?,
                                      self_managed_configuration: {
@@ -3458,6 +3769,33 @@ module Aws
                                        },
                                        historical_context_window_size: ::Integer?
                                      }?
+                                   }?,
+                                   memory_record_schema: {
+                                     metadata_schema: Array[
+                                       {
+                                         key: ::String,
+                                         type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                         extraction_config: {
+                                           llm_extraction_config: {
+                                             llm_extraction_instruction: ::String?,
+                                             definition: ::String,
+                                             validation: {
+                                               string_validation: {
+                                                 allowed_values: Array[::String]
+                                               }?,
+                                               string_list_validation: {
+                                                 allowed_values: Array[::String]?,
+                                                 max_items: ::Integer?
+                                               }?,
+                                               number_validation: {
+                                                 min_value: ::Float?,
+                                                 max_value: ::Float?
+                                               }?
+                                             }?
+                                           }?
+                                         }?
+                                       },
+                                     ]?
                                    }?
                                  }?,
                                  episodic_memory_strategy: {
@@ -3467,7 +3805,61 @@ module Aws
                                    namespace_templates: Array[::String]?,
                                    reflection_configuration: {
                                      namespaces: Array[::String]?,
-                                     namespace_templates: Array[::String]?
+                                     namespace_templates: Array[::String]?,
+                                     memory_record_schema: {
+                                       metadata_schema: Array[
+                                         {
+                                           key: ::String,
+                                           type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                           extraction_config: {
+                                             llm_extraction_config: {
+                                               llm_extraction_instruction: ::String?,
+                                               definition: ::String,
+                                               validation: {
+                                                 string_validation: {
+                                                   allowed_values: Array[::String]
+                                                 }?,
+                                                 string_list_validation: {
+                                                   allowed_values: Array[::String]?,
+                                                   max_items: ::Integer?
+                                                 }?,
+                                                 number_validation: {
+                                                   min_value: ::Float?,
+                                                   max_value: ::Float?
+                                                 }?
+                                               }?
+                                             }?
+                                           }?
+                                         },
+                                       ]?
+                                     }?
+                                   }?,
+                                   memory_record_schema: {
+                                     metadata_schema: Array[
+                                       {
+                                         key: ::String,
+                                         type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                         extraction_config: {
+                                           llm_extraction_config: {
+                                             llm_extraction_instruction: ::String?,
+                                             definition: ::String,
+                                             validation: {
+                                               string_validation: {
+                                                 allowed_values: Array[::String]
+                                               }?,
+                                               string_list_validation: {
+                                                 allowed_values: Array[::String]?,
+                                                 max_items: ::Integer?
+                                               }?,
+                                               number_validation: {
+                                                 min_value: ::Float?,
+                                                 max_value: ::Float?
+                                               }?
+                                             }?
+                                           }?
+                                         }?
+                                       },
+                                     ]?
                                    }?
                                  }?
                                },
@@ -3518,14 +3910,68 @@ module Aws
                                    reflection: {
                                      episodic_reflection_configuration: {
                                        namespaces: Array[::String]?,
-                                       namespace_templates: Array[::String]?
+                                       namespace_templates: Array[::String]?,
+                                       memory_record_schema: {
+                                         metadata_schema: Array[
+                                           {
+                                             key: ::String,
+                                             type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                             extraction_config: {
+                                               llm_extraction_config: {
+                                                 llm_extraction_instruction: ::String?,
+                                                 definition: ::String,
+                                                 validation: {
+                                                   string_validation: {
+                                                     allowed_values: Array[::String]
+                                                   }?,
+                                                   string_list_validation: {
+                                                     allowed_values: Array[::String]?,
+                                                     max_items: ::Integer?
+                                                   }?,
+                                                   number_validation: {
+                                                     min_value: ::Float?,
+                                                     max_value: ::Float?
+                                                   }?
+                                                 }?
+                                               }?
+                                             }?
+                                           },
+                                         ]?
+                                       }?
                                      }?,
                                      custom_reflection_configuration: {
                                        episodic_reflection_override: {
                                          append_to_prompt: ::String,
                                          model_id: ::String,
                                          namespaces: Array[::String]?,
-                                         namespace_templates: Array[::String]?
+                                         namespace_templates: Array[::String]?,
+                                         memory_record_schema: {
+                                           metadata_schema: Array[
+                                             {
+                                               key: ::String,
+                                               type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                               extraction_config: {
+                                                 llm_extraction_config: {
+                                                   llm_extraction_instruction: ::String?,
+                                                   definition: ::String,
+                                                   validation: {
+                                                     string_validation: {
+                                                       allowed_values: Array[::String]
+                                                     }?,
+                                                     string_list_validation: {
+                                                       allowed_values: Array[::String]?,
+                                                       max_items: ::Integer?
+                                                     }?,
+                                                     number_validation: {
+                                                       min_value: ::Float?,
+                                                       max_value: ::Float?
+                                                     }?
+                                                   }?
+                                                 }?
+                                               }?
+                                             },
+                                           ]?
+                                         }?
                                        }?
                                      }?
                                    }?,
@@ -3549,6 +3995,33 @@ module Aws
                                      }?,
                                      historical_context_window_size: ::Integer?
                                    }?
+                                 }?,
+                                 memory_record_schema: {
+                                   metadata_schema: Array[
+                                     {
+                                       key: ::String,
+                                       type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+                                       extraction_config: {
+                                         llm_extraction_config: {
+                                           llm_extraction_instruction: ::String?,
+                                           definition: ::String,
+                                           validation: {
+                                             string_validation: {
+                                               allowed_values: Array[::String]
+                                             }?,
+                                             string_list_validation: {
+                                               allowed_values: Array[::String]?,
+                                               max_items: ::Integer?
+                                             }?,
+                                             number_validation: {
+                                               min_value: ::Float?,
+                                               max_value: ::Float?
+                                             }?
+                                           }?
+                                         }?
+                                       }?
+                                     },
+                                   ]?
                                  }?
                                },
                              ]?,
@@ -3558,6 +4031,12 @@ module Aws
                                },
                              ]?
                            },
+                           ?add_indexed_keys: Array[
+                             {
+                               key: ::String,
+                               type: ("STRING" | "STRINGLIST" | "NUMBER")
+                             },
+                           ],
                            ?stream_delivery_resources: {
                              resources: Array[
                                {
@@ -3604,8 +4083,8 @@ module Aws
                                                         token_endpoint_auth_methods: Array[::String]?
                                                       }?
                                                     },
-                                                    client_id: ::String,
-                                                    client_secret: ::String,
+                                                    client_id: ::String?,
+                                                    client_secret: ::String?,
                                                     private_endpoint: {
                                                       self_managed_lattice_resource: {
                                                         resource_configuration_identifier: ::String?
@@ -3636,7 +4115,15 @@ module Aws
                                                           }?
                                                         }
                                                       },
-                                                    ]?
+                                                    ]?,
+                                                    on_behalf_of_token_exchange_config: {
+                                                      grant_type: ("TOKEN_EXCHANGE" | "JWT_AUTHORIZATION_GRANT"),
+                                                      token_exchange_grant_type_config: {
+                                                        actor_token_content: ("NONE" | "M2M" | "AWS_IAM_ID_TOKEN_JWT"),
+                                                        actor_token_scopes: Array[::String]?
+                                                      }?
+                                                    }?,
+                                                    client_authentication_method: ("CLIENT_SECRET_BASIC" | "CLIENT_SECRET_POST" | "AWS_IAM_ID_TOKEN_JWT")?
                                                   }?,
                                                   google_oauth_2_provider_config: {
                                                     client_id: ::String,

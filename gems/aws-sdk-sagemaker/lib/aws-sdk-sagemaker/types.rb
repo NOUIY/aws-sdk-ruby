@@ -11137,6 +11137,14 @@ module Aws::SageMaker
     #   including the model, container, and compute resources.
     #   @return [Types::InferenceComponentSpecification]
     #
+    # @!attribute [rw] specifications
+    #   A list of specification objects for the inference component, one per
+    #   instance type. Use this parameter when you want to deploy a
+    #   different model or resource configuration for the inference
+    #   component on each instance type. You can use either this parameter
+    #   or the singular `Specification` parameter, but not both.
+    #   @return [Array<Types::InferenceComponentSpecification>]
+    #
     # @!attribute [rw] runtime_config
     #   Runtime settings for a model that is deployed with an inference
     #   component.
@@ -11159,6 +11167,7 @@ module Aws::SageMaker
       :endpoint_name,
       :variant_name,
       :specification,
+      :specifications,
       :runtime_config,
       :tags)
       SENSITIVE = []
@@ -20035,6 +20044,14 @@ module Aws::SageMaker
     #   component.
     #   @return [Types::InferenceComponentSpecificationSummary]
     #
+    # @!attribute [rw] specifications
+    #   A list of specification summaries for the inference component, one
+    #   per instance type. This parameter is populated when the inference
+    #   component was created with multiple specifications. When this
+    #   parameter is populated, the singular `Specification` parameter is
+    #   not returned.
+    #   @return [Array<Types::InferenceComponentSpecificationSummary>]
+    #
     # @!attribute [rw] runtime_config
     #   Details about the runtime settings for the model that is deployed
     #   with the inference component.
@@ -20067,6 +20084,7 @@ module Aws::SageMaker
       :variant_name,
       :failure_reason,
       :specification,
+      :specifications,
       :runtime_config,
       :creation_time,
       :last_modified_time,
@@ -30429,6 +30447,29 @@ module Aws::SageMaker
       include Aws::Structure
     end
 
+    # The placement status of an inference component on a specific instance
+    # type. Shows the number of inference component copies currently placed
+    # on instances of a given type.
+    #
+    # @!attribute [rw] instance_type
+    #   The ML compute instance type where the inference component copies
+    #   are placed.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_copy_count
+    #   The number of inference component copies currently placed on
+    #   instances of this type.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/InferenceComponentPlacementStatus AWS API Documentation
+    #
+    class InferenceComponentPlacementStatus < Struct.new(
+      :instance_type,
+      :current_copy_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Specifies a rolling deployment strategy for updating a SageMaker AI
     # inference component.
     #
@@ -30498,11 +30539,18 @@ module Aws::SageMaker
     #   currently deployed.
     #   @return [Integer]
     #
+    # @!attribute [rw] placement_status
+    #   The placement status of the inference component across instance
+    #   types. Shows how the inference component copies are distributed
+    #   across instance types.
+    #   @return [Array<Types::InferenceComponentPlacementStatus>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/InferenceComponentRuntimeConfigSummary AWS API Documentation
     #
     class InferenceComponentRuntimeConfigSummary < Struct.new(
       :desired_copy_count,
-      :current_copy_count)
+      :current_copy_count,
+      :placement_status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -30543,6 +30591,13 @@ module Aws::SageMaker
 
     # Details about the resources to deploy with this inference component,
     # including the model, container, and compute resources.
+    #
+    # @!attribute [rw] instance_type
+    #   The ML compute instance type for the inference component
+    #   specification. Specifies which instance type this specification
+    #   applies to. Required when using the `Specifications` parameter with
+    #   multiple entries.
+    #   @return [String]
     #
     # @!attribute [rw] model_name
     #   The name of an existing SageMaker AI model object in your account
@@ -30603,6 +30658,7 @@ module Aws::SageMaker
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/InferenceComponentSpecification AWS API Documentation
     #
     class InferenceComponentSpecification < Struct.new(
+      :instance_type,
       :model_name,
       :container,
       :startup_parameters,
@@ -30616,6 +30672,11 @@ module Aws::SageMaker
 
     # Details about the resources that are deployed with this inference
     # component.
+    #
+    # @!attribute [rw] instance_type
+    #   The ML compute instance type associated with this inference
+    #   component specification.
+    #   @return [String]
     #
     # @!attribute [rw] model_name
     #   The name of the SageMaker AI model object that is deployed with the
@@ -30654,6 +30715,7 @@ module Aws::SageMaker
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/InferenceComponentSpecificationSummary AWS API Documentation
     #
     class InferenceComponentSpecificationSummary < Struct.new(
+      :instance_type,
       :model_name,
       :container,
       :startup_parameters,
@@ -31567,6 +31629,61 @@ module Aws::SageMaker
     class InstancePlacementConfig < Struct.new(
       :enable_multiple_jobs,
       :placement_specifications)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies an instance type and its priority for a heterogeneous
+    # endpoint. Use instance pools to configure a production variant with
+    # multiple instance types, enabling the endpoint to provision instances
+    # across different types based on priority.
+    #
+    # @!attribute [rw] instance_type
+    #   The ML compute instance type for the instance pool.
+    #   @return [String]
+    #
+    # @!attribute [rw] model_name_override
+    #   The name of a SageMaker model to use for this instance pool instead
+    #   of the model specified for the production variant. Use this to
+    #   deploy a different model optimized for the instance type in this
+    #   pool.
+    #   @return [String]
+    #
+    # @!attribute [rw] priority
+    #   The priority for the instance pool. SageMaker attempts to provision
+    #   instances in order of priority, starting with the lowest value. If
+    #   instances for a higher-priority pool are unavailable, SageMaker
+    #   attempts to provision from the next pool.
+    #
+    #   Valid values: 1 to 5, where 1 is the highest priority.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/InstancePool AWS API Documentation
+    #
+    class InstancePool < Struct.new(
+      :instance_type,
+      :model_name_override,
+      :priority)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of an instance pool for a production variant, including the
+    # instance type and the current number of instances.
+    #
+    # @!attribute [rw] instance_type
+    #   The ML compute instance type for the instance pool.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_instance_count
+    #   The current number of instances of this type in the instance pool.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/InstancePoolSummary AWS API Documentation
+    #
+    class InstancePoolSummary < Struct.new(
+      :instance_type,
+      :current_instance_count)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -43923,6 +44040,12 @@ module Aws::SageMaker
     #   The type of instances associated with the variant.
     #   @return [String]
     #
+    # @!attribute [rw] instance_pools
+    #   A list of instance pools for the production variant. Each pool
+    #   indicates the instance type and the current number of instances of
+    #   that type.
+    #   @return [Array<Types::InstancePoolSummary>]
+    #
     # @!attribute [rw] accelerator_type
     #   This parameter is no longer supported. Elastic Inference (EI) is no
     #   longer available.
@@ -43965,6 +44088,7 @@ module Aws::SageMaker
       :current_instance_count,
       :desired_instance_count,
       :instance_type,
+      :instance_pools,
       :accelerator_type,
       :variant_status,
       :current_serverless_config,
@@ -45302,6 +45426,24 @@ module Aws::SageMaker
     #   The ML compute instance type.
     #   @return [String]
     #
+    # @!attribute [rw] instance_pools
+    #   A list of instance pools for the production variant. Each instance
+    #   pool specifies an instance type and its priority for provisioning.
+    #   Use instance pools to configure heterogeneous endpoints that deploy
+    #   models across multiple instance types.
+    #   @return [Array<Types::InstancePool>]
+    #
+    # @!attribute [rw] variant_instance_provision_timeout_in_seconds
+    #   The timeout value, in seconds, for provisioning instances for the
+    #   production variant. When SageMaker encounters an insufficient
+    #   capacity error while provisioning instances, it retries with the
+    #   next instance pool (if configured) or waits until the timeout
+    #   expires. This timeout applies only to capacity provisioning and does
+    #   not include the time for model download or container startup.
+    #
+    #   Valid values: 300 to 3600.
+    #   @return [Integer]
+    #
     # @!attribute [rw] initial_variant_weight
     #   Determines initial traffic distribution among all of the models that
     #   you specify in the endpoint configuration. The traffic to a
@@ -45437,6 +45579,8 @@ module Aws::SageMaker
       :model_name,
       :initial_instance_count,
       :instance_type,
+      :instance_pools,
+      :variant_instance_provision_timeout_in_seconds,
       :initial_variant_weight,
       :accelerator_type,
       :core_dump_config,
@@ -45825,6 +45969,12 @@ module Aws::SageMaker
     #   `UpdateEndpointWeightsAndCapacities` request.
     #   @return [Integer]
     #
+    # @!attribute [rw] instance_pools
+    #   A list of instance pools for the production variant. Each pool
+    #   indicates the instance type and the current number of instances of
+    #   that type.
+    #   @return [Array<Types::InstancePoolSummary>]
+    #
     # @!attribute [rw] variant_status
     #   The endpoint variant status which describes the current deployment
     #   stage status or operational status.
@@ -45862,6 +46012,7 @@ module Aws::SageMaker
       :desired_weight,
       :current_instance_count,
       :desired_instance_count,
+      :instance_pools,
       :variant_status,
       :current_serverless_config,
       :desired_serverless_config,
@@ -55824,6 +55975,14 @@ module Aws::SageMaker
     #   including the model, container, and compute resources.
     #   @return [Types::InferenceComponentSpecification]
     #
+    # @!attribute [rw] specifications
+    #   A list of specification objects for the inference component, one per
+    #   instance type. Use this parameter when you want to specify different
+    #   model or resource configurations for the inference component on each
+    #   instance type. You can use either this parameter or the singular
+    #   `Specification` parameter, but not both.
+    #   @return [Array<Types::InferenceComponentSpecification>]
+    #
     # @!attribute [rw] runtime_config
     #   Runtime settings for a model that is deployed with an inference
     #   component.
@@ -55840,6 +55999,7 @@ module Aws::SageMaker
     class UpdateInferenceComponentInput < Struct.new(
       :inference_component_name,
       :specification,
+      :specifications,
       :runtime_config,
       :deployment_config)
       SENSITIVE = []

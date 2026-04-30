@@ -36,6 +36,8 @@ module Aws::BedrockAgentCore
     AgentTracesConfig = Shapes::UnionShape.new(name: 'AgentTracesConfig')
     ApiKeyArn = Shapes::StringShape.new(name: 'ApiKeyArn')
     ApiKeyType = Shapes::StringShape.new(name: 'ApiKeyType')
+    AudienceType = Shapes::StringShape.new(name: 'AudienceType')
+    AudiencesListType = Shapes::ListShape.new(name: 'AudiencesListType')
     AuthorizationUrlType = Shapes::StringShape.new(name: 'AuthorizationUrlType')
     AutomationStream = Shapes::StructureShape.new(name: 'AutomationStream')
     AutomationStreamStatus = Shapes::StringShape.new(name: 'AutomationStreamStatus')
@@ -386,7 +388,12 @@ module Aws::BedrockAgentCore
     MemoryRecordCreateInput = Shapes::StructureShape.new(name: 'MemoryRecordCreateInput')
     MemoryRecordDeleteInput = Shapes::StructureShape.new(name: 'MemoryRecordDeleteInput')
     MemoryRecordId = Shapes::StringShape.new(name: 'MemoryRecordId')
+    MemoryRecordLeftExpression = Shapes::UnionShape.new(name: 'MemoryRecordLeftExpression')
+    MemoryRecordMetadataMap = Shapes::MapShape.new(name: 'MemoryRecordMetadataMap')
+    MemoryRecordMetadataValue = Shapes::UnionShape.new(name: 'MemoryRecordMetadataValue')
+    MemoryRecordOperatorType = Shapes::StringShape.new(name: 'MemoryRecordOperatorType')
     MemoryRecordOutput = Shapes::StructureShape.new(name: 'MemoryRecordOutput')
+    MemoryRecordRightExpression = Shapes::UnionShape.new(name: 'MemoryRecordRightExpression')
     MemoryRecordStatus = Shapes::StringShape.new(name: 'MemoryRecordStatus')
     MemoryRecordSummary = Shapes::StructureShape.new(name: 'MemoryRecordSummary')
     MemoryRecordSummaryList = Shapes::ListShape.new(name: 'MemoryRecordSummaryList')
@@ -480,6 +487,8 @@ module Aws::BedrockAgentCore
     ResourceLocation = Shapes::UnionShape.new(name: 'ResourceLocation')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResourceOauth2ReturnUrlType = Shapes::StringShape.new(name: 'ResourceOauth2ReturnUrlType')
+    ResourceType = Shapes::StringShape.new(name: 'ResourceType')
+    ResourcesListType = Shapes::ListShape.new(name: 'ResourcesListType')
     ResponseChunk = Shapes::StructureShape.new(name: 'ResponseChunk')
     ResponseStream = Shapes::BlobShape.new(name: 'ResponseStream', streaming: true)
     RetrieveMemoryRecordsInput = Shapes::StructureShape.new(name: 'RetrieveMemoryRecordsInput')
@@ -567,8 +576,11 @@ module Aws::BedrockAgentCore
     StreamUpdate = Shapes::UnionShape.new(name: 'StreamUpdate')
     String = Shapes::StringShape.new(name: 'String')
     StringList = Shapes::ListShape.new(name: 'StringList')
+    StringListMemberValue = Shapes::StringShape.new(name: 'StringListMemberValue')
     StringMap = Shapes::MapShape.new(name: 'StringMap')
     StringType = Shapes::StringShape.new(name: 'StringType')
+    StringValue = Shapes::StringShape.new(name: 'StringValue')
+    StringValueList = Shapes::ListShape.new(name: 'StringValueList')
     SyntheticTimestamp_date_time = Shapes::TimestampShape.new(name: 'SyntheticTimestamp_date_time', timestampFormat: "iso8601")
     SystemPromptConfig = Shapes::UnionShape.new(name: 'SystemPromptConfig')
     SystemPromptConfigurationBundle = Shapes::StructureShape.new(name: 'SystemPromptConfigurationBundle')
@@ -680,6 +692,8 @@ module Aws::BedrockAgentCore
     AgentTracesConfig.add_member_subclass(:cloudwatch_logs, Types::AgentTracesConfig::CloudwatchLogs)
     AgentTracesConfig.add_member_subclass(:unknown, Types::AgentTracesConfig::Unknown)
     AgentTracesConfig.struct_class = Types::AgentTracesConfig
+
+    AudiencesListType.member = Shapes::ShapeRef.new(shape: AudienceType)
 
     AutomationStream.add_member(:stream_endpoint, Shapes::ShapeRef.new(shape: BrowserStreamEndpoint, required: true, location_name: "streamEndpoint"))
     AutomationStream.add_member(:stream_status, Shapes::ShapeRef.new(shape: AutomationStreamStatus, required: true, location_name: "streamStatus"))
@@ -1341,6 +1355,8 @@ module Aws::BedrockAgentCore
     GetResourceOauth2TokenRequest.add_member(:force_authentication, Shapes::ShapeRef.new(shape: Boolean, location_name: "forceAuthentication"))
     GetResourceOauth2TokenRequest.add_member(:custom_parameters, Shapes::ShapeRef.new(shape: CustomRequestParametersType, location_name: "customParameters"))
     GetResourceOauth2TokenRequest.add_member(:custom_state, Shapes::ShapeRef.new(shape: State, location_name: "customState"))
+    GetResourceOauth2TokenRequest.add_member(:resources, Shapes::ShapeRef.new(shape: ResourcesListType, location_name: "resources"))
+    GetResourceOauth2TokenRequest.add_member(:audiences, Shapes::ShapeRef.new(shape: AudiencesListType, location_name: "audiences"))
     GetResourceOauth2TokenRequest.struct_class = Types::GetResourceOauth2TokenRequest
 
     GetResourceOauth2TokenResponse.add_member(:authorization_url, Shapes::ShapeRef.new(shape: AuthorizationUrlType, location_name: "authorizationUrl"))
@@ -1877,6 +1893,7 @@ module Aws::BedrockAgentCore
     ListMemoryRecordsInput.add_member(:memory_strategy_id, Shapes::ShapeRef.new(shape: MemoryStrategyId, location_name: "memoryStrategyId"))
     ListMemoryRecordsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
     ListMemoryRecordsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
+    ListMemoryRecordsInput.add_member(:metadata_filters, Shapes::ShapeRef.new(shape: MemoryMetadataFilterList, location_name: "metadataFilters"))
     ListMemoryRecordsInput.struct_class = Types::ListMemoryRecordsInput
 
     ListMemoryRecordsOutput.add_member(:memory_record_summaries, Shapes::ShapeRef.new(shape: MemoryRecordSummaryList, required: true, location_name: "memoryRecordSummaries"))
@@ -1916,9 +1933,9 @@ module Aws::BedrockAgentCore
     MemoryContent.add_member_subclass(:unknown, Types::MemoryContent::Unknown)
     MemoryContent.struct_class = Types::MemoryContent
 
-    MemoryMetadataFilterExpression.add_member(:left, Shapes::ShapeRef.new(shape: LeftExpression, required: true, location_name: "left"))
-    MemoryMetadataFilterExpression.add_member(:operator, Shapes::ShapeRef.new(shape: OperatorType, required: true, location_name: "operator"))
-    MemoryMetadataFilterExpression.add_member(:right, Shapes::ShapeRef.new(shape: RightExpression, location_name: "right"))
+    MemoryMetadataFilterExpression.add_member(:left, Shapes::ShapeRef.new(shape: MemoryRecordLeftExpression, required: true, location_name: "left"))
+    MemoryMetadataFilterExpression.add_member(:operator, Shapes::ShapeRef.new(shape: MemoryRecordOperatorType, required: true, location_name: "operator"))
+    MemoryMetadataFilterExpression.add_member(:right, Shapes::ShapeRef.new(shape: MemoryRecordRightExpression, location_name: "right"))
     MemoryMetadataFilterExpression.struct_class = Types::MemoryMetadataFilterExpression
 
     MemoryMetadataFilterList.member = Shapes::ShapeRef.new(shape: MemoryMetadataFilterExpression)
@@ -1928,7 +1945,7 @@ module Aws::BedrockAgentCore
     MemoryRecord.add_member(:memory_strategy_id, Shapes::ShapeRef.new(shape: MemoryStrategyId, required: true, location_name: "memoryStrategyId"))
     MemoryRecord.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, required: true, location_name: "namespaces"))
     MemoryRecord.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
-    MemoryRecord.add_member(:metadata, Shapes::ShapeRef.new(shape: MetadataMap, location_name: "metadata"))
+    MemoryRecord.add_member(:metadata, Shapes::ShapeRef.new(shape: MemoryRecordMetadataMap, location_name: "metadata"))
     MemoryRecord.struct_class = Types::MemoryRecord
 
     MemoryRecordCreateInput.add_member(:request_identifier, Shapes::ShapeRef.new(shape: RequestIdentifier, required: true, location_name: "requestIdentifier"))
@@ -1936,10 +1953,32 @@ module Aws::BedrockAgentCore
     MemoryRecordCreateInput.add_member(:content, Shapes::ShapeRef.new(shape: MemoryContent, required: true, location_name: "content"))
     MemoryRecordCreateInput.add_member(:timestamp, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "timestamp"))
     MemoryRecordCreateInput.add_member(:memory_strategy_id, Shapes::ShapeRef.new(shape: MemoryStrategyId, location_name: "memoryStrategyId"))
+    MemoryRecordCreateInput.add_member(:metadata, Shapes::ShapeRef.new(shape: MemoryRecordMetadataMap, location_name: "metadata"))
     MemoryRecordCreateInput.struct_class = Types::MemoryRecordCreateInput
 
     MemoryRecordDeleteInput.add_member(:memory_record_id, Shapes::ShapeRef.new(shape: MemoryRecordId, required: true, location_name: "memoryRecordId"))
     MemoryRecordDeleteInput.struct_class = Types::MemoryRecordDeleteInput
+
+    MemoryRecordLeftExpression.add_member(:metadata_key, Shapes::ShapeRef.new(shape: MetadataKey, location_name: "metadataKey"))
+    MemoryRecordLeftExpression.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    MemoryRecordLeftExpression.add_member_subclass(:metadata_key, Types::MemoryRecordLeftExpression::MetadataKey)
+    MemoryRecordLeftExpression.add_member_subclass(:unknown, Types::MemoryRecordLeftExpression::Unknown)
+    MemoryRecordLeftExpression.struct_class = Types::MemoryRecordLeftExpression
+
+    MemoryRecordMetadataMap.key = Shapes::ShapeRef.new(shape: MetadataKey)
+    MemoryRecordMetadataMap.value = Shapes::ShapeRef.new(shape: MemoryRecordMetadataValue)
+
+    MemoryRecordMetadataValue.add_member(:string_value, Shapes::ShapeRef.new(shape: StringValue, location_name: "stringValue"))
+    MemoryRecordMetadataValue.add_member(:string_list_value, Shapes::ShapeRef.new(shape: StringValueList, location_name: "stringListValue"))
+    MemoryRecordMetadataValue.add_member(:number_value, Shapes::ShapeRef.new(shape: Double, location_name: "numberValue"))
+    MemoryRecordMetadataValue.add_member(:date_time_value, Shapes::ShapeRef.new(shape: Timestamp, location_name: "dateTimeValue"))
+    MemoryRecordMetadataValue.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    MemoryRecordMetadataValue.add_member_subclass(:string_value, Types::MemoryRecordMetadataValue::StringValue)
+    MemoryRecordMetadataValue.add_member_subclass(:string_list_value, Types::MemoryRecordMetadataValue::StringListValue)
+    MemoryRecordMetadataValue.add_member_subclass(:number_value, Types::MemoryRecordMetadataValue::NumberValue)
+    MemoryRecordMetadataValue.add_member_subclass(:date_time_value, Types::MemoryRecordMetadataValue::DateTimeValue)
+    MemoryRecordMetadataValue.add_member_subclass(:unknown, Types::MemoryRecordMetadataValue::Unknown)
+    MemoryRecordMetadataValue.struct_class = Types::MemoryRecordMetadataValue
 
     MemoryRecordOutput.add_member(:memory_record_id, Shapes::ShapeRef.new(shape: MemoryRecordId, required: true, location_name: "memoryRecordId"))
     MemoryRecordOutput.add_member(:status, Shapes::ShapeRef.new(shape: MemoryRecordStatus, required: true, location_name: "status"))
@@ -1948,13 +1987,19 @@ module Aws::BedrockAgentCore
     MemoryRecordOutput.add_member(:error_message, Shapes::ShapeRef.new(shape: String, location_name: "errorMessage"))
     MemoryRecordOutput.struct_class = Types::MemoryRecordOutput
 
+    MemoryRecordRightExpression.add_member(:metadata_value, Shapes::ShapeRef.new(shape: MemoryRecordMetadataValue, location_name: "metadataValue"))
+    MemoryRecordRightExpression.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    MemoryRecordRightExpression.add_member_subclass(:metadata_value, Types::MemoryRecordRightExpression::MetadataValue)
+    MemoryRecordRightExpression.add_member_subclass(:unknown, Types::MemoryRecordRightExpression::Unknown)
+    MemoryRecordRightExpression.struct_class = Types::MemoryRecordRightExpression
+
     MemoryRecordSummary.add_member(:memory_record_id, Shapes::ShapeRef.new(shape: MemoryRecordId, required: true, location_name: "memoryRecordId"))
     MemoryRecordSummary.add_member(:content, Shapes::ShapeRef.new(shape: MemoryContent, required: true, location_name: "content"))
     MemoryRecordSummary.add_member(:memory_strategy_id, Shapes::ShapeRef.new(shape: MemoryStrategyId, required: true, location_name: "memoryStrategyId"))
     MemoryRecordSummary.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, required: true, location_name: "namespaces"))
     MemoryRecordSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
     MemoryRecordSummary.add_member(:score, Shapes::ShapeRef.new(shape: Double, location_name: "score"))
-    MemoryRecordSummary.add_member(:metadata, Shapes::ShapeRef.new(shape: MetadataMap, location_name: "metadata"))
+    MemoryRecordSummary.add_member(:metadata, Shapes::ShapeRef.new(shape: MemoryRecordMetadataMap, location_name: "metadata"))
     MemoryRecordSummary.struct_class = Types::MemoryRecordSummary
 
     MemoryRecordSummaryList.member = Shapes::ShapeRef.new(shape: MemoryRecordSummary)
@@ -1964,6 +2009,7 @@ module Aws::BedrockAgentCore
     MemoryRecordUpdateInput.add_member(:content, Shapes::ShapeRef.new(shape: MemoryContent, location_name: "content"))
     MemoryRecordUpdateInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaces"))
     MemoryRecordUpdateInput.add_member(:memory_strategy_id, Shapes::ShapeRef.new(shape: MemoryStrategyId, location_name: "memoryStrategyId"))
+    MemoryRecordUpdateInput.add_member(:metadata, Shapes::ShapeRef.new(shape: MemoryRecordMetadataMap, location_name: "metadata"))
     MemoryRecordUpdateInput.struct_class = Types::MemoryRecordUpdateInput
 
     MemoryRecordsCreateInputList.member = Shapes::ShapeRef.new(shape: MemoryRecordCreateInput)
@@ -2155,6 +2201,8 @@ module Aws::BedrockAgentCore
 
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
+
+    ResourcesListType.member = Shapes::ShapeRef.new(shape: ResourceType)
 
     ResponseChunk.add_member(:content_start, Shapes::ShapeRef.new(shape: ContentStartEvent, location_name: "contentStart"))
     ResponseChunk.add_member(:content_delta, Shapes::ShapeRef.new(shape: ContentDeltaEvent, location_name: "contentDelta"))
@@ -2417,6 +2465,8 @@ module Aws::BedrockAgentCore
 
     StringMap.key = Shapes::ShapeRef.new(shape: String)
     StringMap.value = Shapes::ShapeRef.new(shape: String)
+
+    StringValueList.member = Shapes::ShapeRef.new(shape: StringListMemberValue)
 
     SystemPromptConfig.add_member(:text, Shapes::ShapeRef.new(shape: SystemPromptText, location_name: "text"))
     SystemPromptConfig.add_member(:configuration_bundle, Shapes::ShapeRef.new(shape: SystemPromptConfigurationBundle, location_name: "configurationBundle"))

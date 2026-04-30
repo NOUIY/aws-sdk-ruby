@@ -7621,6 +7621,93 @@ module Aws::DataZone
       req.send_request(options)
     end
 
+    # Gets the details of a notebook run in an Amazon DataZone domain.
+    #
+    # @option params [required, String] :domain_identifier
+    #   The identifier of the Amazon DataZone domain in which the notebook run
+    #   exists.
+    #
+    # @option params [required, String] :identifier
+    #   The identifier of the notebook run.
+    #
+    # @return [Types::GetNotebookRunOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetNotebookRunOutput#id #id} => String
+    #   * {Types::GetNotebookRunOutput#domain_id #domain_id} => String
+    #   * {Types::GetNotebookRunOutput#owning_project_id #owning_project_id} => String
+    #   * {Types::GetNotebookRunOutput#notebook_id #notebook_id} => String
+    #   * {Types::GetNotebookRunOutput#schedule_id #schedule_id} => String
+    #   * {Types::GetNotebookRunOutput#status #status} => String
+    #   * {Types::GetNotebookRunOutput#cell_order #cell_order} => Array&lt;Types::CellInformation&gt;
+    #   * {Types::GetNotebookRunOutput#metadata #metadata} => Hash&lt;String,String&gt;
+    #   * {Types::GetNotebookRunOutput#parameters #parameters} => Hash&lt;String,String&gt;
+    #   * {Types::GetNotebookRunOutput#compute_configuration #compute_configuration} => Types::ComputeConfig
+    #   * {Types::GetNotebookRunOutput#network_configuration #network_configuration} => Types::NetworkConfig
+    #   * {Types::GetNotebookRunOutput#timeout_configuration #timeout_configuration} => Types::TimeoutConfig
+    #   * {Types::GetNotebookRunOutput#environment_configuration #environment_configuration} => Types::EnvironmentConfig
+    #   * {Types::GetNotebookRunOutput#storage_configuration #storage_configuration} => Types::StorageConfig
+    #   * {Types::GetNotebookRunOutput#trigger_source #trigger_source} => Types::TriggerSource
+    #   * {Types::GetNotebookRunOutput#error #error} => Types::NotebookRunError
+    #   * {Types::GetNotebookRunOutput#created_at #created_at} => Time
+    #   * {Types::GetNotebookRunOutput#created_by #created_by} => String
+    #   * {Types::GetNotebookRunOutput#updated_at #updated_at} => Time
+    #   * {Types::GetNotebookRunOutput#updated_by #updated_by} => String
+    #   * {Types::GetNotebookRunOutput#started_at #started_at} => Time
+    #   * {Types::GetNotebookRunOutput#completed_at #completed_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_notebook_run({
+    #     domain_identifier: "DomainId", # required
+    #     identifier: "NotebookRunId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.domain_id #=> String
+    #   resp.owning_project_id #=> String
+    #   resp.notebook_id #=> String
+    #   resp.schedule_id #=> String
+    #   resp.status #=> String, one of "QUEUED", "STARTING", "RUNNING", "STOPPING", "STOPPED", "SUCCEEDED", "FAILED"
+    #   resp.cell_order #=> Array
+    #   resp.metadata #=> Hash
+    #   resp.metadata["MetadataKey"] #=> String
+    #   resp.parameters #=> Hash
+    #   resp.parameters["ParameterKey"] #=> String
+    #   resp.compute_configuration.instance_type #=> String
+    #   resp.compute_configuration.environment_version #=> String
+    #   resp.network_configuration.network_access_type #=> String, one of "PUBLIC_INTERNET_ONLY", "VPC_ONLY"
+    #   resp.network_configuration.vpc_id #=> String
+    #   resp.network_configuration.subnet_ids #=> Array
+    #   resp.network_configuration.subnet_ids[0] #=> String
+    #   resp.network_configuration.security_group_ids #=> Array
+    #   resp.network_configuration.security_group_ids[0] #=> String
+    #   resp.timeout_configuration.run_timeout_in_minutes #=> Integer
+    #   resp.environment_configuration.image_version #=> String
+    #   resp.environment_configuration.package_config.package_manager #=> String, one of "UV"
+    #   resp.environment_configuration.package_config.package_specification #=> String
+    #   resp.storage_configuration.project_s3_path #=> String
+    #   resp.storage_configuration.kms_key_arn #=> String
+    #   resp.trigger_source.type #=> String, one of "MANUAL", "SCHEDULED", "WORKFLOW"
+    #   resp.trigger_source.name #=> String
+    #   resp.error.message #=> String
+    #   resp.created_at #=> Time
+    #   resp.created_by #=> String
+    #   resp.updated_at #=> Time
+    #   resp.updated_by #=> String
+    #   resp.started_at #=> Time
+    #   resp.completed_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/GetNotebookRun AWS API Documentation
+    #
+    # @overload get_notebook_run(params = {})
+    # @param [Hash] params ({})
+    def get_notebook_run(params = {}, options = {})
+      req = build_request(:get_notebook_run, params)
+      req.send_request(options)
+    end
+
     # Gets a project in Amazon DataZone.
     #
     # @option params [required, String] :domain_identifier
@@ -9976,6 +10063,88 @@ module Aws::DataZone
     # @param [Hash] params ({})
     def list_metadata_generation_runs(params = {}, options = {})
       req = build_request(:list_metadata_generation_runs, params)
+      req.send_request(options)
+    end
+
+    # Lists notebook runs in an Amazon DataZone domain.
+    #
+    # @option params [required, String] :domain_identifier
+    #   The identifier of the Amazon DataZone domain in which to list notebook
+    #   runs.
+    #
+    # @option params [required, String] :owning_project_identifier
+    #   The identifier of the project that owns the notebook runs.
+    #
+    # @option params [String] :notebook_identifier
+    #   The identifier of the notebook to filter runs by.
+    #
+    # @option params [String] :status
+    #   The status to filter notebook runs by.
+    #
+    # @option params [String] :schedule_identifier
+    #   The identifier of the schedule to filter notebook runs by.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of notebook runs to return in a single call. When
+    #   the number of notebook runs exceeds the value of `MaxResults`, the
+    #   response contains a `NextToken` value.
+    #
+    # @option params [String] :sort_order
+    #   The sort order for the results.
+    #
+    # @option params [String] :next_token
+    #   When the number of notebook runs is greater than the default value for
+    #   the `MaxResults` parameter, or if you explicitly specify a value for
+    #   `MaxResults` that is less than the number of notebook runs, the
+    #   response includes a pagination token named `NextToken`. You can
+    #   specify this `NextToken` value in a subsequent call to
+    #   `ListNotebookRuns` to list the next set of notebook runs.
+    #
+    # @return [Types::ListNotebookRunsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListNotebookRunsOutput#items #items} => Array&lt;Types::NotebookRunSummary&gt;
+    #   * {Types::ListNotebookRunsOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_notebook_runs({
+    #     domain_identifier: "DomainId", # required
+    #     owning_project_identifier: "ProjectId", # required
+    #     notebook_identifier: "NotebookId",
+    #     status: "QUEUED", # accepts QUEUED, STARTING, RUNNING, STOPPING, STOPPED, SUCCEEDED, FAILED
+    #     schedule_identifier: "ScheduleId",
+    #     max_results: 1,
+    #     sort_order: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #     next_token: "PaginationToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].id #=> String
+    #   resp.items[0].domain_id #=> String
+    #   resp.items[0].owning_project_id #=> String
+    #   resp.items[0].notebook_id #=> String
+    #   resp.items[0].schedule_id #=> String
+    #   resp.items[0].status #=> String, one of "QUEUED", "STARTING", "RUNNING", "STOPPING", "STOPPED", "SUCCEEDED", "FAILED"
+    #   resp.items[0].trigger_source.type #=> String, one of "MANUAL", "SCHEDULED", "WORKFLOW"
+    #   resp.items[0].trigger_source.name #=> String
+    #   resp.items[0].created_at #=> Time
+    #   resp.items[0].created_by #=> String
+    #   resp.items[0].updated_at #=> Time
+    #   resp.items[0].updated_by #=> String
+    #   resp.items[0].started_at #=> Time
+    #   resp.items[0].completed_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ListNotebookRuns AWS API Documentation
+    #
+    # @overload list_notebook_runs(params = {})
+    # @param [Hash] params ({})
+    def list_notebook_runs(params = {}, options = {})
+      req = build_request(:list_notebook_runs, params)
       req.send_request(options)
     end
 
@@ -12817,6 +12986,207 @@ module Aws::DataZone
       req.send_request(options)
     end
 
+    # Starts a notebook run in an Amazon DataZone domain. A notebook run
+    # represents the execution of a Amazon DataZone notebook within a
+    # project. You can configure compute, network, timeout, and environment
+    # settings for the run.
+    #
+    # @option params [required, String] :domain_identifier
+    #   The identifier of the Amazon DataZone domain in which the notebook run
+    #   is started.
+    #
+    # @option params [required, String] :owning_project_identifier
+    #   The identifier of the project that owns the notebook run.
+    #
+    # @option params [required, String] :notebook_identifier
+    #   The identifier of the notebook to run.
+    #
+    # @option params [String] :schedule_identifier
+    #   The identifier of the schedule associated with the notebook run.
+    #
+    # @option params [Types::ComputeConfig] :compute_configuration
+    #   The compute configuration for the notebook run, including instance
+    #   type and environment version.
+    #
+    # @option params [Types::NetworkConfig] :network_configuration
+    #   The network configuration for the notebook run, including network
+    #   access type and optional VPC settings.
+    #
+    # @option params [Types::TimeoutConfig] :timeout_configuration
+    #   The timeout configuration for the notebook run. The default timeout is
+    #   720 minutes (12 hours) and the maximum is 1440 minutes (24 hours).
+    #
+    # @option params [Types::TriggerSource] :trigger_source
+    #   The source that triggered the notebook run.
+    #
+    # @option params [Hash<String,String>] :metadata
+    #   The metadata for the notebook run, specified as key-value pairs. You
+    #   can specify up to 50 entries, with keys up to 128 characters and
+    #   values up to 1024 characters.
+    #
+    # @option params [Hash<String,String>] :parameters
+    #   The sensitive parameters for the notebook run, specified as key-value
+    #   pairs. You can specify up to 50 entries, with keys up to 128
+    #   characters and values up to 1024 characters.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request. This field is automatically populated if not provided.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::StartNotebookRunOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartNotebookRunOutput#id #id} => String
+    #   * {Types::StartNotebookRunOutput#domain_id #domain_id} => String
+    #   * {Types::StartNotebookRunOutput#owning_project_id #owning_project_id} => String
+    #   * {Types::StartNotebookRunOutput#notebook_id #notebook_id} => String
+    #   * {Types::StartNotebookRunOutput#schedule_id #schedule_id} => String
+    #   * {Types::StartNotebookRunOutput#status #status} => String
+    #   * {Types::StartNotebookRunOutput#cell_order #cell_order} => Array&lt;Types::CellInformation&gt;
+    #   * {Types::StartNotebookRunOutput#metadata #metadata} => Hash&lt;String,String&gt;
+    #   * {Types::StartNotebookRunOutput#parameters #parameters} => Hash&lt;String,String&gt;
+    #   * {Types::StartNotebookRunOutput#compute_configuration #compute_configuration} => Types::ComputeConfig
+    #   * {Types::StartNotebookRunOutput#network_configuration #network_configuration} => Types::NetworkConfig
+    #   * {Types::StartNotebookRunOutput#timeout_configuration #timeout_configuration} => Types::TimeoutConfig
+    #   * {Types::StartNotebookRunOutput#environment_configuration #environment_configuration} => Types::EnvironmentConfig
+    #   * {Types::StartNotebookRunOutput#storage_configuration #storage_configuration} => Types::StorageConfig
+    #   * {Types::StartNotebookRunOutput#trigger_source #trigger_source} => Types::TriggerSource
+    #   * {Types::StartNotebookRunOutput#error #error} => Types::NotebookRunError
+    #   * {Types::StartNotebookRunOutput#created_at #created_at} => Time
+    #   * {Types::StartNotebookRunOutput#created_by #created_by} => String
+    #   * {Types::StartNotebookRunOutput#updated_at #updated_at} => Time
+    #   * {Types::StartNotebookRunOutput#updated_by #updated_by} => String
+    #   * {Types::StartNotebookRunOutput#started_at #started_at} => Time
+    #   * {Types::StartNotebookRunOutput#completed_at #completed_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_notebook_run({
+    #     domain_identifier: "DomainId", # required
+    #     owning_project_identifier: "ProjectId", # required
+    #     notebook_identifier: "NotebookId", # required
+    #     schedule_identifier: "ScheduleId",
+    #     compute_configuration: {
+    #       instance_type: "InstanceType",
+    #       environment_version: "String",
+    #     },
+    #     network_configuration: {
+    #       network_access_type: "PUBLIC_INTERNET_ONLY", # required, accepts PUBLIC_INTERNET_ONLY, VPC_ONLY
+    #       vpc_id: "String",
+    #       subnet_ids: ["String"],
+    #       security_group_ids: ["String"],
+    #     },
+    #     timeout_configuration: {
+    #       run_timeout_in_minutes: 1,
+    #     },
+    #     trigger_source: {
+    #       type: "MANUAL", # accepts MANUAL, SCHEDULED, WORKFLOW
+    #       name: "String",
+    #     },
+    #     metadata: {
+    #       "MetadataKey" => "MetadataValue",
+    #     },
+    #     parameters: {
+    #       "ParameterKey" => "ParameterValue",
+    #     },
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.domain_id #=> String
+    #   resp.owning_project_id #=> String
+    #   resp.notebook_id #=> String
+    #   resp.schedule_id #=> String
+    #   resp.status #=> String, one of "QUEUED", "STARTING", "RUNNING", "STOPPING", "STOPPED", "SUCCEEDED", "FAILED"
+    #   resp.cell_order #=> Array
+    #   resp.metadata #=> Hash
+    #   resp.metadata["MetadataKey"] #=> String
+    #   resp.parameters #=> Hash
+    #   resp.parameters["ParameterKey"] #=> String
+    #   resp.compute_configuration.instance_type #=> String
+    #   resp.compute_configuration.environment_version #=> String
+    #   resp.network_configuration.network_access_type #=> String, one of "PUBLIC_INTERNET_ONLY", "VPC_ONLY"
+    #   resp.network_configuration.vpc_id #=> String
+    #   resp.network_configuration.subnet_ids #=> Array
+    #   resp.network_configuration.subnet_ids[0] #=> String
+    #   resp.network_configuration.security_group_ids #=> Array
+    #   resp.network_configuration.security_group_ids[0] #=> String
+    #   resp.timeout_configuration.run_timeout_in_minutes #=> Integer
+    #   resp.environment_configuration.image_version #=> String
+    #   resp.environment_configuration.package_config.package_manager #=> String, one of "UV"
+    #   resp.environment_configuration.package_config.package_specification #=> String
+    #   resp.storage_configuration.project_s3_path #=> String
+    #   resp.storage_configuration.kms_key_arn #=> String
+    #   resp.trigger_source.type #=> String, one of "MANUAL", "SCHEDULED", "WORKFLOW"
+    #   resp.trigger_source.name #=> String
+    #   resp.error.message #=> String
+    #   resp.created_at #=> Time
+    #   resp.created_by #=> String
+    #   resp.updated_at #=> Time
+    #   resp.updated_by #=> String
+    #   resp.started_at #=> Time
+    #   resp.completed_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/StartNotebookRun AWS API Documentation
+    #
+    # @overload start_notebook_run(params = {})
+    # @param [Hash] params ({})
+    def start_notebook_run(params = {}, options = {})
+      req = build_request(:start_notebook_run, params)
+      req.send_request(options)
+    end
+
+    # Stops a running notebook run in an Amazon DataZone domain.
+    #
+    # @option params [required, String] :domain_identifier
+    #   The identifier of the Amazon DataZone domain in which the notebook run
+    #   is stopped.
+    #
+    # @option params [required, String] :identifier
+    #   The identifier of the notebook run to stop.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request. This field is automatically populated if not provided.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::StopNotebookRunOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StopNotebookRunOutput#id #id} => String
+    #   * {Types::StopNotebookRunOutput#domain_id #domain_id} => String
+    #   * {Types::StopNotebookRunOutput#owning_project_id #owning_project_id} => String
+    #   * {Types::StopNotebookRunOutput#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.stop_notebook_run({
+    #     domain_identifier: "DomainId", # required
+    #     identifier: "NotebookRunId", # required
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.domain_id #=> String
+    #   resp.owning_project_id #=> String
+    #   resp.status #=> String, one of "QUEUED", "STARTING", "RUNNING", "STOPPING", "STOPPED", "SUCCEEDED", "FAILED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/StopNotebookRun AWS API Documentation
+    #
+    # @overload stop_notebook_run(params = {})
+    # @param [Hash] params ({})
+    def stop_notebook_run(params = {}, options = {})
+      req = build_request(:stop_notebook_run, params)
+      req.send_request(options)
+    end
+
     # Tags a resource in Amazon DataZone.
     #
     # @option params [required, String] :resource_arn
@@ -15209,7 +15579,7 @@ module Aws::DataZone
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-datazone'
-      context[:gem_version] = '1.74.0'
+      context[:gem_version] = '1.75.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

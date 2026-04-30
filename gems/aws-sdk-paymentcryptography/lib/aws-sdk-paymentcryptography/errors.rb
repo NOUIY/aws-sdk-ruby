@@ -30,6 +30,7 @@ module Aws::PaymentCryptography
   # * {AccessDeniedException}
   # * {ConflictException}
   # * {InternalServerException}
+  # * {PublicPolicyException}
   # * {ResourceNotFoundException}
   # * {ServiceQuotaExceededException}
   # * {ServiceUnavailableException}
@@ -77,6 +78,21 @@ module Aws::PaymentCryptography
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::PaymentCryptography::Types::InternalServerException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class PublicPolicyException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::PaymentCryptography::Types::PublicPolicyException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

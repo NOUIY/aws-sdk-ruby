@@ -724,6 +724,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor memory_execution_role_arn: ::String
       attr_accessor event_expiry_duration: ::Integer
       attr_accessor memory_strategies: ::Array[Types::MemoryStrategyInput]
+      attr_accessor indexed_keys: ::Array[Types::IndexedKey]
       attr_accessor stream_delivery_resources: Types::StreamDeliveryResources
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:description]
@@ -1019,6 +1020,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor namespaces: ::Array[::String]
       attr_accessor namespace_templates: ::Array[::String]
       attr_accessor configuration: Types::CustomConfigurationInput
+      attr_accessor memory_record_schema: Types::MemoryRecordSchema
       SENSITIVE: [:description]
     end
 
@@ -1028,6 +1030,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor client_secret: ::String
       attr_accessor private_endpoint: Types::PrivateEndpoint
       attr_accessor private_endpoint_overrides: ::Array[Types::PrivateEndpointOverride]
+      attr_accessor on_behalf_of_token_exchange_config: Types::OnBehalfOfTokenExchangeConfigType
+      attr_accessor client_authentication_method: ("CLIENT_SECRET_BASIC" | "CLIENT_SECRET_POST" | "AWS_IAM_ID_TOKEN_JWT")
       SENSITIVE: [:client_secret]
     end
 
@@ -1036,6 +1040,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor client_id: ::String
       attr_accessor private_endpoint: Types::PrivateEndpoint
       attr_accessor private_endpoint_overrides: ::Array[Types::PrivateEndpointOverride]
+      attr_accessor on_behalf_of_token_exchange_config: Types::OnBehalfOfTokenExchangeConfigType
+      attr_accessor client_authentication_method: ("CLIENT_SECRET_BASIC" | "CLIENT_SECRET_POST" | "AWS_IAM_ID_TOKEN_JWT")
       SENSITIVE: []
     end
 
@@ -1365,6 +1371,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor namespaces: ::Array[::String]
       attr_accessor namespace_templates: ::Array[::String]
       attr_accessor reflection_configuration: Types::EpisodicReflectionConfigurationInput
+      attr_accessor memory_record_schema: Types::MemoryRecordSchema
       SENSITIVE: [:description]
     end
 
@@ -1392,18 +1399,21 @@ module Aws::BedrockAgentCoreControl
       attr_accessor model_id: ::String
       attr_accessor namespaces: ::Array[::String]
       attr_accessor namespace_templates: ::Array[::String]
+      attr_accessor memory_record_schema: Types::MemoryRecordSchema
       SENSITIVE: [:append_to_prompt]
     end
 
     class EpisodicReflectionConfiguration
       attr_accessor namespaces: ::Array[::String]
       attr_accessor namespace_templates: ::Array[::String]
+      attr_accessor memory_record_schema: Types::MemoryRecordSchema
       SENSITIVE: []
     end
 
     class EpisodicReflectionConfigurationInput
       attr_accessor namespaces: ::Array[::String]
       attr_accessor namespace_templates: ::Array[::String]
+      attr_accessor memory_record_schema: Types::MemoryRecordSchema
       SENSITIVE: []
     end
 
@@ -1412,6 +1422,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor model_id: ::String
       attr_accessor namespaces: ::Array[::String]
       attr_accessor namespace_templates: ::Array[::String]
+      attr_accessor memory_record_schema: Types::MemoryRecordSchema
       SENSITIVE: [:append_to_prompt]
     end
 
@@ -1464,6 +1475,17 @@ module Aws::BedrockAgentCoreControl
       attr_accessor locked_for_modification: bool
       attr_accessor kms_key_arn: ::String
       SENSITIVE: [:description]
+    end
+
+    class ExtractionConfig
+      attr_accessor llm_extraction_config: Types::LlmExtractionConfig
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class LlmExtractionConfig < ExtractionConfig
+      end
+      class Unknown < ExtractionConfig
+      end
     end
 
     class ExtractionConfiguration
@@ -2402,6 +2424,12 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class IndexedKey
+      attr_accessor key: ::String
+      attr_accessor type: ("STRING" | "STRINGLIST" | "NUMBER")
+      SENSITIVE: []
+    end
+
     class InferenceConfiguration
       attr_accessor max_tokens: ::Integer
       attr_accessor temperature: ::Float
@@ -2808,6 +2836,13 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: [:instructions, :rating_scale]
     end
 
+    class LlmExtractionConfig
+      attr_accessor llm_extraction_instruction: ::String
+      attr_accessor definition: ::String
+      attr_accessor validation: Types::Validation
+      SENSITIVE: [:llm_extraction_instruction, :definition]
+    end
+
     class MCPGatewayConfiguration
       attr_accessor supported_versions: ::Array[::String]
       attr_accessor instructions: ::String
@@ -2923,8 +2958,14 @@ module Aws::BedrockAgentCoreControl
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
       attr_accessor strategies: ::Array[Types::MemoryStrategy]
+      attr_accessor indexed_keys: ::Array[Types::IndexedKey]
       attr_accessor stream_delivery_resources: Types::StreamDeliveryResources
       SENSITIVE: [:description]
+    end
+
+    class MemoryRecordSchema
+      attr_accessor metadata_schema: ::Array[Types::MetadataSchemaEntry]
+      SENSITIVE: []
     end
 
     class MemoryStrategy
@@ -2938,6 +2979,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
       attr_accessor status: ("CREATING" | "ACTIVE" | "DELETING" | "FAILED")
+      attr_accessor memory_record_schema: Types::MemoryRecordSchema
       SENSITIVE: [:description]
     end
 
@@ -2987,6 +3029,13 @@ module Aws::BedrockAgentCoreControl
       attr_accessor allowed_request_headers: ::Array[::String]
       attr_accessor allowed_query_parameters: ::Array[::String]
       attr_accessor allowed_response_headers: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class MetadataSchemaEntry
+      attr_accessor key: ::String
+      attr_accessor type: ("STRING" | "STRINGLIST" | "NUMBER")
+      attr_accessor extraction_config: Types::ExtractionConfig
       SENSITIVE: []
     end
 
@@ -3044,6 +3093,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor namespaces: ::Array[::String]
       attr_accessor namespace_templates: ::Array[::String]
       attr_accessor configuration: Types::ModifyStrategyConfiguration
+      attr_accessor memory_record_schema: Types::MemoryRecordSchema
       SENSITIVE: [:description]
     end
 
@@ -3082,6 +3132,12 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class NumberValidation
+      attr_accessor min_value: ::Float
+      attr_accessor max_value: ::Float
+      SENSITIVE: []
+    end
+
     class NumericalScaleDefinition
       attr_accessor definition: ::String
       attr_accessor value: ::Float
@@ -3099,7 +3155,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor provider_arn: ::String
       attr_accessor scopes: ::Array[::String]
       attr_accessor custom_parameters: ::Hash[::String, ::String]
-      attr_accessor grant_type: ("CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE")
+      attr_accessor grant_type: ("CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE" | "TOKEN_EXCHANGE")
       attr_accessor default_return_url: ::String
       SENSITIVE: []
     end
@@ -3204,6 +3260,12 @@ module Aws::BedrockAgentCoreControl
       end
       class Unknown < Oauth2ProviderConfigOutput
       end
+    end
+
+    class OnBehalfOfTokenExchangeConfigType
+      attr_accessor grant_type: ("TOKEN_EXCHANGE" | "JWT_AUTHORIZATION_GRANT")
+      attr_accessor token_exchange_grant_type_config: Types::TokenExchangeGrantTypeConfigType
+      SENSITIVE: []
     end
 
     class OnlineEvaluationConfigSummary
@@ -3591,6 +3653,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor description: ::String
       attr_accessor namespaces: ::Array[::String]
       attr_accessor namespace_templates: ::Array[::String]
+      attr_accessor memory_record_schema: Types::MemoryRecordSchema
       SENSITIVE: [:description]
     end
 
@@ -3733,6 +3796,17 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class StringListValidation
+      attr_accessor allowed_values: ::Array[::String]
+      attr_accessor max_items: ::Integer
+      SENSITIVE: []
+    end
+
+    class StringValidation
+      attr_accessor allowed_values: ::Array[::String]
+      SENSITIVE: []
+    end
+
     class SubmitRegistryRecordForApprovalRequest
       attr_accessor registry_id: ::String
       attr_accessor record_id: ::String
@@ -3759,6 +3833,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor description: ::String
       attr_accessor namespaces: ::Array[::String]
       attr_accessor namespace_templates: ::Array[::String]
+      attr_accessor memory_record_schema: Types::MemoryRecordSchema
       SENSITIVE: [:description]
     end
 
@@ -3864,6 +3939,12 @@ module Aws::BedrockAgentCoreControl
 
     class TokenBasedTriggerInput
       attr_accessor token_count: ::Integer
+      SENSITIVE: []
+    end
+
+    class TokenExchangeGrantTypeConfigType
+      attr_accessor actor_token_content: ("NONE" | "M2M" | "AWS_IAM_ID_TOKEN_JWT")
+      attr_accessor actor_token_scopes: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -4185,6 +4266,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor event_expiry_duration: ::Integer
       attr_accessor memory_execution_role_arn: ::String
       attr_accessor memory_strategies: Types::ModifyMemoryStrategies
+      attr_accessor add_indexed_keys: ::Array[Types::IndexedKey]
       attr_accessor stream_delivery_resources: Types::StreamDeliveryResources
       SENSITIVE: [:description]
     end
@@ -4484,6 +4566,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor description: ::String
       attr_accessor namespaces: ::Array[::String]
       attr_accessor namespace_templates: ::Array[::String]
+      attr_accessor memory_record_schema: Types::MemoryRecordSchema
       SENSITIVE: [:description]
     end
 
@@ -4503,6 +4586,23 @@ module Aws::BedrockAgentCoreControl
       attr_accessor append_to_prompt: ::String
       attr_accessor model_id: ::String
       SENSITIVE: [:append_to_prompt]
+    end
+
+    class Validation
+      attr_accessor string_validation: Types::StringValidation
+      attr_accessor string_list_validation: Types::StringListValidation
+      attr_accessor number_validation: Types::NumberValidation
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class StringValidation < Validation
+      end
+      class StringListValidation < Validation
+      end
+      class NumberValidation < Validation
+      end
+      class Unknown < Validation
+      end
     end
 
     class ValidationException

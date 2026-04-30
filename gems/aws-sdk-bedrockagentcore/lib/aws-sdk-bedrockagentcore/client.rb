@@ -522,6 +522,14 @@ module Aws::BedrockAgentCore
     #         },
     #         timestamp: Time.now, # required
     #         memory_strategy_id: "MemoryStrategyId",
+    #         metadata: {
+    #           "MetadataKey" => {
+    #             string_value: "StringValue",
+    #             string_list_value: ["StringListMemberValue"],
+    #             number_value: 1.0,
+    #             date_time_value: Time.now,
+    #           },
+    #         },
     #       },
     #     ],
     #     client_token: "String",
@@ -629,6 +637,14 @@ module Aws::BedrockAgentCore
     #         },
     #         namespaces: ["Namespace"],
     #         memory_strategy_id: "MemoryStrategyId",
+    #         metadata: {
+    #           "MetadataKey" => {
+    #             string_value: "StringValue",
+    #             string_list_value: ["StringListMemberValue"],
+    #             number_value: 1.0,
+    #             date_time_value: Time.now,
+    #           },
+    #         },
     #       },
     #     ],
     #   })
@@ -1641,6 +1657,10 @@ module Aws::BedrockAgentCore
     #   resp.memory_record.created_at #=> Time
     #   resp.memory_record.metadata #=> Hash
     #   resp.memory_record.metadata["MetadataKey"].string_value #=> String
+    #   resp.memory_record.metadata["MetadataKey"].string_list_value #=> Array
+    #   resp.memory_record.metadata["MetadataKey"].string_list_value[0] #=> String
+    #   resp.memory_record.metadata["MetadataKey"].number_value #=> Float
+    #   resp.memory_record.metadata["MetadataKey"].date_time_value #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetMemoryRecord AWS API Documentation
     #
@@ -1823,6 +1843,15 @@ module Aws::BedrockAgentCore
     #   callback URL of your application against CSRF attacks by ensuring the
     #   response corresponds to the original request.
     #
+    # @option params [Array<String>] :resources
+    #   The resources to include in the token request. These are used to
+    #   specify the target resources for which the OAuth2 token is being
+    #   requested.
+    #
+    # @option params [Array<String>] :audiences
+    #   The audiences to include in the token request. These are used to
+    #   specify the intended recipients of the OAuth2 token.
+    #
     # @return [Types::GetResourceOauth2TokenResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetResourceOauth2TokenResponse#authorization_url #authorization_url} => String
@@ -1836,7 +1865,7 @@ module Aws::BedrockAgentCore
     #     workload_identity_token: "WorkloadIdentityTokenType", # required
     #     resource_credential_provider_name: "CredentialProviderName", # required
     #     scopes: ["ScopeType"], # required
-    #     oauth2_flow: "USER_FEDERATION", # required, accepts USER_FEDERATION, M2M
+    #     oauth2_flow: "USER_FEDERATION", # required, accepts USER_FEDERATION, M2M, ON_BEHALF_OF_TOKEN_EXCHANGE
     #     session_uri: "RequestUri",
     #     resource_oauth_2_return_url: "ResourceOauth2ReturnUrlType",
     #     force_authentication: false,
@@ -1844,6 +1873,8 @@ module Aws::BedrockAgentCore
     #       "CustomRequestKeyType" => "CustomRequestValueType",
     #     },
     #     custom_state: "State",
+    #     resources: ["ResourceType"],
+    #     audiences: ["AudienceType"],
     #   })
     #
     # @example Response structure
@@ -3791,6 +3822,10 @@ module Aws::BedrockAgentCore
     #   previous response in the next request to retrieve the next set of
     #   results.
     #
+    # @option params [Array<Types::MemoryMetadataFilterExpression>] :metadata_filters
+    #   A list of metadata filter expressions to scope the returned memory
+    #   records.
+    #
     # @return [Types::ListMemoryRecordsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ListMemoryRecordsOutput#memory_record_summaries #memory_record_summaries} => Array&lt;Types::MemoryRecordSummary&gt;
@@ -3807,6 +3842,22 @@ module Aws::BedrockAgentCore
     #     memory_strategy_id: "MemoryStrategyId",
     #     max_results: 1,
     #     next_token: "PaginationToken",
+    #     metadata_filters: [
+    #       {
+    #         left: { # required
+    #           metadata_key: "MetadataKey",
+    #         },
+    #         operator: "EQUALS_TO", # required, accepts EQUALS_TO, EXISTS, NOT_EXISTS, BEFORE, AFTER, CONTAINS, GREATER_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN, LESS_THAN_OR_EQUALS
+    #         right: {
+    #           metadata_value: {
+    #             string_value: "StringValue",
+    #             string_list_value: ["StringListMemberValue"],
+    #             number_value: 1.0,
+    #             date_time_value: Time.now,
+    #           },
+    #         },
+    #       },
+    #     ],
     #   })
     #
     # @example Response structure
@@ -3821,6 +3872,10 @@ module Aws::BedrockAgentCore
     #   resp.memory_record_summaries[0].score #=> Float
     #   resp.memory_record_summaries[0].metadata #=> Hash
     #   resp.memory_record_summaries[0].metadata["MetadataKey"].string_value #=> String
+    #   resp.memory_record_summaries[0].metadata["MetadataKey"].string_list_value #=> Array
+    #   resp.memory_record_summaries[0].metadata["MetadataKey"].string_list_value[0] #=> String
+    #   resp.memory_record_summaries[0].metadata["MetadataKey"].number_value #=> Float
+    #   resp.memory_record_summaries[0].metadata["MetadataKey"].date_time_value #=> Time
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ListMemoryRecords AWS API Documentation
@@ -4008,10 +4063,13 @@ module Aws::BedrockAgentCore
     #           left: { # required
     #             metadata_key: "MetadataKey",
     #           },
-    #           operator: "EQUALS_TO", # required, accepts EQUALS_TO, EXISTS, NOT_EXISTS
+    #           operator: "EQUALS_TO", # required, accepts EQUALS_TO, EXISTS, NOT_EXISTS, BEFORE, AFTER, CONTAINS, GREATER_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN, LESS_THAN_OR_EQUALS
     #           right: {
     #             metadata_value: {
-    #               string_value: "MetadataValueStringValueString",
+    #               string_value: "StringValue",
+    #               string_list_value: ["StringListMemberValue"],
+    #               number_value: 1.0,
+    #               date_time_value: Time.now,
     #             },
     #           },
     #         },
@@ -4033,6 +4091,10 @@ module Aws::BedrockAgentCore
     #   resp.memory_record_summaries[0].score #=> Float
     #   resp.memory_record_summaries[0].metadata #=> Hash
     #   resp.memory_record_summaries[0].metadata["MetadataKey"].string_value #=> String
+    #   resp.memory_record_summaries[0].metadata["MetadataKey"].string_list_value #=> Array
+    #   resp.memory_record_summaries[0].metadata["MetadataKey"].string_list_value[0] #=> String
+    #   resp.memory_record_summaries[0].metadata["MetadataKey"].number_value #=> Float
+    #   resp.memory_record_summaries[0].metadata["MetadataKey"].date_time_value #=> Time
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/RetrieveMemoryRecords AWS API Documentation
@@ -5275,7 +5337,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.30.0'
+      context[:gem_version] = '1.31.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

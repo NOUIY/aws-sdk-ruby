@@ -498,23 +498,25 @@ module Aws::PaymentCryptography
     # add multiple regions in a single operation, and the key will be
     # available for use in those regions once replication is complete.
     #
-    # **Cross-account use:** This operation can't be used across different
-    # Amazon Web Services accounts.
+    # **Cross-account use:** This operation supports cross-account use when
+    # the key has a resource-based policy that grants access. For more
+    # information, see [Resource-based policies][2].
     #
     # **Related operations:**
     #
-    # * [RemoveKeyReplicationRegions][2]
+    # * [RemoveKeyReplicationRegions][3]
     #
-    # * [EnableDefaultKeyReplicationRegions][3]
+    # * [EnableDefaultKeyReplicationRegions][4]
     #
-    # * [GetDefaultKeyReplicationRegions][4]
+    # * [GetDefaultKeyReplicationRegions][5]
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-multi-region-replication.html
-    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_RemoveKeyReplicationRegions.html
-    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_EnableDefaultKeyReplicationRegions.html
-    # [4]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetDefaultKeyReplicationRegions.html
+    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/security_iam_resource-based-policies.html
+    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_RemoveKeyReplicationRegions.html
+    # [4]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_EnableDefaultKeyReplicationRegions.html
+    # [5]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetDefaultKeyReplicationRegions.html
     #
     # @option params [required, String] :key_identifier
     #   The key identifier (ARN or alias) of the key for which to add
@@ -576,6 +578,10 @@ module Aws::PaymentCryptography
     #   resp.key.replication_status["Region"].status #=> String, one of "IN_PROGRESS", "DELETE_IN_PROGRESS", "FAILED", "SYNCHRONIZED"
     #   resp.key.replication_status["Region"].status_message #=> String
     #   resp.key.using_default_replication_regions #=> Boolean
+    #   resp.key.mpa_status.mpa_session_arn #=> String
+    #   resp.key.mpa_status.status #=> String, one of "PENDING", "APPROVED", "FAILED", "CANCELLED"
+    #   resp.key.mpa_status.initiation_date #=> Time
+    #   resp.key.mpa_status.status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/AddKeyReplicationRegions AWS API Documentation
     #
@@ -583,6 +589,71 @@ module Aws::PaymentCryptography
     # @param [Hash] params ({})
     def add_key_replication_regions(params = {}, options = {})
       req = build_request(:add_key_replication_regions, params)
+      req.send_request(options)
+    end
+
+    # Associates a Multi-Party Approval (MPA) team with a protected
+    # operation. For more information, see [Multi-Party Approval][1] in the
+    # *Amazon Web Services Payment Cryptography User Guide.*
+    #
+    # **Cross-account use:** This operation can't be used across different
+    # Amazon Web Services accounts.
+    #
+    # **Related operations:**
+    #
+    # * [DisassociateMpaTeam][2]
+    #
+    # * [GetMpaTeamAssociation][3]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/mpa.html
+    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DisassociateMpaTeam.html
+    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetMpaTeamAssociation.html
+    #
+    # @option params [required, String] :action
+    #   The protected operation to associate with the MPA team. Currently, the
+    #   only supported value is `IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE`.
+    #
+    # @option params [required, String] :mpa_team_arn
+    #   The ARN of the MPA team to associate with the protected operation.
+    #
+    # @option params [String] :requester_comment
+    #   The comment from the requester explaining the reason for the
+    #   association.
+    #
+    #   Don't include personal, confidential or sensitive information in this
+    #   field. This field may be displayed in plaintext in CloudTrail logs and
+    #   other output.
+    #
+    # @return [Types::AssociateMpaTeamOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AssociateMpaTeamOutput#mpa_team_association #mpa_team_association} => Types::MpaTeamAssociation
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.associate_mpa_team({
+    #     action: "IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE", # required, accepts IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE
+    #     mpa_team_arn: "MpaTeamArn", # required
+    #     requester_comment: "MpaRequesterComment",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.mpa_team_association.action #=> String, one of "IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE"
+    #   resp.mpa_team_association.mpa_team_arn #=> String
+    #   resp.mpa_team_association.association_state #=> String, one of "ACTIVE", "UPDATE_PENDING", "DELETE_PENDING"
+    #   resp.mpa_team_association.mpa_status.mpa_session_arn #=> String
+    #   resp.mpa_team_association.mpa_status.status #=> String, one of "PENDING", "APPROVED", "FAILED", "CANCELLED"
+    #   resp.mpa_team_association.mpa_status.initiation_date #=> Time
+    #   resp.mpa_team_association.mpa_status.status_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/AssociateMpaTeam AWS API Documentation
+    #
+    # @overload associate_mpa_team(params = {})
+    # @param [Hash] params ({})
+    def associate_mpa_team(params = {}, options = {})
+      req = build_request(:associate_mpa_team, params)
       req.send_request(options)
     end
 
@@ -857,6 +928,10 @@ module Aws::PaymentCryptography
     #   resp.key.replication_status["Region"].status #=> String, one of "IN_PROGRESS", "DELETE_IN_PROGRESS", "FAILED", "SYNCHRONIZED"
     #   resp.key.replication_status["Region"].status_message #=> String
     #   resp.key.using_default_replication_regions #=> Boolean
+    #   resp.key.mpa_status.mpa_session_arn #=> String
+    #   resp.key.mpa_status.status #=> String, one of "PENDING", "APPROVED", "FAILED", "CANCELLED"
+    #   resp.key.mpa_status.initiation_date #=> Time
+    #   resp.key.mpa_status.status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/CreateKey AWS API Documentation
     #
@@ -939,22 +1014,24 @@ module Aws::PaymentCryptography
     # aren't sure, consider deactivating it instead by calling
     # [StopKeyUsage][1].
     #
-    # **Cross-account use:** This operation can't be used across different
-    # Amazon Web Services accounts.
+    # **Cross-account use:** This operation supports cross-account use when
+    # the key has a resource-based policy that grants access. For more
+    # information, see [Resource-based policies][2].
     #
     # **Related operations:**
     #
-    # * [RestoreKey][2]
+    # * [RestoreKey][3]
     #
-    # * [StartKeyUsage][3]
+    # * [StartKeyUsage][4]
     #
     # * [StopKeyUsage][1]
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html
-    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_RestoreKey.html
-    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StartKeyUsage.html
+    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/security_iam_resource-based-policies.html
+    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_RestoreKey.html
+    # [4]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StartKeyUsage.html
     #
     # @option params [required, String] :key_identifier
     #   The `KeyARN` of the key that is scheduled for deletion.
@@ -1006,6 +1083,10 @@ module Aws::PaymentCryptography
     #   resp.key.replication_status["Region"].status #=> String, one of "IN_PROGRESS", "DELETE_IN_PROGRESS", "FAILED", "SYNCHRONIZED"
     #   resp.key.replication_status["Region"].status_message #=> String
     #   resp.key.using_default_replication_regions #=> Boolean
+    #   resp.key.mpa_status.mpa_session_arn #=> String
+    #   resp.key.mpa_status.status #=> String, one of "PENDING", "APPROVED", "FAILED", "CANCELLED"
+    #   resp.key.mpa_status.initiation_date #=> Time
+    #   resp.key.mpa_status.status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/DeleteKey AWS API Documentation
     #
@@ -1013,6 +1094,44 @@ module Aws::PaymentCryptography
     # @param [Hash] params ({})
     def delete_key(params = {}, options = {})
       req = build_request(:delete_key, params)
+      req.send_request(options)
+    end
+
+    # Removes the resource-based policy attached to an Amazon Web Services
+    # Payment Cryptography key.
+    #
+    # **Cross-account use:** This operation can't be used across different
+    # Amazon Web Services accounts.
+    #
+    # **Related operations:**
+    #
+    # * [PutResourcePolicy][1]
+    #
+    # * [GetResourcePolicy][2]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_PutResourcePolicy.html
+    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetResourcePolicy.html
+    #
+    # @option params [required, String] :resource_arn
+    #   The `KeyARN` of the key whose resource-based policy you want to
+    #   delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_resource_policy({
+    #     resource_arn: "ResourceArn", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/DeleteResourcePolicy AWS API Documentation
+    #
+    # @overload delete_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def delete_resource_policy(params = {}, options = {})
+      req = build_request(:delete_resource_policy, params)
       req.send_request(options)
     end
 
@@ -1074,6 +1193,65 @@ module Aws::PaymentCryptography
     # @param [Hash] params ({})
     def disable_default_key_replication_regions(params = {}, options = {})
       req = build_request(:disable_default_key_replication_regions, params)
+      req.send_request(options)
+    end
+
+    # Removes the association between a Multi-Party Approval (MPA) team and
+    # a protected operation.
+    #
+    # **Cross-account use:** This operation can't be used across different
+    # Amazon Web Services accounts.
+    #
+    # **Related operations:**
+    #
+    # * [AssociateMpaTeam][1]
+    #
+    # * [GetMpaTeamAssociation][2]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_AssociateMpaTeam.html
+    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetMpaTeamAssociation.html
+    #
+    # @option params [required, String] :action
+    #   The protected operation to disassociate from the MPA team. Currently,
+    #   the only supported value is `IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE`.
+    #
+    # @option params [String] :requester_comment
+    #   The comment from the requester explaining the reason for the
+    #   disassociation.
+    #
+    #   Don't include personal, confidential or sensitive information in this
+    #   field. This field may be displayed in plaintext in CloudTrail logs and
+    #   other output.
+    #
+    # @return [Types::DisassociateMpaTeamOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DisassociateMpaTeamOutput#mpa_team_association #mpa_team_association} => Types::MpaTeamAssociation
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.disassociate_mpa_team({
+    #     action: "IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE", # required, accepts IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE
+    #     requester_comment: "MpaRequesterComment",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.mpa_team_association.action #=> String, one of "IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE"
+    #   resp.mpa_team_association.mpa_team_arn #=> String
+    #   resp.mpa_team_association.association_state #=> String, one of "ACTIVE", "UPDATE_PENDING", "DELETE_PENDING"
+    #   resp.mpa_team_association.mpa_status.mpa_session_arn #=> String
+    #   resp.mpa_team_association.mpa_status.status #=> String, one of "PENDING", "APPROVED", "FAILED", "CANCELLED"
+    #   resp.mpa_team_association.mpa_status.initiation_date #=> Time
+    #   resp.mpa_team_association.mpa_status.status_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/DisassociateMpaTeam AWS API Documentation
+    #
+    # @overload disassociate_mpa_team(params = {})
+    # @param [Hash] params ({})
+    def disassociate_mpa_team(params = {}, options = {})
+      req = build_request(:disassociate_mpa_team, params)
       req.send_request(options)
     end
 
@@ -1334,8 +1512,9 @@ module Aws::PaymentCryptography
     # Cryptography returns the working key as a TR-31 WrappedKeyBlock, where
     # the wrapping key is the ECDH derived key.
     #
-    # **Cross-account use:** This operation can't be used across different
-    # Amazon Web Services accounts.
+    # **Cross-account use:** This operation supports cross-account use when
+    # the key has a resource-based policy that grants access. For more
+    # information, see [Resource-based policies][8].
     #
     # **Related operations:**
     #
@@ -1352,6 +1531,7 @@ module Aws::PaymentCryptography
     # [5]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-export.html
     # [6]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html
     # [7]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html
+    # [8]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/security_iam_resource-based-policies.html
     #
     # @option params [required, Types::ExportKeyMaterial] :key_material
     #   The key block format type, for example, TR-34 or TR-31, to use during
@@ -1626,22 +1806,24 @@ module Aws::PaymentCryptography
     # key was created. Returns key metadata including attributes, state, and
     # timestamps, but does not return the actual cryptographic key material.
     #
-    # **Cross-account use:** This operation can't be used across different
-    # Amazon Web Services accounts.
+    # **Cross-account use:** This operation supports cross-account use when
+    # the key has a resource-based policy that grants access. For more
+    # information, see [Resource-based policies][1].
     #
     # **Related operations:**
     #
-    # * [CreateKey][1]
+    # * [CreateKey][2]
     #
-    # * [DeleteKey][2]
+    # * [DeleteKey][3]
     #
-    # * [ListKeys][3]
+    # * [ListKeys][4]
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html
-    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html
-    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListKeys.html
+    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/security_iam_resource-based-policies.html
+    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html
+    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html
+    # [4]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListKeys.html
     #
     # @option params [required, String] :key_identifier
     #   The `KeyARN` of the Amazon Web Services Payment Cryptography key.
@@ -1689,6 +1871,10 @@ module Aws::PaymentCryptography
     #   resp.key.replication_status["Region"].status #=> String, one of "IN_PROGRESS", "DELETE_IN_PROGRESS", "FAILED", "SYNCHRONIZED"
     #   resp.key.replication_status["Region"].status_message #=> String
     #   resp.key.using_default_replication_regions #=> Boolean
+    #   resp.key.mpa_status.mpa_session_arn #=> String
+    #   resp.key.mpa_status.status #=> String, one of "PENDING", "APPROVED", "FAILED", "CANCELLED"
+    #   resp.key.mpa_status.initiation_date #=> Time
+    #   resp.key.mpa_status.status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/GetKey AWS API Documentation
     #
@@ -1696,6 +1882,57 @@ module Aws::PaymentCryptography
     # @param [Hash] params ({})
     def get_key(params = {}, options = {})
       req = build_request(:get_key, params)
+      req.send_request(options)
+    end
+
+    # Returns the Multi-Party Approval (MPA) team association for a
+    # protected operation.
+    #
+    # **Cross-account use:** This operation can't be used across different
+    # Amazon Web Services accounts.
+    #
+    # **Related operations:**
+    #
+    # * [AssociateMpaTeam][1]
+    #
+    # * [DisassociateMpaTeam][2]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_AssociateMpaTeam.html
+    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DisassociateMpaTeam.html
+    #
+    # @option params [required, String] :action
+    #   The protected operation whose MPA team association you want to
+    #   retrieve. Currently, the only supported value is
+    #   `IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE`.
+    #
+    # @return [Types::GetMpaTeamAssociationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetMpaTeamAssociationOutput#mpa_team_association #mpa_team_association} => Types::MpaTeamAssociation
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_mpa_team_association({
+    #     action: "IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE", # required, accepts IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.mpa_team_association.action #=> String, one of "IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE"
+    #   resp.mpa_team_association.mpa_team_arn #=> String
+    #   resp.mpa_team_association.association_state #=> String, one of "ACTIVE", "UPDATE_PENDING", "DELETE_PENDING"
+    #   resp.mpa_team_association.mpa_status.mpa_session_arn #=> String
+    #   resp.mpa_team_association.mpa_status.status #=> String, one of "PENDING", "APPROVED", "FAILED", "CANCELLED"
+    #   resp.mpa_team_association.mpa_status.initiation_date #=> Time
+    #   resp.mpa_team_association.mpa_status.status_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/GetMpaTeamAssociation AWS API Documentation
+    #
+    # @overload get_mpa_team_association(params = {})
+    # @param [Hash] params ({})
+    def get_mpa_team_association(params = {}, options = {})
+      req = build_request(:get_mpa_team_association, params)
       req.send_request(options)
     end
 
@@ -1879,8 +2116,13 @@ module Aws::PaymentCryptography
     # certificate to allow others to encrypt messages and verify signatures
     # outside of Amazon Web Services Payment Cryptography
     #
-    # **Cross-account use:** This operation can't be used across different
-    # Amazon Web Services accounts.
+    # **Cross-account use:** This operation supports cross-account use when
+    # the key has a resource-based policy that grants access. For more
+    # information, see [Resource-based policies][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/security_iam_resource-based-policies.html
     #
     # @option params [required, String] :key_identifier
     #   The `KeyARN` of the asymmetric key pair.
@@ -1907,6 +2149,52 @@ module Aws::PaymentCryptography
     # @param [Hash] params ({})
     def get_public_key_certificate(params = {}, options = {})
       req = build_request(:get_public_key_certificate, params)
+      req.send_request(options)
+    end
+
+    # Returns the resource-based policy attached to an Amazon Web Services
+    # Payment Cryptography key.
+    #
+    # **Cross-account use:** This operation can't be used across different
+    # Amazon Web Services accounts.
+    #
+    # **Related operations:**
+    #
+    # * [PutResourcePolicy][1]
+    #
+    # * [DeleteResourcePolicy][2]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_PutResourcePolicy.html
+    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteResourcePolicy.html
+    #
+    # @option params [required, String] :resource_arn
+    #   The `KeyARN` of the key whose resource-based policy you want to
+    #   retrieve.
+    #
+    # @return [Types::GetResourcePolicyOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetResourcePolicyOutput#resource_arn #resource_arn} => String
+    #   * {Types::GetResourcePolicyOutput#policy #policy} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_resource_policy({
+    #     resource_arn: "ResourceArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.resource_arn #=> String
+    #   resp.policy #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/GetResourcePolicy AWS API Documentation
+    #
+    # @overload get_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def get_resource_policy(params = {}, options = {})
+      req = build_request(:get_resource_policy, params)
       req.send_request(options)
     end
 
@@ -2100,12 +2388,13 @@ module Aws::PaymentCryptography
     #   that signed the public key certificate of the receiving ECC key
     #   pair.
     #
-    # **Cross-account use:** This operation can't be used across different
-    # Amazon Web Services accounts.
+    # **Cross-account use:** This operation supports cross-account use when
+    # the key has a resource-based policy that grants access. For more
+    # information, see [Resource-based policies][5].
     #
     # **Related operations:**
     #
-    # * [ExportKey][5]
+    # * [ExportKey][6]
     #
     # * [GetParametersForImport][2]
     #
@@ -2115,7 +2404,8 @@ module Aws::PaymentCryptography
     # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html
     # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-import.html
     # [4]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html
-    # [5]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ExportKey.html
+    # [5]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/security_iam_resource-based-policies.html
+    # [6]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ExportKey.html
     #
     # @option params [required, Types::ImportKeyMaterial] :key_material
     #   The key or public key certificate type to use during key material
@@ -2169,6 +2459,13 @@ module Aws::PaymentCryptography
     #   identifier where Amazon Web Services Payment Cryptography is
     #   available. This list is used to specify which regions should be added
     #   to or removed from a key's replication configuration.
+    #
+    # @option params [String] :requester_comment
+    #   The comment from the requester explaining the reason for the import.
+    #
+    #   Don't include personal, confidential or sensitive information in this
+    #   field. This field may be displayed in plaintext in CloudTrail logs and
+    #   other output.
     #
     # @return [Types::ImportKeyOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2293,6 +2590,7 @@ module Aws::PaymentCryptography
     #       },
     #     ],
     #     replication_regions: ["Region"],
+    #     requester_comment: "MpaRequesterComment",
     #   })
     #
     # @example Response structure
@@ -2328,6 +2626,10 @@ module Aws::PaymentCryptography
     #   resp.key.replication_status["Region"].status #=> String, one of "IN_PROGRESS", "DELETE_IN_PROGRESS", "FAILED", "SYNCHRONIZED"
     #   resp.key.replication_status["Region"].status_message #=> String
     #   resp.key.using_default_replication_regions #=> Boolean
+    #   resp.key.mpa_status.mpa_session_arn #=> String
+    #   resp.key.mpa_status.status #=> String, one of "PENDING", "APPROVED", "FAILED", "CANCELLED"
+    #   resp.key.mpa_status.initiation_date #=> Time
+    #   resp.key.mpa_status.status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/ImportKey AWS API Documentation
     #
@@ -2520,19 +2822,21 @@ module Aws::PaymentCryptography
     # receive a response with no NextToken (or an empty or null value), that
     # means there are no more tags to get.
     #
-    # **Cross-account use:** This operation can't be used across different
-    # Amazon Web Services accounts.
+    # **Cross-account use:** This operation supports cross-account use when
+    # the key has a resource-based policy that grants access. For more
+    # information, see [Resource-based policies][1].
     #
     # **Related operations:**
     #
-    # * [TagResource][1]
+    # * [TagResource][2]
     #
-    # * [UntagResource][2]
+    # * [UntagResource][3]
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html
-    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UntagResource.html
+    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/security_iam_resource-based-policies.html
+    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html
+    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UntagResource.html
     #
     # @option params [required, String] :resource_arn
     #   The `KeyARN` of the key whose tags you are getting.
@@ -2582,6 +2886,62 @@ module Aws::PaymentCryptography
       req.send_request(options)
     end
 
+    # Attaches or replaces a resource-based policy on an Amazon Web Services
+    # Payment Cryptography key. A resource-based policy can grant
+    # cross-account access to your key.
+    #
+    # If the policy would grant public access, the request fails with a
+    # `PublicPolicyException`.
+    #
+    # To remove a resource-based policy from a key, use
+    # [DeleteResourcePolicy][1].
+    #
+    # **Cross-account use:** This operation can't be used across different
+    # Amazon Web Services accounts.
+    #
+    # **Related operations:**
+    #
+    # * [GetResourcePolicy][2]
+    #
+    # * [DeleteResourcePolicy][1]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteResourcePolicy.html
+    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetResourcePolicy.html
+    #
+    # @option params [required, String] :resource_arn
+    #   The `KeyARN` of the key to attach the resource-based policy to.
+    #
+    # @option params [required, String] :policy
+    #   The resource-based policy to attach to the key, in JSON format.
+    #
+    # @return [Types::PutResourcePolicyOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutResourcePolicyOutput#resource_arn #resource_arn} => String
+    #   * {Types::PutResourcePolicyOutput#policy #policy} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_resource_policy({
+    #     resource_arn: "ResourceArn", # required
+    #     policy: "ResourcePolicy", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.resource_arn #=> String
+    #   resp.policy #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/PutResourcePolicy AWS API Documentation
+    #
+    # @overload put_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def put_resource_policy(params = {}, options = {})
+      req = build_request(:put_resource_policy, params)
+      req.send_request(options)
+    end
+
     # Removes Replication Regions from an existing Amazon Web Services
     # Payment Cryptography key, disabling the key's availability for
     # cryptographic operations in the specified Amazon Web Services Regions.
@@ -2596,20 +2956,22 @@ module Aws::PaymentCryptography
     # on the key in the regions you're removing before performing this
     # operation.
     #
-    # **Cross-account use:** This operation can't be used across different
-    # Amazon Web Services accounts.
+    # **Cross-account use:** This operation supports cross-account use when
+    # the key has a resource-based policy that grants access. For more
+    # information, see [Resource-based policies][2].
     #
     # **Related operations:**
     #
-    # * [AddKeyReplicationRegions][2]
+    # * [AddKeyReplicationRegions][3]
     #
-    # * [DisableDefaultKeyReplicationRegions][3]
+    # * [DisableDefaultKeyReplicationRegions][4]
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-multi-region-replication.html
-    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_AddKeyReplicationRegions.html
-    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DisableDefaultKeyReplicationRegions.html
+    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/security_iam_resource-based-policies.html
+    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_AddKeyReplicationRegions.html
+    # [4]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DisableDefaultKeyReplicationRegions.html
     #
     # @option params [required, String] :key_identifier
     #   The key identifier (ARN or alias) of the key from which to remove
@@ -2670,6 +3032,10 @@ module Aws::PaymentCryptography
     #   resp.key.replication_status["Region"].status #=> String, one of "IN_PROGRESS", "DELETE_IN_PROGRESS", "FAILED", "SYNCHRONIZED"
     #   resp.key.replication_status["Region"].status_message #=> String
     #   resp.key.using_default_replication_regions #=> Boolean
+    #   resp.key.mpa_status.mpa_session_arn #=> String
+    #   resp.key.mpa_status.status #=> String, one of "PENDING", "APPROVED", "FAILED", "CANCELLED"
+    #   resp.key.mpa_status.initiation_date #=> Time
+    #   resp.key.mpa_status.status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/RemoveKeyReplicationRegions AWS API Documentation
     #
@@ -2689,22 +3055,24 @@ module Aws::PaymentCryptography
     # `CREATE_COMPLETE`, and the value for `deletePendingTimestamp` is
     # removed.
     #
-    # **Cross-account use:** This operation can't be used across different
-    # Amazon Web Services accounts.
+    # **Cross-account use:** This operation supports cross-account use when
+    # the key has a resource-based policy that grants access. For more
+    # information, see [Resource-based policies][1].
     #
     # **Related operations:**
     #
-    # * [DeleteKey][1]
+    # * [DeleteKey][2]
     #
-    # * [StartKeyUsage][2]
+    # * [StartKeyUsage][3]
     #
-    # * [StopKeyUsage][3]
+    # * [StopKeyUsage][4]
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html
-    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StartKeyUsage.html
-    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html
+    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/security_iam_resource-based-policies.html
+    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html
+    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StartKeyUsage.html
+    # [4]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html
     #
     # @option params [required, String] :key_identifier
     #   The `KeyARN` of the key to be restored within Amazon Web Services
@@ -2753,6 +3121,10 @@ module Aws::PaymentCryptography
     #   resp.key.replication_status["Region"].status #=> String, one of "IN_PROGRESS", "DELETE_IN_PROGRESS", "FAILED", "SYNCHRONIZED"
     #   resp.key.replication_status["Region"].status_message #=> String
     #   resp.key.using_default_replication_regions #=> Boolean
+    #   resp.key.mpa_status.mpa_session_arn #=> String
+    #   resp.key.mpa_status.status #=> String, one of "PENDING", "APPROVED", "FAILED", "CANCELLED"
+    #   resp.key.mpa_status.initiation_date #=> Time
+    #   resp.key.mpa_status.status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/RestoreKey AWS API Documentation
     #
@@ -2767,18 +3139,20 @@ module Aws::PaymentCryptography
     # it active for cryptographic operations within Amazon Web Services
     # Payment Cryptography
     #
-    # **Cross-account use:** This operation can't be used across different
-    # Amazon Web Services accounts.
+    # **Cross-account use:** This operation supports cross-account use when
+    # the key has a resource-based policy that grants access. For more
+    # information, see [Resource-based policies][1].
     #
     # **Related operations:**
     #
-    # * [StopKeyUsage][1]
+    # * [StopKeyUsage][2]
     #
     # ^
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html
+    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/security_iam_resource-based-policies.html
+    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html
     #
     # @option params [required, String] :key_identifier
     #   The `KeyArn` of the key.
@@ -2826,6 +3200,10 @@ module Aws::PaymentCryptography
     #   resp.key.replication_status["Region"].status #=> String, one of "IN_PROGRESS", "DELETE_IN_PROGRESS", "FAILED", "SYNCHRONIZED"
     #   resp.key.replication_status["Region"].status_message #=> String
     #   resp.key.using_default_replication_regions #=> Boolean
+    #   resp.key.mpa_status.mpa_session_arn #=> String
+    #   resp.key.mpa_status.status #=> String, one of "PENDING", "APPROVED", "FAILED", "CANCELLED"
+    #   resp.key.mpa_status.initiation_date #=> Time
+    #   resp.key.mpa_status.status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/StartKeyUsage AWS API Documentation
     #
@@ -2843,8 +3221,9 @@ module Aws::PaymentCryptography
     # key. You can enable the key in the future by calling
     # [StartKeyUsage][2].
     #
-    # **Cross-account use:** This operation can't be used across different
-    # Amazon Web Services accounts.
+    # **Cross-account use:** This operation supports cross-account use when
+    # the key has a resource-based policy that grants access. For more
+    # information, see [Resource-based policies][3].
     #
     # **Related operations:**
     #
@@ -2856,6 +3235,7 @@ module Aws::PaymentCryptography
     #
     # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html
     # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StartKeyUsage.html
+    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/security_iam_resource-based-policies.html
     #
     # @option params [required, String] :key_identifier
     #   The `KeyArn` of the key.
@@ -2903,6 +3283,10 @@ module Aws::PaymentCryptography
     #   resp.key.replication_status["Region"].status #=> String, one of "IN_PROGRESS", "DELETE_IN_PROGRESS", "FAILED", "SYNCHRONIZED"
     #   resp.key.replication_status["Region"].status_message #=> String
     #   resp.key.using_default_replication_regions #=> Boolean
+    #   resp.key.mpa_status.mpa_session_arn #=> String
+    #   resp.key.mpa_status.status #=> String, one of "PENDING", "APPROVED", "FAILED", "CANCELLED"
+    #   resp.key.mpa_status.initiation_date #=> Time
+    #   resp.key.mpa_status.status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/StopKeyUsage AWS API Documentation
     #
@@ -2927,20 +3311,22 @@ module Aws::PaymentCryptography
     # to an Amazon Web Services Payment Cryptography key when you create it
     # with [CreateKey][1].
     #
-    # **Cross-account use:** This operation can't be used across different
-    # Amazon Web Services accounts.
+    # **Cross-account use:** This operation supports cross-account use when
+    # the key has a resource-based policy that grants access. For more
+    # information, see [Resource-based policies][2].
     #
     # **Related operations:**
     #
-    # * [ListTagsForResource][2]
+    # * [ListTagsForResource][3]
     #
-    # * [UntagResource][3]
+    # * [UntagResource][4]
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html
-    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListTagsForResource.html
-    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UntagResource.html
+    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/security_iam_resource-based-policies.html
+    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListTagsForResource.html
+    # [4]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UntagResource.html
     #
     # @option params [required, String] :resource_arn
     #   The `KeyARN` of the key whose tags are being updated.
@@ -2998,19 +3384,21 @@ module Aws::PaymentCryptography
     #
     #  </note>
     #
-    # **Cross-account use:** This operation can't be used across different
-    # Amazon Web Services accounts.
+    # **Cross-account use:** This operation supports cross-account use when
+    # the key has a resource-based policy that grants access. For more
+    # information, see [Resource-based policies][1].
     #
     # **Related operations:**
     #
-    # * [ListTagsForResource][1]
+    # * [ListTagsForResource][2]
     #
-    # * [TagResource][2]
+    # * [TagResource][3]
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListTagsForResource.html
-    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html
+    # [1]: https://docs.aws.amazon.com/payment-cryptography/latest/userguide/security_iam_resource-based-policies.html
+    # [2]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListTagsForResource.html
+    # [3]: https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html
     #
     # @option params [required, String] :resource_arn
     #   The `KeyARN` of the key whose tags are being removed.
@@ -3122,7 +3510,7 @@ module Aws::PaymentCryptography
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-paymentcryptography'
-      context[:gem_version] = '1.53.0'
+      context[:gem_version] = '1.54.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

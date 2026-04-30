@@ -3776,6 +3776,10 @@ module Aws::Kafka
     #   Information about the broker access configuration.
     #   @return [Types::ConnectivityInfo]
     #
+    # @!attribute [rw] zookeeper_access
+    #   Access control settings for zookeeper
+    #   @return [Types::ZookeeperAccess]
+    #
     # @!attribute [rw] storage_mode
     #   This controls storage mode for supported storage tiers.
     #   @return [String]
@@ -3803,6 +3807,7 @@ module Aws::Kafka
       :client_authentication,
       :encryption_info,
       :connectivity_info,
+      :zookeeper_access,
       :storage_mode,
       :broker_count_update_info,
       :rebalancing)
@@ -3850,6 +3855,19 @@ module Aws::Kafka
       :node_arn,
       :node_type,
       :zookeeper_node_info)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Access control settings for zookeeper
+    #
+    # @!attribute [rw] enabled
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/ZookeeperAccess AWS API Documentation
+    #
+    class ZookeeperAccess < Struct.new(
+      :enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5043,12 +5061,17 @@ module Aws::Kafka
     #   The current version of the cluster.
     #   @return [String]
     #
+    # @!attribute [rw] zookeeper_access
+    #   Access control settings for zookeeper
+    #   @return [Types::ZookeeperAccess]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/UpdateConnectivityRequest AWS API Documentation
     #
     class UpdateConnectivityRequest < Struct.new(
       :cluster_arn,
       :connectivity_info,
-      :current_version)
+      :current_version,
+      :zookeeper_access)
       SENSITIVE = []
       include Aws::Structure
     end

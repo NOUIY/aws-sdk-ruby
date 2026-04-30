@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.27.0 (2026-04-30)
+------------------
+
+* Feature - Observability Admin enablement launch for AWS Kafka, Bedrock Agent Core Workload Identity and OTel metric enablement.
+
 1.26.0 (2026-04-20)
 ------------------
 

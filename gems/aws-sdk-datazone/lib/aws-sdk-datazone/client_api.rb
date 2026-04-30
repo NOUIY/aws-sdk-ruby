@@ -150,11 +150,14 @@ module Aws::DataZone
     CancelMetadataGenerationRunOutput = Shapes::StructureShape.new(name: 'CancelMetadataGenerationRunOutput')
     CancelSubscriptionInput = Shapes::StructureShape.new(name: 'CancelSubscriptionInput')
     CancelSubscriptionOutput = Shapes::StructureShape.new(name: 'CancelSubscriptionOutput')
+    CellInformation = Shapes::StructureShape.new(name: 'CellInformation')
+    CellOrder = Shapes::ListShape.new(name: 'CellOrder')
     ChangeAction = Shapes::StringShape.new(name: 'ChangeAction')
     ClientToken = Shapes::StringShape.new(name: 'ClientToken')
     CloudFormationProperties = Shapes::StructureShape.new(name: 'CloudFormationProperties')
     ColumnFilterConfiguration = Shapes::StructureShape.new(name: 'ColumnFilterConfiguration')
     ColumnNameList = Shapes::ListShape.new(name: 'ColumnNameList')
+    ComputeConfig = Shapes::StructureShape.new(name: 'ComputeConfig')
     ComputeEnvironments = Shapes::StringShape.new(name: 'ComputeEnvironments')
     ComputeEnvironmentsList = Shapes::ListShape.new(name: 'ComputeEnvironmentsList')
     ConfigurableActionParameter = Shapes::StructureShape.new(name: 'ConfigurableActionParameter')
@@ -405,6 +408,7 @@ module Aws::DataZone
     EnvironmentBlueprintName = Shapes::StringShape.new(name: 'EnvironmentBlueprintName')
     EnvironmentBlueprintSummaries = Shapes::ListShape.new(name: 'EnvironmentBlueprintSummaries')
     EnvironmentBlueprintSummary = Shapes::StructureShape.new(name: 'EnvironmentBlueprintSummary')
+    EnvironmentConfig = Shapes::StructureShape.new(name: 'EnvironmentConfig')
     EnvironmentConfiguration = Shapes::StructureShape.new(name: 'EnvironmentConfiguration')
     EnvironmentConfigurationId = Shapes::StringShape.new(name: 'EnvironmentConfigurationId')
     EnvironmentConfigurationName = Shapes::StringShape.new(name: 'EnvironmentConfigurationName')
@@ -524,6 +528,8 @@ module Aws::DataZone
     GetListingOutput = Shapes::StructureShape.new(name: 'GetListingOutput')
     GetMetadataGenerationRunInput = Shapes::StructureShape.new(name: 'GetMetadataGenerationRunInput')
     GetMetadataGenerationRunOutput = Shapes::StructureShape.new(name: 'GetMetadataGenerationRunOutput')
+    GetNotebookRunInput = Shapes::StructureShape.new(name: 'GetNotebookRunInput')
+    GetNotebookRunOutput = Shapes::StructureShape.new(name: 'GetNotebookRunOutput')
     GetProjectInput = Shapes::StructureShape.new(name: 'GetProjectInput')
     GetProjectOutput = Shapes::StructureShape.new(name: 'GetProjectOutput')
     GetProjectProfileInput = Shapes::StructureShape.new(name: 'GetProjectProfileInput')
@@ -621,6 +627,7 @@ module Aws::DataZone
     Import = Shapes::StructureShape.new(name: 'Import')
     ImportList = Shapes::ListShape.new(name: 'ImportList')
     InExpression = Shapes::StructureShape.new(name: 'InExpression')
+    InstanceType = Shapes::StringShape.new(name: 'InstanceType')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
     InventorySearchScope = Shapes::StringShape.new(name: 'InventorySearchScope')
@@ -710,6 +717,8 @@ module Aws::DataZone
     ListLineageNodeHistoryOutput = Shapes::StructureShape.new(name: 'ListLineageNodeHistoryOutput')
     ListMetadataGenerationRunsInput = Shapes::StructureShape.new(name: 'ListMetadataGenerationRunsInput')
     ListMetadataGenerationRunsOutput = Shapes::StructureShape.new(name: 'ListMetadataGenerationRunsOutput')
+    ListNotebookRunsInput = Shapes::StructureShape.new(name: 'ListNotebookRunsInput')
+    ListNotebookRunsOutput = Shapes::StructureShape.new(name: 'ListNotebookRunsOutput')
     ListNotificationsInput = Shapes::StructureShape.new(name: 'ListNotificationsInput')
     ListNotificationsOutput = Shapes::StructureShape.new(name: 'ListNotificationsOutput')
     ListPolicyGrantsInput = Shapes::StructureShape.new(name: 'ListPolicyGrantsInput')
@@ -762,6 +771,7 @@ module Aws::DataZone
     Member = Shapes::UnionShape.new(name: 'Member')
     MemberDetails = Shapes::UnionShape.new(name: 'MemberDetails')
     Message = Shapes::StringShape.new(name: 'Message')
+    Metadata = Shapes::MapShape.new(name: 'Metadata')
     MetadataFormEnforcementDetail = Shapes::StructureShape.new(name: 'MetadataFormEnforcementDetail')
     MetadataFormInputs = Shapes::ListShape.new(name: 'MetadataFormInputs')
     MetadataFormReference = Shapes::StructureShape.new(name: 'MetadataFormReference')
@@ -778,7 +788,9 @@ module Aws::DataZone
     MetadataGenerationRunTypes = Shapes::ListShape.new(name: 'MetadataGenerationRunTypes')
     MetadataGenerationRuns = Shapes::ListShape.new(name: 'MetadataGenerationRuns')
     MetadataGenerationTargetType = Shapes::StringShape.new(name: 'MetadataGenerationTargetType')
+    MetadataKey = Shapes::StringShape.new(name: 'MetadataKey')
     MetadataMap = Shapes::MapShape.new(name: 'MetadataMap')
+    MetadataValue = Shapes::StringShape.new(name: 'MetadataValue')
     MlflowPropertiesInput = Shapes::StructureShape.new(name: 'MlflowPropertiesInput')
     MlflowPropertiesOutput = Shapes::StructureShape.new(name: 'MlflowPropertiesOutput')
     MlflowPropertiesPatch = Shapes::StructureShape.new(name: 'MlflowPropertiesPatch')
@@ -786,9 +798,18 @@ module Aws::DataZone
     Name = Shapes::StringShape.new(name: 'Name')
     NameIdentifier = Shapes::StructureShape.new(name: 'NameIdentifier')
     NameIdentifiers = Shapes::ListShape.new(name: 'NameIdentifiers')
+    NetworkAccessType = Shapes::StringShape.new(name: 'NetworkAccessType')
+    NetworkConfig = Shapes::StructureShape.new(name: 'NetworkConfig')
     NotEqualToExpression = Shapes::StructureShape.new(name: 'NotEqualToExpression')
     NotInExpression = Shapes::StructureShape.new(name: 'NotInExpression')
     NotLikeExpression = Shapes::StructureShape.new(name: 'NotLikeExpression')
+    NotebookId = Shapes::StringShape.new(name: 'NotebookId')
+    NotebookRunError = Shapes::StructureShape.new(name: 'NotebookRunError')
+    NotebookRunErrorMessageString = Shapes::StringShape.new(name: 'NotebookRunErrorMessageString')
+    NotebookRunId = Shapes::StringShape.new(name: 'NotebookRunId')
+    NotebookRunStatus = Shapes::StringShape.new(name: 'NotebookRunStatus')
+    NotebookRunSummary = Shapes::StructureShape.new(name: 'NotebookRunSummary')
+    NotebookRunSummaryList = Shapes::ListShape.new(name: 'NotebookRunSummaryList')
     NotificationOutput = Shapes::StructureShape.new(name: 'NotificationOutput')
     NotificationResource = Shapes::StructureShape.new(name: 'NotificationResource')
     NotificationResourceType = Shapes::StringShape.new(name: 'NotificationResourceType')
@@ -813,8 +834,14 @@ module Aws::DataZone
     OwnerPropertiesOutput = Shapes::UnionShape.new(name: 'OwnerPropertiesOutput')
     OwnerUserProperties = Shapes::StructureShape.new(name: 'OwnerUserProperties')
     OwnerUserPropertiesOutput = Shapes::StructureShape.new(name: 'OwnerUserPropertiesOutput')
+    PackageConfig = Shapes::StructureShape.new(name: 'PackageConfig')
+    PackageConfigPackageSpecificationString = Shapes::StringShape.new(name: 'PackageConfigPackageSpecificationString')
+    PackageManager = Shapes::StringShape.new(name: 'PackageManager')
     PaginationToken = Shapes::StringShape.new(name: 'PaginationToken')
+    ParameterKey = Shapes::StringShape.new(name: 'ParameterKey')
     ParameterStorePath = Shapes::StringShape.new(name: 'ParameterStorePath')
+    ParameterValue = Shapes::StringShape.new(name: 'ParameterValue')
+    Parameters = Shapes::MapShape.new(name: 'Parameters')
     Password = Shapes::StringShape.new(name: 'Password')
     Permissions = Shapes::UnionShape.new(name: 'Permissions')
     PhysicalConnectionRequirements = Shapes::StructureShape.new(name: 'PhysicalConnectionRequirements')
@@ -960,6 +987,7 @@ module Aws::DataZone
     S3AccessGrantLocationId = Shapes::StringShape.new(name: 'S3AccessGrantLocationId')
     S3Location = Shapes::StringShape.new(name: 'S3Location')
     S3LocationList = Shapes::ListShape.new(name: 'S3LocationList')
+    S3Path = Shapes::StringShape.new(name: 'S3Path')
     S3Permission = Shapes::StringShape.new(name: 'S3Permission')
     S3Permissions = Shapes::ListShape.new(name: 'S3Permissions')
     S3PropertiesInput = Shapes::StructureShape.new(name: 'S3PropertiesInput')
@@ -973,6 +1001,7 @@ module Aws::DataZone
     SageMakerRunConfigurationOutputAccountIdString = Shapes::StringShape.new(name: 'SageMakerRunConfigurationOutputAccountIdString')
     SageMakerRunConfigurationOutputRegionString = Shapes::StringShape.new(name: 'SageMakerRunConfigurationOutputRegionString')
     ScheduleConfiguration = Shapes::StructureShape.new(name: 'ScheduleConfiguration')
+    ScheduleId = Shapes::StringShape.new(name: 'ScheduleId')
     SearchGroupProfilesInput = Shapes::StructureShape.new(name: 'SearchGroupProfilesInput')
     SearchGroupProfilesOutput = Shapes::StructureShape.new(name: 'SearchGroupProfilesOutput')
     SearchInItem = Shapes::StructureShape.new(name: 'SearchInItem')
@@ -998,6 +1027,7 @@ module Aws::DataZone
     SearchUserProfilesOutput = Shapes::StructureShape.new(name: 'SearchUserProfilesOutput')
     SecurityGroupIdList = Shapes::ListShape.new(name: 'SecurityGroupIdList')
     SecurityGroupIdListMemberString = Shapes::StringShape.new(name: 'SecurityGroupIdListMemberString')
+    SecurityGroupIds = Shapes::ListShape.new(name: 'SecurityGroupIds')
     SelfGrantStatus = Shapes::StringShape.new(name: 'SelfGrantStatus')
     SelfGrantStatusDetail = Shapes::StructureShape.new(name: 'SelfGrantStatusDetail')
     SelfGrantStatusDetailDatabaseNameString = Shapes::StringShape.new(name: 'SelfGrantStatusDetailDatabaseNameString')
@@ -1047,11 +1077,17 @@ module Aws::DataZone
     StartDataSourceRunOutput = Shapes::StructureShape.new(name: 'StartDataSourceRunOutput')
     StartMetadataGenerationRunInput = Shapes::StructureShape.new(name: 'StartMetadataGenerationRunInput')
     StartMetadataGenerationRunOutput = Shapes::StructureShape.new(name: 'StartMetadataGenerationRunOutput')
+    StartNotebookRunInput = Shapes::StructureShape.new(name: 'StartNotebookRunInput')
+    StartNotebookRunOutput = Shapes::StructureShape.new(name: 'StartNotebookRunOutput')
     Status = Shapes::StringShape.new(name: 'Status')
+    StopNotebookRunInput = Shapes::StructureShape.new(name: 'StopNotebookRunInput')
+    StopNotebookRunOutput = Shapes::StructureShape.new(name: 'StopNotebookRunOutput')
+    StorageConfig = Shapes::StructureShape.new(name: 'StorageConfig')
     String = Shapes::StringShape.new(name: 'String')
     StringList = Shapes::ListShape.new(name: 'StringList')
     SubnetId = Shapes::StringShape.new(name: 'SubnetId')
     SubnetIdList = Shapes::ListShape.new(name: 'SubnetIdList')
+    SubnetIds = Shapes::ListShape.new(name: 'SubnetIds')
     SubscribedAsset = Shapes::StructureShape.new(name: 'SubscribedAsset')
     SubscribedAssetListing = Shapes::StructureShape.new(name: 'SubscribedAssetListing')
     SubscribedAssets = Shapes::ListShape.new(name: 'SubscribedAssets')
@@ -1121,6 +1157,8 @@ module Aws::DataZone
     TimeSeriesDataPointSummaryFormOutputList = Shapes::ListShape.new(name: 'TimeSeriesDataPointSummaryFormOutputList')
     TimeSeriesEntityType = Shapes::StringShape.new(name: 'TimeSeriesEntityType')
     TimeSeriesFormName = Shapes::StringShape.new(name: 'TimeSeriesFormName')
+    TimeoutConfig = Shapes::StructureShape.new(name: 'TimeoutConfig')
+    TimeoutConfigRunTimeoutInMinutesInteger = Shapes::IntegerShape.new(name: 'TimeoutConfigRunTimeoutInMinutesInteger')
     Timestamp = Shapes::TimestampShape.new(name: 'Timestamp')
     Timezone = Shapes::StringShape.new(name: 'Timezone')
     Title = Shapes::StringShape.new(name: 'Title')
@@ -1130,6 +1168,8 @@ module Aws::DataZone
     Topic = Shapes::StructureShape.new(name: 'Topic')
     TrackingAssetArns = Shapes::ListShape.new(name: 'TrackingAssetArns')
     TrackingAssets = Shapes::MapShape.new(name: 'TrackingAssets')
+    TriggerSource = Shapes::StructureShape.new(name: 'TriggerSource')
+    TriggerSourceType = Shapes::StringShape.new(name: 'TriggerSourceType')
     TypeName = Shapes::StringShape.new(name: 'TypeName')
     TypesSearchScope = Shapes::StringShape.new(name: 'TypesSearchScope')
     UnauthorizedException = Shapes::StructureShape.new(name: 'UnauthorizedException')
@@ -1658,6 +1698,10 @@ module Aws::DataZone
     CancelSubscriptionOutput.add_member(:retain_permissions, Shapes::ShapeRef.new(shape: Boolean, location_name: "retainPermissions"))
     CancelSubscriptionOutput.struct_class = Types::CancelSubscriptionOutput
 
+    CellInformation.struct_class = Types::CellInformation
+
+    CellOrder.member = Shapes::ShapeRef.new(shape: CellInformation)
+
     CloudFormationProperties.add_member(:template_url, Shapes::ShapeRef.new(shape: String, required: true, location_name: "templateUrl"))
     CloudFormationProperties.struct_class = Types::CloudFormationProperties
 
@@ -1665,6 +1709,10 @@ module Aws::DataZone
     ColumnFilterConfiguration.struct_class = Types::ColumnFilterConfiguration
 
     ColumnNameList.member = Shapes::ShapeRef.new(shape: String)
+
+    ComputeConfig.add_member(:instance_type, Shapes::ShapeRef.new(shape: InstanceType, location_name: "instanceType"))
+    ComputeConfig.add_member(:environment_version, Shapes::ShapeRef.new(shape: String, location_name: "environmentVersion"))
+    ComputeConfig.struct_class = Types::ComputeConfig
 
     ComputeEnvironmentsList.member = Shapes::ShapeRef.new(shape: ComputeEnvironments)
 
@@ -2973,6 +3021,10 @@ module Aws::DataZone
     EnvironmentBlueprintSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
     EnvironmentBlueprintSummary.struct_class = Types::EnvironmentBlueprintSummary
 
+    EnvironmentConfig.add_member(:image_version, Shapes::ShapeRef.new(shape: String, location_name: "imageVersion"))
+    EnvironmentConfig.add_member(:package_config, Shapes::ShapeRef.new(shape: PackageConfig, location_name: "packageConfig"))
+    EnvironmentConfig.struct_class = Types::EnvironmentConfig
+
     EnvironmentConfiguration.add_member(:name, Shapes::ShapeRef.new(shape: EnvironmentConfigurationName, required: true, location_name: "name"))
     EnvironmentConfiguration.add_member(:id, Shapes::ShapeRef.new(shape: EnvironmentConfigurationId, location_name: "id"))
     EnvironmentConfiguration.add_member(:environment_blueprint_id, Shapes::ShapeRef.new(shape: EnvironmentBlueprintId, required: true, location_name: "environmentBlueprintId"))
@@ -3641,6 +3693,34 @@ module Aws::DataZone
     GetMetadataGenerationRunOutput.add_member(:owning_project_id, Shapes::ShapeRef.new(shape: ProjectId, required: true, location_name: "owningProjectId"))
     GetMetadataGenerationRunOutput.add_member(:type_stats, Shapes::ShapeRef.new(shape: MetadataGenerationRunTypeStats, location_name: "typeStats"))
     GetMetadataGenerationRunOutput.struct_class = Types::GetMetadataGenerationRunOutput
+
+    GetNotebookRunInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
+    GetNotebookRunInput.add_member(:identifier, Shapes::ShapeRef.new(shape: NotebookRunId, required: true, location: "uri", location_name: "identifier"))
+    GetNotebookRunInput.struct_class = Types::GetNotebookRunInput
+
+    GetNotebookRunOutput.add_member(:id, Shapes::ShapeRef.new(shape: NotebookRunId, required: true, location_name: "id"))
+    GetNotebookRunOutput.add_member(:domain_id, Shapes::ShapeRef.new(shape: DomainId, required: true, location_name: "domainId"))
+    GetNotebookRunOutput.add_member(:owning_project_id, Shapes::ShapeRef.new(shape: ProjectId, required: true, location_name: "owningProjectId"))
+    GetNotebookRunOutput.add_member(:notebook_id, Shapes::ShapeRef.new(shape: NotebookId, required: true, location_name: "notebookId"))
+    GetNotebookRunOutput.add_member(:schedule_id, Shapes::ShapeRef.new(shape: ScheduleId, location_name: "scheduleId"))
+    GetNotebookRunOutput.add_member(:status, Shapes::ShapeRef.new(shape: NotebookRunStatus, required: true, location_name: "status"))
+    GetNotebookRunOutput.add_member(:cell_order, Shapes::ShapeRef.new(shape: CellOrder, location_name: "cellOrder"))
+    GetNotebookRunOutput.add_member(:metadata, Shapes::ShapeRef.new(shape: Metadata, location_name: "metadata"))
+    GetNotebookRunOutput.add_member(:parameters, Shapes::ShapeRef.new(shape: Parameters, location_name: "parameters"))
+    GetNotebookRunOutput.add_member(:compute_configuration, Shapes::ShapeRef.new(shape: ComputeConfig, location_name: "computeConfiguration"))
+    GetNotebookRunOutput.add_member(:network_configuration, Shapes::ShapeRef.new(shape: NetworkConfig, location_name: "networkConfiguration"))
+    GetNotebookRunOutput.add_member(:timeout_configuration, Shapes::ShapeRef.new(shape: TimeoutConfig, location_name: "timeoutConfiguration"))
+    GetNotebookRunOutput.add_member(:environment_configuration, Shapes::ShapeRef.new(shape: EnvironmentConfig, location_name: "environmentConfiguration"))
+    GetNotebookRunOutput.add_member(:storage_configuration, Shapes::ShapeRef.new(shape: StorageConfig, location_name: "storageConfiguration"))
+    GetNotebookRunOutput.add_member(:trigger_source, Shapes::ShapeRef.new(shape: TriggerSource, location_name: "triggerSource"))
+    GetNotebookRunOutput.add_member(:error, Shapes::ShapeRef.new(shape: NotebookRunError, location_name: "error"))
+    GetNotebookRunOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, location_name: "createdAt"))
+    GetNotebookRunOutput.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, location_name: "createdBy"))
+    GetNotebookRunOutput.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
+    GetNotebookRunOutput.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
+    GetNotebookRunOutput.add_member(:started_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "startedAt"))
+    GetNotebookRunOutput.add_member(:completed_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "completedAt"))
+    GetNotebookRunOutput.struct_class = Types::GetNotebookRunOutput
 
     GetProjectInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
     GetProjectInput.add_member(:identifier, Shapes::ShapeRef.new(shape: ProjectId, required: true, location: "uri", location_name: "identifier"))
@@ -4399,6 +4479,20 @@ module Aws::DataZone
     ListMetadataGenerationRunsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
     ListMetadataGenerationRunsOutput.struct_class = Types::ListMetadataGenerationRunsOutput
 
+    ListNotebookRunsInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
+    ListNotebookRunsInput.add_member(:owning_project_identifier, Shapes::ShapeRef.new(shape: ProjectId, required: true, location: "querystring", location_name: "owningProjectIdentifier"))
+    ListNotebookRunsInput.add_member(:notebook_identifier, Shapes::ShapeRef.new(shape: NotebookId, location: "querystring", location_name: "notebookIdentifier"))
+    ListNotebookRunsInput.add_member(:status, Shapes::ShapeRef.new(shape: NotebookRunStatus, location: "querystring", location_name: "status"))
+    ListNotebookRunsInput.add_member(:schedule_identifier, Shapes::ShapeRef.new(shape: ScheduleId, location: "querystring", location_name: "scheduleIdentifier"))
+    ListNotebookRunsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListNotebookRunsInput.add_member(:sort_order, Shapes::ShapeRef.new(shape: SortOrder, location: "querystring", location_name: "sortOrder"))
+    ListNotebookRunsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location: "querystring", location_name: "nextToken"))
+    ListNotebookRunsInput.struct_class = Types::ListNotebookRunsInput
+
+    ListNotebookRunsOutput.add_member(:items, Shapes::ShapeRef.new(shape: NotebookRunSummaryList, location_name: "items"))
+    ListNotebookRunsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
+    ListNotebookRunsOutput.struct_class = Types::ListNotebookRunsOutput
+
     ListNotificationsInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
     ListNotificationsInput.add_member(:type, Shapes::ShapeRef.new(shape: NotificationType, required: true, location: "querystring", location_name: "type"))
     ListNotificationsInput.add_member(:after_timestamp, Shapes::ShapeRef.new(shape: Timestamp, location: "querystring", location_name: "afterTimestamp"))
@@ -4643,6 +4737,9 @@ module Aws::DataZone
     MemberDetails.add_member_subclass(:unknown, Types::MemberDetails::Unknown)
     MemberDetails.struct_class = Types::MemberDetails
 
+    Metadata.key = Shapes::ShapeRef.new(shape: MetadataKey)
+    Metadata.value = Shapes::ShapeRef.new(shape: MetadataValue)
+
     MetadataFormEnforcementDetail.add_member(:required_metadata_forms, Shapes::ShapeRef.new(shape: RequiredMetadataFormList, location_name: "requiredMetadataForms"))
     MetadataFormEnforcementDetail.struct_class = Types::MetadataFormEnforcementDetail
 
@@ -4712,6 +4809,12 @@ module Aws::DataZone
 
     NameIdentifiers.member = Shapes::ShapeRef.new(shape: NameIdentifier)
 
+    NetworkConfig.add_member(:network_access_type, Shapes::ShapeRef.new(shape: NetworkAccessType, required: true, location_name: "networkAccessType"))
+    NetworkConfig.add_member(:vpc_id, Shapes::ShapeRef.new(shape: String, location_name: "vpcId"))
+    NetworkConfig.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: SubnetIds, location_name: "subnetIds"))
+    NetworkConfig.add_member(:security_group_ids, Shapes::ShapeRef.new(shape: SecurityGroupIds, location_name: "securityGroupIds"))
+    NetworkConfig.struct_class = Types::NetworkConfig
+
     NotEqualToExpression.add_member(:column_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "columnName"))
     NotEqualToExpression.add_member(:value, Shapes::ShapeRef.new(shape: String, required: true, location_name: "value"))
     NotEqualToExpression.struct_class = Types::NotEqualToExpression
@@ -4723,6 +4826,26 @@ module Aws::DataZone
     NotLikeExpression.add_member(:column_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "columnName"))
     NotLikeExpression.add_member(:value, Shapes::ShapeRef.new(shape: String, required: true, location_name: "value"))
     NotLikeExpression.struct_class = Types::NotLikeExpression
+
+    NotebookRunError.add_member(:message, Shapes::ShapeRef.new(shape: NotebookRunErrorMessageString, required: true, location_name: "message"))
+    NotebookRunError.struct_class = Types::NotebookRunError
+
+    NotebookRunSummary.add_member(:id, Shapes::ShapeRef.new(shape: NotebookRunId, required: true, location_name: "id"))
+    NotebookRunSummary.add_member(:domain_id, Shapes::ShapeRef.new(shape: DomainId, required: true, location_name: "domainId"))
+    NotebookRunSummary.add_member(:owning_project_id, Shapes::ShapeRef.new(shape: ProjectId, required: true, location_name: "owningProjectId"))
+    NotebookRunSummary.add_member(:notebook_id, Shapes::ShapeRef.new(shape: NotebookId, required: true, location_name: "notebookId"))
+    NotebookRunSummary.add_member(:schedule_id, Shapes::ShapeRef.new(shape: ScheduleId, location_name: "scheduleId"))
+    NotebookRunSummary.add_member(:status, Shapes::ShapeRef.new(shape: NotebookRunStatus, required: true, location_name: "status"))
+    NotebookRunSummary.add_member(:trigger_source, Shapes::ShapeRef.new(shape: TriggerSource, location_name: "triggerSource"))
+    NotebookRunSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, location_name: "createdAt"))
+    NotebookRunSummary.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, location_name: "createdBy"))
+    NotebookRunSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
+    NotebookRunSummary.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
+    NotebookRunSummary.add_member(:started_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "startedAt"))
+    NotebookRunSummary.add_member(:completed_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "completedAt"))
+    NotebookRunSummary.struct_class = Types::NotebookRunSummary
+
+    NotebookRunSummaryList.member = Shapes::ShapeRef.new(shape: NotebookRunSummary)
 
     NotificationOutput.add_member(:identifier, Shapes::ShapeRef.new(shape: TaskId, required: true, location_name: "identifier"))
     NotificationOutput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location_name: "domainIdentifier"))
@@ -4798,6 +4921,13 @@ module Aws::DataZone
 
     OwnerUserPropertiesOutput.add_member(:user_id, Shapes::ShapeRef.new(shape: String, location_name: "userId"))
     OwnerUserPropertiesOutput.struct_class = Types::OwnerUserPropertiesOutput
+
+    PackageConfig.add_member(:package_manager, Shapes::ShapeRef.new(shape: PackageManager, required: true, location_name: "packageManager"))
+    PackageConfig.add_member(:package_specification, Shapes::ShapeRef.new(shape: PackageConfigPackageSpecificationString, location_name: "packageSpecification"))
+    PackageConfig.struct_class = Types::PackageConfig
+
+    Parameters.key = Shapes::ShapeRef.new(shape: ParameterKey)
+    Parameters.value = Shapes::ShapeRef.new(shape: ParameterValue)
 
     Permissions.add_member(:s3, Shapes::ShapeRef.new(shape: S3Permissions, location_name: "s3"))
     Permissions.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
@@ -5506,6 +5636,8 @@ module Aws::DataZone
 
     SecurityGroupIdList.member = Shapes::ShapeRef.new(shape: SecurityGroupIdListMemberString)
 
+    SecurityGroupIds.member = Shapes::ShapeRef.new(shape: String)
+
     SelfGrantStatusDetail.add_member(:database_name, Shapes::ShapeRef.new(shape: SelfGrantStatusDetailDatabaseNameString, required: true, location_name: "databaseName"))
     SelfGrantStatusDetail.add_member(:schema_name, Shapes::ShapeRef.new(shape: SelfGrantStatusDetailSchemaNameString, location_name: "schemaName"))
     SelfGrantStatusDetail.add_member(:status, Shapes::ShapeRef.new(shape: SelfGrantStatus, required: true, location_name: "status"))
@@ -5634,9 +5766,63 @@ module Aws::DataZone
     StartMetadataGenerationRunOutput.add_member(:owning_project_id, Shapes::ShapeRef.new(shape: ProjectId, location_name: "owningProjectId"))
     StartMetadataGenerationRunOutput.struct_class = Types::StartMetadataGenerationRunOutput
 
+    StartNotebookRunInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
+    StartNotebookRunInput.add_member(:owning_project_identifier, Shapes::ShapeRef.new(shape: ProjectId, required: true, location_name: "owningProjectIdentifier"))
+    StartNotebookRunInput.add_member(:notebook_identifier, Shapes::ShapeRef.new(shape: NotebookId, required: true, location_name: "notebookIdentifier"))
+    StartNotebookRunInput.add_member(:schedule_identifier, Shapes::ShapeRef.new(shape: ScheduleId, location_name: "scheduleIdentifier"))
+    StartNotebookRunInput.add_member(:compute_configuration, Shapes::ShapeRef.new(shape: ComputeConfig, location_name: "computeConfiguration"))
+    StartNotebookRunInput.add_member(:network_configuration, Shapes::ShapeRef.new(shape: NetworkConfig, location_name: "networkConfiguration"))
+    StartNotebookRunInput.add_member(:timeout_configuration, Shapes::ShapeRef.new(shape: TimeoutConfig, location_name: "timeoutConfiguration"))
+    StartNotebookRunInput.add_member(:trigger_source, Shapes::ShapeRef.new(shape: TriggerSource, location_name: "triggerSource"))
+    StartNotebookRunInput.add_member(:metadata, Shapes::ShapeRef.new(shape: Metadata, location_name: "metadata"))
+    StartNotebookRunInput.add_member(:parameters, Shapes::ShapeRef.new(shape: Parameters, location_name: "parameters"))
+    StartNotebookRunInput.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    StartNotebookRunInput.struct_class = Types::StartNotebookRunInput
+
+    StartNotebookRunOutput.add_member(:id, Shapes::ShapeRef.new(shape: NotebookRunId, required: true, location_name: "id"))
+    StartNotebookRunOutput.add_member(:domain_id, Shapes::ShapeRef.new(shape: DomainId, required: true, location_name: "domainId"))
+    StartNotebookRunOutput.add_member(:owning_project_id, Shapes::ShapeRef.new(shape: ProjectId, required: true, location_name: "owningProjectId"))
+    StartNotebookRunOutput.add_member(:notebook_id, Shapes::ShapeRef.new(shape: NotebookId, required: true, location_name: "notebookId"))
+    StartNotebookRunOutput.add_member(:schedule_id, Shapes::ShapeRef.new(shape: ScheduleId, location_name: "scheduleId"))
+    StartNotebookRunOutput.add_member(:status, Shapes::ShapeRef.new(shape: NotebookRunStatus, required: true, location_name: "status"))
+    StartNotebookRunOutput.add_member(:cell_order, Shapes::ShapeRef.new(shape: CellOrder, location_name: "cellOrder"))
+    StartNotebookRunOutput.add_member(:metadata, Shapes::ShapeRef.new(shape: Metadata, location_name: "metadata"))
+    StartNotebookRunOutput.add_member(:parameters, Shapes::ShapeRef.new(shape: Parameters, location_name: "parameters"))
+    StartNotebookRunOutput.add_member(:compute_configuration, Shapes::ShapeRef.new(shape: ComputeConfig, location_name: "computeConfiguration"))
+    StartNotebookRunOutput.add_member(:network_configuration, Shapes::ShapeRef.new(shape: NetworkConfig, location_name: "networkConfiguration"))
+    StartNotebookRunOutput.add_member(:timeout_configuration, Shapes::ShapeRef.new(shape: TimeoutConfig, location_name: "timeoutConfiguration"))
+    StartNotebookRunOutput.add_member(:environment_configuration, Shapes::ShapeRef.new(shape: EnvironmentConfig, location_name: "environmentConfiguration"))
+    StartNotebookRunOutput.add_member(:storage_configuration, Shapes::ShapeRef.new(shape: StorageConfig, location_name: "storageConfiguration"))
+    StartNotebookRunOutput.add_member(:trigger_source, Shapes::ShapeRef.new(shape: TriggerSource, location_name: "triggerSource"))
+    StartNotebookRunOutput.add_member(:error, Shapes::ShapeRef.new(shape: NotebookRunError, location_name: "error"))
+    StartNotebookRunOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, location_name: "createdAt"))
+    StartNotebookRunOutput.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, location_name: "createdBy"))
+    StartNotebookRunOutput.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "updatedAt"))
+    StartNotebookRunOutput.add_member(:updated_by, Shapes::ShapeRef.new(shape: UpdatedBy, location_name: "updatedBy"))
+    StartNotebookRunOutput.add_member(:started_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "startedAt"))
+    StartNotebookRunOutput.add_member(:completed_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "completedAt"))
+    StartNotebookRunOutput.struct_class = Types::StartNotebookRunOutput
+
+    StopNotebookRunInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
+    StopNotebookRunInput.add_member(:identifier, Shapes::ShapeRef.new(shape: NotebookRunId, required: true, location: "uri", location_name: "identifier"))
+    StopNotebookRunInput.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    StopNotebookRunInput.struct_class = Types::StopNotebookRunInput
+
+    StopNotebookRunOutput.add_member(:id, Shapes::ShapeRef.new(shape: NotebookRunId, required: true, location_name: "id"))
+    StopNotebookRunOutput.add_member(:domain_id, Shapes::ShapeRef.new(shape: DomainId, required: true, location_name: "domainId"))
+    StopNotebookRunOutput.add_member(:owning_project_id, Shapes::ShapeRef.new(shape: ProjectId, required: true, location_name: "owningProjectId"))
+    StopNotebookRunOutput.add_member(:status, Shapes::ShapeRef.new(shape: NotebookRunStatus, required: true, location_name: "status"))
+    StopNotebookRunOutput.struct_class = Types::StopNotebookRunOutput
+
+    StorageConfig.add_member(:project_s3_path, Shapes::ShapeRef.new(shape: S3Path, location_name: "projectS3Path"))
+    StorageConfig.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
+    StorageConfig.struct_class = Types::StorageConfig
+
     StringList.member = Shapes::ShapeRef.new(shape: String)
 
     SubnetIdList.member = Shapes::ShapeRef.new(shape: SubnetId)
+
+    SubnetIds.member = Shapes::ShapeRef.new(shape: String)
 
     SubscribedAsset.add_member(:asset_id, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "assetId"))
     SubscribedAsset.add_member(:asset_revision, Shapes::ShapeRef.new(shape: Revision, required: true, location_name: "assetRevision"))
@@ -5880,6 +6066,9 @@ module Aws::DataZone
 
     TimeSeriesDataPointSummaryFormOutputList.member = Shapes::ShapeRef.new(shape: TimeSeriesDataPointSummaryFormOutput)
 
+    TimeoutConfig.add_member(:run_timeout_in_minutes, Shapes::ShapeRef.new(shape: TimeoutConfigRunTimeoutInMinutesInteger, location_name: "runTimeoutInMinutes"))
+    TimeoutConfig.struct_class = Types::TimeoutConfig
+
     TokenUrlParametersMap.key = Shapes::ShapeRef.new(shape: TokenUrlParametersMapKeyString)
     TokenUrlParametersMap.value = Shapes::ShapeRef.new(shape: TokenUrlParametersMapValueString)
 
@@ -5892,6 +6081,10 @@ module Aws::DataZone
 
     TrackingAssets.key = Shapes::ShapeRef.new(shape: SageMakerAssetType)
     TrackingAssets.value = Shapes::ShapeRef.new(shape: TrackingAssetArns)
+
+    TriggerSource.add_member(:type, Shapes::ShapeRef.new(shape: TriggerSourceType, location_name: "type"))
+    TriggerSource.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
+    TriggerSource.struct_class = Types::TriggerSource
 
     UnauthorizedException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, required: true, location_name: "message"))
     UnauthorizedException.struct_class = Types::UnauthorizedException
@@ -7831,6 +8024,20 @@ module Aws::DataZone
         o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
       end)
 
+      api.add_operation(:get_notebook_run, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetNotebookRun"
+        o.http_method = "GET"
+        o.http_request_uri = "/v2/domains/{domainIdentifier}/notebook-runs/{identifier}"
+        o.input = Shapes::ShapeRef.new(shape: GetNotebookRunInput)
+        o.output = Shapes::ShapeRef.new(shape: GetNotebookRunOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+      end)
+
       api.add_operation(:get_project, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetProject"
         o.http_method = "GET"
@@ -8377,6 +8584,25 @@ module Aws::DataZone
         )
       end)
 
+      api.add_operation(:list_notebook_runs, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListNotebookRuns"
+        o.http_method = "GET"
+        o.http_request_uri = "/v2/domains/{domainIdentifier}/notebook-runs"
+        o.input = Shapes::ShapeRef.new(shape: ListNotebookRunsInput)
+        o.output = Shapes::ShapeRef.new(shape: ListNotebookRunsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_notifications, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListNotifications"
         o.http_method = "GET"
@@ -8886,6 +9112,37 @@ module Aws::DataZone
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+      end)
+
+      api.add_operation(:start_notebook_run, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartNotebookRun"
+        o.http_method = "POST"
+        o.http_request_uri = "/v2/domains/{domainIdentifier}/notebook-runs"
+        o.input = Shapes::ShapeRef.new(shape: StartNotebookRunInput)
+        o.output = Shapes::ShapeRef.new(shape: StartNotebookRunOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+      end)
+
+      api.add_operation(:stop_notebook_run, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StopNotebookRun"
+        o.http_method = "PUT"
+        o.http_request_uri = "/v2/domains/{domainIdentifier}/notebook-runs/{identifier}/stop"
+        o.input = Shapes::ShapeRef.new(shape: StopNotebookRunInput)
+        o.output = Shapes::ShapeRef.new(shape: StopNotebookRunOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)

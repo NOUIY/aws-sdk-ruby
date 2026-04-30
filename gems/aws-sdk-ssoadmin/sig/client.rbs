@@ -133,6 +133,8 @@ module Aws
       interface _CreateApplicationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateApplicationResponse]
         def application_arn: () -> ::String
+        def instance_arn: () -> ::String
+        def identity_store_arn: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SSOAdmin/Client.html#create_application-instance_method
       def create_application: (
@@ -394,6 +396,7 @@ module Aws
         def name: () -> ::String
         def application_account: () -> ::String
         def instance_arn: () -> ::String
+        def identity_store_arn: () -> ::String
         def status: () -> ("ENABLED" | "DISABLED")
         def portal_options: () -> Types::PortalOptions
         def description: () -> ::String

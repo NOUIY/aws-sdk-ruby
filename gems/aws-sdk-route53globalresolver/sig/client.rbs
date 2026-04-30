@@ -960,7 +960,8 @@ module Aws
                                     ?name: ::String,
                                     ?observability_region: ::String,
                                     ?description: ::String,
-                                    ?ip_address_type: ("IPV4" | "DUAL_STACK")
+                                    ?ip_address_type: ("IPV4" | "DUAL_STACK"),
+                                    ?regions: Array[::String]
                                   ) -> _UpdateGlobalResolverResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateGlobalResolverResponseSuccess
 

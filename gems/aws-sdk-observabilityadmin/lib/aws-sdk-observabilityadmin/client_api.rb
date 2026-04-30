@@ -126,6 +126,8 @@ module Aws::ObservabilityAdmin
     LogsEncryptionConfiguration = Shapes::StructureShape.new(name: 'LogsEncryptionConfiguration')
     LogsFilterString = Shapes::StringShape.new(name: 'LogsFilterString')
     Long = Shapes::IntegerShape.new(name: 'Long')
+    MskEnhancedMonitoringLevel = Shapes::StringShape.new(name: 'MskEnhancedMonitoringLevel')
+    MskMonitoringParameters = Shapes::StructureShape.new(name: 'MskMonitoringParameters')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     OrganizationUnitIdentifier = Shapes::StringShape.new(name: 'OrganizationUnitIdentifier')
     OrganizationUnitIdentifiers = Shapes::ListShape.new(name: 'OrganizationUnitIdentifiers')
@@ -571,6 +573,9 @@ module Aws::ObservabilityAdmin
     LogsEncryptionConfiguration.add_member(:encryption_conflict_resolution_strategy, Shapes::ShapeRef.new(shape: EncryptionConflictResolutionStrategy, location_name: "EncryptionConflictResolutionStrategy"))
     LogsEncryptionConfiguration.struct_class = Types::LogsEncryptionConfiguration
 
+    MskMonitoringParameters.add_member(:enhanced_monitoring, Shapes::ShapeRef.new(shape: MskEnhancedMonitoringLevel, location_name: "EnhancedMonitoring"))
+    MskMonitoringParameters.struct_class = Types::MskMonitoringParameters
+
     OrganizationUnitIdentifiers.member = Shapes::ShapeRef.new(shape: OrganizationUnitIdentifier)
 
     PipelineOutput.add_member(:record, Shapes::ShapeRef.new(shape: Record, location_name: "Record"))
@@ -683,6 +688,7 @@ module Aws::ObservabilityAdmin
     TelemetryDestinationConfiguration.add_member(:elb_load_balancer_logging_parameters, Shapes::ShapeRef.new(shape: ELBLoadBalancerLoggingParameters, location_name: "ELBLoadBalancerLoggingParameters"))
     TelemetryDestinationConfiguration.add_member(:waf_logging_parameters, Shapes::ShapeRef.new(shape: WAFLoggingParameters, location_name: "WAFLoggingParameters"))
     TelemetryDestinationConfiguration.add_member(:log_delivery_parameters, Shapes::ShapeRef.new(shape: LogDeliveryParameters, location_name: "LogDeliveryParameters"))
+    TelemetryDestinationConfiguration.add_member(:msk_monitoring_parameters, Shapes::ShapeRef.new(shape: MskMonitoringParameters, location_name: "MskMonitoringParameters"))
     TelemetryDestinationConfiguration.struct_class = Types::TelemetryDestinationConfiguration
 
     TelemetryPipeline.add_member(:created_time_stamp, Shapes::ShapeRef.new(shape: Long, location_name: "CreatedTimeStamp"))

@@ -3392,6 +3392,11 @@ module Aws::Route53GlobalResolver
     #   The IP address type for the Global Resolver. Valid values are IPV4 or
     #   DUAL\_STACK for both IPv4 and IPv6 support.
     #
+    # @option params [Array<String>] :regions
+    #   The list of Amazon Web Services Regions where the Global Resolver will
+    #   operate. The resolver will be distributed across these Regions to
+    #   provide global availability and low-latency DNS resolution.
+    #
     # @return [Types::UpdateGlobalResolverOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateGlobalResolverOutput#id #id} => String
@@ -3417,6 +3422,7 @@ module Aws::Route53GlobalResolver
     #     observability_region: "Region",
     #     description: "ResourceDescription",
     #     ip_address_type: "IPV4", # accepts IPV4, DUAL_STACK
+    #     regions: ["Region"],
     #   })
     #
     # @example Response structure
@@ -3518,7 +3524,7 @@ module Aws::Route53GlobalResolver
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-route53globalresolver'
-      context[:gem_version] = '1.5.0'
+      context[:gem_version] = '1.6.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

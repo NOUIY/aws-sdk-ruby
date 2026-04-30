@@ -1880,7 +1880,7 @@ module Aws::BedrockAgentCoreControl
     #             custom_parameters: {
     #               "OAuthCustomParametersKey" => "OAuthCustomParametersValue",
     #             },
-    #             grant_type: "CLIENT_CREDENTIALS", # accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE
+    #             grant_type: "CLIENT_CREDENTIALS", # accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE, TOKEN_EXCHANGE
     #             default_return_url: "OAuthDefaultReturnUrl",
     #           },
     #           api_key_credential_provider: {
@@ -1981,7 +1981,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes[0] #=> String
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.custom_parameters #=> Hash
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.custom_parameters["OAuthCustomParametersKey"] #=> String
-    #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE"
+    #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE", "TOKEN_EXCHANGE"
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.default_return_url #=> String
     #   resp.credential_provider_configurations[0].credential_provider.api_key_credential_provider.provider_arn #=> String
     #   resp.credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_parameter_name #=> String
@@ -2251,7 +2251,7 @@ module Aws::BedrockAgentCoreControl
     #                 custom_parameters: {
     #                   "OAuthCustomParametersKey" => "OAuthCustomParametersValue",
     #                 },
-    #                 grant_type: "CLIENT_CREDENTIALS", # accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE
+    #                 grant_type: "CLIENT_CREDENTIALS", # accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE, TOKEN_EXCHANGE
     #                 default_return_url: "OAuthDefaultReturnUrl",
     #               },
     #             },
@@ -2347,7 +2347,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.scopes[0] #=> String
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters #=> Hash
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters["OAuthCustomParametersKey"] #=> String
-    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE"
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE", "TOKEN_EXCHANGE"
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.default_return_url #=> String
     #   resp.harness.tools[0].config.inline_function.description #=> String
     #   resp.harness.tools[0].config.agent_core_code_interpreter.code_interpreter_arn #=> String
@@ -2465,6 +2465,10 @@ module Aws::BedrockAgentCoreControl
     #   The memory strategies to use for this memory. Strategies define how
     #   information is extracted, processed, and consolidated.
     #
+    # @option params [Array<Types::IndexedKey>] :indexed_keys
+    #   Metadata keys to index for filtering. Once declared, indexed keys
+    #   cannot be removed.
+    #
     # @option params [Types::StreamDeliveryResources] :stream_delivery_resources
     #   Configuration for streaming memory record data to external resources.
     #
@@ -2493,18 +2497,99 @@ module Aws::BedrockAgentCoreControl
     #           description: "Description",
     #           namespaces: ["Namespace"],
     #           namespace_templates: ["Namespace"],
+    #           memory_record_schema: {
+    #             metadata_schema: [
+    #               {
+    #                 key: "MetadataKey", # required
+    #                 type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                 extraction_config: {
+    #                   llm_extraction_config: {
+    #                     llm_extraction_instruction: "LlmExtractionInstruction",
+    #                     definition: "Definition", # required
+    #                     validation: {
+    #                       string_validation: {
+    #                         allowed_values: ["AllowedStringValue"], # required
+    #                       },
+    #                       string_list_validation: {
+    #                         allowed_values: ["AllowedStringListValue"],
+    #                         max_items: 1,
+    #                       },
+    #                       number_validation: {
+    #                         min_value: 1.0,
+    #                         max_value: 1.0,
+    #                       },
+    #                     },
+    #                   },
+    #                 },
+    #               },
+    #             ],
+    #           },
     #         },
     #         summary_memory_strategy: {
     #           name: "Name", # required
     #           description: "Description",
     #           namespaces: ["Namespace"],
     #           namespace_templates: ["Namespace"],
+    #           memory_record_schema: {
+    #             metadata_schema: [
+    #               {
+    #                 key: "MetadataKey", # required
+    #                 type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                 extraction_config: {
+    #                   llm_extraction_config: {
+    #                     llm_extraction_instruction: "LlmExtractionInstruction",
+    #                     definition: "Definition", # required
+    #                     validation: {
+    #                       string_validation: {
+    #                         allowed_values: ["AllowedStringValue"], # required
+    #                       },
+    #                       string_list_validation: {
+    #                         allowed_values: ["AllowedStringListValue"],
+    #                         max_items: 1,
+    #                       },
+    #                       number_validation: {
+    #                         min_value: 1.0,
+    #                         max_value: 1.0,
+    #                       },
+    #                     },
+    #                   },
+    #                 },
+    #               },
+    #             ],
+    #           },
     #         },
     #         user_preference_memory_strategy: {
     #           name: "Name", # required
     #           description: "Description",
     #           namespaces: ["Namespace"],
     #           namespace_templates: ["Namespace"],
+    #           memory_record_schema: {
+    #             metadata_schema: [
+    #               {
+    #                 key: "MetadataKey", # required
+    #                 type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                 extraction_config: {
+    #                   llm_extraction_config: {
+    #                     llm_extraction_instruction: "LlmExtractionInstruction",
+    #                     definition: "Definition", # required
+    #                     validation: {
+    #                       string_validation: {
+    #                         allowed_values: ["AllowedStringValue"], # required
+    #                       },
+    #                       string_list_validation: {
+    #                         allowed_values: ["AllowedStringListValue"],
+    #                         max_items: 1,
+    #                       },
+    #                       number_validation: {
+    #                         min_value: 1.0,
+    #                         max_value: 1.0,
+    #                       },
+    #                     },
+    #                   },
+    #                 },
+    #               },
+    #             ],
+    #           },
     #         },
     #         custom_memory_strategy: {
     #           name: "Name", # required
@@ -2552,6 +2637,33 @@ module Aws::BedrockAgentCoreControl
     #                 model_id: "String", # required
     #                 namespaces: ["Namespace"],
     #                 namespace_templates: ["Namespace"],
+    #                 memory_record_schema: {
+    #                   metadata_schema: [
+    #                     {
+    #                       key: "MetadataKey", # required
+    #                       type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                       extraction_config: {
+    #                         llm_extraction_config: {
+    #                           llm_extraction_instruction: "LlmExtractionInstruction",
+    #                           definition: "Definition", # required
+    #                           validation: {
+    #                             string_validation: {
+    #                               allowed_values: ["AllowedStringValue"], # required
+    #                             },
+    #                             string_list_validation: {
+    #                               allowed_values: ["AllowedStringListValue"],
+    #                               max_items: 1,
+    #                             },
+    #                             number_validation: {
+    #                               min_value: 1.0,
+    #                               max_value: 1.0,
+    #                             },
+    #                           },
+    #                         },
+    #                       },
+    #                     },
+    #                   ],
+    #                 },
     #               },
     #             },
     #             self_managed_configuration: {
@@ -2575,6 +2687,33 @@ module Aws::BedrockAgentCoreControl
     #               historical_context_window_size: 1,
     #             },
     #           },
+    #           memory_record_schema: {
+    #             metadata_schema: [
+    #               {
+    #                 key: "MetadataKey", # required
+    #                 type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                 extraction_config: {
+    #                   llm_extraction_config: {
+    #                     llm_extraction_instruction: "LlmExtractionInstruction",
+    #                     definition: "Definition", # required
+    #                     validation: {
+    #                       string_validation: {
+    #                         allowed_values: ["AllowedStringValue"], # required
+    #                       },
+    #                       string_list_validation: {
+    #                         allowed_values: ["AllowedStringListValue"],
+    #                         max_items: 1,
+    #                       },
+    #                       number_validation: {
+    #                         min_value: 1.0,
+    #                         max_value: 1.0,
+    #                       },
+    #                     },
+    #                   },
+    #                 },
+    #               },
+    #             ],
+    #           },
     #         },
     #         episodic_memory_strategy: {
     #           name: "Name", # required
@@ -2584,8 +2723,68 @@ module Aws::BedrockAgentCoreControl
     #           reflection_configuration: {
     #             namespaces: ["Namespace"],
     #             namespace_templates: ["Namespace"],
+    #             memory_record_schema: {
+    #               metadata_schema: [
+    #                 {
+    #                   key: "MetadataKey", # required
+    #                   type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                   extraction_config: {
+    #                     llm_extraction_config: {
+    #                       llm_extraction_instruction: "LlmExtractionInstruction",
+    #                       definition: "Definition", # required
+    #                       validation: {
+    #                         string_validation: {
+    #                           allowed_values: ["AllowedStringValue"], # required
+    #                         },
+    #                         string_list_validation: {
+    #                           allowed_values: ["AllowedStringListValue"],
+    #                           max_items: 1,
+    #                         },
+    #                         number_validation: {
+    #                           min_value: 1.0,
+    #                           max_value: 1.0,
+    #                         },
+    #                       },
+    #                     },
+    #                   },
+    #                 },
+    #               ],
+    #             },
+    #           },
+    #           memory_record_schema: {
+    #             metadata_schema: [
+    #               {
+    #                 key: "MetadataKey", # required
+    #                 type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                 extraction_config: {
+    #                   llm_extraction_config: {
+    #                     llm_extraction_instruction: "LlmExtractionInstruction",
+    #                     definition: "Definition", # required
+    #                     validation: {
+    #                       string_validation: {
+    #                         allowed_values: ["AllowedStringValue"], # required
+    #                       },
+    #                       string_list_validation: {
+    #                         allowed_values: ["AllowedStringListValue"],
+    #                         max_items: 1,
+    #                       },
+    #                       number_validation: {
+    #                         min_value: 1.0,
+    #                         max_value: 1.0,
+    #                       },
+    #                     },
+    #                   },
+    #                 },
+    #               },
+    #             ],
     #           },
     #         },
+    #       },
+    #     ],
+    #     indexed_keys: [
+    #       {
+    #         key: "MetadataKey", # required
+    #         type: "STRING", # required, accepts STRING, STRINGLIST, NUMBER
     #       },
     #     ],
     #     stream_delivery_resources: {
@@ -2646,10 +2845,34 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespaces[0] #=> String
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespace_templates #=> Array
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespace_templates[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].key #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.max_items #=> Integer
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.min_value #=> Float
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.max_value #=> Float
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespaces #=> Array
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespaces[0] #=> String
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespace_templates #=> Array
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespace_templates[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].key #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.max_items #=> Integer
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.min_value #=> Float
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.max_value #=> Float
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions #=> Array
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions[0].message_based_trigger.message_count #=> Integer
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions[0].token_based_trigger.token_count #=> Integer
@@ -2665,6 +2888,21 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].created_at #=> Time
     #   resp.memory.strategies[0].updated_at #=> Time
     #   resp.memory.strategies[0].status #=> String, one of "CREATING", "ACTIVE", "DELETING", "FAILED"
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema #=> Array
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].key #=> String
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.max_items #=> Integer
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.min_value #=> Float
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.max_value #=> Float
+    #   resp.memory.indexed_keys #=> Array
+    #   resp.memory.indexed_keys[0].key #=> String
+    #   resp.memory.indexed_keys[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
     #   resp.memory.stream_delivery_resources.resources #=> Array
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.data_stream_arn #=> String
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations #=> Array
@@ -2725,8 +2963,8 @@ module Aws::BedrockAgentCoreControl
     #             token_endpoint_auth_methods: ["TokenAuthMethod"],
     #           },
     #         },
-    #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_id: "DefaultClientIdType",
+    #         client_secret: "DefaultClientSecretType",
     #         private_endpoint: {
     #           self_managed_lattice_resource: {
     #             resource_configuration_identifier: "ResourceConfigurationIdentifier",
@@ -2762,6 +3000,14 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #         ],
+    #         on_behalf_of_token_exchange_config: {
+    #           grant_type: "TOKEN_EXCHANGE", # required, accepts TOKEN_EXCHANGE, JWT_AUTHORIZATION_GRANT
+    #           token_exchange_grant_type_config: {
+    #             actor_token_content: "NONE", # required, accepts NONE, M2M, AWS_IAM_ID_TOKEN_JWT
+    #             actor_token_scopes: ["ScopeType"],
+    #           },
+    #         },
+    #         client_authentication_method: "CLIENT_SECRET_BASIC", # accepts CLIENT_SECRET_BASIC, CLIENT_SECRET_POST, AWS_IAM_ID_TOKEN_JWT
     #       },
     #       google_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
@@ -2842,6 +3088,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.grant_type #=> String, one of "TOKEN_EXCHANGE", "JWT_AUTHORIZATION_GRANT"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_content #=> String, one of "NONE", "M2M", "AWS_IAM_ID_TOKEN_JWT"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.client_authentication_method #=> String, one of "CLIENT_SECRET_BASIC", "CLIENT_SECRET_POST", "AWS_IAM_ID_TOKEN_JWT"
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.discovery_url #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.issuer #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.authorization_endpoint #=> String
@@ -4069,7 +4320,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.scopes[0] #=> String
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters #=> Hash
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters["OAuthCustomParametersKey"] #=> String
-    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE"
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE", "TOKEN_EXCHANGE"
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.default_return_url #=> String
     #   resp.harness.tools[0].config.inline_function.description #=> String
     #   resp.harness.tools[0].config.agent_core_code_interpreter.code_interpreter_arn #=> String
@@ -5308,7 +5559,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes[0] #=> String
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.custom_parameters #=> Hash
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.custom_parameters["OAuthCustomParametersKey"] #=> String
-    #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE"
+    #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE", "TOKEN_EXCHANGE"
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.default_return_url #=> String
     #   resp.credential_provider_configurations[0].credential_provider.api_key_credential_provider.provider_arn #=> String
     #   resp.credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_parameter_name #=> String
@@ -5404,7 +5655,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.scopes[0] #=> String
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters #=> Hash
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters["OAuthCustomParametersKey"] #=> String
-    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE"
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE", "TOKEN_EXCHANGE"
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.default_return_url #=> String
     #   resp.harness.tools[0].config.inline_function.description #=> String
     #   resp.harness.tools[0].config.agent_core_code_interpreter.code_interpreter_arn #=> String
@@ -5546,10 +5797,34 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespaces[0] #=> String
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespace_templates #=> Array
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespace_templates[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].key #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.max_items #=> Integer
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.min_value #=> Float
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.max_value #=> Float
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespaces #=> Array
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespaces[0] #=> String
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespace_templates #=> Array
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespace_templates[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].key #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.max_items #=> Integer
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.min_value #=> Float
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.max_value #=> Float
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions #=> Array
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions[0].message_based_trigger.message_count #=> Integer
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions[0].token_based_trigger.token_count #=> Integer
@@ -5565,6 +5840,21 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].created_at #=> Time
     #   resp.memory.strategies[0].updated_at #=> Time
     #   resp.memory.strategies[0].status #=> String, one of "CREATING", "ACTIVE", "DELETING", "FAILED"
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema #=> Array
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].key #=> String
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.max_items #=> Integer
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.min_value #=> Float
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.max_value #=> Float
+    #   resp.memory.indexed_keys #=> Array
+    #   resp.memory.indexed_keys[0].key #=> String
+    #   resp.memory.indexed_keys[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
     #   resp.memory.stream_delivery_resources.resources #=> Array
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.data_stream_arn #=> String
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations #=> Array
@@ -5647,6 +5937,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.grant_type #=> String, one of "TOKEN_EXCHANGE", "JWT_AUTHORIZATION_GRANT"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_content #=> String, one of "NONE", "M2M", "AWS_IAM_ID_TOKEN_JWT"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.client_authentication_method #=> String, one of "CLIENT_SECRET_BASIC", "CLIENT_SECRET_POST", "AWS_IAM_ID_TOKEN_JWT"
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.discovery_url #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.issuer #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.authorization_endpoint #=> String
@@ -7881,7 +8176,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes[0] #=> String
     #   resp.targets[0].credential_provider_configurations[0].credential_provider.oauth_credential_provider.custom_parameters #=> Hash
     #   resp.targets[0].credential_provider_configurations[0].credential_provider.oauth_credential_provider.custom_parameters["OAuthCustomParametersKey"] #=> String
-    #   resp.targets[0].credential_provider_configurations[0].credential_provider.oauth_credential_provider.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE"
+    #   resp.targets[0].credential_provider_configurations[0].credential_provider.oauth_credential_provider.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE", "TOKEN_EXCHANGE"
     #   resp.targets[0].credential_provider_configurations[0].credential_provider.oauth_credential_provider.default_return_url #=> String
     #   resp.targets[0].credential_provider_configurations[0].credential_provider.api_key_credential_provider.provider_arn #=> String
     #   resp.targets[0].credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_parameter_name #=> String
@@ -9054,7 +9349,7 @@ module Aws::BedrockAgentCoreControl
     #             custom_parameters: {
     #               "OAuthCustomParametersKey" => "OAuthCustomParametersValue",
     #             },
-    #             grant_type: "CLIENT_CREDENTIALS", # accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE
+    #             grant_type: "CLIENT_CREDENTIALS", # accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE, TOKEN_EXCHANGE
     #             default_return_url: "OAuthDefaultReturnUrl",
     #           },
     #           api_key_credential_provider: {
@@ -9155,7 +9450,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.scopes[0] #=> String
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.custom_parameters #=> Hash
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.custom_parameters["OAuthCustomParametersKey"] #=> String
-    #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE"
+    #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE", "TOKEN_EXCHANGE"
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.default_return_url #=> String
     #   resp.credential_provider_configurations[0].credential_provider.api_key_credential_provider.provider_arn #=> String
     #   resp.credential_provider_configurations[0].credential_provider.api_key_credential_provider.credential_parameter_name #=> String
@@ -9432,7 +9727,7 @@ module Aws::BedrockAgentCoreControl
     #                 custom_parameters: {
     #                   "OAuthCustomParametersKey" => "OAuthCustomParametersValue",
     #                 },
-    #                 grant_type: "CLIENT_CREDENTIALS", # accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE
+    #                 grant_type: "CLIENT_CREDENTIALS", # accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE, TOKEN_EXCHANGE
     #                 default_return_url: "OAuthDefaultReturnUrl",
     #               },
     #             },
@@ -9527,7 +9822,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.scopes[0] #=> String
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters #=> Hash
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.custom_parameters["OAuthCustomParametersKey"] #=> String
-    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE"
+    #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE", "TOKEN_EXCHANGE"
     #   resp.harness.tools[0].config.agent_core_gateway.outbound_auth.oauth.default_return_url #=> String
     #   resp.harness.tools[0].config.inline_function.description #=> String
     #   resp.harness.tools[0].config.agent_core_code_interpreter.code_interpreter_arn #=> String
@@ -9639,6 +9934,10 @@ module Aws::BedrockAgentCoreControl
     # @option params [Types::ModifyMemoryStrategies] :memory_strategies
     #   The memory strategies to add, modify, or delete.
     #
+    # @option params [Array<Types::IndexedKey>] :add_indexed_keys
+    #   Additional metadata keys to index. Previously indexed keys cannot be
+    #   removed.
+    #
     # @option params [Types::StreamDeliveryResources] :stream_delivery_resources
     #   Configuration for streaming memory record data to external resources.
     #
@@ -9662,18 +9961,99 @@ module Aws::BedrockAgentCoreControl
     #             description: "Description",
     #             namespaces: ["Namespace"],
     #             namespace_templates: ["Namespace"],
+    #             memory_record_schema: {
+    #               metadata_schema: [
+    #                 {
+    #                   key: "MetadataKey", # required
+    #                   type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                   extraction_config: {
+    #                     llm_extraction_config: {
+    #                       llm_extraction_instruction: "LlmExtractionInstruction",
+    #                       definition: "Definition", # required
+    #                       validation: {
+    #                         string_validation: {
+    #                           allowed_values: ["AllowedStringValue"], # required
+    #                         },
+    #                         string_list_validation: {
+    #                           allowed_values: ["AllowedStringListValue"],
+    #                           max_items: 1,
+    #                         },
+    #                         number_validation: {
+    #                           min_value: 1.0,
+    #                           max_value: 1.0,
+    #                         },
+    #                       },
+    #                     },
+    #                   },
+    #                 },
+    #               ],
+    #             },
     #           },
     #           summary_memory_strategy: {
     #             name: "Name", # required
     #             description: "Description",
     #             namespaces: ["Namespace"],
     #             namespace_templates: ["Namespace"],
+    #             memory_record_schema: {
+    #               metadata_schema: [
+    #                 {
+    #                   key: "MetadataKey", # required
+    #                   type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                   extraction_config: {
+    #                     llm_extraction_config: {
+    #                       llm_extraction_instruction: "LlmExtractionInstruction",
+    #                       definition: "Definition", # required
+    #                       validation: {
+    #                         string_validation: {
+    #                           allowed_values: ["AllowedStringValue"], # required
+    #                         },
+    #                         string_list_validation: {
+    #                           allowed_values: ["AllowedStringListValue"],
+    #                           max_items: 1,
+    #                         },
+    #                         number_validation: {
+    #                           min_value: 1.0,
+    #                           max_value: 1.0,
+    #                         },
+    #                       },
+    #                     },
+    #                   },
+    #                 },
+    #               ],
+    #             },
     #           },
     #           user_preference_memory_strategy: {
     #             name: "Name", # required
     #             description: "Description",
     #             namespaces: ["Namespace"],
     #             namespace_templates: ["Namespace"],
+    #             memory_record_schema: {
+    #               metadata_schema: [
+    #                 {
+    #                   key: "MetadataKey", # required
+    #                   type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                   extraction_config: {
+    #                     llm_extraction_config: {
+    #                       llm_extraction_instruction: "LlmExtractionInstruction",
+    #                       definition: "Definition", # required
+    #                       validation: {
+    #                         string_validation: {
+    #                           allowed_values: ["AllowedStringValue"], # required
+    #                         },
+    #                         string_list_validation: {
+    #                           allowed_values: ["AllowedStringListValue"],
+    #                           max_items: 1,
+    #                         },
+    #                         number_validation: {
+    #                           min_value: 1.0,
+    #                           max_value: 1.0,
+    #                         },
+    #                       },
+    #                     },
+    #                   },
+    #                 },
+    #               ],
+    #             },
     #           },
     #           custom_memory_strategy: {
     #             name: "Name", # required
@@ -9721,6 +10101,33 @@ module Aws::BedrockAgentCoreControl
     #                   model_id: "String", # required
     #                   namespaces: ["Namespace"],
     #                   namespace_templates: ["Namespace"],
+    #                   memory_record_schema: {
+    #                     metadata_schema: [
+    #                       {
+    #                         key: "MetadataKey", # required
+    #                         type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                         extraction_config: {
+    #                           llm_extraction_config: {
+    #                             llm_extraction_instruction: "LlmExtractionInstruction",
+    #                             definition: "Definition", # required
+    #                             validation: {
+    #                               string_validation: {
+    #                                 allowed_values: ["AllowedStringValue"], # required
+    #                               },
+    #                               string_list_validation: {
+    #                                 allowed_values: ["AllowedStringListValue"],
+    #                                 max_items: 1,
+    #                               },
+    #                               number_validation: {
+    #                                 min_value: 1.0,
+    #                                 max_value: 1.0,
+    #                               },
+    #                             },
+    #                           },
+    #                         },
+    #                       },
+    #                     ],
+    #                   },
     #                 },
     #               },
     #               self_managed_configuration: {
@@ -9744,6 +10151,33 @@ module Aws::BedrockAgentCoreControl
     #                 historical_context_window_size: 1,
     #               },
     #             },
+    #             memory_record_schema: {
+    #               metadata_schema: [
+    #                 {
+    #                   key: "MetadataKey", # required
+    #                   type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                   extraction_config: {
+    #                     llm_extraction_config: {
+    #                       llm_extraction_instruction: "LlmExtractionInstruction",
+    #                       definition: "Definition", # required
+    #                       validation: {
+    #                         string_validation: {
+    #                           allowed_values: ["AllowedStringValue"], # required
+    #                         },
+    #                         string_list_validation: {
+    #                           allowed_values: ["AllowedStringListValue"],
+    #                           max_items: 1,
+    #                         },
+    #                         number_validation: {
+    #                           min_value: 1.0,
+    #                           max_value: 1.0,
+    #                         },
+    #                       },
+    #                     },
+    #                   },
+    #                 },
+    #               ],
+    #             },
     #           },
     #           episodic_memory_strategy: {
     #             name: "Name", # required
@@ -9753,6 +10187,60 @@ module Aws::BedrockAgentCoreControl
     #             reflection_configuration: {
     #               namespaces: ["Namespace"],
     #               namespace_templates: ["Namespace"],
+    #               memory_record_schema: {
+    #                 metadata_schema: [
+    #                   {
+    #                     key: "MetadataKey", # required
+    #                     type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                     extraction_config: {
+    #                       llm_extraction_config: {
+    #                         llm_extraction_instruction: "LlmExtractionInstruction",
+    #                         definition: "Definition", # required
+    #                         validation: {
+    #                           string_validation: {
+    #                             allowed_values: ["AllowedStringValue"], # required
+    #                           },
+    #                           string_list_validation: {
+    #                             allowed_values: ["AllowedStringListValue"],
+    #                             max_items: 1,
+    #                           },
+    #                           number_validation: {
+    #                             min_value: 1.0,
+    #                             max_value: 1.0,
+    #                           },
+    #                         },
+    #                       },
+    #                     },
+    #                   },
+    #                 ],
+    #               },
+    #             },
+    #             memory_record_schema: {
+    #               metadata_schema: [
+    #                 {
+    #                   key: "MetadataKey", # required
+    #                   type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                   extraction_config: {
+    #                     llm_extraction_config: {
+    #                       llm_extraction_instruction: "LlmExtractionInstruction",
+    #                       definition: "Definition", # required
+    #                       validation: {
+    #                         string_validation: {
+    #                           allowed_values: ["AllowedStringValue"], # required
+    #                         },
+    #                         string_list_validation: {
+    #                           allowed_values: ["AllowedStringListValue"],
+    #                           max_items: 1,
+    #                         },
+    #                         number_validation: {
+    #                           min_value: 1.0,
+    #                           max_value: 1.0,
+    #                         },
+    #                       },
+    #                     },
+    #                   },
+    #                 },
+    #               ],
     #             },
     #           },
     #         },
@@ -9804,6 +10292,33 @@ module Aws::BedrockAgentCoreControl
     #               episodic_reflection_configuration: {
     #                 namespaces: ["Namespace"],
     #                 namespace_templates: ["Namespace"],
+    #                 memory_record_schema: {
+    #                   metadata_schema: [
+    #                     {
+    #                       key: "MetadataKey", # required
+    #                       type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                       extraction_config: {
+    #                         llm_extraction_config: {
+    #                           llm_extraction_instruction: "LlmExtractionInstruction",
+    #                           definition: "Definition", # required
+    #                           validation: {
+    #                             string_validation: {
+    #                               allowed_values: ["AllowedStringValue"], # required
+    #                             },
+    #                             string_list_validation: {
+    #                               allowed_values: ["AllowedStringListValue"],
+    #                               max_items: 1,
+    #                             },
+    #                             number_validation: {
+    #                               min_value: 1.0,
+    #                               max_value: 1.0,
+    #                             },
+    #                           },
+    #                         },
+    #                       },
+    #                     },
+    #                   ],
+    #                 },
     #               },
     #               custom_reflection_configuration: {
     #                 episodic_reflection_override: {
@@ -9811,6 +10326,33 @@ module Aws::BedrockAgentCoreControl
     #                   model_id: "String", # required
     #                   namespaces: ["Namespace"],
     #                   namespace_templates: ["Namespace"],
+    #                   memory_record_schema: {
+    #                     metadata_schema: [
+    #                       {
+    #                         key: "MetadataKey", # required
+    #                         type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                         extraction_config: {
+    #                           llm_extraction_config: {
+    #                             llm_extraction_instruction: "LlmExtractionInstruction",
+    #                             definition: "Definition", # required
+    #                             validation: {
+    #                               string_validation: {
+    #                                 allowed_values: ["AllowedStringValue"], # required
+    #                               },
+    #                               string_list_validation: {
+    #                                 allowed_values: ["AllowedStringListValue"],
+    #                                 max_items: 1,
+    #                               },
+    #                               number_validation: {
+    #                                 min_value: 1.0,
+    #                                 max_value: 1.0,
+    #                               },
+    #                             },
+    #                           },
+    #                         },
+    #                       },
+    #                     ],
+    #                   },
     #                 },
     #               },
     #             },
@@ -9835,6 +10377,33 @@ module Aws::BedrockAgentCoreControl
     #               historical_context_window_size: 1,
     #             },
     #           },
+    #           memory_record_schema: {
+    #             metadata_schema: [
+    #               {
+    #                 key: "MetadataKey", # required
+    #                 type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                 extraction_config: {
+    #                   llm_extraction_config: {
+    #                     llm_extraction_instruction: "LlmExtractionInstruction",
+    #                     definition: "Definition", # required
+    #                     validation: {
+    #                       string_validation: {
+    #                         allowed_values: ["AllowedStringValue"], # required
+    #                       },
+    #                       string_list_validation: {
+    #                         allowed_values: ["AllowedStringListValue"],
+    #                         max_items: 1,
+    #                       },
+    #                       number_validation: {
+    #                         min_value: 1.0,
+    #                         max_value: 1.0,
+    #                       },
+    #                     },
+    #                   },
+    #                 },
+    #               },
+    #             ],
+    #           },
     #         },
     #       ],
     #       delete_memory_strategies: [
@@ -9843,6 +10412,12 @@ module Aws::BedrockAgentCoreControl
     #         },
     #       ],
     #     },
+    #     add_indexed_keys: [
+    #       {
+    #         key: "MetadataKey", # required
+    #         type: "STRING", # required, accepts STRING, STRINGLIST, NUMBER
+    #       },
+    #     ],
     #     stream_delivery_resources: {
     #       resources: [ # required
     #         {
@@ -9898,10 +10473,34 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespaces[0] #=> String
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespace_templates #=> Array
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.namespace_templates[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].key #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.max_items #=> Integer
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.min_value #=> Float
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.max_value #=> Float
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespaces #=> Array
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespaces[0] #=> String
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespace_templates #=> Array
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.namespace_templates[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].key #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.max_items #=> Integer
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.min_value #=> Float
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.max_value #=> Float
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions #=> Array
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions[0].message_based_trigger.message_count #=> Integer
     #   resp.memory.strategies[0].configuration.self_managed_configuration.trigger_conditions[0].token_based_trigger.token_count #=> Integer
@@ -9917,6 +10516,21 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].created_at #=> Time
     #   resp.memory.strategies[0].updated_at #=> Time
     #   resp.memory.strategies[0].status #=> String, one of "CREATING", "ACTIVE", "DELETING", "FAILED"
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema #=> Array
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].key #=> String
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values #=> Array
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.allowed_values[0] #=> String
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_list_validation.max_items #=> Integer
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.min_value #=> Float
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.number_validation.max_value #=> Float
+    #   resp.memory.indexed_keys #=> Array
+    #   resp.memory.indexed_keys[0].key #=> String
+    #   resp.memory.indexed_keys[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
     #   resp.memory.stream_delivery_resources.resources #=> Array
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.data_stream_arn #=> String
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations #=> Array
@@ -9972,8 +10586,8 @@ module Aws::BedrockAgentCoreControl
     #             token_endpoint_auth_methods: ["TokenAuthMethod"],
     #           },
     #         },
-    #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_id: "DefaultClientIdType",
+    #         client_secret: "DefaultClientSecretType",
     #         private_endpoint: {
     #           self_managed_lattice_resource: {
     #             resource_configuration_identifier: "ResourceConfigurationIdentifier",
@@ -10009,6 +10623,14 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #         ],
+    #         on_behalf_of_token_exchange_config: {
+    #           grant_type: "TOKEN_EXCHANGE", # required, accepts TOKEN_EXCHANGE, JWT_AUTHORIZATION_GRANT
+    #           token_exchange_grant_type_config: {
+    #             actor_token_content: "NONE", # required, accepts NONE, M2M, AWS_IAM_ID_TOKEN_JWT
+    #             actor_token_scopes: ["ScopeType"],
+    #           },
+    #         },
+    #         client_authentication_method: "CLIENT_SECRET_BASIC", # accepts CLIENT_SECRET_BASIC, CLIENT_SECRET_POST, AWS_IAM_ID_TOKEN_JWT
     #       },
     #       google_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
@@ -10087,6 +10709,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.grant_type #=> String, one of "TOKEN_EXCHANGE", "JWT_AUTHORIZATION_GRANT"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_content #=> String, one of "NONE", "M2M", "AWS_IAM_ID_TOKEN_JWT"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.client_authentication_method #=> String, one of "CLIENT_SECRET_BASIC", "CLIENT_SECRET_POST", "AWS_IAM_ID_TOKEN_JWT"
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.discovery_url #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.issuer #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.authorization_endpoint #=> String
@@ -10919,7 +11546,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.41.0'
+      context[:gem_version] = '1.42.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1762,6 +1762,21 @@ module Aws::ObservabilityAdmin
       include Aws::Structure
     end
 
+    # Configuration parameters for Amazon MSK cluster monitoring, including
+    # enhanced monitoring level settings.
+    #
+    # @!attribute [rw] enhanced_monitoring
+    #   The level of enhanced monitoring for the MSK cluster.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/MskMonitoringParameters AWS API Documentation
+    #
+    class MskMonitoringParameters < Struct.new(
+      :enhanced_monitoring)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains the output from pipeline test operations, including processed
     # records and any errors encountered.
     #
@@ -2193,6 +2208,11 @@ module Aws::ObservabilityAdmin
     #   logging when Amazon Bedrock AgentCore is the resource type.
     #   @return [Types::LogDeliveryParameters]
     #
+    # @!attribute [rw] msk_monitoring_parameters
+    #   Configuration parameters specific to MSK monitoring when MSK is the
+    #   resource type.
+    #   @return [Types::MskMonitoringParameters]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/TelemetryDestinationConfiguration AWS API Documentation
     #
     class TelemetryDestinationConfiguration < Struct.new(
@@ -2203,7 +2223,8 @@ module Aws::ObservabilityAdmin
       :cloudtrail_parameters,
       :elb_load_balancer_logging_parameters,
       :waf_logging_parameters,
-      :log_delivery_parameters)
+      :log_delivery_parameters,
+      :msk_monitoring_parameters)
       SENSITIVE = []
       include Aws::Structure
     end

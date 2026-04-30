@@ -1113,6 +1113,7 @@ module Aws::Route53GlobalResolver
     UpdateGlobalResolverInput.add_member(:observability_region, Shapes::ShapeRef.new(shape: Region, location_name: "observabilityRegion"))
     UpdateGlobalResolverInput.add_member(:description, Shapes::ShapeRef.new(shape: ResourceDescription, location_name: "description"))
     UpdateGlobalResolverInput.add_member(:ip_address_type, Shapes::ShapeRef.new(shape: GlobalResolverIpAddressType, location_name: "ipAddressType"))
+    UpdateGlobalResolverInput.add_member(:regions, Shapes::ShapeRef.new(shape: Regions, location_name: "regions"))
     UpdateGlobalResolverInput.struct_class = Types::UpdateGlobalResolverInput
 
     UpdateGlobalResolverOutput.add_member(:id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "id"))
@@ -1337,6 +1338,7 @@ module Aws::Route53GlobalResolver
         o.output = Shapes::ShapeRef.new(shape: DeleteAccessTokenOutput)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)

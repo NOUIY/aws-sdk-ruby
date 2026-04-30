@@ -1104,6 +1104,7 @@ module Aws::Route53GlobalResolver
       attr_accessor observability_region: ::String
       attr_accessor description: ::String
       attr_accessor ip_address_type: ("IPV4" | "DUAL_STACK")
+      attr_accessor regions: ::Array[::String]
       SENSITIVE: []
     end
 

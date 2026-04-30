@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.363.0 (2026-04-30)
+------------------
+
+* Feature - Add InstancePools support to Endpoint for flexible provisioning across a prioritized list of instance types. Add Specifications support to InferenceComponent for per-instance-type model configurations.
+
 1.362.0 (2026-04-27)
 ------------------
 

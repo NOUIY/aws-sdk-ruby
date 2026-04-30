@@ -158,6 +158,7 @@ module Aws::SSOAdmin
     IamAuthenticationMethod = Shapes::StructureShape.new(name: 'IamAuthenticationMethod')
     IconUrl = Shapes::StringShape.new(name: 'IconUrl')
     Id = Shapes::StringShape.new(name: 'Id')
+    IdentityStoreArn = Shapes::StringShape.new(name: 'IdentityStoreArn')
     InstanceAccessControlAttributeConfiguration = Shapes::StructureShape.new(name: 'InstanceAccessControlAttributeConfiguration')
     InstanceAccessControlAttributeConfigurationStatus = Shapes::StringShape.new(name: 'InstanceAccessControlAttributeConfigurationStatus')
     InstanceAccessControlAttributeConfigurationStatusReason = Shapes::StringShape.new(name: 'InstanceAccessControlAttributeConfigurationStatusReason')
@@ -392,6 +393,7 @@ module Aws::SSOAdmin
     Application.add_member(:name, Shapes::ShapeRef.new(shape: ApplicationNameType, location_name: "Name"))
     Application.add_member(:application_account, Shapes::ShapeRef.new(shape: AccountId, location_name: "ApplicationAccount"))
     Application.add_member(:instance_arn, Shapes::ShapeRef.new(shape: InstanceArn, location_name: "InstanceArn"))
+    Application.add_member(:identity_store_arn, Shapes::ShapeRef.new(shape: IdentityStoreArn, location_name: "IdentityStoreArn"))
     Application.add_member(:status, Shapes::ShapeRef.new(shape: ApplicationStatus, location_name: "Status"))
     Application.add_member(:portal_options, Shapes::ShapeRef.new(shape: PortalOptions, location_name: "PortalOptions"))
     Application.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "Description"))
@@ -496,6 +498,8 @@ module Aws::SSOAdmin
     CreateApplicationRequest.struct_class = Types::CreateApplicationRequest
 
     CreateApplicationResponse.add_member(:application_arn, Shapes::ShapeRef.new(shape: ApplicationArn, location_name: "ApplicationArn"))
+    CreateApplicationResponse.add_member(:instance_arn, Shapes::ShapeRef.new(shape: InstanceArn, location_name: "InstanceArn"))
+    CreateApplicationResponse.add_member(:identity_store_arn, Shapes::ShapeRef.new(shape: IdentityStoreArn, location_name: "IdentityStoreArn"))
     CreateApplicationResponse.struct_class = Types::CreateApplicationResponse
 
     CreateInstanceAccessControlAttributeConfigurationRequest.add_member(:instance_arn, Shapes::ShapeRef.new(shape: InstanceArn, required: true, location_name: "InstanceArn"))
@@ -649,6 +653,7 @@ module Aws::SSOAdmin
     DescribeApplicationResponse.add_member(:name, Shapes::ShapeRef.new(shape: ApplicationNameType, location_name: "Name"))
     DescribeApplicationResponse.add_member(:application_account, Shapes::ShapeRef.new(shape: AccountId, location_name: "ApplicationAccount"))
     DescribeApplicationResponse.add_member(:instance_arn, Shapes::ShapeRef.new(shape: InstanceArn, location_name: "InstanceArn"))
+    DescribeApplicationResponse.add_member(:identity_store_arn, Shapes::ShapeRef.new(shape: IdentityStoreArn, location_name: "IdentityStoreArn"))
     DescribeApplicationResponse.add_member(:status, Shapes::ShapeRef.new(shape: ApplicationStatus, location_name: "Status"))
     DescribeApplicationResponse.add_member(:portal_options, Shapes::ShapeRef.new(shape: PortalOptions, location_name: "PortalOptions"))
     DescribeApplicationResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "Description"))

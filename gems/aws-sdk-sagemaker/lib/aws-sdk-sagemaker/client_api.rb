@@ -1440,6 +1440,8 @@ module Aws::SageMaker
     InferenceComponentMetadata = Shapes::StructureShape.new(name: 'InferenceComponentMetadata')
     InferenceComponentName = Shapes::StringShape.new(name: 'InferenceComponentName')
     InferenceComponentNameContains = Shapes::StringShape.new(name: 'InferenceComponentNameContains')
+    InferenceComponentPlacementStatus = Shapes::StructureShape.new(name: 'InferenceComponentPlacementStatus')
+    InferenceComponentPlacementStatusList = Shapes::ListShape.new(name: 'InferenceComponentPlacementStatusList')
     InferenceComponentPlacementStrategy = Shapes::StringShape.new(name: 'InferenceComponentPlacementStrategy')
     InferenceComponentRollingUpdatePolicy = Shapes::StructureShape.new(name: 'InferenceComponentRollingUpdatePolicy')
     InferenceComponentRuntimeConfig = Shapes::StructureShape.new(name: 'InferenceComponentRuntimeConfig')
@@ -1447,7 +1449,9 @@ module Aws::SageMaker
     InferenceComponentSchedulingConfig = Shapes::StructureShape.new(name: 'InferenceComponentSchedulingConfig')
     InferenceComponentSortKey = Shapes::StringShape.new(name: 'InferenceComponentSortKey')
     InferenceComponentSpecification = Shapes::StructureShape.new(name: 'InferenceComponentSpecification')
+    InferenceComponentSpecificationList = Shapes::ListShape.new(name: 'InferenceComponentSpecificationList')
     InferenceComponentSpecificationSummary = Shapes::StructureShape.new(name: 'InferenceComponentSpecificationSummary')
+    InferenceComponentSpecificationSummaryList = Shapes::ListShape.new(name: 'InferenceComponentSpecificationSummaryList')
     InferenceComponentStartupParameters = Shapes::StructureShape.new(name: 'InferenceComponentStartupParameters')
     InferenceComponentStatus = Shapes::StringShape.new(name: 'InferenceComponentStatus')
     InferenceComponentSummary = Shapes::StructureShape.new(name: 'InferenceComponentSummary')
@@ -1498,6 +1502,11 @@ module Aws::SageMaker
     InstanceMetadata = Shapes::StructureShape.new(name: 'InstanceMetadata')
     InstanceMetadataServiceConfiguration = Shapes::StructureShape.new(name: 'InstanceMetadataServiceConfiguration')
     InstancePlacementConfig = Shapes::StructureShape.new(name: 'InstancePlacementConfig')
+    InstancePool = Shapes::StructureShape.new(name: 'InstancePool')
+    InstancePoolList = Shapes::ListShape.new(name: 'InstancePoolList')
+    InstancePoolPriority = Shapes::IntegerShape.new(name: 'InstancePoolPriority')
+    InstancePoolSummary = Shapes::StructureShape.new(name: 'InstancePoolSummary')
+    InstancePoolSummaryList = Shapes::ListShape.new(name: 'InstancePoolSummaryList')
     InstanceType = Shapes::StringShape.new(name: 'InstanceType')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     IntegerParameterRange = Shapes::StructureShape.new(name: 'IntegerParameterRange')
@@ -2907,6 +2916,7 @@ module Aws::SageMaker
     UtilizationPercentagePerCore = Shapes::IntegerShape.new(name: 'UtilizationPercentagePerCore')
     VCpuAmount = Shapes::FloatShape.new(name: 'VCpuAmount')
     ValidationFraction = Shapes::FloatShape.new(name: 'ValidationFraction')
+    VariantInstanceProvisionTimeoutInSeconds = Shapes::IntegerShape.new(name: 'VariantInstanceProvisionTimeoutInSeconds')
     VariantName = Shapes::StringShape.new(name: 'VariantName')
     VariantProperty = Shapes::StructureShape.new(name: 'VariantProperty')
     VariantPropertyList = Shapes::ListShape.new(name: 'VariantPropertyList')
@@ -4210,7 +4220,7 @@ module Aws::SageMaker
     ClusterRestrictedInstanceGroupSpecification.add_member(:training_plan_arn, Shapes::ShapeRef.new(shape: TrainingPlanArn, location_name: "TrainingPlanArn"))
     ClusterRestrictedInstanceGroupSpecification.add_member(:override_vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "OverrideVpcConfig"))
     ClusterRestrictedInstanceGroupSpecification.add_member(:scheduled_update_config, Shapes::ShapeRef.new(shape: ScheduledUpdateConfig, location_name: "ScheduledUpdateConfig"))
-    ClusterRestrictedInstanceGroupSpecification.add_member(:environment_config, Shapes::ShapeRef.new(shape: EnvironmentConfig, required: true, location_name: "EnvironmentConfig"))
+    ClusterRestrictedInstanceGroupSpecification.add_member(:environment_config, Shapes::ShapeRef.new(shape: EnvironmentConfig, location_name: "EnvironmentConfig"))
     ClusterRestrictedInstanceGroupSpecification.struct_class = Types::ClusterRestrictedInstanceGroupSpecification
 
     ClusterRestrictedInstanceGroupSpecifications.member = Shapes::ShapeRef.new(shape: ClusterRestrictedInstanceGroupSpecification)
@@ -4826,6 +4836,7 @@ module Aws::SageMaker
     CreateInferenceComponentInput.add_member(:endpoint_name, Shapes::ShapeRef.new(shape: EndpointName, required: true, location_name: "EndpointName"))
     CreateInferenceComponentInput.add_member(:variant_name, Shapes::ShapeRef.new(shape: VariantName, location_name: "VariantName"))
     CreateInferenceComponentInput.add_member(:specification, Shapes::ShapeRef.new(shape: InferenceComponentSpecification, location_name: "Specification"))
+    CreateInferenceComponentInput.add_member(:specifications, Shapes::ShapeRef.new(shape: InferenceComponentSpecificationList, location_name: "Specifications"))
     CreateInferenceComponentInput.add_member(:runtime_config, Shapes::ShapeRef.new(shape: InferenceComponentRuntimeConfig, location_name: "RuntimeConfig"))
     CreateInferenceComponentInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     CreateInferenceComponentInput.struct_class = Types::CreateInferenceComponentInput
@@ -6447,6 +6458,7 @@ module Aws::SageMaker
     DescribeInferenceComponentOutput.add_member(:variant_name, Shapes::ShapeRef.new(shape: VariantName, location_name: "VariantName"))
     DescribeInferenceComponentOutput.add_member(:failure_reason, Shapes::ShapeRef.new(shape: FailureReason, location_name: "FailureReason"))
     DescribeInferenceComponentOutput.add_member(:specification, Shapes::ShapeRef.new(shape: InferenceComponentSpecificationSummary, location_name: "Specification"))
+    DescribeInferenceComponentOutput.add_member(:specifications, Shapes::ShapeRef.new(shape: InferenceComponentSpecificationSummaryList, location_name: "Specifications"))
     DescribeInferenceComponentOutput.add_member(:runtime_config, Shapes::ShapeRef.new(shape: InferenceComponentRuntimeConfigSummary, location_name: "RuntimeConfig"))
     DescribeInferenceComponentOutput.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreationTime"))
     DescribeInferenceComponentOutput.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "LastModifiedTime"))
@@ -8156,6 +8168,12 @@ module Aws::SageMaker
     InferenceComponentMetadata.add_member(:arn, Shapes::ShapeRef.new(shape: String2048, location_name: "Arn"))
     InferenceComponentMetadata.struct_class = Types::InferenceComponentMetadata
 
+    InferenceComponentPlacementStatus.add_member(:instance_type, Shapes::ShapeRef.new(shape: ProductionVariantInstanceType, required: true, location_name: "InstanceType"))
+    InferenceComponentPlacementStatus.add_member(:current_copy_count, Shapes::ShapeRef.new(shape: InferenceComponentCopyCount, required: true, location_name: "CurrentCopyCount"))
+    InferenceComponentPlacementStatus.struct_class = Types::InferenceComponentPlacementStatus
+
+    InferenceComponentPlacementStatusList.member = Shapes::ShapeRef.new(shape: InferenceComponentPlacementStatus)
+
     InferenceComponentRollingUpdatePolicy.add_member(:maximum_batch_size, Shapes::ShapeRef.new(shape: InferenceComponentCapacitySize, required: true, location_name: "MaximumBatchSize"))
     InferenceComponentRollingUpdatePolicy.add_member(:wait_interval_in_seconds, Shapes::ShapeRef.new(shape: WaitIntervalInSeconds, required: true, location_name: "WaitIntervalInSeconds"))
     InferenceComponentRollingUpdatePolicy.add_member(:maximum_execution_timeout_in_seconds, Shapes::ShapeRef.new(shape: MaximumExecutionTimeoutInSeconds, location_name: "MaximumExecutionTimeoutInSeconds"))
@@ -8167,12 +8185,14 @@ module Aws::SageMaker
 
     InferenceComponentRuntimeConfigSummary.add_member(:desired_copy_count, Shapes::ShapeRef.new(shape: InferenceComponentCopyCount, location_name: "DesiredCopyCount"))
     InferenceComponentRuntimeConfigSummary.add_member(:current_copy_count, Shapes::ShapeRef.new(shape: InferenceComponentCopyCount, location_name: "CurrentCopyCount"))
+    InferenceComponentRuntimeConfigSummary.add_member(:placement_status, Shapes::ShapeRef.new(shape: InferenceComponentPlacementStatusList, location_name: "PlacementStatus"))
     InferenceComponentRuntimeConfigSummary.struct_class = Types::InferenceComponentRuntimeConfigSummary
 
     InferenceComponentSchedulingConfig.add_member(:placement_strategy, Shapes::ShapeRef.new(shape: InferenceComponentPlacementStrategy, required: true, location_name: "PlacementStrategy"))
     InferenceComponentSchedulingConfig.add_member(:availability_zone_balance, Shapes::ShapeRef.new(shape: InferenceComponentAvailabilityZoneBalance, location_name: "AvailabilityZoneBalance"))
     InferenceComponentSchedulingConfig.struct_class = Types::InferenceComponentSchedulingConfig
 
+    InferenceComponentSpecification.add_member(:instance_type, Shapes::ShapeRef.new(shape: ProductionVariantInstanceType, location_name: "InstanceType"))
     InferenceComponentSpecification.add_member(:model_name, Shapes::ShapeRef.new(shape: ModelName, location_name: "ModelName"))
     InferenceComponentSpecification.add_member(:container, Shapes::ShapeRef.new(shape: InferenceComponentContainerSpecification, location_name: "Container"))
     InferenceComponentSpecification.add_member(:startup_parameters, Shapes::ShapeRef.new(shape: InferenceComponentStartupParameters, location_name: "StartupParameters"))
@@ -8182,6 +8202,9 @@ module Aws::SageMaker
     InferenceComponentSpecification.add_member(:scheduling_config, Shapes::ShapeRef.new(shape: InferenceComponentSchedulingConfig, location_name: "SchedulingConfig"))
     InferenceComponentSpecification.struct_class = Types::InferenceComponentSpecification
 
+    InferenceComponentSpecificationList.member = Shapes::ShapeRef.new(shape: InferenceComponentSpecification)
+
+    InferenceComponentSpecificationSummary.add_member(:instance_type, Shapes::ShapeRef.new(shape: ProductionVariantInstanceType, location_name: "InstanceType"))
     InferenceComponentSpecificationSummary.add_member(:model_name, Shapes::ShapeRef.new(shape: ModelName, location_name: "ModelName"))
     InferenceComponentSpecificationSummary.add_member(:container, Shapes::ShapeRef.new(shape: InferenceComponentContainerSpecificationSummary, location_name: "Container"))
     InferenceComponentSpecificationSummary.add_member(:startup_parameters, Shapes::ShapeRef.new(shape: InferenceComponentStartupParameters, location_name: "StartupParameters"))
@@ -8190,6 +8213,8 @@ module Aws::SageMaker
     InferenceComponentSpecificationSummary.add_member(:data_cache_config, Shapes::ShapeRef.new(shape: InferenceComponentDataCacheConfigSummary, location_name: "DataCacheConfig"))
     InferenceComponentSpecificationSummary.add_member(:scheduling_config, Shapes::ShapeRef.new(shape: InferenceComponentSchedulingConfig, location_name: "SchedulingConfig"))
     InferenceComponentSpecificationSummary.struct_class = Types::InferenceComponentSpecificationSummary
+
+    InferenceComponentSpecificationSummaryList.member = Shapes::ShapeRef.new(shape: InferenceComponentSpecificationSummary)
 
     InferenceComponentStartupParameters.add_member(:model_data_download_timeout_in_seconds, Shapes::ShapeRef.new(shape: ProductionVariantModelDataDownloadTimeoutInSeconds, location_name: "ModelDataDownloadTimeoutInSeconds"))
     InferenceComponentStartupParameters.add_member(:container_startup_health_check_timeout_in_seconds, Shapes::ShapeRef.new(shape: ProductionVariantContainerStartupHealthCheckTimeoutInSeconds, location_name: "ContainerStartupHealthCheckTimeoutInSeconds"))
@@ -8339,6 +8364,19 @@ module Aws::SageMaker
     InstancePlacementConfig.add_member(:enable_multiple_jobs, Shapes::ShapeRef.new(shape: Boolean, location_name: "EnableMultipleJobs", metadata: {"box" => true}))
     InstancePlacementConfig.add_member(:placement_specifications, Shapes::ShapeRef.new(shape: PlacementSpecifications, location_name: "PlacementSpecifications"))
     InstancePlacementConfig.struct_class = Types::InstancePlacementConfig
+
+    InstancePool.add_member(:instance_type, Shapes::ShapeRef.new(shape: ProductionVariantInstanceType, required: true, location_name: "InstanceType"))
+    InstancePool.add_member(:model_name_override, Shapes::ShapeRef.new(shape: ModelName, location_name: "ModelNameOverride"))
+    InstancePool.add_member(:priority, Shapes::ShapeRef.new(shape: InstancePoolPriority, required: true, location_name: "Priority"))
+    InstancePool.struct_class = Types::InstancePool
+
+    InstancePoolList.member = Shapes::ShapeRef.new(shape: InstancePool)
+
+    InstancePoolSummary.add_member(:instance_type, Shapes::ShapeRef.new(shape: ProductionVariantInstanceType, required: true, location_name: "InstanceType"))
+    InstancePoolSummary.add_member(:current_instance_count, Shapes::ShapeRef.new(shape: TaskCount, required: true, location_name: "CurrentInstanceCount"))
+    InstancePoolSummary.struct_class = Types::InstancePoolSummary
+
+    InstancePoolSummaryList.member = Shapes::ShapeRef.new(shape: InstancePoolSummary)
 
     IntegerParameterRange.add_member(:name, Shapes::ShapeRef.new(shape: ParameterKey, required: true, location_name: "Name"))
     IntegerParameterRange.add_member(:min_value, Shapes::ShapeRef.new(shape: ParameterValue, required: true, location_name: "MinValue"))
@@ -10650,6 +10688,7 @@ module Aws::SageMaker
     PendingProductionVariantSummary.add_member(:current_instance_count, Shapes::ShapeRef.new(shape: TaskCount, location_name: "CurrentInstanceCount"))
     PendingProductionVariantSummary.add_member(:desired_instance_count, Shapes::ShapeRef.new(shape: TaskCount, location_name: "DesiredInstanceCount"))
     PendingProductionVariantSummary.add_member(:instance_type, Shapes::ShapeRef.new(shape: ProductionVariantInstanceType, location_name: "InstanceType"))
+    PendingProductionVariantSummary.add_member(:instance_pools, Shapes::ShapeRef.new(shape: InstancePoolSummaryList, location_name: "InstancePools"))
     PendingProductionVariantSummary.add_member(:accelerator_type, Shapes::ShapeRef.new(shape: ProductionVariantAcceleratorType, location_name: "AcceleratorType"))
     PendingProductionVariantSummary.add_member(:variant_status, Shapes::ShapeRef.new(shape: ProductionVariantStatusList, location_name: "VariantStatus"))
     PendingProductionVariantSummary.add_member(:current_serverless_config, Shapes::ShapeRef.new(shape: ProductionVariantServerlessConfig, location_name: "CurrentServerlessConfig"))
@@ -10908,6 +10947,8 @@ module Aws::SageMaker
     ProductionVariant.add_member(:model_name, Shapes::ShapeRef.new(shape: ModelName, location_name: "ModelName"))
     ProductionVariant.add_member(:initial_instance_count, Shapes::ShapeRef.new(shape: InitialTaskCount, location_name: "InitialInstanceCount"))
     ProductionVariant.add_member(:instance_type, Shapes::ShapeRef.new(shape: ProductionVariantInstanceType, location_name: "InstanceType"))
+    ProductionVariant.add_member(:instance_pools, Shapes::ShapeRef.new(shape: InstancePoolList, location_name: "InstancePools"))
+    ProductionVariant.add_member(:variant_instance_provision_timeout_in_seconds, Shapes::ShapeRef.new(shape: VariantInstanceProvisionTimeoutInSeconds, location_name: "VariantInstanceProvisionTimeoutInSeconds"))
     ProductionVariant.add_member(:initial_variant_weight, Shapes::ShapeRef.new(shape: VariantWeight, location_name: "InitialVariantWeight"))
     ProductionVariant.add_member(:accelerator_type, Shapes::ShapeRef.new(shape: ProductionVariantAcceleratorType, location_name: "AcceleratorType"))
     ProductionVariant.add_member(:core_dump_config, Shapes::ShapeRef.new(shape: ProductionVariantCoreDumpConfig, location_name: "CoreDumpConfig"))
@@ -10976,6 +11017,7 @@ module Aws::SageMaker
     ProductionVariantSummary.add_member(:desired_weight, Shapes::ShapeRef.new(shape: VariantWeight, location_name: "DesiredWeight"))
     ProductionVariantSummary.add_member(:current_instance_count, Shapes::ShapeRef.new(shape: TaskCount, location_name: "CurrentInstanceCount"))
     ProductionVariantSummary.add_member(:desired_instance_count, Shapes::ShapeRef.new(shape: TaskCount, location_name: "DesiredInstanceCount"))
+    ProductionVariantSummary.add_member(:instance_pools, Shapes::ShapeRef.new(shape: InstancePoolSummaryList, location_name: "InstancePools"))
     ProductionVariantSummary.add_member(:variant_status, Shapes::ShapeRef.new(shape: ProductionVariantStatusList, location_name: "VariantStatus"))
     ProductionVariantSummary.add_member(:current_serverless_config, Shapes::ShapeRef.new(shape: ProductionVariantServerlessConfig, location_name: "CurrentServerlessConfig"))
     ProductionVariantSummary.add_member(:desired_serverless_config, Shapes::ShapeRef.new(shape: ProductionVariantServerlessConfig, location_name: "DesiredServerlessConfig"))
@@ -12621,6 +12663,7 @@ module Aws::SageMaker
 
     UpdateInferenceComponentInput.add_member(:inference_component_name, Shapes::ShapeRef.new(shape: InferenceComponentName, required: true, location_name: "InferenceComponentName"))
     UpdateInferenceComponentInput.add_member(:specification, Shapes::ShapeRef.new(shape: InferenceComponentSpecification, location_name: "Specification"))
+    UpdateInferenceComponentInput.add_member(:specifications, Shapes::ShapeRef.new(shape: InferenceComponentSpecificationList, location_name: "Specifications"))
     UpdateInferenceComponentInput.add_member(:runtime_config, Shapes::ShapeRef.new(shape: InferenceComponentRuntimeConfig, location_name: "RuntimeConfig"))
     UpdateInferenceComponentInput.add_member(:deployment_config, Shapes::ShapeRef.new(shape: InferenceComponentDeploymentConfig, location_name: "DeploymentConfig"))
     UpdateInferenceComponentInput.struct_class = Types::UpdateInferenceComponentInput

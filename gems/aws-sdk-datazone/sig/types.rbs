@@ -548,6 +548,9 @@ module Aws::DataZone
       SENSITIVE: []
     end
 
+    class CellInformation < Aws::EmptyStructure
+    end
+
     class CloudFormationProperties
       attr_accessor template_url: ::String
       SENSITIVE: []
@@ -555,6 +558,12 @@ module Aws::DataZone
 
     class ColumnFilterConfiguration
       attr_accessor included_column_names: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class ComputeConfig
+      attr_accessor instance_type: ::String
+      attr_accessor environment_version: ::String
       SENSITIVE: []
     end
 
@@ -2155,6 +2164,12 @@ module Aws::DataZone
       SENSITIVE: [:description]
     end
 
+    class EnvironmentConfig
+      attr_accessor image_version: ::String
+      attr_accessor package_config: Types::PackageConfig
+      SENSITIVE: []
+    end
+
     class EnvironmentConfiguration
       attr_accessor name: ::String
       attr_accessor id: ::String
@@ -2937,6 +2952,38 @@ module Aws::DataZone
       attr_accessor owning_project_id: ::String
       attr_accessor type_stats: ::Array[Types::MetadataGenerationRunTypeStat]
       SENSITIVE: []
+    end
+
+    class GetNotebookRunInput
+      attr_accessor domain_identifier: ::String
+      attr_accessor identifier: ::String
+      SENSITIVE: []
+    end
+
+    class GetNotebookRunOutput
+      attr_accessor id: ::String
+      attr_accessor domain_id: ::String
+      attr_accessor owning_project_id: ::String
+      attr_accessor notebook_id: ::String
+      attr_accessor schedule_id: ::String
+      attr_accessor status: ("QUEUED" | "STARTING" | "RUNNING" | "STOPPING" | "STOPPED" | "SUCCEEDED" | "FAILED")
+      attr_accessor cell_order: ::Array[Types::CellInformation]
+      attr_accessor metadata: ::Hash[::String, ::String]
+      attr_accessor parameters: ::Hash[::String, ::String]
+      attr_accessor compute_configuration: Types::ComputeConfig
+      attr_accessor network_configuration: Types::NetworkConfig
+      attr_accessor timeout_configuration: Types::TimeoutConfig
+      attr_accessor environment_configuration: Types::EnvironmentConfig
+      attr_accessor storage_configuration: Types::StorageConfig
+      attr_accessor trigger_source: Types::TriggerSource
+      attr_accessor error: Types::NotebookRunError
+      attr_accessor created_at: ::Time
+      attr_accessor created_by: ::String
+      attr_accessor updated_at: ::Time
+      attr_accessor updated_by: ::String
+      attr_accessor started_at: ::Time
+      attr_accessor completed_at: ::Time
+      SENSITIVE: [:parameters]
     end
 
     class GetProjectInput
@@ -3899,6 +3946,24 @@ module Aws::DataZone
       SENSITIVE: []
     end
 
+    class ListNotebookRunsInput
+      attr_accessor domain_identifier: ::String
+      attr_accessor owning_project_identifier: ::String
+      attr_accessor notebook_identifier: ::String
+      attr_accessor status: ("QUEUED" | "STARTING" | "RUNNING" | "STOPPING" | "STOPPED" | "SUCCEEDED" | "FAILED")
+      attr_accessor schedule_identifier: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor sort_order: ("ASCENDING" | "DESCENDING")
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListNotebookRunsOutput
+      attr_accessor items: ::Array[Types::NotebookRunSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListNotificationsInput
       attr_accessor domain_identifier: ::String
       attr_accessor type: ("TASK" | "EVENT")
@@ -4297,6 +4362,14 @@ module Aws::DataZone
       SENSITIVE: []
     end
 
+    class NetworkConfig
+      attr_accessor network_access_type: ("PUBLIC_INTERNET_ONLY" | "VPC_ONLY")
+      attr_accessor vpc_id: ::String
+      attr_accessor subnet_ids: ::Array[::String]
+      attr_accessor security_group_ids: ::Array[::String]
+      SENSITIVE: []
+    end
+
     class NotEqualToExpression
       attr_accessor column_name: ::String
       attr_accessor value: ::String
@@ -4312,6 +4385,28 @@ module Aws::DataZone
     class NotLikeExpression
       attr_accessor column_name: ::String
       attr_accessor value: ::String
+      SENSITIVE: []
+    end
+
+    class NotebookRunError
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class NotebookRunSummary
+      attr_accessor id: ::String
+      attr_accessor domain_id: ::String
+      attr_accessor owning_project_id: ::String
+      attr_accessor notebook_id: ::String
+      attr_accessor schedule_id: ::String
+      attr_accessor status: ("QUEUED" | "STARTING" | "RUNNING" | "STOPPING" | "STOPPED" | "SUCCEEDED" | "FAILED")
+      attr_accessor trigger_source: Types::TriggerSource
+      attr_accessor created_at: ::Time
+      attr_accessor created_by: ::String
+      attr_accessor updated_at: ::Time
+      attr_accessor updated_by: ::String
+      attr_accessor started_at: ::Time
+      attr_accessor completed_at: ::Time
       SENSITIVE: []
     end
 
@@ -4417,6 +4512,12 @@ module Aws::DataZone
 
     class OwnerUserPropertiesOutput
       attr_accessor user_id: ::String
+      SENSITIVE: []
+    end
+
+    class PackageConfig
+      attr_accessor package_manager: ("UV")
+      attr_accessor package_specification: ::String
       SENSITIVE: []
     end
 
@@ -5487,6 +5588,68 @@ module Aws::DataZone
       SENSITIVE: []
     end
 
+    class StartNotebookRunInput
+      attr_accessor domain_identifier: ::String
+      attr_accessor owning_project_identifier: ::String
+      attr_accessor notebook_identifier: ::String
+      attr_accessor schedule_identifier: ::String
+      attr_accessor compute_configuration: Types::ComputeConfig
+      attr_accessor network_configuration: Types::NetworkConfig
+      attr_accessor timeout_configuration: Types::TimeoutConfig
+      attr_accessor trigger_source: Types::TriggerSource
+      attr_accessor metadata: ::Hash[::String, ::String]
+      attr_accessor parameters: ::Hash[::String, ::String]
+      attr_accessor client_token: ::String
+      SENSITIVE: [:parameters]
+    end
+
+    class StartNotebookRunOutput
+      attr_accessor id: ::String
+      attr_accessor domain_id: ::String
+      attr_accessor owning_project_id: ::String
+      attr_accessor notebook_id: ::String
+      attr_accessor schedule_id: ::String
+      attr_accessor status: ("QUEUED" | "STARTING" | "RUNNING" | "STOPPING" | "STOPPED" | "SUCCEEDED" | "FAILED")
+      attr_accessor cell_order: ::Array[Types::CellInformation]
+      attr_accessor metadata: ::Hash[::String, ::String]
+      attr_accessor parameters: ::Hash[::String, ::String]
+      attr_accessor compute_configuration: Types::ComputeConfig
+      attr_accessor network_configuration: Types::NetworkConfig
+      attr_accessor timeout_configuration: Types::TimeoutConfig
+      attr_accessor environment_configuration: Types::EnvironmentConfig
+      attr_accessor storage_configuration: Types::StorageConfig
+      attr_accessor trigger_source: Types::TriggerSource
+      attr_accessor error: Types::NotebookRunError
+      attr_accessor created_at: ::Time
+      attr_accessor created_by: ::String
+      attr_accessor updated_at: ::Time
+      attr_accessor updated_by: ::String
+      attr_accessor started_at: ::Time
+      attr_accessor completed_at: ::Time
+      SENSITIVE: [:parameters]
+    end
+
+    class StopNotebookRunInput
+      attr_accessor domain_identifier: ::String
+      attr_accessor identifier: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class StopNotebookRunOutput
+      attr_accessor id: ::String
+      attr_accessor domain_id: ::String
+      attr_accessor owning_project_id: ::String
+      attr_accessor status: ("QUEUED" | "STARTING" | "RUNNING" | "STOPPING" | "STOPPED" | "SUCCEEDED" | "FAILED")
+      SENSITIVE: []
+    end
+
+    class StorageConfig
+      attr_accessor project_s3_path: ::String
+      attr_accessor kms_key_arn: ::String
+      SENSITIVE: []
+    end
+
     class SubscribedAsset
       attr_accessor asset_id: ::String
       attr_accessor asset_revision: ::String
@@ -5765,10 +5928,21 @@ module Aws::DataZone
       SENSITIVE: []
     end
 
+    class TimeoutConfig
+      attr_accessor run_timeout_in_minutes: ::Integer
+      SENSITIVE: []
+    end
+
     class Topic
       attr_accessor subject: ::String
       attr_accessor resource: Types::NotificationResource
       attr_accessor role: ("PROJECT_OWNER" | "PROJECT_CONTRIBUTOR" | "PROJECT_VIEWER" | "DOMAIN_OWNER" | "PROJECT_SUBSCRIBER")
+      SENSITIVE: []
+    end
+
+    class TriggerSource
+      attr_accessor type: ("MANUAL" | "SCHEDULED" | "WORKFLOW")
+      attr_accessor name: ::String
       SENSITIVE: []
     end
 

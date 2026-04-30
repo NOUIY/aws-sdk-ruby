@@ -97,7 +97,13 @@ module Aws
                                                text: ::String?
                                              },
                                              timestamp: ::Time,
-                                             memory_strategy_id: ::String?
+                                             memory_strategy_id: ::String?,
+                                             metadata: Hash[::String, {
+                                                 string_value: ::String?,
+                                                 string_list_value: Array[::String]?,
+                                                 number_value: ::Float?,
+                                                 date_time_value: ::Time?
+                                               }]?
                                            },
                                          ],
                                          ?client_token: ::String
@@ -136,7 +142,13 @@ module Aws
                                                text: ::String?
                                              }?,
                                              namespaces: Array[::String]?,
-                                             memory_strategy_id: ::String?
+                                             memory_strategy_id: ::String?,
+                                             metadata: Hash[::String, {
+                                                 string_value: ::String?,
+                                                 string_list_value: Array[::String]?,
+                                                 number_value: ::Float?,
+                                                 date_time_value: ::Time?
+                                               }]?
                                            },
                                          ]
                                        ) -> _BatchUpdateMemoryRecordsResponseSuccess
@@ -507,12 +519,14 @@ module Aws
                                         workload_identity_token: ::String,
                                         resource_credential_provider_name: ::String,
                                         scopes: Array[::String],
-                                        oauth2_flow: ("USER_FEDERATION" | "M2M"),
+                                        oauth2_flow: ("USER_FEDERATION" | "M2M" | "ON_BEHALF_OF_TOKEN_EXCHANGE"),
                                         ?session_uri: ::String,
                                         ?resource_oauth_2_return_url: ::String,
                                         ?force_authentication: bool,
                                         ?custom_parameters: Hash[::String, ::String],
-                                        ?custom_state: ::String
+                                        ?custom_state: ::String,
+                                        ?resources: Array[::String],
+                                        ?audiences: Array[::String]
                                       ) -> _GetResourceOauth2TokenResponseSuccess
                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetResourceOauth2TokenResponseSuccess
 
@@ -949,7 +963,23 @@ module Aws
                                  ?namespace_path: ::String,
                                  ?memory_strategy_id: ::String,
                                  ?max_results: ::Integer,
-                                 ?next_token: ::String
+                                 ?next_token: ::String,
+                                 ?metadata_filters: Array[
+                                   {
+                                     left: {
+                                       metadata_key: ::String?
+                                     },
+                                     operator: ("EQUALS_TO" | "EXISTS" | "NOT_EXISTS" | "BEFORE" | "AFTER" | "CONTAINS" | "GREATER_THAN" | "GREATER_THAN_OR_EQUALS" | "LESS_THAN" | "LESS_THAN_OR_EQUALS"),
+                                     right: {
+                                       metadata_value: {
+                                         string_value: ::String?,
+                                         string_list_value: Array[::String]?,
+                                         number_value: ::Float?,
+                                         date_time_value: ::Time?
+                                       }?
+                                     }?
+                                   },
+                                 ]
                                ) -> _ListMemoryRecordsResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListMemoryRecordsResponseSuccess
 
@@ -1002,10 +1032,13 @@ module Aws
                                            left: {
                                              metadata_key: ::String?
                                            },
-                                           operator: ("EQUALS_TO" | "EXISTS" | "NOT_EXISTS"),
+                                           operator: ("EQUALS_TO" | "EXISTS" | "NOT_EXISTS" | "BEFORE" | "AFTER" | "CONTAINS" | "GREATER_THAN" | "GREATER_THAN_OR_EQUALS" | "LESS_THAN" | "LESS_THAN_OR_EQUALS"),
                                            right: {
                                              metadata_value: {
-                                               string_value: ::String?
+                                               string_value: ::String?,
+                                               string_list_value: Array[::String]?,
+                                               number_value: ::Float?,
+                                               date_time_value: ::Time?
                                              }?
                                            }?
                                          },
