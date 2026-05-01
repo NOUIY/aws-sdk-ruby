@@ -5199,6 +5199,11 @@ module Aws::CloudWatchLogs
     #   names, each with 1 to 512 characters.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] log_group_tags
+    #   An array of tag filters to return only log groups that have specific
+    #   tags. Multiple filters are combined with AND logic.
+    #   @return [Array<Types::TagFilter>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/ListLogGroupsRequest AWS API Documentation
     #
     class ListLogGroupsRequest < Struct.new(
@@ -5209,7 +5214,8 @@ module Aws::CloudWatchLogs
       :next_token,
       :limit,
       :data_sources,
-      :field_index_names)
+      :field_index_names,
+      :log_group_tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9713,6 +9719,42 @@ module Aws::CloudWatchLogs
     class SuppressionPeriod < Struct.new(
       :value,
       :suppression_unit)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A tag filter that specifies a tag key and optional tag values for
+    # filtering log groups by tags.
+    #
+    # @!attribute [rw] key
+    #   The tag key to filter on.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   An optional list of tag values to filter on.
+    #
+    #   * If you specify a filter that contains more than one value for a
+    #     key, the response returns log groups that match any of the
+    #     specified values for that key.
+    #
+    #   * If you don't specify values, the response returns all log groups
+    #     that are tagged with that key, with any or no value.
+    #
+    #   * Use `*` for wildcard matching. For example, `prod*` matches values
+    #     that start with `prod`.
+    #
+    #   * Use `!` as a prefix for negation. For example, `!prod` matches
+    #     values that are not `prod`.
+    #
+    #   * Exact matching and negation are case-sensitive. Wildcard matching
+    #     is case-insensitive.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/TagFilter AWS API Documentation
+    #
+    class TagFilter < Struct.new(
+      :key,
+      :values)
       SENSITIVE = []
       include Aws::Structure
     end

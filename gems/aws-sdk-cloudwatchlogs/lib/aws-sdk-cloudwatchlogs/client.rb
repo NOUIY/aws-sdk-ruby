@@ -5258,12 +5258,10 @@ module Aws::CloudWatchLogs
     # observability to set up monitoring accounts and source accounts, see [
     # CloudWatch cross-account observability][1].
     #
-    # You can optionally filter the list by log group class, by using
-    # regular expressions in your request to match strings in the log group
-    # names, by using the fieldIndexes parameter to filter log groups based
-    # on which field indexes are configured, by using the dataSources
-    # parameter to filter log groups by data source types, and by using the
-    # fieldIndexNames parameter to filter by specific field index names.
+    # You can optionally filter the results by log group class, log group
+    # name pattern, field indexes, data sources, field index names, or log
+    # group tags. If you specify more than one filter type, the results
+    # include log groups that satisfy all filters.
     #
     # This operation is paginated. By default, your first use of this
     # operation returns 50 results, and includes a token to use in a
@@ -5336,6 +5334,10 @@ module Aws::CloudWatchLogs
     #   are returned. You can specify 1 to 20 field index names, each with 1
     #   to 512 characters.
     #
+    # @option params [Array<Types::TagFilter>] :log_group_tags
+    #   An array of tag filters to return only log groups that have specific
+    #   tags. Multiple filters are combined with AND logic.
+    #
     # @return [Types::ListLogGroupsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ListLogGroupsResponse#log_groups #log_groups} => Array&lt;Types::LogGroupSummary&gt;
@@ -5357,6 +5359,12 @@ module Aws::CloudWatchLogs
     #       },
     #     ],
     #     field_index_names: ["FieldIndexName"],
+    #     log_group_tags: [
+    #       {
+    #         key: "TagFilterKey", # required
+    #         values: ["TagFilterValue"],
+    #       },
+    #     ],
     #   })
     #
     # @example Response structure
@@ -8291,7 +8299,9 @@ module Aws::CloudWatchLogs
     # * Or the `queryString` must include a `SOURCE` command to select log
     #   groups for the query. The `SOURCE` command can select log groups
     #   based on log group name prefix, account ID, and log class, or select
-    #   data sources using dataSource syntax in LogsQL, PPL, and SQL.
+    #   data sources using dataSource syntax in LogsQL, PPL, and SQL. In
+    #   LogsQL, the `SOURCE` command also supports filtering by log group
+    #   tags.
     #
     #   For more information about the `SOURCE` command, see [SOURCE][3].
     #
@@ -9250,7 +9260,7 @@ module Aws::CloudWatchLogs
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatchlogs'
-      context[:gem_version] = '1.147.0'
+      context[:gem_version] = '1.148.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

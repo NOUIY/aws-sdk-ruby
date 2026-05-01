@@ -618,6 +618,11 @@ module Aws::CloudWatchLogs
     SystemField = Shapes::StringShape.new(name: 'SystemField')
     TableBody = Shapes::StringShape.new(name: 'TableBody')
     TableFields = Shapes::ListShape.new(name: 'TableFields')
+    TagFilter = Shapes::StructureShape.new(name: 'TagFilter')
+    TagFilterKey = Shapes::StringShape.new(name: 'TagFilterKey')
+    TagFilterValue = Shapes::StringShape.new(name: 'TagFilterValue')
+    TagFilterValues = Shapes::ListShape.new(name: 'TagFilterValues')
+    TagFilters = Shapes::ListShape.new(name: 'TagFilters')
     TagKey = Shapes::StringShape.new(name: 'TagKey')
     TagKeyList = Shapes::ListShape.new(name: 'TagKeyList')
     TagList = Shapes::ListShape.new(name: 'TagList')
@@ -1669,6 +1674,7 @@ module Aws::CloudWatchLogs
     ListLogGroupsRequest.add_member(:limit, Shapes::ShapeRef.new(shape: ListLimit, location_name: "limit"))
     ListLogGroupsRequest.add_member(:data_sources, Shapes::ShapeRef.new(shape: DataSourceFilters, location_name: "dataSources"))
     ListLogGroupsRequest.add_member(:field_index_names, Shapes::ShapeRef.new(shape: FieldIndexNames, location_name: "fieldIndexNames"))
+    ListLogGroupsRequest.add_member(:log_group_tags, Shapes::ShapeRef.new(shape: TagFilters, location_name: "logGroupTags"))
     ListLogGroupsRequest.struct_class = Types::ListLogGroupsRequest
 
     ListLogGroupsResponse.add_member(:log_groups, Shapes::ShapeRef.new(shape: LogGroupSummaries, location_name: "logGroups"))
@@ -2391,6 +2397,14 @@ module Aws::CloudWatchLogs
     SuppressionPeriod.struct_class = Types::SuppressionPeriod
 
     TableFields.member = Shapes::ShapeRef.new(shape: String)
+
+    TagFilter.add_member(:key, Shapes::ShapeRef.new(shape: TagFilterKey, required: true, location_name: "key"))
+    TagFilter.add_member(:values, Shapes::ShapeRef.new(shape: TagFilterValues, location_name: "values"))
+    TagFilter.struct_class = Types::TagFilter
+
+    TagFilterValues.member = Shapes::ShapeRef.new(shape: TagFilterValue)
+
+    TagFilters.member = Shapes::ShapeRef.new(shape: TagFilter)
 
     TagKeyList.member = Shapes::ShapeRef.new(shape: TagKey)
 

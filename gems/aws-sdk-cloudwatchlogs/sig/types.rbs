@@ -1261,6 +1261,7 @@ module Aws::CloudWatchLogs
       attr_accessor limit: ::Integer
       attr_accessor data_sources: ::Array[Types::DataSourceFilter]
       attr_accessor field_index_names: ::Array[::String]
+      attr_accessor log_group_tags: ::Array[Types::TagFilter]
       SENSITIVE: []
     end
 
@@ -2131,6 +2132,12 @@ module Aws::CloudWatchLogs
     class SuppressionPeriod
       attr_accessor value: ::Integer
       attr_accessor suppression_unit: ("SECONDS" | "MINUTES" | "HOURS")
+      SENSITIVE: []
+    end
+
+    class TagFilter
+      attr_accessor key: ::String
+      attr_accessor values: ::Array[::String]
       SENSITIVE: []
     end
 

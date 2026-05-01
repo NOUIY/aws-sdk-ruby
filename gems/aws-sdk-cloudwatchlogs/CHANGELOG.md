@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.148.0 (2026-05-01)
+------------------
+
+* Feature - Adds support for filtering log groups by tags in the ListLogGroups API via the new logGroupTags parameter.
+
 1.147.0 (2026-04-27)
 ------------------
 
