@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.43.0 (2026-05-04)
+------------------
+
+* Feature - Amazon Bedrock AgentCore gateways now support MCP Sessions and response streaming from MCP targets. Session timeouts can be set between 15 minutes and 8 hours, and response streaming enables forwarding stream events sent by MCP targets to gateway users.
+
 1.42.0 (2026-04-30)
 ------------------
 

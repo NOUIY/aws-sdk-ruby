@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.614.0 (2026-05-04)
+------------------
+
+* Feature - This feature allows customers to change the tunnel bandwidth on existing VPN connections using the ModifyVpnConnectionOptions API
+
 1.613.0 (2026-04-22)
 ------------------
 

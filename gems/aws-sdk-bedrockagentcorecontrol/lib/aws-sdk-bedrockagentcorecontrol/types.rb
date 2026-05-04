@@ -10141,12 +10141,24 @@ module Aws::BedrockAgentCoreControl
     #   specifies how the gateway handles search operations.
     #   @return [String]
     #
+    # @!attribute [rw] session_configuration
+    #   The session configuration for the MCP gateway. This configuration
+    #   controls session behavior, including session timeout settings.
+    #   @return [Types::SessionConfiguration]
+    #
+    # @!attribute [rw] streaming_configuration
+    #   The streaming configuration for the MCP gateway. This configuration
+    #   controls whether response streaming is enabled for the gateway.
+    #   @return [Types::StreamingConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/MCPGatewayConfiguration AWS API Documentation
     #
     class MCPGatewayConfiguration < Struct.new(
       :supported_versions,
       :instructions,
-      :search_type)
+      :search_type,
+      :session_configuration,
+      :streaming_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10204,9 +10216,12 @@ module Aws::BedrockAgentCoreControl
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] routing_domain
-    #   An intermediate publicly resolvable domain used as the VPC Lattice
-    #   resource configuration endpoint. Required when your private endpoint
-    #   uses a domain that is not publicly resolvable.
+    #   An intermediate domain to use as the resource configuration endpoint
+    #   instead of the actual target domain. Use this when you want to route
+    #   traffic through an intermediate component such as a VPC endpoint or
+    #   internal load balancer. For more information, see
+    #   xref:lattice-vpc-egress-routing-domain\[Route traffic through an
+    #   intermediate domain\].
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ManagedVpcResource AWS API Documentation
@@ -11391,14 +11406,14 @@ module Aws::BedrockAgentCoreControl
       class Unknown < Oauth2ProviderConfigOutput; end
     end
 
-    # Configuration for on-behalf-of token exchange
+    # Configuration for on-behalf-of token exchange.
     #
     # @!attribute [rw] grant_type
     #   The grant type for the on-behalf-of token exchange.
     #   @return [String]
     #
     # @!attribute [rw] token_exchange_grant_type_config
-    #   Configuration specific to TOKEN\_EXCHANGE grant type (RFC 8693)
+    #   Configuration specific to the TOKEN\_EXCHANGE grant type (RFC 8693).
     #   @return [Types::TokenExchangeGrantTypeConfigType]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/OnBehalfOfTokenExchangeConfigType AWS API Documentation
@@ -12917,6 +12932,25 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The session configuration for an MCP gateway. This structure defines
+    # settings that control session behavior.
+    #
+    # @!attribute [rw] session_timeout_in_seconds
+    #   The session timeout in seconds. After this timeout, the session
+    #   expires and subsequent requests to this session will receive an
+    #   error. The minimum value is 900 seconds (15 minutes), the maximum
+    #   value is 28800 seconds (8 hours), and the default value is 3600
+    #   seconds (1 hour).
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SessionConfiguration AWS API Documentation
+    #
+    class SessionConfiguration < Struct.new(
+      :session_timeout_in_seconds)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Configuration for a session storage filesystem mounted into the
     # AgentCore Runtime. Session storage provides persistent storage that is
     # preserved across AgentCore Runtime session invocations.
@@ -13254,6 +13288,23 @@ module Aws::BedrockAgentCoreControl
     #
     class StreamDeliveryResources < Struct.new(
       :resources)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The streaming configuration for an MCP gateway. This structure defines
+    # settings that control response streaming behavior.
+    #
+    # @!attribute [rw] enable_response_streaming
+    #   Indicates whether response streaming is enabled for the gateway.
+    #   When set to `true`, the gateway streams responses from targets back
+    #   to the client.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/StreamingConfiguration AWS API Documentation
+    #
+    class StreamingConfiguration < Struct.new(
+      :enable_response_streaming)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13707,14 +13758,15 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
-    # Configuration for RFC 8693 Token Exchange
+    # Configuration for RFC 8693 token exchange.
     #
     # @!attribute [rw] actor_token_content
     #   The content type for the actor token in the token exchange.
     #   @return [String]
     #
     # @!attribute [rw] actor_token_scopes
-    #   Only valid when actorTokenContent is M2M
+    #   The scopes for the actor token. Only valid when actorTokenContent is
+    #   M2M.
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/TokenExchangeGrantTypeConfigType AWS API Documentation

@@ -446,7 +446,13 @@ module Aws
                               mcp: {
                                 supported_versions: Array[::String]?,
                                 instructions: ::String?,
-                                search_type: ("SEMANTIC")?
+                                search_type: ("SEMANTIC")?,
+                                session_configuration: {
+                                  session_timeout_in_seconds: ::Integer?
+                                }?,
+                                streaming_configuration: {
+                                  enable_response_streaming: bool?
+                                }?
                               }?
                             },
                             authorizer_type: ("CUSTOM_JWT" | "AWS_IAM" | "NONE" | "AUTHENTICATE_ONLY"),
@@ -3050,7 +3056,13 @@ module Aws
                               mcp: {
                                 supported_versions: Array[::String]?,
                                 instructions: ::String?,
-                                search_type: ("SEMANTIC")?
+                                search_type: ("SEMANTIC")?,
+                                session_configuration: {
+                                  session_timeout_in_seconds: ::Integer?
+                                }?,
+                                streaming_configuration: {
+                                  enable_response_streaming: bool?
+                                }?
                               }?
                             },
                             authorizer_type: ("CUSTOM_JWT" | "AWS_IAM" | "NONE" | "AUTHENTICATE_ONLY"),

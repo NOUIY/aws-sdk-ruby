@@ -14140,6 +14140,7 @@ module Aws::EC2
       attr_accessor remote_ipv_4_network_cidr: ::String
       attr_accessor local_ipv_6_network_cidr: ::String
       attr_accessor remote_ipv_6_network_cidr: ::String
+      attr_accessor tunnel_bandwidth: ("standard" | "large")
       attr_accessor dry_run: bool
       SENSITIVE: []
     end

@@ -14778,7 +14778,7 @@ module Aws::EC2
     ModifyManagedPrefixListResult.struct_class = Types::ModifyManagedPrefixListResult
 
     ModifyManagedResourceVisibilityRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
-    ModifyManagedResourceVisibilityRequest.add_member(:default_visibility, Shapes::ShapeRef.new(shape: ManagedResourceDefaultVisibility, location_name: "DefaultVisibility"))
+    ModifyManagedResourceVisibilityRequest.add_member(:default_visibility, Shapes::ShapeRef.new(shape: ManagedResourceDefaultVisibility, required: true, location_name: "DefaultVisibility"))
     ModifyManagedResourceVisibilityRequest.struct_class = Types::ModifyManagedResourceVisibilityRequest
 
     ModifyManagedResourceVisibilityResult.add_member(:visibility, Shapes::ShapeRef.new(shape: ManagedResourceVisibilitySettings, location_name: "visibility"))
@@ -15253,6 +15253,7 @@ module Aws::EC2
     ModifyVpnConnectionOptionsRequest.add_member(:remote_ipv_4_network_cidr, Shapes::ShapeRef.new(shape: String, location_name: "RemoteIpv4NetworkCidr"))
     ModifyVpnConnectionOptionsRequest.add_member(:local_ipv_6_network_cidr, Shapes::ShapeRef.new(shape: String, location_name: "LocalIpv6NetworkCidr"))
     ModifyVpnConnectionOptionsRequest.add_member(:remote_ipv_6_network_cidr, Shapes::ShapeRef.new(shape: String, location_name: "RemoteIpv6NetworkCidr"))
+    ModifyVpnConnectionOptionsRequest.add_member(:tunnel_bandwidth, Shapes::ShapeRef.new(shape: VpnTunnelBandwidth, location_name: "TunnelBandwidth"))
     ModifyVpnConnectionOptionsRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     ModifyVpnConnectionOptionsRequest.struct_class = Types::ModifyVpnConnectionOptionsRequest
 

@@ -65661,6 +65661,14 @@ module Aws::EC2
     #   Default: `::/0`
     #   @return [String]
     #
+    # @!attribute [rw] tunnel_bandwidth
+    #   The desired bandwidth specification for the VPN connection.
+    #   `standard` supports up to 1.25 Gbps per tunnel, while `large`
+    #   supports up to 5 Gbps per tunnel. Large bandwidth is only available
+    #   for VPN connections attached to a transit gateway or to Cloud WAN.
+    #   The default value is `standard`.
+    #   @return [String]
+    #
     # @!attribute [rw] dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
@@ -65676,6 +65684,7 @@ module Aws::EC2
       :remote_ipv_4_network_cidr,
       :local_ipv_6_network_cidr,
       :remote_ipv_6_network_cidr,
+      :tunnel_bandwidth,
       :dry_run)
       SENSITIVE = []
       include Aws::Structure

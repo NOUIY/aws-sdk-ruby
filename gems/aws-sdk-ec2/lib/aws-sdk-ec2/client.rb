@@ -61155,7 +61155,7 @@ module Aws::EC2
     #   If you have the required permissions, the error response is
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
     #
-    # @option params [String] :default_visibility
+    # @option params [required, String] :default_visibility
     #   The default visibility setting for managed resources. Valid values:
     #   `hidden` \| `visible`.
     #
@@ -61167,7 +61167,7 @@ module Aws::EC2
     #
     #   resp = client.modify_managed_resource_visibility({
     #     dry_run: false,
-    #     default_visibility: "hidden", # accepts hidden, visible
+    #     default_visibility: "hidden", # required, accepts hidden, visible
     #   })
     #
     # @example Response structure
@@ -64612,6 +64612,13 @@ module Aws::EC2
     #
     #   Default: `::/0`
     #
+    # @option params [String] :tunnel_bandwidth
+    #   The desired bandwidth specification for the VPN connection. `standard`
+    #   supports up to 1.25 Gbps per tunnel, while `large` supports up to 5
+    #   Gbps per tunnel. Large bandwidth is only available for VPN connections
+    #   attached to a transit gateway or to Cloud WAN. The default value is
+    #   `standard`.
+    #
     # @option params [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
@@ -64630,6 +64637,7 @@ module Aws::EC2
     #     remote_ipv_4_network_cidr: "String",
     #     local_ipv_6_network_cidr: "String",
     #     remote_ipv_6_network_cidr: "String",
+    #     tunnel_bandwidth: "standard", # accepts standard, large
     #     dry_run: false,
     #   })
     #
@@ -73547,7 +73555,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.613.0'
+      context[:gem_version] = '1.614.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

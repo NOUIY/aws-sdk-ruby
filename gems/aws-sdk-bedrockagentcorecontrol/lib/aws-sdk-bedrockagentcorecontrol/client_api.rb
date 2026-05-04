@@ -806,6 +806,8 @@ module Aws::BedrockAgentCoreControl
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     SessionConfig = Shapes::StructureShape.new(name: 'SessionConfig')
     SessionConfigSessionTimeoutMinutesInteger = Shapes::IntegerShape.new(name: 'SessionConfigSessionTimeoutMinutesInteger')
+    SessionConfiguration = Shapes::StructureShape.new(name: 'SessionConfiguration')
+    SessionConfigurationSessionTimeoutInSecondsInteger = Shapes::IntegerShape.new(name: 'SessionConfigurationSessionTimeoutInSecondsInteger')
     SessionStorageConfiguration = Shapes::StructureShape.new(name: 'SessionStorageConfiguration')
     SetTokenVaultCMKRequest = Shapes::StructureShape.new(name: 'SetTokenVaultCMKRequest')
     SetTokenVaultCMKResponse = Shapes::StructureShape.new(name: 'SetTokenVaultCMKResponse')
@@ -826,6 +828,7 @@ module Aws::BedrockAgentCoreControl
     StreamDeliveryResource = Shapes::UnionShape.new(name: 'StreamDeliveryResource')
     StreamDeliveryResources = Shapes::StructureShape.new(name: 'StreamDeliveryResources')
     StreamDeliveryResourcesList = Shapes::ListShape.new(name: 'StreamDeliveryResourcesList')
+    StreamingConfiguration = Shapes::StructureShape.new(name: 'StreamingConfiguration')
     String = Shapes::StringShape.new(name: 'String')
     StringListValidation = Shapes::StructureShape.new(name: 'StringListValidation')
     StringListValidationMaxItemsInteger = Shapes::IntegerShape.new(name: 'StringListValidationMaxItemsInteger')
@@ -3123,6 +3126,8 @@ module Aws::BedrockAgentCoreControl
     MCPGatewayConfiguration.add_member(:supported_versions, Shapes::ShapeRef.new(shape: McpSupportedVersions, location_name: "supportedVersions"))
     MCPGatewayConfiguration.add_member(:instructions, Shapes::ShapeRef.new(shape: McpInstructions, location_name: "instructions"))
     MCPGatewayConfiguration.add_member(:search_type, Shapes::ShapeRef.new(shape: SearchType, location_name: "searchType"))
+    MCPGatewayConfiguration.add_member(:session_configuration, Shapes::ShapeRef.new(shape: SessionConfiguration, location_name: "sessionConfiguration"))
+    MCPGatewayConfiguration.add_member(:streaming_configuration, Shapes::ShapeRef.new(shape: StreamingConfiguration, location_name: "streamingConfiguration"))
     MCPGatewayConfiguration.struct_class = Types::MCPGatewayConfiguration
 
     ManagedResourceDetails.add_member(:domain, Shapes::ShapeRef.new(shape: DomainName, location_name: "domain"))
@@ -3766,6 +3771,9 @@ module Aws::BedrockAgentCoreControl
     SessionConfig.add_member(:session_timeout_minutes, Shapes::ShapeRef.new(shape: SessionConfigSessionTimeoutMinutesInteger, required: true, location_name: "sessionTimeoutMinutes"))
     SessionConfig.struct_class = Types::SessionConfig
 
+    SessionConfiguration.add_member(:session_timeout_in_seconds, Shapes::ShapeRef.new(shape: SessionConfigurationSessionTimeoutInSecondsInteger, location_name: "sessionTimeoutInSeconds"))
+    SessionConfiguration.struct_class = Types::SessionConfiguration
+
     SessionStorageConfiguration.add_member(:mount_path, Shapes::ShapeRef.new(shape: MountPath, required: true, location_name: "mountPath"))
     SessionStorageConfiguration.struct_class = Types::SessionStorageConfiguration
 
@@ -3838,6 +3846,9 @@ module Aws::BedrockAgentCoreControl
     StreamDeliveryResources.struct_class = Types::StreamDeliveryResources
 
     StreamDeliveryResourcesList.member = Shapes::ShapeRef.new(shape: StreamDeliveryResource)
+
+    StreamingConfiguration.add_member(:enable_response_streaming, Shapes::ShapeRef.new(shape: Boolean, location_name: "enableResponseStreaming"))
+    StreamingConfiguration.struct_class = Types::StreamingConfiguration
 
     StringListValidation.add_member(:allowed_values, Shapes::ShapeRef.new(shape: AllowedStringListValuesList, location_name: "allowedValues"))
     StringListValidation.add_member(:max_items, Shapes::ShapeRef.new(shape: StringListValidationMaxItemsInteger, location_name: "maxItems"))

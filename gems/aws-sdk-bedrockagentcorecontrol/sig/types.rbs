@@ -2847,6 +2847,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor supported_versions: ::Array[::String]
       attr_accessor instructions: ::String
       attr_accessor search_type: ("SEMANTIC")
+      attr_accessor session_configuration: Types::SessionConfiguration
+      attr_accessor streaming_configuration: Types::StreamingConfiguration
       SENSITIVE: []
     end
 
@@ -3696,6 +3698,11 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class SessionConfiguration
+      attr_accessor session_timeout_in_seconds: ::Integer
+      SENSITIVE: []
+    end
+
     class SessionStorageConfiguration
       attr_accessor mount_path: ::String
       SENSITIVE: []
@@ -3793,6 +3800,11 @@ module Aws::BedrockAgentCoreControl
 
     class StreamDeliveryResources
       attr_accessor resources: ::Array[Types::StreamDeliveryResource]
+      SENSITIVE: []
+    end
+
+    class StreamingConfiguration
+      attr_accessor enable_response_streaming: bool
       SENSITIVE: []
     end
 
