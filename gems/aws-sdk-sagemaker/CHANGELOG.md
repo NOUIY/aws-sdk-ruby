@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.364.0 (2026-05-05)
+------------------
+
+* Feature - Adds support for ml.p5.4xlarge instance type for SageMaker Studio JupyterLab and CodeEditor apps for IAD (us-east-1), NRT (ap-northeast-1), BOM (ap-south-1), CGK (ap-southeast-3), GRU (sa-east-1), PDX (us-west-2), CMH (us-east-2).
+
 1.363.0 (2026-04-30)
 ------------------
 
