@@ -14741,6 +14741,7 @@ module Aws::SageMaker
     #   resp.instance_groups[0].scheduled_update_config.deployment_config.auto_rollback_configuration[0].alarm_name #=> String
     #   resp.instance_groups[0].current_image_id #=> String
     #   resp.instance_groups[0].desired_image_id #=> String
+    #   resp.instance_groups[0].image_version_status #=> String, one of "UpToDate", "UpdateAvailable"
     #   resp.instance_groups[0].active_operations #=> Hash
     #   resp.instance_groups[0].active_operations["ActiveClusterOperationName"] #=> Integer
     #   resp.instance_groups[0].kubernetes_config.current_labels #=> Hash
@@ -14958,6 +14959,7 @@ module Aws::SageMaker
     #   resp.node_details.placement.availability_zone_id #=> String
     #   resp.node_details.current_image_id #=> String
     #   resp.node_details.desired_image_id #=> String
+    #   resp.node_details.image_version_status #=> String, one of "UpToDate", "UpdateAvailable"
     #   resp.node_details.ultra_server_info.id #=> String
     #   resp.node_details.ultra_server_info.type #=> String
     #   resp.node_details.kubernetes_config.current_labels #=> Hash
@@ -22202,6 +22204,7 @@ module Aws::SageMaker
     #   resp.cluster_node_summaries[0].ultra_server_info.id #=> String
     #   resp.cluster_node_summaries[0].ultra_server_info.type #=> String
     #   resp.cluster_node_summaries[0].private_dns_hostname #=> String
+    #   resp.cluster_node_summaries[0].image_version_status #=> String, one of "UpToDate", "UpdateAvailable"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListClusterNodes AWS API Documentation
     #
@@ -33726,7 +33729,7 @@ module Aws::SageMaker
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemaker'
-      context[:gem_version] = '1.364.0'
+      context[:gem_version] = '1.365.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

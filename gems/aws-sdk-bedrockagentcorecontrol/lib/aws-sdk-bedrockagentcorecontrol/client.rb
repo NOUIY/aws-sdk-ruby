@@ -640,6 +640,14 @@ module Aws::BedrockAgentCoreControl
     #         session_storage: {
     #           mount_path: "MountPath", # required
     #         },
+    #         s3_files_access_point: {
+    #           access_point_arn: "S3FilesAccessPointArn", # required
+    #           mount_path: "MountPath", # required
+    #         },
+    #         efs_access_point: {
+    #           access_point_arn: "EfsAccessPointArn", # required
+    #           mount_path: "MountPath", # required
+    #         },
     #       },
     #     ],
     #     tags: {
@@ -2136,6 +2144,14 @@ module Aws::BedrockAgentCoreControl
     #             session_storage: {
     #               mount_path: "MountPath", # required
     #             },
+    #             s3_files_access_point: {
+    #               access_point_arn: "S3FilesAccessPointArn", # required
+    #               mount_path: "MountPath", # required
+    #             },
+    #             efs_access_point: {
+    #               access_point_arn: "EfsAccessPointArn", # required
+    #               mount_path: "MountPath", # required
+    #             },
     #           },
     #         ],
     #       },
@@ -2380,6 +2396,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.subnets[0] #=> String
     #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations #=> Array
     #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].session_storage.mount_path #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].s3_files_access_point.access_point_arn #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].s3_files_access_point.mount_path #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].efs_access_point.access_point_arn #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].efs_access_point.mount_path #=> String
     #   resp.harness.environment_artifact.container_configuration.container_uri #=> String
     #   resp.harness.environment_variables #=> Hash
     #   resp.harness.environment_variables["EnvironmentVariableKey"] #=> String
@@ -4353,6 +4373,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.subnets[0] #=> String
     #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations #=> Array
     #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].session_storage.mount_path #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].s3_files_access_point.access_point_arn #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].s3_files_access_point.mount_path #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].efs_access_point.access_point_arn #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].efs_access_point.mount_path #=> String
     #   resp.harness.environment_artifact.container_configuration.container_uri #=> String
     #   resp.harness.environment_variables #=> Hash
     #   resp.harness.environment_variables["EnvironmentVariableKey"] #=> String
@@ -4838,6 +4862,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.metadata_configuration.require_mmdsv2 #=> Boolean
     #   resp.filesystem_configurations #=> Array
     #   resp.filesystem_configurations[0].session_storage.mount_path #=> String
+    #   resp.filesystem_configurations[0].s3_files_access_point.access_point_arn #=> String
+    #   resp.filesystem_configurations[0].s3_files_access_point.mount_path #=> String
+    #   resp.filesystem_configurations[0].efs_access_point.access_point_arn #=> String
+    #   resp.filesystem_configurations[0].efs_access_point.mount_path #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetAgentRuntime AWS API Documentation
     #
@@ -5690,6 +5718,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.subnets[0] #=> String
     #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations #=> Array
     #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].session_storage.mount_path #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].s3_files_access_point.access_point_arn #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].s3_files_access_point.mount_path #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].efs_access_point.access_point_arn #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].efs_access_point.mount_path #=> String
     #   resp.harness.environment_artifact.container_configuration.container_uri #=> String
     #   resp.harness.environment_variables #=> Hash
     #   resp.harness.environment_variables["EnvironmentVariableKey"] #=> String
@@ -8462,6 +8494,14 @@ module Aws::BedrockAgentCoreControl
     #         session_storage: {
     #           mount_path: "MountPath", # required
     #         },
+    #         s3_files_access_point: {
+    #           access_point_arn: "S3FilesAccessPointArn", # required
+    #           mount_path: "MountPath", # required
+    #         },
+    #         efs_access_point: {
+    #           access_point_arn: "EfsAccessPointArn", # required
+    #           mount_path: "MountPath", # required
+    #         },
     #       },
     #     ],
     #     client_token: "ClientToken",
@@ -9618,6 +9658,14 @@ module Aws::BedrockAgentCoreControl
     #             session_storage: {
     #               mount_path: "MountPath", # required
     #             },
+    #             s3_files_access_point: {
+    #               access_point_arn: "S3FilesAccessPointArn", # required
+    #               mount_path: "MountPath", # required
+    #             },
+    #             efs_access_point: {
+    #               access_point_arn: "EfsAccessPointArn", # required
+    #               mount_path: "MountPath", # required
+    #             },
     #           },
     #         ],
     #       },
@@ -9865,6 +9913,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.environment.agent_core_runtime_environment.network_configuration.network_mode_config.subnets[0] #=> String
     #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations #=> Array
     #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].session_storage.mount_path #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].s3_files_access_point.access_point_arn #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].s3_files_access_point.mount_path #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].efs_access_point.access_point_arn #=> String
+    #   resp.harness.environment.agent_core_runtime_environment.filesystem_configurations[0].efs_access_point.mount_path #=> String
     #   resp.harness.environment_artifact.container_configuration.container_uri #=> String
     #   resp.harness.environment_variables #=> Hash
     #   resp.harness.environment_variables["EnvironmentVariableKey"] #=> String
@@ -11564,7 +11616,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.43.0'
+      context[:gem_version] = '1.44.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

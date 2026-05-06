@@ -1252,6 +1252,7 @@ module Aws::SageMaker
       attr_accessor scheduled_update_config: Types::ScheduledUpdateConfig
       attr_accessor current_image_id: ::String
       attr_accessor desired_image_id: ::String
+      attr_accessor image_version_status: ("UpToDate" | "UpdateAvailable")
       attr_accessor active_operations: ::Hash[("Scaling"), ::Integer]
       attr_accessor kubernetes_config: Types::ClusterKubernetesConfigDetails
       attr_accessor capacity_requirements: Types::ClusterCapacityRequirements
@@ -1403,6 +1404,7 @@ module Aws::SageMaker
       attr_accessor placement: Types::ClusterInstancePlacement
       attr_accessor current_image_id: ::String
       attr_accessor desired_image_id: ::String
+      attr_accessor image_version_status: ("UpToDate" | "UpdateAvailable")
       attr_accessor ultra_server_info: Types::UltraServerInfo
       attr_accessor kubernetes_config: Types::ClusterKubernetesConfigNodeDetails
       attr_accessor capacity_type: ("Spot" | "OnDemand")
@@ -1420,6 +1422,7 @@ module Aws::SageMaker
       attr_accessor instance_status: Types::ClusterInstanceStatusDetails
       attr_accessor ultra_server_info: Types::UltraServerInfo
       attr_accessor private_dns_hostname: ::String
+      attr_accessor image_version_status: ("UpToDate" | "UpdateAvailable")
       SENSITIVE: []
     end
 

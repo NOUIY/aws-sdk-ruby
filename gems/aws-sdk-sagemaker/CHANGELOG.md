@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.365.0 (2026-05-06)
+------------------
+
+* Feature - Amazon SageMaker HyperPod now returns ImageVersionStatus in DescribeCluster, DescribeClusterNode, and ListClusterNodes responses, indicating whether cluster instances are running the latest available image version.
+
 1.364.0 (2026-05-05)
 ------------------
 

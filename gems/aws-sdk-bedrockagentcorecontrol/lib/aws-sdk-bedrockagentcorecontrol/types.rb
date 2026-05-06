@@ -4862,6 +4862,29 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # Configuration for an Amazon EFS access point filesystem mounted into
+    # the AgentCore Runtime. EFS access points provide shared file storage
+    # accessible from your AgentCore Runtime sessions.
+    #
+    # @!attribute [rw] access_point_arn
+    #   The ARN of the EFS access point to mount into the AgentCore Runtime.
+    #   @return [String]
+    #
+    # @!attribute [rw] mount_path
+    #   The mount path for the EFS access point inside the AgentCore
+    #   Runtime. The path must be under `/mnt` with exactly one subdirectory
+    #   level (for example, `/mnt/data`).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/EfsAccessPointConfiguration AWS API Documentation
+    #
+    class EfsAccessPointConfiguration < Struct.new(
+      :access_point_arn,
+      :mount_path)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Exception thrown when encryption of a secret fails.
     #
     # @!attribute [rw] message
@@ -5373,16 +5396,30 @@ module Aws::BedrockAgentCoreControl
     #   session invocations.
     #   @return [Types::SessionStorageConfiguration]
     #
+    # @!attribute [rw] s3_files_access_point
+    #   Configuration for an Amazon S3 Files access point to mount into the
+    #   AgentCore Runtime.
+    #   @return [Types::S3FilesAccessPointConfiguration]
+    #
+    # @!attribute [rw] efs_access_point
+    #   Configuration for an Amazon EFS access point to mount into the
+    #   AgentCore Runtime.
+    #   @return [Types::EfsAccessPointConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/FilesystemConfiguration AWS API Documentation
     #
     class FilesystemConfiguration < Struct.new(
       :session_storage,
+      :s3_files_access_point,
+      :efs_access_point,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
       class SessionStorage < FilesystemConfiguration; end
+      class S3FilesAccessPoint < FilesystemConfiguration; end
+      class EfsAccessPoint < FilesystemConfiguration; end
       class Unknown < FilesystemConfiguration; end
     end
 
@@ -12506,6 +12543,30 @@ module Aws::BedrockAgentCoreControl
     class S3Configuration < Struct.new(
       :uri,
       :bucket_owner_account_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for an Amazon S3 Files access point filesystem mounted
+    # into the AgentCore Runtime. S3 Files access points provide shared file
+    # storage accessible from your AgentCore Runtime sessions.
+    #
+    # @!attribute [rw] access_point_arn
+    #   The ARN of the S3 Files access point to mount into the AgentCore
+    #   Runtime.
+    #   @return [String]
+    #
+    # @!attribute [rw] mount_path
+    #   The mount path for the S3 Files access point inside the AgentCore
+    #   Runtime. The path must be under `/mnt` with exactly one subdirectory
+    #   level (for example, `/mnt/data`).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/S3FilesAccessPointConfiguration AWS API Documentation
+    #
+    class S3FilesAccessPointConfiguration < Struct.new(
+      :access_point_arn,
+      :mount_path)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -1348,6 +1348,12 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class EfsAccessPointConfiguration
+      attr_accessor access_point_arn: ::String
+      attr_accessor mount_path: ::String
+      SENSITIVE: []
+    end
+
     class EncryptionFailure
       attr_accessor message: ::String
       SENSITIVE: []
@@ -1501,10 +1507,16 @@ module Aws::BedrockAgentCoreControl
 
     class FilesystemConfiguration
       attr_accessor session_storage: Types::SessionStorageConfiguration
+      attr_accessor s3_files_access_point: Types::S3FilesAccessPointConfiguration
+      attr_accessor efs_access_point: Types::EfsAccessPointConfiguration
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class SessionStorage < FilesystemConfiguration
+      end
+      class S3FilesAccessPoint < FilesystemConfiguration
+      end
+      class EfsAccessPoint < FilesystemConfiguration
       end
       class Unknown < FilesystemConfiguration
       end
@@ -3567,6 +3579,12 @@ module Aws::BedrockAgentCoreControl
     class S3Configuration
       attr_accessor uri: ::String
       attr_accessor bucket_owner_account_id: ::String
+      SENSITIVE: []
+    end
+
+    class S3FilesAccessPointConfiguration
+      attr_accessor access_point_arn: ::String
+      attr_accessor mount_path: ::String
       SENSITIVE: []
     end
 
