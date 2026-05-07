@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.615.0 (2026-05-07)
+------------------
+
+* Feature - DescribeInstanceTypes now accepts an IncludeUnsupportedInRegion parameter. When set, the response also lists instance types that are not available in the current Region. Each instance type includes a SupportedInRegion field indicating its regional availability.
+
 1.614.0 (2026-05-04)
 ------------------
 

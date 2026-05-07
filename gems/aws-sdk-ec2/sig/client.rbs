@@ -7294,7 +7294,8 @@ module Aws
                                        },
                                      ],
                                      ?max_results: ::Integer,
-                                     ?next_token: ::String
+                                     ?next_token: ::String,
+                                     ?include_unsupported_in_region: bool
                                    ) -> _DescribeInstanceTypesResponseSuccess
                                  | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeInstanceTypesResponseSuccess
 

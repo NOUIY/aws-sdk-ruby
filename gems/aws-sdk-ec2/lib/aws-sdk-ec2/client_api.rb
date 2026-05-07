@@ -2078,6 +2078,7 @@ module Aws::EC2
     ImportVolumeRequest = Shapes::StructureShape.new(name: 'ImportVolumeRequest')
     ImportVolumeResult = Shapes::StructureShape.new(name: 'ImportVolumeResult')
     ImportVolumeTaskDetails = Shapes::StructureShape.new(name: 'ImportVolumeTaskDetails')
+    IncludeUnsupportedInRegion = Shapes::BooleanShape.new(name: 'IncludeUnsupportedInRegion')
     InferenceAcceleratorInfo = Shapes::StructureShape.new(name: 'InferenceAcceleratorInfo')
     InferenceDeviceCount = Shapes::IntegerShape.new(name: 'InferenceDeviceCount')
     InferenceDeviceInfo = Shapes::StructureShape.new(name: 'InferenceDeviceInfo')
@@ -3573,6 +3574,7 @@ module Aws::EC2
     SummaryStatus = Shapes::StringShape.new(name: 'SummaryStatus')
     SupportedAdditionalProcessorFeature = Shapes::StringShape.new(name: 'SupportedAdditionalProcessorFeature')
     SupportedAdditionalProcessorFeatureList = Shapes::ListShape.new(name: 'SupportedAdditionalProcessorFeatureList')
+    SupportedInRegion = Shapes::BooleanShape.new(name: 'SupportedInRegion')
     SupportedIpAddressTypes = Shapes::ListShape.new(name: 'SupportedIpAddressTypes')
     SupportedRegionDetail = Shapes::StructureShape.new(name: 'SupportedRegionDetail')
     SupportedRegionSet = Shapes::ListShape.new(name: 'SupportedRegionSet')
@@ -8655,6 +8657,7 @@ module Aws::EC2
     DescribeInstanceTypesRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "Filter"))
     DescribeInstanceTypesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: DITMaxResults, location_name: "MaxResults"))
     DescribeInstanceTypesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    DescribeInstanceTypesRequest.add_member(:include_unsupported_in_region, Shapes::ShapeRef.new(shape: IncludeUnsupportedInRegion, location_name: "IncludeUnsupportedInRegion"))
     DescribeInstanceTypesRequest.struct_class = Types::DescribeInstanceTypesRequest
 
     DescribeInstanceTypesResult.add_member(:instance_types, Shapes::ShapeRef.new(shape: InstanceTypeInfoList, location_name: "instanceTypeSet"))
@@ -13114,6 +13117,7 @@ module Aws::EC2
     InstanceTypeInfo.add_member(:neuron_info, Shapes::ShapeRef.new(shape: NeuronInfo, location_name: "neuronInfo"))
     InstanceTypeInfo.add_member(:phc_support, Shapes::ShapeRef.new(shape: PhcSupport, location_name: "phcSupport"))
     InstanceTypeInfo.add_member(:reboot_migration_support, Shapes::ShapeRef.new(shape: RebootMigrationSupport, location_name: "rebootMigrationSupport"))
+    InstanceTypeInfo.add_member(:supported_in_region, Shapes::ShapeRef.new(shape: SupportedInRegion, location_name: "supportedInRegion"))
     InstanceTypeInfo.struct_class = Types::InstanceTypeInfo
 
     InstanceTypeInfoFromInstanceRequirements.add_member(:instance_type, Shapes::ShapeRef.new(shape: String, location_name: "instanceType"))

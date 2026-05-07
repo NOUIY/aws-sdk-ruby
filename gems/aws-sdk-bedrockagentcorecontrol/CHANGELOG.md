@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.45.0 (2026-05-07)
+------------------
+
+* Feature - Launching AgentCore payments - a capability that provides secure, instant microtransaction payments for AI agents to access paid APIs, MCP servers, and content. It handles payment processing for x402 protocol, payment limits, and 3P wallet integrations with Coinbase CDP and Stripe (Privy).
+
 1.44.0 (2026-05-06)
 ------------------
 

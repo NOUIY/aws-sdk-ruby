@@ -31757,7 +31757,8 @@ module Aws::EC2
 
     # Describes the specified instance types. By default, all instance types
     # for the current Region are described. Alternatively, you can filter
-    # the results.
+    # the results. To include instance types that are not supported in the
+    # current Region, set `IncludeUnsupportedInRegion` to `true`.
     #
     # @option params [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
@@ -31963,6 +31964,11 @@ module Aws::EC2
     #   The token returned from a previous paginated request. Pagination
     #   continues from the end of the items returned by the previous request.
     #
+    # @option params [Boolean] :include_unsupported_in_region
+    #   If `true`, the response includes instance types that are not supported
+    #   in the current Region, in addition to the supported types. Default:
+    #   `false`.
+    #
     # @return [Types::DescribeInstanceTypesResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DescribeInstanceTypesResult#instance_types #instance_types} => Array&lt;Types::InstanceTypeInfo&gt;
@@ -31983,6 +31989,7 @@ module Aws::EC2
     #     ],
     #     max_results: 1,
     #     next_token: "NextToken",
+    #     include_unsupported_in_region: false,
     #   })
     #
     # @example Response structure
@@ -32121,6 +32128,7 @@ module Aws::EC2
     #   resp.instance_types[0].neuron_info.total_neuron_device_memory_in_mi_b #=> Integer
     #   resp.instance_types[0].phc_support #=> String, one of "unsupported", "supported"
     #   resp.instance_types[0].reboot_migration_support #=> String, one of "unsupported", "supported"
+    #   resp.instance_types[0].supported_in_region #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeInstanceTypes AWS API Documentation
@@ -73555,7 +73563,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.614.0'
+      context[:gem_version] = '1.615.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
