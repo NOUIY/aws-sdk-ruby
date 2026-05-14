@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.55.0 (2026-05-14)
+------------------
+
+* Feature - ListModels is an API that returns the available AI models for a Connect Assistant based on its region and AI prompt type.
+
 1.54.0 (2026-05-13)
 ------------------
 

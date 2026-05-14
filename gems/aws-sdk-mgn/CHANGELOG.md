@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.67.0 (2026-05-14)
+------------------
+
+* Feature - Introducing new option for security groups mapping - with MAP-DHCP the service translates security rules from your source environment with DHCP compatibility.
+
 1.66.0 (2026-05-13)
 ------------------
 

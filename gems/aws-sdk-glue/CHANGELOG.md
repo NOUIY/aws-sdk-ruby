@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.257.0 (2026-05-14)
+------------------
+
+* Feature - Release --has-databases parameter for AWS Glue get-catalogs API, which filters catalog responses to include only those capable of containing databases, excluding parent catalogs that hold only other catalogs. Remove model-level validation on partition index list size for AWS Glue tables.
+
 1.256.0 (2026-05-13)
 ------------------
 

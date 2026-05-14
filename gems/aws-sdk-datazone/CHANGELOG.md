@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.77.0 (2026-05-14)
+------------------
+
+* Feature - Adds support for SageMaker Unified Studio notebook operations, including notebook import and export
+
 1.76.0 (2026-05-13)
 ------------------
 
