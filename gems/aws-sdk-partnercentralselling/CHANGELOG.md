@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.31.0 (2026-05-15)
+------------------
+
+* Feature - Enable TCV intake on Opportunity to improve Opportunities Hygiene and downstream revenue attribution.
+
 1.30.0 (2026-05-13)
 ------------------
 

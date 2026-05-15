@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.63.0 (2026-05-15)
+------------------
+
+* Feature - This release adds support for AvailabilityStartTimeConfiguration in MediaPackageV2 DASH manifests
+
 1.62.0 (2026-05-13)
 ------------------
 

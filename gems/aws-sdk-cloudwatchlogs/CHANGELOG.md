@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.151.0 (2026-05-15)
+------------------
+
+* Feature - Updating the max limit for start query api parameter.
+
 1.150.0 (2026-05-13)
 ------------------
 
