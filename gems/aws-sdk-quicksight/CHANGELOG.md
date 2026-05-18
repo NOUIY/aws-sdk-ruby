@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.181.0 (2026-05-18)
+------------------
+
+* Feature - Support for dataset enrichment and geo spatial in new data preparation experience
+
 1.180.0 (2026-05-13)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.231.0 (2026-05-18)
+------------------
+
+* Feature - Amazon ECS now supports Pause lifecycle hooks for service deployments, allowing customers to automatically pause deployments at specified stages and use the new ContinueServiceDeployment API to continue or roll back with confidence.
+
 1.230.0 (2026-05-13)
 ------------------
 
