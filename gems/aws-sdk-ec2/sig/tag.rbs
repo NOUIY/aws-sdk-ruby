@@ -46,7 +46,7 @@ module Aws
                       {
                         key: ::String?,
                         value: ::String?
-                      },
+                      }
                     ]
                   ) -> ::Aws::EmptyStructure
                 | (?Hash[Symbol, untyped]) -> ::Aws::EmptyStructure

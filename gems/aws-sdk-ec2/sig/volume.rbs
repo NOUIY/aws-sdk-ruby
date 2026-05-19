@@ -111,9 +111,9 @@ module Aws
                                    {
                                      key: ::String?,
                                      value: ::String?
-                                   },
+                                   }
                                  ]?
-                               },
+                               }
                              ],
                              ?location: ("regional" | "local"),
                              ?dry_run: bool
@@ -127,7 +127,7 @@ module Aws
                            {
                              key: ::String?,
                              value: ::String?
-                           },
+                           }
                          ]
                        ) -> Tag::Collection
                      | (?Hash[Symbol, untyped]) -> Tag::Collection
@@ -139,7 +139,7 @@ module Aws
                            {
                              key: ::String?,
                              value: ::String?
-                           },
+                           }
                          ]
                        ) -> Tag::Collection
                      | (?Hash[Symbol, untyped]) -> Tag::Collection
@@ -167,7 +167,7 @@ module Aws
                                {
                                  name: ::String?,
                                  values: Array[::String]?
-                               },
+                               }
                              ]
                            ) -> Types::DescribeVolumeStatusResult
                          | (?Hash[Symbol, untyped]) -> Types::DescribeVolumeStatusResult
@@ -206,7 +206,7 @@ module Aws
                          {
                            name: ::String?,
                            values: Array[::String]?
-                         },
+                         }
                        ]
                      ) -> Snapshot::Collection
                    | (?Hash[Symbol, untyped]) -> Snapshot::Collection

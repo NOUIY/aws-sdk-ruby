@@ -374,9 +374,9 @@ module Aws
                                       {
                                         id: ::String,
                                         type: ("SSO_USER" | "SSO_GROUP")
-                                      },
+                                      }
                                     ]
-                                  },
+                                  }
                                 ],
                                 workspace_id: ::String
                               ) -> _UpdatePermissionsResponseSuccess

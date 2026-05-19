@@ -55,7 +55,7 @@ module Aws::Mgn
   autoload :EndpointProvider, 'aws-sdk-mgn/endpoint_provider'
   autoload :Endpoints, 'aws-sdk-mgn/endpoints'
 
-  GEM_VERSION = '1.67.0'
+  GEM_VERSION = '1.68.0'
 
 end
 

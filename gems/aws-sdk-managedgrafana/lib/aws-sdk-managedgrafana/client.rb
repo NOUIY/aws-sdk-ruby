@@ -537,7 +537,7 @@ module Aws::ManagedGrafana
     #   resp.workspace.organizational_units[0] #=> String
     #   resp.workspace.permission_type #=> String, one of "CUSTOMER_MANAGED", "SERVICE_MANAGED"
     #   resp.workspace.stack_set_name #=> String
-    #   resp.workspace.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "FAILED", "UPDATING", "UPGRADING", "DELETION_FAILED", "CREATION_FAILED", "UPDATE_FAILED", "UPGRADE_FAILED", "LICENSE_REMOVAL_FAILED", "VERSION_UPDATING", "VERSION_UPDATE_FAILED"
+    #   resp.workspace.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "FAILED", "UPDATING", "UPGRADING", "DELETION_FAILED", "CREATION_FAILED", "UPDATE_FAILED", "UPGRADE_FAILED", "LICENSE_REMOVAL_FAILED", "VERSION_UPDATING", "VERSION_UPDATE_FAILED", "DEGRADED"
     #   resp.workspace.workspace_role_arn #=> String
     #   resp.workspace.license_type #=> String, one of "ENTERPRISE", "ENTERPRISE_FREE_TRIAL"
     #   resp.workspace.free_trial_consumed #=> Boolean
@@ -559,6 +559,7 @@ module Aws::ManagedGrafana
     #   resp.workspace.grafana_token #=> String
     #   resp.workspace.ip_address_type #=> String, one of "IPv4", "DualStack"
     #   resp.workspace.kms_key_id #=> String
+    #   resp.workspace.degraded_workspace_reason #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/grafana-2020-08-18/AssociateLicense AWS API Documentation
     #
@@ -782,7 +783,7 @@ module Aws::ManagedGrafana
     #   resp.workspace.organizational_units[0] #=> String
     #   resp.workspace.permission_type #=> String, one of "CUSTOMER_MANAGED", "SERVICE_MANAGED"
     #   resp.workspace.stack_set_name #=> String
-    #   resp.workspace.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "FAILED", "UPDATING", "UPGRADING", "DELETION_FAILED", "CREATION_FAILED", "UPDATE_FAILED", "UPGRADE_FAILED", "LICENSE_REMOVAL_FAILED", "VERSION_UPDATING", "VERSION_UPDATE_FAILED"
+    #   resp.workspace.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "FAILED", "UPDATING", "UPGRADING", "DELETION_FAILED", "CREATION_FAILED", "UPDATE_FAILED", "UPGRADE_FAILED", "LICENSE_REMOVAL_FAILED", "VERSION_UPDATING", "VERSION_UPDATE_FAILED", "DEGRADED"
     #   resp.workspace.workspace_role_arn #=> String
     #   resp.workspace.license_type #=> String, one of "ENTERPRISE", "ENTERPRISE_FREE_TRIAL"
     #   resp.workspace.free_trial_consumed #=> Boolean
@@ -804,6 +805,7 @@ module Aws::ManagedGrafana
     #   resp.workspace.grafana_token #=> String
     #   resp.workspace.ip_address_type #=> String, one of "IPv4", "DualStack"
     #   resp.workspace.kms_key_id #=> String
+    #   resp.workspace.degraded_workspace_reason #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/grafana-2020-08-18/CreateWorkspace AWS API Documentation
     #
@@ -1046,7 +1048,7 @@ module Aws::ManagedGrafana
     #   resp.workspace.organizational_units[0] #=> String
     #   resp.workspace.permission_type #=> String, one of "CUSTOMER_MANAGED", "SERVICE_MANAGED"
     #   resp.workspace.stack_set_name #=> String
-    #   resp.workspace.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "FAILED", "UPDATING", "UPGRADING", "DELETION_FAILED", "CREATION_FAILED", "UPDATE_FAILED", "UPGRADE_FAILED", "LICENSE_REMOVAL_FAILED", "VERSION_UPDATING", "VERSION_UPDATE_FAILED"
+    #   resp.workspace.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "FAILED", "UPDATING", "UPGRADING", "DELETION_FAILED", "CREATION_FAILED", "UPDATE_FAILED", "UPGRADE_FAILED", "LICENSE_REMOVAL_FAILED", "VERSION_UPDATING", "VERSION_UPDATE_FAILED", "DEGRADED"
     #   resp.workspace.workspace_role_arn #=> String
     #   resp.workspace.license_type #=> String, one of "ENTERPRISE", "ENTERPRISE_FREE_TRIAL"
     #   resp.workspace.free_trial_consumed #=> Boolean
@@ -1068,6 +1070,7 @@ module Aws::ManagedGrafana
     #   resp.workspace.grafana_token #=> String
     #   resp.workspace.ip_address_type #=> String, one of "IPv4", "DualStack"
     #   resp.workspace.kms_key_id #=> String
+    #   resp.workspace.degraded_workspace_reason #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/grafana-2020-08-18/DeleteWorkspace AWS API Documentation
     #
@@ -1240,7 +1243,7 @@ module Aws::ManagedGrafana
     #   resp.workspace.organizational_units[0] #=> String
     #   resp.workspace.permission_type #=> String, one of "CUSTOMER_MANAGED", "SERVICE_MANAGED"
     #   resp.workspace.stack_set_name #=> String
-    #   resp.workspace.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "FAILED", "UPDATING", "UPGRADING", "DELETION_FAILED", "CREATION_FAILED", "UPDATE_FAILED", "UPGRADE_FAILED", "LICENSE_REMOVAL_FAILED", "VERSION_UPDATING", "VERSION_UPDATE_FAILED"
+    #   resp.workspace.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "FAILED", "UPDATING", "UPGRADING", "DELETION_FAILED", "CREATION_FAILED", "UPDATE_FAILED", "UPGRADE_FAILED", "LICENSE_REMOVAL_FAILED", "VERSION_UPDATING", "VERSION_UPDATE_FAILED", "DEGRADED"
     #   resp.workspace.workspace_role_arn #=> String
     #   resp.workspace.license_type #=> String, one of "ENTERPRISE", "ENTERPRISE_FREE_TRIAL"
     #   resp.workspace.free_trial_consumed #=> Boolean
@@ -1262,6 +1265,7 @@ module Aws::ManagedGrafana
     #   resp.workspace.grafana_token #=> String
     #   resp.workspace.ip_address_type #=> String, one of "IPv4", "DualStack"
     #   resp.workspace.kms_key_id #=> String
+    #   resp.workspace.degraded_workspace_reason #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/grafana-2020-08-18/DescribeWorkspace AWS API Documentation
     #
@@ -1387,7 +1391,7 @@ module Aws::ManagedGrafana
     #   resp.workspace.organizational_units[0] #=> String
     #   resp.workspace.permission_type #=> String, one of "CUSTOMER_MANAGED", "SERVICE_MANAGED"
     #   resp.workspace.stack_set_name #=> String
-    #   resp.workspace.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "FAILED", "UPDATING", "UPGRADING", "DELETION_FAILED", "CREATION_FAILED", "UPDATE_FAILED", "UPGRADE_FAILED", "LICENSE_REMOVAL_FAILED", "VERSION_UPDATING", "VERSION_UPDATE_FAILED"
+    #   resp.workspace.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "FAILED", "UPDATING", "UPGRADING", "DELETION_FAILED", "CREATION_FAILED", "UPDATE_FAILED", "UPGRADE_FAILED", "LICENSE_REMOVAL_FAILED", "VERSION_UPDATING", "VERSION_UPDATE_FAILED", "DEGRADED"
     #   resp.workspace.workspace_role_arn #=> String
     #   resp.workspace.license_type #=> String, one of "ENTERPRISE", "ENTERPRISE_FREE_TRIAL"
     #   resp.workspace.free_trial_consumed #=> Boolean
@@ -1409,6 +1413,7 @@ module Aws::ManagedGrafana
     #   resp.workspace.grafana_token #=> String
     #   resp.workspace.ip_address_type #=> String, one of "IPv4", "DualStack"
     #   resp.workspace.kms_key_id #=> String
+    #   resp.workspace.degraded_workspace_reason #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/grafana-2020-08-18/DisassociateLicense AWS API Documentation
     #
@@ -1716,7 +1721,7 @@ module Aws::ManagedGrafana
     #   resp.workspaces[0].name #=> String
     #   resp.workspaces[0].notification_destinations #=> Array
     #   resp.workspaces[0].notification_destinations[0] #=> String, one of "SNS"
-    #   resp.workspaces[0].status #=> String, one of "ACTIVE", "CREATING", "DELETING", "FAILED", "UPDATING", "UPGRADING", "DELETION_FAILED", "CREATION_FAILED", "UPDATE_FAILED", "UPGRADE_FAILED", "LICENSE_REMOVAL_FAILED", "VERSION_UPDATING", "VERSION_UPDATE_FAILED"
+    #   resp.workspaces[0].status #=> String, one of "ACTIVE", "CREATING", "DELETING", "FAILED", "UPDATING", "UPGRADING", "DELETION_FAILED", "CREATION_FAILED", "UPDATE_FAILED", "UPGRADE_FAILED", "LICENSE_REMOVAL_FAILED", "VERSION_UPDATING", "VERSION_UPDATE_FAILED", "DEGRADED"
     #   resp.workspaces[0].authentication.providers #=> Array
     #   resp.workspaces[0].authentication.providers[0] #=> String, one of "AWS_SSO", "SAML"
     #   resp.workspaces[0].authentication.saml_configuration_status #=> String, one of "CONFIGURED", "NOT_CONFIGURED"
@@ -2036,7 +2041,7 @@ module Aws::ManagedGrafana
     #   resp.workspace.organizational_units[0] #=> String
     #   resp.workspace.permission_type #=> String, one of "CUSTOMER_MANAGED", "SERVICE_MANAGED"
     #   resp.workspace.stack_set_name #=> String
-    #   resp.workspace.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "FAILED", "UPDATING", "UPGRADING", "DELETION_FAILED", "CREATION_FAILED", "UPDATE_FAILED", "UPGRADE_FAILED", "LICENSE_REMOVAL_FAILED", "VERSION_UPDATING", "VERSION_UPDATE_FAILED"
+    #   resp.workspace.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "FAILED", "UPDATING", "UPGRADING", "DELETION_FAILED", "CREATION_FAILED", "UPDATE_FAILED", "UPGRADE_FAILED", "LICENSE_REMOVAL_FAILED", "VERSION_UPDATING", "VERSION_UPDATE_FAILED", "DEGRADED"
     #   resp.workspace.workspace_role_arn #=> String
     #   resp.workspace.license_type #=> String, one of "ENTERPRISE", "ENTERPRISE_FREE_TRIAL"
     #   resp.workspace.free_trial_consumed #=> Boolean
@@ -2058,6 +2063,7 @@ module Aws::ManagedGrafana
     #   resp.workspace.grafana_token #=> String
     #   resp.workspace.ip_address_type #=> String, one of "IPv4", "DualStack"
     #   resp.workspace.kms_key_id #=> String
+    #   resp.workspace.degraded_workspace_reason #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/grafana-2020-08-18/UpdateWorkspace AWS API Documentation
     #
@@ -2229,7 +2235,7 @@ module Aws::ManagedGrafana
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-managedgrafana'
-      context[:gem_version] = '1.62.0'
+      context[:gem_version] = '1.63.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

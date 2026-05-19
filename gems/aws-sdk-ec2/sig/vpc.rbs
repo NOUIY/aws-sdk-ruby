@@ -106,9 +106,9 @@ module Aws
                                       {
                                         key: ::String?,
                                         value: ::String?
-                                      },
+                                      }
                                     ]?
-                                  },
+                                  }
                                 ],
                                 ?client_token: ::String,
                                 ?dry_run: bool
@@ -124,9 +124,9 @@ module Aws
                                       {
                                         key: ::String?,
                                         value: ::String?
-                                      },
+                                      }
                                     ]?
-                                  },
+                                  }
                                 ],
                                 ?client_token: ::String,
                                 ?dry_run: bool
@@ -144,9 +144,9 @@ module Aws
                                          {
                                            key: ::String?,
                                            value: ::String?
-                                         },
+                                         }
                                        ]?
-                                     },
+                                     }
                                    ],
                                    ?dry_run: bool
                                  ) -> SecurityGroup
@@ -161,9 +161,9 @@ module Aws
                                  {
                                    key: ::String?,
                                    value: ::String?
-                                 },
+                                 }
                                ]?
-                             },
+                             }
                            ],
                            ?availability_zone: ::String,
                            ?availability_zone_id: ::String,
@@ -186,7 +186,7 @@ module Aws
                            {
                              key: ::String?,
                              value: ::String?
-                           },
+                           }
                          ]
                        ) -> Tag::Collection
                      | (?Hash[Symbol, untyped]) -> Tag::Collection
@@ -198,7 +198,7 @@ module Aws
                            {
                              key: ::String?,
                              value: ::String?
-                           },
+                           }
                          ]
                        ) -> Tag::Collection
                      | (?Hash[Symbol, untyped]) -> Tag::Collection
@@ -266,9 +266,9 @@ module Aws
                                                   {
                                                     key: ::String?,
                                                     value: ::String?
-                                                  },
+                                                  }
                                                 ]?
-                                              },
+                                              }
                                             ],
                                             ?dry_run: bool,
                                             ?peer_vpc_id: ::String,
@@ -284,7 +284,7 @@ module Aws
                                                 {
                                                   name: ::String?,
                                                   values: Array[::String]?
-                                                },
+                                                }
                                               ]
                                             ) -> VpcPeeringConnection::Collection
                                           | (?Hash[Symbol, untyped]) -> VpcPeeringConnection::Collection
@@ -301,7 +301,7 @@ module Aws
                          {
                            name: ::String?,
                            values: Array[::String]?
-                         },
+                         }
                        ]
                      ) -> Instance::Collection
                    | (?Hash[Symbol, untyped]) -> Instance::Collection
@@ -314,7 +314,7 @@ module Aws
                                  {
                                    name: ::String?,
                                    values: Array[::String]?
-                                 },
+                                 }
                                ]
                              ) -> InternetGateway::Collection
                            | (?Hash[Symbol, untyped]) -> InternetGateway::Collection
@@ -327,7 +327,7 @@ module Aws
                             {
                               name: ::String?,
                               values: Array[::String]?
-                            },
+                            }
                           ]
                         ) -> NetworkAcl::Collection
                       | (?Hash[Symbol, untyped]) -> NetworkAcl::Collection
@@ -341,7 +341,7 @@ module Aws
                                   {
                                     name: ::String?,
                                     values: Array[::String]?
-                                  },
+                                  }
                                 ]
                               ) -> NetworkInterface::Collection
                             | (?Hash[Symbol, untyped]) -> NetworkInterface::Collection
@@ -354,7 +354,7 @@ module Aws
                                                  {
                                                    name: ::String?,
                                                    values: Array[::String]?
-                                                 },
+                                                 }
                                                ]
                                              ) -> VpcPeeringConnection::Collection
                                            | (?Hash[Symbol, untyped]) -> VpcPeeringConnection::Collection
@@ -367,7 +367,7 @@ module Aws
                             {
                               name: ::String?,
                               values: Array[::String]?
-                            },
+                            }
                           ]
                         ) -> RouteTable::Collection
                       | (?Hash[Symbol, untyped]) -> RouteTable::Collection
@@ -381,7 +381,7 @@ module Aws
                                {
                                  name: ::String?,
                                  values: Array[::String]?
-                               },
+                               }
                              ]
                            ) -> SecurityGroup::Collection
                          | (?Hash[Symbol, untyped]) -> SecurityGroup::Collection
@@ -392,7 +392,7 @@ module Aws
                        {
                          name: ::String?,
                          values: Array[::String]?
-                       },
+                       }
                      ],
                      ?subnet_ids: Array[::String],
                      ?dry_run: bool

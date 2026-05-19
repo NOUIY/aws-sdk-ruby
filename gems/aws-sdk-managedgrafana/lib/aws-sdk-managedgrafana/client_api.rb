@@ -44,6 +44,7 @@ module Aws::ManagedGrafana
     CreateWorkspaceServiceAccountTokenResponse = Shapes::StructureShape.new(name: 'CreateWorkspaceServiceAccountTokenResponse')
     DataSourceType = Shapes::StringShape.new(name: 'DataSourceType')
     DataSourceTypesList = Shapes::ListShape.new(name: 'DataSourceTypesList')
+    DegradedWorkspaceReason = Shapes::StringShape.new(name: 'DegradedWorkspaceReason')
     DeleteWorkspaceApiKeyRequest = Shapes::StructureShape.new(name: 'DeleteWorkspaceApiKeyRequest')
     DeleteWorkspaceApiKeyResponse = Shapes::StructureShape.new(name: 'DeleteWorkspaceApiKeyResponse')
     DeleteWorkspaceRequest = Shapes::StructureShape.new(name: 'DeleteWorkspaceRequest')
@@ -599,6 +600,7 @@ module Aws::ManagedGrafana
     WorkspaceDescription.add_member(:grafana_token, Shapes::ShapeRef.new(shape: GrafanaToken, location_name: "grafanaToken"))
     WorkspaceDescription.add_member(:ip_address_type, Shapes::ShapeRef.new(shape: IPAddressType, location_name: "ipAddressType"))
     WorkspaceDescription.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "kmsKeyId"))
+    WorkspaceDescription.add_member(:degraded_workspace_reason, Shapes::ShapeRef.new(shape: DegradedWorkspaceReason, location_name: "degradedWorkspaceReason"))
     WorkspaceDescription.struct_class = Types::WorkspaceDescription
 
     WorkspaceList.member = Shapes::ShapeRef.new(shape: WorkspaceSummary)

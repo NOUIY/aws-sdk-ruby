@@ -2196,6 +2196,11 @@ module Aws::ManagedGrafana
     #   workspace data.
     #   @return [String]
     #
+    # @!attribute [rw] degraded_workspace_reason
+    #   If the workspace is in the `DEGRADED` status, this field describes
+    #   the reason the workspace is degraded.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/grafana-2020-08-18/WorkspaceDescription AWS API Documentation
     #
     class WorkspaceDescription < Struct.new(
@@ -2225,7 +2230,8 @@ module Aws::ManagedGrafana
       :network_access_control,
       :grafana_token,
       :ip_address_type,
-      :kms_key_id)
+      :kms_key_id,
+      :degraded_workspace_reason)
       SENSITIVE = [:description, :name, :organization_role_name, :organizational_units, :workspace_role_arn]
       include Aws::Structure
     end
