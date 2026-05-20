@@ -266,7 +266,8 @@ module Aws
                           ?guardrail_identifier: ::String,
                           ?guardrail_version: ::String,
                           ?performance_config_latency: ("standard" | "optimized"),
-                          ?service_tier: ("priority" | "default" | "flex" | "reserved")
+                          ?service_tier: ("priority" | "default" | "flex" | "reserved"),
+                          ?request_metadata: ::String
                         ) -> _InvokeModelResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _InvokeModelResponseSuccess
 
@@ -287,7 +288,8 @@ module Aws
                                                ?guardrail_identifier: ::String,
                                                ?guardrail_version: ::String,
                                                ?performance_config_latency: ("standard" | "optimized"),
-                                               ?service_tier: ("priority" | "default" | "flex" | "reserved")
+                                               ?service_tier: ("priority" | "default" | "flex" | "reserved"),
+                                               ?request_metadata: ::String
                                              ) ?{ (*untyped) -> void } -> _InvokeModelWithResponseStreamResponseSuccess
                                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _InvokeModelWithResponseStreamResponseSuccess
 

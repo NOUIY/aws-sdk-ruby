@@ -234,7 +234,8 @@ module Aws
       inference_config: {
         min_provisioned_tps: ::Integer?
       }?,
-      included_columns: Hash[::String, Array[::String]]?
+      included_columns: Hash[::String, Array[::String]]?,
+      excluded_columns: Hash[::String, Array[::String]]?
     }
 
       type group = {

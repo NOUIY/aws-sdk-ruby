@@ -120,7 +120,8 @@ module Aws
                                              key_identifier: ::String,
                                              kek_validation_type: {
                                                kek_validation_request: {
-                                                 derive_key_algorithm: ("TDES_2KEY" | "TDES_3KEY" | "AES_128" | "AES_192" | "AES_256" | "HMAC_SHA256" | "HMAC_SHA384" | "HMAC_SHA512" | "HMAC_SHA224")
+                                                 derive_key_algorithm: ("TDES_2KEY" | "TDES_3KEY" | "AES_128" | "AES_192" | "AES_256" | "HMAC_SHA256" | "HMAC_SHA384" | "HMAC_SHA512" | "HMAC_SHA224"),
+                                                 random_key_max_length: ("BYTES_8" | "BYTES_16" | "BYTES_24")?
                                                }?,
                                                kek_validation_response: {
                                                  random_key_send: ::String
@@ -129,6 +130,21 @@ module Aws
                                              random_key_send_variant_mask: ("VARIANT_MASK_82C0" | "VARIANT_MASK_82")
                                            ) -> _GenerateAs2805KekValidationResponseSuccess
                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GenerateAs2805KekValidationResponseSuccess
+
+      interface _GenerateAuthRequestCryptogramResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GenerateAuthRequestCryptogramOutput]
+        def key_arn: () -> ::String
+        def key_check_value: () -> ::String
+        def auth_request_cryptogram: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/PaymentCryptographyData/Client.html#generate_auth_request_cryptogram-instance_method
+      def generate_auth_request_cryptogram: (
+                                              key_identifier: ::String,
+                                              transaction_data: ::String,
+                                              major_key_derivation_mode: ("EMV_OPTION_A" | "EMV_OPTION_B"),
+                                              session_key_derivation_attributes: Params::session_key_derivation
+                                            ) -> _GenerateAuthRequestCryptogramResponseSuccess
+                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GenerateAuthRequestCryptogramResponseSuccess
 
       interface _GenerateCardValidationDataResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GenerateCardValidationDataOutput]
@@ -402,32 +418,7 @@ module Aws
                                             transaction_data: ::String,
                                             auth_request_cryptogram: ::String,
                                             major_key_derivation_mode: ("EMV_OPTION_A" | "EMV_OPTION_B"),
-                                            session_key_derivation_attributes: {
-                                              emv_common: {
-                                                primary_account_number: ::String,
-                                                pan_sequence_number: ::String,
-                                                application_transaction_counter: ::String
-                                              }?,
-                                              mastercard: {
-                                                primary_account_number: ::String,
-                                                pan_sequence_number: ::String,
-                                                application_transaction_counter: ::String,
-                                                unpredictable_number: ::String
-                                              }?,
-                                              emv_2000: {
-                                                primary_account_number: ::String,
-                                                pan_sequence_number: ::String,
-                                                application_transaction_counter: ::String
-                                              }?,
-                                              amex: {
-                                                primary_account_number: ::String,
-                                                pan_sequence_number: ::String
-                                              }?,
-                                              visa: {
-                                                primary_account_number: ::String,
-                                                pan_sequence_number: ::String
-                                              }?
-                                            },
+                                            session_key_derivation_attributes: Params::session_key_derivation,
                                             ?auth_response_attributes: {
                                               arpc_method_1: {
                                                 auth_response_code: ::String

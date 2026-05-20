@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.75.0 (2026-05-20)
+------------------
+
+* Feature - Updated API documentation to describe the PublicAndPrivate webserver access mode.
+
 1.74.0 (2026-05-19)
 ------------------
 

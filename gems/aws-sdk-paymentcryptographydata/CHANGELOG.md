@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.52.0 (2026-05-20)
+------------------
+
+* Feature - GenerateAuthRequestCryptogram API launch.
+
 1.51.0 (2026-05-19)
 ------------------
 

@@ -55,6 +55,33 @@ module Aws
       key_check_value_algorithm: ("CMAC" | "ANSI_X9_24" | "HMAC" | "SHA_1")?
     }
 
+      type session_key_derivation = {
+      emv_common: {
+        primary_account_number: ::String,
+        pan_sequence_number: ::String,
+        application_transaction_counter: ::String
+      }?,
+      mastercard: {
+        primary_account_number: ::String,
+        pan_sequence_number: ::String,
+        application_transaction_counter: ::String,
+        unpredictable_number: ::String
+      }?,
+      emv_2000: {
+        primary_account_number: ::String,
+        pan_sequence_number: ::String,
+        application_transaction_counter: ::String
+      }?,
+      amex: {
+        primary_account_number: ::String,
+        pan_sequence_number: ::String
+      }?,
+      visa: {
+        primary_account_number: ::String,
+        pan_sequence_number: ::String
+      }?
+    }
+
       type mac_algorithm_emv = {
       major_key_derivation_mode: ("EMV_OPTION_A" | "EMV_OPTION_B"),
       primary_account_number: ::String,
