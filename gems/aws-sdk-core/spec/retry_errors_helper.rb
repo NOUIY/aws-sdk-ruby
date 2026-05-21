@@ -70,7 +70,7 @@ def apply_expectations(test_case)
   if expected[:retries]
     expect(resp.context.retries).to eq(expected[:retries]) if expected[:retries]
     expect(resp.context.http_request.headers['amz-sdk-request'])
-      .to include("attempt=#{expected[:retries]}")
+      .to include("attempt=#{expected[:retries] + 1}")
     expect(resp.context.http_request.headers['amz-sdk-request'])
       .to include("max=#{resp.context.config.max_attempts}")
   end
@@ -117,6 +117,10 @@ def setup_next_response(test_case)
 
   if response[:clock_skew]
     resp.context.http_response.headers['date'] = Time.now.utc + response[:clock_skew]
+  end
+
+  if response[:retry_after]
+    resp.context.http_response.headers['x-amz-retry-after'] = response[:retry_after].to_s
   end
 
   if response[:endpoint_discovery]

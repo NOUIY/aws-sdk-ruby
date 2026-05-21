@@ -763,7 +763,10 @@ module Aws
         end
       end
 
+      # TODO: Update retries to 2 and remove stub when new retries become default
       describe "200 errors response handling" do
+        before { allow(Aws::Plugins::RetryErrors).to receive(:new_retries?).and_return(false) }
+
         {
           complete_multipart_upload: { upload_id: 'upload-id' },
           copy_object: { copy_source: 'bucket/key' },
