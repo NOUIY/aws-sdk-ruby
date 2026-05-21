@@ -71,6 +71,78 @@ module Aws::BedrockAgentCoreControl
       class Unknown < Action; end
     end
 
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset to add examples to.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a
+    #   previous request, the service ignores the request, but doesn't
+    #   return an error. For more information, see [Ensuring
+    #   idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #   @return [String]
+    #
+    # @!attribute [rw] source
+    #   Source of examples to add. Provide either inline examples or an S3
+    #   URI pointing to a JSONL file.
+    #   @return [Types::DataSourceType]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/AddDatasetExamplesRequest AWS API Documentation
+    #
+    class AddDatasetExamplesRequest < Struct.new(
+      :dataset_id,
+      :client_token,
+      :source)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_arn
+    #   The Amazon Resource Name (ARN) of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] added_count
+    #   The number of examples added.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the examples were added.
+    #   @return [Time]
+    #
+    # @!attribute [rw] example_ids
+    #   IDs of all added examples (auto-generated UUIDs).
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/AddDatasetExamplesResponse AWS API Documentation
+    #
+    class AddDatasetExamplesResponse < Struct.new(
+      :dataset_arn,
+      :dataset_id,
+      :status,
+      :added_count,
+      :updated_at,
+      :example_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The agent card definition for an A2A descriptor. Contains the schema
     # version and inline content for the agent card.
     #
@@ -2005,6 +2077,144 @@ module Aws::BedrockAgentCoreControl
       :bundle_arn,
       :bundle_id,
       :version_id,
+      :created_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_token
+    #   Optional idempotency token.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_name
+    #   Human-readable name for the dataset. Unique within the account
+    #   (case-insensitive). Immutable after creation.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] source
+    #   Source of initial examples. Provide either inline examples or an S3
+    #   URI pointing to a JSONL file.
+    #   @return [Types::DataSourceType]
+    #
+    # @!attribute [rw] schema_type
+    #   Versioned schema type governing the structure of examples. Immutable
+    #   after creation.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_arn
+    #   Optional AWS KMS key ARN for SSE-KMS on service S3 writes.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   A map of tag keys and values to assign to the dataset.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateDatasetRequest AWS API Documentation
+    #
+    class CreateDatasetRequest < Struct.new(
+      :client_token,
+      :dataset_name,
+      :description,
+      :source,
+      :schema_type,
+      :kms_key_arn,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_arn
+    #   The Amazon Resource Name (ARN) of the created dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the created dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Always CREATING immediately after this call. Poll GetDataset until
+    #   status == ACTIVE (draftStatus=MODIFIED) or CREATE\_FAILED.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the dataset was created.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateDatasetResponse AWS API Documentation
+    #
+    class CreateDatasetResponse < Struct.new(
+      :dataset_arn,
+      :dataset_id,
+      :status,
+      :created_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset to publish a version for.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a
+    #   previous request, the service ignores the request, but doesn't
+    #   return an error. For more information, see [Ensuring
+    #   idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateDatasetVersionRequest AWS API Documentation
+    #
+    class CreateDatasetVersionRequest < Struct.new(
+      :dataset_id,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_arn
+    #   The Amazon Resource Name (ARN) of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Always UPDATING immediately after this call. Poll GetDataset until
+    #   status == ACTIVE (draftStatus=UNMODIFIED) or UPDATE\_FAILED.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_version
+    #   The version being created.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the version creation was initiated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateDatasetVersionResponse AWS API Documentation
+    #
+    class CreateDatasetVersionResponse < Struct.new(
+      :dataset_arn,
+      :dataset_id,
+      :status,
+      :dataset_version,
       :created_at)
       SENSITIVE = []
       include Aws::Structure
@@ -4359,6 +4569,134 @@ module Aws::BedrockAgentCoreControl
       class Unknown < DataSourceConfig; end
     end
 
+    # Source of examples to add to the dataset.
+    #
+    # @note DataSourceType is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] inline_examples
+    #   Inline examples provided directly in the request body.
+    #   @return [Types::InlineExamplesSource]
+    #
+    # @!attribute [rw] s3_source
+    #   S3 URI pointing to a JSONL file in the customer's bucket. The
+    #   service reads this file using the caller's FAS credentials.
+    #   @return [Types::S3Source]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DataSourceType AWS API Documentation
+    #
+    class DataSourceType < Struct.new(
+      :inline_examples,
+      :s3_source,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class InlineExamples < DataSourceType; end
+      class S3Source < DataSourceType; end
+      class Unknown < DataSourceType; end
+    end
+
+    # Summary information about a dataset.
+    #
+    # @!attribute [rw] dataset_arn
+    #   The Amazon Resource Name (ARN) of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_name
+    #   The name of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] draft_status
+    #   Publish synchronization state. Only authoritative when status ==
+    #   ACTIVE.
+    #   @return [String]
+    #
+    # @!attribute [rw] schema_type
+    #   The schema type of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] example_count
+    #   The number of examples in the dataset.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the dataset was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the dataset was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DatasetSummary AWS API Documentation
+    #
+    class DatasetSummary < Struct.new(
+      :dataset_arn,
+      :dataset_id,
+      :dataset_name,
+      :description,
+      :status,
+      :draft_status,
+      :schema_type,
+      :example_count,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about a published dataset version.
+    #
+    # @!attribute [rw] dataset_version
+    #   Dataset version identifier. Accepts "DRAFT" or a non-negative
+    #   integer string.
+    #
+    #   "DRAFT" refers to the single mutable working copy of the dataset.
+    #
+    #   * Always present after CreateDataset ingestion completes.
+    #   * Content changes in-place when examples are added, updated, or
+    #     deleted.
+    #   * NOT tracked as a DDB DatasetVersionItem — state lives in S3
+    #     (draft/manifest.json, draft/dataset.jsonl) and the
+    #     DatasetItem.exampleCount field.
+    #   * Default for read operations when ?datasetVersion is absent.
+    #
+    #   An integer string (e.g. "1", "2", "3") refers to a published,
+    #   immutable snapshot created by CreateDatasetVersion. Once created, a
+    #   published version's content never changes. Stored as a DDB
+    #   DatasetVersionItem (SK=VERSION#\{zero-padded-N}).
+    #   @return [String]
+    #
+    # @!attribute [rw] example_count
+    #   The number of examples in this version.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when this version was published.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DatasetVersionSummary AWS API Documentation
+    #
+    class DatasetVersionSummary < Struct.new(
+      :dataset_version,
+      :example_count,
+      :created_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Exception thrown when decryption of a secret fails.
     #
     # @!attribute [rw] message
@@ -4642,6 +4980,123 @@ module Aws::BedrockAgentCoreControl
     class DeleteConfigurationBundleResponse < Struct.new(
       :bundle_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a
+    #   previous request, the service ignores the request, but doesn't
+    #   return an error. For more information, see [Ensuring
+    #   idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #   @return [String]
+    #
+    # @!attribute [rw] example_ids
+    #   The IDs of the examples to delete.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteDatasetExamplesRequest AWS API Documentation
+    #
+    class DeleteDatasetExamplesRequest < Struct.new(
+      :dataset_id,
+      :client_token,
+      :example_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_arn
+    #   The Amazon Resource Name (ARN) of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] deleted_count
+    #   The number of examples deleted.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the examples were deleted.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteDatasetExamplesResponse AWS API Documentation
+    #
+    class DeleteDatasetExamplesResponse < Struct.new(
+      :dataset_arn,
+      :dataset_id,
+      :status,
+      :deleted_count,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset to delete.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_version
+    #   Optional version to delete. Use "DRAFT" or omit to delete the draft.
+    #   Returns ResourceNotFoundException if the specified version does not
+    #   exist.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteDatasetRequest AWS API Documentation
+    #
+    class DeleteDatasetRequest < Struct.new(
+      :dataset_id,
+      :dataset_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_arn
+    #   The Amazon Resource Name (ARN) of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the dataset after the delete request.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_version
+    #   The version deleted.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the delete was initiated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteDatasetResponse AWS API Documentation
+    #
+    class DeleteDatasetResponse < Struct.new(
+      :dataset_arn,
+      :dataset_id,
+      :status,
+      :dataset_version,
+      :updated_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6952,6 +7407,120 @@ module Aws::BedrockAgentCoreControl
       :created_at,
       :version_created_at)
       SENSITIVE = [:description, :components]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset to retrieve.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_version
+    #   Version to retrieve: "DRAFT" or a version number. Defaults to DRAFT
+    #   if absent.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetDatasetRequest AWS API Documentation
+    #
+    class GetDatasetRequest < Struct.new(
+      :dataset_id,
+      :dataset_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_arn
+    #   The Amazon Resource Name (ARN) of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_version
+    #   The resolved version: "DRAFT" (default) or the requested version
+    #   number.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_name
+    #   The name of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] draft_status
+    #   Publish synchronization state. Only authoritative when status ==
+    #   ACTIVE. MODIFIED — DRAFT has unpublished changes (or no published
+    #   versions yet). UNMODIFIED — DRAFT matches the latest published
+    #   version exactly.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_reason
+    #   Populated when status is CREATE\_FAILED, UPDATE\_FAILED, or
+    #   DELETE\_FAILED.
+    #   @return [String]
+    #
+    # @!attribute [rw] schema_type
+    #   The schema type declared at create time. Immutable after creation.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_arn
+    #   AWS KMS key ARN used for SSE-KMS on service S3 writes, if
+    #   configured.
+    #   @return [String]
+    #
+    # @!attribute [rw] example_count
+    #   Example count for DRAFT.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] download_url
+    #   Presigned S3 URL to download the consolidated dataset.jsonl file for
+    #   the resolved version (DRAFT or published). TTL: 5 minutes. Omitted
+    #   if the file does not yet exist (e.g. during CREATING) or on presign
+    #   failure.
+    #   @return [String]
+    #
+    # @!attribute [rw] download_url_expires_at
+    #   Expiry timestamp for downloadUrl.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the dataset was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the dataset was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   The tags associated with the dataset.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetDatasetResponse AWS API Documentation
+    #
+    class GetDatasetResponse < Struct.new(
+      :dataset_arn,
+      :dataset_id,
+      :dataset_version,
+      :dataset_name,
+      :description,
+      :status,
+      :draft_status,
+      :failure_reason,
+      :schema_type,
+      :kms_key_arn,
+      :example_count,
+      :download_url,
+      :download_url_expires_at,
+      :created_at,
+      :updated_at,
+      :tags)
+      SENSITIVE = [:download_url]
       include Aws::Structure
     end
 
@@ -9662,6 +10231,20 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # Inline examples provided directly in the request body.
+    #
+    # @!attribute [rw] examples
+    #   Examples to add. Each example is assigned an auto-generated UUID.
+    #   @return [Array<Hash,Array,String,Numeric,Boolean>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/InlineExamplesSource AWS API Documentation
+    #
+    class InlineExamplesSource < Struct.new(
+      :examples)
+      SENSITIVE = [:examples]
+      include Aws::Structure
+    end
+
     # The interceptor configuration.
     #
     # @note InterceptorConfiguration is a union - when making an API calls you must set exactly one of the members.
@@ -10260,6 +10843,149 @@ module Aws::BedrockAgentCoreControl
     #
     class ListConfigurationBundlesResponse < Struct.new(
       :bundles,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_version
+    #   Version to paginate: "DRAFT" or a version number. Defaults to DRAFT
+    #   if absent. Only used on the first request (when nextToken is
+    #   absent). For subsequent pages, the version is extracted from the
+    #   nextToken and this parameter is ignored.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   Maximum number of examples to return per page. Default: 1000. Min:
+    #   1, max: 1000. Response size is validated against 5 MB limit after
+    #   reading. For bulk access to all examples, use the `downloadUrl`
+    #   field from GetDataset.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListDatasetExamplesRequest AWS API Documentation
+    #
+    class ListDatasetExamplesRequest < Struct.new(
+      :dataset_id,
+      :dataset_version,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_arn
+    #   The Amazon Resource Name (ARN) of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_version
+    #   The version returned.
+    #   @return [String]
+    #
+    # @!attribute [rw] examples
+    #   Paginated example content. Each element is a JSON object containing
+    #   at least an `exampleId` field plus the schema-specific content
+    #   fields.
+    #   @return [Array<Hash,Array,String,Numeric,Boolean>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListDatasetExamplesResponse AWS API Documentation
+    #
+    class ListDatasetExamplesResponse < Struct.new(
+      :dataset_arn,
+      :dataset_id,
+      :dataset_version,
+      :examples,
+      :next_token)
+      SENSITIVE = [:examples]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of versions to return per page.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListDatasetVersionsRequest AWS API Documentation
+    #
+    class ListDatasetVersionsRequest < Struct.new(
+      :dataset_id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] versions
+    #   The list of published dataset versions.
+    #   @return [Array<Types::DatasetVersionSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListDatasetVersionsResponse AWS API Documentation
+    #
+    class ListDatasetVersionsResponse < Struct.new(
+      :versions,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The token for the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of datasets to return per page.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListDatasetsRequest AWS API Documentation
+    #
+    class ListDatasetsRequest < Struct.new(
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] datasets
+    #   The list of datasets.
+    #   @return [Array<Types::DatasetSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListDatasetsResponse AWS API Documentation
+    #
+    class ListDatasetsResponse < Struct.new(
+      :datasets,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -14148,6 +14874,21 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # S3 location of a JSONL file containing dataset examples.
+    #
+    # @!attribute [rw] s3_uri
+    #   S3 URI of the JSONL file (e.g.
+    #   s3://my-bucket/path/to/examples.jsonl).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/S3Source AWS API Documentation
+    #
+    class S3Source < Struct.new(
+      :s3_uri)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Input configuration for a Salesforce OAuth2 provider.
     #
     # @!attribute [rw] client_id
@@ -16029,6 +16770,133 @@ module Aws::BedrockAgentCoreControl
       :bundle_arn,
       :bundle_id,
       :version_id,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a
+    #   previous request, the service ignores the request, but doesn't
+    #   return an error. For more information, see [Ensuring
+    #   idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #   @return [String]
+    #
+    # @!attribute [rw] examples
+    #   Examples to update. Each element is a JSON object containing a
+    #   required `exampleId` string field identifying the existing example,
+    #   plus the replacement fields. The `exampleId` is extracted and
+    #   removed before persistence; the remaining document is validated
+    #   against the dataset's schemaType. Max 1000 examples per call. Total
+    #   request body must not exceed 5 MB.
+    #   @return [Array<Hash,Array,String,Numeric,Boolean>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateDatasetExamplesRequest AWS API Documentation
+    #
+    class UpdateDatasetExamplesRequest < Struct.new(
+      :dataset_id,
+      :client_token,
+      :examples)
+      SENSITIVE = [:examples]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_arn
+    #   The Amazon Resource Name (ARN) of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_count
+    #   The number of examples updated.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the examples were updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateDatasetExamplesResponse AWS API Documentation
+    #
+    class UpdateDatasetExamplesResponse < Struct.new(
+      :dataset_arn,
+      :dataset_id,
+      :status,
+      :updated_count,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the dataset to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a
+    #   previous request, the service ignores the request, but doesn't
+    #   return an error. For more information, see [Ensuring
+    #   idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The updated description for the dataset.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateDatasetRequest AWS API Documentation
+    #
+    class UpdateDatasetRequest < Struct.new(
+      :dataset_id,
+      :client_token,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_arn
+    #   The Amazon Resource Name (ARN) of the updated dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_id
+    #   The unique identifier of the updated dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the dataset was updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateDatasetResponse AWS API Documentation
+    #
+    class UpdateDatasetResponse < Struct.new(
+      :dataset_arn,
+      :dataset_id,
       :updated_at)
       SENSITIVE = []
       include Aws::Structure

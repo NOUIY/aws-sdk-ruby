@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.48.0 (2026-05-21)
+------------------
+
+* Feature - Adds dataset management APIs for creating, versioning, and managing evaluation datasets.
+
 1.47.0 (2026-05-19)
 ------------------
 

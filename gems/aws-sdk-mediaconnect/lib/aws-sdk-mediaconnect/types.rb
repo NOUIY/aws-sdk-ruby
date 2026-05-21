@@ -612,6 +612,20 @@ module Aws::MediaConnect
     #   transit between the MediaConnect router and a MediaConnect flow.
     #   @return [Types::FlowTransitEncryption]
     #
+    # @!attribute [rw] ndi_output_timecode_source
+    #   Controls how MediaConnect generates timecodes for NDI output frames.
+    #   If you don't specify this field, MediaConnect uses
+    #   `EMBEDDED_TIMECODE`.
+    #
+    #   * `EMBEDDED_TIMECODE` (default) - Preserves timecodes from the input
+    #     transport stream. The timecodes must be embedded in the video
+    #     stream as SEI timing messages. If no embedded timecode is
+    #     detected, MediaConnect uses the UTC system time instead.
+    #
+    #   * `UTC_SYSTEM_TIME` - Generates timecodes based on the system clock
+    #     time when each frame is sent.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/AddOutputRequest AWS API Documentation
     #
     class AddOutputRequest < Struct.new(
@@ -635,7 +649,8 @@ module Aws::MediaConnect
       :ndi_program_name,
       :output_tags,
       :router_integration_state,
-      :router_integration_transit_encryption)
+      :router_integration_transit_encryption,
+      :ndi_output_timecode_source)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8133,6 +8148,19 @@ module Aws::MediaConnect
     #   upstream NDI sender that you want to connect to your source.
     #   @return [Types::NdiSourceSettings]
     #
+    # @!attribute [rw] ndi_output_timecode_source
+    #   The timecode source for NDI output frames. For NDI outputs, this
+    #   field is always present and defaults to `EMBEDDED_TIMECODE`.
+    #
+    #   * `EMBEDDED_TIMECODE` - Preserves timecodes from the input transport
+    #     stream. The timecodes must be embedded in the video stream as SEI
+    #     timing messages. If no embedded timecode is detected, MediaConnect
+    #     uses the UTC system time instead.
+    #
+    #   * `UTC_SYSTEM_TIME` - Generates timecodes based on the system clock
+    #     time when each frame is sent.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/Transport AWS API Documentation
     #
     class Transport < Struct.new(
@@ -8151,7 +8179,8 @@ module Aws::MediaConnect
       :stream_id,
       :ndi_speed_hq_quality,
       :ndi_program_name,
-      :ndi_source_settings)
+      :ndi_source_settings,
+      :ndi_output_timecode_source)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8915,6 +8944,20 @@ module Aws::MediaConnect
     #   transit between the MediaConnect router and a MediaConnect flow.
     #   @return [Types::FlowTransitEncryption]
     #
+    # @!attribute [rw] ndi_output_timecode_source
+    #   Controls how MediaConnect generates timecodes for NDI output frames.
+    #   If you don't specify this field, MediaConnect leaves the value
+    #   unchanged.
+    #
+    #   * `EMBEDDED_TIMECODE` - Preserves timecodes from the input transport
+    #     stream. The timecodes must be embedded in the video stream as SEI
+    #     timing messages. If no embedded timecode is detected, MediaConnect
+    #     uses the UTC system time instead.
+    #
+    #   * `UTC_SYSTEM_TIME` - Generates timecodes based on the system clock
+    #     time when each frame is sent.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateFlowOutputRequest AWS API Documentation
     #
     class UpdateFlowOutputRequest < Struct.new(
@@ -8939,7 +8982,8 @@ module Aws::MediaConnect
       :ndi_program_name,
       :ndi_speed_hq_quality,
       :router_integration_state,
-      :router_integration_transit_encryption)
+      :router_integration_transit_encryption,
+      :ndi_output_timecode_source)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -54,7 +54,7 @@ module Aws::MediaStoreData
   autoload :EndpointProvider, 'aws-sdk-mediastoredata/endpoint_provider'
   autoload :Endpoints, 'aws-sdk-mediastoredata/endpoints'
 
-  GEM_VERSION = '1.83.0'
+  GEM_VERSION = '1.84.0'
 
 end
 

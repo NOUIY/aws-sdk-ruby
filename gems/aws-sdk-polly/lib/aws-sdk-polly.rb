@@ -72,7 +72,7 @@ module Aws::Polly
   autoload :AsyncClient, 'aws-sdk-polly/async_client'
   autoload :EventStreams, 'aws-sdk-polly/event_streams'
 
-  GEM_VERSION = '1.124.0'
+  GEM_VERSION = '1.125.0'
 
 end
 

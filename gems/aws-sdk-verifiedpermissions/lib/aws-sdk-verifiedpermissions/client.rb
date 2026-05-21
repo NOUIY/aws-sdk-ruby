@@ -199,7 +199,7 @@ module Aws::VerifiedPermissions
     #     the required types.
     #
     #   @option options [Boolean] :correct_clock_skew (true)
-    #     Used only in `standard` and adaptive retry modes. Specifies whether to apply
+    #     Used only in `standard` and `adaptive` retry modes. Specifies whether to apply
     #     a clock skew correction and retry requests with skewed client clocks.
     #
     #   @option options [String] :defaults_mode ("legacy")
@@ -323,17 +323,15 @@ module Aws::VerifiedPermissions
     #   @option options [String] :retry_mode ("legacy")
     #     Specifies which retry algorithm to use. Values are:
     #
-    #     * `legacy` - The pre-existing retry behavior.  This is default value if
-    #       no retry mode is provided.
+    #     * `legacy` - The pre-existing retry behavior. This is the default
+    #       value if no retry mode is provided.
     #
     #     * `standard` - A standardized set of retry rules across the AWS SDKs.
     #       This includes support for retry quotas, which limit the number of
     #       unsuccessful retries a client can make.
     #
-    #     * `adaptive` - An experimental retry mode that includes all the
-    #       functionality of `standard` mode along with automatic client side
-    #       throttling.  This is a provisional mode that may change behavior
-    #       in the future.
+    #     * `adaptive` - A retry mode that includes all the functionality of
+    #       `standard` mode along with automatic client side throttling.
     #
     #   @option options [String] :sdk_ua_app_id
     #     A unique and opaque application ID that is appended to the
@@ -1733,8 +1731,8 @@ module Aws::VerifiedPermissions
     # Creates a policy store. A policy store is a container for policy
     # resources.
     #
-    # <note markdown="1"> Although [Cedar supports multiple namespaces][1], Verified Permissions
-    # currently supports only one namespace per policy store.
+    # <note markdown="1"> As of May 2026, Verified Permissions has aligned with Cedar and now
+    # supports multiple namespaces.
     #
     #  </note>
     #
@@ -1745,10 +1743,6 @@ module Aws::VerifiedPermissions
     # of other Verified Permissions operations.
     #
     #  </note>
-    #
-    #
-    #
-    # [1]: https://docs.cedarpolicy.com/schema/schema.html#namespace
     #
     # @option params [String] :client_token
     #   Specifies a unique, case-sensitive ID that you provide to ensure the
@@ -2296,11 +2290,22 @@ module Aws::VerifiedPermissions
     # does not exist, the request response will still return a successful
     # HTTP 200 status code.
     #
-    # When a policy store alias is deleted, it enters the `PendingDeletion`
-    # state. When a policy store alias is in the `PendingDeletion` state,
-    # new policy store aliases cannot be created with the same name. If the
-    # policy store alias is used in an API that has a `policyStoreId` field,
-    # the operation will fail with a `ResourceNotFound` exception.
+    # By default, when a policy store alias is deleted, it enters the
+    # `PendingDeletion` state. When a policy store alias is in the
+    # `PendingDeletion` state, new policy store aliases cannot be created
+    # with the same name. If the policy store alias is used in an API that
+    # has a `policyStoreId` field, the operation will fail with a
+    # `ResourceNotFound` exception.
+    #
+    # To immediately delete a policy store alias and bypass the
+    # `PendingDeletion` state, set the `deletionMode` parameter to
+    # `HardDelete`.
+    #
+    # Verified Permissions is eventually consistent. If you hard delete a
+    # policy store alias and then immediately recreate it to be associated
+    # with a different policy store, requests that reference this alias may
+    # continue to be evaluated against the previously associated policy
+    # store for a short period of time.
     #
     # @option params [required, String] :alias_name
     #   Specifies the name of the policy store alias that you want to delete.
@@ -2309,15 +2314,41 @@ module Aws::VerifiedPermissions
     #
     #    </note>
     #
+    # @option params [String] :deletion_mode
+    #   Specifies the deletion mode for the policy store alias. The valid
+    #   values are:
+    #
+    #   * **SoftDelete** – The policy store alias enters the `PendingDeletion`
+    #     state. This is the default behavior when no `deletionMode` is
+    #     specified.
+    #
+    #   * **HardDelete** – The policy store alias is immediately deleted,
+    #     bypassing the `PendingDeletion` state.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     #
-    # @example Example: DeletePolicyStoreAlias
+    # @example Example: Soft delete a policy store alias
     #
-    #   # The following example deletes the policy store alias with name example-policy-store.
+    #   # The following example soft deletes the policy store alias with name example-policy-store. The alias enters the
+    #   # PendingDeletion state.
     #
     #   resp = client.delete_policy_store_alias({
     #     alias_name: "policy-store-alias/example-policy-store", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #   }
+    #
+    # @example Example: Hard delete a policy store alias
+    #
+    #   # The following example hard deletes the policy store alias with name example-policy-store. The alias is immediately
+    #   # deleted, bypassing the PendingDeletion state.
+    #
+    #   resp = client.delete_policy_store_alias({
+    #     alias_name: "policy-store-alias/example-policy-store", 
+    #     deletion_mode: "HardDelete", 
     #   })
     #
     #   resp.to_h outputs the following:
@@ -2328,6 +2359,7 @@ module Aws::VerifiedPermissions
     #
     #   resp = client.delete_policy_store_alias({
     #     alias_name: "Alias", # required
+    #     deletion_mode: "SoftDelete", # accepts SoftDelete, HardDelete
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/verifiedpermissions-2021-12-01/DeletePolicyStoreAlias AWS API Documentation
@@ -3086,7 +3118,7 @@ module Aws::VerifiedPermissions
     #
     #   resp = client.is_authorized({
     #     action: {
-    #       action_id: "view", 
+    #       action_id: "updatePhoto", 
     #       action_type: "Action", 
     #     }, 
     #     policy_store_id: "C7v5xMplfFH3i3e4Jrzb1a", 
@@ -5001,7 +5033,7 @@ module Aws::VerifiedPermissions
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-verifiedpermissions'
-      context[:gem_version] = '1.65.0'
+      context[:gem_version] = '1.66.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

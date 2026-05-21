@@ -91,6 +91,7 @@ module Aws::VerifiedPermissions
     DeletePolicyStoreOutput = Shapes::StructureShape.new(name: 'DeletePolicyStoreOutput')
     DeletePolicyTemplateInput = Shapes::StructureShape.new(name: 'DeletePolicyTemplateInput')
     DeletePolicyTemplateOutput = Shapes::StructureShape.new(name: 'DeletePolicyTemplateOutput')
+    DeletionMode = Shapes::StringShape.new(name: 'DeletionMode')
     DeletionProtection = Shapes::StringShape.new(name: 'DeletionProtection')
     DeterminingPolicyItem = Shapes::StructureShape.new(name: 'DeterminingPolicyItem')
     DeterminingPolicyList = Shapes::ListShape.new(name: 'DeterminingPolicyList')
@@ -555,6 +556,7 @@ module Aws::VerifiedPermissions
     DeletePolicyOutput.struct_class = Types::DeletePolicyOutput
 
     DeletePolicyStoreAliasInput.add_member(:alias_name, Shapes::ShapeRef.new(shape: Alias, required: true, location_name: "aliasName"))
+    DeletePolicyStoreAliasInput.add_member(:deletion_mode, Shapes::ShapeRef.new(shape: DeletionMode, location_name: "deletionMode"))
     DeletePolicyStoreAliasInput.struct_class = Types::DeletePolicyStoreAliasInput
 
     DeletePolicyStoreAliasOutput.struct_class = Types::DeletePolicyStoreAliasOutput

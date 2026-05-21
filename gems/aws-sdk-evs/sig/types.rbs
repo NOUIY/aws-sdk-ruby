@@ -235,6 +235,18 @@ module Aws::Evs
       SENSITIVE: []
     end
 
+    class GetDepotUrlRequest
+      attr_accessor environment_id: ::String
+      attr_accessor rotate: bool
+      SENSITIVE: []
+    end
+
+    class GetDepotUrlResponse
+      attr_accessor depot_url: ::String
+      attr_accessor token: ::String
+      SENSITIVE: []
+    end
+
     class GetEnvironmentRequest
       attr_accessor environment_id: ::String
       SENSITIVE: []
@@ -314,7 +326,7 @@ module Aws::Evs
     class LicenseInfo
       attr_accessor solution_key: ::String
       attr_accessor vsan_key: ::String
-      SENSITIVE: []
+      SENSITIVE: [:solution_key, :vsan_key]
     end
 
     class ListEnvironmentConnectorsRequest

@@ -337,7 +337,7 @@ module Aws::CleanRooms
     class Change
       attr_accessor specification_type: ("MEMBER" | "COLLABORATION")
       attr_accessor specification: Types::ChangeSpecification
-      attr_accessor types: ::Array[("ADD_MEMBER" | "GRANT_RECEIVE_RESULTS_ABILITY" | "REVOKE_RECEIVE_RESULTS_ABILITY" | "EDIT_AUTO_APPROVED_CHANGE_TYPES")]
+      attr_accessor types: ::Array[("ADD_MEMBER" | "GRANT_RECEIVE_RESULTS_ABILITY" | "REVOKE_RECEIVE_RESULTS_ABILITY" | "EDIT_AUTO_APPROVED_CHANGE_TYPES" | "ADD_PAYER_CANDIDATE" | "REMOVE_PAYER_CANDIDATE" | "GRANT_CAN_RECEIVE_MODEL_OUTPUT" | "GRANT_CAN_RECEIVE_INFERENCE_OUTPUT" | "REVOKE_CAN_RECEIVE_MODEL_OUTPUT" | "REVOKE_CAN_RECEIVE_INFERENCE_OUTPUT")]
       SENSITIVE: []
     end
 
@@ -1877,6 +1877,8 @@ module Aws::CleanRooms
     class MemberChangeSpecification
       attr_accessor account_id: ::String
       attr_accessor member_abilities: ::Array[("CAN_QUERY" | "CAN_RECEIVE_RESULTS" | "CAN_RUN_JOB")]
+      attr_accessor ml_member_abilities: Types::MLMemberAbilities
+      attr_accessor payment_configuration: Types::PaymentConfiguration
       attr_accessor display_name: ::String
       SENSITIVE: []
     end
@@ -2189,6 +2191,7 @@ module Aws::CleanRooms
       attr_accessor result: Types::ProtectedJobResult
       attr_accessor error: Types::ProtectedJobError
       attr_accessor compute_configuration: Types::ProtectedJobComputeConfiguration
+      attr_accessor job_compute_payer_account_id: ::String
       SENSITIVE: []
     end
 
@@ -2336,6 +2339,7 @@ module Aws::CleanRooms
       attr_accessor create_time: ::Time
       attr_accessor status: ("SUBMITTED" | "STARTED" | "CANCELLED" | "CANCELLING" | "FAILED" | "SUCCESS")
       attr_accessor receiver_configurations: ::Array[Types::ProtectedJobReceiverConfiguration]
+      attr_accessor job_compute_payer_account_id: ::String
       SENSITIVE: []
     end
 
@@ -2359,6 +2363,7 @@ module Aws::CleanRooms
       attr_accessor error: Types::ProtectedQueryError
       attr_accessor differential_privacy: Types::DifferentialPrivacyParameters
       attr_accessor compute_configuration: Types::ComputeConfiguration
+      attr_accessor query_compute_payer_account_id: ::String
       SENSITIVE: [:sql_parameters]
     end
 
@@ -2480,6 +2485,7 @@ module Aws::CleanRooms
       attr_accessor create_time: ::Time
       attr_accessor status: ("SUBMITTED" | "STARTED" | "CANCELLED" | "CANCELLING" | "FAILED" | "SUCCESS" | "TIMED_OUT")
       attr_accessor receiver_configurations: ::Array[Types::ReceiverConfiguration]
+      attr_accessor query_compute_payer_account_id: ::String
       SENSITIVE: []
     end
 
@@ -2630,6 +2636,7 @@ module Aws::CleanRooms
       attr_accessor job_parameters: Types::ProtectedJobParameters
       attr_accessor result_configuration: Types::ProtectedJobResultConfigurationInput
       attr_accessor compute_configuration: Types::ProtectedJobComputeConfiguration
+      attr_accessor job_compute_payer_account_id: ::String
       SENSITIVE: []
     end
 
@@ -2644,6 +2651,7 @@ module Aws::CleanRooms
       attr_accessor sql_parameters: Types::ProtectedQuerySQLParameters
       attr_accessor result_configuration: Types::ProtectedQueryResultConfiguration
       attr_accessor compute_configuration: Types::ComputeConfiguration
+      attr_accessor query_compute_payer_account_id: ::String
       SENSITIVE: [:sql_parameters]
     end
 
@@ -2852,11 +2860,19 @@ module Aws::CleanRooms
       attr_accessor job_log_status: ("ENABLED" | "DISABLED")
       attr_accessor default_result_configuration: Types::MembershipProtectedQueryResultConfiguration
       attr_accessor default_job_result_configuration: Types::MembershipProtectedJobResultConfiguration
+      attr_accessor membership_payment_configuration: Types::UpdateMembershipPaymentConfiguration
       SENSITIVE: []
     end
 
     class UpdateMembershipOutput
       attr_accessor membership: Types::Membership
+      SENSITIVE: []
+    end
+
+    class UpdateMembershipPaymentConfiguration
+      attr_accessor query_compute: Types::MembershipQueryComputePaymentConfig
+      attr_accessor machine_learning: Types::MembershipMLPaymentConfig
+      attr_accessor job_compute: Types::MembershipJobComputePaymentConfig
       SENSITIVE: []
     end
 

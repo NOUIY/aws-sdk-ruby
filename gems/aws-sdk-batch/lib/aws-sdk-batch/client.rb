@@ -199,7 +199,7 @@ module Aws::Batch
     #     the required types.
     #
     #   @option options [Boolean] :correct_clock_skew (true)
-    #     Used only in `standard` and adaptive retry modes. Specifies whether to apply
+    #     Used only in `standard` and `adaptive` retry modes. Specifies whether to apply
     #     a clock skew correction and retry requests with skewed client clocks.
     #
     #   @option options [String] :defaults_mode ("legacy")
@@ -323,17 +323,15 @@ module Aws::Batch
     #   @option options [String] :retry_mode ("legacy")
     #     Specifies which retry algorithm to use. Values are:
     #
-    #     * `legacy` - The pre-existing retry behavior.  This is default value if
-    #       no retry mode is provided.
+    #     * `legacy` - The pre-existing retry behavior. This is the default
+    #       value if no retry mode is provided.
     #
     #     * `standard` - A standardized set of retry rules across the AWS SDKs.
     #       This includes support for retry quotas, which limit the number of
     #       unsuccessful retries a client can make.
     #
-    #     * `adaptive` - An experimental retry mode that includes all the
-    #       functionality of `standard` mode along with automatic client side
-    #       throttling.  This is a provisional mode that may change behavior
-    #       in the future.
+    #     * `adaptive` - A retry mode that includes all the functionality of
+    #       `standard` mode along with automatic client side throttling.
     #
     #   @option options [String] :sdk_ua_app_id
     #     A unique and opaque application ID that is appended to the
@@ -594,9 +592,11 @@ module Aws::Batch
     #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html
     #
     # @option params [String] :state
-    #   The state of the compute environment. If the state is `ENABLED`, then
-    #   the compute environment accepts jobs from a queue and can scale out
-    #   automatically based on queues.
+    #   The state of the compute environment. A compute environment must be
+    #   created in the `ENABLED` state.
+    #
+    #   If the state is `ENABLED`, then the compute environment accepts jobs
+    #   from a queue and can scale out automatically based on queues.
     #
     #   If the state is `ENABLED`, then the Batch scheduler can attempt to
     #   place jobs from an associated job queue on the compute resources
@@ -656,6 +656,10 @@ module Aws::Batch
     #   doesn't exist in your account, and no role is specified here, the
     #   service attempts to create the Batch service-linked role in your
     #   account.
+    #
+    #    This automatic service-linked role creation only applies to `MANAGED`
+    #   compute environments. For `UNMANAGED` compute environments, you must
+    #   explicitly specify a `serviceRole`.
     #
     #   If your specified role has a path other than `/`, then you must
     #   specify either the full role ARN (recommended) or prefix the role name
@@ -6660,7 +6664,7 @@ module Aws::Batch
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-batch'
-      context[:gem_version] = '1.143.0'
+      context[:gem_version] = '1.144.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

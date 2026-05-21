@@ -199,7 +199,7 @@ module Aws::MediaConnect
     #     the required types.
     #
     #   @option options [Boolean] :correct_clock_skew (true)
-    #     Used only in `standard` and adaptive retry modes. Specifies whether to apply
+    #     Used only in `standard` and `adaptive` retry modes. Specifies whether to apply
     #     a clock skew correction and retry requests with skewed client clocks.
     #
     #   @option options [String] :defaults_mode ("legacy")
@@ -323,17 +323,15 @@ module Aws::MediaConnect
     #   @option options [String] :retry_mode ("legacy")
     #     Specifies which retry algorithm to use. Values are:
     #
-    #     * `legacy` - The pre-existing retry behavior.  This is default value if
-    #       no retry mode is provided.
+    #     * `legacy` - The pre-existing retry behavior. This is the default
+    #       value if no retry mode is provided.
     #
     #     * `standard` - A standardized set of retry rules across the AWS SDKs.
     #       This includes support for retry quotas, which limit the number of
     #       unsuccessful retries a client can make.
     #
-    #     * `adaptive` - An experimental retry mode that includes all the
-    #       functionality of `standard` mode along with automatic client side
-    #       throttling.  This is a provisional mode that may change behavior
-    #       in the future.
+    #     * `adaptive` - A retry mode that includes all the functionality of
+    #       `standard` mode along with automatic client side throttling.
     #
     #   @option options [String] :sdk_ua_app_id
     #     A unique and opaque application ID that is appended to the
@@ -753,6 +751,7 @@ module Aws::MediaConnect
     #             },
     #           },
     #         },
+    #         ndi_output_timecode_source: "EMBEDDED_TIMECODE", # accepts EMBEDDED_TIMECODE, UTC_SYSTEM_TIME
     #       },
     #     ],
     #   })
@@ -806,6 +805,7 @@ module Aws::MediaConnect
     #   resp.outputs[0].transport.ndi_speed_hq_quality #=> Integer
     #   resp.outputs[0].transport.ndi_program_name #=> String
     #   resp.outputs[0].transport.ndi_source_settings.source_name #=> String
+    #   resp.outputs[0].transport.ndi_output_timecode_source #=> String, one of "EMBEDDED_TIMECODE", "UTC_SYSTEM_TIME"
     #   resp.outputs[0].vpc_interface_attachment.vpc_interface_name #=> String
     #   resp.outputs[0].bridge_arn #=> String
     #   resp.outputs[0].bridge_ports #=> Array
@@ -961,6 +961,7 @@ module Aws::MediaConnect
     #   resp.sources[0].transport.ndi_speed_hq_quality #=> Integer
     #   resp.sources[0].transport.ndi_program_name #=> String
     #   resp.sources[0].transport.ndi_source_settings.source_name #=> String
+    #   resp.sources[0].transport.ndi_output_timecode_source #=> String, one of "EMBEDDED_TIMECODE", "UTC_SYSTEM_TIME"
     #   resp.sources[0].vpc_interface_name #=> String
     #   resp.sources[0].whitelist_cidr #=> String
     #   resp.sources[0].gateway_bridge_source.bridge_arn #=> String
@@ -1616,6 +1617,7 @@ module Aws::MediaConnect
     #             },
     #           },
     #         },
+    #         ndi_output_timecode_source: "EMBEDDED_TIMECODE", # accepts EMBEDDED_TIMECODE, UTC_SYSTEM_TIME
     #       },
     #     ],
     #     source: {
@@ -1909,6 +1911,7 @@ module Aws::MediaConnect
     #   resp.flow.outputs[0].transport.ndi_speed_hq_quality #=> Integer
     #   resp.flow.outputs[0].transport.ndi_program_name #=> String
     #   resp.flow.outputs[0].transport.ndi_source_settings.source_name #=> String
+    #   resp.flow.outputs[0].transport.ndi_output_timecode_source #=> String, one of "EMBEDDED_TIMECODE", "UTC_SYSTEM_TIME"
     #   resp.flow.outputs[0].vpc_interface_attachment.vpc_interface_name #=> String
     #   resp.flow.outputs[0].bridge_arn #=> String
     #   resp.flow.outputs[0].bridge_ports #=> Array
@@ -1962,6 +1965,7 @@ module Aws::MediaConnect
     #   resp.flow.source.transport.ndi_speed_hq_quality #=> Integer
     #   resp.flow.source.transport.ndi_program_name #=> String
     #   resp.flow.source.transport.ndi_source_settings.source_name #=> String
+    #   resp.flow.source.transport.ndi_output_timecode_source #=> String, one of "EMBEDDED_TIMECODE", "UTC_SYSTEM_TIME"
     #   resp.flow.source.vpc_interface_name #=> String
     #   resp.flow.source.whitelist_cidr #=> String
     #   resp.flow.source.gateway_bridge_source.bridge_arn #=> String
@@ -2019,6 +2023,7 @@ module Aws::MediaConnect
     #   resp.flow.sources[0].transport.ndi_speed_hq_quality #=> Integer
     #   resp.flow.sources[0].transport.ndi_program_name #=> String
     #   resp.flow.sources[0].transport.ndi_source_settings.source_name #=> String
+    #   resp.flow.sources[0].transport.ndi_output_timecode_source #=> String, one of "EMBEDDED_TIMECODE", "UTC_SYSTEM_TIME"
     #   resp.flow.sources[0].vpc_interface_name #=> String
     #   resp.flow.sources[0].whitelist_cidr #=> String
     #   resp.flow.sources[0].gateway_bridge_source.bridge_arn #=> String
@@ -2474,7 +2479,7 @@ module Aws::MediaConnect
     #       public: {
     #         allow_rules: [ # required
     #           {
-    #             cidr: "String", # required
+    #             cidr: "PublicRouterNetworkInterfaceRuleCidrString", # required
     #           },
     #         ],
     #       },
@@ -3119,6 +3124,7 @@ module Aws::MediaConnect
     #   resp.flow.outputs[0].transport.ndi_speed_hq_quality #=> Integer
     #   resp.flow.outputs[0].transport.ndi_program_name #=> String
     #   resp.flow.outputs[0].transport.ndi_source_settings.source_name #=> String
+    #   resp.flow.outputs[0].transport.ndi_output_timecode_source #=> String, one of "EMBEDDED_TIMECODE", "UTC_SYSTEM_TIME"
     #   resp.flow.outputs[0].vpc_interface_attachment.vpc_interface_name #=> String
     #   resp.flow.outputs[0].bridge_arn #=> String
     #   resp.flow.outputs[0].bridge_ports #=> Array
@@ -3172,6 +3178,7 @@ module Aws::MediaConnect
     #   resp.flow.source.transport.ndi_speed_hq_quality #=> Integer
     #   resp.flow.source.transport.ndi_program_name #=> String
     #   resp.flow.source.transport.ndi_source_settings.source_name #=> String
+    #   resp.flow.source.transport.ndi_output_timecode_source #=> String, one of "EMBEDDED_TIMECODE", "UTC_SYSTEM_TIME"
     #   resp.flow.source.vpc_interface_name #=> String
     #   resp.flow.source.whitelist_cidr #=> String
     #   resp.flow.source.gateway_bridge_source.bridge_arn #=> String
@@ -3229,6 +3236,7 @@ module Aws::MediaConnect
     #   resp.flow.sources[0].transport.ndi_speed_hq_quality #=> Integer
     #   resp.flow.sources[0].transport.ndi_program_name #=> String
     #   resp.flow.sources[0].transport.ndi_source_settings.source_name #=> String
+    #   resp.flow.sources[0].transport.ndi_output_timecode_source #=> String, one of "EMBEDDED_TIMECODE", "UTC_SYSTEM_TIME"
     #   resp.flow.sources[0].vpc_interface_name #=> String
     #   resp.flow.sources[0].whitelist_cidr #=> String
     #   resp.flow.sources[0].gateway_bridge_source.bridge_arn #=> String
@@ -5865,6 +5873,7 @@ module Aws::MediaConnect
     #   resp.flow.outputs[0].transport.ndi_speed_hq_quality #=> Integer
     #   resp.flow.outputs[0].transport.ndi_program_name #=> String
     #   resp.flow.outputs[0].transport.ndi_source_settings.source_name #=> String
+    #   resp.flow.outputs[0].transport.ndi_output_timecode_source #=> String, one of "EMBEDDED_TIMECODE", "UTC_SYSTEM_TIME"
     #   resp.flow.outputs[0].vpc_interface_attachment.vpc_interface_name #=> String
     #   resp.flow.outputs[0].bridge_arn #=> String
     #   resp.flow.outputs[0].bridge_ports #=> Array
@@ -5918,6 +5927,7 @@ module Aws::MediaConnect
     #   resp.flow.source.transport.ndi_speed_hq_quality #=> Integer
     #   resp.flow.source.transport.ndi_program_name #=> String
     #   resp.flow.source.transport.ndi_source_settings.source_name #=> String
+    #   resp.flow.source.transport.ndi_output_timecode_source #=> String, one of "EMBEDDED_TIMECODE", "UTC_SYSTEM_TIME"
     #   resp.flow.source.vpc_interface_name #=> String
     #   resp.flow.source.whitelist_cidr #=> String
     #   resp.flow.source.gateway_bridge_source.bridge_arn #=> String
@@ -5975,6 +5985,7 @@ module Aws::MediaConnect
     #   resp.flow.sources[0].transport.ndi_speed_hq_quality #=> Integer
     #   resp.flow.sources[0].transport.ndi_program_name #=> String
     #   resp.flow.sources[0].transport.ndi_source_settings.source_name #=> String
+    #   resp.flow.sources[0].transport.ndi_output_timecode_source #=> String, one of "EMBEDDED_TIMECODE", "UTC_SYSTEM_TIME"
     #   resp.flow.sources[0].vpc_interface_name #=> String
     #   resp.flow.sources[0].whitelist_cidr #=> String
     #   resp.flow.sources[0].gateway_bridge_source.bridge_arn #=> String
@@ -6292,6 +6303,19 @@ module Aws::MediaConnect
     #   The configuration that defines how content is encrypted during transit
     #   between the MediaConnect router and a MediaConnect flow.
     #
+    # @option params [String] :ndi_output_timecode_source
+    #   Controls how MediaConnect generates timecodes for NDI output frames.
+    #   If you don't specify this field, MediaConnect leaves the value
+    #   unchanged.
+    #
+    #   * `EMBEDDED_TIMECODE` - Preserves timecodes from the input transport
+    #     stream. The timecodes must be embedded in the video stream as SEI
+    #     timing messages. If no embedded timecode is detected, MediaConnect
+    #     uses the UTC system time instead.
+    #
+    #   * `UTC_SYSTEM_TIME` - Generates timecodes based on the system clock
+    #     time when each frame is sent.
+    #
     # @return [Types::UpdateFlowOutputResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateFlowOutputResponse#flow_arn #flow_arn} => String
@@ -6362,6 +6386,7 @@ module Aws::MediaConnect
     #         },
     #       },
     #     },
+    #     ndi_output_timecode_source: "EMBEDDED_TIMECODE", # accepts EMBEDDED_TIMECODE, UTC_SYSTEM_TIME
     #   })
     #
     # @example Response structure
@@ -6412,6 +6437,7 @@ module Aws::MediaConnect
     #   resp.output.transport.ndi_speed_hq_quality #=> Integer
     #   resp.output.transport.ndi_program_name #=> String
     #   resp.output.transport.ndi_source_settings.source_name #=> String
+    #   resp.output.transport.ndi_output_timecode_source #=> String, one of "EMBEDDED_TIMECODE", "UTC_SYSTEM_TIME"
     #   resp.output.vpc_interface_attachment.vpc_interface_name #=> String
     #   resp.output.bridge_arn #=> String
     #   resp.output.bridge_ports #=> Array
@@ -6674,6 +6700,7 @@ module Aws::MediaConnect
     #   resp.source.transport.ndi_speed_hq_quality #=> Integer
     #   resp.source.transport.ndi_program_name #=> String
     #   resp.source.transport.ndi_source_settings.source_name #=> String
+    #   resp.source.transport.ndi_output_timecode_source #=> String, one of "EMBEDDED_TIMECODE", "UTC_SYSTEM_TIME"
     #   resp.source.vpc_interface_name #=> String
     #   resp.source.whitelist_cidr #=> String
     #   resp.source.gateway_bridge_source.bridge_arn #=> String
@@ -7049,7 +7076,7 @@ module Aws::MediaConnect
     #       public: {
     #         allow_rules: [ # required
     #           {
-    #             cidr: "String", # required
+    #             cidr: "PublicRouterNetworkInterfaceRuleCidrString", # required
     #           },
     #         ],
     #       },
@@ -7294,7 +7321,7 @@ module Aws::MediaConnect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-mediaconnect'
-      context[:gem_version] = '1.100.0'
+      context[:gem_version] = '1.101.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -205,7 +205,7 @@ module Aws::S3Control
     #     the required types.
     #
     #   @option options [Boolean] :correct_clock_skew (true)
-    #     Used only in `standard` and adaptive retry modes. Specifies whether to apply
+    #     Used only in `standard` and `adaptive` retry modes. Specifies whether to apply
     #     a clock skew correction and retry requests with skewed client clocks.
     #
     #   @option options [String] :defaults_mode ("legacy")
@@ -329,17 +329,15 @@ module Aws::S3Control
     #   @option options [String] :retry_mode ("legacy")
     #     Specifies which retry algorithm to use. Values are:
     #
-    #     * `legacy` - The pre-existing retry behavior.  This is default value if
-    #       no retry mode is provided.
+    #     * `legacy` - The pre-existing retry behavior. This is the default
+    #       value if no retry mode is provided.
     #
     #     * `standard` - A standardized set of retry rules across the AWS SDKs.
     #       This includes support for retry quotas, which limit the number of
     #       unsuccessful retries a client can make.
     #
-    #     * `adaptive` - An experimental retry mode that includes all the
-    #       functionality of `standard` mode along with automatic client side
-    #       throttling.  This is a provisional mode that may change behavior
-    #       in the future.
+    #     * `adaptive` - A retry mode that includes all the functionality of
+    #       `standard` mode along with automatic client side throttling.
     #
     #   @option options [Boolean] :s3_use_arn_region (true)
     #     For S3 and S3 Outposts ARNs passed into the `:bucket` or `:name`
@@ -8220,7 +8218,7 @@ module Aws::S3Control
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-s3control'
-      context[:gem_version] = '1.131.0'
+      context[:gem_version] = '1.132.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

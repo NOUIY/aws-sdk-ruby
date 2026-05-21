@@ -55,7 +55,7 @@ module Aws::IoTFleetWise
   autoload :EndpointProvider, 'aws-sdk-iotfleetwise/endpoint_provider'
   autoload :Endpoints, 'aws-sdk-iotfleetwise/endpoints'
 
-  GEM_VERSION = '1.63.0'
+  GEM_VERSION = '1.64.0'
 
 end
 

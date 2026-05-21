@@ -8,6 +8,18 @@
 module Aws
   module BedrockAgentCoreControl
     module Params
+      type data_source_type = {
+      inline_examples: {
+        examples: Array[
+          {
+          }
+        ]
+      }?,
+      s3_source: {
+        s3_uri: ::String
+      }?
+    }
+
       type code_configuration = {
       code: {
         s3: {

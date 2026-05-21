@@ -120,7 +120,8 @@ module Aws
       ndi_program_name: ::String?,
       output_tags: Hash[::String, ::String]?,
       router_integration_state: ("ENABLED" | "DISABLED")?,
-      router_integration_transit_encryption: Params::flow_transit_encryption?
+      router_integration_transit_encryption: Params::flow_transit_encryption?,
+      ndi_output_timecode_source: ("EMBEDDED_TIMECODE" | "UTC_SYSTEM_TIME")?
     }
 
       type media_stream_output_configuration_request = {

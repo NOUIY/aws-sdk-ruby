@@ -286,6 +286,7 @@ module Aws::MediaConnect
     NdiDiscoveryServerConfig = Shapes::StructureShape.new(name: 'NdiDiscoveryServerConfig')
     NdiMediaInfo = Shapes::StructureShape.new(name: 'NdiMediaInfo')
     NdiMediaStreamInfo = Shapes::StructureShape.new(name: 'NdiMediaStreamInfo')
+    NdiOutputTimecodeSource = Shapes::StringShape.new(name: 'NdiOutputTimecodeSource')
     NdiSourceInfo = Shapes::StructureShape.new(name: 'NdiSourceInfo')
     NdiSourceMetadataInfo = Shapes::StructureShape.new(name: 'NdiSourceMetadataInfo')
     NdiSourceSettings = Shapes::StructureShape.new(name: 'NdiSourceSettings')
@@ -302,6 +303,7 @@ module Aws::MediaConnect
     PublicRouterNetworkInterfaceConfiguration = Shapes::StructureShape.new(name: 'PublicRouterNetworkInterfaceConfiguration')
     PublicRouterNetworkInterfaceConfigurationAllowRulesList = Shapes::ListShape.new(name: 'PublicRouterNetworkInterfaceConfigurationAllowRulesList')
     PublicRouterNetworkInterfaceRule = Shapes::StructureShape.new(name: 'PublicRouterNetworkInterfaceRule')
+    PublicRouterNetworkInterfaceRuleCidrString = Shapes::StringShape.new(name: 'PublicRouterNetworkInterfaceRuleCidrString')
     PurchaseOfferingRequest = Shapes::StructureShape.new(name: 'PurchaseOfferingRequest')
     PurchaseOfferingResponse = Shapes::StructureShape.new(name: 'PurchaseOfferingResponse')
     Range = Shapes::StringShape.new(name: 'Range')
@@ -688,6 +690,7 @@ module Aws::MediaConnect
     AddOutputRequest.add_member(:output_tags, Shapes::ShapeRef.new(shape: __mapOfString, location_name: "outputTags"))
     AddOutputRequest.add_member(:router_integration_state, Shapes::ShapeRef.new(shape: State, location_name: "routerIntegrationState"))
     AddOutputRequest.add_member(:router_integration_transit_encryption, Shapes::ShapeRef.new(shape: FlowTransitEncryption, location_name: "routerIntegrationTransitEncryption"))
+    AddOutputRequest.add_member(:ndi_output_timecode_source, Shapes::ShapeRef.new(shape: NdiOutputTimecodeSource, location_name: "ndiOutputTimecodeSource"))
     AddOutputRequest.struct_class = Types::AddOutputRequest
 
     AudioMonitoringSetting.add_member(:silent_audio, Shapes::ShapeRef.new(shape: SilentAudio, location_name: "silentAudio"))
@@ -1645,7 +1648,7 @@ module Aws::MediaConnect
 
     PublicRouterNetworkInterfaceConfigurationAllowRulesList.member = Shapes::ShapeRef.new(shape: PublicRouterNetworkInterfaceRule)
 
-    PublicRouterNetworkInterfaceRule.add_member(:cidr, Shapes::ShapeRef.new(shape: String, required: true, location_name: "cidr"))
+    PublicRouterNetworkInterfaceRule.add_member(:cidr, Shapes::ShapeRef.new(shape: PublicRouterNetworkInterfaceRuleCidrString, required: true, location_name: "cidr"))
     PublicRouterNetworkInterfaceRule.struct_class = Types::PublicRouterNetworkInterfaceRule
 
     PurchaseOfferingRequest.add_member(:offering_arn, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "OfferingArn"))
@@ -2231,6 +2234,7 @@ module Aws::MediaConnect
     Transport.add_member(:ndi_speed_hq_quality, Shapes::ShapeRef.new(shape: Integer, location_name: "ndiSpeedHqQuality"))
     Transport.add_member(:ndi_program_name, Shapes::ShapeRef.new(shape: String, location_name: "ndiProgramName"))
     Transport.add_member(:ndi_source_settings, Shapes::ShapeRef.new(shape: NdiSourceSettings, location_name: "ndiSourceSettings"))
+    Transport.add_member(:ndi_output_timecode_source, Shapes::ShapeRef.new(shape: NdiOutputTimecodeSource, location_name: "ndiOutputTimecodeSource"))
     Transport.struct_class = Types::Transport
 
     TransportMediaInfo.add_member(:programs, Shapes::ShapeRef.new(shape: __listOfTransportStreamProgram, required: true, location_name: "programs"))
@@ -2382,6 +2386,7 @@ module Aws::MediaConnect
     UpdateFlowOutputRequest.add_member(:ndi_speed_hq_quality, Shapes::ShapeRef.new(shape: Integer, location_name: "ndiSpeedHqQuality"))
     UpdateFlowOutputRequest.add_member(:router_integration_state, Shapes::ShapeRef.new(shape: State, location_name: "routerIntegrationState"))
     UpdateFlowOutputRequest.add_member(:router_integration_transit_encryption, Shapes::ShapeRef.new(shape: FlowTransitEncryption, location_name: "routerIntegrationTransitEncryption"))
+    UpdateFlowOutputRequest.add_member(:ndi_output_timecode_source, Shapes::ShapeRef.new(shape: NdiOutputTimecodeSource, location_name: "ndiOutputTimecodeSource"))
     UpdateFlowOutputRequest.struct_class = Types::UpdateFlowOutputRequest
 
     UpdateFlowOutputResponse.add_member(:flow_arn, Shapes::ShapeRef.new(shape: String, location_name: "flowArn"))

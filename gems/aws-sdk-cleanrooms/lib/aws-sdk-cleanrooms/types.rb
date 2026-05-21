@@ -6763,6 +6763,15 @@ module Aws::CleanRooms
     #    </note>
     #   @return [Array<String>]
     #
+    # @!attribute [rw] ml_member_abilities
+    #   The ML member abilities for a collaboration member.
+    #   @return [Types::MLMemberAbilities]
+    #
+    # @!attribute [rw] payment_configuration
+    #   An object representing the collaboration member's payment
+    #   responsibilities set by the collaboration creator.
+    #   @return [Types::PaymentConfiguration]
+    #
     # @!attribute [rw] display_name
     #   Specifies the display name that will be shown for this member in the
     #   collaboration. While this field is required when inviting new
@@ -6775,6 +6784,8 @@ module Aws::CleanRooms
     class MemberChangeSpecification < Struct.new(
       :account_id,
       :member_abilities,
+      :ml_member_abilities,
+      :payment_configuration,
       :display_name)
       SENSITIVE = []
       include Aws::Structure
@@ -7931,6 +7942,10 @@ module Aws::CleanRooms
     #   The compute configuration for the protected job.
     #   @return [Types::ProtectedJobComputeConfiguration]
     #
+    # @!attribute [rw] job_compute_payer_account_id
+    #   The account ID of the member that pays for the job compute costs.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/ProtectedJob AWS API Documentation
     #
     class ProtectedJob < Struct.new(
@@ -7944,7 +7959,8 @@ module Aws::CleanRooms
       :statistics,
       :result,
       :error,
-      :compute_configuration)
+      :compute_configuration,
+      :job_compute_payer_account_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8327,6 +8343,10 @@ module Aws::CleanRooms
     #   The receiver configurations for the protected job.
     #   @return [Array<Types::ProtectedJobReceiverConfiguration>]
     #
+    # @!attribute [rw] job_compute_payer_account_id
+    #   The account ID of the member that pays for the job compute costs.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/ProtectedJobSummary AWS API Documentation
     #
     class ProtectedJobSummary < Struct.new(
@@ -8335,7 +8355,8 @@ module Aws::CleanRooms
       :membership_arn,
       :create_time,
       :status,
-      :receiver_configurations)
+      :receiver_configurations,
+      :job_compute_payer_account_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8417,6 +8438,10 @@ module Aws::CleanRooms
     #   The compute configuration for the protected query.
     #   @return [Types::ComputeConfiguration]
     #
+    # @!attribute [rw] query_compute_payer_account_id
+    #   The account ID of the member that pays for the query compute costs.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/ProtectedQuery AWS API Documentation
     #
     class ProtectedQuery < Struct.new(
@@ -8431,7 +8456,8 @@ module Aws::CleanRooms
       :result,
       :error,
       :differential_privacy,
-      :compute_configuration)
+      :compute_configuration,
+      :query_compute_payer_account_id)
       SENSITIVE = [:sql_parameters]
       include Aws::Structure
     end
@@ -8795,6 +8821,10 @@ module Aws::CleanRooms
     #   The receiver configuration.
     #   @return [Array<Types::ReceiverConfiguration>]
     #
+    # @!attribute [rw] query_compute_payer_account_id
+    #   The account ID of the member that pays for the query compute costs.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/ProtectedQuerySummary AWS API Documentation
     #
     class ProtectedQuerySummary < Struct.new(
@@ -8803,7 +8833,8 @@ module Aws::CleanRooms
       :membership_arn,
       :create_time,
       :status,
-      :receiver_configurations)
+      :receiver_configurations,
+      :query_compute_payer_account_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9345,6 +9376,10 @@ module Aws::CleanRooms
     #   The compute configuration for the protected job.
     #   @return [Types::ProtectedJobComputeConfiguration]
     #
+    # @!attribute [rw] job_compute_payer_account_id
+    #   The account ID of the member that pays for the job compute costs.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/StartProtectedJobInput AWS API Documentation
     #
     class StartProtectedJobInput < Struct.new(
@@ -9352,7 +9387,8 @@ module Aws::CleanRooms
       :membership_identifier,
       :job_parameters,
       :result_configuration,
-      :compute_configuration)
+      :compute_configuration,
+      :job_compute_payer_account_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9390,6 +9426,10 @@ module Aws::CleanRooms
     #   The compute configuration for the protected query.
     #   @return [Types::ComputeConfiguration]
     #
+    # @!attribute [rw] query_compute_payer_account_id
+    #   The account ID of the member that pays for the query compute costs.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/StartProtectedQueryInput AWS API Documentation
     #
     class StartProtectedQueryInput < Struct.new(
@@ -9397,7 +9437,8 @@ module Aws::CleanRooms
       :membership_identifier,
       :sql_parameters,
       :result_configuration,
-      :compute_configuration)
+      :compute_configuration,
+      :query_compute_payer_account_id)
       SENSITIVE = [:sql_parameters]
       include Aws::Structure
     end
@@ -10050,6 +10091,10 @@ module Aws::CleanRooms
     #   The default job result configuration.
     #   @return [Types::MembershipProtectedJobResultConfiguration]
     #
+    # @!attribute [rw] membership_payment_configuration
+    #   The payment configuration to update for the membership.
+    #   @return [Types::UpdateMembershipPaymentConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/UpdateMembershipInput AWS API Documentation
     #
     class UpdateMembershipInput < Struct.new(
@@ -10057,7 +10102,8 @@ module Aws::CleanRooms
       :query_log_status,
       :job_log_status,
       :default_result_configuration,
-      :default_job_result_configuration)
+      :default_job_result_configuration,
+      :membership_payment_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10070,6 +10116,34 @@ module Aws::CleanRooms
     #
     class UpdateMembershipOutput < Struct.new(
       :membership)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object representing the payment responsibilities to update for the
+    # membership.
+    #
+    # @!attribute [rw] query_compute
+    #   An object representing the payment responsibilities accepted by the
+    #   collaboration member for query compute costs.
+    #   @return [Types::MembershipQueryComputePaymentConfig]
+    #
+    # @!attribute [rw] machine_learning
+    #   An object representing the collaboration member's machine learning
+    #   payment responsibilities set by the collaboration creator.
+    #   @return [Types::MembershipMLPaymentConfig]
+    #
+    # @!attribute [rw] job_compute
+    #   An object representing the payment responsibilities accepted by the
+    #   collaboration member for query and job compute costs.
+    #   @return [Types::MembershipJobComputePaymentConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/UpdateMembershipPaymentConfiguration AWS API Documentation
+    #
+    class UpdateMembershipPaymentConfiguration < Struct.new(
+      :query_compute,
+      :machine_learning,
+      :job_compute)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -395,6 +395,7 @@ module Aws::VerifiedPermissions
 
     class DeletePolicyStoreAliasInput
       attr_accessor alias_name: ::String
+      attr_accessor deletion_mode: ("SoftDelete" | "HardDelete")
       SENSITIVE: []
     end
 

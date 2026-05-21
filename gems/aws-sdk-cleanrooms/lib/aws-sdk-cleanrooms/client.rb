@@ -199,7 +199,7 @@ module Aws::CleanRooms
     #     the required types.
     #
     #   @option options [Boolean] :correct_clock_skew (true)
-    #     Used only in `standard` and adaptive retry modes. Specifies whether to apply
+    #     Used only in `standard` and `adaptive` retry modes. Specifies whether to apply
     #     a clock skew correction and retry requests with skewed client clocks.
     #
     #   @option options [String] :defaults_mode ("legacy")
@@ -323,17 +323,15 @@ module Aws::CleanRooms
     #   @option options [String] :retry_mode ("legacy")
     #     Specifies which retry algorithm to use. Values are:
     #
-    #     * `legacy` - The pre-existing retry behavior.  This is default value if
-    #       no retry mode is provided.
+    #     * `legacy` - The pre-existing retry behavior. This is the default
+    #       value if no retry mode is provided.
     #
     #     * `standard` - A standardized set of retry rules across the AWS SDKs.
     #       This includes support for retry quotas, which limit the number of
     #       unsuccessful retries a client can make.
     #
-    #     * `adaptive` - An experimental retry mode that includes all the
-    #       functionality of `standard` mode along with automatic client side
-    #       throttling.  This is a provisional mode that may change behavior
-    #       in the future.
+    #     * `adaptive` - A retry mode that includes all the functionality of
+    #       `standard` mode along with automatic client side throttling.
     #
     #   @option options [String] :sdk_ua_app_id
     #     A unique and opaque application ID that is appended to the
@@ -1151,6 +1149,28 @@ module Aws::CleanRooms
     #           member: {
     #             account_id: "AccountId", # required
     #             member_abilities: ["CAN_QUERY"], # required, accepts CAN_QUERY, CAN_RECEIVE_RESULTS, CAN_RUN_JOB
+    #             ml_member_abilities: {
+    #               custom_ml_member_abilities: ["CAN_RECEIVE_MODEL_OUTPUT"], # required, accepts CAN_RECEIVE_MODEL_OUTPUT, CAN_RECEIVE_INFERENCE_OUTPUT
+    #             },
+    #             payment_configuration: {
+    #               query_compute: { # required
+    #                 is_responsible: false, # required
+    #               },
+    #               machine_learning: {
+    #                 model_training: {
+    #                   is_responsible: false, # required
+    #                 },
+    #                 model_inference: {
+    #                   is_responsible: false, # required
+    #                 },
+    #                 synthetic_data_generation: {
+    #                   is_responsible: false, # required
+    #                 },
+    #               },
+    #               job_compute: {
+    #                 is_responsible: false, # required
+    #               },
+    #             },
     #             display_name: "DisplayName",
     #           },
     #           collaboration: {
@@ -1174,11 +1194,18 @@ module Aws::CleanRooms
     #   resp.collaboration_change_request.changes[0].specification.member.account_id #=> String
     #   resp.collaboration_change_request.changes[0].specification.member.member_abilities #=> Array
     #   resp.collaboration_change_request.changes[0].specification.member.member_abilities[0] #=> String, one of "CAN_QUERY", "CAN_RECEIVE_RESULTS", "CAN_RUN_JOB"
+    #   resp.collaboration_change_request.changes[0].specification.member.ml_member_abilities.custom_ml_member_abilities #=> Array
+    #   resp.collaboration_change_request.changes[0].specification.member.ml_member_abilities.custom_ml_member_abilities[0] #=> String, one of "CAN_RECEIVE_MODEL_OUTPUT", "CAN_RECEIVE_INFERENCE_OUTPUT"
+    #   resp.collaboration_change_request.changes[0].specification.member.payment_configuration.query_compute.is_responsible #=> Boolean
+    #   resp.collaboration_change_request.changes[0].specification.member.payment_configuration.machine_learning.model_training.is_responsible #=> Boolean
+    #   resp.collaboration_change_request.changes[0].specification.member.payment_configuration.machine_learning.model_inference.is_responsible #=> Boolean
+    #   resp.collaboration_change_request.changes[0].specification.member.payment_configuration.machine_learning.synthetic_data_generation.is_responsible #=> Boolean
+    #   resp.collaboration_change_request.changes[0].specification.member.payment_configuration.job_compute.is_responsible #=> Boolean
     #   resp.collaboration_change_request.changes[0].specification.member.display_name #=> String
     #   resp.collaboration_change_request.changes[0].specification.collaboration.auto_approved_change_types #=> Array
     #   resp.collaboration_change_request.changes[0].specification.collaboration.auto_approved_change_types[0] #=> String, one of "ADD_MEMBER", "GRANT_RECEIVE_RESULTS_ABILITY", "REVOKE_RECEIVE_RESULTS_ABILITY"
     #   resp.collaboration_change_request.changes[0].types #=> Array
-    #   resp.collaboration_change_request.changes[0].types[0] #=> String, one of "ADD_MEMBER", "GRANT_RECEIVE_RESULTS_ABILITY", "REVOKE_RECEIVE_RESULTS_ABILITY", "EDIT_AUTO_APPROVED_CHANGE_TYPES"
+    #   resp.collaboration_change_request.changes[0].types[0] #=> String, one of "ADD_MEMBER", "GRANT_RECEIVE_RESULTS_ABILITY", "REVOKE_RECEIVE_RESULTS_ABILITY", "EDIT_AUTO_APPROVED_CHANGE_TYPES", "ADD_PAYER_CANDIDATE", "REMOVE_PAYER_CANDIDATE", "GRANT_CAN_RECEIVE_MODEL_OUTPUT", "GRANT_CAN_RECEIVE_INFERENCE_OUTPUT", "REVOKE_CAN_RECEIVE_MODEL_OUTPUT", "REVOKE_CAN_RECEIVE_INFERENCE_OUTPUT"
     #   resp.collaboration_change_request.approvals #=> Hash
     #   resp.collaboration_change_request.approvals["AccountId"].status #=> String, one of "APPROVED", "DENIED", "PENDING"
     #
@@ -2605,11 +2632,18 @@ module Aws::CleanRooms
     #   resp.collaboration_change_request.changes[0].specification.member.account_id #=> String
     #   resp.collaboration_change_request.changes[0].specification.member.member_abilities #=> Array
     #   resp.collaboration_change_request.changes[0].specification.member.member_abilities[0] #=> String, one of "CAN_QUERY", "CAN_RECEIVE_RESULTS", "CAN_RUN_JOB"
+    #   resp.collaboration_change_request.changes[0].specification.member.ml_member_abilities.custom_ml_member_abilities #=> Array
+    #   resp.collaboration_change_request.changes[0].specification.member.ml_member_abilities.custom_ml_member_abilities[0] #=> String, one of "CAN_RECEIVE_MODEL_OUTPUT", "CAN_RECEIVE_INFERENCE_OUTPUT"
+    #   resp.collaboration_change_request.changes[0].specification.member.payment_configuration.query_compute.is_responsible #=> Boolean
+    #   resp.collaboration_change_request.changes[0].specification.member.payment_configuration.machine_learning.model_training.is_responsible #=> Boolean
+    #   resp.collaboration_change_request.changes[0].specification.member.payment_configuration.machine_learning.model_inference.is_responsible #=> Boolean
+    #   resp.collaboration_change_request.changes[0].specification.member.payment_configuration.machine_learning.synthetic_data_generation.is_responsible #=> Boolean
+    #   resp.collaboration_change_request.changes[0].specification.member.payment_configuration.job_compute.is_responsible #=> Boolean
     #   resp.collaboration_change_request.changes[0].specification.member.display_name #=> String
     #   resp.collaboration_change_request.changes[0].specification.collaboration.auto_approved_change_types #=> Array
     #   resp.collaboration_change_request.changes[0].specification.collaboration.auto_approved_change_types[0] #=> String, one of "ADD_MEMBER", "GRANT_RECEIVE_RESULTS_ABILITY", "REVOKE_RECEIVE_RESULTS_ABILITY"
     #   resp.collaboration_change_request.changes[0].types #=> Array
-    #   resp.collaboration_change_request.changes[0].types[0] #=> String, one of "ADD_MEMBER", "GRANT_RECEIVE_RESULTS_ABILITY", "REVOKE_RECEIVE_RESULTS_ABILITY", "EDIT_AUTO_APPROVED_CHANGE_TYPES"
+    #   resp.collaboration_change_request.changes[0].types[0] #=> String, one of "ADD_MEMBER", "GRANT_RECEIVE_RESULTS_ABILITY", "REVOKE_RECEIVE_RESULTS_ABILITY", "EDIT_AUTO_APPROVED_CHANGE_TYPES", "ADD_PAYER_CANDIDATE", "REMOVE_PAYER_CANDIDATE", "GRANT_CAN_RECEIVE_MODEL_OUTPUT", "GRANT_CAN_RECEIVE_INFERENCE_OUTPUT", "REVOKE_CAN_RECEIVE_MODEL_OUTPUT", "REVOKE_CAN_RECEIVE_INFERENCE_OUTPUT"
     #   resp.collaboration_change_request.approvals #=> Hash
     #   resp.collaboration_change_request.approvals["AccountId"].status #=> String, one of "APPROVED", "DENIED", "PENDING"
     #
@@ -3283,6 +3317,7 @@ module Aws::CleanRooms
     #   resp.protected_job.compute_configuration.worker.number #=> Integer
     #   resp.protected_job.compute_configuration.worker.properties.spark #=> Hash
     #   resp.protected_job.compute_configuration.worker.properties.spark["SparkPropertyKey"] #=> String
+    #   resp.protected_job.job_compute_payer_account_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/GetProtectedJob AWS API Documentation
     #
@@ -3354,6 +3389,7 @@ module Aws::CleanRooms
     #   resp.protected_query.compute_configuration.worker.number #=> Integer
     #   resp.protected_query.compute_configuration.worker.properties.spark #=> Hash
     #   resp.protected_query.compute_configuration.worker.properties.spark["SparkPropertyKey"] #=> String
+    #   resp.protected_query.query_compute_payer_account_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/GetProtectedQuery AWS API Documentation
     #
@@ -3725,11 +3761,18 @@ module Aws::CleanRooms
     #   resp.collaboration_change_request_summaries[0].changes[0].specification.member.account_id #=> String
     #   resp.collaboration_change_request_summaries[0].changes[0].specification.member.member_abilities #=> Array
     #   resp.collaboration_change_request_summaries[0].changes[0].specification.member.member_abilities[0] #=> String, one of "CAN_QUERY", "CAN_RECEIVE_RESULTS", "CAN_RUN_JOB"
+    #   resp.collaboration_change_request_summaries[0].changes[0].specification.member.ml_member_abilities.custom_ml_member_abilities #=> Array
+    #   resp.collaboration_change_request_summaries[0].changes[0].specification.member.ml_member_abilities.custom_ml_member_abilities[0] #=> String, one of "CAN_RECEIVE_MODEL_OUTPUT", "CAN_RECEIVE_INFERENCE_OUTPUT"
+    #   resp.collaboration_change_request_summaries[0].changes[0].specification.member.payment_configuration.query_compute.is_responsible #=> Boolean
+    #   resp.collaboration_change_request_summaries[0].changes[0].specification.member.payment_configuration.machine_learning.model_training.is_responsible #=> Boolean
+    #   resp.collaboration_change_request_summaries[0].changes[0].specification.member.payment_configuration.machine_learning.model_inference.is_responsible #=> Boolean
+    #   resp.collaboration_change_request_summaries[0].changes[0].specification.member.payment_configuration.machine_learning.synthetic_data_generation.is_responsible #=> Boolean
+    #   resp.collaboration_change_request_summaries[0].changes[0].specification.member.payment_configuration.job_compute.is_responsible #=> Boolean
     #   resp.collaboration_change_request_summaries[0].changes[0].specification.member.display_name #=> String
     #   resp.collaboration_change_request_summaries[0].changes[0].specification.collaboration.auto_approved_change_types #=> Array
     #   resp.collaboration_change_request_summaries[0].changes[0].specification.collaboration.auto_approved_change_types[0] #=> String, one of "ADD_MEMBER", "GRANT_RECEIVE_RESULTS_ABILITY", "REVOKE_RECEIVE_RESULTS_ABILITY"
     #   resp.collaboration_change_request_summaries[0].changes[0].types #=> Array
-    #   resp.collaboration_change_request_summaries[0].changes[0].types[0] #=> String, one of "ADD_MEMBER", "GRANT_RECEIVE_RESULTS_ABILITY", "REVOKE_RECEIVE_RESULTS_ABILITY", "EDIT_AUTO_APPROVED_CHANGE_TYPES"
+    #   resp.collaboration_change_request_summaries[0].changes[0].types[0] #=> String, one of "ADD_MEMBER", "GRANT_RECEIVE_RESULTS_ABILITY", "REVOKE_RECEIVE_RESULTS_ABILITY", "EDIT_AUTO_APPROVED_CHANGE_TYPES", "ADD_PAYER_CANDIDATE", "REMOVE_PAYER_CANDIDATE", "GRANT_CAN_RECEIVE_MODEL_OUTPUT", "GRANT_CAN_RECEIVE_INFERENCE_OUTPUT", "REVOKE_CAN_RECEIVE_MODEL_OUTPUT", "REVOKE_CAN_RECEIVE_INFERENCE_OUTPUT"
     #   resp.collaboration_change_request_summaries[0].approvals #=> Hash
     #   resp.collaboration_change_request_summaries[0].approvals["AccountId"].status #=> String, one of "APPROVED", "DENIED", "PENDING"
     #   resp.next_token #=> String
@@ -4606,6 +4649,7 @@ module Aws::CleanRooms
     #   resp.protected_jobs[0].receiver_configurations[0].analysis_type #=> String, one of "DIRECT_ANALYSIS"
     #   resp.protected_jobs[0].receiver_configurations[0].configuration_details.direct_analysis_configuration_details.receiver_account_ids #=> Array
     #   resp.protected_jobs[0].receiver_configurations[0].configuration_details.direct_analysis_configuration_details.receiver_account_ids[0] #=> String
+    #   resp.protected_jobs[0].job_compute_payer_account_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/ListProtectedJobs AWS API Documentation
     #
@@ -4662,6 +4706,7 @@ module Aws::CleanRooms
     #   resp.protected_queries[0].receiver_configurations[0].analysis_type #=> String, one of "DIRECT_ANALYSIS", "ADDITIONAL_ANALYSIS"
     #   resp.protected_queries[0].receiver_configurations[0].configuration_details.direct_analysis_configuration_details.receiver_account_ids #=> Array
     #   resp.protected_queries[0].receiver_configurations[0].configuration_details.direct_analysis_configuration_details.receiver_account_ids[0] #=> String
+    #   resp.protected_queries[0].query_compute_payer_account_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/ListProtectedQueries AWS API Documentation
     #
@@ -4880,6 +4925,9 @@ module Aws::CleanRooms
     # @option params [Types::ProtectedJobComputeConfiguration] :compute_configuration
     #   The compute configuration for the protected job.
     #
+    # @option params [String] :job_compute_payer_account_id
+    #   The account ID of the member that pays for the job compute costs.
+    #
     # @return [Types::StartProtectedJobOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::StartProtectedJobOutput#protected_job #protected_job} => Types::ProtectedJob
@@ -4913,6 +4961,7 @@ module Aws::CleanRooms
     #         },
     #       },
     #     },
+    #     job_compute_payer_account_id: "AccountId",
     #   })
     #
     # @example Response structure
@@ -4939,6 +4988,7 @@ module Aws::CleanRooms
     #   resp.protected_job.compute_configuration.worker.number #=> Integer
     #   resp.protected_job.compute_configuration.worker.properties.spark #=> Hash
     #   resp.protected_job.compute_configuration.worker.properties.spark["SparkPropertyKey"] #=> String
+    #   resp.protected_job.job_compute_payer_account_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/StartProtectedJob AWS API Documentation
     #
@@ -4966,6 +5016,9 @@ module Aws::CleanRooms
     #
     # @option params [Types::ComputeConfiguration] :compute_configuration
     #   The compute configuration for the protected query.
+    #
+    # @option params [String] :query_compute_payer_account_id
+    #   The account ID of the member that pays for the query compute costs.
     #
     # @return [Types::StartProtectedQueryOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -5022,6 +5075,7 @@ module Aws::CleanRooms
     #         },
     #       },
     #     },
+    #     query_compute_payer_account_id: "AccountId",
     #   })
     #
     # @example Response structure
@@ -5066,6 +5120,7 @@ module Aws::CleanRooms
     #   resp.protected_query.compute_configuration.worker.number #=> Integer
     #   resp.protected_query.compute_configuration.worker.properties.spark #=> Hash
     #   resp.protected_query.compute_configuration.worker.properties.spark["SparkPropertyKey"] #=> String
+    #   resp.protected_query.query_compute_payer_account_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/StartProtectedQuery AWS API Documentation
     #
@@ -5325,11 +5380,18 @@ module Aws::CleanRooms
     #   resp.collaboration_change_request.changes[0].specification.member.account_id #=> String
     #   resp.collaboration_change_request.changes[0].specification.member.member_abilities #=> Array
     #   resp.collaboration_change_request.changes[0].specification.member.member_abilities[0] #=> String, one of "CAN_QUERY", "CAN_RECEIVE_RESULTS", "CAN_RUN_JOB"
+    #   resp.collaboration_change_request.changes[0].specification.member.ml_member_abilities.custom_ml_member_abilities #=> Array
+    #   resp.collaboration_change_request.changes[0].specification.member.ml_member_abilities.custom_ml_member_abilities[0] #=> String, one of "CAN_RECEIVE_MODEL_OUTPUT", "CAN_RECEIVE_INFERENCE_OUTPUT"
+    #   resp.collaboration_change_request.changes[0].specification.member.payment_configuration.query_compute.is_responsible #=> Boolean
+    #   resp.collaboration_change_request.changes[0].specification.member.payment_configuration.machine_learning.model_training.is_responsible #=> Boolean
+    #   resp.collaboration_change_request.changes[0].specification.member.payment_configuration.machine_learning.model_inference.is_responsible #=> Boolean
+    #   resp.collaboration_change_request.changes[0].specification.member.payment_configuration.machine_learning.synthetic_data_generation.is_responsible #=> Boolean
+    #   resp.collaboration_change_request.changes[0].specification.member.payment_configuration.job_compute.is_responsible #=> Boolean
     #   resp.collaboration_change_request.changes[0].specification.member.display_name #=> String
     #   resp.collaboration_change_request.changes[0].specification.collaboration.auto_approved_change_types #=> Array
     #   resp.collaboration_change_request.changes[0].specification.collaboration.auto_approved_change_types[0] #=> String, one of "ADD_MEMBER", "GRANT_RECEIVE_RESULTS_ABILITY", "REVOKE_RECEIVE_RESULTS_ABILITY"
     #   resp.collaboration_change_request.changes[0].types #=> Array
-    #   resp.collaboration_change_request.changes[0].types[0] #=> String, one of "ADD_MEMBER", "GRANT_RECEIVE_RESULTS_ABILITY", "REVOKE_RECEIVE_RESULTS_ABILITY", "EDIT_AUTO_APPROVED_CHANGE_TYPES"
+    #   resp.collaboration_change_request.changes[0].types[0] #=> String, one of "ADD_MEMBER", "GRANT_RECEIVE_RESULTS_ABILITY", "REVOKE_RECEIVE_RESULTS_ABILITY", "EDIT_AUTO_APPROVED_CHANGE_TYPES", "ADD_PAYER_CANDIDATE", "REMOVE_PAYER_CANDIDATE", "GRANT_CAN_RECEIVE_MODEL_OUTPUT", "GRANT_CAN_RECEIVE_INFERENCE_OUTPUT", "REVOKE_CAN_RECEIVE_MODEL_OUTPUT", "REVOKE_CAN_RECEIVE_INFERENCE_OUTPUT"
     #   resp.collaboration_change_request.approvals #=> Hash
     #   resp.collaboration_change_request.approvals["AccountId"].status #=> String, one of "APPROVED", "DENIED", "PENDING"
     #
@@ -5910,6 +5972,9 @@ module Aws::CleanRooms
     # @option params [Types::MembershipProtectedJobResultConfiguration] :default_job_result_configuration
     #   The default job result configuration.
     #
+    # @option params [Types::UpdateMembershipPaymentConfiguration] :membership_payment_configuration
+    #   The payment configuration to update for the membership.
+    #
     # @return [Types::UpdateMembershipOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateMembershipOutput#membership #membership} => Types::Membership
@@ -5939,6 +6004,25 @@ module Aws::CleanRooms
     #         },
     #       },
     #       role_arn: "RoleArn", # required
+    #     },
+    #     membership_payment_configuration: {
+    #       query_compute: {
+    #         is_responsible: false, # required
+    #       },
+    #       machine_learning: {
+    #         model_training: {
+    #           is_responsible: false, # required
+    #         },
+    #         model_inference: {
+    #           is_responsible: false, # required
+    #         },
+    #         synthetic_data_generation: {
+    #           is_responsible: false, # required
+    #         },
+    #       },
+    #       job_compute: {
+    #         is_responsible: false, # required
+    #       },
     #     },
     #   })
     #
@@ -6106,6 +6190,7 @@ module Aws::CleanRooms
     #   resp.protected_job.compute_configuration.worker.number #=> Integer
     #   resp.protected_job.compute_configuration.worker.properties.spark #=> Hash
     #   resp.protected_job.compute_configuration.worker.properties.spark["SparkPropertyKey"] #=> String
+    #   resp.protected_job.job_compute_payer_account_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/UpdateProtectedJob AWS API Documentation
     #
@@ -6182,6 +6267,7 @@ module Aws::CleanRooms
     #   resp.protected_query.compute_configuration.worker.number #=> Integer
     #   resp.protected_query.compute_configuration.worker.properties.spark #=> Hash
     #   resp.protected_query.compute_configuration.worker.properties.spark["SparkPropertyKey"] #=> String
+    #   resp.protected_query.query_compute_payer_account_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/UpdateProtectedQuery AWS API Documentation
     #
@@ -6210,7 +6296,7 @@ module Aws::CleanRooms
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cleanrooms'
-      context[:gem_version] = '1.72.0'
+      context[:gem_version] = '1.73.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

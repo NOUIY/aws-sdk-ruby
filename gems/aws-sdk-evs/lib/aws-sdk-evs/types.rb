@@ -1107,6 +1107,45 @@ module Aws::Evs
     end
 
     # @!attribute [rw] environment_id
+    #   The unique ID of the Amazon EVS environment to get the depot URL
+    #   for.
+    #   @return [String]
+    #
+    # @!attribute [rw] rotate
+    #   Revokes the current authentication token and returns a new depot URL
+    #   with a new token. Previously issued depot URLs will stop working
+    #   within 5 minutes of rotation.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/GetDepotUrlRequest AWS API Documentation
+    #
+    class GetDepotUrlRequest < Struct.new(
+      :environment_id,
+      :rotate)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] depot_url
+    #   The URL for accessing the Amazon EVS Custom Addon depot. This URL
+    #   includes the authentication token as a path component.
+    #   @return [String]
+    #
+    # @!attribute [rw] token
+    #   The authentication token for depot access. This token is included in
+    #   the depot URL and is used to authenticate requests.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/GetDepotUrlResponse AWS API Documentation
+    #
+    class GetDepotUrlResponse < Struct.new(
+      :depot_url,
+      :token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] environment_id
     #   A unique ID for the environment.
     #   @return [String]
     #
@@ -1461,7 +1500,7 @@ module Aws::Evs
     class LicenseInfo < Struct.new(
       :solution_key,
       :vsan_key)
-      SENSITIVE = []
+      SENSITIVE = [:solution_key, :vsan_key]
       include Aws::Structure
     end
 

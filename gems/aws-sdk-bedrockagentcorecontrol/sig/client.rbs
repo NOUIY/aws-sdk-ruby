@@ -78,6 +78,23 @@ module Aws
                   | (?Hash[Symbol, untyped]) -> instance
 
 
+      interface _AddDatasetExamplesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::AddDatasetExamplesResponse]
+        def dataset_arn: () -> ::String
+        def dataset_id: () -> ::String
+        def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "ACTIVE" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def added_count: () -> ::Integer
+        def updated_at: () -> ::Time
+        def example_ids: () -> ::Array[::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#add_dataset_examples-instance_method
+      def add_dataset_examples: (
+                                  dataset_id: ::String,
+                                  ?client_token: ::String,
+                                  source: Params::data_source_type
+                                ) -> _AddDatasetExamplesResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AddDatasetExamplesResponseSuccess
+
       interface _CreateAgentRuntimeResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateAgentRuntimeResponse]
         def agent_runtime_arn: () -> ::String
@@ -281,6 +298,40 @@ module Aws
                                          ?tags: Hash[::String, ::String]
                                        ) -> _CreateConfigurationBundleResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateConfigurationBundleResponseSuccess
+
+      interface _CreateDatasetResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateDatasetResponse]
+        def dataset_arn: () -> ::String
+        def dataset_id: () -> ::String
+        def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "ACTIVE" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def created_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#create_dataset-instance_method
+      def create_dataset: (
+                            ?client_token: ::String,
+                            dataset_name: ::String,
+                            ?description: ::String,
+                            source: Params::data_source_type,
+                            schema_type: ("AGENTCORE_EVALUATION_PREDEFINED_V1" | "AGENTCORE_EVALUATION_SIMULATED_V1"),
+                            ?kms_key_arn: ::String,
+                            ?tags: Hash[::String, ::String]
+                          ) -> _CreateDatasetResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateDatasetResponseSuccess
+
+      interface _CreateDatasetVersionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateDatasetVersionResponse]
+        def dataset_arn: () -> ::String
+        def dataset_id: () -> ::String
+        def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "ACTIVE" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def dataset_version: () -> ::String
+        def created_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#create_dataset_version-instance_method
+      def create_dataset_version: (
+                                    dataset_id: ::String,
+                                    ?client_token: ::String
+                                  ) -> _CreateDatasetVersionResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateDatasetVersionResponseSuccess
 
       interface _CreateEvaluatorResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateEvaluatorResponse]
@@ -805,6 +856,37 @@ module Aws
                                        ) -> _DeleteConfigurationBundleResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteConfigurationBundleResponseSuccess
 
+      interface _DeleteDatasetResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteDatasetResponse]
+        def dataset_arn: () -> ::String
+        def dataset_id: () -> ::String
+        def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "ACTIVE" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def dataset_version: () -> ::String
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#delete_dataset-instance_method
+      def delete_dataset: (
+                            dataset_id: ::String,
+                            ?dataset_version: ::String
+                          ) -> _DeleteDatasetResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteDatasetResponseSuccess
+
+      interface _DeleteDatasetExamplesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteDatasetExamplesResponse]
+        def dataset_arn: () -> ::String
+        def dataset_id: () -> ::String
+        def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "ACTIVE" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def deleted_count: () -> ::Integer
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#delete_dataset_examples-instance_method
+      def delete_dataset_examples: (
+                                     dataset_id: ::String,
+                                     ?client_token: ::String,
+                                     example_ids: Array[::String]
+                                   ) -> _DeleteDatasetExamplesResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteDatasetExamplesResponseSuccess
+
       interface _DeleteEvaluatorResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteEvaluatorResponse]
         def evaluator_arn: () -> ::String
@@ -1173,6 +1255,32 @@ module Aws
                                               version_id: ::String
                                             ) -> _GetConfigurationBundleVersionResponseSuccess
                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetConfigurationBundleVersionResponseSuccess
+
+      interface _GetDatasetResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetDatasetResponse]
+        def dataset_arn: () -> ::String
+        def dataset_id: () -> ::String
+        def dataset_version: () -> ::String
+        def dataset_name: () -> ::String
+        def description: () -> ::String
+        def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "ACTIVE" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def draft_status: () -> ("MODIFIED" | "UNMODIFIED")
+        def failure_reason: () -> ::String
+        def schema_type: () -> ("AGENTCORE_EVALUATION_PREDEFINED_V1" | "AGENTCORE_EVALUATION_SIMULATED_V1")
+        def kms_key_arn: () -> ::String
+        def example_count: () -> ::Integer
+        def download_url: () -> ::String
+        def download_url_expires_at: () -> ::Time
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+        def tags: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_dataset-instance_method
+      def get_dataset: (
+                         dataset_id: ::String,
+                         ?dataset_version: ::String
+                       ) -> _GetDatasetResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetDatasetResponseSuccess
 
       interface _GetEvaluatorResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetEvaluatorResponse]
@@ -1696,6 +1804,48 @@ module Aws
                                       ) -> _ListConfigurationBundlesResponseSuccess
                                     | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListConfigurationBundlesResponseSuccess
 
+      interface _ListDatasetExamplesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListDatasetExamplesResponse]
+        def dataset_arn: () -> ::String
+        def dataset_id: () -> ::String
+        def dataset_version: () -> ::String
+        def examples: () -> ::Array[untyped]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#list_dataset_examples-instance_method
+      def list_dataset_examples: (
+                                   dataset_id: ::String,
+                                   ?dataset_version: ::String,
+                                   ?max_results: ::Integer,
+                                   ?next_token: ::String
+                                 ) -> _ListDatasetExamplesResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListDatasetExamplesResponseSuccess
+
+      interface _ListDatasetVersionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListDatasetVersionsResponse]
+        def versions: () -> ::Array[Types::DatasetVersionSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#list_dataset_versions-instance_method
+      def list_dataset_versions: (
+                                   dataset_id: ::String,
+                                   ?next_token: ::String,
+                                   ?max_results: ::Integer
+                                 ) -> _ListDatasetVersionsResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListDatasetVersionsResponseSuccess
+
+      interface _ListDatasetsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListDatasetsResponse]
+        def datasets: () -> ::Array[Types::DatasetSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#list_datasets-instance_method
+      def list_datasets: (
+                           ?next_token: ::String,
+                           ?max_results: ::Integer
+                         ) -> _ListDatasetsResponseSuccess
+                       | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListDatasetsResponseSuccess
+
       interface _ListEvaluatorsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListEvaluatorsResponse]
         def evaluators: () -> ::Array[Types::EvaluatorSummary]
@@ -2175,6 +2325,39 @@ module Aws
                                          }
                                        ) -> _UpdateConfigurationBundleResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateConfigurationBundleResponseSuccess
+
+      interface _UpdateDatasetResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateDatasetResponse]
+        def dataset_arn: () -> ::String
+        def dataset_id: () -> ::String
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#update_dataset-instance_method
+      def update_dataset: (
+                            dataset_id: ::String,
+                            ?client_token: ::String,
+                            ?description: ::String
+                          ) -> _UpdateDatasetResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateDatasetResponseSuccess
+
+      interface _UpdateDatasetExamplesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateDatasetExamplesResponse]
+        def dataset_arn: () -> ::String
+        def dataset_id: () -> ::String
+        def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "ACTIVE" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def updated_count: () -> ::Integer
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#update_dataset_examples-instance_method
+      def update_dataset_examples: (
+                                     dataset_id: ::String,
+                                     ?client_token: ::String,
+                                     examples: Array[
+                                       {
+                                       }
+                                     ]
+                                   ) -> _UpdateDatasetExamplesResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateDatasetExamplesResponseSuccess
 
       interface _UpdateEvaluatorResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateEvaluatorResponse]

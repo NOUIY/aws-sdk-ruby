@@ -288,6 +288,18 @@ module Aws
                                       ) -> _DisassociateEipFromVlanResponseSuccess
                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DisassociateEipFromVlanResponseSuccess
 
+      interface _GetDepotUrlResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetDepotUrlResponse]
+        def depot_url: () -> ::String
+        def token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Evs/Client.html#get_depot_url-instance_method
+      def get_depot_url: (
+                           environment_id: ::String,
+                           ?rotate: bool
+                         ) -> _GetDepotUrlResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetDepotUrlResponseSuccess
+
       interface _GetEnvironmentResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetEnvironmentResponse]
         def environment: () -> Types::Environment

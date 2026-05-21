@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.33.0 (2026-05-21)
+------------------
+
+* Feature - Adding new BDD representation of endpoint ruleset
+
 1.32.0 (2026-05-19)
 ------------------
 

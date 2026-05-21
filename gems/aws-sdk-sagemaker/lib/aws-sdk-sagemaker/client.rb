@@ -199,7 +199,7 @@ module Aws::SageMaker
     #     the required types.
     #
     #   @option options [Boolean] :correct_clock_skew (true)
-    #     Used only in `standard` and adaptive retry modes. Specifies whether to apply
+    #     Used only in `standard` and `adaptive` retry modes. Specifies whether to apply
     #     a clock skew correction and retry requests with skewed client clocks.
     #
     #   @option options [String] :defaults_mode ("legacy")
@@ -323,17 +323,15 @@ module Aws::SageMaker
     #   @option options [String] :retry_mode ("legacy")
     #     Specifies which retry algorithm to use. Values are:
     #
-    #     * `legacy` - The pre-existing retry behavior.  This is default value if
-    #       no retry mode is provided.
+    #     * `legacy` - The pre-existing retry behavior. This is the default
+    #       value if no retry mode is provided.
     #
     #     * `standard` - A standardized set of retry rules across the AWS SDKs.
     #       This includes support for retry quotas, which limit the number of
     #       unsuccessful retries a client can make.
     #
-    #     * `adaptive` - An experimental retry mode that includes all the
-    #       functionality of `standard` mode along with automatic client side
-    #       throttling.  This is a provisional mode that may change behavior
-    #       in the future.
+    #     * `adaptive` - A retry mode that includes all the functionality of
+    #       `standard` mode along with automatic client side throttling.
     #
     #   @option options [String] :sdk_ua_app_id
     #     A unique and opaque application ID that is appended to the
@@ -3771,6 +3769,12 @@ module Aws::SageMaker
     #   is provided. If setting up the domain for use with RStudio, this value
     #   must be set to `Service`.
     #
+    # @option params [String] :home_efs_file_system_creation
+    #   Indicates whether to create a home EFS file system for the domain.
+    #   Defaults to `Enabled`. Set to `Disabled` to skip EFS creation and
+    #   reduce domain creation time. You can enable EFS later by calling
+    #   `UpdateDomain`.
+    #
     # @option params [String] :tag_propagation
     #   Indicates whether custom tag propagation is supported for the domain.
     #   Defaults to `DISABLED`.
@@ -4054,6 +4058,7 @@ module Aws::SageMaker
     #     home_efs_file_system_kms_key_id: "KmsKeyId",
     #     kms_key_id: "KmsKeyId",
     #     app_security_group_management: "Service", # accepts Service, Customer
+    #     home_efs_file_system_creation: "Enabled", # accepts Enabled, Disabled
     #     tag_propagation: "ENABLED", # accepts ENABLED, DISABLED
     #     default_space_settings: {
     #       execution_role: "RoleArn",
@@ -9025,7 +9030,7 @@ module Aws::SageMaker
     #
     # @option params [String] :platform_identifier
     #   The platform identifier of the notebook instance runtime environment.
-    #   The default value is `notebook-al2-v2`.
+    #   The default value is `notebook-al2023-v1`.
     #
     # @option params [Types::InstanceMetadataServiceConfiguration] :instance_metadata_service_configuration
     #   Information on the IMDS configuration of the notebook instance
@@ -15599,6 +15604,7 @@ module Aws::SageMaker
     #   * {Types::DescribeDomainResponse#vpc_id #vpc_id} => String
     #   * {Types::DescribeDomainResponse#kms_key_id #kms_key_id} => String
     #   * {Types::DescribeDomainResponse#app_security_group_management #app_security_group_management} => String
+    #   * {Types::DescribeDomainResponse#home_efs_file_system_creation #home_efs_file_system_creation} => String
     #   * {Types::DescribeDomainResponse#tag_propagation #tag_propagation} => String
     #   * {Types::DescribeDomainResponse#default_space_settings #default_space_settings} => Types::DefaultSpaceSettings
     #
@@ -15784,6 +15790,7 @@ module Aws::SageMaker
     #   resp.vpc_id #=> String
     #   resp.kms_key_id #=> String
     #   resp.app_security_group_management #=> String, one of "Service", "Customer"
+    #   resp.home_efs_file_system_creation #=> String, one of "Enabled", "Disabled"
     #   resp.tag_propagation #=> String, one of "ENABLED", "DISABLED"
     #   resp.default_space_settings.execution_role #=> String
     #   resp.default_space_settings.security_groups #=> Array
@@ -30397,6 +30404,11 @@ module Aws::SageMaker
     #   Indicates whether custom tag propagation is supported for the domain.
     #   Defaults to `DISABLED`.
     #
+    # @option params [String] :home_efs_file_system_creation
+    #   Indicates whether to create a home EFS file system for the domain. You
+    #   can change from `Disabled` to `Enabled` to provision EFS on demand,
+    #   but you cannot change from `Enabled` to `Disabled`.
+    #
     # @option params [String] :vpc_id
     #   The identifier for the VPC used by the domain for network
     #   communication. Use this field only when adding VPC configuration to a
@@ -30769,6 +30781,7 @@ module Aws::SageMaker
     #     subnet_ids: ["SubnetId"],
     #     app_network_access_type: "PublicInternetOnly", # accepts PublicInternetOnly, VpcOnly
     #     tag_propagation: "ENABLED", # accepts ENABLED, DISABLED
+    #     home_efs_file_system_creation: "Enabled", # accepts Enabled, Disabled
     #     vpc_id: "VpcId",
     #   })
     #
@@ -33823,7 +33836,7 @@ module Aws::SageMaker
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemaker'
-      context[:gem_version] = '1.367.0'
+      context[:gem_version] = '1.368.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -19,6 +19,8 @@ module Aws::BedrockAgentCoreControl
     Action = Shapes::UnionShape.new(name: 'Action')
     Actions = Shapes::ListShape.new(name: 'Actions')
     ActorTokenContentType = Shapes::StringShape.new(name: 'ActorTokenContentType')
+    AddDatasetExamplesRequest = Shapes::StructureShape.new(name: 'AddDatasetExamplesRequest')
+    AddDatasetExamplesResponse = Shapes::StructureShape.new(name: 'AddDatasetExamplesResponse')
     AdditionalModelRequestFields = Shapes::DocumentShape.new(name: 'AdditionalModelRequestFields', document: true)
     AgentCardDefinition = Shapes::StructureShape.new(name: 'AgentCardDefinition')
     AgentEndpointDescription = Shapes::StringShape.new(name: 'AgentEndpointDescription')
@@ -175,6 +177,11 @@ module Aws::BedrockAgentCoreControl
     CreateConfigurationBundleRequest = Shapes::StructureShape.new(name: 'CreateConfigurationBundleRequest')
     CreateConfigurationBundleRequestCommitMessageString = Shapes::StringShape.new(name: 'CreateConfigurationBundleRequestCommitMessageString')
     CreateConfigurationBundleResponse = Shapes::StructureShape.new(name: 'CreateConfigurationBundleResponse')
+    CreateDatasetRequest = Shapes::StructureShape.new(name: 'CreateDatasetRequest')
+    CreateDatasetRequestDescriptionString = Shapes::StringShape.new(name: 'CreateDatasetRequestDescriptionString')
+    CreateDatasetResponse = Shapes::StructureShape.new(name: 'CreateDatasetResponse')
+    CreateDatasetVersionRequest = Shapes::StructureShape.new(name: 'CreateDatasetVersionRequest')
+    CreateDatasetVersionResponse = Shapes::StructureShape.new(name: 'CreateDatasetVersionResponse')
     CreateEvaluatorRequest = Shapes::StructureShape.new(name: 'CreateEvaluatorRequest')
     CreateEvaluatorResponse = Shapes::StructureShape.new(name: 'CreateEvaluatorResponse')
     CreateGatewayRequest = Shapes::StructureShape.new(name: 'CreateGatewayRequest')
@@ -237,6 +244,18 @@ module Aws::BedrockAgentCoreControl
     CustomReflectionConfiguration = Shapes::UnionShape.new(name: 'CustomReflectionConfiguration')
     CustomReflectionConfigurationInput = Shapes::UnionShape.new(name: 'CustomReflectionConfigurationInput')
     DataSourceConfig = Shapes::UnionShape.new(name: 'DataSourceConfig')
+    DataSourceType = Shapes::UnionShape.new(name: 'DataSourceType')
+    DatasetArn = Shapes::StringShape.new(name: 'DatasetArn')
+    DatasetExampleList = Shapes::ListShape.new(name: 'DatasetExampleList')
+    DatasetId = Shapes::StringShape.new(name: 'DatasetId')
+    DatasetName = Shapes::StringShape.new(name: 'DatasetName')
+    DatasetSchemaType = Shapes::StringShape.new(name: 'DatasetSchemaType')
+    DatasetStatus = Shapes::StringShape.new(name: 'DatasetStatus')
+    DatasetSummary = Shapes::StructureShape.new(name: 'DatasetSummary')
+    DatasetSummaryList = Shapes::ListShape.new(name: 'DatasetSummaryList')
+    DatasetVersion = Shapes::StringShape.new(name: 'DatasetVersion')
+    DatasetVersionSummary = Shapes::StructureShape.new(name: 'DatasetVersionSummary')
+    DatasetVersionSummaryList = Shapes::ListShape.new(name: 'DatasetVersionSummaryList')
     DateTimestamp = Shapes::TimestampShape.new(name: 'DateTimestamp', timestampFormat: "iso8601")
     DecryptionFailure = Shapes::StructureShape.new(name: 'DecryptionFailure')
     DefaultClientIdType = Shapes::StringShape.new(name: 'DefaultClientIdType')
@@ -256,6 +275,11 @@ module Aws::BedrockAgentCoreControl
     DeleteCodeInterpreterResponse = Shapes::StructureShape.new(name: 'DeleteCodeInterpreterResponse')
     DeleteConfigurationBundleRequest = Shapes::StructureShape.new(name: 'DeleteConfigurationBundleRequest')
     DeleteConfigurationBundleResponse = Shapes::StructureShape.new(name: 'DeleteConfigurationBundleResponse')
+    DeleteDatasetExamplesRequest = Shapes::StructureShape.new(name: 'DeleteDatasetExamplesRequest')
+    DeleteDatasetExamplesRequestExampleIdsList = Shapes::ListShape.new(name: 'DeleteDatasetExamplesRequestExampleIdsList')
+    DeleteDatasetExamplesResponse = Shapes::StructureShape.new(name: 'DeleteDatasetExamplesResponse')
+    DeleteDatasetRequest = Shapes::StructureShape.new(name: 'DeleteDatasetRequest')
+    DeleteDatasetResponse = Shapes::StructureShape.new(name: 'DeleteDatasetResponse')
     DeleteEvaluatorRequest = Shapes::StructureShape.new(name: 'DeleteEvaluatorRequest')
     DeleteEvaluatorResponse = Shapes::StructureShape.new(name: 'DeleteEvaluatorResponse')
     DeleteGatewayRequest = Shapes::StructureShape.new(name: 'DeleteGatewayRequest')
@@ -301,6 +325,8 @@ module Aws::BedrockAgentCoreControl
     Document = Shapes::DocumentShape.new(name: 'Document', document: true)
     DomainName = Shapes::StringShape.new(name: 'DomainName')
     Double = Shapes::FloatShape.new(name: 'Double')
+    DownloadUrl = Shapes::StringShape.new(name: 'DownloadUrl')
+    DraftStatus = Shapes::StringShape.new(name: 'DraftStatus')
     EfsAccessPointArn = Shapes::StringShape.new(name: 'EfsAccessPointArn')
     EfsAccessPointConfiguration = Shapes::StructureShape.new(name: 'EfsAccessPointConfiguration')
     EncryptionFailure = Shapes::StructureShape.new(name: 'EncryptionFailure')
@@ -335,6 +361,8 @@ module Aws::BedrockAgentCoreControl
     EvaluatorSummary = Shapes::StructureShape.new(name: 'EvaluatorSummary')
     EvaluatorSummaryList = Shapes::ListShape.new(name: 'EvaluatorSummaryList')
     EvaluatorType = Shapes::StringShape.new(name: 'EvaluatorType')
+    ExampleId = Shapes::StringShape.new(name: 'ExampleId')
+    ExampleIdList = Shapes::ListShape.new(name: 'ExampleIdList')
     ExceptionLevel = Shapes::StringShape.new(name: 'ExceptionLevel')
     ExtractionConfig = Shapes::UnionShape.new(name: 'ExtractionConfig')
     ExtractionConfiguration = Shapes::UnionShape.new(name: 'ExtractionConfiguration')
@@ -398,6 +426,8 @@ module Aws::BedrockAgentCoreControl
     GetConfigurationBundleResponse = Shapes::StructureShape.new(name: 'GetConfigurationBundleResponse')
     GetConfigurationBundleVersionRequest = Shapes::StructureShape.new(name: 'GetConfigurationBundleVersionRequest')
     GetConfigurationBundleVersionResponse = Shapes::StructureShape.new(name: 'GetConfigurationBundleVersionResponse')
+    GetDatasetRequest = Shapes::StructureShape.new(name: 'GetDatasetRequest')
+    GetDatasetResponse = Shapes::StructureShape.new(name: 'GetDatasetResponse')
     GetEvaluatorRequest = Shapes::StructureShape.new(name: 'GetEvaluatorRequest')
     GetEvaluatorResponse = Shapes::StructureShape.new(name: 'GetEvaluatorResponse')
     GetGatewayRequest = Shapes::StructureShape.new(name: 'GetGatewayRequest')
@@ -519,6 +549,8 @@ module Aws::BedrockAgentCoreControl
     InferenceConfigurationTemperatureFloat = Shapes::FloatShape.new(name: 'InferenceConfigurationTemperatureFloat')
     InferenceConfigurationTopPFloat = Shapes::FloatShape.new(name: 'InferenceConfigurationTopPFloat')
     InlineContent = Shapes::StringShape.new(name: 'InlineContent')
+    InlineExamplesSource = Shapes::StructureShape.new(name: 'InlineExamplesSource')
+    InlineExamplesSourceExamplesList = Shapes::ListShape.new(name: 'InlineExamplesSourceExamplesList')
     InlinePayload = Shapes::StringShape.new(name: 'InlinePayload')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     InterceptorConfiguration = Shapes::UnionShape.new(name: 'InterceptorConfiguration')
@@ -563,6 +595,17 @@ module Aws::BedrockAgentCoreControl
     ListConfigurationBundlesRequest = Shapes::StructureShape.new(name: 'ListConfigurationBundlesRequest')
     ListConfigurationBundlesRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListConfigurationBundlesRequestMaxResultsInteger')
     ListConfigurationBundlesResponse = Shapes::StructureShape.new(name: 'ListConfigurationBundlesResponse')
+    ListDatasetExamplesRequest = Shapes::StructureShape.new(name: 'ListDatasetExamplesRequest')
+    ListDatasetExamplesRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListDatasetExamplesRequestMaxResultsInteger')
+    ListDatasetExamplesRequestNextTokenString = Shapes::StringShape.new(name: 'ListDatasetExamplesRequestNextTokenString')
+    ListDatasetExamplesResponse = Shapes::StructureShape.new(name: 'ListDatasetExamplesResponse')
+    ListDatasetVersionsRequest = Shapes::StructureShape.new(name: 'ListDatasetVersionsRequest')
+    ListDatasetVersionsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListDatasetVersionsRequestMaxResultsInteger')
+    ListDatasetVersionsResponse = Shapes::StructureShape.new(name: 'ListDatasetVersionsResponse')
+    ListDatasetsRequest = Shapes::StructureShape.new(name: 'ListDatasetsRequest')
+    ListDatasetsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListDatasetsRequestMaxResultsInteger')
+    ListDatasetsRequestNextTokenString = Shapes::StringShape.new(name: 'ListDatasetsRequestNextTokenString')
+    ListDatasetsResponse = Shapes::StructureShape.new(name: 'ListDatasetsResponse')
     ListEvaluatorsRequest = Shapes::StructureShape.new(name: 'ListEvaluatorsRequest')
     ListEvaluatorsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListEvaluatorsRequestMaxResultsInteger')
     ListEvaluatorsResponse = Shapes::StructureShape.new(name: 'ListEvaluatorsResponse')
@@ -618,6 +661,7 @@ module Aws::BedrockAgentCoreControl
     LlmExtractionConfig = Shapes::StructureShape.new(name: 'LlmExtractionConfig')
     LlmExtractionInstruction = Shapes::StringShape.new(name: 'LlmExtractionInstruction')
     LogGroupName = Shapes::StringShape.new(name: 'LogGroupName')
+    Long = Shapes::IntegerShape.new(name: 'Long')
     MCPGatewayConfiguration = Shapes::StructureShape.new(name: 'MCPGatewayConfiguration')
     ManagedResourceDetails = Shapes::StructureShape.new(name: 'ManagedResourceDetails')
     ManagedVpcResource = Shapes::StructureShape.new(name: 'ManagedVpcResource')
@@ -843,6 +887,8 @@ module Aws::BedrockAgentCoreControl
     S3LocationBucketString = Shapes::StringShape.new(name: 'S3LocationBucketString')
     S3LocationPrefixString = Shapes::StringShape.new(name: 'S3LocationPrefixString')
     S3LocationVersionIdString = Shapes::StringShape.new(name: 'S3LocationVersionIdString')
+    S3Source = Shapes::StructureShape.new(name: 'S3Source')
+    S3Uri = Shapes::StringShape.new(name: 'S3Uri')
     SalesforceOauth2ProviderConfigInput = Shapes::StructureShape.new(name: 'SalesforceOauth2ProviderConfigInput')
     SalesforceOauth2ProviderConfigOutput = Shapes::StructureShape.new(name: 'SalesforceOauth2ProviderConfigOutput')
     SamplingConfig = Shapes::StructureShape.new(name: 'SamplingConfig')
@@ -1001,6 +1047,12 @@ module Aws::BedrockAgentCoreControl
     UpdateConfigurationBundleRequest = Shapes::StructureShape.new(name: 'UpdateConfigurationBundleRequest')
     UpdateConfigurationBundleRequestCommitMessageString = Shapes::StringShape.new(name: 'UpdateConfigurationBundleRequestCommitMessageString')
     UpdateConfigurationBundleResponse = Shapes::StructureShape.new(name: 'UpdateConfigurationBundleResponse')
+    UpdateDatasetExamplesRequest = Shapes::StructureShape.new(name: 'UpdateDatasetExamplesRequest')
+    UpdateDatasetExamplesRequestExamplesList = Shapes::ListShape.new(name: 'UpdateDatasetExamplesRequestExamplesList')
+    UpdateDatasetExamplesResponse = Shapes::StructureShape.new(name: 'UpdateDatasetExamplesResponse')
+    UpdateDatasetRequest = Shapes::StructureShape.new(name: 'UpdateDatasetRequest')
+    UpdateDatasetRequestDescriptionString = Shapes::StringShape.new(name: 'UpdateDatasetRequestDescriptionString')
+    UpdateDatasetResponse = Shapes::StructureShape.new(name: 'UpdateDatasetResponse')
     UpdateEvaluatorRequest = Shapes::StructureShape.new(name: 'UpdateEvaluatorRequest')
     UpdateEvaluatorResponse = Shapes::StructureShape.new(name: 'UpdateEvaluatorResponse')
     UpdateGatewayRequest = Shapes::StructureShape.new(name: 'UpdateGatewayRequest')
@@ -1099,6 +1151,19 @@ module Aws::BedrockAgentCoreControl
     Action.struct_class = Types::Action
 
     Actions.member = Shapes::ShapeRef.new(shape: Action)
+
+    AddDatasetExamplesRequest.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location: "uri", location_name: "datasetId"))
+    AddDatasetExamplesRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    AddDatasetExamplesRequest.add_member(:source, Shapes::ShapeRef.new(shape: DataSourceType, required: true, location_name: "source"))
+    AddDatasetExamplesRequest.struct_class = Types::AddDatasetExamplesRequest
+
+    AddDatasetExamplesResponse.add_member(:dataset_arn, Shapes::ShapeRef.new(shape: DatasetArn, required: true, location_name: "datasetArn"))
+    AddDatasetExamplesResponse.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location_name: "datasetId"))
+    AddDatasetExamplesResponse.add_member(:status, Shapes::ShapeRef.new(shape: DatasetStatus, required: true, location_name: "status"))
+    AddDatasetExamplesResponse.add_member(:added_count, Shapes::ShapeRef.new(shape: Long, required: true, location_name: "addedCount"))
+    AddDatasetExamplesResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    AddDatasetExamplesResponse.add_member(:example_ids, Shapes::ShapeRef.new(shape: ExampleIdList, required: true, location_name: "exampleIds"))
+    AddDatasetExamplesResponse.struct_class = Types::AddDatasetExamplesResponse
 
     AgentCardDefinition.add_member(:schema_version, Shapes::ShapeRef.new(shape: SchemaVersion, location_name: "schemaVersion"))
     AgentCardDefinition.add_member(:inline_content, Shapes::ShapeRef.new(shape: InlineContent, location_name: "inlineContent"))
@@ -1540,6 +1605,32 @@ module Aws::BedrockAgentCoreControl
     CreateConfigurationBundleResponse.add_member(:version_id, Shapes::ShapeRef.new(shape: ConfigurationBundleVersion, required: true, location_name: "versionId"))
     CreateConfigurationBundleResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
     CreateConfigurationBundleResponse.struct_class = Types::CreateConfigurationBundleResponse
+
+    CreateDatasetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateDatasetRequest.add_member(:dataset_name, Shapes::ShapeRef.new(shape: DatasetName, required: true, location_name: "datasetName"))
+    CreateDatasetRequest.add_member(:description, Shapes::ShapeRef.new(shape: CreateDatasetRequestDescriptionString, location_name: "description"))
+    CreateDatasetRequest.add_member(:source, Shapes::ShapeRef.new(shape: DataSourceType, required: true, location_name: "source"))
+    CreateDatasetRequest.add_member(:schema_type, Shapes::ShapeRef.new(shape: DatasetSchemaType, required: true, location_name: "schemaType"))
+    CreateDatasetRequest.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
+    CreateDatasetRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
+    CreateDatasetRequest.struct_class = Types::CreateDatasetRequest
+
+    CreateDatasetResponse.add_member(:dataset_arn, Shapes::ShapeRef.new(shape: DatasetArn, required: true, location_name: "datasetArn"))
+    CreateDatasetResponse.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location_name: "datasetId"))
+    CreateDatasetResponse.add_member(:status, Shapes::ShapeRef.new(shape: DatasetStatus, required: true, location_name: "status"))
+    CreateDatasetResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
+    CreateDatasetResponse.struct_class = Types::CreateDatasetResponse
+
+    CreateDatasetVersionRequest.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location: "uri", location_name: "datasetId"))
+    CreateDatasetVersionRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateDatasetVersionRequest.struct_class = Types::CreateDatasetVersionRequest
+
+    CreateDatasetVersionResponse.add_member(:dataset_arn, Shapes::ShapeRef.new(shape: DatasetArn, required: true, location_name: "datasetArn"))
+    CreateDatasetVersionResponse.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location_name: "datasetId"))
+    CreateDatasetVersionResponse.add_member(:status, Shapes::ShapeRef.new(shape: DatasetStatus, required: true, location_name: "status"))
+    CreateDatasetVersionResponse.add_member(:dataset_version, Shapes::ShapeRef.new(shape: DatasetVersion, required: true, location_name: "datasetVersion"))
+    CreateDatasetVersionResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
+    CreateDatasetVersionResponse.struct_class = Types::CreateDatasetVersionResponse
 
     CreateEvaluatorRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     CreateEvaluatorRequest.add_member(:evaluator_name, Shapes::ShapeRef.new(shape: CustomEvaluatorName, required: true, location_name: "evaluatorName"))
@@ -1984,6 +2075,37 @@ module Aws::BedrockAgentCoreControl
     DataSourceConfig.add_member_subclass(:unknown, Types::DataSourceConfig::Unknown)
     DataSourceConfig.struct_class = Types::DataSourceConfig
 
+    DataSourceType.add_member(:inline_examples, Shapes::ShapeRef.new(shape: InlineExamplesSource, location_name: "inlineExamples"))
+    DataSourceType.add_member(:s3_source, Shapes::ShapeRef.new(shape: S3Source, location_name: "s3Source"))
+    DataSourceType.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    DataSourceType.add_member_subclass(:inline_examples, Types::DataSourceType::InlineExamples)
+    DataSourceType.add_member_subclass(:s3_source, Types::DataSourceType::S3Source)
+    DataSourceType.add_member_subclass(:unknown, Types::DataSourceType::Unknown)
+    DataSourceType.struct_class = Types::DataSourceType
+
+    DatasetExampleList.member = Shapes::ShapeRef.new(shape: SensitiveJson)
+
+    DatasetSummary.add_member(:dataset_arn, Shapes::ShapeRef.new(shape: DatasetArn, required: true, location_name: "datasetArn"))
+    DatasetSummary.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location_name: "datasetId"))
+    DatasetSummary.add_member(:dataset_name, Shapes::ShapeRef.new(shape: DatasetName, required: true, location_name: "datasetName"))
+    DatasetSummary.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    DatasetSummary.add_member(:status, Shapes::ShapeRef.new(shape: DatasetStatus, required: true, location_name: "status"))
+    DatasetSummary.add_member(:draft_status, Shapes::ShapeRef.new(shape: DraftStatus, location_name: "draftStatus"))
+    DatasetSummary.add_member(:schema_type, Shapes::ShapeRef.new(shape: DatasetSchemaType, required: true, location_name: "schemaType"))
+    DatasetSummary.add_member(:example_count, Shapes::ShapeRef.new(shape: Long, required: true, location_name: "exampleCount"))
+    DatasetSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
+    DatasetSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    DatasetSummary.struct_class = Types::DatasetSummary
+
+    DatasetSummaryList.member = Shapes::ShapeRef.new(shape: DatasetSummary)
+
+    DatasetVersionSummary.add_member(:dataset_version, Shapes::ShapeRef.new(shape: DatasetVersion, required: true, location_name: "datasetVersion"))
+    DatasetVersionSummary.add_member(:example_count, Shapes::ShapeRef.new(shape: Long, required: true, location_name: "exampleCount"))
+    DatasetVersionSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
+    DatasetVersionSummary.struct_class = Types::DatasetVersionSummary
+
+    DatasetVersionSummaryList.member = Shapes::ShapeRef.new(shape: DatasetVersionSummary)
+
     DecryptionFailure.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     DecryptionFailure.struct_class = Types::DecryptionFailure
 
@@ -2045,6 +2167,31 @@ module Aws::BedrockAgentCoreControl
     DeleteConfigurationBundleResponse.add_member(:bundle_id, Shapes::ShapeRef.new(shape: ConfigurationBundleId, required: true, location_name: "bundleId"))
     DeleteConfigurationBundleResponse.add_member(:status, Shapes::ShapeRef.new(shape: ConfigurationBundleStatus, required: true, location_name: "status"))
     DeleteConfigurationBundleResponse.struct_class = Types::DeleteConfigurationBundleResponse
+
+    DeleteDatasetExamplesRequest.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location: "uri", location_name: "datasetId"))
+    DeleteDatasetExamplesRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    DeleteDatasetExamplesRequest.add_member(:example_ids, Shapes::ShapeRef.new(shape: DeleteDatasetExamplesRequestExampleIdsList, required: true, location_name: "exampleIds"))
+    DeleteDatasetExamplesRequest.struct_class = Types::DeleteDatasetExamplesRequest
+
+    DeleteDatasetExamplesRequestExampleIdsList.member = Shapes::ShapeRef.new(shape: ExampleId)
+
+    DeleteDatasetExamplesResponse.add_member(:dataset_arn, Shapes::ShapeRef.new(shape: DatasetArn, required: true, location_name: "datasetArn"))
+    DeleteDatasetExamplesResponse.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location_name: "datasetId"))
+    DeleteDatasetExamplesResponse.add_member(:status, Shapes::ShapeRef.new(shape: DatasetStatus, required: true, location_name: "status"))
+    DeleteDatasetExamplesResponse.add_member(:deleted_count, Shapes::ShapeRef.new(shape: Long, required: true, location_name: "deletedCount"))
+    DeleteDatasetExamplesResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    DeleteDatasetExamplesResponse.struct_class = Types::DeleteDatasetExamplesResponse
+
+    DeleteDatasetRequest.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location: "uri", location_name: "datasetId"))
+    DeleteDatasetRequest.add_member(:dataset_version, Shapes::ShapeRef.new(shape: DatasetVersion, location: "querystring", location_name: "datasetVersion"))
+    DeleteDatasetRequest.struct_class = Types::DeleteDatasetRequest
+
+    DeleteDatasetResponse.add_member(:dataset_arn, Shapes::ShapeRef.new(shape: DatasetArn, required: true, location_name: "datasetArn"))
+    DeleteDatasetResponse.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location_name: "datasetId"))
+    DeleteDatasetResponse.add_member(:status, Shapes::ShapeRef.new(shape: DatasetStatus, required: true, location_name: "status"))
+    DeleteDatasetResponse.add_member(:dataset_version, Shapes::ShapeRef.new(shape: DatasetVersion, required: true, location_name: "datasetVersion"))
+    DeleteDatasetResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    DeleteDatasetResponse.struct_class = Types::DeleteDatasetResponse
 
     DeleteEvaluatorRequest.add_member(:evaluator_id, Shapes::ShapeRef.new(shape: EvaluatorId, required: true, location: "uri", location_name: "evaluatorId"))
     DeleteEvaluatorRequest.struct_class = Types::DeleteEvaluatorRequest
@@ -2292,6 +2439,8 @@ module Aws::BedrockAgentCoreControl
     EvaluatorSummary.struct_class = Types::EvaluatorSummary
 
     EvaluatorSummaryList.member = Shapes::ShapeRef.new(shape: EvaluatorSummary)
+
+    ExampleIdList.member = Shapes::ShapeRef.new(shape: ExampleId)
 
     ExtractionConfig.add_member(:llm_extraction_config, Shapes::ShapeRef.new(shape: LlmExtractionConfig, location_name: "llmExtractionConfig"))
     ExtractionConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
@@ -2541,6 +2690,28 @@ module Aws::BedrockAgentCoreControl
     GetConfigurationBundleVersionResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
     GetConfigurationBundleVersionResponse.add_member(:version_created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "versionCreatedAt"))
     GetConfigurationBundleVersionResponse.struct_class = Types::GetConfigurationBundleVersionResponse
+
+    GetDatasetRequest.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location: "uri", location_name: "datasetId"))
+    GetDatasetRequest.add_member(:dataset_version, Shapes::ShapeRef.new(shape: DatasetVersion, location: "querystring", location_name: "datasetVersion"))
+    GetDatasetRequest.struct_class = Types::GetDatasetRequest
+
+    GetDatasetResponse.add_member(:dataset_arn, Shapes::ShapeRef.new(shape: DatasetArn, required: true, location_name: "datasetArn"))
+    GetDatasetResponse.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location_name: "datasetId"))
+    GetDatasetResponse.add_member(:dataset_version, Shapes::ShapeRef.new(shape: DatasetVersion, required: true, location_name: "datasetVersion"))
+    GetDatasetResponse.add_member(:dataset_name, Shapes::ShapeRef.new(shape: DatasetName, required: true, location_name: "datasetName"))
+    GetDatasetResponse.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    GetDatasetResponse.add_member(:status, Shapes::ShapeRef.new(shape: DatasetStatus, required: true, location_name: "status"))
+    GetDatasetResponse.add_member(:draft_status, Shapes::ShapeRef.new(shape: DraftStatus, location_name: "draftStatus"))
+    GetDatasetResponse.add_member(:failure_reason, Shapes::ShapeRef.new(shape: String, location_name: "failureReason"))
+    GetDatasetResponse.add_member(:schema_type, Shapes::ShapeRef.new(shape: DatasetSchemaType, required: true, location_name: "schemaType"))
+    GetDatasetResponse.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
+    GetDatasetResponse.add_member(:example_count, Shapes::ShapeRef.new(shape: Long, required: true, location_name: "exampleCount"))
+    GetDatasetResponse.add_member(:download_url, Shapes::ShapeRef.new(shape: DownloadUrl, location_name: "downloadUrl"))
+    GetDatasetResponse.add_member(:download_url_expires_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "downloadUrlExpiresAt"))
+    GetDatasetResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
+    GetDatasetResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    GetDatasetResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
+    GetDatasetResponse.struct_class = Types::GetDatasetResponse
 
     GetEvaluatorRequest.add_member(:evaluator_id, Shapes::ShapeRef.new(shape: EvaluatorId, required: true, location: "uri", location_name: "evaluatorId"))
     GetEvaluatorRequest.add_member(:included_data, Shapes::ShapeRef.new(shape: IncludedData, location: "querystring", location_name: "includedData"))
@@ -3118,6 +3289,11 @@ module Aws::BedrockAgentCoreControl
 
     InferenceConfigurationStopSequencesList.member = Shapes::ShapeRef.new(shape: NonEmptyString)
 
+    InlineExamplesSource.add_member(:examples, Shapes::ShapeRef.new(shape: InlineExamplesSourceExamplesList, required: true, location_name: "examples"))
+    InlineExamplesSource.struct_class = Types::InlineExamplesSource
+
+    InlineExamplesSourceExamplesList.member = Shapes::ShapeRef.new(shape: SensitiveJson)
+
     InterceptorConfiguration.add_member(:lambda, Shapes::ShapeRef.new(shape: LambdaInterceptorConfiguration, location_name: "lambda"))
     InterceptorConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     InterceptorConfiguration.add_member_subclass(:lambda, Types::InterceptorConfiguration::Lambda)
@@ -3245,6 +3421,36 @@ module Aws::BedrockAgentCoreControl
     ListConfigurationBundlesResponse.add_member(:bundles, Shapes::ShapeRef.new(shape: ConfigurationBundleSummaryList, required: true, location_name: "bundles"))
     ListConfigurationBundlesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
     ListConfigurationBundlesResponse.struct_class = Types::ListConfigurationBundlesResponse
+
+    ListDatasetExamplesRequest.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location: "uri", location_name: "datasetId"))
+    ListDatasetExamplesRequest.add_member(:dataset_version, Shapes::ShapeRef.new(shape: DatasetVersion, location: "querystring", location_name: "datasetVersion"))
+    ListDatasetExamplesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListDatasetExamplesRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
+    ListDatasetExamplesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: ListDatasetExamplesRequestNextTokenString, location: "querystring", location_name: "nextToken"))
+    ListDatasetExamplesRequest.struct_class = Types::ListDatasetExamplesRequest
+
+    ListDatasetExamplesResponse.add_member(:dataset_arn, Shapes::ShapeRef.new(shape: DatasetArn, required: true, location_name: "datasetArn"))
+    ListDatasetExamplesResponse.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location_name: "datasetId"))
+    ListDatasetExamplesResponse.add_member(:dataset_version, Shapes::ShapeRef.new(shape: DatasetVersion, required: true, location_name: "datasetVersion"))
+    ListDatasetExamplesResponse.add_member(:examples, Shapes::ShapeRef.new(shape: DatasetExampleList, required: true, location_name: "examples"))
+    ListDatasetExamplesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListDatasetExamplesResponse.struct_class = Types::ListDatasetExamplesResponse
+
+    ListDatasetVersionsRequest.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location: "uri", location_name: "datasetId"))
+    ListDatasetVersionsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "nextToken"))
+    ListDatasetVersionsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListDatasetVersionsRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
+    ListDatasetVersionsRequest.struct_class = Types::ListDatasetVersionsRequest
+
+    ListDatasetVersionsResponse.add_member(:versions, Shapes::ShapeRef.new(shape: DatasetVersionSummaryList, required: true, location_name: "versions"))
+    ListDatasetVersionsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListDatasetVersionsResponse.struct_class = Types::ListDatasetVersionsResponse
+
+    ListDatasetsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: ListDatasetsRequestNextTokenString, location: "querystring", location_name: "nextToken"))
+    ListDatasetsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListDatasetsRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
+    ListDatasetsRequest.struct_class = Types::ListDatasetsRequest
+
+    ListDatasetsResponse.add_member(:datasets, Shapes::ShapeRef.new(shape: DatasetSummaryList, required: true, location_name: "datasets"))
+    ListDatasetsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListDatasetsResponse.struct_class = Types::ListDatasetsResponse
 
     ListEvaluatorsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "nextToken"))
     ListEvaluatorsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListEvaluatorsRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
@@ -4093,6 +4299,9 @@ module Aws::BedrockAgentCoreControl
     S3Location.add_member(:version_id, Shapes::ShapeRef.new(shape: S3LocationVersionIdString, location_name: "versionId"))
     S3Location.struct_class = Types::S3Location
 
+    S3Source.add_member(:s3_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "s3Uri"))
+    S3Source.struct_class = Types::S3Source
+
     SalesforceOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, required: true, location_name: "clientId"))
     SalesforceOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecretType, required: true, location_name: "clientSecret"))
     SalesforceOauth2ProviderConfigInput.struct_class = Types::SalesforceOauth2ProviderConfigInput
@@ -4527,6 +4736,30 @@ module Aws::BedrockAgentCoreControl
     UpdateConfigurationBundleResponse.add_member(:version_id, Shapes::ShapeRef.new(shape: ConfigurationBundleVersion, required: true, location_name: "versionId"))
     UpdateConfigurationBundleResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
     UpdateConfigurationBundleResponse.struct_class = Types::UpdateConfigurationBundleResponse
+
+    UpdateDatasetExamplesRequest.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location: "uri", location_name: "datasetId"))
+    UpdateDatasetExamplesRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    UpdateDatasetExamplesRequest.add_member(:examples, Shapes::ShapeRef.new(shape: UpdateDatasetExamplesRequestExamplesList, required: true, location_name: "examples"))
+    UpdateDatasetExamplesRequest.struct_class = Types::UpdateDatasetExamplesRequest
+
+    UpdateDatasetExamplesRequestExamplesList.member = Shapes::ShapeRef.new(shape: SensitiveJson)
+
+    UpdateDatasetExamplesResponse.add_member(:dataset_arn, Shapes::ShapeRef.new(shape: DatasetArn, required: true, location_name: "datasetArn"))
+    UpdateDatasetExamplesResponse.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location_name: "datasetId"))
+    UpdateDatasetExamplesResponse.add_member(:status, Shapes::ShapeRef.new(shape: DatasetStatus, required: true, location_name: "status"))
+    UpdateDatasetExamplesResponse.add_member(:updated_count, Shapes::ShapeRef.new(shape: Long, required: true, location_name: "updatedCount"))
+    UpdateDatasetExamplesResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    UpdateDatasetExamplesResponse.struct_class = Types::UpdateDatasetExamplesResponse
+
+    UpdateDatasetRequest.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location: "uri", location_name: "datasetId"))
+    UpdateDatasetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    UpdateDatasetRequest.add_member(:description, Shapes::ShapeRef.new(shape: UpdateDatasetRequestDescriptionString, location_name: "description"))
+    UpdateDatasetRequest.struct_class = Types::UpdateDatasetRequest
+
+    UpdateDatasetResponse.add_member(:dataset_arn, Shapes::ShapeRef.new(shape: DatasetArn, required: true, location_name: "datasetArn"))
+    UpdateDatasetResponse.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location_name: "datasetId"))
+    UpdateDatasetResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    UpdateDatasetResponse.struct_class = Types::UpdateDatasetResponse
 
     UpdateEvaluatorRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     UpdateEvaluatorRequest.add_member(:evaluator_id, Shapes::ShapeRef.new(shape: EvaluatorId, required: true, location: "uri", location_name: "evaluatorId"))
@@ -5013,6 +5246,21 @@ module Aws::BedrockAgentCoreControl
         "uid" => "bedrock-agentcore-control-2023-06-05",
       }
 
+      api.add_operation(:add_dataset_examples, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "AddDatasetExamples"
+        o.http_method = "POST"
+        o.http_request_uri = "/datasets/{datasetId}/examples/add"
+        o.input = Shapes::ShapeRef.new(shape: AddDatasetExamplesRequest)
+        o.output = Shapes::ShapeRef.new(shape: AddDatasetExamplesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:create_agent_runtime, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateAgentRuntime"
         o.http_method = "PUT"
@@ -5113,6 +5361,35 @@ module Aws::BedrockAgentCoreControl
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:create_dataset, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateDataset"
+        o.http_method = "POST"
+        o.http_request_uri = "/datasets"
+        o.input = Shapes::ShapeRef.new(shape: CreateDatasetRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateDatasetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:create_dataset_version, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateDatasetVersion"
+        o.http_method = "POST"
+        o.http_request_uri = "/datasets/{datasetId}/versions"
+        o.input = Shapes::ShapeRef.new(shape: CreateDatasetVersionRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateDatasetVersionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
@@ -5455,6 +5732,34 @@ module Aws::BedrockAgentCoreControl
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
+      api.add_operation(:delete_dataset, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteDataset"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/datasets/{datasetId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteDatasetRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteDatasetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:delete_dataset_examples, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteDatasetExamples"
+        o.http_method = "POST"
+        o.http_request_uri = "/datasets/{datasetId}/examples/delete"
+        o.input = Shapes::ShapeRef.new(shape: DeleteDatasetExamplesRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteDatasetExamplesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:delete_evaluator, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteEvaluator"
         o.http_method = "DELETE"
@@ -5791,6 +6096,20 @@ module Aws::BedrockAgentCoreControl
         o.input = Shapes::ShapeRef.new(shape: GetConfigurationBundleVersionRequest)
         o.output = Shapes::ShapeRef.new(shape: GetConfigurationBundleVersionResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:get_dataset, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetDataset"
+        o.http_method = "GET"
+        o.http_request_uri = "/datasets/{datasetId}"
+        o.input = Shapes::ShapeRef.new(shape: GetDatasetRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetDatasetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
@@ -6244,6 +6563,63 @@ module Aws::BedrockAgentCoreControl
         o.http_request_uri = "/configuration-bundles"
         o.input = Shapes::ShapeRef.new(shape: ListConfigurationBundlesRequest)
         o.output = Shapes::ShapeRef.new(shape: ListConfigurationBundlesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_dataset_examples, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListDatasetExamples"
+        o.http_method = "GET"
+        o.http_request_uri = "/datasets/{datasetId}/examples"
+        o.input = Shapes::ShapeRef.new(shape: ListDatasetExamplesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListDatasetExamplesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_dataset_versions, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListDatasetVersions"
+        o.http_method = "GET"
+        o.http_request_uri = "/datasets/{datasetId}/versions"
+        o.input = Shapes::ShapeRef.new(shape: ListDatasetVersionsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListDatasetVersionsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_datasets, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListDatasets"
+        o.http_method = "GET"
+        o.http_request_uri = "/datasets"
+        o.input = Shapes::ShapeRef.new(shape: ListDatasetsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListDatasetsResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
@@ -6818,6 +7194,35 @@ module Aws::BedrockAgentCoreControl
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:update_dataset, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateDataset"
+        o.http_method = "PUT"
+        o.http_request_uri = "/datasets/{datasetId}"
+        o.input = Shapes::ShapeRef.new(shape: UpdateDatasetRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateDatasetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:update_dataset_examples, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateDatasetExamples"
+        o.http_method = "POST"
+        o.http_request_uri = "/datasets/{datasetId}/examples/update"
+        o.input = Shapes::ShapeRef.new(shape: UpdateDatasetExamplesRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateDatasetExamplesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)

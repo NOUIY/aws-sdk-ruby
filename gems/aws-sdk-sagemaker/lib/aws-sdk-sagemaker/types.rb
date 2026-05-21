@@ -9972,6 +9972,13 @@ module Aws::SageMaker
     #   value must be set to `Service`.
     #   @return [String]
     #
+    # @!attribute [rw] home_efs_file_system_creation
+    #   Indicates whether to create a home EFS file system for the domain.
+    #   Defaults to `Enabled`. Set to `Disabled` to skip EFS creation and
+    #   reduce domain creation time. You can enable EFS later by calling
+    #   `UpdateDomain`.
+    #   @return [String]
+    #
     # @!attribute [rw] tag_propagation
     #   Indicates whether custom tag propagation is supported for the
     #   domain. Defaults to `DISABLED`.
@@ -9996,6 +10003,7 @@ module Aws::SageMaker
       :home_efs_file_system_kms_key_id,
       :kms_key_id,
       :app_security_group_management,
+      :home_efs_file_system_creation,
       :tag_propagation,
       :default_space_settings)
       SENSITIVE = []
@@ -12742,7 +12750,7 @@ module Aws::SageMaker
     #
     # @!attribute [rw] platform_identifier
     #   The platform identifier of the notebook instance runtime
-    #   environment. The default value is `notebook-al2-v2`.
+    #   environment. The default value is `notebook-al2023-v1`.
     #   @return [String]
     #
     # @!attribute [rw] instance_metadata_service_configuration
@@ -18558,6 +18566,10 @@ module Aws::SageMaker
     #   is provided.
     #   @return [String]
     #
+    # @!attribute [rw] home_efs_file_system_creation
+    #   Indicates whether a home EFS file system is created for the domain.
+    #   @return [String]
+    #
     # @!attribute [rw] tag_propagation
     #   Indicates whether custom tag propagation is supported for the
     #   domain.
@@ -18592,6 +18604,7 @@ module Aws::SageMaker
       :vpc_id,
       :kms_key_id,
       :app_security_group_management,
+      :home_efs_file_system_creation,
       :tag_propagation,
       :default_space_settings)
       SENSITIVE = []
@@ -55537,6 +55550,12 @@ module Aws::SageMaker
     #   domain. Defaults to `DISABLED`.
     #   @return [String]
     #
+    # @!attribute [rw] home_efs_file_system_creation
+    #   Indicates whether to create a home EFS file system for the domain.
+    #   You can change from `Disabled` to `Enabled` to provision EFS on
+    #   demand, but you cannot change from `Enabled` to `Disabled`.
+    #   @return [String]
+    #
     # @!attribute [rw] vpc_id
     #   The identifier for the VPC used by the domain for network
     #   communication. Use this field only when adding VPC configuration to
@@ -55557,6 +55576,7 @@ module Aws::SageMaker
       :subnet_ids,
       :app_network_access_type,
       :tag_propagation,
+      :home_efs_file_system_creation,
       :vpc_id)
       SENSITIVE = []
       include Aws::Structure

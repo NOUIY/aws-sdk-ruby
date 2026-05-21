@@ -1,6 +1,17 @@
 Unreleased Changes
 ------------------
 
+3.248.0 (2026-05-21)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Feature - Updated Aws::Signin::Client with the latest API changes.
+
 * Feature - Add `AWS_NEW_RETRIES_2026` environment variable to opt-in to updated `standard` retry mode with reduced backoff intervals.
 
 3.247.0 (2026-05-13)

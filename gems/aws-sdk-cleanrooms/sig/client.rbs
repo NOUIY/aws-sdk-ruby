@@ -236,6 +236,10 @@ module Aws
                                                        member: {
                                                          account_id: ::String,
                                                          member_abilities: Array[("CAN_QUERY" | "CAN_RECEIVE_RESULTS" | "CAN_RUN_JOB")],
+                                                         ml_member_abilities: {
+                                                           custom_ml_member_abilities: Array[("CAN_RECEIVE_MODEL_OUTPUT" | "CAN_RECEIVE_INFERENCE_OUTPUT")]
+                                                         }?,
+                                                         payment_configuration: Params::payment_configuration?,
                                                          display_name: ::String?
                                                        }?,
                                                        collaboration: {
@@ -372,17 +376,7 @@ module Aws
                                  query_compute: {
                                    is_responsible: bool
                                  },
-                                 machine_learning: {
-                                   model_training: {
-                                     is_responsible: bool
-                                   }?,
-                                   model_inference: {
-                                     is_responsible: bool
-                                   }?,
-                                   synthetic_data_generation: {
-                                     is_responsible: bool
-                                   }?
-                                 }?,
+                                 machine_learning: Params::membership_ml_payment_config?,
                                  job_compute: {
                                    is_responsible: bool
                                  }?
@@ -1089,7 +1083,8 @@ module Aws
                                        spark: Hash[::String, ::String]?
                                      }?
                                    }?
-                                 }
+                                 },
+                                 ?job_compute_payer_account_id: ::String
                                ) -> _StartProtectedJobResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartProtectedJobResponseSuccess
 
@@ -1142,7 +1137,8 @@ module Aws
                                          spark: Hash[::String, ::String]?
                                        }?
                                      }?
-                                   }
+                                   },
+                                   ?query_compute_payer_account_id: ::String
                                  ) -> _StartProtectedQueryResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartProtectedQueryResponseSuccess
 
@@ -1309,7 +1305,16 @@ module Aws
                                ?query_log_status: ("ENABLED" | "DISABLED"),
                                ?job_log_status: ("ENABLED" | "DISABLED"),
                                ?default_result_configuration: Params::membership_protected_query_result_configuration,
-                               ?default_job_result_configuration: Params::membership_protected_job_result_configuration
+                               ?default_job_result_configuration: Params::membership_protected_job_result_configuration,
+                               ?membership_payment_configuration: {
+                                 query_compute: {
+                                   is_responsible: bool
+                                 }?,
+                                 machine_learning: Params::membership_ml_payment_config?,
+                                 job_compute: {
+                                   is_responsible: bool
+                                 }?
+                               }
                              ) -> _UpdateMembershipResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateMembershipResponseSuccess
 

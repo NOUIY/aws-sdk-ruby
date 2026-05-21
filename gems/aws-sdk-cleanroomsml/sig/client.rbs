@@ -230,7 +230,11 @@ module Aws
                                      retention_in_days: ::Integer,
                                      ?description: ::String,
                                      ?kms_key_arn: ::String,
-                                     ?tags: Hash[::String, ::String]
+                                     ?tags: Hash[::String, ::String],
+                                     ?payer_configuration: {
+                                       compute_payer_account_id: ::String?,
+                                       synthetic_data_payer_account_id: ::String?
+                                     }
                                    ) -> _CreateMLInputChannelResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateMLInputChannelResponseSuccess
 
@@ -271,7 +275,8 @@ module Aws
                                   ?training_input_mode: ("File" | "FastFile" | "Pipe"),
                                   ?description: ::String,
                                   ?kms_key_arn: ::String,
-                                  ?tags: Hash[::String, ::String]
+                                  ?tags: Hash[::String, ::String],
+                                  ?ml_model_training_payer_account_id: ::String
                                 ) -> _CreateTrainedModelResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateTrainedModelResponseSuccess
 
@@ -451,6 +456,7 @@ module Aws
         def privacy_budgets: () -> Types::PrivacyBudgets
         def description: () -> ::String
         def synthetic_data_configuration: () -> Types::SyntheticDataConfiguration
+        def payer_configuration: () -> Types::PayerConfiguration
         def create_time: () -> ::Time
         def update_time: () -> ::Time
         def creator_account_id: () -> ::String
@@ -482,6 +488,7 @@ module Aws
         def logs_status: () -> ("PUBLISH_SUCCEEDED" | "PUBLISH_FAILED")
         def logs_status_details: () -> ::String
         def training_container_image_digest: () -> ::String
+        def ml_model_training_payer_account_id: () -> ::String
         def create_time: () -> ::Time
         def update_time: () -> ::Time
         def creator_account_id: () -> ::String
@@ -594,6 +601,7 @@ module Aws
         def privacy_budgets: () -> Types::PrivacyBudgets
         def description: () -> ::String
         def synthetic_data_configuration: () -> Types::SyntheticDataConfiguration
+        def payer_configuration: () -> Types::PayerConfiguration
         def create_time: () -> ::Time
         def update_time: () -> ::Time
         def input_channel: () -> Types::InputChannel
@@ -630,6 +638,7 @@ module Aws
         def logs_status: () -> ("PUBLISH_SUCCEEDED" | "PUBLISH_FAILED")
         def logs_status_details: () -> ::String
         def training_container_image_digest: () -> ::String
+        def ml_model_training_payer_account_id: () -> ::String
         def create_time: () -> ::Time
         def update_time: () -> ::Time
         def hyperparameters: () -> ::Hash[::String, ::String]
@@ -671,6 +680,7 @@ module Aws
         def logs_status: () -> ("PUBLISH_SUCCEEDED" | "PUBLISH_FAILED")
         def logs_status_details: () -> ::String
         def tags: () -> ::Hash[::String, ::String]
+        def ml_model_inference_payer_account_id: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CleanRoomsML/Client.html#get_trained_model_inference_job-instance_method
       def get_trained_model_inference_job: (
@@ -1036,7 +1046,8 @@ module Aws
                                                },
                                                ?environment: Hash[::String, ::String],
                                                ?kms_key_arn: ::String,
-                                               ?tags: Hash[::String, ::String]
+                                               ?tags: Hash[::String, ::String],
+                                               ?ml_model_inference_payer_account_id: ::String
                                              ) -> _StartTrainedModelInferenceJobResponseSuccess
                                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartTrainedModelInferenceJobResponseSuccess
 

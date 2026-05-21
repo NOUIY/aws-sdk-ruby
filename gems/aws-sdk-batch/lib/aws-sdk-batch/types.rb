@@ -552,6 +552,12 @@ module Aws::Batch
     #
     #    </note>
     #
+    #   <note markdown="1"> This parameter is required for Amazon EKS compute environments. For
+    #   Amazon ECS compute environments, if this parameter isn't specified,
+    #   the `BEST_FIT` allocation strategy is used by default.
+    #
+    #    </note>
+    #
     #   BEST\_FIT (default)
     #
     #   : Batch selects an instance type that best fits the needs of the
@@ -2394,9 +2400,11 @@ module Aws::Batch
     #   @return [String]
     #
     # @!attribute [rw] state
-    #   The state of the compute environment. If the state is `ENABLED`,
-    #   then the compute environment accepts jobs from a queue and can scale
-    #   out automatically based on queues.
+    #   The state of the compute environment. A compute environment must be
+    #   created in the `ENABLED` state.
+    #
+    #   If the state is `ENABLED`, then the compute environment accepts jobs
+    #   from a queue and can scale out automatically based on queues.
     #
     #   If the state is `ENABLED`, then the Batch scheduler can attempt to
     #   place jobs from an associated job queue on the compute resources
@@ -2459,6 +2467,10 @@ module Aws::Batch
     #   doesn't exist in your account, and no role is specified here, the
     #   service attempts to create the Batch service-linked role in your
     #   account.
+    #
+    #    This automatic service-linked role creation only applies to
+    #   `MANAGED` compute environments. For `UNMANAGED` compute
+    #   environments, you must explicitly specify a `serviceRole`.
     #
     #   If your specified role has a path other than `/`, then you must
     #   specify either the full role ARN (recommended) or prefix the role

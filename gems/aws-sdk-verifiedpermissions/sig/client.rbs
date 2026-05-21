@@ -321,7 +321,8 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/VerifiedPermissions/Client.html#delete_policy_store_alias-instance_method
       def delete_policy_store_alias: (
-                                       alias_name: ::String
+                                       alias_name: ::String,
+                                       ?deletion_mode: ("SoftDelete" | "HardDelete")
                                      ) -> _DeletePolicyStoreAliasResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeletePolicyStoreAliasResponseSuccess
 

@@ -266,6 +266,7 @@ module Aws::CleanRoomsML
     ParameterMap = Shapes::MapShape.new(name: 'ParameterMap')
     ParameterName = Shapes::StringShape.new(name: 'ParameterName')
     ParameterValue = Shapes::StringShape.new(name: 'ParameterValue')
+    PayerConfiguration = Shapes::StructureShape.new(name: 'PayerConfiguration')
     PolicyExistenceCondition = Shapes::StringShape.new(name: 'PolicyExistenceCondition')
     PrivacyBudgets = Shapes::UnionShape.new(name: 'PrivacyBudgets')
     PrivacyConfiguration = Shapes::StructureShape.new(name: 'PrivacyConfiguration')
@@ -476,6 +477,7 @@ module Aws::CleanRoomsML
     CollaborationMLInputChannelSummary.add_member(:status, Shapes::ShapeRef.new(shape: MLInputChannelStatus, required: true, location_name: "status"))
     CollaborationMLInputChannelSummary.add_member(:creator_account_id, Shapes::ShapeRef.new(shape: AccountId, required: true, location_name: "creatorAccountId"))
     CollaborationMLInputChannelSummary.add_member(:description, Shapes::ShapeRef.new(shape: ResourceDescription, location_name: "description"))
+    CollaborationMLInputChannelSummary.add_member(:payer_configuration, Shapes::ShapeRef.new(shape: PayerConfiguration, location_name: "payerConfiguration"))
     CollaborationMLInputChannelSummary.struct_class = Types::CollaborationMLInputChannelSummary
 
     CollaborationMLInputChannelSummaryConfiguredModelAlgorithmAssociationsList.member = Shapes::ShapeRef.new(shape: ConfiguredModelAlgorithmAssociationArn)
@@ -514,6 +516,7 @@ module Aws::CleanRoomsML
     CollaborationTrainedModelInferenceJobSummary.add_member(:metrics_status_details, Shapes::ShapeRef.new(shape: String, location_name: "metricsStatusDetails"))
     CollaborationTrainedModelInferenceJobSummary.add_member(:logs_status, Shapes::ShapeRef.new(shape: LogsStatus, location_name: "logsStatus"))
     CollaborationTrainedModelInferenceJobSummary.add_member(:logs_status_details, Shapes::ShapeRef.new(shape: String, location_name: "logsStatusDetails"))
+    CollaborationTrainedModelInferenceJobSummary.add_member(:ml_model_inference_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "mlModelInferencePayerAccountId"))
     CollaborationTrainedModelInferenceJobSummary.add_member(:create_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createTime"))
     CollaborationTrainedModelInferenceJobSummary.add_member(:update_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "updateTime"))
     CollaborationTrainedModelInferenceJobSummary.add_member(:creator_account_id, Shapes::ShapeRef.new(shape: AccountId, required: true, location_name: "creatorAccountId"))
@@ -533,6 +536,7 @@ module Aws::CleanRoomsML
     CollaborationTrainedModelSummary.add_member(:status, Shapes::ShapeRef.new(shape: TrainedModelStatus, required: true, location_name: "status"))
     CollaborationTrainedModelSummary.add_member(:configured_model_algorithm_association_arn, Shapes::ShapeRef.new(shape: ConfiguredModelAlgorithmAssociationArn, required: true, location_name: "configuredModelAlgorithmAssociationArn"))
     CollaborationTrainedModelSummary.add_member(:creator_account_id, Shapes::ShapeRef.new(shape: AccountId, required: true, location_name: "creatorAccountId"))
+    CollaborationTrainedModelSummary.add_member(:ml_model_training_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "mlModelTrainingPayerAccountId"))
     CollaborationTrainedModelSummary.struct_class = Types::CollaborationTrainedModelSummary
 
     ColumnClassificationDetails.add_member(:column_mapping, Shapes::ShapeRef.new(shape: ColumnMappingList, required: true, location_name: "columnMapping"))
@@ -659,6 +663,7 @@ module Aws::CleanRoomsML
     CreateMLInputChannelRequest.add_member(:description, Shapes::ShapeRef.new(shape: ResourceDescription, location_name: "description"))
     CreateMLInputChannelRequest.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     CreateMLInputChannelRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    CreateMLInputChannelRequest.add_member(:payer_configuration, Shapes::ShapeRef.new(shape: PayerConfiguration, location_name: "payerConfiguration"))
     CreateMLInputChannelRequest.struct_class = Types::CreateMLInputChannelRequest
 
     CreateMLInputChannelRequestConfiguredModelAlgorithmAssociationsList.member = Shapes::ShapeRef.new(shape: ConfiguredModelAlgorithmAssociationArn)
@@ -679,6 +684,7 @@ module Aws::CleanRoomsML
     CreateTrainedModelRequest.add_member(:description, Shapes::ShapeRef.new(shape: ResourceDescription, location_name: "description"))
     CreateTrainedModelRequest.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     CreateTrainedModelRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    CreateTrainedModelRequest.add_member(:ml_model_training_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "mlModelTrainingPayerAccountId"))
     CreateTrainedModelRequest.struct_class = Types::CreateTrainedModelRequest
 
     CreateTrainedModelResponse.add_member(:trained_model_arn, Shapes::ShapeRef.new(shape: TrainedModelArn, required: true, location_name: "trainedModelArn"))
@@ -831,6 +837,7 @@ module Aws::CleanRoomsML
     GetCollaborationMLInputChannelResponse.add_member(:privacy_budgets, Shapes::ShapeRef.new(shape: PrivacyBudgets, location_name: "privacyBudgets"))
     GetCollaborationMLInputChannelResponse.add_member(:description, Shapes::ShapeRef.new(shape: ResourceDescription, location_name: "description"))
     GetCollaborationMLInputChannelResponse.add_member(:synthetic_data_configuration, Shapes::ShapeRef.new(shape: SyntheticDataConfiguration, location_name: "syntheticDataConfiguration"))
+    GetCollaborationMLInputChannelResponse.add_member(:payer_configuration, Shapes::ShapeRef.new(shape: PayerConfiguration, location_name: "payerConfiguration"))
     GetCollaborationMLInputChannelResponse.add_member(:create_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createTime"))
     GetCollaborationMLInputChannelResponse.add_member(:update_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "updateTime"))
     GetCollaborationMLInputChannelResponse.add_member(:creator_account_id, Shapes::ShapeRef.new(shape: AccountId, required: true, location_name: "creatorAccountId"))
@@ -861,6 +868,7 @@ module Aws::CleanRoomsML
     GetCollaborationTrainedModelResponse.add_member(:logs_status, Shapes::ShapeRef.new(shape: LogsStatus, location_name: "logsStatus"))
     GetCollaborationTrainedModelResponse.add_member(:logs_status_details, Shapes::ShapeRef.new(shape: String, location_name: "logsStatusDetails"))
     GetCollaborationTrainedModelResponse.add_member(:training_container_image_digest, Shapes::ShapeRef.new(shape: String, location_name: "trainingContainerImageDigest"))
+    GetCollaborationTrainedModelResponse.add_member(:ml_model_training_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "mlModelTrainingPayerAccountId"))
     GetCollaborationTrainedModelResponse.add_member(:create_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createTime"))
     GetCollaborationTrainedModelResponse.add_member(:update_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "updateTime"))
     GetCollaborationTrainedModelResponse.add_member(:creator_account_id, Shapes::ShapeRef.new(shape: AccountId, required: true, location_name: "creatorAccountId"))
@@ -948,6 +956,7 @@ module Aws::CleanRoomsML
     GetMLInputChannelResponse.add_member(:privacy_budgets, Shapes::ShapeRef.new(shape: PrivacyBudgets, location_name: "privacyBudgets"))
     GetMLInputChannelResponse.add_member(:description, Shapes::ShapeRef.new(shape: ResourceDescription, location_name: "description"))
     GetMLInputChannelResponse.add_member(:synthetic_data_configuration, Shapes::ShapeRef.new(shape: SyntheticDataConfiguration, location_name: "syntheticDataConfiguration"))
+    GetMLInputChannelResponse.add_member(:payer_configuration, Shapes::ShapeRef.new(shape: PayerConfiguration, location_name: "payerConfiguration"))
     GetMLInputChannelResponse.add_member(:create_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createTime"))
     GetMLInputChannelResponse.add_member(:update_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "updateTime"))
     GetMLInputChannelResponse.add_member(:input_channel, Shapes::ShapeRef.new(shape: InputChannel, required: true, location_name: "inputChannel"))
@@ -987,6 +996,7 @@ module Aws::CleanRoomsML
     GetTrainedModelInferenceJobResponse.add_member(:logs_status, Shapes::ShapeRef.new(shape: LogsStatus, location_name: "logsStatus"))
     GetTrainedModelInferenceJobResponse.add_member(:logs_status_details, Shapes::ShapeRef.new(shape: String, location_name: "logsStatusDetails"))
     GetTrainedModelInferenceJobResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    GetTrainedModelInferenceJobResponse.add_member(:ml_model_inference_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "mlModelInferencePayerAccountId"))
     GetTrainedModelInferenceJobResponse.struct_class = Types::GetTrainedModelInferenceJobResponse
 
     GetTrainedModelRequest.add_member(:trained_model_arn, Shapes::ShapeRef.new(shape: TrainedModelArn, required: true, location: "uri", location_name: "trainedModelArn"))
@@ -1012,6 +1022,7 @@ module Aws::CleanRoomsML
     GetTrainedModelResponse.add_member(:logs_status, Shapes::ShapeRef.new(shape: LogsStatus, location_name: "logsStatus"))
     GetTrainedModelResponse.add_member(:logs_status_details, Shapes::ShapeRef.new(shape: String, location_name: "logsStatusDetails"))
     GetTrainedModelResponse.add_member(:training_container_image_digest, Shapes::ShapeRef.new(shape: String, location_name: "trainingContainerImageDigest"))
+    GetTrainedModelResponse.add_member(:ml_model_training_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "mlModelTrainingPayerAccountId"))
     GetTrainedModelResponse.add_member(:create_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createTime"))
     GetTrainedModelResponse.add_member(:update_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "updateTime"))
     GetTrainedModelResponse.add_member(:hyperparameters, Shapes::ShapeRef.new(shape: HyperParameters, location_name: "hyperparameters"))
@@ -1269,6 +1280,7 @@ module Aws::CleanRoomsML
     MLInputChannelSummary.add_member(:ml_input_channel_arn, Shapes::ShapeRef.new(shape: MLInputChannelArn, required: true, location_name: "mlInputChannelArn"))
     MLInputChannelSummary.add_member(:status, Shapes::ShapeRef.new(shape: MLInputChannelStatus, required: true, location_name: "status"))
     MLInputChannelSummary.add_member(:description, Shapes::ShapeRef.new(shape: ResourceDescription, location_name: "description"))
+    MLInputChannelSummary.add_member(:payer_configuration, Shapes::ShapeRef.new(shape: PayerConfiguration, location_name: "payerConfiguration"))
     MLInputChannelSummary.struct_class = Types::MLInputChannelSummary
 
     MLInputChannelSummaryConfiguredModelAlgorithmAssociationsList.member = Shapes::ShapeRef.new(shape: ConfiguredModelAlgorithmAssociationArn)
@@ -1313,6 +1325,10 @@ module Aws::CleanRoomsML
 
     ParameterMap.key = Shapes::ShapeRef.new(shape: ParameterName)
     ParameterMap.value = Shapes::ShapeRef.new(shape: ParameterValue)
+
+    PayerConfiguration.add_member(:compute_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "computePayerAccountId"))
+    PayerConfiguration.add_member(:synthetic_data_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "syntheticDataPayerAccountId"))
+    PayerConfiguration.struct_class = Types::PayerConfiguration
 
     PrivacyBudgets.add_member(:access_budgets, Shapes::ShapeRef.new(shape: AccessBudgets, location_name: "accessBudgets"))
     PrivacyBudgets.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
@@ -1416,6 +1432,7 @@ module Aws::CleanRoomsML
     StartTrainedModelInferenceJobRequest.add_member(:environment, Shapes::ShapeRef.new(shape: InferenceEnvironmentMap, location_name: "environment"))
     StartTrainedModelInferenceJobRequest.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     StartTrainedModelInferenceJobRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    StartTrainedModelInferenceJobRequest.add_member(:ml_model_inference_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "mlModelInferencePayerAccountId"))
     StartTrainedModelInferenceJobRequest.struct_class = Types::StartTrainedModelInferenceJobRequest
 
     StartTrainedModelInferenceJobResponse.add_member(:trained_model_inference_job_arn, Shapes::ShapeRef.new(shape: TrainedModelInferenceJobArn, required: true, location_name: "trainedModelInferenceJobArn"))
@@ -1492,6 +1509,7 @@ module Aws::CleanRoomsML
     TrainedModelInferenceJobSummary.add_member(:metrics_status_details, Shapes::ShapeRef.new(shape: String, location_name: "metricsStatusDetails"))
     TrainedModelInferenceJobSummary.add_member(:logs_status, Shapes::ShapeRef.new(shape: LogsStatus, location_name: "logsStatus"))
     TrainedModelInferenceJobSummary.add_member(:logs_status_details, Shapes::ShapeRef.new(shape: String, location_name: "logsStatusDetails"))
+    TrainedModelInferenceJobSummary.add_member(:ml_model_inference_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "mlModelInferencePayerAccountId"))
     TrainedModelInferenceJobSummary.add_member(:create_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createTime"))
     TrainedModelInferenceJobSummary.add_member(:update_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "updateTime"))
     TrainedModelInferenceJobSummary.struct_class = Types::TrainedModelInferenceJobSummary
@@ -1517,6 +1535,7 @@ module Aws::CleanRoomsML
     TrainedModelSummary.add_member(:collaboration_identifier, Shapes::ShapeRef.new(shape: UUID, required: true, location_name: "collaborationIdentifier"))
     TrainedModelSummary.add_member(:status, Shapes::ShapeRef.new(shape: TrainedModelStatus, required: true, location_name: "status"))
     TrainedModelSummary.add_member(:configured_model_algorithm_association_arn, Shapes::ShapeRef.new(shape: ConfiguredModelAlgorithmAssociationArn, required: true, location_name: "configuredModelAlgorithmAssociationArn"))
+    TrainedModelSummary.add_member(:ml_model_training_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "mlModelTrainingPayerAccountId"))
     TrainedModelSummary.struct_class = Types::TrainedModelSummary
 
     TrainedModelsConfigurationPolicy.add_member(:container_logs, Shapes::ShapeRef.new(shape: LogsConfigurationPolicyList, location_name: "containerLogs"))

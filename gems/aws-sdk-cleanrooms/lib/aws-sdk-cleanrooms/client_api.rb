@@ -626,6 +626,7 @@ module Aws::CleanRooms
     UpdateIdNamespaceAssociationOutput = Shapes::StructureShape.new(name: 'UpdateIdNamespaceAssociationOutput')
     UpdateMembershipInput = Shapes::StructureShape.new(name: 'UpdateMembershipInput')
     UpdateMembershipOutput = Shapes::StructureShape.new(name: 'UpdateMembershipOutput')
+    UpdateMembershipPaymentConfiguration = Shapes::StructureShape.new(name: 'UpdateMembershipPaymentConfiguration')
     UpdatePrivacyBudgetTemplateInput = Shapes::StructureShape.new(name: 'UpdatePrivacyBudgetTemplateInput')
     UpdatePrivacyBudgetTemplateOutput = Shapes::StructureShape.new(name: 'UpdatePrivacyBudgetTemplateOutput')
     UpdateProtectedJobInput = Shapes::StructureShape.new(name: 'UpdateProtectedJobInput')
@@ -2104,6 +2105,8 @@ module Aws::CleanRooms
 
     MemberChangeSpecification.add_member(:account_id, Shapes::ShapeRef.new(shape: AccountId, required: true, location_name: "accountId"))
     MemberChangeSpecification.add_member(:member_abilities, Shapes::ShapeRef.new(shape: MemberAbilities, required: true, location_name: "memberAbilities"))
+    MemberChangeSpecification.add_member(:ml_member_abilities, Shapes::ShapeRef.new(shape: MLMemberAbilities, location_name: "mlMemberAbilities"))
+    MemberChangeSpecification.add_member(:payment_configuration, Shapes::ShapeRef.new(shape: PaymentConfiguration, location_name: "paymentConfiguration"))
     MemberChangeSpecification.add_member(:display_name, Shapes::ShapeRef.new(shape: DisplayName, location_name: "displayName"))
     MemberChangeSpecification.struct_class = Types::MemberChangeSpecification
 
@@ -2337,6 +2340,7 @@ module Aws::CleanRooms
     ProtectedJob.add_member(:result, Shapes::ShapeRef.new(shape: ProtectedJobResult, location_name: "result"))
     ProtectedJob.add_member(:error, Shapes::ShapeRef.new(shape: ProtectedJobError, location_name: "error"))
     ProtectedJob.add_member(:compute_configuration, Shapes::ShapeRef.new(shape: ProtectedJobComputeConfiguration, location_name: "computeConfiguration"))
+    ProtectedJob.add_member(:job_compute_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "jobComputePayerAccountId"))
     ProtectedJob.struct_class = Types::ProtectedJob
 
     ProtectedJobComputeConfiguration.add_member(:worker, Shapes::ShapeRef.new(shape: ProtectedJobWorkerComputeConfiguration, location_name: "worker"))
@@ -2433,6 +2437,7 @@ module Aws::CleanRooms
     ProtectedJobSummary.add_member(:create_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createTime"))
     ProtectedJobSummary.add_member(:status, Shapes::ShapeRef.new(shape: ProtectedJobStatus, required: true, location_name: "status"))
     ProtectedJobSummary.add_member(:receiver_configurations, Shapes::ShapeRef.new(shape: ProtectedJobReceiverConfigurations, required: true, location_name: "receiverConfigurations"))
+    ProtectedJobSummary.add_member(:job_compute_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "jobComputePayerAccountId"))
     ProtectedJobSummary.struct_class = Types::ProtectedJobSummary
 
     ProtectedJobSummaryList.member = Shapes::ShapeRef.new(shape: ProtectedJobSummary)
@@ -2454,6 +2459,7 @@ module Aws::CleanRooms
     ProtectedQuery.add_member(:error, Shapes::ShapeRef.new(shape: ProtectedQueryError, location_name: "error"))
     ProtectedQuery.add_member(:differential_privacy, Shapes::ShapeRef.new(shape: DifferentialPrivacyParameters, location_name: "differentialPrivacy"))
     ProtectedQuery.add_member(:compute_configuration, Shapes::ShapeRef.new(shape: ComputeConfiguration, location_name: "computeConfiguration"))
+    ProtectedQuery.add_member(:query_compute_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "queryComputePayerAccountId"))
     ProtectedQuery.struct_class = Types::ProtectedQuery
 
     ProtectedQueryDistributeOutput.add_member(:s3, Shapes::ShapeRef.new(shape: ProtectedQueryS3Output, location_name: "s3"))
@@ -2535,6 +2541,7 @@ module Aws::CleanRooms
     ProtectedQuerySummary.add_member(:create_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createTime"))
     ProtectedQuerySummary.add_member(:status, Shapes::ShapeRef.new(shape: ProtectedQueryStatus, required: true, location_name: "status"))
     ProtectedQuerySummary.add_member(:receiver_configurations, Shapes::ShapeRef.new(shape: ReceiverConfigurationsList, required: true, location_name: "receiverConfigurations"))
+    ProtectedQuerySummary.add_member(:query_compute_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "queryComputePayerAccountId"))
     ProtectedQuerySummary.struct_class = Types::ProtectedQuerySummary
 
     ProtectedQuerySummaryList.member = Shapes::ShapeRef.new(shape: ProtectedQuerySummary)
@@ -2675,6 +2682,7 @@ module Aws::CleanRooms
     StartProtectedJobInput.add_member(:job_parameters, Shapes::ShapeRef.new(shape: ProtectedJobParameters, required: true, location_name: "jobParameters"))
     StartProtectedJobInput.add_member(:result_configuration, Shapes::ShapeRef.new(shape: ProtectedJobResultConfigurationInput, location_name: "resultConfiguration"))
     StartProtectedJobInput.add_member(:compute_configuration, Shapes::ShapeRef.new(shape: ProtectedJobComputeConfiguration, location_name: "computeConfiguration"))
+    StartProtectedJobInput.add_member(:job_compute_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "jobComputePayerAccountId"))
     StartProtectedJobInput.struct_class = Types::StartProtectedJobInput
 
     StartProtectedJobOutput.add_member(:protected_job, Shapes::ShapeRef.new(shape: ProtectedJob, required: true, location_name: "protectedJob"))
@@ -2685,6 +2693,7 @@ module Aws::CleanRooms
     StartProtectedQueryInput.add_member(:sql_parameters, Shapes::ShapeRef.new(shape: ProtectedQuerySQLParameters, required: true, location_name: "sqlParameters"))
     StartProtectedQueryInput.add_member(:result_configuration, Shapes::ShapeRef.new(shape: ProtectedQueryResultConfiguration, location_name: "resultConfiguration"))
     StartProtectedQueryInput.add_member(:compute_configuration, Shapes::ShapeRef.new(shape: ComputeConfiguration, location_name: "computeConfiguration"))
+    StartProtectedQueryInput.add_member(:query_compute_payer_account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "queryComputePayerAccountId"))
     StartProtectedQueryInput.struct_class = Types::StartProtectedQueryInput
 
     StartProtectedQueryOutput.add_member(:protected_query, Shapes::ShapeRef.new(shape: ProtectedQuery, required: true, location_name: "protectedQuery"))
@@ -2832,10 +2841,16 @@ module Aws::CleanRooms
     UpdateMembershipInput.add_member(:job_log_status, Shapes::ShapeRef.new(shape: MembershipJobLogStatus, location_name: "jobLogStatus"))
     UpdateMembershipInput.add_member(:default_result_configuration, Shapes::ShapeRef.new(shape: MembershipProtectedQueryResultConfiguration, location_name: "defaultResultConfiguration"))
     UpdateMembershipInput.add_member(:default_job_result_configuration, Shapes::ShapeRef.new(shape: MembershipProtectedJobResultConfiguration, location_name: "defaultJobResultConfiguration"))
+    UpdateMembershipInput.add_member(:membership_payment_configuration, Shapes::ShapeRef.new(shape: UpdateMembershipPaymentConfiguration, location_name: "membershipPaymentConfiguration"))
     UpdateMembershipInput.struct_class = Types::UpdateMembershipInput
 
     UpdateMembershipOutput.add_member(:membership, Shapes::ShapeRef.new(shape: Membership, required: true, location_name: "membership"))
     UpdateMembershipOutput.struct_class = Types::UpdateMembershipOutput
+
+    UpdateMembershipPaymentConfiguration.add_member(:query_compute, Shapes::ShapeRef.new(shape: MembershipQueryComputePaymentConfig, location_name: "queryCompute"))
+    UpdateMembershipPaymentConfiguration.add_member(:machine_learning, Shapes::ShapeRef.new(shape: MembershipMLPaymentConfig, location_name: "machineLearning"))
+    UpdateMembershipPaymentConfiguration.add_member(:job_compute, Shapes::ShapeRef.new(shape: MembershipJobComputePaymentConfig, location_name: "jobCompute"))
+    UpdateMembershipPaymentConfiguration.struct_class = Types::UpdateMembershipPaymentConfiguration
 
     UpdatePrivacyBudgetTemplateInput.add_member(:membership_identifier, Shapes::ShapeRef.new(shape: MembershipIdentifier, required: true, location: "uri", location_name: "membershipIdentifier"))
     UpdatePrivacyBudgetTemplateInput.add_member(:privacy_budget_template_identifier, Shapes::ShapeRef.new(shape: PrivacyBudgetTemplateIdentifier, required: true, location: "uri", location_name: "privacyBudgetTemplateIdentifier"))

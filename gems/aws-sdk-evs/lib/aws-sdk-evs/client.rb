@@ -199,7 +199,7 @@ module Aws::Evs
     #     the required types.
     #
     #   @option options [Boolean] :correct_clock_skew (true)
-    #     Used only in `standard` and adaptive retry modes. Specifies whether to apply
+    #     Used only in `standard` and `adaptive` retry modes. Specifies whether to apply
     #     a clock skew correction and retry requests with skewed client clocks.
     #
     #   @option options [String] :defaults_mode ("legacy")
@@ -323,17 +323,15 @@ module Aws::Evs
     #   @option options [String] :retry_mode ("legacy")
     #     Specifies which retry algorithm to use. Values are:
     #
-    #     * `legacy` - The pre-existing retry behavior.  This is default value if
-    #       no retry mode is provided.
+    #     * `legacy` - The pre-existing retry behavior. This is the default
+    #       value if no retry mode is provided.
     #
     #     * `standard` - A standardized set of retry rules across the AWS SDKs.
     #       This includes support for retry quotas, which limit the number of
     #       unsuccessful retries a client can make.
     #
-    #     * `adaptive` - An experimental retry mode that includes all the
-    #       functionality of `standard` mode along with automatic client side
-    #       throttling.  This is a provisional mode that may change behavior
-    #       in the future.
+    #     * `adaptive` - A retry mode that includes all the functionality of
+    #       `standard` mode along with automatic client side throttling.
     #
     #   @option options [String] :sdk_ua_app_id
     #     A unique and opaque application ID that is appended to the
@@ -1489,6 +1487,48 @@ module Aws::Evs
       req.send_request(options)
     end
 
+    # Returns a URL and authentication token for accessing the Amazon EVS
+    # Custom Addon depot. Configure the depot URL as a download source in
+    # vSphere Lifecycle Manager (vLCM) to sync and install the Amazon EVS
+    # Custom Addon.
+    #
+    # The depot URL remains active until you rotate the authentication token
+    # by calling this action with `rotate` set to `true`.
+    #
+    # @option params [required, String] :environment_id
+    #   The unique ID of the Amazon EVS environment to get the depot URL for.
+    #
+    # @option params [Boolean] :rotate
+    #   Revokes the current authentication token and returns a new depot URL
+    #   with a new token. Previously issued depot URLs will stop working
+    #   within 5 minutes of rotation.
+    #
+    # @return [Types::GetDepotUrlResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDepotUrlResponse#depot_url #depot_url} => String
+    #   * {Types::GetDepotUrlResponse#token #token} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_depot_url({
+    #     environment_id: "EnvironmentId", # required
+    #     rotate: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.depot_url #=> String
+    #   resp.token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/evs-2023-07-27/GetDepotUrl AWS API Documentation
+    #
+    # @overload get_depot_url(params = {})
+    # @param [Hash] params ({})
+    def get_depot_url(params = {}, options = {})
+      req = build_request(:get_depot_url, params)
+      req.send_request(options)
+    end
+
     # Returns a description of the specified environment.
     #
     # @option params [required, String] :environment_id
@@ -2079,7 +2119,7 @@ module Aws::Evs
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-evs'
-      context[:gem_version] = '1.19.0'
+      context[:gem_version] = '1.20.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

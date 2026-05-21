@@ -70,6 +70,8 @@ module Aws::Evs
     ErrorDetail = Shapes::StructureShape.new(name: 'ErrorDetail')
     EsxVersion = Shapes::StringShape.new(name: 'EsxVersion')
     EsxVersionList = Shapes::ListShape.new(name: 'EsxVersionList')
+    GetDepotUrlRequest = Shapes::StructureShape.new(name: 'GetDepotUrlRequest')
+    GetDepotUrlResponse = Shapes::StructureShape.new(name: 'GetDepotUrlResponse')
     GetEnvironmentRequest = Shapes::StructureShape.new(name: 'GetEnvironmentRequest')
     GetEnvironmentResponse = Shapes::StructureShape.new(name: 'GetEnvironmentResponse')
     GetVersionsRequest = Shapes::StructureShape.new(name: 'GetVersionsRequest')
@@ -344,6 +346,14 @@ module Aws::Evs
     ErrorDetail.struct_class = Types::ErrorDetail
 
     EsxVersionList.member = Shapes::ShapeRef.new(shape: String)
+
+    GetDepotUrlRequest.add_member(:environment_id, Shapes::ShapeRef.new(shape: EnvironmentId, required: true, location_name: "environmentId"))
+    GetDepotUrlRequest.add_member(:rotate, Shapes::ShapeRef.new(shape: Boolean, location_name: "rotate"))
+    GetDepotUrlRequest.struct_class = Types::GetDepotUrlRequest
+
+    GetDepotUrlResponse.add_member(:depot_url, Shapes::ShapeRef.new(shape: String, required: true, location_name: "depotUrl"))
+    GetDepotUrlResponse.add_member(:token, Shapes::ShapeRef.new(shape: String, required: true, location_name: "token"))
+    GetDepotUrlResponse.struct_class = Types::GetDepotUrlResponse
 
     GetEnvironmentRequest.add_member(:environment_id, Shapes::ShapeRef.new(shape: EnvironmentId, required: true, location_name: "environmentId"))
     GetEnvironmentRequest.struct_class = Types::GetEnvironmentRequest
@@ -718,6 +728,17 @@ module Aws::Evs
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DisassociateEipFromVlanRequest)
         o.output = Shapes::ShapeRef.new(shape: DisassociateEipFromVlanResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:get_depot_url, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetDepotUrl"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetDepotUrlRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetDepotUrlResponse)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)

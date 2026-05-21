@@ -199,7 +199,7 @@ module Aws::CleanRoomsML
     #     the required types.
     #
     #   @option options [Boolean] :correct_clock_skew (true)
-    #     Used only in `standard` and adaptive retry modes. Specifies whether to apply
+    #     Used only in `standard` and `adaptive` retry modes. Specifies whether to apply
     #     a clock skew correction and retry requests with skewed client clocks.
     #
     #   @option options [String] :defaults_mode ("legacy")
@@ -323,17 +323,15 @@ module Aws::CleanRoomsML
     #   @option options [String] :retry_mode ("legacy")
     #     Specifies which retry algorithm to use. Values are:
     #
-    #     * `legacy` - The pre-existing retry behavior.  This is default value if
-    #       no retry mode is provided.
+    #     * `legacy` - The pre-existing retry behavior. This is the default
+    #       value if no retry mode is provided.
     #
     #     * `standard` - A standardized set of retry rules across the AWS SDKs.
     #       This includes support for retry quotas, which limit the number of
     #       unsuccessful retries a client can make.
     #
-    #     * `adaptive` - An experimental retry mode that includes all the
-    #       functionality of `standard` mode along with automatic client side
-    #       throttling.  This is a provisional mode that may change behavior
-    #       in the future.
+    #     * `adaptive` - A retry mode that includes all the functionality of
+    #       `standard` mode along with automatic client side throttling.
     #
     #   @option options [String] :sdk_ua_app_id
     #     A unique and opaque application ID that is appended to the
@@ -1050,6 +1048,10 @@ module Aws::CleanRoomsML
     #     limit of 50 tags. Tags with only the key prefix of aws do not count
     #     against your tags per resource limit.
     #
+    # @option params [Types::PayerConfiguration] :payer_configuration
+    #   The payer configuration for the ML input channel. Determines which
+    #   member account pays for compute and synthetic data costs.
+    #
     # @return [Types::CreateMLInputChannelResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateMLInputChannelResponse#ml_input_channel_arn #ml_input_channel_arn} => String
@@ -1091,6 +1093,10 @@ module Aws::CleanRoomsML
     #     kms_key_arn: "KmsKeyArn",
     #     tags: {
     #       "TagKey" => "TagValue",
+    #     },
+    #     payer_configuration: {
+    #       compute_payer_account_id: "AccountId",
+    #       synthetic_data_payer_account_id: "AccountId",
     #     },
     #   })
     #
@@ -1207,6 +1213,10 @@ module Aws::CleanRoomsML
     #     limit of 50 tags. Tags with only the key prefix of aws do not count
     #     against your tags per resource limit.
     #
+    # @option params [String] :ml_model_training_payer_account_id
+    #   The account ID of the member that is responsible for paying for model
+    #   training costs.
+    #
     # @return [Types::CreateTrainedModelResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateTrainedModelResponse#trained_model_arn #trained_model_arn} => String
@@ -1252,6 +1262,7 @@ module Aws::CleanRoomsML
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
+    #     ml_model_training_payer_account_id: "AccountId",
     #   })
     #
     # @example Response structure
@@ -1863,6 +1874,7 @@ module Aws::CleanRoomsML
     #   * {Types::GetCollaborationMLInputChannelResponse#privacy_budgets #privacy_budgets} => Types::PrivacyBudgets
     #   * {Types::GetCollaborationMLInputChannelResponse#description #description} => String
     #   * {Types::GetCollaborationMLInputChannelResponse#synthetic_data_configuration #synthetic_data_configuration} => Types::SyntheticDataConfiguration
+    #   * {Types::GetCollaborationMLInputChannelResponse#payer_configuration #payer_configuration} => Types::PayerConfiguration
     #   * {Types::GetCollaborationMLInputChannelResponse#create_time #create_time} => Time
     #   * {Types::GetCollaborationMLInputChannelResponse#update_time #update_time} => Time
     #   * {Types::GetCollaborationMLInputChannelResponse#creator_account_id #creator_account_id} => String
@@ -1907,6 +1919,8 @@ module Aws::CleanRoomsML
     #   resp.synthetic_data_configuration.synthetic_data_evaluation_scores.data_privacy_scores.membership_inference_attack_scores #=> Array
     #   resp.synthetic_data_configuration.synthetic_data_evaluation_scores.data_privacy_scores.membership_inference_attack_scores[0].attack_version #=> String, one of "DISTANCE_TO_CLOSEST_RECORD_V1"
     #   resp.synthetic_data_configuration.synthetic_data_evaluation_scores.data_privacy_scores.membership_inference_attack_scores[0].score #=> Float
+    #   resp.payer_configuration.compute_payer_account_id #=> String
+    #   resp.payer_configuration.synthetic_data_payer_account_id #=> String
     #   resp.create_time #=> Time
     #   resp.update_time #=> Time
     #   resp.creator_account_id #=> String
@@ -1955,6 +1969,7 @@ module Aws::CleanRoomsML
     #   * {Types::GetCollaborationTrainedModelResponse#logs_status #logs_status} => String
     #   * {Types::GetCollaborationTrainedModelResponse#logs_status_details #logs_status_details} => String
     #   * {Types::GetCollaborationTrainedModelResponse#training_container_image_digest #training_container_image_digest} => String
+    #   * {Types::GetCollaborationTrainedModelResponse#ml_model_training_payer_account_id #ml_model_training_payer_account_id} => String
     #   * {Types::GetCollaborationTrainedModelResponse#create_time #create_time} => Time
     #   * {Types::GetCollaborationTrainedModelResponse#update_time #update_time} => Time
     #   * {Types::GetCollaborationTrainedModelResponse#creator_account_id #creator_account_id} => String
@@ -1993,6 +2008,7 @@ module Aws::CleanRoomsML
     #   resp.logs_status #=> String, one of "PUBLISH_SUCCEEDED", "PUBLISH_FAILED"
     #   resp.logs_status_details #=> String
     #   resp.training_container_image_digest #=> String
+    #   resp.ml_model_training_payer_account_id #=> String
     #   resp.create_time #=> Time
     #   resp.update_time #=> Time
     #   resp.creator_account_id #=> String
@@ -2291,6 +2307,7 @@ module Aws::CleanRoomsML
     #   * {Types::GetMLInputChannelResponse#privacy_budgets #privacy_budgets} => Types::PrivacyBudgets
     #   * {Types::GetMLInputChannelResponse#description #description} => String
     #   * {Types::GetMLInputChannelResponse#synthetic_data_configuration #synthetic_data_configuration} => Types::SyntheticDataConfiguration
+    #   * {Types::GetMLInputChannelResponse#payer_configuration #payer_configuration} => Types::PayerConfiguration
     #   * {Types::GetMLInputChannelResponse#create_time #create_time} => Time
     #   * {Types::GetMLInputChannelResponse#update_time #update_time} => Time
     #   * {Types::GetMLInputChannelResponse#input_channel #input_channel} => Types::InputChannel
@@ -2340,6 +2357,8 @@ module Aws::CleanRoomsML
     #   resp.synthetic_data_configuration.synthetic_data_evaluation_scores.data_privacy_scores.membership_inference_attack_scores #=> Array
     #   resp.synthetic_data_configuration.synthetic_data_evaluation_scores.data_privacy_scores.membership_inference_attack_scores[0].attack_version #=> String, one of "DISTANCE_TO_CLOSEST_RECORD_V1"
     #   resp.synthetic_data_configuration.synthetic_data_evaluation_scores.data_privacy_scores.membership_inference_attack_scores[0].score #=> Float
+    #   resp.payer_configuration.compute_payer_account_id #=> String
+    #   resp.payer_configuration.synthetic_data_payer_account_id #=> String
     #   resp.create_time #=> Time
     #   resp.update_time #=> Time
     #   resp.input_channel.data_source.protected_query_input_parameters.sql_parameters.query_string #=> String
@@ -2403,6 +2422,7 @@ module Aws::CleanRoomsML
     #   * {Types::GetTrainedModelResponse#logs_status #logs_status} => String
     #   * {Types::GetTrainedModelResponse#logs_status_details #logs_status_details} => String
     #   * {Types::GetTrainedModelResponse#training_container_image_digest #training_container_image_digest} => String
+    #   * {Types::GetTrainedModelResponse#ml_model_training_payer_account_id #ml_model_training_payer_account_id} => String
     #   * {Types::GetTrainedModelResponse#create_time #create_time} => Time
     #   * {Types::GetTrainedModelResponse#update_time #update_time} => Time
     #   * {Types::GetTrainedModelResponse#hyperparameters #hyperparameters} => Hash&lt;String,String&gt;
@@ -2445,6 +2465,7 @@ module Aws::CleanRoomsML
     #   resp.logs_status #=> String, one of "PUBLISH_SUCCEEDED", "PUBLISH_FAILED"
     #   resp.logs_status_details #=> String
     #   resp.training_container_image_digest #=> String
+    #   resp.ml_model_training_payer_account_id #=> String
     #   resp.create_time #=> Time
     #   resp.update_time #=> Time
     #   resp.hyperparameters #=> Hash
@@ -2503,6 +2524,7 @@ module Aws::CleanRoomsML
     #   * {Types::GetTrainedModelInferenceJobResponse#logs_status #logs_status} => String
     #   * {Types::GetTrainedModelInferenceJobResponse#logs_status_details #logs_status_details} => String
     #   * {Types::GetTrainedModelInferenceJobResponse#tags #tags} => Hash&lt;String,String&gt;
+    #   * {Types::GetTrainedModelInferenceJobResponse#ml_model_inference_payer_account_id #ml_model_inference_payer_account_id} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -2542,6 +2564,7 @@ module Aws::CleanRoomsML
     #   resp.logs_status_details #=> String
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
+    #   resp.ml_model_inference_payer_account_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanroomsml-2023-09-06/GetTrainedModelInferenceJob AWS API Documentation
     #
@@ -2854,6 +2877,8 @@ module Aws::CleanRoomsML
     #   resp.collaboration_ml_input_channels_list[0].status #=> String, one of "CREATE_PENDING", "CREATE_IN_PROGRESS", "CREATE_FAILED", "ACTIVE", "DELETE_PENDING", "DELETE_IN_PROGRESS", "DELETE_FAILED", "INACTIVE"
     #   resp.collaboration_ml_input_channels_list[0].creator_account_id #=> String
     #   resp.collaboration_ml_input_channels_list[0].description #=> String
+    #   resp.collaboration_ml_input_channels_list[0].payer_configuration.compute_payer_account_id #=> String
+    #   resp.collaboration_ml_input_channels_list[0].payer_configuration.synthetic_data_payer_account_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanroomsml-2023-09-06/ListCollaborationMLInputChannels AWS API Documentation
     #
@@ -2992,6 +3017,7 @@ module Aws::CleanRoomsML
     #   resp.collaboration_trained_model_inference_jobs[0].metrics_status_details #=> String
     #   resp.collaboration_trained_model_inference_jobs[0].logs_status #=> String, one of "PUBLISH_SUCCEEDED", "PUBLISH_FAILED"
     #   resp.collaboration_trained_model_inference_jobs[0].logs_status_details #=> String
+    #   resp.collaboration_trained_model_inference_jobs[0].ml_model_inference_payer_account_id #=> String
     #   resp.collaboration_trained_model_inference_jobs[0].create_time #=> Time
     #   resp.collaboration_trained_model_inference_jobs[0].update_time #=> Time
     #   resp.collaboration_trained_model_inference_jobs[0].creator_account_id #=> String
@@ -3052,6 +3078,7 @@ module Aws::CleanRoomsML
     #   resp.collaboration_trained_models[0].status #=> String, one of "CREATE_PENDING", "CREATE_IN_PROGRESS", "CREATE_FAILED", "ACTIVE", "DELETE_PENDING", "DELETE_IN_PROGRESS", "DELETE_FAILED", "INACTIVE", "CANCEL_PENDING", "CANCEL_IN_PROGRESS", "CANCEL_FAILED"
     #   resp.collaboration_trained_models[0].configured_model_algorithm_association_arn #=> String
     #   resp.collaboration_trained_models[0].creator_account_id #=> String
+    #   resp.collaboration_trained_models[0].ml_model_training_payer_account_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanroomsml-2023-09-06/ListCollaborationTrainedModels AWS API Documentation
     #
@@ -3243,6 +3270,8 @@ module Aws::CleanRoomsML
     #   resp.ml_input_channels_list[0].ml_input_channel_arn #=> String
     #   resp.ml_input_channels_list[0].status #=> String, one of "CREATE_PENDING", "CREATE_IN_PROGRESS", "CREATE_FAILED", "ACTIVE", "DELETE_PENDING", "DELETE_IN_PROGRESS", "DELETE_FAILED", "INACTIVE"
     #   resp.ml_input_channels_list[0].description #=> String
+    #   resp.ml_input_channels_list[0].payer_configuration.compute_payer_account_id #=> String
+    #   resp.ml_input_channels_list[0].payer_configuration.synthetic_data_payer_account_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanroomsml-2023-09-06/ListMLInputChannels AWS API Documentation
     #
@@ -3342,6 +3371,7 @@ module Aws::CleanRoomsML
     #   resp.trained_model_inference_jobs[0].metrics_status_details #=> String
     #   resp.trained_model_inference_jobs[0].logs_status #=> String, one of "PUBLISH_SUCCEEDED", "PUBLISH_FAILED"
     #   resp.trained_model_inference_jobs[0].logs_status_details #=> String
+    #   resp.trained_model_inference_jobs[0].ml_model_inference_payer_account_id #=> String
     #   resp.trained_model_inference_jobs[0].create_time #=> Time
     #   resp.trained_model_inference_jobs[0].update_time #=> Time
     #
@@ -3416,6 +3446,7 @@ module Aws::CleanRoomsML
     #   resp.trained_models[0].collaboration_identifier #=> String
     #   resp.trained_models[0].status #=> String, one of "CREATE_PENDING", "CREATE_IN_PROGRESS", "CREATE_FAILED", "ACTIVE", "DELETE_PENDING", "DELETE_IN_PROGRESS", "DELETE_FAILED", "INACTIVE", "CANCEL_PENDING", "CANCEL_IN_PROGRESS", "CANCEL_FAILED"
     #   resp.trained_models[0].configured_model_algorithm_association_arn #=> String
+    #   resp.trained_models[0].ml_model_training_payer_account_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanroomsml-2023-09-06/ListTrainedModelVersions AWS API Documentation
     #
@@ -3472,6 +3503,7 @@ module Aws::CleanRoomsML
     #   resp.trained_models[0].collaboration_identifier #=> String
     #   resp.trained_models[0].status #=> String, one of "CREATE_PENDING", "CREATE_IN_PROGRESS", "CREATE_FAILED", "ACTIVE", "DELETE_PENDING", "DELETE_IN_PROGRESS", "DELETE_FAILED", "INACTIVE", "CANCEL_PENDING", "CANCEL_IN_PROGRESS", "CANCEL_FAILED"
     #   resp.trained_models[0].configured_model_algorithm_association_arn #=> String
+    #   resp.trained_models[0].ml_model_training_payer_account_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanroomsml-2023-09-06/ListTrainedModels AWS API Documentation
     #
@@ -3886,6 +3918,10 @@ module Aws::CleanRoomsML
     #     limit of 50 tags. Tags with only the key prefix of aws do not count
     #     against your tags per resource limit.
     #
+    # @option params [String] :ml_model_inference_payer_account_id
+    #   The account ID of the member that is responsible for paying for model
+    #   inference costs.
+    #
     # @return [Types::StartTrainedModelInferenceJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::StartTrainedModelInferenceJobResponse#trained_model_inference_job_arn #trained_model_inference_job_arn} => String
@@ -3924,6 +3960,7 @@ module Aws::CleanRoomsML
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
+    #     ml_model_inference_payer_account_id: "AccountId",
     #   })
     #
     # @example Response structure
@@ -4109,7 +4146,7 @@ module Aws::CleanRoomsML
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cleanroomsml'
-      context[:gem_version] = '1.46.0'
+      context[:gem_version] = '1.47.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

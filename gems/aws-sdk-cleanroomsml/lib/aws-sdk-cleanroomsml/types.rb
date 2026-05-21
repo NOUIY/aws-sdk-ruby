@@ -538,6 +538,10 @@ module Aws::CleanRoomsML
     #   The description of the ML input channel.
     #   @return [String]
     #
+    # @!attribute [rw] payer_configuration
+    #   The payer configuration for the ML input channel.
+    #   @return [Types::PayerConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanroomsml-2023-09-06/CollaborationMLInputChannelSummary AWS API Documentation
     #
     class CollaborationMLInputChannelSummary < Struct.new(
@@ -550,7 +554,8 @@ module Aws::CleanRoomsML
       :ml_input_channel_arn,
       :status,
       :creator_account_id,
-      :description)
+      :description,
+      :payer_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -695,6 +700,11 @@ module Aws::CleanRoomsML
     #   Details about the logs status for the trained model inference job.
     #   @return [String]
     #
+    # @!attribute [rw] ml_model_inference_payer_account_id
+    #   The account ID of the member that is responsible for paying for
+    #   model inference costs.
+    #   @return [String]
+    #
     # @!attribute [rw] create_time
     #   The time at which the trained model inference job was created.
     #   @return [Time]
@@ -725,6 +735,7 @@ module Aws::CleanRoomsML
       :metrics_status_details,
       :logs_status,
       :logs_status_details,
+      :ml_model_inference_payer_account_id,
       :create_time,
       :update_time,
       :creator_account_id)
@@ -785,6 +796,11 @@ module Aws::CleanRoomsML
     #   The account ID of the member that created the trained model.
     #   @return [String]
     #
+    # @!attribute [rw] ml_model_training_payer_account_id
+    #   The account ID of the member that is responsible for paying for
+    #   model training costs.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanroomsml-2023-09-06/CollaborationTrainedModelSummary AWS API Documentation
     #
     class CollaborationTrainedModelSummary < Struct.new(
@@ -799,7 +815,8 @@ module Aws::CleanRoomsML
       :collaboration_identifier,
       :status,
       :configured_model_algorithm_association_arn,
-      :creator_account_id)
+      :creator_account_id,
+      :ml_model_training_payer_account_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1539,6 +1556,11 @@ module Aws::CleanRoomsML
     #     of aws do not count against your tags per resource limit.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] payer_configuration
+    #   The payer configuration for the ML input channel. Determines which
+    #   member account pays for compute and synthetic data costs.
+    #   @return [Types::PayerConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanroomsml-2023-09-06/CreateMLInputChannelRequest AWS API Documentation
     #
     class CreateMLInputChannelRequest < Struct.new(
@@ -1549,7 +1571,8 @@ module Aws::CleanRoomsML
       :retention_in_days,
       :description,
       :kms_key_arn,
-      :tags)
+      :tags,
+      :payer_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1678,6 +1701,11 @@ module Aws::CleanRoomsML
     #     of aws do not count against your tags per resource limit.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] ml_model_training_payer_account_id
+    #   The account ID of the member that is responsible for paying for
+    #   model training costs.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanroomsml-2023-09-06/CreateTrainedModelRequest AWS API Documentation
     #
     class CreateTrainedModelRequest < Struct.new(
@@ -1693,7 +1721,8 @@ module Aws::CleanRoomsML
       :training_input_mode,
       :description,
       :kms_key_arn,
-      :tags)
+      :tags,
+      :ml_model_training_payer_account_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2413,6 +2442,10 @@ module Aws::CleanRoomsML
     #   generated data.
     #   @return [Types::SyntheticDataConfiguration]
     #
+    # @!attribute [rw] payer_configuration
+    #   The payer configuration for the ML input channel.
+    #   @return [Types::PayerConfiguration]
+    #
     # @!attribute [rw] create_time
     #   The time at which the ML input channel was created.
     #   @return [Time]
@@ -2440,6 +2473,7 @@ module Aws::CleanRoomsML
       :privacy_budgets,
       :description,
       :synthetic_data_configuration,
+      :payer_configuration,
       :create_time,
       :update_time,
       :creator_account_id)
@@ -2554,6 +2588,11 @@ module Aws::CleanRoomsML
     #   Information about the training container image.
     #   @return [String]
     #
+    # @!attribute [rw] ml_model_training_payer_account_id
+    #   The account ID of the member that is responsible for paying for
+    #   model training costs.
+    #   @return [String]
+    #
     # @!attribute [rw] create_time
     #   The time at which the trained model was created.
     #   @return [Time]
@@ -2587,6 +2626,7 @@ module Aws::CleanRoomsML
       :logs_status,
       :logs_status_details,
       :training_container_image_digest,
+      :ml_model_training_payer_account_id,
       :create_time,
       :update_time,
       :creator_account_id)
@@ -3058,6 +3098,10 @@ module Aws::CleanRoomsML
     #   generated data.
     #   @return [Types::SyntheticDataConfiguration]
     #
+    # @!attribute [rw] payer_configuration
+    #   The payer configuration for the ML input channel.
+    #   @return [Types::PayerConfiguration]
+    #
     # @!attribute [rw] create_time
     #   The time at which the ML input channel was created.
     #   @return [Time]
@@ -3136,6 +3180,7 @@ module Aws::CleanRoomsML
       :privacy_budgets,
       :description,
       :synthetic_data_configuration,
+      :payer_configuration,
       :create_time,
       :update_time,
       :input_channel,
@@ -3299,6 +3344,11 @@ module Aws::CleanRoomsML
     #     of aws do not count against your tags per resource limit.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] ml_model_inference_payer_account_id
+    #   The account ID of the member that is responsible for paying for
+    #   model inference costs.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanroomsml-2023-09-06/GetTrainedModelInferenceJobResponse AWS API Documentation
     #
     class GetTrainedModelInferenceJobResponse < Struct.new(
@@ -3324,7 +3374,8 @@ module Aws::CleanRoomsML
       :metrics_status_details,
       :logs_status,
       :logs_status_details,
-      :tags)
+      :tags,
+      :ml_model_inference_payer_account_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3437,6 +3488,11 @@ module Aws::CleanRoomsML
     #   Information about the training image container.
     #   @return [String]
     #
+    # @!attribute [rw] ml_model_training_payer_account_id
+    #   The account ID of the member that is responsible for paying for
+    #   model training costs.
+    #   @return [String]
+    #
     # @!attribute [rw] create_time
     #   The time at which the trained model was created.
     #   @return [Time]
@@ -3517,6 +3573,7 @@ module Aws::CleanRoomsML
       :logs_status,
       :logs_status_details,
       :training_container_image_digest,
+      :ml_model_training_payer_account_id,
       :create_time,
       :update_time,
       :hyperparameters,
@@ -4657,6 +4714,10 @@ module Aws::CleanRoomsML
     #   The description of the ML input channel.
     #   @return [String]
     #
+    # @!attribute [rw] payer_configuration
+    #   The payer configuration for the ML input channel.
+    #   @return [Types::PayerConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanroomsml-2023-09-06/MLInputChannelSummary AWS API Documentation
     #
     class MLInputChannelSummary < Struct.new(
@@ -4669,7 +4730,8 @@ module Aws::CleanRoomsML
       :protected_query_identifier,
       :ml_input_channel_arn,
       :status,
-      :description)
+      :description,
+      :payer_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4834,6 +4896,28 @@ module Aws::CleanRoomsML
       :ml_input_channel_arn,
       :channel_name,
       :s3_data_distribution_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies which member accounts are responsible for paying for compute
+    # and synthetic data generation costs in a Clean Rooms ML collaboration.
+    #
+    # @!attribute [rw] compute_payer_account_id
+    #   The account ID of the member that is responsible for paying compute
+    #   costs.
+    #   @return [String]
+    #
+    # @!attribute [rw] synthetic_data_payer_account_id
+    #   The account ID of the member that is responsible for paying
+    #   synthetic data generation costs.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanroomsml-2023-09-06/PayerConfiguration AWS API Documentation
+    #
+    class PayerConfiguration < Struct.new(
+      :compute_payer_account_id,
+      :synthetic_data_payer_account_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5367,6 +5451,11 @@ module Aws::CleanRoomsML
     #     of aws do not count against your tags per resource limit.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] ml_model_inference_payer_account_id
+    #   The account ID of the member that is responsible for paying for
+    #   model inference costs.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanroomsml-2023-09-06/StartTrainedModelInferenceJobRequest AWS API Documentation
     #
     class StartTrainedModelInferenceJobRequest < Struct.new(
@@ -5382,7 +5471,8 @@ module Aws::CleanRoomsML
       :container_execution_parameters,
       :environment,
       :kms_key_arn,
-      :tags)
+      :tags,
+      :ml_model_inference_payer_account_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5735,6 +5825,11 @@ module Aws::CleanRoomsML
     #   Details about the log status for the trained model inference job.
     #   @return [String]
     #
+    # @!attribute [rw] ml_model_inference_payer_account_id
+    #   The account ID of the member that is responsible for paying for
+    #   model inference costs.
+    #   @return [String]
+    #
     # @!attribute [rw] create_time
     #   The time at which the trained model inference job was created.
     #   @return [Time]
@@ -5761,6 +5856,7 @@ module Aws::CleanRoomsML
       :metrics_status_details,
       :logs_status,
       :logs_status_details,
+      :ml_model_inference_payer_account_id,
       :create_time,
       :update_time)
       SENSITIVE = []
@@ -5857,6 +5953,11 @@ module Aws::CleanRoomsML
     #   association that was used to create this trained model.
     #   @return [String]
     #
+    # @!attribute [rw] ml_model_training_payer_account_id
+    #   The account ID of the member that is responsible for paying for
+    #   model training costs.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanroomsml-2023-09-06/TrainedModelSummary AWS API Documentation
     #
     class TrainedModelSummary < Struct.new(
@@ -5870,7 +5971,8 @@ module Aws::CleanRoomsML
       :membership_identifier,
       :collaboration_identifier,
       :status,
-      :configured_model_algorithm_association_arn)
+      :configured_model_algorithm_association_arn,
+      :ml_model_training_payer_account_id)
       SENSITIVE = []
       include Aws::Structure
     end

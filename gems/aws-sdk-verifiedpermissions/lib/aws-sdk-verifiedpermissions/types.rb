@@ -1859,10 +1859,23 @@ module Aws::VerifiedPermissions
     #    </note>
     #   @return [String]
     #
+    # @!attribute [rw] deletion_mode
+    #   Specifies the deletion mode for the policy store alias. The valid
+    #   values are:
+    #
+    #   * **SoftDelete** – The policy store alias enters the
+    #     `PendingDeletion` state. This is the default behavior when no
+    #     `deletionMode` is specified.
+    #
+    #   * **HardDelete** – The policy store alias is immediately deleted,
+    #     bypassing the `PendingDeletion` state.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/verifiedpermissions-2021-12-01/DeletePolicyStoreAliasInput AWS API Documentation
     #
     class DeletePolicyStoreAliasInput < Struct.new(
-      :alias_name)
+      :alias_name,
+      :deletion_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4144,7 +4157,7 @@ module Aws::VerifiedPermissions
     #
     #
     # [1]: https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationItem.html
-    # [2]: http://amazonaws.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html
+    # [2]: https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html
     #
     # @note OpenIdConnectTokenSelectionItem is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of OpenIdConnectTokenSelectionItem corresponding to the set member.
     #

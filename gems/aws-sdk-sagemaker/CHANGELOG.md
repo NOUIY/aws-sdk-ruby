@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.368.0 (2026-05-21)
+------------------
+
+* Feature - Add support for disabling home EFS file system creation on SageMaker domains.
+
 1.367.0 (2026-05-19)
 ------------------
 

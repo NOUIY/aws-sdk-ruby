@@ -199,7 +199,7 @@ module Aws::BedrockAgentCoreControl
     #     the required types.
     #
     #   @option options [Boolean] :correct_clock_skew (true)
-    #     Used only in `standard` and adaptive retry modes. Specifies whether to apply
+    #     Used only in `standard` and `adaptive` retry modes. Specifies whether to apply
     #     a clock skew correction and retry requests with skewed client clocks.
     #
     #   @option options [String] :defaults_mode ("legacy")
@@ -323,17 +323,15 @@ module Aws::BedrockAgentCoreControl
     #   @option options [String] :retry_mode ("legacy")
     #     Specifies which retry algorithm to use. Values are:
     #
-    #     * `legacy` - The pre-existing retry behavior.  This is default value if
-    #       no retry mode is provided.
+    #     * `legacy` - The pre-existing retry behavior. This is the default
+    #       value if no retry mode is provided.
     #
     #     * `standard` - A standardized set of retry rules across the AWS SDKs.
     #       This includes support for retry quotas, which limit the number of
     #       unsuccessful retries a client can make.
     #
-    #     * `adaptive` - An experimental retry mode that includes all the
-    #       functionality of `standard` mode along with automatic client side
-    #       throttling.  This is a provisional mode that may change behavior
-    #       in the future.
+    #     * `adaptive` - A retry mode that includes all the functionality of
+    #       `standard` mode along with automatic client side throttling.
     #
     #   @option options [String] :sdk_ua_app_id
     #     A unique and opaque application ID that is appended to the
@@ -475,6 +473,89 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!group API Operations
+
+    # Adds examples to the dataset's DRAFT.
+    #
+    # **Validation:** All examples are validated against the dataset's
+    # schemaType before any writes occur. If any example fails validation,
+    # the entire batch is rejected with ValidationException — no examples
+    # are written (all-or-nothing semantics).
+    #
+    # **Asynchronous:** Operates in-place on DRAFT. No version bump occurs.
+    # Use CreateDatasetVersion to publish DRAFT as a new numbered version.
+    #
+    # **State guard:** Returns ConflictException (DATASET\_NOT\_READY) if
+    # the dataset status is not in \{DRAFT, ACTIVE}.
+    #
+    # **Request size limit:** Max 5 MB total request body. Max 1000 examples
+    # per call.
+    #
+    # @option params [required, String] :dataset_id
+    #   The unique identifier of the dataset to add examples to.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a previous
+    #   request, the service ignores the request, but doesn't return an
+    #   error. For more information, see [Ensuring idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #
+    # @option params [required, Types::DataSourceType] :source
+    #   Source of examples to add. Provide either inline examples or an S3 URI
+    #   pointing to a JSONL file.
+    #
+    # @return [Types::AddDatasetExamplesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AddDatasetExamplesResponse#dataset_arn #dataset_arn} => String
+    #   * {Types::AddDatasetExamplesResponse#dataset_id #dataset_id} => String
+    #   * {Types::AddDatasetExamplesResponse#status #status} => String
+    #   * {Types::AddDatasetExamplesResponse#added_count #added_count} => Integer
+    #   * {Types::AddDatasetExamplesResponse#updated_at #updated_at} => Time
+    #   * {Types::AddDatasetExamplesResponse#example_ids #example_ids} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.add_dataset_examples({
+    #     dataset_id: "DatasetId", # required
+    #     client_token: "ClientToken",
+    #     source: { # required
+    #       inline_examples: {
+    #         examples: [ # required
+    #           {
+    #           },
+    #         ],
+    #       },
+    #       s3_source: {
+    #         s3_uri: "S3Uri", # required
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dataset_arn #=> String
+    #   resp.dataset_id #=> String
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.added_count #=> Integer
+    #   resp.updated_at #=> Time
+    #   resp.example_ids #=> Array
+    #   resp.example_ids[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/AddDatasetExamples AWS API Documentation
+    #
+    # @overload add_dataset_examples(params = {})
+    # @param [Hash] params ({})
+    def add_dataset_examples(params = {}, options = {})
+      req = build_request(:add_dataset_examples, params)
+      req.send_request(options)
+    end
 
     # Creates an Amazon Bedrock AgentCore Runtime.
     #
@@ -1146,6 +1227,149 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def create_configuration_bundle(params = {}, options = {})
       req = build_request(:create_configuration_bundle, params)
+      req.send_request(options)
+    end
+
+    # Creates a new Dataset resource asynchronously.
+    #
+    # Returns immediately with status CREATING. Poll GetDataset until status
+    # transitions to ACTIVE or CREATE\_FAILED (with failureReason).
+    #
+    # @option params [String] :client_token
+    #   Optional idempotency token.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, String] :dataset_name
+    #   Human-readable name for the dataset. Unique within the account
+    #   (case-insensitive). Immutable after creation.
+    #
+    # @option params [String] :description
+    #   A description of the dataset.
+    #
+    # @option params [required, Types::DataSourceType] :source
+    #   Source of initial examples. Provide either inline examples or an S3
+    #   URI pointing to a JSONL file.
+    #
+    # @option params [required, String] :schema_type
+    #   Versioned schema type governing the structure of examples. Immutable
+    #   after creation.
+    #
+    # @option params [String] :kms_key_arn
+    #   Optional AWS KMS key ARN for SSE-KMS on service S3 writes.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   A map of tag keys and values to assign to the dataset.
+    #
+    # @return [Types::CreateDatasetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateDatasetResponse#dataset_arn #dataset_arn} => String
+    #   * {Types::CreateDatasetResponse#dataset_id #dataset_id} => String
+    #   * {Types::CreateDatasetResponse#status #status} => String
+    #   * {Types::CreateDatasetResponse#created_at #created_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_dataset({
+    #     client_token: "ClientToken",
+    #     dataset_name: "DatasetName", # required
+    #     description: "CreateDatasetRequestDescriptionString",
+    #     source: { # required
+    #       inline_examples: {
+    #         examples: [ # required
+    #           {
+    #           },
+    #         ],
+    #       },
+    #       s3_source: {
+    #         s3_uri: "S3Uri", # required
+    #       },
+    #     },
+    #     schema_type: "AGENTCORE_EVALUATION_PREDEFINED_V1", # required, accepts AGENTCORE_EVALUATION_PREDEFINED_V1, AGENTCORE_EVALUATION_SIMULATED_V1
+    #     kms_key_arn: "KmsKeyArn",
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dataset_arn #=> String
+    #   resp.dataset_id #=> String
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.created_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateDataset AWS API Documentation
+    #
+    # @overload create_dataset(params = {})
+    # @param [Hash] params ({})
+    def create_dataset(params = {}, options = {})
+      req = build_request(:create_dataset, params)
+      req.send_request(options)
+    end
+
+    # Publishes the current DRAFT as a new numbered version.
+    #
+    # Snapshots the DRAFT examples as the next version (1, 2, 3, ...). The
+    # DRAFT is preserved and remains editable after publishing. Returns
+    # immediately with status UPDATING. Poll GetDataset until status
+    # transitions to ACTIVE (draftStatus=UNMODIFIED) or UPDATE\_FAILED.
+    #
+    # **State guard:** Returns ConflictException (DATASET\_NOT\_READY) if
+    # status is in \{CREATING, UPDATING, DELETING}, or
+    # DATASET\_IN\_FAILED\_STATE if status is in \{CREATE\_FAILED,
+    # DELETE\_FAILED}.
+    #
+    # **Quota:** MAX\_VERSIONS\_PER\_DATASET applies to published versions
+    # only (not DRAFT).
+    #
+    # @option params [required, String] :dataset_id
+    #   The unique identifier of the dataset to publish a version for.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a previous
+    #   request, the service ignores the request, but doesn't return an
+    #   error. For more information, see [Ensuring idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #
+    # @return [Types::CreateDatasetVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateDatasetVersionResponse#dataset_arn #dataset_arn} => String
+    #   * {Types::CreateDatasetVersionResponse#dataset_id #dataset_id} => String
+    #   * {Types::CreateDatasetVersionResponse#status #status} => String
+    #   * {Types::CreateDatasetVersionResponse#dataset_version #dataset_version} => String
+    #   * {Types::CreateDatasetVersionResponse#created_at #created_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_dataset_version({
+    #     dataset_id: "DatasetId", # required
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dataset_arn #=> String
+    #   resp.dataset_id #=> String
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.dataset_version #=> String
+    #   resp.created_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateDatasetVersion AWS API Documentation
+    #
+    # @overload create_dataset_version(params = {})
+    # @param [Hash] params ({})
+    def create_dataset_version(params = {}, options = {})
+      req = build_request(:create_dataset_version, params)
       req.send_request(options)
     end
 
@@ -4488,6 +4712,147 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
+    # Deletes a dataset version or an entire dataset (all versions + name
+    # claim). Asynchronous 202.
+    #
+    # **State transitions:**
+    #
+    # * If `datasetVersion` is absent (full delete): status transitions to
+    #   DELETING immediately.
+    # * If `datasetVersion` is provided (version-specific delete): status
+    #   transitions to UPDATING.
+    #
+    # **State guard (full delete):** Returns ConflictException
+    # (DATASET\_NOT\_READY) if the dataset status is in \{CREATING,
+    # UPDATING}. Deletion is allowed from ACTIVE, CREATE\_FAILED,
+    # UPDATE\_FAILED, and DELETE\_FAILED states.
+    #
+    # **State guard (version-specific delete):** Returns ConflictException
+    # (DATASET\_NOT\_READY) if the dataset status is not in \{ACTIVE,
+    # CREATE\_FAILED, UPDATE\_FAILED}.
+    #
+    # Fails with ConflictException (REFERENCED\_BY\_EVAL\_JOB) if referenced
+    # by an active evaluation job (full delete only).
+    #
+    # If the delete workflow fails after retries, status is set to
+    # DELETE\_FAILED (full delete) or UPDATE\_FAILED (version-specific
+    # delete). Calling DeleteDataset on a DELETE\_FAILED dataset re-triggers
+    # the delete workflow (idempotent retry path).
+    #
+    # **Version parameter:**
+    #
+    # * If `datasetVersion` is absent: deletes ALL versions and the Dataset
+    #   record itself.
+    # * If `datasetVersion` is provided: deletes only that specific
+    #   DatasetVersion. Returns ResourceNotFoundException if the specified
+    #   version does not exist.
+    #
+    # @option params [required, String] :dataset_id
+    #   The unique identifier of the dataset to delete.
+    #
+    # @option params [String] :dataset_version
+    #   Optional version to delete. Use "DRAFT" or omit to delete the draft.
+    #   Returns ResourceNotFoundException if the specified version does not
+    #   exist.
+    #
+    # @return [Types::DeleteDatasetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteDatasetResponse#dataset_arn #dataset_arn} => String
+    #   * {Types::DeleteDatasetResponse#dataset_id #dataset_id} => String
+    #   * {Types::DeleteDatasetResponse#status #status} => String
+    #   * {Types::DeleteDatasetResponse#dataset_version #dataset_version} => String
+    #   * {Types::DeleteDatasetResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_dataset({
+    #     dataset_id: "DatasetId", # required
+    #     dataset_version: "DatasetVersion",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dataset_arn #=> String
+    #   resp.dataset_id #=> String
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.dataset_version #=> String
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteDataset AWS API Documentation
+    #
+    # @overload delete_dataset(params = {})
+    # @param [Hash] params ({})
+    def delete_dataset(params = {}, options = {})
+      req = build_request(:delete_dataset, params)
+      req.send_request(options)
+    end
+
+    # Deletes specific examples by ID from DRAFT.
+    #
+    # **Validation:** All example IDs are validated before any deletes
+    # occur. If any ID does not exist in DRAFT, the entire batch is rejected
+    # with ResourceNotFoundException — no examples are deleted
+    # (all-or-nothing semantics).
+    #
+    # **Asynchronous:** Operates in-place on DRAFT. No version bump occurs.
+    # Use CreateDatasetVersion to publish DRAFT as a new numbered version.
+    #
+    # **State guard:** Returns ConflictException (DATASET\_NOT\_READY) if
+    # the dataset status is not in \{DRAFT, ACTIVE}.
+    #
+    # @option params [required, String] :dataset_id
+    #   The unique identifier of the dataset.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a previous
+    #   request, the service ignores the request, but doesn't return an
+    #   error. For more information, see [Ensuring idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #
+    # @option params [required, Array<String>] :example_ids
+    #   The IDs of the examples to delete.
+    #
+    # @return [Types::DeleteDatasetExamplesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteDatasetExamplesResponse#dataset_arn #dataset_arn} => String
+    #   * {Types::DeleteDatasetExamplesResponse#dataset_id #dataset_id} => String
+    #   * {Types::DeleteDatasetExamplesResponse#status #status} => String
+    #   * {Types::DeleteDatasetExamplesResponse#deleted_count #deleted_count} => Integer
+    #   * {Types::DeleteDatasetExamplesResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_dataset_examples({
+    #     dataset_id: "DatasetId", # required
+    #     client_token: "ClientToken",
+    #     example_ids: ["ExampleId"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dataset_arn #=> String
+    #   resp.dataset_id #=> String
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.deleted_count #=> Integer
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteDatasetExamples AWS API Documentation
+    #
+    # @overload delete_dataset_examples(params = {})
+    # @param [Hash] params ({})
+    def delete_dataset_examples(params = {}, options = {})
+      req = build_request(:delete_dataset_examples, params)
+      req.send_request(options)
+    end
+
     # Deletes a custom evaluator. Builtin evaluators cannot be deleted. The
     # evaluator must not be referenced by any active online evaluation
     # configurations.
@@ -5709,6 +6074,92 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def get_configuration_bundle_version(params = {}, options = {})
       req = build_request(:get_configuration_bundle_version, params)
+      req.send_request(options)
+    end
+
+    # Retrieves dataset metadata only.
+    #
+    # Use `?datasetVersion=DRAFT` or `?datasetVersion=N` to retrieve a
+    # specific version's metadata. If absent, defaults to DRAFT (the
+    # mutable working copy). Returns ResourceNotFoundException if the
+    # specified version is not found.
+    #
+    # **Initial state after CreateDataset:** When CreateDataset completes
+    # successfully (status transitions to ACTIVE), only a DRAFT working copy
+    # exists. No published versions exist until CreateDatasetVersion is
+    # called. At this point draftStatus is MODIFIED because the DRAFT has
+    # content that has never been published.
+    #
+    # **Default version behavior:** When `datasetVersion` is omitted, the
+    # operation returns the DRAFT working copy. To retrieve a specific
+    # published version, pass the version number as a string (e.g.
+    # `?datasetVersion=1`).
+    #
+    # **State guard:** Allowed for all statuses including DELETING. Returns
+    # the dataset record with its current status so callers can observe the
+    # deletion in progress.
+    #
+    # For paginated example IDs use ListDatasetExamples.
+    #
+    # @option params [required, String] :dataset_id
+    #   The unique identifier of the dataset to retrieve.
+    #
+    # @option params [String] :dataset_version
+    #   Version to retrieve: "DRAFT" or a version number. Defaults to DRAFT if
+    #   absent.
+    #
+    # @return [Types::GetDatasetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDatasetResponse#dataset_arn #dataset_arn} => String
+    #   * {Types::GetDatasetResponse#dataset_id #dataset_id} => String
+    #   * {Types::GetDatasetResponse#dataset_version #dataset_version} => String
+    #   * {Types::GetDatasetResponse#dataset_name #dataset_name} => String
+    #   * {Types::GetDatasetResponse#description #description} => String
+    #   * {Types::GetDatasetResponse#status #status} => String
+    #   * {Types::GetDatasetResponse#draft_status #draft_status} => String
+    #   * {Types::GetDatasetResponse#failure_reason #failure_reason} => String
+    #   * {Types::GetDatasetResponse#schema_type #schema_type} => String
+    #   * {Types::GetDatasetResponse#kms_key_arn #kms_key_arn} => String
+    #   * {Types::GetDatasetResponse#example_count #example_count} => Integer
+    #   * {Types::GetDatasetResponse#download_url #download_url} => String
+    #   * {Types::GetDatasetResponse#download_url_expires_at #download_url_expires_at} => Time
+    #   * {Types::GetDatasetResponse#created_at #created_at} => Time
+    #   * {Types::GetDatasetResponse#updated_at #updated_at} => Time
+    #   * {Types::GetDatasetResponse#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_dataset({
+    #     dataset_id: "DatasetId", # required
+    #     dataset_version: "DatasetVersion",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dataset_arn #=> String
+    #   resp.dataset_id #=> String
+    #   resp.dataset_version #=> String
+    #   resp.dataset_name #=> String
+    #   resp.description #=> String
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.draft_status #=> String, one of "MODIFIED", "UNMODIFIED"
+    #   resp.failure_reason #=> String
+    #   resp.schema_type #=> String, one of "AGENTCORE_EVALUATION_PREDEFINED_V1", "AGENTCORE_EVALUATION_SIMULATED_V1"
+    #   resp.kms_key_arn #=> String
+    #   resp.example_count #=> Integer
+    #   resp.download_url #=> String
+    #   resp.download_url_expires_at #=> Time
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetDataset AWS API Documentation
+    #
+    # @overload get_dataset(params = {})
+    # @param [Hash] params ({})
+    def get_dataset(params = {}, options = {})
+      req = build_request(:get_dataset, params)
       req.send_request(options)
     end
 
@@ -7843,6 +8294,164 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
+    # Returns paginated examples from the dataset.
+    #
+    # **Version-pinned pagination:** The server embeds the resolved version
+    # in the `nextToken`. Once pagination begins, all subsequent pages are
+    # pinned to that version regardless of concurrent mutations or whether
+    # `datasetVersion` is passed on subsequent requests. The
+    # `datasetVersion` query parameter is only used for the first request
+    # (when `nextToken` is absent); if omitted, defaults to DRAFT.
+    #
+    # **State guard:** Allowed for all statuses including DELETING.
+    #
+    # @option params [required, String] :dataset_id
+    #   The unique identifier of the dataset.
+    #
+    # @option params [String] :dataset_version
+    #   Version to paginate: "DRAFT" or a version number. Defaults to DRAFT if
+    #   absent. Only used on the first request (when nextToken is absent). For
+    #   subsequent pages, the version is extracted from the nextToken and this
+    #   parameter is ignored.
+    #
+    # @option params [Integer] :max_results
+    #   Maximum number of examples to return per page. Default: 1000. Min: 1,
+    #   max: 1000. Response size is validated against 5 MB limit after
+    #   reading. For bulk access to all examples, use the `downloadUrl` field
+    #   from GetDataset.
+    #
+    # @option params [String] :next_token
+    #   The token for the next page of results.
+    #
+    # @return [Types::ListDatasetExamplesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListDatasetExamplesResponse#dataset_arn #dataset_arn} => String
+    #   * {Types::ListDatasetExamplesResponse#dataset_id #dataset_id} => String
+    #   * {Types::ListDatasetExamplesResponse#dataset_version #dataset_version} => String
+    #   * {Types::ListDatasetExamplesResponse#examples #examples} => Array&lt;Hash,Array,String,Numeric,Boolean&gt;
+    #   * {Types::ListDatasetExamplesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_dataset_examples({
+    #     dataset_id: "DatasetId", # required
+    #     dataset_version: "DatasetVersion",
+    #     max_results: 1,
+    #     next_token: "ListDatasetExamplesRequestNextTokenString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dataset_arn #=> String
+    #   resp.dataset_id #=> String
+    #   resp.dataset_version #=> String
+    #   resp.examples #=> Array
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListDatasetExamples AWS API Documentation
+    #
+    # @overload list_dataset_examples(params = {})
+    # @param [Hash] params ({})
+    def list_dataset_examples(params = {}, options = {})
+      req = build_request(:list_dataset_examples, params)
+      req.send_request(options)
+    end
+
+    # Lists all published versions of a dataset, sorted by version number
+    # descending (newest first). Does not include the DRAFT working copy.
+    #
+    # **State guard:** Allowed for all statuses including DELETING.
+    #
+    # @option params [required, String] :dataset_id
+    #   The unique identifier of the dataset.
+    #
+    # @option params [String] :next_token
+    #   The token for the next page of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of versions to return per page.
+    #
+    # @return [Types::ListDatasetVersionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListDatasetVersionsResponse#versions #versions} => Array&lt;Types::DatasetVersionSummary&gt;
+    #   * {Types::ListDatasetVersionsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_dataset_versions({
+    #     dataset_id: "DatasetId", # required
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.versions #=> Array
+    #   resp.versions[0].dataset_version #=> String
+    #   resp.versions[0].example_count #=> Integer
+    #   resp.versions[0].created_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListDatasetVersions AWS API Documentation
+    #
+    # @overload list_dataset_versions(params = {})
+    # @param [Hash] params ({})
+    def list_dataset_versions(params = {}, options = {})
+      req = build_request(:list_dataset_versions, params)
+      req.send_request(options)
+    end
+
+    # Lists all datasets in the caller's account, paginated. No presigned
+    # URLs in list results.
+    #
+    # @option params [String] :next_token
+    #   The token for the next page of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of datasets to return per page.
+    #
+    # @return [Types::ListDatasetsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListDatasetsResponse#datasets #datasets} => Array&lt;Types::DatasetSummary&gt;
+    #   * {Types::ListDatasetsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_datasets({
+    #     next_token: "ListDatasetsRequestNextTokenString",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.datasets #=> Array
+    #   resp.datasets[0].dataset_arn #=> String
+    #   resp.datasets[0].dataset_id #=> String
+    #   resp.datasets[0].dataset_name #=> String
+    #   resp.datasets[0].description #=> String
+    #   resp.datasets[0].status #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.datasets[0].draft_status #=> String, one of "MODIFIED", "UNMODIFIED"
+    #   resp.datasets[0].schema_type #=> String, one of "AGENTCORE_EVALUATION_PREDEFINED_V1", "AGENTCORE_EVALUATION_SIMULATED_V1"
+    #   resp.datasets[0].example_count #=> Integer
+    #   resp.datasets[0].created_at #=> Time
+    #   resp.datasets[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListDatasets AWS API Documentation
+    #
+    # @overload list_datasets(params = {})
+    # @param [Hash] params ({})
+    def list_datasets(params = {}, options = {})
+      req = build_request(:list_datasets, params)
+      req.send_request(options)
+    end
+
     # Lists all available evaluators, including both builtin evaluators
     # provided by the service and custom evaluators created by the user.
     #
@@ -9866,6 +10475,143 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def update_configuration_bundle(params = {}, options = {})
       req = build_request(:update_configuration_bundle, params)
+      req.send_request(options)
+    end
+
+    # Updates a dataset's metadata. Synchronous operation. Only provided
+    # fields are updated; omitted fields remain unchanged.
+    #
+    # To modify dataset content, use AddDatasetExamples,
+    # UpdateDatasetExamples, or DeleteDatasetExamples.
+    #
+    # Cannot update: name, schemaType, kmsKeyArn (immutable after creation).
+    #
+    # @option params [required, String] :dataset_id
+    #   The unique identifier of the dataset to update.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a previous
+    #   request, the service ignores the request, but doesn't return an
+    #   error. For more information, see [Ensuring idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #
+    # @option params [String] :description
+    #   The updated description for the dataset.
+    #
+    # @return [Types::UpdateDatasetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateDatasetResponse#dataset_arn #dataset_arn} => String
+    #   * {Types::UpdateDatasetResponse#dataset_id #dataset_id} => String
+    #   * {Types::UpdateDatasetResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_dataset({
+    #     dataset_id: "DatasetId", # required
+    #     client_token: "ClientToken",
+    #     description: "UpdateDatasetRequestDescriptionString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dataset_arn #=> String
+    #   resp.dataset_id #=> String
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateDataset AWS API Documentation
+    #
+    # @overload update_dataset(params = {})
+    # @param [Hash] params ({})
+    def update_dataset(params = {}, options = {})
+      req = build_request(:update_dataset, params)
+      req.send_request(options)
+    end
+
+    # Updates multiple existing examples in-place on DRAFT.
+    #
+    # **Validation:** All examples are validated against the dataset's
+    # schemaType before any writes occur. If any example fails validation,
+    # the entire batch is rejected with ValidationException — no examples
+    # are updated (all-or-nothing semantics).
+    #
+    # **Asynchronous:** Operates in-place on DRAFT. No version bump occurs.
+    # Use CreateDatasetVersion to publish DRAFT as a new numbered version.
+    #
+    # Fails with ResourceNotFoundException if any exampleId does not exist
+    # in DRAFT. To add new examples, use AddDatasetExamples instead.
+    #
+    # **State guard:** Returns ConflictException (DATASET\_NOT\_READY) if
+    # the dataset status is not in \{DRAFT, ACTIVE}.
+    #
+    # **Request size limit:** Max 5 MB total request body. Max 1000 examples
+    # per call.
+    #
+    # @option params [required, String] :dataset_id
+    #   The unique identifier of the dataset.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a previous
+    #   request, the service ignores the request, but doesn't return an
+    #   error. For more information, see [Ensuring idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #
+    # @option params [required, Array<Hash,Array,String,Numeric,Boolean>] :examples
+    #   Examples to update. Each element is a JSON object containing a
+    #   required `exampleId` string field identifying the existing example,
+    #   plus the replacement fields. The `exampleId` is extracted and removed
+    #   before persistence; the remaining document is validated against the
+    #   dataset's schemaType. Max 1000 examples per call. Total request body
+    #   must not exceed 5 MB.
+    #
+    # @return [Types::UpdateDatasetExamplesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateDatasetExamplesResponse#dataset_arn #dataset_arn} => String
+    #   * {Types::UpdateDatasetExamplesResponse#dataset_id #dataset_id} => String
+    #   * {Types::UpdateDatasetExamplesResponse#status #status} => String
+    #   * {Types::UpdateDatasetExamplesResponse#updated_count #updated_count} => Integer
+    #   * {Types::UpdateDatasetExamplesResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_dataset_examples({
+    #     dataset_id: "DatasetId", # required
+    #     client_token: "ClientToken",
+    #     examples: [ # required
+    #       {
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dataset_arn #=> String
+    #   resp.dataset_id #=> String
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.updated_count #=> Integer
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateDatasetExamples AWS API Documentation
+    #
+    # @overload update_dataset_examples(params = {})
+    # @param [Hash] params ({})
+    def update_dataset_examples(params = {}, options = {})
+      req = build_request(:update_dataset_examples, params)
       req.send_request(options)
     end
 
@@ -13045,7 +13791,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.47.0'
+      context[:gem_version] = '1.48.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

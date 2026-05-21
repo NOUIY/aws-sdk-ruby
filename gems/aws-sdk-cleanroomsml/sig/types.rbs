@@ -135,6 +135,7 @@ module Aws::CleanRoomsML
       attr_accessor status: ("CREATE_PENDING" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "ACTIVE" | "DELETE_PENDING" | "DELETE_IN_PROGRESS" | "DELETE_FAILED" | "INACTIVE")
       attr_accessor creator_account_id: ::String
       attr_accessor description: ::String
+      attr_accessor payer_configuration: Types::PayerConfiguration
       SENSITIVE: []
     end
 
@@ -169,6 +170,7 @@ module Aws::CleanRoomsML
       attr_accessor metrics_status_details: ::String
       attr_accessor logs_status: ("PUBLISH_SUCCEEDED" | "PUBLISH_FAILED")
       attr_accessor logs_status_details: ::String
+      attr_accessor ml_model_inference_payer_account_id: ::String
       attr_accessor create_time: ::Time
       attr_accessor update_time: ::Time
       attr_accessor creator_account_id: ::String
@@ -188,6 +190,7 @@ module Aws::CleanRoomsML
       attr_accessor status: ("CREATE_PENDING" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "ACTIVE" | "DELETE_PENDING" | "DELETE_IN_PROGRESS" | "DELETE_FAILED" | "INACTIVE" | "CANCEL_PENDING" | "CANCEL_IN_PROGRESS" | "CANCEL_FAILED")
       attr_accessor configured_model_algorithm_association_arn: ::String
       attr_accessor creator_account_id: ::String
+      attr_accessor ml_model_training_payer_account_id: ::String
       SENSITIVE: []
     end
 
@@ -339,6 +342,7 @@ module Aws::CleanRoomsML
       attr_accessor description: ::String
       attr_accessor kms_key_arn: ::String
       attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor payer_configuration: Types::PayerConfiguration
       SENSITIVE: []
     end
 
@@ -361,6 +365,7 @@ module Aws::CleanRoomsML
       attr_accessor description: ::String
       attr_accessor kms_key_arn: ::String
       attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor ml_model_training_payer_account_id: ::String
       SENSITIVE: []
     end
 
@@ -554,6 +559,7 @@ module Aws::CleanRoomsML
       attr_accessor privacy_budgets: Types::PrivacyBudgets
       attr_accessor description: ::String
       attr_accessor synthetic_data_configuration: Types::SyntheticDataConfiguration
+      attr_accessor payer_configuration: Types::PayerConfiguration
       attr_accessor create_time: ::Time
       attr_accessor update_time: ::Time
       attr_accessor creator_account_id: ::String
@@ -586,6 +592,7 @@ module Aws::CleanRoomsML
       attr_accessor logs_status: ("PUBLISH_SUCCEEDED" | "PUBLISH_FAILED")
       attr_accessor logs_status_details: ::String
       attr_accessor training_container_image_digest: ::String
+      attr_accessor ml_model_training_payer_account_id: ::String
       attr_accessor create_time: ::Time
       attr_accessor update_time: ::Time
       attr_accessor creator_account_id: ::String
@@ -697,6 +704,7 @@ module Aws::CleanRoomsML
       attr_accessor privacy_budgets: Types::PrivacyBudgets
       attr_accessor description: ::String
       attr_accessor synthetic_data_configuration: Types::SyntheticDataConfiguration
+      attr_accessor payer_configuration: Types::PayerConfiguration
       attr_accessor create_time: ::Time
       attr_accessor update_time: ::Time
       attr_accessor input_channel: Types::InputChannel
@@ -738,6 +746,7 @@ module Aws::CleanRoomsML
       attr_accessor logs_status: ("PUBLISH_SUCCEEDED" | "PUBLISH_FAILED")
       attr_accessor logs_status_details: ::String
       attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor ml_model_inference_payer_account_id: ::String
       SENSITIVE: []
     end
 
@@ -767,6 +776,7 @@ module Aws::CleanRoomsML
       attr_accessor logs_status: ("PUBLISH_SUCCEEDED" | "PUBLISH_FAILED")
       attr_accessor logs_status_details: ::String
       attr_accessor training_container_image_digest: ::String
+      attr_accessor ml_model_training_payer_account_id: ::String
       attr_accessor create_time: ::Time
       attr_accessor update_time: ::Time
       attr_accessor hyperparameters: ::Hash[::String, ::String]
@@ -1113,6 +1123,7 @@ module Aws::CleanRoomsML
       attr_accessor ml_input_channel_arn: ::String
       attr_accessor status: ("CREATE_PENDING" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "ACTIVE" | "DELETE_PENDING" | "DELETE_IN_PROGRESS" | "DELETE_FAILED" | "INACTIVE")
       attr_accessor description: ::String
+      attr_accessor payer_configuration: Types::PayerConfiguration
       SENSITIVE: []
     end
 
@@ -1155,6 +1166,12 @@ module Aws::CleanRoomsML
       attr_accessor ml_input_channel_arn: ::String
       attr_accessor channel_name: ::String
       attr_accessor s3_data_distribution_type: ("FullyReplicated" | "ShardedByS3Key")
+      SENSITIVE: []
+    end
+
+    class PayerConfiguration
+      attr_accessor compute_payer_account_id: ::String
+      attr_accessor synthetic_data_payer_account_id: ::String
       SENSITIVE: []
     end
 
@@ -1293,6 +1310,7 @@ module Aws::CleanRoomsML
       attr_accessor environment: ::Hash[::String, ::String]
       attr_accessor kms_key_arn: ::String
       attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor ml_model_inference_payer_account_id: ::String
       SENSITIVE: []
     end
 
@@ -1387,6 +1405,7 @@ module Aws::CleanRoomsML
       attr_accessor metrics_status_details: ::String
       attr_accessor logs_status: ("PUBLISH_SUCCEEDED" | "PUBLISH_FAILED")
       attr_accessor logs_status_details: ::String
+      attr_accessor ml_model_inference_payer_account_id: ::String
       attr_accessor create_time: ::Time
       attr_accessor update_time: ::Time
       SENSITIVE: []
@@ -1416,6 +1435,7 @@ module Aws::CleanRoomsML
       attr_accessor collaboration_identifier: ::String
       attr_accessor status: ("CREATE_PENDING" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "ACTIVE" | "DELETE_PENDING" | "DELETE_IN_PROGRESS" | "DELETE_FAILED" | "INACTIVE" | "CANCEL_PENDING" | "CANCEL_IN_PROGRESS" | "CANCEL_FAILED")
       attr_accessor configured_model_algorithm_association_arn: ::String
+      attr_accessor ml_model_training_payer_account_id: ::String
       SENSITIVE: []
     end
 

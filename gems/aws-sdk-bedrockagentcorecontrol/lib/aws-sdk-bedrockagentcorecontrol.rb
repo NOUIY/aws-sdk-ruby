@@ -23,7 +23,7 @@ Aws::Plugins::GlobalConfiguration.add_identifier(:bedrockagentcorecontrol)
 # structure.
 #
 #     bedrock_agent_core_control = Aws::BedrockAgentCoreControl::Client.new
-#     resp = bedrock_agent_core_control.create_agent_runtime(params)
+#     resp = bedrock_agent_core_control.add_dataset_examples(params)
 #
 # See {Client} for more information.
 #
@@ -55,7 +55,7 @@ module Aws::BedrockAgentCoreControl
   autoload :EndpointProvider, 'aws-sdk-bedrockagentcorecontrol/endpoint_provider'
   autoload :Endpoints, 'aws-sdk-bedrockagentcorecontrol/endpoints'
 
-  GEM_VERSION = '1.47.0'
+  GEM_VERSION = '1.48.0'
 
 end
 
