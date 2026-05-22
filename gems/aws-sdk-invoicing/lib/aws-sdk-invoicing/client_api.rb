@@ -196,6 +196,7 @@ module Aws::Invoicing
     CreateInvoiceUnitRequest.add_member(:tax_inheritance_disabled, Shapes::ShapeRef.new(shape: TaxInheritanceDisabledFlag, location_name: "TaxInheritanceDisabled"))
     CreateInvoiceUnitRequest.add_member(:rule, Shapes::ShapeRef.new(shape: InvoiceUnitRule, required: true, location_name: "Rule"))
     CreateInvoiceUnitRequest.add_member(:resource_tags, Shapes::ShapeRef.new(shape: ResourceTagList, location_name: "ResourceTags"))
+    CreateInvoiceUnitRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: BasicStringWithoutSpace, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     CreateInvoiceUnitRequest.struct_class = Types::CreateInvoiceUnitRequest
 
     CreateInvoiceUnitResponse.add_member(:invoice_unit_arn, Shapes::ShapeRef.new(shape: InvoiceUnitArnString, location_name: "InvoiceUnitArn"))
@@ -231,12 +232,14 @@ module Aws::Invoicing
     DateInterval.struct_class = Types::DateInterval
 
     DeleteInvoiceUnitRequest.add_member(:invoice_unit_arn, Shapes::ShapeRef.new(shape: InvoiceUnitArnString, required: true, location_name: "InvoiceUnitArn"))
+    DeleteInvoiceUnitRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: BasicStringWithoutSpace, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     DeleteInvoiceUnitRequest.struct_class = Types::DeleteInvoiceUnitRequest
 
     DeleteInvoiceUnitResponse.add_member(:invoice_unit_arn, Shapes::ShapeRef.new(shape: InvoiceUnitArnString, location_name: "InvoiceUnitArn"))
     DeleteInvoiceUnitResponse.struct_class = Types::DeleteInvoiceUnitResponse
 
     DeleteProcurementPortalPreferenceRequest.add_member(:procurement_portal_preference_arn, Shapes::ShapeRef.new(shape: ProcurementPortalPreferenceArnString, required: true, location_name: "ProcurementPortalPreferenceArn"))
+    DeleteProcurementPortalPreferenceRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: BasicStringWithoutSpace, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     DeleteProcurementPortalPreferenceRequest.struct_class = Types::DeleteProcurementPortalPreferenceRequest
 
     DeleteProcurementPortalPreferenceResponse.add_member(:procurement_portal_preference_arn, Shapes::ShapeRef.new(shape: ProcurementPortalPreferenceArnString, required: true, location_name: "ProcurementPortalPreferenceArn"))
@@ -490,6 +493,7 @@ module Aws::Invoicing
     PutProcurementPortalPreferenceRequest.add_member(:einvoice_delivery_preference, Shapes::ShapeRef.new(shape: EinvoiceDeliveryPreference, location_name: "EinvoiceDeliveryPreference"))
     PutProcurementPortalPreferenceRequest.add_member(:purchase_order_retrieval_enabled, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "PurchaseOrderRetrievalEnabled"))
     PutProcurementPortalPreferenceRequest.add_member(:contacts, Shapes::ShapeRef.new(shape: Contacts, required: true, location_name: "Contacts"))
+    PutProcurementPortalPreferenceRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: BasicStringWithoutSpace, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     PutProcurementPortalPreferenceRequest.struct_class = Types::PutProcurementPortalPreferenceRequest
 
     PutProcurementPortalPreferenceResponse.add_member(:procurement_portal_preference_arn, Shapes::ShapeRef.new(shape: ProcurementPortalPreferenceArnString, required: true, location_name: "ProcurementPortalPreferenceArn"))
@@ -580,6 +584,7 @@ module Aws::Invoicing
     UpdateInvoiceUnitRequest.add_member(:description, Shapes::ShapeRef.new(shape: DescriptionString, location_name: "Description"))
     UpdateInvoiceUnitRequest.add_member(:tax_inheritance_disabled, Shapes::ShapeRef.new(shape: TaxInheritanceDisabledFlag, location_name: "TaxInheritanceDisabled", metadata: {"box" => true}))
     UpdateInvoiceUnitRequest.add_member(:rule, Shapes::ShapeRef.new(shape: InvoiceUnitRule, location_name: "Rule"))
+    UpdateInvoiceUnitRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: BasicStringWithoutSpace, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     UpdateInvoiceUnitRequest.struct_class = Types::UpdateInvoiceUnitRequest
 
     UpdateInvoiceUnitResponse.add_member(:invoice_unit_arn, Shapes::ShapeRef.new(shape: InvoiceUnitArnString, location_name: "InvoiceUnitArn"))
@@ -590,6 +595,7 @@ module Aws::Invoicing
     UpdateProcurementPortalPreferenceStatusRequest.add_member(:einvoice_delivery_preference_status_reason, Shapes::ShapeRef.new(shape: BasicString, location_name: "EinvoiceDeliveryPreferenceStatusReason"))
     UpdateProcurementPortalPreferenceStatusRequest.add_member(:purchase_order_retrieval_preference_status, Shapes::ShapeRef.new(shape: ProcurementPortalPreferenceStatus, location_name: "PurchaseOrderRetrievalPreferenceStatus"))
     UpdateProcurementPortalPreferenceStatusRequest.add_member(:purchase_order_retrieval_preference_status_reason, Shapes::ShapeRef.new(shape: BasicString, location_name: "PurchaseOrderRetrievalPreferenceStatusReason"))
+    UpdateProcurementPortalPreferenceStatusRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: BasicStringWithoutSpace, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     UpdateProcurementPortalPreferenceStatusRequest.struct_class = Types::UpdateProcurementPortalPreferenceStatusRequest
 
     UpdateProcurementPortalPreferenceStatusResponse.add_member(:procurement_portal_preference_arn, Shapes::ShapeRef.new(shape: ProcurementPortalPreferenceArnString, required: true, location_name: "ProcurementPortalPreferenceArn"))

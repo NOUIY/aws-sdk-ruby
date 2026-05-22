@@ -108,7 +108,8 @@ module Aws
                                      key: ::String,
                                      value: ::String
                                    }
-                                 ]
+                                 ],
+                                 ?client_token: ::String
                                ) -> _CreateInvoiceUnitResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateInvoiceUnitResponseSuccess
 
@@ -155,7 +156,8 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Invoicing/Client.html#delete_invoice_unit-instance_method
       def delete_invoice_unit: (
-                                 invoice_unit_arn: ::String
+                                 invoice_unit_arn: ::String,
+                                 ?client_token: ::String
                                ) -> _DeleteInvoiceUnitResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteInvoiceUnitResponseSuccess
 
@@ -165,7 +167,8 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Invoicing/Client.html#delete_procurement_portal_preference-instance_method
       def delete_procurement_portal_preference: (
-                                                  procurement_portal_preference_arn: ::String
+                                                  procurement_portal_preference_arn: ::String,
+                                                  ?client_token: ::String
                                                 ) -> _DeleteProcurementPortalPreferenceResponseSuccess
                                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteProcurementPortalPreferenceResponseSuccess
 
@@ -297,7 +300,8 @@ module Aws
                                                    name: ::String?,
                                                    email: ::String?
                                                  }
-                                               ]
+                                               ],
+                                               ?client_token: ::String
                                              ) -> _PutProcurementPortalPreferenceResponseSuccess
                                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutProcurementPortalPreferenceResponseSuccess
 
@@ -338,7 +342,8 @@ module Aws
                                  ?rule: {
                                    linked_accounts: Array[::String]?,
                                    bill_source_accounts: Array[::String]?
-                                 }
+                                 },
+                                 ?client_token: ::String
                                ) -> _UpdateInvoiceUnitResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateInvoiceUnitResponseSuccess
 
@@ -352,7 +357,8 @@ module Aws
                                                          ?einvoice_delivery_preference_status: ("PENDING_VERIFICATION" | "TEST_INITIALIZED" | "TEST_INITIALIZATION_FAILED" | "TEST_FAILED" | "ACTIVE" | "SUSPENDED"),
                                                          ?einvoice_delivery_preference_status_reason: ::String,
                                                          ?purchase_order_retrieval_preference_status: ("PENDING_VERIFICATION" | "TEST_INITIALIZED" | "TEST_INITIALIZATION_FAILED" | "TEST_FAILED" | "ACTIVE" | "SUSPENDED"),
-                                                         ?purchase_order_retrieval_preference_status_reason: ::String
+                                                         ?purchase_order_retrieval_preference_status_reason: ::String,
+                                                         ?client_token: ::String
                                                        ) -> _UpdateProcurementPortalPreferenceStatusResponseSuccess
                                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateProcurementPortalPreferenceStatusResponseSuccess
     end

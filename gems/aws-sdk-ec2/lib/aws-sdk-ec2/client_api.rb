@@ -3417,6 +3417,8 @@ module Aws::EC2
     SecondarySubnetList = Shapes::ListShape.new(name: 'SecondarySubnetList')
     SecondarySubnetState = Shapes::StringShape.new(name: 'SecondarySubnetState')
     SecretArn = Shapes::StringShape.new(name: 'SecretArn')
+    SecureBlob = Shapes::BlobShape.new(name: 'SecureBlob')
+    SecureBlobAttributeValue = Shapes::StructureShape.new(name: 'SecureBlobAttributeValue')
     SecurityGroup = Shapes::StructureShape.new(name: 'SecurityGroup')
     SecurityGroupForVpc = Shapes::StructureShape.new(name: 'SecurityGroupForVpc')
     SecurityGroupForVpcList = Shapes::ListShape.new(name: 'SecurityGroupForVpcList')
@@ -6151,7 +6153,7 @@ module Aws::EC2
 
     CreateLaunchTemplateRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     CreateLaunchTemplateRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
-    CreateLaunchTemplateRequest.add_member(:launch_template_name, Shapes::ShapeRef.new(shape: LaunchTemplateName, required: true, location_name: "LaunchTemplateName"))
+    CreateLaunchTemplateRequest.add_member(:launch_template_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "LaunchTemplateName"))
     CreateLaunchTemplateRequest.add_member(:version_description, Shapes::ShapeRef.new(shape: VersionDescription, location_name: "VersionDescription"))
     CreateLaunchTemplateRequest.add_member(:launch_template_data, Shapes::ShapeRef.new(shape: RequestLaunchTemplateData, required: true, location_name: "LaunchTemplateData"))
     CreateLaunchTemplateRequest.add_member(:operator, Shapes::ShapeRef.new(shape: OperatorRequest, location_name: "Operator"))
@@ -14541,6 +14543,7 @@ module Aws::EC2
     ModifyImageAttributeRequest.struct_class = Types::ModifyImageAttributeRequest
 
     ModifyInstanceAttributeRequest.add_member(:source_dest_check, Shapes::ShapeRef.new(shape: AttributeBooleanValue, location_name: "SourceDestCheck"))
+    ModifyInstanceAttributeRequest.add_member(:enclave_options, Shapes::ShapeRef.new(shape: EnclaveOptionsRequest, location_name: "EnclaveOptions"))
     ModifyInstanceAttributeRequest.add_member(:disable_api_stop, Shapes::ShapeRef.new(shape: AttributeBooleanValue, location_name: "DisableApiStop"))
     ModifyInstanceAttributeRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "dryRun"))
     ModifyInstanceAttributeRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "instanceId"))
@@ -14551,7 +14554,7 @@ module Aws::EC2
     ModifyInstanceAttributeRequest.add_member(:instance_type, Shapes::ShapeRef.new(shape: AttributeValue, location_name: "instanceType"))
     ModifyInstanceAttributeRequest.add_member(:kernel, Shapes::ShapeRef.new(shape: AttributeValue, location_name: "kernel"))
     ModifyInstanceAttributeRequest.add_member(:ramdisk, Shapes::ShapeRef.new(shape: AttributeValue, location_name: "ramdisk"))
-    ModifyInstanceAttributeRequest.add_member(:user_data, Shapes::ShapeRef.new(shape: BlobAttributeValue, location_name: "userData"))
+    ModifyInstanceAttributeRequest.add_member(:user_data, Shapes::ShapeRef.new(shape: SecureBlobAttributeValue, location_name: "userData"))
     ModifyInstanceAttributeRequest.add_member(:instance_initiated_shutdown_behavior, Shapes::ShapeRef.new(shape: AttributeValue, location_name: "instanceInitiatedShutdownBehavior"))
     ModifyInstanceAttributeRequest.add_member(:groups, Shapes::ShapeRef.new(shape: GroupIdStringList, location_name: "GroupId"))
     ModifyInstanceAttributeRequest.add_member(:ebs_optimized, Shapes::ShapeRef.new(shape: AttributeBooleanValue, location_name: "ebsOptimized"))
@@ -17289,7 +17292,7 @@ module Aws::EC2
     S3Storage.add_member(:aws_access_key_id, Shapes::ShapeRef.new(shape: String, location_name: "AWSAccessKeyId"))
     S3Storage.add_member(:bucket, Shapes::ShapeRef.new(shape: String, location_name: "bucket"))
     S3Storage.add_member(:prefix, Shapes::ShapeRef.new(shape: String, location_name: "prefix"))
-    S3Storage.add_member(:upload_policy, Shapes::ShapeRef.new(shape: Blob, location_name: "uploadPolicy"))
+    S3Storage.add_member(:upload_policy, Shapes::ShapeRef.new(shape: SecureBlob, location_name: "uploadPolicy"))
     S3Storage.add_member(:upload_policy_signature, Shapes::ShapeRef.new(shape: S3StorageUploadPolicySignature, location_name: "uploadPolicySignature"))
     S3Storage.struct_class = Types::S3Storage
 
@@ -17541,6 +17544,9 @@ module Aws::EC2
     SecondarySubnetIpv4CidrBlockAssociationList.member = Shapes::ShapeRef.new(shape: SecondarySubnetIpv4CidrBlockAssociation, location_name: "item")
 
     SecondarySubnetList.member = Shapes::ShapeRef.new(shape: SecondarySubnet, location_name: "item")
+
+    SecureBlobAttributeValue.add_member(:value, Shapes::ShapeRef.new(shape: SecureBlob, location_name: "value"))
+    SecureBlobAttributeValue.struct_class = Types::SecureBlobAttributeValue
 
     SecurityGroup.add_member(:group_id, Shapes::ShapeRef.new(shape: String, location_name: "groupId"))
     SecurityGroup.add_member(:ip_permissions_egress, Shapes::ShapeRef.new(shape: IpPermissionList, location_name: "ipPermissionsEgress"))

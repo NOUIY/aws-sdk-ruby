@@ -11366,6 +11366,9 @@ module Aws
                                        ?source_dest_check: {
                                          value: bool?
                                        },
+                                       ?enclave_options: {
+                                         enabled: bool?
+                                       },
                                        ?disable_api_stop: {
                                          value: bool?
                                        },

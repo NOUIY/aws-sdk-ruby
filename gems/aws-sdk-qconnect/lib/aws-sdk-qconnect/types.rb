@@ -5744,6 +5744,31 @@ module Aws::QConnect
       include Aws::Structure
     end
 
+    # Per-policy guardrail assessment result. Captures which policy
+    # triggered, its outcome, and a policy-specific detail string.
+    #
+    # @!attribute [rw] policy_type
+    #   The type of guardrail policy that was evaluated.
+    #   @return [String]
+    #
+    # @!attribute [rw] action
+    #   Outcome of this specific policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] details
+    #   Policy-specific detail.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/qconnect-2020-10-19/GuardrailPolicyResult AWS API Documentation
+    #
+    class GuardrailPolicyResult < Struct.new(
+      :policy_type,
+      :action,
+      :details)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The regular expression to configure for the AI Guardrail.
     #
     # @!attribute [rw] name
@@ -10940,6 +10965,11 @@ module Aws::QConnect
     #   Bedrock was invoked to when the first token was returned
     #   @return [Integer]
     #
+    # @!attribute [rw] guardrail_assessments
+    #   Guardrail assessments for the inference span. Absent on other span
+    #   types and when no AI Guardrail is attached to the AI Agent.
+    #   @return [Array<Types::SpanGuardrailAssessment>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/qconnect-2020-10-19/SpanAttributes AWS API Documentation
     #
     class SpanAttributes < Struct.new(
@@ -10977,7 +11007,8 @@ module Aws::QConnect
       :prompt_type,
       :prompt_name,
       :prompt_version,
-      :time_to_first_token_ms)
+      :time_to_first_token_ms,
+      :guardrail_assessments)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11009,6 +11040,42 @@ module Aws::QConnect
       :knowledge_base_id,
       :knowledge_base_arn)
       SENSITIVE = [:title]
+      include Aws::Structure
+    end
+
+    # Result of a single guardrail assessment, covering either the input
+    # (customer/user message) or the output (LLM response) of a Bedrock
+    # Converse call.
+    #
+    # @!attribute [rw] guardrail_id
+    #   Unique AI Guardrail identifier.
+    #   @return [String]
+    #
+    # @!attribute [rw] guardrail_name
+    #   Customer-defined display name of the AI Guardrail resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] source
+    #   Content source the guardrail was evaluated against.
+    #   @return [String]
+    #
+    # @!attribute [rw] action
+    #   Outcome of the guardrail assessment.
+    #   @return [String]
+    #
+    # @!attribute [rw] policies
+    #   Per-policy assessment results. Absent or empty when action is NONE.
+    #   @return [Array<Types::GuardrailPolicyResult>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/qconnect-2020-10-19/SpanGuardrailAssessment AWS API Documentation
+    #
+    class SpanGuardrailAssessment < Struct.new(
+      :guardrail_id,
+      :guardrail_name,
+      :source,
+      :action,
+      :policies)
+      SENSITIVE = []
       include Aws::Structure
     end
 

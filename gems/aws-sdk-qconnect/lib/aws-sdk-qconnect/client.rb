@@ -6317,6 +6317,15 @@ module Aws::QConnect
     #   resp.spans[0].attributes.prompt_name #=> String
     #   resp.spans[0].attributes.prompt_version #=> Integer
     #   resp.spans[0].attributes.time_to_first_token_ms #=> Integer
+    #   resp.spans[0].attributes.guardrail_assessments #=> Array
+    #   resp.spans[0].attributes.guardrail_assessments[0].guardrail_id #=> String
+    #   resp.spans[0].attributes.guardrail_assessments[0].guardrail_name #=> String
+    #   resp.spans[0].attributes.guardrail_assessments[0].source #=> String, one of "INPUT", "OUTPUT"
+    #   resp.spans[0].attributes.guardrail_assessments[0].action #=> String, one of "NONE", "BLOCKED", "MASKED"
+    #   resp.spans[0].attributes.guardrail_assessments[0].policies #=> Array
+    #   resp.spans[0].attributes.guardrail_assessments[0].policies[0].policy_type #=> String, one of "CONTENT_FILTER", "TOPIC", "WORD", "SENSITIVE_INFORMATION_PII", "SENSITIVE_INFORMATION_REGEX", "CONTEXTUAL_GROUNDING"
+    #   resp.spans[0].attributes.guardrail_assessments[0].policies[0].action #=> String, one of "NONE", "BLOCKED", "MASKED"
+    #   resp.spans[0].attributes.guardrail_assessments[0].policies[0].details #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/qconnect-2020-10-19/ListSpans AWS API Documentation
@@ -9527,7 +9536,7 @@ module Aws::QConnect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-qconnect'
-      context[:gem_version] = '1.57.0'
+      context[:gem_version] = '1.58.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -332,6 +332,9 @@ module Aws::SecurityAgent
     ValidationExceptionField = Shapes::StructureShape.new(name: 'ValidationExceptionField')
     ValidationExceptionFieldList = Shapes::ListShape.new(name: 'ValidationExceptionFieldList')
     VerificationDetails = Shapes::StructureShape.new(name: 'VerificationDetails')
+    VerificationScript = Shapes::StructureShape.new(name: 'VerificationScript')
+    VerificationScriptEnvVar = Shapes::StructureShape.new(name: 'VerificationScriptEnvVar')
+    VerificationScriptEnvVarList = Shapes::ListShape.new(name: 'VerificationScriptEnvVarList')
     VerifyTargetDomainInput = Shapes::StructureShape.new(name: 'VerifyTargetDomainInput')
     VerifyTargetDomainOutput = Shapes::StructureShape.new(name: 'VerifyTargetDomainOutput')
     VpcArn = Shapes::StringShape.new(name: 'VpcArn')
@@ -856,6 +859,7 @@ module Aws::SecurityAgent
     Finding.add_member(:code_remediation_task, Shapes::ShapeRef.new(shape: CodeRemediationTask, location_name: "codeRemediationTask"))
     Finding.add_member(:last_updated_by, Shapes::ShapeRef.new(shape: String, location_name: "lastUpdatedBy"))
     Finding.add_member(:code_locations, Shapes::ShapeRef.new(shape: CodeLocationList, location_name: "codeLocations"))
+    Finding.add_member(:verification_script, Shapes::ShapeRef.new(shape: VerificationScript, location_name: "verificationScript"))
     Finding.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
     Finding.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
     Finding.struct_class = Types::Finding
@@ -1549,6 +1553,18 @@ module Aws::SecurityAgent
     VerificationDetails.add_member(:dns_txt, Shapes::ShapeRef.new(shape: DnsVerification, location_name: "dnsTxt"))
     VerificationDetails.add_member(:http_route, Shapes::ShapeRef.new(shape: HttpVerification, location_name: "httpRoute"))
     VerificationDetails.struct_class = Types::VerificationDetails
+
+    VerificationScript.add_member(:script_type, Shapes::ShapeRef.new(shape: String, location_name: "scriptType"))
+    VerificationScript.add_member(:script_url, Shapes::ShapeRef.new(shape: String, location_name: "scriptUrl"))
+    VerificationScript.add_member(:instructions, Shapes::ShapeRef.new(shape: String, location_name: "instructions"))
+    VerificationScript.add_member(:env_vars, Shapes::ShapeRef.new(shape: VerificationScriptEnvVarList, location_name: "envVars"))
+    VerificationScript.struct_class = Types::VerificationScript
+
+    VerificationScriptEnvVar.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
+    VerificationScriptEnvVar.add_member(:value, Shapes::ShapeRef.new(shape: String, location_name: "value"))
+    VerificationScriptEnvVar.struct_class = Types::VerificationScriptEnvVar
+
+    VerificationScriptEnvVarList.member = Shapes::ShapeRef.new(shape: VerificationScriptEnvVar)
 
     VerifyTargetDomainInput.add_member(:target_domain_id, Shapes::ShapeRef.new(shape: TargetDomainId, required: true, location_name: "targetDomainId"))
     VerifyTargetDomainInput.struct_class = Types::VerifyTargetDomainInput

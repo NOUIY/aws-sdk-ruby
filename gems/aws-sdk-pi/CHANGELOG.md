@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.96.0 (2026-05-22)
+------------------
+
+* Feature - Added ListPerformanceAnalysisReportRecommendations API to retrieve recommendations for a performance analysis report. Added analysis configuration support to CreatePerformanceAnalysisReport for enhanced analysis types such as vacuum analysis.
+
 1.95.0 (2026-05-21)
 ------------------
 

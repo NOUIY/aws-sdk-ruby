@@ -61382,6 +61382,16 @@ module Aws::EC2
     #   services such as network address translation, routing, or firewalls.
     #   @return [Types::AttributeBooleanValue]
     #
+    # @!attribute [rw] enclave_options
+    #   Enables or disables the instance for Amazon Web Services Nitro
+    #   Enclaves. For more information, see the [Amazon Web Services Nitro
+    #   Enclaves User Guide][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave.html
+    #   @return [Types::EnclaveOptionsRequest]
+    #
     # @!attribute [rw] disable_api_stop
     #   Indicates whether an instance is enabled for stop protection. For
     #   more information, see [Enable stop protection for your instance][1].
@@ -61494,7 +61504,7 @@ module Aws::EC2
     #
     #
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-add-user-data.html
-    #   @return [Types::BlobAttributeValue]
+    #   @return [Types::SecureBlobAttributeValue]
     #
     # @!attribute [rw] instance_initiated_shutdown_behavior
     #   Specifies whether an instance stops or terminates when you initiate
@@ -61540,6 +61550,7 @@ module Aws::EC2
     #
     class ModifyInstanceAttributeRequest < Struct.new(
       :source_dest_check,
+      :enclave_options,
       :disable_api_stop,
       :dry_run,
       :instance_id,
@@ -61560,7 +61571,10 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # Describes Base64-encoded binary data.
+    #
     # @!attribute [rw] value
+    #   The value of the data.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyInstanceAttributeUserDataRequest AWS API Documentation
@@ -76175,7 +76189,7 @@ module Aws::EC2
       :prefix,
       :upload_policy,
       :upload_policy_signature)
-      SENSITIVE = [:upload_policy_signature]
+      SENSITIVE = [:upload_policy, :upload_policy_signature]
       include Aws::Structure
     end
 
@@ -77367,6 +77381,17 @@ module Aws::EC2
       :state,
       :state_reason)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] value
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SecureBlobAttributeValue AWS API Documentation
+    #
+    class SecureBlobAttributeValue < Struct.new(
+      :value)
+      SENSITIVE = [:value]
       include Aws::Structure
     end
 

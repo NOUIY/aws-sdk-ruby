@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.5.0 (2026-05-22)
+------------------
+
+* Feature - Adds support for verification scripts on penetration test findings. Customers can now download executable scripts to independently reproduce confirmed vulnerabilities, with instructions and required environment variables provided for each finding.
+
 1.4.0 (2026-05-21)
 ------------------
 

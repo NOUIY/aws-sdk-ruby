@@ -1397,6 +1397,76 @@ module Aws::PI
     #   value. For example, specify `db-ABCDEFGHIJKLMNOPQRSTU1VW2X`.
     #   @return [String]
     #
+    # @!attribute [rw] analysis_report_id
+    #   A unique identifier of the created analysis report. For example,
+    #   `report-12345678901234567`
+    #   @return [String]
+    #
+    # @!attribute [rw] recommendation_ids
+    #   A list of recommendation identifiers to filter the results.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of items to return in the response. If more items
+    #   exist than the specified `MaxResults` value, a pagination token is
+    #   included in the response so that the remaining results can be
+    #   retrieved.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond
+    #   the token, up to the value specified by `MaxResults`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pi-2018-02-27/ListPerformanceAnalysisReportRecommendationsRequest AWS API Documentation
+    #
+    class ListPerformanceAnalysisReportRecommendationsRequest < Struct.new(
+      :service_type,
+      :identifier,
+      :analysis_report_id,
+      :recommendation_ids,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] recommendations
+    #   The list of recommendations for the analysis report.
+    #   @return [Array<Types::Recommendation>]
+    #
+    # @!attribute [rw] next_token
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond
+    #   the token, up to the value specified by `MaxResults`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pi-2018-02-27/ListPerformanceAnalysisReportRecommendationsResponse AWS API Documentation
+    #
+    class ListPerformanceAnalysisReportRecommendationsResponse < Struct.new(
+      :recommendations,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] service_type
+    #   The Amazon Web Services service for which Performance Insights
+    #   returns metrics. Valid value is `RDS`.
+    #   @return [String]
+    #
+    # @!attribute [rw] identifier
+    #   An immutable identifier for a data source that is unique for an
+    #   Amazon Web Services Region. Performance Insights gathers metrics
+    #   from this data source. In the console, the identifier is shown as
+    #   *ResourceID*. When you call `DescribeDBInstances`, the identifier is
+    #   returned as `DbiResourceId`.
+    #
+    #   To use a DB instance as a data source, specify its `DbiResourceId`
+    #   value. For example, specify `db-ABCDEFGHIJKLMNOPQRSTU1VW2X`.
+    #   @return [String]
+    #
     # @!attribute [rw] next_token
     #   An optional pagination token provided by a previous request. If this
     #   parameter is specified, the response includes only records beyond
@@ -1660,12 +1730,18 @@ module Aws::PI
     #   100% of the total DBLoad during that time period: sql-id`
     #   @return [String]
     #
+    # @!attribute [rw] recommendation_details
+    #   Detailed information about the recommendation, including steps to
+    #   resolve the performance issue.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pi-2018-02-27/Recommendation AWS API Documentation
     #
     class Recommendation < Struct.new(
       :recommendation_id,
-      :recommendation_description)
-      SENSITIVE = [:recommendation_description]
+      :recommendation_description,
+      :recommendation_details)
+      SENSITIVE = [:recommendation_description, :recommendation_details]
       include Aws::Structure
     end
 

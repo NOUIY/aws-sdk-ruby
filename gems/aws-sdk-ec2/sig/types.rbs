@@ -13171,6 +13171,7 @@ module Aws::EC2
 
     class ModifyInstanceAttributeRequest
       attr_accessor source_dest_check: Types::AttributeBooleanValue
+      attr_accessor enclave_options: Types::EnclaveOptionsRequest
       attr_accessor disable_api_stop: Types::AttributeBooleanValue
       attr_accessor dry_run: bool
       attr_accessor instance_id: ::String
@@ -13181,7 +13182,7 @@ module Aws::EC2
       attr_accessor instance_type: Types::AttributeValue
       attr_accessor kernel: Types::AttributeValue
       attr_accessor ramdisk: Types::AttributeValue
-      attr_accessor user_data: Types::BlobAttributeValue
+      attr_accessor user_data: Types::SecureBlobAttributeValue
       attr_accessor instance_initiated_shutdown_behavior: Types::AttributeValue
       attr_accessor groups: ::Array[::String]
       attr_accessor ebs_optimized: Types::AttributeBooleanValue
@@ -16407,7 +16408,7 @@ module Aws::EC2
       attr_accessor prefix: ::String
       attr_accessor upload_policy: ::String
       attr_accessor upload_policy_signature: ::String
-      SENSITIVE: [:upload_policy_signature]
+      SENSITIVE: [:upload_policy, :upload_policy_signature]
     end
 
     class ScheduledInstance
@@ -16677,6 +16678,11 @@ module Aws::EC2
       attr_accessor state: ("associating" | "associated" | "association-failed" | "disassociating" | "disassociated" | "disassociation-failed")
       attr_accessor state_reason: ::String
       SENSITIVE: []
+    end
+
+    class SecureBlobAttributeValue
+      attr_accessor value: ::String
+      SENSITIVE: [:value]
     end
 
     class SecurityGroup

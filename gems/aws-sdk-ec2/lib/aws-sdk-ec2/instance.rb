@@ -1100,6 +1100,9 @@ module Aws::EC2
     #     source_dest_check: {
     #       value: false,
     #     },
+    #     enclave_options: {
+    #       enabled: false,
+    #     },
     #     disable_api_stop: {
     #       value: false,
     #     },
@@ -1144,6 +1147,14 @@ module Aws::EC2
     #   enabled; otherwise, they are disabled. The default value is `true`.
     #   You must disable source/destination checks if the instance runs
     #   services such as network address translation, routing, or firewalls.
+    # @option options [Types::EnclaveOptionsRequest] :enclave_options
+    #   Enables or disables the instance for Amazon Web Services Nitro
+    #   Enclaves. For more information, see the [Amazon Web Services Nitro
+    #   Enclaves User Guide][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave.html
     # @option options [Types::AttributeBooleanValue] :disable_api_stop
     #   Indicates whether an instance is enabled for stop protection. For more
     #   information, see [Enable stop protection for your instance][1].
@@ -1225,7 +1236,7 @@ module Aws::EC2
     #
     #
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html
-    # @option options [Types::BlobAttributeValue] :user_data
+    # @option options [Types::SecureBlobAttributeValue] :user_data
     #   Changes the instance's user data to the specified value. User data
     #   must be base64-encoded. Depending on the tool or SDK that you're
     #   using, the base64-encoding might be performed for you. For more

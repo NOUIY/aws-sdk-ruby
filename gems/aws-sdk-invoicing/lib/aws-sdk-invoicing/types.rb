@@ -178,6 +178,14 @@ module Aws::Invoicing
     #   The tag structure that contains a tag key and value.
     #   @return [Array<Types::ResourceTag>]
     #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/invoicing-2024-12-01/CreateInvoiceUnitRequest AWS API Documentation
     #
     class CreateInvoiceUnitRequest < Struct.new(
@@ -186,7 +194,8 @@ module Aws::Invoicing
       :description,
       :tax_inheritance_disabled,
       :rule,
-      :resource_tags)
+      :resource_tags,
+      :client_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -371,10 +380,19 @@ module Aws::Invoicing
     #   modified or deleted.
     #   @return [String]
     #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/invoicing-2024-12-01/DeleteInvoiceUnitRequest AWS API Documentation
     #
     class DeleteInvoiceUnitRequest < Struct.new(
-      :invoice_unit_arn)
+      :invoice_unit_arn,
+      :client_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -397,10 +415,19 @@ module Aws::Invoicing
     #   to delete.
     #   @return [String]
     #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/invoicing-2024-12-01/DeleteProcurementPortalPreferenceRequest AWS API Documentation
     #
     class DeleteProcurementPortalPreferenceRequest < Struct.new(
-      :procurement_portal_preference_arn)
+      :procurement_portal_preference_arn,
+      :client_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1122,9 +1149,8 @@ module Aws::Invoicing
     #   @return [Types::InvoiceSummariesFilter]
     #
     # @!attribute [rw] next_token
-    #   The token to retrieve the next set of results. Amazon Web Services
-    #   provides the token when the response from a previous call has more
-    #   results than the maximum page size.
+    #   The token for the next set of results. (You received this token from
+    #   a previous call.)
     #   @return [String]
     #
     # @!attribute [rw] max_results
@@ -1149,9 +1175,8 @@ module Aws::Invoicing
     #   @return [Array<Types::InvoiceSummary>]
     #
     # @!attribute [rw] next_token
-    #   The token to retrieve the next set of results. Amazon Web Services
-    #   provides the token when the response from a previous call has more
-    #   results than the maximum page size.
+    #   The token to use to retrieve the next set of results, or null if
+    #   there are no more results.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/invoicing-2024-12-01/ListInvoiceSummariesResponse AWS API Documentation
@@ -1610,6 +1635,14 @@ module Aws::Invoicing
     #   technical contacts.
     #   @return [Array<Types::Contact>]
     #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/invoicing-2024-12-01/PutProcurementPortalPreferenceRequest AWS API Documentation
     #
     class PutProcurementPortalPreferenceRequest < Struct.new(
@@ -1621,7 +1654,8 @@ module Aws::Invoicing
       :einvoice_delivery_enabled,
       :einvoice_delivery_preference,
       :purchase_order_retrieval_enabled,
-      :contacts)
+      :contacts,
+      :client_token)
       SENSITIVE = [:procurement_portal_shared_secret, :contacts]
       include Aws::Structure
     end
@@ -1987,13 +2021,22 @@ module Aws::Invoicing
     #   The `InvoiceUnitRule` object used to update invoice units.
     #   @return [Types::InvoiceUnitRule]
     #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/invoicing-2024-12-01/UpdateInvoiceUnitRequest AWS API Documentation
     #
     class UpdateInvoiceUnitRequest < Struct.new(
       :invoice_unit_arn,
       :description,
       :tax_inheritance_disabled,
-      :rule)
+      :rule,
+      :client_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2034,6 +2077,14 @@ module Aws::Invoicing
     #   update, providing context for the change.
     #   @return [String]
     #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/invoicing-2024-12-01/UpdateProcurementPortalPreferenceStatusRequest AWS API Documentation
     #
     class UpdateProcurementPortalPreferenceStatusRequest < Struct.new(
@@ -2041,7 +2092,8 @@ module Aws::Invoicing
       :einvoice_delivery_preference_status,
       :einvoice_delivery_preference_status_reason,
       :purchase_order_retrieval_preference_status,
-      :purchase_order_retrieval_preference_status_reason)
+      :purchase_order_retrieval_preference_status_reason,
+      :client_token)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -639,6 +639,7 @@ module Aws::SecurityAgent
       attr_accessor code_remediation_task: Types::CodeRemediationTask
       attr_accessor last_updated_by: ::String
       attr_accessor code_locations: ::Array[Types::CodeLocation]
+      attr_accessor verification_script: Types::VerificationScript
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
       SENSITIVE: []
@@ -1491,6 +1492,20 @@ module Aws::SecurityAgent
       attr_accessor method: ("DNS_TXT" | "HTTP_ROUTE" | "PRIVATE_VPC")
       attr_accessor dns_txt: Types::DnsVerification
       attr_accessor http_route: Types::HttpVerification
+      SENSITIVE: []
+    end
+
+    class VerificationScript
+      attr_accessor script_type: ::String
+      attr_accessor script_url: ::String
+      attr_accessor instructions: ::String
+      attr_accessor env_vars: ::Array[Types::VerificationScriptEnvVar]
+      SENSITIVE: []
+    end
+
+    class VerificationScriptEnvVar
+      attr_accessor name: ::String
+      attr_accessor value: ::String
       SENSITIVE: []
     end
 

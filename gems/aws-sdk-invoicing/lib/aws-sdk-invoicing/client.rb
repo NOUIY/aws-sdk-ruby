@@ -579,6 +579,13 @@ module Aws::Invoicing
     # @option params [Array<Types::ResourceTag>] :resource_tags
     #   The tag structure that contains a tag key and value.
     #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
     # @return [Types::CreateInvoiceUnitResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateInvoiceUnitResponse#invoice_unit_arn #invoice_unit_arn} => String
@@ -587,6 +594,7 @@ module Aws::Invoicing
     # @example Example: CreateInvoiceUnit
     #
     #   resp = client.create_invoice_unit({
+    #     client_token: "e362c68e-4e74-48d7-9228-0bc5aa447b42", 
     #     description: "Example Invoice Unit Description", 
     #     invoice_receiver: "111111111111", 
     #     name: "Example Invoice Unit", 
@@ -626,6 +634,7 @@ module Aws::Invoicing
     #         value: "ResourceTagValue", # required
     #       },
     #     ],
+    #     client_token: "BasicStringWithoutSpace",
     #   })
     #
     # @example Response structure
@@ -856,6 +865,13 @@ module Aws::Invoicing
     #   The ARN to identify an invoice unit. This information can't be
     #   modified or deleted.
     #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
     # @return [Types::DeleteInvoiceUnitResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DeleteInvoiceUnitResponse#invoice_unit_arn #invoice_unit_arn} => String
@@ -864,6 +880,7 @@ module Aws::Invoicing
     # @example Example: DeleteInvoiceUnit
     #
     #   resp = client.delete_invoice_unit({
+    #     client_token: "e362c68e-4e74-48d7-9228-0bc5aa447b44", 
     #     invoice_unit_arn: "arn:aws:invoicing::000000000000:invoice-unit/12345678", 
     #   })
     #
@@ -876,6 +893,7 @@ module Aws::Invoicing
     #
     #   resp = client.delete_invoice_unit({
     #     invoice_unit_arn: "InvoiceUnitArnString", # required
+    #     client_token: "BasicStringWithoutSpace",
     #   })
     #
     # @example Response structure
@@ -904,6 +922,13 @@ module Aws::Invoicing
     #   The Amazon Resource Name (ARN) of the procurement portal preference to
     #   delete.
     #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
     # @return [Types::DeleteProcurementPortalPreferenceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DeleteProcurementPortalPreferenceResponse#procurement_portal_preference_arn #procurement_portal_preference_arn} => String
@@ -912,6 +937,7 @@ module Aws::Invoicing
     # @example Example: DeleteProcurementPortalPreference call
     #
     #   resp = client.delete_procurement_portal_preference({
+    #     client_token: "e362c68e-4e74-48d7-9228-0bc5aa447b47", 
     #     procurement_portal_preference_arn: "arn:aws:invoicing::111111111111:procurement-portal-preference/f71dd02e-f855-4b13-b793-0fd25c0b3ecd", 
     #   })
     #
@@ -924,6 +950,7 @@ module Aws::Invoicing
     #
     #   resp = client.delete_procurement_portal_preference({
     #     procurement_portal_preference_arn: "ProcurementPortalPreferenceArnString", # required
+    #     client_token: "BasicStringWithoutSpace",
     #   })
     #
     # @example Response structure
@@ -1278,9 +1305,8 @@ module Aws::Invoicing
     #   Filters you can use to customize your invoice summary.
     #
     # @option params [String] :next_token
-    #   The token to retrieve the next set of results. Amazon Web Services
-    #   provides the token when the response from a previous call has more
-    #   results than the maximum page size.
+    #   The token for the next set of results. (You received this token from a
+    #   previous call.)
     #
     # @option params [Integer] :max_results
     #   The maximum number of invoice summaries a paginated response can
@@ -2529,6 +2555,13 @@ module Aws::Invoicing
     #   Updated list of contact information for portal administrators and
     #   technical contacts.
     #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
     # @return [Types::PutProcurementPortalPreferenceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::PutProcurementPortalPreferenceResponse#procurement_portal_preference_arn #procurement_portal_preference_arn} => String
@@ -2537,6 +2570,7 @@ module Aws::Invoicing
     # @example Example: PutProcurementPortalPreference for Coupa pref
     #
     #   resp = client.put_procurement_portal_preference({
+    #     client_token: "e362c68e-4e74-48d7-9228-0bc5aa447b45", 
     #     contacts: [
     #       {
     #         email: "example-placeholder2@amazon.com", 
@@ -2627,6 +2661,7 @@ module Aws::Invoicing
     #         email: "EmailString",
     #       },
     #     ],
+    #     client_token: "BasicStringWithoutSpace",
     #   })
     #
     # @example Response structure
@@ -2749,6 +2784,13 @@ module Aws::Invoicing
     # @option params [Types::InvoiceUnitRule] :rule
     #   The `InvoiceUnitRule` object used to update invoice units.
     #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
     # @return [Types::UpdateInvoiceUnitResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateInvoiceUnitResponse#invoice_unit_arn #invoice_unit_arn} => String
@@ -2757,6 +2799,7 @@ module Aws::Invoicing
     # @example Example: UpdateInvoiceUnit with all updatable fields
     #
     #   resp = client.update_invoice_unit({
+    #     client_token: "e362c68e-4e74-48d7-9228-0bc5aa447b42", 
     #     description: "Updated IU description", 
     #     invoice_unit_arn: "arn:aws:invoicing::000000000000:invoice-unit/12345678", 
     #     rule: {
@@ -2776,6 +2819,7 @@ module Aws::Invoicing
     # @example Example: UpdateInvoiceUnit with specific fields
     #
     #   resp = client.update_invoice_unit({
+    #     client_token: "e362c68e-4e74-48d7-9228-0bc5aa447b43", 
     #     description: "Updated IU description. All other fields remain unchanged", 
     #     invoice_unit_arn: "arn:aws:invoicing::000000000000:invoice-unit/12345678", 
     #   })
@@ -2795,6 +2839,7 @@ module Aws::Invoicing
     #       linked_accounts: ["AccountIdString"],
     #       bill_source_accounts: ["AccountIdString"],
     #     },
+    #     client_token: "BasicStringWithoutSpace",
     #   })
     #
     # @example Response structure
@@ -2837,6 +2882,13 @@ module Aws::Invoicing
     #   The reason for the purchase order retrieval preference status update,
     #   providing context for the change.
     #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
     # @return [Types::UpdateProcurementPortalPreferenceStatusResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateProcurementPortalPreferenceStatusResponse#procurement_portal_preference_arn #procurement_portal_preference_arn} => String
@@ -2845,6 +2897,7 @@ module Aws::Invoicing
     # @example Example: UpdateProcurementPortalPreference for EinvoiceDeliveryPreferenceStatus and PurchaseOrderRetrievalPreferenceStatus
     #
     #   resp = client.update_procurement_portal_preference_status({
+    #     client_token: "e362c68e-4e74-48d7-9228-0bc5aa447b46", 
     #     einvoice_delivery_preference_status: "SUSPENDED", 
     #     einvoice_delivery_preference_status_reason: "suspended example reason", 
     #     procurement_portal_preference_arn: "arn:aws:invoicing::111111111111:procurement-portal-preference/f71dd02e-f855-4b13-b793-0fd25c0b3ecd", 
@@ -2865,6 +2918,7 @@ module Aws::Invoicing
     #     einvoice_delivery_preference_status_reason: "BasicString",
     #     purchase_order_retrieval_preference_status: "PENDING_VERIFICATION", # accepts PENDING_VERIFICATION, TEST_INITIALIZED, TEST_INITIALIZATION_FAILED, TEST_FAILED, ACTIVE, SUSPENDED
     #     purchase_order_retrieval_preference_status_reason: "BasicString",
+    #     client_token: "BasicStringWithoutSpace",
     #   })
     #
     # @example Response structure
@@ -2898,7 +2952,7 @@ module Aws::Invoicing
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-invoicing'
-      context[:gem_version] = '1.25.0'
+      context[:gem_version] = '1.26.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.620.0 (2026-05-22)
+------------------
+
+* Feature - The ModifyInstanceAttribute API now supports modification of EnclaveOptions for the instance as a typed parameter.
+
 1.619.0 (2026-05-21)
 ------------------
 

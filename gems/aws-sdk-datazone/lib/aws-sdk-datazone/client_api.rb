@@ -1052,6 +1052,7 @@ module Aws::DataZone
     SearchTypesResultItems = Shapes::ListShape.new(name: 'SearchTypesResultItems')
     SearchUserProfilesInput = Shapes::StructureShape.new(name: 'SearchUserProfilesInput')
     SearchUserProfilesOutput = Shapes::StructureShape.new(name: 'SearchUserProfilesOutput')
+    SecurityGroupId = Shapes::StringShape.new(name: 'SecurityGroupId')
     SecurityGroupIdList = Shapes::ListShape.new(name: 'SecurityGroupIdList')
     SecurityGroupIdListMemberString = Shapes::StringShape.new(name: 'SecurityGroupIdListMemberString')
     SecurityGroupIds = Shapes::ListShape.new(name: 'SecurityGroupIds')
@@ -1278,6 +1279,11 @@ module Aws::DataZone
     Username = Shapes::StringShape.new(name: 'Username')
     UsernamePassword = Shapes::StructureShape.new(name: 'UsernamePassword')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
+    VpcConnectionSubnetIdList = Shapes::ListShape.new(name: 'VpcConnectionSubnetIdList')
+    VpcId = Shapes::StringShape.new(name: 'VpcId')
+    VpcPropertiesInput = Shapes::StructureShape.new(name: 'VpcPropertiesInput')
+    VpcPropertiesOutput = Shapes::StructureShape.new(name: 'VpcPropertiesOutput')
+    VpcPropertiesPatch = Shapes::StructureShape.new(name: 'VpcPropertiesPatch')
     WorkflowsMwaaPropertiesInput = Shapes::StructureShape.new(name: 'WorkflowsMwaaPropertiesInput')
     WorkflowsMwaaPropertiesOutput = Shapes::StructureShape.new(name: 'WorkflowsMwaaPropertiesOutput')
     WorkflowsServerlessPropertiesInput = Shapes::StructureShape.new(name: 'WorkflowsServerlessPropertiesInput')
@@ -1792,6 +1798,7 @@ module Aws::DataZone
     ConnectionPropertiesInput.add_member(:workflows_mwaa_properties, Shapes::ShapeRef.new(shape: WorkflowsMwaaPropertiesInput, location_name: "workflowsMwaaProperties"))
     ConnectionPropertiesInput.add_member(:workflows_serverless_properties, Shapes::ShapeRef.new(shape: WorkflowsServerlessPropertiesInput, location_name: "workflowsServerlessProperties"))
     ConnectionPropertiesInput.add_member(:lakehouse_properties, Shapes::ShapeRef.new(shape: LakehousePropertiesInput, location_name: "lakehouseProperties"))
+    ConnectionPropertiesInput.add_member(:vpc_properties, Shapes::ShapeRef.new(shape: VpcPropertiesInput, location_name: "vpcProperties"))
     ConnectionPropertiesInput.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     ConnectionPropertiesInput.add_member_subclass(:athena_properties, Types::ConnectionPropertiesInput::AthenaProperties)
     ConnectionPropertiesInput.add_member_subclass(:glue_properties, Types::ConnectionPropertiesInput::GlueProperties)
@@ -1806,6 +1813,7 @@ module Aws::DataZone
     ConnectionPropertiesInput.add_member_subclass(:workflows_mwaa_properties, Types::ConnectionPropertiesInput::WorkflowsMwaaProperties)
     ConnectionPropertiesInput.add_member_subclass(:workflows_serverless_properties, Types::ConnectionPropertiesInput::WorkflowsServerlessProperties)
     ConnectionPropertiesInput.add_member_subclass(:lakehouse_properties, Types::ConnectionPropertiesInput::LakehouseProperties)
+    ConnectionPropertiesInput.add_member_subclass(:vpc_properties, Types::ConnectionPropertiesInput::VpcProperties)
     ConnectionPropertiesInput.add_member_subclass(:unknown, Types::ConnectionPropertiesInput::Unknown)
     ConnectionPropertiesInput.struct_class = Types::ConnectionPropertiesInput
 
@@ -1822,6 +1830,7 @@ module Aws::DataZone
     ConnectionPropertiesOutput.add_member(:workflows_mwaa_properties, Shapes::ShapeRef.new(shape: WorkflowsMwaaPropertiesOutput, location_name: "workflowsMwaaProperties"))
     ConnectionPropertiesOutput.add_member(:workflows_serverless_properties, Shapes::ShapeRef.new(shape: WorkflowsServerlessPropertiesOutput, location_name: "workflowsServerlessProperties"))
     ConnectionPropertiesOutput.add_member(:lakehouse_properties, Shapes::ShapeRef.new(shape: LakehousePropertiesOutput, location_name: "lakehouseProperties"))
+    ConnectionPropertiesOutput.add_member(:vpc_properties, Shapes::ShapeRef.new(shape: VpcPropertiesOutput, location_name: "vpcProperties"))
     ConnectionPropertiesOutput.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     ConnectionPropertiesOutput.add_member_subclass(:athena_properties, Types::ConnectionPropertiesOutput::AthenaProperties)
     ConnectionPropertiesOutput.add_member_subclass(:glue_properties, Types::ConnectionPropertiesOutput::GlueProperties)
@@ -1836,6 +1845,7 @@ module Aws::DataZone
     ConnectionPropertiesOutput.add_member_subclass(:workflows_mwaa_properties, Types::ConnectionPropertiesOutput::WorkflowsMwaaProperties)
     ConnectionPropertiesOutput.add_member_subclass(:workflows_serverless_properties, Types::ConnectionPropertiesOutput::WorkflowsServerlessProperties)
     ConnectionPropertiesOutput.add_member_subclass(:lakehouse_properties, Types::ConnectionPropertiesOutput::LakehouseProperties)
+    ConnectionPropertiesOutput.add_member_subclass(:vpc_properties, Types::ConnectionPropertiesOutput::VpcProperties)
     ConnectionPropertiesOutput.add_member_subclass(:unknown, Types::ConnectionPropertiesOutput::Unknown)
     ConnectionPropertiesOutput.struct_class = Types::ConnectionPropertiesOutput
 
@@ -1848,6 +1858,7 @@ module Aws::DataZone
     ConnectionPropertiesPatch.add_member(:amazon_q_properties, Shapes::ShapeRef.new(shape: AmazonQPropertiesPatch, location_name: "amazonQProperties"))
     ConnectionPropertiesPatch.add_member(:mlflow_properties, Shapes::ShapeRef.new(shape: MlflowPropertiesPatch, location_name: "mlflowProperties"))
     ConnectionPropertiesPatch.add_member(:lakehouse_properties, Shapes::ShapeRef.new(shape: LakehousePropertiesPatch, location_name: "lakehouseProperties"))
+    ConnectionPropertiesPatch.add_member(:vpc_properties, Shapes::ShapeRef.new(shape: VpcPropertiesPatch, location_name: "vpcProperties"))
     ConnectionPropertiesPatch.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     ConnectionPropertiesPatch.add_member_subclass(:athena_properties, Types::ConnectionPropertiesPatch::AthenaProperties)
     ConnectionPropertiesPatch.add_member_subclass(:glue_properties, Types::ConnectionPropertiesPatch::GlueProperties)
@@ -1858,6 +1869,7 @@ module Aws::DataZone
     ConnectionPropertiesPatch.add_member_subclass(:amazon_q_properties, Types::ConnectionPropertiesPatch::AmazonQProperties)
     ConnectionPropertiesPatch.add_member_subclass(:mlflow_properties, Types::ConnectionPropertiesPatch::MlflowProperties)
     ConnectionPropertiesPatch.add_member_subclass(:lakehouse_properties, Types::ConnectionPropertiesPatch::LakehouseProperties)
+    ConnectionPropertiesPatch.add_member_subclass(:vpc_properties, Types::ConnectionPropertiesPatch::VpcProperties)
     ConnectionPropertiesPatch.add_member_subclass(:unknown, Types::ConnectionPropertiesPatch::Unknown)
     ConnectionPropertiesPatch.struct_class = Types::ConnectionPropertiesPatch
 
@@ -6829,6 +6841,25 @@ module Aws::DataZone
 
     ValidationException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, required: true, location_name: "message"))
     ValidationException.struct_class = Types::ValidationException
+
+    VpcConnectionSubnetIdList.member = Shapes::ShapeRef.new(shape: SubnetId)
+
+    VpcPropertiesInput.add_member(:vpc_id, Shapes::ShapeRef.new(shape: VpcId, required: true, location_name: "vpcId"))
+    VpcPropertiesInput.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: VpcConnectionSubnetIdList, required: true, location_name: "subnetIds"))
+    VpcPropertiesInput.add_member(:security_group_id, Shapes::ShapeRef.new(shape: SecurityGroupId, location_name: "securityGroupId"))
+    VpcPropertiesInput.struct_class = Types::VpcPropertiesInput
+
+    VpcPropertiesOutput.add_member(:vpc_id, Shapes::ShapeRef.new(shape: VpcId, required: true, location_name: "vpcId"))
+    VpcPropertiesOutput.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: VpcConnectionSubnetIdList, required: true, location_name: "subnetIds"))
+    VpcPropertiesOutput.add_member(:status, Shapes::ShapeRef.new(shape: ConnectionStatus, required: true, location_name: "status"))
+    VpcPropertiesOutput.add_member(:security_group_id, Shapes::ShapeRef.new(shape: SecurityGroupId, location_name: "securityGroupId"))
+    VpcPropertiesOutput.add_member(:glue_connection_names, Shapes::ShapeRef.new(shape: GlueConnectionNames, location_name: "glueConnectionNames"))
+    VpcPropertiesOutput.struct_class = Types::VpcPropertiesOutput
+
+    VpcPropertiesPatch.add_member(:vpc_id, Shapes::ShapeRef.new(shape: VpcId, location_name: "vpcId"))
+    VpcPropertiesPatch.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: VpcConnectionSubnetIdList, location_name: "subnetIds"))
+    VpcPropertiesPatch.add_member(:security_group_id, Shapes::ShapeRef.new(shape: SecurityGroupId, location_name: "securityGroupId"))
+    VpcPropertiesPatch.struct_class = Types::VpcPropertiesPatch
 
     WorkflowsMwaaPropertiesInput.add_member(:mwaa_environment_name, Shapes::ShapeRef.new(shape: String, location_name: "mwaaEnvironmentName"))
     WorkflowsMwaaPropertiesInput.struct_class = Types::WorkflowsMwaaPropertiesInput

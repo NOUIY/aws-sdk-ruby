@@ -77,6 +77,8 @@ module Aws::PI
     ListAvailableResourceDimensionsResponse = Shapes::StructureShape.new(name: 'ListAvailableResourceDimensionsResponse')
     ListAvailableResourceMetricsRequest = Shapes::StructureShape.new(name: 'ListAvailableResourceMetricsRequest')
     ListAvailableResourceMetricsResponse = Shapes::StructureShape.new(name: 'ListAvailableResourceMetricsResponse')
+    ListPerformanceAnalysisReportRecommendationsRequest = Shapes::StructureShape.new(name: 'ListPerformanceAnalysisReportRecommendationsRequest')
+    ListPerformanceAnalysisReportRecommendationsResponse = Shapes::StructureShape.new(name: 'ListPerformanceAnalysisReportRecommendationsResponse')
     ListPerformanceAnalysisReportsRequest = Shapes::StructureShape.new(name: 'ListPerformanceAnalysisReportsRequest')
     ListPerformanceAnalysisReportsResponse = Shapes::StructureShape.new(name: 'ListPerformanceAnalysisReportsResponse')
     ListTagsForResourceRequest = Shapes::StructureShape.new(name: 'ListTagsForResourceRequest')
@@ -97,6 +99,7 @@ module Aws::PI
     PerformanceInsightsMetric = Shapes::StructureShape.new(name: 'PerformanceInsightsMetric')
     PeriodAlignment = Shapes::StringShape.new(name: 'PeriodAlignment')
     Recommendation = Shapes::StructureShape.new(name: 'Recommendation')
+    RecommendationIdList = Shapes::ListShape.new(name: 'RecommendationIdList')
     RecommendationList = Shapes::ListShape.new(name: 'RecommendationList')
     RequestString = Shapes::StringShape.new(name: 'RequestString')
     RequestedDimensionList = Shapes::ListShape.new(name: 'RequestedDimensionList')
@@ -151,7 +154,7 @@ module Aws::PI
     CreatePerformanceAnalysisReportRequest.add_member(:service_type, Shapes::ShapeRef.new(shape: ServiceType, required: true, location_name: "ServiceType"))
     CreatePerformanceAnalysisReportRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: IdentifierString, required: true, location_name: "Identifier"))
     CreatePerformanceAnalysisReportRequest.add_member(:start_time, Shapes::ShapeRef.new(shape: ISOTimestamp, required: true, location_name: "StartTime"))
-    CreatePerformanceAnalysisReportRequest.add_member(:end_time, Shapes::ShapeRef.new(shape: ISOTimestamp, required: true, location_name: "EndTime"))
+    CreatePerformanceAnalysisReportRequest.add_member(:end_time, Shapes::ShapeRef.new(shape: ISOTimestamp, location_name: "EndTime"))
     CreatePerformanceAnalysisReportRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     CreatePerformanceAnalysisReportRequest.struct_class = Types::CreatePerformanceAnalysisReportRequest
 
@@ -332,6 +335,18 @@ module Aws::PI
     ListAvailableResourceMetricsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     ListAvailableResourceMetricsResponse.struct_class = Types::ListAvailableResourceMetricsResponse
 
+    ListPerformanceAnalysisReportRecommendationsRequest.add_member(:service_type, Shapes::ShapeRef.new(shape: ServiceType, required: true, location_name: "ServiceType"))
+    ListPerformanceAnalysisReportRecommendationsRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: IdentifierString, required: true, location_name: "Identifier"))
+    ListPerformanceAnalysisReportRecommendationsRequest.add_member(:analysis_report_id, Shapes::ShapeRef.new(shape: AnalysisReportId, required: true, location_name: "AnalysisReportId"))
+    ListPerformanceAnalysisReportRecommendationsRequest.add_member(:recommendation_ids, Shapes::ShapeRef.new(shape: RecommendationIdList, location_name: "RecommendationIds"))
+    ListPerformanceAnalysisReportRecommendationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "MaxResults"))
+    ListPerformanceAnalysisReportRecommendationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListPerformanceAnalysisReportRecommendationsRequest.struct_class = Types::ListPerformanceAnalysisReportRecommendationsRequest
+
+    ListPerformanceAnalysisReportRecommendationsResponse.add_member(:recommendations, Shapes::ShapeRef.new(shape: RecommendationList, location_name: "Recommendations"))
+    ListPerformanceAnalysisReportRecommendationsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListPerformanceAnalysisReportRecommendationsResponse.struct_class = Types::ListPerformanceAnalysisReportRecommendationsResponse
+
     ListPerformanceAnalysisReportsRequest.add_member(:service_type, Shapes::ShapeRef.new(shape: ServiceType, required: true, location_name: "ServiceType"))
     ListPerformanceAnalysisReportsRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: IdentifierString, required: true, location_name: "Identifier"))
     ListPerformanceAnalysisReportsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
@@ -388,7 +403,10 @@ module Aws::PI
 
     Recommendation.add_member(:recommendation_id, Shapes::ShapeRef.new(shape: String, location_name: "RecommendationId"))
     Recommendation.add_member(:recommendation_description, Shapes::ShapeRef.new(shape: MarkdownString, location_name: "RecommendationDescription"))
+    Recommendation.add_member(:recommendation_details, Shapes::ShapeRef.new(shape: MarkdownString, location_name: "RecommendationDetails"))
     Recommendation.struct_class = Types::Recommendation
+
+    RecommendationIdList.member = Shapes::ShapeRef.new(shape: String)
 
     RecommendationList.member = Shapes::ShapeRef.new(shape: Recommendation)
 
@@ -568,6 +586,23 @@ module Aws::PI
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ListAvailableResourceMetricsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListAvailableResourceMetricsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidArgumentException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceError)
+        o.errors << Shapes::ShapeRef.new(shape: NotAuthorizedException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_performance_analysis_report_recommendations, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListPerformanceAnalysisReportRecommendations"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListPerformanceAnalysisReportRecommendationsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListPerformanceAnalysisReportRecommendationsResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidArgumentException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceError)
         o.errors << Shapes::ShapeRef.new(shape: NotAuthorizedException)

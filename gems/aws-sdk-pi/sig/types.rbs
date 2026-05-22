@@ -246,6 +246,22 @@ module Aws::PI
       SENSITIVE: []
     end
 
+    class ListPerformanceAnalysisReportRecommendationsRequest
+      attr_accessor service_type: ("RDS" | "DOCDB")
+      attr_accessor identifier: ::String
+      attr_accessor analysis_report_id: ::String
+      attr_accessor recommendation_ids: ::Array[::String]
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListPerformanceAnalysisReportRecommendationsResponse
+      attr_accessor recommendations: ::Array[Types::Recommendation]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListPerformanceAnalysisReportsRequest
       attr_accessor service_type: ("RDS" | "DOCDB")
       attr_accessor identifier: ::String
@@ -308,7 +324,8 @@ module Aws::PI
     class Recommendation
       attr_accessor recommendation_id: ::String
       attr_accessor recommendation_description: ::String
-      SENSITIVE: [:recommendation_description]
+      attr_accessor recommendation_details: ::String
+      SENSITIVE: [:recommendation_description, :recommendation_details]
     end
 
     class ResponsePartitionKey

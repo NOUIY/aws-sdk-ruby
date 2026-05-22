@@ -2121,6 +2121,10 @@ module Aws::DataZone
     #   The lakehouse properties of a connection.
     #   @return [Types::LakehousePropertiesInput]
     #
+    # @!attribute [rw] vpc_properties
+    #   The VPC properties of a connection.
+    #   @return [Types::VpcPropertiesInput]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ConnectionPropertiesInput AWS API Documentation
     #
     class ConnectionPropertiesInput < Struct.new(
@@ -2137,6 +2141,7 @@ module Aws::DataZone
       :workflows_mwaa_properties,
       :workflows_serverless_properties,
       :lakehouse_properties,
+      :vpc_properties,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -2155,6 +2160,7 @@ module Aws::DataZone
       class WorkflowsMwaaProperties < ConnectionPropertiesInput; end
       class WorkflowsServerlessProperties < ConnectionPropertiesInput; end
       class LakehouseProperties < ConnectionPropertiesInput; end
+      class VpcProperties < ConnectionPropertiesInput; end
       class Unknown < ConnectionPropertiesInput; end
     end
 
@@ -2214,6 +2220,10 @@ module Aws::DataZone
     #   The lakehouse properties of a connection.
     #   @return [Types::LakehousePropertiesOutput]
     #
+    # @!attribute [rw] vpc_properties
+    #   The VPC properties of a connection.
+    #   @return [Types::VpcPropertiesOutput]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ConnectionPropertiesOutput AWS API Documentation
     #
     class ConnectionPropertiesOutput < Struct.new(
@@ -2230,6 +2240,7 @@ module Aws::DataZone
       :workflows_mwaa_properties,
       :workflows_serverless_properties,
       :lakehouse_properties,
+      :vpc_properties,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -2248,6 +2259,7 @@ module Aws::DataZone
       class WorkflowsMwaaProperties < ConnectionPropertiesOutput; end
       class WorkflowsServerlessProperties < ConnectionPropertiesOutput; end
       class LakehouseProperties < ConnectionPropertiesOutput; end
+      class VpcProperties < ConnectionPropertiesOutput; end
       class Unknown < ConnectionPropertiesOutput; end
     end
 
@@ -2292,6 +2304,10 @@ module Aws::DataZone
     #   The lakehouse properties of a connection properties patch.
     #   @return [Types::LakehousePropertiesPatch]
     #
+    # @!attribute [rw] vpc_properties
+    #   The VPC properties of a connection properties patch.
+    #   @return [Types::VpcPropertiesPatch]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ConnectionPropertiesPatch AWS API Documentation
     #
     class ConnectionPropertiesPatch < Struct.new(
@@ -2304,6 +2320,7 @@ module Aws::DataZone
       :amazon_q_properties,
       :mlflow_properties,
       :lakehouse_properties,
+      :vpc_properties,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -2318,6 +2335,7 @@ module Aws::DataZone
       class AmazonQProperties < ConnectionPropertiesPatch; end
       class MlflowProperties < ConnectionPropertiesPatch; end
       class LakehouseProperties < ConnectionPropertiesPatch; end
+      class VpcProperties < ConnectionPropertiesPatch; end
       class Unknown < ConnectionPropertiesPatch; end
     end
 
@@ -25146,6 +25164,92 @@ module Aws::DataZone
     #
     class ValidationException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The VPC connection properties used when creating a connection.
+    #
+    # @!attribute [rw] vpc_id
+    #   The identifier of the VPC. Must match the pattern `^vpc-[a-z0-9]+$`.
+    #   Maximum length of 32.
+    #   @return [String]
+    #
+    # @!attribute [rw] subnet_ids
+    #   The subnet IDs of the VPC connection. You can specify between 1 and
+    #   16 subnet IDs.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] security_group_id
+    #   The security group ID of the VPC connection. Must match the pattern
+    #   `^sg-[a-z0-9]+$`. Maximum length of 32.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/VpcPropertiesInput AWS API Documentation
+    #
+    class VpcPropertiesInput < Struct.new(
+      :vpc_id,
+      :subnet_ids,
+      :security_group_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The VPC connection properties returned in responses.
+    #
+    # @!attribute [rw] vpc_id
+    #   The identifier of the VPC.
+    #   @return [String]
+    #
+    # @!attribute [rw] subnet_ids
+    #   The subnet IDs of the VPC connection.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] status
+    #   The status of the VPC connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] security_group_id
+    #   The security group ID of the VPC connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] glue_connection_names
+    #   The Amazon Web Services Glue connection names associated with the
+    #   VPC connection.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/VpcPropertiesOutput AWS API Documentation
+    #
+    class VpcPropertiesOutput < Struct.new(
+      :vpc_id,
+      :subnet_ids,
+      :status,
+      :security_group_id,
+      :glue_connection_names)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The VPC connection properties used when updating a connection.
+    #
+    # @!attribute [rw] vpc_id
+    #   The identifier of the VPC.
+    #   @return [String]
+    #
+    # @!attribute [rw] subnet_ids
+    #   The subnet IDs of the VPC connection.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] security_group_id
+    #   The security group ID of the VPC connection.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/VpcPropertiesPatch AWS API Documentation
+    #
+    class VpcPropertiesPatch < Struct.new(
+      :vpc_id,
+      :subnet_ids,
+      :security_group_id)
       SENSITIVE = []
       include Aws::Structure
     end

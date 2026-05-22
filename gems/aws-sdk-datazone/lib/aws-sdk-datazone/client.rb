@@ -2085,6 +2085,11 @@ module Aws::DataZone
     #       lakehouse_properties: {
     #         glue_lineage_sync_enabled: false,
     #       },
+    #       vpc_properties: {
+    #         vpc_id: "VpcId", # required
+    #         subnet_ids: ["SubnetId"], # required
+    #         security_group_id: "SecurityGroupId",
+    #       },
     #     },
     #     enable_trusted_identity_propagation: false,
     #     scope: "DOMAIN", # accepts DOMAIN, PROJECT
@@ -2112,7 +2117,7 @@ module Aws::DataZone
     #   resp.physical_endpoints[0].glue_connection_names[0] #=> String
     #   resp.physical_endpoints[0].glue_connection.name #=> String
     #   resp.physical_endpoints[0].glue_connection.description #=> String
-    #   resp.physical_endpoints[0].glue_connection.connection_type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
+    #   resp.physical_endpoints[0].glue_connection.connection_type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW", "VPC"
     #   resp.physical_endpoints[0].glue_connection.match_criteria #=> Array
     #   resp.physical_endpoints[0].glue_connection.match_criteria[0] #=> String
     #   resp.physical_endpoints[0].glue_connection.connection_properties #=> Hash
@@ -2217,7 +2222,14 @@ module Aws::DataZone
     #   resp.props.mlflow_properties.tracking_server_arn #=> String
     #   resp.props.workflows_mwaa_properties.mwaa_environment_name #=> String
     #   resp.props.lakehouse_properties.glue_lineage_sync_enabled #=> Boolean
-    #   resp.type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
+    #   resp.props.vpc_properties.vpc_id #=> String
+    #   resp.props.vpc_properties.subnet_ids #=> Array
+    #   resp.props.vpc_properties.subnet_ids[0] #=> String
+    #   resp.props.vpc_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
+    #   resp.props.vpc_properties.security_group_id #=> String
+    #   resp.props.vpc_properties.glue_connection_names #=> Array
+    #   resp.props.vpc_properties.glue_connection_names[0] #=> String
+    #   resp.type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW", "VPC"
     #   resp.scope #=> String, one of "DOMAIN", "PROJECT"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/CreateConnection AWS API Documentation
@@ -6229,7 +6241,7 @@ module Aws::DataZone
     #   resp.physical_endpoints[0].glue_connection_names[0] #=> String
     #   resp.physical_endpoints[0].glue_connection.name #=> String
     #   resp.physical_endpoints[0].glue_connection.description #=> String
-    #   resp.physical_endpoints[0].glue_connection.connection_type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
+    #   resp.physical_endpoints[0].glue_connection.connection_type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW", "VPC"
     #   resp.physical_endpoints[0].glue_connection.match_criteria #=> Array
     #   resp.physical_endpoints[0].glue_connection.match_criteria[0] #=> String
     #   resp.physical_endpoints[0].glue_connection.connection_properties #=> Hash
@@ -6334,7 +6346,14 @@ module Aws::DataZone
     #   resp.props.mlflow_properties.tracking_server_arn #=> String
     #   resp.props.workflows_mwaa_properties.mwaa_environment_name #=> String
     #   resp.props.lakehouse_properties.glue_lineage_sync_enabled #=> Boolean
-    #   resp.type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
+    #   resp.props.vpc_properties.vpc_id #=> String
+    #   resp.props.vpc_properties.subnet_ids #=> Array
+    #   resp.props.vpc_properties.subnet_ids[0] #=> String
+    #   resp.props.vpc_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
+    #   resp.props.vpc_properties.security_group_id #=> String
+    #   resp.props.vpc_properties.glue_connection_names #=> Array
+    #   resp.props.vpc_properties.glue_connection_names[0] #=> String
+    #   resp.type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW", "VPC"
     #   resp.scope #=> String, one of "DOMAIN", "PROJECT"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/GetConnection AWS API Documentation
@@ -9015,7 +9034,7 @@ module Aws::DataZone
     #     name: "ConnectionName",
     #     environment_identifier: "EnvironmentId",
     #     project_identifier: "ProjectId",
-    #     type: "ATHENA", # accepts ATHENA, BIGQUERY, DATABRICKS, DOCUMENTDB, DYNAMODB, HYPERPOD, IAM, MYSQL, OPENSEARCH, ORACLE, POSTGRESQL, REDSHIFT, S3, SAPHANA, SNOWFLAKE, SPARK, SQLSERVER, TERADATA, VERTICA, WORKFLOWS_MWAA, AMAZON_Q, MLFLOW
+    #     type: "ATHENA", # accepts ATHENA, BIGQUERY, DATABRICKS, DOCUMENTDB, DYNAMODB, HYPERPOD, IAM, MYSQL, OPENSEARCH, ORACLE, POSTGRESQL, REDSHIFT, S3, SAPHANA, SNOWFLAKE, SPARK, SQLSERVER, TERADATA, VERTICA, WORKFLOWS_MWAA, AMAZON_Q, MLFLOW, VPC
     #     scope: "DOMAIN", # accepts DOMAIN, PROJECT
     #   })
     #
@@ -9041,7 +9060,7 @@ module Aws::DataZone
     #   resp.items[0].physical_endpoints[0].glue_connection_names[0] #=> String
     #   resp.items[0].physical_endpoints[0].glue_connection.name #=> String
     #   resp.items[0].physical_endpoints[0].glue_connection.description #=> String
-    #   resp.items[0].physical_endpoints[0].glue_connection.connection_type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
+    #   resp.items[0].physical_endpoints[0].glue_connection.connection_type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW", "VPC"
     #   resp.items[0].physical_endpoints[0].glue_connection.match_criteria #=> Array
     #   resp.items[0].physical_endpoints[0].glue_connection.match_criteria[0] #=> String
     #   resp.items[0].physical_endpoints[0].glue_connection.connection_properties #=> Hash
@@ -9146,7 +9165,14 @@ module Aws::DataZone
     #   resp.items[0].props.mlflow_properties.tracking_server_arn #=> String
     #   resp.items[0].props.workflows_mwaa_properties.mwaa_environment_name #=> String
     #   resp.items[0].props.lakehouse_properties.glue_lineage_sync_enabled #=> Boolean
-    #   resp.items[0].type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
+    #   resp.items[0].props.vpc_properties.vpc_id #=> String
+    #   resp.items[0].props.vpc_properties.subnet_ids #=> Array
+    #   resp.items[0].props.vpc_properties.subnet_ids[0] #=> String
+    #   resp.items[0].props.vpc_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
+    #   resp.items[0].props.vpc_properties.security_group_id #=> String
+    #   resp.items[0].props.vpc_properties.glue_connection_names #=> Array
+    #   resp.items[0].props.vpc_properties.glue_connection_names[0] #=> String
+    #   resp.items[0].type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW", "VPC"
     #   resp.items[0].scope #=> String, one of "DOMAIN", "PROJECT"
     #   resp.next_token #=> String
     #
@@ -14141,6 +14167,11 @@ module Aws::DataZone
     #       lakehouse_properties: {
     #         glue_lineage_sync_enabled: false,
     #       },
+    #       vpc_properties: {
+    #         vpc_id: "VpcId",
+    #         subnet_ids: ["SubnetId"],
+    #         security_group_id: "SecurityGroupId",
+    #       },
     #     },
     #   })
     #
@@ -14166,7 +14197,7 @@ module Aws::DataZone
     #   resp.physical_endpoints[0].glue_connection_names[0] #=> String
     #   resp.physical_endpoints[0].glue_connection.name #=> String
     #   resp.physical_endpoints[0].glue_connection.description #=> String
-    #   resp.physical_endpoints[0].glue_connection.connection_type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
+    #   resp.physical_endpoints[0].glue_connection.connection_type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW", "VPC"
     #   resp.physical_endpoints[0].glue_connection.match_criteria #=> Array
     #   resp.physical_endpoints[0].glue_connection.match_criteria[0] #=> String
     #   resp.physical_endpoints[0].glue_connection.connection_properties #=> Hash
@@ -14271,7 +14302,14 @@ module Aws::DataZone
     #   resp.props.mlflow_properties.tracking_server_arn #=> String
     #   resp.props.workflows_mwaa_properties.mwaa_environment_name #=> String
     #   resp.props.lakehouse_properties.glue_lineage_sync_enabled #=> Boolean
-    #   resp.type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW"
+    #   resp.props.vpc_properties.vpc_id #=> String
+    #   resp.props.vpc_properties.subnet_ids #=> Array
+    #   resp.props.vpc_properties.subnet_ids[0] #=> String
+    #   resp.props.vpc_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
+    #   resp.props.vpc_properties.security_group_id #=> String
+    #   resp.props.vpc_properties.glue_connection_names #=> Array
+    #   resp.props.vpc_properties.glue_connection_names[0] #=> String
+    #   resp.type #=> String, one of "ATHENA", "BIGQUERY", "DATABRICKS", "DOCUMENTDB", "DYNAMODB", "HYPERPOD", "IAM", "MYSQL", "OPENSEARCH", "ORACLE", "POSTGRESQL", "REDSHIFT", "S3", "SAPHANA", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "VERTICA", "WORKFLOWS_MWAA", "AMAZON_Q", "MLFLOW", "VPC"
     #   resp.scope #=> String, one of "DOMAIN", "PROJECT"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/UpdateConnection AWS API Documentation
@@ -16215,7 +16253,7 @@ module Aws::DataZone
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-datazone'
-      context[:gem_version] = '1.79.0'
+      context[:gem_version] = '1.80.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

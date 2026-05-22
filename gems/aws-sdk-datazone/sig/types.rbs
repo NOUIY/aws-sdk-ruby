@@ -613,6 +613,7 @@ module Aws::DataZone
       attr_accessor workflows_mwaa_properties: Types::WorkflowsMwaaPropertiesInput
       attr_accessor workflows_serverless_properties: Types::WorkflowsServerlessPropertiesInput
       attr_accessor lakehouse_properties: Types::LakehousePropertiesInput
+      attr_accessor vpc_properties: Types::VpcPropertiesInput
       attr_accessor unknown: untyped
       SENSITIVE: []
 
@@ -642,6 +643,8 @@ module Aws::DataZone
       end
       class LakehouseProperties < ConnectionPropertiesInput
       end
+      class VpcProperties < ConnectionPropertiesInput
+      end
       class Unknown < ConnectionPropertiesInput
       end
     end
@@ -660,6 +663,7 @@ module Aws::DataZone
       attr_accessor workflows_mwaa_properties: Types::WorkflowsMwaaPropertiesOutput
       attr_accessor workflows_serverless_properties: Types::WorkflowsServerlessPropertiesOutput
       attr_accessor lakehouse_properties: Types::LakehousePropertiesOutput
+      attr_accessor vpc_properties: Types::VpcPropertiesOutput
       attr_accessor unknown: untyped
       SENSITIVE: []
 
@@ -689,6 +693,8 @@ module Aws::DataZone
       end
       class LakehouseProperties < ConnectionPropertiesOutput
       end
+      class VpcProperties < ConnectionPropertiesOutput
+      end
       class Unknown < ConnectionPropertiesOutput
       end
     end
@@ -703,6 +709,7 @@ module Aws::DataZone
       attr_accessor amazon_q_properties: Types::AmazonQPropertiesPatch
       attr_accessor mlflow_properties: Types::MlflowPropertiesPatch
       attr_accessor lakehouse_properties: Types::LakehousePropertiesPatch
+      attr_accessor vpc_properties: Types::VpcPropertiesPatch
       attr_accessor unknown: untyped
       SENSITIVE: []
 
@@ -724,6 +731,8 @@ module Aws::DataZone
       end
       class LakehouseProperties < ConnectionPropertiesPatch
       end
+      class VpcProperties < ConnectionPropertiesPatch
+      end
       class Unknown < ConnectionPropertiesPatch
       end
     end
@@ -738,7 +747,7 @@ module Aws::DataZone
       attr_accessor physical_endpoints: ::Array[Types::PhysicalEndpoint]
       attr_accessor project_id: ::String
       attr_accessor props: Types::ConnectionPropertiesOutput
-      attr_accessor type: ("ATHENA" | "BIGQUERY" | "DATABRICKS" | "DOCUMENTDB" | "DYNAMODB" | "HYPERPOD" | "IAM" | "MYSQL" | "OPENSEARCH" | "ORACLE" | "POSTGRESQL" | "REDSHIFT" | "S3" | "SAPHANA" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "VERTICA" | "WORKFLOWS_MWAA" | "AMAZON_Q" | "MLFLOW")
+      attr_accessor type: ("ATHENA" | "BIGQUERY" | "DATABRICKS" | "DOCUMENTDB" | "DYNAMODB" | "HYPERPOD" | "IAM" | "MYSQL" | "OPENSEARCH" | "ORACLE" | "POSTGRESQL" | "REDSHIFT" | "S3" | "SAPHANA" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "VERTICA" | "WORKFLOWS_MWAA" | "AMAZON_Q" | "MLFLOW" | "VPC")
       attr_accessor scope: ("DOMAIN" | "PROJECT")
       SENSITIVE: []
     end
@@ -923,7 +932,7 @@ module Aws::DataZone
       attr_accessor physical_endpoints: ::Array[Types::PhysicalEndpoint]
       attr_accessor project_id: ::String
       attr_accessor props: Types::ConnectionPropertiesOutput
-      attr_accessor type: ("ATHENA" | "BIGQUERY" | "DATABRICKS" | "DOCUMENTDB" | "DYNAMODB" | "HYPERPOD" | "IAM" | "MYSQL" | "OPENSEARCH" | "ORACLE" | "POSTGRESQL" | "REDSHIFT" | "S3" | "SAPHANA" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "VERTICA" | "WORKFLOWS_MWAA" | "AMAZON_Q" | "MLFLOW")
+      attr_accessor type: ("ATHENA" | "BIGQUERY" | "DATABRICKS" | "DOCUMENTDB" | "DYNAMODB" | "HYPERPOD" | "IAM" | "MYSQL" | "OPENSEARCH" | "ORACLE" | "POSTGRESQL" | "REDSHIFT" | "S3" | "SAPHANA" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "VERTICA" | "WORKFLOWS_MWAA" | "AMAZON_Q" | "MLFLOW" | "VPC")
       attr_accessor scope: ("DOMAIN" | "PROJECT")
       SENSITIVE: [:description]
     end
@@ -2523,7 +2532,7 @@ module Aws::DataZone
       attr_accessor physical_endpoints: ::Array[Types::PhysicalEndpoint]
       attr_accessor project_id: ::String
       attr_accessor props: Types::ConnectionPropertiesOutput
-      attr_accessor type: ("ATHENA" | "BIGQUERY" | "DATABRICKS" | "DOCUMENTDB" | "DYNAMODB" | "HYPERPOD" | "IAM" | "MYSQL" | "OPENSEARCH" | "ORACLE" | "POSTGRESQL" | "REDSHIFT" | "S3" | "SAPHANA" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "VERTICA" | "WORKFLOWS_MWAA" | "AMAZON_Q" | "MLFLOW")
+      attr_accessor type: ("ATHENA" | "BIGQUERY" | "DATABRICKS" | "DOCUMENTDB" | "DYNAMODB" | "HYPERPOD" | "IAM" | "MYSQL" | "OPENSEARCH" | "ORACLE" | "POSTGRESQL" | "REDSHIFT" | "S3" | "SAPHANA" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "VERTICA" | "WORKFLOWS_MWAA" | "AMAZON_Q" | "MLFLOW" | "VPC")
       attr_accessor scope: ("DOMAIN" | "PROJECT")
       SENSITIVE: [:connection_credentials, :description]
     end
@@ -3334,7 +3343,7 @@ module Aws::DataZone
     class GlueConnection
       attr_accessor name: ::String
       attr_accessor description: ::String
-      attr_accessor connection_type: ("ATHENA" | "BIGQUERY" | "DATABRICKS" | "DOCUMENTDB" | "DYNAMODB" | "HYPERPOD" | "IAM" | "MYSQL" | "OPENSEARCH" | "ORACLE" | "POSTGRESQL" | "REDSHIFT" | "S3" | "SAPHANA" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "VERTICA" | "WORKFLOWS_MWAA" | "AMAZON_Q" | "MLFLOW")
+      attr_accessor connection_type: ("ATHENA" | "BIGQUERY" | "DATABRICKS" | "DOCUMENTDB" | "DYNAMODB" | "HYPERPOD" | "IAM" | "MYSQL" | "OPENSEARCH" | "ORACLE" | "POSTGRESQL" | "REDSHIFT" | "S3" | "SAPHANA" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "VERTICA" | "WORKFLOWS_MWAA" | "AMAZON_Q" | "MLFLOW" | "VPC")
       attr_accessor match_criteria: ::Array[::String]
       attr_accessor connection_properties: ::Hash[::String, ::String]
       attr_accessor spark_properties: ::Hash[::String, ::String]
@@ -3775,7 +3784,7 @@ module Aws::DataZone
       attr_accessor name: ::String
       attr_accessor environment_identifier: ::String
       attr_accessor project_identifier: ::String
-      attr_accessor type: ("ATHENA" | "BIGQUERY" | "DATABRICKS" | "DOCUMENTDB" | "DYNAMODB" | "HYPERPOD" | "IAM" | "MYSQL" | "OPENSEARCH" | "ORACLE" | "POSTGRESQL" | "REDSHIFT" | "S3" | "SAPHANA" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "VERTICA" | "WORKFLOWS_MWAA" | "AMAZON_Q" | "MLFLOW")
+      attr_accessor type: ("ATHENA" | "BIGQUERY" | "DATABRICKS" | "DOCUMENTDB" | "DYNAMODB" | "HYPERPOD" | "IAM" | "MYSQL" | "OPENSEARCH" | "ORACLE" | "POSTGRESQL" | "REDSHIFT" | "S3" | "SAPHANA" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "VERTICA" | "WORKFLOWS_MWAA" | "AMAZON_Q" | "MLFLOW" | "VPC")
       attr_accessor scope: ("DOMAIN" | "PROJECT")
       SENSITIVE: []
     end
@@ -6239,7 +6248,7 @@ module Aws::DataZone
       attr_accessor physical_endpoints: ::Array[Types::PhysicalEndpoint]
       attr_accessor project_id: ::String
       attr_accessor props: Types::ConnectionPropertiesOutput
-      attr_accessor type: ("ATHENA" | "BIGQUERY" | "DATABRICKS" | "DOCUMENTDB" | "DYNAMODB" | "HYPERPOD" | "IAM" | "MYSQL" | "OPENSEARCH" | "ORACLE" | "POSTGRESQL" | "REDSHIFT" | "S3" | "SAPHANA" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "VERTICA" | "WORKFLOWS_MWAA" | "AMAZON_Q" | "MLFLOW")
+      attr_accessor type: ("ATHENA" | "BIGQUERY" | "DATABRICKS" | "DOCUMENTDB" | "DYNAMODB" | "HYPERPOD" | "IAM" | "MYSQL" | "OPENSEARCH" | "ORACLE" | "POSTGRESQL" | "REDSHIFT" | "S3" | "SAPHANA" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "VERTICA" | "WORKFLOWS_MWAA" | "AMAZON_Q" | "MLFLOW" | "VPC")
       attr_accessor scope: ("DOMAIN" | "PROJECT")
       SENSITIVE: [:description]
     end
@@ -6802,6 +6811,29 @@ module Aws::DataZone
 
     class ValidationException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class VpcPropertiesInput
+      attr_accessor vpc_id: ::String
+      attr_accessor subnet_ids: ::Array[::String]
+      attr_accessor security_group_id: ::String
+      SENSITIVE: []
+    end
+
+    class VpcPropertiesOutput
+      attr_accessor vpc_id: ::String
+      attr_accessor subnet_ids: ::Array[::String]
+      attr_accessor status: ("CREATING" | "CREATE_FAILED" | "DELETING" | "DELETE_FAILED" | "READY" | "UPDATING" | "UPDATE_FAILED" | "DELETED")
+      attr_accessor security_group_id: ::String
+      attr_accessor glue_connection_names: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class VpcPropertiesPatch
+      attr_accessor vpc_id: ::String
+      attr_accessor subnet_ids: ::Array[::String]
+      attr_accessor security_group_id: ::String
       SENSITIVE: []
     end
 

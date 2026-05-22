@@ -88,7 +88,7 @@ module Aws
                                                 service_type: ("RDS" | "DOCDB"),
                                                 identifier: ::String,
                                                 start_time: ::Time,
-                                                end_time: ::Time,
+                                                ?end_time: ::Time,
                                                 ?tags: Array[
                                                   {
                                                     key: ::String,
@@ -244,6 +244,22 @@ module Aws
                                              ?max_results: ::Integer
                                            ) -> _ListAvailableResourceMetricsResponseSuccess
                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAvailableResourceMetricsResponseSuccess
+
+      interface _ListPerformanceAnalysisReportRecommendationsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListPerformanceAnalysisReportRecommendationsResponse]
+        def recommendations: () -> ::Array[Types::Recommendation]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/PI/Client.html#list_performance_analysis_report_recommendations-instance_method
+      def list_performance_analysis_report_recommendations: (
+                                                              service_type: ("RDS" | "DOCDB"),
+                                                              identifier: ::String,
+                                                              analysis_report_id: ::String,
+                                                              ?recommendation_ids: Array[::String],
+                                                              ?max_results: ::Integer,
+                                                              ?next_token: ::String
+                                                            ) -> _ListPerformanceAnalysisReportRecommendationsResponseSuccess
+                                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListPerformanceAnalysisReportRecommendationsResponseSuccess
 
       interface _ListPerformanceAnalysisReportsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListPerformanceAnalysisReportsResponse]

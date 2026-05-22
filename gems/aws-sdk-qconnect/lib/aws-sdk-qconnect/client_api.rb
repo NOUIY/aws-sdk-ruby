@@ -265,6 +265,7 @@ module Aws::QConnect
     GroupingCriteria = Shapes::StringShape.new(name: 'GroupingCriteria')
     GroupingValue = Shapes::StringShape.new(name: 'GroupingValue')
     GroupingValues = Shapes::ListShape.new(name: 'GroupingValues')
+    GuardrailAction = Shapes::StringShape.new(name: 'GuardrailAction')
     GuardrailContentFilterConfig = Shapes::StructureShape.new(name: 'GuardrailContentFilterConfig')
     GuardrailContentFilterType = Shapes::StringShape.new(name: 'GuardrailContentFilterType')
     GuardrailContentFiltersConfig = Shapes::ListShape.new(name: 'GuardrailContentFiltersConfig')
@@ -279,12 +280,16 @@ module Aws::QConnect
     GuardrailPiiEntitiesConfig = Shapes::ListShape.new(name: 'GuardrailPiiEntitiesConfig')
     GuardrailPiiEntityConfig = Shapes::StructureShape.new(name: 'GuardrailPiiEntityConfig')
     GuardrailPiiEntityType = Shapes::StringShape.new(name: 'GuardrailPiiEntityType')
+    GuardrailPolicyResult = Shapes::StructureShape.new(name: 'GuardrailPolicyResult')
+    GuardrailPolicyResultList = Shapes::ListShape.new(name: 'GuardrailPolicyResultList')
+    GuardrailPolicyType = Shapes::StringShape.new(name: 'GuardrailPolicyType')
     GuardrailRegexConfig = Shapes::StructureShape.new(name: 'GuardrailRegexConfig')
     GuardrailRegexDescription = Shapes::StringShape.new(name: 'GuardrailRegexDescription')
     GuardrailRegexName = Shapes::StringShape.new(name: 'GuardrailRegexName')
     GuardrailRegexPattern = Shapes::StringShape.new(name: 'GuardrailRegexPattern')
     GuardrailRegexesConfig = Shapes::ListShape.new(name: 'GuardrailRegexesConfig')
     GuardrailSensitiveInformationAction = Shapes::StringShape.new(name: 'GuardrailSensitiveInformationAction')
+    GuardrailSource = Shapes::StringShape.new(name: 'GuardrailSource')
     GuardrailTopicConfig = Shapes::StructureShape.new(name: 'GuardrailTopicConfig')
     GuardrailTopicDefinition = Shapes::StringShape.new(name: 'GuardrailTopicDefinition')
     GuardrailTopicExample = Shapes::StringShape.new(name: 'GuardrailTopicExample')
@@ -563,6 +568,8 @@ module Aws::QConnect
     SpanCitation = Shapes::StructureShape.new(name: 'SpanCitation')
     SpanCitationList = Shapes::ListShape.new(name: 'SpanCitationList')
     SpanFinishReasonList = Shapes::ListShape.new(name: 'SpanFinishReasonList')
+    SpanGuardrailAssessment = Shapes::StructureShape.new(name: 'SpanGuardrailAssessment')
+    SpanGuardrailAssessmentList = Shapes::ListShape.new(name: 'SpanGuardrailAssessmentList')
     SpanList = Shapes::ListShape.new(name: 'SpanList')
     SpanMessage = Shapes::StructureShape.new(name: 'SpanMessage')
     SpanMessageList = Shapes::ListShape.new(name: 'SpanMessageList')
@@ -1820,6 +1827,13 @@ module Aws::QConnect
     GuardrailPiiEntityConfig.add_member(:action, Shapes::ShapeRef.new(shape: GuardrailSensitiveInformationAction, required: true, location_name: "action"))
     GuardrailPiiEntityConfig.struct_class = Types::GuardrailPiiEntityConfig
 
+    GuardrailPolicyResult.add_member(:policy_type, Shapes::ShapeRef.new(shape: GuardrailPolicyType, required: true, location_name: "policyType"))
+    GuardrailPolicyResult.add_member(:action, Shapes::ShapeRef.new(shape: GuardrailAction, required: true, location_name: "action"))
+    GuardrailPolicyResult.add_member(:details, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "details"))
+    GuardrailPolicyResult.struct_class = Types::GuardrailPolicyResult
+
+    GuardrailPolicyResultList.member = Shapes::ShapeRef.new(shape: GuardrailPolicyResult)
+
     GuardrailRegexConfig.add_member(:name, Shapes::ShapeRef.new(shape: GuardrailRegexName, required: true, location_name: "name"))
     GuardrailRegexConfig.add_member(:description, Shapes::ShapeRef.new(shape: GuardrailRegexDescription, location_name: "description"))
     GuardrailRegexConfig.add_member(:pattern, Shapes::ShapeRef.new(shape: GuardrailRegexPattern, required: true, location_name: "pattern"))
@@ -2926,6 +2940,7 @@ module Aws::QConnect
     SpanAttributes.add_member(:prompt_name, Shapes::ShapeRef.new(shape: Name, location_name: "promptName"))
     SpanAttributes.add_member(:prompt_version, Shapes::ShapeRef.new(shape: Integer, location_name: "promptVersion"))
     SpanAttributes.add_member(:time_to_first_token_ms, Shapes::ShapeRef.new(shape: Integer, location_name: "timeToFirstTokenMs"))
+    SpanAttributes.add_member(:guardrail_assessments, Shapes::ShapeRef.new(shape: SpanGuardrailAssessmentList, location_name: "guardrailAssessments"))
     SpanAttributes.struct_class = Types::SpanAttributes
 
     SpanCitation.add_member(:content_id, Shapes::ShapeRef.new(shape: Uuid, location_name: "contentId"))
@@ -2937,6 +2952,15 @@ module Aws::QConnect
     SpanCitationList.member = Shapes::ShapeRef.new(shape: SpanCitation)
 
     SpanFinishReasonList.member = Shapes::ShapeRef.new(shape: NonEmptyString)
+
+    SpanGuardrailAssessment.add_member(:guardrail_id, Shapes::ShapeRef.new(shape: NonEmptyString, required: true, location_name: "guardrailId"))
+    SpanGuardrailAssessment.add_member(:guardrail_name, Shapes::ShapeRef.new(shape: NonEmptyString, required: true, location_name: "guardrailName"))
+    SpanGuardrailAssessment.add_member(:source, Shapes::ShapeRef.new(shape: GuardrailSource, required: true, location_name: "source"))
+    SpanGuardrailAssessment.add_member(:action, Shapes::ShapeRef.new(shape: GuardrailAction, required: true, location_name: "action"))
+    SpanGuardrailAssessment.add_member(:policies, Shapes::ShapeRef.new(shape: GuardrailPolicyResultList, location_name: "policies"))
+    SpanGuardrailAssessment.struct_class = Types::SpanGuardrailAssessment
+
+    SpanGuardrailAssessmentList.member = Shapes::ShapeRef.new(shape: SpanGuardrailAssessment)
 
     SpanList.member = Shapes::ShapeRef.new(shape: Span)
 

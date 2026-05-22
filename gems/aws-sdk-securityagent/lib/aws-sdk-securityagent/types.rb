@@ -2286,6 +2286,12 @@ module Aws::SecurityAgent
     #   code scanner.
     #   @return [Array<Types::CodeLocation>]
     #
+    # @!attribute [rw] verification_script
+    #   The verification script metadata for reproducing the finding,
+    #   including download URL, instructions, and required environment
+    #   variables.
+    #   @return [Types::VerificationScript]
+    #
     # @!attribute [rw] created_at
     #   The date and time the finding was created, in UTC format.
     #   @return [Time]
@@ -2316,6 +2322,7 @@ module Aws::SecurityAgent
       :code_remediation_task,
       :last_updated_by,
       :code_locations,
+      :verification_script,
       :created_at,
       :updated_at)
       SENSITIVE = []
@@ -5344,6 +5351,58 @@ module Aws::SecurityAgent
       :method,
       :dns_txt,
       :http_route)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains metadata for a verification script that can be used to
+    # reproduce a security finding.
+    #
+    # @!attribute [rw] script_type
+    #   The type of script. Valid values are python and bash.
+    #   @return [String]
+    #
+    # @!attribute [rw] script_url
+    #   URL to download the verification script.
+    #   @return [String]
+    #
+    # @!attribute [rw] instructions
+    #   Instructions for running the verification script, including
+    #   prerequisites and how to interpret results.
+    #   @return [String]
+    #
+    # @!attribute [rw] env_vars
+    #   The list of environment variables required to run the verification
+    #   script.
+    #   @return [Array<Types::VerificationScriptEnvVar>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/VerificationScript AWS API Documentation
+    #
+    class VerificationScript < Struct.new(
+      :script_type,
+      :script_url,
+      :instructions,
+      :env_vars)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents an environment variable required to run a verification
+    # script.
+    #
+    # @!attribute [rw] name
+    #   The name of the environment variable.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value of the environment variable.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/VerificationScriptEnvVar AWS API Documentation
+    #
+    class VerificationScriptEnvVar < Struct.new(
+      :name,
+      :value)
       SENSITIVE = []
       include Aws::Structure
     end

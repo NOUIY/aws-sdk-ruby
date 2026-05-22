@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.80.0 (2026-05-22)
+------------------
+
+* Feature - Add support for VPC connection
+
 1.79.0 (2026-05-21)
 ------------------
 

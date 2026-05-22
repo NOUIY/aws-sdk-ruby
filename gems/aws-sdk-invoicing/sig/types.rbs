@@ -58,6 +58,7 @@ module Aws::Invoicing
       attr_accessor tax_inheritance_disabled: bool
       attr_accessor rule: Types::InvoiceUnitRule
       attr_accessor resource_tags: ::Array[Types::ResourceTag]
+      attr_accessor client_token: ::String
       SENSITIVE: []
     end
 
@@ -105,6 +106,7 @@ module Aws::Invoicing
 
     class DeleteInvoiceUnitRequest
       attr_accessor invoice_unit_arn: ::String
+      attr_accessor client_token: ::String
       SENSITIVE: []
     end
 
@@ -115,6 +117,7 @@ module Aws::Invoicing
 
     class DeleteProcurementPortalPreferenceRequest
       attr_accessor procurement_portal_preference_arn: ::String
+      attr_accessor client_token: ::String
       SENSITIVE: []
     end
 
@@ -418,6 +421,7 @@ module Aws::Invoicing
       attr_accessor einvoice_delivery_preference: Types::EinvoiceDeliveryPreference
       attr_accessor purchase_order_retrieval_enabled: bool
       attr_accessor contacts: ::Array[Types::Contact]
+      attr_accessor client_token: ::String
       SENSITIVE: [:procurement_portal_shared_secret]
     end
 
@@ -526,6 +530,7 @@ module Aws::Invoicing
       attr_accessor description: ::String
       attr_accessor tax_inheritance_disabled: bool
       attr_accessor rule: Types::InvoiceUnitRule
+      attr_accessor client_token: ::String
       SENSITIVE: []
     end
 
@@ -540,6 +545,7 @@ module Aws::Invoicing
       attr_accessor einvoice_delivery_preference_status_reason: ::String
       attr_accessor purchase_order_retrieval_preference_status: ("PENDING_VERIFICATION" | "TEST_INITIALIZED" | "TEST_INITIALIZATION_FAILED" | "TEST_FAILED" | "ACTIVE" | "SUSPENDED")
       attr_accessor purchase_order_retrieval_preference_status_reason: ::String
+      attr_accessor client_token: ::String
       SENSITIVE: []
     end
 

@@ -499,7 +499,7 @@ module Aws::PI
     # @option params [required, Time,DateTime,Date,Integer,String] :start_time
     #   The start time defined for the analysis report.
     #
-    # @option params [required, Time,DateTime,Date,Integer,String] :end_time
+    # @option params [Time,DateTime,Date,Integer,String] :end_time
     #   The end time defined for the analysis report.
     #
     # @option params [Array<Types::Tag>] :tags
@@ -516,7 +516,7 @@ module Aws::PI
     #     service_type: "RDS", # required, accepts RDS, DOCDB
     #     identifier: "IdentifierString", # required
     #     start_time: Time.now, # required
-    #     end_time: Time.now, # required
+    #     end_time: Time.now,
     #     tags: [
     #       {
     #         key: "TagKey", # required
@@ -928,6 +928,7 @@ module Aws::PI
     #   resp.analysis_report.insights[0].recommendations #=> Array
     #   resp.analysis_report.insights[0].recommendations[0].recommendation_id #=> String
     #   resp.analysis_report.insights[0].recommendations[0].recommendation_description #=> String
+    #   resp.analysis_report.insights[0].recommendations[0].recommendation_details #=> String
     #   resp.analysis_report.insights[0].insight_data #=> Array
     #   resp.analysis_report.insights[0].insight_data[0].performance_insights_metric.metric #=> String
     #   resp.analysis_report.insights[0].insight_data[0].performance_insights_metric.display_name #=> String
@@ -1289,6 +1290,75 @@ module Aws::PI
       req.send_request(options)
     end
 
+    # Retrieves recommendations for a performance analysis report.
+    #
+    # @option params [required, String] :service_type
+    #   The Amazon Web Services service for which Performance Insights returns
+    #   metrics. Valid value is `RDS`.
+    #
+    # @option params [required, String] :identifier
+    #   An immutable identifier for a data source that is unique for an Amazon
+    #   Web Services Region. Performance Insights gathers metrics from this
+    #   data source. In the console, the identifier is shown as *ResourceID*.
+    #   When you call `DescribeDBInstances`, the identifier is returned as
+    #   `DbiResourceId`.
+    #
+    #   To use a DB instance as a data source, specify its `DbiResourceId`
+    #   value. For example, specify `db-ABCDEFGHIJKLMNOPQRSTU1VW2X`.
+    #
+    # @option params [required, String] :analysis_report_id
+    #   A unique identifier of the created analysis report. For example,
+    #   `report-12345678901234567`
+    #
+    # @option params [Array<String>] :recommendation_ids
+    #   A list of recommendation identifiers to filter the results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of items to return in the response. If more items
+    #   exist than the specified `MaxResults` value, a pagination token is
+    #   included in the response so that the remaining results can be
+    #   retrieved.
+    #
+    # @option params [String] :next_token
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond the
+    #   token, up to the value specified by `MaxResults`.
+    #
+    # @return [Types::ListPerformanceAnalysisReportRecommendationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListPerformanceAnalysisReportRecommendationsResponse#recommendations #recommendations} => Array&lt;Types::Recommendation&gt;
+    #   * {Types::ListPerformanceAnalysisReportRecommendationsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_performance_analysis_report_recommendations({
+    #     service_type: "RDS", # required, accepts RDS, DOCDB
+    #     identifier: "IdentifierString", # required
+    #     analysis_report_id: "AnalysisReportId", # required
+    #     recommendation_ids: ["String"],
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.recommendations #=> Array
+    #   resp.recommendations[0].recommendation_id #=> String
+    #   resp.recommendations[0].recommendation_description #=> String
+    #   resp.recommendations[0].recommendation_details #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pi-2018-02-27/ListPerformanceAnalysisReportRecommendations AWS API Documentation
+    #
+    # @overload list_performance_analysis_report_recommendations(params = {})
+    # @param [Hash] params ({})
+    def list_performance_analysis_report_recommendations(params = {}, options = {})
+      req = build_request(:list_performance_analysis_report_recommendations, params)
+      req.send_request(options)
+    end
+
     # Lists all the analysis reports created for the DB instance. The
     # reports are sorted based on the start time of each report.
     #
@@ -1504,7 +1574,7 @@ module Aws::PI
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-pi'
-      context[:gem_version] = '1.95.0'
+      context[:gem_version] = '1.96.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

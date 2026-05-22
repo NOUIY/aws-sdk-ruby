@@ -1484,6 +1484,13 @@ module Aws::QConnect
       SENSITIVE: [:type, :action]
     end
 
+    class GuardrailPolicyResult
+      attr_accessor policy_type: ("CONTENT_FILTER" | "TOPIC" | "WORD" | "SENSITIVE_INFORMATION_PII" | "SENSITIVE_INFORMATION_REGEX" | "CONTEXTUAL_GROUNDING")
+      attr_accessor action: ("NONE" | "BLOCKED" | "MASKED")
+      attr_accessor details: ::String
+      SENSITIVE: []
+    end
+
     class GuardrailRegexConfig
       attr_accessor name: ::String
       attr_accessor description: ::String
@@ -2881,6 +2888,7 @@ module Aws::QConnect
       attr_accessor prompt_name: ::String
       attr_accessor prompt_version: ::Integer
       attr_accessor time_to_first_token_ms: ::Integer
+      attr_accessor guardrail_assessments: ::Array[Types::SpanGuardrailAssessment]
       SENSITIVE: []
     end
 
@@ -2890,6 +2898,15 @@ module Aws::QConnect
       attr_accessor knowledge_base_id: ::String
       attr_accessor knowledge_base_arn: ::String
       SENSITIVE: [:title]
+    end
+
+    class SpanGuardrailAssessment
+      attr_accessor guardrail_id: ::String
+      attr_accessor guardrail_name: ::String
+      attr_accessor source: ("INPUT" | "OUTPUT")
+      attr_accessor action: ("NONE" | "BLOCKED" | "MASKED")
+      attr_accessor policies: ::Array[Types::GuardrailPolicyResult]
+      SENSITIVE: []
     end
 
     class SpanMessage

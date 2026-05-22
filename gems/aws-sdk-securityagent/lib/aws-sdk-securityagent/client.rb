@@ -959,6 +959,12 @@ module Aws::SecurityAgent
     #   resp.findings[0].code_locations[0].line_start #=> Integer
     #   resp.findings[0].code_locations[0].line_end #=> Integer
     #   resp.findings[0].code_locations[0].label #=> String
+    #   resp.findings[0].verification_script.script_type #=> String
+    #   resp.findings[0].verification_script.script_url #=> String
+    #   resp.findings[0].verification_script.instructions #=> String
+    #   resp.findings[0].verification_script.env_vars #=> Array
+    #   resp.findings[0].verification_script.env_vars[0].name #=> String
+    #   resp.findings[0].verification_script.env_vars[0].value #=> String
     #   resp.findings[0].created_at #=> Time
     #   resp.findings[0].updated_at #=> Time
     #   resp.not_found #=> Array
@@ -3835,7 +3841,7 @@ module Aws::SecurityAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-securityagent'
-      context[:gem_version] = '1.4.0'
+      context[:gem_version] = '1.5.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
