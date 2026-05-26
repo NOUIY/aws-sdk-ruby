@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.145.0 (2026-05-26)
+------------------
+
+* Feature - Increase the maximum value of jobExecutionTimeoutMinutes to support longer job timeouts during compute environment infrastructure updates.
+
 1.144.0 (2026-05-21)
 ------------------
 

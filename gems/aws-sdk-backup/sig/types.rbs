@@ -794,6 +794,8 @@ module Aws::Backup
       attr_accessor backup_vault_arn: ::String
       attr_accessor backup_vault_name: ::String
       attr_accessor completion_date: ::Time
+      attr_accessor continuous_scan_end_time: ::Time
+      attr_accessor continuous_scan_start_time: ::Time
       attr_accessor created_by: Types::ScanJobCreator
       attr_accessor creation_date: ::Time
       attr_accessor iam_role_arn: ::String
@@ -955,6 +957,23 @@ module Aws::Backup
       attr_accessor cancellation_date: ::Time
       attr_accessor retain_record_until: ::Time
       attr_accessor recovery_point_selection: Types::RecoveryPointSelection
+      SENSITIVE: []
+    end
+
+    class GetPITRMalwareScanResultsInput
+      attr_accessor recovery_point_arn: ::String
+      attr_accessor backup_vault_name: ::String
+      attr_accessor scan_end_time: ::Time
+      attr_accessor malware_scanner: ("GUARDDUTY")
+      SENSITIVE: []
+    end
+
+    class GetPITRMalwareScanResultsOutput
+      attr_accessor scan_end_time: ::Time
+      attr_accessor scan_result: Types::ScanResultInfo
+      attr_accessor last_scan_job_time: ::Time
+      attr_accessor scan_id: ::String
+      attr_accessor scan_mode: ("FULL_SCAN" | "INCREMENTAL_SCAN")
       SENSITIVE: []
     end
 
@@ -1530,7 +1549,7 @@ module Aws::Backup
       attr_accessor account_id: ::String
       attr_accessor resource_type: ::String
       attr_accessor malware_scanner: ("GUARDDUTY")
-      attr_accessor scan_result_status: ("NO_THREATS_FOUND" | "THREATS_FOUND")
+      attr_accessor scan_result_status: ("NO_THREATS_FOUND" | "THREATS_FOUND" | "UNKNOWN")
       attr_accessor state: ("CREATED" | "COMPLETED" | "COMPLETED_WITH_ISSUES" | "RUNNING" | "FAILED" | "CANCELED" | "AGGREGATE_ALL" | "ANY")
       attr_accessor aggregation_period: ("ONE_DAY" | "SEVEN_DAYS" | "FOURTEEN_DAYS")
       attr_accessor max_results: ::Integer
@@ -1554,7 +1573,7 @@ module Aws::Backup
       attr_accessor by_recovery_point_arn: ::String
       attr_accessor by_resource_arn: ::String
       attr_accessor by_resource_type: ("EBS" | "EC2" | "S3")
-      attr_accessor by_scan_result_status: ("NO_THREATS_FOUND" | "THREATS_FOUND")
+      attr_accessor by_scan_result_status: ("NO_THREATS_FOUND" | "THREATS_FOUND" | "UNKNOWN")
       attr_accessor by_state: ("CANCELED" | "COMPLETED" | "COMPLETED_WITH_ISSUES" | "CREATED" | "FAILED" | "RUNNING")
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
@@ -1951,6 +1970,8 @@ module Aws::Backup
       attr_accessor backup_vault_arn: ::String
       attr_accessor backup_vault_name: ::String
       attr_accessor completion_date: ::Time
+      attr_accessor continuous_scan_end_time: ::Time
+      attr_accessor continuous_scan_start_time: ::Time
       attr_accessor created_by: Types::ScanJobCreator
       attr_accessor creation_date: ::Time
       attr_accessor iam_role_arn: ::String
@@ -1987,7 +2008,7 @@ module Aws::Backup
       attr_accessor start_time: ::Time
       attr_accessor end_time: ::Time
       attr_accessor malware_scanner: ("GUARDDUTY")
-      attr_accessor scan_result_status: ("NO_THREATS_FOUND" | "THREATS_FOUND")
+      attr_accessor scan_result_status: ("NO_THREATS_FOUND" | "THREATS_FOUND" | "UNKNOWN")
       SENSITIVE: []
     end
 
@@ -2000,7 +2021,7 @@ module Aws::Backup
     end
 
     class ScanResultInfo
-      attr_accessor scan_result_status: ("NO_THREATS_FOUND" | "THREATS_FOUND")
+      attr_accessor scan_result_status: ("NO_THREATS_FOUND" | "THREATS_FOUND" | "UNKNOWN")
       SENSITIVE: []
     end
 
@@ -2094,6 +2115,7 @@ module Aws::Backup
 
     class StartScanJobInput
       attr_accessor backup_vault_name: ::String
+      attr_accessor continuous_scan_end_time: ::Time
       attr_accessor iam_role_arn: ::String
       attr_accessor idempotency_token: ::String
       attr_accessor malware_scanner: ("GUARDDUTY")

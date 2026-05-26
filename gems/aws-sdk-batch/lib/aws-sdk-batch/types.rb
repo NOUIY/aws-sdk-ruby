@@ -655,10 +655,6 @@ module Aws::Batch
     #   Batch can select the instance type for you if you choose one of the
     #   following:
     #
-    #   * `optimal` to select instance types (from the `c4`, `m4`, `r4`,
-    #     `c5`, `m5`, and `r5` instance families) that match the demand of
-    #     your job queues.
-    #
     #   * `default_x86_64` to choose x86 based instance types (from the
     #     `m6i`, `c6i`, `r6i`, and `c7i` instance families) that matches the
     #     resource demands of the job queue.
@@ -667,14 +663,9 @@ module Aws::Batch
     #     `m6g`, `c6g`, `r6g`, and `c7g` instance families) that matches the
     #     resource demands of the job queue.
     #
-    #   <note markdown="1"> Starting on 11/01/2025 the behavior of `optimal` is going to be
-    #   changed to match `default_x86_64`. During the change your instance
-    #   families could be updated to a newer generation. You do not need to
-    #   perform any actions for the upgrade to happen. For more information
-    #   about change, see [Optimal instance type configuration to receive
-    #   automatic instance family updates][1].
-    #
-    #    </note>
+    #   * `optimal` Semantically equivalent to `default_x86_64`, see
+    #     [Optimal instance type configuration to receive automatic instance
+    #     family updates][1] for details.
     #
     #   <note markdown="1"> Instance family availability varies by Amazon Web Services Region.
     #   For example, some Amazon Web Services Regions may not have any
@@ -11282,7 +11273,16 @@ module Aws::Batch
     #
     # @!attribute [rw] job_execution_timeout_minutes
     #   Specifies the job timeout (in minutes) when the compute environment
-    #   infrastructure is updated. The default value is 30.
+    #   infrastructure is updated. The default value is 30. The maximum
+    #   value is 7200.
+    #
+    #   <note markdown="1"> Increasing `jobExecutionTimeoutMinutes` during infrastructure
+    #   updates delays the replacement of instances with new instances that
+    #   include updates such as security patches, but provides more time for
+    #   jobs to execute. Consider the security implications of this tradeoff
+    #   when setting timeout values.
+    #
+    #    </note>
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/UpdatePolicy AWS API Documentation

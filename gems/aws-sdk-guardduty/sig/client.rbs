@@ -628,7 +628,7 @@ module Aws
         def detector_id: () -> ::String
         def admin_detector_id: () -> ::String
         def resource_arn: () -> ::String
-        def resource_type: () -> ("EBS_RECOVERY_POINT" | "EBS_SNAPSHOT" | "EBS_VOLUME" | "EC2_AMI" | "EC2_INSTANCE" | "EC2_RECOVERY_POINT" | "S3_RECOVERY_POINT" | "S3_BUCKET")
+        def resource_type: () -> ("EBS_RECOVERY_POINT" | "EBS_SNAPSHOT" | "EBS_VOLUME" | "EC2_AMI" | "EC2_INSTANCE" | "EC2_RECOVERY_POINT" | "S3_RECOVERY_POINT" | "S3_BUCKET" | "S3_POINT_IN_TIME_RECOVERY")
         def scanned_resources_count: () -> ::Integer
         def skipped_resources_count: () -> ::Integer
         def failed_resources_count: () -> ::Integer
@@ -1041,7 +1041,11 @@ module Aws
                                     baseline_resource_arn: ::String
                                   }?,
                                   recovery_point: {
-                                    backup_vault_name: ::String
+                                    backup_vault_name: ::String,
+                                    continuous_scan_details: {
+                                      start_time: ::Time?,
+                                      end_time: ::Time
+                                    }?
                                   }?
                                 }
                               ) -> _StartMalwareScanResponseSuccess

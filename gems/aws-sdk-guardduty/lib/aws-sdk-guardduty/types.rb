@@ -1082,6 +1082,28 @@ module Aws::GuardDuty
       include Aws::Structure
     end
 
+    # Contains information about the time range within the continuous backup
+    # in Amazon Web Services Backup to scan for a point-in-time recovery
+    # resource.
+    #
+    # @!attribute [rw] start_time
+    #   The timestamp representing the start of the time range to scan.
+    #   Reserved for internal use.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The timestamp representing the end of the time range to scan.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ContinuousScanDetails AWS API Documentation
+    #
+    class ContinuousScanDetails < Struct.new(
+      :start_time,
+      :end_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains information about the country where the remote IP address is
     # located.
     #
@@ -10044,10 +10066,16 @@ module Aws::GuardDuty
     #   name of the recovery point to be scanned.
     #   @return [String]
     #
+    # @!attribute [rw] continuous_scan_details
+    #   Contains information about the time range within the continuous
+    #   backup in Amazon Web Services Backup to scan.
+    #   @return [Types::ContinuousScanDetails]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/RecoveryPoint AWS API Documentation
     #
     class RecoveryPoint < Struct.new(
-      :backup_vault_name)
+      :backup_vault_name,
+      :continuous_scan_details)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11091,6 +11119,29 @@ module Aws::GuardDuty
       include Aws::Structure
     end
 
+    # Contains information about the time range within the continuous backup
+    # in Amazon Web Services Backup that was scanned for a point-in-time
+    # recovery resource.
+    #
+    # @!attribute [rw] start_time
+    #   The timestamp representing the start of the time range that was
+    #   scanned.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The timestamp representing the end of the time range that was
+    #   scanned.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ScanConfigurationContinuousScanDetails AWS API Documentation
+    #
+    class ScanConfigurationContinuousScanDetails < Struct.new(
+      :start_time,
+      :end_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains information about the recovery point configuration used in
     # the scan.
     #
@@ -11099,10 +11150,16 @@ module Aws::GuardDuty
     #   recovery point for the scanned.
     #   @return [String]
     #
+    # @!attribute [rw] continuous_scan_details
+    #   The time range within the continuous backup in Amazon Web Services
+    #   Backup that was scanned for a point-in-time recovery resource.
+    #   @return [Types::ScanConfigurationContinuousScanDetails]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ScanConfigurationRecoveryPoint AWS API Documentation
     #
     class ScanConfigurationRecoveryPoint < Struct.new(
-      :backup_vault_name)
+      :backup_vault_name,
+      :continuous_scan_details)
       SENSITIVE = []
       include Aws::Structure
     end

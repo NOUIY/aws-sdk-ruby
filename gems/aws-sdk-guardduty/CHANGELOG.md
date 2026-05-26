@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.152.0 (2026-05-26)
+------------------
+
+* Feature - Add malware scan support for Continuous Backups, also known as Point-In-Time Recovery Points (PITR).
+
 1.151.0 (2026-05-21)
 ------------------
 

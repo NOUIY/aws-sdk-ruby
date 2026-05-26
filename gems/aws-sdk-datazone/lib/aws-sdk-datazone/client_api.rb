@@ -916,6 +916,9 @@ module Aws::DataZone
     PutDataExportConfigurationOutput = Shapes::StructureShape.new(name: 'PutDataExportConfigurationOutput')
     PutEnvironmentBlueprintConfigurationInput = Shapes::StructureShape.new(name: 'PutEnvironmentBlueprintConfigurationInput')
     PutEnvironmentBlueprintConfigurationOutput = Shapes::StructureShape.new(name: 'PutEnvironmentBlueprintConfigurationOutput')
+    PutResourceConfiguration = Shapes::StructureShape.new(name: 'PutResourceConfiguration')
+    PutResourceConfigurationNameString = Shapes::StringShape.new(name: 'PutResourceConfigurationNameString')
+    PutResourceConfigurations = Shapes::ListShape.new(name: 'PutResourceConfigurations')
     QueryGraphInput = Shapes::StructureShape.new(name: 'QueryGraphInput')
     QueryGraphOutput = Shapes::StructureShape.new(name: 'QueryGraphOutput')
     RecommendationConfiguration = Shapes::StructureShape.new(name: 'RecommendationConfiguration')
@@ -977,6 +980,9 @@ module Aws::DataZone
     RequiredMetadataFormList = Shapes::ListShape.new(name: 'RequiredMetadataFormList')
     ResolutionStrategy = Shapes::StringShape.new(name: 'ResolutionStrategy')
     Resource = Shapes::StructureShape.new(name: 'Resource')
+    ResourceConfiguration = Shapes::StructureShape.new(name: 'ResourceConfiguration')
+    ResourceConfigurationParameterMap = Shapes::MapShape.new(name: 'ResourceConfigurationParameterMap')
+    ResourceConfigurations = Shapes::ListShape.new(name: 'ResourceConfigurations')
     ResourceList = Shapes::ListShape.new(name: 'ResourceList')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResourceTag = Shapes::StructureShape.new(name: 'ResourceTag')
@@ -3085,8 +3091,10 @@ module Aws::DataZone
     EnvironmentBlueprintConfigurationItem.add_member(:manage_access_role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "manageAccessRoleArn"))
     EnvironmentBlueprintConfigurationItem.add_member(:enabled_regions, Shapes::ShapeRef.new(shape: EnabledRegionList, location_name: "enabledRegions"))
     EnvironmentBlueprintConfigurationItem.add_member(:regional_parameters, Shapes::ShapeRef.new(shape: RegionalParameterMap, location_name: "regionalParameters"))
+    EnvironmentBlueprintConfigurationItem.add_member(:allow_user_provided_configurations, Shapes::ShapeRef.new(shape: Boolean, location_name: "allowUserProvidedConfigurations"))
     EnvironmentBlueprintConfigurationItem.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
     EnvironmentBlueprintConfigurationItem.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    EnvironmentBlueprintConfigurationItem.add_member(:resource_configurations, Shapes::ShapeRef.new(shape: ResourceConfigurations, location_name: "resourceConfigurations"))
     EnvironmentBlueprintConfigurationItem.add_member(:provisioning_configurations, Shapes::ShapeRef.new(shape: ProvisioningConfigurationList, location_name: "provisioningConfigurations"))
     EnvironmentBlueprintConfigurationItem.struct_class = Types::EnvironmentBlueprintConfigurationItem
 
@@ -3534,8 +3542,10 @@ module Aws::DataZone
     GetEnvironmentBlueprintConfigurationOutput.add_member(:manage_access_role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "manageAccessRoleArn"))
     GetEnvironmentBlueprintConfigurationOutput.add_member(:enabled_regions, Shapes::ShapeRef.new(shape: EnabledRegionList, location_name: "enabledRegions"))
     GetEnvironmentBlueprintConfigurationOutput.add_member(:regional_parameters, Shapes::ShapeRef.new(shape: RegionalParameterMap, location_name: "regionalParameters"))
+    GetEnvironmentBlueprintConfigurationOutput.add_member(:allow_user_provided_configurations, Shapes::ShapeRef.new(shape: Boolean, location_name: "allowUserProvidedConfigurations"))
     GetEnvironmentBlueprintConfigurationOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
     GetEnvironmentBlueprintConfigurationOutput.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    GetEnvironmentBlueprintConfigurationOutput.add_member(:resource_configurations, Shapes::ShapeRef.new(shape: ResourceConfigurations, location_name: "resourceConfigurations"))
     GetEnvironmentBlueprintConfigurationOutput.add_member(:provisioning_configurations, Shapes::ShapeRef.new(shape: ProvisioningConfigurationList, location_name: "provisioningConfigurations"))
     GetEnvironmentBlueprintConfigurationOutput.struct_class = Types::GetEnvironmentBlueprintConfigurationOutput
 
@@ -5296,6 +5306,8 @@ module Aws::DataZone
     PutEnvironmentBlueprintConfigurationInput.add_member(:environment_role_permission_boundary, Shapes::ShapeRef.new(shape: PolicyArn, location_name: "environmentRolePermissionBoundary"))
     PutEnvironmentBlueprintConfigurationInput.add_member(:enabled_regions, Shapes::ShapeRef.new(shape: EnabledRegionList, required: true, location_name: "enabledRegions"))
     PutEnvironmentBlueprintConfigurationInput.add_member(:regional_parameters, Shapes::ShapeRef.new(shape: RegionalParameterMap, location_name: "regionalParameters"))
+    PutEnvironmentBlueprintConfigurationInput.add_member(:resource_configurations, Shapes::ShapeRef.new(shape: PutResourceConfigurations, location_name: "resourceConfigurations"))
+    PutEnvironmentBlueprintConfigurationInput.add_member(:allow_user_provided_configurations, Shapes::ShapeRef.new(shape: Boolean, location_name: "allowUserProvidedConfigurations"))
     PutEnvironmentBlueprintConfigurationInput.add_member(:global_parameters, Shapes::ShapeRef.new(shape: GlobalParameterMap, location_name: "globalParameters"))
     PutEnvironmentBlueprintConfigurationInput.add_member(:provisioning_configurations, Shapes::ShapeRef.new(shape: ProvisioningConfigurationList, location_name: "provisioningConfigurations"))
     PutEnvironmentBlueprintConfigurationInput.struct_class = Types::PutEnvironmentBlueprintConfigurationInput
@@ -5307,10 +5319,20 @@ module Aws::DataZone
     PutEnvironmentBlueprintConfigurationOutput.add_member(:manage_access_role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "manageAccessRoleArn"))
     PutEnvironmentBlueprintConfigurationOutput.add_member(:enabled_regions, Shapes::ShapeRef.new(shape: EnabledRegionList, location_name: "enabledRegions"))
     PutEnvironmentBlueprintConfigurationOutput.add_member(:regional_parameters, Shapes::ShapeRef.new(shape: RegionalParameterMap, location_name: "regionalParameters"))
+    PutEnvironmentBlueprintConfigurationOutput.add_member(:allow_user_provided_configurations, Shapes::ShapeRef.new(shape: Boolean, location_name: "allowUserProvidedConfigurations"))
     PutEnvironmentBlueprintConfigurationOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
     PutEnvironmentBlueprintConfigurationOutput.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    PutEnvironmentBlueprintConfigurationOutput.add_member(:resource_configurations, Shapes::ShapeRef.new(shape: ResourceConfigurations, location_name: "resourceConfigurations"))
     PutEnvironmentBlueprintConfigurationOutput.add_member(:provisioning_configurations, Shapes::ShapeRef.new(shape: ProvisioningConfigurationList, location_name: "provisioningConfigurations"))
     PutEnvironmentBlueprintConfigurationOutput.struct_class = Types::PutEnvironmentBlueprintConfigurationOutput
+
+    PutResourceConfiguration.add_member(:name, Shapes::ShapeRef.new(shape: PutResourceConfigurationNameString, required: true, location_name: "name"))
+    PutResourceConfiguration.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    PutResourceConfiguration.add_member(:region, Shapes::ShapeRef.new(shape: RegionName, required: true, location_name: "region"))
+    PutResourceConfiguration.add_member(:parameters, Shapes::ShapeRef.new(shape: ResourceConfigurationParameterMap, required: true, location_name: "parameters"))
+    PutResourceConfiguration.struct_class = Types::PutResourceConfiguration
+
+    PutResourceConfigurations.member = Shapes::ShapeRef.new(shape: PutResourceConfiguration)
 
     QueryGraphInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
     QueryGraphInput.add_member(:match, Shapes::ShapeRef.new(shape: MatchClauses, required: true, location_name: "match"))
@@ -5513,6 +5535,18 @@ module Aws::DataZone
     Resource.add_member(:value, Shapes::ShapeRef.new(shape: String, required: true, location_name: "value"))
     Resource.add_member(:type, Shapes::ShapeRef.new(shape: String, required: true, location_name: "type"))
     Resource.struct_class = Types::Resource
+
+    ResourceConfiguration.add_member(:identifier, Shapes::ShapeRef.new(shape: String, required: true, location_name: "identifier"))
+    ResourceConfiguration.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
+    ResourceConfiguration.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    ResourceConfiguration.add_member(:region, Shapes::ShapeRef.new(shape: RegionName, required: true, location_name: "region"))
+    ResourceConfiguration.add_member(:parameters, Shapes::ShapeRef.new(shape: ResourceConfigurationParameterMap, required: true, location_name: "parameters"))
+    ResourceConfiguration.struct_class = Types::ResourceConfiguration
+
+    ResourceConfigurationParameterMap.key = Shapes::ShapeRef.new(shape: String)
+    ResourceConfigurationParameterMap.value = Shapes::ShapeRef.new(shape: String)
+
+    ResourceConfigurations.member = Shapes::ShapeRef.new(shape: ResourceConfiguration)
 
     ResourceList.member = Shapes::ShapeRef.new(shape: Resource)
 

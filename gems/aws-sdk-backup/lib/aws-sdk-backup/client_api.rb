@@ -172,6 +172,8 @@ module Aws::Backup
     GetBackupVaultNotificationsOutput = Shapes::StructureShape.new(name: 'GetBackupVaultNotificationsOutput')
     GetLegalHoldInput = Shapes::StructureShape.new(name: 'GetLegalHoldInput')
     GetLegalHoldOutput = Shapes::StructureShape.new(name: 'GetLegalHoldOutput')
+    GetPITRMalwareScanResultsInput = Shapes::StructureShape.new(name: 'GetPITRMalwareScanResultsInput')
+    GetPITRMalwareScanResultsOutput = Shapes::StructureShape.new(name: 'GetPITRMalwareScanResultsOutput')
     GetRecoveryPointIndexDetailsInput = Shapes::StructureShape.new(name: 'GetRecoveryPointIndexDetailsInput')
     GetRecoveryPointIndexDetailsOutput = Shapes::StructureShape.new(name: 'GetRecoveryPointIndexDetailsOutput')
     GetRecoveryPointRestoreMetadataInput = Shapes::StructureShape.new(name: 'GetRecoveryPointRestoreMetadataInput')
@@ -1092,6 +1094,8 @@ module Aws::Backup
     DescribeScanJobOutput.add_member(:backup_vault_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "BackupVaultArn"))
     DescribeScanJobOutput.add_member(:backup_vault_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "BackupVaultName"))
     DescribeScanJobOutput.add_member(:completion_date, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CompletionDate"))
+    DescribeScanJobOutput.add_member(:continuous_scan_end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "ContinuousScanEndTime"))
+    DescribeScanJobOutput.add_member(:continuous_scan_start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "ContinuousScanStartTime"))
     DescribeScanJobOutput.add_member(:created_by, Shapes::ShapeRef.new(shape: ScanJobCreator, required: true, location_name: "CreatedBy"))
     DescribeScanJobOutput.add_member(:creation_date, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreationDate"))
     DescribeScanJobOutput.add_member(:iam_role_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "IamRoleArn"))
@@ -1218,6 +1222,19 @@ module Aws::Backup
     GetLegalHoldOutput.add_member(:retain_record_until, Shapes::ShapeRef.new(shape: timestamp, location_name: "RetainRecordUntil"))
     GetLegalHoldOutput.add_member(:recovery_point_selection, Shapes::ShapeRef.new(shape: RecoveryPointSelection, location_name: "RecoveryPointSelection"))
     GetLegalHoldOutput.struct_class = Types::GetLegalHoldOutput
+
+    GetPITRMalwareScanResultsInput.add_member(:recovery_point_arn, Shapes::ShapeRef.new(shape: String, required: true, location: "querystring", location_name: "RecoveryPointArn"))
+    GetPITRMalwareScanResultsInput.add_member(:backup_vault_name, Shapes::ShapeRef.new(shape: String, required: true, location: "querystring", location_name: "BackupVaultName"))
+    GetPITRMalwareScanResultsInput.add_member(:scan_end_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location: "querystring", location_name: "ScanEndTime"))
+    GetPITRMalwareScanResultsInput.add_member(:malware_scanner, Shapes::ShapeRef.new(shape: MalwareScanner, required: true, location: "querystring", location_name: "MalwareScanner"))
+    GetPITRMalwareScanResultsInput.struct_class = Types::GetPITRMalwareScanResultsInput
+
+    GetPITRMalwareScanResultsOutput.add_member(:scan_end_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "ScanEndTime"))
+    GetPITRMalwareScanResultsOutput.add_member(:scan_result, Shapes::ShapeRef.new(shape: ScanResultInfo, required: true, location_name: "ScanResult"))
+    GetPITRMalwareScanResultsOutput.add_member(:last_scan_job_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastScanJobTime"))
+    GetPITRMalwareScanResultsOutput.add_member(:scan_id, Shapes::ShapeRef.new(shape: String, location_name: "ScanId"))
+    GetPITRMalwareScanResultsOutput.add_member(:scan_mode, Shapes::ShapeRef.new(shape: ScanMode, location_name: "ScanMode"))
+    GetPITRMalwareScanResultsOutput.struct_class = Types::GetPITRMalwareScanResultsOutput
 
     GetRecoveryPointIndexDetailsInput.add_member(:backup_vault_name, Shapes::ShapeRef.new(shape: BackupVaultName, required: true, location: "uri", location_name: "backupVaultName"))
     GetRecoveryPointIndexDetailsInput.add_member(:recovery_point_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location: "uri", location_name: "recoveryPointArn"))
@@ -2035,6 +2052,8 @@ module Aws::Backup
     ScanJob.add_member(:backup_vault_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "BackupVaultArn"))
     ScanJob.add_member(:backup_vault_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "BackupVaultName"))
     ScanJob.add_member(:completion_date, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CompletionDate"))
+    ScanJob.add_member(:continuous_scan_end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "ContinuousScanEndTime"))
+    ScanJob.add_member(:continuous_scan_start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "ContinuousScanStartTime"))
     ScanJob.add_member(:created_by, Shapes::ShapeRef.new(shape: ScanJobCreator, required: true, location_name: "CreatedBy"))
     ScanJob.add_member(:creation_date, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreationDate"))
     ScanJob.add_member(:iam_role_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "IamRoleArn"))
@@ -2159,6 +2178,7 @@ module Aws::Backup
     StartRestoreJobOutput.struct_class = Types::StartRestoreJobOutput
 
     StartScanJobInput.add_member(:backup_vault_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "BackupVaultName"))
+    StartScanJobInput.add_member(:continuous_scan_end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "ContinuousScanEndTime"))
     StartScanJobInput.add_member(:iam_role_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "IamRoleArn"))
     StartScanJobInput.add_member(:idempotency_token, Shapes::ShapeRef.new(shape: String, location_name: "IdempotencyToken"))
     StartScanJobInput.add_member(:malware_scanner, Shapes::ShapeRef.new(shape: MalwareScanner, required: true, location_name: "MalwareScanner"))
@@ -2934,6 +2954,18 @@ module Aws::Backup
         o.errors << Shapes::ShapeRef.new(shape: MissingParameterValueException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:get_pitr_malware_scan_results, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetPITRMalwareScanResults"
+        o.http_method = "GET"
+        o.http_request_uri = "/scan/pitr-malware-scan-results"
+        o.input = Shapes::ShapeRef.new(shape: GetPITRMalwareScanResultsInput)
+        o.output = Shapes::ShapeRef.new(shape: GetPITRMalwareScanResultsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: MissingParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
       end)
 
       api.add_operation(:get_recovery_point_index_details, Seahorse::Model::Operation.new.tap do |o|

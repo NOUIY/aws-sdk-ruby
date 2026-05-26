@@ -7002,8 +7002,10 @@ module Aws::DataZone
     #   * {Types::GetEnvironmentBlueprintConfigurationOutput#manage_access_role_arn #manage_access_role_arn} => String
     #   * {Types::GetEnvironmentBlueprintConfigurationOutput#enabled_regions #enabled_regions} => Array&lt;String&gt;
     #   * {Types::GetEnvironmentBlueprintConfigurationOutput#regional_parameters #regional_parameters} => Hash&lt;String,Hash&lt;String,String&gt;&gt;
+    #   * {Types::GetEnvironmentBlueprintConfigurationOutput#allow_user_provided_configurations #allow_user_provided_configurations} => Boolean
     #   * {Types::GetEnvironmentBlueprintConfigurationOutput#created_at #created_at} => Time
     #   * {Types::GetEnvironmentBlueprintConfigurationOutput#updated_at #updated_at} => Time
+    #   * {Types::GetEnvironmentBlueprintConfigurationOutput#resource_configurations #resource_configurations} => Array&lt;Types::ResourceConfiguration&gt;
     #   * {Types::GetEnvironmentBlueprintConfigurationOutput#provisioning_configurations #provisioning_configurations} => Array&lt;Types::ProvisioningConfiguration&gt;
     #
     # @example Request syntax with placeholder values
@@ -7025,8 +7027,16 @@ module Aws::DataZone
     #   resp.regional_parameters #=> Hash
     #   resp.regional_parameters["RegionName"] #=> Hash
     #   resp.regional_parameters["RegionName"]["String"] #=> String
+    #   resp.allow_user_provided_configurations #=> Boolean
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
+    #   resp.resource_configurations #=> Array
+    #   resp.resource_configurations[0].identifier #=> String
+    #   resp.resource_configurations[0].name #=> String
+    #   resp.resource_configurations[0].description #=> String
+    #   resp.resource_configurations[0].region #=> String
+    #   resp.resource_configurations[0].parameters #=> Hash
+    #   resp.resource_configurations[0].parameters["String"] #=> String
     #   resp.provisioning_configurations #=> Array
     #   resp.provisioning_configurations[0].lake_formation_configuration.location_registration_role #=> String
     #   resp.provisioning_configurations[0].lake_formation_configuration.location_registration_exclude_s3_locations #=> Array
@@ -9777,8 +9787,16 @@ module Aws::DataZone
     #   resp.items[0].regional_parameters #=> Hash
     #   resp.items[0].regional_parameters["RegionName"] #=> Hash
     #   resp.items[0].regional_parameters["RegionName"]["String"] #=> String
+    #   resp.items[0].allow_user_provided_configurations #=> Boolean
     #   resp.items[0].created_at #=> Time
     #   resp.items[0].updated_at #=> Time
+    #   resp.items[0].resource_configurations #=> Array
+    #   resp.items[0].resource_configurations[0].identifier #=> String
+    #   resp.items[0].resource_configurations[0].name #=> String
+    #   resp.items[0].resource_configurations[0].description #=> String
+    #   resp.items[0].resource_configurations[0].region #=> String
+    #   resp.items[0].resource_configurations[0].parameters #=> Hash
+    #   resp.items[0].resource_configurations[0].parameters["String"] #=> String
     #   resp.items[0].provisioning_configurations #=> Array
     #   resp.items[0].provisioning_configurations[0].lake_formation_configuration.location_registration_role #=> String
     #   resp.items[0].provisioning_configurations[0].lake_formation_configuration.location_registration_exclude_s3_locations #=> Array
@@ -11842,6 +11860,13 @@ module Aws::DataZone
     # @option params [Hash<String,Hash>] :regional_parameters
     #   The regional parameters in the environment blueprint.
     #
+    # @option params [Array<Types::PutResourceConfiguration>] :resource_configurations
+    #   The resource configurations of the environment blueprint.
+    #
+    # @option params [Boolean] :allow_user_provided_configurations
+    #   Specifies whether user-provided resource configurations are allowed
+    #   for the environment blueprint.
+    #
     # @option params [Hash<String,String>] :global_parameters
     #   Region-agnostic environment blueprint parameters.
     #
@@ -11857,8 +11882,10 @@ module Aws::DataZone
     #   * {Types::PutEnvironmentBlueprintConfigurationOutput#manage_access_role_arn #manage_access_role_arn} => String
     #   * {Types::PutEnvironmentBlueprintConfigurationOutput#enabled_regions #enabled_regions} => Array&lt;String&gt;
     #   * {Types::PutEnvironmentBlueprintConfigurationOutput#regional_parameters #regional_parameters} => Hash&lt;String,Hash&lt;String,String&gt;&gt;
+    #   * {Types::PutEnvironmentBlueprintConfigurationOutput#allow_user_provided_configurations #allow_user_provided_configurations} => Boolean
     #   * {Types::PutEnvironmentBlueprintConfigurationOutput#created_at #created_at} => Time
     #   * {Types::PutEnvironmentBlueprintConfigurationOutput#updated_at #updated_at} => Time
+    #   * {Types::PutEnvironmentBlueprintConfigurationOutput#resource_configurations #resource_configurations} => Array&lt;Types::ResourceConfiguration&gt;
     #   * {Types::PutEnvironmentBlueprintConfigurationOutput#provisioning_configurations #provisioning_configurations} => Array&lt;Types::ProvisioningConfiguration&gt;
     #
     # @example Request syntax with placeholder values
@@ -11875,6 +11902,17 @@ module Aws::DataZone
     #         "String" => "String",
     #       },
     #     },
+    #     resource_configurations: [
+    #       {
+    #         name: "PutResourceConfigurationNameString", # required
+    #         description: "String",
+    #         region: "RegionName", # required
+    #         parameters: { # required
+    #           "String" => "String",
+    #         },
+    #       },
+    #     ],
+    #     allow_user_provided_configurations: false,
     #     global_parameters: {
     #       "String" => "String",
     #     },
@@ -11900,8 +11938,16 @@ module Aws::DataZone
     #   resp.regional_parameters #=> Hash
     #   resp.regional_parameters["RegionName"] #=> Hash
     #   resp.regional_parameters["RegionName"]["String"] #=> String
+    #   resp.allow_user_provided_configurations #=> Boolean
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
+    #   resp.resource_configurations #=> Array
+    #   resp.resource_configurations[0].identifier #=> String
+    #   resp.resource_configurations[0].name #=> String
+    #   resp.resource_configurations[0].description #=> String
+    #   resp.resource_configurations[0].region #=> String
+    #   resp.resource_configurations[0].parameters #=> Hash
+    #   resp.resource_configurations[0].parameters["String"] #=> String
     #   resp.provisioning_configurations #=> Array
     #   resp.provisioning_configurations[0].lake_formation_configuration.location_registration_role #=> String
     #   resp.provisioning_configurations[0].lake_formation_configuration.location_registration_exclude_s3_locations #=> Array
@@ -16253,7 +16299,7 @@ module Aws::DataZone
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-datazone'
-      context[:gem_version] = '1.80.0'
+      context[:gem_version] = '1.81.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

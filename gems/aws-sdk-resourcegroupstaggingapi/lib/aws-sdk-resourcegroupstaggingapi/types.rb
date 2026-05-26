@@ -24,6 +24,12 @@ module Aws::ResourceGroupsTaggingAPI
     #   values.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] missing_tag_keys
+    #   These tag keys are defined as required in the
+    #   `report_required_tag_for` block of the effective tag policy, but are
+    #   missing from the resource.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] compliance_status
     #   Whether a resource is compliant with the effective tag policy.
     #   @return [Boolean]
@@ -33,6 +39,7 @@ module Aws::ResourceGroupsTaggingAPI
     class ComplianceDetails < Struct.new(
       :noncompliant_keys,
       :keys_with_noncompliant_values,
+      :missing_tag_keys,
       :compliance_status)
       SENSITIVE = []
       include Aws::Structure

@@ -871,6 +871,8 @@ module Aws::ResourceGroupsTaggingAPI
     #   resp.resource_tag_mapping_list[0].compliance_details.noncompliant_keys[0] #=> String
     #   resp.resource_tag_mapping_list[0].compliance_details.keys_with_noncompliant_values #=> Array
     #   resp.resource_tag_mapping_list[0].compliance_details.keys_with_noncompliant_values[0] #=> String
+    #   resp.resource_tag_mapping_list[0].compliance_details.missing_tag_keys #=> Array
+    #   resp.resource_tag_mapping_list[0].compliance_details.missing_tag_keys[0] #=> String
     #   resp.resource_tag_mapping_list[0].compliance_details.compliance_status #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/resourcegroupstaggingapi-2017-01-26/GetResources AWS API Documentation
@@ -1279,7 +1281,7 @@ module Aws::ResourceGroupsTaggingAPI
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-resourcegroupstaggingapi'
-      context[:gem_version] = '1.96.0'
+      context[:gem_version] = '1.97.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

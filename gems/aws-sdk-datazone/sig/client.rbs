@@ -2093,8 +2093,10 @@ module Aws
         def manage_access_role_arn: () -> ::String
         def enabled_regions: () -> ::Array[::String]
         def regional_parameters: () -> ::Hash[::String, ::Hash[::String, ::String]]
+        def allow_user_provided_configurations: () -> bool
         def created_at: () -> ::Time
         def updated_at: () -> ::Time
+        def resource_configurations: () -> ::Array[Types::ResourceConfiguration]
         def provisioning_configurations: () -> ::Array[Types::ProvisioningConfiguration]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#get_environment_blueprint_configuration-instance_method
@@ -3268,8 +3270,10 @@ module Aws
         def manage_access_role_arn: () -> ::String
         def enabled_regions: () -> ::Array[::String]
         def regional_parameters: () -> ::Hash[::String, ::Hash[::String, ::String]]
+        def allow_user_provided_configurations: () -> bool
         def created_at: () -> ::Time
         def updated_at: () -> ::Time
+        def resource_configurations: () -> ::Array[Types::ResourceConfiguration]
         def provisioning_configurations: () -> ::Array[Types::ProvisioningConfiguration]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#put_environment_blueprint_configuration-instance_method
@@ -3281,6 +3285,15 @@ module Aws
                                                      ?environment_role_permission_boundary: ::String,
                                                      enabled_regions: Array[::String],
                                                      ?regional_parameters: Hash[::String, Hash[::String, ::String]],
+                                                     ?resource_configurations: Array[
+                                                       {
+                                                         name: ::String,
+                                                         description: ::String?,
+                                                         region: ::String,
+                                                         parameters: Hash[::String, ::String]
+                                                       }
+                                                     ],
+                                                     ?allow_user_provided_configurations: bool,
                                                      ?global_parameters: Hash[::String, ::String],
                                                      ?provisioning_configurations: Array[
                                                        {

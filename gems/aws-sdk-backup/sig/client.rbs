@@ -669,6 +669,8 @@ module Aws
         def backup_vault_arn: () -> ::String
         def backup_vault_name: () -> ::String
         def completion_date: () -> ::Time
+        def continuous_scan_end_time: () -> ::Time
+        def continuous_scan_start_time: () -> ::Time
         def created_by: () -> Types::ScanJobCreator
         def creation_date: () -> ::Time
         def iam_role_arn: () -> ::String
@@ -822,6 +824,23 @@ module Aws
                             legal_hold_id: ::String
                           ) -> _GetLegalHoldResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetLegalHoldResponseSuccess
+
+      interface _GetPITRMalwareScanResultsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetPITRMalwareScanResultsOutput]
+        def scan_end_time: () -> ::Time
+        def scan_result: () -> Types::ScanResultInfo
+        def last_scan_job_time: () -> ::Time
+        def scan_id: () -> ::String
+        def scan_mode: () -> ("FULL_SCAN" | "INCREMENTAL_SCAN")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Backup/Client.html#get_pitr_malware_scan_results-instance_method
+      def get_pitr_malware_scan_results: (
+                                           recovery_point_arn: ::String,
+                                           backup_vault_name: ::String,
+                                           scan_end_time: ::Time,
+                                           malware_scanner: ("GUARDDUTY")
+                                         ) -> _GetPITRMalwareScanResultsResponseSuccess
+                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetPITRMalwareScanResultsResponseSuccess
 
       interface _GetRecoveryPointIndexDetailsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetRecoveryPointIndexDetailsOutput]
@@ -1312,7 +1331,7 @@ module Aws
                                      ?account_id: ::String,
                                      ?resource_type: ::String,
                                      ?malware_scanner: ("GUARDDUTY"),
-                                     ?scan_result_status: ("NO_THREATS_FOUND" | "THREATS_FOUND"),
+                                     ?scan_result_status: ("NO_THREATS_FOUND" | "THREATS_FOUND" | "UNKNOWN"),
                                      ?state: ("CREATED" | "COMPLETED" | "COMPLETED_WITH_ISSUES" | "RUNNING" | "FAILED" | "CANCELED" | "AGGREGATE_ALL" | "ANY"),
                                      ?aggregation_period: ("ONE_DAY" | "SEVEN_DAYS" | "FOURTEEN_DAYS"),
                                      ?max_results: ::Integer,
@@ -1335,7 +1354,7 @@ module Aws
                             ?by_recovery_point_arn: ::String,
                             ?by_resource_arn: ::String,
                             ?by_resource_type: ("EBS" | "EC2" | "S3"),
-                            ?by_scan_result_status: ("NO_THREATS_FOUND" | "THREATS_FOUND"),
+                            ?by_scan_result_status: ("NO_THREATS_FOUND" | "THREATS_FOUND" | "UNKNOWN"),
                             ?by_state: ("CANCELED" | "COMPLETED" | "COMPLETED_WITH_ISSUES" | "CREATED" | "FAILED" | "RUNNING"),
                             ?max_results: ::Integer,
                             ?next_token: ::String
@@ -1491,6 +1510,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Backup/Client.html#start_scan_job-instance_method
       def start_scan_job: (
                             backup_vault_name: ::String,
+                            ?continuous_scan_end_time: ::Time,
                             iam_role_arn: ::String,
                             ?idempotency_token: ::String,
                             malware_scanner: ("GUARDDUTY"),

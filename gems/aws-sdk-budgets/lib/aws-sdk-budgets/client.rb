@@ -656,6 +656,10 @@ module Aws::Budgets
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
     #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
+    #
     # @option params [required, String] :notification_type
     #   The type of a notification. It must be ACTUAL or FORECASTED.
     #
@@ -876,6 +880,10 @@ module Aws::Budgets
     # @option params [required, String] :budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #
     # @option params [required, String] :action_id
     #   A system-generated universally unique identifier (UUID) for the
@@ -1128,6 +1136,10 @@ module Aws::Budgets
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
     #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
+    #
     # @option params [required, String] :action_id
     #   A system-generated universally unique identifier (UUID) for the
     #   action.
@@ -1192,6 +1204,10 @@ module Aws::Budgets
     # @option params [required, String] :budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #
     # @option params [required, String] :action_id
     #   A system-generated universally unique identifier (UUID) for the
@@ -1346,6 +1362,10 @@ module Aws::Budgets
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
     #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
+    #
     # @option params [Integer] :max_results
     #   An integer that represents how many entries a paginated response
     #   contains. The maximum is 100.
@@ -1463,6 +1483,10 @@ module Aws::Budgets
     # @option params [required, String] :budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #
     # @option params [Types::TimePeriod] :time_period
     #   Retrieves how often the budget went into an `ALARM` state for the
@@ -1783,6 +1807,10 @@ module Aws::Budgets
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
     #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
+    #
     # @option params [required, String] :action_id
     #   A system-generated universally unique identifier (UUID) for the
     #   action.
@@ -2045,6 +2073,10 @@ module Aws::Budgets
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
     #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
+    #
     # @option params [required, String] :action_id
     #   A system-generated universally unique identifier (UUID) for the
     #   action.
@@ -2289,7 +2321,7 @@ module Aws::Budgets
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-budgets'
-      context[:gem_version] = '1.108.0'
+      context[:gem_version] = '1.109.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

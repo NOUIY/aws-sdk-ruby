@@ -78,6 +78,7 @@ module Aws::GuardDuty
     ContainerUid = Shapes::StringShape.new(name: 'ContainerUid')
     ContainerUids = Shapes::ListShape.new(name: 'ContainerUids')
     Containers = Shapes::ListShape.new(name: 'Containers')
+    ContinuousScanDetails = Shapes::StructureShape.new(name: 'ContinuousScanDetails')
     CountByCoverageStatus = Shapes::MapShape.new(name: 'CountByCoverageStatus')
     CountByResourceType = Shapes::MapShape.new(name: 'CountByResourceType')
     CountBySeverity = Shapes::MapShape.new(name: 'CountBySeverity')
@@ -540,6 +541,7 @@ module Aws::GuardDuty
     ScanCondition = Shapes::StructureShape.new(name: 'ScanCondition')
     ScanConditionPair = Shapes::StructureShape.new(name: 'ScanConditionPair')
     ScanConfiguration = Shapes::StructureShape.new(name: 'ScanConfiguration')
+    ScanConfigurationContinuousScanDetails = Shapes::StructureShape.new(name: 'ScanConfigurationContinuousScanDetails')
     ScanConfigurationRecoveryPoint = Shapes::StructureShape.new(name: 'ScanConfigurationRecoveryPoint')
     ScanCriterion = Shapes::MapShape.new(name: 'ScanCriterion')
     ScanCriterionKey = Shapes::StringShape.new(name: 'ScanCriterionKey')
@@ -911,6 +913,10 @@ module Aws::GuardDuty
     ContainerUids.member = Shapes::ShapeRef.new(shape: ContainerUid)
 
     Containers.member = Shapes::ShapeRef.new(shape: Container)
+
+    ContinuousScanDetails.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "startTime"))
+    ContinuousScanDetails.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "endTime"))
+    ContinuousScanDetails.struct_class = Types::ContinuousScanDetails
 
     CountByCoverageStatus.key = Shapes::ShapeRef.new(shape: CoverageStatus)
     CountByCoverageStatus.value = Shapes::ShapeRef.new(shape: Long)
@@ -2443,6 +2449,7 @@ module Aws::GuardDuty
     RdsLoginAttemptAction.struct_class = Types::RdsLoginAttemptAction
 
     RecoveryPoint.add_member(:backup_vault_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "backupVaultName"))
+    RecoveryPoint.add_member(:continuous_scan_details, Shapes::ShapeRef.new(shape: ContinuousScanDetails, location_name: "continuousScanDetails"))
     RecoveryPoint.struct_class = Types::RecoveryPoint
 
     RecoveryPointDetails.add_member(:recovery_point_arn, Shapes::ShapeRef.new(shape: String, location_name: "recoveryPointArn"))
@@ -2645,7 +2652,12 @@ module Aws::GuardDuty
     ScanConfiguration.add_member(:recovery_point, Shapes::ShapeRef.new(shape: ScanConfigurationRecoveryPoint, location_name: "recoveryPoint"))
     ScanConfiguration.struct_class = Types::ScanConfiguration
 
+    ScanConfigurationContinuousScanDetails.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "startTime"))
+    ScanConfigurationContinuousScanDetails.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "endTime"))
+    ScanConfigurationContinuousScanDetails.struct_class = Types::ScanConfigurationContinuousScanDetails
+
     ScanConfigurationRecoveryPoint.add_member(:backup_vault_name, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "backupVaultName"))
+    ScanConfigurationRecoveryPoint.add_member(:continuous_scan_details, Shapes::ShapeRef.new(shape: ScanConfigurationContinuousScanDetails, location_name: "continuousScanDetails"))
     ScanConfigurationRecoveryPoint.struct_class = Types::ScanConfigurationRecoveryPoint
 
     ScanCriterion.key = Shapes::ShapeRef.new(shape: ScanCriterionKey)

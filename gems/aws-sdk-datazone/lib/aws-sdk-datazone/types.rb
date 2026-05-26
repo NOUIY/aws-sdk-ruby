@@ -7984,6 +7984,11 @@ module Aws::DataZone
     #   The regional parameters of the environment blueprint.
     #   @return [Hash<String,Hash<String,String>>]
     #
+    # @!attribute [rw] allow_user_provided_configurations
+    #   Specifies whether user-provided resource configurations are allowed
+    #   for the environment blueprint.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] created_at
     #   The timestamp of when an environment blueprint was created.
     #   @return [Time]
@@ -7991,6 +7996,10 @@ module Aws::DataZone
     # @!attribute [rw] updated_at
     #   The timestamp of when the environment blueprint was updated.
     #   @return [Time]
+    #
+    # @!attribute [rw] resource_configurations
+    #   The resource configurations of the environment blueprint.
+    #   @return [Array<Types::ResourceConfiguration>]
     #
     # @!attribute [rw] provisioning_configurations
     #   The provisioning configuration of a blueprint.
@@ -8006,8 +8015,10 @@ module Aws::DataZone
       :manage_access_role_arn,
       :enabled_regions,
       :regional_parameters,
+      :allow_user_provided_configurations,
       :created_at,
       :updated_at,
+      :resource_configurations,
       :provisioning_configurations)
       SENSITIVE = []
       include Aws::Structure
@@ -9932,6 +9943,11 @@ module Aws::DataZone
     #   The regional parameters of the blueprint.
     #   @return [Hash<String,Hash<String,String>>]
     #
+    # @!attribute [rw] allow_user_provided_configurations
+    #   Specifies whether user-provided resource configurations are allowed
+    #   for the environment blueprint.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] created_at
     #   The timestamp of when this blueprint was created.
     #   @return [Time]
@@ -9939,6 +9955,10 @@ module Aws::DataZone
     # @!attribute [rw] updated_at
     #   The timestamp of when this blueprint was upated.
     #   @return [Time]
+    #
+    # @!attribute [rw] resource_configurations
+    #   The resource configurations of the environment blueprint.
+    #   @return [Array<Types::ResourceConfiguration>]
     #
     # @!attribute [rw] provisioning_configurations
     #   The provisioning configuration of a blueprint.
@@ -9954,8 +9974,10 @@ module Aws::DataZone
       :manage_access_role_arn,
       :enabled_regions,
       :regional_parameters,
+      :allow_user_provided_configurations,
       :created_at,
       :updated_at,
+      :resource_configurations,
       :provisioning_configurations)
       SENSITIVE = []
       include Aws::Structure
@@ -18205,6 +18227,15 @@ module Aws::DataZone
     #   The regional parameters in the environment blueprint.
     #   @return [Hash<String,Hash<String,String>>]
     #
+    # @!attribute [rw] resource_configurations
+    #   The resource configurations of the environment blueprint.
+    #   @return [Array<Types::PutResourceConfiguration>]
+    #
+    # @!attribute [rw] allow_user_provided_configurations
+    #   Specifies whether user-provided resource configurations are allowed
+    #   for the environment blueprint.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] global_parameters
     #   Region-agnostic environment blueprint parameters.
     #   @return [Hash<String,String>]
@@ -18223,6 +18254,8 @@ module Aws::DataZone
       :environment_role_permission_boundary,
       :enabled_regions,
       :regional_parameters,
+      :resource_configurations,
+      :allow_user_provided_configurations,
       :global_parameters,
       :provisioning_configurations)
       SENSITIVE = []
@@ -18257,6 +18290,11 @@ module Aws::DataZone
     #   The regional parameters in the environment blueprint.
     #   @return [Hash<String,Hash<String,String>>]
     #
+    # @!attribute [rw] allow_user_provided_configurations
+    #   Specifies whether user-provided resource configurations are allowed
+    #   for the environment blueprint.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] created_at
     #   The timestamp of when the environment blueprint was created.
     #   @return [Time]
@@ -18264,6 +18302,10 @@ module Aws::DataZone
     # @!attribute [rw] updated_at
     #   The timestamp of when the environment blueprint was updated.
     #   @return [Time]
+    #
+    # @!attribute [rw] resource_configurations
+    #   The resource configurations of the environment blueprint.
+    #   @return [Array<Types::ResourceConfiguration>]
     #
     # @!attribute [rw] provisioning_configurations
     #   The provisioning configuration of a blueprint.
@@ -18279,9 +18321,41 @@ module Aws::DataZone
       :manage_access_role_arn,
       :enabled_regions,
       :regional_parameters,
+      :allow_user_provided_configurations,
       :created_at,
       :updated_at,
+      :resource_configurations,
       :provisioning_configurations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The resource configuration that is used to configure the environment
+    # blueprint.
+    #
+    # @!attribute [rw] name
+    #   The name of the resource configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the resource configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] region
+    #   The Amazon Web Services Region of the resource configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] parameters
+    #   The parameters of the resource configuration.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/PutResourceConfiguration AWS API Documentation
+    #
+    class PutResourceConfiguration < Struct.new(
+      :name,
+      :description,
+      :region,
+      :parameters)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -19183,6 +19257,40 @@ module Aws::DataZone
       :name,
       :value,
       :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of the resource configuration.
+    #
+    # @!attribute [rw] identifier
+    #   The identifier of the resource configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the resource configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the resource configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] region
+    #   The Amazon Web Services Region of the resource configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] parameters
+    #   The parameters of the resource configuration.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/ResourceConfiguration AWS API Documentation
+    #
+    class ResourceConfiguration < Struct.new(
+      :identifier,
+      :name,
+      :description,
+      :region,
+      :parameters)
       SENSITIVE = []
       include Aws::Structure
     end

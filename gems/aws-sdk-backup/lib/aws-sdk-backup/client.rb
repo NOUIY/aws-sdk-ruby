@@ -2473,6 +2473,8 @@ module Aws::Backup
     #   * {Types::DescribeScanJobOutput#backup_vault_arn #backup_vault_arn} => String
     #   * {Types::DescribeScanJobOutput#backup_vault_name #backup_vault_name} => String
     #   * {Types::DescribeScanJobOutput#completion_date #completion_date} => Time
+    #   * {Types::DescribeScanJobOutput#continuous_scan_end_time #continuous_scan_end_time} => Time
+    #   * {Types::DescribeScanJobOutput#continuous_scan_start_time #continuous_scan_start_time} => Time
     #   * {Types::DescribeScanJobOutput#created_by #created_by} => Types::ScanJobCreator
     #   * {Types::DescribeScanJobOutput#creation_date #creation_date} => Time
     #   * {Types::DescribeScanJobOutput#iam_role_arn #iam_role_arn} => String
@@ -2502,6 +2504,8 @@ module Aws::Backup
     #   resp.backup_vault_arn #=> String
     #   resp.backup_vault_name #=> String
     #   resp.completion_date #=> Time
+    #   resp.continuous_scan_end_time #=> Time
+    #   resp.continuous_scan_start_time #=> Time
     #   resp.created_by.backup_plan_arn #=> String
     #   resp.created_by.backup_plan_id #=> String
     #   resp.created_by.backup_plan_version #=> String
@@ -2517,7 +2521,7 @@ module Aws::Backup
     #   resp.scan_id #=> String
     #   resp.scan_job_id #=> String
     #   resp.scan_mode #=> String, one of "FULL_SCAN", "INCREMENTAL_SCAN"
-    #   resp.scan_result.scan_result_status #=> String, one of "NO_THREATS_FOUND", "THREATS_FOUND"
+    #   resp.scan_result.scan_result_status #=> String, one of "NO_THREATS_FOUND", "THREATS_FOUND", "UNKNOWN"
     #   resp.scanner_role_arn #=> String
     #   resp.state #=> String, one of "CANCELED", "COMPLETED", "COMPLETED_WITH_ISSUES", "CREATED", "FAILED", "RUNNING"
     #   resp.status_message #=> String
@@ -3071,6 +3075,61 @@ module Aws::Backup
     # @param [Hash] params ({})
     def get_legal_hold(params = {}, options = {})
       req = build_request(:get_legal_hold, params)
+      req.send_request(options)
+    end
+
+    # Returns the malware scan results for a specified point in time within
+    # a continuous (point-in-time recovery) backup.
+    #
+    # @option params [required, String] :recovery_point_arn
+    #   An ARN that uniquely identifies the target recovery point for
+    #   scanning; for example,
+    #   `arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45`.
+    #
+    # @option params [required, String] :backup_vault_name
+    #   The name of a logical container where backups are stored. Backup
+    #   vaults are identified by names that are unique to the account used to
+    #   create them and the Amazon Web Services Region where they are created.
+    #
+    # @option params [required, Time,DateTime,Date,Integer,String] :scan_end_time
+    #   The point in time within the continuous backup to examine for malware
+    #   scan results.
+    #
+    # @option params [required, String] :malware_scanner
+    #   The scanning engine used for the corresponding scan job. Currently
+    #   only `GUARDDUTY` is supported.
+    #
+    # @return [Types::GetPITRMalwareScanResultsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetPITRMalwareScanResultsOutput#scan_end_time #scan_end_time} => Time
+    #   * {Types::GetPITRMalwareScanResultsOutput#scan_result #scan_result} => Types::ScanResultInfo
+    #   * {Types::GetPITRMalwareScanResultsOutput#last_scan_job_time #last_scan_job_time} => Time
+    #   * {Types::GetPITRMalwareScanResultsOutput#scan_id #scan_id} => String
+    #   * {Types::GetPITRMalwareScanResultsOutput#scan_mode #scan_mode} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_pitr_malware_scan_results({
+    #     recovery_point_arn: "String", # required
+    #     backup_vault_name: "String", # required
+    #     scan_end_time: Time.now, # required
+    #     malware_scanner: "GUARDDUTY", # required, accepts GUARDDUTY
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.scan_end_time #=> Time
+    #   resp.scan_result.scan_result_status #=> String, one of "NO_THREATS_FOUND", "THREATS_FOUND", "UNKNOWN"
+    #   resp.last_scan_job_time #=> Time
+    #   resp.scan_id #=> String
+    #   resp.scan_mode #=> String, one of "FULL_SCAN", "INCREMENTAL_SCAN"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/backup-2018-11-15/GetPITRMalwareScanResults AWS API Documentation
+    #
+    # @overload get_pitr_malware_scan_results(params = {})
+    # @param [Hash] params ({})
+    def get_pitr_malware_scan_results(params = {}, options = {})
+      req = build_request(:get_pitr_malware_scan_results, params)
       req.send_request(options)
     end
 
@@ -5588,7 +5647,7 @@ module Aws::Backup
     #     account_id: "AccountId",
     #     resource_type: "ResourceType",
     #     malware_scanner: "GUARDDUTY", # accepts GUARDDUTY
-    #     scan_result_status: "NO_THREATS_FOUND", # accepts NO_THREATS_FOUND, THREATS_FOUND
+    #     scan_result_status: "NO_THREATS_FOUND", # accepts NO_THREATS_FOUND, THREATS_FOUND, UNKNOWN
     #     state: "CREATED", # accepts CREATED, COMPLETED, COMPLETED_WITH_ISSUES, RUNNING, FAILED, CANCELED, AGGREGATE_ALL, ANY
     #     aggregation_period: "ONE_DAY", # accepts ONE_DAY, SEVEN_DAYS, FOURTEEN_DAYS
     #     max_results: 1,
@@ -5606,7 +5665,7 @@ module Aws::Backup
     #   resp.scan_job_summaries[0].start_time #=> Time
     #   resp.scan_job_summaries[0].end_time #=> Time
     #   resp.scan_job_summaries[0].malware_scanner #=> String, one of "GUARDDUTY"
-    #   resp.scan_job_summaries[0].scan_result_status #=> String, one of "NO_THREATS_FOUND", "THREATS_FOUND"
+    #   resp.scan_job_summaries[0].scan_result_status #=> String, one of "NO_THREATS_FOUND", "THREATS_FOUND", "UNKNOWN"
     #   resp.aggregation_period #=> String
     #   resp.next_token #=> String
     #
@@ -5710,7 +5769,7 @@ module Aws::Backup
     #     by_recovery_point_arn: "String",
     #     by_resource_arn: "String",
     #     by_resource_type: "EBS", # accepts EBS, EC2, S3
-    #     by_scan_result_status: "NO_THREATS_FOUND", # accepts NO_THREATS_FOUND, THREATS_FOUND
+    #     by_scan_result_status: "NO_THREATS_FOUND", # accepts NO_THREATS_FOUND, THREATS_FOUND, UNKNOWN
     #     by_state: "CANCELED", # accepts CANCELED, COMPLETED, COMPLETED_WITH_ISSUES, CREATED, FAILED, RUNNING
     #     max_results: 1,
     #     next_token: "String",
@@ -5724,6 +5783,8 @@ module Aws::Backup
     #   resp.scan_jobs[0].backup_vault_arn #=> String
     #   resp.scan_jobs[0].backup_vault_name #=> String
     #   resp.scan_jobs[0].completion_date #=> Time
+    #   resp.scan_jobs[0].continuous_scan_end_time #=> Time
+    #   resp.scan_jobs[0].continuous_scan_start_time #=> Time
     #   resp.scan_jobs[0].created_by.backup_plan_arn #=> String
     #   resp.scan_jobs[0].created_by.backup_plan_id #=> String
     #   resp.scan_jobs[0].created_by.backup_plan_version #=> String
@@ -5739,7 +5800,7 @@ module Aws::Backup
     #   resp.scan_jobs[0].scan_id #=> String
     #   resp.scan_jobs[0].scan_job_id #=> String
     #   resp.scan_jobs[0].scan_mode #=> String, one of "FULL_SCAN", "INCREMENTAL_SCAN"
-    #   resp.scan_jobs[0].scan_result.scan_result_status #=> String, one of "NO_THREATS_FOUND", "THREATS_FOUND"
+    #   resp.scan_jobs[0].scan_result.scan_result_status #=> String, one of "NO_THREATS_FOUND", "THREATS_FOUND", "UNKNOWN"
     #   resp.scan_jobs[0].scanner_role_arn #=> String
     #   resp.scan_jobs[0].state #=> String, one of "CANCELED", "COMPLETED", "COMPLETED_WITH_ISSUES", "CREATED", "FAILED", "RUNNING"
     #   resp.scan_jobs[0].status_message #=> String
@@ -6575,6 +6636,10 @@ module Aws::Backup
     #
     #   Pattern: `^[a-zA-Z0-9\-\_]{2,50}$`
     #
+    # @option params [Time,DateTime,Date,Integer,String] :continuous_scan_end_time
+    #   The point in time the scan job will scan up to for a continuous
+    #   backup.
+    #
     # @option params [required, String] :iam_role_arn
     #   Specifies the IAM role ARN used to create the target recovery point;
     #   for example, `arn:aws:iam::123456789012:role/S3Access`.
@@ -6621,6 +6686,7 @@ module Aws::Backup
     #
     #   resp = client.start_scan_job({
     #     backup_vault_name: "String", # required
+    #     continuous_scan_end_time: Time.now,
     #     iam_role_arn: "String", # required
     #     idempotency_token: "String",
     #     malware_scanner: "GUARDDUTY", # required, accepts GUARDDUTY
@@ -7466,7 +7532,7 @@ module Aws::Backup
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-backup'
-      context[:gem_version] = '1.113.0'
+      context[:gem_version] = '1.114.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

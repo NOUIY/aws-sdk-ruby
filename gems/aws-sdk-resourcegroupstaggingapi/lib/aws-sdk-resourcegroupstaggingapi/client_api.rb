@@ -97,6 +97,7 @@ module Aws::ResourceGroupsTaggingAPI
 
     ComplianceDetails.add_member(:noncompliant_keys, Shapes::ShapeRef.new(shape: TagKeyList, location_name: "NoncompliantKeys"))
     ComplianceDetails.add_member(:keys_with_noncompliant_values, Shapes::ShapeRef.new(shape: TagKeyList, location_name: "KeysWithNoncompliantValues"))
+    ComplianceDetails.add_member(:missing_tag_keys, Shapes::ShapeRef.new(shape: TagKeyList, location_name: "MissingTagKeys"))
     ComplianceDetails.add_member(:compliance_status, Shapes::ShapeRef.new(shape: ComplianceStatus, location_name: "ComplianceStatus"))
     ComplianceDetails.struct_class = Types::ComplianceDetails
 

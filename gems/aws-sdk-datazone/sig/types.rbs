@@ -2199,8 +2199,10 @@ module Aws::DataZone
       attr_accessor manage_access_role_arn: ::String
       attr_accessor enabled_regions: ::Array[::String]
       attr_accessor regional_parameters: ::Hash[::String, ::Hash[::String, ::String]]
+      attr_accessor allow_user_provided_configurations: bool
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
+      attr_accessor resource_configurations: ::Array[Types::ResourceConfiguration]
       attr_accessor provisioning_configurations: ::Array[Types::ProvisioningConfiguration]
       SENSITIVE: []
     end
@@ -2709,8 +2711,10 @@ module Aws::DataZone
       attr_accessor manage_access_role_arn: ::String
       attr_accessor enabled_regions: ::Array[::String]
       attr_accessor regional_parameters: ::Hash[::String, ::Hash[::String, ::String]]
+      attr_accessor allow_user_provided_configurations: bool
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
+      attr_accessor resource_configurations: ::Array[Types::ResourceConfiguration]
       attr_accessor provisioning_configurations: ::Array[Types::ProvisioningConfiguration]
       SENSITIVE: []
     end
@@ -4932,6 +4936,8 @@ module Aws::DataZone
       attr_accessor environment_role_permission_boundary: ::String
       attr_accessor enabled_regions: ::Array[::String]
       attr_accessor regional_parameters: ::Hash[::String, ::Hash[::String, ::String]]
+      attr_accessor resource_configurations: ::Array[Types::PutResourceConfiguration]
+      attr_accessor allow_user_provided_configurations: bool
       attr_accessor global_parameters: ::Hash[::String, ::String]
       attr_accessor provisioning_configurations: ::Array[Types::ProvisioningConfiguration]
       SENSITIVE: []
@@ -4945,9 +4951,19 @@ module Aws::DataZone
       attr_accessor manage_access_role_arn: ::String
       attr_accessor enabled_regions: ::Array[::String]
       attr_accessor regional_parameters: ::Hash[::String, ::Hash[::String, ::String]]
+      attr_accessor allow_user_provided_configurations: bool
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
+      attr_accessor resource_configurations: ::Array[Types::ResourceConfiguration]
       attr_accessor provisioning_configurations: ::Array[Types::ProvisioningConfiguration]
+      SENSITIVE: []
+    end
+
+    class PutResourceConfiguration
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor region: ::String
+      attr_accessor parameters: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 
@@ -5210,6 +5226,15 @@ module Aws::DataZone
       attr_accessor name: ::String
       attr_accessor value: ::String
       attr_accessor type: ::String
+      SENSITIVE: []
+    end
+
+    class ResourceConfiguration
+      attr_accessor identifier: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor region: ::String
+      attr_accessor parameters: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 

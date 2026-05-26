@@ -4789,13 +4789,13 @@ module Aws::GuardDuty
     #   resp.detector_id #=> String
     #   resp.admin_detector_id #=> String
     #   resp.resource_arn #=> String
-    #   resp.resource_type #=> String, one of "EBS_RECOVERY_POINT", "EBS_SNAPSHOT", "EBS_VOLUME", "EC2_AMI", "EC2_INSTANCE", "EC2_RECOVERY_POINT", "S3_RECOVERY_POINT", "S3_BUCKET"
+    #   resp.resource_type #=> String, one of "EBS_RECOVERY_POINT", "EBS_SNAPSHOT", "EBS_VOLUME", "EC2_AMI", "EC2_INSTANCE", "EC2_RECOVERY_POINT", "S3_RECOVERY_POINT", "S3_BUCKET", "S3_POINT_IN_TIME_RECOVERY"
     #   resp.scanned_resources_count #=> Integer
     #   resp.skipped_resources_count #=> Integer
     #   resp.failed_resources_count #=> Integer
     #   resp.scanned_resources #=> Array
     #   resp.scanned_resources[0].scanned_resource_arn #=> String
-    #   resp.scanned_resources[0].scanned_resource_type #=> String, one of "EBS_RECOVERY_POINT", "EBS_SNAPSHOT", "EBS_VOLUME", "EC2_AMI", "EC2_INSTANCE", "EC2_RECOVERY_POINT", "S3_RECOVERY_POINT", "S3_BUCKET"
+    #   resp.scanned_resources[0].scanned_resource_type #=> String, one of "EBS_RECOVERY_POINT", "EBS_SNAPSHOT", "EBS_VOLUME", "EC2_AMI", "EC2_INSTANCE", "EC2_RECOVERY_POINT", "S3_RECOVERY_POINT", "S3_BUCKET", "S3_POINT_IN_TIME_RECOVERY"
     #   resp.scanned_resources[0].scanned_resource_status #=> String, one of "RUNNING", "COMPLETED", "COMPLETED_WITH_ISSUES", "FAILED", "SKIPPED"
     #   resp.scanned_resources[0].scan_status_reason #=> String, one of "ACCESS_DENIED", "RESOURCE_NOT_FOUND", "SNAPSHOT_SIZE_LIMIT_EXCEEDED", "RESOURCE_UNAVAILABLE", "INCONSISTENT_SOURCE", "INCREMENTAL_NO_DIFFERENCE", "NO_EBS_VOLUMES_FOUND", "UNSUPPORTED_PRODUCT_CODE_TYPE", "AMI_SNAPSHOT_LIMIT_EXCEEDED", "UNRELATED_RESOURCES", "BASE_RESOURCE_NOT_SCANNED", "BASE_CREATED_AFTER_TARGET", "UNSUPPORTED_FOR_INCREMENTAL", "UNSUPPORTED_AMI", "UNSUPPORTED_SNAPSHOT", "UNSUPPORTED_COMPOSITE_RECOVERY_POINT", "ALL_FILES_SKIPPED_OR_FAILED"
     #   resp.scanned_resources[0].resource_details.ebs_volume.volume_arn #=> String
@@ -4812,6 +4812,8 @@ module Aws::GuardDuty
     #   resp.scan_configuration.trigger_details.trigger_type #=> String, one of "BACKUP", "GUARDDUTY"
     #   resp.scan_configuration.incremental_scan_details.baseline_resource_arn #=> String
     #   resp.scan_configuration.recovery_point.backup_vault_name #=> String
+    #   resp.scan_configuration.recovery_point.continuous_scan_details.start_time #=> Time
+    #   resp.scan_configuration.recovery_point.continuous_scan_details.end_time #=> Time
     #   resp.scan_category #=> String, one of "FULL_SCAN", "INCREMENTAL_SCAN"
     #   resp.scan_status #=> String, one of "RUNNING", "COMPLETED", "COMPLETED_WITH_ISSUES", "FAILED", "SKIPPED"
     #   resp.scan_status_reason #=> String, one of "ACCESS_DENIED", "RESOURCE_NOT_FOUND", "SNAPSHOT_SIZE_LIMIT_EXCEEDED", "RESOURCE_UNAVAILABLE", "INCONSISTENT_SOURCE", "INCREMENTAL_NO_DIFFERENCE", "NO_EBS_VOLUMES_FOUND", "UNSUPPORTED_PRODUCT_CODE_TYPE", "AMI_SNAPSHOT_LIMIT_EXCEEDED", "UNRELATED_RESOURCES", "BASE_RESOURCE_NOT_SCANNED", "BASE_CREATED_AFTER_TARGET", "UNSUPPORTED_FOR_INCREMENTAL", "UNSUPPORTED_AMI", "UNSUPPORTED_SNAPSHOT", "UNSUPPORTED_COMPOSITE_RECOVERY_POINT", "ALL_FILES_SKIPPED_OR_FAILED"
@@ -6109,7 +6111,7 @@ module Aws::GuardDuty
     #
     #   resp.scans #=> Array
     #   resp.scans[0].resource_arn #=> String
-    #   resp.scans[0].resource_type #=> String, one of "EBS_RECOVERY_POINT", "EBS_SNAPSHOT", "EBS_VOLUME", "EC2_AMI", "EC2_INSTANCE", "EC2_RECOVERY_POINT", "S3_RECOVERY_POINT", "S3_BUCKET"
+    #   resp.scans[0].resource_type #=> String, one of "EBS_RECOVERY_POINT", "EBS_SNAPSHOT", "EBS_VOLUME", "EC2_AMI", "EC2_INSTANCE", "EC2_RECOVERY_POINT", "S3_RECOVERY_POINT", "S3_BUCKET", "S3_POINT_IN_TIME_RECOVERY"
     #   resp.scans[0].scan_id #=> String
     #   resp.scans[0].scan_status #=> String, one of "RUNNING", "COMPLETED", "COMPLETED_WITH_ISSUES", "FAILED", "SKIPPED"
     #   resp.scans[0].scan_result_status #=> String, one of "NO_THREATS_FOUND", "THREATS_FOUND"
@@ -6591,6 +6593,10 @@ module Aws::GuardDuty
     #       },
     #       recovery_point: {
     #         backup_vault_name: "String", # required
+    #         continuous_scan_details: {
+    #           start_time: Time.now,
+    #           end_time: Time.now, # required
+    #         },
     #       },
     #     },
     #   })
@@ -8962,7 +8968,7 @@ module Aws::GuardDuty
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-guardduty'
-      context[:gem_version] = '1.151.0'
+      context[:gem_version] = '1.152.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

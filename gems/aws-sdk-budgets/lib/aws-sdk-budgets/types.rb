@@ -33,6 +33,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] notification_type
@@ -197,6 +201,10 @@ module Aws::Budgets
     #   The name of a budget. The name must be unique within an account. The
     #   `:` and `` characters, and the "/action/" substring, aren't
     #   allowed in `BudgetName`.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] budget_limit
@@ -373,6 +381,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     class BudgetNotificationsForAccount < Struct.new(
@@ -388,6 +400,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] budget_type
@@ -615,6 +631,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] notification_type
@@ -676,6 +696,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] action_id
@@ -839,6 +863,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] action_id
@@ -861,6 +889,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] action
@@ -963,6 +995,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] action_id
@@ -1018,6 +1054,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] action_id
@@ -1040,6 +1080,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] action
@@ -1097,6 +1141,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] max_results
@@ -1175,6 +1223,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] time_period
@@ -1432,6 +1484,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] action_id
@@ -1459,6 +1515,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] action_id
@@ -2065,6 +2125,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] action_id
@@ -2118,6 +2182,10 @@ module Aws::Budgets
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
     #   characters, and the "/action/" substring, aren't allowed.
+    #
+    #   Budget names are validated for content. Names that contain phone
+    #   numbers, URLs, or email addresses combined with certain terms may be
+    #   rejected.
     #   @return [String]
     #
     # @!attribute [rw] old_action

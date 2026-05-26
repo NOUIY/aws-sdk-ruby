@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.114.0 (2026-05-26)
+------------------
+
+* Feature - Launching S3 PITR malware scanning support for AWS Backup
+
 1.113.0 (2026-05-21)
 ------------------
 
