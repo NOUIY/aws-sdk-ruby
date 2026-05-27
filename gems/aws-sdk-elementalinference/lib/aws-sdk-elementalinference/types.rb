@@ -23,29 +23,59 @@ module Aws::ElementalInference
       include Aws::Structure
     end
 
+    # The width and height of the output video. Used in SubtitlingConfig to
+    # determine subtitle layout.
+    #
+    # @!attribute [rw] width
+    #   The width component of the aspect ratio (for example, 16 in a 16:9
+    #   ratio).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] height
+    #   The height component of the aspect ratio (for example, 9 in a 16:9
+    #   ratio).
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/AspectRatio AWS API Documentation
+    #
+    class AspectRatio < Struct.new(
+      :width,
+      :height)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] id
     #   The ID of the feed.
     #   @return [String]
     #
     # @!attribute [rw] associated_resource_name
-    #   An identifier for the resource. If the resource is from an AWS
-    #   service, this identifier must be the full ARN of that resource.
-    #   Otherwise, the identifier is a name that you assign and that is
-    #   appropriate for the application that owns the resource. This name
-    #   must not resemble an ARN.
+    #   An identifier for the resource. This name must not resemble an ARN.
+    #
+    #   The resource is the source media that the feed will process. The
+    #   name you assign should help you to later identify the source media
+    #   that belongs to the feed. In this way, you will know which source
+    #   media to push to the feed (using PutMedia).
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
     #   @return [String]
     #
     # @!attribute [rw] outputs
-    #   The outputs to add to this feed. You must specify at least one
-    #   output. You can later use the UpdateFeed action to change the list
-    #   of outputs.
+    #   An array of one or more outputs that you want to add to this feed
+    #   now, to supplement any outputs that you specified when you created
+    #   or updated the feed.
     #   @return [Array<Types::CreateOutput>]
     #
     # @!attribute [rw] dry_run
     #   Set to true if you want to do a dry run of the associate action.
+    #
+    #   Elemental Inference will validate that the real request would
+    #   succeed without actually making any changes. A dry run catches
+    #   errors such as missing IAM permissions, quota limits exceeded,
+    #   conflicting outputs, and so on. If the dry run fails, the action
+    #   returns a 4xx error code. After you've fixed the errors, resubmit
+    #   the request.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/AssociateFeedRequest AWS API Documentation
@@ -60,12 +90,11 @@ module Aws::ElementalInference
     end
 
     # @!attribute [rw] arn
-    #   The AWS ARN for this association.
+    #   The ARN of the feed.
     #   @return [String]
     #
     # @!attribute [rw] id
-    #   An ID for this response. It is unique in Elemental Inference for
-    #   this AWS account.
+    #   The ID of the feed.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/AssociateFeedResponse AWS API Documentation
@@ -81,8 +110,9 @@ module Aws::ElementalInference
     # feature.
     #
     # @!attribute [rw] callback_metadata
-    #   The metadata that is the result of the clip request to Elemental
-    #   Inference.
+    #   A string that you want Elemental Inference to always include in the
+    #   event clipping metadata for this output. The string might identify
+    #   the sports event in the source media, for example.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/ClippingConfig AWS API Documentation
@@ -107,18 +137,92 @@ module Aws::ElementalInference
     end
 
     # @!attribute [rw] name
-    #   A name for this feed.
+    #   A user-friendly name for this dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] language
+    #   The language of the dictionary entries. Specify the language using
+    #   an ISO 639-2/T three-letter code. Supported values: eng, fra, ita,
+    #   deu, spa, por.
+    #   @return [String]
+    #
+    # @!attribute [rw] entries
+    #   The dictionary entries payload. Contains the custom words and
+    #   phrases for the dictionary. Maximum size is 40,960 characters.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   Optional tags to associate with the dictionary.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/CreateDictionaryRequest AWS API Documentation
+    #
+    class CreateDictionaryRequest < Struct.new(
+      :name,
+      :language,
+      :entries,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name that you specified in the request.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The ARN of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   A unique ID that Elemental Inference assigns to the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] language
+    #   The language of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the dictionary. After creation succeeds, the
+    #   status will be AVAILABLE.
+    #   @return [String]
+    #
+    # @!attribute [rw] references
+    #   A list of feed IDs that reference this dictionary.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] tags
+    #   Any tags that you included when you created the dictionary.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/CreateDictionaryResponse AWS API Documentation
+    #
+    class CreateDictionaryResponse < Struct.new(
+      :name,
+      :arn,
+      :id,
+      :language,
+      :status,
+      :references,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   A user-friendly name for this feed.
     #   @return [String]
     #
     # @!attribute [rw] outputs
     #   An array of outputs for this feed. Each output represents a specific
-    #   Elemental Inference feature. For example, an output might represent
-    #   the crop feature.
+    #   Elemental Inference feature. For example, there is one output type
+    #   for the smart crop feature. You must specify at least one output,
+    #   but you can later add outputs using AssociateFeed, or add, modify,
+    #   and delete outputs using UpdateFeed.
     #   @return [Array<Types::CreateOutput>]
     #
     # @!attribute [rw] tags
-    #   If you want to include tags, add them now. You won't be able to add
-    #   them later.
+    #   Optional tags. You can also add tags later, using TagResource.
     #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/CreateFeedRequest AWS API Documentation
@@ -136,7 +240,7 @@ module Aws::ElementalInference
     #   @return [String]
     #
     # @!attribute [rw] name
-    #   The name that you specified.
+    #   The name that you specified in the request.
     #   @return [String]
     #
     # @!attribute [rw] id
@@ -144,11 +248,15 @@ module Aws::ElementalInference
     #   @return [String]
     #
     # @!attribute [rw] data_endpoints
-    #   A unique ARN that Elemental Inference assigns to the feed.
+    #   An array of endpoints for the feed. Typically, there is only one
+    #   endpoint. The feed receives source media at this endpoint (when the
+    #   calling application calls PutMedia) and returns the resulting
+    #   metadata to this endpoint (when the calling application calls
+    #   GetMetadata).
     #   @return [Array<String>]
     #
     # @!attribute [rw] outputs
-    #   Data endpoints that Elemental Inference assigns to the feed.
+    #   Repeats the outputs that you specified in the request.
     #   @return [Array<Types::GetOutput>]
     #
     # @!attribute [rw] status
@@ -159,7 +267,7 @@ module Aws::ElementalInference
     # @!attribute [rw] association
     #   The association for this feed. When you create the feed, this
     #   property is empty. You must associate a resource with the feed using
-    #   AssociateFeed.
+    #   AssociateFeed or UpdateFeed.
     #   @return [Types::FeedAssociation]
     #
     # @!attribute [rw] tags
@@ -189,11 +297,10 @@ module Aws::ElementalInference
     #   @return [String]
     #
     # @!attribute [rw] output_config
-    #   A typed property for an output in a feed. It is used in the
-    #   CreateFeed and AssociateFeed actions. It identifies the action for
-    #   Elemental Inference to perform. It also provides a repository for
-    #   the results of that action. For example, CroppingConfig output will
-    #   contain the metadata for the crop feature.
+    #   A typed property for an output in a feed. It identifies the action
+    #   for Elemental Inference to perform. It also provides a repository
+    #   for the results of that action. For example, CroppingConfig output
+    #   will contain the metadata for the crop feature.
     #   @return [Types::OutputConfig]
     #
     # @!attribute [rw] status
@@ -223,6 +330,40 @@ module Aws::ElementalInference
     # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/CroppingConfig AWS API Documentation
     #
     class CroppingConfig < Aws::EmptyStructure; end
+
+    # @!attribute [rw] id
+    #   The ID of the dictionary to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/DeleteDictionaryRequest AWS API Documentation
+    #
+    class DeleteDictionaryRequest < Struct.new(
+      :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The ARN of the deleted dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the deleted dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the dictionary after deletion.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/DeleteDictionaryResponse AWS API Documentation
+    #
+    class DeleteDictionaryResponse < Struct.new(
+      :arn,
+      :id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # @!attribute [rw] id
     #   The ID of the feed.
@@ -259,12 +400,47 @@ module Aws::ElementalInference
       include Aws::Structure
     end
 
+    # Contains summary information about a dictionary. Used in the
+    # ListDictionaries response.
+    #
+    # @!attribute [rw] arn
+    #   The ARN of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] language
+    #   The language of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the dictionary.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/DictionarySummary AWS API Documentation
+    #
+    class DictionarySummary < Struct.new(
+      :arn,
+      :id,
+      :name,
+      :language,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] id
     #   The ID of the feed where you want to release the resource.
     #   @return [String]
     #
     # @!attribute [rw] associated_resource_name
-    #   The name of the resource currently associated with the feed'.
+    #   The name of the resource currently associated with the feed.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -272,6 +448,11 @@ module Aws::ElementalInference
     #
     # @!attribute [rw] dry_run
     #   Set to true if you want to do a dry run of the disassociate action.
+    #
+    #   Elemental Inference will validate that the real request would
+    #   succeed without actually making any changes. A dry run catches
+    #   errors such as missing IAM permissions. If the dry run fails, the
+    #   action returns a 4xx error code.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/DisassociateFeedRequest AWS API Documentation
@@ -285,11 +466,11 @@ module Aws::ElementalInference
     end
 
     # @!attribute [rw] arn
-    #   The ID of the feed where you deleted the associated resource.
+    #   The ARN of the feed.
     #   @return [String]
     #
     # @!attribute [rw] id
-    #   The ARN of the resource that you deleted.
+    #   The ID of the feed.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/DisassociateFeedResponse AWS API Documentation
@@ -297,6 +478,30 @@ module Aws::ElementalInference
     class DisassociateFeedResponse < Struct.new(
       :arn,
       :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The ID of the dictionary whose entries you want to export.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/ExportDictionaryEntriesRequest AWS API Documentation
+    #
+    class ExportDictionaryEntriesRequest < Struct.new(
+      :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] entries
+    #   The dictionary entries payload.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/ExportDictionaryEntriesResponse AWS API Documentation
+    #
+    class ExportDictionaryEntriesResponse < Struct.new(
+      :entries)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -318,7 +523,7 @@ module Aws::ElementalInference
     end
 
     # Contains configuration information about a feed. It is used in the
-    # ListFeeds action.
+    # ListFeeds response.
     #
     # @!attribute [rw] arn
     #   The ARN of the feed.
@@ -353,6 +558,60 @@ module Aws::ElementalInference
     end
 
     # @!attribute [rw] id
+    #   The ID of the dictionary to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/GetDictionaryRequest AWS API Documentation
+    #
+    class GetDictionaryRequest < Struct.new(
+      :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The ARN of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] language
+    #   The language of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] references
+    #   A list of feed IDs that reference this dictionary.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] tags
+    #   The tags associated with the dictionary.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/GetDictionaryResponse AWS API Documentation
+    #
+    class GetDictionaryResponse < Struct.new(
+      :name,
+      :arn,
+      :id,
+      :language,
+      :status,
+      :references,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
     #   The ID of the feed to query.
     #   @return [String]
     #
@@ -369,32 +628,33 @@ module Aws::ElementalInference
     #   @return [String]
     #
     # @!attribute [rw] name
-    #   The name of the feed being queried.
+    #   The name of the feed.
     #   @return [String]
     #
     # @!attribute [rw] id
-    #   The ID of the feed being queried.
+    #   The ID of the feed.
     #   @return [String]
     #
     # @!attribute [rw] data_endpoints
-    #   The dataEndpoints of the feed being queried.
+    #   The dataEndpoints of the feed.
     #   @return [Array<String>]
     #
     # @!attribute [rw] outputs
-    #   An array of the outputs in the feed being queried.
+    #   An array of the outputs in the feed.
     #   @return [Array<Types::GetOutput>]
     #
     # @!attribute [rw] status
-    #   The status of the feed being queried.
+    #   The status of the feed.
     #   @return [String]
     #
     # @!attribute [rw] association
-    #   Information about the resource, if any, associated with the feed
-    #   being queried.
+    #   Information about the resource that is associated with the feed.
+    #   It's possible that there is no associated resource. This is not an
+    #   error.
     #   @return [Types::FeedAssociation]
     #
     # @!attribute [rw] tags
-    #   A list of the tags, if any, for the feed being queried.
+    #   A list of the tags, if any, for the feed.
     #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/GetFeedResponse AWS API Documentation
@@ -413,18 +673,17 @@ module Aws::ElementalInference
     end
 
     # Contains configuration information about one output in a feed. It is
-    # used in the GetFeed action.
+    # used in the GetFeed response.
     #
     # @!attribute [rw] name
-    #   The ARN of the output.
+    #   The name of the output.
     #   @return [String]
     #
     # @!attribute [rw] output_config
-    #   A typed property for an output in a feed. It is used in the GetFeed
-    #   action. It identifies the action for Elemental Inference to perform.
-    #   It also provides a repository for the results of that action. For
-    #   example, CroppingConfig output will contain the metadata for the
-    #   crop feature.
+    #   A typed property for an output in a feed. It identifies the action
+    #   for Elemental Inference to perform. It also provides a repository
+    #   for the results of that action. For example, CroppingConfig output
+    #   will contain the metadata for the crop feature.
     #   @return [Types::OutputConfig]
     #
     # @!attribute [rw] status
@@ -436,10 +695,12 @@ module Aws::ElementalInference
     #   @return [String]
     #
     # @!attribute [rw] from_association
-    #   True means that the output was originally created in the feed by the
-    #   AssociateFeed operation. False means it was created using CreateFeed
-    #   or UpdateFeed. You will need this value if you use the UpdateFeed
-    #   operation to modify the list of outputs in the feed.
+    #   True means that the output was originally created in the feed using
+    #   AssociateFeed. False means it was created using CreateFeed or
+    #   UpdateFeed.
+    #
+    #   You will need this value if you use UpdateFeed to modify the list of
+    #   outputs in the feed.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/GetOutput AWS API Documentation
@@ -470,6 +731,41 @@ module Aws::ElementalInference
     end
 
     # @!attribute [rw] max_results
+    #   The maximum number of results to return per API request. Valid
+    #   range: 1 to 100.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token that identifies the next batch of results to return.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/ListDictionariesRequest AWS API Documentation
+    #
+    class ListDictionariesRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dictionaries
+    #   A list of DictionarySummary objects.
+    #   @return [Array<Types::DictionarySummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use to retrieve the next batch of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/ListDictionariesResponse AWS API Documentation
+    #
+    class ListDictionariesResponse < Struct.new(
+      :dictionaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
     #   The maximum number of results to return per API request.
     #
     #   For example, you submit a list request with MaxResults set at 5.
@@ -487,11 +783,10 @@ module Aws::ElementalInference
     # @!attribute [rw] next_token
     #   The token that identifies the batch of results that you want to see.
     #
-    #   For example, you submit a ListBridges request with MaxResults set at
+    #   For example, you submit a ListFeeds request with MaxResults set at
     #   5. The service returns the first batch of results (up to 5) and a
     #   NextToken value. To see the next batch of results, you can submit
-    #   the ListBridges request a second time and specify the NextToken
-    #   value.
+    #   the ListFeeds request a second time and specify the NextToken value.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/ListFeedsRequest AWS API Documentation
@@ -504,7 +799,7 @@ module Aws::ElementalInference
     end
 
     # @!attribute [rw] feeds
-    #   A list of feed summaries.
+    #   A list of FeedSummary objects.
     #   @return [Array<Types::FeedSummary>]
     #
     # @!attribute [rw] next_token
@@ -563,11 +858,16 @@ module Aws::ElementalInference
     #   The output config type that applies to the clipping feature.
     #   @return [Types::ClippingConfig]
     #
+    # @!attribute [rw] subtitling
+    #   The output config type that applies to the smart subtitling feature.
+    #   @return [Types::SubtitlingConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/OutputConfig AWS API Documentation
     #
     class OutputConfig < Struct.new(
       :cropping,
       :clipping,
+      :subtitling,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -575,6 +875,7 @@ module Aws::ElementalInference
 
       class Cropping < OutputConfig; end
       class Clipping < OutputConfig; end
+      class Subtitling < OutputConfig; end
       class Unknown < OutputConfig; end
     end
 
@@ -602,6 +903,48 @@ module Aws::ElementalInference
     #
     class ServiceQuotaExceededException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A type of OutputConfig, used when the output in a feed is for the
+    # smart subtitling feature. smart subtitling uses automatic speech
+    # recognition (ASR) to generate live TTML subtitles from the audio in
+    # your source media.
+    #
+    # @!attribute [rw] language
+    #   The language of the audio in the source media. Elemental Inference
+    #   uses this setting to optimize transcription accuracy. Specify the
+    #   language using an ISO 639-2/T three-letter code, optionally with a
+    #   region subtag. Supported values: eng, eng-au, eng-gb, eng-us, fra,
+    #   ita, deu, spa, por.
+    #   @return [String]
+    #
+    # @!attribute [rw] aspect_ratio
+    #   The aspect ratio of the output video, specified as width and height
+    #   integer values. Elemental Inference uses the aspect ratio to
+    #   determine subtitle layout and line lengths.
+    #   @return [Types::AspectRatio]
+    #
+    # @!attribute [rw] dictionary
+    #   The ID of a custom dictionary to improve transcription accuracy for
+    #   domain-specific terminology. Use the CreateDictionary operation to
+    #   create a dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] profanity_filter
+    #   Controls how profanity is handled in the generated subtitles. Valid
+    #   values: DISABLED (no filtering, default), CENSOR (replace profanity
+    #   with asterisks), DROP (remove profanity from the transcript).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/SubtitlingConfig AWS API Documentation
+    #
+    class SubtitlingConfig < Struct.new(
+      :language,
+      :aspect_ratio,
+      :dictionary,
+      :profanity_filter)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -655,6 +998,78 @@ module Aws::ElementalInference
       include Aws::Structure
     end
 
+    # @!attribute [rw] id
+    #   The ID of the dictionary to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   A new name for the dictionary. If not specified, the name is not
+    #   changed.
+    #   @return [String]
+    #
+    # @!attribute [rw] language
+    #   A new language for the dictionary. If not specified, the language is
+    #   not changed.
+    #   @return [String]
+    #
+    # @!attribute [rw] entries
+    #   New dictionary entries. If not specified, the entries are not
+    #   changed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/UpdateDictionaryRequest AWS API Documentation
+    #
+    class UpdateDictionaryRequest < Struct.new(
+      :id,
+      :name,
+      :language,
+      :entries)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The updated or original name of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The ARN of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] language
+    #   The updated or original language of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the dictionary.
+    #   @return [String]
+    #
+    # @!attribute [rw] references
+    #   A list of feed IDs that reference this dictionary.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] tags
+    #   Any tags associated with the dictionary.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/UpdateDictionaryResponse AWS API Documentation
+    #
+    class UpdateDictionaryResponse < Struct.new(
+      :name,
+      :arn,
+      :id,
+      :language,
+      :status,
+      :references,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] name
     #   Required. You can specify the existing name (to leave it unchanged)
     #   or a new name.
@@ -701,18 +1116,16 @@ module Aws::ElementalInference
     #   @return [Array<Types::GetOutput>]
     #
     # @!attribute [rw] status
-    #   The status of the output.
+    #   The status of the feed.
     #   @return [String]
     #
     # @!attribute [rw] association
-    #   True means that the output was originally created in the feed by the
-    #   AssociateFeed operation. False means it was created using CreateFeed
-    #   or UpdateFeed. You will need this value if you use the UpdateFeed
-    #   operation to modify the list of outputs in the feed.
+    #   Information about the resource that is associated with the feed, if
+    #   any.
     #   @return [Types::FeedAssociation]
     #
     # @!attribute [rw] tags
-    #   The name of the resource currently associated with the feed, if any.
+    #   The tags associated with the feed.
     #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/UpdateFeedResponse AWS API Documentation
@@ -734,15 +1147,14 @@ module Aws::ElementalInference
     # used in the UpdateFeed action.
     #
     # @!attribute [rw] name
-    #   The name start here
+    #   The name of the output.
     #   @return [String]
     #
     # @!attribute [rw] output_config
-    #   A typed property for an output in a feed. It is used in the
-    #   UpdateFeed action. It identifies the action for Elemental Inference
-    #   to perform. It also provides a repository for the results of that
-    #   action. For example, CroppingConfig output will contain the metadata
-    #   for the crop feature.
+    #   A typed property for an output in a feed. It identifies the action
+    #   for Elemental Inference to perform. It also provides a repository
+    #   for the results of that action. For example, CroppingConfig output
+    #   will contain the metadata for the crop feature.
     #   @return [Types::OutputConfig]
     #
     # @!attribute [rw] status
@@ -754,12 +1166,14 @@ module Aws::ElementalInference
     #   @return [String]
     #
     # @!attribute [rw] from_association
-    #   This property is set by the service when you add the output to the
-    #   feed, and indicates how you added the output. True means that you
-    #   used the AssociateFeed operation. False means that you used the
-    #   CreateFeed or UpdateFeed operation. Use GetFeed to obtain the value.
-    #   If the value is True, include this field here with a value of True.
-    #   If the value is False, omit the field here.
+    #   Elemental Inference originally sets this parameter to True if this
+    #   output was created by AssociateFeed or to False if this output was
+    #   created by CreateFeed or UpdateFeed.
+    #
+    #   You must not change this value. Therefore, use GetFeed to determine
+    #   the current value. Then in the UpdateFeed request, if the current
+    #   value is True, include this parameter with a value of True. If it's
+    #   False, omit the parameter.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/UpdateOutput AWS API Documentation

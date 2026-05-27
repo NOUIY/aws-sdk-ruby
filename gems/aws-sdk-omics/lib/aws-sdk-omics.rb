@@ -55,7 +55,7 @@ module Aws::Omics
   autoload :EndpointProvider, 'aws-sdk-omics/endpoint_provider'
   autoload :Endpoints, 'aws-sdk-omics/endpoints'
 
-  GEM_VERSION = '1.69.0'
+  GEM_VERSION = '1.70.0'
 
 end
 

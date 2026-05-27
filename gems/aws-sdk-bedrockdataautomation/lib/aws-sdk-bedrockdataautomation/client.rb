@@ -837,6 +837,15 @@ module Aws::BedrockDataAutomation
     #           blueprint_stage: "DEVELOPMENT", # accepts DEVELOPMENT, LIVE
     #         },
     #       ],
+    #       document: {
+    #         fallback_blueprints: [
+    #           {
+    #             blueprint_arn: "BlueprintArn", # required
+    #             blueprint_version: "BlueprintVersion",
+    #             blueprint_stage: "DEVELOPMENT", # accepts DEVELOPMENT, LIVE
+    #           },
+    #         ],
+    #       },
     #     },
     #     override_configuration: {
     #       document: {
@@ -1303,6 +1312,10 @@ module Aws::BedrockDataAutomation
     #   resp.project.custom_output_configuration.blueprints[0].blueprint_arn #=> String
     #   resp.project.custom_output_configuration.blueprints[0].blueprint_version #=> String
     #   resp.project.custom_output_configuration.blueprints[0].blueprint_stage #=> String, one of "DEVELOPMENT", "LIVE"
+    #   resp.project.custom_output_configuration.document.fallback_blueprints #=> Array
+    #   resp.project.custom_output_configuration.document.fallback_blueprints[0].blueprint_arn #=> String
+    #   resp.project.custom_output_configuration.document.fallback_blueprints[0].blueprint_version #=> String
+    #   resp.project.custom_output_configuration.document.fallback_blueprints[0].blueprint_stage #=> String, one of "DEVELOPMENT", "LIVE"
     #   resp.project.override_configuration.document.splitter.state #=> String, one of "ENABLED", "DISABLED"
     #   resp.project.override_configuration.document.modality_processing.state #=> String, one of "ENABLED", "DISABLED"
     #   resp.project.override_configuration.document.sensitive_data_configuration.detection_mode #=> String, one of "DETECTION", "DETECTION_AND_REDACTION"
@@ -2109,6 +2122,15 @@ module Aws::BedrockDataAutomation
     #           blueprint_stage: "DEVELOPMENT", # accepts DEVELOPMENT, LIVE
     #         },
     #       ],
+    #       document: {
+    #         fallback_blueprints: [
+    #           {
+    #             blueprint_arn: "BlueprintArn", # required
+    #             blueprint_version: "BlueprintVersion",
+    #             blueprint_stage: "DEVELOPMENT", # accepts DEVELOPMENT, LIVE
+    #           },
+    #         ],
+    #       },
     #     },
     #     override_configuration: {
     #       document: {
@@ -2226,7 +2248,7 @@ module Aws::BedrockDataAutomation
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockdataautomation'
-      context[:gem_version] = '1.32.0'
+      context[:gem_version] = '1.33.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

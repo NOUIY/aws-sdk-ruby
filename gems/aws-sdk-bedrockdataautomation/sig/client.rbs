@@ -161,15 +161,7 @@ module Aws
                                             ?project_stage: ("DEVELOPMENT" | "LIVE"),
                                             ?project_type: ("ASYNC" | "SYNC"),
                                             standard_output_configuration: Params::standard_output_configuration,
-                                            ?custom_output_configuration: {
-                                              blueprints: Array[
-                                                {
-                                                  blueprint_arn: ::String,
-                                                  blueprint_version: ::String?,
-                                                  blueprint_stage: ("DEVELOPMENT" | "LIVE")?
-                                                }
-                                              ]?
-                                            },
+                                            ?custom_output_configuration: Params::custom_output_configuration,
                                             ?override_configuration: Params::override_configuration,
                                             ?data_automation_library_configuration: {
                                               libraries: Array[
@@ -548,15 +540,7 @@ module Aws
                                             ?project_stage: ("DEVELOPMENT" | "LIVE"),
                                             ?project_description: ::String,
                                             standard_output_configuration: Params::standard_output_configuration,
-                                            ?custom_output_configuration: {
-                                              blueprints: Array[
-                                                {
-                                                  blueprint_arn: ::String,
-                                                  blueprint_version: ::String?,
-                                                  blueprint_stage: ("DEVELOPMENT" | "LIVE")?
-                                                }
-                                              ]?
-                                            },
+                                            ?custom_output_configuration: Params::custom_output_configuration,
                                             ?override_configuration: Params::override_configuration,
                                             ?data_automation_library_configuration: {
                                               libraries: Array[

@@ -464,6 +464,7 @@ module Aws::MediaLive
       attr_accessor scte_20_source_settings: Types::Scte20SourceSettings
       attr_accessor scte_27_source_settings: Types::Scte27SourceSettings
       attr_accessor teletext_source_settings: Types::TeletextSourceSettings
+      attr_accessor smart_subtitle_source_settings: Types::SmartSubtitleSourceSettings
       SENSITIVE: []
     end
 
@@ -5962,11 +5963,13 @@ module Aws::MediaLive
 
     class DescribeInferenceSettings
       attr_accessor feed_arn: ::String
+      attr_accessor audio_feed_inputs: ::Array[Types::AudioFeedInput]
       SENSITIVE: []
     end
 
     class InferenceSettings
       attr_accessor feed_arn: ::String
+      attr_accessor audio_feed_inputs: ::Array[Types::AudioFeedInput]
       SENSITIVE: []
     end
 
@@ -6001,6 +6004,18 @@ module Aws::MediaLive
 
     class MediaConnectRouterOutputConnection
       attr_accessor router_input_arn: ::String
+      SENSITIVE: []
+    end
+
+    class AudioFeedInput
+      attr_accessor audio_selector_name: ::String
+      attr_accessor feed_input: ::String
+      SENSITIVE: []
+    end
+
+    class SmartSubtitleSourceSettings
+      attr_accessor caption_synchronization_mode: ("NO_VIDEO_DELAY" | "VIDEO_ALIGNED_CAPTIONS")
+      attr_accessor inference_feed_output: ::String
       SENSITIVE: []
     end
   end

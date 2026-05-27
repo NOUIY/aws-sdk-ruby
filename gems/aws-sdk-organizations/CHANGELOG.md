@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.142.0 (2026-05-27)
+------------------
+
+* Feature - AWS Organizations now emits CloudTrail events (AccountJoinedOrganization, AccountDepartedOrganization) to the management account for membership changes, including join and departure method and timestamp.
+
 1.141.0 (2026-05-21)
 ------------------
 

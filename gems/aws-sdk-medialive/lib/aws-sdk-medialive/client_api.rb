@@ -54,6 +54,7 @@ module Aws::MediaLive
     AudioDescriptionAudioTypeControl = Shapes::StringShape.new(name: 'AudioDescriptionAudioTypeControl')
     AudioDescriptionLanguageCodeControl = Shapes::StringShape.new(name: 'AudioDescriptionLanguageCodeControl')
     AudioDolbyEDecode = Shapes::StructureShape.new(name: 'AudioDolbyEDecode')
+    AudioFeedInput = Shapes::StructureShape.new(name: 'AudioFeedInput')
     AudioHlsRenditionSelection = Shapes::StructureShape.new(name: 'AudioHlsRenditionSelection')
     AudioLanguageSelection = Shapes::StructureShape.new(name: 'AudioLanguageSelection')
     AudioLanguageSelectionPolicy = Shapes::StringShape.new(name: 'AudioLanguageSelectionPolicy')
@@ -134,6 +135,7 @@ module Aws::MediaLive
     CaptionRectangle = Shapes::StructureShape.new(name: 'CaptionRectangle')
     CaptionSelector = Shapes::StructureShape.new(name: 'CaptionSelector')
     CaptionSelectorSettings = Shapes::StructureShape.new(name: 'CaptionSelectorSettings')
+    CaptionSynchronizationMode = Shapes::StringShape.new(name: 'CaptionSynchronizationMode')
     CdiInputResolution = Shapes::StringShape.new(name: 'CdiInputResolution')
     CdiInputSpecification = Shapes::StructureShape.new(name: 'CdiInputSpecification')
     Channel = Shapes::StructureShape.new(name: 'Channel')
@@ -906,6 +908,7 @@ module Aws::MediaLive
     SignalMapMonitorDeploymentStatus = Shapes::StringShape.new(name: 'SignalMapMonitorDeploymentStatus')
     SignalMapStatus = Shapes::StringShape.new(name: 'SignalMapStatus')
     SignalMapSummary = Shapes::StructureShape.new(name: 'SignalMapSummary')
+    SmartSubtitleSourceSettings = Shapes::StructureShape.new(name: 'SmartSubtitleSourceSettings')
     SmoothGroupAudioOnlyTimecodeControl = Shapes::StringShape.new(name: 'SmoothGroupAudioOnlyTimecodeControl')
     SmoothGroupCertificateMode = Shapes::StringShape.new(name: 'SmoothGroupCertificateMode')
     SmoothGroupEventIdMode = Shapes::StringShape.new(name: 'SmoothGroupEventIdMode')
@@ -1167,6 +1170,7 @@ module Aws::MediaLive
     __listOfAdditionalDestinations = Shapes::ListShape.new(name: '__listOfAdditionalDestinations')
     __listOfAudioChannelMapping = Shapes::ListShape.new(name: '__listOfAudioChannelMapping')
     __listOfAudioDescription = Shapes::ListShape.new(name: '__listOfAudioDescription')
+    __listOfAudioFeedInput = Shapes::ListShape.new(name: '__listOfAudioFeedInput')
     __listOfAudioSelector = Shapes::ListShape.new(name: '__listOfAudioSelector')
     __listOfAudioTrack = Shapes::ListShape.new(name: '__listOfAudioTrack')
     __listOfBatchFailedResultModel = Shapes::ListShape.new(name: '__listOfBatchFailedResultModel')
@@ -1240,6 +1244,7 @@ module Aws::MediaLive
     __listOfOutputDestination = Shapes::ListShape.new(name: '__listOfOutputDestination')
     __listOfOutputDestinationSettings = Shapes::ListShape.new(name: '__listOfOutputDestinationSettings')
     __listOfOutputGroup = Shapes::ListShape.new(name: '__listOfOutputGroup')
+    __listOfOutputLocationRef = Shapes::ListShape.new(name: '__listOfOutputLocationRef')
     __listOfPipelineDetail = Shapes::ListShape.new(name: '__listOfPipelineDetail')
     __listOfPipelinePauseStateSettings = Shapes::ListShape.new(name: '__listOfPipelinePauseStateSettings')
     __listOfReservation = Shapes::ListShape.new(name: '__listOfReservation')
@@ -1402,6 +1407,10 @@ module Aws::MediaLive
 
     AudioDolbyEDecode.add_member(:program_selection, Shapes::ShapeRef.new(shape: DolbyEProgramSelection, required: true, location_name: "programSelection"))
     AudioDolbyEDecode.struct_class = Types::AudioDolbyEDecode
+
+    AudioFeedInput.add_member(:audio_selector_name, Shapes::ShapeRef.new(shape: __string, location_name: "audioSelectorName"))
+    AudioFeedInput.add_member(:feed_input, Shapes::ShapeRef.new(shape: __string, location_name: "feedInput"))
+    AudioFeedInput.struct_class = Types::AudioFeedInput
 
     AudioHlsRenditionSelection.add_member(:group_id, Shapes::ShapeRef.new(shape: __stringMin1, required: true, location_name: "groupId"))
     AudioHlsRenditionSelection.add_member(:name, Shapes::ShapeRef.new(shape: __stringMin1, required: true, location_name: "name"))
@@ -1682,6 +1691,7 @@ module Aws::MediaLive
     CaptionSelectorSettings.add_member(:scte_20_source_settings, Shapes::ShapeRef.new(shape: Scte20SourceSettings, location_name: "scte20SourceSettings"))
     CaptionSelectorSettings.add_member(:scte_27_source_settings, Shapes::ShapeRef.new(shape: Scte27SourceSettings, location_name: "scte27SourceSettings"))
     CaptionSelectorSettings.add_member(:teletext_source_settings, Shapes::ShapeRef.new(shape: TeletextSourceSettings, location_name: "teletextSourceSettings"))
+    CaptionSelectorSettings.add_member(:smart_subtitle_source_settings, Shapes::ShapeRef.new(shape: SmartSubtitleSourceSettings, location_name: "smartSubtitleSourceSettings"))
     CaptionSelectorSettings.struct_class = Types::CaptionSelectorSettings
 
     CdiInputSpecification.add_member(:resolution, Shapes::ShapeRef.new(shape: CdiInputResolution, location_name: "resolution"))
@@ -2624,6 +2634,7 @@ module Aws::MediaLive
     DescribeFollowerChannelSettings.struct_class = Types::DescribeFollowerChannelSettings
 
     DescribeInferenceSettings.add_member(:feed_arn, Shapes::ShapeRef.new(shape: __string, location_name: "feedArn"))
+    DescribeInferenceSettings.add_member(:audio_feed_inputs, Shapes::ShapeRef.new(shape: __listOfAudioFeedInput, location_name: "audioFeedInputs"))
     DescribeInferenceSettings.struct_class = Types::DescribeInferenceSettings
 
     DescribeInputDeviceRequest.add_member(:input_device_id, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "inputDeviceId"))
@@ -3483,6 +3494,7 @@ module Aws::MediaLive
     ImmediateModeScheduleActionStartSettings.struct_class = Types::ImmediateModeScheduleActionStartSettings
 
     InferenceSettings.add_member(:feed_arn, Shapes::ShapeRef.new(shape: __string, location_name: "feedArn"))
+    InferenceSettings.add_member(:audio_feed_inputs, Shapes::ShapeRef.new(shape: __listOfAudioFeedInput, location_name: "audioFeedInputs"))
     InferenceSettings.struct_class = Types::InferenceSettings
 
     Input.add_member(:arn, Shapes::ShapeRef.new(shape: __string, location_name: "arn"))
@@ -4938,6 +4950,10 @@ module Aws::MediaLive
     SignalMapSummary.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
     SignalMapSummary.struct_class = Types::SignalMapSummary
 
+    SmartSubtitleSourceSettings.add_member(:caption_synchronization_mode, Shapes::ShapeRef.new(shape: CaptionSynchronizationMode, location_name: "captionSynchronizationMode"))
+    SmartSubtitleSourceSettings.add_member(:inference_feed_output, Shapes::ShapeRef.new(shape: __string, location_name: "inferenceFeedOutput"))
+    SmartSubtitleSourceSettings.struct_class = Types::SmartSubtitleSourceSettings
+
     Smpte2110ReceiverGroup.add_member(:sdp_settings, Shapes::ShapeRef.new(shape: Smpte2110ReceiverGroupSdpSettings, location_name: "sdpSettings"))
     Smpte2110ReceiverGroup.struct_class = Types::Smpte2110ReceiverGroup
 
@@ -5938,6 +5954,8 @@ module Aws::MediaLive
 
     __listOfAudioDescription.member = Shapes::ShapeRef.new(shape: AudioDescription)
 
+    __listOfAudioFeedInput.member = Shapes::ShapeRef.new(shape: AudioFeedInput)
+
     __listOfAudioSelector.member = Shapes::ShapeRef.new(shape: AudioSelector)
 
     __listOfAudioTrack.member = Shapes::ShapeRef.new(shape: AudioTrack)
@@ -6083,6 +6101,8 @@ module Aws::MediaLive
     __listOfOutputDestinationSettings.member = Shapes::ShapeRef.new(shape: OutputDestinationSettings)
 
     __listOfOutputGroup.member = Shapes::ShapeRef.new(shape: OutputGroup)
+
+    __listOfOutputLocationRef.member = Shapes::ShapeRef.new(shape: OutputLocationRef)
 
     __listOfPipelineDetail.member = Shapes::ShapeRef.new(shape: PipelineDetail)
 

@@ -7487,6 +7487,38 @@ module Aws::SageMaker
       include Aws::Structure
     end
 
+    # The configuration for the restricted instance groups (RIG) in the
+    # SageMaker HyperPod cluster.
+    #
+    # @!attribute [rw] shared_environment_config
+    #   The shared environment configuration for the restricted instance
+    #   groups (RIG).
+    #   @return [Types::ClusterSharedEnvironmentConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterRestrictedInstanceGroupsConfig AWS API Documentation
+    #
+    class ClusterRestrictedInstanceGroupsConfig < Struct.new(
+      :shared_environment_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The output configuration for the restricted instance groups (RIG) in
+    # the SageMaker HyperPod cluster.
+    #
+    # @!attribute [rw] shared_environment_config
+    #   The shared environment configuration details for the restricted
+    #   instance groups (RIG).
+    #   @return [Types::ClusterSharedEnvironmentConfigDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterRestrictedInstanceGroupsConfigOutput AWS API Documentation
+    #
+    class ClusterRestrictedInstanceGroupsConfigOutput < Struct.new(
+      :shared_environment_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Summary of the cluster policy.
     #
     # @!attribute [rw] cluster_scheduler_config_arn
@@ -7532,6 +7564,62 @@ module Aws::SageMaker
       :last_modified_time,
       :status,
       :cluster_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The shared environment configuration for the restricted instance
+    # groups (RIG).
+    #
+    # @!attribute [rw] f_sx_lustre_deletion_policy
+    #   The deletion policy for the Amazon FSx for Lustre file system in the
+    #   shared environment.
+    #   @return [String]
+    #
+    # @!attribute [rw] f_sx_lustre_config
+    #   Configuration settings for an Amazon FSx for Lustre file system in
+    #   the shared environment.
+    #   @return [Types::FSxLustreConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterSharedEnvironmentConfig AWS API Documentation
+    #
+    class ClusterSharedEnvironmentConfig < Struct.new(
+      :f_sx_lustre_deletion_policy,
+      :f_sx_lustre_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The shared environment configuration details for the restricted
+    # instance groups (RIG).
+    #
+    # @!attribute [rw] current_f_sx_lustre_config
+    #   The current Amazon FSx for Lustre file system configuration in the
+    #   shared environment.
+    #   @return [Types::FSxLustreConfig]
+    #
+    # @!attribute [rw] desired_f_sx_lustre_config
+    #   The desired Amazon FSx for Lustre file system configuration in the
+    #   shared environment.
+    #   @return [Types::FSxLustreConfig]
+    #
+    # @!attribute [rw] current_f_sx_lustre_deletion_policy
+    #   The current deletion policy for the Amazon FSx for Lustre file
+    #   system in the shared environment.
+    #   @return [String]
+    #
+    # @!attribute [rw] desired_f_sx_lustre_deletion_policy
+    #   The desired deletion policy for the Amazon FSx for Lustre file
+    #   system in the shared environment.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterSharedEnvironmentConfigDetails AWS API Documentation
+    #
+    class ClusterSharedEnvironmentConfigDetails < Struct.new(
+      :current_f_sx_lustre_config,
+      :desired_f_sx_lustre_config,
+      :current_f_sx_lustre_deletion_policy,
+      :desired_f_sx_lustre_deletion_policy)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9310,6 +9398,11 @@ module Aws::SageMaker
     #   to be created in the SageMaker HyperPod cluster.
     #   @return [Array<Types::ClusterRestrictedInstanceGroupSpecification>]
     #
+    # @!attribute [rw] restricted_instance_groups_config
+    #   The configuration for the restricted instance groups (RIG) in the
+    #   SageMaker HyperPod cluster.
+    #   @return [Types::ClusterRestrictedInstanceGroupsConfig]
+    #
     # @!attribute [rw] vpc_config
     #   Specifies the Amazon Virtual Private Cloud (VPC) that is associated
     #   with the Amazon SageMaker HyperPod cluster. You can control access
@@ -9429,6 +9522,7 @@ module Aws::SageMaker
       :cluster_name,
       :instance_groups,
       :restricted_instance_groups,
+      :restricted_instance_groups_config,
       :vpc_config,
       :tags,
       :orchestrator,
@@ -17695,6 +17789,11 @@ module Aws::SageMaker
     #   to be created in the SageMaker HyperPod cluster.
     #   @return [Array<Types::ClusterRestrictedInstanceGroupDetails>]
     #
+    # @!attribute [rw] restricted_instance_groups_config
+    #   The configuration for the restricted instance groups (RIG) in the
+    #   SageMaker HyperPod cluster.
+    #   @return [Types::ClusterRestrictedInstanceGroupsConfigOutput]
+    #
     # @!attribute [rw] vpc_config
     #   Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker
     #   jobs, hosted models, and compute resources have access to. You can
@@ -17746,6 +17845,7 @@ module Aws::SageMaker
       :failure_message,
       :instance_groups,
       :restricted_instance_groups,
+      :restricted_instance_groups_config,
       :vpc_config,
       :orchestrator,
       :tiered_storage_config,
@@ -47996,6 +48096,10 @@ module Aws::SageMaker
     #   The availability zone for the reserved capacity.
     #   @return [String]
     #
+    # @!attribute [rw] availability_zone_id
+    #   The Availability Zone ID of the reserved capacity.
+    #   @return [String]
+    #
     # @!attribute [rw] duration_hours
     #   The number of whole hours in the total duration for this reserved
     #   capacity.
@@ -48025,6 +48129,7 @@ module Aws::SageMaker
       :total_instance_count,
       :status,
       :availability_zone,
+      :availability_zone_id,
       :duration_hours,
       :duration_minutes,
       :start_time,
@@ -55111,6 +55216,11 @@ module Aws::SageMaker
     #   to be created in the SageMaker HyperPod cluster.
     #   @return [Array<Types::ClusterRestrictedInstanceGroupSpecification>]
     #
+    # @!attribute [rw] restricted_instance_groups_config
+    #   The configuration for the restricted instance groups (RIG) in the
+    #   SageMaker HyperPod cluster.
+    #   @return [Types::ClusterRestrictedInstanceGroupsConfig]
+    #
     # @!attribute [rw] tiered_storage_config
     #   Updates the configuration for managed tier checkpointing on the
     #   HyperPod cluster. For example, you can enable or disable the feature
@@ -55158,6 +55268,7 @@ module Aws::SageMaker
       :cluster_name,
       :instance_groups,
       :restricted_instance_groups,
+      :restricted_instance_groups_config,
       :tiered_storage_config,
       :node_recovery,
       :instance_groups_to_delete,

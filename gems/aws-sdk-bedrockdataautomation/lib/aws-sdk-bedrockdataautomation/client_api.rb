@@ -100,6 +100,7 @@ module Aws::BedrockDataAutomation
     DeleteEntitiesInfo = Shapes::StructureShape.new(name: 'DeleteEntitiesInfo')
     DesiredModality = Shapes::StringShape.new(name: 'DesiredModality')
     DocumentBoundingBox = Shapes::StructureShape.new(name: 'DocumentBoundingBox')
+    DocumentCustomOutputConfiguration = Shapes::StructureShape.new(name: 'DocumentCustomOutputConfiguration')
     DocumentExtractionGranularity = Shapes::StructureShape.new(name: 'DocumentExtractionGranularity')
     DocumentExtractionGranularityType = Shapes::StringShape.new(name: 'DocumentExtractionGranularityType')
     DocumentExtractionGranularityTypes = Shapes::ListShape.new(name: 'DocumentExtractionGranularityTypes')
@@ -124,6 +125,7 @@ module Aws::BedrockDataAutomation
     EntityTypeInfo = Shapes::StructureShape.new(name: 'EntityTypeInfo')
     EntityTypeInfoList = Shapes::ListShape.new(name: 'EntityTypeInfoList')
     EventBridgeConfiguration = Shapes::StructureShape.new(name: 'EventBridgeConfiguration')
+    FallbackBlueprintItems = Shapes::ListShape.new(name: 'FallbackBlueprintItems')
     GetBlueprintOptimizationStatusRequest = Shapes::StructureShape.new(name: 'GetBlueprintOptimizationStatusRequest')
     GetBlueprintOptimizationStatusResponse = Shapes::StructureShape.new(name: 'GetBlueprintOptimizationStatusResponse')
     GetBlueprintRequest = Shapes::StructureShape.new(name: 'GetBlueprintRequest')
@@ -390,6 +392,7 @@ module Aws::BedrockDataAutomation
     CreateDataAutomationProjectResponse.struct_class = Types::CreateDataAutomationProjectResponse
 
     CustomOutputConfiguration.add_member(:blueprints, Shapes::ShapeRef.new(shape: BlueprintItems, location_name: "blueprints"))
+    CustomOutputConfiguration.add_member(:document, Shapes::ShapeRef.new(shape: DocumentCustomOutputConfiguration, location_name: "document"))
     CustomOutputConfiguration.struct_class = Types::CustomOutputConfiguration
 
     DataAutomationLibrary.add_member(:library_arn, Shapes::ShapeRef.new(shape: DataAutomationLibraryArn, required: true, location_name: "libraryArn"))
@@ -504,6 +507,9 @@ module Aws::BedrockDataAutomation
     DocumentBoundingBox.add_member(:state, Shapes::ShapeRef.new(shape: State, required: true, location_name: "state"))
     DocumentBoundingBox.struct_class = Types::DocumentBoundingBox
 
+    DocumentCustomOutputConfiguration.add_member(:fallback_blueprints, Shapes::ShapeRef.new(shape: FallbackBlueprintItems, location_name: "fallbackBlueprints"))
+    DocumentCustomOutputConfiguration.struct_class = Types::DocumentCustomOutputConfiguration
+
     DocumentExtractionGranularity.add_member(:types, Shapes::ShapeRef.new(shape: DocumentExtractionGranularityTypes, location_name: "types"))
     DocumentExtractionGranularity.struct_class = Types::DocumentExtractionGranularity
 
@@ -558,6 +564,8 @@ module Aws::BedrockDataAutomation
 
     EventBridgeConfiguration.add_member(:event_bridge_enabled, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "eventBridgeEnabled"))
     EventBridgeConfiguration.struct_class = Types::EventBridgeConfiguration
+
+    FallbackBlueprintItems.member = Shapes::ShapeRef.new(shape: BlueprintItem)
 
     GetBlueprintOptimizationStatusRequest.add_member(:invocation_arn, Shapes::ShapeRef.new(shape: BlueprintOptimizationInvocationArn, required: true, location: "uri", location_name: "invocationArn"))
     GetBlueprintOptimizationStatusRequest.struct_class = Types::GetBlueprintOptimizationStatusRequest

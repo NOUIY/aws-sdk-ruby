@@ -1043,7 +1043,7 @@ module Aws
                                          ?platform_devices: Array[
                                            {
                                              id: ::String,
-                                             type: ("GPU")
+                                             type: ("GPU" | "NEURON_DEVICE")
                                            }
                                          ],
                                          ?tags: Array[
@@ -1334,7 +1334,7 @@ module Aws
                                           resource_requirements: Array[
                                             {
                                               value: ::String,
-                                              type: ("GPU" | "InferenceAccelerator")
+                                              type: ("GPU" | "InferenceAccelerator" | "NeuronDevice")
                                             }
                                           ]?,
                                           firelens_configuration: {

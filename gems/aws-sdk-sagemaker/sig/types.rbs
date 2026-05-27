@@ -107,7 +107,7 @@ module Aws::SageMaker
     end
 
     class AIRecommendationComputeSpec
-      attr_accessor instance_types: ::Array[("ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.g7e.2xlarge" | "ml.g7e.4xlarge" | "ml.g7e.8xlarge" | "ml.g7e.12xlarge" | "ml.g7e.24xlarge" | "ml.g7e.48xlarge" | "ml.p3.2xlarge" | "ml.p3.8xlarge" | "ml.p3.16xlarge" | "ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.4xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge")]
+      attr_accessor instance_types: ::Array[("ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.g7e.2xlarge" | "ml.g7e.4xlarge" | "ml.g7e.8xlarge" | "ml.g7e.12xlarge" | "ml.g7e.24xlarge" | "ml.g7e.48xlarge" | "ml.p3.2xlarge" | "ml.p3.8xlarge" | "ml.p3.16xlarge" | "ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.4xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge" | "ml.p6-b200.48xlarge")]
       attr_accessor capacity_reservation_config: Types::AICapacityReservationConfig
       SENSITIVE: []
     end
@@ -120,7 +120,7 @@ module Aws::SageMaker
     class AIRecommendationDeploymentConfiguration
       attr_accessor s3: ::Array[Types::AIRecommendationDeploymentS3Channel]
       attr_accessor image_uri: ::String
-      attr_accessor instance_type: ("ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.g7e.2xlarge" | "ml.g7e.4xlarge" | "ml.g7e.8xlarge" | "ml.g7e.12xlarge" | "ml.g7e.24xlarge" | "ml.g7e.48xlarge" | "ml.p3.2xlarge" | "ml.p3.8xlarge" | "ml.p3.16xlarge" | "ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.4xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge")
+      attr_accessor instance_type: ("ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.g7e.2xlarge" | "ml.g7e.4xlarge" | "ml.g7e.8xlarge" | "ml.g7e.12xlarge" | "ml.g7e.24xlarge" | "ml.g7e.48xlarge" | "ml.p3.2xlarge" | "ml.p3.8xlarge" | "ml.p3.16xlarge" | "ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.4xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge" | "ml.p6-b200.48xlarge")
       attr_accessor instance_count: ::Integer
       attr_accessor copy_count_per_instance: ::Integer
       attr_accessor environment_variables: ::Hash[::String, ::String]
@@ -139,7 +139,7 @@ module Aws::SageMaker
     end
 
     class AIRecommendationInstanceDetail
-      attr_accessor instance_type: ("ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.g7e.2xlarge" | "ml.g7e.4xlarge" | "ml.g7e.8xlarge" | "ml.g7e.12xlarge" | "ml.g7e.24xlarge" | "ml.g7e.48xlarge" | "ml.p3.2xlarge" | "ml.p3.8xlarge" | "ml.p3.16xlarge" | "ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.4xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge")
+      attr_accessor instance_type: ("ml.g5.xlarge" | "ml.g5.2xlarge" | "ml.g5.4xlarge" | "ml.g5.8xlarge" | "ml.g5.12xlarge" | "ml.g5.16xlarge" | "ml.g5.24xlarge" | "ml.g5.48xlarge" | "ml.g6.xlarge" | "ml.g6.2xlarge" | "ml.g6.4xlarge" | "ml.g6.8xlarge" | "ml.g6.12xlarge" | "ml.g6.16xlarge" | "ml.g6.24xlarge" | "ml.g6.48xlarge" | "ml.g6e.xlarge" | "ml.g6e.2xlarge" | "ml.g6e.4xlarge" | "ml.g6e.8xlarge" | "ml.g6e.12xlarge" | "ml.g6e.16xlarge" | "ml.g6e.24xlarge" | "ml.g6e.48xlarge" | "ml.g7e.2xlarge" | "ml.g7e.4xlarge" | "ml.g7e.8xlarge" | "ml.g7e.12xlarge" | "ml.g7e.24xlarge" | "ml.g7e.48xlarge" | "ml.p3.2xlarge" | "ml.p3.8xlarge" | "ml.p3.16xlarge" | "ml.p4d.24xlarge" | "ml.p4de.24xlarge" | "ml.p5.4xlarge" | "ml.p5.48xlarge" | "ml.p5e.48xlarge" | "ml.p5en.48xlarge" | "ml.p6-b200.48xlarge")
       attr_accessor instance_count: ::Integer
       attr_accessor copy_count_per_instance: ::Integer
       SENSITIVE: []
@@ -1480,6 +1480,16 @@ module Aws::SageMaker
       SENSITIVE: []
     end
 
+    class ClusterRestrictedInstanceGroupsConfig
+      attr_accessor shared_environment_config: Types::ClusterSharedEnvironmentConfig
+      SENSITIVE: []
+    end
+
+    class ClusterRestrictedInstanceGroupsConfigOutput
+      attr_accessor shared_environment_config: Types::ClusterSharedEnvironmentConfigDetails
+      SENSITIVE: []
+    end
+
     class ClusterSchedulerConfigSummary
       attr_accessor cluster_scheduler_config_arn: ::String
       attr_accessor cluster_scheduler_config_id: ::String
@@ -1489,6 +1499,20 @@ module Aws::SageMaker
       attr_accessor last_modified_time: ::Time
       attr_accessor status: ("Creating" | "CreateFailed" | "CreateRollbackFailed" | "Created" | "Updating" | "UpdateFailed" | "UpdateRollbackFailed" | "Updated" | "Deleting" | "DeleteFailed" | "DeleteRollbackFailed" | "Deleted")
       attr_accessor cluster_arn: ::String
+      SENSITIVE: []
+    end
+
+    class ClusterSharedEnvironmentConfig
+      attr_accessor f_sx_lustre_deletion_policy: ("DeleteIfNotUsed" | "Keep")
+      attr_accessor f_sx_lustre_config: Types::FSxLustreConfig
+      SENSITIVE: []
+    end
+
+    class ClusterSharedEnvironmentConfigDetails
+      attr_accessor current_f_sx_lustre_config: Types::FSxLustreConfig
+      attr_accessor desired_f_sx_lustre_config: Types::FSxLustreConfig
+      attr_accessor current_f_sx_lustre_deletion_policy: ("DeleteIfNotUsed" | "Keep")
+      attr_accessor desired_f_sx_lustre_deletion_policy: ("DeleteIfNotUsed" | "Keep")
       SENSITIVE: []
     end
 
@@ -1872,6 +1896,7 @@ module Aws::SageMaker
       attr_accessor cluster_name: ::String
       attr_accessor instance_groups: ::Array[Types::ClusterInstanceGroupSpecification]
       attr_accessor restricted_instance_groups: ::Array[Types::ClusterRestrictedInstanceGroupSpecification]
+      attr_accessor restricted_instance_groups_config: Types::ClusterRestrictedInstanceGroupsConfig
       attr_accessor vpc_config: Types::VpcConfig
       attr_accessor tags: ::Array[Types::Tag]
       attr_accessor orchestrator: Types::ClusterOrchestrator
@@ -3822,6 +3847,7 @@ module Aws::SageMaker
       attr_accessor failure_message: ::String
       attr_accessor instance_groups: ::Array[Types::ClusterInstanceGroupDetails]
       attr_accessor restricted_instance_groups: ::Array[Types::ClusterRestrictedInstanceGroupDetails]
+      attr_accessor restricted_instance_groups_config: Types::ClusterRestrictedInstanceGroupsConfigOutput
       attr_accessor vpc_config: Types::VpcConfig
       attr_accessor orchestrator: Types::ClusterOrchestrator
       attr_accessor tiered_storage_config: Types::ClusterTieredStorageConfig
@@ -10240,6 +10266,7 @@ module Aws::SageMaker
       attr_accessor total_instance_count: ::Integer
       attr_accessor status: ("Pending" | "Active" | "Scheduled" | "Expired" | "Failed")
       attr_accessor availability_zone: ::String
+      attr_accessor availability_zone_id: ::String
       attr_accessor duration_hours: ::Integer
       attr_accessor duration_minutes: ::Integer
       attr_accessor start_time: ::Time
@@ -11640,6 +11667,7 @@ module Aws::SageMaker
       attr_accessor cluster_name: ::String
       attr_accessor instance_groups: ::Array[Types::ClusterInstanceGroupSpecification]
       attr_accessor restricted_instance_groups: ::Array[Types::ClusterRestrictedInstanceGroupSpecification]
+      attr_accessor restricted_instance_groups_config: Types::ClusterRestrictedInstanceGroupsConfig
       attr_accessor tiered_storage_config: Types::ClusterTieredStorageConfig
       attr_accessor node_recovery: ("Automatic" | "None")
       attr_accessor instance_groups_to_delete: ::Array[::String]

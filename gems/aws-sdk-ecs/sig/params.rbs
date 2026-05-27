@@ -300,7 +300,7 @@ module Aws
       resource_requirements: Array[
         {
           value: ::String,
-          type: ("GPU" | "InferenceAccelerator")
+          type: ("GPU" | "InferenceAccelerator" | "NeuronDevice")
         }
       ]?
     }

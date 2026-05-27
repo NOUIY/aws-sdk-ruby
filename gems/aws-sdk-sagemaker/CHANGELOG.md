@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.369.0 (2026-05-27)
+------------------
+
+* Feature - Adds shared environment support for Restricted Instance Groups (RIGs) on SageMaker HyperPod, enabling cross-RIG workload scheduling and FSx sharing. This unlocks shared CPU-GPU environments needed for cost-efficient RL training (e.g., Nova Forge). Adds p6 instance support for recommendation jobs
+
 1.368.0 (2026-05-21)
 ------------------
 

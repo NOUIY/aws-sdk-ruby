@@ -13,6 +13,12 @@ module Aws::ElementalInference
       SENSITIVE: []
     end
 
+    class AspectRatio
+      attr_accessor width: ::Integer
+      attr_accessor height: ::Integer
+      SENSITIVE: []
+    end
+
     class AssociateFeedRequest
       attr_accessor id: ::String
       attr_accessor associated_resource_name: ::String
@@ -34,6 +40,25 @@ module Aws::ElementalInference
 
     class ConflictException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class CreateDictionaryRequest
+      attr_accessor name: ::String
+      attr_accessor language: ("eng" | "fra" | "ita" | "deu" | "spa" | "por")
+      attr_accessor entries: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class CreateDictionaryResponse
+      attr_accessor name: ::String
+      attr_accessor arn: ::String
+      attr_accessor id: ::String
+      attr_accessor language: ("eng" | "fra" | "ita" | "deu" | "spa" | "por")
+      attr_accessor status: ("CREATING" | "AVAILABLE" | "REFERENCED" | "DELETING" | "DELETED")
+      attr_accessor references: ::Array[::String]
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 
@@ -67,6 +92,18 @@ module Aws::ElementalInference
     class CroppingConfig < Aws::EmptyStructure
     end
 
+    class DeleteDictionaryRequest
+      attr_accessor id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteDictionaryResponse
+      attr_accessor arn: ::String
+      attr_accessor id: ::String
+      attr_accessor status: ("CREATING" | "AVAILABLE" | "REFERENCED" | "DELETING" | "DELETED")
+      SENSITIVE: []
+    end
+
     class DeleteFeedRequest
       attr_accessor id: ::String
       SENSITIVE: []
@@ -76,6 +113,15 @@ module Aws::ElementalInference
       attr_accessor arn: ::String
       attr_accessor id: ::String
       attr_accessor status: ("CREATING" | "AVAILABLE" | "ACTIVE" | "UPDATING" | "DELETING" | "DELETED" | "ARCHIVED")
+      SENSITIVE: []
+    end
+
+    class DictionarySummary
+      attr_accessor arn: ::String
+      attr_accessor id: ::String
+      attr_accessor name: ::String
+      attr_accessor language: ("eng" | "fra" | "ita" | "deu" | "spa" | "por")
+      attr_accessor status: ("CREATING" | "AVAILABLE" | "REFERENCED" | "DELETING" | "DELETED")
       SENSITIVE: []
     end
 
@@ -92,6 +138,16 @@ module Aws::ElementalInference
       SENSITIVE: []
     end
 
+    class ExportDictionaryEntriesRequest
+      attr_accessor id: ::String
+      SENSITIVE: []
+    end
+
+    class ExportDictionaryEntriesResponse
+      attr_accessor entries: ::String
+      SENSITIVE: []
+    end
+
     class FeedAssociation
       attr_accessor associated_resource_name: ::String
       SENSITIVE: []
@@ -103,6 +159,22 @@ module Aws::ElementalInference
       attr_accessor name: ::String
       attr_accessor association: Types::FeedAssociation
       attr_accessor status: ("CREATING" | "AVAILABLE" | "ACTIVE" | "UPDATING" | "DELETING" | "DELETED" | "ARCHIVED")
+      SENSITIVE: []
+    end
+
+    class GetDictionaryRequest
+      attr_accessor id: ::String
+      SENSITIVE: []
+    end
+
+    class GetDictionaryResponse
+      attr_accessor name: ::String
+      attr_accessor arn: ::String
+      attr_accessor id: ::String
+      attr_accessor language: ("eng" | "fra" | "ita" | "deu" | "spa" | "por")
+      attr_accessor status: ("CREATING" | "AVAILABLE" | "REFERENCED" | "DELETING" | "DELETED")
+      attr_accessor references: ::Array[::String]
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 
@@ -137,6 +209,18 @@ module Aws::ElementalInference
       SENSITIVE: []
     end
 
+    class ListDictionariesRequest
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListDictionariesResponse
+      attr_accessor dictionaries: ::Array[Types::DictionarySummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListFeedsRequest
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
@@ -162,12 +246,15 @@ module Aws::ElementalInference
     class OutputConfig
       attr_accessor cropping: Types::CroppingConfig
       attr_accessor clipping: Types::ClippingConfig
+      attr_accessor subtitling: Types::SubtitlingConfig
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class Cropping < OutputConfig
       end
       class Clipping < OutputConfig
+      end
+      class Subtitling < OutputConfig
       end
       class Unknown < OutputConfig
       end
@@ -180,6 +267,14 @@ module Aws::ElementalInference
 
     class ServiceQuotaExceededException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class SubtitlingConfig
+      attr_accessor language: ("eng" | "eng-au" | "eng-gb" | "eng-us" | "fra" | "ita" | "deu" | "spa" | "por")
+      attr_accessor aspect_ratio: Types::AspectRatio
+      attr_accessor dictionary: ::String
+      attr_accessor profanity_filter: ("DISABLED" | "CENSOR" | "DROP")
       SENSITIVE: []
     end
 
@@ -197,6 +292,25 @@ module Aws::ElementalInference
     class UntagResourceRequest
       attr_accessor resource_arn: ::String
       attr_accessor tag_keys: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class UpdateDictionaryRequest
+      attr_accessor id: ::String
+      attr_accessor name: ::String
+      attr_accessor language: ("eng" | "fra" | "ita" | "deu" | "spa" | "por")
+      attr_accessor entries: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateDictionaryResponse
+      attr_accessor name: ::String
+      attr_accessor arn: ::String
+      attr_accessor id: ::String
+      attr_accessor language: ("eng" | "fra" | "ita" | "deu" | "spa" | "por")
+      attr_accessor status: ("CREATING" | "AVAILABLE" | "REFERENCED" | "DELETING" | "DELETED")
+      attr_accessor references: ::Array[::String]
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 

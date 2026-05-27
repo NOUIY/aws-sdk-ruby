@@ -1775,6 +1775,10 @@ module Aws::MediaLive
     #   Teletext Source Settings
     #   @return [Types::TeletextSourceSettings]
     #
+    # @!attribute [rw] smart_subtitle_source_settings
+    #   Smart Subtitle Source Settings
+    #   @return [Types::SmartSubtitleSourceSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CaptionSelectorSettings AWS API Documentation
     #
     class CaptionSelectorSettings < Struct.new(
@@ -1784,7 +1788,8 @@ module Aws::MediaLive
       :embedded_source_settings,
       :scte_20_source_settings,
       :scte_27_source_settings,
-      :teletext_source_settings)
+      :teletext_source_settings,
+      :smart_subtitle_source_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -22983,10 +22988,16 @@ module Aws::MediaLive
     #   The feed is a resource in the Elemental Inference service.
     #   @return [String]
     #
+    # @!attribute [rw] audio_feed_inputs
+    #   A list of audio feed inputs that map audio selectors in the channel
+    #   to feed inputs on the associated Elemental Inference feed.
+    #   @return [Array<Types::AudioFeedInput>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeInferenceSettings AWS API Documentation
     #
     class DescribeInferenceSettings < Struct.new(
-      :feed_arn)
+      :feed_arn,
+      :audio_feed_inputs)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -22998,10 +23009,16 @@ module Aws::MediaLive
     #   The feed is a resource in the Elemental Inference service.
     #   @return [String]
     #
+    # @!attribute [rw] audio_feed_inputs
+    #   A list of audio feed inputs that map audio selectors in the channel
+    #   to feed inputs on the associated Elemental Inference feed.
+    #   @return [Array<Types::AudioFeedInput>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/InferenceSettings AWS API Documentation
     #
     class InferenceSettings < Struct.new(
-      :feed_arn)
+      :feed_arn,
+      :audio_feed_inputs)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -23114,6 +23131,49 @@ module Aws::MediaLive
     #
     class MediaConnectRouterOutputConnection < Struct.new(
       :router_input_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Maps an audio selector in the channel to a feed input on the
+    # associated Elemental Inference feed.
+    #
+    # @!attribute [rw] audio_selector_name
+    #   The name of the audio selector in the channel that will be sent to
+    #   the Elemental Inference feed input.
+    #   @return [String]
+    #
+    # @!attribute [rw] feed_input
+    #   The name of the feed input on the Elemental Inference feed that will
+    #   receive the audio from the specified audio selector.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/AudioFeedInput AWS API Documentation
+    #
+    class AudioFeedInput < Struct.new(
+      :audio_selector_name,
+      :feed_input)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Smart Subtitle Source Settings
+    #
+    # @!attribute [rw] caption_synchronization_mode
+    #   Controls whether MediaLive delays video to synchronize captions with
+    #   audio and video output.
+    #   @return [String]
+    #
+    # @!attribute [rw] inference_feed_output
+    #   The name of the Elemental Inference feed output that supplies
+    #   subtitle input into this caption selector.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/SmartSubtitleSourceSettings AWS API Documentation
+    #
+    class SmartSubtitleSourceSettings < Struct.new(
+      :caption_synchronization_mode,
+      :inference_feed_output)
       SENSITIVE = []
       include Aws::Structure
     end

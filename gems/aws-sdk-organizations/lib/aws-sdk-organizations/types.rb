@@ -2669,8 +2669,11 @@ module Aws::Organizations
     #   The end date must be the end of the last day of the month
     #   (23.59.59.999).
     #
-    # * END\_DATE\_TOO\_EARLY: You provided an invalid end date. It is too
-    #   early for the transfer to end.
+    # * END\_DATE\_TOO\_EARLY: You provided an invalid end date. The end
+    #   date is too early.
+    #
+    # * END\_DATE\_TOO\_LATE: You provided an invalid end date. The end date
+    #   is too late.
     #
     # * IMMUTABLE\_POLICY: You specified a policy that is managed by Amazon
     #   Web Services and can't be modified.

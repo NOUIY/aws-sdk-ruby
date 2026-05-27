@@ -421,6 +421,7 @@ module Aws::ECS
     NetworkInterfaceCountRequest = Shapes::StructureShape.new(name: 'NetworkInterfaceCountRequest')
     NetworkInterfaces = Shapes::ListShape.new(name: 'NetworkInterfaces')
     NetworkMode = Shapes::StringShape.new(name: 'NetworkMode')
+    NeuronDeviceIds = Shapes::ListShape.new(name: 'NeuronDeviceIds')
     NoUpdateAvailableException = Shapes::StructureShape.new(name: 'NoUpdateAvailableException')
     OSFamily = Shapes::StringShape.new(name: 'OSFamily')
     PidMode = Shapes::StringShape.new(name: 'PidMode')
@@ -829,6 +830,7 @@ module Aws::ECS
     Container.add_member(:memory, Shapes::ShapeRef.new(shape: String, location_name: "memory"))
     Container.add_member(:memory_reservation, Shapes::ShapeRef.new(shape: String, location_name: "memoryReservation"))
     Container.add_member(:gpu_ids, Shapes::ShapeRef.new(shape: GpuIds, location_name: "gpuIds"))
+    Container.add_member(:neuron_device_ids, Shapes::ShapeRef.new(shape: NeuronDeviceIds, location_name: "neuronDeviceIds"))
     Container.struct_class = Types::Container
 
     ContainerDefinition.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
@@ -2223,6 +2225,8 @@ module Aws::ECS
     NetworkInterfaceCountRequest.struct_class = Types::NetworkInterfaceCountRequest
 
     NetworkInterfaces.member = Shapes::ShapeRef.new(shape: NetworkInterface)
+
+    NeuronDeviceIds.member = Shapes::ShapeRef.new(shape: String)
 
     NoUpdateAvailableException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
     NoUpdateAvailableException.struct_class = Types::NoUpdateAvailableException

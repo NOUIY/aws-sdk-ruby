@@ -475,30 +475,56 @@ module Aws::ElementalInference
     # @!group API Operations
 
     # Associates a resource with the feed. The resource provides the input
-    # that Elemental Inference needs needs in order to perform an Elemental
+    # that Elemental Inference needs in order to perform an Elemental
     # Inference feature, such as cropping video. You always provide the
     # resource by associating it with a feed. You can associate only one
-    # resource with each feed.
+    # resource with each feed. With an association, a specific source media
+    # is claiming ownership of the feed.
+    #
+    # AssociateFeed is a PATCH operation, which means that you can include
+    # only parameters that you want to change. Parameters that you don't
+    # include will not be affected by the operation.
+    #
+    # Specifically:
+    #
+    # * You can add more outputs to the existing outputs. New outputs will
+    #   be appended.
+    #
+    # * You can't modify an existing output (for example to change its
+    #   name). Instead, use UpdateFeed.
+    #
+    # * You can't delete an existing output. Instead, use UpdateFeed.
+    #
+    # Also note that you can't change the feed name with AssociateFeed.
+    # Instead, use UpdateFeed.
     #
     # @option params [required, String] :id
     #   The ID of the feed.
     #
     # @option params [required, String] :associated_resource_name
-    #   An identifier for the resource. If the resource is from an AWS
-    #   service, this identifier must be the full ARN of that resource.
-    #   Otherwise, the identifier is a name that you assign and that is
-    #   appropriate for the application that owns the resource. This name must
-    #   not resemble an ARN.
+    #   An identifier for the resource. This name must not resemble an ARN.
+    #
+    #   The resource is the source media that the feed will process. The name
+    #   you assign should help you to later identify the source media that
+    #   belongs to the feed. In this way, you will know which source media to
+    #   push to the feed (using PutMedia).
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
     #
     # @option params [required, Array<Types::CreateOutput>] :outputs
-    #   The outputs to add to this feed. You must specify at least one output.
-    #   You can later use the UpdateFeed action to change the list of outputs.
+    #   An array of one or more outputs that you want to add to this feed now,
+    #   to supplement any outputs that you specified when you created or
+    #   updated the feed.
     #
     # @option params [Boolean] :dry_run
     #   Set to true if you want to do a dry run of the associate action.
+    #
+    #   Elemental Inference will validate that the real request would succeed
+    #   without actually making any changes. A dry run catches errors such as
+    #   missing IAM permissions, quota limits exceeded, conflicting outputs,
+    #   and so on. If the dry run fails, the action returns a 4xx error code.
+    #   After you've fixed the errors, resubmit the request.
     #
     # @return [Types::AssociateFeedResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -518,6 +544,15 @@ module Aws::ElementalInference
     #           },
     #           clipping: {
     #             callback_metadata: "ResourceDescription",
+    #           },
+    #           subtitling: {
+    #             language: "eng", # required, accepts eng, eng-au, eng-gb, eng-us, fra, ita, deu, spa, por
+    #             aspect_ratio: {
+    #               width: 1, # required
+    #               height: 1, # required
+    #             },
+    #             dictionary: "DictionaryId",
+    #             profanity_filter: "DISABLED", # accepts DISABLED, CENSOR, DROP
     #           },
     #         },
     #         status: "ENABLED", # required, accepts ENABLED, DISABLED
@@ -541,22 +576,90 @@ module Aws::ElementalInference
       req.send_request(options)
     end
 
-    # Creates a feed. The feed is the target for live streams being sent by
-    # the calling application. An example of a calling application is AWS
-    # Elemental MediaLive. After you create the feed, you can associate a
-    # resource with the feed.
+    # Creates a custom dictionary for improving transcription accuracy. A
+    # dictionary contains custom words and phrases that the ASR engine might
+    # not recognize, such as brand names, technical terms, or proper nouns.
+    # You can reference a dictionary when configuring a smart subtitles
+    # output.
     #
     # @option params [required, String] :name
-    #   A name for this feed.
+    #   A user-friendly name for this dictionary.
+    #
+    # @option params [required, String] :language
+    #   The language of the dictionary entries. Specify the language using an
+    #   ISO 639-2/T three-letter code. Supported values: eng, fra, ita, deu,
+    #   spa, por.
+    #
+    # @option params [String] :entries
+    #   The dictionary entries payload. Contains the custom words and phrases
+    #   for the dictionary. Maximum size is 40,960 characters.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   Optional tags to associate with the dictionary.
+    #
+    # @return [Types::CreateDictionaryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateDictionaryResponse#name #name} => String
+    #   * {Types::CreateDictionaryResponse#arn #arn} => String
+    #   * {Types::CreateDictionaryResponse#id #id} => String
+    #   * {Types::CreateDictionaryResponse#language #language} => String
+    #   * {Types::CreateDictionaryResponse#status #status} => String
+    #   * {Types::CreateDictionaryResponse#references #references} => Array&lt;String&gt;
+    #   * {Types::CreateDictionaryResponse#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_dictionary({
+    #     name: "ResourceName", # required
+    #     language: "eng", # required, accepts eng, fra, ita, deu, spa, por
+    #     entries: "DictionaryEntriesPayload",
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.name #=> String
+    #   resp.arn #=> String
+    #   resp.id #=> String
+    #   resp.language #=> String, one of "eng", "fra", "ita", "deu", "spa", "por"
+    #   resp.status #=> String, one of "CREATING", "AVAILABLE", "REFERENCED", "DELETING", "DELETED"
+    #   resp.references #=> Array
+    #   resp.references[0] #=> String
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/CreateDictionary AWS API Documentation
+    #
+    # @overload create_dictionary(params = {})
+    # @param [Hash] params ({})
+    def create_dictionary(params = {}, options = {})
+      req = build_request(:create_dictionary, params)
+      req.send_request(options)
+    end
+
+    # Creates a feed. The feed is the target for the live media stream that
+    # is being sent by the calling application. An example of a calling
+    # application is AWS Elemental MediaLive.
+    #
+    # The key contents of the feed is an array of outputs. Each output
+    # represents an Elemental Inference feature. After you create the feed,
+    # you must associate a resource with the feed. At that point, you will
+    # have a useable feed: resource - feed - output or outputs.
+    #
+    # @option params [required, String] :name
+    #   A user-friendly name for this feed.
     #
     # @option params [required, Array<Types::CreateOutput>] :outputs
     #   An array of outputs for this feed. Each output represents a specific
-    #   Elemental Inference feature. For example, an output might represent
-    #   the crop feature.
+    #   Elemental Inference feature. For example, there is one output type for
+    #   the smart crop feature. You must specify at least one output, but you
+    #   can later add outputs using AssociateFeed, or add, modify, and delete
+    #   outputs using UpdateFeed.
     #
     # @option params [Hash<String,String>] :tags
-    #   If you want to include tags, add them now. You won't be able to add
-    #   them later.
+    #   Optional tags. You can also add tags later, using TagResource.
     #
     # @return [Types::CreateFeedResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -582,6 +685,15 @@ module Aws::ElementalInference
     #           clipping: {
     #             callback_metadata: "ResourceDescription",
     #           },
+    #           subtitling: {
+    #             language: "eng", # required, accepts eng, eng-au, eng-gb, eng-us, fra, ita, deu, spa, por
+    #             aspect_ratio: {
+    #               width: 1, # required
+    #               height: 1, # required
+    #             },
+    #             dictionary: "DictionaryId",
+    #             profanity_filter: "DISABLED", # accepts DISABLED, CENSOR, DROP
+    #           },
     #         },
     #         status: "ENABLED", # required, accepts ENABLED, DISABLED
     #         description: "ResourceDescription",
@@ -602,6 +714,11 @@ module Aws::ElementalInference
     #   resp.outputs #=> Array
     #   resp.outputs[0].name #=> String
     #   resp.outputs[0].output_config.clipping.callback_metadata #=> String
+    #   resp.outputs[0].output_config.subtitling.language #=> String, one of "eng", "eng-au", "eng-gb", "eng-us", "fra", "ita", "deu", "spa", "por"
+    #   resp.outputs[0].output_config.subtitling.aspect_ratio.width #=> Integer
+    #   resp.outputs[0].output_config.subtitling.aspect_ratio.height #=> Integer
+    #   resp.outputs[0].output_config.subtitling.dictionary #=> String
+    #   resp.outputs[0].output_config.subtitling.profanity_filter #=> String, one of "DISABLED", "CENSOR", "DROP"
     #   resp.outputs[0].status #=> String, one of "ENABLED", "DISABLED"
     #   resp.outputs[0].description #=> String
     #   resp.outputs[0].from_association #=> Boolean
@@ -619,7 +736,45 @@ module Aws::ElementalInference
       req.send_request(options)
     end
 
-    # Deletes the specified feed. The feed can be deleted at any time.
+    # Deletes the specified dictionary. You cannot delete a dictionary that
+    # is referenced by a feed. You must first remove the dictionary
+    # reference from the feed's subtitling configuration.
+    #
+    # @option params [required, String] :id
+    #   The ID of the dictionary to delete.
+    #
+    # @return [Types::DeleteDictionaryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteDictionaryResponse#arn #arn} => String
+    #   * {Types::DeleteDictionaryResponse#id #id} => String
+    #   * {Types::DeleteDictionaryResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_dictionary({
+    #     id: "DictionaryId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.id #=> String
+    #   resp.status #=> String, one of "CREATING", "AVAILABLE", "REFERENCED", "DELETING", "DELETED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/DeleteDictionary AWS API Documentation
+    #
+    # @overload delete_dictionary(params = {})
+    # @param [Hash] params ({})
+    def delete_dictionary(params = {}, options = {})
+      req = build_request(:delete_dictionary, params)
+      req.send_request(options)
+    end
+
+    # Deletes the specified feed. You can delete the feed at any time.
+    # Elemental Inference doesn't block you from deleting a feed when the
+    # calling application is calling PutMedia or GetMetadata on that feed,
+    # although both these calls will start to fail. For more information
+    # about managing inactive feeds, see the Elemental Inference User Guide.
     #
     # @option params [required, String] :id
     #   The ID of the feed.
@@ -651,20 +806,25 @@ module Aws::ElementalInference
       req.send_request(options)
     end
 
-    # Releases the resource (for example, an MediaLive channel) that is
-    # associated with this feed. The outputs in the feed become disabled.
+    # Releases the resource (the source media) that is associated with this
+    # feed. The outputs in the feed become DISABLED.
     #
     # @option params [required, String] :id
     #   The ID of the feed where you want to release the resource.
     #
     # @option params [required, String] :associated_resource_name
-    #   The name of the resource currently associated with the feed'.
+    #   The name of the resource currently associated with the feed.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
     #
     # @option params [Boolean] :dry_run
     #   Set to true if you want to do a dry run of the disassociate action.
+    #
+    #   Elemental Inference will validate that the real request would succeed
+    #   without actually making any changes. A dry run catches errors such as
+    #   missing IAM permissions. If the dry run fails, the action returns a
+    #   4xx error code.
     #
     # @return [Types::DisassociateFeedResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -690,6 +850,76 @@ module Aws::ElementalInference
     # @param [Hash] params ({})
     def disassociate_feed(params = {}, options = {})
       req = build_request(:disassociate_feed, params)
+      req.send_request(options)
+    end
+
+    # Exports the entries from the specified dictionary.
+    #
+    # @option params [required, String] :id
+    #   The ID of the dictionary whose entries you want to export.
+    #
+    # @return [Types::ExportDictionaryEntriesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ExportDictionaryEntriesResponse#entries #data.entries} => String (This method conflicts with a method on Response, call it through the data member)
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.export_dictionary_entries({
+    #     id: "DictionaryId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.data.entries #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/ExportDictionaryEntries AWS API Documentation
+    #
+    # @overload export_dictionary_entries(params = {})
+    # @param [Hash] params ({})
+    def export_dictionary_entries(params = {}, options = {})
+      req = build_request(:export_dictionary_entries, params)
+      req.send_request(options)
+    end
+
+    # Retrieves information about the specified dictionary.
+    #
+    # @option params [required, String] :id
+    #   The ID of the dictionary to retrieve.
+    #
+    # @return [Types::GetDictionaryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDictionaryResponse#name #name} => String
+    #   * {Types::GetDictionaryResponse#arn #arn} => String
+    #   * {Types::GetDictionaryResponse#id #id} => String
+    #   * {Types::GetDictionaryResponse#language #language} => String
+    #   * {Types::GetDictionaryResponse#status #status} => String
+    #   * {Types::GetDictionaryResponse#references #references} => Array&lt;String&gt;
+    #   * {Types::GetDictionaryResponse#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_dictionary({
+    #     id: "DictionaryId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.name #=> String
+    #   resp.arn #=> String
+    #   resp.id #=> String
+    #   resp.language #=> String, one of "eng", "fra", "ita", "deu", "spa", "por"
+    #   resp.status #=> String, one of "CREATING", "AVAILABLE", "REFERENCED", "DELETING", "DELETED"
+    #   resp.references #=> Array
+    #   resp.references[0] #=> String
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/GetDictionary AWS API Documentation
+    #
+    # @overload get_dictionary(params = {})
+    # @param [Hash] params ({})
+    def get_dictionary(params = {}, options = {})
+      req = build_request(:get_dictionary, params)
       req.send_request(options)
     end
 
@@ -725,6 +955,11 @@ module Aws::ElementalInference
     #   resp.outputs #=> Array
     #   resp.outputs[0].name #=> String
     #   resp.outputs[0].output_config.clipping.callback_metadata #=> String
+    #   resp.outputs[0].output_config.subtitling.language #=> String, one of "eng", "eng-au", "eng-gb", "eng-us", "fra", "ita", "deu", "spa", "por"
+    #   resp.outputs[0].output_config.subtitling.aspect_ratio.width #=> Integer
+    #   resp.outputs[0].output_config.subtitling.aspect_ratio.height #=> Integer
+    #   resp.outputs[0].output_config.subtitling.dictionary #=> String
+    #   resp.outputs[0].output_config.subtitling.profanity_filter #=> String, one of "DISABLED", "CENSOR", "DROP"
     #   resp.outputs[0].status #=> String, one of "ENABLED", "DISABLED"
     #   resp.outputs[0].description #=> String
     #   resp.outputs[0].from_association #=> Boolean
@@ -747,6 +982,48 @@ module Aws::ElementalInference
       req.send_request(options)
     end
 
+    # Lists the dictionaries in your account.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return per API request. Valid range:
+    #   1 to 100.
+    #
+    # @option params [String] :next_token
+    #   The token that identifies the next batch of results to return.
+    #
+    # @return [Types::ListDictionariesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListDictionariesResponse#dictionaries #dictionaries} => Array&lt;Types::DictionarySummary&gt;
+    #   * {Types::ListDictionariesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_dictionaries({
+    #     max_results: 1,
+    #     next_token: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dictionaries #=> Array
+    #   resp.dictionaries[0].arn #=> String
+    #   resp.dictionaries[0].id #=> String
+    #   resp.dictionaries[0].name #=> String
+    #   resp.dictionaries[0].language #=> String, one of "eng", "fra", "ita", "deu", "spa", "por"
+    #   resp.dictionaries[0].status #=> String, one of "CREATING", "AVAILABLE", "REFERENCED", "DELETING", "DELETED"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/ListDictionaries AWS API Documentation
+    #
+    # @overload list_dictionaries(params = {})
+    # @param [Hash] params ({})
+    def list_dictionaries(params = {}, options = {})
+      req = build_request(:list_dictionaries, params)
+      req.send_request(options)
+    end
+
     # Displays a list of feeds that belong to this AWS account.
     #
     # @option params [Integer] :max_results
@@ -766,10 +1043,10 @@ module Aws::ElementalInference
     # @option params [String] :next_token
     #   The token that identifies the batch of results that you want to see.
     #
-    #   For example, you submit a ListBridges request with MaxResults set at
-    #   5. The service returns the first batch of results (up to 5) and a
+    #   For example, you submit a ListFeeds request with MaxResults set at 5.
+    #   The service returns the first batch of results (up to 5) and a
     #   NextToken value. To see the next batch of results, you can submit the
-    #   ListBridges request a second time and specify the NextToken value.
+    #   ListFeeds request a second time and specify the NextToken value.
     #
     # @return [Types::ListFeedsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -893,7 +1170,73 @@ module Aws::ElementalInference
       req.send_request(options)
     end
 
+    # Updates the specified dictionary.
+    #
+    # @option params [required, String] :id
+    #   The ID of the dictionary to update.
+    #
+    # @option params [String] :name
+    #   A new name for the dictionary. If not specified, the name is not
+    #   changed.
+    #
+    # @option params [String] :language
+    #   A new language for the dictionary. If not specified, the language is
+    #   not changed.
+    #
+    # @option params [String] :entries
+    #   New dictionary entries. If not specified, the entries are not changed.
+    #
+    # @return [Types::UpdateDictionaryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateDictionaryResponse#name #name} => String
+    #   * {Types::UpdateDictionaryResponse#arn #arn} => String
+    #   * {Types::UpdateDictionaryResponse#id #id} => String
+    #   * {Types::UpdateDictionaryResponse#language #language} => String
+    #   * {Types::UpdateDictionaryResponse#status #status} => String
+    #   * {Types::UpdateDictionaryResponse#references #references} => Array&lt;String&gt;
+    #   * {Types::UpdateDictionaryResponse#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_dictionary({
+    #     id: "DictionaryId", # required
+    #     name: "ResourceName",
+    #     language: "eng", # accepts eng, fra, ita, deu, spa, por
+    #     entries: "DictionaryEntriesPayload",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.name #=> String
+    #   resp.arn #=> String
+    #   resp.id #=> String
+    #   resp.language #=> String, one of "eng", "fra", "ita", "deu", "spa", "por"
+    #   resp.status #=> String, one of "CREATING", "AVAILABLE", "REFERENCED", "DELETING", "DELETED"
+    #   resp.references #=> Array
+    #   resp.references[0] #=> String
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/UpdateDictionary AWS API Documentation
+    #
+    # @overload update_dictionary(params = {})
+    # @param [Hash] params ({})
+    def update_dictionary(params = {}, options = {})
+      req = build_request(:update_dictionary, params)
+      req.send_request(options)
+    end
+
     # Updates the name and/or outputs in a feed.
+    #
+    # UpdateFeed is a PUT operation, which means that the payload that you
+    # specify completely overwrites the existing payload.
+    #
+    # This means that if you want to touch the array of outputs, you must
+    # pass in the full new list. So you must omit outputs you want to
+    # delete, and include outputs you want to add or modify.
+    #
+    # If you want to patch the array of outputs to make selective additions,
+    # use AssociateFeed.
     #
     # @option params [required, String] :name
     #   Required. You can specify the existing name (to leave it unchanged) or
@@ -931,6 +1274,15 @@ module Aws::ElementalInference
     #           clipping: {
     #             callback_metadata: "ResourceDescription",
     #           },
+    #           subtitling: {
+    #             language: "eng", # required, accepts eng, eng-au, eng-gb, eng-us, fra, ita, deu, spa, por
+    #             aspect_ratio: {
+    #               width: 1, # required
+    #               height: 1, # required
+    #             },
+    #             dictionary: "DictionaryId",
+    #             profanity_filter: "DISABLED", # accepts DISABLED, CENSOR, DROP
+    #           },
     #         },
     #         status: "ENABLED", # required, accepts ENABLED, DISABLED
     #         description: "ResourceDescription",
@@ -949,6 +1301,11 @@ module Aws::ElementalInference
     #   resp.outputs #=> Array
     #   resp.outputs[0].name #=> String
     #   resp.outputs[0].output_config.clipping.callback_metadata #=> String
+    #   resp.outputs[0].output_config.subtitling.language #=> String, one of "eng", "eng-au", "eng-gb", "eng-us", "fra", "ita", "deu", "spa", "por"
+    #   resp.outputs[0].output_config.subtitling.aspect_ratio.width #=> Integer
+    #   resp.outputs[0].output_config.subtitling.aspect_ratio.height #=> Integer
+    #   resp.outputs[0].output_config.subtitling.dictionary #=> String
+    #   resp.outputs[0].output_config.subtitling.profanity_filter #=> String, one of "DISABLED", "CENSOR", "DROP"
     #   resp.outputs[0].status #=> String, one of "ENABLED", "DISABLED"
     #   resp.outputs[0].description #=> String
     #   resp.outputs[0].from_association #=> Boolean
@@ -984,7 +1341,7 @@ module Aws::ElementalInference
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-elementalinference'
-      context[:gem_version] = '1.4.0'
+      context[:gem_version] = '1.5.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

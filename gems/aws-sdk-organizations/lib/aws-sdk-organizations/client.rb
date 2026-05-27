@@ -504,6 +504,17 @@ module Aws::Organizations
     # For more information, see [Responding to invitations][3] and [Enabling
     # all features][1] in the *Organizations User Guide*.
     #
+    # When a handshake is accepted, Organizations logs membership events in
+    # CloudTrail, available only in the management account's event history.
+    # If the account was standalone and joined a new organization, an
+    # `AccountJoinedOrganization` event is logged with
+    # `joinedMethod:Invited` and `joinedTime` fields. If the account
+    # departed one organization and joined another, both an
+    # `AccountDepartedOrganization` event with `departedMethod:Left` and
+    # `departedTime` and an `AccountJoinedOrganization` event with
+    # `joinedMethod:Invited` and `joinedTime` are logged in their respective
+    # management accounts.
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/manage-begin-all-features-standard-migration.html#manage-approve-all-features-invite
@@ -896,6 +907,12 @@ module Aws::Organizations
     #
     #  </note>
     #
+    # After the permanent termination of the account after the 90-day
+    # waiting period, Organizations logs a membership event in CloudTrail.
+    # The event is an `AccountDepartedOrganization` event with
+    # `departedMethod:Cleaned` and `departedTime`. This event is available
+    # only in the management account's event history.
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html
@@ -942,6 +959,12 @@ module Aws::Organizations
     # * Check the CloudTrail log for the `CreateAccountResult` event. For
     #   information on using CloudTrail with Organizations, see [Logging and
     #   monitoring in Organizations][1] in the *Organizations User Guide*.
+    #
+    # Additionally, the `AccountJoinedOrganization` event is logged in
+    # CloudTrail and is available only in the management account's event
+    # history. This event includes `joinedMethod:Created` and `joinedTime`
+    # fields to provide context on how and when the account joined the
+    # organization.
     #
     # The user who calls the API to create an account must have the
     # `organizations:CreateAccount` permission. If you enabled all features
@@ -1230,6 +1253,12 @@ module Aws::Organizations
     #   information on using CloudTrail with Organizations, see [Logging and
     #   monitoring in Organizations][5] in the *Organizations User Guide*.
     #
+    # Additionally, the `AccountJoinedOrganization` event is logged in
+    # CloudTrail and is available only in the management account's event
+    # history only for the linked commercial account. This event includes
+    # `joinedMethod:Created` and `joinedTime` fields to provide context on
+    # how and when the account joined the organization.
+    #
     #
     #
     # When you call the `CreateGovCloudAccount` action, you create two
@@ -1471,6 +1500,11 @@ module Aws::Organizations
     # billing features by setting the `FeatureSet` parameter to
     # `CONSOLIDATED_BILLING`, no policy types are enabled by default and you
     # can't use organization policies.
+    #
+    # The `AccountJoinedOrganization` event is logged in CloudTrail and is
+    # available only in the management account's event history. This event
+    # includes `joinedMethod:Invited` and `joinedTime` fields to provide
+    # context on how and when the account joined the organization.
     #
     #
     #
@@ -1976,6 +2010,11 @@ module Aws::Organizations
     # Deletes the organization. You can delete an organization only by using
     # credentials from the management account. The organization must be
     # empty of member accounts.
+    #
+    # When an organization is deleted, Organizations logs a membership event
+    # in CloudTrail. The event is an `AccountDepartedOrganization` event
+    # with `departedMethod:Left` and `departedTime`. This event is available
+    # only in the management account's event history.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -3721,6 +3760,12 @@ module Aws::Organizations
     # RemoveAccountFromOrganization instead.
     #
     # You can only call from operation from a member account.
+    #
+    # When an account leaves an organization, Organizations logs a
+    # membership event in CloudTrail. The event is an
+    # `AccountDepartedOrganization` event with `departedMethod:Left` and
+    # `departedTime`. This event is available only in the management
+    # account's event history.
     #
     # * The management account in an organization with all features enabled
     #   can set service control policies (SCPs) that can restrict what
@@ -6190,6 +6235,12 @@ module Aws::Organizations
     # You can only call this operation from the management account. Member
     # accounts can remove themselves with LeaveOrganization instead.
     #
+    # When an account is removed from an organization, Organizations logs a
+    # membership event in CloudTrail. The event is an
+    # `AccountDepartedOrganization` event with `departedMethod:Removed` and
+    # `departedTime`. This event is available only in the management
+    # account's event history.
+    #
     # * You can remove an account from your organization only if the account
     #   is configured with the information required to operate as a
     #   standalone account. When you create an account in an organization
@@ -6742,7 +6793,7 @@ module Aws::Organizations
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-organizations'
-      context[:gem_version] = '1.141.0'
+      context[:gem_version] = '1.142.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

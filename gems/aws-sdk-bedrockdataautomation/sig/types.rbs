@@ -200,6 +200,7 @@ module Aws::BedrockDataAutomation
 
     class CustomOutputConfiguration
       attr_accessor blueprints: ::Array[Types::BlueprintItem]
+      attr_accessor document: Types::DocumentCustomOutputConfiguration
       SENSITIVE: []
     end
 
@@ -342,6 +343,11 @@ module Aws::BedrockDataAutomation
 
     class DocumentBoundingBox
       attr_accessor state: ("ENABLED" | "DISABLED")
+      SENSITIVE: []
+    end
+
+    class DocumentCustomOutputConfiguration
+      attr_accessor fallback_blueprints: ::Array[Types::BlueprintItem]
       SENSITIVE: []
     end
 

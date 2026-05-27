@@ -4216,7 +4216,7 @@ module Aws::ECS
     #   resp.task_definitions[0].container_definitions[0].system_controls[0].value #=> String
     #   resp.task_definitions[0].container_definitions[0].resource_requirements #=> Array
     #   resp.task_definitions[0].container_definitions[0].resource_requirements[0].value #=> String
-    #   resp.task_definitions[0].container_definitions[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator"
+    #   resp.task_definitions[0].container_definitions[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator", "NeuronDevice"
     #   resp.task_definitions[0].container_definitions[0].firelens_configuration.type #=> String, one of "fluentd", "fluentbit"
     #   resp.task_definitions[0].container_definitions[0].firelens_configuration.options #=> Hash
     #   resp.task_definitions[0].container_definitions[0].firelens_configuration.options["String"] #=> String
@@ -4774,7 +4774,7 @@ module Aws::ECS
     #   resp.task_definition.container_definitions[0].system_controls[0].value #=> String
     #   resp.task_definition.container_definitions[0].resource_requirements #=> Array
     #   resp.task_definition.container_definitions[0].resource_requirements[0].value #=> String
-    #   resp.task_definition.container_definitions[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator"
+    #   resp.task_definition.container_definitions[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator", "NeuronDevice"
     #   resp.task_definition.container_definitions[0].firelens_configuration.type #=> String, one of "fluentd", "fluentbit"
     #   resp.task_definition.container_definitions[0].firelens_configuration.options #=> Hash
     #   resp.task_definition.container_definitions[0].firelens_configuration.options["String"] #=> String
@@ -7034,7 +7034,7 @@ module Aws::ECS
     #   resp.task_definition.container_definitions[0].system_controls[0].value #=> String
     #   resp.task_definition.container_definitions[0].resource_requirements #=> Array
     #   resp.task_definition.container_definitions[0].resource_requirements[0].value #=> String
-    #   resp.task_definition.container_definitions[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator"
+    #   resp.task_definition.container_definitions[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator", "NeuronDevice"
     #   resp.task_definition.container_definitions[0].firelens_configuration.type #=> String, one of "fluentd", "fluentbit"
     #   resp.task_definition.container_definitions[0].firelens_configuration.options #=> Hash
     #   resp.task_definition.container_definitions[0].firelens_configuration.options["String"] #=> String
@@ -7412,6 +7412,8 @@ module Aws::ECS
     #   resp.tasks[0].containers[0].memory_reservation #=> String
     #   resp.tasks[0].containers[0].gpu_ids #=> Array
     #   resp.tasks[0].containers[0].gpu_ids[0] #=> String
+    #   resp.tasks[0].containers[0].neuron_device_ids #=> Array
+    #   resp.tasks[0].containers[0].neuron_device_ids[0] #=> String
     #   resp.tasks[0].cpu #=> String
     #   resp.tasks[0].created_at #=> Time
     #   resp.tasks[0].desired_status #=> String
@@ -7440,7 +7442,7 @@ module Aws::ECS
     #   resp.tasks[0].overrides.container_overrides[0].memory_reservation #=> Integer
     #   resp.tasks[0].overrides.container_overrides[0].resource_requirements #=> Array
     #   resp.tasks[0].overrides.container_overrides[0].resource_requirements[0].value #=> String
-    #   resp.tasks[0].overrides.container_overrides[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator"
+    #   resp.tasks[0].overrides.container_overrides[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator", "NeuronDevice"
     #   resp.tasks[0].overrides.cpu #=> String
     #   resp.tasks[0].overrides.inference_accelerator_overrides #=> Array
     #   resp.tasks[0].overrides.inference_accelerator_overrides[0].device_name #=> String
@@ -10159,8 +10161,8 @@ module Aws::ECS
     #   supports.
     #
     # @option params [Array<Types::PlatformDevice>] :platform_devices
-    #   The devices that are available on the container instance. The only
-    #   supported device type is a GPU.
+    #   The devices that are available on the container instance. The
+    #   supported device types are GPUs and Neuron devices.
     #
     # @option params [Array<Types::Tag>] :tags
     #   The metadata that you apply to the container instance to help you
@@ -10229,7 +10231,7 @@ module Aws::ECS
     #     platform_devices: [
     #       {
     #         id: "String", # required
-    #         type: "GPU", # required, accepts GPU
+    #         type: "GPU", # required, accepts GPU, NEURON_DEVICE
     #       },
     #     ],
     #     tags: [
@@ -11140,7 +11142,7 @@ module Aws::ECS
     #         resource_requirements: [
     #           {
     #             value: "String", # required
-    #             type: "GPU", # required, accepts GPU, InferenceAccelerator
+    #             type: "GPU", # required, accepts GPU, InferenceAccelerator, NeuronDevice
     #           },
     #         ],
     #         firelens_configuration: {
@@ -11347,7 +11349,7 @@ module Aws::ECS
     #   resp.task_definition.container_definitions[0].system_controls[0].value #=> String
     #   resp.task_definition.container_definitions[0].resource_requirements #=> Array
     #   resp.task_definition.container_definitions[0].resource_requirements[0].value #=> String
-    #   resp.task_definition.container_definitions[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator"
+    #   resp.task_definition.container_definitions[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator", "NeuronDevice"
     #   resp.task_definition.container_definitions[0].firelens_configuration.type #=> String, one of "fluentd", "fluentbit"
     #   resp.task_definition.container_definitions[0].firelens_configuration.options #=> Hash
     #   resp.task_definition.container_definitions[0].firelens_configuration.options["String"] #=> String
@@ -11843,7 +11845,7 @@ module Aws::ECS
     #           resource_requirements: [
     #             {
     #               value: "String", # required
-    #               type: "GPU", # required, accepts GPU, InferenceAccelerator
+    #               type: "GPU", # required, accepts GPU, InferenceAccelerator, NeuronDevice
     #             },
     #           ],
     #         },
@@ -11973,6 +11975,8 @@ module Aws::ECS
     #   resp.tasks[0].containers[0].memory_reservation #=> String
     #   resp.tasks[0].containers[0].gpu_ids #=> Array
     #   resp.tasks[0].containers[0].gpu_ids[0] #=> String
+    #   resp.tasks[0].containers[0].neuron_device_ids #=> Array
+    #   resp.tasks[0].containers[0].neuron_device_ids[0] #=> String
     #   resp.tasks[0].cpu #=> String
     #   resp.tasks[0].created_at #=> Time
     #   resp.tasks[0].desired_status #=> String
@@ -12001,7 +12005,7 @@ module Aws::ECS
     #   resp.tasks[0].overrides.container_overrides[0].memory_reservation #=> Integer
     #   resp.tasks[0].overrides.container_overrides[0].resource_requirements #=> Array
     #   resp.tasks[0].overrides.container_overrides[0].resource_requirements[0].value #=> String
-    #   resp.tasks[0].overrides.container_overrides[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator"
+    #   resp.tasks[0].overrides.container_overrides[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator", "NeuronDevice"
     #   resp.tasks[0].overrides.cpu #=> String
     #   resp.tasks[0].overrides.inference_accelerator_overrides #=> Array
     #   resp.tasks[0].overrides.inference_accelerator_overrides[0].device_name #=> String
@@ -12290,7 +12294,7 @@ module Aws::ECS
     #           resource_requirements: [
     #             {
     #               value: "String", # required
-    #               type: "GPU", # required, accepts GPU, InferenceAccelerator
+    #               type: "GPU", # required, accepts GPU, InferenceAccelerator, NeuronDevice
     #             },
     #           ],
     #         },
@@ -12406,6 +12410,8 @@ module Aws::ECS
     #   resp.tasks[0].containers[0].memory_reservation #=> String
     #   resp.tasks[0].containers[0].gpu_ids #=> Array
     #   resp.tasks[0].containers[0].gpu_ids[0] #=> String
+    #   resp.tasks[0].containers[0].neuron_device_ids #=> Array
+    #   resp.tasks[0].containers[0].neuron_device_ids[0] #=> String
     #   resp.tasks[0].cpu #=> String
     #   resp.tasks[0].created_at #=> Time
     #   resp.tasks[0].desired_status #=> String
@@ -12434,7 +12440,7 @@ module Aws::ECS
     #   resp.tasks[0].overrides.container_overrides[0].memory_reservation #=> Integer
     #   resp.tasks[0].overrides.container_overrides[0].resource_requirements #=> Array
     #   resp.tasks[0].overrides.container_overrides[0].resource_requirements[0].value #=> String
-    #   resp.tasks[0].overrides.container_overrides[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator"
+    #   resp.tasks[0].overrides.container_overrides[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator", "NeuronDevice"
     #   resp.tasks[0].overrides.cpu #=> String
     #   resp.tasks[0].overrides.inference_accelerator_overrides #=> Array
     #   resp.tasks[0].overrides.inference_accelerator_overrides[0].device_name #=> String
@@ -12713,6 +12719,8 @@ module Aws::ECS
     #   resp.task.containers[0].memory_reservation #=> String
     #   resp.task.containers[0].gpu_ids #=> Array
     #   resp.task.containers[0].gpu_ids[0] #=> String
+    #   resp.task.containers[0].neuron_device_ids #=> Array
+    #   resp.task.containers[0].neuron_device_ids[0] #=> String
     #   resp.task.cpu #=> String
     #   resp.task.created_at #=> Time
     #   resp.task.desired_status #=> String
@@ -12741,7 +12749,7 @@ module Aws::ECS
     #   resp.task.overrides.container_overrides[0].memory_reservation #=> Integer
     #   resp.task.overrides.container_overrides[0].resource_requirements #=> Array
     #   resp.task.overrides.container_overrides[0].resource_requirements[0].value #=> String
-    #   resp.task.overrides.container_overrides[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator"
+    #   resp.task.overrides.container_overrides[0].resource_requirements[0].type #=> String, one of "GPU", "InferenceAccelerator", "NeuronDevice"
     #   resp.task.overrides.cpu #=> String
     #   resp.task.overrides.inference_accelerator_overrides #=> Array
     #   resp.task.overrides.inference_accelerator_overrides[0].device_name #=> String
@@ -16002,7 +16010,7 @@ module Aws::ECS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ecs'
-      context[:gem_version] = '1.233.0'
+      context[:gem_version] = '1.234.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

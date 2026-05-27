@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.102.0 (2026-05-27)
+------------------
+
+* Feature - OpenSearch will now support multi-segment paths in JWKS URLs.
+
 1.101.0 (2026-05-21)
 ------------------
 

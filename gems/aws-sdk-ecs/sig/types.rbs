@@ -227,6 +227,7 @@ module Aws::ECS
       attr_accessor memory: ::String
       attr_accessor memory_reservation: ::String
       attr_accessor gpu_ids: ::Array[::String]
+      attr_accessor neuron_device_ids: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -1945,7 +1946,7 @@ module Aws::ECS
 
     class PlatformDevice
       attr_accessor id: ::String
-      attr_accessor type: ("GPU")
+      attr_accessor type: ("GPU" | "NEURON_DEVICE")
       SENSITIVE: []
     end
 
@@ -2124,7 +2125,7 @@ module Aws::ECS
 
     class ResourceRequirement
       attr_accessor value: ::String
-      attr_accessor type: ("GPU" | "InferenceAccelerator")
+      attr_accessor type: ("GPU" | "InferenceAccelerator" | "NeuronDevice")
       SENSITIVE: []
     end
 

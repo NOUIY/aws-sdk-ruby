@@ -348,6 +348,16 @@ module Aws
       }?
     }
 
+      type cluster_restricted_instance_groups_config = {
+      shared_environment_config: {
+        f_sx_lustre_deletion_policy: ("DeleteIfNotUsed" | "Keep"),
+        f_sx_lustre_config: {
+          size_in_gi_b: ::Integer,
+          per_unit_storage_throughput: ::Integer
+        }
+      }
+    }
+
       type cluster_orchestrator = {
       eks: {
         cluster_arn: ::String

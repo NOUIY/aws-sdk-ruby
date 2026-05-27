@@ -1343,7 +1343,7 @@ module Aws::SageMaker
     #     },
     #     optimize_model: false,
     #     compute_spec: {
-    #       instance_types: ["ml.g5.xlarge"], # accepts ml.g5.xlarge, ml.g5.2xlarge, ml.g5.4xlarge, ml.g5.8xlarge, ml.g5.12xlarge, ml.g5.16xlarge, ml.g5.24xlarge, ml.g5.48xlarge, ml.g6.xlarge, ml.g6.2xlarge, ml.g6.4xlarge, ml.g6.8xlarge, ml.g6.12xlarge, ml.g6.16xlarge, ml.g6.24xlarge, ml.g6.48xlarge, ml.g6e.xlarge, ml.g6e.2xlarge, ml.g6e.4xlarge, ml.g6e.8xlarge, ml.g6e.12xlarge, ml.g6e.16xlarge, ml.g6e.24xlarge, ml.g6e.48xlarge, ml.g7e.2xlarge, ml.g7e.4xlarge, ml.g7e.8xlarge, ml.g7e.12xlarge, ml.g7e.24xlarge, ml.g7e.48xlarge, ml.p3.2xlarge, ml.p3.8xlarge, ml.p3.16xlarge, ml.p4d.24xlarge, ml.p4de.24xlarge, ml.p5.4xlarge, ml.p5.48xlarge, ml.p5e.48xlarge, ml.p5en.48xlarge
+    #       instance_types: ["ml.g5.xlarge"], # accepts ml.g5.xlarge, ml.g5.2xlarge, ml.g5.4xlarge, ml.g5.8xlarge, ml.g5.12xlarge, ml.g5.16xlarge, ml.g5.24xlarge, ml.g5.48xlarge, ml.g6.xlarge, ml.g6.2xlarge, ml.g6.4xlarge, ml.g6.8xlarge, ml.g6.12xlarge, ml.g6.16xlarge, ml.g6.24xlarge, ml.g6.48xlarge, ml.g6e.xlarge, ml.g6e.2xlarge, ml.g6e.4xlarge, ml.g6e.8xlarge, ml.g6e.12xlarge, ml.g6e.16xlarge, ml.g6e.24xlarge, ml.g6e.48xlarge, ml.g7e.2xlarge, ml.g7e.4xlarge, ml.g7e.8xlarge, ml.g7e.12xlarge, ml.g7e.24xlarge, ml.g7e.48xlarge, ml.p3.2xlarge, ml.p3.8xlarge, ml.p3.16xlarge, ml.p4d.24xlarge, ml.p4de.24xlarge, ml.p5.4xlarge, ml.p5.48xlarge, ml.p5e.48xlarge, ml.p5en.48xlarge, ml.p6-b200.48xlarge
     #       capacity_reservation_config: {
     #         capacity_reservation_preference: "capacity-reservations-only", # accepts capacity-reservations-only
     #         ml_reservation_arns: ["AIMlReservationArn"],
@@ -2660,6 +2660,10 @@ module Aws::SageMaker
     #   The specialized instance groups for training models like Amazon Nova
     #   to be created in the SageMaker HyperPod cluster.
     #
+    # @option params [Types::ClusterRestrictedInstanceGroupsConfig] :restricted_instance_groups_config
+    #   The configuration for the restricted instance groups (RIG) in the
+    #   SageMaker HyperPod cluster.
+    #
     # @option params [Types::VpcConfig] :vpc_config
     #   Specifies the Amazon Virtual Private Cloud (VPC) that is associated
     #   with the Amazon SageMaker HyperPod cluster. You can control access to
@@ -2919,6 +2923,15 @@ module Aws::SageMaker
     #         },
     #       },
     #     ],
+    #     restricted_instance_groups_config: {
+    #       shared_environment_config: { # required
+    #         f_sx_lustre_deletion_policy: "DeleteIfNotUsed", # required, accepts DeleteIfNotUsed, Keep
+    #         f_sx_lustre_config: { # required
+    #           size_in_gi_b: 1, # required
+    #           per_unit_storage_throughput: 1, # required
+    #         },
+    #       },
+    #     },
     #     vpc_config: {
     #       security_group_ids: ["SecurityGroupId"], # required
     #       subnets: ["SubnetId"], # required
@@ -13819,14 +13832,14 @@ module Aws::SageMaker
     #   resp.recommendations[0].model_details.model_package_arn #=> String
     #   resp.recommendations[0].model_details.inference_specification_name #=> String
     #   resp.recommendations[0].model_details.instance_details #=> Array
-    #   resp.recommendations[0].model_details.instance_details[0].instance_type #=> String, one of "ml.g5.xlarge", "ml.g5.2xlarge", "ml.g5.4xlarge", "ml.g5.8xlarge", "ml.g5.12xlarge", "ml.g5.16xlarge", "ml.g5.24xlarge", "ml.g5.48xlarge", "ml.g6.xlarge", "ml.g6.2xlarge", "ml.g6.4xlarge", "ml.g6.8xlarge", "ml.g6.12xlarge", "ml.g6.16xlarge", "ml.g6.24xlarge", "ml.g6.48xlarge", "ml.g6e.xlarge", "ml.g6e.2xlarge", "ml.g6e.4xlarge", "ml.g6e.8xlarge", "ml.g6e.12xlarge", "ml.g6e.16xlarge", "ml.g6e.24xlarge", "ml.g6e.48xlarge", "ml.g7e.2xlarge", "ml.g7e.4xlarge", "ml.g7e.8xlarge", "ml.g7e.12xlarge", "ml.g7e.24xlarge", "ml.g7e.48xlarge", "ml.p3.2xlarge", "ml.p3.8xlarge", "ml.p3.16xlarge", "ml.p4d.24xlarge", "ml.p4de.24xlarge", "ml.p5.4xlarge", "ml.p5.48xlarge", "ml.p5e.48xlarge", "ml.p5en.48xlarge"
+    #   resp.recommendations[0].model_details.instance_details[0].instance_type #=> String, one of "ml.g5.xlarge", "ml.g5.2xlarge", "ml.g5.4xlarge", "ml.g5.8xlarge", "ml.g5.12xlarge", "ml.g5.16xlarge", "ml.g5.24xlarge", "ml.g5.48xlarge", "ml.g6.xlarge", "ml.g6.2xlarge", "ml.g6.4xlarge", "ml.g6.8xlarge", "ml.g6.12xlarge", "ml.g6.16xlarge", "ml.g6.24xlarge", "ml.g6.48xlarge", "ml.g6e.xlarge", "ml.g6e.2xlarge", "ml.g6e.4xlarge", "ml.g6e.8xlarge", "ml.g6e.12xlarge", "ml.g6e.16xlarge", "ml.g6e.24xlarge", "ml.g6e.48xlarge", "ml.g7e.2xlarge", "ml.g7e.4xlarge", "ml.g7e.8xlarge", "ml.g7e.12xlarge", "ml.g7e.24xlarge", "ml.g7e.48xlarge", "ml.p3.2xlarge", "ml.p3.8xlarge", "ml.p3.16xlarge", "ml.p4d.24xlarge", "ml.p4de.24xlarge", "ml.p5.4xlarge", "ml.p5.48xlarge", "ml.p5e.48xlarge", "ml.p5en.48xlarge", "ml.p6-b200.48xlarge"
     #   resp.recommendations[0].model_details.instance_details[0].instance_count #=> Integer
     #   resp.recommendations[0].model_details.instance_details[0].copy_count_per_instance #=> Integer
     #   resp.recommendations[0].deployment_configuration.s3 #=> Array
     #   resp.recommendations[0].deployment_configuration.s3[0].channel_name #=> String
     #   resp.recommendations[0].deployment_configuration.s3[0].uri #=> String
     #   resp.recommendations[0].deployment_configuration.image_uri #=> String
-    #   resp.recommendations[0].deployment_configuration.instance_type #=> String, one of "ml.g5.xlarge", "ml.g5.2xlarge", "ml.g5.4xlarge", "ml.g5.8xlarge", "ml.g5.12xlarge", "ml.g5.16xlarge", "ml.g5.24xlarge", "ml.g5.48xlarge", "ml.g6.xlarge", "ml.g6.2xlarge", "ml.g6.4xlarge", "ml.g6.8xlarge", "ml.g6.12xlarge", "ml.g6.16xlarge", "ml.g6.24xlarge", "ml.g6.48xlarge", "ml.g6e.xlarge", "ml.g6e.2xlarge", "ml.g6e.4xlarge", "ml.g6e.8xlarge", "ml.g6e.12xlarge", "ml.g6e.16xlarge", "ml.g6e.24xlarge", "ml.g6e.48xlarge", "ml.g7e.2xlarge", "ml.g7e.4xlarge", "ml.g7e.8xlarge", "ml.g7e.12xlarge", "ml.g7e.24xlarge", "ml.g7e.48xlarge", "ml.p3.2xlarge", "ml.p3.8xlarge", "ml.p3.16xlarge", "ml.p4d.24xlarge", "ml.p4de.24xlarge", "ml.p5.4xlarge", "ml.p5.48xlarge", "ml.p5e.48xlarge", "ml.p5en.48xlarge"
+    #   resp.recommendations[0].deployment_configuration.instance_type #=> String, one of "ml.g5.xlarge", "ml.g5.2xlarge", "ml.g5.4xlarge", "ml.g5.8xlarge", "ml.g5.12xlarge", "ml.g5.16xlarge", "ml.g5.24xlarge", "ml.g5.48xlarge", "ml.g6.xlarge", "ml.g6.2xlarge", "ml.g6.4xlarge", "ml.g6.8xlarge", "ml.g6.12xlarge", "ml.g6.16xlarge", "ml.g6.24xlarge", "ml.g6.48xlarge", "ml.g6e.xlarge", "ml.g6e.2xlarge", "ml.g6e.4xlarge", "ml.g6e.8xlarge", "ml.g6e.12xlarge", "ml.g6e.16xlarge", "ml.g6e.24xlarge", "ml.g6e.48xlarge", "ml.g7e.2xlarge", "ml.g7e.4xlarge", "ml.g7e.8xlarge", "ml.g7e.12xlarge", "ml.g7e.24xlarge", "ml.g7e.48xlarge", "ml.p3.2xlarge", "ml.p3.8xlarge", "ml.p3.16xlarge", "ml.p4d.24xlarge", "ml.p4de.24xlarge", "ml.p5.4xlarge", "ml.p5.48xlarge", "ml.p5e.48xlarge", "ml.p5en.48xlarge", "ml.p6-b200.48xlarge"
     #   resp.recommendations[0].deployment_configuration.instance_count #=> Integer
     #   resp.recommendations[0].deployment_configuration.copy_count_per_instance #=> Integer
     #   resp.recommendations[0].deployment_configuration.environment_variables #=> Hash
@@ -13839,7 +13852,7 @@ module Aws::SageMaker
     #   resp.recommendations[0].expected_performance[0].unit #=> String
     #   resp.role_arn #=> String
     #   resp.compute_spec.instance_types #=> Array
-    #   resp.compute_spec.instance_types[0] #=> String, one of "ml.g5.xlarge", "ml.g5.2xlarge", "ml.g5.4xlarge", "ml.g5.8xlarge", "ml.g5.12xlarge", "ml.g5.16xlarge", "ml.g5.24xlarge", "ml.g5.48xlarge", "ml.g6.xlarge", "ml.g6.2xlarge", "ml.g6.4xlarge", "ml.g6.8xlarge", "ml.g6.12xlarge", "ml.g6.16xlarge", "ml.g6.24xlarge", "ml.g6.48xlarge", "ml.g6e.xlarge", "ml.g6e.2xlarge", "ml.g6e.4xlarge", "ml.g6e.8xlarge", "ml.g6e.12xlarge", "ml.g6e.16xlarge", "ml.g6e.24xlarge", "ml.g6e.48xlarge", "ml.g7e.2xlarge", "ml.g7e.4xlarge", "ml.g7e.8xlarge", "ml.g7e.12xlarge", "ml.g7e.24xlarge", "ml.g7e.48xlarge", "ml.p3.2xlarge", "ml.p3.8xlarge", "ml.p3.16xlarge", "ml.p4d.24xlarge", "ml.p4de.24xlarge", "ml.p5.4xlarge", "ml.p5.48xlarge", "ml.p5e.48xlarge", "ml.p5en.48xlarge"
+    #   resp.compute_spec.instance_types[0] #=> String, one of "ml.g5.xlarge", "ml.g5.2xlarge", "ml.g5.4xlarge", "ml.g5.8xlarge", "ml.g5.12xlarge", "ml.g5.16xlarge", "ml.g5.24xlarge", "ml.g5.48xlarge", "ml.g6.xlarge", "ml.g6.2xlarge", "ml.g6.4xlarge", "ml.g6.8xlarge", "ml.g6.12xlarge", "ml.g6.16xlarge", "ml.g6.24xlarge", "ml.g6.48xlarge", "ml.g6e.xlarge", "ml.g6e.2xlarge", "ml.g6e.4xlarge", "ml.g6e.8xlarge", "ml.g6e.12xlarge", "ml.g6e.16xlarge", "ml.g6e.24xlarge", "ml.g6e.48xlarge", "ml.g7e.2xlarge", "ml.g7e.4xlarge", "ml.g7e.8xlarge", "ml.g7e.12xlarge", "ml.g7e.24xlarge", "ml.g7e.48xlarge", "ml.p3.2xlarge", "ml.p3.8xlarge", "ml.p3.16xlarge", "ml.p4d.24xlarge", "ml.p4de.24xlarge", "ml.p5.4xlarge", "ml.p5.48xlarge", "ml.p5e.48xlarge", "ml.p5en.48xlarge", "ml.p6-b200.48xlarge"
     #   resp.compute_spec.capacity_reservation_config.capacity_reservation_preference #=> String, one of "capacity-reservations-only"
     #   resp.compute_spec.capacity_reservation_config.ml_reservation_arns #=> Array
     #   resp.compute_spec.capacity_reservation_config.ml_reservation_arns[0] #=> String
@@ -14712,6 +14725,7 @@ module Aws::SageMaker
     #   * {Types::DescribeClusterResponse#failure_message #failure_message} => String
     #   * {Types::DescribeClusterResponse#instance_groups #instance_groups} => Array&lt;Types::ClusterInstanceGroupDetails&gt;
     #   * {Types::DescribeClusterResponse#restricted_instance_groups #restricted_instance_groups} => Array&lt;Types::ClusterRestrictedInstanceGroupDetails&gt;
+    #   * {Types::DescribeClusterResponse#restricted_instance_groups_config #restricted_instance_groups_config} => Types::ClusterRestrictedInstanceGroupsConfigOutput
     #   * {Types::DescribeClusterResponse#vpc_config #vpc_config} => Types::VpcConfig
     #   * {Types::DescribeClusterResponse#orchestrator #orchestrator} => Types::ClusterOrchestrator
     #   * {Types::DescribeClusterResponse#tiered_storage_config #tiered_storage_config} => Types::ClusterTieredStorageConfig
@@ -14844,6 +14858,12 @@ module Aws::SageMaker
     #   resp.restricted_instance_groups[0].environment_config.f_sx_lustre_config.size_in_gi_b #=> Integer
     #   resp.restricted_instance_groups[0].environment_config.f_sx_lustre_config.per_unit_storage_throughput #=> Integer
     #   resp.restricted_instance_groups[0].environment_config.s3_output_path #=> String
+    #   resp.restricted_instance_groups_config.shared_environment_config.current_f_sx_lustre_config.size_in_gi_b #=> Integer
+    #   resp.restricted_instance_groups_config.shared_environment_config.current_f_sx_lustre_config.per_unit_storage_throughput #=> Integer
+    #   resp.restricted_instance_groups_config.shared_environment_config.desired_f_sx_lustre_config.size_in_gi_b #=> Integer
+    #   resp.restricted_instance_groups_config.shared_environment_config.desired_f_sx_lustre_config.per_unit_storage_throughput #=> Integer
+    #   resp.restricted_instance_groups_config.shared_environment_config.current_f_sx_lustre_deletion_policy #=> String, one of "DeleteIfNotUsed", "Keep"
+    #   resp.restricted_instance_groups_config.shared_environment_config.desired_f_sx_lustre_deletion_policy #=> String, one of "DeleteIfNotUsed", "Keep"
     #   resp.vpc_config.security_group_ids #=> Array
     #   resp.vpc_config.security_group_ids[0] #=> String
     #   resp.vpc_config.subnets #=> Array
@@ -20026,6 +20046,7 @@ module Aws::SageMaker
     #   resp.reserved_capacity_summaries[0].total_instance_count #=> Integer
     #   resp.reserved_capacity_summaries[0].status #=> String, one of "Pending", "Active", "Scheduled", "Expired", "Failed"
     #   resp.reserved_capacity_summaries[0].availability_zone #=> String
+    #   resp.reserved_capacity_summaries[0].availability_zone_id #=> String
     #   resp.reserved_capacity_summaries[0].duration_hours #=> Integer
     #   resp.reserved_capacity_summaries[0].duration_minutes #=> Integer
     #   resp.reserved_capacity_summaries[0].start_time #=> Time
@@ -27510,6 +27531,7 @@ module Aws::SageMaker
     #   resp.training_plan_summaries[0].reserved_capacity_summaries[0].total_instance_count #=> Integer
     #   resp.training_plan_summaries[0].reserved_capacity_summaries[0].status #=> String, one of "Pending", "Active", "Scheduled", "Expired", "Failed"
     #   resp.training_plan_summaries[0].reserved_capacity_summaries[0].availability_zone #=> String
+    #   resp.training_plan_summaries[0].reserved_capacity_summaries[0].availability_zone_id #=> String
     #   resp.training_plan_summaries[0].reserved_capacity_summaries[0].duration_hours #=> Integer
     #   resp.training_plan_summaries[0].reserved_capacity_summaries[0].duration_minutes #=> Integer
     #   resp.training_plan_summaries[0].reserved_capacity_summaries[0].start_time #=> Time
@@ -29728,6 +29750,10 @@ module Aws::SageMaker
     #   The specialized instance groups for training models like Amazon Nova
     #   to be created in the SageMaker HyperPod cluster.
     #
+    # @option params [Types::ClusterRestrictedInstanceGroupsConfig] :restricted_instance_groups_config
+    #   The configuration for the restricted instance groups (RIG) in the
+    #   SageMaker HyperPod cluster.
+    #
     # @option params [Types::ClusterTieredStorageConfig] :tiered_storage_config
     #   Updates the configuration for managed tier checkpointing on the
     #   HyperPod cluster. For example, you can enable or disable the feature
@@ -29919,6 +29945,15 @@ module Aws::SageMaker
     #         },
     #       },
     #     ],
+    #     restricted_instance_groups_config: {
+    #       shared_environment_config: { # required
+    #         f_sx_lustre_deletion_policy: "DeleteIfNotUsed", # required, accepts DeleteIfNotUsed, Keep
+    #         f_sx_lustre_config: { # required
+    #           size_in_gi_b: 1, # required
+    #           per_unit_storage_throughput: 1, # required
+    #         },
+    #       },
+    #     },
     #     tiered_storage_config: {
     #       mode: "Enable", # required, accepts Enable, Disable
     #       instance_memory_allocation_percentage: 1,
@@ -33836,7 +33871,7 @@ module Aws::SageMaker
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemaker'
-      context[:gem_version] = '1.368.0'
+      context[:gem_version] = '1.369.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1350,6 +1350,10 @@ module Aws::ECS
     #   The IDs of each GPU assigned to the container.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] neuron_device_ids
+    #   The IDs of each Neuron device assigned to the container.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/Container AWS API Documentation
     #
     class Container < Struct.new(
@@ -1369,7 +1373,8 @@ module Aws::ECS
       :cpu,
       :memory,
       :memory_reservation,
-      :gpu_ids)
+      :gpu_ids,
+      :neuron_device_ids)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2126,8 +2131,8 @@ module Aws::ECS
     #   @return [Array<Types::SystemControl>]
     #
     # @!attribute [rw] resource_requirements
-    #   The type and amount of a resource to assign to a container. The only
-    #   supported resource is a GPU.
+    #   The type and amount of a resource to assign to a container. The
+    #   supported resources are GPUs and Neuron devices.
     #   @return [Array<Types::ResourceRequirement>]
     #
     # @!attribute [rw] firelens_configuration
@@ -2627,8 +2632,8 @@ module Aws::ECS
     #
     # @!attribute [rw] resource_requirements
     #   The type and amount of a resource to assign to a container, instead
-    #   of the default value from the task definition. The only supported
-    #   resource is a GPU.
+    #   of the default value from the task definition. The supported
+    #   resources are GPUs and Neuron devices.
     #   @return [Array<Types::ResourceRequirement>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/ContainerOverride AWS API Documentation
@@ -11960,18 +11965,20 @@ module Aws::ECS
       include Aws::Structure
     end
 
-    # The devices that are available on the container instance. The only
-    # supported device type is a GPU.
+    # The devices that are available on the container instance. The
+    # supported device types are GPUs and Neuron devices.
     #
     # @!attribute [rw] id
-    #   The ID for the GPUs on the container instance. The available GPU IDs
-    #   can also be obtained on the container instance in the
-    #   `/var/lib/ecs/gpu/nvidia_gpu_info.json` file.
+    #   The ID for the GPU or Neuron device on the container instance. For
+    #   GPUs, the available GPU IDs can also be obtained on the container
+    #   instance in the `/var/lib/ecs/gpu/nvidia_gpu_info.json` file. For
+    #   Neuron devices, the ID corresponds to the device index (for example,
+    #   `0` for `/dev/neuron0`).
     #   @return [String]
     #
     # @!attribute [rw] type
     #   The type of device that's available on the container instance. The
-    #   only supported value is `GPU`.
+    #   supported values are `GPU` and `NEURON_DEVICE`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/PlatformDevice AWS API Documentation
@@ -12855,8 +12862,8 @@ module Aws::ECS
     #   @return [Array<Types::Attribute>]
     #
     # @!attribute [rw] platform_devices
-    #   The devices that are available on the container instance. The only
-    #   supported device type is a GPU.
+    #   The devices that are available on the container instance. The
+    #   supported device types are GPUs and Neuron devices.
     #   @return [Array<Types::PlatformDevice>]
     #
     # @!attribute [rw] tags
@@ -13514,10 +13521,10 @@ module Aws::ECS
     end
 
     # The type and amount of a resource to assign to a container. The
-    # supported resource types are GPUs and Elastic Inference accelerators.
-    # For more information, see [Working with GPUs on Amazon ECS][1] or
-    # [Working with Amazon Elastic Inference on Amazon ECS][2] in the
-    # *Amazon Elastic Container Service Developer Guide*
+    # supported resource types are GPUs, Neuron devices, and Elastic
+    # Inference accelerators. For more information, see [Working with GPUs
+    # on Amazon ECS][1] or [Working with Amazon Elastic Inference on Amazon
+    # ECS][2] in the *Amazon Elastic Container Service Developer Guide*
     #
     #
     #
@@ -13531,7 +13538,14 @@ module Aws::ECS
     #   the Amazon ECS container agent reserves for the container. The
     #   number of GPUs that's reserved for all containers in a task can't
     #   exceed the number of available GPUs on the container instance that
-    #   the task is launched on.
+    #   the task is launched on. You can also specify `ALL` to allocate all
+    #   available GPUs on the instance to the container.
+    #
+    #   When the type is `NeuronDevice`, the value must be `ALL`. This
+    #   allocates all available Neuron devices on the instance to the
+    #   container. Only one container in a task can specify `NeuronDevice`
+    #   resources. This resource type is only supported on Managed
+    #   Instances.
     #
     #   When the type is `InferenceAccelerator`, the `value` matches the
     #   `deviceName` for an [InferenceAccelerator][1] specified in a task

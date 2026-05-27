@@ -689,10 +689,15 @@ module Aws::BedrockDataAutomation
     #   List of Blueprint Item
     #   @return [Array<Types::BlueprintItem>]
     #
+    # @!attribute [rw] document
+    #   Custom Configuration of Document
+    #   @return [Types::DocumentCustomOutputConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-data-automation-2023-07-26/CustomOutputConfiguration AWS API Documentation
     #
     class CustomOutputConfiguration < Struct.new(
-      :blueprints)
+      :blueprints,
+      :document)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1180,6 +1185,20 @@ module Aws::BedrockDataAutomation
     #
     class DocumentBoundingBox < Struct.new(
       :state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Custom Configuration of Document
+    #
+    # @!attribute [rw] fallback_blueprints
+    #   List of Fallback Blueprint Items
+    #   @return [Array<Types::BlueprintItem>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-data-automation-2023-07-26/DocumentCustomOutputConfiguration AWS API Documentation
+    #
+    class DocumentCustomOutputConfiguration < Struct.new(
+      :fallback_blueprints)
       SENSITIVE = []
       include Aws::Structure
     end

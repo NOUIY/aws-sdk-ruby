@@ -15,6 +15,6 @@ Feature: Smoke tests for ElementalInference
       """
     When I call the operation 'list_feeds' with params:
       """
-{}
+{"max_results":10}
       """
     Then I expect an error was not raised

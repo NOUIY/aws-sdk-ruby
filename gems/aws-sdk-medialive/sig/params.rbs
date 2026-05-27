@@ -1337,7 +1337,11 @@ module Aws
         ocr_language: ("DEU" | "ENG" | "FRA" | "NLD" | "POR" | "SPA")?,
         pid: ::Integer?
       }?,
-      teletext_source_settings: Params::teletext_source_settings?
+      teletext_source_settings: Params::teletext_source_settings?,
+      smart_subtitle_source_settings: {
+        caption_synchronization_mode: ("NO_VIDEO_DELAY" | "VIDEO_ALIGNED_CAPTIONS")?,
+        inference_feed_output: ::String?
+      }?
     }
 
       type caption_selector = {

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.234.0 (2026-05-27)
+------------------
+
+* Feature - Add support for Neuron device resource requirements for Amazon ECS
+
 1.233.0 (2026-05-21)
 ------------------
 

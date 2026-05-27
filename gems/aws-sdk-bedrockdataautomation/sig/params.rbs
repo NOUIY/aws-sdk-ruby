@@ -108,6 +108,25 @@ module Aws
       audio: Params::audio_standard_output_configuration?
     }
 
+      type custom_output_configuration = {
+      blueprints: Array[
+        {
+          blueprint_arn: ::String,
+          blueprint_version: ::String?,
+          blueprint_stage: ("DEVELOPMENT" | "LIVE")?
+        }
+      ]?,
+      document: {
+        fallback_blueprints: Array[
+          {
+            blueprint_arn: ::String,
+            blueprint_version: ::String?,
+            blueprint_stage: ("DEVELOPMENT" | "LIVE")?
+          }
+        ]?
+      }?
+    }
+
       type sensitive_data_configuration = {
       detection_mode: ("DETECTION" | "DETECTION_AND_REDACTION"),
       detection_scope: Array[("STANDARD" | "CUSTOM")]?,

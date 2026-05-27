@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.5.0 (2026-05-27)
+------------------
+
+* Feature - Added support for smart subtitles in Elemental Inference, enabling automatic generation of subtitles for media content. Available in English, Spanish, French, German, Italian, and Portuguese.
+
 1.4.0 (2026-05-21)
 ------------------
 

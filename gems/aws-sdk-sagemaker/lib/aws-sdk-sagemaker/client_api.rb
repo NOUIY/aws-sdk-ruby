@@ -434,6 +434,7 @@ module Aws::SageMaker
     ClusterEventResourceType = Shapes::StringShape.new(name: 'ClusterEventResourceType')
     ClusterEventSummaries = Shapes::ListShape.new(name: 'ClusterEventSummaries')
     ClusterEventSummary = Shapes::StructureShape.new(name: 'ClusterEventSummary')
+    ClusterFSxLustreDeletionPolicy = Shapes::StringShape.new(name: 'ClusterFSxLustreDeletionPolicy')
     ClusterFsxLustreConfig = Shapes::StructureShape.new(name: 'ClusterFsxLustreConfig')
     ClusterFsxMountPath = Shapes::StringShape.new(name: 'ClusterFsxMountPath')
     ClusterFsxOpenZfsConfig = Shapes::StructureShape.new(name: 'ClusterFsxOpenZfsConfig')
@@ -500,11 +501,15 @@ module Aws::SageMaker
     ClusterRestrictedInstanceGroupDetailsList = Shapes::ListShape.new(name: 'ClusterRestrictedInstanceGroupDetailsList')
     ClusterRestrictedInstanceGroupSpecification = Shapes::StructureShape.new(name: 'ClusterRestrictedInstanceGroupSpecification')
     ClusterRestrictedInstanceGroupSpecifications = Shapes::ListShape.new(name: 'ClusterRestrictedInstanceGroupSpecifications')
+    ClusterRestrictedInstanceGroupsConfig = Shapes::StructureShape.new(name: 'ClusterRestrictedInstanceGroupsConfig')
+    ClusterRestrictedInstanceGroupsConfigOutput = Shapes::StructureShape.new(name: 'ClusterRestrictedInstanceGroupsConfigOutput')
     ClusterSchedulerConfigArn = Shapes::StringShape.new(name: 'ClusterSchedulerConfigArn')
     ClusterSchedulerConfigId = Shapes::StringShape.new(name: 'ClusterSchedulerConfigId')
     ClusterSchedulerConfigSummary = Shapes::StructureShape.new(name: 'ClusterSchedulerConfigSummary')
     ClusterSchedulerConfigSummaryList = Shapes::ListShape.new(name: 'ClusterSchedulerConfigSummaryList')
     ClusterSchedulerPriorityClassName = Shapes::StringShape.new(name: 'ClusterSchedulerPriorityClassName')
+    ClusterSharedEnvironmentConfig = Shapes::StructureShape.new(name: 'ClusterSharedEnvironmentConfig')
+    ClusterSharedEnvironmentConfigDetails = Shapes::StructureShape.new(name: 'ClusterSharedEnvironmentConfigDetails')
     ClusterSlurmConfig = Shapes::StructureShape.new(name: 'ClusterSlurmConfig')
     ClusterSlurmConfigDetails = Shapes::StructureShape.new(name: 'ClusterSlurmConfigDetails')
     ClusterSlurmConfigStrategy = Shapes::StringShape.new(name: 'ClusterSlurmConfigStrategy')
@@ -4239,6 +4244,12 @@ module Aws::SageMaker
 
     ClusterRestrictedInstanceGroupSpecifications.member = Shapes::ShapeRef.new(shape: ClusterRestrictedInstanceGroupSpecification)
 
+    ClusterRestrictedInstanceGroupsConfig.add_member(:shared_environment_config, Shapes::ShapeRef.new(shape: ClusterSharedEnvironmentConfig, required: true, location_name: "SharedEnvironmentConfig"))
+    ClusterRestrictedInstanceGroupsConfig.struct_class = Types::ClusterRestrictedInstanceGroupsConfig
+
+    ClusterRestrictedInstanceGroupsConfigOutput.add_member(:shared_environment_config, Shapes::ShapeRef.new(shape: ClusterSharedEnvironmentConfigDetails, required: true, location_name: "SharedEnvironmentConfig"))
+    ClusterRestrictedInstanceGroupsConfigOutput.struct_class = Types::ClusterRestrictedInstanceGroupsConfigOutput
+
     ClusterSchedulerConfigSummary.add_member(:cluster_scheduler_config_arn, Shapes::ShapeRef.new(shape: ClusterSchedulerConfigArn, required: true, location_name: "ClusterSchedulerConfigArn"))
     ClusterSchedulerConfigSummary.add_member(:cluster_scheduler_config_id, Shapes::ShapeRef.new(shape: ClusterSchedulerConfigId, required: true, location_name: "ClusterSchedulerConfigId"))
     ClusterSchedulerConfigSummary.add_member(:cluster_scheduler_config_version, Shapes::ShapeRef.new(shape: Integer, location_name: "ClusterSchedulerConfigVersion", metadata: {"box" => true}))
@@ -4250,6 +4261,16 @@ module Aws::SageMaker
     ClusterSchedulerConfigSummary.struct_class = Types::ClusterSchedulerConfigSummary
 
     ClusterSchedulerConfigSummaryList.member = Shapes::ShapeRef.new(shape: ClusterSchedulerConfigSummary)
+
+    ClusterSharedEnvironmentConfig.add_member(:f_sx_lustre_deletion_policy, Shapes::ShapeRef.new(shape: ClusterFSxLustreDeletionPolicy, required: true, location_name: "FSxLustreDeletionPolicy"))
+    ClusterSharedEnvironmentConfig.add_member(:f_sx_lustre_config, Shapes::ShapeRef.new(shape: FSxLustreConfig, required: true, location_name: "FSxLustreConfig"))
+    ClusterSharedEnvironmentConfig.struct_class = Types::ClusterSharedEnvironmentConfig
+
+    ClusterSharedEnvironmentConfigDetails.add_member(:current_f_sx_lustre_config, Shapes::ShapeRef.new(shape: FSxLustreConfig, location_name: "CurrentFSxLustreConfig"))
+    ClusterSharedEnvironmentConfigDetails.add_member(:desired_f_sx_lustre_config, Shapes::ShapeRef.new(shape: FSxLustreConfig, location_name: "DesiredFSxLustreConfig"))
+    ClusterSharedEnvironmentConfigDetails.add_member(:current_f_sx_lustre_deletion_policy, Shapes::ShapeRef.new(shape: ClusterFSxLustreDeletionPolicy, location_name: "CurrentFSxLustreDeletionPolicy"))
+    ClusterSharedEnvironmentConfigDetails.add_member(:desired_f_sx_lustre_deletion_policy, Shapes::ShapeRef.new(shape: ClusterFSxLustreDeletionPolicy, location_name: "DesiredFSxLustreDeletionPolicy"))
+    ClusterSharedEnvironmentConfigDetails.struct_class = Types::ClusterSharedEnvironmentConfigDetails
 
     ClusterSlurmConfig.add_member(:node_type, Shapes::ShapeRef.new(shape: ClusterSlurmNodeType, required: true, location_name: "NodeType"))
     ClusterSlurmConfig.add_member(:partition_names, Shapes::ShapeRef.new(shape: ClusterPartitionNames, location_name: "PartitionNames"))
@@ -4567,6 +4588,7 @@ module Aws::SageMaker
     CreateClusterRequest.add_member(:cluster_name, Shapes::ShapeRef.new(shape: ClusterName, required: true, location_name: "ClusterName"))
     CreateClusterRequest.add_member(:instance_groups, Shapes::ShapeRef.new(shape: ClusterInstanceGroupSpecifications, location_name: "InstanceGroups"))
     CreateClusterRequest.add_member(:restricted_instance_groups, Shapes::ShapeRef.new(shape: ClusterRestrictedInstanceGroupSpecifications, location_name: "RestrictedInstanceGroups"))
+    CreateClusterRequest.add_member(:restricted_instance_groups_config, Shapes::ShapeRef.new(shape: ClusterRestrictedInstanceGroupsConfig, location_name: "RestrictedInstanceGroupsConfig"))
     CreateClusterRequest.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "VpcConfig"))
     CreateClusterRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     CreateClusterRequest.add_member(:orchestrator, Shapes::ShapeRef.new(shape: ClusterOrchestrator, location_name: "Orchestrator"))
@@ -6035,6 +6057,7 @@ module Aws::SageMaker
     DescribeClusterResponse.add_member(:failure_message, Shapes::ShapeRef.new(shape: String, location_name: "FailureMessage"))
     DescribeClusterResponse.add_member(:instance_groups, Shapes::ShapeRef.new(shape: ClusterInstanceGroupDetailsList, required: true, location_name: "InstanceGroups"))
     DescribeClusterResponse.add_member(:restricted_instance_groups, Shapes::ShapeRef.new(shape: ClusterRestrictedInstanceGroupDetailsList, location_name: "RestrictedInstanceGroups"))
+    DescribeClusterResponse.add_member(:restricted_instance_groups_config, Shapes::ShapeRef.new(shape: ClusterRestrictedInstanceGroupsConfigOutput, location_name: "RestrictedInstanceGroupsConfig"))
     DescribeClusterResponse.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "VpcConfig"))
     DescribeClusterResponse.add_member(:orchestrator, Shapes::ShapeRef.new(shape: ClusterOrchestrator, location_name: "Orchestrator"))
     DescribeClusterResponse.add_member(:tiered_storage_config, Shapes::ShapeRef.new(shape: ClusterTieredStorageConfig, location_name: "TieredStorageConfig"))
@@ -11371,6 +11394,7 @@ module Aws::SageMaker
     ReservedCapacitySummary.add_member(:total_instance_count, Shapes::ShapeRef.new(shape: TotalInstanceCount, required: true, location_name: "TotalInstanceCount"))
     ReservedCapacitySummary.add_member(:status, Shapes::ShapeRef.new(shape: ReservedCapacityStatus, required: true, location_name: "Status"))
     ReservedCapacitySummary.add_member(:availability_zone, Shapes::ShapeRef.new(shape: AvailabilityZone, location_name: "AvailabilityZone"))
+    ReservedCapacitySummary.add_member(:availability_zone_id, Shapes::ShapeRef.new(shape: AvailabilityZoneId, location_name: "AvailabilityZoneId"))
     ReservedCapacitySummary.add_member(:duration_hours, Shapes::ShapeRef.new(shape: ReservedCapacityDurationHours, location_name: "DurationHours"))
     ReservedCapacitySummary.add_member(:duration_minutes, Shapes::ShapeRef.new(shape: ReservedCapacityDurationMinutes, location_name: "DurationMinutes"))
     ReservedCapacitySummary.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "StartTime"))
@@ -12503,6 +12527,7 @@ module Aws::SageMaker
     UpdateClusterRequest.add_member(:cluster_name, Shapes::ShapeRef.new(shape: ClusterNameOrArn, required: true, location_name: "ClusterName"))
     UpdateClusterRequest.add_member(:instance_groups, Shapes::ShapeRef.new(shape: ClusterInstanceGroupSpecifications, location_name: "InstanceGroups"))
     UpdateClusterRequest.add_member(:restricted_instance_groups, Shapes::ShapeRef.new(shape: ClusterRestrictedInstanceGroupSpecifications, location_name: "RestrictedInstanceGroups"))
+    UpdateClusterRequest.add_member(:restricted_instance_groups_config, Shapes::ShapeRef.new(shape: ClusterRestrictedInstanceGroupsConfig, location_name: "RestrictedInstanceGroupsConfig"))
     UpdateClusterRequest.add_member(:tiered_storage_config, Shapes::ShapeRef.new(shape: ClusterTieredStorageConfig, location_name: "TieredStorageConfig"))
     UpdateClusterRequest.add_member(:node_recovery, Shapes::ShapeRef.new(shape: ClusterNodeRecovery, location_name: "NodeRecovery"))
     UpdateClusterRequest.add_member(:instance_groups_to_delete, Shapes::ShapeRef.new(shape: ClusterInstanceGroupsToDelete, location_name: "InstanceGroupsToDelete"))

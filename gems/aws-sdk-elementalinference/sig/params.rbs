@@ -8,15 +8,28 @@
 module Aws
   module ElementalInference
     module Params
+      type subtitling_config = {
+      language: ("eng" | "eng-au" | "eng-gb" | "eng-us" | "fra" | "ita" | "deu" | "spa" | "por"),
+      aspect_ratio: {
+        width: ::Integer,
+        height: ::Integer
+      }?,
+      dictionary: ::String?,
+      profanity_filter: ("DISABLED" | "CENSOR" | "DROP")?
+    }
+
+      type output_config = {
+      cropping: {
+      }?,
+      clipping: {
+        callback_metadata: ::String?
+      }?,
+      subtitling: Params::subtitling_config?
+    }
+
       type create_output = {
       name: ::String,
-      output_config: {
-        cropping: {
-        }?,
-        clipping: {
-          callback_metadata: ::String?
-        }?
-      },
+      output_config: Params::output_config,
       status: ("ENABLED" | "DISABLED"),
       description: ::String?
     }

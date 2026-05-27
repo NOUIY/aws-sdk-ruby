@@ -1940,6 +1940,8 @@ module Aws::MediaLive
     #   resp.channel.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.top_offset #=> Float
     #   resp.channel.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.width #=> Float
     #   resp.channel.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.page_number #=> String
+    #   resp.channel.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.caption_synchronization_mode #=> String, one of "NO_VIDEO_DELAY", "VIDEO_ALIGNED_CAPTIONS"
+    #   resp.channel.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.inference_feed_output #=> String
     #   resp.channel.input_attachments[0].input_settings.deblock_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.input_attachments[0].input_settings.denoise_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.input_attachments[0].input_settings.filter_strength #=> Integer
@@ -2006,6 +2008,9 @@ module Aws::MediaLive
     #   resp.channel.channel_security_groups #=> Array
     #   resp.channel.channel_security_groups[0] #=> String
     #   resp.channel.inference_settings.feed_arn #=> String
+    #   resp.channel.inference_settings.audio_feed_inputs #=> Array
+    #   resp.channel.inference_settings.audio_feed_inputs[0].audio_selector_name #=> String
+    #   resp.channel.inference_settings.audio_feed_inputs[0].feed_input #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateChannel AWS API Documentation
     #
@@ -3486,6 +3491,8 @@ module Aws::MediaLive
     #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.top_offset #=> Float
     #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.width #=> Float
     #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.page_number #=> String
+    #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.caption_synchronization_mode #=> String, one of "NO_VIDEO_DELAY", "VIDEO_ALIGNED_CAPTIONS"
+    #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.inference_feed_output #=> String
     #   resp.input_attachments[0].input_settings.deblock_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.input_attachments[0].input_settings.denoise_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.input_attachments[0].input_settings.filter_strength #=> Integer
@@ -3552,6 +3559,9 @@ module Aws::MediaLive
     #   resp.channel_security_groups #=> Array
     #   resp.channel_security_groups[0] #=> String
     #   resp.inference_settings.feed_arn #=> String
+    #   resp.inference_settings.audio_feed_inputs #=> Array
+    #   resp.inference_settings.audio_feed_inputs[0].audio_selector_name #=> String
+    #   resp.inference_settings.audio_feed_inputs[0].feed_input #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteChannel AWS API Documentation
     #
@@ -4755,6 +4765,8 @@ module Aws::MediaLive
     #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.top_offset #=> Float
     #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.width #=> Float
     #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.page_number #=> String
+    #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.caption_synchronization_mode #=> String, one of "NO_VIDEO_DELAY", "VIDEO_ALIGNED_CAPTIONS"
+    #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.inference_feed_output #=> String
     #   resp.input_attachments[0].input_settings.deblock_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.input_attachments[0].input_settings.denoise_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.input_attachments[0].input_settings.filter_strength #=> Integer
@@ -4821,6 +4833,9 @@ module Aws::MediaLive
     #   resp.channel_security_groups #=> Array
     #   resp.channel_security_groups[0] #=> String
     #   resp.inference_settings.feed_arn #=> String
+    #   resp.inference_settings.audio_feed_inputs #=> Array
+    #   resp.inference_settings.audio_feed_inputs[0].audio_selector_name #=> String
+    #   resp.inference_settings.audio_feed_inputs[0].feed_input #=> String
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -5636,6 +5651,8 @@ module Aws::MediaLive
     #   resp.channels[0].input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.top_offset #=> Float
     #   resp.channels[0].input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.width #=> Float
     #   resp.channels[0].input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.page_number #=> String
+    #   resp.channels[0].input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.caption_synchronization_mode #=> String, one of "NO_VIDEO_DELAY", "VIDEO_ALIGNED_CAPTIONS"
+    #   resp.channels[0].input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.inference_feed_output #=> String
     #   resp.channels[0].input_attachments[0].input_settings.deblock_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.channels[0].input_attachments[0].input_settings.denoise_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.channels[0].input_attachments[0].input_settings.filter_strength #=> Integer
@@ -5695,6 +5712,9 @@ module Aws::MediaLive
     #   resp.channels[0].channel_security_groups #=> Array
     #   resp.channels[0].channel_security_groups[0] #=> String
     #   resp.channels[0].inference_settings.feed_arn #=> String
+    #   resp.channels[0].inference_settings.audio_feed_inputs #=> Array
+    #   resp.channels[0].inference_settings.audio_feed_inputs[0].audio_selector_name #=> String
+    #   resp.channels[0].inference_settings.audio_feed_inputs[0].feed_input #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListChannels AWS API Documentation
@@ -7280,6 +7300,8 @@ module Aws::MediaLive
     #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.top_offset #=> Float
     #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.width #=> Float
     #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.page_number #=> String
+    #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.caption_synchronization_mode #=> String, one of "NO_VIDEO_DELAY", "VIDEO_ALIGNED_CAPTIONS"
+    #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.inference_feed_output #=> String
     #   resp.input_attachments[0].input_settings.deblock_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.input_attachments[0].input_settings.denoise_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.input_attachments[0].input_settings.filter_strength #=> Integer
@@ -7346,6 +7368,9 @@ module Aws::MediaLive
     #   resp.channel_security_groups #=> Array
     #   resp.channel_security_groups[0] #=> String
     #   resp.inference_settings.feed_arn #=> String
+    #   resp.inference_settings.audio_feed_inputs #=> Array
+    #   resp.inference_settings.audio_feed_inputs[0].audio_selector_name #=> String
+    #   resp.inference_settings.audio_feed_inputs[0].feed_input #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/StartChannel AWS API Documentation
     #
@@ -8356,6 +8381,8 @@ module Aws::MediaLive
     #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.top_offset #=> Float
     #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.width #=> Float
     #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.page_number #=> String
+    #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.caption_synchronization_mode #=> String, one of "NO_VIDEO_DELAY", "VIDEO_ALIGNED_CAPTIONS"
+    #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.inference_feed_output #=> String
     #   resp.input_attachments[0].input_settings.deblock_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.input_attachments[0].input_settings.denoise_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.input_attachments[0].input_settings.filter_strength #=> Integer
@@ -8422,6 +8449,9 @@ module Aws::MediaLive
     #   resp.channel_security_groups #=> Array
     #   resp.channel_security_groups[0] #=> String
     #   resp.inference_settings.feed_arn #=> String
+    #   resp.inference_settings.audio_feed_inputs #=> Array
+    #   resp.inference_settings.audio_feed_inputs[0].audio_selector_name #=> String
+    #   resp.inference_settings.audio_feed_inputs[0].feed_input #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/StopChannel AWS API Documentation
     #
@@ -9477,6 +9507,8 @@ module Aws::MediaLive
     #   resp.channel.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.top_offset #=> Float
     #   resp.channel.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.width #=> Float
     #   resp.channel.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.page_number #=> String
+    #   resp.channel.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.caption_synchronization_mode #=> String, one of "NO_VIDEO_DELAY", "VIDEO_ALIGNED_CAPTIONS"
+    #   resp.channel.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.inference_feed_output #=> String
     #   resp.channel.input_attachments[0].input_settings.deblock_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.input_attachments[0].input_settings.denoise_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.input_attachments[0].input_settings.filter_strength #=> Integer
@@ -9543,6 +9575,9 @@ module Aws::MediaLive
     #   resp.channel.channel_security_groups #=> Array
     #   resp.channel.channel_security_groups[0] #=> String
     #   resp.channel.inference_settings.feed_arn #=> String
+    #   resp.channel.inference_settings.audio_feed_inputs #=> Array
+    #   resp.channel.inference_settings.audio_feed_inputs[0].audio_selector_name #=> String
+    #   resp.channel.inference_settings.audio_feed_inputs[0].feed_input #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateChannel AWS API Documentation
     #
@@ -10476,6 +10511,8 @@ module Aws::MediaLive
     #   resp.channel.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.top_offset #=> Float
     #   resp.channel.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.width #=> Float
     #   resp.channel.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.page_number #=> String
+    #   resp.channel.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.caption_synchronization_mode #=> String, one of "NO_VIDEO_DELAY", "VIDEO_ALIGNED_CAPTIONS"
+    #   resp.channel.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.inference_feed_output #=> String
     #   resp.channel.input_attachments[0].input_settings.deblock_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.input_attachments[0].input_settings.denoise_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.input_attachments[0].input_settings.filter_strength #=> Integer
@@ -10542,6 +10579,9 @@ module Aws::MediaLive
     #   resp.channel.channel_security_groups #=> Array
     #   resp.channel.channel_security_groups[0] #=> String
     #   resp.channel.inference_settings.feed_arn #=> String
+    #   resp.channel.inference_settings.audio_feed_inputs #=> Array
+    #   resp.channel.inference_settings.audio_feed_inputs[0].audio_selector_name #=> String
+    #   resp.channel.inference_settings.audio_feed_inputs[0].feed_input #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateChannelClass AWS API Documentation
     #
@@ -12084,6 +12124,8 @@ module Aws::MediaLive
     #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.top_offset #=> Float
     #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.output_rectangle.width #=> Float
     #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.teletext_source_settings.page_number #=> String
+    #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.caption_synchronization_mode #=> String, one of "NO_VIDEO_DELAY", "VIDEO_ALIGNED_CAPTIONS"
+    #   resp.input_attachments[0].input_settings.caption_selectors[0].selector_settings.smart_subtitle_source_settings.inference_feed_output #=> String
     #   resp.input_attachments[0].input_settings.deblock_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.input_attachments[0].input_settings.denoise_filter #=> String, one of "DISABLED", "ENABLED"
     #   resp.input_attachments[0].input_settings.filter_strength #=> Integer
@@ -12151,6 +12193,9 @@ module Aws::MediaLive
     #   resp.channel_security_groups #=> Array
     #   resp.channel_security_groups[0] #=> String
     #   resp.inference_settings.feed_arn #=> String
+    #   resp.inference_settings.audio_feed_inputs #=> Array
+    #   resp.inference_settings.audio_feed_inputs[0].audio_selector_name #=> String
+    #   resp.inference_settings.audio_feed_inputs[0].feed_input #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/RestartChannelPipelines AWS API Documentation
     #
@@ -15491,7 +15536,7 @@ module Aws::MediaLive
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-medialive'
-      context[:gem_version] = '1.187.0'
+      context[:gem_version] = '1.188.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

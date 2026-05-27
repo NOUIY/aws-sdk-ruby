@@ -15,32 +15,53 @@ module Aws::ElementalInference
     include Seahorse::Model
 
     AccessDeniedException = Shapes::StructureShape.new(name: 'AccessDeniedException')
+    AspectRatio = Shapes::StructureShape.new(name: 'AspectRatio')
     AssociateFeedRequest = Shapes::StructureShape.new(name: 'AssociateFeedRequest')
     AssociateFeedResponse = Shapes::StructureShape.new(name: 'AssociateFeedResponse')
     AssociatedResourceName = Shapes::StringShape.new(name: 'AssociatedResourceName')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
     ClippingConfig = Shapes::StructureShape.new(name: 'ClippingConfig')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
+    CreateDictionaryRequest = Shapes::StructureShape.new(name: 'CreateDictionaryRequest')
+    CreateDictionaryResponse = Shapes::StructureShape.new(name: 'CreateDictionaryResponse')
     CreateFeedRequest = Shapes::StructureShape.new(name: 'CreateFeedRequest')
     CreateFeedResponse = Shapes::StructureShape.new(name: 'CreateFeedResponse')
     CreateOutput = Shapes::StructureShape.new(name: 'CreateOutput')
     CreateOutputList = Shapes::ListShape.new(name: 'CreateOutputList')
     CroppingConfig = Shapes::StructureShape.new(name: 'CroppingConfig')
+    DeleteDictionaryRequest = Shapes::StructureShape.new(name: 'DeleteDictionaryRequest')
+    DeleteDictionaryResponse = Shapes::StructureShape.new(name: 'DeleteDictionaryResponse')
     DeleteFeedRequest = Shapes::StructureShape.new(name: 'DeleteFeedRequest')
     DeleteFeedResponse = Shapes::StructureShape.new(name: 'DeleteFeedResponse')
+    DictionaryArn = Shapes::StringShape.new(name: 'DictionaryArn')
+    DictionaryEntriesPayload = Shapes::StringShape.new(name: 'DictionaryEntriesPayload')
+    DictionaryId = Shapes::StringShape.new(name: 'DictionaryId')
+    DictionaryLanguage = Shapes::StringShape.new(name: 'DictionaryLanguage')
+    DictionaryStatus = Shapes::StringShape.new(name: 'DictionaryStatus')
+    DictionarySummary = Shapes::StructureShape.new(name: 'DictionarySummary')
+    DictionarySummaryList = Shapes::ListShape.new(name: 'DictionarySummaryList')
     DisassociateFeedRequest = Shapes::StructureShape.new(name: 'DisassociateFeedRequest')
     DisassociateFeedResponse = Shapes::StructureShape.new(name: 'DisassociateFeedResponse')
+    ExportDictionaryEntriesRequest = Shapes::StructureShape.new(name: 'ExportDictionaryEntriesRequest')
+    ExportDictionaryEntriesResponse = Shapes::StructureShape.new(name: 'ExportDictionaryEntriesResponse')
     FeedArn = Shapes::StringShape.new(name: 'FeedArn')
     FeedAssociation = Shapes::StructureShape.new(name: 'FeedAssociation')
     FeedId = Shapes::StringShape.new(name: 'FeedId')
+    FeedReferences = Shapes::ListShape.new(name: 'FeedReferences')
     FeedStatus = Shapes::StringShape.new(name: 'FeedStatus')
     FeedSummary = Shapes::StructureShape.new(name: 'FeedSummary')
     FeedSummaryList = Shapes::ListShape.new(name: 'FeedSummaryList')
+    GetDictionaryRequest = Shapes::StructureShape.new(name: 'GetDictionaryRequest')
+    GetDictionaryResponse = Shapes::StructureShape.new(name: 'GetDictionaryResponse')
     GetFeedRequest = Shapes::StructureShape.new(name: 'GetFeedRequest')
     GetFeedResponse = Shapes::StructureShape.new(name: 'GetFeedResponse')
     GetOutput = Shapes::StructureShape.new(name: 'GetOutput')
     GetOutputList = Shapes::ListShape.new(name: 'GetOutputList')
+    Integer = Shapes::IntegerShape.new(name: 'Integer')
     InternalServerErrorException = Shapes::StructureShape.new(name: 'InternalServerErrorException')
+    ListDictionariesRequest = Shapes::StructureShape.new(name: 'ListDictionariesRequest')
+    ListDictionariesRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListDictionariesRequestMaxResultsInteger')
+    ListDictionariesResponse = Shapes::StructureShape.new(name: 'ListDictionariesResponse')
     ListFeedsRequest = Shapes::StructureShape.new(name: 'ListFeedsRequest')
     ListFeedsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListFeedsRequestMaxResultsInteger')
     ListFeedsResponse = Shapes::StructureShape.new(name: 'ListFeedsResponse')
@@ -48,6 +69,7 @@ module Aws::ElementalInference
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
     OutputConfig = Shapes::UnionShape.new(name: 'OutputConfig')
     OutputStatus = Shapes::StringShape.new(name: 'OutputStatus')
+    ProfanityFilterMode = Shapes::StringShape.new(name: 'ProfanityFilterMode')
     ResourceArn = Shapes::StringShape.new(name: 'ResourceArn')
     ResourceDescription = Shapes::StringShape.new(name: 'ResourceDescription')
     ResourceName = Shapes::StringShape.new(name: 'ResourceName')
@@ -55,13 +77,17 @@ module Aws::ElementalInference
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     String = Shapes::StringShape.new(name: 'String')
     StringList = Shapes::ListShape.new(name: 'StringList')
+    SubtitlingConfig = Shapes::StructureShape.new(name: 'SubtitlingConfig')
     TagKey = Shapes::StringShape.new(name: 'TagKey')
     TagKeyList = Shapes::ListShape.new(name: 'TagKeyList')
     TagMap = Shapes::MapShape.new(name: 'TagMap')
     TagResourceRequest = Shapes::StructureShape.new(name: 'TagResourceRequest')
     TagValue = Shapes::StringShape.new(name: 'TagValue')
     TooManyRequestException = Shapes::StructureShape.new(name: 'TooManyRequestException')
+    TranscriptionLanguage = Shapes::StringShape.new(name: 'TranscriptionLanguage')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
+    UpdateDictionaryRequest = Shapes::StructureShape.new(name: 'UpdateDictionaryRequest')
+    UpdateDictionaryResponse = Shapes::StructureShape.new(name: 'UpdateDictionaryResponse')
     UpdateFeedRequest = Shapes::StructureShape.new(name: 'UpdateFeedRequest')
     UpdateFeedResponse = Shapes::StructureShape.new(name: 'UpdateFeedResponse')
     UpdateOutput = Shapes::StructureShape.new(name: 'UpdateOutput')
@@ -70,6 +96,10 @@ module Aws::ElementalInference
 
     AccessDeniedException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     AccessDeniedException.struct_class = Types::AccessDeniedException
+
+    AspectRatio.add_member(:width, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "width"))
+    AspectRatio.add_member(:height, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "height"))
+    AspectRatio.struct_class = Types::AspectRatio
 
     AssociateFeedRequest.add_member(:id, Shapes::ShapeRef.new(shape: FeedId, required: true, location: "uri", location_name: "id"))
     AssociateFeedRequest.add_member(:associated_resource_name, Shapes::ShapeRef.new(shape: AssociatedResourceName, required: true, location_name: "associatedResourceName", metadata: {"idempotencyToken" => true}))
@@ -86,6 +116,21 @@ module Aws::ElementalInference
 
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ConflictException.struct_class = Types::ConflictException
+
+    CreateDictionaryRequest.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "name"))
+    CreateDictionaryRequest.add_member(:language, Shapes::ShapeRef.new(shape: DictionaryLanguage, required: true, location_name: "language"))
+    CreateDictionaryRequest.add_member(:entries, Shapes::ShapeRef.new(shape: DictionaryEntriesPayload, location_name: "entries"))
+    CreateDictionaryRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    CreateDictionaryRequest.struct_class = Types::CreateDictionaryRequest
+
+    CreateDictionaryResponse.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "name"))
+    CreateDictionaryResponse.add_member(:arn, Shapes::ShapeRef.new(shape: DictionaryArn, required: true, location_name: "arn"))
+    CreateDictionaryResponse.add_member(:id, Shapes::ShapeRef.new(shape: DictionaryId, required: true, location_name: "id"))
+    CreateDictionaryResponse.add_member(:language, Shapes::ShapeRef.new(shape: DictionaryLanguage, required: true, location_name: "language"))
+    CreateDictionaryResponse.add_member(:status, Shapes::ShapeRef.new(shape: DictionaryStatus, required: true, location_name: "status"))
+    CreateDictionaryResponse.add_member(:references, Shapes::ShapeRef.new(shape: FeedReferences, location_name: "references"))
+    CreateDictionaryResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    CreateDictionaryResponse.struct_class = Types::CreateDictionaryResponse
 
     CreateFeedRequest.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "name"))
     CreateFeedRequest.add_member(:outputs, Shapes::ShapeRef.new(shape: CreateOutputList, required: true, location_name: "outputs"))
@@ -112,6 +157,14 @@ module Aws::ElementalInference
 
     CroppingConfig.struct_class = Types::CroppingConfig
 
+    DeleteDictionaryRequest.add_member(:id, Shapes::ShapeRef.new(shape: DictionaryId, required: true, location: "uri", location_name: "id"))
+    DeleteDictionaryRequest.struct_class = Types::DeleteDictionaryRequest
+
+    DeleteDictionaryResponse.add_member(:arn, Shapes::ShapeRef.new(shape: DictionaryArn, required: true, location_name: "arn"))
+    DeleteDictionaryResponse.add_member(:id, Shapes::ShapeRef.new(shape: DictionaryId, required: true, location_name: "id"))
+    DeleteDictionaryResponse.add_member(:status, Shapes::ShapeRef.new(shape: DictionaryStatus, required: true, location_name: "status"))
+    DeleteDictionaryResponse.struct_class = Types::DeleteDictionaryResponse
+
     DeleteFeedRequest.add_member(:id, Shapes::ShapeRef.new(shape: FeedId, required: true, location: "uri", location_name: "id"))
     DeleteFeedRequest.struct_class = Types::DeleteFeedRequest
 
@@ -119,6 +172,15 @@ module Aws::ElementalInference
     DeleteFeedResponse.add_member(:id, Shapes::ShapeRef.new(shape: FeedId, required: true, location_name: "id"))
     DeleteFeedResponse.add_member(:status, Shapes::ShapeRef.new(shape: FeedStatus, required: true, location_name: "status"))
     DeleteFeedResponse.struct_class = Types::DeleteFeedResponse
+
+    DictionarySummary.add_member(:arn, Shapes::ShapeRef.new(shape: DictionaryArn, required: true, location_name: "arn"))
+    DictionarySummary.add_member(:id, Shapes::ShapeRef.new(shape: DictionaryId, required: true, location_name: "id"))
+    DictionarySummary.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "name"))
+    DictionarySummary.add_member(:language, Shapes::ShapeRef.new(shape: DictionaryLanguage, required: true, location_name: "language"))
+    DictionarySummary.add_member(:status, Shapes::ShapeRef.new(shape: DictionaryStatus, required: true, location_name: "status"))
+    DictionarySummary.struct_class = Types::DictionarySummary
+
+    DictionarySummaryList.member = Shapes::ShapeRef.new(shape: DictionarySummary)
 
     DisassociateFeedRequest.add_member(:id, Shapes::ShapeRef.new(shape: FeedId, required: true, location: "uri", location_name: "id"))
     DisassociateFeedRequest.add_member(:associated_resource_name, Shapes::ShapeRef.new(shape: AssociatedResourceName, required: true, location_name: "associatedResourceName", metadata: {"idempotencyToken" => true}))
@@ -129,8 +191,16 @@ module Aws::ElementalInference
     DisassociateFeedResponse.add_member(:id, Shapes::ShapeRef.new(shape: FeedId, required: true, location_name: "id"))
     DisassociateFeedResponse.struct_class = Types::DisassociateFeedResponse
 
+    ExportDictionaryEntriesRequest.add_member(:id, Shapes::ShapeRef.new(shape: DictionaryId, required: true, location: "uri", location_name: "id"))
+    ExportDictionaryEntriesRequest.struct_class = Types::ExportDictionaryEntriesRequest
+
+    ExportDictionaryEntriesResponse.add_member(:entries, Shapes::ShapeRef.new(shape: DictionaryEntriesPayload, location_name: "entries"))
+    ExportDictionaryEntriesResponse.struct_class = Types::ExportDictionaryEntriesResponse
+
     FeedAssociation.add_member(:associated_resource_name, Shapes::ShapeRef.new(shape: AssociatedResourceName, required: true, location_name: "associatedResourceName"))
     FeedAssociation.struct_class = Types::FeedAssociation
+
+    FeedReferences.member = Shapes::ShapeRef.new(shape: FeedId)
 
     FeedSummary.add_member(:arn, Shapes::ShapeRef.new(shape: FeedArn, required: true, location_name: "arn"))
     FeedSummary.add_member(:id, Shapes::ShapeRef.new(shape: FeedId, required: true, location_name: "id"))
@@ -140,6 +210,18 @@ module Aws::ElementalInference
     FeedSummary.struct_class = Types::FeedSummary
 
     FeedSummaryList.member = Shapes::ShapeRef.new(shape: FeedSummary)
+
+    GetDictionaryRequest.add_member(:id, Shapes::ShapeRef.new(shape: DictionaryId, required: true, location: "uri", location_name: "id"))
+    GetDictionaryRequest.struct_class = Types::GetDictionaryRequest
+
+    GetDictionaryResponse.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "name"))
+    GetDictionaryResponse.add_member(:arn, Shapes::ShapeRef.new(shape: DictionaryArn, required: true, location_name: "arn"))
+    GetDictionaryResponse.add_member(:id, Shapes::ShapeRef.new(shape: DictionaryId, required: true, location_name: "id"))
+    GetDictionaryResponse.add_member(:language, Shapes::ShapeRef.new(shape: DictionaryLanguage, required: true, location_name: "language"))
+    GetDictionaryResponse.add_member(:status, Shapes::ShapeRef.new(shape: DictionaryStatus, required: true, location_name: "status"))
+    GetDictionaryResponse.add_member(:references, Shapes::ShapeRef.new(shape: FeedReferences, location_name: "references"))
+    GetDictionaryResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    GetDictionaryResponse.struct_class = Types::GetDictionaryResponse
 
     GetFeedRequest.add_member(:id, Shapes::ShapeRef.new(shape: FeedId, required: true, location: "uri", location_name: "id"))
     GetFeedRequest.struct_class = Types::GetFeedRequest
@@ -166,6 +248,14 @@ module Aws::ElementalInference
     InternalServerErrorException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     InternalServerErrorException.struct_class = Types::InternalServerErrorException
 
+    ListDictionariesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListDictionariesRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
+    ListDictionariesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "nextToken"))
+    ListDictionariesRequest.struct_class = Types::ListDictionariesRequest
+
+    ListDictionariesResponse.add_member(:dictionaries, Shapes::ShapeRef.new(shape: DictionarySummaryList, required: true, location_name: "dictionaries"))
+    ListDictionariesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListDictionariesResponse.struct_class = Types::ListDictionariesResponse
+
     ListFeedsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListFeedsRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
     ListFeedsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "nextToken"))
     ListFeedsRequest.struct_class = Types::ListFeedsRequest
@@ -182,9 +272,11 @@ module Aws::ElementalInference
 
     OutputConfig.add_member(:cropping, Shapes::ShapeRef.new(shape: CroppingConfig, location_name: "cropping"))
     OutputConfig.add_member(:clipping, Shapes::ShapeRef.new(shape: ClippingConfig, location_name: "clipping"))
+    OutputConfig.add_member(:subtitling, Shapes::ShapeRef.new(shape: SubtitlingConfig, location_name: "subtitling"))
     OutputConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     OutputConfig.add_member_subclass(:cropping, Types::OutputConfig::Cropping)
     OutputConfig.add_member_subclass(:clipping, Types::OutputConfig::Clipping)
+    OutputConfig.add_member_subclass(:subtitling, Types::OutputConfig::Subtitling)
     OutputConfig.add_member_subclass(:unknown, Types::OutputConfig::Unknown)
     OutputConfig.struct_class = Types::OutputConfig
 
@@ -195,6 +287,12 @@ module Aws::ElementalInference
     ServiceQuotaExceededException.struct_class = Types::ServiceQuotaExceededException
 
     StringList.member = Shapes::ShapeRef.new(shape: String)
+
+    SubtitlingConfig.add_member(:language, Shapes::ShapeRef.new(shape: TranscriptionLanguage, required: true, location_name: "language"))
+    SubtitlingConfig.add_member(:aspect_ratio, Shapes::ShapeRef.new(shape: AspectRatio, location_name: "aspectRatio"))
+    SubtitlingConfig.add_member(:dictionary, Shapes::ShapeRef.new(shape: DictionaryId, location_name: "dictionary"))
+    SubtitlingConfig.add_member(:profanity_filter, Shapes::ShapeRef.new(shape: ProfanityFilterMode, location_name: "profanityFilter"))
+    SubtitlingConfig.struct_class = Types::SubtitlingConfig
 
     TagKeyList.member = Shapes::ShapeRef.new(shape: TagKey)
 
@@ -211,6 +309,21 @@ module Aws::ElementalInference
     UntagResourceRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location: "uri", location_name: "resourceArn"))
     UntagResourceRequest.add_member(:tag_keys, Shapes::ShapeRef.new(shape: TagKeyList, required: true, location: "querystring", location_name: "tagKeys"))
     UntagResourceRequest.struct_class = Types::UntagResourceRequest
+
+    UpdateDictionaryRequest.add_member(:id, Shapes::ShapeRef.new(shape: DictionaryId, required: true, location: "uri", location_name: "id"))
+    UpdateDictionaryRequest.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "name"))
+    UpdateDictionaryRequest.add_member(:language, Shapes::ShapeRef.new(shape: DictionaryLanguage, location_name: "language"))
+    UpdateDictionaryRequest.add_member(:entries, Shapes::ShapeRef.new(shape: DictionaryEntriesPayload, location_name: "entries"))
+    UpdateDictionaryRequest.struct_class = Types::UpdateDictionaryRequest
+
+    UpdateDictionaryResponse.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "name"))
+    UpdateDictionaryResponse.add_member(:arn, Shapes::ShapeRef.new(shape: DictionaryArn, required: true, location_name: "arn"))
+    UpdateDictionaryResponse.add_member(:id, Shapes::ShapeRef.new(shape: DictionaryId, required: true, location_name: "id"))
+    UpdateDictionaryResponse.add_member(:language, Shapes::ShapeRef.new(shape: DictionaryLanguage, required: true, location_name: "language"))
+    UpdateDictionaryResponse.add_member(:status, Shapes::ShapeRef.new(shape: DictionaryStatus, required: true, location_name: "status"))
+    UpdateDictionaryResponse.add_member(:references, Shapes::ShapeRef.new(shape: FeedReferences, location_name: "references"))
+    UpdateDictionaryResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    UpdateDictionaryResponse.struct_class = Types::UpdateDictionaryResponse
 
     UpdateFeedRequest.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "name"))
     UpdateFeedRequest.add_member(:id, Shapes::ShapeRef.new(shape: FeedId, required: true, location: "uri", location_name: "id"))
@@ -273,6 +386,20 @@ module Aws::ElementalInference
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
       end)
 
+      api.add_operation(:create_dictionary, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateDictionary"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/dictionary"
+        o.input = Shapes::ShapeRef.new(shape: CreateDictionaryRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateDictionaryResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+      end)
+
       api.add_operation(:create_feed, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateFeed"
         o.http_method = "POST"
@@ -285,6 +412,20 @@ module Aws::ElementalInference
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+      end)
+
+      api.add_operation(:delete_dictionary, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteDictionary"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/v1/dictionary/{id}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteDictionaryRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteDictionaryResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
       end)
 
       api.add_operation(:delete_feed, Seahorse::Model::Operation.new.tap do |o|
@@ -315,6 +456,32 @@ module Aws::ElementalInference
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
       end)
 
+      api.add_operation(:export_dictionary_entries, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ExportDictionaryEntries"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/dictionary/{id}/entries/export"
+        o.input = Shapes::ShapeRef.new(shape: ExportDictionaryEntriesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ExportDictionaryEntriesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestException)
+      end)
+
+      api.add_operation(:get_dictionary, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetDictionary"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/dictionary/{id}"
+        o.input = Shapes::ShapeRef.new(shape: GetDictionaryRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetDictionaryResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestException)
+      end)
+
       api.add_operation(:get_feed, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetFeed"
         o.http_method = "GET"
@@ -325,6 +492,24 @@ module Aws::ElementalInference
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestException)
+      end)
+
+      api.add_operation(:list_dictionaries, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListDictionaries"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/dictionaries"
+        o.input = Shapes::ShapeRef.new(shape: ListDictionariesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListDictionariesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:list_feeds, Seahorse::Model::Operation.new.tap do |o|
@@ -379,6 +564,20 @@ module Aws::ElementalInference
         o.http_request_uri = "/v1/tags/{resourceArn}"
         o.input = Shapes::ShapeRef.new(shape: UntagResourceRequest)
         o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+      end)
+
+      api.add_operation(:update_dictionary, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateDictionary"
+        o.http_method = "PATCH"
+        o.http_request_uri = "/v1/dictionary/{id}"
+        o.input = Shapes::ShapeRef.new(shape: UpdateDictionaryRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateDictionaryResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
