@@ -296,6 +296,7 @@ module Aws::Bedrock
     CustomMetricEvaluatorModelConfig = Shapes::StructureShape.new(name: 'CustomMetricEvaluatorModelConfig')
     CustomMetricInstructions = Shapes::StringShape.new(name: 'CustomMetricInstructions')
     CustomModelArn = Shapes::StringShape.new(name: 'CustomModelArn')
+    CustomModelDataSource = Shapes::UnionShape.new(name: 'CustomModelDataSource')
     CustomModelDeploymentArn = Shapes::StringShape.new(name: 'CustomModelDeploymentArn')
     CustomModelDeploymentDescription = Shapes::StringShape.new(name: 'CustomModelDeploymentDescription')
     CustomModelDeploymentIdentifier = Shapes::StringShape.new(name: 'CustomModelDeploymentIdentifier')
@@ -733,6 +734,8 @@ module Aws::Bedrock
     ModelModality = Shapes::StringShape.new(name: 'ModelModality')
     ModelModalityList = Shapes::ListShape.new(name: 'ModelModalityList')
     ModelName = Shapes::StringShape.new(name: 'ModelName')
+    ModelPackageArn = Shapes::StringShape.new(name: 'ModelPackageArn')
+    ModelPackageArnDataSource = Shapes::StructureShape.new(name: 'ModelPackageArnDataSource')
     ModelSourceIdentifier = Shapes::StringShape.new(name: 'ModelSourceIdentifier')
     ModelStatus = Shapes::StringShape.new(name: 'ModelStatus')
     NonBlankString = Shapes::StringShape.new(name: 'NonBlankString')
@@ -1673,7 +1676,8 @@ module Aws::Bedrock
     CreateCustomModelDeploymentResponse.struct_class = Types::CreateCustomModelDeploymentResponse
 
     CreateCustomModelRequest.add_member(:model_name, Shapes::ShapeRef.new(shape: CustomModelName, required: true, location_name: "modelName"))
-    CreateCustomModelRequest.add_member(:model_source_config, Shapes::ShapeRef.new(shape: ModelDataSource, required: true, location_name: "modelSourceConfig"))
+    CreateCustomModelRequest.add_member(:model_source_config, Shapes::ShapeRef.new(shape: ModelDataSource, location_name: "modelSourceConfig"))
+    CreateCustomModelRequest.add_member(:custom_model_data_source, Shapes::ShapeRef.new(shape: CustomModelDataSource, location_name: "customModelDataSource"))
     CreateCustomModelRequest.add_member(:model_kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "modelKmsKeyArn"))
     CreateCustomModelRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "roleArn"))
     CreateCustomModelRequest.add_member(:model_tags, Shapes::ShapeRef.new(shape: TagList, location_name: "modelTags"))
@@ -1852,6 +1856,12 @@ module Aws::Bedrock
 
     CustomMetricEvaluatorModelConfig.add_member(:bedrock_evaluator_models, Shapes::ShapeRef.new(shape: CustomMetricBedrockEvaluatorModels, required: true, location_name: "bedrockEvaluatorModels"))
     CustomMetricEvaluatorModelConfig.struct_class = Types::CustomMetricEvaluatorModelConfig
+
+    CustomModelDataSource.add_member(:model_package_arn_data_source, Shapes::ShapeRef.new(shape: ModelPackageArnDataSource, location_name: "modelPackageArnDataSource"))
+    CustomModelDataSource.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    CustomModelDataSource.add_member_subclass(:model_package_arn_data_source, Types::CustomModelDataSource::ModelPackageArnDataSource)
+    CustomModelDataSource.add_member_subclass(:unknown, Types::CustomModelDataSource::Unknown)
+    CustomModelDataSource.struct_class = Types::CustomModelDataSource
 
     CustomModelDeploymentSummary.add_member(:custom_model_deployment_arn, Shapes::ShapeRef.new(shape: CustomModelDeploymentArn, required: true, location_name: "customModelDeploymentArn"))
     CustomModelDeploymentSummary.add_member(:custom_model_deployment_name, Shapes::ShapeRef.new(shape: ModelDeploymentName, required: true, location_name: "customModelDeploymentName"))
@@ -3310,6 +3320,9 @@ module Aws::Bedrock
     ModelInvocationJobSummary.struct_class = Types::ModelInvocationJobSummary
 
     ModelModalityList.member = Shapes::ShapeRef.new(shape: ModelModality)
+
+    ModelPackageArnDataSource.add_member(:model_package_arn, Shapes::ShapeRef.new(shape: ModelPackageArn, required: true, location_name: "modelPackageArn"))
+    ModelPackageArnDataSource.struct_class = Types::ModelPackageArnDataSource
 
     Offer.add_member(:offer_id, Shapes::ShapeRef.new(shape: OfferId, location_name: "offerId"))
     Offer.add_member(:offer_token, Shapes::ShapeRef.new(shape: OfferToken, required: true, location_name: "offerToken"))

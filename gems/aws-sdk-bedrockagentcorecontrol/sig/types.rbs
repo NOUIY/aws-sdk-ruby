@@ -417,6 +417,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor bundle_id: ::String
       attr_accessor bundle_name: ::String
       attr_accessor description: ::String
+      attr_accessor created_at: ::Time
       SENSITIVE: [:description]
     end
 
@@ -2565,6 +2566,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor max_tokens: ::Integer
       attr_accessor temperature: ::Float
       attr_accessor top_p: ::Float
+      attr_accessor api_format: ("converse_stream" | "responses" | "chat_completions")
+      attr_accessor additional_params: untyped
       SENSITIVE: []
     end
 
@@ -2634,6 +2637,17 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: [:description, :input_schema]
     end
 
+    class HarnessLiteLlmModelConfig
+      attr_accessor model_id: ::String
+      attr_accessor api_key_arn: ::String
+      attr_accessor api_base: ::String
+      attr_accessor max_tokens: ::Integer
+      attr_accessor temperature: ::Float
+      attr_accessor top_p: ::Float
+      attr_accessor additional_params: untyped
+      SENSITIVE: [:api_base]
+    end
+
     class HarnessMemoryConfiguration
       attr_accessor agent_core_memory_configuration: Types::HarnessAgentCoreMemoryConfiguration
       attr_accessor unknown: untyped
@@ -2649,6 +2663,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor bedrock_model_config: Types::HarnessBedrockModelConfig
       attr_accessor open_ai_model_config: Types::HarnessOpenAiModelConfig
       attr_accessor gemini_model_config: Types::HarnessGeminiModelConfig
+      attr_accessor lite_llm_model_config: Types::HarnessLiteLlmModelConfig
       attr_accessor unknown: untyped
       SENSITIVE: []
 
@@ -2657,6 +2672,8 @@ module Aws::BedrockAgentCoreControl
       class OpenAiModelConfig < HarnessModelConfiguration
       end
       class GeminiModelConfig < HarnessModelConfiguration
+      end
+      class LiteLlmModelConfig < HarnessModelConfiguration
       end
       class Unknown < HarnessModelConfiguration
       end
@@ -2668,6 +2685,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor max_tokens: ::Integer
       attr_accessor temperature: ::Float
       attr_accessor top_p: ::Float
+      attr_accessor api_format: ("chat_completions" | "responses")
+      attr_accessor additional_params: untyped
       SENSITIVE: []
     end
 
@@ -2679,13 +2698,37 @@ module Aws::BedrockAgentCoreControl
 
     class HarnessSkill
       attr_accessor path: ::String
+      attr_accessor s3: Types::HarnessSkillS3Source
+      attr_accessor git: Types::HarnessSkillGitSource
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class Path < HarnessSkill
       end
+      class S3 < HarnessSkill
+      end
+      class Git < HarnessSkill
+      end
       class Unknown < HarnessSkill
       end
+    end
+
+    class HarnessSkillGitAuth
+      attr_accessor credential_arn: ::String
+      attr_accessor username: ::String
+      SENSITIVE: []
+    end
+
+    class HarnessSkillGitSource
+      attr_accessor url: ::String
+      attr_accessor path: ::String
+      attr_accessor auth: Types::HarnessSkillGitAuth
+      SENSITIVE: []
+    end
+
+    class HarnessSkillS3Source
+      attr_accessor uri: ::String
+      SENSITIVE: []
     end
 
     class HarnessSlidingWindowConfiguration

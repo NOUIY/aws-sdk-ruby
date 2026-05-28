@@ -436,6 +436,7 @@ RubyGems.org page under "LINKS" section.
 | AWS Proton                                            | Aws::Proton                              | aws-sdk-proton                              | 2020-07-20  |
 | AWS RDS DataService                                   | Aws::RDSDataService                      | aws-sdk-rdsdataservice                      | 2018-08-01  |
 | AWS Resilience Hub                                    | Aws::ResilienceHub                       | aws-sdk-resiliencehub                       | 2020-04-30  |
+| AWS Resilience Hub V2                                 | Aws::Resiliencehubv2                     | aws-sdk-resiliencehubv2                     | 2026-02-17  |
 | AWS Resource Access Manager                           | Aws::RAM                                 | aws-sdk-ram                                 | 2018-01-04  |
 | AWS Resource Explorer                                 | Aws::ResourceExplorer2                   | aws-sdk-resourceexplorer2                   | 2022-07-28  |
 | AWS Resource Groups                                   | Aws::ResourceGroups                      | aws-sdk-resourcegroups                      | 2017-11-27  |

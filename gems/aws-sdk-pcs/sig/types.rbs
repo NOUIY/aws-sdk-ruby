@@ -106,11 +106,13 @@ module Aws::PCS
     end
 
     class ComputeNodeGroupSlurmConfiguration
+      attr_accessor scale_down_idle_time_in_seconds: ::Integer
       attr_accessor slurm_custom_settings: ::Array[Types::SlurmCustomSetting]
       SENSITIVE: []
     end
 
     class ComputeNodeGroupSlurmConfigurationRequest
+      attr_accessor scale_down_idle_time_in_seconds: ::Integer
       attr_accessor slurm_custom_settings: ::Array[Types::SlurmCustomSetting]
       SENSITIVE: []
     end
@@ -545,6 +547,7 @@ module Aws::PCS
     end
 
     class UpdateComputeNodeGroupSlurmConfigurationRequest
+      attr_accessor scale_down_idle_time_in_seconds: ::Integer
       attr_accessor slurm_custom_settings: ::Array[Types::SlurmCustomSetting]
       SENSITIVE: []
     end

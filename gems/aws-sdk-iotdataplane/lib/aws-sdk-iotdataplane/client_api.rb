@@ -16,24 +16,34 @@ module Aws::IoTDataPlane
 
     CleanSession = Shapes::BooleanShape.new(name: 'CleanSession')
     ClientId = Shapes::StringShape.new(name: 'ClientId')
+    Confirmation = Shapes::BooleanShape.new(name: 'Confirmation')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
+    Connected = Shapes::BooleanShape.new(name: 'Connected')
     ContentType = Shapes::StringShape.new(name: 'ContentType')
     CorrelationData = Shapes::StringShape.new(name: 'CorrelationData')
     DeleteConnectionRequest = Shapes::StructureShape.new(name: 'DeleteConnectionRequest')
     DeleteThingShadowRequest = Shapes::StructureShape.new(name: 'DeleteThingShadowRequest')
     DeleteThingShadowResponse = Shapes::StructureShape.new(name: 'DeleteThingShadowResponse')
+    DisconnectReason = Shapes::StringShape.new(name: 'DisconnectReason')
     ForbiddenException = Shapes::StructureShape.new(name: 'ForbiddenException')
+    GatewayTimeoutException = Shapes::StructureShape.new(name: 'GatewayTimeoutException')
+    GetConnectionRequest = Shapes::StructureShape.new(name: 'GetConnectionRequest')
+    GetConnectionResponse = Shapes::StructureShape.new(name: 'GetConnectionResponse')
     GetRetainedMessageRequest = Shapes::StructureShape.new(name: 'GetRetainedMessageRequest')
     GetRetainedMessageResponse = Shapes::StructureShape.new(name: 'GetRetainedMessageResponse')
     GetThingShadowRequest = Shapes::StructureShape.new(name: 'GetThingShadowRequest')
     GetThingShadowResponse = Shapes::StructureShape.new(name: 'GetThingShadowResponse')
+    IncludeSocketInformation = Shapes::BooleanShape.new(name: 'IncludeSocketInformation')
     InternalFailureException = Shapes::StructureShape.new(name: 'InternalFailureException')
     InvalidRequestException = Shapes::StructureShape.new(name: 'InvalidRequestException')
     JsonDocument = Shapes::BlobShape.new(name: 'JsonDocument')
+    KeepAliveDuration = Shapes::IntegerShape.new(name: 'KeepAliveDuration')
     ListNamedShadowsForThingRequest = Shapes::StructureShape.new(name: 'ListNamedShadowsForThingRequest')
     ListNamedShadowsForThingResponse = Shapes::StructureShape.new(name: 'ListNamedShadowsForThingResponse')
     ListRetainedMessagesRequest = Shapes::StructureShape.new(name: 'ListRetainedMessagesRequest')
     ListRetainedMessagesResponse = Shapes::StructureShape.new(name: 'ListRetainedMessagesResponse')
+    ListSubscriptionsRequest = Shapes::StructureShape.new(name: 'ListSubscriptionsRequest')
+    ListSubscriptionsResponse = Shapes::StructureShape.new(name: 'ListSubscriptionsResponse')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
     MessageExpiry = Shapes::IntegerShape.new(name: 'MessageExpiry')
     MethodNotAllowedException = Shapes::StructureShape.new(name: 'MethodNotAllowedException')
@@ -48,22 +58,36 @@ module Aws::IoTDataPlane
     Qos = Shapes::IntegerShape.new(name: 'Qos')
     RequestEntityTooLargeException = Shapes::StructureShape.new(name: 'RequestEntityTooLargeException')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
+    ResponseMessage = Shapes::StringShape.new(name: 'ResponseMessage')
     ResponseTopic = Shapes::StringShape.new(name: 'ResponseTopic')
     Retain = Shapes::BooleanShape.new(name: 'Retain')
     RetainedMessageList = Shapes::ListShape.new(name: 'RetainedMessageList')
     RetainedMessageSummary = Shapes::StructureShape.new(name: 'RetainedMessageSummary')
+    SendDirectMessageRequest = Shapes::StructureShape.new(name: 'SendDirectMessageRequest')
+    SendDirectMessageResponse = Shapes::StructureShape.new(name: 'SendDirectMessageResponse')
     ServiceUnavailableException = Shapes::StructureShape.new(name: 'ServiceUnavailableException')
+    SessionExpiry = Shapes::IntegerShape.new(name: 'SessionExpiry')
     ShadowName = Shapes::StringShape.new(name: 'ShadowName')
+    SourceIp = Shapes::StringShape.new(name: 'SourceIp')
+    SourcePort = Shapes::IntegerShape.new(name: 'SourcePort')
+    SubscriptionList = Shapes::ListShape.new(name: 'SubscriptionList')
+    SubscriptionSummary = Shapes::StructureShape.new(name: 'SubscriptionSummary')
+    TargetIp = Shapes::StringShape.new(name: 'TargetIp')
+    TargetPort = Shapes::IntegerShape.new(name: 'TargetPort')
     ThingName = Shapes::StringShape.new(name: 'ThingName')
     ThrottlingException = Shapes::StructureShape.new(name: 'ThrottlingException')
+    TimeoutInSeconds = Shapes::IntegerShape.new(name: 'TimeoutInSeconds')
     Timestamp = Shapes::IntegerShape.new(name: 'Timestamp')
     Topic = Shapes::StringShape.new(name: 'Topic')
+    TopicFilter = Shapes::StringShape.new(name: 'TopicFilter')
+    TraceId = Shapes::StringShape.new(name: 'TraceId')
     UnauthorizedException = Shapes::StructureShape.new(name: 'UnauthorizedException')
     UnsupportedDocumentEncodingException = Shapes::StructureShape.new(name: 'UnsupportedDocumentEncodingException')
     UpdateThingShadowRequest = Shapes::StructureShape.new(name: 'UpdateThingShadowRequest')
     UpdateThingShadowResponse = Shapes::StructureShape.new(name: 'UpdateThingShadowResponse')
     UserProperties = Shapes::StringShape.new(name: 'UserProperties')
     UserPropertiesBlob = Shapes::BlobShape.new(name: 'UserPropertiesBlob')
+    VpcEndpointId = Shapes::StringShape.new(name: 'VpcEndpointId')
     errorMessage = Shapes::StringShape.new(name: 'errorMessage')
 
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: errorMessage, location_name: "message"))
@@ -85,6 +109,29 @@ module Aws::IoTDataPlane
 
     ForbiddenException.add_member(:message, Shapes::ShapeRef.new(shape: errorMessage, location_name: "message"))
     ForbiddenException.struct_class = Types::ForbiddenException
+
+    GatewayTimeoutException.add_member(:message, Shapes::ShapeRef.new(shape: errorMessage, location_name: "message"))
+    GatewayTimeoutException.struct_class = Types::GatewayTimeoutException
+
+    GetConnectionRequest.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientId, required: true, location: "uri", location_name: "clientId"))
+    GetConnectionRequest.add_member(:include_socket_information, Shapes::ShapeRef.new(shape: IncludeSocketInformation, location: "querystring", location_name: "includeSocketInformation"))
+    GetConnectionRequest.struct_class = Types::GetConnectionRequest
+
+    GetConnectionResponse.add_member(:connected, Shapes::ShapeRef.new(shape: Connected, location_name: "connected"))
+    GetConnectionResponse.add_member(:thing_name, Shapes::ShapeRef.new(shape: ThingName, location_name: "thingName"))
+    GetConnectionResponse.add_member(:clean_session, Shapes::ShapeRef.new(shape: CleanSession, location_name: "cleanSession"))
+    GetConnectionResponse.add_member(:source_ip, Shapes::ShapeRef.new(shape: SourceIp, location_name: "sourceIp"))
+    GetConnectionResponse.add_member(:source_port, Shapes::ShapeRef.new(shape: SourcePort, location_name: "sourcePort"))
+    GetConnectionResponse.add_member(:target_ip, Shapes::ShapeRef.new(shape: TargetIp, location_name: "targetIp"))
+    GetConnectionResponse.add_member(:target_port, Shapes::ShapeRef.new(shape: TargetPort, location_name: "targetPort"))
+    GetConnectionResponse.add_member(:keep_alive_duration, Shapes::ShapeRef.new(shape: KeepAliveDuration, location_name: "keepAliveDuration"))
+    GetConnectionResponse.add_member(:connected_since, Shapes::ShapeRef.new(shape: Timestamp, location_name: "connectedSince"))
+    GetConnectionResponse.add_member(:disconnected_since, Shapes::ShapeRef.new(shape: Timestamp, location_name: "disconnectedSince"))
+    GetConnectionResponse.add_member(:disconnect_reason, Shapes::ShapeRef.new(shape: DisconnectReason, location_name: "disconnectReason"))
+    GetConnectionResponse.add_member(:session_expiry, Shapes::ShapeRef.new(shape: SessionExpiry, location_name: "sessionExpiry"))
+    GetConnectionResponse.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientId, location_name: "clientId"))
+    GetConnectionResponse.add_member(:vpc_endpoint_id, Shapes::ShapeRef.new(shape: VpcEndpointId, location_name: "vpcEndpointId"))
+    GetConnectionResponse.struct_class = Types::GetConnectionResponse
 
     GetRetainedMessageRequest.add_member(:topic, Shapes::ShapeRef.new(shape: Topic, required: true, location: "uri", location_name: "topic"))
     GetRetainedMessageRequest.struct_class = Types::GetRetainedMessageRequest
@@ -129,6 +176,15 @@ module Aws::IoTDataPlane
     ListRetainedMessagesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListRetainedMessagesResponse.struct_class = Types::ListRetainedMessagesResponse
 
+    ListSubscriptionsRequest.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientId, required: true, location: "uri", location_name: "clientId"))
+    ListSubscriptionsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListSubscriptionsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListSubscriptionsRequest.struct_class = Types::ListSubscriptionsRequest
+
+    ListSubscriptionsResponse.add_member(:subscriptions, Shapes::ShapeRef.new(shape: SubscriptionList, location_name: "subscriptions"))
+    ListSubscriptionsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListSubscriptionsResponse.struct_class = Types::ListSubscriptionsResponse
+
     MethodNotAllowedException.add_member(:message, Shapes::ShapeRef.new(shape: errorMessage, location_name: "message"))
     MethodNotAllowedException.struct_class = Types::MethodNotAllowedException
 
@@ -162,8 +218,32 @@ module Aws::IoTDataPlane
     RetainedMessageSummary.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastModifiedTime"))
     RetainedMessageSummary.struct_class = Types::RetainedMessageSummary
 
+    SendDirectMessageRequest.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientId, required: true, location: "uri", location_name: "clientId"))
+    SendDirectMessageRequest.add_member(:topic, Shapes::ShapeRef.new(shape: Topic, required: true, location: "querystring", location_name: "topic"))
+    SendDirectMessageRequest.add_member(:content_type, Shapes::ShapeRef.new(shape: ContentType, location: "querystring", location_name: "contentType"))
+    SendDirectMessageRequest.add_member(:response_topic, Shapes::ShapeRef.new(shape: ResponseTopic, location: "querystring", location_name: "responseTopic"))
+    SendDirectMessageRequest.add_member(:confirmation, Shapes::ShapeRef.new(shape: Confirmation, location: "querystring", location_name: "confirmation"))
+    SendDirectMessageRequest.add_member(:timeout, Shapes::ShapeRef.new(shape: TimeoutInSeconds, location: "querystring", location_name: "timeout"))
+    SendDirectMessageRequest.add_member(:payload, Shapes::ShapeRef.new(shape: Payload, location_name: "payload"))
+    SendDirectMessageRequest.add_member(:user_properties, Shapes::ShapeRef.new(shape: UserProperties, location: "header", location_name: "x-amz-mqtt5-user-properties", metadata: {"jsonvalue" => true}))
+    SendDirectMessageRequest.add_member(:payload_format_indicator, Shapes::ShapeRef.new(shape: PayloadFormatIndicator, location: "header", location_name: "x-amz-mqtt5-payload-format-indicator"))
+    SendDirectMessageRequest.add_member(:correlation_data, Shapes::ShapeRef.new(shape: CorrelationData, location: "header", location_name: "x-amz-mqtt5-correlation-data"))
+    SendDirectMessageRequest.struct_class = Types::SendDirectMessageRequest
+    SendDirectMessageRequest[:payload] = :payload
+    SendDirectMessageRequest[:payload_member] = SendDirectMessageRequest.member(:payload)
+
+    SendDirectMessageResponse.add_member(:message, Shapes::ShapeRef.new(shape: ResponseMessage, location_name: "message"))
+    SendDirectMessageResponse.add_member(:trace_id, Shapes::ShapeRef.new(shape: TraceId, location_name: "traceId"))
+    SendDirectMessageResponse.struct_class = Types::SendDirectMessageResponse
+
     ServiceUnavailableException.add_member(:message, Shapes::ShapeRef.new(shape: errorMessage, location_name: "message"))
     ServiceUnavailableException.struct_class = Types::ServiceUnavailableException
+
+    SubscriptionList.member = Shapes::ShapeRef.new(shape: SubscriptionSummary)
+
+    SubscriptionSummary.add_member(:topic_filter, Shapes::ShapeRef.new(shape: TopicFilter, required: true, location_name: "topicFilter"))
+    SubscriptionSummary.add_member(:qos, Shapes::ShapeRef.new(shape: Qos, required: true, location_name: "qos"))
+    SubscriptionSummary.struct_class = Types::SubscriptionSummary
 
     ThrottlingException.add_member(:message, Shapes::ShapeRef.new(shape: errorMessage, location_name: "message"))
     ThrottlingException.struct_class = Types::ThrottlingException
@@ -234,6 +314,19 @@ module Aws::IoTDataPlane
         o.errors << Shapes::ShapeRef.new(shape: UnsupportedDocumentEncodingException)
       end)
 
+      api.add_operation(:get_connection, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetConnection"
+        o.http_method = "GET"
+        o.http_request_uri = "/connections/{clientId}"
+        o.input = Shapes::ShapeRef.new(shape: GetConnectionRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetConnectionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+      end)
+
       api.add_operation(:get_retained_message, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetRetainedMessage"
         o.http_method = "GET"
@@ -300,6 +393,25 @@ module Aws::IoTDataPlane
         )
       end)
 
+      api.add_operation(:list_subscriptions, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListSubscriptions"
+        o.http_method = "GET"
+        o.http_request_uri = "/connections/{clientId}/subscriptions"
+        o.input = Shapes::ShapeRef.new(shape: ListSubscriptionsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListSubscriptionsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:publish, Seahorse::Model::Operation.new.tap do |o|
         o.name = "Publish"
         o.http_method = "POST"
@@ -311,6 +423,22 @@ module Aws::IoTDataPlane
         o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
         o.errors << Shapes::ShapeRef.new(shape: MethodNotAllowedException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:send_direct_message, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "SendDirectMessage"
+        o.http_method = "POST"
+        o.http_request_uri = "/connections/{clientId}/messages"
+        o.input = Shapes::ShapeRef.new(shape: SendDirectMessageRequest)
+        o.output = Shapes::ShapeRef.new(shape: SendDirectMessageResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: RequestEntityTooLargeException)
+        o.errors << Shapes::ShapeRef.new(shape: GatewayTimeoutException)
       end)
 
       api.add_operation(:update_thing_shadow, Seahorse::Model::Operation.new.tap do |o|

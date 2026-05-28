@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.37.0 (2026-05-28)
+------------------
+
+* Feature - Added Harness support for LiteLLM model configuration for third-party model providers. Added S3 and Git skill source types. Added Responses API format for OpenAI and Bedrock models. Added runtimeUserId and runtimeClientError to InvokeHarness.
+
 1.36.0 (2026-05-26)
 ------------------
 

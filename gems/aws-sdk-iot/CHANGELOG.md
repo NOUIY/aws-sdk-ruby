@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.169.0 (2026-05-28)
+------------------
+
+* Feature - Adds new connectivity-related fields to Fleet Indexing API requests and responses.
+
 1.168.0 (2026-05-21)
 ------------------
 

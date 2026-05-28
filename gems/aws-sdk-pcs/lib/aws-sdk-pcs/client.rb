@@ -767,6 +767,7 @@ module Aws::PCS
     #       allocation_strategy: "lowest-price", # accepts lowest-price, capacity-optimized, price-capacity-optimized
     #     },
     #     slurm_configuration: {
+    #       scale_down_idle_time_in_seconds: 1,
     #       slurm_custom_settings: [
     #         {
     #           parameter_name: "String", # required
@@ -801,6 +802,7 @@ module Aws::PCS
     #   resp.compute_node_group.instance_configs #=> Array
     #   resp.compute_node_group.instance_configs[0].instance_type #=> String
     #   resp.compute_node_group.spot_options.allocation_strategy #=> String, one of "lowest-price", "capacity-optimized", "price-capacity-optimized"
+    #   resp.compute_node_group.slurm_configuration.scale_down_idle_time_in_seconds #=> Integer
     #   resp.compute_node_group.slurm_configuration.slurm_custom_settings #=> Array
     #   resp.compute_node_group.slurm_configuration.slurm_custom_settings[0].parameter_name #=> String
     #   resp.compute_node_group.slurm_configuration.slurm_custom_settings[0].parameter_value #=> String
@@ -1134,6 +1136,7 @@ module Aws::PCS
     #   resp.compute_node_group.instance_configs #=> Array
     #   resp.compute_node_group.instance_configs[0].instance_type #=> String
     #   resp.compute_node_group.spot_options.allocation_strategy #=> String, one of "lowest-price", "capacity-optimized", "price-capacity-optimized"
+    #   resp.compute_node_group.slurm_configuration.scale_down_idle_time_in_seconds #=> Integer
     #   resp.compute_node_group.slurm_configuration.slurm_custom_settings #=> Array
     #   resp.compute_node_group.slurm_configuration.slurm_custom_settings[0].parameter_name #=> String
     #   resp.compute_node_group.slurm_configuration.slurm_custom_settings[0].parameter_value #=> String
@@ -1715,6 +1718,7 @@ module Aws::PCS
     #     },
     #     iam_instance_profile_arn: "InstanceProfileArn",
     #     slurm_configuration: {
+    #       scale_down_idle_time_in_seconds: 1,
     #       slurm_custom_settings: [
     #         {
     #           parameter_name: "String", # required
@@ -1746,6 +1750,7 @@ module Aws::PCS
     #   resp.compute_node_group.instance_configs #=> Array
     #   resp.compute_node_group.instance_configs[0].instance_type #=> String
     #   resp.compute_node_group.spot_options.allocation_strategy #=> String, one of "lowest-price", "capacity-optimized", "price-capacity-optimized"
+    #   resp.compute_node_group.slurm_configuration.scale_down_idle_time_in_seconds #=> Integer
     #   resp.compute_node_group.slurm_configuration.slurm_custom_settings #=> Array
     #   resp.compute_node_group.slurm_configuration.slurm_custom_settings[0].parameter_name #=> String
     #   resp.compute_node_group.slurm_configuration.slurm_custom_settings[0].parameter_value #=> String
@@ -1860,7 +1865,7 @@ module Aws::PCS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-pcs'
-      context[:gem_version] = '1.47.0'
+      context[:gem_version] = '1.48.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

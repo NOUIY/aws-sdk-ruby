@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.137.0 (2026-05-28)
+------------------
+
+* Feature - Amazon WorkSpaces Applications now supports BYOL (Bring Your Own License). This enables customers to import their own WorkSpaces images and use them in WorkSpaces Applications.
+
 1.136.0 (2026-05-21)
 ------------------
 

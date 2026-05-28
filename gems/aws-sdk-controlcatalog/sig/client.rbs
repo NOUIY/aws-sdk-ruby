@@ -88,9 +88,11 @@ module Aws
         def severity: () -> ("LOW" | "MEDIUM" | "HIGH" | "CRITICAL")
         def region_configuration: () -> Types::RegionConfiguration
         def implementation: () -> Types::ImplementationDetails
+        def parameter_requirement_summary: () -> ("REQUIRED" | "OPTIONAL" | "NONE")
         def parameters: () -> ::Array[Types::ControlParameter]
         def create_time: () -> ::Time
         def governed_resources: () -> ::Array[::String]
+        def governed_providers: () -> ::Array[::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ControlCatalog/Client.html#get_control-instance_method
       def get_control: (
@@ -147,7 +149,8 @@ module Aws
                              implementations: {
                                types: Array[::String]?,
                                identifiers: Array[::String]?
-                             }?
+                             }?,
+                             governed_providers: Array[::String]?
                            }
                          ) -> _ListControlsResponseSuccess
                        | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListControlsResponseSuccess

@@ -1,0 +1,862 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the contributing guide for more information:
+# https://github.com/aws/aws-sdk-ruby/blob/version-3/CONTRIBUTING.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module Resiliencehubv2
+    class Client < ::Seahorse::Client::Base
+      include ::Aws::ClientStubs
+
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#initialize-instance_method
+      def self.new: (
+                      ?credentials: untyped,
+                      ?region: String,
+                      ?access_key_id: String,
+                      ?account_id: String,
+                      ?active_endpoint_cache: bool,
+                      ?adaptive_retry_wait_to_fill: bool,
+                      ?auth_scheme_preference: Array[String],
+                      ?client_side_monitoring: bool,
+                      ?client_side_monitoring_client_id: String,
+                      ?client_side_monitoring_host: String,
+                      ?client_side_monitoring_port: Integer,
+                      ?client_side_monitoring_publisher: untyped,
+                      ?convert_params: bool,
+                      ?correct_clock_skew: bool,
+                      ?defaults_mode: String,
+                      ?disable_host_prefix_injection: bool,
+                      ?disable_request_compression: bool,
+                      ?endpoint: String,
+                      ?endpoint_cache_max_entries: Integer,
+                      ?endpoint_cache_max_threads: Integer,
+                      ?endpoint_cache_poll_interval: Integer,
+                      ?endpoint_discovery: bool,
+                      ?ignore_configured_endpoint_urls: bool,
+                      ?log_formatter: untyped,
+                      ?log_level: Symbol,
+                      ?logger: untyped,
+                      ?max_attempts: Integer,
+                      ?profile: String,
+                      ?request_checksum_calculation: String,
+                      ?request_min_compression_size_bytes: Integer,
+                      ?response_checksum_validation: String,
+                      ?retry_backoff: Proc,
+                      ?retry_base_delay: Float,
+                      ?retry_jitter: (:none | :equal | :full | ^(Integer) -> Integer),
+                      ?retry_limit: Integer,
+                      ?retry_max_delay: Integer,
+                      ?retry_mode: ("legacy" | "standard" | "adaptive"),
+                      ?sdk_ua_app_id: String,
+                      ?secret_access_key: String,
+                      ?session_token: String,
+                      ?sigv4a_signing_region_set: Array[String],
+                      ?stub_responses: untyped,
+                      ?telemetry_provider: Aws::Telemetry::TelemetryProviderBase,
+                      ?token_provider: untyped,
+                      ?use_dualstack_endpoint: bool,
+                      ?use_fips_endpoint: bool,
+                      ?validate_params: bool,
+                      ?endpoint_provider: untyped,
+                      ?http_proxy: String,
+                      ?http_open_timeout: (Float | Integer),
+                      ?http_read_timeout: (Float | Integer),
+                      ?http_idle_timeout: (Float | Integer),
+                      ?http_continue_timeout: (Float | Integer),
+                      ?ssl_timeout: (Float | Integer | nil),
+                      ?http_wire_trace: bool,
+                      ?ssl_verify_peer: bool,
+                      ?ssl_ca_bundle: String,
+                      ?ssl_ca_directory: String,
+                      ?ssl_ca_store: String,
+                      ?on_chunk_received: Proc,
+                      ?on_chunk_sent: Proc,
+                      ?raise_response_errors: bool
+                    ) -> instance
+                  | (?Hash[Symbol, untyped]) -> instance
+
+
+      interface _CreateAssertionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateAssertionResponse]
+        def assertion: () -> Types::Assertion
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#create_assertion-instance_method
+      def create_assertion: (
+                              service_arn: ::String,
+                              text: ::String,
+                              ?client_token: ::String
+                            ) -> _CreateAssertionResponseSuccess
+                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAssertionResponseSuccess
+
+      interface _CreateInputSourceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateInputSourceResponse]
+        def service_arn: () -> ::String
+        def input_source_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#create_input_source-instance_method
+      def create_input_source: (
+                                 service_arn: ::String,
+                                 resource_configuration: {
+                                   resource_tags: Array[
+                                     {
+                                       key: ::String,
+                                       values: Array[::String]
+                                     }
+                                   ]?,
+                                   cfn_stack_arn: ::String?,
+                                   tf_state_file_url: ::String?,
+                                   eks: {
+                                     cluster_arn: ::String,
+                                     namespaces: Array[::String]
+                                   }?,
+                                   design_file_s3_url: ::String?
+                                 },
+                                 ?client_token: ::String
+                               ) -> _CreateInputSourceResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateInputSourceResponseSuccess
+
+      interface _CreatePolicyResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreatePolicyResponse]
+        def policy: () -> Types::Policy
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#create_policy-instance_method
+      def create_policy: (
+                           name: ::String,
+                           ?description: ::String,
+                           ?availability_slo: {
+                             target: ::Float?
+                           },
+                           ?multi_az: {
+                             rto_in_minutes: ::Integer?,
+                             rpo_in_minutes: ::Integer?,
+                             disaster_recovery_approach: ("ACTIVE_ACTIVE" | "HOT_STANDBY" | "WARM_STANDBY" | "PILOT_LIGHT" | "BACKUP_AND_RESTORE")?
+                           },
+                           ?multi_region: {
+                             rto_in_minutes: ::Integer?,
+                             rpo_in_minutes: ::Integer?,
+                             disaster_recovery_approach: ("ACTIVE_ACTIVE" | "HOT_STANDBY" | "WARM_STANDBY" | "PILOT_LIGHT" | "BACKUP_AND_RESTORE")?
+                           },
+                           ?data_recovery: {
+                             time_between_backups_in_minutes: ::Integer?
+                           },
+                           ?kms_key_id: ::String,
+                           ?tags: Hash[::String, ::String],
+                           ?client_token: ::String
+                         ) -> _CreatePolicyResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreatePolicyResponseSuccess
+
+      interface _CreateReportResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateReportResponse]
+        def report_generation_result: () -> Types::ReportGenerationResult
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#create_report-instance_method
+      def create_report: (
+                           service_arn: ::String,
+                           report_type: ("FAILURE_MODE"),
+                           ?client_token: ::String
+                         ) -> _CreateReportResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateReportResponseSuccess
+
+      interface _CreateServiceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateServiceResponse]
+        def service: () -> Types::Service
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#create_service-instance_method
+      def create_service: (
+                            name: ::String,
+                            ?description: ::String,
+                            ?associated_systems: Array[
+                              {
+                                system_arn: ::String,
+                                system_name: ::String?,
+                                user_journey_ids: Array[::String]?
+                              }
+                            ],
+                            ?policy_arn: ::String,
+                            regions: Array[::String],
+                            permission_model: {
+                              invoker_role_name: ::String,
+                              cross_account_roles: Array[
+                                {
+                                  cross_account_role_arn: ::String,
+                                  external_id: ::String?
+                                }
+                              ]?
+                            },
+                            ?dependency_discovery: ("ENABLED" | "DISABLED"),
+                            ?report_configuration: Params::service_report_configuration,
+                            ?kms_key_id: ::String,
+                            ?tags: Hash[::String, ::String],
+                            ?client_token: ::String
+                          ) -> _CreateServiceResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateServiceResponseSuccess
+
+      interface _CreateServiceFunctionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateServiceFunctionResponse]
+        def service_function: () -> Types::ServiceFunction
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#create_service_function-instance_method
+      def create_service_function: (
+                                     name: ::String,
+                                     service_arn: ::String,
+                                     ?description: ::String,
+                                     criticality: ("PRIMARY" | "SUPPLEMENTAL"),
+                                     ?client_token: ::String
+                                   ) -> _CreateServiceFunctionResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateServiceFunctionResponseSuccess
+
+      interface _CreateServiceFunctionResourcesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateServiceFunctionResourcesResponse]
+        def service_arn: () -> ::String
+        def service_function_id: () -> ::String
+        def resources: () -> ::Array[::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#create_service_function_resources-instance_method
+      def create_service_function_resources: (
+                                               service_arn: ::String,
+                                               service_function_id: ::String,
+                                               resources: Array[::String]
+                                             ) -> _CreateServiceFunctionResourcesResponseSuccess
+                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateServiceFunctionResourcesResponseSuccess
+
+      interface _CreateSystemResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateSystemResponse]
+        def system: () -> Types::System
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#create_system-instance_method
+      def create_system: (
+                           name: ::String,
+                           ?description: ::String,
+                           ?sharing_enabled: bool,
+                           ?kms_key_id: ::String,
+                           ?tags: Hash[::String, ::String],
+                           ?client_token: ::String
+                         ) -> _CreateSystemResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateSystemResponseSuccess
+
+      interface _CreateUserJourneyResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateUserJourneyResponse]
+        def user_journey: () -> Types::UserJourney
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#create_user_journey-instance_method
+      def create_user_journey: (
+                                 system_arn: ::String,
+                                 name: ::String,
+                                 ?description: ::String,
+                                 ?policy_arn: ::String,
+                                 ?client_token: ::String
+                               ) -> _CreateUserJourneyResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateUserJourneyResponseSuccess
+
+      interface _DeleteAssertionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAssertionResponse]
+        def assertion_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#delete_assertion-instance_method
+      def delete_assertion: (
+                              service_arn: ::String,
+                              assertion_id: ::String
+                            ) -> _DeleteAssertionResponseSuccess
+                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAssertionResponseSuccess
+
+      interface _DeleteInputSourceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteInputSourceResponse]
+        def service_arn: () -> ::String
+        def input_source_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#delete_input_source-instance_method
+      def delete_input_source: (
+                                 service_arn: ::String,
+                                 input_source_id: ::String
+                               ) -> _DeleteInputSourceResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteInputSourceResponseSuccess
+
+      interface _DeletePolicyResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeletePolicyResponse]
+        def policy_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#delete_policy-instance_method
+      def delete_policy: (
+                           policy_arn: ::String
+                         ) -> _DeletePolicyResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeletePolicyResponseSuccess
+
+      interface _DeleteServiceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteServiceResponse]
+        def service_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#delete_service-instance_method
+      def delete_service: (
+                            service_arn: ::String
+                          ) -> _DeleteServiceResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteServiceResponseSuccess
+
+      interface _DeleteServiceFunctionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteServiceFunctionResponse]
+        def service_function_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#delete_service_function-instance_method
+      def delete_service_function: (
+                                     service_arn: ::String,
+                                     service_function_id: ::String
+                                   ) -> _DeleteServiceFunctionResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteServiceFunctionResponseSuccess
+
+      interface _DeleteServiceFunctionResourcesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteServiceFunctionResourcesResponse]
+        def service_arn: () -> ::String
+        def service_function_id: () -> ::String
+        def resources: () -> ::Array[::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#delete_service_function_resources-instance_method
+      def delete_service_function_resources: (
+                                               service_arn: ::String,
+                                               service_function_id: ::String,
+                                               resources: Array[::String]
+                                             ) -> _DeleteServiceFunctionResourcesResponseSuccess
+                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteServiceFunctionResourcesResponseSuccess
+
+      interface _DeleteSystemResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteSystemResponse]
+        def system_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#delete_system-instance_method
+      def delete_system: (
+                           system_arn: ::String
+                         ) -> _DeleteSystemResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteSystemResponseSuccess
+
+      interface _DeleteUserJourneyResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteUserJourneyResponse]
+        def user_journey_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#delete_user_journey-instance_method
+      def delete_user_journey: (
+                                 system_arn: ::String,
+                                 user_journey_id: ::String
+                               ) -> _DeleteUserJourneyResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteUserJourneyResponseSuccess
+
+      interface _GetFailureModeFindingResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetFailureModeFindingResponse]
+        def finding: () -> Types::Finding
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#get_failure_mode_finding-instance_method
+      def get_failure_mode_finding: (
+                                      finding_id: ::String,
+                                      service_arn: ::String
+                                    ) -> _GetFailureModeFindingResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetFailureModeFindingResponseSuccess
+
+      interface _GetPolicyResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetPolicyResponse]
+        def policy: () -> Types::Policy
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#get_policy-instance_method
+      def get_policy: (
+                        policy_arn: ::String
+                      ) -> _GetPolicyResponseSuccess
+                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetPolicyResponseSuccess
+
+      interface _GetServiceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetServiceResponse]
+        def service: () -> Types::Service
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#get_service-instance_method
+      def get_service: (
+                         service_arn: ::String
+                       ) -> _GetServiceResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetServiceResponseSuccess
+
+      interface _GetSystemResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetSystemResponse]
+        def system: () -> Types::System
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#get_system-instance_method
+      def get_system: (
+                        system_arn: ::String
+                      ) -> _GetSystemResponseSuccess
+                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetSystemResponseSuccess
+
+      interface _GetUserJourneyResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetUserJourneyResponse]
+        def user_journey: () -> Types::UserJourney
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#get_user_journey-instance_method
+      def get_user_journey: (
+                              system_arn: ::String,
+                              user_journey_id: ::String
+                            ) -> _GetUserJourneyResponseSuccess
+                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetUserJourneyResponseSuccess
+
+      interface _ImportAppResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ImportAppResponse]
+        def service: () -> Types::Service
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#import_app-instance_method
+      def import_app: (
+                        v1_app_arn: ::String,
+                        ?policy_arn: ::String,
+                        ?kms_key_id: ::String,
+                        ?skip_manually_added_resources: bool,
+                        ?associated_systems: Array[
+                          {
+                            system_arn: ::String,
+                            system_name: ::String?,
+                            user_journey_ids: Array[::String]?
+                          }
+                        ],
+                        ?tags: Hash[::String, ::String],
+                        ?client_token: ::String
+                      ) -> _ImportAppResponseSuccess
+                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ImportAppResponseSuccess
+
+      interface _ImportPolicyResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ImportPolicyResponse]
+        def policy: () -> Types::Policy
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#import_policy-instance_method
+      def import_policy: (
+                           v1_policy_arn: ::String,
+                           ?kms_key_id: ::String,
+                           ?availability_slo: {
+                             target: ::Float?
+                           },
+                           ?multi_az_disaster_recovery_approach: ("ACTIVE_ACTIVE" | "HOT_STANDBY" | "WARM_STANDBY" | "PILOT_LIGHT" | "BACKUP_AND_RESTORE"),
+                           ?multi_region_disaster_recovery_approach: ("ACTIVE_ACTIVE" | "HOT_STANDBY" | "WARM_STANDBY" | "PILOT_LIGHT" | "BACKUP_AND_RESTORE"),
+                           ?tags: Hash[::String, ::String],
+                           ?client_token: ::String
+                         ) -> _ImportPolicyResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ImportPolicyResponseSuccess
+
+      interface _ListAssertionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAssertionsResponse]
+        def assertions: () -> ::Array[Types::Assertion]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_assertions-instance_method
+      def list_assertions: (
+                             service_arn: ::String,
+                             ?source: ("AI_GENERATED" | "USER"),
+                             ?max_results: ::Integer,
+                             ?next_token: ::String
+                           ) -> _ListAssertionsResponseSuccess
+                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAssertionsResponseSuccess
+
+      interface _ListDependenciesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListDependenciesResponse]
+        def dependency_summaries: () -> ::Array[Types::DependencySummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_dependencies-instance_method
+      def list_dependencies: (
+                               ?service_arn: ::String,
+                               ?query_range_start_time: ::Time,
+                               ?query_range_end_time: ::Time,
+                               ?query_range_granularity: ("HOURLY" | "DAILY"),
+                               ?max_results: ::Integer,
+                               ?next_token: ::String
+                             ) -> _ListDependenciesResponseSuccess
+                           | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListDependenciesResponseSuccess
+
+      interface _ListFailureModeAssessmentsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListFailureModeAssessmentsResponse]
+        def assessment_summaries: () -> ::Array[Types::AssessmentSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_failure_mode_assessments-instance_method
+      def list_failure_mode_assessments: (
+                                           service_arn: ::String,
+                                           ?max_results: ::Integer,
+                                           ?next_token: ::String
+                                         ) -> _ListFailureModeAssessmentsResponseSuccess
+                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListFailureModeAssessmentsResponseSuccess
+
+      interface _ListFailureModeFindingsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListFailureModeFindingsResponse]
+        def findings_summary: () -> ::Array[Types::FindingSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_failure_mode_findings-instance_method
+      def list_failure_mode_findings: (
+                                        service_arn: ::String,
+                                        ?severity: ("LOW" | "MEDIUM" | "HIGH"),
+                                        ?failure_category: ("SHARED_FATE" | "EXCESSIVE_LOAD" | "EXCESSIVE_LATENCY" | "MISCONFIGURATION_AND_BUGS" | "SINGLE_POINT_OF_FAILURE"),
+                                        ?status: ("OPEN" | "RESOLVED" | "IRRELEVANT"),
+                                        ?max_results: ::Integer,
+                                        ?next_token: ::String
+                                      ) -> _ListFailureModeFindingsResponseSuccess
+                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListFailureModeFindingsResponseSuccess
+
+      interface _ListInputSourcesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListInputSourcesResponse]
+        def input_source_summaries: () -> ::Array[Types::InputSourceSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_input_sources-instance_method
+      def list_input_sources: (
+                                service_arn: ::String,
+                                ?type: ("CFN_STACK" | "TAGS" | "EKS" | "TERRAFORM" | "DESIGN_FILE" | "MONITORING"),
+                                ?max_results: ::Integer,
+                                ?next_token: ::String
+                              ) -> _ListInputSourcesResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListInputSourcesResponseSuccess
+
+      interface _ListPoliciesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListPoliciesResponse]
+        def policy_summaries: () -> ::Array[Types::PolicySummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_policies-instance_method
+      def list_policies: (
+                           ?max_results: ::Integer,
+                           ?next_token: ::String
+                         ) -> _ListPoliciesResponseSuccess
+                       | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListPoliciesResponseSuccess
+
+      interface _ListReportsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListReportsResponse]
+        def report_generation_results: () -> ::Array[Types::ReportGenerationResult]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_reports-instance_method
+      def list_reports: (
+                          ?service_arn: ::String,
+                          ?report_type: ("FAILURE_MODE"),
+                          ?max_results: ::Integer,
+                          ?next_token: ::String
+                        ) -> _ListReportsResponseSuccess
+                      | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListReportsResponseSuccess
+
+      interface _ListResourcesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListResourcesResponse]
+        def service_function_id: () -> ::String
+        def service_resources: () -> ::Array[Types::ServiceResource]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_resources-instance_method
+      def list_resources: (
+                            service_arn: ::String,
+                            ?service_function_id: ::String,
+                            ?aws_region: ::String,
+                            ?max_results: ::Integer,
+                            ?next_token: ::String
+                          ) -> _ListResourcesResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListResourcesResponseSuccess
+
+      interface _ListServiceEventsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListServiceEventsResponse]
+        def events: () -> ::Array[Types::ServiceEvent]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_service_events-instance_method
+      def list_service_events: (
+                                 service_arn: ::String,
+                                 ?event_types: Array[("SERVICE_CREATED" | "SERVICE_DELETED" | "SERVICE_SYSTEM_ASSOCIATED" | "SERVICE_SYSTEM_DISASSOCIATED" | "SERVICE_RESOURCES_ASSOCIATED" | "SERVICE_RESOURCES_DISASSOCIATED" | "SERVICE_WORKFLOW_UPDATED" | "SERVICE_INPUT_SOURCES_UPDATED" | "SERVICE_POLICY_ASSOCIATED" | "SERVICE_POLICY_DISASSOCIATED" | "SERVICE_FUNCTION_CREATED" | "SERVICE_FUNCTION_UPDATED" | "SERVICE_FUNCTION_DELETED" | "SERVICE_FUNCTION_RESOURCES_ADDED" | "SERVICE_FUNCTION_RESOURCES_REMOVED" | "SERVICE_ACHIEVABILITY_UPDATED" | "ASSERTION_CREATED" | "ASSERTION_UPDATED" | "ASSERTION_DELETED")],
+                                 ?start_time: ::Time,
+                                 ?end_time: ::Time,
+                                 ?max_results: ::Integer,
+                                 ?next_token: ::String
+                               ) -> _ListServiceEventsResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListServiceEventsResponseSuccess
+
+      interface _ListServiceFunctionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListServiceFunctionsResponse]
+        def service_functions: () -> ::Array[Types::ServiceFunction]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_service_functions-instance_method
+      def list_service_functions: (
+                                    service_arn: ::String,
+                                    ?max_results: ::Integer,
+                                    ?next_token: ::String
+                                  ) -> _ListServiceFunctionsResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListServiceFunctionsResponseSuccess
+
+      interface _ListServiceTopologyEdgesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListServiceTopologyEdgesResponse]
+        def service_topology_edge_summaries: () -> ::Array[Types::ServiceTopologyEdgeSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_service_topology_edges-instance_method
+      def list_service_topology_edges: (
+                                         service_arn: ::String,
+                                         ?max_results: ::Integer,
+                                         ?next_token: ::String
+                                       ) -> _ListServiceTopologyEdgesResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListServiceTopologyEdgesResponseSuccess
+
+      interface _ListServicesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListServicesResponse]
+        def service_summaries: () -> ::Array[Types::ServiceSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_services-instance_method
+      def list_services: (
+                           ?system_arn: ::String,
+                           ?user_journey_id: ::String,
+                           ?ou_id: ::String,
+                           ?account_id: ::String,
+                           ?assessment_status: ("NOT_STARTED" | "PENDING" | "IN_PROGRESS" | "FAILED" | "SUCCESS"),
+                           ?policy_arn: ::String,
+                           ?max_results: ::Integer,
+                           ?next_token: ::String
+                         ) -> _ListServicesResponseSuccess
+                       | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListServicesResponseSuccess
+
+      interface _ListSystemEventsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListSystemEventsResponse]
+        def events: () -> ::Array[Types::SystemEvent]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_system_events-instance_method
+      def list_system_events: (
+                                system_arn: ::String,
+                                ?event_types: Array[("SYSTEM_CREATED" | "SYSTEM_DELETED" | "SYSTEM_USER_JOURNEY_CREATED" | "SYSTEM_USER_JOURNEY_UPDATED" | "SYSTEM_USER_JOURNEY_DELETED" | "SYSTEM_SERVICE_ASSOCIATED" | "SYSTEM_SERVICE_DISASSOCIATED" | "SYSTEM_POLICY_ASSOCIATED" | "SYSTEM_POLICY_DISASSOCIATED")],
+                                ?start_time: ::Time,
+                                ?end_time: ::Time,
+                                ?max_results: ::Integer,
+                                ?next_token: ::String
+                              ) -> _ListSystemEventsResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListSystemEventsResponseSuccess
+
+      interface _ListSystemsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListSystemsResponse]
+        def system_summaries: () -> ::Array[Types::SystemSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_systems-instance_method
+      def list_systems: (
+                          ?ou_id: ::String,
+                          ?max_results: ::Integer,
+                          ?next_token: ::String
+                        ) -> _ListSystemsResponseSuccess
+                      | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListSystemsResponseSuccess
+
+      interface _ListTagsForResourceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListTagsForResourceResponse]
+        def tags: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_tags_for_resource-instance_method
+      def list_tags_for_resource: (
+                                    resource_arn: ::String
+                                  ) -> _ListTagsForResourceResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListTagsForResourceResponseSuccess
+
+      interface _ListUserJourneysResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListUserJourneysResponse]
+        def user_journey_summaries: () -> ::Array[Types::UserJourneySummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#list_user_journeys-instance_method
+      def list_user_journeys: (
+                                system_arn: ::String,
+                                ?max_results: ::Integer,
+                                ?next_token: ::String
+                              ) -> _ListUserJourneysResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListUserJourneysResponseSuccess
+
+      interface _StartFailureModeAssessmentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StartFailureModeAssessmentResponse]
+        def assessment_id: () -> ::String
+        def service_arn: () -> ::String
+        def assessment_status: () -> ("NOT_STARTED" | "PENDING" | "IN_PROGRESS" | "FAILED" | "SUCCESS")
+        def started_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#start_failure_mode_assessment-instance_method
+      def start_failure_mode_assessment: (
+                                           service_arn: ::String,
+                                           ?client_token: ::String
+                                         ) -> _StartFailureModeAssessmentResponseSuccess
+                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartFailureModeAssessmentResponseSuccess
+
+      interface _TagResourceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::TagResourceResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#tag_resource-instance_method
+      def tag_resource: (
+                          resource_arn: ::String,
+                          tags: Hash[::String, ::String]
+                        ) -> _TagResourceResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _TagResourceResponseSuccess
+
+      interface _UntagResourceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UntagResourceResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#untag_resource-instance_method
+      def untag_resource: (
+                            resource_arn: ::String,
+                            tag_keys: Array[::String]
+                          ) -> _UntagResourceResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UntagResourceResponseSuccess
+
+      interface _UpdateAssertionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateAssertionResponse]
+        def assertion: () -> Types::Assertion
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#update_assertion-instance_method
+      def update_assertion: (
+                              service_arn: ::String,
+                              assertion_id: ::String,
+                              ?text: ::String
+                            ) -> _UpdateAssertionResponseSuccess
+                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateAssertionResponseSuccess
+
+      interface _UpdateDependencyResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateDependencyResponse]
+        def dependency_id: () -> ::String
+        def dependency_name: () -> ::String
+        def location: () -> ::String
+        def criticality: () -> ("HARD" | "SOFT" | "UNKNOWN")
+        def comment: () -> ::String
+        def provider: () -> ::String
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#update_dependency-instance_method
+      def update_dependency: (
+                               service_arn: ::String,
+                               dependency_id: ::String,
+                               ?criticality: ("HARD" | "SOFT" | "UNKNOWN"),
+                               ?comment: ::String
+                             ) -> _UpdateDependencyResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateDependencyResponseSuccess
+
+      interface _UpdateFailureModeFindingResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateFailureModeFindingResponse]
+        def finding: () -> Types::Finding
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#update_failure_mode_finding-instance_method
+      def update_failure_mode_finding: (
+                                         finding_id: ::String,
+                                         status: ("OPEN" | "RESOLVED" | "IRRELEVANT"),
+                                         service_arn: ::String,
+                                         ?comment: ::String
+                                       ) -> _UpdateFailureModeFindingResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateFailureModeFindingResponseSuccess
+
+      interface _UpdatePolicyResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdatePolicyResponse]
+        def policy: () -> Types::Policy
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#update_policy-instance_method
+      def update_policy: (
+                           policy_arn: ::String,
+                           ?description: ::String,
+                           ?availability_slo: {
+                             target: ::Float?
+                           },
+                           ?multi_az: {
+                             rto_in_minutes: ::Integer?,
+                             rpo_in_minutes: ::Integer?,
+                             disaster_recovery_approach: ("ACTIVE_ACTIVE" | "HOT_STANDBY" | "WARM_STANDBY" | "PILOT_LIGHT" | "BACKUP_AND_RESTORE")?
+                           },
+                           ?multi_region: {
+                             rto_in_minutes: ::Integer?,
+                             rpo_in_minutes: ::Integer?,
+                             disaster_recovery_approach: ("ACTIVE_ACTIVE" | "HOT_STANDBY" | "WARM_STANDBY" | "PILOT_LIGHT" | "BACKUP_AND_RESTORE")?
+                           },
+                           ?data_recovery: {
+                             time_between_backups_in_minutes: ::Integer?
+                           }
+                         ) -> _UpdatePolicyResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdatePolicyResponseSuccess
+
+      interface _UpdateServiceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateServiceResponse]
+        def service: () -> Types::Service
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#update_service-instance_method
+      def update_service: (
+                            service_arn: ::String,
+                            ?description: ::String,
+                            ?associated_systems: Array[
+                              {
+                                system_arn: ::String,
+                                system_name: ::String?,
+                                user_journey_ids: Array[::String]?
+                              }
+                            ],
+                            ?policy_arn: ::String,
+                            ?regions: Array[::String],
+                            ?permission_model: {
+                              invoker_role_name: ::String,
+                              cross_account_roles: Array[
+                                {
+                                  cross_account_role_arn: ::String,
+                                  external_id: ::String?
+                                }
+                              ]?
+                            },
+                            ?dependency_discovery: ("ENABLED" | "DISABLED"),
+                            ?report_configuration: Params::service_report_configuration
+                          ) -> _UpdateServiceResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateServiceResponseSuccess
+
+      interface _UpdateServiceFunctionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateServiceFunctionResponse]
+        def service_function: () -> Types::ServiceFunction
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#update_service_function-instance_method
+      def update_service_function: (
+                                     service_arn: ::String,
+                                     service_function_id: ::String,
+                                     ?name: ::String,
+                                     ?description: ::String,
+                                     ?criticality: ("PRIMARY" | "SUPPLEMENTAL")
+                                   ) -> _UpdateServiceFunctionResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateServiceFunctionResponseSuccess
+
+      interface _UpdateSystemResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateSystemResponse]
+        def system: () -> Types::System
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#update_system-instance_method
+      def update_system: (
+                           system_arn: ::String,
+                           ?description: ::String,
+                           ?sharing_enabled: bool
+                         ) -> _UpdateSystemResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateSystemResponseSuccess
+
+      interface _UpdateUserJourneyResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateUserJourneyResponse]
+        def user_journey: () -> Types::UserJourney
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#update_user_journey-instance_method
+      def update_user_journey: (
+                                 system_arn: ::String,
+                                 user_journey_id: ::String,
+                                 ?name: ::String,
+                                 ?description: ::String,
+                                 ?policy_arn: ::String
+                               ) -> _UpdateUserJourneyResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateUserJourneyResponseSuccess
+
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Resiliencehubv2/Client.html#wait_until-instance_method
+      def wait_until: (:failure_mode_assessment_success waiter_name, 
+                    service_arn: ::String,
+                    ?max_results: ::Integer,
+                    ?next_token: ::String
+                  ) -> Client::_ListFailureModeAssessmentsResponseSuccess
+                    | (:failure_mode_assessment_success waiter_name, Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_ListFailureModeAssessmentsResponseSuccess
+                    | (:report_succeeded waiter_name, 
+                    ?service_arn: ::String,
+                    ?report_type: ("FAILURE_MODE"),
+                    ?max_results: ::Integer,
+                    ?next_token: ::String
+                  ) -> Client::_ListReportsResponseSuccess
+                    | (:report_succeeded waiter_name, ?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_ListReportsResponseSuccess
+                    | (:service_assessment_completed waiter_name, 
+                    service_arn: ::String
+                  ) -> Client::_GetServiceResponseSuccess
+                    | (:service_assessment_completed waiter_name, Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_GetServiceResponseSuccess
+                    | (:service_resource_discovery_completed waiter_name, 
+                    service_arn: ::String
+                  ) -> Client::_GetServiceResponseSuccess
+                    | (:service_resource_discovery_completed waiter_name, Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> Client::_GetServiceResponseSuccess
+    end
+  end
+end
+

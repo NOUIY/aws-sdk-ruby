@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.92.0 (2026-05-28)
+------------------
+
+* Feature - Adding GetConnection, ListSubscriptions, and SendDirectMessage APIs to IoT Data Plane
+
 1.91.0 (2026-05-21)
 ------------------
 

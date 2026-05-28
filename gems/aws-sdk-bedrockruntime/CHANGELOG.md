@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.80.0 (2026-05-28)
+------------------
+
+* Feature - Support system role in message
+
 1.79.0 (2026-05-21)
 ------------------
 

@@ -8115,6 +8115,8 @@ module Aws::IoT
     #   resp.thing_indexing_configuration.filter.geo_locations #=> Array
     #   resp.thing_indexing_configuration.filter.geo_locations[0].name #=> String
     #   resp.thing_indexing_configuration.filter.geo_locations[0].order #=> String, one of "LatLon", "LonLat"
+    #   resp.thing_indexing_configuration.filter.connectivity.include_socket_information #=> Array
+    #   resp.thing_indexing_configuration.filter.connectivity.include_socket_information[0] #=> String, one of "GET_THING_CONNECTIVITY_DATA"
     #   resp.thing_group_indexing_configuration.thing_group_indexing_mode #=> String, one of "OFF", "ON"
     #   resp.thing_group_indexing_configuration.managed_fields #=> Array
     #   resp.thing_group_indexing_configuration.managed_fields[0].name #=> String
@@ -8648,17 +8650,34 @@ module Aws::IoT
     # @option params [required, String] :thing_name
     #   The name of your IoT thing.
     #
+    # @option params [Boolean] :include_socket_information
+    #   Specifies if socket information (sourcePort, targetPort, sourceIp,
+    #   targetIp, vpcEndpointId) should be included in the
+    #   GetThingConnectivityData response. Set to `true` to include socket
+    #   information. Set to `false` to omit socket information. By default,
+    #   this is set to `false`.
+    #
     # @return [Types::GetThingConnectivityDataResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetThingConnectivityDataResponse#thing_name #thing_name} => String
     #   * {Types::GetThingConnectivityDataResponse#connected #connected} => Boolean
     #   * {Types::GetThingConnectivityDataResponse#timestamp #timestamp} => Time
     #   * {Types::GetThingConnectivityDataResponse#disconnect_reason #disconnect_reason} => String
+    #   * {Types::GetThingConnectivityDataResponse#source_ip #source_ip} => String
+    #   * {Types::GetThingConnectivityDataResponse#source_port #source_port} => Integer
+    #   * {Types::GetThingConnectivityDataResponse#target_ip #target_ip} => String
+    #   * {Types::GetThingConnectivityDataResponse#target_port #target_port} => Integer
+    #   * {Types::GetThingConnectivityDataResponse#vpc_endpoint_id #vpc_endpoint_id} => String
+    #   * {Types::GetThingConnectivityDataResponse#keep_alive_duration #keep_alive_duration} => Integer
+    #   * {Types::GetThingConnectivityDataResponse#clean_session #clean_session} => Boolean
+    #   * {Types::GetThingConnectivityDataResponse#session_expiry #session_expiry} => Integer
+    #   * {Types::GetThingConnectivityDataResponse#client_id #client_id} => String
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.get_thing_connectivity_data({
     #     thing_name: "ConnectivityApiThingName", # required
+    #     include_socket_information: false,
     #   })
     #
     # @example Response structure
@@ -8666,7 +8685,16 @@ module Aws::IoT
     #   resp.thing_name #=> String
     #   resp.connected #=> Boolean
     #   resp.timestamp #=> Time
-    #   resp.disconnect_reason #=> String, one of "AUTH_ERROR", "CLIENT_INITIATED_DISCONNECT", "CLIENT_ERROR", "CONNECTION_LOST", "DUPLICATE_CLIENTID", "FORBIDDEN_ACCESS", "MQTT_KEEP_ALIVE_TIMEOUT", "SERVER_ERROR", "SERVER_INITIATED_DISCONNECT", "THROTTLED", "WEBSOCKET_TTL_EXPIRATION", "CUSTOMAUTH_TTL_EXPIRATION", "UNKNOWN", "NONE"
+    #   resp.disconnect_reason #=> String, one of "AUTH_ERROR", "CLIENT_INITIATED_DISCONNECT", "CLIENT_ERROR", "CONNECTION_LOST", "DUPLICATE_CLIENTID", "FORBIDDEN_ACCESS", "MQTT_KEEP_ALIVE_TIMEOUT", "SERVER_ERROR", "SERVER_INITIATED_DISCONNECT", "API_INITIATED_DISCONNECT", "THROTTLED", "WEBSOCKET_TTL_EXPIRATION", "CUSTOMAUTH_TTL_EXPIRATION", "UNKNOWN", "NONE"
+    #   resp.source_ip #=> String
+    #   resp.source_port #=> Integer
+    #   resp.target_ip #=> String
+    #   resp.target_port #=> Integer
+    #   resp.vpc_endpoint_id #=> String
+    #   resp.keep_alive_duration #=> Integer
+    #   resp.clean_session #=> Boolean
+    #   resp.session_expiry #=> Integer
+    #   resp.client_id #=> String
     #
     # @overload get_thing_connectivity_data(params = {})
     # @param [Hash] params ({})
@@ -13860,6 +13888,10 @@ module Aws::IoT
     #   resp.things[0].connectivity.connected #=> Boolean
     #   resp.things[0].connectivity.timestamp #=> Integer
     #   resp.things[0].connectivity.disconnect_reason #=> String
+    #   resp.things[0].connectivity.keep_alive_duration #=> Integer
+    #   resp.things[0].connectivity.clean_session #=> Boolean
+    #   resp.things[0].connectivity.session_expiry #=> Integer
+    #   resp.things[0].connectivity.client_id #=> String
     #   resp.thing_groups #=> Array
     #   resp.thing_groups[0].thing_group_name #=> String
     #   resp.thing_groups[0].thing_group_id #=> String
@@ -15522,6 +15554,9 @@ module Aws::IoT
     #             order: "LatLon", # accepts LatLon, LonLat
     #           },
     #         ],
+    #         connectivity: {
+    #           include_socket_information: ["GET_THING_CONNECTIVITY_DATA"], # accepts GET_THING_CONNECTIVITY_DATA
+    #         },
     #       },
     #     },
     #     thing_group_indexing_configuration: {
@@ -16662,7 +16697,7 @@ module Aws::IoT
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-iot'
-      context[:gem_version] = '1.168.0'
+      context[:gem_version] = '1.169.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -220,9 +220,14 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Bedrock/Client.html#create_custom_model-instance_method
       def create_custom_model: (
                                  model_name: ::String,
-                                 model_source_config: {
+                                 ?model_source_config: {
                                    s3_data_source: {
                                      s3_uri: ::String
+                                   }?
+                                 },
+                                 ?custom_model_data_source: {
+                                   model_package_arn_data_source: {
+                                     model_package_arn: ::String
                                    }?
                                  },
                                  ?model_kms_key_arn: ::String,

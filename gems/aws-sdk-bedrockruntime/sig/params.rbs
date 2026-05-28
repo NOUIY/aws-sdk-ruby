@@ -9,7 +9,7 @@ module Aws
   module BedrockRuntime
     module Params
       type message = {
-      role: ("user" | "assistant"),
+      role: ("user" | "assistant" | "system"),
       content: Array[
         Params::content_block
       ]

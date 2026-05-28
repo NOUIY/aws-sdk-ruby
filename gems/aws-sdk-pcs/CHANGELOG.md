@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.48.0 (2026-05-28)
+------------------
+
+* Feature - This release adds support for configuring scaleDownIdleTimeInSeconds at the compute node group level, allowing customers to set different idle timeouts per node group. Previously this setting was only available at the cluster level.
+
 1.47.0 (2026-05-21)
 ------------------
 

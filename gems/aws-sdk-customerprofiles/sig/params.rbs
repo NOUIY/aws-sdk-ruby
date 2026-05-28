@@ -106,7 +106,7 @@ module Aws
       event_expiration: ::Integer?,
       periods: Array[
         {
-          unit: ("HOURS" | "DAYS" | "WEEKS" | "MONTHS"),
+          unit: ("MINUTES" | "HOURS" | "DAYS" | "WEEKS" | "MONTHS"),
           value: ::Integer,
           max_invocations_per_profile: ::Integer?,
           unlimited: bool?

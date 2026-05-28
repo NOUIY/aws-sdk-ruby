@@ -476,10 +476,11 @@ module Aws::Bedrock
 
     # @!group API Operations
 
-    # Batch delete the specified advanced prompt optimization jobs.
+    # Deletes one or more advanced prompt optimization jobs.
     #
     # @option params [required, Array<String>] :job_identifiers
-    #   List of advanced prompt optimization job identifiers to delete.
+    #   A list of advanced prompt optimization job identifiers (ARNs or IDs)
+    #   to delete.
     #
     # @return [Types::BatchDeleteAdvancedPromptOptimizationJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -610,34 +611,43 @@ module Aws::Bedrock
       req.send_request(options)
     end
 
-    # Creates an asynchronous batch job for advanced prompt optimization.
+    # Creates an advanced prompt optimization job. The job optimizes your
+    # prompt templates for specific models using your evaluation dataset and
+    # criteria.
     #
     # @option params [required, String] :job_name
-    #   Name of the advanced prompt optimization job.
+    #   A name for the advanced prompt optimization job.
     #
     # @option params [String] :job_description
-    #   Description of the advanced prompt optimization job.
+    #   A description of the advanced prompt optimization job.
     #
     # @option params [String] :client_token
-    #   Idempotency token for the request.
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If this token matches a previous
+    #   request, Amazon Bedrock ignores the request but does not return an
+    #   error.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
     #
     # @option params [required, Types::AdvancedPromptOptimizationInputConfig] :input_config
-    #   Input data configuration for the advanced prompt optimization job.
+    #   Specifies the S3 location of your JSONL input file containing prompt
+    #   templates and evaluation samples.
     #
     # @option params [required, Types::AdvancedPromptOptimizationOutputConfig] :output_config
-    #   Output data configuration for the advanced prompt optimization job.
+    #   Specifies the S3 location where optimization results will be stored.
     #
     # @option params [String] :encryption_key_arn
-    #   KMS key ARN for encrypting output data.
+    #   The Amazon Resource Name (ARN) of the KMS key used for encrypting the
+    #   output data. If not specified, the output is encrypted with an
+    #   Amazon-owned KMS key.
     #
     # @option params [Array<Types::Tag>] :tags
-    #   Tags to associate with the job.
+    #   Tags to associate with the advanced prompt optimization job.
     #
     # @option params [required, Array<Types::ModelConfiguration>] :model_configurations
-    #   Model configurations for advanced prompt optimization.
+    #   A list of model configurations specifying the target models for prompt
+    #   optimization. You can specify up to 5 models.
     #
     # @return [Types::CreateAdvancedPromptOptimizationJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -981,6 +991,16 @@ module Aws::Bedrock
     # Creates a new custom model in Amazon Bedrock. After the model is
     # active, you can use it for inference.
     #
+    # You can provide the model data source in one of the following ways:
+    #
+    # * `customModelDataSource` — Specify a SageMaker AI model package ARN.
+    #   Amazon Bedrock resolves the model package to retrieve the model
+    #   artifacts. This is the preferred method for new SageMaker AI
+    #   training outputs.
+    #
+    # * `modelSourceConfig` — Specify an Amazon S3 URI pointing to the
+    #   Amazon-managed Amazon S3 bucket containing your model artifacts.
+    #
     # To use the model for inference, you must purchase Provisioned
     # Throughput for it. You can't use On-demand inference with these
     # custom models. For more information about Provisioned Throughput, see
@@ -1015,10 +1035,19 @@ module Aws::Bedrock
     # @option params [required, String] :model_name
     #   A unique name for the custom model.
     #
-    # @option params [required, Types::ModelDataSource] :model_source_config
+    # @option params [Types::ModelDataSource] :model_source_config
     #   The data source for the model. The Amazon S3 URI in the model source
     #   must be for the Amazon-managed Amazon S3 bucket containing your model
     #   artifacts.
+    #
+    # @option params [Types::CustomModelDataSource] :custom_model_data_source
+    #   The data source for the custom model. Use this field to specify a
+    #   SageMaker AI model package ARN as the source for your custom model.
+    #   Amazon Bedrock resolves the model package to retrieve the model
+    #   artifacts.
+    #
+    #   You can specify either `customModelDataSource` or `modelSourceConfig`,
+    #   but not both.
     #
     # @option params [String] :model_kms_key_arn
     #   The Amazon Resource Name (ARN) of the customer managed KMS key to
@@ -1041,6 +1070,11 @@ module Aws::Bedrock
     #   artifacts and the KMS key (if specified). For more information, see
     #   [Setting up an IAM service role for importing models][1] in the Amazon
     #   Bedrock User Guide.
+    #
+    #   This field is required when you use `modelSourceConfig` with an Amazon
+    #   S3 data source. It is not required when you use
+    #   `customModelDataSource` with a model package ARN, because Amazon
+    #   Bedrock uses its own credentials to access the model artifacts.
     #
     #
     #
@@ -1109,9 +1143,14 @@ module Aws::Bedrock
     #
     #   resp = client.create_custom_model({
     #     model_name: "CustomModelName", # required
-    #     model_source_config: { # required
+    #     model_source_config: {
     #       s3_data_source: {
     #         s3_uri: "S3Uri", # required
+    #       },
+    #     },
+    #     custom_model_data_source: {
+    #       model_package_arn_data_source: {
+    #         model_package_arn: "ModelPackageArn", # required
     #       },
     #     },
     #     model_kms_key_arn: "KmsKeyArn",
@@ -3390,11 +3429,10 @@ module Aws::Bedrock
       req.send_request(options)
     end
 
-    # Retrieves the details and status of an advanced prompt optimization
-    # job.
+    # Gets information about an advanced prompt optimization job.
     #
     # @option params [required, String] :job_identifier
-    #   ARN or ID of the advanced prompt optimization job.
+    #   The ARN or ID of the advanced prompt optimization job.
     #
     # @return [Types::GetAdvancedPromptOptimizationJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -5278,19 +5316,21 @@ module Aws::Bedrock
       req.send_request(options)
     end
 
-    # Lists all advanced prompt optimization jobs for the account.
+    # Lists the advanced prompt optimization jobs in your account.
     #
     # @option params [Integer] :max_results
-    #   Maximum number of results to return.
+    #   The maximum number of results to return in the response.
     #
     # @option params [String] :next_token
-    #   Pagination token for the next page of results.
+    #   If the total number of results is greater than the `maxResults` value
+    #   provided in the request, use this token in a subsequent request to get
+    #   the next set of results.
     #
     # @option params [String] :sort_by
-    #   Field to sort by in the returned list of jobs.
+    #   The field to sort the results by.
     #
     # @option params [String] :sort_order
-    #   Sort order for the results.
+    #   The sort order for the results.
     #
     # @return [Types::ListAdvancedPromptOptimizationJobsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -7410,10 +7450,10 @@ module Aws::Bedrock
       req.send_request(options)
     end
 
-    # Stops an in-progress advanced prompt optimization job.
+    # Stops an advanced prompt optimization job that is in progress.
     #
     # @option params [required, String] :job_identifier
-    #   ARN or ID of the advanced prompt optimization job to stop.
+    #   The ARN or ID of the advanced prompt optimization job to stop.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -8244,7 +8284,7 @@ module Aws::Bedrock
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrock'
-      context[:gem_version] = '1.86.0'
+      context[:gem_version] = '1.87.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

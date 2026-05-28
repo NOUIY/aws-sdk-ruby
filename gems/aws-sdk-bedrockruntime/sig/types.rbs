@@ -1010,13 +1010,13 @@ module Aws::BedrockRuntime
     end
 
     class Message
-      attr_accessor role: ("user" | "assistant")
+      attr_accessor role: ("user" | "assistant" | "system")
       attr_accessor content: ::Array[Types::ContentBlock]
       SENSITIVE: []
     end
 
     class MessageStartEvent
-      attr_accessor role: ("user" | "assistant")
+      attr_accessor role: ("user" | "assistant" | "system")
       attr_accessor event_type: untyped
       SENSITIVE: []
     end

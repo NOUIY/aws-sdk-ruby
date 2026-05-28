@@ -1022,6 +1022,16 @@ module Aws::Deadline
     class DeleteStorageProfileResponse < Aws::EmptyStructure
     end
 
+    class DeleteVolumeRequest
+      attr_accessor farm_id: ::String
+      attr_accessor fleet_id: ::String
+      attr_accessor volume_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteVolumeResponse < Aws::EmptyStructure
+    end
+
     class DeleteWorkerRequest
       attr_accessor farm_id: ::String
       attr_accessor fleet_id: ::String
@@ -1656,6 +1666,31 @@ module Aws::Deadline
       attr_accessor latest_session_action_id: ::String
       attr_accessor parameters: ::Hash[::String, Types::TaskParameterValue]
       SENSITIVE: [:parameters]
+    end
+
+    class GetVolumeRequest
+      attr_accessor farm_id: ::String
+      attr_accessor fleet_id: ::String
+      attr_accessor volume_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetVolumeResponse
+      attr_accessor volume_id: ::String
+      attr_accessor farm_id: ::String
+      attr_accessor fleet_id: ::String
+      attr_accessor state: ("PENDING_CREATION" | "PENDING_ATTACHMENT" | "IN_USE" | "AVAILABLE" | "PENDING_DELETION")
+      attr_accessor size_gi_b: ::Integer
+      attr_accessor availability_zone_id: ::String
+      attr_accessor attached_worker_id: ::String
+      attr_accessor volume_type: ("gp3")
+      attr_accessor iops: ::Integer
+      attr_accessor throughput_mi_b: ::Integer
+      attr_accessor created_at: ::Time
+      attr_accessor last_assigned_at: ::Time
+      attr_accessor last_released_at: ::Time
+      attr_accessor expires_at: ::Time
+      SENSITIVE: []
     end
 
     class GetWorkerRequest
@@ -2304,6 +2339,20 @@ module Aws::Deadline
       SENSITIVE: []
     end
 
+    class ListVolumesRequest
+      attr_accessor farm_id: ::String
+      attr_accessor fleet_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListVolumesResponse
+      attr_accessor volumes: ::Array[Types::VolumeSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListWorkersRequest
       attr_accessor farm_id: ::String
       attr_accessor fleet_id: ::String
@@ -2389,6 +2438,15 @@ module Aws::Deadline
       attr_accessor source_path_format: ("windows" | "posix")
       attr_accessor source_path: ::String
       attr_accessor destination_path: ::String
+      SENSITIVE: []
+    end
+
+    class PersistentVolumeConfiguration
+      attr_accessor size_gi_b: ::Integer
+      attr_accessor iops: ::Integer
+      attr_accessor throughput_mi_b: ::Integer
+      attr_accessor mount_path: ::String
+      attr_accessor last_used_ttl_hours: ::Integer
       SENSITIVE: []
     end
 
@@ -2671,6 +2729,7 @@ module Aws::Deadline
       attr_accessor instance_market_options: Types::ServiceManagedEc2InstanceMarketOptions
       attr_accessor vpc_configuration: Types::VpcConfiguration
       attr_accessor storage_profile_id: ::String
+      attr_accessor persistent_volume_configuration: Types::PersistentVolumeConfiguration
       attr_accessor auto_scaling_configuration: Types::ServiceManagedEc2AutoScalingConfiguration
       SENSITIVE: []
     end
@@ -3360,6 +3419,17 @@ module Aws::Deadline
     class ValidationExceptionField
       attr_accessor name: ::String
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class VolumeSummary
+      attr_accessor volume_id: ::String
+      attr_accessor farm_id: ::String
+      attr_accessor fleet_id: ::String
+      attr_accessor state: ("PENDING_CREATION" | "PENDING_ATTACHMENT" | "IN_USE" | "AVAILABLE" | "PENDING_DELETION")
+      attr_accessor size_gi_b: ::Integer
+      attr_accessor availability_zone_id: ::String
+      attr_accessor attached_worker_id: ::String
       SENSITIVE: []
     end
 

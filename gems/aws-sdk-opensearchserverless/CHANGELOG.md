@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.60.0 (2026-05-28)
+------------------
+
+* Feature - Adds support for deletion protection on collections, ability to create NEXTGEN collection groups and autoscaling visibility for NEXTGEN collection groups
+
 1.59.0 (2026-05-21)
 ------------------
 

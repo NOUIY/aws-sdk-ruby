@@ -17,6 +17,9 @@ module Aws
       class ForbiddenException < ::Aws::Errors::ServiceError
         def message: () -> ::String
       end
+      class GatewayTimeoutException < ::Aws::Errors::ServiceError
+        def message: () -> ::String
+      end
       class InternalFailureException < ::Aws::Errors::ServiceError
         def message: () -> ::String
       end

@@ -731,6 +731,11 @@ module Aws::IoT
       SENSITIVE: []
     end
 
+    class ConnectivityFilter
+      attr_accessor include_socket_information: ::Array[("GET_THING_CONNECTIVITY_DATA")]
+      SENSITIVE: []
+    end
+
     class CreateAuditSuppressionRequest
       attr_accessor check_name: ::String
       attr_accessor resource_identifier: Types::ResourceIdentifier
@@ -2536,6 +2541,7 @@ module Aws::IoT
 
     class GetThingConnectivityDataRequest
       attr_accessor thing_name: ::String
+      attr_accessor include_socket_information: bool
       SENSITIVE: [:thing_name]
     end
 
@@ -2543,8 +2549,17 @@ module Aws::IoT
       attr_accessor thing_name: ::String
       attr_accessor connected: bool
       attr_accessor timestamp: ::Time
-      attr_accessor disconnect_reason: ("AUTH_ERROR" | "CLIENT_INITIATED_DISCONNECT" | "CLIENT_ERROR" | "CONNECTION_LOST" | "DUPLICATE_CLIENTID" | "FORBIDDEN_ACCESS" | "MQTT_KEEP_ALIVE_TIMEOUT" | "SERVER_ERROR" | "SERVER_INITIATED_DISCONNECT" | "THROTTLED" | "WEBSOCKET_TTL_EXPIRATION" | "CUSTOMAUTH_TTL_EXPIRATION" | "UNKNOWN" | "NONE")
-      SENSITIVE: [:thing_name]
+      attr_accessor disconnect_reason: ("AUTH_ERROR" | "CLIENT_INITIATED_DISCONNECT" | "CLIENT_ERROR" | "CONNECTION_LOST" | "DUPLICATE_CLIENTID" | "FORBIDDEN_ACCESS" | "MQTT_KEEP_ALIVE_TIMEOUT" | "SERVER_ERROR" | "SERVER_INITIATED_DISCONNECT" | "API_INITIATED_DISCONNECT" | "THROTTLED" | "WEBSOCKET_TTL_EXPIRATION" | "CUSTOMAUTH_TTL_EXPIRATION" | "UNKNOWN" | "NONE")
+      attr_accessor source_ip: ::String
+      attr_accessor source_port: ::Integer
+      attr_accessor target_ip: ::String
+      attr_accessor target_port: ::Integer
+      attr_accessor vpc_endpoint_id: ::String
+      attr_accessor keep_alive_duration: ::Integer
+      attr_accessor clean_session: bool
+      attr_accessor session_expiry: ::Integer
+      attr_accessor client_id: ::String
+      SENSITIVE: [:thing_name, :source_ip, :source_port, :target_ip, :target_port, :vpc_endpoint_id]
     end
 
     class GetTopicRuleDestinationRequest
@@ -2642,6 +2657,7 @@ module Aws::IoT
     class IndexingFilter
       attr_accessor named_shadow_names: ::Array[::String]
       attr_accessor geo_locations: ::Array[Types::GeoLocationTarget]
+      attr_accessor connectivity: Types::ConnectivityFilter
       SENSITIVE: []
     end
 
@@ -4693,6 +4709,10 @@ module Aws::IoT
       attr_accessor connected: bool
       attr_accessor timestamp: ::Integer
       attr_accessor disconnect_reason: ::String
+      attr_accessor keep_alive_duration: ::Integer
+      attr_accessor clean_session: bool
+      attr_accessor session_expiry: ::Integer
+      attr_accessor client_id: ::String
       SENSITIVE: []
     end
 

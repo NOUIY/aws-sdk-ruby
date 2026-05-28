@@ -184,6 +184,7 @@ module Aws
                                  a_ws_owned_key: bool?,
                                  kms_key_arn: ::String?
                                },
+                               ?deletion_protection: ("ENABLED" | "DISABLED"),
                                ?client_token: ::String
                              ) -> _CreateCollectionResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateCollectionResponseSuccess
@@ -209,6 +210,7 @@ module Aws
                                        min_indexing_capacity_in_ocu: ::Float?,
                                        min_search_capacity_in_ocu: ::Float?
                                      },
+                                     ?generation: ("CLASSIC" | "NEXTGEN"),
                                      ?client_token: ::String
                                    ) -> _CreateCollectionGroupResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateCollectionGroupResponseSuccess
@@ -619,6 +621,7 @@ module Aws
                                ?vector_options: {
                                  serverless_vector_acceleration: ("ENABLED" | "DISABLED" | "ALLOWED")
                                },
+                               ?deletion_protection: ("ENABLED" | "DISABLED"),
                                ?client_token: ::String
                              ) -> _UpdateCollectionResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateCollectionResponseSuccess

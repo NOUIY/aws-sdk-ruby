@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+3.250.0 (2026-05-28)
+------------------
+
+* Feature - Adding new BDD representation of endpoint ruleset
+
 * Issue - Prevent unbounded recursion in CBOR decoder that could cause process termination on malformed responses.
 
 3.249.0 (2026-05-22)

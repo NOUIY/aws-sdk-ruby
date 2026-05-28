@@ -111,6 +111,13 @@ module Aws
         resource_configuration_arns: Array[::String]?
       }?,
       storage_profile_id: ::String?,
+      persistent_volume_configuration: {
+        size_gi_b: ::Integer?,
+        iops: ::Integer?,
+        throughput_mi_b: ::Integer?,
+        mount_path: ::String,
+        last_used_ttl_hours: ::Integer?
+      }?,
       auto_scaling_configuration: {
         standby_worker_count: ::Integer?,
         worker_idle_duration_seconds: ::Integer?,

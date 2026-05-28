@@ -33,6 +33,7 @@ module Aws::ControlCatalog
     ControlMappingFilter = Shapes::StructureShape.new(name: 'ControlMappingFilter')
     ControlMappings = Shapes::ListShape.new(name: 'ControlMappings')
     ControlParameter = Shapes::StructureShape.new(name: 'ControlParameter')
+    ControlParameterRequirement = Shapes::StringShape.new(name: 'ControlParameterRequirement')
     ControlParameters = Shapes::ListShape.new(name: 'ControlParameters')
     ControlRelationType = Shapes::StringShape.new(name: 'ControlRelationType')
     ControlScope = Shapes::StringShape.new(name: 'ControlScope')
@@ -50,6 +51,9 @@ module Aws::ControlCatalog
     FrameworkName = Shapes::StringShape.new(name: 'FrameworkName')
     GetControlRequest = Shapes::StructureShape.new(name: 'GetControlRequest')
     GetControlResponse = Shapes::StructureShape.new(name: 'GetControlResponse')
+    GovernedProvider = Shapes::StringShape.new(name: 'GovernedProvider')
+    GovernedProviderFilterList = Shapes::ListShape.new(name: 'GovernedProviderFilterList')
+    GovernedProviders = Shapes::ListShape.new(name: 'GovernedProviders')
     GovernedResource = Shapes::StringShape.new(name: 'GovernedResource')
     GovernedResources = Shapes::ListShape.new(name: 'GovernedResources')
     ImplementationDetails = Shapes::StructureShape.new(name: 'ImplementationDetails')
@@ -85,6 +89,7 @@ module Aws::ControlCatalog
     ObjectiveSummary = Shapes::StructureShape.new(name: 'ObjectiveSummary')
     ObjectiveSummaryList = Shapes::ListShape.new(name: 'ObjectiveSummaryList')
     PaginationToken = Shapes::StringShape.new(name: 'PaginationToken')
+    ParameterRequirementSummary = Shapes::StringShape.new(name: 'ParameterRequirementSummary')
     RegionCode = Shapes::StringShape.new(name: 'RegionCode')
     RegionConfiguration = Shapes::StructureShape.new(name: 'RegionConfiguration')
     RelatedControlMappingDetails = Shapes::StructureShape.new(name: 'RelatedControlMappingDetails')
@@ -129,6 +134,7 @@ module Aws::ControlCatalog
     ControlArnFilterList.member = Shapes::ShapeRef.new(shape: ControlArn)
 
     ControlFilter.add_member(:implementations, Shapes::ShapeRef.new(shape: ImplementationFilter, location_name: "Implementations"))
+    ControlFilter.add_member(:governed_providers, Shapes::ShapeRef.new(shape: GovernedProviderFilterList, location_name: "GovernedProviders"))
     ControlFilter.struct_class = Types::ControlFilter
 
     ControlMapping.add_member(:control_arn, Shapes::ShapeRef.new(shape: ControlArn, required: true, location_name: "ControlArn"))
@@ -144,6 +150,7 @@ module Aws::ControlCatalog
     ControlMappings.member = Shapes::ShapeRef.new(shape: ControlMapping)
 
     ControlParameter.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Name"))
+    ControlParameter.add_member(:requirement, Shapes::ShapeRef.new(shape: ControlParameterRequirement, location_name: "Requirement"))
     ControlParameter.struct_class = Types::ControlParameter
 
     ControlParameters.member = Shapes::ShapeRef.new(shape: ControlParameter)
@@ -154,9 +161,11 @@ module Aws::ControlCatalog
     ControlSummary.add_member(:description, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Description"))
     ControlSummary.add_member(:behavior, Shapes::ShapeRef.new(shape: ControlBehavior, location_name: "Behavior"))
     ControlSummary.add_member(:severity, Shapes::ShapeRef.new(shape: ControlSeverity, location_name: "Severity"))
+    ControlSummary.add_member(:parameter_requirement_summary, Shapes::ShapeRef.new(shape: ParameterRequirementSummary, location_name: "ParameterRequirementSummary"))
     ControlSummary.add_member(:implementation, Shapes::ShapeRef.new(shape: ImplementationSummary, location_name: "Implementation"))
     ControlSummary.add_member(:create_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreateTime"))
     ControlSummary.add_member(:governed_resources, Shapes::ShapeRef.new(shape: GovernedResources, location_name: "GovernedResources"))
+    ControlSummary.add_member(:governed_providers, Shapes::ShapeRef.new(shape: GovernedProviders, location_name: "GovernedProviders"))
     ControlSummary.struct_class = Types::ControlSummary
 
     Controls.member = Shapes::ShapeRef.new(shape: ControlSummary)
@@ -192,10 +201,16 @@ module Aws::ControlCatalog
     GetControlResponse.add_member(:severity, Shapes::ShapeRef.new(shape: ControlSeverity, location_name: "Severity"))
     GetControlResponse.add_member(:region_configuration, Shapes::ShapeRef.new(shape: RegionConfiguration, required: true, location_name: "RegionConfiguration"))
     GetControlResponse.add_member(:implementation, Shapes::ShapeRef.new(shape: ImplementationDetails, location_name: "Implementation"))
+    GetControlResponse.add_member(:parameter_requirement_summary, Shapes::ShapeRef.new(shape: ParameterRequirementSummary, location_name: "ParameterRequirementSummary"))
     GetControlResponse.add_member(:parameters, Shapes::ShapeRef.new(shape: ControlParameters, location_name: "Parameters"))
     GetControlResponse.add_member(:create_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreateTime"))
     GetControlResponse.add_member(:governed_resources, Shapes::ShapeRef.new(shape: GovernedResources, location_name: "GovernedResources"))
+    GetControlResponse.add_member(:governed_providers, Shapes::ShapeRef.new(shape: GovernedProviders, location_name: "GovernedProviders"))
     GetControlResponse.struct_class = Types::GetControlResponse
+
+    GovernedProviderFilterList.member = Shapes::ShapeRef.new(shape: GovernedProvider)
+
+    GovernedProviders.member = Shapes::ShapeRef.new(shape: GovernedProvider)
 
     GovernedResources.member = Shapes::ShapeRef.new(shape: GovernedResource)
 

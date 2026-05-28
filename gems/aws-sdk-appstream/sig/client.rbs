@@ -419,8 +419,9 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AppStream/Client.html#create_imported_image-instance_method
       def create_imported_image: (
                                    name: ::String,
-                                   source_ami_id: ::String,
-                                   iam_role_arn: ::String,
+                                   ?source_ami_id: ::String,
+                                   ?workspace_image_id: ::String,
+                                   ?iam_role_arn: ::String,
                                    ?description: ::String,
                                    ?display_name: ::String,
                                    ?tags: Hash[::String, ::String],

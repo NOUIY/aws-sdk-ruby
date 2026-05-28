@@ -36,6 +36,35 @@ module Aws::IoTDataPlane
       SENSITIVE: []
     end
 
+    class GatewayTimeoutException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class GetConnectionRequest
+      attr_accessor client_id: ::String
+      attr_accessor include_socket_information: bool
+      SENSITIVE: []
+    end
+
+    class GetConnectionResponse
+      attr_accessor connected: bool
+      attr_accessor thing_name: ::String
+      attr_accessor clean_session: bool
+      attr_accessor source_ip: ::String
+      attr_accessor source_port: ::Integer
+      attr_accessor target_ip: ::String
+      attr_accessor target_port: ::Integer
+      attr_accessor keep_alive_duration: ::Integer
+      attr_accessor connected_since: ::Integer
+      attr_accessor disconnected_since: ::Integer
+      attr_accessor disconnect_reason: ::String
+      attr_accessor session_expiry: ::Integer
+      attr_accessor client_id: ::String
+      attr_accessor vpc_endpoint_id: ::String
+      SENSITIVE: []
+    end
+
     class GetRetainedMessageRequest
       attr_accessor topic: ::String
       SENSITIVE: []
@@ -97,6 +126,19 @@ module Aws::IoTDataPlane
       SENSITIVE: []
     end
 
+    class ListSubscriptionsRequest
+      attr_accessor client_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListSubscriptionsResponse
+      attr_accessor subscriptions: ::Array[Types::SubscriptionSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class MethodNotAllowedException
       attr_accessor message: ::String
       SENSITIVE: []
@@ -134,8 +176,34 @@ module Aws::IoTDataPlane
       SENSITIVE: []
     end
 
+    class SendDirectMessageRequest
+      attr_accessor client_id: ::String
+      attr_accessor topic: ::String
+      attr_accessor content_type: ::String
+      attr_accessor response_topic: ::String
+      attr_accessor confirmation: bool
+      attr_accessor timeout: ::Integer
+      attr_accessor payload: ::String
+      attr_accessor user_properties: ::String
+      attr_accessor payload_format_indicator: ("UNSPECIFIED_BYTES" | "UTF8_DATA")
+      attr_accessor correlation_data: ::String
+      SENSITIVE: []
+    end
+
+    class SendDirectMessageResponse
+      attr_accessor message: ::String
+      attr_accessor trace_id: ::String
+      SENSITIVE: []
+    end
+
     class ServiceUnavailableException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class SubscriptionSummary
+      attr_accessor topic_filter: ::String
+      attr_accessor qos: ::Integer
       SENSITIVE: []
     end
 

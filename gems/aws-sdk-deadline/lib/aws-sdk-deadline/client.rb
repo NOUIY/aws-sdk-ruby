@@ -2088,6 +2088,13 @@ module Aws::Deadline
     #           resource_configuration_arns: ["VpcResourceConfigurationArn"],
     #         },
     #         storage_profile_id: "StorageProfileId",
+    #         persistent_volume_configuration: {
+    #           size_gi_b: 1,
+    #           iops: 1,
+    #           throughput_mi_b: 1,
+    #           mount_path: "MountPath", # required
+    #           last_used_ttl_hours: 1,
+    #         },
     #         auto_scaling_configuration: {
     #           standby_worker_count: 1,
     #           worker_idle_duration_seconds: 1,
@@ -2409,7 +2416,7 @@ module Aws::Deadline
     #   authenticates monitor users.
     #
     # @option params [String] :identity_center_region
-    #   The AWS Region where IAM Identity Center is enabled. Required when IAM
+    #   The Region where IAM Identity Center is enabled. Required when IAM
     #   Identity Center is in a different Region than the monitor.
     #
     # @option params [required, String] :subdomain
@@ -3173,6 +3180,45 @@ module Aws::Deadline
       req.send_request(options)
     end
 
+    # Deletes a persistent volume.
+    #
+    # @option params [required, String] :farm_id
+    #   The farm ID of the farm that contains the fleet.
+    #
+    # @option params [required, String] :fleet_id
+    #   The fleet ID of the fleet that contains the volume.
+    #
+    # @option params [required, String] :volume_id
+    #   The volume ID of the volume to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    #
+    # @example Example: Delete a volume
+    #
+    #   resp = client.delete_volume({
+    #     farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #     fleet_id: "fleet-1234567890abcdef1234567890abcdef", 
+    #     volume_id: "volume-1234567890abcdef1234567890abcdef", 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_volume({
+    #     farm_id: "FarmId", # required
+    #     fleet_id: "FleetId", # required
+    #     volume_id: "VolumeId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/DeleteVolume AWS API Documentation
+    #
+    # @overload delete_volume(params = {})
+    # @param [Hash] params ({})
+    def delete_volume(params = {}, options = {})
+      req = build_request(:delete_volume, params)
+      req.send_request(options)
+    end
+
     # Deletes a worker.
     #
     # @option params [required, String] :farm_id
@@ -3536,6 +3582,11 @@ module Aws::Deadline
     #   resp.configuration.service_managed_ec2.vpc_configuration.resource_configuration_arns #=> Array
     #   resp.configuration.service_managed_ec2.vpc_configuration.resource_configuration_arns[0] #=> String
     #   resp.configuration.service_managed_ec2.storage_profile_id #=> String
+    #   resp.configuration.service_managed_ec2.persistent_volume_configuration.size_gi_b #=> Integer
+    #   resp.configuration.service_managed_ec2.persistent_volume_configuration.iops #=> Integer
+    #   resp.configuration.service_managed_ec2.persistent_volume_configuration.throughput_mi_b #=> Integer
+    #   resp.configuration.service_managed_ec2.persistent_volume_configuration.mount_path #=> String
+    #   resp.configuration.service_managed_ec2.persistent_volume_configuration.last_used_ttl_hours #=> Integer
     #   resp.configuration.service_managed_ec2.auto_scaling_configuration.standby_worker_count #=> Integer
     #   resp.configuration.service_managed_ec2.auto_scaling_configuration.worker_idle_duration_seconds #=> Integer
     #   resp.configuration.service_managed_ec2.auto_scaling_configuration.scale_out_workers_per_minute #=> Integer
@@ -4590,6 +4641,77 @@ module Aws::Deadline
       req.send_request(options)
     end
 
+    # Gets a persistent volume.
+    #
+    # @option params [required, String] :farm_id
+    #   The farm ID of the farm that contains the fleet.
+    #
+    # @option params [required, String] :fleet_id
+    #   The fleet ID of the fleet that contains the volume.
+    #
+    # @option params [required, String] :volume_id
+    #   The volume ID of the volume to retrieve.
+    #
+    # @return [Types::GetVolumeResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetVolumeResponse#volume_id #volume_id} => String
+    #   * {Types::GetVolumeResponse#farm_id #farm_id} => String
+    #   * {Types::GetVolumeResponse#fleet_id #fleet_id} => String
+    #   * {Types::GetVolumeResponse#state #state} => String
+    #   * {Types::GetVolumeResponse#size_gi_b #size_gi_b} => Integer
+    #   * {Types::GetVolumeResponse#availability_zone_id #availability_zone_id} => String
+    #   * {Types::GetVolumeResponse#attached_worker_id #attached_worker_id} => String
+    #   * {Types::GetVolumeResponse#volume_type #volume_type} => String
+    #   * {Types::GetVolumeResponse#iops #iops} => Integer
+    #   * {Types::GetVolumeResponse#throughput_mi_b #throughput_mi_b} => Integer
+    #   * {Types::GetVolumeResponse#created_at #created_at} => Time
+    #   * {Types::GetVolumeResponse#last_assigned_at #last_assigned_at} => Time
+    #   * {Types::GetVolumeResponse#last_released_at #last_released_at} => Time
+    #   * {Types::GetVolumeResponse#expires_at #expires_at} => Time
+    #
+    #
+    # @example Example: Get a volume
+    #
+    #   resp = client.get_volume({
+    #     farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #     fleet_id: "fleet-1234567890abcdef1234567890abcdef", 
+    #     volume_id: "volume-1234567890abcdef1234567890abcdef", 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_volume({
+    #     farm_id: "FarmId", # required
+    #     fleet_id: "FleetId", # required
+    #     volume_id: "VolumeId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.volume_id #=> String
+    #   resp.farm_id #=> String
+    #   resp.fleet_id #=> String
+    #   resp.state #=> String, one of "PENDING_CREATION", "PENDING_ATTACHMENT", "IN_USE", "AVAILABLE", "PENDING_DELETION"
+    #   resp.size_gi_b #=> Integer
+    #   resp.availability_zone_id #=> String
+    #   resp.attached_worker_id #=> String
+    #   resp.volume_type #=> String, one of "gp3"
+    #   resp.iops #=> Integer
+    #   resp.throughput_mi_b #=> Integer
+    #   resp.created_at #=> Time
+    #   resp.last_assigned_at #=> Time
+    #   resp.last_released_at #=> Time
+    #   resp.expires_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/GetVolume AWS API Documentation
+    #
+    # @overload get_volume(params = {})
+    # @param [Hash] params ({})
+    def get_volume(params = {}, options = {})
+      req = build_request(:get_volume, params)
+      req.send_request(options)
+    end
+
     # Gets a worker.
     #
     # @option params [required, String] :farm_id
@@ -5015,6 +5137,11 @@ module Aws::Deadline
     #   resp.fleets[0].configuration.service_managed_ec2.vpc_configuration.resource_configuration_arns #=> Array
     #   resp.fleets[0].configuration.service_managed_ec2.vpc_configuration.resource_configuration_arns[0] #=> String
     #   resp.fleets[0].configuration.service_managed_ec2.storage_profile_id #=> String
+    #   resp.fleets[0].configuration.service_managed_ec2.persistent_volume_configuration.size_gi_b #=> Integer
+    #   resp.fleets[0].configuration.service_managed_ec2.persistent_volume_configuration.iops #=> Integer
+    #   resp.fleets[0].configuration.service_managed_ec2.persistent_volume_configuration.throughput_mi_b #=> Integer
+    #   resp.fleets[0].configuration.service_managed_ec2.persistent_volume_configuration.mount_path #=> String
+    #   resp.fleets[0].configuration.service_managed_ec2.persistent_volume_configuration.last_used_ttl_hours #=> Integer
     #   resp.fleets[0].configuration.service_managed_ec2.auto_scaling_configuration.standby_worker_count #=> Integer
     #   resp.fleets[0].configuration.service_managed_ec2.auto_scaling_configuration.worker_idle_duration_seconds #=> Integer
     #   resp.fleets[0].configuration.service_managed_ec2.auto_scaling_configuration.scale_out_workers_per_minute #=> Integer
@@ -6257,6 +6384,67 @@ module Aws::Deadline
       req.send_request(options)
     end
 
+    # Lists the persistent volumes in a fleet.
+    #
+    # @option params [required, String] :farm_id
+    #   The farm ID of the farm that contains the fleet.
+    #
+    # @option params [required, String] :fleet_id
+    #   The fleet ID of the fleet that contains the volumes.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or `null` to start from the
+    #   beginning.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return. Use this parameter with
+    #   `NextToken` to get results as a set of sequential pages.
+    #
+    # @return [Types::ListVolumesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListVolumesResponse#volumes #volumes} => Array&lt;Types::VolumeSummary&gt;
+    #   * {Types::ListVolumesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    #
+    # @example Example: List volumes for a fleet
+    #
+    #   resp = client.list_volumes({
+    #     farm_id: "farm-1234567890abcdef1234567890abcdef", 
+    #     fleet_id: "fleet-1234567890abcdef1234567890abcdef", 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_volumes({
+    #     farm_id: "FarmId", # required
+    #     fleet_id: "FleetId", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.volumes #=> Array
+    #   resp.volumes[0].volume_id #=> String
+    #   resp.volumes[0].farm_id #=> String
+    #   resp.volumes[0].fleet_id #=> String
+    #   resp.volumes[0].state #=> String, one of "PENDING_CREATION", "PENDING_ATTACHMENT", "IN_USE", "AVAILABLE", "PENDING_DELETION"
+    #   resp.volumes[0].size_gi_b #=> Integer
+    #   resp.volumes[0].availability_zone_id #=> String
+    #   resp.volumes[0].attached_worker_id #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/ListVolumes AWS API Documentation
+    #
+    # @overload list_volumes(params = {})
+    # @param [Hash] params ({})
+    def list_volumes(params = {}, options = {})
+      req = build_request(:list_volumes, params)
+      req.send_request(options)
+    end
+
     # Lists workers.
     #
     # @option params [required, String] :farm_id
@@ -7261,6 +7449,13 @@ module Aws::Deadline
     #           resource_configuration_arns: ["VpcResourceConfigurationArn"],
     #         },
     #         storage_profile_id: "StorageProfileId",
+    #         persistent_volume_configuration: {
+    #           size_gi_b: 1,
+    #           iops: 1,
+    #           throughput_mi_b: 1,
+    #           mount_path: "MountPath", # required
+    #           last_used_ttl_hours: 1,
+    #         },
     #         auto_scaling_configuration: {
     #           standby_worker_count: 1,
     #           worker_idle_duration_seconds: 1,
@@ -8147,7 +8342,7 @@ module Aws::Deadline
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-deadline'
-      context[:gem_version] = '1.55.0'
+      context[:gem_version] = '1.56.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

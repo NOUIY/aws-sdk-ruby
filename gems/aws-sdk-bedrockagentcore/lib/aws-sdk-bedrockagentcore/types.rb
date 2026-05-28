@@ -1799,7 +1799,7 @@ module Aws::BedrockAgentCore
     # @note DataSourceConfig is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of DataSourceConfig corresponding to the set member.
     #
     # @!attribute [rw] cloud_watch_logs
-    #   Pull session spans from CloudWatch
+    #   Configuration for pulling agent session traces from CloudWatch Logs.
     #   @return [Types::CloudWatchLogsSource]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DataSourceConfig AWS API Documentation
@@ -2338,9 +2338,9 @@ module Aws::BedrockAgentCore
     # context.
     #
     # @!attribute [rw] context
-    #   The contextual information associated with an evaluation, including
-    #   span context details that identify the specific traces and sessions
-    #   being evaluated within the agent's execution flow.
+    #   The span context that identifies which session or trace this
+    #   reference input applies to, used for correlating ground truth with
+    #   agent output.
     #   @return [Types::Context]
     #
     # @!attribute [rw] expected_response
@@ -3871,7 +3871,7 @@ module Aws::BedrockAgentCore
     # @note GroundTruthSource is a union - when making an API calls you must set exactly one of the members.
     #
     # @!attribute [rw] inline
-    #   Provide ground truth inline
+    #   Inline ground truth data provided directly in the request.
     #   @return [Types::InlineGroundTruth]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GroundTruthSource AWS API Documentation
@@ -3994,13 +3994,24 @@ module Aws::BedrockAgentCore
     #   The topP set when calling the model.
     #   @return [Float]
     #
+    # @!attribute [rw] api_format
+    #   The API format to use when calling the Bedrock provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] additional_params
+    #   Provider-specific parameters passed through to the model provider
+    #   unchanged.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessBedrockModelConfig AWS API Documentation
     #
     class HarnessBedrockModelConfig < Struct.new(
       :model_id,
       :max_tokens,
       :temperature,
-      :top_p)
+      :top_p,
+      :api_format,
+      :additional_params)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4259,6 +4270,54 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # Configuration for a LiteLLM model provider, enabling connection to
+    # third-party model providers.
+    #
+    # @!attribute [rw] model_id
+    #   The LiteLLM model identifier (e.g., "anthropic/claude-3-sonnet").
+    #   @return [String]
+    #
+    # @!attribute [rw] api_key_arn
+    #   The ARN of the API key in AgentCore Identity for authenticating with
+    #   the model provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] api_base
+    #   The base URL for the model provider's API endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_tokens
+    #   The maximum number of tokens to allow in the generated response per
+    #   iteration.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] temperature
+    #   The temperature to set when calling the model.
+    #   @return [Float]
+    #
+    # @!attribute [rw] top_p
+    #   The topP set when calling the model.
+    #   @return [Float]
+    #
+    # @!attribute [rw] additional_params
+    #   Provider-specific parameters passed through to the model provider
+    #   unchanged.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessLiteLlmModelConfig AWS API Documentation
+    #
+    class HarnessLiteLlmModelConfig < Struct.new(
+      :model_id,
+      :api_key_arn,
+      :api_base,
+      :max_tokens,
+      :temperature,
+      :top_p,
+      :additional_params)
+      SENSITIVE = [:api_base]
+      include Aws::Structure
+    end
+
     # A message in the conversation.
     #
     # @!attribute [rw] role
@@ -4344,12 +4403,18 @@ module Aws::BedrockAgentCore
     #   Configuration for a Google Gemini model.
     #   @return [Types::HarnessGeminiModelConfig]
     #
+    # @!attribute [rw] lite_llm_model_config
+    #   The LiteLLM model configuration for connecting to third-party model
+    #   providers.
+    #   @return [Types::HarnessLiteLlmModelConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessModelConfiguration AWS API Documentation
     #
     class HarnessModelConfiguration < Struct.new(
       :bedrock_model_config,
       :open_ai_model_config,
       :gemini_model_config,
+      :lite_llm_model_config,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -4358,6 +4423,7 @@ module Aws::BedrockAgentCore
       class BedrockModelConfig < HarnessModelConfiguration; end
       class OpenAiModelConfig < HarnessModelConfiguration; end
       class GeminiModelConfig < HarnessModelConfiguration; end
+      class LiteLlmModelConfig < HarnessModelConfiguration; end
       class Unknown < HarnessModelConfiguration; end
     end
 
@@ -4385,6 +4451,15 @@ module Aws::BedrockAgentCore
     #   The topP set when calling the model.
     #   @return [Float]
     #
+    # @!attribute [rw] api_format
+    #   The API format to use when calling the OpenAI provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] additional_params
+    #   Provider-specific parameters passed through to the model provider
+    #   unchanged.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessOpenAiModelConfig AWS API Documentation
     #
     class HarnessOpenAiModelConfig < Struct.new(
@@ -4392,7 +4467,9 @@ module Aws::BedrockAgentCore
       :api_key_arn,
       :max_tokens,
       :temperature,
-      :top_p)
+      :top_p,
+      :api_format,
+      :additional_params)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4503,17 +4580,89 @@ module Aws::BedrockAgentCore
     #   The filesystem path to the skill definition.
     #   @return [String]
     #
+    # @!attribute [rw] s3
+    #   An S3 source containing the skill.
+    #   @return [Types::HarnessSkillS3Source]
+    #
+    # @!attribute [rw] git
+    #   A git repository containing the skill.
+    #   @return [Types::HarnessSkillGitSource]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessSkill AWS API Documentation
     #
     class HarnessSkill < Struct.new(
       :path,
+      :s3,
+      :git,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
       class Path < HarnessSkill; end
+      class S3 < HarnessSkill; end
+      class Git < HarnessSkill; end
       class Unknown < HarnessSkill; end
+    end
+
+    # Authentication configuration for accessing a private git repository.
+    #
+    # @!attribute [rw] credential_arn
+    #   The ARN of the credential in AgentCore Identity containing the
+    #   password or personal access token.
+    #   @return [String]
+    #
+    # @!attribute [rw] username
+    #   Username for authentication. Defaults to 'oauth2' if not
+    #   specified.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessSkillGitAuth AWS API Documentation
+    #
+    class HarnessSkillGitAuth < Struct.new(
+      :credential_arn,
+      :username)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A git repository source for a skill.
+    #
+    # @!attribute [rw] url
+    #   The HTTPS URL of the git repository.
+    #   @return [String]
+    #
+    # @!attribute [rw] path
+    #   Subdirectory within the repository containing the skill.
+    #   @return [String]
+    #
+    # @!attribute [rw] auth
+    #   Authentication configuration for private repositories.
+    #   @return [Types::HarnessSkillGitAuth]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessSkillGitSource AWS API Documentation
+    #
+    class HarnessSkillGitSource < Struct.new(
+      :url,
+      :path,
+      :auth)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An S3 source for a skill.
+    #
+    # @!attribute [rw] uri
+    #   The S3 URI pointing to the skill directory (e.g.,
+    #   s3://bucket/skills/my-skill/).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessSkillS3Source AWS API Documentation
+    #
+    class HarnessSkillS3Source < Struct.new(
+      :uri)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # Latency metrics for the invocation.
@@ -4843,8 +4992,7 @@ module Aws::BedrockAgentCore
     #   @return [Array<Types::EvaluationContent>]
     #
     # @!attribute [rw] expected_trajectory
-    #   expectedTrajectory for evaluation, reuses common model
-    #   EvaluationExpectedTrajectory
+    #   The expected tool call sequence for trajectory evaluation.
     #   @return [Types::EvaluationExpectedTrajectory]
     #
     # @!attribute [rw] turns
@@ -5360,6 +5508,11 @@ module Aws::BedrockAgentCore
     #   requests to continue a conversation.
     #   @return [String]
     #
+    # @!attribute [rw] runtime_user_id
+    #   An identifier for the end user making the request. This value is
+    #   passed through to the runtime container.
+    #   @return [String]
+    #
     # @!attribute [rw] messages
     #   The messages to send to the agent.
     #   @return [Array<Types::HarnessMessage>]
@@ -5414,6 +5567,7 @@ module Aws::BedrockAgentCore
     class InvokeHarnessRequest < Struct.new(
       :harness_arn,
       :runtime_session_id,
+      :runtime_user_id,
       :messages,
       :model,
       :system_prompt,

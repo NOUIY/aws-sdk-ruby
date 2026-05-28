@@ -52,6 +52,14 @@ module Aws::CustomerProfiles
     BatchGetProfileIdList = Shapes::ListShape.new(name: 'BatchGetProfileIdList')
     BatchGetProfileRequest = Shapes::StructureShape.new(name: 'BatchGetProfileRequest')
     BatchGetProfileResponse = Shapes::StructureShape.new(name: 'BatchGetProfileResponse')
+    BatchPutProfileObjectErrorItem = Shapes::StructureShape.new(name: 'BatchPutProfileObjectErrorItem')
+    BatchPutProfileObjectErrorList = Shapes::ListShape.new(name: 'BatchPutProfileObjectErrorList')
+    BatchPutProfileObjectRequest = Shapes::StructureShape.new(name: 'BatchPutProfileObjectRequest')
+    BatchPutProfileObjectRequestItem = Shapes::StructureShape.new(name: 'BatchPutProfileObjectRequestItem')
+    BatchPutProfileObjectRequestItemList = Shapes::ListShape.new(name: 'BatchPutProfileObjectRequestItemList')
+    BatchPutProfileObjectResponse = Shapes::StructureShape.new(name: 'BatchPutProfileObjectResponse')
+    BatchPutProfileObjectResponseItem = Shapes::StructureShape.new(name: 'BatchPutProfileObjectResponseItem')
+    BatchPutProfileObjectResponseList = Shapes::ListShape.new(name: 'BatchPutProfileObjectResponseList')
     Batches = Shapes::ListShape.new(name: 'Batches')
     BucketName = Shapes::StringShape.new(name: 'BucketName')
     BucketPrefix = Shapes::StringShape.new(name: 'BucketPrefix')
@@ -591,8 +599,8 @@ module Aws::CustomerProfiles
     matchesNumber = Shapes::IntegerShape.new(name: 'matchesNumber')
     maxSize100 = Shapes::IntegerShape.new(name: 'maxSize100')
     maxSize1000 = Shapes::IntegerShape.new(name: 'maxSize1000')
-    maxSize24 = Shapes::IntegerShape.new(name: 'maxSize24')
     maxSize500 = Shapes::IntegerShape.new(name: 'maxSize500')
+    maxSize60 = Shapes::IntegerShape.new(name: 'maxSize60')
     message = Shapes::StringShape.new(name: 'message')
     minSize0 = Shapes::IntegerShape.new(name: 'minSize0')
     minSize1 = Shapes::IntegerShape.new(name: 'minSize1')
@@ -601,6 +609,7 @@ module Aws::CustomerProfiles
     optionalLong = Shapes::IntegerShape.new(name: 'optionalLong')
     percentageInteger = Shapes::IntegerShape.new(name: 'percentageInteger')
     requestValueList = Shapes::ListShape.new(name: 'requestValueList')
+    responseCode = Shapes::IntegerShape.new(name: 'responseCode')
     s3BucketName = Shapes::StringShape.new(name: 's3BucketName')
     s3KeyName = Shapes::StringShape.new(name: 's3KeyName')
     s3KeyNameCustomerOutputConfig = Shapes::StringShape.new(name: 's3KeyNameCustomerOutputConfig')
@@ -770,6 +779,34 @@ module Aws::CustomerProfiles
     BatchGetProfileResponse.add_member(:errors, Shapes::ShapeRef.new(shape: BatchGetProfileErrorList, location_name: "Errors"))
     BatchGetProfileResponse.add_member(:profiles, Shapes::ShapeRef.new(shape: ProfileList, location_name: "Profiles"))
     BatchGetProfileResponse.struct_class = Types::BatchGetProfileResponse
+
+    BatchPutProfileObjectErrorItem.add_member(:id, Shapes::ShapeRef.new(shape: name, required: true, location_name: "Id"))
+    BatchPutProfileObjectErrorItem.add_member(:code, Shapes::ShapeRef.new(shape: responseCode, required: true, location_name: "Code"))
+    BatchPutProfileObjectErrorItem.add_member(:message, Shapes::ShapeRef.new(shape: text, location_name: "Message"))
+    BatchPutProfileObjectErrorItem.struct_class = Types::BatchPutProfileObjectErrorItem
+
+    BatchPutProfileObjectErrorList.member = Shapes::ShapeRef.new(shape: BatchPutProfileObjectErrorItem)
+
+    BatchPutProfileObjectRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: name, required: true, location: "uri", location_name: "DomainName"))
+    BatchPutProfileObjectRequest.add_member(:object_type_name, Shapes::ShapeRef.new(shape: typeName, required: true, location_name: "ObjectTypeName"))
+    BatchPutProfileObjectRequest.add_member(:items, Shapes::ShapeRef.new(shape: BatchPutProfileObjectRequestItemList, required: true, location_name: "Items"))
+    BatchPutProfileObjectRequest.struct_class = Types::BatchPutProfileObjectRequest
+
+    BatchPutProfileObjectRequestItem.add_member(:id, Shapes::ShapeRef.new(shape: name, required: true, location_name: "Id"))
+    BatchPutProfileObjectRequestItem.add_member(:object, Shapes::ShapeRef.new(shape: stringifiedJson, required: true, location_name: "Object"))
+    BatchPutProfileObjectRequestItem.struct_class = Types::BatchPutProfileObjectRequestItem
+
+    BatchPutProfileObjectRequestItemList.member = Shapes::ShapeRef.new(shape: BatchPutProfileObjectRequestItem)
+
+    BatchPutProfileObjectResponse.add_member(:successful, Shapes::ShapeRef.new(shape: BatchPutProfileObjectResponseList, location_name: "Successful"))
+    BatchPutProfileObjectResponse.add_member(:failed, Shapes::ShapeRef.new(shape: BatchPutProfileObjectErrorList, location_name: "Failed"))
+    BatchPutProfileObjectResponse.struct_class = Types::BatchPutProfileObjectResponse
+
+    BatchPutProfileObjectResponseItem.add_member(:id, Shapes::ShapeRef.new(shape: name, required: true, location_name: "Id"))
+    BatchPutProfileObjectResponseItem.add_member(:profile_object_unique_key, Shapes::ShapeRef.new(shape: string1To255, required: true, location_name: "ProfileObjectUniqueKey"))
+    BatchPutProfileObjectResponseItem.struct_class = Types::BatchPutProfileObjectResponseItem
+
+    BatchPutProfileObjectResponseList.member = Shapes::ShapeRef.new(shape: BatchPutProfileObjectResponseItem)
 
     Batches.member = Shapes::ShapeRef.new(shape: Batch)
 
@@ -2257,7 +2294,7 @@ module Aws::CustomerProfiles
     Objects.member = Shapes::ShapeRef.new(shape: stringifiedJson)
 
     Period.add_member(:unit, Shapes::ShapeRef.new(shape: PeriodUnit, required: true, location_name: "Unit"))
-    Period.add_member(:value, Shapes::ShapeRef.new(shape: maxSize24, required: true, location_name: "Value"))
+    Period.add_member(:value, Shapes::ShapeRef.new(shape: maxSize60, required: true, location_name: "Value"))
     Period.add_member(:max_invocations_per_profile, Shapes::ShapeRef.new(shape: maxSize1000, location_name: "MaxInvocationsPerProfile"))
     Period.add_member(:unlimited, Shapes::ShapeRef.new(shape: boolean, location_name: "Unlimited"))
     Period.struct_class = Types::Period
@@ -2997,6 +3034,19 @@ module Aws::CustomerProfiles
         o.http_request_uri = "/domains/{DomainName}/batch-get-profiles"
         o.input = Shapes::ShapeRef.new(shape: BatchGetProfileRequest)
         o.output = Shapes::ShapeRef.new(shape: BatchGetProfileResponse)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:batch_put_profile_object, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchPutProfileObject"
+        o.http_method = "PUT"
+        o.http_request_uri = "/domains/{DomainName}/profiles/objects/batch-put-profile-object"
+        o.input = Shapes::ShapeRef.new(shape: BatchPutProfileObjectRequest)
+        o.output = Shapes::ShapeRef.new(shape: BatchPutProfileObjectResponse)
         o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)

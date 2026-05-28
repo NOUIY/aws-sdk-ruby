@@ -973,6 +973,7 @@ module Aws::Bedrock
     class CreateCustomModelRequest
       attr_accessor model_name: ::String
       attr_accessor model_source_config: Types::ModelDataSource
+      attr_accessor custom_model_data_source: Types::CustomModelDataSource
       attr_accessor model_kms_key_arn: ::String
       attr_accessor role_arn: ::String
       attr_accessor model_tags: ::Array[Types::Tag]
@@ -1205,6 +1206,17 @@ module Aws::Bedrock
     class CustomMetricEvaluatorModelConfig
       attr_accessor bedrock_evaluator_models: ::Array[Types::CustomMetricBedrockEvaluatorModel]
       SENSITIVE: []
+    end
+
+    class CustomModelDataSource
+      attr_accessor model_package_arn_data_source: Types::ModelPackageArnDataSource
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class ModelPackageArnDataSource < CustomModelDataSource
+      end
+      class Unknown < CustomModelDataSource
+      end
     end
 
     class CustomModelDeploymentSummary
@@ -3050,6 +3062,11 @@ module Aws::Bedrock
       attr_accessor success_record_count: ::Integer
       attr_accessor error_record_count: ::Integer
       SENSITIVE: [:message]
+    end
+
+    class ModelPackageArnDataSource
+      attr_accessor model_package_arn: ::String
+      SENSITIVE: []
     end
 
     class Offer

@@ -572,6 +572,7 @@ module Aws
             'Rekognition' => 'rekognition',
             'Repostspace' => 'repostspace',
             'ResilienceHub' => 'resiliencehub',
+            'Resiliencehubv2' => 'resiliencehub',
             'ResourceExplorer2' => 'resource-explorer-2',
             'ResourceGroups' => 'resource-groups',
             'ResourceGroupsTaggingAPI' => 'tagging',

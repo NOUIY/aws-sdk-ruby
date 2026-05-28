@@ -291,6 +291,7 @@ module Aws::IoT
     ConflictingResourceUpdateException = Shapes::StructureShape.new(name: 'ConflictingResourceUpdateException')
     ConnectionAttributeName = Shapes::StringShape.new(name: 'ConnectionAttributeName')
     ConnectivityApiThingName = Shapes::StringShape.new(name: 'ConnectivityApiThingName')
+    ConnectivityFilter = Shapes::StructureShape.new(name: 'ConnectivityFilter')
     ConnectivityTimestamp = Shapes::IntegerShape.new(name: 'ConnectivityTimestamp')
     ConsecutiveDatapointsToAlarm = Shapes::IntegerShape.new(name: 'ConsecutiveDatapointsToAlarm')
     ConsecutiveDatapointsToClear = Shapes::IntegerShape.new(name: 'ConsecutiveDatapointsToClear')
@@ -625,6 +626,8 @@ module Aws::IoT
     FirehoseAction = Shapes::StructureShape.new(name: 'FirehoseAction')
     FirehoseSeparator = Shapes::StringShape.new(name: 'FirehoseSeparator')
     Flag = Shapes::BooleanShape.new(name: 'Flag')
+    FleetIndexingApi = Shapes::StringShape.new(name: 'FleetIndexingApi')
+    FleetIndexingApiList = Shapes::ListShape.new(name: 'FleetIndexingApiList')
     FleetMetricArn = Shapes::StringShape.new(name: 'FleetMetricArn')
     FleetMetricDescription = Shapes::StringShape.new(name: 'FleetMetricDescription')
     FleetMetricName = Shapes::StringShape.new(name: 'FleetMetricName')
@@ -769,6 +772,7 @@ module Aws::IoT
     KafkaHeaderKey = Shapes::StringShape.new(name: 'KafkaHeaderKey')
     KafkaHeaderValue = Shapes::StringShape.new(name: 'KafkaHeaderValue')
     KafkaHeaders = Shapes::ListShape.new(name: 'KafkaHeaders')
+    KeepAliveDuration = Shapes::IntegerShape.new(name: 'KeepAliveDuration')
     Key = Shapes::StringShape.new(name: 'Key')
     KeyName = Shapes::StringShape.new(name: 'KeyName')
     KeyPair = Shapes::StructureShape.new(name: 'KeyPair')
@@ -1218,6 +1222,7 @@ module Aws::IoT
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     ServiceType = Shapes::StringShape.new(name: 'ServiceType')
     ServiceUnavailableException = Shapes::StructureShape.new(name: 'ServiceUnavailableException')
+    SessionExpiry = Shapes::IntegerShape.new(name: 'SessionExpiry')
     SetAsActive = Shapes::BooleanShape.new(name: 'SetAsActive')
     SetAsActiveFlag = Shapes::BooleanShape.new(name: 'SetAsActiveFlag')
     SetAsDefault = Shapes::BooleanShape.new(name: 'SetAsDefault')
@@ -1240,6 +1245,8 @@ module Aws::IoT
     SnsAction = Shapes::StructureShape.new(name: 'SnsAction')
     SnsTopicArn = Shapes::StringShape.new(name: 'SnsTopicArn')
     SortOrder = Shapes::StringShape.new(name: 'SortOrder')
+    SourceIp = Shapes::StringShape.new(name: 'SourceIp')
+    SourcePort = Shapes::IntegerShape.new(name: 'SourcePort')
     SqlParseException = Shapes::StructureShape.new(name: 'SqlParseException')
     SqsAction = Shapes::StructureShape.new(name: 'SqsAction')
     StartAuditMitigationActionsTaskRequest = Shapes::StructureShape.new(name: 'StartAuditMitigationActionsTaskRequest')
@@ -1305,6 +1312,8 @@ module Aws::IoT
     TargetAuditCheckNames = Shapes::ListShape.new(name: 'TargetAuditCheckNames')
     TargetFieldName = Shapes::StringShape.new(name: 'TargetFieldName')
     TargetFieldOrder = Shapes::StringShape.new(name: 'TargetFieldOrder')
+    TargetIp = Shapes::StringShape.new(name: 'TargetIp')
+    TargetPort = Shapes::IntegerShape.new(name: 'TargetPort')
     TargetSelection = Shapes::StringShape.new(name: 'TargetSelection')
     TargetViolationIdsForDetectMitigationActions = Shapes::ListShape.new(name: 'TargetViolationIdsForDetectMitigationActions')
     Targets = Shapes::ListShape.new(name: 'Targets')
@@ -1503,6 +1512,7 @@ module Aws::IoT
     VpcDestinationConfiguration = Shapes::StructureShape.new(name: 'VpcDestinationConfiguration')
     VpcDestinationProperties = Shapes::StructureShape.new(name: 'VpcDestinationProperties')
     VpcDestinationSummary = Shapes::StructureShape.new(name: 'VpcDestinationSummary')
+    VpcEndpointId = Shapes::StringShape.new(name: 'VpcEndpointId')
     VpcId = Shapes::StringShape.new(name: 'VpcId')
     WaitingForDataCollectionChecksCount = Shapes::IntegerShape.new(name: 'WaitingForDataCollectionChecksCount')
     errorMessage = Shapes::StringShape.new(name: 'errorMessage')
@@ -2143,6 +2153,9 @@ module Aws::IoT
 
     ConflictingResourceUpdateException.add_member(:message, Shapes::ShapeRef.new(shape: errorMessage, location_name: "message"))
     ConflictingResourceUpdateException.struct_class = Types::ConflictingResourceUpdateException
+
+    ConnectivityFilter.add_member(:include_socket_information, Shapes::ShapeRef.new(shape: FleetIndexingApiList, location_name: "includeSocketInformation"))
+    ConnectivityFilter.struct_class = Types::ConnectivityFilter
 
     CreateAuditSuppressionRequest.add_member(:check_name, Shapes::ShapeRef.new(shape: AuditCheckName, required: true, location_name: "checkName"))
     CreateAuditSuppressionRequest.add_member(:resource_identifier, Shapes::ShapeRef.new(shape: ResourceIdentifier, required: true, location_name: "resourceIdentifier"))
@@ -3291,6 +3304,8 @@ module Aws::IoT
     FirehoseAction.add_member(:batch_mode, Shapes::ShapeRef.new(shape: BatchMode, location_name: "batchMode"))
     FirehoseAction.struct_class = Types::FirehoseAction
 
+    FleetIndexingApiList.member = Shapes::ShapeRef.new(shape: FleetIndexingApi)
+
     FleetMetricNameAndArn.add_member(:metric_name, Shapes::ShapeRef.new(shape: FleetMetricName, location_name: "metricName"))
     FleetMetricNameAndArn.add_member(:metric_arn, Shapes::ShapeRef.new(shape: FleetMetricArn, location_name: "metricArn"))
     FleetMetricNameAndArn.struct_class = Types::FleetMetricNameAndArn
@@ -3490,12 +3505,22 @@ module Aws::IoT
     GetStatisticsResponse.struct_class = Types::GetStatisticsResponse
 
     GetThingConnectivityDataRequest.add_member(:thing_name, Shapes::ShapeRef.new(shape: ConnectivityApiThingName, required: true, location: "uri", location_name: "thingName"))
+    GetThingConnectivityDataRequest.add_member(:include_socket_information, Shapes::ShapeRef.new(shape: Boolean, location_name: "includeSocketInformation"))
     GetThingConnectivityDataRequest.struct_class = Types::GetThingConnectivityDataRequest
 
     GetThingConnectivityDataResponse.add_member(:thing_name, Shapes::ShapeRef.new(shape: ConnectivityApiThingName, location_name: "thingName"))
     GetThingConnectivityDataResponse.add_member(:connected, Shapes::ShapeRef.new(shape: Boolean, location_name: "connected"))
     GetThingConnectivityDataResponse.add_member(:timestamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "timestamp"))
     GetThingConnectivityDataResponse.add_member(:disconnect_reason, Shapes::ShapeRef.new(shape: DisconnectReasonValue, location_name: "disconnectReason"))
+    GetThingConnectivityDataResponse.add_member(:source_ip, Shapes::ShapeRef.new(shape: SourceIp, location_name: "sourceIp"))
+    GetThingConnectivityDataResponse.add_member(:source_port, Shapes::ShapeRef.new(shape: SourcePort, location_name: "sourcePort"))
+    GetThingConnectivityDataResponse.add_member(:target_ip, Shapes::ShapeRef.new(shape: TargetIp, location_name: "targetIp"))
+    GetThingConnectivityDataResponse.add_member(:target_port, Shapes::ShapeRef.new(shape: TargetPort, location_name: "targetPort"))
+    GetThingConnectivityDataResponse.add_member(:vpc_endpoint_id, Shapes::ShapeRef.new(shape: VpcEndpointId, location_name: "vpcEndpointId"))
+    GetThingConnectivityDataResponse.add_member(:keep_alive_duration, Shapes::ShapeRef.new(shape: KeepAliveDuration, location_name: "keepAliveDuration"))
+    GetThingConnectivityDataResponse.add_member(:clean_session, Shapes::ShapeRef.new(shape: Boolean, location_name: "cleanSession"))
+    GetThingConnectivityDataResponse.add_member(:session_expiry, Shapes::ShapeRef.new(shape: SessionExpiry, location_name: "sessionExpiry"))
+    GetThingConnectivityDataResponse.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientId, location_name: "clientId"))
     GetThingConnectivityDataResponse.struct_class = Types::GetThingConnectivityDataResponse
 
     GetTopicRuleDestinationRequest.add_member(:arn, Shapes::ShapeRef.new(shape: AwsArn, required: true, location: "uri", location_name: "arn"))
@@ -3567,6 +3592,7 @@ module Aws::IoT
 
     IndexingFilter.add_member(:named_shadow_names, Shapes::ShapeRef.new(shape: NamedShadowNamesFilter, location_name: "namedShadowNames"))
     IndexingFilter.add_member(:geo_locations, Shapes::ShapeRef.new(shape: GeoLocationsFilter, location_name: "geoLocations"))
+    IndexingFilter.add_member(:connectivity, Shapes::ShapeRef.new(shape: ConnectivityFilter, location_name: "connectivity"))
     IndexingFilter.struct_class = Types::IndexingFilter
 
     InternalException.add_member(:message, Shapes::ShapeRef.new(shape: errorMessage, location_name: "message"))
@@ -5196,6 +5222,10 @@ module Aws::IoT
     ThingConnectivity.add_member(:connected, Shapes::ShapeRef.new(shape: Boolean, location_name: "connected"))
     ThingConnectivity.add_member(:timestamp, Shapes::ShapeRef.new(shape: ConnectivityTimestamp, location_name: "timestamp"))
     ThingConnectivity.add_member(:disconnect_reason, Shapes::ShapeRef.new(shape: DisconnectReason, location_name: "disconnectReason"))
+    ThingConnectivity.add_member(:keep_alive_duration, Shapes::ShapeRef.new(shape: KeepAliveDuration, location_name: "keepAliveDuration"))
+    ThingConnectivity.add_member(:clean_session, Shapes::ShapeRef.new(shape: Boolean, location_name: "cleanSession"))
+    ThingConnectivity.add_member(:session_expiry, Shapes::ShapeRef.new(shape: SessionExpiry, location_name: "sessionExpiry"))
+    ThingConnectivity.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientId, location_name: "clientId"))
     ThingConnectivity.struct_class = Types::ThingConnectivity
 
     ThingDocument.add_member(:thing_name, Shapes::ShapeRef.new(shape: ThingName, location_name: "thingName"))

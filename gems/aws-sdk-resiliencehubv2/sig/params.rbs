@@ -1,0 +1,24 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the contributing guide for more information:
+# https://github.com/aws/aws-sdk-ruby/blob/version-3/CONTRIBUTING.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module Resiliencehubv2
+    module Params
+      type service_report_configuration = {
+      report_outputs: Array[
+        {
+          s3: {
+            bucket_path: ::String,
+            bucket_owner: ::String
+          }?
+        }
+      ]
+    }
+
+    end
+  end
+end

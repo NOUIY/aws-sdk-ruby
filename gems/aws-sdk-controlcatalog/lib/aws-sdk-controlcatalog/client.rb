@@ -513,9 +513,11 @@ module Aws::ControlCatalog
     #   * {Types::GetControlResponse#severity #severity} => String
     #   * {Types::GetControlResponse#region_configuration #region_configuration} => Types::RegionConfiguration
     #   * {Types::GetControlResponse#implementation #implementation} => Types::ImplementationDetails
+    #   * {Types::GetControlResponse#parameter_requirement_summary #parameter_requirement_summary} => String
     #   * {Types::GetControlResponse#parameters #parameters} => Array&lt;Types::ControlParameter&gt;
     #   * {Types::GetControlResponse#create_time #create_time} => Time
     #   * {Types::GetControlResponse#governed_resources #governed_resources} => Array&lt;String&gt;
+    #   * {Types::GetControlResponse#governed_providers #governed_providers} => Array&lt;String&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -537,11 +539,15 @@ module Aws::ControlCatalog
     #   resp.region_configuration.deployable_regions[0] #=> String
     #   resp.implementation.type #=> String
     #   resp.implementation.identifier #=> String
+    #   resp.parameter_requirement_summary #=> String, one of "REQUIRED", "OPTIONAL", "NONE"
     #   resp.parameters #=> Array
     #   resp.parameters[0].name #=> String
+    #   resp.parameters[0].requirement #=> String, one of "REQUIRED", "OPTIONAL"
     #   resp.create_time #=> Time
     #   resp.governed_resources #=> Array
     #   resp.governed_resources[0] #=> String
+    #   resp.governed_providers #=> Array
+    #   resp.governed_providers[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/controlcatalog-2018-05-10/GetControl AWS API Documentation
     #
@@ -703,6 +709,7 @@ module Aws::ControlCatalog
     #         types: ["ImplementationType"],
     #         identifiers: ["ImplementationIdentifier"],
     #       },
+    #       governed_providers: ["GovernedProvider"],
     #     },
     #   })
     #
@@ -716,11 +723,14 @@ module Aws::ControlCatalog
     #   resp.controls[0].description #=> String
     #   resp.controls[0].behavior #=> String, one of "PREVENTIVE", "PROACTIVE", "DETECTIVE"
     #   resp.controls[0].severity #=> String, one of "LOW", "MEDIUM", "HIGH", "CRITICAL"
+    #   resp.controls[0].parameter_requirement_summary #=> String, one of "REQUIRED", "OPTIONAL", "NONE"
     #   resp.controls[0].implementation.type #=> String
     #   resp.controls[0].implementation.identifier #=> String
     #   resp.controls[0].create_time #=> Time
     #   resp.controls[0].governed_resources #=> Array
     #   resp.controls[0].governed_resources[0] #=> String
+    #   resp.controls[0].governed_providers #=> Array
+    #   resp.controls[0].governed_providers[0] #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/controlcatalog-2018-05-10/ListControls AWS API Documentation
@@ -851,7 +861,7 @@ module Aws::ControlCatalog
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-controlcatalog'
-      context[:gem_version] = '1.43.0'
+      context[:gem_version] = '1.44.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

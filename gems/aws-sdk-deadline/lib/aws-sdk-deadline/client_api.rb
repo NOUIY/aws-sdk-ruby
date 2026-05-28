@@ -225,6 +225,8 @@ module Aws::Deadline
     DeleteQueueResponse = Shapes::StructureShape.new(name: 'DeleteQueueResponse')
     DeleteStorageProfileRequest = Shapes::StructureShape.new(name: 'DeleteStorageProfileRequest')
     DeleteStorageProfileResponse = Shapes::StructureShape.new(name: 'DeleteStorageProfileResponse')
+    DeleteVolumeRequest = Shapes::StructureShape.new(name: 'DeleteVolumeRequest')
+    DeleteVolumeResponse = Shapes::StructureShape.new(name: 'DeleteVolumeResponse')
     DeleteWorkerRequest = Shapes::StructureShape.new(name: 'DeleteWorkerRequest')
     DeleteWorkerResponse = Shapes::StructureShape.new(name: 'DeleteWorkerResponse')
     DependenciesList = Shapes::ListShape.new(name: 'DependenciesList')
@@ -245,6 +247,7 @@ module Aws::Deadline
     Double = Shapes::FloatShape.new(name: 'Double')
     EbsIops = Shapes::IntegerShape.new(name: 'EbsIops')
     EbsThroughputMiB = Shapes::IntegerShape.new(name: 'EbsThroughputMiB')
+    EbsVolumeType = Shapes::StringShape.new(name: 'EbsVolumeType')
     Ec2EbsVolume = Shapes::StructureShape.new(name: 'Ec2EbsVolume')
     Ec2MarketType = Shapes::StringShape.new(name: 'Ec2MarketType')
     EndedAt = Shapes::TimestampShape.new(name: 'EndedAt', timestampFormat: "iso8601")
@@ -327,6 +330,8 @@ module Aws::Deadline
     GetStorageProfileResponse = Shapes::StructureShape.new(name: 'GetStorageProfileResponse')
     GetTaskRequest = Shapes::StructureShape.new(name: 'GetTaskRequest')
     GetTaskResponse = Shapes::StructureShape.new(name: 'GetTaskResponse')
+    GetVolumeRequest = Shapes::StructureShape.new(name: 'GetVolumeRequest')
+    GetVolumeResponse = Shapes::StructureShape.new(name: 'GetVolumeResponse')
     GetWorkerRequest = Shapes::StructureShape.new(name: 'GetWorkerRequest')
     GetWorkerResponse = Shapes::StructureShape.new(name: 'GetWorkerResponse')
     HostConfiguration = Shapes::StructureShape.new(name: 'HostConfiguration')
@@ -452,6 +457,8 @@ module Aws::Deadline
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
     ListTasksRequest = Shapes::StructureShape.new(name: 'ListTasksRequest')
     ListTasksResponse = Shapes::StructureShape.new(name: 'ListTasksResponse')
+    ListVolumesRequest = Shapes::StructureShape.new(name: 'ListVolumesRequest')
+    ListVolumesResponse = Shapes::StructureShape.new(name: 'ListVolumesResponse')
     ListWorkersRequest = Shapes::StructureShape.new(name: 'ListWorkersRequest')
     ListWorkersResponse = Shapes::StructureShape.new(name: 'ListWorkersResponse')
     LogConfiguration = Shapes::StructureShape.new(name: 'LogConfiguration')
@@ -482,6 +489,7 @@ module Aws::Deadline
     MonitorId = Shapes::StringShape.new(name: 'MonitorId')
     MonitorSummaries = Shapes::ListShape.new(name: 'MonitorSummaries')
     MonitorSummary = Shapes::StructureShape.new(name: 'MonitorSummary')
+    MountPath = Shapes::StringShape.new(name: 'MountPath')
     NextItemOffset = Shapes::IntegerShape.new(name: 'NextItemOffset')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     OutputRelativeDirectoriesList = Shapes::ListShape.new(name: 'OutputRelativeDirectoriesList')
@@ -496,6 +504,11 @@ module Aws::Deadline
     PathMappingRules = Shapes::ListShape.new(name: 'PathMappingRules')
     PathString = Shapes::StringShape.new(name: 'PathString')
     Period = Shapes::StringShape.new(name: 'Period')
+    PersistentVolumeConfiguration = Shapes::StructureShape.new(name: 'PersistentVolumeConfiguration')
+    PersistentVolumeIops = Shapes::IntegerShape.new(name: 'PersistentVolumeIops')
+    PersistentVolumeSizeGiB = Shapes::IntegerShape.new(name: 'PersistentVolumeSizeGiB')
+    PersistentVolumeThroughputMiB = Shapes::IntegerShape.new(name: 'PersistentVolumeThroughputMiB')
+    PersistentVolumeTtlHours = Shapes::IntegerShape.new(name: 'PersistentVolumeTtlHours')
     PortNumber = Shapes::IntegerShape.new(name: 'PortNumber')
     PosixUser = Shapes::StructureShape.new(name: 'PosixUser')
     PosixUserGroupString = Shapes::StringShape.new(name: 'PosixUserGroupString')
@@ -744,6 +757,10 @@ module Aws::Deadline
     ValidationExceptionField = Shapes::StructureShape.new(name: 'ValidationExceptionField')
     ValidationExceptionFieldList = Shapes::ListShape.new(name: 'ValidationExceptionFieldList')
     ValidationExceptionReason = Shapes::StringShape.new(name: 'ValidationExceptionReason')
+    VolumeId = Shapes::StringShape.new(name: 'VolumeId')
+    VolumeState = Shapes::StringShape.new(name: 'VolumeState')
+    VolumeSummaries = Shapes::ListShape.new(name: 'VolumeSummaries')
+    VolumeSummary = Shapes::StructureShape.new(name: 'VolumeSummary')
     VpcConfiguration = Shapes::StructureShape.new(name: 'VpcConfiguration')
     VpcId = Shapes::StringShape.new(name: 'VpcId')
     VpcResourceConfigurationArn = Shapes::StringShape.new(name: 'VpcResourceConfigurationArn')
@@ -1598,6 +1615,13 @@ module Aws::Deadline
 
     DeleteStorageProfileResponse.struct_class = Types::DeleteStorageProfileResponse
 
+    DeleteVolumeRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
+    DeleteVolumeRequest.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location: "uri", location_name: "fleetId"))
+    DeleteVolumeRequest.add_member(:volume_id, Shapes::ShapeRef.new(shape: VolumeId, required: true, location: "uri", location_name: "volumeId"))
+    DeleteVolumeRequest.struct_class = Types::DeleteVolumeRequest
+
+    DeleteVolumeResponse.struct_class = Types::DeleteVolumeResponse
+
     DeleteWorkerRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     DeleteWorkerRequest.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location: "uri", location_name: "fleetId"))
     DeleteWorkerRequest.add_member(:worker_id, Shapes::ShapeRef.new(shape: WorkerId, required: true, location: "uri", location_name: "workerId"))
@@ -2114,6 +2138,27 @@ module Aws::Deadline
     GetTaskResponse.add_member(:parameters, Shapes::ShapeRef.new(shape: TaskParameters, location_name: "parameters"))
     GetTaskResponse.struct_class = Types::GetTaskResponse
 
+    GetVolumeRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
+    GetVolumeRequest.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location: "uri", location_name: "fleetId"))
+    GetVolumeRequest.add_member(:volume_id, Shapes::ShapeRef.new(shape: VolumeId, required: true, location: "uri", location_name: "volumeId"))
+    GetVolumeRequest.struct_class = Types::GetVolumeRequest
+
+    GetVolumeResponse.add_member(:volume_id, Shapes::ShapeRef.new(shape: VolumeId, required: true, location_name: "volumeId"))
+    GetVolumeResponse.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    GetVolumeResponse.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location_name: "fleetId"))
+    GetVolumeResponse.add_member(:state, Shapes::ShapeRef.new(shape: VolumeState, required: true, location_name: "state"))
+    GetVolumeResponse.add_member(:size_gi_b, Shapes::ShapeRef.new(shape: PersistentVolumeSizeGiB, required: true, location_name: "sizeGiB"))
+    GetVolumeResponse.add_member(:availability_zone_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "availabilityZoneId"))
+    GetVolumeResponse.add_member(:attached_worker_id, Shapes::ShapeRef.new(shape: WorkerId, location_name: "attachedWorkerId"))
+    GetVolumeResponse.add_member(:volume_type, Shapes::ShapeRef.new(shape: EbsVolumeType, required: true, location_name: "volumeType"))
+    GetVolumeResponse.add_member(:iops, Shapes::ShapeRef.new(shape: PersistentVolumeIops, location_name: "iops"))
+    GetVolumeResponse.add_member(:throughput_mi_b, Shapes::ShapeRef.new(shape: PersistentVolumeThroughputMiB, location_name: "throughputMiB"))
+    GetVolumeResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, required: true, location_name: "createdAt"))
+    GetVolumeResponse.add_member(:last_assigned_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastAssignedAt"))
+    GetVolumeResponse.add_member(:last_released_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastReleasedAt"))
+    GetVolumeResponse.add_member(:expires_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "expiresAt"))
+    GetVolumeResponse.struct_class = Types::GetVolumeResponse
+
     GetWorkerRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     GetWorkerRequest.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location: "uri", location_name: "fleetId"))
     GetWorkerRequest.add_member(:worker_id, Shapes::ShapeRef.new(shape: WorkerId, required: true, location: "uri", location_name: "workerId"))
@@ -2611,6 +2656,16 @@ module Aws::Deadline
     ListTasksResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListTasksResponse.struct_class = Types::ListTasksResponse
 
+    ListVolumesRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
+    ListVolumesRequest.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location: "uri", location_name: "fleetId"))
+    ListVolumesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListVolumesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListVolumesRequest.struct_class = Types::ListVolumesRequest
+
+    ListVolumesResponse.add_member(:volumes, Shapes::ShapeRef.new(shape: VolumeSummaries, required: true, location_name: "volumes"))
+    ListVolumesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListVolumesResponse.struct_class = Types::ListVolumesResponse
+
     ListWorkersRequest.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location: "uri", location_name: "farmId"))
     ListWorkersRequest.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location: "uri", location_name: "fleetId"))
     ListWorkersRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
@@ -2692,6 +2747,13 @@ module Aws::Deadline
     PathMappingRule.struct_class = Types::PathMappingRule
 
     PathMappingRules.member = Shapes::ShapeRef.new(shape: PathMappingRule)
+
+    PersistentVolumeConfiguration.add_member(:size_gi_b, Shapes::ShapeRef.new(shape: PersistentVolumeSizeGiB, location_name: "sizeGiB"))
+    PersistentVolumeConfiguration.add_member(:iops, Shapes::ShapeRef.new(shape: PersistentVolumeIops, location_name: "iops"))
+    PersistentVolumeConfiguration.add_member(:throughput_mi_b, Shapes::ShapeRef.new(shape: PersistentVolumeThroughputMiB, location_name: "throughputMiB"))
+    PersistentVolumeConfiguration.add_member(:mount_path, Shapes::ShapeRef.new(shape: MountPath, required: true, location_name: "mountPath"))
+    PersistentVolumeConfiguration.add_member(:last_used_ttl_hours, Shapes::ShapeRef.new(shape: PersistentVolumeTtlHours, location_name: "lastUsedTtlHours"))
+    PersistentVolumeConfiguration.struct_class = Types::PersistentVolumeConfiguration
 
     PosixUser.add_member(:user, Shapes::ShapeRef.new(shape: PosixUserUserString, required: true, location_name: "user"))
     PosixUser.add_member(:group, Shapes::ShapeRef.new(shape: PosixUserGroupString, required: true, location_name: "group"))
@@ -2915,6 +2977,7 @@ module Aws::Deadline
     ServiceManagedEc2FleetConfiguration.add_member(:instance_market_options, Shapes::ShapeRef.new(shape: ServiceManagedEc2InstanceMarketOptions, required: true, location_name: "instanceMarketOptions"))
     ServiceManagedEc2FleetConfiguration.add_member(:vpc_configuration, Shapes::ShapeRef.new(shape: VpcConfiguration, location_name: "vpcConfiguration"))
     ServiceManagedEc2FleetConfiguration.add_member(:storage_profile_id, Shapes::ShapeRef.new(shape: StorageProfileId, location_name: "storageProfileId"))
+    ServiceManagedEc2FleetConfiguration.add_member(:persistent_volume_configuration, Shapes::ShapeRef.new(shape: PersistentVolumeConfiguration, location_name: "persistentVolumeConfiguration"))
     ServiceManagedEc2FleetConfiguration.add_member(:auto_scaling_configuration, Shapes::ShapeRef.new(shape: ServiceManagedEc2AutoScalingConfiguration, location_name: "autoScalingConfiguration"))
     ServiceManagedEc2FleetConfiguration.struct_class = Types::ServiceManagedEc2FleetConfiguration
 
@@ -3495,6 +3558,17 @@ module Aws::Deadline
     ValidationExceptionField.struct_class = Types::ValidationExceptionField
 
     ValidationExceptionFieldList.member = Shapes::ShapeRef.new(shape: ValidationExceptionField)
+
+    VolumeSummaries.member = Shapes::ShapeRef.new(shape: VolumeSummary)
+
+    VolumeSummary.add_member(:volume_id, Shapes::ShapeRef.new(shape: VolumeId, required: true, location_name: "volumeId"))
+    VolumeSummary.add_member(:farm_id, Shapes::ShapeRef.new(shape: FarmId, required: true, location_name: "farmId"))
+    VolumeSummary.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, required: true, location_name: "fleetId"))
+    VolumeSummary.add_member(:state, Shapes::ShapeRef.new(shape: VolumeState, required: true, location_name: "state"))
+    VolumeSummary.add_member(:size_gi_b, Shapes::ShapeRef.new(shape: PersistentVolumeSizeGiB, required: true, location_name: "sizeGiB"))
+    VolumeSummary.add_member(:availability_zone_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "availabilityZoneId"))
+    VolumeSummary.add_member(:attached_worker_id, Shapes::ShapeRef.new(shape: WorkerId, location_name: "attachedWorkerId"))
+    VolumeSummary.struct_class = Types::VolumeSummary
 
     VpcConfiguration.add_member(:resource_configuration_arns, Shapes::ShapeRef.new(shape: VpcResourceConfigurationArns, location_name: "resourceConfigurationArns"))
     VpcConfiguration.struct_class = Types::VpcConfiguration
@@ -4298,6 +4372,23 @@ module Aws::Deadline
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
       end)
 
+      api.add_operation(:delete_volume, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteVolume"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/2023-10-12/farms/{farmId}/fleets/{fleetId}/volumes/{volumeId}"
+        o.endpoint_pattern = {
+          "hostPrefix" => "management.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: DeleteVolumeRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteVolumeResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
       api.add_operation(:delete_worker, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteWorker"
         o.http_method = "DELETE"
@@ -4684,6 +4775,22 @@ module Aws::Deadline
         }
         o.input = Shapes::ShapeRef.new(shape: GetTaskRequest)
         o.output = Shapes::ShapeRef.new(shape: GetTaskResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
+      api.add_operation(:get_volume, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetVolume"
+        o.http_method = "GET"
+        o.http_request_uri = "/2023-10-12/farms/{farmId}/fleets/{fleetId}/volumes/{volumeId}"
+        o.endpoint_pattern = {
+          "hostPrefix" => "management.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: GetVolumeRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetVolumeResponse)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
@@ -5297,6 +5404,28 @@ module Aws::Deadline
         }
         o.input = Shapes::ShapeRef.new(shape: ListTasksRequest)
         o.output = Shapes::ShapeRef.new(shape: ListTasksResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_volumes, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListVolumes"
+        o.http_method = "GET"
+        o.http_request_uri = "/2023-10-12/farms/{farmId}/fleets/{fleetId}/volumes"
+        o.endpoint_pattern = {
+          "hostPrefix" => "management.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: ListVolumesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListVolumesResponse)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)

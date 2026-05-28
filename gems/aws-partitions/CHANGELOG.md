@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1254.0 (2026-05-28)
+------------------
+
+* Feature - Added support for enumerating regions for `Aws::Resiliencehubv2`.
+
 1.1253.0 (2026-05-22)
 ------------------
 

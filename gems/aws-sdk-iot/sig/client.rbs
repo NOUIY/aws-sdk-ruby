@@ -2255,11 +2255,21 @@ module Aws
         def thing_name: () -> ::String
         def connected: () -> bool
         def timestamp: () -> ::Time
-        def disconnect_reason: () -> ("AUTH_ERROR" | "CLIENT_INITIATED_DISCONNECT" | "CLIENT_ERROR" | "CONNECTION_LOST" | "DUPLICATE_CLIENTID" | "FORBIDDEN_ACCESS" | "MQTT_KEEP_ALIVE_TIMEOUT" | "SERVER_ERROR" | "SERVER_INITIATED_DISCONNECT" | "THROTTLED" | "WEBSOCKET_TTL_EXPIRATION" | "CUSTOMAUTH_TTL_EXPIRATION" | "UNKNOWN" | "NONE")
+        def disconnect_reason: () -> ("AUTH_ERROR" | "CLIENT_INITIATED_DISCONNECT" | "CLIENT_ERROR" | "CONNECTION_LOST" | "DUPLICATE_CLIENTID" | "FORBIDDEN_ACCESS" | "MQTT_KEEP_ALIVE_TIMEOUT" | "SERVER_ERROR" | "SERVER_INITIATED_DISCONNECT" | "API_INITIATED_DISCONNECT" | "THROTTLED" | "WEBSOCKET_TTL_EXPIRATION" | "CUSTOMAUTH_TTL_EXPIRATION" | "UNKNOWN" | "NONE")
+        def source_ip: () -> ::String
+        def source_port: () -> ::Integer
+        def target_ip: () -> ::String
+        def target_port: () -> ::Integer
+        def vpc_endpoint_id: () -> ::String
+        def keep_alive_duration: () -> ::Integer
+        def clean_session: () -> bool
+        def session_expiry: () -> ::Integer
+        def client_id: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/IoT/Client.html#get_thing_connectivity_data-instance_method
       def get_thing_connectivity_data: (
-                                         thing_name: ::String
+                                         thing_name: ::String,
+                                         ?include_socket_information: bool
                                        ) -> _GetThingConnectivityDataResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetThingConnectivityDataResponseSuccess
 
@@ -3810,7 +3820,10 @@ module Aws
                                                    name: ::String?,
                                                    order: ("LatLon" | "LonLat")?
                                                  }
-                                               ]?
+                                               ]?,
+                                               connectivity: {
+                                                 include_socket_information: Array[("GET_THING_CONNECTIVITY_DATA")]?
+                                               }?
                                              }?
                                            },
                                            ?thing_group_indexing_configuration: {

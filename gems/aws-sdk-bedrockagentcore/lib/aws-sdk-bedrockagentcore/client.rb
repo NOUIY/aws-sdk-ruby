@@ -3432,6 +3432,10 @@ module Aws::BedrockAgentCore
     #   The session ID for the invocation. Use the same session ID across
     #   requests to continue a conversation.
     #
+    # @option params [String] :runtime_user_id
+    #   An identifier for the end user making the request. This value is
+    #   passed through to the runtime container.
+    #
     # @option params [required, Array<Types::HarnessMessage>] :messages
     #   The messages to send to the agent.
     #
@@ -3640,7 +3644,8 @@ module Aws::BedrockAgentCore
     #
     #   resp = client.invoke_harness({
     #     harness_arn: "HarnessArn", # required
-    #     runtime_session_id: "SessionId", # required
+    #     runtime_session_id: "InvokeHarnessRequestRuntimeSessionIdString", # required
+    #     runtime_user_id: "String",
     #     messages: [ # required
     #       {
     #         role: "user", # required, accepts user, assistant
@@ -3684,6 +3689,9 @@ module Aws::BedrockAgentCore
     #         max_tokens: 1,
     #         temperature: 1.0,
     #         top_p: 1.0,
+    #         api_format: "converse_stream", # accepts converse_stream, responses, chat_completions
+    #         additional_params: {
+    #         },
     #       },
     #       open_ai_model_config: {
     #         model_id: "ModelId", # required
@@ -3691,6 +3699,9 @@ module Aws::BedrockAgentCore
     #         max_tokens: 1,
     #         temperature: 1.0,
     #         top_p: 1.0,
+    #         api_format: "chat_completions", # accepts chat_completions, responses
+    #         additional_params: {
+    #         },
     #       },
     #       gemini_model_config: {
     #         model_id: "ModelId", # required
@@ -3699,6 +3710,16 @@ module Aws::BedrockAgentCore
     #         temperature: 1.0,
     #         top_p: 1.0,
     #         top_k: 1,
+    #       },
+    #       lite_llm_model_config: {
+    #         model_id: "ModelId", # required
+    #         api_key_arn: "ApiKeyArn",
+    #         api_base: "HarnessLiteLlmApiBase",
+    #         max_tokens: 1,
+    #         temperature: 1.0,
+    #         top_p: 1.0,
+    #         additional_params: {
+    #         },
     #       },
     #     },
     #     system_prompt: [
@@ -3718,7 +3739,7 @@ module Aws::BedrockAgentCore
     #             },
     #           },
     #           agent_core_browser: {
-    #             browser_arn: "BrowserArn",
+    #             browser_arn: "HarnessBrowserArn",
     #           },
     #           agent_core_gateway: {
     #             gateway_arn: "GatewayArn", # required
@@ -3744,7 +3765,7 @@ module Aws::BedrockAgentCore
     #             },
     #           },
     #           agent_core_code_interpreter: {
-    #             code_interpreter_arn: "CodeInterpreterArn",
+    #             code_interpreter_arn: "HarnessCodeInterpreterArn",
     #           },
     #         },
     #       },
@@ -3752,6 +3773,17 @@ module Aws::BedrockAgentCore
     #     skills: [
     #       {
     #         path: "HarnessSkillPath",
+    #         s3: {
+    #           uri: "HarnessSkillS3Uri", # required
+    #         },
+    #         git: {
+    #           url: "HarnessSkillGitUrl", # required
+    #           path: "String",
+    #           auth: {
+    #             credential_arn: "ApiKeyArn", # required
+    #             username: "String",
+    #           },
+    #         },
     #       },
     #     ],
     #     allowed_tools: ["HarnessAllowedTool"],
@@ -6075,7 +6107,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.36.0'
+      context[:gem_version] = '1.37.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

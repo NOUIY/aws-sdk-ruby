@@ -886,6 +886,7 @@ module Aws
       def invoke_harness: (
                             harness_arn: ::String,
                             runtime_session_id: ::String,
+                            ?runtime_user_id: ::String,
                             messages: Array[
                               {
                                 role: ("user" | "assistant"),
@@ -928,14 +929,20 @@ module Aws
                                 model_id: ::String,
                                 max_tokens: ::Integer?,
                                 temperature: ::Float?,
-                                top_p: ::Float?
+                                top_p: ::Float?,
+                                api_format: ("converse_stream" | "responses" | "chat_completions")?,
+                                additional_params: {
+                                }?
                               }?,
                               open_ai_model_config: {
                                 model_id: ::String,
                                 api_key_arn: ::String,
                                 max_tokens: ::Integer?,
                                 temperature: ::Float?,
-                                top_p: ::Float?
+                                top_p: ::Float?,
+                                api_format: ("chat_completions" | "responses")?,
+                                additional_params: {
+                                }?
                               }?,
                               gemini_model_config: {
                                 model_id: ::String,
@@ -944,6 +951,16 @@ module Aws
                                 temperature: ::Float?,
                                 top_p: ::Float?,
                                 top_k: ::Integer?
+                              }?,
+                              lite_llm_model_config: {
+                                model_id: ::String,
+                                api_key_arn: ::String?,
+                                api_base: ::String?,
+                                max_tokens: ::Integer?,
+                                temperature: ::Float?,
+                                top_p: ::Float?,
+                                additional_params: {
+                                }?
                               }?
                             },
                             ?system_prompt: Array[
@@ -992,7 +1009,18 @@ module Aws
                             ],
                             ?skills: Array[
                               {
-                                path: ::String?
+                                path: ::String?,
+                                s3: {
+                                  uri: ::String
+                                }?,
+                                git: {
+                                  url: ::String,
+                                  path: ::String?,
+                                  auth: {
+                                    credential_arn: ::String,
+                                    username: ::String?
+                                  }?
+                                }?
                               }
                             ],
                             ?allowed_tools: Array[::String],

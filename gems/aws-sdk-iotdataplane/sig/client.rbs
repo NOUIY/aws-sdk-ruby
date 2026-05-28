@@ -97,6 +97,30 @@ module Aws
                                ) -> _DeleteThingShadowResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteThingShadowResponseSuccess
 
+      interface _GetConnectionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetConnectionResponse]
+        def connected: () -> bool
+        def thing_name: () -> ::String
+        def clean_session: () -> bool
+        def source_ip: () -> ::String
+        def source_port: () -> ::Integer
+        def target_ip: () -> ::String
+        def target_port: () -> ::Integer
+        def keep_alive_duration: () -> ::Integer
+        def connected_since: () -> ::Integer
+        def disconnected_since: () -> ::Integer
+        def disconnect_reason: () -> ::String
+        def session_expiry: () -> ::Integer
+        def client_id: () -> ::String
+        def vpc_endpoint_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/IoTDataPlane/Client.html#get_connection-instance_method
+      def get_connection: (
+                            client_id: ::String,
+                            ?include_socket_information: bool
+                          ) -> _GetConnectionResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetConnectionResponseSuccess
+
       interface _GetRetainedMessageResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetRetainedMessageResponse]
         def topic: () -> ::String
@@ -148,6 +172,19 @@ module Aws
                                   ) -> _ListRetainedMessagesResponseSuccess
                                 | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListRetainedMessagesResponseSuccess
 
+      interface _ListSubscriptionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListSubscriptionsResponse]
+        def subscriptions: () -> ::Array[Types::SubscriptionSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/IoTDataPlane/Client.html#list_subscriptions-instance_method
+      def list_subscriptions: (
+                                client_id: ::String,
+                                ?next_token: ::String,
+                                ?max_results: ::Integer
+                              ) -> _ListSubscriptionsResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListSubscriptionsResponseSuccess
+
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/IoTDataPlane/Client.html#publish-instance_method
       def publish: (
                      topic: ::String,
@@ -162,6 +199,26 @@ module Aws
                      ?message_expiry: ::Integer
                    ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
+      interface _SendDirectMessageResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::SendDirectMessageResponse]
+        def message: () -> ::String
+        def trace_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/IoTDataPlane/Client.html#send_direct_message-instance_method
+      def send_direct_message: (
+                                 client_id: ::String,
+                                 topic: ::String,
+                                 ?content_type: ::String,
+                                 ?response_topic: ::String,
+                                 ?confirmation: bool,
+                                 ?timeout: ::Integer,
+                                 ?payload: ::String,
+                                 ?user_properties: ::String,
+                                 ?payload_format_indicator: ("UNSPECIFIED_BYTES" | "UTF8_DATA"),
+                                 ?correlation_data: ::String
+                               ) -> _SendDirectMessageResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SendDirectMessageResponseSuccess
 
       interface _UpdateThingShadowResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateThingShadowResponse]

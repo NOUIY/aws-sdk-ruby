@@ -48,6 +48,7 @@ module Aws::ControlCatalog
 
     class ControlFilter
       attr_accessor implementations: Types::ImplementationFilter
+      attr_accessor governed_providers: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -67,6 +68,7 @@ module Aws::ControlCatalog
 
     class ControlParameter
       attr_accessor name: ::String
+      attr_accessor requirement: ("REQUIRED" | "OPTIONAL")
       SENSITIVE: []
     end
 
@@ -77,9 +79,11 @@ module Aws::ControlCatalog
       attr_accessor description: ::String
       attr_accessor behavior: ("PREVENTIVE" | "PROACTIVE" | "DETECTIVE")
       attr_accessor severity: ("LOW" | "MEDIUM" | "HIGH" | "CRITICAL")
+      attr_accessor parameter_requirement_summary: ("REQUIRED" | "OPTIONAL" | "NONE")
       attr_accessor implementation: Types::ImplementationSummary
       attr_accessor create_time: ::Time
       attr_accessor governed_resources: ::Array[::String]
+      attr_accessor governed_providers: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -117,9 +121,11 @@ module Aws::ControlCatalog
       attr_accessor severity: ("LOW" | "MEDIUM" | "HIGH" | "CRITICAL")
       attr_accessor region_configuration: Types::RegionConfiguration
       attr_accessor implementation: Types::ImplementationDetails
+      attr_accessor parameter_requirement_summary: ("REQUIRED" | "OPTIONAL" | "NONE")
       attr_accessor parameters: ::Array[Types::ControlParameter]
       attr_accessor create_time: ::Time
       attr_accessor governed_resources: ::Array[::String]
+      attr_accessor governed_providers: ::Array[::String]
       SENSITIVE: []
     end
 

@@ -2454,6 +2454,9 @@ module Aws::BedrockAgentCoreControl
     #         max_tokens: 1,
     #         temperature: 1.0,
     #         top_p: 1.0,
+    #         api_format: "converse_stream", # accepts converse_stream, responses, chat_completions
+    #         additional_params: {
+    #         },
     #       },
     #       open_ai_model_config: {
     #         model_id: "ModelId", # required
@@ -2461,6 +2464,9 @@ module Aws::BedrockAgentCoreControl
     #         max_tokens: 1,
     #         temperature: 1.0,
     #         top_p: 1.0,
+    #         api_format: "chat_completions", # accepts chat_completions, responses
+    #         additional_params: {
+    #         },
     #       },
     #       gemini_model_config: {
     #         model_id: "ModelId", # required
@@ -2469,6 +2475,16 @@ module Aws::BedrockAgentCoreControl
     #         temperature: 1.0,
     #         top_p: 1.0,
     #         top_k: 1,
+    #       },
+    #       lite_llm_model_config: {
+    #         model_id: "ModelId", # required
+    #         api_key_arn: "ApiKeyArn",
+    #         api_base: "HarnessLiteLlmApiBase",
+    #         max_tokens: 1,
+    #         temperature: 1.0,
+    #         top_p: 1.0,
+    #         additional_params: {
+    #         },
     #       },
     #     },
     #     system_prompt: [
@@ -2488,7 +2504,7 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #           agent_core_browser: {
-    #             browser_arn: "BrowserArn",
+    #             browser_arn: "HarnessBrowserArn",
     #           },
     #           agent_core_gateway: {
     #             gateway_arn: "GatewayArn", # required
@@ -2514,7 +2530,7 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #           agent_core_code_interpreter: {
-    #             code_interpreter_arn: "CodeInterpreterArn",
+    #             code_interpreter_arn: "HarnessCodeInterpreterArn",
     #           },
     #         },
     #       },
@@ -2522,6 +2538,17 @@ module Aws::BedrockAgentCoreControl
     #     skills: [
     #       {
     #         path: "HarnessSkillPath",
+    #         s3: {
+    #           uri: "HarnessSkillS3Uri", # required
+    #         },
+    #         git: {
+    #           url: "HarnessSkillGitUrl", # required
+    #           path: "String",
+    #           auth: {
+    #             credential_arn: "ApiKeyArn", # required
+    #             username: "String",
+    #           },
+    #         },
     #       },
     #     ],
     #     allowed_tools: ["HarnessAllowedTool"],
@@ -2573,17 +2600,25 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.model.bedrock_model_config.max_tokens #=> Integer
     #   resp.harness.model.bedrock_model_config.temperature #=> Float
     #   resp.harness.model.bedrock_model_config.top_p #=> Float
+    #   resp.harness.model.bedrock_model_config.api_format #=> String, one of "converse_stream", "responses", "chat_completions"
     #   resp.harness.model.open_ai_model_config.model_id #=> String
     #   resp.harness.model.open_ai_model_config.api_key_arn #=> String
     #   resp.harness.model.open_ai_model_config.max_tokens #=> Integer
     #   resp.harness.model.open_ai_model_config.temperature #=> Float
     #   resp.harness.model.open_ai_model_config.top_p #=> Float
+    #   resp.harness.model.open_ai_model_config.api_format #=> String, one of "chat_completions", "responses"
     #   resp.harness.model.gemini_model_config.model_id #=> String
     #   resp.harness.model.gemini_model_config.api_key_arn #=> String
     #   resp.harness.model.gemini_model_config.max_tokens #=> Integer
     #   resp.harness.model.gemini_model_config.temperature #=> Float
     #   resp.harness.model.gemini_model_config.top_p #=> Float
     #   resp.harness.model.gemini_model_config.top_k #=> Integer
+    #   resp.harness.model.lite_llm_model_config.model_id #=> String
+    #   resp.harness.model.lite_llm_model_config.api_key_arn #=> String
+    #   resp.harness.model.lite_llm_model_config.api_base #=> String
+    #   resp.harness.model.lite_llm_model_config.max_tokens #=> Integer
+    #   resp.harness.model.lite_llm_model_config.temperature #=> Float
+    #   resp.harness.model.lite_llm_model_config.top_p #=> Float
     #   resp.harness.system_prompt #=> Array
     #   resp.harness.system_prompt[0].text #=> String
     #   resp.harness.tools #=> Array
@@ -2605,6 +2640,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.tools[0].config.agent_core_code_interpreter.code_interpreter_arn #=> String
     #   resp.harness.skills #=> Array
     #   resp.harness.skills[0].path #=> String
+    #   resp.harness.skills[0].s3.uri #=> String
+    #   resp.harness.skills[0].git.url #=> String
+    #   resp.harness.skills[0].git.path #=> String
+    #   resp.harness.skills[0].git.auth.credential_arn #=> String
+    #   resp.harness.skills[0].git.auth.username #=> String
     #   resp.harness.allowed_tools #=> Array
     #   resp.harness.allowed_tools[0] #=> String
     #   resp.harness.truncation.strategy #=> String, one of "sliding_window", "summarization", "none"
@@ -5034,17 +5074,25 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.model.bedrock_model_config.max_tokens #=> Integer
     #   resp.harness.model.bedrock_model_config.temperature #=> Float
     #   resp.harness.model.bedrock_model_config.top_p #=> Float
+    #   resp.harness.model.bedrock_model_config.api_format #=> String, one of "converse_stream", "responses", "chat_completions"
     #   resp.harness.model.open_ai_model_config.model_id #=> String
     #   resp.harness.model.open_ai_model_config.api_key_arn #=> String
     #   resp.harness.model.open_ai_model_config.max_tokens #=> Integer
     #   resp.harness.model.open_ai_model_config.temperature #=> Float
     #   resp.harness.model.open_ai_model_config.top_p #=> Float
+    #   resp.harness.model.open_ai_model_config.api_format #=> String, one of "chat_completions", "responses"
     #   resp.harness.model.gemini_model_config.model_id #=> String
     #   resp.harness.model.gemini_model_config.api_key_arn #=> String
     #   resp.harness.model.gemini_model_config.max_tokens #=> Integer
     #   resp.harness.model.gemini_model_config.temperature #=> Float
     #   resp.harness.model.gemini_model_config.top_p #=> Float
     #   resp.harness.model.gemini_model_config.top_k #=> Integer
+    #   resp.harness.model.lite_llm_model_config.model_id #=> String
+    #   resp.harness.model.lite_llm_model_config.api_key_arn #=> String
+    #   resp.harness.model.lite_llm_model_config.api_base #=> String
+    #   resp.harness.model.lite_llm_model_config.max_tokens #=> Integer
+    #   resp.harness.model.lite_llm_model_config.temperature #=> Float
+    #   resp.harness.model.lite_llm_model_config.top_p #=> Float
     #   resp.harness.system_prompt #=> Array
     #   resp.harness.system_prompt[0].text #=> String
     #   resp.harness.tools #=> Array
@@ -5066,6 +5114,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.tools[0].config.agent_core_code_interpreter.code_interpreter_arn #=> String
     #   resp.harness.skills #=> Array
     #   resp.harness.skills[0].path #=> String
+    #   resp.harness.skills[0].s3.uri #=> String
+    #   resp.harness.skills[0].git.url #=> String
+    #   resp.harness.skills[0].git.path #=> String
+    #   resp.harness.skills[0].git.auth.credential_arn #=> String
+    #   resp.harness.skills[0].git.auth.username #=> String
     #   resp.harness.allowed_tools #=> Array
     #   resp.harness.allowed_tools[0] #=> String
     #   resp.harness.truncation.strategy #=> String, one of "sliding_window", "summarization", "none"
@@ -6588,17 +6641,25 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.model.bedrock_model_config.max_tokens #=> Integer
     #   resp.harness.model.bedrock_model_config.temperature #=> Float
     #   resp.harness.model.bedrock_model_config.top_p #=> Float
+    #   resp.harness.model.bedrock_model_config.api_format #=> String, one of "converse_stream", "responses", "chat_completions"
     #   resp.harness.model.open_ai_model_config.model_id #=> String
     #   resp.harness.model.open_ai_model_config.api_key_arn #=> String
     #   resp.harness.model.open_ai_model_config.max_tokens #=> Integer
     #   resp.harness.model.open_ai_model_config.temperature #=> Float
     #   resp.harness.model.open_ai_model_config.top_p #=> Float
+    #   resp.harness.model.open_ai_model_config.api_format #=> String, one of "chat_completions", "responses"
     #   resp.harness.model.gemini_model_config.model_id #=> String
     #   resp.harness.model.gemini_model_config.api_key_arn #=> String
     #   resp.harness.model.gemini_model_config.max_tokens #=> Integer
     #   resp.harness.model.gemini_model_config.temperature #=> Float
     #   resp.harness.model.gemini_model_config.top_p #=> Float
     #   resp.harness.model.gemini_model_config.top_k #=> Integer
+    #   resp.harness.model.lite_llm_model_config.model_id #=> String
+    #   resp.harness.model.lite_llm_model_config.api_key_arn #=> String
+    #   resp.harness.model.lite_llm_model_config.api_base #=> String
+    #   resp.harness.model.lite_llm_model_config.max_tokens #=> Integer
+    #   resp.harness.model.lite_llm_model_config.temperature #=> Float
+    #   resp.harness.model.lite_llm_model_config.top_p #=> Float
     #   resp.harness.system_prompt #=> Array
     #   resp.harness.system_prompt[0].text #=> String
     #   resp.harness.tools #=> Array
@@ -6620,6 +6681,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.tools[0].config.agent_core_code_interpreter.code_interpreter_arn #=> String
     #   resp.harness.skills #=> Array
     #   resp.harness.skills[0].path #=> String
+    #   resp.harness.skills[0].s3.uri #=> String
+    #   resp.harness.skills[0].git.url #=> String
+    #   resp.harness.skills[0].git.path #=> String
+    #   resp.harness.skills[0].git.auth.credential_arn #=> String
+    #   resp.harness.skills[0].git.auth.username #=> String
     #   resp.harness.allowed_tools #=> Array
     #   resp.harness.allowed_tools[0] #=> String
     #   resp.harness.truncation.strategy #=> String, one of "sliding_window", "summarization", "none"
@@ -8283,6 +8349,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.bundles[0].bundle_id #=> String
     #   resp.bundles[0].bundle_name #=> String
     #   resp.bundles[0].description #=> String
+    #   resp.bundles[0].created_at #=> Time
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListConfigurationBundles AWS API Documentation
@@ -11638,6 +11705,9 @@ module Aws::BedrockAgentCoreControl
     #         max_tokens: 1,
     #         temperature: 1.0,
     #         top_p: 1.0,
+    #         api_format: "converse_stream", # accepts converse_stream, responses, chat_completions
+    #         additional_params: {
+    #         },
     #       },
     #       open_ai_model_config: {
     #         model_id: "ModelId", # required
@@ -11645,6 +11715,9 @@ module Aws::BedrockAgentCoreControl
     #         max_tokens: 1,
     #         temperature: 1.0,
     #         top_p: 1.0,
+    #         api_format: "chat_completions", # accepts chat_completions, responses
+    #         additional_params: {
+    #         },
     #       },
     #       gemini_model_config: {
     #         model_id: "ModelId", # required
@@ -11653,6 +11726,16 @@ module Aws::BedrockAgentCoreControl
     #         temperature: 1.0,
     #         top_p: 1.0,
     #         top_k: 1,
+    #       },
+    #       lite_llm_model_config: {
+    #         model_id: "ModelId", # required
+    #         api_key_arn: "ApiKeyArn",
+    #         api_base: "HarnessLiteLlmApiBase",
+    #         max_tokens: 1,
+    #         temperature: 1.0,
+    #         top_p: 1.0,
+    #         additional_params: {
+    #         },
     #       },
     #     },
     #     system_prompt: [
@@ -11672,7 +11755,7 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #           agent_core_browser: {
-    #             browser_arn: "BrowserArn",
+    #             browser_arn: "HarnessBrowserArn",
     #           },
     #           agent_core_gateway: {
     #             gateway_arn: "GatewayArn", # required
@@ -11698,7 +11781,7 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #           agent_core_code_interpreter: {
-    #             code_interpreter_arn: "CodeInterpreterArn",
+    #             code_interpreter_arn: "HarnessCodeInterpreterArn",
     #           },
     #         },
     #       },
@@ -11706,6 +11789,17 @@ module Aws::BedrockAgentCoreControl
     #     skills: [
     #       {
     #         path: "HarnessSkillPath",
+    #         s3: {
+    #           uri: "HarnessSkillS3Uri", # required
+    #         },
+    #         git: {
+    #           url: "HarnessSkillGitUrl", # required
+    #           path: "String",
+    #           auth: {
+    #             credential_arn: "ApiKeyArn", # required
+    #             username: "String",
+    #           },
+    #         },
     #       },
     #     ],
     #     allowed_tools: ["HarnessAllowedTool"],
@@ -11756,17 +11850,25 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.model.bedrock_model_config.max_tokens #=> Integer
     #   resp.harness.model.bedrock_model_config.temperature #=> Float
     #   resp.harness.model.bedrock_model_config.top_p #=> Float
+    #   resp.harness.model.bedrock_model_config.api_format #=> String, one of "converse_stream", "responses", "chat_completions"
     #   resp.harness.model.open_ai_model_config.model_id #=> String
     #   resp.harness.model.open_ai_model_config.api_key_arn #=> String
     #   resp.harness.model.open_ai_model_config.max_tokens #=> Integer
     #   resp.harness.model.open_ai_model_config.temperature #=> Float
     #   resp.harness.model.open_ai_model_config.top_p #=> Float
+    #   resp.harness.model.open_ai_model_config.api_format #=> String, one of "chat_completions", "responses"
     #   resp.harness.model.gemini_model_config.model_id #=> String
     #   resp.harness.model.gemini_model_config.api_key_arn #=> String
     #   resp.harness.model.gemini_model_config.max_tokens #=> Integer
     #   resp.harness.model.gemini_model_config.temperature #=> Float
     #   resp.harness.model.gemini_model_config.top_p #=> Float
     #   resp.harness.model.gemini_model_config.top_k #=> Integer
+    #   resp.harness.model.lite_llm_model_config.model_id #=> String
+    #   resp.harness.model.lite_llm_model_config.api_key_arn #=> String
+    #   resp.harness.model.lite_llm_model_config.api_base #=> String
+    #   resp.harness.model.lite_llm_model_config.max_tokens #=> Integer
+    #   resp.harness.model.lite_llm_model_config.temperature #=> Float
+    #   resp.harness.model.lite_llm_model_config.top_p #=> Float
     #   resp.harness.system_prompt #=> Array
     #   resp.harness.system_prompt[0].text #=> String
     #   resp.harness.tools #=> Array
@@ -11788,6 +11890,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.tools[0].config.agent_core_code_interpreter.code_interpreter_arn #=> String
     #   resp.harness.skills #=> Array
     #   resp.harness.skills[0].path #=> String
+    #   resp.harness.skills[0].s3.uri #=> String
+    #   resp.harness.skills[0].git.url #=> String
+    #   resp.harness.skills[0].git.path #=> String
+    #   resp.harness.skills[0].git.auth.credential_arn #=> String
+    #   resp.harness.skills[0].git.auth.username #=> String
     #   resp.harness.allowed_tools #=> Array
     #   resp.harness.allowed_tools[0] #=> String
     #   resp.harness.truncation.strategy #=> String, one of "sliding_window", "summarization", "none"
@@ -13791,7 +13898,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.49.0'
+      context[:gem_version] = '1.50.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

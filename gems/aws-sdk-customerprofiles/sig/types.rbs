@@ -179,6 +179,38 @@ module Aws::CustomerProfiles
       SENSITIVE: []
     end
 
+    class BatchPutProfileObjectErrorItem
+      attr_accessor id: ::String
+      attr_accessor code: ::Integer
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class BatchPutProfileObjectRequest
+      attr_accessor domain_name: ::String
+      attr_accessor object_type_name: ::String
+      attr_accessor items: ::Array[Types::BatchPutProfileObjectRequestItem]
+      SENSITIVE: []
+    end
+
+    class BatchPutProfileObjectRequestItem
+      attr_accessor id: ::String
+      attr_accessor object: ::String
+      SENSITIVE: [:object]
+    end
+
+    class BatchPutProfileObjectResponse
+      attr_accessor successful: ::Array[Types::BatchPutProfileObjectResponseItem]
+      attr_accessor failed: ::Array[Types::BatchPutProfileObjectErrorItem]
+      SENSITIVE: []
+    end
+
+    class BatchPutProfileObjectResponseItem
+      attr_accessor id: ::String
+      attr_accessor profile_object_unique_key: ::String
+      SENSITIVE: []
+    end
+
     class CalculatedAttributeDimension
       attr_accessor dimension_type: ("INCLUSIVE" | "EXCLUSIVE" | "CONTAINS" | "BEGINS_WITH" | "ENDS_WITH" | "BEFORE" | "AFTER" | "BETWEEN" | "NOT_BETWEEN" | "ON" | "GREATER_THAN" | "LESS_THAN" | "GREATER_THAN_OR_EQUAL" | "LESS_THAN_OR_EQUAL" | "EQUAL")
       attr_accessor values: ::Array[::String]
@@ -2035,7 +2067,7 @@ module Aws::CustomerProfiles
     end
 
     class Period
-      attr_accessor unit: ("HOURS" | "DAYS" | "WEEKS" | "MONTHS")
+      attr_accessor unit: ("MINUTES" | "HOURS" | "DAYS" | "WEEKS" | "MONTHS")
       attr_accessor value: ::Integer
       attr_accessor max_invocations_per_profile: ::Integer
       attr_accessor unlimited: bool

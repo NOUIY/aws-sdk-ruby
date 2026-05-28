@@ -334,6 +334,7 @@ module Aws
   autoload :Rekognition, 'aws-sdk-rekognition'
   autoload :Repostspace, 'aws-sdk-repostspace'
   autoload :ResilienceHub, 'aws-sdk-resiliencehub'
+  autoload :Resiliencehubv2, 'aws-sdk-resiliencehubv2'
   autoload :ResourceExplorer2, 'aws-sdk-resourceexplorer2'
   autoload :ResourceGroups, 'aws-sdk-resourcegroups'
   autoload :ResourceGroupsTaggingAPI, 'aws-sdk-resourcegroupstaggingapi'

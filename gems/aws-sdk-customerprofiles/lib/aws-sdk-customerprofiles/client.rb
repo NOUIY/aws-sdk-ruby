@@ -703,6 +703,68 @@ module Aws::CustomerProfiles
       req.send_request(options)
     end
 
+    # Adds multiple profile objects to a domain of a given ObjectType in a
+    # single API call.
+    #
+    # When adding a specific profile object, like a Contact Record, an
+    # inferred profile can get created if it is not mapped to an existing
+    # profile. The resulting profile will only have a phone number populated
+    # in the standard ProfileObject. Any additional Contact Records with the
+    # same phone number will be mapped to the same inferred profile.
+    #
+    # When a ProfileObject is created and if a ProfileObjectType already
+    # exists for the ProfileObject, it will provide data to a standard
+    # profile depending on the ProfileObjectType definition.
+    #
+    # BatchPutProfileObject needs an ObjectType, which can be created using
+    # PutProfileObjectType.
+    #
+    # @option params [required, String] :domain_name
+    #   The unique name of the domain.
+    #
+    # @option params [required, String] :object_type_name
+    #   The name of the profile object type.
+    #
+    # @option params [required, Array<Types::BatchPutProfileObjectRequestItem>] :items
+    #   A list of items to add to the domain.
+    #
+    # @return [Types::BatchPutProfileObjectResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchPutProfileObjectResponse#successful #successful} => Array&lt;Types::BatchPutProfileObjectResponseItem&gt;
+    #   * {Types::BatchPutProfileObjectResponse#failed #failed} => Array&lt;Types::BatchPutProfileObjectErrorItem&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_put_profile_object({
+    #     domain_name: "name", # required
+    #     object_type_name: "typeName", # required
+    #     items: [ # required
+    #       {
+    #         id: "name", # required
+    #         object: "stringifiedJson", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.successful #=> Array
+    #   resp.successful[0].id #=> String
+    #   resp.successful[0].profile_object_unique_key #=> String
+    #   resp.failed #=> Array
+    #   resp.failed[0].id #=> String
+    #   resp.failed[0].code #=> Integer
+    #   resp.failed[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/BatchPutProfileObject AWS API Documentation
+    #
+    # @overload batch_put_profile_object(params = {})
+    # @param [Hash] params ({})
+    def batch_put_profile_object(params = {}, options = {})
+      req = build_request(:batch_put_profile_object, params)
+      req.send_request(options)
+    end
+
     # Creates a new calculated attribute definition. After creation, new
     # object data ingested into Customer Profiles will be included in the
     # calculated attribute, which can be retrieved for a profile using the
@@ -1291,7 +1353,7 @@ module Aws::CustomerProfiles
     #       event_expiration: 1,
     #       periods: [
     #         {
-    #           unit: "HOURS", # required, accepts HOURS, DAYS, WEEKS, MONTHS
+    #           unit: "MINUTES", # required, accepts MINUTES, HOURS, DAYS, WEEKS, MONTHS
     #           value: 1, # required
     #           max_invocations_per_profile: 1,
     #           unlimited: false,
@@ -1320,7 +1382,7 @@ module Aws::CustomerProfiles
     #   resp.segment_filter #=> String
     #   resp.event_trigger_limits.event_expiration #=> Integer
     #   resp.event_trigger_limits.periods #=> Array
-    #   resp.event_trigger_limits.periods[0].unit #=> String, one of "HOURS", "DAYS", "WEEKS", "MONTHS"
+    #   resp.event_trigger_limits.periods[0].unit #=> String, one of "MINUTES", "HOURS", "DAYS", "WEEKS", "MONTHS"
     #   resp.event_trigger_limits.periods[0].value #=> Integer
     #   resp.event_trigger_limits.periods[0].max_invocations_per_profile #=> Integer
     #   resp.event_trigger_limits.periods[0].unlimited #=> Boolean
@@ -3534,7 +3596,7 @@ module Aws::CustomerProfiles
     #   resp.segment_filter #=> String
     #   resp.event_trigger_limits.event_expiration #=> Integer
     #   resp.event_trigger_limits.periods #=> Array
-    #   resp.event_trigger_limits.periods[0].unit #=> String, one of "HOURS", "DAYS", "WEEKS", "MONTHS"
+    #   resp.event_trigger_limits.periods[0].unit #=> String, one of "MINUTES", "HOURS", "DAYS", "WEEKS", "MONTHS"
     #   resp.event_trigger_limits.periods[0].value #=> Integer
     #   resp.event_trigger_limits.periods[0].max_invocations_per_profile #=> Integer
     #   resp.event_trigger_limits.periods[0].unlimited #=> Boolean
@@ -7632,7 +7694,7 @@ module Aws::CustomerProfiles
     #       event_expiration: 1,
     #       periods: [
     #         {
-    #           unit: "HOURS", # required, accepts HOURS, DAYS, WEEKS, MONTHS
+    #           unit: "MINUTES", # required, accepts MINUTES, HOURS, DAYS, WEEKS, MONTHS
     #           value: 1, # required
     #           max_invocations_per_profile: 1,
     #           unlimited: false,
@@ -7658,7 +7720,7 @@ module Aws::CustomerProfiles
     #   resp.segment_filter #=> String
     #   resp.event_trigger_limits.event_expiration #=> Integer
     #   resp.event_trigger_limits.periods #=> Array
-    #   resp.event_trigger_limits.periods[0].unit #=> String, one of "HOURS", "DAYS", "WEEKS", "MONTHS"
+    #   resp.event_trigger_limits.periods[0].unit #=> String, one of "MINUTES", "HOURS", "DAYS", "WEEKS", "MONTHS"
     #   resp.event_trigger_limits.periods[0].value #=> Integer
     #   resp.event_trigger_limits.periods[0].max_invocations_per_profile #=> Integer
     #   resp.event_trigger_limits.periods[0].unlimited #=> Boolean
@@ -7959,7 +8021,7 @@ module Aws::CustomerProfiles
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-customerprofiles'
-      context[:gem_version] = '1.89.0'
+      context[:gem_version] = '1.90.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

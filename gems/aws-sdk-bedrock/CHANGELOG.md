@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.87.0 (2026-05-28)
+------------------
+
+* Feature - Add support for ModelPackageArn in Bedrock's CreateCustomModel API
+
 1.86.0 (2026-05-22)
 ------------------
 

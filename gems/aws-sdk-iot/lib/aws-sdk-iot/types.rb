@@ -1395,6 +1395,20 @@ module Aws::IoT
     #   Whether to allow batching messages from different MQTT topics into a
     #   single HTTP request. By default, only messages from the same topic
     #   are batched together. The default value is `false`.
+    #
+    #   <note markdown="1"> When `batchAcrossTopics` is enabled, the error payload format
+    #   changes: the `topic` field moves from the top level to inside each
+    #   entry in the `payloadsWithMetadata` array, since each message in the
+    #   batch may originate from a different topic.
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> Messages are always batched within the scope of the same account,
+    #   rule name, target HTTP endpoint URL, and billing group. Messages
+    #   that differ in any of these attributes are never combined into the
+    #   same batch, regardless of the `batchAcrossTopics` setting.
+    #
+    #    </note>
     #   @return [Boolean]
     #
     class BatchConfig < Struct.new(
@@ -2667,6 +2681,21 @@ module Aws::IoT
     #
     class ConflictingResourceUpdateException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides connectivity filter selections for the fleet indexing
+    # configuration.
+    #
+    # @!attribute [rw] include_socket_information
+    #   A list of fleet indexing APIs for which to enable socket information
+    #   retrieval. Currently, the only supported value is
+    #   `GET_THING_CONNECTIVITY_DATA`.
+    #   @return [Array<String>]
+    #
+    class ConnectivityFilter < Struct.new(
+      :include_socket_information)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8926,8 +8955,17 @@ module Aws::IoT
     #   The name of your IoT thing.
     #   @return [String]
     #
+    # @!attribute [rw] include_socket_information
+    #   Specifies if socket information (sourcePort, targetPort, sourceIp,
+    #   targetIp, vpcEndpointId) should be included in the
+    #   GetThingConnectivityData response. Set to `true` to include socket
+    #   information. Set to `false` to omit socket information. By default,
+    #   this is set to `false`.
+    #   @return [Boolean]
+    #
     class GetThingConnectivityDataRequest < Struct.new(
-      :thing_name)
+      :thing_name,
+      :include_socket_information)
       SENSITIVE = [:thing_name]
       include Aws::Structure
     end
@@ -8941,19 +8979,77 @@ module Aws::IoT
     #   @return [Boolean]
     #
     # @!attribute [rw] timestamp
-    #   The timestamp of when the event occurred.
+    #   The timestamp of when the event occurred. When you enable or update
+    #   the indexing configuration, this value might be the Unix epoch time
+    #   (0) for devices that have never connected or have been disconnected
+    #   for more than an hour.
     #   @return [Time]
     #
     # @!attribute [rw] disconnect_reason
-    #   The reason why the client is disconnecting.
+    #   The reason why the client is disconnecting. When you enable or
+    #   update the indexing configuration, this value might be `UNKNOWN` for
+    #   devices that have never connected or have been disconnected for more
+    #   than an hour.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_ip
+    #   The IP address of the client that initiated the connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_port
+    #   The client's source port.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] target_ip
+    #   The IP address of the Amazon Web Services IoT Core endpoint that the
+    #   client connected to.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_port
+    #   The port number of the Amazon Web Services IoT Core endpoint that
+    #   the client connected to.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] vpc_endpoint_id
+    #   The ID of the VPC endpoint. Present for clients connected to Amazon
+    #   Web Services IoT Core via a VPC endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] keep_alive_duration
+    #   The keep-alive interval in seconds that the client specified when
+    #   establishing the connection.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] clean_session
+    #   Indicates whether the client is using a clean session. Returns
+    #   `true` for clean sessions.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] session_expiry
+    #   The session expiry interval in seconds for the MQTT client
+    #   connection. This value indicates how long the session will remain
+    #   active after the client disconnects.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] client_id
+    #   The unique identifier of the MQTT client.
     #   @return [String]
     #
     class GetThingConnectivityDataResponse < Struct.new(
       :thing_name,
       :connected,
       :timestamp,
-      :disconnect_reason)
-      SENSITIVE = [:thing_name]
+      :disconnect_reason,
+      :source_ip,
+      :source_port,
+      :target_ip,
+      :target_port,
+      :vpc_endpoint_id,
+      :keep_alive_duration,
+      :clean_session,
+      :session_expiry,
+      :client_id)
+      SENSITIVE = [:thing_name, :source_ip, :source_port, :target_ip, :target_port, :vpc_endpoint_id]
       include Aws::Structure
     end
 
@@ -9274,9 +9370,15 @@ module Aws::IoT
     #   [1]: https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits
     #   @return [Array<Types::GeoLocationTarget>]
     #
+    # @!attribute [rw] connectivity
+    #   Provides additional connectivity filter selections for the fleet
+    #   indexing configuration.
+    #   @return [Types::ConnectivityFilter]
+    #
     class IndexingFilter < Struct.new(
       :named_shadow_names,
-      :geo_locations)
+      :geo_locations,
+      :connectivity)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -16371,19 +16473,47 @@ module Aws::IoT
     # @!attribute [rw] timestamp
     #   The epoch time (in milliseconds) when the thing last connected or
     #   disconnected. If the thing has been disconnected for approximately
-    #   an hour, the time value might be missing.
+    #   an hour, the time value might be missing. When you enable or update
+    #   the indexing configuration, this value might be `0` (the Unix epoch
+    #   time) for devices that have never connected or have been
+    #   disconnected for more than an hour.
     #   @return [Integer]
     #
     # @!attribute [rw] disconnect_reason
-    #   The reason why the client is disconnected. If the thing has been
-    #   disconnected for approximately an hour, the `disconnectReason` value
-    #   might be missing.
+    #   The reason why the client is disconnected. When you enable or update
+    #   the indexing configuration, this value might be missing for devices
+    #   that have never connected or have been disconnected for more than an
+    #   hour.
+    #   @return [String]
+    #
+    # @!attribute [rw] keep_alive_duration
+    #   The keep-alive interval in seconds that the client specified when
+    #   establishing the connection.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] clean_session
+    #   Indicates whether the client is using a clean session. Returns
+    #   `true` for clean sessions.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] session_expiry
+    #   The session expiry interval in seconds for the MQTT client
+    #   connection. This value indicates how long the session will remain
+    #   active after the client disconnects.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] client_id
+    #   The unique identifier of the MQTT client.
     #   @return [String]
     #
     class ThingConnectivity < Struct.new(
       :connected,
       :timestamp,
-      :disconnect_reason)
+      :disconnect_reason,
+      :keep_alive_duration,
+      :clean_session,
+      :session_expiry,
+      :client_id)
       SENSITIVE = []
       include Aws::Structure
     end

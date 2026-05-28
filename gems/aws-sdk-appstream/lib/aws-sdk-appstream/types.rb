@@ -2255,9 +2255,11 @@ module Aws::AppStream
     #   @return [String]
     #
     # @!attribute [rw] source_ami_id
-    #   The ID of the EC2 AMI to import. The AMI must meet specific
-    #   requirements including Windows Server 2022 Full Base, UEFI boot
-    #   mode, TPM 2.0 support, and proper drivers.
+    #   The ID of the EC2 AMI to import.
+    #   @return [String]
+    #
+    # @!attribute [rw] workspace_image_id
+    #   The ID of the Workspaces Image to import.
     #   @return [String]
     #
     # @!attribute [rw] iam_role_arn
@@ -2314,6 +2316,7 @@ module Aws::AppStream
     class CreateImportedImageRequest < Struct.new(
       :name,
       :source_ami_id,
+      :workspace_image_id,
       :iam_role_arn,
       :description,
       :display_name,

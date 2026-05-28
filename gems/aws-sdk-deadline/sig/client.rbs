@@ -770,6 +770,17 @@ module Aws
                                   ) -> _DeleteStorageProfileResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteStorageProfileResponseSuccess
 
+      interface _DeleteVolumeResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteVolumeResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Deadline/Client.html#delete_volume-instance_method
+      def delete_volume: (
+                           farm_id: ::String,
+                           fleet_id: ::String,
+                           volume_id: ::String
+                         ) -> _DeleteVolumeResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteVolumeResponseSuccess
+
       interface _DeleteWorkerResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteWorkerResponse]
       end
@@ -1233,6 +1244,31 @@ module Aws
                     ) -> _GetTaskResponseSuccess
                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetTaskResponseSuccess
 
+      interface _GetVolumeResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetVolumeResponse]
+        def volume_id: () -> ::String
+        def farm_id: () -> ::String
+        def fleet_id: () -> ::String
+        def state: () -> ("PENDING_CREATION" | "PENDING_ATTACHMENT" | "IN_USE" | "AVAILABLE" | "PENDING_DELETION")
+        def size_gi_b: () -> ::Integer
+        def availability_zone_id: () -> ::String
+        def attached_worker_id: () -> ::String
+        def volume_type: () -> ("gp3")
+        def iops: () -> ::Integer
+        def throughput_mi_b: () -> ::Integer
+        def created_at: () -> ::Time
+        def last_assigned_at: () -> ::Time
+        def last_released_at: () -> ::Time
+        def expires_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Deadline/Client.html#get_volume-instance_method
+      def get_volume: (
+                        farm_id: ::String,
+                        fleet_id: ::String,
+                        volume_id: ::String
+                      ) -> _GetVolumeResponseSuccess
+                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetVolumeResponseSuccess
+
       interface _GetWorkerResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetWorkerResponse]
         def farm_id: () -> ::String
@@ -1650,6 +1686,20 @@ module Aws
                         ?max_results: ::Integer
                       ) -> _ListTasksResponseSuccess
                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListTasksResponseSuccess
+
+      interface _ListVolumesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListVolumesResponse]
+        def volumes: () -> ::Array[Types::VolumeSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Deadline/Client.html#list_volumes-instance_method
+      def list_volumes: (
+                          farm_id: ::String,
+                          fleet_id: ::String,
+                          ?next_token: ::String,
+                          ?max_results: ::Integer
+                        ) -> _ListVolumesResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListVolumesResponseSuccess
 
       interface _ListWorkersResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListWorkersResponse]

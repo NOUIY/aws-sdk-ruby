@@ -3017,8 +3017,8 @@ module Aws::Deadline
     #   @return [String]
     #
     # @!attribute [rw] identity_center_region
-    #   The AWS Region where IAM Identity Center is enabled. Required when
-    #   IAM Identity Center is in a different Region than the monitor.
+    #   The Region where IAM Identity Center is enabled. Required when IAM
+    #   Identity Center is in a different Region than the monitor.
     #   @return [String]
     #
     # @!attribute [rw] subdomain
@@ -3803,6 +3803,32 @@ module Aws::Deadline
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/DeleteStorageProfileResponse AWS API Documentation
     #
     class DeleteStorageProfileResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] farm_id
+    #   The farm ID of the farm that contains the fleet.
+    #   @return [String]
+    #
+    # @!attribute [rw] fleet_id
+    #   The fleet ID of the fleet that contains the volume.
+    #   @return [String]
+    #
+    # @!attribute [rw] volume_id
+    #   The volume ID of the volume to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/DeleteVolumeRequest AWS API Documentation
+    #
+    class DeleteVolumeRequest < Struct.new(
+      :farm_id,
+      :fleet_id,
+      :volume_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/DeleteVolumeResponse AWS API Documentation
+    #
+    class DeleteVolumeResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] farm_id
     #   The farm ID of the worker to delete.
@@ -5220,7 +5246,7 @@ module Aws::Deadline
     #   @return [String]
     #
     # @!attribute [rw] identity_center_region
-    #   The AWS Region where IAM Identity Center is enabled.
+    #   The Region where IAM Identity Center is enabled.
     #   @return [String]
     #
     # @!attribute [rw] identity_center_application_arn
@@ -6253,6 +6279,109 @@ module Aws::Deadline
       :latest_session_action_id,
       :parameters)
       SENSITIVE = [:parameters]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] farm_id
+    #   The farm ID of the farm that contains the fleet.
+    #   @return [String]
+    #
+    # @!attribute [rw] fleet_id
+    #   The fleet ID of the fleet that contains the volume.
+    #   @return [String]
+    #
+    # @!attribute [rw] volume_id
+    #   The volume ID of the volume to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/GetVolumeRequest AWS API Documentation
+    #
+    class GetVolumeRequest < Struct.new(
+      :farm_id,
+      :fleet_id,
+      :volume_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Mixin that adds an optional ARN field to response structures. Apply to
+    # SummaryMixins (flows into Get, Summary, and BatchGet) and Create
+    # outputs.
+    #
+    # @!attribute [rw] volume_id
+    #   The volume ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the farm that contains the fleet.
+    #   @return [String]
+    #
+    # @!attribute [rw] fleet_id
+    #   The fleet ID of the fleet that contains the volume.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The state of the volume.
+    #   @return [String]
+    #
+    # @!attribute [rw] size_gi_b
+    #   The volume size in GiB.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] availability_zone_id
+    #   The Availability Zone ID of the volume.
+    #   @return [String]
+    #
+    # @!attribute [rw] attached_worker_id
+    #   The worker ID of the worker the volume is attached to.
+    #   @return [String]
+    #
+    # @!attribute [rw] volume_type
+    #   The EBS volume type.
+    #   @return [String]
+    #
+    # @!attribute [rw] iops
+    #   The IOPS of the volume.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] throughput_mi_b
+    #   The throughput of the volume in MiB.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the resource was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_assigned_at
+    #   The date and time the volume was last assigned to a worker.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_released_at
+    #   The date and time the volume was last released from a worker.
+    #   @return [Time]
+    #
+    # @!attribute [rw] expires_at
+    #   The date and time the volume expires and will be deleted.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/GetVolumeResponse AWS API Documentation
+    #
+    class GetVolumeResponse < Struct.new(
+      :volume_id,
+      :farm_id,
+      :fleet_id,
+      :state,
+      :size_gi_b,
+      :availability_zone_id,
+      :attached_worker_id,
+      :volume_type,
+      :iops,
+      :throughput_mi_b,
+      :created_at,
+      :last_assigned_at,
+      :last_released_at,
+      :expires_at)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -8834,6 +8963,63 @@ module Aws::Deadline
     # maxResults).
     #
     # @!attribute [rw] farm_id
+    #   The farm ID of the farm that contains the fleet.
+    #   @return [String]
+    #
+    # @!attribute [rw] fleet_id
+    #   The fleet ID of the fleet that contains the volumes.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or `null` to start from the
+    #   beginning.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return. Use this parameter with
+    #   `NextToken` to get results as a set of sequential pages.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/ListVolumesRequest AWS API Documentation
+    #
+    class ListVolumesRequest < Struct.new(
+      :farm_id,
+      :fleet_id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Shared pagination field for List operation outputs (nextToken).
+    #
+    # @!attribute [rw] volumes
+    #   The volumes on the list.
+    #   @return [Array<Types::VolumeSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If Deadline Cloud returns `nextToken`, then there are more results
+    #   available. The value of `nextToken` is a unique pagination token for
+    #   each page. To retrieve the next page, call the operation again using
+    #   the returned token. Keep all other arguments unchanged. If no
+    #   results remain, then `nextToken` is set to `null`. Each pagination
+    #   token expires after 24 hours. If you provide a token that isn't
+    #   valid, then you receive an HTTP 400 `ValidationException` error.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/ListVolumesResponse AWS API Documentation
+    #
+    class ListVolumesResponse < Struct.new(
+      :volumes,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Shared pagination fields for List operation inputs (nextToken +
+    # maxResults).
+    #
+    # @!attribute [rw] farm_id
     #   The farm ID connected to the workers.
     #   @return [String]
     #
@@ -9038,7 +9224,7 @@ module Aws::Deadline
     #   @return [String]
     #
     # @!attribute [rw] identity_center_region
-    #   The AWS Region where IAM Identity Center is enabled.
+    #   The Region where IAM Identity Center is enabled.
     #   @return [String]
     #
     # @!attribute [rw] identity_center_application_arn
@@ -9165,6 +9351,43 @@ module Aws::Deadline
       :source_path_format,
       :source_path,
       :destination_path)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the persistent EBS volume configuration for workers in a
+    # service managed fleet.
+    #
+    # @!attribute [rw] size_gi_b
+    #   The persistent volume size in GiB. The default is 250.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] iops
+    #   The IOPS per persistent volume. The default is 3000.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] throughput_mi_b
+    #   The throughput per persistent volume in MiB. The default is 125.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] mount_path
+    #   The file system path where the persistent volume is mounted on the
+    #   worker instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_used_ttl_hours
+    #   The number of hours a persistent volume can remain unused before it
+    #   is deleted. The default is 168 (7 days).
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/PersistentVolumeConfiguration AWS API Documentation
+    #
+    class PersistentVolumeConfiguration < Struct.new(
+      :size_gi_b,
+      :iops,
+      :throughput_mi_b,
+      :mount_path,
+      :last_used_ttl_hours)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10118,6 +10341,11 @@ module Aws::Deadline
     #   The storage profile ID for the service managed EC2 fleet.
     #   @return [String]
     #
+    # @!attribute [rw] persistent_volume_configuration
+    #   The persistent volume configuration for the service managed EC2
+    #   fleet.
+    #   @return [Types::PersistentVolumeConfiguration]
+    #
     # @!attribute [rw] auto_scaling_configuration
     #   The auto scaling configuration settings for the service managed EC2
     #   fleet.
@@ -10130,6 +10358,7 @@ module Aws::Deadline
       :instance_market_options,
       :vpc_configuration,
       :storage_profile_id,
+      :persistent_volume_configuration,
       :auto_scaling_configuration)
       SENSITIVE = []
       include Aws::Structure
@@ -12646,6 +12875,50 @@ module Aws::Deadline
     class ValidationExceptionField < Struct.new(
       :name,
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The summary of a persistent volume.
+    #
+    # @!attribute [rw] volume_id
+    #   The volume ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] farm_id
+    #   The farm ID of the farm that contains the fleet.
+    #   @return [String]
+    #
+    # @!attribute [rw] fleet_id
+    #   The fleet ID of the fleet that contains the volume.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The state of the volume.
+    #   @return [String]
+    #
+    # @!attribute [rw] size_gi_b
+    #   The volume size in GiB.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] availability_zone_id
+    #   The Availability Zone ID of the volume.
+    #   @return [String]
+    #
+    # @!attribute [rw] attached_worker_id
+    #   The worker ID of the worker the volume is attached to.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/VolumeSummary AWS API Documentation
+    #
+    class VolumeSummary < Struct.new(
+      :volume_id,
+      :farm_id,
+      :fleet_id,
+      :state,
+      :size_gi_b,
+      :availability_zone_id,
+      :attached_worker_id)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -404,6 +404,27 @@ module Aws
       agent_core_runtime_environment: Params::harness_agent_core_runtime_environment_request?
     }
 
+      type harness_bedrock_model_config = {
+      model_id: ::String,
+      max_tokens: ::Integer?,
+      temperature: ::Float?,
+      top_p: ::Float?,
+      api_format: ("converse_stream" | "responses" | "chat_completions")?,
+      additional_params: {
+      }?
+    }
+
+      type harness_open_ai_model_config = {
+      model_id: ::String,
+      api_key_arn: ::String,
+      max_tokens: ::Integer?,
+      temperature: ::Float?,
+      top_p: ::Float?,
+      api_format: ("chat_completions" | "responses")?,
+      additional_params: {
+      }?
+    }
+
       type harness_gemini_model_config = {
       model_id: ::String,
       api_key_arn: ::String,
@@ -413,21 +434,22 @@ module Aws
       top_k: ::Integer?
     }
 
+      type harness_lite_llm_model_config = {
+      model_id: ::String,
+      api_key_arn: ::String?,
+      api_base: ::String?,
+      max_tokens: ::Integer?,
+      temperature: ::Float?,
+      top_p: ::Float?,
+      additional_params: {
+      }?
+    }
+
       type harness_model_configuration = {
-      bedrock_model_config: {
-        model_id: ::String,
-        max_tokens: ::Integer?,
-        temperature: ::Float?,
-        top_p: ::Float?
-      }?,
-      open_ai_model_config: {
-        model_id: ::String,
-        api_key_arn: ::String,
-        max_tokens: ::Integer?,
-        temperature: ::Float?,
-        top_p: ::Float?
-      }?,
-      gemini_model_config: Params::harness_gemini_model_config?
+      bedrock_model_config: Params::harness_bedrock_model_config?,
+      open_ai_model_config: Params::harness_open_ai_model_config?,
+      gemini_model_config: Params::harness_gemini_model_config?,
+      lite_llm_model_config: Params::harness_lite_llm_model_config?
     }
 
       type harness_gateway_outbound_auth = {
@@ -472,6 +494,23 @@ module Aws
       type: ("remote_mcp" | "agentcore_browser" | "agentcore_gateway" | "inline_function" | "agentcore_code_interpreter"),
       name: ::String?,
       config: Params::harness_tool_configuration?
+    }
+
+      type harness_skill_git_source = {
+      url: ::String,
+      path: ::String?,
+      auth: {
+        credential_arn: ::String,
+        username: ::String?
+      }?
+    }
+
+      type harness_skill = {
+      path: ::String?,
+      s3: {
+        uri: ::String
+      }?,
+      git: Params::harness_skill_git_source?
     }
 
       type harness_agent_core_memory_configuration = {

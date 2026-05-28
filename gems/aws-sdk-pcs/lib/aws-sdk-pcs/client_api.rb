@@ -43,6 +43,8 @@ module Aws::PCS
     ComputeNodeGroupName = Shapes::StringShape.new(name: 'ComputeNodeGroupName')
     ComputeNodeGroupSlurmConfiguration = Shapes::StructureShape.new(name: 'ComputeNodeGroupSlurmConfiguration')
     ComputeNodeGroupSlurmConfigurationRequest = Shapes::StructureShape.new(name: 'ComputeNodeGroupSlurmConfigurationRequest')
+    ComputeNodeGroupSlurmConfigurationRequestScaleDownIdleTimeInSecondsInteger = Shapes::IntegerShape.new(name: 'ComputeNodeGroupSlurmConfigurationRequestScaleDownIdleTimeInSecondsInteger')
+    ComputeNodeGroupSlurmConfigurationScaleDownIdleTimeInSecondsInteger = Shapes::IntegerShape.new(name: 'ComputeNodeGroupSlurmConfigurationScaleDownIdleTimeInSecondsInteger')
     ComputeNodeGroupStatus = Shapes::StringShape.new(name: 'ComputeNodeGroupStatus')
     ComputeNodeGroupSummary = Shapes::StructureShape.new(name: 'ComputeNodeGroupSummary')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
@@ -150,6 +152,7 @@ module Aws::PCS
     UpdateComputeNodeGroupRequest = Shapes::StructureShape.new(name: 'UpdateComputeNodeGroupRequest')
     UpdateComputeNodeGroupResponse = Shapes::StructureShape.new(name: 'UpdateComputeNodeGroupResponse')
     UpdateComputeNodeGroupSlurmConfigurationRequest = Shapes::StructureShape.new(name: 'UpdateComputeNodeGroupSlurmConfigurationRequest')
+    UpdateComputeNodeGroupSlurmConfigurationRequestScaleDownIdleTimeInSecondsInteger = Shapes::IntegerShape.new(name: 'UpdateComputeNodeGroupSlurmConfigurationRequestScaleDownIdleTimeInSecondsInteger')
     UpdateQueueRequest = Shapes::StructureShape.new(name: 'UpdateQueueRequest')
     UpdateQueueResponse = Shapes::StructureShape.new(name: 'UpdateQueueResponse')
     UpdateQueueSlurmConfigurationRequest = Shapes::StructureShape.new(name: 'UpdateQueueSlurmConfigurationRequest')
@@ -244,9 +247,11 @@ module Aws::PCS
 
     ComputeNodeGroupList.member = Shapes::ShapeRef.new(shape: ComputeNodeGroupSummary)
 
+    ComputeNodeGroupSlurmConfiguration.add_member(:scale_down_idle_time_in_seconds, Shapes::ShapeRef.new(shape: ComputeNodeGroupSlurmConfigurationScaleDownIdleTimeInSecondsInteger, location_name: "scaleDownIdleTimeInSeconds"))
     ComputeNodeGroupSlurmConfiguration.add_member(:slurm_custom_settings, Shapes::ShapeRef.new(shape: SlurmCustomSettings, location_name: "slurmCustomSettings"))
     ComputeNodeGroupSlurmConfiguration.struct_class = Types::ComputeNodeGroupSlurmConfiguration
 
+    ComputeNodeGroupSlurmConfigurationRequest.add_member(:scale_down_idle_time_in_seconds, Shapes::ShapeRef.new(shape: ComputeNodeGroupSlurmConfigurationRequestScaleDownIdleTimeInSecondsInteger, location_name: "scaleDownIdleTimeInSeconds"))
     ComputeNodeGroupSlurmConfigurationRequest.add_member(:slurm_custom_settings, Shapes::ShapeRef.new(shape: SlurmCustomSettings, location_name: "slurmCustomSettings"))
     ComputeNodeGroupSlurmConfigurationRequest.struct_class = Types::ComputeNodeGroupSlurmConfigurationRequest
 
@@ -578,6 +583,7 @@ module Aws::PCS
     UpdateComputeNodeGroupResponse.add_member(:compute_node_group, Shapes::ShapeRef.new(shape: ComputeNodeGroup, location_name: "computeNodeGroup"))
     UpdateComputeNodeGroupResponse.struct_class = Types::UpdateComputeNodeGroupResponse
 
+    UpdateComputeNodeGroupSlurmConfigurationRequest.add_member(:scale_down_idle_time_in_seconds, Shapes::ShapeRef.new(shape: UpdateComputeNodeGroupSlurmConfigurationRequestScaleDownIdleTimeInSecondsInteger, location_name: "scaleDownIdleTimeInSeconds"))
     UpdateComputeNodeGroupSlurmConfigurationRequest.add_member(:slurm_custom_settings, Shapes::ShapeRef.new(shape: SlurmCustomSettings, location_name: "slurmCustomSettings"))
     UpdateComputeNodeGroupSlurmConfigurationRequest.struct_class = Types::UpdateComputeNodeGroupSlurmConfigurationRequest
 

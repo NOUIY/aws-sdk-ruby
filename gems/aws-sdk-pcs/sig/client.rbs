@@ -158,6 +158,7 @@ module Aws
                                          allocation_strategy: ("lowest-price" | "capacity-optimized" | "price-capacity-optimized")?
                                        },
                                        ?slurm_configuration: {
+                                         scale_down_idle_time_in_seconds: ::Integer?,
                                          slurm_custom_settings: Array[
                                            {
                                              parameter_name: ::String,
@@ -404,6 +405,7 @@ module Aws
                                        },
                                        ?iam_instance_profile_arn: ::String,
                                        ?slurm_configuration: {
+                                         scale_down_idle_time_in_seconds: ::Integer?,
                                          slurm_custom_settings: Array[
                                            {
                                              parameter_name: ::String,

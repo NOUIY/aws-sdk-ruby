@@ -125,6 +125,24 @@ module Aws
                              ) -> _BatchGetProfileResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetProfileResponseSuccess
 
+      interface _BatchPutProfileObjectResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchPutProfileObjectResponse]
+        def successful: () -> ::Array[Types::BatchPutProfileObjectResponseItem]
+        def failed: () -> ::Array[Types::BatchPutProfileObjectErrorItem]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CustomerProfiles/Client.html#batch_put_profile_object-instance_method
+      def batch_put_profile_object: (
+                                      domain_name: ::String,
+                                      object_type_name: ::String,
+                                      items: Array[
+                                        {
+                                          id: ::String,
+                                          object: ::String
+                                        }
+                                      ]
+                                    ) -> _BatchPutProfileObjectResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchPutProfileObjectResponseSuccess
+
       interface _CreateCalculatedAttributeDefinitionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateCalculatedAttributeDefinitionResponse]
         def calculated_attribute_name: () -> ::String

@@ -489,9 +489,7 @@ module Aws
                               Params::harness_tool
                             ],
                             ?skills: Array[
-                              {
-                                path: ::String?
-                              }
+                              Params::harness_skill
                             ],
                             ?allowed_tools: Array[::String],
                             ?memory: Params::harness_memory_configuration,
@@ -2516,9 +2514,7 @@ module Aws
                               Params::harness_tool
                             ],
                             ?skills: Array[
-                              {
-                                path: ::String?
-                              }
+                              Params::harness_skill
                             ],
                             ?allowed_tools: Array[::String],
                             ?memory: {

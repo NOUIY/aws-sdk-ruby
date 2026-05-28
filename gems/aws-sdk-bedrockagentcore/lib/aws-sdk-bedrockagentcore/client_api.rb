@@ -68,7 +68,6 @@ module Aws::BedrockAgentCore
     BrowserAction = Shapes::UnionShape.new(name: 'BrowserAction')
     BrowserActionResult = Shapes::UnionShape.new(name: 'BrowserActionResult')
     BrowserActionStatus = Shapes::StringShape.new(name: 'BrowserActionStatus')
-    BrowserArn = Shapes::StringShape.new(name: 'BrowserArn')
     BrowserEnterprisePolicies = Shapes::ListShape.new(name: 'BrowserEnterprisePolicies')
     BrowserEnterprisePolicy = Shapes::StructureShape.new(name: 'BrowserEnterprisePolicy')
     BrowserEnterprisePolicyType = Shapes::StringShape.new(name: 'BrowserEnterprisePolicyType')
@@ -100,7 +99,6 @@ module Aws::BedrockAgentCore
     CloudWatchLogsTraceConfig = Shapes::StructureShape.new(name: 'CloudWatchLogsTraceConfig')
     CloudWatchLogsTraceConfigLogGroupArnsList = Shapes::ListShape.new(name: 'CloudWatchLogsTraceConfigLogGroupArnsList')
     CloudWatchOutputConfig = Shapes::StructureShape.new(name: 'CloudWatchOutputConfig')
-    CodeInterpreterArn = Shapes::StringShape.new(name: 'CodeInterpreterArn')
     CodeInterpreterResult = Shapes::StructureShape.new(name: 'CodeInterpreterResult')
     CodeInterpreterSessionId = Shapes::StringShape.new(name: 'CodeInterpreterSessionId')
     CodeInterpreterSessionStatus = Shapes::StringShape.new(name: 'CodeInterpreterSessionStatus')
@@ -273,7 +271,10 @@ module Aws::BedrockAgentCore
     HarnessAllowedTool = Shapes::StringShape.new(name: 'HarnessAllowedTool')
     HarnessAllowedTools = Shapes::ListShape.new(name: 'HarnessAllowedTools')
     HarnessArn = Shapes::StringShape.new(name: 'HarnessArn')
+    HarnessBedrockApiFormat = Shapes::StringShape.new(name: 'HarnessBedrockApiFormat')
     HarnessBedrockModelConfig = Shapes::StructureShape.new(name: 'HarnessBedrockModelConfig')
+    HarnessBrowserArn = Shapes::StringShape.new(name: 'HarnessBrowserArn')
+    HarnessCodeInterpreterArn = Shapes::StringShape.new(name: 'HarnessCodeInterpreterArn')
     HarnessContentBlock = Shapes::UnionShape.new(name: 'HarnessContentBlock')
     HarnessContentBlockDelta = Shapes::UnionShape.new(name: 'HarnessContentBlockDelta')
     HarnessContentBlockDeltaEvent = Shapes::StructureShape.new(name: 'HarnessContentBlockDeltaEvent')
@@ -286,12 +287,15 @@ module Aws::BedrockAgentCore
     HarnessGeminiModelConfig = Shapes::StructureShape.new(name: 'HarnessGeminiModelConfig')
     HarnessInlineFunctionConfig = Shapes::StructureShape.new(name: 'HarnessInlineFunctionConfig')
     HarnessInlineFunctionDescription = Shapes::StringShape.new(name: 'HarnessInlineFunctionDescription')
+    HarnessLiteLlmApiBase = Shapes::StringShape.new(name: 'HarnessLiteLlmApiBase')
+    HarnessLiteLlmModelConfig = Shapes::StructureShape.new(name: 'HarnessLiteLlmModelConfig')
     HarnessMessage = Shapes::StructureShape.new(name: 'HarnessMessage')
     HarnessMessageStartEvent = Shapes::StructureShape.new(name: 'HarnessMessageStartEvent')
     HarnessMessageStopEvent = Shapes::StructureShape.new(name: 'HarnessMessageStopEvent')
     HarnessMessages = Shapes::ListShape.new(name: 'HarnessMessages')
     HarnessMetadataEvent = Shapes::StructureShape.new(name: 'HarnessMetadataEvent')
     HarnessModelConfiguration = Shapes::UnionShape.new(name: 'HarnessModelConfiguration')
+    HarnessOpenAiApiFormat = Shapes::StringShape.new(name: 'HarnessOpenAiApiFormat')
     HarnessOpenAiModelConfig = Shapes::StructureShape.new(name: 'HarnessOpenAiModelConfig')
     HarnessReasoningContentBlock = Shapes::UnionShape.new(name: 'HarnessReasoningContentBlock')
     HarnessReasoningContentBlockDelta = Shapes::UnionShape.new(name: 'HarnessReasoningContentBlockDelta')
@@ -299,7 +303,12 @@ module Aws::BedrockAgentCore
     HarnessRemoteMcpConfig = Shapes::StructureShape.new(name: 'HarnessRemoteMcpConfig')
     HarnessRemoteMcpUrl = Shapes::StringShape.new(name: 'HarnessRemoteMcpUrl')
     HarnessSkill = Shapes::UnionShape.new(name: 'HarnessSkill')
+    HarnessSkillGitAuth = Shapes::StructureShape.new(name: 'HarnessSkillGitAuth')
+    HarnessSkillGitSource = Shapes::StructureShape.new(name: 'HarnessSkillGitSource')
+    HarnessSkillGitUrl = Shapes::StringShape.new(name: 'HarnessSkillGitUrl')
     HarnessSkillPath = Shapes::StringShape.new(name: 'HarnessSkillPath')
+    HarnessSkillS3Source = Shapes::StructureShape.new(name: 'HarnessSkillS3Source')
+    HarnessSkillS3Uri = Shapes::StringShape.new(name: 'HarnessSkillS3Uri')
     HarnessSkills = Shapes::ListShape.new(name: 'HarnessSkills')
     HarnessStopReason = Shapes::StringShape.new(name: 'HarnessStopReason')
     HarnessStreamMetrics = Shapes::StructureShape.new(name: 'HarnessStreamMetrics')
@@ -368,6 +377,7 @@ module Aws::BedrockAgentCore
     InvokeCodeInterpreterRequestTraceParentString = Shapes::StringShape.new(name: 'InvokeCodeInterpreterRequestTraceParentString')
     InvokeCodeInterpreterResponse = Shapes::StructureShape.new(name: 'InvokeCodeInterpreterResponse')
     InvokeHarnessRequest = Shapes::StructureShape.new(name: 'InvokeHarnessRequest')
+    InvokeHarnessRequestRuntimeSessionIdString = Shapes::StringShape.new(name: 'InvokeHarnessRequestRuntimeSessionIdString')
     InvokeHarnessResponse = Shapes::StructureShape.new(name: 'InvokeHarnessResponse')
     InvokeHarnessStreamOutput = Shapes::StructureShape.new(name: 'InvokeHarnessStreamOutput')
     JwtKeyId = Shapes::StringShape.new(name: 'JwtKeyId')
@@ -425,6 +435,7 @@ module Aws::BedrockAgentCore
     McpDescriptor = Shapes::StructureShape.new(name: 'McpDescriptor')
     MemoryContent = Shapes::UnionShape.new(name: 'MemoryContent')
     MemoryContentTextString = Shapes::StringShape.new(name: 'MemoryContentTextString')
+    MemoryDocument = Shapes::DocumentShape.new(name: 'MemoryDocument', document: true)
     MemoryId = Shapes::StringShape.new(name: 'MemoryId')
     MemoryMetadataFilterExpression = Shapes::StructureShape.new(name: 'MemoryMetadataFilterExpression')
     MemoryMetadataFilterList = Shapes::ListShape.new(name: 'MemoryMetadataFilterList')
@@ -1602,10 +1613,10 @@ module Aws::BedrockAgentCore
     GroundTruthTurnInput.add_member_subclass(:unknown, Types::GroundTruthTurnInput::Unknown)
     GroundTruthTurnInput.struct_class = Types::GroundTruthTurnInput
 
-    HarnessAgentCoreBrowserConfig.add_member(:browser_arn, Shapes::ShapeRef.new(shape: BrowserArn, location_name: "browserArn"))
+    HarnessAgentCoreBrowserConfig.add_member(:browser_arn, Shapes::ShapeRef.new(shape: HarnessBrowserArn, location_name: "browserArn"))
     HarnessAgentCoreBrowserConfig.struct_class = Types::HarnessAgentCoreBrowserConfig
 
-    HarnessAgentCoreCodeInterpreterConfig.add_member(:code_interpreter_arn, Shapes::ShapeRef.new(shape: CodeInterpreterArn, location_name: "codeInterpreterArn"))
+    HarnessAgentCoreCodeInterpreterConfig.add_member(:code_interpreter_arn, Shapes::ShapeRef.new(shape: HarnessCodeInterpreterArn, location_name: "codeInterpreterArn"))
     HarnessAgentCoreCodeInterpreterConfig.struct_class = Types::HarnessAgentCoreCodeInterpreterConfig
 
     HarnessAgentCoreGatewayConfig.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayArn, required: true, location_name: "gatewayArn"))
@@ -1618,6 +1629,8 @@ module Aws::BedrockAgentCore
     HarnessBedrockModelConfig.add_member(:max_tokens, Shapes::ShapeRef.new(shape: MaxTokens, location_name: "maxTokens"))
     HarnessBedrockModelConfig.add_member(:temperature, Shapes::ShapeRef.new(shape: Temperature, location_name: "temperature"))
     HarnessBedrockModelConfig.add_member(:top_p, Shapes::ShapeRef.new(shape: TopP, location_name: "topP"))
+    HarnessBedrockModelConfig.add_member(:api_format, Shapes::ShapeRef.new(shape: HarnessBedrockApiFormat, location_name: "apiFormat"))
+    HarnessBedrockModelConfig.add_member(:additional_params, Shapes::ShapeRef.new(shape: Document, location_name: "additionalParams"))
     HarnessBedrockModelConfig.struct_class = Types::HarnessBedrockModelConfig
 
     HarnessContentBlock.add_member(:text, Shapes::ShapeRef.new(shape: SensitiveText, location_name: "text"))
@@ -1687,6 +1700,15 @@ module Aws::BedrockAgentCore
     HarnessInlineFunctionConfig.add_member(:input_schema, Shapes::ShapeRef.new(shape: SensitiveJson, required: true, location_name: "inputSchema"))
     HarnessInlineFunctionConfig.struct_class = Types::HarnessInlineFunctionConfig
 
+    HarnessLiteLlmModelConfig.add_member(:model_id, Shapes::ShapeRef.new(shape: ModelId, required: true, location_name: "modelId"))
+    HarnessLiteLlmModelConfig.add_member(:api_key_arn, Shapes::ShapeRef.new(shape: ApiKeyArn, location_name: "apiKeyArn"))
+    HarnessLiteLlmModelConfig.add_member(:api_base, Shapes::ShapeRef.new(shape: HarnessLiteLlmApiBase, location_name: "apiBase"))
+    HarnessLiteLlmModelConfig.add_member(:max_tokens, Shapes::ShapeRef.new(shape: MaxTokens, location_name: "maxTokens"))
+    HarnessLiteLlmModelConfig.add_member(:temperature, Shapes::ShapeRef.new(shape: Temperature, location_name: "temperature"))
+    HarnessLiteLlmModelConfig.add_member(:top_p, Shapes::ShapeRef.new(shape: TopP, location_name: "topP"))
+    HarnessLiteLlmModelConfig.add_member(:additional_params, Shapes::ShapeRef.new(shape: Document, location_name: "additionalParams"))
+    HarnessLiteLlmModelConfig.struct_class = Types::HarnessLiteLlmModelConfig
+
     HarnessMessage.add_member(:role, Shapes::ShapeRef.new(shape: HarnessConversationRole, required: true, location_name: "role"))
     HarnessMessage.add_member(:content, Shapes::ShapeRef.new(shape: HarnessContentBlocks, required: true, location_name: "content"))
     HarnessMessage.struct_class = Types::HarnessMessage
@@ -1706,10 +1728,12 @@ module Aws::BedrockAgentCore
     HarnessModelConfiguration.add_member(:bedrock_model_config, Shapes::ShapeRef.new(shape: HarnessBedrockModelConfig, location_name: "bedrockModelConfig"))
     HarnessModelConfiguration.add_member(:open_ai_model_config, Shapes::ShapeRef.new(shape: HarnessOpenAiModelConfig, location_name: "openAiModelConfig"))
     HarnessModelConfiguration.add_member(:gemini_model_config, Shapes::ShapeRef.new(shape: HarnessGeminiModelConfig, location_name: "geminiModelConfig"))
+    HarnessModelConfiguration.add_member(:lite_llm_model_config, Shapes::ShapeRef.new(shape: HarnessLiteLlmModelConfig, location_name: "liteLlmModelConfig"))
     HarnessModelConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     HarnessModelConfiguration.add_member_subclass(:bedrock_model_config, Types::HarnessModelConfiguration::BedrockModelConfig)
     HarnessModelConfiguration.add_member_subclass(:open_ai_model_config, Types::HarnessModelConfiguration::OpenAiModelConfig)
     HarnessModelConfiguration.add_member_subclass(:gemini_model_config, Types::HarnessModelConfiguration::GeminiModelConfig)
+    HarnessModelConfiguration.add_member_subclass(:lite_llm_model_config, Types::HarnessModelConfiguration::LiteLlmModelConfig)
     HarnessModelConfiguration.add_member_subclass(:unknown, Types::HarnessModelConfiguration::Unknown)
     HarnessModelConfiguration.struct_class = Types::HarnessModelConfiguration
 
@@ -1718,6 +1742,8 @@ module Aws::BedrockAgentCore
     HarnessOpenAiModelConfig.add_member(:max_tokens, Shapes::ShapeRef.new(shape: MaxTokens, location_name: "maxTokens"))
     HarnessOpenAiModelConfig.add_member(:temperature, Shapes::ShapeRef.new(shape: Temperature, location_name: "temperature"))
     HarnessOpenAiModelConfig.add_member(:top_p, Shapes::ShapeRef.new(shape: TopP, location_name: "topP"))
+    HarnessOpenAiModelConfig.add_member(:api_format, Shapes::ShapeRef.new(shape: HarnessOpenAiApiFormat, location_name: "apiFormat"))
+    HarnessOpenAiModelConfig.add_member(:additional_params, Shapes::ShapeRef.new(shape: Document, location_name: "additionalParams"))
     HarnessOpenAiModelConfig.struct_class = Types::HarnessOpenAiModelConfig
 
     HarnessReasoningContentBlock.add_member(:reasoning_text, Shapes::ShapeRef.new(shape: HarnessReasoningTextBlock, location_name: "reasoningText"))
@@ -1747,10 +1773,26 @@ module Aws::BedrockAgentCore
     HarnessRemoteMcpConfig.struct_class = Types::HarnessRemoteMcpConfig
 
     HarnessSkill.add_member(:path, Shapes::ShapeRef.new(shape: HarnessSkillPath, location_name: "path"))
+    HarnessSkill.add_member(:s3, Shapes::ShapeRef.new(shape: HarnessSkillS3Source, location_name: "s3"))
+    HarnessSkill.add_member(:git, Shapes::ShapeRef.new(shape: HarnessSkillGitSource, location_name: "git"))
     HarnessSkill.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     HarnessSkill.add_member_subclass(:path, Types::HarnessSkill::Path)
+    HarnessSkill.add_member_subclass(:s3, Types::HarnessSkill::S3)
+    HarnessSkill.add_member_subclass(:git, Types::HarnessSkill::Git)
     HarnessSkill.add_member_subclass(:unknown, Types::HarnessSkill::Unknown)
     HarnessSkill.struct_class = Types::HarnessSkill
+
+    HarnessSkillGitAuth.add_member(:credential_arn, Shapes::ShapeRef.new(shape: ApiKeyArn, required: true, location_name: "credentialArn"))
+    HarnessSkillGitAuth.add_member(:username, Shapes::ShapeRef.new(shape: String, location_name: "username"))
+    HarnessSkillGitAuth.struct_class = Types::HarnessSkillGitAuth
+
+    HarnessSkillGitSource.add_member(:url, Shapes::ShapeRef.new(shape: HarnessSkillGitUrl, required: true, location_name: "url"))
+    HarnessSkillGitSource.add_member(:path, Shapes::ShapeRef.new(shape: String, location_name: "path"))
+    HarnessSkillGitSource.add_member(:auth, Shapes::ShapeRef.new(shape: HarnessSkillGitAuth, location_name: "auth"))
+    HarnessSkillGitSource.struct_class = Types::HarnessSkillGitSource
+
+    HarnessSkillS3Source.add_member(:uri, Shapes::ShapeRef.new(shape: HarnessSkillS3Uri, required: true, location_name: "uri"))
+    HarnessSkillS3Source.struct_class = Types::HarnessSkillS3Source
 
     HarnessSkills.member = Shapes::ShapeRef.new(shape: HarnessSkill)
 
@@ -1961,7 +2003,8 @@ module Aws::BedrockAgentCore
     InvokeCodeInterpreterResponse[:payload_member] = InvokeCodeInterpreterResponse.member(:stream)
 
     InvokeHarnessRequest.add_member(:harness_arn, Shapes::ShapeRef.new(shape: HarnessArn, required: true, location: "querystring", location_name: "harnessArn"))
-    InvokeHarnessRequest.add_member(:runtime_session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location: "header", location_name: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"))
+    InvokeHarnessRequest.add_member(:runtime_session_id, Shapes::ShapeRef.new(shape: InvokeHarnessRequestRuntimeSessionIdString, required: true, location: "header", location_name: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"))
+    InvokeHarnessRequest.add_member(:runtime_user_id, Shapes::ShapeRef.new(shape: String, location: "header", location_name: "X-Amzn-Bedrock-AgentCore-Runtime-User-Id"))
     InvokeHarnessRequest.add_member(:messages, Shapes::ShapeRef.new(shape: HarnessMessages, required: true, location_name: "messages"))
     InvokeHarnessRequest.add_member(:model, Shapes::ShapeRef.new(shape: HarnessModelConfiguration, location_name: "model"))
     InvokeHarnessRequest.add_member(:system_prompt, Shapes::ShapeRef.new(shape: HarnessSystemPrompt, location_name: "systemPrompt"))
@@ -2363,7 +2406,7 @@ module Aws::BedrockAgentCore
     OutputConfig.struct_class = Types::OutputConfig
 
     PayloadType.add_member(:conversational, Shapes::ShapeRef.new(shape: Conversational, location_name: "conversational"))
-    PayloadType.add_member(:blob, Shapes::ShapeRef.new(shape: Document, location_name: "blob"))
+    PayloadType.add_member(:blob, Shapes::ShapeRef.new(shape: MemoryDocument, location_name: "blob"))
     PayloadType.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     PayloadType.add_member_subclass(:conversational, Types::PayloadType::Conversational)
     PayloadType.add_member_subclass(:blob, Types::PayloadType::Blob)
@@ -3600,6 +3643,7 @@ module Aws::BedrockAgentCore
         o.input = Shapes::ShapeRef.new(shape: InvokeHarnessRequest)
         o.output = Shapes::ShapeRef.new(shape: InvokeHarnessResponse)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: RuntimeClientError)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)

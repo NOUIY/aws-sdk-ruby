@@ -419,6 +419,7 @@ module Aws::AppStream
     VisibilityType = Shapes::StringShape.new(name: 'VisibilityType')
     VolumeConfig = Shapes::StructureShape.new(name: 'VolumeConfig')
     VpcConfig = Shapes::StructureShape.new(name: 'VpcConfig')
+    WorkspaceImageId = Shapes::StringShape.new(name: 'WorkspaceImageId')
 
     AccessEndpoint.add_member(:endpoint_type, Shapes::ShapeRef.new(shape: AccessEndpointType, required: true, location_name: "EndpointType"))
     AccessEndpoint.add_member(:vpce_id, Shapes::ShapeRef.new(shape: String, location_name: "VpceId"))
@@ -777,8 +778,9 @@ module Aws::AppStream
     CreateImageBuilderStreamingURLResult.struct_class = Types::CreateImageBuilderStreamingURLResult
 
     CreateImportedImageRequest.add_member(:name, Shapes::ShapeRef.new(shape: Name, required: true, location_name: "Name"))
-    CreateImportedImageRequest.add_member(:source_ami_id, Shapes::ShapeRef.new(shape: PhotonAmiId, required: true, location_name: "SourceAmiId"))
-    CreateImportedImageRequest.add_member(:iam_role_arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "IamRoleArn"))
+    CreateImportedImageRequest.add_member(:source_ami_id, Shapes::ShapeRef.new(shape: PhotonAmiId, location_name: "SourceAmiId"))
+    CreateImportedImageRequest.add_member(:workspace_image_id, Shapes::ShapeRef.new(shape: WorkspaceImageId, location_name: "WorkspaceImageId"))
+    CreateImportedImageRequest.add_member(:iam_role_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "IamRoleArn"))
     CreateImportedImageRequest.add_member(:description, Shapes::ShapeRef.new(shape: ImageImportDescription, location_name: "Description"))
     CreateImportedImageRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: ImageImportDisplayName, location_name: "DisplayName"))
     CreateImportedImageRequest.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "Tags"))
@@ -2066,6 +2068,7 @@ module Aws::AppStream
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: IncompatibleImageException)
         o.errors << Shapes::ShapeRef.new(shape: DryRunOperationException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterCombinationException)
       end)
 
       api.add_operation(:create_stack, Seahorse::Model::Operation.new.tap do |o|

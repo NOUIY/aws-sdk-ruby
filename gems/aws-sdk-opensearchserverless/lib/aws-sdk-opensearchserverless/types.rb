@@ -297,6 +297,26 @@ module Aws::OpenSearchServerless
       include Aws::Structure
     end
 
+    # Capacity details for an OpenSearch Serverless collection group,
+    # including the current capacity and autoscaling status.
+    #
+    # @!attribute [rw] capacity_in_ocu
+    #   The current capacity in OpenSearch Compute Units (OCUs).
+    #   @return [Float]
+    #
+    # @!attribute [rw] autoscaling_status
+    #   The current autoscaling status for the collection group.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearchserverless-2021-11-01/CapacityDetails AWS API Documentation
+    #
+    class CapacityDetails < Struct.new(
+      :capacity_in_ocu,
+      :autoscaling_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The maximum capacity limits for all OpenSearch Serverless collections,
     # in OpenSearch Compute Units (OCUs). These limits are used to scale
     # your collections based on the current workload. For more information,
@@ -360,6 +380,11 @@ module Aws::OpenSearchServerless
     #   Details about an OpenSearch Serverless collection.
     #   @return [String]
     #
+    # @!attribute [rw] deletion_protection
+    #   Indicates whether deletion protection is `ENABLED` or `DISABLED` for
+    #   the collection.
+    #   @return [String]
+    #
     # @!attribute [rw] vector_options
     #   Configuration options for vector search capabilities in the
     #   collection.
@@ -412,6 +437,7 @@ module Aws::OpenSearchServerless
       :arn,
       :kms_key_arn,
       :standby_replicas,
+      :deletion_protection,
       :vector_options,
       :created_date,
       :last_modified_date,
@@ -549,9 +575,18 @@ module Aws::OpenSearchServerless
     #   Units (OCUs).
     #   @return [Types::CollectionGroupCapacityLimits]
     #
+    # @!attribute [rw] current_capacity
+    #   Current search and indexing capacity for the collection group.
+    #   @return [Types::CurrentCapacity]
+    #
     # @!attribute [rw] number_of_collections
     #   The number of collections associated with the collection group.
     #   @return [Integer]
+    #
+    # @!attribute [rw] generation
+    #   The generation of Amazon OpenSearch Serverless for the collection
+    #   group.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearchserverless-2021-11-01/CollectionGroupDetail AWS API Documentation
     #
@@ -564,7 +599,9 @@ module Aws::OpenSearchServerless
       :tags,
       :created_date,
       :capacity_limits,
-      :number_of_collections)
+      :current_capacity,
+      :number_of_collections,
+      :generation)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -629,6 +666,11 @@ module Aws::OpenSearchServerless
     #   search operations that can be used by collections in the group.
     #   @return [Types::CollectionGroupCapacityLimits]
     #
+    # @!attribute [rw] generation
+    #   The generation of Amazon OpenSearch Serverless for the collection
+    #   group.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearchserverless-2021-11-01/CollectionGroupSummary AWS API Documentation
     #
     class CollectionGroupSummary < Struct.new(
@@ -637,7 +679,8 @@ module Aws::OpenSearchServerless
       :name,
       :number_of_collections,
       :created_date,
-      :capacity_limits)
+      :capacity_limits,
+      :generation)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -782,6 +825,11 @@ module Aws::OpenSearchServerless
     #   Creates details about an OpenSearch Serverless collection.
     #   @return [String]
     #
+    # @!attribute [rw] deletion_protection
+    #   Indicates whether deletion protection is `ENABLED` or `DISABLED` for
+    #   the collection.
+    #   @return [String]
+    #
     # @!attribute [rw] vector_options
     #   Configuration options for vector search capabilities in the
     #   collection.
@@ -810,6 +858,7 @@ module Aws::OpenSearchServerless
       :arn,
       :kms_key_arn,
       :standby_replicas,
+      :deletion_protection,
       :vector_options,
       :created_date,
       :last_modified_date,
@@ -854,6 +903,11 @@ module Aws::OpenSearchServerless
     #   Units (OCUs).
     #   @return [Types::CollectionGroupCapacityLimits]
     #
+    # @!attribute [rw] generation
+    #   The generation of Amazon OpenSearch Serverless for the collection
+    #   group.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearchserverless-2021-11-01/CreateCollectionGroupDetail AWS API Documentation
     #
     class CreateCollectionGroupDetail < Struct.new(
@@ -864,7 +918,8 @@ module Aws::OpenSearchServerless
       :description,
       :tags,
       :created_date,
-      :capacity_limits)
+      :capacity_limits,
+      :generation)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -893,6 +948,11 @@ module Aws::OpenSearchServerless
     #   for collections within the group.
     #   @return [Types::CollectionGroupCapacityLimits]
     #
+    # @!attribute [rw] generation
+    #   The generation of Amazon OpenSearch Serverless for the collection
+    #   group. Valid values are `CLASSIC` and `NEXTGEN`.
+    #   @return [String]
+    #
     # @!attribute [rw] client_token
     #   Unique, case-sensitive identifier to ensure idempotency of the
     #   request.
@@ -909,6 +969,7 @@ module Aws::OpenSearchServerless
       :description,
       :tags,
       :capacity_limits,
+      :generation,
       :client_token)
       SENSITIVE = []
       include Aws::Structure
@@ -960,6 +1021,11 @@ module Aws::OpenSearchServerless
     #   Encryption settings for the collection.
     #   @return [Types::EncryptionConfig]
     #
+    # @!attribute [rw] deletion_protection
+    #   Indicates whether to enable deletion protection for the collection.
+    #   When set to `ENABLED`, the collection cannot be deleted.
+    #   @return [String]
+    #
     # @!attribute [rw] client_token
     #   Unique, case-sensitive identifier to ensure idempotency of the
     #   request.
@@ -979,6 +1045,7 @@ module Aws::OpenSearchServerless
       :vector_options,
       :collection_group_name,
       :encryption_config,
+      :deletion_protection,
       :client_token)
       SENSITIVE = []
       include Aws::Structure
@@ -1295,6 +1362,26 @@ module Aws::OpenSearchServerless
       include Aws::Structure
     end
 
+    # Current search and indexing capacity for an OpenSearch Serverless
+    # collection group. Measured in OpenSearch Compute Units (OCUs).
+    #
+    # @!attribute [rw] search
+    #   The search capacity for the collection group.
+    #   @return [Types::CapacityDetails]
+    #
+    # @!attribute [rw] indexing
+    #   The indexing capacity for the collection group.
+    #   @return [Types::CapacityDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearchserverless-2021-11-01/CurrentCapacity AWS API Documentation
+    #
+    class CurrentCapacity < Struct.new(
+      :search,
+      :indexing)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] type
     #   The type of policy.
     #   @return [String]
@@ -1339,12 +1426,18 @@ module Aws::OpenSearchServerless
     #   The current status of the collection.
     #   @return [String]
     #
+    # @!attribute [rw] deletion_protection
+    #   Indicates whether deletion protection is `ENABLED` or `DISABLED` for
+    #   the collection.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearchserverless-2021-11-01/DeleteCollectionDetail AWS API Documentation
     #
     class DeleteCollectionDetail < Struct.new(
       :id,
       :name,
-      :status)
+      :status,
+      :deletion_protection)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2997,6 +3090,11 @@ module Aws::OpenSearchServerless
     #   The date and time when the collection was last modified.
     #   @return [Integer]
     #
+    # @!attribute [rw] deletion_protection
+    #   Indicates whether deletion protection is `ENABLED` or `DISABLED` for
+    #   the collection.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearchserverless-2021-11-01/UpdateCollectionDetail AWS API Documentation
     #
     class UpdateCollectionDetail < Struct.new(
@@ -3008,7 +3106,8 @@ module Aws::OpenSearchServerless
       :vector_options,
       :arn,
       :created_date,
-      :last_modified_date)
+      :last_modified_date,
+      :deletion_protection)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3044,6 +3143,11 @@ module Aws::OpenSearchServerless
     #   The date and time when the collection group was last modified.
     #   @return [Integer]
     #
+    # @!attribute [rw] generation
+    #   The generation of Amazon OpenSearch Serverless for the collection
+    #   group.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearchserverless-2021-11-01/UpdateCollectionGroupDetail AWS API Documentation
     #
     class UpdateCollectionGroupDetail < Struct.new(
@@ -3053,7 +3157,8 @@ module Aws::OpenSearchServerless
       :description,
       :capacity_limits,
       :created_date,
-      :last_modified_date)
+      :last_modified_date,
+      :generation)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3115,6 +3220,11 @@ module Aws::OpenSearchServerless
     #   collection.
     #   @return [Types::VectorOptions]
     #
+    # @!attribute [rw] deletion_protection
+    #   Indicates whether to enable or disable deletion protection for the
+    #   collection. When set to `ENABLED`, the collection cannot be deleted.
+    #   @return [String]
+    #
     # @!attribute [rw] client_token
     #   Unique, case-sensitive identifier to ensure idempotency of the
     #   request.
@@ -3129,6 +3239,7 @@ module Aws::OpenSearchServerless
       :id,
       :description,
       :vector_options,
+      :deletion_protection,
       :client_token)
       SENSITIVE = []
       include Aws::Structure

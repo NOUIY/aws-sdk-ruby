@@ -1391,7 +1391,7 @@ module Aws::AppStream
     #   resp.export_image_task.ami_name #=> String
     #   resp.export_image_task.created_date #=> Time
     #   resp.export_image_task.ami_description #=> String
-    #   resp.export_image_task.state #=> String, one of "EXPORTING", "COMPLETED", "FAILED"
+    #   resp.export_image_task.state #=> String, one of "EXPORTING", "COMPLETED", "FAILED", "TIMED_OUT"
     #   resp.export_image_task.ami_id #=> String
     #   resp.export_image_task.tag_specifications #=> Hash
     #   resp.export_image_task.tag_specifications["TagKey"] #=> String
@@ -2235,12 +2235,13 @@ module Aws::AppStream
     #   100 characters and can contain letters, numbers, underscores, periods,
     #   and hyphens.
     #
-    # @option params [required, String] :source_ami_id
-    #   The ID of the EC2 AMI to import. The AMI must meet specific
-    #   requirements including Windows Server 2022 Full Base, UEFI boot mode,
-    #   TPM 2.0 support, and proper drivers.
+    # @option params [String] :source_ami_id
+    #   The ID of the EC2 AMI to import.
     #
-    # @option params [required, String] :iam_role_arn
+    # @option params [String] :workspace_image_id
+    #   The ID of the Workspaces Image to import.
+    #
+    # @option params [String] :iam_role_arn
     #   The ARN of the IAM role that allows WorkSpaces Applications to access
     #   your AMI. The role must have permissions to modify image attributes
     #   and describe images, with a trust relationship allowing
@@ -2289,8 +2290,9 @@ module Aws::AppStream
     #
     #   resp = client.create_imported_image({
     #     name: "Name", # required
-    #     source_ami_id: "PhotonAmiId", # required
-    #     iam_role_arn: "Arn", # required
+    #     source_ami_id: "PhotonAmiId",
+    #     workspace_image_id: "WorkspaceImageId",
+    #     iam_role_arn: "Arn",
     #     description: "ImageImportDescription",
     #     display_name: "ImageImportDisplayName",
     #     tags: {
@@ -2363,7 +2365,7 @@ module Aws::AppStream
     #   resp.image.dynamic_app_providers_enabled #=> String, one of "ENABLED", "DISABLED"
     #   resp.image.image_shared_with_others #=> String, one of "TRUE", "FALSE"
     #   resp.image.managed_software_included #=> Boolean
-    #   resp.image.image_type #=> String, one of "CUSTOM", "NATIVE"
+    #   resp.image.image_type #=> String, one of "CUSTOM", "NATIVE", "BYOL"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateImportedImage AWS API Documentation
     #
@@ -2830,7 +2832,7 @@ module Aws::AppStream
     #   resp.image.dynamic_app_providers_enabled #=> String, one of "ENABLED", "DISABLED"
     #   resp.image.image_shared_with_others #=> String, one of "TRUE", "FALSE"
     #   resp.image.managed_software_included #=> Boolean
-    #   resp.image.image_type #=> String, one of "CUSTOM", "NATIVE"
+    #   resp.image.image_type #=> String, one of "CUSTOM", "NATIVE", "BYOL"
     #   resp.can_update_image #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateUpdatedImage AWS API Documentation
@@ -3125,7 +3127,7 @@ module Aws::AppStream
     #   resp.image.dynamic_app_providers_enabled #=> String, one of "ENABLED", "DISABLED"
     #   resp.image.image_shared_with_others #=> String, one of "TRUE", "FALSE"
     #   resp.image.managed_software_included #=> Boolean
-    #   resp.image.image_type #=> String, one of "CUSTOM", "NATIVE"
+    #   resp.image.image_type #=> String, one of "CUSTOM", "NATIVE", "BYOL"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteImage AWS API Documentation
     #
@@ -4053,7 +4055,7 @@ module Aws::AppStream
     #   resp.images[0].dynamic_app_providers_enabled #=> String, one of "ENABLED", "DISABLED"
     #   resp.images[0].image_shared_with_others #=> String, one of "TRUE", "FALSE"
     #   resp.images[0].managed_software_included #=> Boolean
-    #   resp.images[0].image_type #=> String, one of "CUSTOM", "NATIVE"
+    #   resp.images[0].image_type #=> String, one of "CUSTOM", "NATIVE", "BYOL"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeImages AWS API Documentation
@@ -4787,7 +4789,7 @@ module Aws::AppStream
     #   resp.export_image_task.ami_name #=> String
     #   resp.export_image_task.created_date #=> Time
     #   resp.export_image_task.ami_description #=> String
-    #   resp.export_image_task.state #=> String, one of "EXPORTING", "COMPLETED", "FAILED"
+    #   resp.export_image_task.state #=> String, one of "EXPORTING", "COMPLETED", "FAILED", "TIMED_OUT"
     #   resp.export_image_task.ami_id #=> String
     #   resp.export_image_task.tag_specifications #=> Hash
     #   resp.export_image_task.tag_specifications["TagKey"] #=> String
@@ -4964,7 +4966,7 @@ module Aws::AppStream
     #   resp.export_image_tasks[0].ami_name #=> String
     #   resp.export_image_tasks[0].created_date #=> Time
     #   resp.export_image_tasks[0].ami_description #=> String
-    #   resp.export_image_tasks[0].state #=> String, one of "EXPORTING", "COMPLETED", "FAILED"
+    #   resp.export_image_tasks[0].state #=> String, one of "EXPORTING", "COMPLETED", "FAILED", "TIMED_OUT"
     #   resp.export_image_tasks[0].ami_id #=> String
     #   resp.export_image_tasks[0].tag_specifications #=> Hash
     #   resp.export_image_tasks[0].tag_specifications["TagKey"] #=> String
@@ -6469,7 +6471,7 @@ module Aws::AppStream
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-appstream'
-      context[:gem_version] = '1.136.0'
+      context[:gem_version] = '1.137.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -553,6 +553,14 @@ module Aws::PCS
 
     # Additional options related to the Slurm scheduler.
     #
+    # @!attribute [rw] scale_down_idle_time_in_seconds
+    #   The time (in seconds) before an idle node is scaled down. If not
+    #   specified, the cluster-level setting applies. This overrides the
+    #   cluster-level `scaleDownIdleTimeInSeconds` setting. A value of `-1`
+    #   removes the override and applies the cluster-level setting to this
+    #   compute node group. Requires Slurm version 25.11 or later.
+    #   @return [Integer]
+    #
     # @!attribute [rw] slurm_custom_settings
     #   Additional Slurm-specific configuration that directly maps to Slurm
     #   settings.
@@ -561,12 +569,21 @@ module Aws::PCS
     # @see http://docs.aws.amazon.com/goto/WebAPI/pcs-2023-02-10/ComputeNodeGroupSlurmConfiguration AWS API Documentation
     #
     class ComputeNodeGroupSlurmConfiguration < Struct.new(
+      :scale_down_idle_time_in_seconds,
       :slurm_custom_settings)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Additional options related to the Slurm scheduler.
+    #
+    # @!attribute [rw] scale_down_idle_time_in_seconds
+    #   The time (in seconds) before an idle node is scaled down. If not
+    #   specified, the cluster-level setting applies. This overrides the
+    #   cluster-level `scaleDownIdleTimeInSeconds` setting. A value of `-1`
+    #   removes the override and applies the cluster-level setting to this
+    #   compute node group. Requires Slurm version 25.11 or later.
+    #   @return [Integer]
     #
     # @!attribute [rw] slurm_custom_settings
     #   Additional Slurm-specific configuration that directly maps to Slurm
@@ -576,6 +593,7 @@ module Aws::PCS
     # @see http://docs.aws.amazon.com/goto/WebAPI/pcs-2023-02-10/ComputeNodeGroupSlurmConfigurationRequest AWS API Documentation
     #
     class ComputeNodeGroupSlurmConfigurationRequest < Struct.new(
+      :scale_down_idle_time_in_seconds,
       :slurm_custom_settings)
       SENSITIVE = []
       include Aws::Structure
@@ -2380,6 +2398,14 @@ module Aws::PCS
 
     # Additional options related to the Slurm scheduler.
     #
+    # @!attribute [rw] scale_down_idle_time_in_seconds
+    #   The time (in seconds) before an idle node is scaled down. If not
+    #   specified, the cluster-level setting applies. This overrides the
+    #   cluster-level `scaleDownIdleTimeInSeconds` setting. A value of `-1`
+    #   removes the override and applies the cluster-level setting to this
+    #   compute node group. Requires Slurm version 25.11 or later.
+    #   @return [Integer]
+    #
     # @!attribute [rw] slurm_custom_settings
     #   Additional Slurm-specific configuration that directly maps to Slurm
     #   settings.
@@ -2388,6 +2414,7 @@ module Aws::PCS
     # @see http://docs.aws.amazon.com/goto/WebAPI/pcs-2023-02-10/UpdateComputeNodeGroupSlurmConfigurationRequest AWS API Documentation
     #
     class UpdateComputeNodeGroupSlurmConfigurationRequest < Struct.new(
+      :scale_down_idle_time_in_seconds,
       :slurm_custom_settings)
       SENSITIVE = []
       include Aws::Structure

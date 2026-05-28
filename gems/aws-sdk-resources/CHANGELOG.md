@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+3.263.0 (2026-05-28)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-resiliencehubv2` gem.
+
 3.262.0 (2026-04-13)
 ------------------
 

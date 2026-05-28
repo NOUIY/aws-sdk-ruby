@@ -526,6 +526,7 @@ module Aws::OpenSearchServerless
     #   resp.collection_details[0].arn #=> String
     #   resp.collection_details[0].kms_key_arn #=> String
     #   resp.collection_details[0].standby_replicas #=> String, one of "ENABLED", "DISABLED"
+    #   resp.collection_details[0].deletion_protection #=> String, one of "ENABLED", "DISABLED"
     #   resp.collection_details[0].vector_options.serverless_vector_acceleration #=> String, one of "ENABLED", "DISABLED", "ALLOWED"
     #   resp.collection_details[0].created_date #=> Integer
     #   resp.collection_details[0].last_modified_date #=> Integer
@@ -596,7 +597,12 @@ module Aws::OpenSearchServerless
     #   resp.collection_group_details[0].capacity_limits.max_search_capacity_in_ocu #=> Float
     #   resp.collection_group_details[0].capacity_limits.min_indexing_capacity_in_ocu #=> Float
     #   resp.collection_group_details[0].capacity_limits.min_search_capacity_in_ocu #=> Float
+    #   resp.collection_group_details[0].current_capacity.search.capacity_in_ocu #=> Float
+    #   resp.collection_group_details[0].current_capacity.search.autoscaling_status #=> String, one of "ACTION_SCALING_UP", "ACTION_SCALING_DOWN", "NO_ACTION"
+    #   resp.collection_group_details[0].current_capacity.indexing.capacity_in_ocu #=> Float
+    #   resp.collection_group_details[0].current_capacity.indexing.autoscaling_status #=> String, one of "ACTION_SCALING_UP", "ACTION_SCALING_DOWN", "NO_ACTION"
     #   resp.collection_group_details[0].number_of_collections #=> Integer
+    #   resp.collection_group_details[0].generation #=> String, one of "CLASSIC", "NEXTGEN"
     #   resp.collection_group_error_details #=> Array
     #   resp.collection_group_error_details[0].id #=> String
     #   resp.collection_group_error_details[0].name #=> String
@@ -860,6 +866,10 @@ module Aws::OpenSearchServerless
     # @option params [Types::EncryptionConfig] :encryption_config
     #   Encryption settings for the collection.
     #
+    # @option params [String] :deletion_protection
+    #   Indicates whether to enable deletion protection for the collection.
+    #   When set to `ENABLED`, the collection cannot be deleted.
+    #
     # @option params [String] :client_token
     #   Unique, case-sensitive identifier to ensure idempotency of the
     #   request.
@@ -892,6 +902,7 @@ module Aws::OpenSearchServerless
     #       a_ws_owned_key: false,
     #       kms_key_arn: "EncryptionConfigKmsKeyArnString",
     #     },
+    #     deletion_protection: "ENABLED", # accepts ENABLED, DISABLED
     #     client_token: "ClientToken",
     #   })
     #
@@ -905,6 +916,7 @@ module Aws::OpenSearchServerless
     #   resp.create_collection_detail.arn #=> String
     #   resp.create_collection_detail.kms_key_arn #=> String
     #   resp.create_collection_detail.standby_replicas #=> String, one of "ENABLED", "DISABLED"
+    #   resp.create_collection_detail.deletion_protection #=> String, one of "ENABLED", "DISABLED"
     #   resp.create_collection_detail.vector_options.serverless_vector_acceleration #=> String, one of "ENABLED", "DISABLED", "ALLOWED"
     #   resp.create_collection_detail.created_date #=> Integer
     #   resp.create_collection_detail.last_modified_date #=> Integer
@@ -948,6 +960,10 @@ module Aws::OpenSearchServerless
     #   Units (OCUs). These limits control the maximum and minimum capacity
     #   for collections within the group.
     #
+    # @option params [String] :generation
+    #   The generation of Amazon OpenSearch Serverless for the collection
+    #   group. Valid values are `CLASSIC` and `NEXTGEN`.
+    #
     # @option params [String] :client_token
     #   Unique, case-sensitive identifier to ensure idempotency of the
     #   request.
@@ -977,6 +993,7 @@ module Aws::OpenSearchServerless
     #       min_indexing_capacity_in_ocu: 1.0,
     #       min_search_capacity_in_ocu: 1.0,
     #     },
+    #     generation: "CLASSIC", # accepts CLASSIC, NEXTGEN
     #     client_token: "ClientToken",
     #   })
     #
@@ -995,6 +1012,7 @@ module Aws::OpenSearchServerless
     #   resp.create_collection_group_detail.capacity_limits.max_search_capacity_in_ocu #=> Float
     #   resp.create_collection_group_detail.capacity_limits.min_indexing_capacity_in_ocu #=> Float
     #   resp.create_collection_group_detail.capacity_limits.min_search_capacity_in_ocu #=> Float
+    #   resp.create_collection_group_detail.generation #=> String, one of "CLASSIC", "NEXTGEN"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearchserverless-2021-11-01/CreateCollectionGroup AWS API Documentation
     #
@@ -1412,6 +1430,7 @@ module Aws::OpenSearchServerless
     #   resp.delete_collection_detail.id #=> String
     #   resp.delete_collection_detail.name #=> String
     #   resp.delete_collection_detail.status #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "FAILED", "UPDATE_FAILED"
+    #   resp.delete_collection_detail.deletion_protection #=> String, one of "ENABLED", "DISABLED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearchserverless-2021-11-01/DeleteCollection AWS API Documentation
     #
@@ -1975,6 +1994,7 @@ module Aws::OpenSearchServerless
     #   resp.collection_group_summaries[0].capacity_limits.max_search_capacity_in_ocu #=> Float
     #   resp.collection_group_summaries[0].capacity_limits.min_indexing_capacity_in_ocu #=> Float
     #   resp.collection_group_summaries[0].capacity_limits.min_search_capacity_in_ocu #=> Float
+    #   resp.collection_group_summaries[0].generation #=> String, one of "CLASSIC", "NEXTGEN"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearchserverless-2021-11-01/ListCollectionGroups AWS API Documentation
@@ -2514,6 +2534,10 @@ module Aws::OpenSearchServerless
     #   Configuration options for vector search capabilities in the
     #   collection.
     #
+    # @option params [String] :deletion_protection
+    #   Indicates whether to enable or disable deletion protection for the
+    #   collection. When set to `ENABLED`, the collection cannot be deleted.
+    #
     # @option params [String] :client_token
     #   Unique, case-sensitive identifier to ensure idempotency of the
     #   request.
@@ -2533,6 +2557,7 @@ module Aws::OpenSearchServerless
     #     vector_options: {
     #       serverless_vector_acceleration: "ENABLED", # required, accepts ENABLED, DISABLED, ALLOWED
     #     },
+    #     deletion_protection: "ENABLED", # accepts ENABLED, DISABLED
     #     client_token: "ClientToken",
     #   })
     #
@@ -2547,6 +2572,7 @@ module Aws::OpenSearchServerless
     #   resp.update_collection_detail.arn #=> String
     #   resp.update_collection_detail.created_date #=> Integer
     #   resp.update_collection_detail.last_modified_date #=> Integer
+    #   resp.update_collection_detail.deletion_protection #=> String, one of "ENABLED", "DISABLED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearchserverless-2021-11-01/UpdateCollection AWS API Documentation
     #
@@ -2606,6 +2632,7 @@ module Aws::OpenSearchServerless
     #   resp.update_collection_group_detail.capacity_limits.min_search_capacity_in_ocu #=> Float
     #   resp.update_collection_group_detail.created_date #=> Integer
     #   resp.update_collection_group_detail.last_modified_date #=> Integer
+    #   resp.update_collection_group_detail.generation #=> String, one of "CLASSIC", "NEXTGEN"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearchserverless-2021-11-01/UpdateCollectionGroup AWS API Documentation
     #
@@ -2974,7 +3001,7 @@ module Aws::OpenSearchServerless
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-opensearchserverless'
-      context[:gem_version] = '1.59.0'
+      context[:gem_version] = '1.60.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

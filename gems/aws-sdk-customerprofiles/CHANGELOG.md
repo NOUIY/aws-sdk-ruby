@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.90.0 (2026-05-28)
+------------------
+
+* Feature - BatchPutProfileObject API adds multiple profile objects to a domain of a given ObjectType in a single API call.
+
 1.89.0 (2026-05-22)
 ------------------
 

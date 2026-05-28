@@ -942,7 +942,7 @@ module Aws::BedrockRuntime
     #     model_id: "ConversationalModelId", # required
     #     messages: [
     #       {
-    #         role: "user", # required, accepts user, assistant
+    #         role: "user", # required, accepts user, assistant, system
     #         content: [ # required
     #           {
     #             text: "String",
@@ -1257,7 +1257,7 @@ module Aws::BedrockRuntime
     #
     # @example Response structure
     #
-    #   resp.output.message.role #=> String, one of "user", "assistant"
+    #   resp.output.message.role #=> String, one of "user", "assistant", "system"
     #   resp.output.message.content #=> Array
     #   resp.output.message.content[0].text #=> String
     #   resp.output.message.content[0].image.format #=> String, one of "png", "jpeg", "gif", "webp"
@@ -2090,7 +2090,7 @@ module Aws::BedrockRuntime
     #     model_id: "ConversationalModelId", # required
     #     messages: [
     #       {
-    #         role: "user", # required, accepts user, assistant
+    #         role: "user", # required, accepts user, assistant, system
     #         content: [ # required
     #           {
     #             text: "String",
@@ -2411,7 +2411,7 @@ module Aws::BedrockRuntime
     #   resp.stream.event_types #=> [:message_start, :content_block_start, :content_block_delta, :content_block_stop, :message_stop, :metadata, :internal_server_exception, :model_stream_error_exception, :validation_exception, :throttling_exception, :service_unavailable_exception]
     #
     #   # For :message_start event available at #on_message_start_event callback and response eventstream enumerator:
-    #   event.role #=> String, one of "user", "assistant"
+    #   event.role #=> String, one of "user", "assistant", "system"
     #
     #   # For :content_block_start event available at #on_content_block_start_event callback and response eventstream enumerator:
     #   event.start.tool_use.tool_use_id #=> String
@@ -2924,7 +2924,7 @@ module Aws::BedrockRuntime
     #       converse: {
     #         messages: [
     #           {
-    #             role: "user", # required, accepts user, assistant
+    #             role: "user", # required, accepts user, assistant, system
     #             content: [ # required
     #               {
     #                 text: "String",
@@ -3932,7 +3932,7 @@ module Aws::BedrockRuntime
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockruntime'
-      context[:gem_version] = '1.79.0'
+      context[:gem_version] = '1.80.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
