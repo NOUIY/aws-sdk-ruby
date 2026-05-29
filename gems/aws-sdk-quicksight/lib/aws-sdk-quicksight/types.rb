@@ -9048,6 +9048,117 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # @!attribute [rw] aws_account_id
+    #   The Amazon Web Services account ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_client_application_id
+    #   An ID for the OAuthClientApplication that you want to create. This
+    #   ID is unique per Amazon Web Services Region for each Amazon Web
+    #   Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The display name for the OAuthClientApplication.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_client_authentication_type
+    #   The authentication type to use for the OAuthClientApplication. This
+    #   determines the OAuth 2.0 grant flow that is used when the data
+    #   source connects to the identity provider. Valid values are `TOKEN`.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_id
+    #   The client ID of the OAuth application that is registered with the
+    #   identity provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_secret
+    #   The client secret of the OAuth application that is registered with
+    #   the identity provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_token_endpoint_url
+    #   The token endpoint URL of the identity provider that is used to
+    #   obtain access tokens.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_authorization_endpoint_url
+    #   The authorization endpoint URL of the identity provider that is used
+    #   to obtain authorization codes.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_scopes
+    #   The OAuth scopes that are requested when the OAuthClientApplication
+    #   obtains an access token from the identity provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_source_type
+    #   The type of data source that the OAuthClientApplication is used
+    #   with. Valid values are `SNOWFLAKE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] identity_provider_vpc_connection_properties
+    #   VPC connection properties.
+    #   @return [Types::VpcConnectionProperties]
+    #
+    # @!attribute [rw] tags
+    #   Contains a map of the key-value pairs for the resource tag or tags
+    #   assigned to the OAuthClientApplication.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateOAuthClientApplicationRequest AWS API Documentation
+    #
+    class CreateOAuthClientApplicationRequest < Struct.new(
+      :aws_account_id,
+      :o_auth_client_application_id,
+      :name,
+      :o_auth_client_authentication_type,
+      :client_id,
+      :client_secret,
+      :o_auth_token_endpoint_url,
+      :o_auth_authorization_endpoint_url,
+      :o_auth_scopes,
+      :data_source_type,
+      :identity_provider_vpc_connection_properties,
+      :tags)
+      SENSITIVE = [:client_id, :client_secret, :o_auth_token_endpoint_url, :o_auth_authorization_endpoint_url]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the OAuthClientApplication.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_client_application_id
+    #   The ID of the OAuthClientApplication. This ID is unique per Amazon
+    #   Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_status
+    #   The status of creating the OAuthClientApplication.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateOAuthClientApplicationResponse AWS API Documentation
+    #
+    class CreateOAuthClientApplicationResponse < Struct.new(
+      :arn,
+      :o_auth_client_application_id,
+      :creation_status,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] data_set_id
     #   The ID of the dataset.
     #   @return [String]
@@ -14601,6 +14712,52 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # @!attribute [rw] aws_account_id
+    #   The Amazon Web Services account ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_client_application_id
+    #   The ID of the OAuthClientApplication that you want to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteOAuthClientApplicationRequest AWS API Documentation
+    #
+    class DeleteOAuthClientApplicationRequest < Struct.new(
+      :aws_account_id,
+      :o_auth_client_application_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the OAuthClientApplication that
+    #   you deleted.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_client_application_id
+    #   The ID of the OAuthClientApplication. This ID is unique per Amazon
+    #   Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteOAuthClientApplicationResponse AWS API Documentation
+    #
+    class DeleteOAuthClientApplicationResponse < Struct.new(
+      :arn,
+      :o_auth_client_application_id,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] data_set_id
     #   The ID of the dataset.
     #   @return [String]
@@ -17478,6 +17635,45 @@ module Aws::QuickSight
     #
     class DescribeNamespaceResponse < Struct.new(
       :namespace,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The Amazon Web Services account ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_client_application_id
+    #   The ID of the OAuthClientApplication that you want to describe.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeOAuthClientApplicationRequest AWS API Documentation
+    #
+    class DescribeOAuthClientApplicationRequest < Struct.new(
+      :aws_account_id,
+      :o_auth_client_application_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] o_auth_client_application
+    #   The information about the OAuthClientApplication.
+    #   @return [Types::OAuthClientApplication]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeOAuthClientApplicationResponse AWS API Documentation
+    #
+    class DescribeOAuthClientApplicationResponse < Struct.new(
+      :o_auth_client_application,
       :request_id,
       :status)
       SENSITIVE = []
@@ -27146,6 +27342,55 @@ module Aws::QuickSight
     #   The Amazon Web Services account ID.
     #   @return [String]
     #
+    # @!attribute [rw] next_token
+    #   A pagination token that can be used in a subsequent request.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListOAuthClientApplicationsRequest AWS API Documentation
+    #
+    class ListOAuthClientApplicationsRequest < Struct.new(
+      :aws_account_id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] o_auth_client_applications
+    #   A list of OAuthClientApplication summaries.
+    #   @return [Array<Types::OAuthClientApplicationSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   A pagination token that can be used in a subsequent request.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListOAuthClientApplicationsResponse AWS API Documentation
+    #
+    class ListOAuthClientApplicationsResponse < Struct.new(
+      :o_auth_client_applications,
+      :next_token,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The Amazon Web Services account ID.
+    #   @return [String]
+    #
     # @!attribute [rw] data_set_id
     #   The ID of the dataset.
     #   @return [String]
@@ -29221,6 +29466,129 @@ module Aws::QuickSight
       :column,
       :aggregation_function,
       :format_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An OAuth client application that is used to authenticate connections
+    # to a data source through an OAuth identity provider.
+    #
+    # @!attribute [rw] o_auth_client_application_id
+    #   The ID of the OAuthClientApplication. This ID is unique per Amazon
+    #   Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The display name of the OAuthClientApplication.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_client_authentication_type
+    #   The OAuth client authentication type used by the
+    #   OAuthClientApplication. Valid values are `TOKEN`.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_token_endpoint_url
+    #   The token endpoint URL of the identity provider that is used to
+    #   obtain access tokens.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_authorization_endpoint_url
+    #   The authorization endpoint URL of the identity provider that is used
+    #   to obtain authorization codes.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_scopes
+    #   The OAuth scopes that are requested when the OAuthClientApplication
+    #   obtains an access token from the identity provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_source_type
+    #   The type of data source that the OAuthClientApplication is used
+    #   with. Valid values are `SNOWFLAKE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] identity_provider_vpc_connection_properties
+    #   VPC connection properties.
+    #   @return [Types::VpcConnectionProperties]
+    #
+    # @!attribute [rw] created_time
+    #   The time that the OAuthClientApplication was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_time
+    #   The time that the OAuthClientApplication was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the OAuthClientApplication.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/OAuthClientApplication AWS API Documentation
+    #
+    class OAuthClientApplication < Struct.new(
+      :o_auth_client_application_id,
+      :name,
+      :o_auth_client_authentication_type,
+      :o_auth_token_endpoint_url,
+      :o_auth_authorization_endpoint_url,
+      :o_auth_scopes,
+      :data_source_type,
+      :identity_provider_vpc_connection_properties,
+      :created_time,
+      :last_updated_time,
+      :arn)
+      SENSITIVE = [:o_auth_token_endpoint_url, :o_auth_authorization_endpoint_url]
+      include Aws::Structure
+    end
+
+    # A summary of an OAuthClientApplication.
+    #
+    # @!attribute [rw] o_auth_client_application_id
+    #   The ID of the OAuthClientApplication. This ID is unique per Amazon
+    #   Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The display name of the OAuthClientApplication.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_client_authentication_type
+    #   The OAuth client authentication type used by the
+    #   OAuthClientApplication. Valid values are `TOKEN`.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_source_type
+    #   The type of data source that the OAuthClientApplication is used
+    #   with. Valid values are `SNOWFLAKE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] identity_provider_vpc_connection_properties
+    #   VPC connection properties.
+    #   @return [Types::VpcConnectionProperties]
+    #
+    # @!attribute [rw] created_time
+    #   The time that the OAuthClientApplication was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_time
+    #   The time that the OAuthClientApplication was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the OAuthClientApplication.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/OAuthClientApplicationSummary AWS API Documentation
+    #
+    class OAuthClientApplicationSummary < Struct.new(
+      :o_auth_client_application_id,
+      :name,
+      :o_auth_client_authentication_type,
+      :data_source_type,
+      :identity_provider_vpc_connection_properties,
+      :created_time,
+      :last_updated_time,
+      :arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -43798,6 +44166,102 @@ module Aws::QuickSight
       :failed_key_registration,
       :successful_key_registration,
       :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The Amazon Web Services account ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_client_application_id
+    #   The ID of the OAuthClientApplication that you want to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The display name for the OAuthClientApplication.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_id
+    #   The client ID of the OAuth application that is registered with the
+    #   identity provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_secret
+    #   The client secret of the OAuth application that is registered with
+    #   the identity provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_token_endpoint_url
+    #   The token endpoint URL of the identity provider that is used to
+    #   obtain access tokens.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_authorization_endpoint_url
+    #   The authorization endpoint URL of the identity provider that is used
+    #   to obtain authorization codes.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_scopes
+    #   The OAuth scopes that are requested when the OAuthClientApplication
+    #   obtains an access token from the identity provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_source_type
+    #   The type of data source that the OAuthClientApplication is used
+    #   with. Valid values are `SNOWFLAKE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] identity_provider_vpc_connection_properties
+    #   VPC connection properties.
+    #   @return [Types::VpcConnectionProperties]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateOAuthClientApplicationRequest AWS API Documentation
+    #
+    class UpdateOAuthClientApplicationRequest < Struct.new(
+      :aws_account_id,
+      :o_auth_client_application_id,
+      :name,
+      :client_id,
+      :client_secret,
+      :o_auth_token_endpoint_url,
+      :o_auth_authorization_endpoint_url,
+      :o_auth_scopes,
+      :data_source_type,
+      :identity_provider_vpc_connection_properties)
+      SENSITIVE = [:client_id, :client_secret, :o_auth_token_endpoint_url, :o_auth_authorization_endpoint_url]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the OAuthClientApplication.
+    #   @return [String]
+    #
+    # @!attribute [rw] o_auth_client_application_id
+    #   The ID of the OAuthClientApplication. This ID is unique per Amazon
+    #   Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] update_status
+    #   The status of updating the OAuthClientApplication.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateOAuthClientApplicationResponse AWS API Documentation
+    #
+    class UpdateOAuthClientApplicationResponse < Struct.new(
+      :arn,
+      :o_auth_client_application_id,
+      :update_status,
+      :request_id,
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end

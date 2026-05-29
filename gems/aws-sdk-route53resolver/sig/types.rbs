@@ -63,6 +63,60 @@ module Aws::Route53Resolver
       SENSITIVE: []
     end
 
+    class BatchCreateFirewallRuleError
+      attr_accessor firewall_rule: Types::CreateFirewallRuleEntry
+      attr_accessor code: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class BatchCreateFirewallRuleRequest
+      attr_accessor create_firewall_rule_entries: ::Array[Types::CreateFirewallRuleEntry]
+      SENSITIVE: []
+    end
+
+    class BatchCreateFirewallRuleResponse
+      attr_accessor created_firewall_rules: ::Array[Types::FirewallRule]
+      attr_accessor create_errors: ::Array[Types::BatchCreateFirewallRuleError]
+      SENSITIVE: []
+    end
+
+    class BatchDeleteFirewallRuleError
+      attr_accessor firewall_rule: Types::DeleteFirewallRuleEntry
+      attr_accessor code: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class BatchDeleteFirewallRuleRequest
+      attr_accessor delete_firewall_rule_entries: ::Array[Types::DeleteFirewallRuleEntry]
+      SENSITIVE: []
+    end
+
+    class BatchDeleteFirewallRuleResponse
+      attr_accessor deleted_firewall_rules: ::Array[Types::FirewallRule]
+      attr_accessor delete_errors: ::Array[Types::BatchDeleteFirewallRuleError]
+      SENSITIVE: []
+    end
+
+    class BatchUpdateFirewallRuleError
+      attr_accessor firewall_rule: Types::UpdateFirewallRuleEntry
+      attr_accessor code: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class BatchUpdateFirewallRuleRequest
+      attr_accessor update_firewall_rule_entries: ::Array[Types::UpdateFirewallRuleEntry]
+      SENSITIVE: []
+    end
+
+    class BatchUpdateFirewallRuleResponse
+      attr_accessor updated_firewall_rules: ::Array[Types::FirewallRule]
+      attr_accessor update_errors: ::Array[Types::BatchUpdateFirewallRuleError]
+      SENSITIVE: []
+    end
+
     class ConflictException
       attr_accessor message: ::String
       SENSITIVE: []
@@ -77,6 +131,25 @@ module Aws::Route53Resolver
 
     class CreateFirewallDomainListResponse
       attr_accessor firewall_domain_list: Types::FirewallDomainList
+      SENSITIVE: []
+    end
+
+    class CreateFirewallRuleEntry
+      attr_accessor creator_request_id: ::String
+      attr_accessor firewall_rule_group_id: ::String
+      attr_accessor firewall_domain_list_id: ::String
+      attr_accessor priority: ::Integer
+      attr_accessor action: ("ALLOW" | "BLOCK" | "ALERT")
+      attr_accessor block_response: ("NODATA" | "NXDOMAIN" | "OVERRIDE")
+      attr_accessor block_override_domain: ::String
+      attr_accessor block_override_dns_type: ("CNAME")
+      attr_accessor block_override_ttl: ::Integer
+      attr_accessor name: ::String
+      attr_accessor firewall_domain_redirection_action: ("INSPECT_REDIRECTION_DOMAIN" | "TRUST_REDIRECTION_DOMAIN")
+      attr_accessor qtype: ::String
+      attr_accessor dns_threat_protection: ("DGA" | "DNS_TUNNELING" | "DICTIONARY_DGA")
+      attr_accessor confidence_threshold: ("LOW" | "MEDIUM" | "HIGH")
+      attr_accessor firewall_rule_type: Types::FirewallRuleType
       SENSITIVE: []
     end
 
@@ -107,6 +180,7 @@ module Aws::Route53Resolver
       attr_accessor qtype: ::String
       attr_accessor dns_threat_protection: ("DGA" | "DNS_TUNNELING" | "DICTIONARY_DGA")
       attr_accessor confidence_threshold: ("LOW" | "MEDIUM" | "HIGH")
+      attr_accessor firewall_rule_type: Types::FirewallRuleType
       SENSITIVE: []
     end
 
@@ -190,6 +264,14 @@ module Aws::Route53Resolver
 
     class DeleteFirewallDomainListResponse
       attr_accessor firewall_domain_list: Types::FirewallDomainList
+      SENSITIVE: []
+    end
+
+    class DeleteFirewallRuleEntry
+      attr_accessor firewall_rule_group_id: ::String
+      attr_accessor firewall_domain_list_id: ::String
+      attr_accessor firewall_threat_protection_id: ::String
+      attr_accessor qtype: ::String
       SENSITIVE: []
     end
 
@@ -299,9 +381,25 @@ module Aws::Route53Resolver
       SENSITIVE: []
     end
 
+    class DnsThreatProtectionRuleTypeConfig
+      attr_accessor value: ::String
+      attr_accessor confidence_threshold: ("LOW" | "MEDIUM" | "HIGH")
+      SENSITIVE: []
+    end
+
     class Filter
       attr_accessor name: ::String
       attr_accessor values: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class FirewallAdvancedContentCategoryConfig
+      attr_accessor category: ::String
+      SENSITIVE: []
+    end
+
+    class FirewallAdvancedThreatCategoryConfig
+      attr_accessor category: ::String
       SENSITIVE: []
     end
 
@@ -324,6 +422,8 @@ module Aws::Route53Resolver
       attr_accessor creator_request_id: ::String
       attr_accessor creation_time: ::String
       attr_accessor modification_time: ::String
+      attr_accessor category: ::String
+      attr_accessor managed_list_type: ("THREAT" | "CONTENT")
       SENSITIVE: []
     end
 
@@ -333,6 +433,8 @@ module Aws::Route53Resolver
       attr_accessor name: ::String
       attr_accessor creator_request_id: ::String
       attr_accessor managed_owner_name: ::String
+      attr_accessor managed_list_type: ("THREAT" | "CONTENT")
+      attr_accessor category: ::String
       SENSITIVE: []
     end
 
@@ -354,6 +456,7 @@ module Aws::Route53Resolver
       attr_accessor qtype: ::String
       attr_accessor dns_threat_protection: ("DGA" | "DNS_TUNNELING" | "DICTIONARY_DGA")
       attr_accessor confidence_threshold: ("LOW" | "MEDIUM" | "HIGH")
+      attr_accessor firewall_rule_type: Types::FirewallRuleType
       SENSITIVE: []
     end
 
@@ -396,6 +499,21 @@ module Aws::Route53Resolver
       attr_accessor owner_id: ::String
       attr_accessor creator_request_id: ::String
       attr_accessor share_status: ("NOT_SHARED" | "SHARED_WITH_ME" | "SHARED_BY_ME")
+      SENSITIVE: []
+    end
+
+    class FirewallRuleType
+      attr_accessor firewall_advanced_content_category: Types::FirewallAdvancedContentCategoryConfig
+      attr_accessor firewall_advanced_threat_category: Types::FirewallAdvancedThreatCategoryConfig
+      attr_accessor dns_threat_protection: Types::DnsThreatProtectionRuleTypeConfig
+      SENSITIVE: []
+    end
+
+    class FirewallRuleTypeDefinition
+      attr_accessor rule_type: ::String
+      attr_accessor value: ::String
+      attr_accessor display_name: ::String
+      attr_accessor description: ::String
       SENSITIVE: []
     end
 
@@ -690,6 +808,19 @@ module Aws::Route53Resolver
     class ListFirewallRuleGroupsResponse
       attr_accessor next_token: ::String
       attr_accessor firewall_rule_groups: ::Array[Types::FirewallRuleGroupMetadata]
+      SENSITIVE: []
+    end
+
+    class ListFirewallRuleTypesRequest
+      attr_accessor rule_type: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListFirewallRuleTypesResponse
+      attr_accessor firewall_rule_types: ::Array[Types::FirewallRuleTypeDefinition]
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 
@@ -1096,6 +1227,25 @@ module Aws::Route53Resolver
       SENSITIVE: []
     end
 
+    class UpdateFirewallRuleEntry
+      attr_accessor firewall_rule_group_id: ::String
+      attr_accessor firewall_domain_list_id: ::String
+      attr_accessor firewall_threat_protection_id: ::String
+      attr_accessor priority: ::Integer
+      attr_accessor action: ("ALLOW" | "BLOCK" | "ALERT")
+      attr_accessor block_response: ("NODATA" | "NXDOMAIN" | "OVERRIDE")
+      attr_accessor block_override_domain: ::String
+      attr_accessor block_override_dns_type: ("CNAME")
+      attr_accessor block_override_ttl: ::Integer
+      attr_accessor name: ::String
+      attr_accessor firewall_domain_redirection_action: ("INSPECT_REDIRECTION_DOMAIN" | "TRUST_REDIRECTION_DOMAIN")
+      attr_accessor qtype: ::String
+      attr_accessor dns_threat_protection: ("DGA" | "DNS_TUNNELING" | "DICTIONARY_DGA")
+      attr_accessor confidence_threshold: ("LOW" | "MEDIUM" | "HIGH")
+      attr_accessor firewall_rule_type: Types::FirewallRuleType
+      SENSITIVE: []
+    end
+
     class UpdateFirewallRuleGroupAssociationRequest
       attr_accessor firewall_rule_group_association_id: ::String
       attr_accessor priority: ::Integer
@@ -1124,6 +1274,7 @@ module Aws::Route53Resolver
       attr_accessor qtype: ::String
       attr_accessor dns_threat_protection: ("DGA" | "DNS_TUNNELING" | "DICTIONARY_DGA")
       attr_accessor confidence_threshold: ("LOW" | "MEDIUM" | "HIGH")
+      attr_accessor firewall_rule_type: Types::FirewallRuleType
       SENSITIVE: []
     end
 

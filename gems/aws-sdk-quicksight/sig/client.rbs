@@ -608,6 +608,38 @@ module Aws
                             ) -> _CreateNamespaceResponseSuccess
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateNamespaceResponseSuccess
 
+      interface _CreateOAuthClientApplicationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateOAuthClientApplicationResponse]
+        def arn: () -> ::String
+        def o_auth_client_application_id: () -> ::String
+        def creation_status: () -> ("CREATION_IN_PROGRESS" | "CREATION_SUCCESSFUL" | "CREATION_FAILED" | "UPDATE_IN_PROGRESS" | "UPDATE_SUCCESSFUL" | "UPDATE_FAILED" | "DELETED")
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#create_o_auth_client_application-instance_method
+      def create_o_auth_client_application: (
+                                              aws_account_id: ::String,
+                                              o_auth_client_application_id: ::String,
+                                              name: ::String,
+                                              o_auth_client_authentication_type: ("TOKEN"),
+                                              client_id: ::String,
+                                              client_secret: ::String,
+                                              o_auth_token_endpoint_url: ::String,
+                                              ?o_auth_authorization_endpoint_url: ::String,
+                                              ?o_auth_scopes: ::String,
+                                              ?data_source_type: ("ADOBE_ANALYTICS" | "AMAZON_ELASTICSEARCH" | "ATHENA" | "AURORA" | "AURORA_POSTGRESQL" | "AWS_IOT_ANALYTICS" | "GITHUB" | "JIRA" | "MARIADB" | "MYSQL" | "ORACLE" | "POSTGRESQL" | "PRESTO" | "REDSHIFT" | "S3" | "S3_TABLES" | "SALESFORCE" | "SERVICENOW" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "TWITTER" | "TIMESTREAM" | "AMAZON_OPENSEARCH" | "EXASOL" | "DATABRICKS" | "STARBURST" | "TRINO" | "BIGQUERY" | "GOOGLESHEETS" | "GOOGLE_DRIVE" | "CONFLUENCE" | "SHAREPOINT" | "ONE_DRIVE" | "WEB_CRAWLER" | "S3_KNOWLEDGE_BASE" | "QBUSINESS"),
+                                              ?identity_provider_vpc_connection_properties: {
+                                                vpc_connection_arn: ::String
+                                              },
+                                              ?tags: Array[
+                                                {
+                                                  key: ::String,
+                                                  value: ::String
+                                                }
+                                              ]
+                                            ) -> _CreateOAuthClientApplicationResponseSuccess
+                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateOAuthClientApplicationResponseSuccess
+
       interface _CreateRefreshScheduleResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateRefreshScheduleResponse]
         def status: () -> ::Integer
@@ -1063,6 +1095,20 @@ module Aws
                               namespace: ::String
                             ) -> _DeleteNamespaceResponseSuccess
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteNamespaceResponseSuccess
+
+      interface _DeleteOAuthClientApplicationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteOAuthClientApplicationResponse]
+        def arn: () -> ::String
+        def o_auth_client_application_id: () -> ::String
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#delete_o_auth_client_application-instance_method
+      def delete_o_auth_client_application: (
+                                              aws_account_id: ::String,
+                                              o_auth_client_application_id: ::String
+                                            ) -> _DeleteOAuthClientApplicationResponseSuccess
+                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteOAuthClientApplicationResponseSuccess
 
       interface _DeleteRefreshScheduleResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteRefreshScheduleResponse]
@@ -1847,6 +1893,19 @@ module Aws
                               ) -> _DescribeNamespaceResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeNamespaceResponseSuccess
 
+      interface _DescribeOAuthClientApplicationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeOAuthClientApplicationResponse]
+        def o_auth_client_application: () -> Types::OAuthClientApplication
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#describe_o_auth_client_application-instance_method
+      def describe_o_auth_client_application: (
+                                                aws_account_id: ::String,
+                                                o_auth_client_application_id: ::String
+                                              ) -> _DescribeOAuthClientApplicationResponseSuccess
+                                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeOAuthClientApplicationResponseSuccess
+
       interface _DescribeQPersonalizationConfigurationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeQPersonalizationConfigurationResponse]
         def personalization_mode: () -> ("ENABLED" | "DISABLED")
@@ -2603,6 +2662,21 @@ module Aws
                              ?max_results: ::Integer
                            ) -> _ListNamespacesResponseSuccess
                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListNamespacesResponseSuccess
+
+      interface _ListOAuthClientApplicationsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListOAuthClientApplicationsResponse]
+        def o_auth_client_applications: () -> ::Array[Types::OAuthClientApplicationSummary]
+        def next_token: () -> ::String
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#list_o_auth_client_applications-instance_method
+      def list_o_auth_client_applications: (
+                                             aws_account_id: ::String,
+                                             ?next_token: ::String,
+                                             ?max_results: ::Integer
+                                           ) -> _ListOAuthClientApplicationsResponseSuccess
+                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListOAuthClientApplicationsResponseSuccess
 
       interface _ListRefreshSchedulesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListRefreshSchedulesResponse]
@@ -4173,6 +4247,31 @@ module Aws
                                      ]
                                    ) -> _UpdateKeyRegistrationResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateKeyRegistrationResponseSuccess
+
+      interface _UpdateOAuthClientApplicationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateOAuthClientApplicationResponse]
+        def arn: () -> ::String
+        def o_auth_client_application_id: () -> ::String
+        def update_status: () -> ("CREATION_IN_PROGRESS" | "CREATION_SUCCESSFUL" | "CREATION_FAILED" | "UPDATE_IN_PROGRESS" | "UPDATE_SUCCESSFUL" | "UPDATE_FAILED" | "DELETED")
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#update_o_auth_client_application-instance_method
+      def update_o_auth_client_application: (
+                                              aws_account_id: ::String,
+                                              o_auth_client_application_id: ::String,
+                                              name: ::String,
+                                              ?client_id: ::String,
+                                              ?client_secret: ::String,
+                                              ?o_auth_token_endpoint_url: ::String,
+                                              ?o_auth_authorization_endpoint_url: ::String,
+                                              ?o_auth_scopes: ::String,
+                                              ?data_source_type: ("ADOBE_ANALYTICS" | "AMAZON_ELASTICSEARCH" | "ATHENA" | "AURORA" | "AURORA_POSTGRESQL" | "AWS_IOT_ANALYTICS" | "GITHUB" | "JIRA" | "MARIADB" | "MYSQL" | "ORACLE" | "POSTGRESQL" | "PRESTO" | "REDSHIFT" | "S3" | "S3_TABLES" | "SALESFORCE" | "SERVICENOW" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "TWITTER" | "TIMESTREAM" | "AMAZON_OPENSEARCH" | "EXASOL" | "DATABRICKS" | "STARBURST" | "TRINO" | "BIGQUERY" | "GOOGLESHEETS" | "GOOGLE_DRIVE" | "CONFLUENCE" | "SHAREPOINT" | "ONE_DRIVE" | "WEB_CRAWLER" | "S3_KNOWLEDGE_BASE" | "QBUSINESS"),
+                                              ?identity_provider_vpc_connection_properties: {
+                                                vpc_connection_arn: ::String
+                                              }
+                                            ) -> _UpdateOAuthClientApplicationResponseSuccess
+                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateOAuthClientApplicationResponseSuccess
 
       interface _UpdatePublicSharingSettingsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdatePublicSharingSettingsResponse]

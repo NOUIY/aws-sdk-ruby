@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.71.0 (2026-05-29)
+------------------
+
+* Feature - Add engineSettings to StartRun and GetRun. Add profiles and profileParameterTemplates to GetWorkflow and GetWorkflowVersion.
+
 1.70.0 (2026-05-27)
 ------------------
 

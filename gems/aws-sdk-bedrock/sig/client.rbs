@@ -983,7 +983,7 @@ module Aws
         def policy_arn: () -> ::String
         def build_workflow_id: () -> ::String
         def status: () -> ("SCHEDULED" | "CANCEL_REQUESTED" | "PREPROCESSING" | "BUILDING" | "TESTING" | "COMPLETED" | "FAILED" | "CANCELLED")
-        def build_workflow_type: () -> ("INGEST_CONTENT" | "REFINE_POLICY" | "IMPORT_POLICY" | "GENERATE_FIDELITY_REPORT" | "GENERATE_POLICY_SCENARIOS")
+        def build_workflow_type: () -> ("INGEST_CONTENT" | "REFINE_POLICY" | "IMPORT_POLICY" | "GENERATE_FIDELITY_REPORT" | "GENERATE_POLICY_SCENARIOS" | "RESOLVE_POLICY_AMBIGUITIES" | "ITERATIVELY_REFINE_POLICY")
         def document_name: () -> ::String
         def document_content_type: () -> ("pdf" | "txt")
         def document_description: () -> ::String
@@ -1812,7 +1812,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Bedrock/Client.html#start_automated_reasoning_policy_build_workflow-instance_method
       def start_automated_reasoning_policy_build_workflow: (
                                                              policy_arn: ::String,
-                                                             build_workflow_type: ("INGEST_CONTENT" | "REFINE_POLICY" | "IMPORT_POLICY" | "GENERATE_FIDELITY_REPORT" | "GENERATE_POLICY_SCENARIOS"),
+                                                             build_workflow_type: ("INGEST_CONTENT" | "REFINE_POLICY" | "IMPORT_POLICY" | "GENERATE_FIDELITY_REPORT" | "GENERATE_POLICY_SCENARIOS" | "RESOLVE_POLICY_AMBIGUITIES" | "ITERATIVELY_REFINE_POLICY"),
                                                              ?client_request_token: ::String,
                                                              source_content: {
                                                                policy_definition: Params::automated_reasoning_policy_definition?,
@@ -1839,6 +1839,17 @@ module Aws
                                                                        document_description: ::String?
                                                                      }
                                                                    ]?
+                                                                 }?,
+                                                                 iterative_refinement_content: {
+                                                                   documents: Array[
+                                                                     {
+                                                                       document: ::String,
+                                                                       document_content_type: ("pdf" | "txt"),
+                                                                       document_name: ::String,
+                                                                       document_description: ::String?
+                                                                     }
+                                                                   ],
+                                                                   feedback: ::String?
                                                                  }?
                                                                }?
                                                              }

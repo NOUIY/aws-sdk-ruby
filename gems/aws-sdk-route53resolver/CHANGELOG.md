@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.100.0 (2026-05-29)
+------------------
+
+* Feature - Added BatchCreateFirewallRule, BatchUpdateFirewallRule, BatchDeleteFirewallRule, and ListFirewallRuleTypes APIs. Added FirewallRuleType support to Firewall Rule APIs.
+
 1.99.0 (2026-05-21)
 ------------------
 

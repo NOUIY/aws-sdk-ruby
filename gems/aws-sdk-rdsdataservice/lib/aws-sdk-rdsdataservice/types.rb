@@ -30,23 +30,23 @@ module Aws::RDSDataService
     # @note ArrayValue is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of ArrayValue corresponding to the set member.
     #
     # @!attribute [rw] boolean_values
-    #   An array of Boolean values.
+    #   An array of Boolean values. Can contain null values.
     #   @return [Array<Boolean>]
     #
     # @!attribute [rw] long_values
-    #   An array of integers.
+    #   An array of integers. Can contain null values.
     #   @return [Array<Integer>]
     #
     # @!attribute [rw] double_values
-    #   An array of floating-point numbers.
+    #   An array of floating-point numbers. Can contain null values.
     #   @return [Array<Float>]
     #
     # @!attribute [rw] string_values
-    #   An array of strings.
+    #   An array of strings. Can contain null values.
     #   @return [Array<String>]
     #
     # @!attribute [rw] array_values
-    #   An array of arrays.
+    #   An array of arrays. Can contain null values.
     #   @return [Array<Types::ArrayValue>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/rds-data-2018-08-01/ArrayValue AWS API Documentation
@@ -465,6 +465,19 @@ module Aws::RDSDataService
     #
     #   For information about creating the secret, see [Create a database
     #   secret][1].
+    #
+    #   <note markdown="1"> When you use the CLI on Linux to reference a secret created in the
+    #   RDS console, the ARN might include special characters like
+    #   `rds!cluster`. If you enclose the ARN in double quotes, the `!`
+    #   character might trigger a shell expansion error, such as `-bash:
+    #   !cluster: event not found`. To avoid this, escape the exclamation
+    #   mark (\\!) in the ARN or enclose the entire ARN in single quotes
+    #   (') instead of double quotes.
+    #
+    #    Alternatively, disable shell history expansion by running `set +H`
+    #   before you execute the command.
+    #
+    #    </note>
     #
     #
     #

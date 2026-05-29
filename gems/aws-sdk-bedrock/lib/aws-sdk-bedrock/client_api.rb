@@ -100,6 +100,7 @@ module Aws::Bedrock
     AutomatedReasoningPolicyBuildDocumentContentType = Shapes::StringShape.new(name: 'AutomatedReasoningPolicyBuildDocumentContentType')
     AutomatedReasoningPolicyBuildDocumentDescription = Shapes::StringShape.new(name: 'AutomatedReasoningPolicyBuildDocumentDescription')
     AutomatedReasoningPolicyBuildDocumentName = Shapes::StringShape.new(name: 'AutomatedReasoningPolicyBuildDocumentName')
+    AutomatedReasoningPolicyBuildFeedback = Shapes::StringShape.new(name: 'AutomatedReasoningPolicyBuildFeedback')
     AutomatedReasoningPolicyBuildLog = Shapes::StructureShape.new(name: 'AutomatedReasoningPolicyBuildLog')
     AutomatedReasoningPolicyBuildLogEntry = Shapes::StructureShape.new(name: 'AutomatedReasoningPolicyBuildLogEntry')
     AutomatedReasoningPolicyBuildLogEntryList = Shapes::ListShape.new(name: 'AutomatedReasoningPolicyBuildLogEntryList')
@@ -175,6 +176,8 @@ module Aws::Bedrock
     AutomatedReasoningPolicyHash = Shapes::StringShape.new(name: 'AutomatedReasoningPolicyHash')
     AutomatedReasoningPolicyId = Shapes::StringShape.new(name: 'AutomatedReasoningPolicyId')
     AutomatedReasoningPolicyIngestContentAnnotation = Shapes::StructureShape.new(name: 'AutomatedReasoningPolicyIngestContentAnnotation')
+    AutomatedReasoningPolicyIterativeRefinementContent = Shapes::StructureShape.new(name: 'AutomatedReasoningPolicyIterativeRefinementContent')
+    AutomatedReasoningPolicyIterativeRefinementDocumentList = Shapes::ListShape.new(name: 'AutomatedReasoningPolicyIterativeRefinementDocumentList')
     AutomatedReasoningPolicyJustificationList = Shapes::ListShape.new(name: 'AutomatedReasoningPolicyJustificationList')
     AutomatedReasoningPolicyJustificationText = Shapes::StringShape.new(name: 'AutomatedReasoningPolicyJustificationText')
     AutomatedReasoningPolicyLineNumberList = Shapes::ListShape.new(name: 'AutomatedReasoningPolicyLineNumberList')
@@ -1366,6 +1369,12 @@ module Aws::Bedrock
     AutomatedReasoningPolicyIngestContentAnnotation.add_member(:content, Shapes::ShapeRef.new(shape: AutomatedReasoningPolicyAnnotationIngestContent, required: true, location_name: "content"))
     AutomatedReasoningPolicyIngestContentAnnotation.struct_class = Types::AutomatedReasoningPolicyIngestContentAnnotation
 
+    AutomatedReasoningPolicyIterativeRefinementContent.add_member(:documents, Shapes::ShapeRef.new(shape: AutomatedReasoningPolicyIterativeRefinementDocumentList, required: true, location_name: "documents"))
+    AutomatedReasoningPolicyIterativeRefinementContent.add_member(:feedback, Shapes::ShapeRef.new(shape: AutomatedReasoningPolicyBuildFeedback, location_name: "feedback"))
+    AutomatedReasoningPolicyIterativeRefinementContent.struct_class = Types::AutomatedReasoningPolicyIterativeRefinementContent
+
+    AutomatedReasoningPolicyIterativeRefinementDocumentList.member = Shapes::ShapeRef.new(shape: AutomatedReasoningPolicyBuildWorkflowDocument)
+
     AutomatedReasoningPolicyJustificationList.member = Shapes::ShapeRef.new(shape: AutomatedReasoningPolicyJustificationText)
 
     AutomatedReasoningPolicyLineNumberList.member = Shapes::ShapeRef.new(shape: Integer)
@@ -1538,10 +1547,12 @@ module Aws::Bedrock
     AutomatedReasoningPolicyWorkflowTypeContent.add_member(:documents, Shapes::ShapeRef.new(shape: AutomatedReasoningPolicyBuildWorkflowDocumentList, location_name: "documents"))
     AutomatedReasoningPolicyWorkflowTypeContent.add_member(:policy_repair_assets, Shapes::ShapeRef.new(shape: AutomatedReasoningPolicyBuildWorkflowRepairContent, location_name: "policyRepairAssets"))
     AutomatedReasoningPolicyWorkflowTypeContent.add_member(:generate_fidelity_report_content, Shapes::ShapeRef.new(shape: AutomatedReasoningPolicyGenerateFidelityReportContent, location_name: "generateFidelityReportContent"))
+    AutomatedReasoningPolicyWorkflowTypeContent.add_member(:iterative_refinement_content, Shapes::ShapeRef.new(shape: AutomatedReasoningPolicyIterativeRefinementContent, location_name: "iterativeRefinementContent"))
     AutomatedReasoningPolicyWorkflowTypeContent.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     AutomatedReasoningPolicyWorkflowTypeContent.add_member_subclass(:documents, Types::AutomatedReasoningPolicyWorkflowTypeContent::Documents)
     AutomatedReasoningPolicyWorkflowTypeContent.add_member_subclass(:policy_repair_assets, Types::AutomatedReasoningPolicyWorkflowTypeContent::PolicyRepairAssets)
     AutomatedReasoningPolicyWorkflowTypeContent.add_member_subclass(:generate_fidelity_report_content, Types::AutomatedReasoningPolicyWorkflowTypeContent::GenerateFidelityReportContent)
+    AutomatedReasoningPolicyWorkflowTypeContent.add_member_subclass(:iterative_refinement_content, Types::AutomatedReasoningPolicyWorkflowTypeContent::IterativeRefinementContent)
     AutomatedReasoningPolicyWorkflowTypeContent.add_member_subclass(:unknown, Types::AutomatedReasoningPolicyWorkflowTypeContent::Unknown)
     AutomatedReasoningPolicyWorkflowTypeContent.struct_class = Types::AutomatedReasoningPolicyWorkflowTypeContent
 

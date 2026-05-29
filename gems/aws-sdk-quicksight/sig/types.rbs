@@ -2229,6 +2229,31 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class CreateOAuthClientApplicationRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor o_auth_client_application_id: ::String
+      attr_accessor name: ::String
+      attr_accessor o_auth_client_authentication_type: ("TOKEN")
+      attr_accessor client_id: ::String
+      attr_accessor client_secret: ::String
+      attr_accessor o_auth_token_endpoint_url: ::String
+      attr_accessor o_auth_authorization_endpoint_url: ::String
+      attr_accessor o_auth_scopes: ::String
+      attr_accessor data_source_type: ("ADOBE_ANALYTICS" | "AMAZON_ELASTICSEARCH" | "ATHENA" | "AURORA" | "AURORA_POSTGRESQL" | "AWS_IOT_ANALYTICS" | "GITHUB" | "JIRA" | "MARIADB" | "MYSQL" | "ORACLE" | "POSTGRESQL" | "PRESTO" | "REDSHIFT" | "S3" | "S3_TABLES" | "SALESFORCE" | "SERVICENOW" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "TWITTER" | "TIMESTREAM" | "AMAZON_OPENSEARCH" | "EXASOL" | "DATABRICKS" | "STARBURST" | "TRINO" | "BIGQUERY" | "GOOGLESHEETS" | "GOOGLE_DRIVE" | "CONFLUENCE" | "SHAREPOINT" | "ONE_DRIVE" | "WEB_CRAWLER" | "S3_KNOWLEDGE_BASE" | "QBUSINESS")
+      attr_accessor identity_provider_vpc_connection_properties: Types::VpcConnectionProperties
+      attr_accessor tags: ::Array[Types::Tag]
+      SENSITIVE: [:client_id, :client_secret, :o_auth_token_endpoint_url, :o_auth_authorization_endpoint_url]
+    end
+
+    class CreateOAuthClientApplicationResponse
+      attr_accessor arn: ::String
+      attr_accessor o_auth_client_application_id: ::String
+      attr_accessor creation_status: ("CREATION_IN_PROGRESS" | "CREATION_SUCCESSFUL" | "CREATION_FAILED" | "UPDATE_IN_PROGRESS" | "UPDATE_SUCCESSFUL" | "UPDATE_FAILED" | "DELETED")
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
     class CreateRefreshScheduleRequest
       attr_accessor data_set_id: ::String
       attr_accessor aws_account_id: ::String
@@ -3650,6 +3675,20 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class DeleteOAuthClientApplicationRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor o_auth_client_application_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteOAuthClientApplicationResponse
+      attr_accessor arn: ::String
+      attr_accessor o_auth_client_application_id: ::String
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
     class DeleteRefreshScheduleRequest
       attr_accessor data_set_id: ::String
       attr_accessor aws_account_id: ::String
@@ -4428,6 +4467,19 @@ module Aws::QuickSight
 
     class DescribeNamespaceResponse
       attr_accessor namespace: Types::NamespaceInfoV2
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class DescribeOAuthClientApplicationRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor o_auth_client_application_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeOAuthClientApplicationResponse
+      attr_accessor o_auth_client_application: Types::OAuthClientApplication
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
       SENSITIVE: []
@@ -6980,6 +7032,21 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class ListOAuthClientApplicationsRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListOAuthClientApplicationsResponse
+      attr_accessor o_auth_client_applications: ::Array[Types::OAuthClientApplicationSummary]
+      attr_accessor next_token: ::String
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
     class ListRefreshSchedulesRequest
       attr_accessor aws_account_id: ::String
       attr_accessor data_set_id: ::String
@@ -7548,6 +7615,33 @@ module Aws::QuickSight
       attr_accessor column: Types::ColumnIdentifier
       attr_accessor aggregation_function: Types::NumericalAggregationFunction
       attr_accessor format_configuration: Types::NumberFormatConfiguration
+      SENSITIVE: []
+    end
+
+    class OAuthClientApplication
+      attr_accessor o_auth_client_application_id: ::String
+      attr_accessor name: ::String
+      attr_accessor o_auth_client_authentication_type: ("TOKEN")
+      attr_accessor o_auth_token_endpoint_url: ::String
+      attr_accessor o_auth_authorization_endpoint_url: ::String
+      attr_accessor o_auth_scopes: ::String
+      attr_accessor data_source_type: ("ADOBE_ANALYTICS" | "AMAZON_ELASTICSEARCH" | "ATHENA" | "AURORA" | "AURORA_POSTGRESQL" | "AWS_IOT_ANALYTICS" | "GITHUB" | "JIRA" | "MARIADB" | "MYSQL" | "ORACLE" | "POSTGRESQL" | "PRESTO" | "REDSHIFT" | "S3" | "S3_TABLES" | "SALESFORCE" | "SERVICENOW" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "TWITTER" | "TIMESTREAM" | "AMAZON_OPENSEARCH" | "EXASOL" | "DATABRICKS" | "STARBURST" | "TRINO" | "BIGQUERY" | "GOOGLESHEETS" | "GOOGLE_DRIVE" | "CONFLUENCE" | "SHAREPOINT" | "ONE_DRIVE" | "WEB_CRAWLER" | "S3_KNOWLEDGE_BASE" | "QBUSINESS")
+      attr_accessor identity_provider_vpc_connection_properties: Types::VpcConnectionProperties
+      attr_accessor created_time: ::Time
+      attr_accessor last_updated_time: ::Time
+      attr_accessor arn: ::String
+      SENSITIVE: [:o_auth_token_endpoint_url, :o_auth_authorization_endpoint_url]
+    end
+
+    class OAuthClientApplicationSummary
+      attr_accessor o_auth_client_application_id: ::String
+      attr_accessor name: ::String
+      attr_accessor o_auth_client_authentication_type: ("TOKEN")
+      attr_accessor data_source_type: ("ADOBE_ANALYTICS" | "AMAZON_ELASTICSEARCH" | "ATHENA" | "AURORA" | "AURORA_POSTGRESQL" | "AWS_IOT_ANALYTICS" | "GITHUB" | "JIRA" | "MARIADB" | "MYSQL" | "ORACLE" | "POSTGRESQL" | "PRESTO" | "REDSHIFT" | "S3" | "S3_TABLES" | "SALESFORCE" | "SERVICENOW" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "TWITTER" | "TIMESTREAM" | "AMAZON_OPENSEARCH" | "EXASOL" | "DATABRICKS" | "STARBURST" | "TRINO" | "BIGQUERY" | "GOOGLESHEETS" | "GOOGLE_DRIVE" | "CONFLUENCE" | "SHAREPOINT" | "ONE_DRIVE" | "WEB_CRAWLER" | "S3_KNOWLEDGE_BASE" | "QBUSINESS")
+      attr_accessor identity_provider_vpc_connection_properties: Types::VpcConnectionProperties
+      attr_accessor created_time: ::Time
+      attr_accessor last_updated_time: ::Time
+      attr_accessor arn: ::String
       SENSITIVE: []
     end
 
@@ -11264,6 +11358,29 @@ module Aws::QuickSight
       attr_accessor failed_key_registration: ::Array[Types::FailedKeyRegistrationEntry]
       attr_accessor successful_key_registration: ::Array[Types::SuccessfulKeyRegistrationEntry]
       attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateOAuthClientApplicationRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor o_auth_client_application_id: ::String
+      attr_accessor name: ::String
+      attr_accessor client_id: ::String
+      attr_accessor client_secret: ::String
+      attr_accessor o_auth_token_endpoint_url: ::String
+      attr_accessor o_auth_authorization_endpoint_url: ::String
+      attr_accessor o_auth_scopes: ::String
+      attr_accessor data_source_type: ("ADOBE_ANALYTICS" | "AMAZON_ELASTICSEARCH" | "ATHENA" | "AURORA" | "AURORA_POSTGRESQL" | "AWS_IOT_ANALYTICS" | "GITHUB" | "JIRA" | "MARIADB" | "MYSQL" | "ORACLE" | "POSTGRESQL" | "PRESTO" | "REDSHIFT" | "S3" | "S3_TABLES" | "SALESFORCE" | "SERVICENOW" | "SNOWFLAKE" | "SPARK" | "SQLSERVER" | "TERADATA" | "TWITTER" | "TIMESTREAM" | "AMAZON_OPENSEARCH" | "EXASOL" | "DATABRICKS" | "STARBURST" | "TRINO" | "BIGQUERY" | "GOOGLESHEETS" | "GOOGLE_DRIVE" | "CONFLUENCE" | "SHAREPOINT" | "ONE_DRIVE" | "WEB_CRAWLER" | "S3_KNOWLEDGE_BASE" | "QBUSINESS")
+      attr_accessor identity_provider_vpc_connection_properties: Types::VpcConnectionProperties
+      SENSITIVE: [:client_id, :client_secret, :o_auth_token_endpoint_url, :o_auth_authorization_endpoint_url]
+    end
+
+    class UpdateOAuthClientApplicationResponse
+      attr_accessor arn: ::String
+      attr_accessor o_auth_client_application_id: ::String
+      attr_accessor update_status: ("CREATION_IN_PROGRESS" | "CREATION_SUCCESSFUL" | "CREATION_FAILED" | "UPDATE_IN_PROGRESS" | "UPDATE_SUCCESSFUL" | "UPDATE_FAILED" | "DELETED")
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
       SENSITIVE: []
     end
 

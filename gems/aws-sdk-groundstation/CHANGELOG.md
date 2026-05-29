@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.87.0 (2026-05-29)
+------------------
+
+* Feature - Adds support for Alpha-5 satellite number encoding in the Two-Line Element ephemeris format.
+
 1.86.0 (2026-05-28)
 ------------------
 

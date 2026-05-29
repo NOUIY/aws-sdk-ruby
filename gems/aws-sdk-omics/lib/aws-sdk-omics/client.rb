@@ -3605,6 +3605,7 @@ module Aws::Omics
     #   * {Types::GetRunResponse#networking_mode #networking_mode} => String
     #   * {Types::GetRunResponse#configuration #configuration} => Types::ConfigurationDetails
     #   * {Types::GetRunResponse#vpc_config #vpc_config} => Types::VpcConfigResponse
+    #   * {Types::GetRunResponse#engine_settings #engine_settings} => Hash,Array,String,Numeric,Boolean
     #
     # @example Request syntax with placeholder values
     #
@@ -4164,6 +4165,8 @@ module Aws::Omics
     #   * {Types::GetWorkflowResponse#readme #readme} => String
     #   * {Types::GetWorkflowResponse#definition_repository_details #definition_repository_details} => Types::DefinitionRepositoryDetails
     #   * {Types::GetWorkflowResponse#readme_path #readme_path} => String
+    #   * {Types::GetWorkflowResponse#profiles #profiles} => Array&lt;String&gt;
+    #   * {Types::GetWorkflowResponse#profile_parameter_templates #profile_parameter_templates} => Hash&lt;String,Hash&lt;String,Types::WorkflowParameter&gt;&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -4215,6 +4218,12 @@ module Aws::Omics
     #   resp.definition_repository_details.provider_type #=> String
     #   resp.definition_repository_details.provider_endpoint #=> String
     #   resp.readme_path #=> String
+    #   resp.profiles #=> Array
+    #   resp.profiles[0] #=> String
+    #   resp.profile_parameter_templates #=> Hash
+    #   resp.profile_parameter_templates["WorkflowProfileName"] #=> Hash
+    #   resp.profile_parameter_templates["WorkflowProfileName"]["WorkflowParameterName"].description #=> String
+    #   resp.profile_parameter_templates["WorkflowProfileName"]["WorkflowParameterName"].optional #=> Boolean
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -4281,6 +4290,8 @@ module Aws::Omics
     #   * {Types::GetWorkflowVersionResponse#readme #readme} => String
     #   * {Types::GetWorkflowVersionResponse#definition_repository_details #definition_repository_details} => Types::DefinitionRepositoryDetails
     #   * {Types::GetWorkflowVersionResponse#readme_path #readme_path} => String
+    #   * {Types::GetWorkflowVersionResponse#profiles #profiles} => Array&lt;String&gt;
+    #   * {Types::GetWorkflowVersionResponse#profile_parameter_templates #profile_parameter_templates} => Hash&lt;String,Hash&lt;String,Types::WorkflowParameter&gt;&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -4334,6 +4345,12 @@ module Aws::Omics
     #   resp.definition_repository_details.provider_type #=> String
     #   resp.definition_repository_details.provider_endpoint #=> String
     #   resp.readme_path #=> String
+    #   resp.profiles #=> Array
+    #   resp.profiles[0] #=> String
+    #   resp.profile_parameter_templates #=> Hash
+    #   resp.profile_parameter_templates["WorkflowProfileName"] #=> Hash
+    #   resp.profile_parameter_templates["WorkflowProfileName"]["WorkflowParameterName"].description #=> String
+    #   resp.profile_parameter_templates["WorkflowProfileName"]["WorkflowParameterName"].optional #=> Boolean
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -6507,6 +6524,16 @@ module Aws::Omics
     # @option params [String] :configuration_name
     #   Optional configuration name to use for the workflow run.
     #
+    # @option params [Hash,Array,String,Numeric,Boolean] :engine_settings
+    #   Engine-specific settings for the workflow run. Use this field to
+    #   specify configuration options that are specific to the workflow engine
+    #   (for example, Nextflow profiles).
+    #
+    #   Document type used to carry open content
+    #   (Hash,Array,String,Numeric,Boolean). A document type value is
+    #   serialized using the same format as its surroundings and requires no
+    #   additional encoding or escaping.
+    #
     # @return [Types::StartRunResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::StartRunResponse#arn #arn} => String
@@ -6545,6 +6572,8 @@ module Aws::Omics
     #     workflow_version_name: "WorkflowVersionName",
     #     networking_mode: "RESTRICTED", # accepts RESTRICTED, VPC
     #     configuration_name: "ConfigurationName",
+    #     engine_settings: {
+    #     },
     #   })
     #
     # @example Response structure
@@ -7367,7 +7396,7 @@ module Aws::Omics
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-omics'
-      context[:gem_version] = '1.70.0'
+      context[:gem_version] = '1.71.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.184.0 (2026-05-29)
+------------------
+
+* Feature - Adds support for creating, updating, describing, listing, and deleting an OAuthClientApplication resource, a new quicksight resource that allows customers to store OAuth configurations to connect to their databases via 3 Legged OAuth.
+
 1.183.0 (2026-05-21)
 ------------------
 

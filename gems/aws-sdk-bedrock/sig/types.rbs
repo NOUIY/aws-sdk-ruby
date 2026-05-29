@@ -428,7 +428,7 @@ module Aws::Bedrock
       attr_accessor policy_arn: ::String
       attr_accessor build_workflow_id: ::String
       attr_accessor status: ("SCHEDULED" | "CANCEL_REQUESTED" | "PREPROCESSING" | "BUILDING" | "TESTING" | "COMPLETED" | "FAILED" | "CANCELLED")
-      attr_accessor build_workflow_type: ("INGEST_CONTENT" | "REFINE_POLICY" | "IMPORT_POLICY" | "GENERATE_FIDELITY_REPORT" | "GENERATE_POLICY_SCENARIOS")
+      attr_accessor build_workflow_type: ("INGEST_CONTENT" | "REFINE_POLICY" | "IMPORT_POLICY" | "GENERATE_FIDELITY_REPORT" | "GENERATE_POLICY_SCENARIOS" | "RESOLVE_POLICY_AMBIGUITIES" | "ITERATIVELY_REFINE_POLICY")
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
       SENSITIVE: []
@@ -580,6 +580,12 @@ module Aws::Bedrock
     class AutomatedReasoningPolicyIngestContentAnnotation
       attr_accessor content: ::String
       SENSITIVE: [:content]
+    end
+
+    class AutomatedReasoningPolicyIterativeRefinementContent
+      attr_accessor documents: ::Array[Types::AutomatedReasoningPolicyBuildWorkflowDocument]
+      attr_accessor feedback: ::String
+      SENSITIVE: [:feedback]
     end
 
     class AutomatedReasoningPolicyMutation
@@ -790,6 +796,7 @@ module Aws::Bedrock
       attr_accessor documents: ::Array[Types::AutomatedReasoningPolicyBuildWorkflowDocument]
       attr_accessor policy_repair_assets: Types::AutomatedReasoningPolicyBuildWorkflowRepairContent
       attr_accessor generate_fidelity_report_content: Types::AutomatedReasoningPolicyGenerateFidelityReportContent
+      attr_accessor iterative_refinement_content: Types::AutomatedReasoningPolicyIterativeRefinementContent
       attr_accessor unknown: untyped
       SENSITIVE: []
 
@@ -798,6 +805,8 @@ module Aws::Bedrock
       class PolicyRepairAssets < AutomatedReasoningPolicyWorkflowTypeContent
       end
       class GenerateFidelityReportContent < AutomatedReasoningPolicyWorkflowTypeContent
+      end
+      class IterativeRefinementContent < AutomatedReasoningPolicyWorkflowTypeContent
       end
       class Unknown < AutomatedReasoningPolicyWorkflowTypeContent
       end
@@ -1717,7 +1726,7 @@ module Aws::Bedrock
       attr_accessor policy_arn: ::String
       attr_accessor build_workflow_id: ::String
       attr_accessor status: ("SCHEDULED" | "CANCEL_REQUESTED" | "PREPROCESSING" | "BUILDING" | "TESTING" | "COMPLETED" | "FAILED" | "CANCELLED")
-      attr_accessor build_workflow_type: ("INGEST_CONTENT" | "REFINE_POLICY" | "IMPORT_POLICY" | "GENERATE_FIDELITY_REPORT" | "GENERATE_POLICY_SCENARIOS")
+      attr_accessor build_workflow_type: ("INGEST_CONTENT" | "REFINE_POLICY" | "IMPORT_POLICY" | "GENERATE_FIDELITY_REPORT" | "GENERATE_POLICY_SCENARIOS" | "RESOLVE_POLICY_AMBIGUITIES" | "ITERATIVELY_REFINE_POLICY")
       attr_accessor document_name: ::String
       attr_accessor document_content_type: ("pdf" | "txt")
       attr_accessor document_description: ::String
@@ -3402,7 +3411,7 @@ module Aws::Bedrock
 
     class StartAutomatedReasoningPolicyBuildWorkflowRequest
       attr_accessor policy_arn: ::String
-      attr_accessor build_workflow_type: ("INGEST_CONTENT" | "REFINE_POLICY" | "IMPORT_POLICY" | "GENERATE_FIDELITY_REPORT" | "GENERATE_POLICY_SCENARIOS")
+      attr_accessor build_workflow_type: ("INGEST_CONTENT" | "REFINE_POLICY" | "IMPORT_POLICY" | "GENERATE_FIDELITY_REPORT" | "GENERATE_POLICY_SCENARIOS" | "RESOLVE_POLICY_AMBIGUITIES" | "ITERATIVELY_REFINE_POLICY")
       attr_accessor client_request_token: ::String
       attr_accessor source_content: Types::AutomatedReasoningPolicyBuildWorkflowSource
       SENSITIVE: []

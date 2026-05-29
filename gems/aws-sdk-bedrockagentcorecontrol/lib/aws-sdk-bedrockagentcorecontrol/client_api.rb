@@ -67,7 +67,6 @@ module Aws::BedrockAgentCoreControl
     ApiKeyCredentialProviderArnType = Shapes::StringShape.new(name: 'ApiKeyCredentialProviderArnType')
     ApiKeyCredentialProviderItem = Shapes::StructureShape.new(name: 'ApiKeyCredentialProviderItem')
     ApiKeyCredentialProviders = Shapes::ListShape.new(name: 'ApiKeyCredentialProviders')
-    ApiKeyType = Shapes::StringShape.new(name: 'ApiKeyType')
     ApiSchemaConfiguration = Shapes::UnionShape.new(name: 'ApiSchemaConfiguration')
     ApprovalConfiguration = Shapes::StructureShape.new(name: 'ApprovalConfiguration')
     Arn = Shapes::StringShape.new(name: 'Arn')
@@ -113,7 +112,6 @@ module Aws::BedrockAgentCoreControl
     ClaimMatchValueType = Shapes::UnionShape.new(name: 'ClaimMatchValueType')
     ClientAuthenticationMethodType = Shapes::StringShape.new(name: 'ClientAuthenticationMethodType')
     ClientIdType = Shapes::StringShape.new(name: 'ClientIdType')
-    ClientSecretType = Shapes::StringShape.new(name: 'ClientSecretType')
     ClientToken = Shapes::StringShape.new(name: 'ClientToken')
     CloudWatchLogsInputConfig = Shapes::StructureShape.new(name: 'CloudWatchLogsInputConfig')
     CloudWatchLogsInputConfigLogGroupNamesList = Shapes::ListShape.new(name: 'CloudWatchLogsInputConfigLogGroupNamesList')
@@ -131,10 +129,8 @@ module Aws::BedrockAgentCoreControl
     CodeInterpreterSummaries = Shapes::ListShape.new(name: 'CodeInterpreterSummaries')
     CodeInterpreterSummary = Shapes::StructureShape.new(name: 'CodeInterpreterSummary')
     CoinbaseCdpApiKeyIdType = Shapes::StringShape.new(name: 'CoinbaseCdpApiKeyIdType')
-    CoinbaseCdpApiKeySecretType = Shapes::StringShape.new(name: 'CoinbaseCdpApiKeySecretType')
     CoinbaseCdpConfigurationInput = Shapes::StructureShape.new(name: 'CoinbaseCdpConfigurationInput')
     CoinbaseCdpConfigurationOutput = Shapes::StructureShape.new(name: 'CoinbaseCdpConfigurationOutput')
-    CoinbaseCdpWalletSecretType = Shapes::StringShape.new(name: 'CoinbaseCdpWalletSecretType')
     ComponentConfiguration = Shapes::StructureShape.new(name: 'ComponentConfiguration')
     ComponentConfigurationMap = Shapes::MapShape.new(name: 'ComponentConfigurationMap')
     ComponentIdentifier = Shapes::StringShape.new(name: 'ComponentIdentifier')
@@ -258,8 +254,13 @@ module Aws::BedrockAgentCoreControl
     DatasetVersionSummaryList = Shapes::ListShape.new(name: 'DatasetVersionSummaryList')
     DateTimestamp = Shapes::TimestampShape.new(name: 'DateTimestamp', timestampFormat: "iso8601")
     DecryptionFailure = Shapes::StructureShape.new(name: 'DecryptionFailure')
+    DefaultApiKeyType = Shapes::StringShape.new(name: 'DefaultApiKeyType')
     DefaultClientIdType = Shapes::StringShape.new(name: 'DefaultClientIdType')
     DefaultClientSecretType = Shapes::StringShape.new(name: 'DefaultClientSecretType')
+    DefaultCoinbaseCdpApiKeySecretType = Shapes::StringShape.new(name: 'DefaultCoinbaseCdpApiKeySecretType')
+    DefaultCoinbaseCdpWalletSecretType = Shapes::StringShape.new(name: 'DefaultCoinbaseCdpWalletSecretType')
+    DefaultStripePrivyAppSecretType = Shapes::StringShape.new(name: 'DefaultStripePrivyAppSecretType')
+    DefaultStripePrivyAuthorizationPrivateKeyType = Shapes::StringShape.new(name: 'DefaultStripePrivyAuthorizationPrivateKeyType')
     Definition = Shapes::StringShape.new(name: 'Definition')
     DeleteAgentRuntimeEndpointRequest = Shapes::StructureShape.new(name: 'DeleteAgentRuntimeEndpointRequest')
     DeleteAgentRuntimeEndpointResponse = Shapes::StructureShape.new(name: 'DeleteAgentRuntimeEndpointResponse')
@@ -915,6 +916,10 @@ module Aws::BedrockAgentCoreControl
     SearchType = Shapes::StringShape.new(name: 'SearchType')
     Secret = Shapes::StructureShape.new(name: 'Secret')
     SecretArn = Shapes::StringShape.new(name: 'SecretArn')
+    SecretIdType = Shapes::StringShape.new(name: 'SecretIdType')
+    SecretJsonKeyType = Shapes::StringShape.new(name: 'SecretJsonKeyType')
+    SecretReference = Shapes::StructureShape.new(name: 'SecretReference')
+    SecretSourceType = Shapes::StringShape.new(name: 'SecretSourceType')
     SecretsManagerLocation = Shapes::StructureShape.new(name: 'SecretsManagerLocation')
     SecurityGroupId = Shapes::StringShape.new(name: 'SecurityGroupId')
     SecurityGroupIdentifier = Shapes::StringShape.new(name: 'SecurityGroupIdentifier')
@@ -967,9 +972,7 @@ module Aws::BedrockAgentCoreControl
     StringListValidationMaxItemsInteger = Shapes::IntegerShape.new(name: 'StringListValidationMaxItemsInteger')
     StringValidation = Shapes::StructureShape.new(name: 'StringValidation')
     StripePrivyAppIdType = Shapes::StringShape.new(name: 'StripePrivyAppIdType')
-    StripePrivyAppSecretType = Shapes::StringShape.new(name: 'StripePrivyAppSecretType')
     StripePrivyAuthorizationIdType = Shapes::StringShape.new(name: 'StripePrivyAuthorizationIdType')
-    StripePrivyAuthorizationPrivateKeyType = Shapes::StringShape.new(name: 'StripePrivyAuthorizationPrivateKeyType')
     StripePrivyConfigurationInput = Shapes::StructureShape.new(name: 'StripePrivyConfigurationInput')
     StripePrivyConfigurationOutput = Shapes::StructureShape.new(name: 'StripePrivyConfigurationOutput')
     SubmitRegistryRecordForApprovalRequest = Shapes::StructureShape.new(name: 'SubmitRegistryRecordForApprovalRequest')
@@ -1282,7 +1285,9 @@ module Aws::BedrockAgentCoreControl
     ApprovalConfiguration.struct_class = Types::ApprovalConfiguration
 
     AtlassianOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, required: true, location_name: "clientId"))
-    AtlassianOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecretType, required: true, location_name: "clientSecret"))
+    AtlassianOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: DefaultClientSecretType, location_name: "clientSecret"))
+    AtlassianOauth2ProviderConfigInput.add_member(:client_secret_config, Shapes::ShapeRef.new(shape: SecretReference, location_name: "clientSecretConfig"))
+    AtlassianOauth2ProviderConfigInput.add_member(:client_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "clientSecretSource"))
     AtlassianOauth2ProviderConfigInput.struct_class = Types::AtlassianOauth2ProviderConfigInput
 
     AtlassianOauth2ProviderConfigOutput.add_member(:oauth_discovery, Shapes::ShapeRef.new(shape: Oauth2Discovery, required: true, location_name: "oauthDiscovery"))
@@ -1425,13 +1430,21 @@ module Aws::BedrockAgentCoreControl
     CodeInterpreterSummary.struct_class = Types::CodeInterpreterSummary
 
     CoinbaseCdpConfigurationInput.add_member(:api_key_id, Shapes::ShapeRef.new(shape: CoinbaseCdpApiKeyIdType, required: true, location_name: "apiKeyId"))
-    CoinbaseCdpConfigurationInput.add_member(:api_key_secret, Shapes::ShapeRef.new(shape: CoinbaseCdpApiKeySecretType, required: true, location_name: "apiKeySecret"))
-    CoinbaseCdpConfigurationInput.add_member(:wallet_secret, Shapes::ShapeRef.new(shape: CoinbaseCdpWalletSecretType, required: true, location_name: "walletSecret"))
+    CoinbaseCdpConfigurationInput.add_member(:api_key_secret, Shapes::ShapeRef.new(shape: DefaultCoinbaseCdpApiKeySecretType, location_name: "apiKeySecret"))
+    CoinbaseCdpConfigurationInput.add_member(:api_key_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "apiKeySecretSource"))
+    CoinbaseCdpConfigurationInput.add_member(:api_key_secret_config, Shapes::ShapeRef.new(shape: SecretReference, location_name: "apiKeySecretConfig"))
+    CoinbaseCdpConfigurationInput.add_member(:wallet_secret, Shapes::ShapeRef.new(shape: DefaultCoinbaseCdpWalletSecretType, location_name: "walletSecret"))
+    CoinbaseCdpConfigurationInput.add_member(:wallet_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "walletSecretSource"))
+    CoinbaseCdpConfigurationInput.add_member(:wallet_secret_config, Shapes::ShapeRef.new(shape: SecretReference, location_name: "walletSecretConfig"))
     CoinbaseCdpConfigurationInput.struct_class = Types::CoinbaseCdpConfigurationInput
 
     CoinbaseCdpConfigurationOutput.add_member(:api_key_id, Shapes::ShapeRef.new(shape: CoinbaseCdpApiKeyIdType, required: true, location_name: "apiKeyId"))
     CoinbaseCdpConfigurationOutput.add_member(:api_key_secret_arn, Shapes::ShapeRef.new(shape: Secret, required: true, location_name: "apiKeySecretArn"))
+    CoinbaseCdpConfigurationOutput.add_member(:api_key_secret_json_key, Shapes::ShapeRef.new(shape: SecretJsonKeyType, location_name: "apiKeySecretJsonKey"))
+    CoinbaseCdpConfigurationOutput.add_member(:api_key_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "apiKeySecretSource"))
     CoinbaseCdpConfigurationOutput.add_member(:wallet_secret_arn, Shapes::ShapeRef.new(shape: Secret, required: true, location_name: "walletSecretArn"))
+    CoinbaseCdpConfigurationOutput.add_member(:wallet_secret_json_key, Shapes::ShapeRef.new(shape: SecretJsonKeyType, location_name: "walletSecretJsonKey"))
+    CoinbaseCdpConfigurationOutput.add_member(:wallet_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "walletSecretSource"))
     CoinbaseCdpConfigurationOutput.struct_class = Types::CoinbaseCdpConfigurationOutput
 
     ComponentConfiguration.add_member(:configuration, Shapes::ShapeRef.new(shape: Document, required: true, location_name: "configuration"))
@@ -1548,11 +1561,15 @@ module Aws::BedrockAgentCoreControl
     CreateAgentRuntimeResponse.struct_class = Types::CreateAgentRuntimeResponse
 
     CreateApiKeyCredentialProviderRequest.add_member(:name, Shapes::ShapeRef.new(shape: CredentialProviderName, required: true, location_name: "name"))
-    CreateApiKeyCredentialProviderRequest.add_member(:api_key, Shapes::ShapeRef.new(shape: ApiKeyType, required: true, location_name: "apiKey"))
+    CreateApiKeyCredentialProviderRequest.add_member(:api_key, Shapes::ShapeRef.new(shape: DefaultApiKeyType, location_name: "apiKey"))
+    CreateApiKeyCredentialProviderRequest.add_member(:api_key_secret_config, Shapes::ShapeRef.new(shape: SecretReference, location_name: "apiKeySecretConfig"))
+    CreateApiKeyCredentialProviderRequest.add_member(:api_key_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "apiKeySecretSource"))
     CreateApiKeyCredentialProviderRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     CreateApiKeyCredentialProviderRequest.struct_class = Types::CreateApiKeyCredentialProviderRequest
 
     CreateApiKeyCredentialProviderResponse.add_member(:api_key_secret_arn, Shapes::ShapeRef.new(shape: Secret, required: true, location_name: "apiKeySecretArn"))
+    CreateApiKeyCredentialProviderResponse.add_member(:api_key_secret_json_key, Shapes::ShapeRef.new(shape: SecretJsonKeyType, location_name: "apiKeySecretJsonKey"))
+    CreateApiKeyCredentialProviderResponse.add_member(:api_key_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "apiKeySecretSource"))
     CreateApiKeyCredentialProviderResponse.add_member(:name, Shapes::ShapeRef.new(shape: CredentialProviderName, required: true, location_name: "name"))
     CreateApiKeyCredentialProviderResponse.add_member(:credential_provider_arn, Shapes::ShapeRef.new(shape: ApiKeyCredentialProviderArnType, required: true, location_name: "credentialProviderArn"))
     CreateApiKeyCredentialProviderResponse.struct_class = Types::CreateApiKeyCredentialProviderResponse
@@ -1787,6 +1804,8 @@ module Aws::BedrockAgentCoreControl
     CreateOauth2CredentialProviderRequest.struct_class = Types::CreateOauth2CredentialProviderRequest
 
     CreateOauth2CredentialProviderResponse.add_member(:client_secret_arn, Shapes::ShapeRef.new(shape: Secret, required: true, location_name: "clientSecretArn"))
+    CreateOauth2CredentialProviderResponse.add_member(:client_secret_json_key, Shapes::ShapeRef.new(shape: SecretJsonKeyType, location_name: "clientSecretJsonKey"))
+    CreateOauth2CredentialProviderResponse.add_member(:client_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "clientSecretSource"))
     CreateOauth2CredentialProviderResponse.add_member(:name, Shapes::ShapeRef.new(shape: CredentialProviderName, required: true, location_name: "name"))
     CreateOauth2CredentialProviderResponse.add_member(:credential_provider_arn, Shapes::ShapeRef.new(shape: CredentialProviderArnType, required: true, location_name: "credentialProviderArn"))
     CreateOauth2CredentialProviderResponse.add_member(:callback_url, Shapes::ShapeRef.new(shape: String, location_name: "callbackUrl"))
@@ -2052,10 +2071,12 @@ module Aws::BedrockAgentCoreControl
     CustomOauth2ProviderConfigInput.add_member(:oauth_discovery, Shapes::ShapeRef.new(shape: Oauth2Discovery, required: true, location_name: "oauthDiscovery"))
     CustomOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: DefaultClientIdType, location_name: "clientId"))
     CustomOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: DefaultClientSecretType, location_name: "clientSecret"))
-    CustomOauth2ProviderConfigInput.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, location_name: "privateEndpoint"))
-    CustomOauth2ProviderConfigInput.add_member(:private_endpoint_overrides, Shapes::ShapeRef.new(shape: PrivateEndpointOverrides, location_name: "privateEndpointOverrides"))
+    CustomOauth2ProviderConfigInput.add_member(:client_secret_config, Shapes::ShapeRef.new(shape: SecretReference, location_name: "clientSecretConfig"))
+    CustomOauth2ProviderConfigInput.add_member(:client_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "clientSecretSource"))
     CustomOauth2ProviderConfigInput.add_member(:on_behalf_of_token_exchange_config, Shapes::ShapeRef.new(shape: OnBehalfOfTokenExchangeConfigType, location_name: "onBehalfOfTokenExchangeConfig"))
     CustomOauth2ProviderConfigInput.add_member(:client_authentication_method, Shapes::ShapeRef.new(shape: ClientAuthenticationMethodType, location_name: "clientAuthenticationMethod"))
+    CustomOauth2ProviderConfigInput.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, location_name: "privateEndpoint"))
+    CustomOauth2ProviderConfigInput.add_member(:private_endpoint_overrides, Shapes::ShapeRef.new(shape: PrivateEndpointOverrides, location_name: "privateEndpointOverrides"))
     CustomOauth2ProviderConfigInput.struct_class = Types::CustomOauth2ProviderConfigInput
 
     CustomOauth2ProviderConfigOutput.add_member(:oauth_discovery, Shapes::ShapeRef.new(shape: Oauth2Discovery, required: true, location_name: "oauthDiscovery"))
@@ -2617,6 +2638,8 @@ module Aws::BedrockAgentCoreControl
     GetApiKeyCredentialProviderRequest.struct_class = Types::GetApiKeyCredentialProviderRequest
 
     GetApiKeyCredentialProviderResponse.add_member(:api_key_secret_arn, Shapes::ShapeRef.new(shape: Secret, required: true, location_name: "apiKeySecretArn"))
+    GetApiKeyCredentialProviderResponse.add_member(:api_key_secret_json_key, Shapes::ShapeRef.new(shape: SecretJsonKeyType, location_name: "apiKeySecretJsonKey"))
+    GetApiKeyCredentialProviderResponse.add_member(:api_key_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "apiKeySecretSource"))
     GetApiKeyCredentialProviderResponse.add_member(:name, Shapes::ShapeRef.new(shape: CredentialProviderName, required: true, location_name: "name"))
     GetApiKeyCredentialProviderResponse.add_member(:credential_provider_arn, Shapes::ShapeRef.new(shape: ApiKeyCredentialProviderArnType, required: true, location_name: "credentialProviderArn"))
     GetApiKeyCredentialProviderResponse.add_member(:created_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdTime"))
@@ -2821,6 +2844,8 @@ module Aws::BedrockAgentCoreControl
     GetOauth2CredentialProviderRequest.struct_class = Types::GetOauth2CredentialProviderRequest
 
     GetOauth2CredentialProviderResponse.add_member(:client_secret_arn, Shapes::ShapeRef.new(shape: Secret, required: true, location_name: "clientSecretArn"))
+    GetOauth2CredentialProviderResponse.add_member(:client_secret_json_key, Shapes::ShapeRef.new(shape: SecretJsonKeyType, location_name: "clientSecretJsonKey"))
+    GetOauth2CredentialProviderResponse.add_member(:client_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "clientSecretSource"))
     GetOauth2CredentialProviderResponse.add_member(:name, Shapes::ShapeRef.new(shape: CredentialProviderName, required: true, location_name: "name"))
     GetOauth2CredentialProviderResponse.add_member(:credential_provider_arn, Shapes::ShapeRef.new(shape: CredentialProviderArnType, required: true, location_name: "credentialProviderArn"))
     GetOauth2CredentialProviderResponse.add_member(:credential_provider_vendor, Shapes::ShapeRef.new(shape: CredentialProviderVendorType, required: true, location_name: "credentialProviderVendor"))
@@ -3041,7 +3066,9 @@ module Aws::BedrockAgentCoreControl
     GetWorkloadIdentityResponse.struct_class = Types::GetWorkloadIdentityResponse
 
     GithubOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, required: true, location_name: "clientId"))
-    GithubOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecretType, required: true, location_name: "clientSecret"))
+    GithubOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: DefaultClientSecretType, location_name: "clientSecret"))
+    GithubOauth2ProviderConfigInput.add_member(:client_secret_config, Shapes::ShapeRef.new(shape: SecretReference, location_name: "clientSecretConfig"))
+    GithubOauth2ProviderConfigInput.add_member(:client_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "clientSecretSource"))
     GithubOauth2ProviderConfigInput.struct_class = Types::GithubOauth2ProviderConfigInput
 
     GithubOauth2ProviderConfigOutput.add_member(:oauth_discovery, Shapes::ShapeRef.new(shape: Oauth2Discovery, required: true, location_name: "oauthDiscovery"))
@@ -3049,7 +3076,9 @@ module Aws::BedrockAgentCoreControl
     GithubOauth2ProviderConfigOutput.struct_class = Types::GithubOauth2ProviderConfigOutput
 
     GoogleOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, required: true, location_name: "clientId"))
-    GoogleOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecretType, required: true, location_name: "clientSecret"))
+    GoogleOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: DefaultClientSecretType, location_name: "clientSecret"))
+    GoogleOauth2ProviderConfigInput.add_member(:client_secret_config, Shapes::ShapeRef.new(shape: SecretReference, location_name: "clientSecretConfig"))
+    GoogleOauth2ProviderConfigInput.add_member(:client_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "clientSecretSource"))
     GoogleOauth2ProviderConfigInput.struct_class = Types::GoogleOauth2ProviderConfigInput
 
     GoogleOauth2ProviderConfigOutput.add_member(:oauth_discovery, Shapes::ShapeRef.new(shape: Oauth2Discovery, required: true, location_name: "oauthDiscovery"))
@@ -3308,7 +3337,9 @@ module Aws::BedrockAgentCoreControl
     IamPrincipal.struct_class = Types::IamPrincipal
 
     IncludedOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, required: true, location_name: "clientId"))
-    IncludedOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecretType, required: true, location_name: "clientSecret"))
+    IncludedOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: DefaultClientSecretType, location_name: "clientSecret"))
+    IncludedOauth2ProviderConfigInput.add_member(:client_secret_config, Shapes::ShapeRef.new(shape: SecretReference, location_name: "clientSecretConfig"))
+    IncludedOauth2ProviderConfigInput.add_member(:client_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "clientSecretSource"))
     IncludedOauth2ProviderConfigInput.add_member(:issuer, Shapes::ShapeRef.new(shape: IssuerUrlType, location_name: "issuer"))
     IncludedOauth2ProviderConfigInput.add_member(:authorization_endpoint, Shapes::ShapeRef.new(shape: AuthorizationEndpointType, location_name: "authorizationEndpoint"))
     IncludedOauth2ProviderConfigInput.add_member(:token_endpoint, Shapes::ShapeRef.new(shape: TokenEndpointType, location_name: "tokenEndpoint"))
@@ -3379,7 +3410,9 @@ module Aws::BedrockAgentCoreControl
     LifecycleConfiguration.struct_class = Types::LifecycleConfiguration
 
     LinkedinOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, required: true, location_name: "clientId"))
-    LinkedinOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecretType, required: true, location_name: "clientSecret"))
+    LinkedinOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: DefaultClientSecretType, location_name: "clientSecret"))
+    LinkedinOauth2ProviderConfigInput.add_member(:client_secret_config, Shapes::ShapeRef.new(shape: SecretReference, location_name: "clientSecretConfig"))
+    LinkedinOauth2ProviderConfigInput.add_member(:client_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "clientSecretSource"))
     LinkedinOauth2ProviderConfigInput.struct_class = Types::LinkedinOauth2ProviderConfigInput
 
     LinkedinOauth2ProviderConfigOutput.add_member(:oauth_discovery, Shapes::ShapeRef.new(shape: Oauth2Discovery, required: true, location_name: "oauthDiscovery"))
@@ -3850,7 +3883,9 @@ module Aws::BedrockAgentCoreControl
     MetadataSchemaList.member = Shapes::ShapeRef.new(shape: MetadataSchemaEntry)
 
     MicrosoftOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, required: true, location_name: "clientId"))
-    MicrosoftOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecretType, required: true, location_name: "clientSecret"))
+    MicrosoftOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: DefaultClientSecretType, location_name: "clientSecret"))
+    MicrosoftOauth2ProviderConfigInput.add_member(:client_secret_config, Shapes::ShapeRef.new(shape: SecretReference, location_name: "clientSecretConfig"))
+    MicrosoftOauth2ProviderConfigInput.add_member(:client_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "clientSecretSource"))
     MicrosoftOauth2ProviderConfigInput.add_member(:tenant_id, Shapes::ShapeRef.new(shape: TenantIdType, location_name: "tenantId"))
     MicrosoftOauth2ProviderConfigInput.struct_class = Types::MicrosoftOauth2ProviderConfigInput
 
@@ -4346,7 +4381,9 @@ module Aws::BedrockAgentCoreControl
     S3Source.struct_class = Types::S3Source
 
     SalesforceOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, required: true, location_name: "clientId"))
-    SalesforceOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecretType, required: true, location_name: "clientSecret"))
+    SalesforceOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: DefaultClientSecretType, location_name: "clientSecret"))
+    SalesforceOauth2ProviderConfigInput.add_member(:client_secret_config, Shapes::ShapeRef.new(shape: SecretReference, location_name: "clientSecretConfig"))
+    SalesforceOauth2ProviderConfigInput.add_member(:client_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "clientSecretSource"))
     SalesforceOauth2ProviderConfigInput.struct_class = Types::SalesforceOauth2ProviderConfigInput
 
     SalesforceOauth2ProviderConfigOutput.add_member(:oauth_discovery, Shapes::ShapeRef.new(shape: Oauth2Discovery, required: true, location_name: "oauthDiscovery"))
@@ -4372,6 +4409,10 @@ module Aws::BedrockAgentCoreControl
 
     Secret.add_member(:secret_arn, Shapes::ShapeRef.new(shape: SecretArn, required: true, location_name: "secretArn"))
     Secret.struct_class = Types::Secret
+
+    SecretReference.add_member(:secret_id, Shapes::ShapeRef.new(shape: SecretIdType, required: true, location_name: "secretId"))
+    SecretReference.add_member(:json_key, Shapes::ShapeRef.new(shape: SecretJsonKeyType, required: true, location_name: "jsonKey"))
+    SecretReference.struct_class = Types::SecretReference
 
     SecretsManagerLocation.add_member(:secret_arn, Shapes::ShapeRef.new(shape: ToolSecretArn, required: true, location_name: "secretArn"))
     SecretsManagerLocation.struct_class = Types::SecretsManagerLocation
@@ -4459,7 +4500,9 @@ module Aws::BedrockAgentCoreControl
     SkillMdDefinition.struct_class = Types::SkillMdDefinition
 
     SlackOauth2ProviderConfigInput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, required: true, location_name: "clientId"))
-    SlackOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecretType, required: true, location_name: "clientSecret"))
+    SlackOauth2ProviderConfigInput.add_member(:client_secret, Shapes::ShapeRef.new(shape: DefaultClientSecretType, location_name: "clientSecret"))
+    SlackOauth2ProviderConfigInput.add_member(:client_secret_config, Shapes::ShapeRef.new(shape: SecretReference, location_name: "clientSecretConfig"))
+    SlackOauth2ProviderConfigInput.add_member(:client_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "clientSecretSource"))
     SlackOauth2ProviderConfigInput.struct_class = Types::SlackOauth2ProviderConfigInput
 
     SlackOauth2ProviderConfigOutput.add_member(:oauth_discovery, Shapes::ShapeRef.new(shape: Oauth2Discovery, required: true, location_name: "oauthDiscovery"))
@@ -4523,14 +4566,22 @@ module Aws::BedrockAgentCoreControl
     StringValidation.struct_class = Types::StringValidation
 
     StripePrivyConfigurationInput.add_member(:app_id, Shapes::ShapeRef.new(shape: StripePrivyAppIdType, required: true, location_name: "appId"))
-    StripePrivyConfigurationInput.add_member(:app_secret, Shapes::ShapeRef.new(shape: StripePrivyAppSecretType, required: true, location_name: "appSecret"))
-    StripePrivyConfigurationInput.add_member(:authorization_private_key, Shapes::ShapeRef.new(shape: StripePrivyAuthorizationPrivateKeyType, required: true, location_name: "authorizationPrivateKey"))
+    StripePrivyConfigurationInput.add_member(:app_secret, Shapes::ShapeRef.new(shape: DefaultStripePrivyAppSecretType, location_name: "appSecret"))
+    StripePrivyConfigurationInput.add_member(:app_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "appSecretSource"))
+    StripePrivyConfigurationInput.add_member(:app_secret_config, Shapes::ShapeRef.new(shape: SecretReference, location_name: "appSecretConfig"))
+    StripePrivyConfigurationInput.add_member(:authorization_private_key, Shapes::ShapeRef.new(shape: DefaultStripePrivyAuthorizationPrivateKeyType, location_name: "authorizationPrivateKey"))
+    StripePrivyConfigurationInput.add_member(:authorization_private_key_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "authorizationPrivateKeySource"))
+    StripePrivyConfigurationInput.add_member(:authorization_private_key_config, Shapes::ShapeRef.new(shape: SecretReference, location_name: "authorizationPrivateKeyConfig"))
     StripePrivyConfigurationInput.add_member(:authorization_id, Shapes::ShapeRef.new(shape: StripePrivyAuthorizationIdType, required: true, location_name: "authorizationId"))
     StripePrivyConfigurationInput.struct_class = Types::StripePrivyConfigurationInput
 
     StripePrivyConfigurationOutput.add_member(:app_id, Shapes::ShapeRef.new(shape: StripePrivyAppIdType, required: true, location_name: "appId"))
     StripePrivyConfigurationOutput.add_member(:app_secret_arn, Shapes::ShapeRef.new(shape: Secret, required: true, location_name: "appSecretArn"))
+    StripePrivyConfigurationOutput.add_member(:app_secret_json_key, Shapes::ShapeRef.new(shape: SecretJsonKeyType, location_name: "appSecretJsonKey"))
+    StripePrivyConfigurationOutput.add_member(:app_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "appSecretSource"))
     StripePrivyConfigurationOutput.add_member(:authorization_private_key_arn, Shapes::ShapeRef.new(shape: Secret, required: true, location_name: "authorizationPrivateKeyArn"))
+    StripePrivyConfigurationOutput.add_member(:authorization_private_key_json_key, Shapes::ShapeRef.new(shape: SecretJsonKeyType, location_name: "authorizationPrivateKeyJsonKey"))
+    StripePrivyConfigurationOutput.add_member(:authorization_private_key_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "authorizationPrivateKeySource"))
     StripePrivyConfigurationOutput.add_member(:authorization_id, Shapes::ShapeRef.new(shape: StripePrivyAuthorizationIdType, required: true, location_name: "authorizationId"))
     StripePrivyConfigurationOutput.struct_class = Types::StripePrivyConfigurationOutput
 
@@ -4753,10 +4804,14 @@ module Aws::BedrockAgentCoreControl
     UpdateAgentRuntimeResponse.struct_class = Types::UpdateAgentRuntimeResponse
 
     UpdateApiKeyCredentialProviderRequest.add_member(:name, Shapes::ShapeRef.new(shape: CredentialProviderName, required: true, location_name: "name"))
-    UpdateApiKeyCredentialProviderRequest.add_member(:api_key, Shapes::ShapeRef.new(shape: ApiKeyType, required: true, location_name: "apiKey"))
+    UpdateApiKeyCredentialProviderRequest.add_member(:api_key, Shapes::ShapeRef.new(shape: DefaultApiKeyType, location_name: "apiKey"))
+    UpdateApiKeyCredentialProviderRequest.add_member(:api_key_secret_config, Shapes::ShapeRef.new(shape: SecretReference, location_name: "apiKeySecretConfig"))
+    UpdateApiKeyCredentialProviderRequest.add_member(:api_key_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "apiKeySecretSource"))
     UpdateApiKeyCredentialProviderRequest.struct_class = Types::UpdateApiKeyCredentialProviderRequest
 
     UpdateApiKeyCredentialProviderResponse.add_member(:api_key_secret_arn, Shapes::ShapeRef.new(shape: Secret, required: true, location_name: "apiKeySecretArn"))
+    UpdateApiKeyCredentialProviderResponse.add_member(:api_key_secret_json_key, Shapes::ShapeRef.new(shape: SecretJsonKeyType, location_name: "apiKeySecretJsonKey"))
+    UpdateApiKeyCredentialProviderResponse.add_member(:api_key_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "apiKeySecretSource"))
     UpdateApiKeyCredentialProviderResponse.add_member(:name, Shapes::ShapeRef.new(shape: CredentialProviderName, required: true, location_name: "name"))
     UpdateApiKeyCredentialProviderResponse.add_member(:credential_provider_arn, Shapes::ShapeRef.new(shape: ApiKeyCredentialProviderArnType, required: true, location_name: "credentialProviderArn"))
     UpdateApiKeyCredentialProviderResponse.add_member(:created_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdTime"))
@@ -4942,6 +4997,8 @@ module Aws::BedrockAgentCoreControl
     UpdateOauth2CredentialProviderRequest.struct_class = Types::UpdateOauth2CredentialProviderRequest
 
     UpdateOauth2CredentialProviderResponse.add_member(:client_secret_arn, Shapes::ShapeRef.new(shape: Secret, required: true, location_name: "clientSecretArn"))
+    UpdateOauth2CredentialProviderResponse.add_member(:client_secret_json_key, Shapes::ShapeRef.new(shape: SecretJsonKeyType, location_name: "clientSecretJsonKey"))
+    UpdateOauth2CredentialProviderResponse.add_member(:client_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "clientSecretSource"))
     UpdateOauth2CredentialProviderResponse.add_member(:name, Shapes::ShapeRef.new(shape: CredentialProviderName, required: true, location_name: "name"))
     UpdateOauth2CredentialProviderResponse.add_member(:credential_provider_vendor, Shapes::ShapeRef.new(shape: CredentialProviderVendorType, required: true, location_name: "credentialProviderVendor"))
     UpdateOauth2CredentialProviderResponse.add_member(:credential_provider_arn, Shapes::ShapeRef.new(shape: CredentialProviderArnType, required: true, location_name: "credentialProviderArn"))

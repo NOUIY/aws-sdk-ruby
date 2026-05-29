@@ -497,6 +497,8 @@ module Aws::QuickSight
     CreateIngestionResponse = Shapes::StructureShape.new(name: 'CreateIngestionResponse')
     CreateNamespaceRequest = Shapes::StructureShape.new(name: 'CreateNamespaceRequest')
     CreateNamespaceResponse = Shapes::StructureShape.new(name: 'CreateNamespaceResponse')
+    CreateOAuthClientApplicationRequest = Shapes::StructureShape.new(name: 'CreateOAuthClientApplicationRequest')
+    CreateOAuthClientApplicationResponse = Shapes::StructureShape.new(name: 'CreateOAuthClientApplicationResponse')
     CreateRefreshScheduleRequest = Shapes::StructureShape.new(name: 'CreateRefreshScheduleRequest')
     CreateRefreshScheduleResponse = Shapes::StructureShape.new(name: 'CreateRefreshScheduleResponse')
     CreateRoleMembershipRequest = Shapes::StructureShape.new(name: 'CreateRoleMembershipRequest')
@@ -777,6 +779,8 @@ module Aws::QuickSight
     DeleteIdentityPropagationConfigResponse = Shapes::StructureShape.new(name: 'DeleteIdentityPropagationConfigResponse')
     DeleteNamespaceRequest = Shapes::StructureShape.new(name: 'DeleteNamespaceRequest')
     DeleteNamespaceResponse = Shapes::StructureShape.new(name: 'DeleteNamespaceResponse')
+    DeleteOAuthClientApplicationRequest = Shapes::StructureShape.new(name: 'DeleteOAuthClientApplicationRequest')
+    DeleteOAuthClientApplicationResponse = Shapes::StructureShape.new(name: 'DeleteOAuthClientApplicationResponse')
     DeleteRefreshScheduleRequest = Shapes::StructureShape.new(name: 'DeleteRefreshScheduleRequest')
     DeleteRefreshScheduleResponse = Shapes::StructureShape.new(name: 'DeleteRefreshScheduleResponse')
     DeleteRoleCustomPermissionRequest = Shapes::StructureShape.new(name: 'DeleteRoleCustomPermissionRequest')
@@ -880,6 +884,8 @@ module Aws::QuickSight
     DescribeKeyRegistrationResponse = Shapes::StructureShape.new(name: 'DescribeKeyRegistrationResponse')
     DescribeNamespaceRequest = Shapes::StructureShape.new(name: 'DescribeNamespaceRequest')
     DescribeNamespaceResponse = Shapes::StructureShape.new(name: 'DescribeNamespaceResponse')
+    DescribeOAuthClientApplicationRequest = Shapes::StructureShape.new(name: 'DescribeOAuthClientApplicationRequest')
+    DescribeOAuthClientApplicationResponse = Shapes::StructureShape.new(name: 'DescribeOAuthClientApplicationResponse')
     DescribeQPersonalizationConfigurationRequest = Shapes::StructureShape.new(name: 'DescribeQPersonalizationConfigurationRequest')
     DescribeQPersonalizationConfigurationResponse = Shapes::StructureShape.new(name: 'DescribeQPersonalizationConfigurationResponse')
     DescribeQuickSightQSearchConfigurationRequest = Shapes::StructureShape.new(name: 'DescribeQuickSightQSearchConfigurationRequest')
@@ -1403,6 +1409,8 @@ module Aws::QuickSight
     ListIngestionsResponse = Shapes::StructureShape.new(name: 'ListIngestionsResponse')
     ListNamespacesRequest = Shapes::StructureShape.new(name: 'ListNamespacesRequest')
     ListNamespacesResponse = Shapes::StructureShape.new(name: 'ListNamespacesResponse')
+    ListOAuthClientApplicationsRequest = Shapes::StructureShape.new(name: 'ListOAuthClientApplicationsRequest')
+    ListOAuthClientApplicationsResponse = Shapes::StructureShape.new(name: 'ListOAuthClientApplicationsResponse')
     ListRefreshSchedulesRequest = Shapes::StructureShape.new(name: 'ListRefreshSchedulesRequest')
     ListRefreshSchedulesResponse = Shapes::StructureShape.new(name: 'ListRefreshSchedulesResponse')
     ListRoleMembershipsRequest = Shapes::StructureShape.new(name: 'ListRoleMembershipsRequest')
@@ -1524,11 +1532,19 @@ module Aws::QuickSight
     NumericalAggregationFunction = Shapes::StructureShape.new(name: 'NumericalAggregationFunction')
     NumericalDimensionField = Shapes::StructureShape.new(name: 'NumericalDimensionField')
     NumericalMeasureField = Shapes::StructureShape.new(name: 'NumericalMeasureField')
+    OAuthAuthorizationEndpointUrl = Shapes::StringShape.new(name: 'OAuthAuthorizationEndpointUrl')
+    OAuthClientApplication = Shapes::StructureShape.new(name: 'OAuthClientApplication')
+    OAuthClientApplicationId = Shapes::StringShape.new(name: 'OAuthClientApplicationId')
+    OAuthClientApplicationSummary = Shapes::StructureShape.new(name: 'OAuthClientApplicationSummary')
+    OAuthClientApplicationSummaryList = Shapes::ListShape.new(name: 'OAuthClientApplicationSummaryList')
+    OAuthClientAuthenticationType = Shapes::StringShape.new(name: 'OAuthClientAuthenticationType')
     OAuthClientCredentials = Shapes::StructureShape.new(name: 'OAuthClientCredentials')
     OAuthClientId = Shapes::StringShape.new(name: 'OAuthClientId')
     OAuthClientSecret = Shapes::StringShape.new(name: 'OAuthClientSecret')
     OAuthParameters = Shapes::StructureShape.new(name: 'OAuthParameters')
     OAuthScope = Shapes::StringShape.new(name: 'OAuthScope')
+    OAuthScopesString = Shapes::StringShape.new(name: 'OAuthScopesString')
+    OAuthTokenEndpointUrl = Shapes::StringShape.new(name: 'OAuthTokenEndpointUrl')
     OAuthUsername = Shapes::StringShape.new(name: 'OAuthUsername')
     OnClause = Shapes::StringShape.new(name: 'OnClause')
     Opacity = Shapes::FloatShape.new(name: 'Opacity')
@@ -2354,6 +2370,8 @@ module Aws::QuickSight
     UpdateKeyRegistrationRequest = Shapes::StructureShape.new(name: 'UpdateKeyRegistrationRequest')
     UpdateKeyRegistrationResponse = Shapes::StructureShape.new(name: 'UpdateKeyRegistrationResponse')
     UpdateLinkPermissionList = Shapes::ListShape.new(name: 'UpdateLinkPermissionList')
+    UpdateOAuthClientApplicationRequest = Shapes::StructureShape.new(name: 'UpdateOAuthClientApplicationRequest')
+    UpdateOAuthClientApplicationResponse = Shapes::StructureShape.new(name: 'UpdateOAuthClientApplicationResponse')
     UpdatePublicSharingSettingsRequest = Shapes::StructureShape.new(name: 'UpdatePublicSharingSettingsRequest')
     UpdatePublicSharingSettingsResponse = Shapes::StructureShape.new(name: 'UpdatePublicSharingSettingsResponse')
     UpdateQPersonalizationConfigurationRequest = Shapes::StructureShape.new(name: 'UpdateQPersonalizationConfigurationRequest')
@@ -4388,6 +4406,27 @@ module Aws::QuickSight
     CreateNamespaceResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
     CreateNamespaceResponse.struct_class = Types::CreateNamespaceResponse
 
+    CreateOAuthClientApplicationRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    CreateOAuthClientApplicationRequest.add_member(:o_auth_client_application_id, Shapes::ShapeRef.new(shape: OAuthClientApplicationId, required: true, location_name: "OAuthClientApplicationId"))
+    CreateOAuthClientApplicationRequest.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "Name"))
+    CreateOAuthClientApplicationRequest.add_member(:o_auth_client_authentication_type, Shapes::ShapeRef.new(shape: OAuthClientAuthenticationType, required: true, location_name: "OAuthClientAuthenticationType"))
+    CreateOAuthClientApplicationRequest.add_member(:client_id, Shapes::ShapeRef.new(shape: OAuthClientId, required: true, location_name: "ClientId"))
+    CreateOAuthClientApplicationRequest.add_member(:client_secret, Shapes::ShapeRef.new(shape: OAuthClientSecret, required: true, location_name: "ClientSecret"))
+    CreateOAuthClientApplicationRequest.add_member(:o_auth_token_endpoint_url, Shapes::ShapeRef.new(shape: OAuthTokenEndpointUrl, required: true, location_name: "OAuthTokenEndpointUrl"))
+    CreateOAuthClientApplicationRequest.add_member(:o_auth_authorization_endpoint_url, Shapes::ShapeRef.new(shape: OAuthAuthorizationEndpointUrl, location_name: "OAuthAuthorizationEndpointUrl"))
+    CreateOAuthClientApplicationRequest.add_member(:o_auth_scopes, Shapes::ShapeRef.new(shape: OAuthScopesString, location_name: "OAuthScopes"))
+    CreateOAuthClientApplicationRequest.add_member(:data_source_type, Shapes::ShapeRef.new(shape: DataSourceType, location_name: "DataSourceType"))
+    CreateOAuthClientApplicationRequest.add_member(:identity_provider_vpc_connection_properties, Shapes::ShapeRef.new(shape: VpcConnectionProperties, location_name: "IdentityProviderVpcConnectionProperties"))
+    CreateOAuthClientApplicationRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateOAuthClientApplicationRequest.struct_class = Types::CreateOAuthClientApplicationRequest
+
+    CreateOAuthClientApplicationResponse.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, location_name: "Arn"))
+    CreateOAuthClientApplicationResponse.add_member(:o_auth_client_application_id, Shapes::ShapeRef.new(shape: OAuthClientApplicationId, location_name: "OAuthClientApplicationId"))
+    CreateOAuthClientApplicationResponse.add_member(:creation_status, Shapes::ShapeRef.new(shape: ResourceStatus, location_name: "CreationStatus"))
+    CreateOAuthClientApplicationResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    CreateOAuthClientApplicationResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
+    CreateOAuthClientApplicationResponse.struct_class = Types::CreateOAuthClientApplicationResponse
+
     CreateRefreshScheduleRequest.add_member(:data_set_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "DataSetId"))
     CreateRefreshScheduleRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     CreateRefreshScheduleRequest.add_member(:schedule, Shapes::ShapeRef.new(shape: RefreshSchedule, required: true, location_name: "Schedule"))
@@ -5499,6 +5538,16 @@ module Aws::QuickSight
     DeleteNamespaceResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
     DeleteNamespaceResponse.struct_class = Types::DeleteNamespaceResponse
 
+    DeleteOAuthClientApplicationRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    DeleteOAuthClientApplicationRequest.add_member(:o_auth_client_application_id, Shapes::ShapeRef.new(shape: OAuthClientApplicationId, required: true, location: "uri", location_name: "OAuthClientApplicationId"))
+    DeleteOAuthClientApplicationRequest.struct_class = Types::DeleteOAuthClientApplicationRequest
+
+    DeleteOAuthClientApplicationResponse.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, location_name: "Arn"))
+    DeleteOAuthClientApplicationResponse.add_member(:o_auth_client_application_id, Shapes::ShapeRef.new(shape: OAuthClientApplicationId, location_name: "OAuthClientApplicationId"))
+    DeleteOAuthClientApplicationResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    DeleteOAuthClientApplicationResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
+    DeleteOAuthClientApplicationResponse.struct_class = Types::DeleteOAuthClientApplicationResponse
+
     DeleteRefreshScheduleRequest.add_member(:data_set_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "DataSetId"))
     DeleteRefreshScheduleRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     DeleteRefreshScheduleRequest.add_member(:schedule_id, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "ScheduleId"))
@@ -6077,6 +6126,15 @@ module Aws::QuickSight
     DescribeNamespaceResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     DescribeNamespaceResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
     DescribeNamespaceResponse.struct_class = Types::DescribeNamespaceResponse
+
+    DescribeOAuthClientApplicationRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    DescribeOAuthClientApplicationRequest.add_member(:o_auth_client_application_id, Shapes::ShapeRef.new(shape: OAuthClientApplicationId, required: true, location: "uri", location_name: "OAuthClientApplicationId"))
+    DescribeOAuthClientApplicationRequest.struct_class = Types::DescribeOAuthClientApplicationRequest
+
+    DescribeOAuthClientApplicationResponse.add_member(:o_auth_client_application, Shapes::ShapeRef.new(shape: OAuthClientApplication, location_name: "OAuthClientApplication"))
+    DescribeOAuthClientApplicationResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    DescribeOAuthClientApplicationResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
+    DescribeOAuthClientApplicationResponse.struct_class = Types::DescribeOAuthClientApplicationResponse
 
     DescribeQPersonalizationConfigurationRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     DescribeQPersonalizationConfigurationRequest.struct_class = Types::DescribeQPersonalizationConfigurationRequest
@@ -8077,6 +8135,17 @@ module Aws::QuickSight
     ListNamespacesResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
     ListNamespacesResponse.struct_class = Types::ListNamespacesResponse
 
+    ListOAuthClientApplicationsRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    ListOAuthClientApplicationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "next-token"))
+    ListOAuthClientApplicationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "max-results", metadata: {"box" => true}))
+    ListOAuthClientApplicationsRequest.struct_class = Types::ListOAuthClientApplicationsRequest
+
+    ListOAuthClientApplicationsResponse.add_member(:o_auth_client_applications, Shapes::ShapeRef.new(shape: OAuthClientApplicationSummaryList, location_name: "OAuthClientApplications"))
+    ListOAuthClientApplicationsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
+    ListOAuthClientApplicationsResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    ListOAuthClientApplicationsResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
+    ListOAuthClientApplicationsResponse.struct_class = Types::ListOAuthClientApplicationsResponse
+
     ListRefreshSchedulesRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     ListRefreshSchedulesRequest.add_member(:data_set_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "DataSetId"))
     ListRefreshSchedulesRequest.struct_class = Types::ListRefreshSchedulesRequest
@@ -8506,6 +8575,31 @@ module Aws::QuickSight
     NumericalMeasureField.add_member(:aggregation_function, Shapes::ShapeRef.new(shape: NumericalAggregationFunction, location_name: "AggregationFunction"))
     NumericalMeasureField.add_member(:format_configuration, Shapes::ShapeRef.new(shape: NumberFormatConfiguration, location_name: "FormatConfiguration"))
     NumericalMeasureField.struct_class = Types::NumericalMeasureField
+
+    OAuthClientApplication.add_member(:o_auth_client_application_id, Shapes::ShapeRef.new(shape: OAuthClientApplicationId, location_name: "OAuthClientApplicationId"))
+    OAuthClientApplication.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "Name"))
+    OAuthClientApplication.add_member(:o_auth_client_authentication_type, Shapes::ShapeRef.new(shape: OAuthClientAuthenticationType, location_name: "OAuthClientAuthenticationType"))
+    OAuthClientApplication.add_member(:o_auth_token_endpoint_url, Shapes::ShapeRef.new(shape: OAuthTokenEndpointUrl, location_name: "OAuthTokenEndpointUrl"))
+    OAuthClientApplication.add_member(:o_auth_authorization_endpoint_url, Shapes::ShapeRef.new(shape: OAuthAuthorizationEndpointUrl, location_name: "OAuthAuthorizationEndpointUrl"))
+    OAuthClientApplication.add_member(:o_auth_scopes, Shapes::ShapeRef.new(shape: OAuthScopesString, location_name: "OAuthScopes"))
+    OAuthClientApplication.add_member(:data_source_type, Shapes::ShapeRef.new(shape: DataSourceType, location_name: "DataSourceType"))
+    OAuthClientApplication.add_member(:identity_provider_vpc_connection_properties, Shapes::ShapeRef.new(shape: VpcConnectionProperties, location_name: "IdentityProviderVpcConnectionProperties"))
+    OAuthClientApplication.add_member(:created_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreatedTime"))
+    OAuthClientApplication.add_member(:last_updated_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastUpdatedTime"))
+    OAuthClientApplication.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, location_name: "Arn"))
+    OAuthClientApplication.struct_class = Types::OAuthClientApplication
+
+    OAuthClientApplicationSummary.add_member(:o_auth_client_application_id, Shapes::ShapeRef.new(shape: OAuthClientApplicationId, location_name: "OAuthClientApplicationId"))
+    OAuthClientApplicationSummary.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "Name"))
+    OAuthClientApplicationSummary.add_member(:o_auth_client_authentication_type, Shapes::ShapeRef.new(shape: OAuthClientAuthenticationType, location_name: "OAuthClientAuthenticationType"))
+    OAuthClientApplicationSummary.add_member(:data_source_type, Shapes::ShapeRef.new(shape: DataSourceType, location_name: "DataSourceType"))
+    OAuthClientApplicationSummary.add_member(:identity_provider_vpc_connection_properties, Shapes::ShapeRef.new(shape: VpcConnectionProperties, location_name: "IdentityProviderVpcConnectionProperties"))
+    OAuthClientApplicationSummary.add_member(:created_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreatedTime"))
+    OAuthClientApplicationSummary.add_member(:last_updated_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastUpdatedTime"))
+    OAuthClientApplicationSummary.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, location_name: "Arn"))
+    OAuthClientApplicationSummary.struct_class = Types::OAuthClientApplicationSummary
+
+    OAuthClientApplicationSummaryList.member = Shapes::ShapeRef.new(shape: OAuthClientApplicationSummary)
 
     OAuthClientCredentials.add_member(:client_id, Shapes::ShapeRef.new(shape: OAuthClientId, location_name: "ClientId"))
     OAuthClientCredentials.add_member(:client_secret, Shapes::ShapeRef.new(shape: OAuthClientSecret, location_name: "ClientSecret"))
@@ -11510,6 +11604,25 @@ module Aws::QuickSight
 
     UpdateLinkPermissionList.member = Shapes::ShapeRef.new(shape: ResourcePermission)
 
+    UpdateOAuthClientApplicationRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    UpdateOAuthClientApplicationRequest.add_member(:o_auth_client_application_id, Shapes::ShapeRef.new(shape: OAuthClientApplicationId, required: true, location: "uri", location_name: "OAuthClientApplicationId"))
+    UpdateOAuthClientApplicationRequest.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "Name"))
+    UpdateOAuthClientApplicationRequest.add_member(:client_id, Shapes::ShapeRef.new(shape: OAuthClientId, location_name: "ClientId"))
+    UpdateOAuthClientApplicationRequest.add_member(:client_secret, Shapes::ShapeRef.new(shape: OAuthClientSecret, location_name: "ClientSecret"))
+    UpdateOAuthClientApplicationRequest.add_member(:o_auth_token_endpoint_url, Shapes::ShapeRef.new(shape: OAuthTokenEndpointUrl, location_name: "OAuthTokenEndpointUrl"))
+    UpdateOAuthClientApplicationRequest.add_member(:o_auth_authorization_endpoint_url, Shapes::ShapeRef.new(shape: OAuthAuthorizationEndpointUrl, location_name: "OAuthAuthorizationEndpointUrl"))
+    UpdateOAuthClientApplicationRequest.add_member(:o_auth_scopes, Shapes::ShapeRef.new(shape: OAuthScopesString, location_name: "OAuthScopes"))
+    UpdateOAuthClientApplicationRequest.add_member(:data_source_type, Shapes::ShapeRef.new(shape: DataSourceType, location_name: "DataSourceType"))
+    UpdateOAuthClientApplicationRequest.add_member(:identity_provider_vpc_connection_properties, Shapes::ShapeRef.new(shape: VpcConnectionProperties, location_name: "IdentityProviderVpcConnectionProperties"))
+    UpdateOAuthClientApplicationRequest.struct_class = Types::UpdateOAuthClientApplicationRequest
+
+    UpdateOAuthClientApplicationResponse.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, location_name: "Arn"))
+    UpdateOAuthClientApplicationResponse.add_member(:o_auth_client_application_id, Shapes::ShapeRef.new(shape: OAuthClientApplicationId, location_name: "OAuthClientApplicationId"))
+    UpdateOAuthClientApplicationResponse.add_member(:update_status, Shapes::ShapeRef.new(shape: ResourceStatus, location_name: "UpdateStatus"))
+    UpdateOAuthClientApplicationResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    UpdateOAuthClientApplicationResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
+    UpdateOAuthClientApplicationResponse.struct_class = Types::UpdateOAuthClientApplicationResponse
+
     UpdatePublicSharingSettingsRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     UpdatePublicSharingSettingsRequest.add_member(:public_sharing_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "PublicSharingEnabled"))
     UpdatePublicSharingSettingsRequest.struct_class = Types::UpdatePublicSharingSettingsRequest
@@ -12358,6 +12471,22 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: ResourceUnavailableException)
       end)
 
+      api.add_operation(:create_o_auth_client_application, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateOAuthClientApplication"
+        o.http_method = "POST"
+        o.http_request_uri = "/accounts/{AwsAccountId}/oauth-client-applications"
+        o.input = Shapes::ShapeRef.new(shape: CreateOAuthClientApplicationRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateOAuthClientApplicationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceExistsException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+      end)
+
       api.add_operation(:create_refresh_schedule, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateRefreshSchedule"
         o.http_method = "POST"
@@ -12788,6 +12917,20 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceUnavailableException)
+      end)
+
+      api.add_operation(:delete_o_auth_client_application, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteOAuthClientApplication"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/accounts/{AwsAccountId}/oauth-client-applications/{OAuthClientApplicationId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteOAuthClientApplicationRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteOAuthClientApplicationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
       end)
 
       api.add_operation(:delete_refresh_schedule, Seahorse::Model::Operation.new.tap do |o|
@@ -13514,6 +13657,19 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceUnavailableException)
+      end)
+
+      api.add_operation(:describe_o_auth_client_application, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeOAuthClientApplication"
+        o.http_method = "GET"
+        o.http_request_uri = "/accounts/{AwsAccountId}/oauth-client-applications/{OAuthClientApplicationId}"
+        o.input = Shapes::ShapeRef.new(shape: DescribeOAuthClientApplicationRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeOAuthClientApplicationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
       end)
 
       api.add_operation(:describe_q_personalization_configuration, Seahorse::Model::Operation.new.tap do |o|
@@ -14303,6 +14459,26 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceUnavailableException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_o_auth_client_applications, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListOAuthClientApplications"
+        o.http_method = "GET"
+        o.http_request_uri = "/accounts/{AwsAccountId}/oauth-client-applications"
+        o.input = Shapes::ShapeRef.new(shape: ListOAuthClientApplicationsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListOAuthClientApplicationsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidNextTokenException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -15379,6 +15555,21 @@ module Aws::QuickSight
         o.output = Shapes::ShapeRef.new(shape: UpdateKeyRegistrationResponse)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+      end)
+
+      api.add_operation(:update_o_auth_client_application, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateOAuthClientApplication"
+        o.http_method = "PUT"
+        o.http_request_uri = "/accounts/{AwsAccountId}/oauth-client-applications/{OAuthClientApplicationId}"
+        o.input = Shapes::ShapeRef.new(shape: UpdateOAuthClientApplicationRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateOAuthClientApplicationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
       end)

@@ -555,11 +555,26 @@ module Aws::BedrockAgentCoreControl
     #   authenticate your application.
     #   @return [String]
     #
+    # @!attribute [rw] client_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the client
+    #   secret. This includes the secret ID and the JSON key used to extract
+    #   the client secret value from the secret. Required when
+    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   @return [Types::SecretReference]
+    #
+    # @!attribute [rw] client_secret_source
+    #   The source type of the client secret for the Atlassian OAuth2
+    #   provider. Use `MANAGED` if the secret is managed by the service, or
+    #   `EXTERNAL` if you manage the secret yourself in AWS Secrets Manager.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/AtlassianOauth2ProviderConfigInput AWS API Documentation
     #
     class AtlassianOauth2ProviderConfigInput < Struct.new(
       :client_id,
-      :client_secret)
+      :client_secret,
+      :client_secret_config,
+      :client_secret_source)
       SENSITIVE = [:client_secret]
       include Aws::Structure
     end
@@ -1181,16 +1196,46 @@ module Aws::BedrockAgentCoreControl
     #   The API key secret provided by Coinbase Developer Platform.
     #   @return [String]
     #
+    # @!attribute [rw] api_key_secret_source
+    #   The source type of the API key secret for the Coinbase Developer
+    #   Platform. Use `MANAGED` if the secret is managed by the service, or
+    #   `EXTERNAL` if you manage the secret yourself in AWS Secrets Manager.
+    #   @return [String]
+    #
+    # @!attribute [rw] api_key_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the API
+    #   key secret. This includes the secret ID and the JSON key used to
+    #   extract the API key secret value from the secret. Required when
+    #   `apiKeySecretSource` is set to `EXTERNAL`.
+    #   @return [Types::SecretReference]
+    #
     # @!attribute [rw] wallet_secret
     #   The wallet secret provided by Coinbase Developer Platform.
     #   @return [String]
+    #
+    # @!attribute [rw] wallet_secret_source
+    #   The source type of the wallet secret for the Coinbase Developer
+    #   Platform. Use `MANAGED` if the secret is managed by the service, or
+    #   `EXTERNAL` if you manage the secret yourself in AWS Secrets Manager.
+    #   @return [String]
+    #
+    # @!attribute [rw] wallet_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the wallet
+    #   secret. This includes the secret ID and the JSON key used to extract
+    #   the wallet secret value from the secret. Required when
+    #   `walletSecretSource` is set to `EXTERNAL`.
+    #   @return [Types::SecretReference]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CoinbaseCdpConfigurationInput AWS API Documentation
     #
     class CoinbaseCdpConfigurationInput < Struct.new(
       :api_key_id,
       :api_key_secret,
-      :wallet_secret)
+      :api_key_secret_source,
+      :api_key_secret_config,
+      :wallet_secret,
+      :wallet_secret_source,
+      :wallet_secret_config)
       SENSITIVE = [:api_key_secret, :wallet_secret]
       include Aws::Structure
     end
@@ -1205,16 +1250,42 @@ module Aws::BedrockAgentCoreControl
     #   Contains information about a secret in AWS Secrets Manager.
     #   @return [Types::Secret]
     #
+    # @!attribute [rw] api_key_secret_json_key
+    #   The JSON key used to extract the API key secret value from the AWS
+    #   Secrets Manager secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] api_key_secret_source
+    #   The source type of the API key secret. Either `MANAGED` if the
+    #   secret is managed by the service, or `EXTERNAL` if managed by the
+    #   user in AWS Secrets Manager.
+    #   @return [String]
+    #
     # @!attribute [rw] wallet_secret_arn
     #   Contains information about a secret in AWS Secrets Manager.
     #   @return [Types::Secret]
+    #
+    # @!attribute [rw] wallet_secret_json_key
+    #   The JSON key used to extract the wallet secret value from the AWS
+    #   Secrets Manager secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] wallet_secret_source
+    #   The source type of the wallet secret. Either `MANAGED` if the secret
+    #   is managed by the service, or `EXTERNAL` if managed by the user in
+    #   AWS Secrets Manager.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CoinbaseCdpConfigurationOutput AWS API Documentation
     #
     class CoinbaseCdpConfigurationOutput < Struct.new(
       :api_key_id,
       :api_key_secret_arn,
-      :wallet_secret_arn)
+      :api_key_secret_json_key,
+      :api_key_secret_source,
+      :wallet_secret_arn,
+      :wallet_secret_json_key,
+      :wallet_secret_source)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1711,6 +1782,19 @@ module Aws::BedrockAgentCoreControl
     #   stored securely.
     #   @return [String]
     #
+    # @!attribute [rw] api_key_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the API
+    #   key. This includes the secret ID and the JSON key used to extract
+    #   the API key value from the secret. Required when
+    #   `apiKeySecretSource` is set to `EXTERNAL`.
+    #   @return [Types::SecretReference]
+    #
+    # @!attribute [rw] api_key_secret_source
+    #   The source type of the API key secret. Use `MANAGED` if the secret
+    #   is managed by the service, or `EXTERNAL` if you manage the secret
+    #   yourself in AWS Secrets Manager.
+    #   @return [String]
+    #
     # @!attribute [rw] tags
     #   A map of tag keys and values to assign to the API key credential
     #   provider. Tags enable you to categorize your resources in different
@@ -1722,6 +1806,8 @@ module Aws::BedrockAgentCoreControl
     class CreateApiKeyCredentialProviderRequest < Struct.new(
       :name,
       :api_key,
+      :api_key_secret_config,
+      :api_key_secret_source,
       :tags)
       SENSITIVE = [:api_key]
       include Aws::Structure
@@ -1730,6 +1816,17 @@ module Aws::BedrockAgentCoreControl
     # @!attribute [rw] api_key_secret_arn
     #   The Amazon Resource Name (ARN) of the secret containing the API key.
     #   @return [Types::Secret]
+    #
+    # @!attribute [rw] api_key_secret_json_key
+    #   The JSON key used to extract the API key value from the AWS Secrets
+    #   Manager secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] api_key_secret_source
+    #   The source type of the API key secret. Either `MANAGED` if the
+    #   secret is managed by the service, or `EXTERNAL` if managed by the
+    #   user in AWS Secrets Manager.
+    #   @return [String]
     #
     # @!attribute [rw] name
     #   The name of the created API key credential provider.
@@ -1744,6 +1841,8 @@ module Aws::BedrockAgentCoreControl
     #
     class CreateApiKeyCredentialProviderResponse < Struct.new(
       :api_key_secret_arn,
+      :api_key_secret_json_key,
+      :api_key_secret_source,
       :name,
       :credential_provider_arn)
       SENSITIVE = []
@@ -3058,6 +3157,17 @@ module Aws::BedrockAgentCoreControl
     #   Manager.
     #   @return [Types::Secret]
     #
+    # @!attribute [rw] client_secret_json_key
+    #   The JSON key used to extract the client secret value from the AWS
+    #   Secrets Manager secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_secret_source
+    #   The source type of the client secret. Either `MANAGED` if the secret
+    #   is managed by the service, or `EXTERNAL` if managed by the user in
+    #   AWS Secrets Manager.
+    #   @return [String]
+    #
     # @!attribute [rw] name
     #   The name of the OAuth2 credential provider.
     #   @return [String]
@@ -3084,6 +3194,8 @@ module Aws::BedrockAgentCoreControl
     #
     class CreateOauth2CredentialProviderResponse < Struct.new(
       :client_secret_arn,
+      :client_secret_json_key,
+      :client_secret_source,
       :name,
       :credential_provider_arn,
       :callback_url,
@@ -4427,16 +4539,18 @@ module Aws::BedrockAgentCoreControl
     #   The client secret for the custom OAuth2 provider.
     #   @return [String]
     #
-    # @!attribute [rw] private_endpoint
-    #   The default private endpoint for the custom OAuth2 provider,
-    #   enabling secure connectivity through a VPC Lattice resource
-    #   configuration.
-    #   @return [Types::PrivateEndpoint]
+    # @!attribute [rw] client_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the client
+    #   secret. This includes the secret ID and the JSON key used to extract
+    #   the client secret value from the secret. Required when
+    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   @return [Types::SecretReference]
     #
-    # @!attribute [rw] private_endpoint_overrides
-    #   The private endpoint overrides for the custom OAuth2 provider
-    #   configuration.
-    #   @return [Array<Types::PrivateEndpointOverride>]
+    # @!attribute [rw] client_secret_source
+    #   The source type of the client secret. Use `MANAGED` if the secret is
+    #   managed by the service, or `EXTERNAL` if you manage the secret
+    #   yourself in AWS Secrets Manager.
+    #   @return [String]
     #
     # @!attribute [rw] on_behalf_of_token_exchange_config
     #   The configuration for on-behalf-of token exchange. This enables
@@ -4449,16 +4563,29 @@ module Aws::BedrockAgentCoreControl
     #   token endpoint.
     #   @return [String]
     #
+    # @!attribute [rw] private_endpoint
+    #   The default private endpoint for the custom OAuth2 provider,
+    #   enabling secure connectivity through a VPC Lattice resource
+    #   configuration.
+    #   @return [Types::PrivateEndpoint]
+    #
+    # @!attribute [rw] private_endpoint_overrides
+    #   The private endpoint overrides for the custom OAuth2 provider
+    #   configuration.
+    #   @return [Array<Types::PrivateEndpointOverride>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CustomOauth2ProviderConfigInput AWS API Documentation
     #
     class CustomOauth2ProviderConfigInput < Struct.new(
       :oauth_discovery,
       :client_id,
       :client_secret,
-      :private_endpoint,
-      :private_endpoint_overrides,
+      :client_secret_config,
+      :client_secret_source,
       :on_behalf_of_token_exchange_config,
-      :client_authentication_method)
+      :client_authentication_method,
+      :private_endpoint,
+      :private_endpoint_overrides)
       SENSITIVE = [:client_secret]
       include Aws::Structure
     end
@@ -7004,6 +7131,17 @@ module Aws::BedrockAgentCoreControl
     #   Manager.
     #   @return [Types::Secret]
     #
+    # @!attribute [rw] api_key_secret_json_key
+    #   The JSON key used to extract the API key value from the AWS Secrets
+    #   Manager secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] api_key_secret_source
+    #   The source type of the API key secret. Either `MANAGED` if the
+    #   secret is managed by the service, or `EXTERNAL` if managed by the
+    #   user in AWS Secrets Manager.
+    #   @return [String]
+    #
     # @!attribute [rw] name
     #   The name of the API key credential provider.
     #   @return [String]
@@ -7024,6 +7162,8 @@ module Aws::BedrockAgentCoreControl
     #
     class GetApiKeyCredentialProviderResponse < Struct.new(
       :api_key_secret_arn,
+      :api_key_secret_json_key,
+      :api_key_secret_source,
       :name,
       :credential_provider_arn,
       :created_time,
@@ -8002,6 +8142,17 @@ module Aws::BedrockAgentCoreControl
     #   Manager.
     #   @return [Types::Secret]
     #
+    # @!attribute [rw] client_secret_json_key
+    #   The JSON key used to extract the client secret value from the AWS
+    #   Secrets Manager secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_secret_source
+    #   The source type of the client secret. Either `MANAGED` if the secret
+    #   is managed by the service, or `EXTERNAL` if managed by the user in
+    #   AWS Secrets Manager.
+    #   @return [String]
+    #
     # @!attribute [rw] name
     #   The name of the OAuth2 credential provider.
     #   @return [String]
@@ -8045,6 +8196,8 @@ module Aws::BedrockAgentCoreControl
     #
     class GetOauth2CredentialProviderResponse < Struct.new(
       :client_secret_arn,
+      :client_secret_json_key,
+      :client_secret_source,
       :name,
       :credential_provider_arn,
       :credential_provider_vendor,
@@ -9132,11 +9285,26 @@ module Aws::BedrockAgentCoreControl
     #   The client secret for the GitHub OAuth2 provider.
     #   @return [String]
     #
+    # @!attribute [rw] client_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the client
+    #   secret. This includes the secret ID and the JSON key used to extract
+    #   the client secret value from the secret. Required when
+    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   @return [Types::SecretReference]
+    #
+    # @!attribute [rw] client_secret_source
+    #   The source type of the client secret. Use `MANAGED` if the secret is
+    #   managed by the service, or `EXTERNAL` if you manage the secret
+    #   yourself in AWS Secrets Manager.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GithubOauth2ProviderConfigInput AWS API Documentation
     #
     class GithubOauth2ProviderConfigInput < Struct.new(
       :client_id,
-      :client_secret)
+      :client_secret,
+      :client_secret_config,
+      :client_secret_source)
       SENSITIVE = [:client_secret]
       include Aws::Structure
     end
@@ -9170,11 +9338,26 @@ module Aws::BedrockAgentCoreControl
     #   The client secret for the Google OAuth2 provider.
     #   @return [String]
     #
+    # @!attribute [rw] client_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the client
+    #   secret. This includes the secret ID and the JSON key used to extract
+    #   the client secret value from the secret. Required when
+    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   @return [Types::SecretReference]
+    #
+    # @!attribute [rw] client_secret_source
+    #   The source type of the client secret. Use `MANAGED` if the secret is
+    #   managed by the service, or `EXTERNAL` if you manage the secret
+    #   yourself in AWS Secrets Manager.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GoogleOauth2ProviderConfigInput AWS API Documentation
     #
     class GoogleOauth2ProviderConfigInput < Struct.new(
       :client_id,
-      :client_secret)
+      :client_secret,
+      :client_secret_config,
+      :client_secret_source)
       SENSITIVE = [:client_secret]
       include Aws::Structure
     end
@@ -10280,6 +10463,19 @@ module Aws::BedrockAgentCoreControl
     #   authenticate your application.
     #   @return [String]
     #
+    # @!attribute [rw] client_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the client
+    #   secret. This includes the secret ID and the JSON key used to extract
+    #   the client secret value from the secret. Required when
+    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   @return [Types::SecretReference]
+    #
+    # @!attribute [rw] client_secret_source
+    #   The source type of the client secret. Use `MANAGED` if the secret is
+    #   managed by the service, or `EXTERNAL` if you manage the secret
+    #   yourself in AWS Secrets Manager.
+    #   @return [String]
+    #
     # @!attribute [rw] issuer
     #   Token issuer of your isolated OAuth2 application tenant. This URL
     #   identifies the authorization server that issues tokens for this
@@ -10302,6 +10498,8 @@ module Aws::BedrockAgentCoreControl
     class IncludedOauth2ProviderConfigInput < Struct.new(
       :client_id,
       :client_secret,
+      :client_secret_config,
+      :client_secret_source,
       :issuer,
       :authorization_endpoint,
       :token_endpoint)
@@ -10604,11 +10802,26 @@ module Aws::BedrockAgentCoreControl
     #   authenticate your application.
     #   @return [String]
     #
+    # @!attribute [rw] client_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the client
+    #   secret. This includes the secret ID and the JSON key used to extract
+    #   the client secret value from the secret. Required when
+    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   @return [Types::SecretReference]
+    #
+    # @!attribute [rw] client_secret_source
+    #   The source type of the client secret. Use `MANAGED` if the secret is
+    #   managed by the service, or `EXTERNAL` if you manage the secret
+    #   yourself in AWS Secrets Manager.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/LinkedinOauth2ProviderConfigInput AWS API Documentation
     #
     class LinkedinOauth2ProviderConfigInput < Struct.new(
       :client_id,
-      :client_secret)
+      :client_secret,
+      :client_secret_config,
+      :client_secret_source)
       SENSITIVE = [:client_secret]
       include Aws::Structure
     end
@@ -12889,6 +13102,19 @@ module Aws::BedrockAgentCoreControl
     #   The client secret for the Microsoft OAuth2 provider.
     #   @return [String]
     #
+    # @!attribute [rw] client_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the client
+    #   secret. This includes the secret ID and the JSON key used to extract
+    #   the client secret value from the secret. Required when
+    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   @return [Types::SecretReference]
+    #
+    # @!attribute [rw] client_secret_source
+    #   The source type of the client secret. Use `MANAGED` if the secret is
+    #   managed by the service, or `EXTERNAL` if you manage the secret
+    #   yourself in AWS Secrets Manager.
+    #   @return [String]
+    #
     # @!attribute [rw] tenant_id
     #   The Microsoft Entra ID (formerly Azure AD) tenant ID for your
     #   organization. This identifies the specific tenant within
@@ -12900,6 +13126,8 @@ module Aws::BedrockAgentCoreControl
     class MicrosoftOauth2ProviderConfigInput < Struct.new(
       :client_id,
       :client_secret,
+      :client_secret_config,
+      :client_secret_source,
       :tenant_id)
       SENSITIVE = [:client_secret]
       include Aws::Structure
@@ -15051,11 +15279,26 @@ module Aws::BedrockAgentCoreControl
     #   The client secret for the Salesforce OAuth2 provider.
     #   @return [String]
     #
+    # @!attribute [rw] client_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the client
+    #   secret. This includes the secret ID and the JSON key used to extract
+    #   the client secret value from the secret. Required when
+    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   @return [Types::SecretReference]
+    #
+    # @!attribute [rw] client_secret_source
+    #   The source type of the client secret. Use `MANAGED` if the secret is
+    #   managed by the service, or `EXTERNAL` if you manage the secret
+    #   yourself in AWS Secrets Manager.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SalesforceOauth2ProviderConfigInput AWS API Documentation
     #
     class SalesforceOauth2ProviderConfigInput < Struct.new(
       :client_id,
-      :client_secret)
+      :client_secret,
+      :client_secret_config,
+      :client_secret_source)
       SENSITIVE = [:client_secret]
       include Aws::Structure
     end
@@ -15145,6 +15388,27 @@ module Aws::BedrockAgentCoreControl
     #
     class Secret < Struct.new(
       :secret_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains a reference to a secret stored in AWS Secrets Manager.
+    #
+    # @!attribute [rw] secret_id
+    #   The ID of the AWS Secrets Manager secret that stores the secret
+    #   value.
+    #   @return [String]
+    #
+    # @!attribute [rw] json_key
+    #   The JSON key used to extract the secret value from the AWS Secrets
+    #   Manager secret.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SecretReference AWS API Documentation
+    #
+    class SecretReference < Struct.new(
+      :secret_id,
+      :json_key)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -15557,11 +15821,26 @@ module Aws::BedrockAgentCoreControl
     #   The client secret for the Slack OAuth2 provider.
     #   @return [String]
     #
+    # @!attribute [rw] client_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the client
+    #   secret. This includes the secret ID and the JSON key used to extract
+    #   the client secret value from the secret. Required when
+    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   @return [Types::SecretReference]
+    #
+    # @!attribute [rw] client_secret_source
+    #   The source type of the client secret. Use `MANAGED` if the secret is
+    #   managed by the service, or `EXTERNAL` if you manage the secret
+    #   yourself in AWS Secrets Manager.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SlackOauth2ProviderConfigInput AWS API Documentation
     #
     class SlackOauth2ProviderConfigInput < Struct.new(
       :client_id,
-      :client_secret)
+      :client_secret,
+      :client_secret_config,
+      :client_secret_source)
       SENSITIVE = [:client_secret]
       include Aws::Structure
     end
@@ -15856,9 +16135,36 @@ module Aws::BedrockAgentCoreControl
     #   The app secret provided by Privy.
     #   @return [String]
     #
+    # @!attribute [rw] app_secret_source
+    #   The source type of the app secret. Use `MANAGED` if the secret is
+    #   managed by the service, or `EXTERNAL` if you manage the secret
+    #   yourself in AWS Secrets Manager.
+    #   @return [String]
+    #
+    # @!attribute [rw] app_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the app
+    #   secret. This includes the secret ID and the JSON key used to extract
+    #   the app secret value from the secret. Required when
+    #   `appSecretSource` is set to `EXTERNAL`.
+    #   @return [Types::SecretReference]
+    #
     # @!attribute [rw] authorization_private_key
     #   The authorization private key for the Stripe Privy integration.
     #   @return [String]
+    #
+    # @!attribute [rw] authorization_private_key_source
+    #   The source type of the authorization private key. Use `MANAGED` if
+    #   the secret is managed by the service, or `EXTERNAL` if you manage
+    #   the secret yourself in AWS Secrets Manager.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorization_private_key_config
+    #   A reference to the AWS Secrets Manager secret that stores the
+    #   authorization private key. This includes the secret ID and the JSON
+    #   key used to extract the authorization private key value from the
+    #   secret. Required when `authorizationPrivateKeySource` is set to
+    #   `EXTERNAL`.
+    #   @return [Types::SecretReference]
     #
     # @!attribute [rw] authorization_id
     #   The authorization ID for the Stripe Privy integration.
@@ -15869,7 +16175,11 @@ module Aws::BedrockAgentCoreControl
     class StripePrivyConfigurationInput < Struct.new(
       :app_id,
       :app_secret,
+      :app_secret_source,
+      :app_secret_config,
       :authorization_private_key,
+      :authorization_private_key_source,
+      :authorization_private_key_config,
       :authorization_id)
       SENSITIVE = [:app_secret, :authorization_private_key]
       include Aws::Structure
@@ -15885,9 +16195,31 @@ module Aws::BedrockAgentCoreControl
     #   Contains information about a secret in AWS Secrets Manager.
     #   @return [Types::Secret]
     #
+    # @!attribute [rw] app_secret_json_key
+    #   The JSON key used to extract the app secret value from the AWS
+    #   Secrets Manager secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] app_secret_source
+    #   The source type of the app secret. Either `MANAGED` if the secret is
+    #   managed by the service, or `EXTERNAL` if managed by the user in AWS
+    #   Secrets Manager.
+    #   @return [String]
+    #
     # @!attribute [rw] authorization_private_key_arn
     #   Contains information about a secret in AWS Secrets Manager.
     #   @return [Types::Secret]
+    #
+    # @!attribute [rw] authorization_private_key_json_key
+    #   The JSON key used to extract the authorization private key value
+    #   from the AWS Secrets Manager secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorization_private_key_source
+    #   The source type of the authorization private key. Either `MANAGED`
+    #   if the secret is managed by the service, or `EXTERNAL` if managed by
+    #   the user in AWS Secrets Manager.
+    #   @return [String]
     #
     # @!attribute [rw] authorization_id
     #   The authorization ID for the Stripe Privy integration.
@@ -15898,7 +16230,11 @@ module Aws::BedrockAgentCoreControl
     class StripePrivyConfigurationOutput < Struct.new(
       :app_id,
       :app_secret_arn,
+      :app_secret_json_key,
+      :app_secret_source,
       :authorization_private_key_arn,
+      :authorization_private_key_json_key,
+      :authorization_private_key_source,
       :authorization_id)
       SENSITIVE = []
       include Aws::Structure
@@ -16787,11 +17123,26 @@ module Aws::BedrockAgentCoreControl
     #   existing API key and is encrypted and stored securely.
     #   @return [String]
     #
+    # @!attribute [rw] api_key_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the API
+    #   key. This includes the secret ID and the JSON key used to extract
+    #   the API key value from the secret. Required when
+    #   `apiKeySecretSource` is set to `EXTERNAL`.
+    #   @return [Types::SecretReference]
+    #
+    # @!attribute [rw] api_key_secret_source
+    #   The source type of the API key secret. Use `MANAGED` if the secret
+    #   is managed by the service, or `EXTERNAL` if you manage the secret
+    #   yourself in AWS Secrets Manager.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateApiKeyCredentialProviderRequest AWS API Documentation
     #
     class UpdateApiKeyCredentialProviderRequest < Struct.new(
       :name,
-      :api_key)
+      :api_key,
+      :api_key_secret_config,
+      :api_key_secret_source)
       SENSITIVE = [:api_key]
       include Aws::Structure
     end
@@ -16800,6 +17151,17 @@ module Aws::BedrockAgentCoreControl
     #   The Amazon Resource Name (ARN) of the API key secret in AWS Secrets
     #   Manager.
     #   @return [Types::Secret]
+    #
+    # @!attribute [rw] api_key_secret_json_key
+    #   The JSON key used to extract the API key value from the AWS Secrets
+    #   Manager secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] api_key_secret_source
+    #   The source type of the API key secret. Either `MANAGED` if the
+    #   secret is managed by the service, or `EXTERNAL` if managed by the
+    #   user in AWS Secrets Manager.
+    #   @return [String]
     #
     # @!attribute [rw] name
     #   The name of the API key credential provider.
@@ -16821,6 +17183,8 @@ module Aws::BedrockAgentCoreControl
     #
     class UpdateApiKeyCredentialProviderResponse < Struct.new(
       :api_key_secret_arn,
+      :api_key_secret_json_key,
+      :api_key_secret_source,
       :name,
       :credential_provider_arn,
       :created_time,
@@ -17803,6 +18167,17 @@ module Aws::BedrockAgentCoreControl
     #   Manager.
     #   @return [Types::Secret]
     #
+    # @!attribute [rw] client_secret_json_key
+    #   The JSON key used to extract the client secret value from the AWS
+    #   Secrets Manager secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_secret_source
+    #   The source type of the client secret. Either `MANAGED` if the secret
+    #   is managed by the service, or `EXTERNAL` if managed by the user in
+    #   AWS Secrets Manager.
+    #   @return [String]
+    #
     # @!attribute [rw] name
     #   The name of the OAuth2 credential provider.
     #   @return [String]
@@ -17841,6 +18216,8 @@ module Aws::BedrockAgentCoreControl
     #
     class UpdateOauth2CredentialProviderResponse < Struct.new(
       :client_secret_arn,
+      :client_secret_json_key,
+      :client_secret_source,
       :name,
       :credential_provider_vendor,
       :credential_provider_arn,

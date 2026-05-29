@@ -931,6 +931,7 @@ module Aws
         def networking_mode: () -> ("RESTRICTED" | "VPC")
         def configuration: () -> Types::ConfigurationDetails
         def vpc_config: () -> Types::VpcConfigResponse
+        def engine_settings: () -> untyped
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Omics/Client.html#get_run-instance_method
       def get_run: (
@@ -1114,6 +1115,8 @@ module Aws
         def readme: () -> ::String
         def definition_repository_details: () -> Types::DefinitionRepositoryDetails
         def readme_path: () -> ::String
+        def profiles: () -> ::Array[::String]
+        def profile_parameter_templates: () -> ::Hash[::String, ::Hash[::String, Types::WorkflowParameter]]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Omics/Client.html#get_workflow-instance_method
       def get_workflow: (
@@ -1150,6 +1153,8 @@ module Aws
         def readme: () -> ::String
         def definition_repository_details: () -> Types::DefinitionRepositoryDetails
         def readme_path: () -> ::String
+        def profiles: () -> ::Array[::String]
+        def profile_parameter_templates: () -> ::Hash[::String, ::Hash[::String, Types::WorkflowParameter]]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Omics/Client.html#get_workflow_version-instance_method
       def get_workflow_version: (
@@ -1764,7 +1769,9 @@ module Aws
                        ?workflow_owner_id: ::String,
                        ?workflow_version_name: ::String,
                        ?networking_mode: ("RESTRICTED" | "VPC"),
-                       ?configuration_name: ::String
+                       ?configuration_name: ::String,
+                       ?engine_settings: {
+                       }
                      ) -> _StartRunResponseSuccess
                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartRunResponseSuccess
 

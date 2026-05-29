@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.51.0 (2026-05-29)
+------------------
+
+* Feature - Reference your own AWS Secrets Manager secrets when configuring credential providers, giving you control over encryption, rotation, and access policies instead of using service-managed secrets.
+
 1.50.0 (2026-05-28)
 ------------------
 

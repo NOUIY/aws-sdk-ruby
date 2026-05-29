@@ -764,6 +764,270 @@ module Aws::Route53Resolver
       req.send_request(options)
     end
 
+    # Creates multiple DNS Firewall rules in the specified rule group.
+    #
+    # @option params [required, Array<Types::CreateFirewallRuleEntry>] :create_firewall_rule_entries
+    #   The list of firewall rules to create.
+    #
+    # @return [Types::BatchCreateFirewallRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchCreateFirewallRuleResponse#created_firewall_rules #created_firewall_rules} => Array&lt;Types::FirewallRule&gt;
+    #   * {Types::BatchCreateFirewallRuleResponse#create_errors #create_errors} => Array&lt;Types::BatchCreateFirewallRuleError&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_create_firewall_rule({
+    #     create_firewall_rule_entries: [ # required
+    #       {
+    #         creator_request_id: "CreatorRequestId", # required
+    #         firewall_rule_group_id: "ResourceId", # required
+    #         firewall_domain_list_id: "ResourceId",
+    #         priority: 1, # required
+    #         action: "ALLOW", # required, accepts ALLOW, BLOCK, ALERT
+    #         block_response: "NODATA", # accepts NODATA, NXDOMAIN, OVERRIDE
+    #         block_override_domain: "BlockOverrideDomain",
+    #         block_override_dns_type: "CNAME", # accepts CNAME
+    #         block_override_ttl: 1,
+    #         name: "Name", # required
+    #         firewall_domain_redirection_action: "INSPECT_REDIRECTION_DOMAIN", # accepts INSPECT_REDIRECTION_DOMAIN, TRUST_REDIRECTION_DOMAIN
+    #         qtype: "Qtype",
+    #         dns_threat_protection: "DGA", # accepts DGA, DNS_TUNNELING, DICTIONARY_DGA
+    #         confidence_threshold: "LOW", # accepts LOW, MEDIUM, HIGH
+    #         firewall_rule_type: {
+    #           firewall_advanced_content_category: {
+    #             category: "FirewallAdvancedContentCategoryValue", # required
+    #           },
+    #           firewall_advanced_threat_category: {
+    #             category: "FirewallAdvancedThreatCategoryValue", # required
+    #           },
+    #           dns_threat_protection: {
+    #             value: "DnsThreatProtectionRuleTypeValue", # required
+    #             confidence_threshold: "LOW", # required, accepts LOW, MEDIUM, HIGH
+    #           },
+    #         },
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.created_firewall_rules #=> Array
+    #   resp.created_firewall_rules[0].firewall_rule_group_id #=> String
+    #   resp.created_firewall_rules[0].firewall_domain_list_id #=> String
+    #   resp.created_firewall_rules[0].firewall_threat_protection_id #=> String
+    #   resp.created_firewall_rules[0].name #=> String
+    #   resp.created_firewall_rules[0].priority #=> Integer
+    #   resp.created_firewall_rules[0].action #=> String, one of "ALLOW", "BLOCK", "ALERT"
+    #   resp.created_firewall_rules[0].block_response #=> String, one of "NODATA", "NXDOMAIN", "OVERRIDE"
+    #   resp.created_firewall_rules[0].block_override_domain #=> String
+    #   resp.created_firewall_rules[0].block_override_dns_type #=> String, one of "CNAME"
+    #   resp.created_firewall_rules[0].block_override_ttl #=> Integer
+    #   resp.created_firewall_rules[0].creator_request_id #=> String
+    #   resp.created_firewall_rules[0].creation_time #=> String
+    #   resp.created_firewall_rules[0].modification_time #=> String
+    #   resp.created_firewall_rules[0].firewall_domain_redirection_action #=> String, one of "INSPECT_REDIRECTION_DOMAIN", "TRUST_REDIRECTION_DOMAIN"
+    #   resp.created_firewall_rules[0].qtype #=> String
+    #   resp.created_firewall_rules[0].dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
+    #   resp.created_firewall_rules[0].confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.created_firewall_rules[0].firewall_rule_type.firewall_advanced_content_category.category #=> String
+    #   resp.created_firewall_rules[0].firewall_rule_type.firewall_advanced_threat_category.category #=> String
+    #   resp.created_firewall_rules[0].firewall_rule_type.dns_threat_protection.value #=> String
+    #   resp.created_firewall_rules[0].firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.create_errors #=> Array
+    #   resp.create_errors[0].firewall_rule.creator_request_id #=> String
+    #   resp.create_errors[0].firewall_rule.firewall_rule_group_id #=> String
+    #   resp.create_errors[0].firewall_rule.firewall_domain_list_id #=> String
+    #   resp.create_errors[0].firewall_rule.priority #=> Integer
+    #   resp.create_errors[0].firewall_rule.action #=> String, one of "ALLOW", "BLOCK", "ALERT"
+    #   resp.create_errors[0].firewall_rule.block_response #=> String, one of "NODATA", "NXDOMAIN", "OVERRIDE"
+    #   resp.create_errors[0].firewall_rule.block_override_domain #=> String
+    #   resp.create_errors[0].firewall_rule.block_override_dns_type #=> String, one of "CNAME"
+    #   resp.create_errors[0].firewall_rule.block_override_ttl #=> Integer
+    #   resp.create_errors[0].firewall_rule.name #=> String
+    #   resp.create_errors[0].firewall_rule.firewall_domain_redirection_action #=> String, one of "INSPECT_REDIRECTION_DOMAIN", "TRUST_REDIRECTION_DOMAIN"
+    #   resp.create_errors[0].firewall_rule.qtype #=> String
+    #   resp.create_errors[0].firewall_rule.dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
+    #   resp.create_errors[0].firewall_rule.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.create_errors[0].firewall_rule.firewall_rule_type.firewall_advanced_content_category.category #=> String
+    #   resp.create_errors[0].firewall_rule.firewall_rule_type.firewall_advanced_threat_category.category #=> String
+    #   resp.create_errors[0].firewall_rule.firewall_rule_type.dns_threat_protection.value #=> String
+    #   resp.create_errors[0].firewall_rule.firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.create_errors[0].code #=> String
+    #   resp.create_errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/BatchCreateFirewallRule AWS API Documentation
+    #
+    # @overload batch_create_firewall_rule(params = {})
+    # @param [Hash] params ({})
+    def batch_create_firewall_rule(params = {}, options = {})
+      req = build_request(:batch_create_firewall_rule, params)
+      req.send_request(options)
+    end
+
+    # Deletes multiple DNS Firewall rules from the specified rule group.
+    #
+    # @option params [required, Array<Types::DeleteFirewallRuleEntry>] :delete_firewall_rule_entries
+    #   The list of firewall rules to delete.
+    #
+    # @return [Types::BatchDeleteFirewallRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchDeleteFirewallRuleResponse#deleted_firewall_rules #deleted_firewall_rules} => Array&lt;Types::FirewallRule&gt;
+    #   * {Types::BatchDeleteFirewallRuleResponse#delete_errors #delete_errors} => Array&lt;Types::BatchDeleteFirewallRuleError&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_delete_firewall_rule({
+    #     delete_firewall_rule_entries: [ # required
+    #       {
+    #         firewall_rule_group_id: "ResourceId", # required
+    #         firewall_domain_list_id: "ResourceId",
+    #         firewall_threat_protection_id: "ResourceId",
+    #         qtype: "Qtype",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.deleted_firewall_rules #=> Array
+    #   resp.deleted_firewall_rules[0].firewall_rule_group_id #=> String
+    #   resp.deleted_firewall_rules[0].firewall_domain_list_id #=> String
+    #   resp.deleted_firewall_rules[0].firewall_threat_protection_id #=> String
+    #   resp.deleted_firewall_rules[0].name #=> String
+    #   resp.deleted_firewall_rules[0].priority #=> Integer
+    #   resp.deleted_firewall_rules[0].action #=> String, one of "ALLOW", "BLOCK", "ALERT"
+    #   resp.deleted_firewall_rules[0].block_response #=> String, one of "NODATA", "NXDOMAIN", "OVERRIDE"
+    #   resp.deleted_firewall_rules[0].block_override_domain #=> String
+    #   resp.deleted_firewall_rules[0].block_override_dns_type #=> String, one of "CNAME"
+    #   resp.deleted_firewall_rules[0].block_override_ttl #=> Integer
+    #   resp.deleted_firewall_rules[0].creator_request_id #=> String
+    #   resp.deleted_firewall_rules[0].creation_time #=> String
+    #   resp.deleted_firewall_rules[0].modification_time #=> String
+    #   resp.deleted_firewall_rules[0].firewall_domain_redirection_action #=> String, one of "INSPECT_REDIRECTION_DOMAIN", "TRUST_REDIRECTION_DOMAIN"
+    #   resp.deleted_firewall_rules[0].qtype #=> String
+    #   resp.deleted_firewall_rules[0].dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
+    #   resp.deleted_firewall_rules[0].confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.deleted_firewall_rules[0].firewall_rule_type.firewall_advanced_content_category.category #=> String
+    #   resp.deleted_firewall_rules[0].firewall_rule_type.firewall_advanced_threat_category.category #=> String
+    #   resp.deleted_firewall_rules[0].firewall_rule_type.dns_threat_protection.value #=> String
+    #   resp.deleted_firewall_rules[0].firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.delete_errors #=> Array
+    #   resp.delete_errors[0].firewall_rule.firewall_rule_group_id #=> String
+    #   resp.delete_errors[0].firewall_rule.firewall_domain_list_id #=> String
+    #   resp.delete_errors[0].firewall_rule.firewall_threat_protection_id #=> String
+    #   resp.delete_errors[0].firewall_rule.qtype #=> String
+    #   resp.delete_errors[0].code #=> String
+    #   resp.delete_errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/BatchDeleteFirewallRule AWS API Documentation
+    #
+    # @overload batch_delete_firewall_rule(params = {})
+    # @param [Hash] params ({})
+    def batch_delete_firewall_rule(params = {}, options = {})
+      req = build_request(:batch_delete_firewall_rule, params)
+      req.send_request(options)
+    end
+
+    # Updates multiple DNS Firewall rules in the specified rule group.
+    #
+    # @option params [required, Array<Types::UpdateFirewallRuleEntry>] :update_firewall_rule_entries
+    #   The list of firewall rules to update.
+    #
+    # @return [Types::BatchUpdateFirewallRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchUpdateFirewallRuleResponse#updated_firewall_rules #updated_firewall_rules} => Array&lt;Types::FirewallRule&gt;
+    #   * {Types::BatchUpdateFirewallRuleResponse#update_errors #update_errors} => Array&lt;Types::BatchUpdateFirewallRuleError&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_update_firewall_rule({
+    #     update_firewall_rule_entries: [ # required
+    #       {
+    #         firewall_rule_group_id: "ResourceId", # required
+    #         firewall_domain_list_id: "ResourceId",
+    #         firewall_threat_protection_id: "ResourceId",
+    #         priority: 1,
+    #         action: "ALLOW", # accepts ALLOW, BLOCK, ALERT
+    #         block_response: "NODATA", # accepts NODATA, NXDOMAIN, OVERRIDE
+    #         block_override_domain: "BlockOverrideDomain",
+    #         block_override_dns_type: "CNAME", # accepts CNAME
+    #         block_override_ttl: 1,
+    #         name: "Name",
+    #         firewall_domain_redirection_action: "INSPECT_REDIRECTION_DOMAIN", # accepts INSPECT_REDIRECTION_DOMAIN, TRUST_REDIRECTION_DOMAIN
+    #         qtype: "Qtype",
+    #         dns_threat_protection: "DGA", # accepts DGA, DNS_TUNNELING, DICTIONARY_DGA
+    #         confidence_threshold: "LOW", # accepts LOW, MEDIUM, HIGH
+    #         firewall_rule_type: {
+    #           firewall_advanced_content_category: {
+    #             category: "FirewallAdvancedContentCategoryValue", # required
+    #           },
+    #           firewall_advanced_threat_category: {
+    #             category: "FirewallAdvancedThreatCategoryValue", # required
+    #           },
+    #           dns_threat_protection: {
+    #             value: "DnsThreatProtectionRuleTypeValue", # required
+    #             confidence_threshold: "LOW", # required, accepts LOW, MEDIUM, HIGH
+    #           },
+    #         },
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.updated_firewall_rules #=> Array
+    #   resp.updated_firewall_rules[0].firewall_rule_group_id #=> String
+    #   resp.updated_firewall_rules[0].firewall_domain_list_id #=> String
+    #   resp.updated_firewall_rules[0].firewall_threat_protection_id #=> String
+    #   resp.updated_firewall_rules[0].name #=> String
+    #   resp.updated_firewall_rules[0].priority #=> Integer
+    #   resp.updated_firewall_rules[0].action #=> String, one of "ALLOW", "BLOCK", "ALERT"
+    #   resp.updated_firewall_rules[0].block_response #=> String, one of "NODATA", "NXDOMAIN", "OVERRIDE"
+    #   resp.updated_firewall_rules[0].block_override_domain #=> String
+    #   resp.updated_firewall_rules[0].block_override_dns_type #=> String, one of "CNAME"
+    #   resp.updated_firewall_rules[0].block_override_ttl #=> Integer
+    #   resp.updated_firewall_rules[0].creator_request_id #=> String
+    #   resp.updated_firewall_rules[0].creation_time #=> String
+    #   resp.updated_firewall_rules[0].modification_time #=> String
+    #   resp.updated_firewall_rules[0].firewall_domain_redirection_action #=> String, one of "INSPECT_REDIRECTION_DOMAIN", "TRUST_REDIRECTION_DOMAIN"
+    #   resp.updated_firewall_rules[0].qtype #=> String
+    #   resp.updated_firewall_rules[0].dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
+    #   resp.updated_firewall_rules[0].confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.updated_firewall_rules[0].firewall_rule_type.firewall_advanced_content_category.category #=> String
+    #   resp.updated_firewall_rules[0].firewall_rule_type.firewall_advanced_threat_category.category #=> String
+    #   resp.updated_firewall_rules[0].firewall_rule_type.dns_threat_protection.value #=> String
+    #   resp.updated_firewall_rules[0].firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.update_errors #=> Array
+    #   resp.update_errors[0].firewall_rule.firewall_rule_group_id #=> String
+    #   resp.update_errors[0].firewall_rule.firewall_domain_list_id #=> String
+    #   resp.update_errors[0].firewall_rule.firewall_threat_protection_id #=> String
+    #   resp.update_errors[0].firewall_rule.priority #=> Integer
+    #   resp.update_errors[0].firewall_rule.action #=> String, one of "ALLOW", "BLOCK", "ALERT"
+    #   resp.update_errors[0].firewall_rule.block_response #=> String, one of "NODATA", "NXDOMAIN", "OVERRIDE"
+    #   resp.update_errors[0].firewall_rule.block_override_domain #=> String
+    #   resp.update_errors[0].firewall_rule.block_override_dns_type #=> String, one of "CNAME"
+    #   resp.update_errors[0].firewall_rule.block_override_ttl #=> Integer
+    #   resp.update_errors[0].firewall_rule.name #=> String
+    #   resp.update_errors[0].firewall_rule.firewall_domain_redirection_action #=> String, one of "INSPECT_REDIRECTION_DOMAIN", "TRUST_REDIRECTION_DOMAIN"
+    #   resp.update_errors[0].firewall_rule.qtype #=> String
+    #   resp.update_errors[0].firewall_rule.dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
+    #   resp.update_errors[0].firewall_rule.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.update_errors[0].firewall_rule.firewall_rule_type.firewall_advanced_content_category.category #=> String
+    #   resp.update_errors[0].firewall_rule.firewall_rule_type.firewall_advanced_threat_category.category #=> String
+    #   resp.update_errors[0].firewall_rule.firewall_rule_type.dns_threat_protection.value #=> String
+    #   resp.update_errors[0].firewall_rule.firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.update_errors[0].code #=> String
+    #   resp.update_errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/BatchUpdateFirewallRule AWS API Documentation
+    #
+    # @overload batch_update_firewall_rule(params = {})
+    # @param [Hash] params ({})
+    def batch_update_firewall_rule(params = {}, options = {})
+      req = build_request(:batch_update_firewall_rule, params)
+      req.send_request(options)
+    end
+
     # Creates an empty firewall domain list for use in DNS Firewall rules.
     # You can populate the domains for the new list with a file, using
     # ImportFirewallDomains, or with domain strings, using
@@ -814,6 +1078,8 @@ module Aws::Route53Resolver
     #   resp.firewall_domain_list.creator_request_id #=> String
     #   resp.firewall_domain_list.creation_time #=> String
     #   resp.firewall_domain_list.modification_time #=> String
+    #   resp.firewall_domain_list.category #=> String
+    #   resp.firewall_domain_list.managed_list_type #=> String, one of "THREAT", "CONTENT"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/CreateFirewallDomainList AWS API Documentation
     #
@@ -952,7 +1218,7 @@ module Aws::Route53Resolver
     #
     #   * A query type you define by using the DNS type ID, for example 28 for
     #     AAAA. The values must be defined as TYPENUMBER, where the NUMBER can
-    #     be 1-65334, for example, TYPE28. For more information, see [List of
+    #     be 1-65534, for example, TYPE28. For more information, see [List of
     #     DNS record types][1].
     #
     #
@@ -976,6 +1242,11 @@ module Aws::Route53Resolver
     #   * `HIGH`: Detects only the most well corroborated threats with a low
     #     rate of false positives.
     #
+    # @option params [Types::FirewallRuleType] :firewall_rule_type
+    #   The rule type configuration for the firewall rule. This setting is
+    #   mutually exclusive with the top-level `FirewallDomainListId` and
+    #   `DnsThreatProtection` fields.
+    #
     # @return [Types::CreateFirewallRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateFirewallRuleResponse#firewall_rule #firewall_rule} => Types::FirewallRule
@@ -997,6 +1268,18 @@ module Aws::Route53Resolver
     #     qtype: "Qtype",
     #     dns_threat_protection: "DGA", # accepts DGA, DNS_TUNNELING, DICTIONARY_DGA
     #     confidence_threshold: "LOW", # accepts LOW, MEDIUM, HIGH
+    #     firewall_rule_type: {
+    #       firewall_advanced_content_category: {
+    #         category: "FirewallAdvancedContentCategoryValue", # required
+    #       },
+    #       firewall_advanced_threat_category: {
+    #         category: "FirewallAdvancedThreatCategoryValue", # required
+    #       },
+    #       dns_threat_protection: {
+    #         value: "DnsThreatProtectionRuleTypeValue", # required
+    #         confidence_threshold: "LOW", # required, accepts LOW, MEDIUM, HIGH
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -1018,6 +1301,10 @@ module Aws::Route53Resolver
     #   resp.firewall_rule.qtype #=> String
     #   resp.firewall_rule.dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
     #   resp.firewall_rule.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.firewall_rule.firewall_rule_type.firewall_advanced_content_category.category #=> String
+    #   resp.firewall_rule.firewall_rule_type.firewall_advanced_threat_category.category #=> String
+    #   resp.firewall_rule.firewall_rule_type.dns_threat_protection.value #=> String
+    #   resp.firewall_rule.firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/CreateFirewallRule AWS API Documentation
     #
@@ -1654,6 +1941,8 @@ module Aws::Route53Resolver
     #   resp.firewall_domain_list.creator_request_id #=> String
     #   resp.firewall_domain_list.creation_time #=> String
     #   resp.firewall_domain_list.modification_time #=> String
+    #   resp.firewall_domain_list.category #=> String
+    #   resp.firewall_domain_list.managed_list_type #=> String, one of "THREAT", "CONTENT"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/DeleteFirewallDomainList AWS API Documentation
     #
@@ -1710,7 +1999,7 @@ module Aws::Route53Resolver
     #
     #   * A query type you define by using the DNS type ID, for example 28 for
     #     AAAA. The values must be defined as TYPENUMBER, where the NUMBER can
-    #     be 1-65334, for example, TYPE28. For more information, see [List of
+    #     be 1-65534, for example, TYPE28. For more information, see [List of
     #     DNS record types][1].
     #
     #
@@ -1749,6 +2038,10 @@ module Aws::Route53Resolver
     #   resp.firewall_rule.qtype #=> String
     #   resp.firewall_rule.dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
     #   resp.firewall_rule.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.firewall_rule.firewall_rule_type.firewall_advanced_content_category.category #=> String
+    #   resp.firewall_rule.firewall_rule_type.firewall_advanced_threat_category.category #=> String
+    #   resp.firewall_rule.firewall_rule_type.dns_threat_protection.value #=> String
+    #   resp.firewall_rule.firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/DeleteFirewallRule AWS API Documentation
     #
@@ -2271,6 +2564,8 @@ module Aws::Route53Resolver
     #   resp.firewall_domain_list.creator_request_id #=> String
     #   resp.firewall_domain_list.creation_time #=> String
     #   resp.firewall_domain_list.modification_time #=> String
+    #   resp.firewall_domain_list.category #=> String
+    #   resp.firewall_domain_list.managed_list_type #=> String, one of "THREAT", "CONTENT"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/GetFirewallDomainList AWS API Documentation
     #
@@ -2945,6 +3240,8 @@ module Aws::Route53Resolver
     #   resp.firewall_domain_lists[0].name #=> String
     #   resp.firewall_domain_lists[0].creator_request_id #=> String
     #   resp.firewall_domain_lists[0].managed_owner_name #=> String
+    #   resp.firewall_domain_lists[0].managed_list_type #=> String, one of "THREAT", "CONTENT"
+    #   resp.firewall_domain_lists[0].category #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/ListFirewallDomainLists AWS API Documentation
     #
@@ -3160,6 +3457,60 @@ module Aws::Route53Resolver
       req.send_request(options)
     end
 
+    # Retrieves the available rule types that can be used in DNS Firewall
+    # rules.
+    #
+    # @option params [String] :rule_type
+    #   The rule type to filter by. If specified, only rule types matching
+    #   this value are returned.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of objects that you want Resolver to return for
+    #   this request. If more objects are available, in the response, Resolver
+    #   provides a `NextToken` value that you can use in a subsequent call to
+    #   get the next batch of objects.
+    #
+    # @option params [String] :next_token
+    #   For the first call to this list request, omit this value. When you
+    #   request a list of objects, Resolver returns at most the number of
+    #   objects specified in `MaxResults`. If more objects are available for
+    #   retrieval, Resolver provides a `NextToken` value in the response. To
+    #   retrieve the next batch of objects, use the token that was returned
+    #   for the prior request in your next request.
+    #
+    # @return [Types::ListFirewallRuleTypesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListFirewallRuleTypesResponse#firewall_rule_types #firewall_rule_types} => Array&lt;Types::FirewallRuleTypeDefinition&gt;
+    #   * {Types::ListFirewallRuleTypesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_firewall_rule_types({
+    #     rule_type: "RuleTypeName",
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.firewall_rule_types #=> Array
+    #   resp.firewall_rule_types[0].rule_type #=> String
+    #   resp.firewall_rule_types[0].value #=> String
+    #   resp.firewall_rule_types[0].display_name #=> String
+    #   resp.firewall_rule_types[0].description #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/ListFirewallRuleTypes AWS API Documentation
+    #
+    # @overload list_firewall_rule_types(params = {})
+    # @param [Hash] params ({})
+    def list_firewall_rule_types(params = {}, options = {})
+      req = build_request(:list_firewall_rule_types, params)
+      req.send_request(options)
+    end
+
     # Retrieves the firewall rules that you have defined for the specified
     # firewall rule group. DNS Firewall uses the rules in a rule group to
     # filter DNS network traffic for a VPC.
@@ -3251,6 +3602,10 @@ module Aws::Route53Resolver
     #   resp.firewall_rules[0].qtype #=> String
     #   resp.firewall_rules[0].dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
     #   resp.firewall_rules[0].confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.firewall_rules[0].firewall_rule_type.firewall_advanced_content_category.category #=> String
+    #   resp.firewall_rules[0].firewall_rule_type.firewall_advanced_threat_category.category #=> String
+    #   resp.firewall_rules[0].firewall_rule_type.dns_threat_protection.value #=> String
+    #   resp.firewall_rules[0].firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/ListFirewallRules AWS API Documentation
     #
@@ -4531,7 +4886,7 @@ module Aws::Route53Resolver
     #
     #   * A query type you define by using the DNS type ID, for example 28 for
     #     AAAA. The values must be defined as TYPENUMBER, where the NUMBER can
-    #     be 1-65334, for example, TYPE28. For more information, see [List of
+    #     be 1-65534, for example, TYPE28. For more information, see [List of
     #     DNS record types][1].
     #
     #     <note markdown="1"> If you set up a firewall BLOCK rule with action NXDOMAIN on query
@@ -4569,6 +4924,11 @@ module Aws::Route53Resolver
     #   * `HIGH`: Detects only the most well corroborated threats with a low
     #     rate of false positives.
     #
+    # @option params [Types::FirewallRuleType] :firewall_rule_type
+    #   The rule type configuration for the firewall rule. This setting is
+    #   mutually exclusive with the top-level `FirewallDomainListId` and
+    #   `DnsThreatProtection` fields.
+    #
     # @return [Types::UpdateFirewallRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateFirewallRuleResponse#firewall_rule #firewall_rule} => Types::FirewallRule
@@ -4590,6 +4950,18 @@ module Aws::Route53Resolver
     #     qtype: "Qtype",
     #     dns_threat_protection: "DGA", # accepts DGA, DNS_TUNNELING, DICTIONARY_DGA
     #     confidence_threshold: "LOW", # accepts LOW, MEDIUM, HIGH
+    #     firewall_rule_type: {
+    #       firewall_advanced_content_category: {
+    #         category: "FirewallAdvancedContentCategoryValue", # required
+    #       },
+    #       firewall_advanced_threat_category: {
+    #         category: "FirewallAdvancedThreatCategoryValue", # required
+    #       },
+    #       dns_threat_protection: {
+    #         value: "DnsThreatProtectionRuleTypeValue", # required
+    #         confidence_threshold: "LOW", # required, accepts LOW, MEDIUM, HIGH
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -4611,6 +4983,10 @@ module Aws::Route53Resolver
     #   resp.firewall_rule.qtype #=> String
     #   resp.firewall_rule.dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
     #   resp.firewall_rule.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.firewall_rule.firewall_rule_type.firewall_advanced_content_category.category #=> String
+    #   resp.firewall_rule.firewall_rule_type.firewall_advanced_threat_category.category #=> String
+    #   resp.firewall_rule.firewall_rule_type.dns_threat_protection.value #=> String
+    #   resp.firewall_rule.firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/UpdateFirewallRule AWS API Documentation
     #
@@ -5091,7 +5467,7 @@ module Aws::Route53Resolver
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-route53resolver'
-      context[:gem_version] = '1.99.0'
+      context[:gem_version] = '1.100.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

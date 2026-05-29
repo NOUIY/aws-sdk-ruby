@@ -747,10 +747,11 @@ module Aws
       oauth_discovery: Params::oauth_2_discovery,
       client_id: ::String?,
       client_secret: ::String?,
-      private_endpoint: Params::private_endpoint?,
-      private_endpoint_overrides: Array[
-        Params::private_endpoint_override
-      ]?,
+      client_secret_config: {
+        secret_id: ::String,
+        json_key: ::String
+      }?,
+      client_secret_source: ("MANAGED" | "EXTERNAL")?,
       on_behalf_of_token_exchange_config: {
         grant_type: ("TOKEN_EXCHANGE" | "JWT_AUTHORIZATION_GRANT"),
         token_exchange_grant_type_config: {
@@ -758,47 +759,107 @@ module Aws
           actor_token_scopes: Array[::String]?
         }?
       }?,
-      client_authentication_method: ("CLIENT_SECRET_BASIC" | "CLIENT_SECRET_POST" | "AWS_IAM_ID_TOKEN_JWT")?
+      client_authentication_method: ("CLIENT_SECRET_BASIC" | "CLIENT_SECRET_POST" | "AWS_IAM_ID_TOKEN_JWT")?,
+      private_endpoint: Params::private_endpoint?,
+      private_endpoint_overrides: Array[
+        Params::private_endpoint_override
+      ]?
+    }
+
+      type google_oauth_2_provider_config_input = {
+      client_id: ::String,
+      client_secret: ::String?,
+      client_secret_config: {
+        secret_id: ::String,
+        json_key: ::String
+      }?,
+      client_secret_source: ("MANAGED" | "EXTERNAL")?
+    }
+
+      type github_oauth_2_provider_config_input = {
+      client_id: ::String,
+      client_secret: ::String?,
+      client_secret_config: {
+        secret_id: ::String,
+        json_key: ::String
+      }?,
+      client_secret_source: ("MANAGED" | "EXTERNAL")?
+    }
+
+      type slack_oauth_2_provider_config_input = {
+      client_id: ::String,
+      client_secret: ::String?,
+      client_secret_config: {
+        secret_id: ::String,
+        json_key: ::String
+      }?,
+      client_secret_source: ("MANAGED" | "EXTERNAL")?
+    }
+
+      type salesforce_oauth_2_provider_config_input = {
+      client_id: ::String,
+      client_secret: ::String?,
+      client_secret_config: {
+        secret_id: ::String,
+        json_key: ::String
+      }?,
+      client_secret_source: ("MANAGED" | "EXTERNAL")?
+    }
+
+      type microsoft_oauth_2_provider_config_input = {
+      client_id: ::String,
+      client_secret: ::String?,
+      client_secret_config: {
+        secret_id: ::String,
+        json_key: ::String
+      }?,
+      client_secret_source: ("MANAGED" | "EXTERNAL")?,
+      tenant_id: ::String?
+    }
+
+      type atlassian_oauth_2_provider_config_input = {
+      client_id: ::String,
+      client_secret: ::String?,
+      client_secret_config: {
+        secret_id: ::String,
+        json_key: ::String
+      }?,
+      client_secret_source: ("MANAGED" | "EXTERNAL")?
+    }
+
+      type linkedin_oauth_2_provider_config_input = {
+      client_id: ::String,
+      client_secret: ::String?,
+      client_secret_config: {
+        secret_id: ::String,
+        json_key: ::String
+      }?,
+      client_secret_source: ("MANAGED" | "EXTERNAL")?
+    }
+
+      type included_oauth_2_provider_config_input = {
+      client_id: ::String,
+      client_secret: ::String?,
+      client_secret_config: {
+        secret_id: ::String,
+        json_key: ::String
+      }?,
+      client_secret_source: ("MANAGED" | "EXTERNAL")?,
+      issuer: ::String?,
+      authorization_endpoint: ::String?,
+      token_endpoint: ::String?
     }
 
       type oauth_2_provider_config_input = {
       custom_oauth_2_provider_config: Params::custom_oauth_2_provider_config_input?,
-      google_oauth_2_provider_config: {
-        client_id: ::String,
-        client_secret: ::String
-      }?,
-      github_oauth_2_provider_config: {
-        client_id: ::String,
-        client_secret: ::String
-      }?,
-      slack_oauth_2_provider_config: {
-        client_id: ::String,
-        client_secret: ::String
-      }?,
-      salesforce_oauth_2_provider_config: {
-        client_id: ::String,
-        client_secret: ::String
-      }?,
-      microsoft_oauth_2_provider_config: {
-        client_id: ::String,
-        client_secret: ::String,
-        tenant_id: ::String?
-      }?,
-      atlassian_oauth_2_provider_config: {
-        client_id: ::String,
-        client_secret: ::String
-      }?,
-      linkedin_oauth_2_provider_config: {
-        client_id: ::String,
-        client_secret: ::String
-      }?,
-      included_oauth_2_provider_config: {
-        client_id: ::String,
-        client_secret: ::String,
-        issuer: ::String?,
-        authorization_endpoint: ::String?,
-        token_endpoint: ::String?
-      }?
+      google_oauth_2_provider_config: Params::google_oauth_2_provider_config_input?,
+      github_oauth_2_provider_config: Params::github_oauth_2_provider_config_input?,
+      slack_oauth_2_provider_config: Params::slack_oauth_2_provider_config_input?,
+      salesforce_oauth_2_provider_config: Params::salesforce_oauth_2_provider_config_input?,
+      microsoft_oauth_2_provider_config: Params::microsoft_oauth_2_provider_config_input?,
+      atlassian_oauth_2_provider_config: Params::atlassian_oauth_2_provider_config_input?,
+      linkedin_oauth_2_provider_config: Params::linkedin_oauth_2_provider_config_input?,
+      included_oauth_2_provider_config: Params::included_oauth_2_provider_config_input?
     }
 
       type rule = {
@@ -832,18 +893,42 @@ module Aws
       }?
     }
 
-      type payment_provider_configuration_input = {
-      coinbase_cdp_configuration: {
-        api_key_id: ::String,
-        api_key_secret: ::String,
-        wallet_secret: ::String
+      type coinbase_cdp_configuration_input = {
+      api_key_id: ::String,
+      api_key_secret: ::String?,
+      api_key_secret_source: ("MANAGED" | "EXTERNAL")?,
+      api_key_secret_config: {
+        secret_id: ::String,
+        json_key: ::String
       }?,
-      stripe_privy_configuration: {
-        app_id: ::String,
-        app_secret: ::String,
-        authorization_private_key: ::String,
-        authorization_id: ::String
+      wallet_secret: ::String?,
+      wallet_secret_source: ("MANAGED" | "EXTERNAL")?,
+      wallet_secret_config: {
+        secret_id: ::String,
+        json_key: ::String
       }?
+    }
+
+      type stripe_privy_configuration_input = {
+      app_id: ::String,
+      app_secret: ::String?,
+      app_secret_source: ("MANAGED" | "EXTERNAL")?,
+      app_secret_config: {
+        secret_id: ::String,
+        json_key: ::String
+      }?,
+      authorization_private_key: ::String?,
+      authorization_private_key_source: ("MANAGED" | "EXTERNAL")?,
+      authorization_private_key_config: {
+        secret_id: ::String,
+        json_key: ::String
+      }?,
+      authorization_id: ::String
+    }
+
+      type payment_provider_configuration_input = {
+      coinbase_cdp_configuration: Params::coinbase_cdp_configuration_input?,
+      stripe_privy_configuration: Params::stripe_privy_configuration_input?
     }
 
       type policy_definition = {

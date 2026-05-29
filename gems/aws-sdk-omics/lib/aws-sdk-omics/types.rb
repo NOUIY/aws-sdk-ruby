@@ -4066,6 +4066,10 @@ module Aws::Omics
     #   VPC configuration for the workflow run.
     #   @return [Types::VpcConfigResponse]
     #
+    # @!attribute [rw] engine_settings
+    #   The engine-specific settings for the workflow run.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetRunResponse AWS API Documentation
     #
     class GetRunResponse < Struct.new(
@@ -4108,7 +4112,8 @@ module Aws::Omics
       :workflow_uuid,
       :networking_mode,
       :configuration,
-      :vpc_config)
+      :vpc_config,
+      :engine_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4653,6 +4658,18 @@ module Aws::Omics
     #   directory of the repository will be used.
     #   @return [String]
     #
+    # @!attribute [rw] profiles
+    #   The list of Nextflow profiles that are available for this workflow.
+    #   Profiles allow you to select predefined configuration settings at
+    #   runtime.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] profile_parameter_templates
+    #   A mapping of profile names to their parameter templates. Each
+    #   profile defines its own set of parameters that you can use when
+    #   starting a run with that profile.
+    #   @return [Hash<String,Hash<String,Types::WorkflowParameter>>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetWorkflowResponse AWS API Documentation
     #
     class GetWorkflowResponse < Struct.new(
@@ -4678,7 +4695,9 @@ module Aws::Omics
       :container_registry_map,
       :readme,
       :definition_repository_details,
-      :readme_path)
+      :readme_path,
+      :profiles,
+      :profile_parameter_templates)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4819,6 +4838,18 @@ module Aws::Omics
     #   root directory of the repository will be used.
     #   @return [String]
     #
+    # @!attribute [rw] profiles
+    #   The list of Nextflow profiles that are available for this workflow
+    #   version. Profiles allow you to select predefined configuration
+    #   settings at runtime.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] profile_parameter_templates
+    #   A mapping of profile names to their parameter templates. Each
+    #   profile defines its own set of parameters that you can use when
+    #   starting a run with that profile.
+    #   @return [Hash<String,Hash<String,Types::WorkflowParameter>>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetWorkflowVersionResponse AWS API Documentation
     #
     class GetWorkflowVersionResponse < Struct.new(
@@ -4845,7 +4876,9 @@ module Aws::Omics
       :container_registry_map,
       :readme,
       :definition_repository_details,
-      :readme_path)
+      :readme_path,
+      :profiles,
+      :profile_parameter_templates)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8403,6 +8436,12 @@ module Aws::Omics
     #   Optional configuration name to use for the workflow run.
     #   @return [String]
     #
+    # @!attribute [rw] engine_settings
+    #   Engine-specific settings for the workflow run. Use this field to
+    #   specify configuration options that are specific to the workflow
+    #   engine (for example, Nextflow profiles).
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartRunRequest AWS API Documentation
     #
     class StartRunRequest < Struct.new(
@@ -8426,7 +8465,8 @@ module Aws::Omics
       :workflow_owner_id,
       :workflow_version_name,
       :networking_mode,
-      :configuration_name)
+      :configuration_name,
+      :engine_settings)
       SENSITIVE = []
       include Aws::Structure
     end

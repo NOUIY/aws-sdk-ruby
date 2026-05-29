@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.88.0 (2026-05-29)
+------------------
+
+* Feature - Automated Reasoning checks - Added two build workflows for policies. Iterative Refine Policy uses AI to update policy definitions based on test results and feedback. Resolve Policy Ambiguities consolidates ambiguous variables in Automated Reasoning policies, a common source of ambiguous validation.
+
 1.87.0 (2026-05-28)
 ------------------
 

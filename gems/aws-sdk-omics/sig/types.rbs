@@ -1083,6 +1083,7 @@ module Aws::Omics
       attr_accessor networking_mode: ("RESTRICTED" | "VPC")
       attr_accessor configuration: Types::ConfigurationDetails
       attr_accessor vpc_config: Types::VpcConfigResponse
+      attr_accessor engine_settings: untyped
       SENSITIVE: []
     end
 
@@ -1231,6 +1232,8 @@ module Aws::Omics
       attr_accessor readme: ::String
       attr_accessor definition_repository_details: Types::DefinitionRepositoryDetails
       attr_accessor readme_path: ::String
+      attr_accessor profiles: ::Array[::String]
+      attr_accessor profile_parameter_templates: ::Hash[::String, ::Hash[::String, Types::WorkflowParameter]]
       SENSITIVE: []
     end
 
@@ -1268,6 +1271,8 @@ module Aws::Omics
       attr_accessor readme: ::String
       attr_accessor definition_repository_details: Types::DefinitionRepositoryDetails
       attr_accessor readme_path: ::String
+      attr_accessor profiles: ::Array[::String]
+      attr_accessor profile_parameter_templates: ::Hash[::String, ::Hash[::String, Types::WorkflowParameter]]
       SENSITIVE: []
     end
 
@@ -2249,6 +2254,7 @@ module Aws::Omics
       attr_accessor workflow_version_name: ::String
       attr_accessor networking_mode: ("RESTRICTED" | "VPC")
       attr_accessor configuration_name: ::String
+      attr_accessor engine_settings: untyped
       SENSITIVE: []
     end
 

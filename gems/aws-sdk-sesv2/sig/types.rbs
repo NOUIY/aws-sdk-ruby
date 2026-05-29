@@ -323,6 +323,7 @@ module Aws::SESV2
     class CreateTenantRequest
       attr_accessor tenant_name: ::String
       attr_accessor tags: ::Array[Types::Tag]
+      attr_accessor suppression_attributes: Types::TenantSuppressionAttributes
       SENSITIVE: []
     end
 
@@ -342,6 +343,7 @@ module Aws::SESV2
       attr_accessor created_timestamp: ::Time
       attr_accessor tags: ::Array[Types::Tag]
       attr_accessor sending_status: ("ENABLED" | "REINSTATED" | "DISABLED")
+      attr_accessor suppression_attributes: Types::TenantSuppressionAttributes
       SENSITIVE: []
     end
 
@@ -472,6 +474,7 @@ module Aws::SESV2
 
     class DeleteSuppressedDestinationRequest
       attr_accessor email_address: ::String
+      attr_accessor tenant_name: ::String
       SENSITIVE: []
     end
 
@@ -1006,6 +1009,7 @@ module Aws::SESV2
 
     class GetSuppressedDestinationRequest
       attr_accessor email_address: ::String
+      attr_accessor tenant_name: ::String
       SENSITIVE: []
     end
 
@@ -1302,6 +1306,7 @@ module Aws::SESV2
     end
 
     class ListSuppressedDestinationsRequest
+      attr_accessor tenant_name: ::String
       attr_accessor reasons: ::Array[("BOUNCE" | "COMPLAINT")]
       attr_accessor start_date: ::Time
       attr_accessor end_date: ::Time
@@ -1553,6 +1558,7 @@ module Aws::SESV2
 
     class PutConfigurationSetSuppressionOptionsRequest
       attr_accessor configuration_set_name: ::String
+      attr_accessor suppression_scope: ("ACCOUNT" | "TENANT")
       attr_accessor suppressed_reasons: ::Array[("BOUNCE" | "COMPLAINT")]
       attr_accessor validation_options: Types::SuppressionValidationOptions
       SENSITIVE: []
@@ -1670,10 +1676,21 @@ module Aws::SESV2
     class PutSuppressedDestinationRequest
       attr_accessor email_address: ::String
       attr_accessor reason: ("BOUNCE" | "COMPLAINT")
+      attr_accessor tenant_name: ::String
       SENSITIVE: []
     end
 
     class PutSuppressedDestinationResponse < Aws::EmptyStructure
+    end
+
+    class PutTenantSuppressionAttributesRequest
+      attr_accessor tenant_name: ::String
+      attr_accessor suppressed_reasons: ::Array[("BOUNCE" | "COMPLAINT")]
+      attr_accessor suppression_scope: ("ACCOUNT" | "TENANT")
+      SENSITIVE: []
+    end
+
+    class PutTenantSuppressionAttributesResponse < Aws::EmptyStructure
     end
 
     class RawMessage
@@ -1835,6 +1852,7 @@ module Aws::SESV2
       attr_accessor reason: ("BOUNCE" | "COMPLAINT")
       attr_accessor last_update_time: ::Time
       attr_accessor attributes: Types::SuppressedDestinationAttributes
+      attr_accessor tenant_name: ::String
       SENSITIVE: []
     end
 
@@ -1875,6 +1893,7 @@ module Aws::SESV2
 
     class SuppressionOptions
       attr_accessor suppressed_reasons: ::Array[("BOUNCE" | "COMPLAINT")]
+      attr_accessor suppression_scope: ("ACCOUNT" | "TENANT")
       attr_accessor validation_options: Types::SuppressionValidationOptions
       SENSITIVE: []
     end
@@ -1921,6 +1940,7 @@ module Aws::SESV2
       attr_accessor created_timestamp: ::Time
       attr_accessor tags: ::Array[Types::Tag]
       attr_accessor sending_status: ("ENABLED" | "REINSTATED" | "DISABLED")
+      attr_accessor suppression_attributes: Types::TenantSuppressionAttributes
       SENSITIVE: []
     end
 
@@ -1935,6 +1955,12 @@ module Aws::SESV2
     class TenantResource
       attr_accessor resource_type: ("EMAIL_IDENTITY" | "CONFIGURATION_SET" | "EMAIL_TEMPLATE")
       attr_accessor resource_arn: ::String
+      SENSITIVE: []
+    end
+
+    class TenantSuppressionAttributes
+      attr_accessor suppressed_reasons: ::Array[("BOUNCE" | "COMPLAINT")]
+      attr_accessor suppression_scope: ("ACCOUNT" | "TENANT")
       SENSITIVE: []
     end
 

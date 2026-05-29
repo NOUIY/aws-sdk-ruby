@@ -830,9 +830,20 @@ module Aws::BedrockAgentCoreControl
     #   The name of the API key credential provider. The name must be unique
     #   within your account.
     #
-    # @option params [required, String] :api_key
+    # @option params [String] :api_key
     #   The API key to use for authentication. This value is encrypted and
     #   stored securely.
+    #
+    # @option params [Types::SecretReference] :api_key_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the API key.
+    #   This includes the secret ID and the JSON key used to extract the API
+    #   key value from the secret. Required when `apiKeySecretSource` is set
+    #   to `EXTERNAL`.
+    #
+    # @option params [String] :api_key_secret_source
+    #   The source type of the API key secret. Use `MANAGED` if the secret is
+    #   managed by the service, or `EXTERNAL` if you manage the secret
+    #   yourself in AWS Secrets Manager.
     #
     # @option params [Hash<String,String>] :tags
     #   A map of tag keys and values to assign to the API key credential
@@ -842,6 +853,8 @@ module Aws::BedrockAgentCoreControl
     # @return [Types::CreateApiKeyCredentialProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateApiKeyCredentialProviderResponse#api_key_secret_arn #api_key_secret_arn} => Types::Secret
+    #   * {Types::CreateApiKeyCredentialProviderResponse#api_key_secret_json_key #api_key_secret_json_key} => String
+    #   * {Types::CreateApiKeyCredentialProviderResponse#api_key_secret_source #api_key_secret_source} => String
     #   * {Types::CreateApiKeyCredentialProviderResponse#name #name} => String
     #   * {Types::CreateApiKeyCredentialProviderResponse#credential_provider_arn #credential_provider_arn} => String
     #
@@ -849,7 +862,12 @@ module Aws::BedrockAgentCoreControl
     #
     #   resp = client.create_api_key_credential_provider({
     #     name: "CredentialProviderName", # required
-    #     api_key: "ApiKeyType", # required
+    #     api_key: "DefaultApiKeyType",
+    #     api_key_secret_config: {
+    #       secret_id: "SecretIdType", # required
+    #       json_key: "SecretJsonKeyType", # required
+    #     },
+    #     api_key_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
@@ -858,6 +876,8 @@ module Aws::BedrockAgentCoreControl
     # @example Response structure
     #
     #   resp.api_key_secret_arn.secret_arn #=> String
+    #   resp.api_key_secret_json_key #=> String
+    #   resp.api_key_secret_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.name #=> String
     #   resp.credential_provider_arn #=> String
     #
@@ -3237,6 +3257,8 @@ module Aws::BedrockAgentCoreControl
     # @return [Types::CreateOauth2CredentialProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateOauth2CredentialProviderResponse#client_secret_arn #client_secret_arn} => Types::Secret
+    #   * {Types::CreateOauth2CredentialProviderResponse#client_secret_json_key #client_secret_json_key} => String
+    #   * {Types::CreateOauth2CredentialProviderResponse#client_secret_source #client_secret_source} => String
     #   * {Types::CreateOauth2CredentialProviderResponse#name #name} => String
     #   * {Types::CreateOauth2CredentialProviderResponse#credential_provider_arn #credential_provider_arn} => String
     #   * {Types::CreateOauth2CredentialProviderResponse#callback_url #callback_url} => String
@@ -3262,6 +3284,19 @@ module Aws::BedrockAgentCoreControl
     #         },
     #         client_id: "DefaultClientIdType",
     #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
+    #         on_behalf_of_token_exchange_config: {
+    #           grant_type: "TOKEN_EXCHANGE", # required, accepts TOKEN_EXCHANGE, JWT_AUTHORIZATION_GRANT
+    #           token_exchange_grant_type_config: {
+    #             actor_token_content: "NONE", # required, accepts NONE, M2M, AWS_IAM_ID_TOKEN_JWT
+    #             actor_token_scopes: ["ScopeType"],
+    #           },
+    #         },
+    #         client_authentication_method: "CLIENT_SECRET_BASIC", # accepts CLIENT_SECRET_BASIC, CLIENT_SECRET_POST, AWS_IAM_ID_TOKEN_JWT
     #         private_endpoint: {
     #           self_managed_lattice_resource: {
     #             resource_configuration_identifier: "ResourceConfigurationIdentifier",
@@ -3297,47 +3332,79 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #         ],
-    #         on_behalf_of_token_exchange_config: {
-    #           grant_type: "TOKEN_EXCHANGE", # required, accepts TOKEN_EXCHANGE, JWT_AUTHORIZATION_GRANT
-    #           token_exchange_grant_type_config: {
-    #             actor_token_content: "NONE", # required, accepts NONE, M2M, AWS_IAM_ID_TOKEN_JWT
-    #             actor_token_scopes: ["ScopeType"],
-    #           },
-    #         },
-    #         client_authentication_method: "CLIENT_SECRET_BASIC", # accepts CLIENT_SECRET_BASIC, CLIENT_SECRET_POST, AWS_IAM_ID_TOKEN_JWT
     #       },
     #       google_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #       },
     #       github_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #       },
     #       slack_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #       },
     #       salesforce_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #       },
     #       microsoft_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #         tenant_id: "TenantIdType",
     #       },
     #       atlassian_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #       },
     #       linkedin_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #       },
     #       included_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #         issuer: "IssuerUrlType",
     #         authorization_endpoint: "AuthorizationEndpointType",
     #         token_endpoint: "TokenEndpointType",
@@ -3351,6 +3418,8 @@ module Aws::BedrockAgentCoreControl
     # @example Response structure
     #
     #   resp.client_secret_arn.secret_arn #=> String
+    #   resp.client_secret_json_key #=> String
+    #   resp.client_secret_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.name #=> String
     #   resp.credential_provider_arn #=> String
     #   resp.callback_url #=> String
@@ -3727,13 +3796,33 @@ module Aws::BedrockAgentCoreControl
     #     provider_configuration_input: { # required
     #       coinbase_cdp_configuration: {
     #         api_key_id: "CoinbaseCdpApiKeyIdType", # required
-    #         api_key_secret: "CoinbaseCdpApiKeySecretType", # required
-    #         wallet_secret: "CoinbaseCdpWalletSecretType", # required
+    #         api_key_secret: "DefaultCoinbaseCdpApiKeySecretType",
+    #         api_key_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
+    #         api_key_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         wallet_secret: "DefaultCoinbaseCdpWalletSecretType",
+    #         wallet_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
+    #         wallet_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
     #       },
     #       stripe_privy_configuration: {
     #         app_id: "StripePrivyAppIdType", # required
-    #         app_secret: "StripePrivyAppSecretType", # required
-    #         authorization_private_key: "StripePrivyAuthorizationPrivateKeyType", # required
+    #         app_secret: "DefaultStripePrivyAppSecretType",
+    #         app_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
+    #         app_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         authorization_private_key: "DefaultStripePrivyAuthorizationPrivateKeyType",
+    #         authorization_private_key_source: "MANAGED", # accepts MANAGED, EXTERNAL
+    #         authorization_private_key_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
     #         authorization_id: "StripePrivyAuthorizationIdType", # required
     #       },
     #     },
@@ -3749,10 +3838,18 @@ module Aws::BedrockAgentCoreControl
     #   resp.credential_provider_arn #=> String
     #   resp.provider_configuration_output.coinbase_cdp_configuration.api_key_id #=> String
     #   resp.provider_configuration_output.coinbase_cdp_configuration.api_key_secret_arn.secret_arn #=> String
+    #   resp.provider_configuration_output.coinbase_cdp_configuration.api_key_secret_json_key #=> String
+    #   resp.provider_configuration_output.coinbase_cdp_configuration.api_key_secret_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.provider_configuration_output.coinbase_cdp_configuration.wallet_secret_arn.secret_arn #=> String
+    #   resp.provider_configuration_output.coinbase_cdp_configuration.wallet_secret_json_key #=> String
+    #   resp.provider_configuration_output.coinbase_cdp_configuration.wallet_secret_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.provider_configuration_output.stripe_privy_configuration.app_id #=> String
     #   resp.provider_configuration_output.stripe_privy_configuration.app_secret_arn.secret_arn #=> String
+    #   resp.provider_configuration_output.stripe_privy_configuration.app_secret_json_key #=> String
+    #   resp.provider_configuration_output.stripe_privy_configuration.app_secret_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.provider_configuration_output.stripe_privy_configuration.authorization_private_key_arn.secret_arn #=> String
+    #   resp.provider_configuration_output.stripe_privy_configuration.authorization_private_key_json_key #=> String
+    #   resp.provider_configuration_output.stripe_privy_configuration.authorization_private_key_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.provider_configuration_output.stripe_privy_configuration.authorization_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreatePaymentCredentialProvider AWS API Documentation
@@ -5823,6 +5920,8 @@ module Aws::BedrockAgentCoreControl
     # @return [Types::GetApiKeyCredentialProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetApiKeyCredentialProviderResponse#api_key_secret_arn #api_key_secret_arn} => Types::Secret
+    #   * {Types::GetApiKeyCredentialProviderResponse#api_key_secret_json_key #api_key_secret_json_key} => String
+    #   * {Types::GetApiKeyCredentialProviderResponse#api_key_secret_source #api_key_secret_source} => String
     #   * {Types::GetApiKeyCredentialProviderResponse#name #name} => String
     #   * {Types::GetApiKeyCredentialProviderResponse#credential_provider_arn #credential_provider_arn} => String
     #   * {Types::GetApiKeyCredentialProviderResponse#created_time #created_time} => Time
@@ -5837,6 +5936,8 @@ module Aws::BedrockAgentCoreControl
     # @example Response structure
     #
     #   resp.api_key_secret_arn.secret_arn #=> String
+    #   resp.api_key_secret_json_key #=> String
+    #   resp.api_key_secret_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.name #=> String
     #   resp.credential_provider_arn #=> String
     #   resp.created_time #=> Time
@@ -6913,6 +7014,8 @@ module Aws::BedrockAgentCoreControl
     # @return [Types::GetOauth2CredentialProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetOauth2CredentialProviderResponse#client_secret_arn #client_secret_arn} => Types::Secret
+    #   * {Types::GetOauth2CredentialProviderResponse#client_secret_json_key #client_secret_json_key} => String
+    #   * {Types::GetOauth2CredentialProviderResponse#client_secret_source #client_secret_source} => String
     #   * {Types::GetOauth2CredentialProviderResponse#name #name} => String
     #   * {Types::GetOauth2CredentialProviderResponse#credential_provider_arn #credential_provider_arn} => String
     #   * {Types::GetOauth2CredentialProviderResponse#credential_provider_vendor #credential_provider_vendor} => String
@@ -6932,6 +7035,8 @@ module Aws::BedrockAgentCoreControl
     # @example Response structure
     #
     #   resp.client_secret_arn.secret_arn #=> String
+    #   resp.client_secret_json_key #=> String
+    #   resp.client_secret_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.name #=> String
     #   resp.credential_provider_arn #=> String
     #   resp.credential_provider_vendor #=> String, one of "GoogleOauth2", "GithubOauth2", "SlackOauth2", "SalesforceOauth2", "MicrosoftOauth2", "CustomOauth2", "AtlassianOauth2", "LinkedinOauth2", "XOauth2", "OktaOauth2", "OneLoginOauth2", "PingOneOauth2", "FacebookOauth2", "YandexOauth2", "RedditOauth2", "ZoomOauth2", "TwitchOauth2", "SpotifyOauth2", "DropboxOauth2", "NotionOauth2", "HubspotOauth2", "CyberArkOauth2", "FusionAuthOauth2", "Auth0Oauth2", "CognitoOauth2"
@@ -7202,10 +7307,18 @@ module Aws::BedrockAgentCoreControl
     #   resp.credential_provider_vendor #=> String, one of "CoinbaseCDP", "StripePrivy"
     #   resp.provider_configuration_output.coinbase_cdp_configuration.api_key_id #=> String
     #   resp.provider_configuration_output.coinbase_cdp_configuration.api_key_secret_arn.secret_arn #=> String
+    #   resp.provider_configuration_output.coinbase_cdp_configuration.api_key_secret_json_key #=> String
+    #   resp.provider_configuration_output.coinbase_cdp_configuration.api_key_secret_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.provider_configuration_output.coinbase_cdp_configuration.wallet_secret_arn.secret_arn #=> String
+    #   resp.provider_configuration_output.coinbase_cdp_configuration.wallet_secret_json_key #=> String
+    #   resp.provider_configuration_output.coinbase_cdp_configuration.wallet_secret_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.provider_configuration_output.stripe_privy_configuration.app_id #=> String
     #   resp.provider_configuration_output.stripe_privy_configuration.app_secret_arn.secret_arn #=> String
+    #   resp.provider_configuration_output.stripe_privy_configuration.app_secret_json_key #=> String
+    #   resp.provider_configuration_output.stripe_privy_configuration.app_secret_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.provider_configuration_output.stripe_privy_configuration.authorization_private_key_arn.secret_arn #=> String
+    #   resp.provider_configuration_output.stripe_privy_configuration.authorization_private_key_json_key #=> String
+    #   resp.provider_configuration_output.stripe_privy_configuration.authorization_private_key_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.provider_configuration_output.stripe_privy_configuration.authorization_id #=> String
     #   resp.created_time #=> Time
     #   resp.last_updated_time #=> Time
@@ -10415,13 +10528,26 @@ module Aws::BedrockAgentCoreControl
     # @option params [required, String] :name
     #   The name of the API key credential provider to update.
     #
-    # @option params [required, String] :api_key
+    # @option params [String] :api_key
     #   The new API key to use for authentication. This value replaces the
     #   existing API key and is encrypted and stored securely.
+    #
+    # @option params [Types::SecretReference] :api_key_secret_config
+    #   A reference to the AWS Secrets Manager secret that stores the API key.
+    #   This includes the secret ID and the JSON key used to extract the API
+    #   key value from the secret. Required when `apiKeySecretSource` is set
+    #   to `EXTERNAL`.
+    #
+    # @option params [String] :api_key_secret_source
+    #   The source type of the API key secret. Use `MANAGED` if the secret is
+    #   managed by the service, or `EXTERNAL` if you manage the secret
+    #   yourself in AWS Secrets Manager.
     #
     # @return [Types::UpdateApiKeyCredentialProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateApiKeyCredentialProviderResponse#api_key_secret_arn #api_key_secret_arn} => Types::Secret
+    #   * {Types::UpdateApiKeyCredentialProviderResponse#api_key_secret_json_key #api_key_secret_json_key} => String
+    #   * {Types::UpdateApiKeyCredentialProviderResponse#api_key_secret_source #api_key_secret_source} => String
     #   * {Types::UpdateApiKeyCredentialProviderResponse#name #name} => String
     #   * {Types::UpdateApiKeyCredentialProviderResponse#credential_provider_arn #credential_provider_arn} => String
     #   * {Types::UpdateApiKeyCredentialProviderResponse#created_time #created_time} => Time
@@ -10431,12 +10557,19 @@ module Aws::BedrockAgentCoreControl
     #
     #   resp = client.update_api_key_credential_provider({
     #     name: "CredentialProviderName", # required
-    #     api_key: "ApiKeyType", # required
+    #     api_key: "DefaultApiKeyType",
+    #     api_key_secret_config: {
+    #       secret_id: "SecretIdType", # required
+    #       json_key: "SecretJsonKeyType", # required
+    #     },
+    #     api_key_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #   })
     #
     # @example Response structure
     #
     #   resp.api_key_secret_arn.secret_arn #=> String
+    #   resp.api_key_secret_json_key #=> String
+    #   resp.api_key_secret_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.name #=> String
     #   resp.credential_provider_arn #=> String
     #   resp.created_time #=> Time
@@ -12632,6 +12765,8 @@ module Aws::BedrockAgentCoreControl
     # @return [Types::UpdateOauth2CredentialProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateOauth2CredentialProviderResponse#client_secret_arn #client_secret_arn} => Types::Secret
+    #   * {Types::UpdateOauth2CredentialProviderResponse#client_secret_json_key #client_secret_json_key} => String
+    #   * {Types::UpdateOauth2CredentialProviderResponse#client_secret_source #client_secret_source} => String
     #   * {Types::UpdateOauth2CredentialProviderResponse#name #name} => String
     #   * {Types::UpdateOauth2CredentialProviderResponse#credential_provider_vendor #credential_provider_vendor} => String
     #   * {Types::UpdateOauth2CredentialProviderResponse#credential_provider_arn #credential_provider_arn} => String
@@ -12660,6 +12795,19 @@ module Aws::BedrockAgentCoreControl
     #         },
     #         client_id: "DefaultClientIdType",
     #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
+    #         on_behalf_of_token_exchange_config: {
+    #           grant_type: "TOKEN_EXCHANGE", # required, accepts TOKEN_EXCHANGE, JWT_AUTHORIZATION_GRANT
+    #           token_exchange_grant_type_config: {
+    #             actor_token_content: "NONE", # required, accepts NONE, M2M, AWS_IAM_ID_TOKEN_JWT
+    #             actor_token_scopes: ["ScopeType"],
+    #           },
+    #         },
+    #         client_authentication_method: "CLIENT_SECRET_BASIC", # accepts CLIENT_SECRET_BASIC, CLIENT_SECRET_POST, AWS_IAM_ID_TOKEN_JWT
     #         private_endpoint: {
     #           self_managed_lattice_resource: {
     #             resource_configuration_identifier: "ResourceConfigurationIdentifier",
@@ -12695,47 +12843,79 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #         ],
-    #         on_behalf_of_token_exchange_config: {
-    #           grant_type: "TOKEN_EXCHANGE", # required, accepts TOKEN_EXCHANGE, JWT_AUTHORIZATION_GRANT
-    #           token_exchange_grant_type_config: {
-    #             actor_token_content: "NONE", # required, accepts NONE, M2M, AWS_IAM_ID_TOKEN_JWT
-    #             actor_token_scopes: ["ScopeType"],
-    #           },
-    #         },
-    #         client_authentication_method: "CLIENT_SECRET_BASIC", # accepts CLIENT_SECRET_BASIC, CLIENT_SECRET_POST, AWS_IAM_ID_TOKEN_JWT
     #       },
     #       google_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #       },
     #       github_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #       },
     #       slack_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #       },
     #       salesforce_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #       },
     #       microsoft_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #         tenant_id: "TenantIdType",
     #       },
     #       atlassian_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #       },
     #       linkedin_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #       },
     #       included_oauth_2_provider_config: {
     #         client_id: "ClientIdType", # required
-    #         client_secret: "ClientSecretType", # required
+    #         client_secret: "DefaultClientSecretType",
+    #         client_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         client_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
     #         issuer: "IssuerUrlType",
     #         authorization_endpoint: "AuthorizationEndpointType",
     #         token_endpoint: "TokenEndpointType",
@@ -12746,6 +12926,8 @@ module Aws::BedrockAgentCoreControl
     # @example Response structure
     #
     #   resp.client_secret_arn.secret_arn #=> String
+    #   resp.client_secret_json_key #=> String
+    #   resp.client_secret_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.name #=> String
     #   resp.credential_provider_vendor #=> String, one of "GoogleOauth2", "GithubOauth2", "SlackOauth2", "SalesforceOauth2", "MicrosoftOauth2", "CustomOauth2", "AtlassianOauth2", "LinkedinOauth2", "XOauth2", "OktaOauth2", "OneLoginOauth2", "PingOneOauth2", "FacebookOauth2", "YandexOauth2", "RedditOauth2", "ZoomOauth2", "TwitchOauth2", "SpotifyOauth2", "DropboxOauth2", "NotionOauth2", "HubspotOauth2", "CyberArkOauth2", "FusionAuthOauth2", "Auth0Oauth2", "CognitoOauth2"
     #   resp.credential_provider_arn #=> String
@@ -13096,13 +13278,33 @@ module Aws::BedrockAgentCoreControl
     #     provider_configuration_input: { # required
     #       coinbase_cdp_configuration: {
     #         api_key_id: "CoinbaseCdpApiKeyIdType", # required
-    #         api_key_secret: "CoinbaseCdpApiKeySecretType", # required
-    #         wallet_secret: "CoinbaseCdpWalletSecretType", # required
+    #         api_key_secret: "DefaultCoinbaseCdpApiKeySecretType",
+    #         api_key_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
+    #         api_key_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         wallet_secret: "DefaultCoinbaseCdpWalletSecretType",
+    #         wallet_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
+    #         wallet_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
     #       },
     #       stripe_privy_configuration: {
     #         app_id: "StripePrivyAppIdType", # required
-    #         app_secret: "StripePrivyAppSecretType", # required
-    #         authorization_private_key: "StripePrivyAuthorizationPrivateKeyType", # required
+    #         app_secret: "DefaultStripePrivyAppSecretType",
+    #         app_secret_source: "MANAGED", # accepts MANAGED, EXTERNAL
+    #         app_secret_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
+    #         authorization_private_key: "DefaultStripePrivyAuthorizationPrivateKeyType",
+    #         authorization_private_key_source: "MANAGED", # accepts MANAGED, EXTERNAL
+    #         authorization_private_key_config: {
+    #           secret_id: "SecretIdType", # required
+    #           json_key: "SecretJsonKeyType", # required
+    #         },
     #         authorization_id: "StripePrivyAuthorizationIdType", # required
     #       },
     #     },
@@ -13115,10 +13317,18 @@ module Aws::BedrockAgentCoreControl
     #   resp.credential_provider_arn #=> String
     #   resp.provider_configuration_output.coinbase_cdp_configuration.api_key_id #=> String
     #   resp.provider_configuration_output.coinbase_cdp_configuration.api_key_secret_arn.secret_arn #=> String
+    #   resp.provider_configuration_output.coinbase_cdp_configuration.api_key_secret_json_key #=> String
+    #   resp.provider_configuration_output.coinbase_cdp_configuration.api_key_secret_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.provider_configuration_output.coinbase_cdp_configuration.wallet_secret_arn.secret_arn #=> String
+    #   resp.provider_configuration_output.coinbase_cdp_configuration.wallet_secret_json_key #=> String
+    #   resp.provider_configuration_output.coinbase_cdp_configuration.wallet_secret_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.provider_configuration_output.stripe_privy_configuration.app_id #=> String
     #   resp.provider_configuration_output.stripe_privy_configuration.app_secret_arn.secret_arn #=> String
+    #   resp.provider_configuration_output.stripe_privy_configuration.app_secret_json_key #=> String
+    #   resp.provider_configuration_output.stripe_privy_configuration.app_secret_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.provider_configuration_output.stripe_privy_configuration.authorization_private_key_arn.secret_arn #=> String
+    #   resp.provider_configuration_output.stripe_privy_configuration.authorization_private_key_json_key #=> String
+    #   resp.provider_configuration_output.stripe_privy_configuration.authorization_private_key_source #=> String, one of "MANAGED", "EXTERNAL"
     #   resp.provider_configuration_output.stripe_privy_configuration.authorization_id #=> String
     #   resp.created_time #=> Time
     #   resp.last_updated_time #=> Time
@@ -13898,7 +14108,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.50.0'
+      context[:gem_version] = '1.51.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

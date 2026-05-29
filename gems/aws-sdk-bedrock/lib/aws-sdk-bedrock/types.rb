@@ -1953,6 +1953,29 @@ module Aws::Bedrock
       include Aws::Structure
     end
 
+    # Configuration for an iterative policy refinement workflow, including
+    # source documents to process and optional feedback to guide the
+    # refinement.
+    #
+    # @!attribute [rw] documents
+    #   Source documents used for iterative policy refinement. These
+    #   documents provide context for refining the policy definition.
+    #   @return [Array<Types::AutomatedReasoningPolicyBuildWorkflowDocument>]
+    #
+    # @!attribute [rw] feedback
+    #   Optional feedback to guide the iterative refinement workflow.
+    #   Provide specific instructions or constraints for policy refinement.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/AutomatedReasoningPolicyIterativeRefinementContent AWS API Documentation
+    #
+    class AutomatedReasoningPolicyIterativeRefinementContent < Struct.new(
+      :documents,
+      :feedback)
+      SENSITIVE = [:feedback]
+      include Aws::Structure
+    end
+
     # A container for various mutation operations that can be applied to an
     # Automated Reasoning policy, including adding, updating, and deleting
     # policy elements.
@@ -2682,12 +2705,19 @@ module Aws::Bedrock
     #   report to update with a new policy definition.
     #   @return [Types::AutomatedReasoningPolicyGenerateFidelityReportContent]
     #
+    # @!attribute [rw] iterative_refinement_content
+    #   Content configuration to start an iterative policy refinement
+    #   workflow that uses generative AI to automatically make changes to
+    #   the policy based on test results and the optional feedback provided.
+    #   @return [Types::AutomatedReasoningPolicyIterativeRefinementContent]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/AutomatedReasoningPolicyWorkflowTypeContent AWS API Documentation
     #
     class AutomatedReasoningPolicyWorkflowTypeContent < Struct.new(
       :documents,
       :policy_repair_assets,
       :generate_fidelity_report_content,
+      :iterative_refinement_content,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -2696,6 +2726,7 @@ module Aws::Bedrock
       class Documents < AutomatedReasoningPolicyWorkflowTypeContent; end
       class PolicyRepairAssets < AutomatedReasoningPolicyWorkflowTypeContent; end
       class GenerateFidelityReportContent < AutomatedReasoningPolicyWorkflowTypeContent; end
+      class IterativeRefinementContent < AutomatedReasoningPolicyWorkflowTypeContent; end
       class Unknown < AutomatedReasoningPolicyWorkflowTypeContent; end
     end
 

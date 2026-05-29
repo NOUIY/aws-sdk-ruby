@@ -137,6 +137,7 @@ module Aws
                                       ],
                                       ?suppression_options: {
                                         suppressed_reasons: Array[("BOUNCE" | "COMPLAINT")]?,
+                                        suppression_scope: ("ACCOUNT" | "TENANT")?,
                                         validation_options: Params::suppression_validation_options?
                                       },
                                       ?vdm_options: Params::vdm_options,
@@ -398,6 +399,7 @@ module Aws
         def created_timestamp: () -> ::Time
         def tags: () -> ::Array[Types::Tag]
         def sending_status: () -> ("ENABLED" | "REINSTATED" | "DISABLED")
+        def suppression_attributes: () -> Types::TenantSuppressionAttributes
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SESV2/Client.html#create_tenant-instance_method
       def create_tenant: (
@@ -407,7 +409,11 @@ module Aws
                                key: ::String,
                                value: ::String
                              }
-                           ]
+                           ],
+                           ?suppression_attributes: {
+                             suppressed_reasons: Array[("BOUNCE" | "COMPLAINT")]?,
+                             suppression_scope: ("ACCOUNT" | "TENANT")?
+                           }
                          ) -> _CreateTenantResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateTenantResponseSuccess
 
@@ -520,7 +526,8 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SESV2/Client.html#delete_suppressed_destination-instance_method
       def delete_suppressed_destination: (
-                                           email_address: ::String
+                                           email_address: ::String,
+                                           ?tenant_name: ::String
                                          ) -> _DeleteSuppressedDestinationResponseSuccess
                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteSuppressedDestinationResponseSuccess
 
@@ -862,7 +869,8 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SESV2/Client.html#get_suppressed_destination-instance_method
       def get_suppressed_destination: (
-                                        email_address: ::String
+                                        email_address: ::String,
+                                        ?tenant_name: ::String
                                       ) -> _GetSuppressedDestinationResponseSuccess
                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetSuppressedDestinationResponseSuccess
 
@@ -1080,6 +1088,7 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SESV2/Client.html#list_suppressed_destinations-instance_method
       def list_suppressed_destinations: (
+                                          ?tenant_name: ::String,
                                           ?reasons: Array[("BOUNCE" | "COMPLAINT")],
                                           ?start_date: ::Time,
                                           ?end_date: ::Time,
@@ -1238,6 +1247,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SESV2/Client.html#put_configuration_set_suppression_options-instance_method
       def put_configuration_set_suppression_options: (
                                                        configuration_set_name: ::String,
+                                                       ?suppression_scope: ("ACCOUNT" | "TENANT"),
                                                        ?suppressed_reasons: Array[("BOUNCE" | "COMPLAINT")],
                                                        ?validation_options: Params::suppression_validation_options
                                                      ) -> _PutConfigurationSetSuppressionOptionsResponseSuccess
@@ -1379,9 +1389,21 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SESV2/Client.html#put_suppressed_destination-instance_method
       def put_suppressed_destination: (
                                         email_address: ::String,
-                                        reason: ("BOUNCE" | "COMPLAINT")
+                                        reason: ("BOUNCE" | "COMPLAINT"),
+                                        ?tenant_name: ::String
                                       ) -> _PutSuppressedDestinationResponseSuccess
                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutSuppressedDestinationResponseSuccess
+
+      interface _PutTenantSuppressionAttributesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::PutTenantSuppressionAttributesResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SESV2/Client.html#put_tenant_suppression_attributes-instance_method
+      def put_tenant_suppression_attributes: (
+                                               tenant_name: ::String,
+                                               ?suppressed_reasons: Array[("BOUNCE" | "COMPLAINT")],
+                                               ?suppression_scope: ("ACCOUNT" | "TENANT")
+                                             ) -> _PutTenantSuppressionAttributesResponseSuccess
+                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutTenantSuppressionAttributesResponseSuccess
 
       interface _SendBulkEmailResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::SendBulkEmailResponse]

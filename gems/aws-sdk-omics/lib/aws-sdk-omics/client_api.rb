@@ -160,6 +160,7 @@ module Aws::Omics
     Encoding = Shapes::StringShape.new(name: 'Encoding')
     EncryptionType = Shapes::StringShape.new(name: 'EncryptionType')
     EngineLogStream = Shapes::StringShape.new(name: 'EngineLogStream')
+    EngineSettings = Shapes::DocumentShape.new(name: 'EngineSettings', document: true)
     EngineVersion = Shapes::StringShape.new(name: 'EngineVersion')
     EscapeChar = Shapes::StringShape.new(name: 'EscapeChar')
     EscapeQuotes = Shapes::BooleanShape.new(name: 'EscapeQuotes')
@@ -679,6 +680,9 @@ module Aws::Omics
     WorkflowParameterDescription = Shapes::StringShape.new(name: 'WorkflowParameterDescription')
     WorkflowParameterName = Shapes::StringShape.new(name: 'WorkflowParameterName')
     WorkflowParameterTemplate = Shapes::MapShape.new(name: 'WorkflowParameterTemplate')
+    WorkflowProfileList = Shapes::ListShape.new(name: 'WorkflowProfileList')
+    WorkflowProfileName = Shapes::StringShape.new(name: 'WorkflowProfileName')
+    WorkflowProfileParameterTemplates = Shapes::MapShape.new(name: 'WorkflowProfileParameterTemplates')
     WorkflowRequestId = Shapes::StringShape.new(name: 'WorkflowRequestId')
     WorkflowStatus = Shapes::StringShape.new(name: 'WorkflowStatus')
     WorkflowStatusMessage = Shapes::StringShape.new(name: 'WorkflowStatusMessage')
@@ -1557,6 +1561,7 @@ module Aws::Omics
     GetRunResponse.add_member(:networking_mode, Shapes::ShapeRef.new(shape: NetworkingMode, location_name: "networkingMode"))
     GetRunResponse.add_member(:configuration, Shapes::ShapeRef.new(shape: ConfigurationDetails, location_name: "configuration"))
     GetRunResponse.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfigResponse, location_name: "vpcConfig"))
+    GetRunResponse.add_member(:engine_settings, Shapes::ShapeRef.new(shape: EngineSettings, location_name: "engineSettings"))
     GetRunResponse.struct_class = Types::GetRunResponse
 
     GetRunTaskRequest.add_member(:id, Shapes::ShapeRef.new(shape: RunId, required: true, location: "uri", location_name: "id"))
@@ -1677,6 +1682,8 @@ module Aws::Omics
     GetWorkflowResponse.add_member(:readme, Shapes::ShapeRef.new(shape: ReadmeS3PresignedUrl, location_name: "readme"))
     GetWorkflowResponse.add_member(:definition_repository_details, Shapes::ShapeRef.new(shape: DefinitionRepositoryDetails, location_name: "definitionRepositoryDetails"))
     GetWorkflowResponse.add_member(:readme_path, Shapes::ShapeRef.new(shape: ReadmePath, location_name: "readmePath"))
+    GetWorkflowResponse.add_member(:profiles, Shapes::ShapeRef.new(shape: WorkflowProfileList, location_name: "profiles"))
+    GetWorkflowResponse.add_member(:profile_parameter_templates, Shapes::ShapeRef.new(shape: WorkflowProfileParameterTemplates, location_name: "profileParameterTemplates"))
     GetWorkflowResponse.struct_class = Types::GetWorkflowResponse
 
     GetWorkflowVersionRequest.add_member(:workflow_id, Shapes::ShapeRef.new(shape: WorkflowId, required: true, location: "uri", location_name: "workflowId"))
@@ -1710,6 +1717,8 @@ module Aws::Omics
     GetWorkflowVersionResponse.add_member(:readme, Shapes::ShapeRef.new(shape: ReadmeS3PresignedUrl, location_name: "readme"))
     GetWorkflowVersionResponse.add_member(:definition_repository_details, Shapes::ShapeRef.new(shape: DefinitionRepositoryDetails, location_name: "definitionRepositoryDetails"))
     GetWorkflowVersionResponse.add_member(:readme_path, Shapes::ShapeRef.new(shape: ReadmePath, location_name: "readmePath"))
+    GetWorkflowVersionResponse.add_member(:profiles, Shapes::ShapeRef.new(shape: WorkflowProfileList, location_name: "profiles"))
+    GetWorkflowVersionResponse.add_member(:profile_parameter_templates, Shapes::ShapeRef.new(shape: WorkflowProfileParameterTemplates, location_name: "profileParameterTemplates"))
     GetWorkflowVersionResponse.struct_class = Types::GetWorkflowVersionResponse
 
     ImageDetails.add_member(:image, Shapes::ShapeRef.new(shape: Uri, location_name: "image"))
@@ -2510,6 +2519,7 @@ module Aws::Omics
     StartRunRequest.add_member(:workflow_version_name, Shapes::ShapeRef.new(shape: WorkflowVersionName, location_name: "workflowVersionName"))
     StartRunRequest.add_member(:networking_mode, Shapes::ShapeRef.new(shape: NetworkingMode, location_name: "networkingMode"))
     StartRunRequest.add_member(:configuration_name, Shapes::ShapeRef.new(shape: ConfigurationName, location_name: "configurationName"))
+    StartRunRequest.add_member(:engine_settings, Shapes::ShapeRef.new(shape: EngineSettings, location_name: "engineSettings"))
     StartRunRequest.struct_class = Types::StartRunRequest
 
     StartRunResponse.add_member(:arn, Shapes::ShapeRef.new(shape: RunArn, location_name: "arn"))
@@ -2815,6 +2825,11 @@ module Aws::Omics
 
     WorkflowParameterTemplate.key = Shapes::ShapeRef.new(shape: WorkflowParameterName)
     WorkflowParameterTemplate.value = Shapes::ShapeRef.new(shape: WorkflowParameter)
+
+    WorkflowProfileList.member = Shapes::ShapeRef.new(shape: WorkflowProfileName)
+
+    WorkflowProfileParameterTemplates.key = Shapes::ShapeRef.new(shape: WorkflowProfileName)
+    WorkflowProfileParameterTemplates.value = Shapes::ShapeRef.new(shape: WorkflowParameterTemplate)
 
     WorkflowVersionList.member = Shapes::ShapeRef.new(shape: WorkflowVersionListItem)
 

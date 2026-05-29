@@ -165,6 +165,8 @@ module Aws::BedrockAgentCoreControl
     class AtlassianOauth2ProviderConfigInput
       attr_accessor client_id: ::String
       attr_accessor client_secret: ::String
+      attr_accessor client_secret_config: Types::SecretReference
+      attr_accessor client_secret_source: ("MANAGED" | "EXTERNAL")
       SENSITIVE: [:client_secret]
     end
 
@@ -357,14 +359,22 @@ module Aws::BedrockAgentCoreControl
     class CoinbaseCdpConfigurationInput
       attr_accessor api_key_id: ::String
       attr_accessor api_key_secret: ::String
+      attr_accessor api_key_secret_source: ("MANAGED" | "EXTERNAL")
+      attr_accessor api_key_secret_config: Types::SecretReference
       attr_accessor wallet_secret: ::String
+      attr_accessor wallet_secret_source: ("MANAGED" | "EXTERNAL")
+      attr_accessor wallet_secret_config: Types::SecretReference
       SENSITIVE: [:api_key_secret, :wallet_secret]
     end
 
     class CoinbaseCdpConfigurationOutput
       attr_accessor api_key_id: ::String
       attr_accessor api_key_secret_arn: Types::Secret
+      attr_accessor api_key_secret_json_key: ::String
+      attr_accessor api_key_secret_source: ("MANAGED" | "EXTERNAL")
       attr_accessor wallet_secret_arn: Types::Secret
+      attr_accessor wallet_secret_json_key: ::String
+      attr_accessor wallet_secret_source: ("MANAGED" | "EXTERNAL")
       SENSITIVE: []
     end
 
@@ -519,12 +529,16 @@ module Aws::BedrockAgentCoreControl
     class CreateApiKeyCredentialProviderRequest
       attr_accessor name: ::String
       attr_accessor api_key: ::String
+      attr_accessor api_key_secret_config: Types::SecretReference
+      attr_accessor api_key_secret_source: ("MANAGED" | "EXTERNAL")
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:api_key]
     end
 
     class CreateApiKeyCredentialProviderResponse
       attr_accessor api_key_secret_arn: Types::Secret
+      attr_accessor api_key_secret_json_key: ::String
+      attr_accessor api_key_secret_source: ("MANAGED" | "EXTERNAL")
       attr_accessor name: ::String
       attr_accessor credential_provider_arn: ::String
       SENSITIVE: []
@@ -811,6 +825,8 @@ module Aws::BedrockAgentCoreControl
 
     class CreateOauth2CredentialProviderResponse
       attr_accessor client_secret_arn: Types::Secret
+      attr_accessor client_secret_json_key: ::String
+      attr_accessor client_secret_source: ("MANAGED" | "EXTERNAL")
       attr_accessor name: ::String
       attr_accessor credential_provider_arn: ::String
       attr_accessor callback_url: ::String
@@ -1170,10 +1186,12 @@ module Aws::BedrockAgentCoreControl
       attr_accessor oauth_discovery: Types::Oauth2Discovery
       attr_accessor client_id: ::String
       attr_accessor client_secret: ::String
-      attr_accessor private_endpoint: Types::PrivateEndpoint
-      attr_accessor private_endpoint_overrides: ::Array[Types::PrivateEndpointOverride]
+      attr_accessor client_secret_config: Types::SecretReference
+      attr_accessor client_secret_source: ("MANAGED" | "EXTERNAL")
       attr_accessor on_behalf_of_token_exchange_config: Types::OnBehalfOfTokenExchangeConfigType
       attr_accessor client_authentication_method: ("CLIENT_SECRET_BASIC" | "CLIENT_SECRET_POST" | "AWS_IAM_ID_TOKEN_JWT")
+      attr_accessor private_endpoint: Types::PrivateEndpoint
+      attr_accessor private_endpoint_overrides: ::Array[Types::PrivateEndpointOverride]
       SENSITIVE: [:client_secret]
     end
 
@@ -1927,6 +1945,8 @@ module Aws::BedrockAgentCoreControl
 
     class GetApiKeyCredentialProviderResponse
       attr_accessor api_key_secret_arn: Types::Secret
+      attr_accessor api_key_secret_json_key: ::String
+      attr_accessor api_key_secret_source: ("MANAGED" | "EXTERNAL")
       attr_accessor name: ::String
       attr_accessor credential_provider_arn: ::String
       attr_accessor created_time: ::Time
@@ -2183,6 +2203,8 @@ module Aws::BedrockAgentCoreControl
 
     class GetOauth2CredentialProviderResponse
       attr_accessor client_secret_arn: Types::Secret
+      attr_accessor client_secret_json_key: ::String
+      attr_accessor client_secret_source: ("MANAGED" | "EXTERNAL")
       attr_accessor name: ::String
       attr_accessor credential_provider_arn: ::String
       attr_accessor credential_provider_vendor: ("GoogleOauth2" | "GithubOauth2" | "SlackOauth2" | "SalesforceOauth2" | "MicrosoftOauth2" | "CustomOauth2" | "AtlassianOauth2" | "LinkedinOauth2" | "XOauth2" | "OktaOauth2" | "OneLoginOauth2" | "PingOneOauth2" | "FacebookOauth2" | "YandexOauth2" | "RedditOauth2" | "ZoomOauth2" | "TwitchOauth2" | "SpotifyOauth2" | "DropboxOauth2" | "NotionOauth2" | "HubspotOauth2" | "CyberArkOauth2" | "FusionAuthOauth2" | "Auth0Oauth2" | "CognitoOauth2")
@@ -2466,6 +2488,8 @@ module Aws::BedrockAgentCoreControl
     class GithubOauth2ProviderConfigInput
       attr_accessor client_id: ::String
       attr_accessor client_secret: ::String
+      attr_accessor client_secret_config: Types::SecretReference
+      attr_accessor client_secret_source: ("MANAGED" | "EXTERNAL")
       SENSITIVE: [:client_secret]
     end
 
@@ -2478,6 +2502,8 @@ module Aws::BedrockAgentCoreControl
     class GoogleOauth2ProviderConfigInput
       attr_accessor client_id: ::String
       attr_accessor client_secret: ::String
+      attr_accessor client_secret_config: Types::SecretReference
+      attr_accessor client_secret_source: ("MANAGED" | "EXTERNAL")
       SENSITIVE: [:client_secret]
     end
 
@@ -2840,6 +2866,8 @@ module Aws::BedrockAgentCoreControl
     class IncludedOauth2ProviderConfigInput
       attr_accessor client_id: ::String
       attr_accessor client_secret: ::String
+      attr_accessor client_secret_config: Types::SecretReference
+      attr_accessor client_secret_source: ("MANAGED" | "EXTERNAL")
       attr_accessor issuer: ::String
       attr_accessor authorization_endpoint: ::String
       attr_accessor token_endpoint: ::String
@@ -2936,6 +2964,8 @@ module Aws::BedrockAgentCoreControl
     class LinkedinOauth2ProviderConfigInput
       attr_accessor client_id: ::String
       attr_accessor client_secret: ::String
+      attr_accessor client_secret_config: Types::SecretReference
+      attr_accessor client_secret_source: ("MANAGED" | "EXTERNAL")
       SENSITIVE: [:client_secret]
     end
 
@@ -3596,6 +3626,8 @@ module Aws::BedrockAgentCoreControl
     class MicrosoftOauth2ProviderConfigInput
       attr_accessor client_id: ::String
       attr_accessor client_secret: ::String
+      attr_accessor client_secret_config: Types::SecretReference
+      attr_accessor client_secret_source: ("MANAGED" | "EXTERNAL")
       attr_accessor tenant_id: ::String
       SENSITIVE: [:client_secret]
     end
@@ -4242,6 +4274,8 @@ module Aws::BedrockAgentCoreControl
     class SalesforceOauth2ProviderConfigInput
       attr_accessor client_id: ::String
       attr_accessor client_secret: ::String
+      attr_accessor client_secret_config: Types::SecretReference
+      attr_accessor client_secret_source: ("MANAGED" | "EXTERNAL")
       SENSITIVE: [:client_secret]
     end
 
@@ -4267,6 +4301,12 @@ module Aws::BedrockAgentCoreControl
 
     class Secret
       attr_accessor secret_arn: ::String
+      SENSITIVE: []
+    end
+
+    class SecretReference
+      attr_accessor secret_id: ::String
+      attr_accessor json_key: ::String
       SENSITIVE: []
     end
 
@@ -4397,6 +4437,8 @@ module Aws::BedrockAgentCoreControl
     class SlackOauth2ProviderConfigInput
       attr_accessor client_id: ::String
       attr_accessor client_secret: ::String
+      attr_accessor client_secret_config: Types::SecretReference
+      attr_accessor client_secret_source: ("MANAGED" | "EXTERNAL")
       SENSITIVE: [:client_secret]
     end
 
@@ -4484,7 +4526,11 @@ module Aws::BedrockAgentCoreControl
     class StripePrivyConfigurationInput
       attr_accessor app_id: ::String
       attr_accessor app_secret: ::String
+      attr_accessor app_secret_source: ("MANAGED" | "EXTERNAL")
+      attr_accessor app_secret_config: Types::SecretReference
       attr_accessor authorization_private_key: ::String
+      attr_accessor authorization_private_key_source: ("MANAGED" | "EXTERNAL")
+      attr_accessor authorization_private_key_config: Types::SecretReference
       attr_accessor authorization_id: ::String
       SENSITIVE: [:app_secret, :authorization_private_key]
     end
@@ -4492,7 +4538,11 @@ module Aws::BedrockAgentCoreControl
     class StripePrivyConfigurationOutput
       attr_accessor app_id: ::String
       attr_accessor app_secret_arn: Types::Secret
+      attr_accessor app_secret_json_key: ::String
+      attr_accessor app_secret_source: ("MANAGED" | "EXTERNAL")
       attr_accessor authorization_private_key_arn: Types::Secret
+      attr_accessor authorization_private_key_json_key: ::String
+      attr_accessor authorization_private_key_source: ("MANAGED" | "EXTERNAL")
       attr_accessor authorization_id: ::String
       SENSITIVE: []
     end
@@ -4777,11 +4827,15 @@ module Aws::BedrockAgentCoreControl
     class UpdateApiKeyCredentialProviderRequest
       attr_accessor name: ::String
       attr_accessor api_key: ::String
+      attr_accessor api_key_secret_config: Types::SecretReference
+      attr_accessor api_key_secret_source: ("MANAGED" | "EXTERNAL")
       SENSITIVE: [:api_key]
     end
 
     class UpdateApiKeyCredentialProviderResponse
       attr_accessor api_key_secret_arn: Types::Secret
+      attr_accessor api_key_secret_json_key: ::String
+      attr_accessor api_key_secret_source: ("MANAGED" | "EXTERNAL")
       attr_accessor name: ::String
       attr_accessor credential_provider_arn: ::String
       attr_accessor created_time: ::Time
@@ -5005,6 +5059,8 @@ module Aws::BedrockAgentCoreControl
 
     class UpdateOauth2CredentialProviderResponse
       attr_accessor client_secret_arn: Types::Secret
+      attr_accessor client_secret_json_key: ::String
+      attr_accessor client_secret_source: ("MANAGED" | "EXTERNAL")
       attr_accessor name: ::String
       attr_accessor credential_provider_vendor: ("GoogleOauth2" | "GithubOauth2" | "SlackOauth2" | "SalesforceOauth2" | "MicrosoftOauth2" | "CustomOauth2" | "AtlassianOauth2" | "LinkedinOauth2" | "XOauth2" | "OktaOauth2" | "OneLoginOauth2" | "PingOneOauth2" | "FacebookOauth2" | "YandexOauth2" | "RedditOauth2" | "ZoomOauth2" | "TwitchOauth2" | "SpotifyOauth2" | "DropboxOauth2" | "NotionOauth2" | "HubspotOauth2" | "CyberArkOauth2" | "FusionAuthOauth2" | "Auth0Oauth2" | "CognitoOauth2")
       attr_accessor credential_provider_arn: ::String

@@ -460,6 +460,8 @@ module Aws::SESV2
     PutEmailIdentityMailFromAttributesResponse = Shapes::StructureShape.new(name: 'PutEmailIdentityMailFromAttributesResponse')
     PutSuppressedDestinationRequest = Shapes::StructureShape.new(name: 'PutSuppressedDestinationRequest')
     PutSuppressedDestinationResponse = Shapes::StructureShape.new(name: 'PutSuppressedDestinationResponse')
+    PutTenantSuppressionAttributesRequest = Shapes::StructureShape.new(name: 'PutTenantSuppressionAttributesRequest')
+    PutTenantSuppressionAttributesResponse = Shapes::StructureShape.new(name: 'PutTenantSuppressionAttributesResponse')
     QueryErrorCode = Shapes::StringShape.new(name: 'QueryErrorCode')
     QueryErrorMessage = Shapes::StringShape.new(name: 'QueryErrorMessage')
     QueryIdentifier = Shapes::StringShape.new(name: 'QueryIdentifier')
@@ -533,6 +535,7 @@ module Aws::SESV2
     SuppressionListImportAction = Shapes::StringShape.new(name: 'SuppressionListImportAction')
     SuppressionListReason = Shapes::StringShape.new(name: 'SuppressionListReason')
     SuppressionListReasons = Shapes::ListShape.new(name: 'SuppressionListReasons')
+    SuppressionListScope = Shapes::StringShape.new(name: 'SuppressionListScope')
     SuppressionOptions = Shapes::StructureShape.new(name: 'SuppressionOptions')
     SuppressionValidationAttributes = Shapes::StructureShape.new(name: 'SuppressionValidationAttributes')
     SuppressionValidationOptions = Shapes::StructureShape.new(name: 'SuppressionValidationOptions')
@@ -552,6 +555,7 @@ module Aws::SESV2
     TenantName = Shapes::StringShape.new(name: 'TenantName')
     TenantResource = Shapes::StructureShape.new(name: 'TenantResource')
     TenantResourceList = Shapes::ListShape.new(name: 'TenantResourceList')
+    TenantSuppressionAttributes = Shapes::StructureShape.new(name: 'TenantSuppressionAttributes')
     TestRenderEmailTemplateRequest = Shapes::StructureShape.new(name: 'TestRenderEmailTemplateRequest')
     TestRenderEmailTemplateResponse = Shapes::StructureShape.new(name: 'TestRenderEmailTemplateResponse')
     Timestamp = Shapes::TimestampShape.new(name: 'Timestamp')
@@ -841,6 +845,7 @@ module Aws::SESV2
 
     CreateTenantRequest.add_member(:tenant_name, Shapes::ShapeRef.new(shape: TenantName, required: true, location_name: "TenantName"))
     CreateTenantRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateTenantRequest.add_member(:suppression_attributes, Shapes::ShapeRef.new(shape: TenantSuppressionAttributes, location_name: "SuppressionAttributes"))
     CreateTenantRequest.struct_class = Types::CreateTenantRequest
 
     CreateTenantResourceAssociationRequest.add_member(:tenant_name, Shapes::ShapeRef.new(shape: TenantName, required: true, location_name: "TenantName"))
@@ -855,6 +860,7 @@ module Aws::SESV2
     CreateTenantResponse.add_member(:created_timestamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreatedTimestamp"))
     CreateTenantResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     CreateTenantResponse.add_member(:sending_status, Shapes::ShapeRef.new(shape: SendingStatus, location_name: "SendingStatus"))
+    CreateTenantResponse.add_member(:suppression_attributes, Shapes::ShapeRef.new(shape: TenantSuppressionAttributes, location_name: "SuppressionAttributes"))
     CreateTenantResponse.struct_class = Types::CreateTenantResponse
 
     CustomVerificationEmailTemplateMetadata.add_member(:template_name, Shapes::ShapeRef.new(shape: EmailTemplateName, location_name: "TemplateName"))
@@ -946,6 +952,7 @@ module Aws::SESV2
     DeleteMultiRegionEndpointResponse.struct_class = Types::DeleteMultiRegionEndpointResponse
 
     DeleteSuppressedDestinationRequest.add_member(:email_address, Shapes::ShapeRef.new(shape: EmailAddress, required: true, location: "uri", location_name: "EmailAddress"))
+    DeleteSuppressedDestinationRequest.add_member(:tenant_name, Shapes::ShapeRef.new(shape: TenantName, location: "querystring", location_name: "TenantName"))
     DeleteSuppressedDestinationRequest.struct_class = Types::DeleteSuppressedDestinationRequest
 
     DeleteSuppressedDestinationResponse.struct_class = Types::DeleteSuppressedDestinationResponse
@@ -1369,6 +1376,7 @@ module Aws::SESV2
     GetReputationEntityResponse.struct_class = Types::GetReputationEntityResponse
 
     GetSuppressedDestinationRequest.add_member(:email_address, Shapes::ShapeRef.new(shape: EmailAddress, required: true, location: "uri", location_name: "EmailAddress"))
+    GetSuppressedDestinationRequest.add_member(:tenant_name, Shapes::ShapeRef.new(shape: TenantName, location: "querystring", location_name: "TenantName"))
     GetSuppressedDestinationRequest.struct_class = Types::GetSuppressedDestinationRequest
 
     GetSuppressedDestinationResponse.add_member(:suppressed_destination, Shapes::ShapeRef.new(shape: SuppressedDestination, required: true, location_name: "SuppressedDestination"))
@@ -1597,6 +1605,7 @@ module Aws::SESV2
     ListResourceTenantsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     ListResourceTenantsResponse.struct_class = Types::ListResourceTenantsResponse
 
+    ListSuppressedDestinationsRequest.add_member(:tenant_name, Shapes::ShapeRef.new(shape: TenantName, location: "querystring", location_name: "TenantName"))
     ListSuppressedDestinationsRequest.add_member(:reasons, Shapes::ShapeRef.new(shape: SuppressionListReasons, location: "querystring", location_name: "Reason"))
     ListSuppressedDestinationsRequest.add_member(:start_date, Shapes::ShapeRef.new(shape: Timestamp, location: "querystring", location_name: "StartDate"))
     ListSuppressedDestinationsRequest.add_member(:end_date, Shapes::ShapeRef.new(shape: Timestamp, location: "querystring", location_name: "EndDate"))
@@ -1792,6 +1801,7 @@ module Aws::SESV2
     PutConfigurationSetSendingOptionsResponse.struct_class = Types::PutConfigurationSetSendingOptionsResponse
 
     PutConfigurationSetSuppressionOptionsRequest.add_member(:configuration_set_name, Shapes::ShapeRef.new(shape: ConfigurationSetName, required: true, location: "uri", location_name: "ConfigurationSetName"))
+    PutConfigurationSetSuppressionOptionsRequest.add_member(:suppression_scope, Shapes::ShapeRef.new(shape: SuppressionListScope, location_name: "SuppressionScope"))
     PutConfigurationSetSuppressionOptionsRequest.add_member(:suppressed_reasons, Shapes::ShapeRef.new(shape: SuppressionListReasons, location_name: "SuppressedReasons"))
     PutConfigurationSetSuppressionOptionsRequest.add_member(:validation_options, Shapes::ShapeRef.new(shape: SuppressionValidationOptions, location_name: "ValidationOptions"))
     PutConfigurationSetSuppressionOptionsRequest.struct_class = Types::PutConfigurationSetSuppressionOptionsRequest
@@ -1872,9 +1882,17 @@ module Aws::SESV2
 
     PutSuppressedDestinationRequest.add_member(:email_address, Shapes::ShapeRef.new(shape: EmailAddress, required: true, location_name: "EmailAddress"))
     PutSuppressedDestinationRequest.add_member(:reason, Shapes::ShapeRef.new(shape: SuppressionListReason, required: true, location_name: "Reason"))
+    PutSuppressedDestinationRequest.add_member(:tenant_name, Shapes::ShapeRef.new(shape: TenantName, location_name: "TenantName"))
     PutSuppressedDestinationRequest.struct_class = Types::PutSuppressedDestinationRequest
 
     PutSuppressedDestinationResponse.struct_class = Types::PutSuppressedDestinationResponse
+
+    PutTenantSuppressionAttributesRequest.add_member(:tenant_name, Shapes::ShapeRef.new(shape: TenantName, required: true, location_name: "TenantName"))
+    PutTenantSuppressionAttributesRequest.add_member(:suppressed_reasons, Shapes::ShapeRef.new(shape: SuppressionListReasons, location_name: "SuppressedReasons"))
+    PutTenantSuppressionAttributesRequest.add_member(:suppression_scope, Shapes::ShapeRef.new(shape: SuppressionListScope, location_name: "SuppressionScope"))
+    PutTenantSuppressionAttributesRequest.struct_class = Types::PutTenantSuppressionAttributesRequest
+
+    PutTenantSuppressionAttributesResponse.struct_class = Types::PutTenantSuppressionAttributesResponse
 
     RawMessage.add_member(:data, Shapes::ShapeRef.new(shape: RawMessageData, required: true, location_name: "Data"))
     RawMessage.struct_class = Types::RawMessage
@@ -2006,6 +2024,7 @@ module Aws::SESV2
     SuppressedDestination.add_member(:reason, Shapes::ShapeRef.new(shape: SuppressionListReason, required: true, location_name: "Reason"))
     SuppressedDestination.add_member(:last_update_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "LastUpdateTime"))
     SuppressedDestination.add_member(:attributes, Shapes::ShapeRef.new(shape: SuppressedDestinationAttributes, location_name: "Attributes"))
+    SuppressedDestination.add_member(:tenant_name, Shapes::ShapeRef.new(shape: TenantName, location_name: "TenantName"))
     SuppressedDestination.struct_class = Types::SuppressedDestination
 
     SuppressedDestinationAttributes.add_member(:message_id, Shapes::ShapeRef.new(shape: OutboundMessageId, location_name: "MessageId"))
@@ -2036,6 +2055,7 @@ module Aws::SESV2
     SuppressionListReasons.member = Shapes::ShapeRef.new(shape: SuppressionListReason)
 
     SuppressionOptions.add_member(:suppressed_reasons, Shapes::ShapeRef.new(shape: SuppressionListReasons, location_name: "SuppressedReasons"))
+    SuppressionOptions.add_member(:suppression_scope, Shapes::ShapeRef.new(shape: SuppressionListScope, location_name: "SuppressionScope"))
     SuppressionOptions.add_member(:validation_options, Shapes::ShapeRef.new(shape: SuppressionValidationOptions, location_name: "ValidationOptions"))
     SuppressionOptions.struct_class = Types::SuppressionOptions
 
@@ -2073,6 +2093,7 @@ module Aws::SESV2
     Tenant.add_member(:created_timestamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreatedTimestamp"))
     Tenant.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     Tenant.add_member(:sending_status, Shapes::ShapeRef.new(shape: SendingStatus, location_name: "SendingStatus"))
+    Tenant.add_member(:suppression_attributes, Shapes::ShapeRef.new(shape: TenantSuppressionAttributes, location_name: "SuppressionAttributes"))
     Tenant.struct_class = Types::Tenant
 
     TenantInfo.add_member(:tenant_name, Shapes::ShapeRef.new(shape: TenantName, location_name: "TenantName"))
@@ -2088,6 +2109,10 @@ module Aws::SESV2
     TenantResource.struct_class = Types::TenantResource
 
     TenantResourceList.member = Shapes::ShapeRef.new(shape: TenantResource)
+
+    TenantSuppressionAttributes.add_member(:suppressed_reasons, Shapes::ShapeRef.new(shape: SuppressionListReasons, location_name: "SuppressedReasons"))
+    TenantSuppressionAttributes.add_member(:suppression_scope, Shapes::ShapeRef.new(shape: SuppressionListScope, location_name: "SuppressionScope"))
+    TenantSuppressionAttributes.struct_class = Types::TenantSuppressionAttributes
 
     TestRenderEmailTemplateRequest.add_member(:template_name, Shapes::ShapeRef.new(shape: EmailTemplateName, required: true, location: "uri", location_name: "TemplateName"))
     TestRenderEmailTemplateRequest.add_member(:template_data, Shapes::ShapeRef.new(shape: EmailTemplateData, required: true, location_name: "TemplateData"))
@@ -3126,6 +3151,7 @@ module Aws::SESV2
         o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidNextTokenException)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
         o[:pager] = Aws::Pager.new(
           limit_key: "page_size",
           tokens: {
@@ -3416,6 +3442,18 @@ module Aws::SESV2
         o.output = Shapes::ShapeRef.new(shape: PutSuppressedDestinationResponse)
         o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+      end)
+
+      api.add_operation(:put_tenant_suppression_attributes, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutTenantSuppressionAttributes"
+        o.http_method = "POST"
+        o.http_request_uri = "/v2/email/tenant/suppression"
+        o.input = Shapes::ShapeRef.new(shape: PutTenantSuppressionAttributesRequest)
+        o.output = Shapes::ShapeRef.new(shape: PutTenantSuppressionAttributesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
       end)
 
       api.add_operation(:send_bulk_email, Seahorse::Model::Operation.new.tap do |o|

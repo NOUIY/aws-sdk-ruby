@@ -592,7 +592,9 @@ module Aws::SESV2
     #
     # @option params [Types::SuppressionOptions] :suppression_options
     #   An object that contains information about the suppression list
-    #   preferences for your account.
+    #   preferences for the configuration set. You can optionally include a
+    #   `SuppressionScope` to override the tenant or account suppression scope
+    #   for emails sent using this configuration set.
     #
     # @option params [Types::VdmOptions] :vdm_options
     #   An object that defines the VDM options for emails that you send using
@@ -632,6 +634,7 @@ module Aws::SESV2
     #     ],
     #     suppression_options: {
     #       suppressed_reasons: ["BOUNCE"], # accepts BOUNCE, COMPLAINT
+    #       suppression_scope: "ACCOUNT", # accepts ACCOUNT, TENANT
     #       validation_options: {
     #         condition_threshold: { # required
     #           condition_threshold_enabled: "ENABLED", # required, accepts ENABLED, DISABLED
@@ -1528,6 +1531,12 @@ module Aws::SESV2
     # sending for different customers or business units within your Amazon
     # SES API v2 account.
     #
+    # You can optionally specify `SuppressionAttributes` to configure
+    # tenant-level suppression at creation time. When tenant-level
+    # suppression is enabled, Amazon SES maintains a separate suppression
+    # list for the tenant instead of using the account-level suppression
+    # list.
+    #
     # @option params [required, String] :tenant_name
     #   The name of the tenant to create. The name can contain up to 64
     #   alphanumeric characters, including letters, numbers, hyphens (-) and
@@ -1537,6 +1546,11 @@ module Aws::SESV2
     #   An array of objects that define the tags (keys and values) to
     #   associate with the tenant
     #
+    # @option params [Types::TenantSuppressionAttributes] :suppression_attributes
+    #   An object that contains information about the suppression list
+    #   preferences for the tenant. Use this to configure tenant-level
+    #   suppression at creation time.
+    #
     # @return [Types::CreateTenantResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateTenantResponse#tenant_name #tenant_name} => String
@@ -1545,6 +1559,7 @@ module Aws::SESV2
     #   * {Types::CreateTenantResponse#created_timestamp #created_timestamp} => Time
     #   * {Types::CreateTenantResponse#tags #tags} => Array&lt;Types::Tag&gt;
     #   * {Types::CreateTenantResponse#sending_status #sending_status} => String
+    #   * {Types::CreateTenantResponse#suppression_attributes #suppression_attributes} => Types::TenantSuppressionAttributes
     #
     # @example Request syntax with placeholder values
     #
@@ -1556,6 +1571,10 @@ module Aws::SESV2
     #         value: "TagValue", # required
     #       },
     #     ],
+    #     suppression_attributes: {
+    #       suppressed_reasons: ["BOUNCE"], # accepts BOUNCE, COMPLAINT
+    #       suppression_scope: "ACCOUNT", # accepts ACCOUNT, TENANT
+    #     },
     #   })
     #
     # @example Response structure
@@ -1568,6 +1587,9 @@ module Aws::SESV2
     #   resp.tags[0].key #=> String
     #   resp.tags[0].value #=> String
     #   resp.sending_status #=> String, one of "ENABLED", "REINSTATED", "DISABLED"
+    #   resp.suppression_attributes.suppressed_reasons #=> Array
+    #   resp.suppression_attributes.suppressed_reasons[0] #=> String, one of "BOUNCE", "COMPLAINT"
+    #   resp.suppression_attributes.suppression_scope #=> String, one of "ACCOUNT", "TENANT"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/CreateTenant AWS API Documentation
     #
@@ -1901,11 +1923,19 @@ module Aws::SESV2
       req.send_request(options)
     end
 
-    # Removes an email address from the suppression list for your account.
+    # Removes an email address from the suppression list for your account or
+    # for a specific tenant. To target a tenant's suppression list, specify
+    # the `TenantName` parameter. If you omit `TenantName`, the address is
+    # removed from the account-level suppression list.
     #
     # @option params [required, String] :email_address
-    #   The suppressed email destination to remove from the account
-    #   suppression list.
+    #   The suppressed email destination to remove from the suppression list
+    #   for your account or for the specified tenant.
+    #
+    # @option params [String] :tenant_name
+    #   The name of the tenant whose suppression list you want to remove the
+    #   address from. If you omit this parameter, the address is removed from
+    #   the account-level suppression list.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -1913,6 +1943,7 @@ module Aws::SESV2
     #
     #   resp = client.delete_suppressed_destination({
     #     email_address: "EmailAddress", # required
+    #     tenant_name: "TenantName",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/DeleteSuppressedDestination AWS API Documentation
@@ -2111,6 +2142,7 @@ module Aws::SESV2
     #   resp.tags[0].value #=> String
     #   resp.suppression_options.suppressed_reasons #=> Array
     #   resp.suppression_options.suppressed_reasons[0] #=> String, one of "BOUNCE", "COMPLAINT"
+    #   resp.suppression_options.suppression_scope #=> String, one of "ACCOUNT", "TENANT"
     #   resp.suppression_options.validation_options.condition_threshold.condition_threshold_enabled #=> String, one of "ENABLED", "DISABLED"
     #   resp.suppression_options.validation_options.condition_threshold.overall_confidence_threshold.confidence_verdict_threshold #=> String, one of "MEDIUM", "HIGH", "MANAGED"
     #   resp.vdm_options.dashboard_options.engagement_metrics #=> String, one of "ENABLED", "DISABLED"
@@ -2840,7 +2872,7 @@ module Aws::SESV2
     # Displays the template object (which includes the subject line, HTML
     # part and text part) for the template you specify.
     #
-    # You can execute this operation no more than once per second.
+    # You can execute this operation no more than 50 times per second.
     #
     # @option params [required, String] :template_name
     #   The name of the template.
@@ -3262,10 +3294,19 @@ module Aws::SESV2
     end
 
     # Retrieves information about a specific email address that's on the
-    # suppression list for your account.
+    # suppression list for your account or for a specific tenant. To target
+    # a tenant's suppression list, specify the `TenantName` parameter. If
+    # you omit `TenantName`, the operation targets the account-level
+    # suppression list.
     #
     # @option params [required, String] :email_address
-    #   The email address that's on the account suppression list.
+    #   The email address that's on the suppression list for your account or
+    #   for the specified tenant.
+    #
+    # @option params [String] :tenant_name
+    #   The name of the tenant whose suppression list you want to query. If
+    #   you omit this parameter, the operation targets the account-level
+    #   suppression list.
     #
     # @return [Types::GetSuppressedDestinationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3275,6 +3316,7 @@ module Aws::SESV2
     #
     #   resp = client.get_suppressed_destination({
     #     email_address: "EmailAddress", # required
+    #     tenant_name: "TenantName",
     #   })
     #
     # @example Response structure
@@ -3284,6 +3326,7 @@ module Aws::SESV2
     #   resp.suppressed_destination.last_update_time #=> Time
     #   resp.suppressed_destination.attributes.message_id #=> String
     #   resp.suppressed_destination.attributes.feedback_id #=> String
+    #   resp.suppressed_destination.tenant_name #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/GetSuppressedDestination AWS API Documentation
     #
@@ -3295,7 +3338,8 @@ module Aws::SESV2
     end
 
     # Get information about a specific tenant, including the tenant's name,
-    # ID, ARN, creation timestamp, tags, and sending status.
+    # ID, ARN, creation timestamp, tags, sending status, and suppression
+    # attributes.
     #
     # @option params [required, String] :tenant_name
     #   The name of the tenant to retrieve information about.
@@ -3320,6 +3364,9 @@ module Aws::SESV2
     #   resp.tenant.tags[0].key #=> String
     #   resp.tenant.tags[0].value #=> String
     #   resp.tenant.sending_status #=> String, one of "ENABLED", "REINSTATED", "DISABLED"
+    #   resp.tenant.suppression_attributes.suppressed_reasons #=> Array
+    #   resp.tenant.suppression_attributes.suppressed_reasons[0] #=> String, one of "BOUNCE", "COMPLAINT"
+    #   resp.tenant.suppression_attributes.suppression_scope #=> String, one of "ACCOUNT", "TENANT"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/GetTenant AWS API Documentation
     #
@@ -4192,10 +4239,19 @@ module Aws::SESV2
     end
 
     # Retrieves a list of email addresses that are on the suppression list
-    # for your account.
+    # for your account or for a specific tenant. To target a tenant's
+    # suppression list, specify the `TenantName` parameter. If you omit
+    # `TenantName`, the operation targets the account-level suppression
+    # list.
+    #
+    # @option params [String] :tenant_name
+    #   The name of the tenant whose suppression list you want to retrieve. If
+    #   you omit this parameter, the operation targets the account-level
+    #   suppression list.
     #
     # @option params [Array<String>] :reasons
-    #   The factors that caused the email address to be added to .
+    #   The factors that caused the email address to be added to the
+    #   suppression list for your account or for a specific tenant.
     #
     # @option params [Time,DateTime,Date,Integer,String] :start_date
     #   Used to filter the list of suppressed email destinations so that it
@@ -4227,6 +4283,7 @@ module Aws::SESV2
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_suppressed_destinations({
+    #     tenant_name: "TenantName",
     #     reasons: ["BOUNCE"], # accepts BOUNCE, COMPLAINT
     #     start_date: Time.now,
     #     end_date: Time.now,
@@ -4729,25 +4786,36 @@ module Aws::SESV2
       req.send_request(options)
     end
 
-    # Specify the account suppression list preferences for a configuration
-    # set.
+    # Specify the suppression list preferences for a configuration set. You
+    # can also use this operation to specify a `SuppressionScope` to
+    # override the suppression scope of the tenant or account for emails
+    # sent using this configuration set.
     #
     # @option params [required, String] :configuration_set_name
     #   The name of the configuration set to change the suppression list
     #   preferences for.
     #
+    # @option params [String] :suppression_scope
+    #   The suppression scope for the configuration set. This overrides the
+    #   tenant or account suppression scope for emails sent using this
+    #   configuration set. Can be one of the following:
+    #
+    #   * `TENANT` – Use the tenant's suppression list.
+    #
+    #   * `ACCOUNT` – Use the account-level suppression list.
+    #
     # @option params [Array<String>] :suppressed_reasons
     #   A list that contains the reasons that email addresses are
-    #   automatically added to the suppression list for your account. This
-    #   list can contain any or all of the following:
+    #   automatically added to the suppression list for your account or for a
+    #   specific tenant. This list can contain any or all of the following:
     #
     #   * `COMPLAINT` – Amazon SES adds an email address to the suppression
-    #     list for your account when a message sent to that address results in
-    #     a complaint.
+    #     list for your account or for a specific tenant when a message sent
+    #     to that address results in a complaint.
     #
     #   * `BOUNCE` – Amazon SES adds an email address to the suppression list
-    #     for your account when a message sent to that address results in a
-    #     hard bounce.
+    #     for your account or for a specific tenant when a message sent to
+    #     that address results in a hard bounce.
     #
     # @option params [Types::SuppressionValidationOptions] :validation_options
     #   An object that contains information about the email address
@@ -4760,6 +4828,7 @@ module Aws::SESV2
     #
     #   resp = client.put_configuration_set_suppression_options({
     #     configuration_set_name: "ConfigurationSetName", # required
+    #     suppression_scope: "ACCOUNT", # accepts ACCOUNT, TENANT
     #     suppressed_reasons: ["BOUNCE"], # accepts BOUNCE, COMPLAINT
     #     validation_options: {
     #       condition_threshold: { # required
@@ -5245,15 +5314,23 @@ module Aws::SESV2
       req.send_request(options)
     end
 
-    # Adds an email address to the suppression list for your account.
+    # Adds an email address to the suppression list for your account or for
+    # a specific tenant. To target a tenant's suppression list, specify the
+    # `TenantName` parameter. If you omit `TenantName`, the address is added
+    # to the account-level suppression list.
     #
     # @option params [required, String] :email_address
     #   The email address that should be added to the suppression list for
-    #   your account.
+    #   your account or for the specified tenant.
     #
     # @option params [required, String] :reason
     #   The factors that should cause the email address to be added to the
-    #   suppression list for your account.
+    #   suppression list for your account or for the specified tenant.
+    #
+    # @option params [String] :tenant_name
+    #   The name of the tenant whose suppression list you want to add the
+    #   address to. If you omit this parameter, the address is added to the
+    #   account-level suppression list.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -5262,6 +5339,7 @@ module Aws::SESV2
     #   resp = client.put_suppressed_destination({
     #     email_address: "EmailAddress", # required
     #     reason: "BOUNCE", # required, accepts BOUNCE, COMPLAINT
+    #     tenant_name: "TenantName",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/PutSuppressedDestination AWS API Documentation
@@ -5270,6 +5348,57 @@ module Aws::SESV2
     # @param [Hash] params ({})
     def put_suppressed_destination(params = {}, options = {})
       req = build_request(:put_suppressed_destination, params)
+      req.send_request(options)
+    end
+
+    # Configure the suppression list preferences for a tenant. Use this
+    # operation to enable or disable tenant-level suppression, or to change
+    # the suppressed reasons for a tenant.
+    #
+    # When you set the suppression scope to `TENANT`, Amazon SES maintains a
+    # separate suppression list for the tenant. When you set the scope to
+    # `ACCOUNT`, the tenant uses the account-level suppression list.
+    #
+    # @option params [required, String] :tenant_name
+    #   The name of the tenant to configure suppression list preferences for.
+    #
+    # @option params [Array<String>] :suppressed_reasons
+    #   A list that contains the reasons that email addresses are
+    #   automatically added to the suppression list for the tenant. This list
+    #   can contain any or all of the following:
+    #
+    #   * `COMPLAINT` – Amazon SES adds an email address to the suppression
+    #     list when a message sent to that address results in a complaint.
+    #
+    #   * `BOUNCE` – Amazon SES adds an email address to the suppression list
+    #     when a message sent to that address results in a hard bounce.
+    #
+    # @option params [String] :suppression_scope
+    #   The suppression scope for the tenant. Specify `TENANT` to use the
+    #   tenant's own suppression list, or `ACCOUNT` to use the account-level
+    #   suppression list.
+    #
+    #   <note markdown="1"> If you don't specify a suppression scope, the tenant defaults to
+    #   `ACCOUNT` scope and uses the account-level suppression list.
+    #
+    #    </note>
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_tenant_suppression_attributes({
+    #     tenant_name: "TenantName", # required
+    #     suppressed_reasons: ["BOUNCE"], # accepts BOUNCE, COMPLAINT
+    #     suppression_scope: "ACCOUNT", # accepts ACCOUNT, TENANT
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/PutTenantSuppressionAttributes AWS API Documentation
+    #
+    # @overload put_tenant_suppression_attributes(params = {})
+    # @param [Hash] params ({})
+    def put_tenant_suppression_attributes(params = {}, options = {})
+      req = build_request(:put_tenant_suppression_attributes, params)
       req.send_request(options)
     end
 
@@ -6255,7 +6384,7 @@ module Aws::SESV2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sesv2'
-      context[:gem_version] = '1.101.0'
+      context[:gem_version] = '1.102.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

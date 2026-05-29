@@ -4389,6 +4389,104 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Creates an OAuthClientApplication.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [required, String] :o_auth_client_application_id
+    #   An ID for the OAuthClientApplication that you want to create. This ID
+    #   is unique per Amazon Web Services Region for each Amazon Web Services
+    #   account.
+    #
+    # @option params [required, String] :name
+    #   The display name for the OAuthClientApplication.
+    #
+    # @option params [required, String] :o_auth_client_authentication_type
+    #   The authentication type to use for the OAuthClientApplication. This
+    #   determines the OAuth 2.0 grant flow that is used when the data source
+    #   connects to the identity provider. Valid values are `TOKEN`.
+    #
+    # @option params [required, String] :client_id
+    #   The client ID of the OAuth application that is registered with the
+    #   identity provider.
+    #
+    # @option params [required, String] :client_secret
+    #   The client secret of the OAuth application that is registered with the
+    #   identity provider.
+    #
+    # @option params [required, String] :o_auth_token_endpoint_url
+    #   The token endpoint URL of the identity provider that is used to obtain
+    #   access tokens.
+    #
+    # @option params [String] :o_auth_authorization_endpoint_url
+    #   The authorization endpoint URL of the identity provider that is used
+    #   to obtain authorization codes.
+    #
+    # @option params [String] :o_auth_scopes
+    #   The OAuth scopes that are requested when the OAuthClientApplication
+    #   obtains an access token from the identity provider.
+    #
+    # @option params [String] :data_source_type
+    #   The type of data source that the OAuthClientApplication is used with.
+    #   Valid values are `SNOWFLAKE`.
+    #
+    # @option params [Types::VpcConnectionProperties] :identity_provider_vpc_connection_properties
+    #   VPC connection properties.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   Contains a map of the key-value pairs for the resource tag or tags
+    #   assigned to the OAuthClientApplication.
+    #
+    # @return [Types::CreateOAuthClientApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateOAuthClientApplicationResponse#arn #arn} => String
+    #   * {Types::CreateOAuthClientApplicationResponse#o_auth_client_application_id #o_auth_client_application_id} => String
+    #   * {Types::CreateOAuthClientApplicationResponse#creation_status #creation_status} => String
+    #   * {Types::CreateOAuthClientApplicationResponse#request_id #request_id} => String
+    #   * {Types::CreateOAuthClientApplicationResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_o_auth_client_application({
+    #     aws_account_id: "AwsAccountId", # required
+    #     o_auth_client_application_id: "OAuthClientApplicationId", # required
+    #     name: "ResourceName", # required
+    #     o_auth_client_authentication_type: "TOKEN", # required, accepts TOKEN
+    #     client_id: "OAuthClientId", # required
+    #     client_secret: "OAuthClientSecret", # required
+    #     o_auth_token_endpoint_url: "OAuthTokenEndpointUrl", # required
+    #     o_auth_authorization_endpoint_url: "OAuthAuthorizationEndpointUrl",
+    #     o_auth_scopes: "OAuthScopesString",
+    #     data_source_type: "ADOBE_ANALYTICS", # accepts ADOBE_ANALYTICS, AMAZON_ELASTICSEARCH, ATHENA, AURORA, AURORA_POSTGRESQL, AWS_IOT_ANALYTICS, GITHUB, JIRA, MARIADB, MYSQL, ORACLE, POSTGRESQL, PRESTO, REDSHIFT, S3, S3_TABLES, SALESFORCE, SERVICENOW, SNOWFLAKE, SPARK, SQLSERVER, TERADATA, TWITTER, TIMESTREAM, AMAZON_OPENSEARCH, EXASOL, DATABRICKS, STARBURST, TRINO, BIGQUERY, GOOGLESHEETS, GOOGLE_DRIVE, CONFLUENCE, SHAREPOINT, ONE_DRIVE, WEB_CRAWLER, S3_KNOWLEDGE_BASE, QBUSINESS
+    #     identity_provider_vpc_connection_properties: {
+    #       vpc_connection_arn: "Arn", # required
+    #     },
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.o_auth_client_application_id #=> String
+    #   resp.creation_status #=> String, one of "CREATION_IN_PROGRESS", "CREATION_SUCCESSFUL", "CREATION_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_SUCCESSFUL", "UPDATE_FAILED", "DELETED"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateOAuthClientApplication AWS API Documentation
+    #
+    # @overload create_o_auth_client_application(params = {})
+    # @param [Hash] params ({})
+    def create_o_auth_client_application(params = {}, options = {})
+      req = build_request(:create_o_auth_client_application, params)
+      req.send_request(options)
+    end
+
     # Creates a refresh schedule for a dataset. You can create up to 5
     # different schedules for a single dataset.
     #
@@ -6242,6 +6340,44 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def delete_namespace(params = {}, options = {})
       req = build_request(:delete_namespace, params)
+      req.send_request(options)
+    end
+
+    # Deletes an OAuthClientApplication.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [required, String] :o_auth_client_application_id
+    #   The ID of the OAuthClientApplication that you want to delete.
+    #
+    # @return [Types::DeleteOAuthClientApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteOAuthClientApplicationResponse#arn #arn} => String
+    #   * {Types::DeleteOAuthClientApplicationResponse#o_auth_client_application_id #o_auth_client_application_id} => String
+    #   * {Types::DeleteOAuthClientApplicationResponse#request_id #request_id} => String
+    #   * {Types::DeleteOAuthClientApplicationResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_o_auth_client_application({
+    #     aws_account_id: "AwsAccountId", # required
+    #     o_auth_client_application_id: "OAuthClientApplicationId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.o_auth_client_application_id #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteOAuthClientApplication AWS API Documentation
+    #
+    # @overload delete_o_auth_client_application(params = {})
+    # @param [Hash] params ({})
+    def delete_o_auth_client_application(params = {}, options = {})
+      req = build_request(:delete_o_auth_client_application, params)
       req.send_request(options)
     end
 
@@ -10131,6 +10267,52 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Describes an OAuthClientApplication.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [required, String] :o_auth_client_application_id
+    #   The ID of the OAuthClientApplication that you want to describe.
+    #
+    # @return [Types::DescribeOAuthClientApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeOAuthClientApplicationResponse#o_auth_client_application #o_auth_client_application} => Types::OAuthClientApplication
+    #   * {Types::DescribeOAuthClientApplicationResponse#request_id #request_id} => String
+    #   * {Types::DescribeOAuthClientApplicationResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_o_auth_client_application({
+    #     aws_account_id: "AwsAccountId", # required
+    #     o_auth_client_application_id: "OAuthClientApplicationId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.o_auth_client_application.o_auth_client_application_id #=> String
+    #   resp.o_auth_client_application.name #=> String
+    #   resp.o_auth_client_application.o_auth_client_authentication_type #=> String, one of "TOKEN"
+    #   resp.o_auth_client_application.o_auth_token_endpoint_url #=> String
+    #   resp.o_auth_client_application.o_auth_authorization_endpoint_url #=> String
+    #   resp.o_auth_client_application.o_auth_scopes #=> String
+    #   resp.o_auth_client_application.data_source_type #=> String, one of "ADOBE_ANALYTICS", "AMAZON_ELASTICSEARCH", "ATHENA", "AURORA", "AURORA_POSTGRESQL", "AWS_IOT_ANALYTICS", "GITHUB", "JIRA", "MARIADB", "MYSQL", "ORACLE", "POSTGRESQL", "PRESTO", "REDSHIFT", "S3", "S3_TABLES", "SALESFORCE", "SERVICENOW", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "TWITTER", "TIMESTREAM", "AMAZON_OPENSEARCH", "EXASOL", "DATABRICKS", "STARBURST", "TRINO", "BIGQUERY", "GOOGLESHEETS", "GOOGLE_DRIVE", "CONFLUENCE", "SHAREPOINT", "ONE_DRIVE", "WEB_CRAWLER", "S3_KNOWLEDGE_BASE", "QBUSINESS"
+    #   resp.o_auth_client_application.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
+    #   resp.o_auth_client_application.created_time #=> Time
+    #   resp.o_auth_client_application.last_updated_time #=> Time
+    #   resp.o_auth_client_application.arn #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeOAuthClientApplication AWS API Documentation
+    #
+    # @overload describe_o_auth_client_application(params = {})
+    # @param [Hash] params ({})
+    def describe_o_auth_client_application(params = {}, options = {})
+      req = build_request(:describe_o_auth_client_application, params)
+      req.send_request(options)
+    end
+
     # Describes a personalization configuration.
     #
     # @option params [required, String] :aws_account_id
@@ -13871,6 +14053,59 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def list_namespaces(params = {}, options = {})
       req = build_request(:list_namespaces, params)
+      req.send_request(options)
+    end
+
+    # Lists all OAuthClientApplications in the current Amazon Web Services
+    # Region that belong to this Amazon Web Services account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [String] :next_token
+    #   A pagination token that can be used in a subsequent request.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return.
+    #
+    # @return [Types::ListOAuthClientApplicationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListOAuthClientApplicationsResponse#o_auth_client_applications #o_auth_client_applications} => Array&lt;Types::OAuthClientApplicationSummary&gt;
+    #   * {Types::ListOAuthClientApplicationsResponse#next_token #next_token} => String
+    #   * {Types::ListOAuthClientApplicationsResponse#request_id #request_id} => String
+    #   * {Types::ListOAuthClientApplicationsResponse#status #status} => Integer
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_o_auth_client_applications({
+    #     aws_account_id: "AwsAccountId", # required
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.o_auth_client_applications #=> Array
+    #   resp.o_auth_client_applications[0].o_auth_client_application_id #=> String
+    #   resp.o_auth_client_applications[0].name #=> String
+    #   resp.o_auth_client_applications[0].o_auth_client_authentication_type #=> String, one of "TOKEN"
+    #   resp.o_auth_client_applications[0].data_source_type #=> String, one of "ADOBE_ANALYTICS", "AMAZON_ELASTICSEARCH", "ATHENA", "AURORA", "AURORA_POSTGRESQL", "AWS_IOT_ANALYTICS", "GITHUB", "JIRA", "MARIADB", "MYSQL", "ORACLE", "POSTGRESQL", "PRESTO", "REDSHIFT", "S3", "S3_TABLES", "SALESFORCE", "SERVICENOW", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "TWITTER", "TIMESTREAM", "AMAZON_OPENSEARCH", "EXASOL", "DATABRICKS", "STARBURST", "TRINO", "BIGQUERY", "GOOGLESHEETS", "GOOGLE_DRIVE", "CONFLUENCE", "SHAREPOINT", "ONE_DRIVE", "WEB_CRAWLER", "S3_KNOWLEDGE_BASE", "QBUSINESS"
+    #   resp.o_auth_client_applications[0].identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
+    #   resp.o_auth_client_applications[0].created_time #=> Time
+    #   resp.o_auth_client_applications[0].last_updated_time #=> Time
+    #   resp.o_auth_client_applications[0].arn #=> String
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListOAuthClientApplications AWS API Documentation
+    #
+    # @overload list_o_auth_client_applications(params = {})
+    # @param [Hash] params ({})
+    def list_o_auth_client_applications(params = {}, options = {})
+      req = build_request(:list_o_auth_client_applications, params)
       req.send_request(options)
     end
 
@@ -20636,6 +20871,86 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Updates an OAuthClientApplication.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [required, String] :o_auth_client_application_id
+    #   The ID of the OAuthClientApplication that you want to update.
+    #
+    # @option params [required, String] :name
+    #   The display name for the OAuthClientApplication.
+    #
+    # @option params [String] :client_id
+    #   The client ID of the OAuth application that is registered with the
+    #   identity provider.
+    #
+    # @option params [String] :client_secret
+    #   The client secret of the OAuth application that is registered with the
+    #   identity provider.
+    #
+    # @option params [String] :o_auth_token_endpoint_url
+    #   The token endpoint URL of the identity provider that is used to obtain
+    #   access tokens.
+    #
+    # @option params [String] :o_auth_authorization_endpoint_url
+    #   The authorization endpoint URL of the identity provider that is used
+    #   to obtain authorization codes.
+    #
+    # @option params [String] :o_auth_scopes
+    #   The OAuth scopes that are requested when the OAuthClientApplication
+    #   obtains an access token from the identity provider.
+    #
+    # @option params [String] :data_source_type
+    #   The type of data source that the OAuthClientApplication is used with.
+    #   Valid values are `SNOWFLAKE`.
+    #
+    # @option params [Types::VpcConnectionProperties] :identity_provider_vpc_connection_properties
+    #   VPC connection properties.
+    #
+    # @return [Types::UpdateOAuthClientApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateOAuthClientApplicationResponse#arn #arn} => String
+    #   * {Types::UpdateOAuthClientApplicationResponse#o_auth_client_application_id #o_auth_client_application_id} => String
+    #   * {Types::UpdateOAuthClientApplicationResponse#update_status #update_status} => String
+    #   * {Types::UpdateOAuthClientApplicationResponse#request_id #request_id} => String
+    #   * {Types::UpdateOAuthClientApplicationResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_o_auth_client_application({
+    #     aws_account_id: "AwsAccountId", # required
+    #     o_auth_client_application_id: "OAuthClientApplicationId", # required
+    #     name: "ResourceName", # required
+    #     client_id: "OAuthClientId",
+    #     client_secret: "OAuthClientSecret",
+    #     o_auth_token_endpoint_url: "OAuthTokenEndpointUrl",
+    #     o_auth_authorization_endpoint_url: "OAuthAuthorizationEndpointUrl",
+    #     o_auth_scopes: "OAuthScopesString",
+    #     data_source_type: "ADOBE_ANALYTICS", # accepts ADOBE_ANALYTICS, AMAZON_ELASTICSEARCH, ATHENA, AURORA, AURORA_POSTGRESQL, AWS_IOT_ANALYTICS, GITHUB, JIRA, MARIADB, MYSQL, ORACLE, POSTGRESQL, PRESTO, REDSHIFT, S3, S3_TABLES, SALESFORCE, SERVICENOW, SNOWFLAKE, SPARK, SQLSERVER, TERADATA, TWITTER, TIMESTREAM, AMAZON_OPENSEARCH, EXASOL, DATABRICKS, STARBURST, TRINO, BIGQUERY, GOOGLESHEETS, GOOGLE_DRIVE, CONFLUENCE, SHAREPOINT, ONE_DRIVE, WEB_CRAWLER, S3_KNOWLEDGE_BASE, QBUSINESS
+    #     identity_provider_vpc_connection_properties: {
+    #       vpc_connection_arn: "Arn", # required
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.o_auth_client_application_id #=> String
+    #   resp.update_status #=> String, one of "CREATION_IN_PROGRESS", "CREATION_SUCCESSFUL", "CREATION_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_SUCCESSFUL", "UPDATE_FAILED", "DELETED"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateOAuthClientApplication AWS API Documentation
+    #
+    # @overload update_o_auth_client_application(params = {})
+    # @param [Hash] params ({})
+    def update_o_auth_client_application(params = {}, options = {})
+      req = build_request(:update_o_auth_client_application, params)
+      req.send_request(options)
+    end
+
     # This API controls public sharing settings for your entire Quick Sight
     # account, affecting data security and access. When you enable public
     # sharing:
@@ -22266,7 +22581,7 @@ module Aws::QuickSight
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.183.0'
+      context[:gem_version] = '1.184.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
