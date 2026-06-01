@@ -232,6 +232,30 @@ module Aws
                                    ) -> _CreateActionConnectorResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateActionConnectorResponseSuccess
 
+      interface _CreateAgentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateAgentResponse]
+        def arn: () -> ::String
+        def agent_id: () -> ::String
+        def agent_status: () -> ("ACTIVE" | "UPDATING" | "FAILED" | "CREATING")
+        def agent_name: () -> ::String
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#create_agent-instance_method
+      def create_agent: (
+                          ?spaces: Array[::String],
+                          ?action_connectors: Array[::String],
+                          aws_account_id: ::String,
+                          agent_id: ::String,
+                          name: ::String,
+                          ?description: ::String,
+                          ?icon_id: ::String,
+                          ?starter_prompts: Array[::String],
+                          ?welcome_message: ::String,
+                          ?agent_lifecycle: ("PREVIEW" | "PUBLISHED"),
+                          ?custom_prompt_input: Params::custom_prompt_input
+                        ) -> _CreateAgentResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAgentResponseSuccess
+
       interface _CreateAnalysisResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateAnalysisResponse]
         def arn: () -> ::String
@@ -471,6 +495,30 @@ module Aws
                               ) -> _CreateDataSourceResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateDataSourceResponseSuccess
 
+      interface _CreateFlowResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateFlowResponse]
+        def arn: () -> ::String
+        def flow_id: () -> ::String
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#create_flow-instance_method
+      def create_flow: (
+                         aws_account_id: ::String,
+                         name: ::String,
+                         ?description: ::String,
+                         flow_definition: {
+                         },
+                         ?permissions: Array[
+                           {
+                             actions: Array[::String],
+                             principal: ::String
+                           }
+                         ],
+                         ?client_token: ::String
+                       ) -> _CreateFlowResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateFlowResponseSuccess
+
       interface _CreateFolderResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateFolderResponse]
         def status: () -> ::Integer
@@ -668,6 +716,21 @@ module Aws
                                     role: ("ADMIN" | "AUTHOR" | "READER" | "ADMIN_PRO" | "AUTHOR_PRO" | "READER_PRO")
                                   ) -> _CreateRoleMembershipResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateRoleMembershipResponseSuccess
+
+      interface _CreateSpaceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateSpaceResponse]
+        def space_id: () -> ::String
+        def space_arn: () -> ::String
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#create_space-instance_method
+      def create_space: (
+                          aws_account_id: ::String,
+                          space_id: ::String,
+                          name: ::String,
+                          ?description: ::String
+                        ) -> _CreateSpaceResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateSpaceResponseSuccess
 
       interface _CreateTemplateResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateTemplateResponse]
@@ -885,6 +948,17 @@ module Aws
                                    ) -> _DeleteActionConnectorResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteActionConnectorResponseSuccess
 
+      interface _DeleteAgentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAgentResponse]
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#delete_agent-instance_method
+      def delete_agent: (
+                          agent_id: ::String,
+                          aws_account_id: ::String
+                        ) -> _DeleteAgentResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAgentResponseSuccess
+
       interface _DeleteAnalysisResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAnalysisResponse]
         def status: () -> ::Integer
@@ -1002,6 +1076,18 @@ module Aws
                                                    ?namespace: ::String
                                                  ) -> _DeleteDefaultQBusinessApplicationResponseSuccess
                                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteDefaultQBusinessApplicationResponseSuccess
+
+      interface _DeleteFlowResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteFlowResponse]
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#delete_flow-instance_method
+      def delete_flow: (
+                         aws_account_id: ::String,
+                         flow_id: ::String
+                       ) -> _DeleteFlowResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteFlowResponseSuccess
 
       interface _DeleteFolderResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteFolderResponse]
@@ -1151,6 +1237,19 @@ module Aws
                                     namespace: ::String
                                   ) -> _DeleteRoleMembershipResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteRoleMembershipResponseSuccess
+
+      interface _DeleteSpaceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteSpaceResponse]
+        def space_id: () -> ::String
+        def space_arn: () -> ::String
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#delete_space-instance_method
+      def delete_space: (
+                          aws_account_id: ::String,
+                          space_id: ::String
+                        ) -> _DeleteSpaceResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteSpaceResponseSuccess
 
       interface _DeleteTemplateResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteTemplateResponse]
@@ -1379,6 +1478,32 @@ module Aws
                                                    action_connector_id: ::String
                                                  ) -> _DescribeActionConnectorPermissionsResponseSuccess
                                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeActionConnectorPermissionsResponseSuccess
+
+      interface _DescribeAgentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeAgentResponse]
+        def agent: () -> Types::Agent
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#describe_agent-instance_method
+      def describe_agent: (
+                            agent_id: ::String,
+                            aws_account_id: ::String
+                          ) -> _DescribeAgentResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeAgentResponseSuccess
+
+      interface _DescribeAgentPermissionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeAgentPermissionsResponse]
+        def arn: () -> ::String
+        def agent_id: () -> ::String
+        def permissions: () -> ::Array[Types::ResourcePermission]
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#describe_agent_permissions-instance_method
+      def describe_agent_permissions: (
+                                        agent_id: ::String,
+                                        aws_account_id: ::String
+                                      ) -> _DescribeAgentPermissionsResponseSuccess
+                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeAgentPermissionsResponseSuccess
 
       interface _DescribeAnalysisResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeAnalysisResponse]
@@ -1741,6 +1866,20 @@ module Aws
                                                    ) -> _DescribeDefaultQBusinessApplicationResponseSuccess
                                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeDefaultQBusinessApplicationResponseSuccess
 
+      interface _DescribeFlowResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeFlowResponse]
+        def flow: () -> Types::FlowDetail
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#describe_flow-instance_method
+      def describe_flow: (
+                           aws_account_id: ::String,
+                           flow_id: ::String,
+                           publish_state: ("PUBLISHED" | "DRAFT" | "PENDING_APPROVAL")
+                         ) -> _DescribeFlowResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeFlowResponseSuccess
+
       interface _DescribeFolderResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeFolderResponse]
         def status: () -> ::Integer
@@ -1971,6 +2110,36 @@ module Aws
                                                  namespace: ::String
                                                ) -> _DescribeSelfUpgradeConfigurationResponseSuccess
                                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeSelfUpgradeConfigurationResponseSuccess
+
+      interface _DescribeSpaceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeSpaceResponse]
+        def space_id: () -> ::String
+        def space_arn: () -> ::String
+        def space: () -> Types::SpaceDetails
+        def contributors: () -> ::Array[Types::SpaceContributor]
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#describe_space-instance_method
+      def describe_space: (
+                            aws_account_id: ::String,
+                            space_id: ::String,
+                            ?max_contributors: ::Integer
+                          ) -> _DescribeSpaceResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeSpaceResponseSuccess
+
+      interface _DescribeSpacePermissionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeSpacePermissionsResponse]
+        def space_id: () -> ::String
+        def space_arn: () -> ::String
+        def permissions: () -> ::Array[Types::ResourcePermission]
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#describe_space_permissions-instance_method
+      def describe_space_permissions: (
+                                        aws_account_id: ::String,
+                                        space_id: ::String
+                                      ) -> _DescribeSpacePermissionsResponseSuccess
+                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeSpacePermissionsResponseSuccess
 
       interface _DescribeTemplateResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeTemplateResponse]
@@ -2354,6 +2523,20 @@ module Aws
                                   ) -> _ListActionConnectorsResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListActionConnectorsResponseSuccess
 
+      interface _ListAgentsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAgentsResponse]
+        def request_id: () -> ::String
+        def agent_summaries: () -> ::Array[Types::AgentSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#list_agents-instance_method
+      def list_agents: (
+                         aws_account_id: ::String,
+                         ?max_results: ::Integer,
+                         ?next_token: ::String
+                       ) -> _ListAgentsResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAgentsResponseSuccess
+
       interface _ListAnalysesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListAnalysesResponse]
         def analysis_summary_list: () -> ::Array[Types::AnalysisSummary]
@@ -2724,6 +2907,36 @@ module Aws
                               ) -> _ListSelfUpgradesResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListSelfUpgradesResponseSuccess
 
+      interface _ListSpaceResourcesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListSpaceResourcesResponse]
+        def space_id: () -> ::String
+        def space_arn: () -> ::String
+        def space_resources: () -> ::Array[Types::SpaceResourceSummary]
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#list_space_resources-instance_method
+      def list_space_resources: (
+                                  aws_account_id: ::String,
+                                  space_id: ::String
+                                ) -> _ListSpaceResourcesResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListSpaceResourcesResponseSuccess
+
+      interface _ListSpacesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListSpacesResponse]
+        def space_id: () -> ::String
+        def space_arn: () -> ::String
+        def space_summaries: () -> ::Array[Types::SpaceSummary]
+        def next_token: () -> ::String
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#list_spaces-instance_method
+      def list_spaces: (
+                         aws_account_id: ::String,
+                         ?next_token: ::String,
+                         ?max_results: ::Integer
+                       ) -> _ListSpacesResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListSpacesResponseSuccess
+
       interface _ListTagsForResourceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListTagsForResourceResponse]
         def tags: () -> ::Array[Types::Tag]
@@ -3022,6 +3235,27 @@ module Aws
                                     ) -> _SearchActionConnectorsResponseSuccess
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchActionConnectorsResponseSuccess
 
+      interface _SearchAgentsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::SearchAgentsResponse]
+        def agent_summaries: () -> ::Array[Types::AgentSummary]
+        def next_token: () -> ::String
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#search_agents-instance_method
+      def search_agents: (
+                           aws_account_id: ::String,
+                           filters: Array[
+                             {
+                               name: ("DIRECT_QUICKSIGHT_OWNER" | "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER" | "DIRECT_QUICKSIGHT_SOLE_OWNER" | "AGENT_NAME")?,
+                               operator: ("StringEquals" | "StringLike")?,
+                               value: ::String?
+                             }
+                           ],
+                           ?max_results: ::Integer,
+                           ?next_token: ::String
+                         ) -> _SearchAgentsResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchAgentsResponseSuccess
+
       interface _SearchAnalysesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::SearchAnalysesResponse]
         def analysis_summary_list: () -> ::Array[Types::AnalysisSummary]
@@ -3176,6 +3410,29 @@ module Aws
                            ]
                          ) -> _SearchGroupsResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchGroupsResponseSuccess
+
+      interface _SearchSpacesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::SearchSpacesResponse]
+        def space_id: () -> ::String
+        def space_arn: () -> ::String
+        def space_summaries: () -> ::Array[Types::SpaceSummary]
+        def next_token: () -> ::String
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#search_spaces-instance_method
+      def search_spaces: (
+                           aws_account_id: ::String,
+                           ?next_token: ::String,
+                           ?max_results: ::Integer,
+                           filters: Array[
+                             {
+                               name: ("SPACE_ID" | "SPACE_NAME" | "DIRECT_QUICKSIGHT_OWNER" | "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER" | "DIRECT_QUICKSIGHT_SOLE_OWNER" | "CONTRIBUTED_BY" | "CONSUMED_SOURCE_SIZE" | "CREATED_BY"),
+                               operator: ("STRING_EQUALS" | "STRING_LIKE" | "NUMBER_RANGE"),
+                               value: ::String
+                             }
+                           ]
+                         ) -> _SearchSpacesResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchSpacesResponseSuccess
 
       interface _SearchTopicsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::SearchTopicsResponse]
@@ -3720,6 +3977,60 @@ module Aws
                                                ) -> _UpdateActionConnectorPermissionsResponseSuccess
                                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateActionConnectorPermissionsResponseSuccess
 
+      interface _UpdateAgentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateAgentResponse]
+        def arn: () -> ::String
+        def agent_id: () -> ::String
+        def agent_status: () -> ("ACTIVE" | "UPDATING" | "FAILED" | "CREATING")
+        def failed_to_add_spaces: () -> ::Array[Types::FailedToUpdateAssociation]
+        def failed_to_remove_spaces: () -> ::Array[Types::FailedToUpdateAssociation]
+        def failed_to_add_action_connectors: () -> ::Array[Types::FailedToUpdateAssociation]
+        def failed_to_remove_action_connectors: () -> ::Array[Types::FailedToUpdateAssociation]
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#update_agent-instance_method
+      def update_agent: (
+                          agent_id: ::String,
+                          aws_account_id: ::String,
+                          name: ::String,
+                          ?description: ::String,
+                          ?icon_id: ::String,
+                          ?starter_prompts: Array[::String],
+                          ?welcome_message: ::String,
+                          ?custom_prompt_input: Params::custom_prompt_input,
+                          ?spaces_to_add: Array[::String],
+                          ?spaces_to_remove: Array[::String],
+                          ?action_connectors_to_add: Array[::String],
+                          ?action_connectors_to_remove: Array[::String]
+                        ) -> _UpdateAgentResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateAgentResponseSuccess
+
+      interface _UpdateAgentPermissionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateAgentPermissionsResponse]
+        def arn: () -> ::String
+        def agent_id: () -> ::String
+        def request_id: () -> ::String
+        def permissions: () -> ::Array[Types::ResourcePermission]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#update_agent_permissions-instance_method
+      def update_agent_permissions: (
+                                      agent_id: ::String,
+                                      aws_account_id: ::String,
+                                      ?grant_permissions: Array[
+                                        {
+                                          principal: ::String,
+                                          actions: Array[::String]
+                                        }
+                                      ],
+                                      ?revoke_permissions: Array[
+                                        {
+                                          principal: ::String,
+                                          actions: Array[::String]
+                                        }
+                                      ]
+                                    ) -> _UpdateAgentPermissionsResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateAgentPermissionsResponseSuccess
+
       interface _UpdateAnalysisResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateAnalysisResponse]
         def arn: () -> ::String
@@ -4096,6 +4407,25 @@ module Aws
                                                  ) -> _UpdateDefaultQBusinessApplicationResponseSuccess
                                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateDefaultQBusinessApplicationResponseSuccess
 
+      interface _UpdateFlowResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateFlowResponse]
+        def arn: () -> ::String
+        def flow_id: () -> ::String
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#update_flow-instance_method
+      def update_flow: (
+                         aws_account_id: ::String,
+                         flow_id: ::String,
+                         ?name: ::String,
+                         ?description: ::String,
+                         ?flow_definition: {
+                         },
+                         ?client_token: ::String
+                       ) -> _UpdateFlowResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateFlowResponseSuccess
+
       interface _UpdateFlowPermissionsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateFlowPermissionsOutput]
         def status: () -> ::Integer
@@ -4379,6 +4709,77 @@ module Aws
                                                self_upgrade_status: ("AUTO_APPROVAL" | "ADMIN_APPROVAL")
                                              ) -> _UpdateSelfUpgradeConfigurationResponseSuccess
                                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateSelfUpgradeConfigurationResponseSuccess
+
+      interface _UpdateSpaceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateSpaceResponse]
+        def space_id: () -> ::String
+        def space_arn: () -> ::String
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#update_space-instance_method
+      def update_space: (
+                          aws_account_id: ::String,
+                          space_id: ::String,
+                          ?name: ::String,
+                          ?description: ::String
+                        ) -> _UpdateSpaceResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateSpaceResponseSuccess
+
+      interface _UpdateSpacePermissionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateSpacePermissionsResponse]
+        def space_id: () -> ::String
+        def space_arn: () -> ::String
+        def permissions: () -> ::Array[Types::ResourcePermission]
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#update_space_permissions-instance_method
+      def update_space_permissions: (
+                                      aws_account_id: ::String,
+                                      space_id: ::String,
+                                      ?grant_permissions: Array[
+                                        {
+                                          principal: ::String,
+                                          actions: Array[::String]
+                                        }
+                                      ],
+                                      ?revoke_permissions: Array[
+                                        {
+                                          principal: ::String,
+                                          actions: Array[::String]
+                                        }
+                                      ]
+                                    ) -> _UpdateSpacePermissionsResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateSpacePermissionsResponseSuccess
+
+      interface _UpdateSpaceResourcesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateSpaceResourcesResponse]
+        def space_id: () -> ::String
+        def space_arn: () -> ::String
+        def failed_resource_operations: () -> ::Array[Types::FailedSpaceResourceOperation]
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#update_space_resources-instance_method
+      def update_space_resources: (
+                                    aws_account_id: ::String,
+                                    space_id: ::String,
+                                    ?add_resources: Array[
+                                      {
+                                        resource_type: ("TOPIC" | "DASHBOARD" | "KNOWLEDGE_BASE" | "SPACE" | "ACTION_CONNECTOR" | "DATA_SET" | "ARTIFACT"),
+                                        resource_details: {
+                                          resource_arn: ::String?
+                                        }
+                                      }
+                                    ],
+                                    ?remove_resources: Array[
+                                      {
+                                        resource_type: ("TOPIC" | "DASHBOARD" | "KNOWLEDGE_BASE" | "SPACE" | "ACTION_CONNECTOR" | "DATA_SET" | "ARTIFACT"),
+                                        resource_details: {
+                                          resource_arn: ::String?
+                                        }
+                                      }
+                                    ]
+                                  ) -> _UpdateSpaceResourcesResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateSpaceResourcesResponseSuccess
 
       interface _UpdateTemplateResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateTemplateResponse]

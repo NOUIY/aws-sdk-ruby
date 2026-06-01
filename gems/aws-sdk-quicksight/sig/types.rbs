@@ -104,6 +104,44 @@ module Aws::QuickSight
       SENSITIVE: [:text]
     end
 
+    class Agent
+      attr_accessor spaces: ::Array[::String]
+      attr_accessor action_connectors: ::Array[::String]
+      attr_accessor description: ::String
+      attr_accessor icon_id: ::String
+      attr_accessor name: ::String
+      attr_accessor starter_prompts: ::Array[::String]
+      attr_accessor welcome_message: ::String
+      attr_accessor arn: ::String
+      attr_accessor agent_id: ::String
+      attr_accessor agent_lifecycle: ("PREVIEW" | "PUBLISHED")
+      attr_accessor agent_status: ("ACTIVE" | "UPDATING" | "FAILED" | "CREATING")
+      attr_accessor created_at: ::Time
+      attr_accessor creator: ::String
+      attr_accessor custom_prompt_interface: Types::CustomPromptInterface
+      attr_accessor error_message: ::String
+      attr_accessor updated_at: ::Time
+      SENSITIVE: [:starter_prompts, :welcome_message]
+    end
+
+    class AgentSearchFilter
+      attr_accessor name: ("DIRECT_QUICKSIGHT_OWNER" | "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER" | "DIRECT_QUICKSIGHT_SOLE_OWNER" | "AGENT_NAME")
+      attr_accessor operator: ("StringEquals" | "StringLike")
+      attr_accessor value: ::String
+      SENSITIVE: []
+    end
+
+    class AgentSummary
+      attr_accessor arn: ::String
+      attr_accessor agent_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      attr_accessor icon_id: ::String
+      SENSITIVE: []
+    end
+
     class AggFunction
       attr_accessor aggregation: ("SUM" | "MIN" | "MAX" | "COUNT" | "AVERAGE" | "DISTINCT_COUNT" | "STDEV" | "STDEVP" | "VAR" | "VARP" | "PERCENTILE" | "MEDIAN" | "PTD_SUM" | "PTD_MIN" | "PTD_MAX" | "PTD_COUNT" | "PTD_DISTINCT_COUNT" | "PTD_AVERAGE" | "COLUMN" | "CUSTOM")
       attr_accessor aggregation_function_parameters: ::Hash[::String, ::String]
@@ -1959,6 +1997,30 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class CreateAgentRequest
+      attr_accessor spaces: ::Array[::String]
+      attr_accessor action_connectors: ::Array[::String]
+      attr_accessor aws_account_id: ::String
+      attr_accessor agent_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor icon_id: ::String
+      attr_accessor starter_prompts: ::Array[::String]
+      attr_accessor welcome_message: ::String
+      attr_accessor agent_lifecycle: ("PREVIEW" | "PUBLISHED")
+      attr_accessor custom_prompt_input: Types::CustomPromptInput
+      SENSITIVE: [:starter_prompts, :welcome_message, :custom_prompt_input]
+    end
+
+    class CreateAgentResponse
+      attr_accessor arn: ::String
+      attr_accessor agent_id: ::String
+      attr_accessor agent_status: ("ACTIVE" | "UPDATING" | "FAILED" | "CREATING")
+      attr_accessor agent_name: ::String
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
     class CreateAnalysisRequest
       attr_accessor aws_account_id: ::String
       attr_accessor analysis_id: ::String
@@ -2102,6 +2164,24 @@ module Aws::QuickSight
       attr_accessor arn: ::String
       attr_accessor data_source_id: ::String
       attr_accessor creation_status: ("CREATION_IN_PROGRESS" | "CREATION_SUCCESSFUL" | "CREATION_FAILED" | "UPDATE_IN_PROGRESS" | "UPDATE_SUCCESSFUL" | "UPDATE_FAILED" | "DELETED")
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class CreateFlowRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor flow_definition: untyped
+      attr_accessor permissions: ::Array[Types::Permission]
+      attr_accessor client_token: ::String
+      SENSITIVE: [:flow_definition]
+    end
+
+    class CreateFlowResponse
+      attr_accessor arn: ::String
+      attr_accessor flow_id: ::String
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
       SENSITIVE: []
@@ -2280,6 +2360,21 @@ module Aws::QuickSight
     class CreateRoleMembershipResponse
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class CreateSpaceRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor space_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      SENSITIVE: [:description]
+    end
+
+    class CreateSpaceResponse
+      attr_accessor space_id: ::String
+      attr_accessor space_arn: ::String
+      attr_accessor request_id: ::String
       SENSITIVE: []
     end
 
@@ -2543,6 +2638,49 @@ module Aws::QuickSight
       attr_accessor arn: ::String
       attr_accessor custom_permissions_name: ::String
       attr_accessor capabilities: Types::Capabilities
+      SENSITIVE: []
+    end
+
+    class CustomPromptInput
+      attr_accessor existing_prompt: Types::CustomPromptProfile
+      attr_accessor new_prompt: Types::CustomPromptInputParameters
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class ExistingPrompt < CustomPromptInput
+      end
+      class NewPrompt < CustomPromptInput
+      end
+      class Unknown < CustomPromptInput
+      end
+    end
+
+    class CustomPromptInputParameters
+      attr_accessor response_length: ::String
+      attr_accessor output_style: ::String
+      attr_accessor identity: ::String
+      attr_accessor tone: ::String
+      attr_accessor custom_instructions: ::String
+      SENSITIVE: [:response_length, :output_style, :identity, :tone, :custom_instructions]
+    end
+
+    class CustomPromptInterface
+      attr_accessor model_profile_id: ::String
+      attr_accessor subscription_id: ::String
+      attr_accessor qbs_aws_account_id: ::String
+      attr_accessor response_length: ::String
+      attr_accessor output_style: ::String
+      attr_accessor identity: ::String
+      attr_accessor tone: ::String
+      attr_accessor custom_instructions: ::String
+      attr_accessor prompt_summary: ::String
+      SENSITIVE: [:response_length, :output_style, :identity, :tone, :custom_instructions, :prompt_summary]
+    end
+
+    class CustomPromptProfile
+      attr_accessor model_profile_id: ::String
+      attr_accessor subscription_id: ::String
+      attr_accessor qbs_aws_account_id: ::String
       SENSITIVE: []
     end
 
@@ -3464,6 +3602,17 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class DeleteAgentRequest
+      attr_accessor agent_id: ::String
+      attr_accessor aws_account_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteAgentResponse
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
     class DeleteAnalysisRequest
       attr_accessor aws_account_id: ::String
       attr_accessor analysis_id: ::String
@@ -3577,6 +3726,18 @@ module Aws::QuickSight
     end
 
     class DeleteDefaultQBusinessApplicationResponse
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class DeleteFlowRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor flow_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteFlowResponse
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
       SENSITIVE: []
@@ -3728,6 +3889,19 @@ module Aws::QuickSight
     class DeleteRoleMembershipResponse
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class DeleteSpaceRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor space_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteSpaceResponse
+      attr_accessor space_id: ::String
+      attr_accessor space_arn: ::String
+      attr_accessor request_id: ::String
       SENSITIVE: []
     end
 
@@ -3956,6 +4130,32 @@ module Aws::QuickSight
       attr_accessor action_connector: Types::ActionConnector
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class DescribeAgentPermissionsRequest
+      attr_accessor agent_id: ::String
+      attr_accessor aws_account_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeAgentPermissionsResponse
+      attr_accessor arn: ::String
+      attr_accessor agent_id: ::String
+      attr_accessor permissions: ::Array[Types::ResourcePermission]
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeAgentRequest
+      attr_accessor agent_id: ::String
+      attr_accessor aws_account_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeAgentResponse
+      attr_accessor agent: Types::Agent
+      attr_accessor request_id: ::String
       SENSITIVE: []
     end
 
@@ -4320,6 +4520,20 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class DescribeFlowRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor flow_id: ::String
+      attr_accessor publish_state: ("PUBLISHED" | "DRAFT" | "PENDING_APPROVAL")
+      SENSITIVE: []
+    end
+
+    class DescribeFlowResponse
+      attr_accessor flow: Types::FlowDetail
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
     class DescribeFolderPermissionsRequest
       attr_accessor aws_account_id: ::String
       attr_accessor folder_id: ::String
@@ -4548,6 +4762,36 @@ module Aws::QuickSight
       attr_accessor self_upgrade_configuration: Types::SelfUpgradeConfiguration
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class DescribeSpacePermissionsRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor space_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeSpacePermissionsResponse
+      attr_accessor space_id: ::String
+      attr_accessor space_arn: ::String
+      attr_accessor permissions: ::Array[Types::ResourcePermission]
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeSpaceRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor space_id: ::String
+      attr_accessor max_contributors: ::Integer
+      SENSITIVE: []
+    end
+
+    class DescribeSpaceResponse
+      attr_accessor space_id: ::String
+      attr_accessor space_arn: ::String
+      attr_accessor space: Types::SpaceDetails
+      attr_accessor contributors: ::Array[Types::SpaceContributor]
+      attr_accessor request_id: ::String
       SENSITIVE: []
     end
 
@@ -4900,6 +5144,20 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class FailedSpaceResourceOperation
+      attr_accessor resource_type: ("TOPIC" | "DASHBOARD" | "KNOWLEDGE_BASE" | "SPACE" | "ACTION_CONNECTOR" | "DATA_SET" | "ARTIFACT")
+      attr_accessor resource_details: Types::SpaceQuickSightResourceDetails
+      attr_accessor error_message: ::String
+      SENSITIVE: []
+    end
+
+    class FailedToUpdateAssociation
+      attr_accessor arn: ::String
+      attr_accessor error_message: ::String
+      attr_accessor error_code: ::String
+      SENSITIVE: []
+    end
+
     class FieldBarSeriesItem
       attr_accessor field_id: ::String
       attr_accessor settings: Types::BarChartSeriesSettings
@@ -5185,6 +5443,21 @@ module Aws::QuickSight
       attr_accessor source: Types::TransformOperationSource
       attr_accessor filter_operations: ::Array[Types::FilterOperation]
       SENSITIVE: []
+    end
+
+    class FlowDetail
+      attr_accessor arn: ::String
+      attr_accessor flow_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor publish_state: ("PUBLISHED" | "DRAFT" | "PENDING_APPROVAL")
+      attr_accessor created_time: ::Time
+      attr_accessor created_by: ::String
+      attr_accessor last_updated_time: ::Time
+      attr_accessor last_updated_by: ::String
+      attr_accessor flow_definition: untyped
+      attr_accessor step_aliases: ::Array[Types::StepAliasMapping]
+      SENSITIVE: [:flow_definition]
     end
 
     class FlowSummary
@@ -6705,6 +6978,20 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class ListAgentsRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListAgentsResponse
+      attr_accessor request_id: ::String
+      attr_accessor agent_summaries: ::Array[Types::AgentSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListAnalysesRequest
       attr_accessor aws_account_id: ::String
       attr_accessor next_token: ::String
@@ -7090,6 +7377,36 @@ module Aws::QuickSight
       attr_accessor next_token: ::String
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListSpaceResourcesRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor space_id: ::String
+      SENSITIVE: []
+    end
+
+    class ListSpaceResourcesResponse
+      attr_accessor space_id: ::String
+      attr_accessor space_arn: ::String
+      attr_accessor space_resources: ::Array[Types::SpaceResourceSummary]
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
+    class ListSpacesRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListSpacesResponse
+      attr_accessor space_id: ::String
+      attr_accessor space_arn: ::String
+      attr_accessor space_summaries: ::Array[Types::SpaceSummary]
+      attr_accessor next_token: ::String
+      attr_accessor request_id: ::String
       SENSITIVE: []
     end
 
@@ -8978,6 +9295,21 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class SearchAgentsRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor filters: ::Array[Types::AgentSearchFilter]
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class SearchAgentsResponse
+      attr_accessor agent_summaries: ::Array[Types::AgentSummary]
+      attr_accessor next_token: ::String
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
     class SearchAnalysesRequest
       attr_accessor aws_account_id: ::String
       attr_accessor filters: ::Array[Types::AnalysisSearchFilter]
@@ -9095,6 +9427,23 @@ module Aws::QuickSight
       attr_accessor next_token: ::String
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class SearchSpacesRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor filters: ::Array[Types::SpaceQuicksightSearchFilter]
+      SENSITIVE: []
+    end
+
+    class SearchSpacesResponse
+      attr_accessor space_id: ::String
+      attr_accessor space_arn: ::String
+      attr_accessor space_summaries: ::Array[Types::SpaceSummary]
+      attr_accessor next_token: ::String
+      attr_accessor request_id: ::String
       SENSITIVE: []
     end
 
@@ -9560,6 +9909,79 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class SpaceContributor
+      attr_accessor user_name: ::String
+      attr_accessor raw_file_size_bytes: ::Integer
+      attr_accessor percentage: ::Float
+      SENSITIVE: []
+    end
+
+    class SpaceDetails
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor resources: ::Array[Types::SpaceQuickSightResource]
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      attr_accessor consumed_source_size: ::Integer
+      attr_accessor consumed_source_doc_count: ::Integer
+      attr_accessor created_by: ::String
+      attr_accessor created_by_arn: ::String
+      SENSITIVE: [:description]
+    end
+
+    class SpaceQuickSightResource
+      attr_accessor resource_type: ("TOPIC" | "DASHBOARD" | "KNOWLEDGE_BASE" | "SPACE" | "ACTION_CONNECTOR" | "DATA_SET" | "ARTIFACT")
+      attr_accessor resource_details: Types::SpaceQuickSightResourceDetails
+      SENSITIVE: []
+    end
+
+    class SpaceQuickSightResourceDetails
+      attr_accessor resource_arn: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class ResourceArn < SpaceQuickSightResourceDetails
+      end
+      class Unknown < SpaceQuickSightResourceDetails
+      end
+    end
+
+    class SpaceQuicksightSearchFilter
+      attr_accessor name: ("SPACE_ID" | "SPACE_NAME" | "DIRECT_QUICKSIGHT_OWNER" | "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER" | "DIRECT_QUICKSIGHT_SOLE_OWNER" | "CONTRIBUTED_BY" | "CONSUMED_SOURCE_SIZE" | "CREATED_BY")
+      attr_accessor operator: ("STRING_EQUALS" | "STRING_LIKE" | "NUMBER_RANGE")
+      attr_accessor value: ::String
+      SENSITIVE: []
+    end
+
+    class SpaceResourceOperation
+      attr_accessor resource_type: ("TOPIC" | "DASHBOARD" | "KNOWLEDGE_BASE" | "SPACE" | "ACTION_CONNECTOR" | "DATA_SET" | "ARTIFACT")
+      attr_accessor resource_details: Types::SpaceQuickSightResourceDetails
+      SENSITIVE: []
+    end
+
+    class SpaceResourceSummary
+      attr_accessor resource_type: ("TOPIC" | "DASHBOARD" | "KNOWLEDGE_BASE" | "SPACE" | "ACTION_CONNECTOR" | "DATA_SET" | "ARTIFACT")
+      attr_accessor resource_details: Types::SpaceQuickSightResourceDetails
+      attr_accessor resource_name: ::String
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
+    class SpaceSummary
+      attr_accessor space_id: ::String
+      attr_accessor space_arn: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor updated_at: ::Time
+      attr_accessor consumed_source_size: ::Integer
+      attr_accessor consumed_source_doc_count: ::Integer
+      attr_accessor created_at: ::Time
+      attr_accessor created_by: ::String
+      attr_accessor created_by_arn: ::String
+      attr_accessor resources_count: ::Integer
+      SENSITIVE: [:description]
+    end
+
     class Spacing
       attr_accessor top: ::String
       attr_accessor bottom: ::String
@@ -9731,6 +10153,12 @@ module Aws::QuickSight
 
     class StaticFileUrlSourceOptions
       attr_accessor url: ::String
+      SENSITIVE: []
+    end
+
+    class StepAliasMapping
+      attr_accessor step_id: ::String
+      attr_accessor step_alias: ::String
       SENSITIVE: []
     end
 
@@ -10949,6 +11377,50 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class UpdateAgentPermissionsRequest
+      attr_accessor agent_id: ::String
+      attr_accessor aws_account_id: ::String
+      attr_accessor grant_permissions: ::Array[Types::ResourcePermission]
+      attr_accessor revoke_permissions: ::Array[Types::ResourcePermission]
+      SENSITIVE: []
+    end
+
+    class UpdateAgentPermissionsResponse
+      attr_accessor arn: ::String
+      attr_accessor agent_id: ::String
+      attr_accessor request_id: ::String
+      attr_accessor permissions: ::Array[Types::ResourcePermission]
+      SENSITIVE: []
+    end
+
+    class UpdateAgentRequest
+      attr_accessor agent_id: ::String
+      attr_accessor aws_account_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor icon_id: ::String
+      attr_accessor starter_prompts: ::Array[::String]
+      attr_accessor welcome_message: ::String
+      attr_accessor custom_prompt_input: Types::CustomPromptInput
+      attr_accessor spaces_to_add: ::Array[::String]
+      attr_accessor spaces_to_remove: ::Array[::String]
+      attr_accessor action_connectors_to_add: ::Array[::String]
+      attr_accessor action_connectors_to_remove: ::Array[::String]
+      SENSITIVE: [:starter_prompts, :welcome_message, :custom_prompt_input]
+    end
+
+    class UpdateAgentResponse
+      attr_accessor arn: ::String
+      attr_accessor agent_id: ::String
+      attr_accessor agent_status: ("ACTIVE" | "UPDATING" | "FAILED" | "CREATING")
+      attr_accessor failed_to_add_spaces: ::Array[Types::FailedToUpdateAssociation]
+      attr_accessor failed_to_remove_spaces: ::Array[Types::FailedToUpdateAssociation]
+      attr_accessor failed_to_add_action_connectors: ::Array[Types::FailedToUpdateAssociation]
+      attr_accessor failed_to_remove_action_connectors: ::Array[Types::FailedToUpdateAssociation]
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
     class UpdateAnalysisPermissionsRequest
       attr_accessor aws_account_id: ::String
       attr_accessor analysis_id: ::String
@@ -11251,6 +11723,24 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class UpdateFlowRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor flow_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor flow_definition: untyped
+      attr_accessor client_token: ::String
+      SENSITIVE: [:flow_definition]
+    end
+
+    class UpdateFlowResponse
+      attr_accessor arn: ::String
+      attr_accessor flow_id: ::String
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
     class UpdateFolderPermissionsRequest
       attr_accessor aws_account_id: ::String
       attr_accessor folder_id: ::String
@@ -11488,6 +11978,53 @@ module Aws::QuickSight
       attr_accessor self_upgrade_request_detail: Types::SelfUpgradeRequestDetail
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class UpdateSpacePermissionsRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor space_id: ::String
+      attr_accessor grant_permissions: ::Array[Types::ResourcePermission]
+      attr_accessor revoke_permissions: ::Array[Types::ResourcePermission]
+      SENSITIVE: []
+    end
+
+    class UpdateSpacePermissionsResponse
+      attr_accessor space_id: ::String
+      attr_accessor space_arn: ::String
+      attr_accessor permissions: ::Array[Types::ResourcePermission]
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateSpaceRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor space_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      SENSITIVE: [:description]
+    end
+
+    class UpdateSpaceResourcesRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor space_id: ::String
+      attr_accessor add_resources: ::Array[Types::SpaceResourceOperation]
+      attr_accessor remove_resources: ::Array[Types::SpaceResourceOperation]
+      SENSITIVE: []
+    end
+
+    class UpdateSpaceResourcesResponse
+      attr_accessor space_id: ::String
+      attr_accessor space_arn: ::String
+      attr_accessor failed_resource_operations: ::Array[Types::FailedSpaceResourceOperation]
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateSpaceResponse
+      attr_accessor space_id: ::String
+      attr_accessor space_arn: ::String
+      attr_accessor request_id: ::String
       SENSITIVE: []
     end
 

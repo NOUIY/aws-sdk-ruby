@@ -53,6 +53,7 @@ module Aws::CognitoIdentityProvider
   # * {MFAMethodNotFoundException}
   # * {ManagedLoginBrandingExistsException}
   # * {NotAuthorizedException}
+  # * {OperationNotEnabledException}
   # * {PasswordHistoryPolicyViolationException}
   # * {PasswordResetRequiredException}
   # * {PreconditionNotMetException}
@@ -476,6 +477,21 @@ module Aws::CognitoIdentityProvider
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::CognitoIdentityProvider::Types::NotAuthorizedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class OperationNotEnabledException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CognitoIdentityProvider::Types::OperationNotEnabledException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

@@ -97,6 +97,8 @@ module Aws::MarketplaceAgreement
     DimensionList = Shapes::ListShape.new(name: 'DimensionList')
     DocumentItem = Shapes::StructureShape.new(name: 'DocumentItem')
     DocumentList = Shapes::ListShape.new(name: 'DocumentList')
+    Entitlement = Shapes::StructureShape.new(name: 'Entitlement')
+    EntitlementList = Shapes::ListShape.new(name: 'EntitlementList')
     EntitlementType = Shapes::StringShape.new(name: 'EntitlementType')
     EstimatedCharges = Shapes::StructureShape.new(name: 'EstimatedCharges')
     EstimatedTaxes = Shapes::StructureShape.new(name: 'EstimatedTaxes')
@@ -342,6 +344,7 @@ module Aws::MarketplaceAgreement
     AgreementViewSummary.add_member(:proposer, Shapes::ShapeRef.new(shape: Proposer, location_name: "proposer"))
     AgreementViewSummary.add_member(:proposal_summary, Shapes::ShapeRef.new(shape: ProposalSummary, location_name: "proposalSummary"))
     AgreementViewSummary.add_member(:status, Shapes::ShapeRef.new(shape: AgreementStatus, location_name: "status"))
+    AgreementViewSummary.add_member(:entitlements, Shapes::ShapeRef.new(shape: EntitlementList, location_name: "entitlements"))
     AgreementViewSummary.struct_class = Types::AgreementViewSummary
 
     AgreementViewSummaryList.member = Shapes::ShapeRef.new(shape: AgreementViewSummary)
@@ -518,6 +521,11 @@ module Aws::MarketplaceAgreement
     DocumentItem.struct_class = Types::DocumentItem
 
     DocumentList.member = Shapes::ShapeRef.new(shape: DocumentItem)
+
+    Entitlement.add_member(:license_arn, Shapes::ShapeRef.new(shape: String, location_name: "licenseArn"))
+    Entitlement.struct_class = Types::Entitlement
+
+    EntitlementList.member = Shapes::ShapeRef.new(shape: Entitlement)
 
     EstimatedCharges.add_member(:currency_code, Shapes::ShapeRef.new(shape: CurrencyCode, location_name: "currencyCode"))
     EstimatedCharges.add_member(:agreement_value, Shapes::ShapeRef.new(shape: BoundedString, location_name: "agreementValue"))

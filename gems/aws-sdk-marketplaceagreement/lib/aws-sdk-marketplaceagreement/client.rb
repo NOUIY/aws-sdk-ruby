@@ -2273,6 +2273,8 @@ module Aws::MarketplaceAgreement
     #   resp.agreement_view_summaries[0].proposal_summary.offer_id #=> String
     #   resp.agreement_view_summaries[0].proposal_summary.offer_set_id #=> String
     #   resp.agreement_view_summaries[0].status #=> String, one of "ACTIVE", "ARCHIVED", "CANCELLED", "EXPIRED", "RENEWED", "REPLACED", "ROLLED_BACK", "SUPERSEDED", "TERMINATED"
+    #   resp.agreement_view_summaries[0].entitlements #=> Array
+    #   resp.agreement_view_summaries[0].entitlements[0].license_arn #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/SearchAgreements AWS API Documentation
@@ -2501,7 +2503,7 @@ module Aws::MarketplaceAgreement
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-marketplaceagreement'
-      context[:gem_version] = '1.40.0'
+      context[:gem_version] = '1.41.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

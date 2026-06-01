@@ -405,6 +405,169 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # An agent resource in Amazon QuickSight that provides AI-powered
+    # conversational experiences.
+    #
+    # @!attribute [rw] spaces
+    #   The Amazon Resource Names (ARNs) of the spaces attached to the
+    #   agent.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] action_connectors
+    #   The Amazon Resource Names (ARNs) of the action connectors attached
+    #   to the agent.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] description
+    #   A description of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] icon_id
+    #   The icon identifier for the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] starter_prompts
+    #   A list of starter prompts that are displayed to users when they
+    #   begin interacting with the agent.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] welcome_message
+    #   The welcome message that is displayed when a user starts a
+    #   conversation with the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_id
+    #   The unique identifier for the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_lifecycle
+    #   The lifecycle state of the agent. Valid values are `PREVIEW` and
+    #   `PUBLISHED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_status
+    #   The status of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time that the agent was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] creator
+    #   The identity of the user who created the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_prompt_interface
+    #   The custom prompt interface configuration for the agent.
+    #   @return [Types::CustomPromptInterface]
+    #
+    # @!attribute [rw] error_message
+    #   An error message associated with the agent, if applicable.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time that the agent was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/Agent AWS API Documentation
+    #
+    class Agent < Struct.new(
+      :spaces,
+      :action_connectors,
+      :description,
+      :icon_id,
+      :name,
+      :starter_prompts,
+      :welcome_message,
+      :arn,
+      :agent_id,
+      :agent_lifecycle,
+      :agent_status,
+      :created_at,
+      :creator,
+      :custom_prompt_interface,
+      :error_message,
+      :updated_at)
+      SENSITIVE = [:starter_prompts, :welcome_message]
+      include Aws::Structure
+    end
+
+    # A filter to apply when searching agents.
+    #
+    # @!attribute [rw] name
+    #   The name of the field to filter on.
+    #   @return [String]
+    #
+    # @!attribute [rw] operator
+    #   The comparison operator to use for the filter.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value to filter on.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/AgentSearchFilter AWS API Documentation
+    #
+    class AgentSearchFilter < Struct.new(
+      :name,
+      :operator,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of an agent, including its identifier, name, and metadata.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_id
+    #   The unique identifier for the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time that the agent was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time that the agent was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] icon_id
+    #   The icon identifier for the agent.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/AgentSummary AWS API Documentation
+    #
+    class AgentSummary < Struct.new(
+      :arn,
+      :agent_id,
+      :name,
+      :description,
+      :created_at,
+      :updated_at,
+      :icon_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The definition of an Agg function.
     #
     # @!attribute [rw] aggregation
@@ -7860,6 +8023,105 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # @!attribute [rw] spaces
+    #   The Amazon Resource Names (ARNs) of the spaces to attach to the
+    #   agent.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] action_connectors
+    #   The Amazon Resource Names (ARNs) of the action connectors to attach
+    #   to the agent.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_id
+    #   A unique identifier for the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] icon_id
+    #   The icon identifier for the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] starter_prompts
+    #   A list of starter prompts that are displayed to users when they
+    #   begin interacting with the agent.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] welcome_message
+    #   The welcome message that is displayed when a user starts a
+    #   conversation with the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_lifecycle
+    #   The lifecycle state of the agent. Valid values are `PREVIEW` and
+    #   `PUBLISHED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_prompt_input
+    #   The custom prompt configuration for the agent.
+    #   @return [Types::CustomPromptInput]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateAgentRequest AWS API Documentation
+    #
+    class CreateAgentRequest < Struct.new(
+      :spaces,
+      :action_connectors,
+      :aws_account_id,
+      :agent_id,
+      :name,
+      :description,
+      :icon_id,
+      :starter_prompts,
+      :welcome_message,
+      :agent_lifecycle,
+      :custom_prompt_input)
+      SENSITIVE = [:starter_prompts, :welcome_message, :custom_prompt_input]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_id
+    #   The unique identifier for the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_status
+    #   The status of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_name
+    #   The name of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateAgentResponse AWS API Documentation
+    #
+    class CreateAgentResponse < Struct.new(
+      :arn,
+      :agent_id,
+      :agent_status,
+      :agent_name,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] aws_account_id
     #   The ID of the Amazon Web Services account where you are creating an
     #   analysis.
@@ -8570,6 +8832,84 @@ module Aws::QuickSight
     end
 
     # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account where you want to create
+    #   the flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The display name for the flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description for the flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_definition
+    #   The definition of the flow, specifying the steps and configurations.
+    #   This is the flow definition in Quick Flow's internal format. The
+    #   format is subject to change.
+    #
+    #   <note markdown="1"> Always derive or depend on the flow definition from the
+    #   `DescribeFlow` operation to ensure you are working with the latest
+    #   format.
+    #
+    #    </note>
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @!attribute [rw] permissions
+    #   Initial permissions for the flow. If omitted, the flow is created
+    #   without any permissions.
+    #   @return [Array<Types::Permission>]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateFlowRequest AWS API Documentation
+    #
+    class CreateFlowRequest < Struct.new(
+      :aws_account_id,
+      :name,
+      :description,
+      :flow_definition,
+      :permissions,
+      :client_token)
+      SENSITIVE = [:flow_definition]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateFlowResponse AWS API Documentation
+    #
+    class CreateFlowResponse < Struct.new(
+      :arn,
+      :flow_id,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
     #   The ID for the Amazon Web Services account that contains the folder.
     #   @return [String]
     #
@@ -9251,6 +9591,56 @@ module Aws::QuickSight
     class CreateRoleMembershipResponse < Struct.new(
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_id
+    #   The ID of the space. This ID is unique per Amazon Web Services
+    #   Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   A display name for the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the space.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateSpaceRequest AWS API Documentation
+    #
+    class CreateSpaceRequest < Struct.new(
+      :aws_account_id,
+      :space_id,
+      :name,
+      :description)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] space_id
+    #   The ID of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_arn
+    #   The ARN of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateSpaceResponse AWS API Documentation
+    #
+    class CreateSpaceResponse < Struct.new(
+      :space_id,
+      :space_arn,
+      :request_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10328,6 +10718,147 @@ module Aws::QuickSight
       :arn,
       :custom_permissions_name,
       :capabilities)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The custom prompt input for an agent. This is a union type that can be
+    # either an existing prompt profile or new prompt parameters.
+    #
+    # @note CustomPromptInput is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] existing_prompt
+    #   An existing custom prompt profile to use for the agent.
+    #   @return [Types::CustomPromptProfile]
+    #
+    # @!attribute [rw] new_prompt
+    #   New custom prompt parameters to configure for the agent.
+    #   @return [Types::CustomPromptInputParameters]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CustomPromptInput AWS API Documentation
+    #
+    class CustomPromptInput < Struct.new(
+      :existing_prompt,
+      :new_prompt,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class ExistingPrompt < CustomPromptInput; end
+      class NewPrompt < CustomPromptInput; end
+      class Unknown < CustomPromptInput; end
+    end
+
+    # The parameters for configuring a custom prompt for an agent.
+    #
+    # @!attribute [rw] response_length
+    #   Instructions for the desired response length.
+    #   @return [String]
+    #
+    # @!attribute [rw] output_style
+    #   Instructions for the desired output style.
+    #   @return [String]
+    #
+    # @!attribute [rw] identity
+    #   Instructions that define the agent's identity and persona.
+    #   @return [String]
+    #
+    # @!attribute [rw] tone
+    #   Instructions for the desired tone of responses.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_instructions
+    #   Custom instructions for the agent's behavior.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CustomPromptInputParameters AWS API Documentation
+    #
+    class CustomPromptInputParameters < Struct.new(
+      :response_length,
+      :output_style,
+      :identity,
+      :tone,
+      :custom_instructions)
+      SENSITIVE = [:response_length, :output_style, :identity, :tone, :custom_instructions]
+      include Aws::Structure
+    end
+
+    # The custom prompt interface configuration that defines how an agent's
+    # prompt is configured.
+    #
+    # @!attribute [rw] model_profile_id
+    #   The identifier of the model profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] subscription_id
+    #   The subscription identifier.
+    #   @return [String]
+    #
+    # @!attribute [rw] qbs_aws_account_id
+    #   The Amazon Web Services account ID for the Q Business service.
+    #   @return [String]
+    #
+    # @!attribute [rw] response_length
+    #   Instructions for the desired response length.
+    #   @return [String]
+    #
+    # @!attribute [rw] output_style
+    #   Instructions for the desired output style.
+    #   @return [String]
+    #
+    # @!attribute [rw] identity
+    #   Instructions that define the agent's identity and persona.
+    #   @return [String]
+    #
+    # @!attribute [rw] tone
+    #   Instructions for the desired tone of responses.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_instructions
+    #   Custom instructions for the agent's behavior.
+    #   @return [String]
+    #
+    # @!attribute [rw] prompt_summary
+    #   A summary of the custom prompt configuration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CustomPromptInterface AWS API Documentation
+    #
+    class CustomPromptInterface < Struct.new(
+      :model_profile_id,
+      :subscription_id,
+      :qbs_aws_account_id,
+      :response_length,
+      :output_style,
+      :identity,
+      :tone,
+      :custom_instructions,
+      :prompt_summary)
+      SENSITIVE = [:response_length, :output_style, :identity, :tone, :custom_instructions, :prompt_summary]
+      include Aws::Structure
+    end
+
+    # A reference to an existing custom prompt profile.
+    #
+    # @!attribute [rw] model_profile_id
+    #   The identifier of the model profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] subscription_id
+    #   The subscription identifier.
+    #   @return [String]
+    #
+    # @!attribute [rw] qbs_aws_account_id
+    #   The Amazon Web Services account ID for the Q Business service.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CustomPromptProfile AWS API Documentation
+    #
+    class CustomPromptProfile < Struct.new(
+      :model_profile_id,
+      :subscription_id,
+      :qbs_aws_account_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -14043,6 +14574,35 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # @!attribute [rw] agent_id
+    #   The unique identifier for the agent to delete.
+    #   @return [String]
+    #
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agent.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteAgentRequest AWS API Documentation
+    #
+    class DeleteAgentRequest < Struct.new(
+      :agent_id,
+      :aws_account_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteAgentResponse AWS API Documentation
+    #
+    class DeleteAgentResponse < Struct.new(
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] aws_account_id
     #   The ID of the Amazon Web Services account where you want to delete
     #   an analysis.
@@ -14414,6 +14974,41 @@ module Aws::QuickSight
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteDefaultQBusinessApplicationResponse AWS API Documentation
     #
     class DeleteDefaultQBusinessApplicationResponse < Struct.new(
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the flow
+    #   that you are deleting.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the flow to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteFlowRequest AWS API Documentation
+    #
+    class DeleteFlowRequest < Struct.new(
+      :aws_account_id,
+      :flow_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteFlowResponse AWS API Documentation
+    #
+    class DeleteFlowResponse < Struct.new(
       :request_id,
       :status)
       SENSITIVE = []
@@ -14891,6 +15486,45 @@ module Aws::QuickSight
     class DeleteRoleMembershipResponse < Struct.new(
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_id
+    #   The ID of the space that you want to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteSpaceRequest AWS API Documentation
+    #
+    class DeleteSpaceRequest < Struct.new(
+      :aws_account_id,
+      :space_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] space_id
+    #   The ID of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_arn
+    #   The ARN of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteSpaceResponse AWS API Documentation
+    #
+    class DeleteSpaceResponse < Struct.new(
+      :space_id,
+      :space_arn,
+      :request_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -15681,6 +16315,85 @@ module Aws::QuickSight
       :action_connector,
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] agent_id
+    #   The unique identifier for the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agent.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeAgentPermissionsRequest AWS API Documentation
+    #
+    class DescribeAgentPermissionsRequest < Struct.new(
+      :agent_id,
+      :aws_account_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_id
+    #   The unique identifier for the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] permissions
+    #   The resource permissions for the agent.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeAgentPermissionsResponse AWS API Documentation
+    #
+    class DescribeAgentPermissionsResponse < Struct.new(
+      :arn,
+      :agent_id,
+      :permissions,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] agent_id
+    #   The unique identifier for the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agent.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeAgentRequest AWS API Documentation
+    #
+    class DescribeAgentRequest < Struct.new(
+      :agent_id,
+      :aws_account_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] agent
+    #   The full details of the agent, including its configuration, status,
+    #   and associations.
+    #   @return [Types::Agent]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeAgentResponse AWS API Documentation
+    #
+    class DescribeAgentResponse < Struct.new(
+      :agent,
+      :request_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -17123,6 +17836,52 @@ module Aws::QuickSight
     end
 
     # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the flow
+    #   that you are describing.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] publish_state
+    #   The publish state of the flow version to describe. Valid values are
+    #   `DRAFT`, `PUBLISHED`, or `PENDING_APPROVAL`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeFlowRequest AWS API Documentation
+    #
+    class DescribeFlowRequest < Struct.new(
+      :aws_account_id,
+      :flow_id,
+      :publish_state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flow
+    #   The full details of the flow.
+    #   @return [Types::FlowDetail]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeFlowResponse AWS API Documentation
+    #
+    class DescribeFlowResponse < Struct.new(
+      :flow,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
     #   The ID for the Amazon Web Services account that contains the folder.
     #   @return [String]
     #
@@ -17883,6 +18642,104 @@ module Aws::QuickSight
       :self_upgrade_configuration,
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_id
+    #   The ID of the space that you want to describe permissions for.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeSpacePermissionsRequest AWS API Documentation
+    #
+    class DescribeSpacePermissionsRequest < Struct.new(
+      :aws_account_id,
+      :space_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] space_id
+    #   The ID of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_arn
+    #   The ARN of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] permissions
+    #   A list of resource permissions for the space.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeSpacePermissionsResponse AWS API Documentation
+    #
+    class DescribeSpacePermissionsResponse < Struct.new(
+      :space_id,
+      :space_arn,
+      :permissions,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_id
+    #   The ID of the space that you want to describe.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_contributors
+    #   The maximum number of contributors to include in the response.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeSpaceRequest AWS API Documentation
+    #
+    class DescribeSpaceRequest < Struct.new(
+      :aws_account_id,
+      :space_id,
+      :max_contributors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] space_id
+    #   The ID of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_arn
+    #   The ARN of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space
+    #   The details of the space.
+    #   @return [Types::SpaceDetails]
+    #
+    # @!attribute [rw] contributors
+    #   A list of contributors to the space.
+    #   @return [Array<Types::SpaceContributor>]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeSpaceResponse AWS API Documentation
+    #
+    class DescribeSpaceResponse < Struct.new(
+      :space_id,
+      :space_arn,
+      :space,
+      :contributors,
+      :request_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -19160,6 +20017,54 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # A resource operation that failed.
+    #
+    # @!attribute [rw] resource_type
+    #   The type of the resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_details
+    #   The details of the resource.
+    #   @return [Types::SpaceQuickSightResourceDetails]
+    #
+    # @!attribute [rw] error_message
+    #   The error message that describes why the operation failed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/FailedSpaceResourceOperation AWS API Documentation
+    #
+    class FailedSpaceResourceOperation < Struct.new(
+      :resource_type,
+      :resource_details,
+      :error_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about a per-ARN failure when updating agent associations.
+    #
+    # @!attribute [rw] arn
+    #   The ARN that could not be added or removed.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_message
+    #   A description of the failure.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_code
+    #   The error code for the failure.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/FailedToUpdateAssociation AWS API Documentation
+    #
+    class FailedToUpdateAssociation < Struct.new(
+      :arn,
+      :error_message,
+      :error_code)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The field series item configuration of a `BarChartVisual`.
     #
     # @!attribute [rw] field_id
@@ -20359,6 +21264,74 @@ module Aws::QuickSight
       :source,
       :filter_operations)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The full details of a flow, including its definition specifying the
+    # steps.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The display name of the flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] publish_state
+    #   The publish state of the flow. Valid values are `DRAFT`,
+    #   `PUBLISHED`, or `PENDING_APPROVAL`.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_time
+    #   The time this flow was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_by
+    #   The identifier of the principal who created the flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_updated_time
+    #   The last time this flow was modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_by
+    #   The identifier of the last principal who updated the flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_definition
+    #   The definition of the flow, specifying the steps and configurations.
+    #   This is the flow definition in Quick Flow's internal format. The
+    #   format is subject to change.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @!attribute [rw] step_aliases
+    #   A list of step alias mappings for the flow.
+    #   @return [Array<Types::StepAliasMapping>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/FlowDetail AWS API Documentation
+    #
+    class FlowDetail < Struct.new(
+      :arn,
+      :flow_id,
+      :name,
+      :description,
+      :publish_state,
+      :created_time,
+      :created_by,
+      :last_updated_time,
+      :last_updated_by,
+      :flow_definition,
+      :step_aliases)
+      SENSITIVE = [:flow_definition]
       include Aws::Structure
     end
 
@@ -26178,6 +27151,52 @@ module Aws::QuickSight
     end
 
     # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agents.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListAgentsRequest AWS API Documentation
+    #
+    class ListAgentsRequest < Struct.new(
+      :aws_account_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_summaries
+    #   A list of agent summaries.
+    #   @return [Array<Types::AgentSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListAgentsResponse AWS API Documentation
+    #
+    class ListAgentsResponse < Struct.new(
+      :request_id,
+      :agent_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
     #   The ID of the Amazon Web Services account that contains the
     #   analyses.
     #   @return [String]
@@ -27541,6 +28560,106 @@ module Aws::QuickSight
       :next_token,
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_id
+    #   The ID of the space that you want to list resources for.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListSpaceResourcesRequest AWS API Documentation
+    #
+    class ListSpaceResourcesRequest < Struct.new(
+      :aws_account_id,
+      :space_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] space_id
+    #   The ID of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_arn
+    #   The ARN of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_resources
+    #   A list of resource summaries in the space.
+    #   @return [Array<Types::SpaceResourceSummary>]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListSpaceResourcesResponse AWS API Documentation
+    #
+    class ListSpaceResourcesResponse < Struct.new(
+      :space_id,
+      :space_arn,
+      :space_resources,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the spaces.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListSpacesRequest AWS API Documentation
+    #
+    class ListSpacesRequest < Struct.new(
+      :aws_account_id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] space_id
+    #   The ID of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_arn
+    #   The ARN of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_summaries
+    #   A list of space summaries.
+    #   @return [Array<Types::SpaceSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListSpacesResponse AWS API Documentation
+    #
+    class ListSpacesResponse < Struct.new(
+      :space_id,
+      :space_arn,
+      :space_summaries,
+      :next_token,
+      :request_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -34956,6 +36075,57 @@ module Aws::QuickSight
     end
 
     # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agents.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   The filters to apply when searching agents.
+    #   @return [Array<Types::AgentSearchFilter>]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SearchAgentsRequest AWS API Documentation
+    #
+    class SearchAgentsRequest < Struct.new(
+      :aws_account_id,
+      :filters,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] agent_summaries
+    #   A list of agent summaries.
+    #   @return [Array<Types::AgentSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SearchAgentsResponse AWS API Documentation
+    #
+    class SearchAgentsResponse < Struct.new(
+      :agent_summaries,
+      :next_token,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
     #   The ID of the Amazon Web Services account that contains the analyses
     #   that you're searching for.
     #   @return [String]
@@ -35412,6 +36582,67 @@ module Aws::QuickSight
       :next_token,
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the spaces.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] filters
+    #   The filters to apply to the search.
+    #   @return [Array<Types::SpaceQuicksightSearchFilter>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SearchSpacesRequest AWS API Documentation
+    #
+    class SearchSpacesRequest < Struct.new(
+      :aws_account_id,
+      :next_token,
+      :max_results,
+      :filters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] space_id
+    #   The ID of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_arn
+    #   The ARN of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_summaries
+    #   A list of space summaries that match the search criteria.
+    #   @return [Array<Types::SpaceSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SearchSpacesResponse AWS API Documentation
+    #
+    class SearchSpacesResponse < Struct.new(
+      :space_id,
+      :space_arn,
+      :space_summaries,
+      :next_token,
+      :request_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -37139,6 +38370,262 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # A contributor to an Amazon QuickSight space.
+    #
+    # @!attribute [rw] user_name
+    #   The user name of the contributor.
+    #   @return [String]
+    #
+    # @!attribute [rw] raw_file_size_bytes
+    #   The raw file size in bytes contributed by the user.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] percentage
+    #   The percentage of total contributions made by the user.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SpaceContributor AWS API Documentation
+    #
+    class SpaceContributor < Struct.new(
+      :user_name,
+      :raw_file_size_bytes,
+      :percentage)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of an Amazon QuickSight space.
+    #
+    # @!attribute [rw] name
+    #   The display name of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] resources
+    #   The resources in the space.
+    #   @return [Array<Types::SpaceQuickSightResource>]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time that the space was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time that the space was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] consumed_source_size
+    #   The total consumed source size in bytes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] consumed_source_doc_count
+    #   The number of consumed source documents.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] created_by
+    #   The user who created the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_by_arn
+    #   The ARN of the user who created the space.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SpaceDetails AWS API Documentation
+    #
+    class SpaceDetails < Struct.new(
+      :name,
+      :description,
+      :resources,
+      :created_at,
+      :updated_at,
+      :consumed_source_size,
+      :consumed_source_doc_count,
+      :created_by,
+      :created_by_arn)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # A QuickSight resource that is associated with a space.
+    #
+    # @!attribute [rw] resource_type
+    #   The type of the QuickSight resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_details
+    #   The details of the QuickSight resource.
+    #   @return [Types::SpaceQuickSightResourceDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SpaceQuickSightResource AWS API Documentation
+    #
+    class SpaceQuickSightResource < Struct.new(
+      :resource_type,
+      :resource_details)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of a QuickSight resource in a space.
+    #
+    # @note SpaceQuickSightResourceDetails is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note SpaceQuickSightResourceDetails is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of SpaceQuickSightResourceDetails corresponding to the set member.
+    #
+    # @!attribute [rw] resource_arn
+    #   The ARN of the QuickSight resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SpaceQuickSightResourceDetails AWS API Documentation
+    #
+    class SpaceQuickSightResourceDetails < Struct.new(
+      :resource_arn,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class ResourceArn < SpaceQuickSightResourceDetails; end
+      class Unknown < SpaceQuickSightResourceDetails; end
+    end
+
+    # A filter to use when searching for spaces.
+    #
+    # @!attribute [rw] name
+    #   The name of the filter field to use.
+    #   @return [String]
+    #
+    # @!attribute [rw] operator
+    #   The comparison operator to use for the filter.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value to use for the filter.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SpaceQuicksightSearchFilter AWS API Documentation
+    #
+    class SpaceQuicksightSearchFilter < Struct.new(
+      :name,
+      :operator,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An operation to perform on a resource in a space.
+    #
+    # @!attribute [rw] resource_type
+    #   The type of the resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_details
+    #   The details of the resource.
+    #   @return [Types::SpaceQuickSightResourceDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SpaceResourceOperation AWS API Documentation
+    #
+    class SpaceResourceOperation < Struct.new(
+      :resource_type,
+      :resource_details)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of a resource in a space.
+    #
+    # @!attribute [rw] resource_type
+    #   The type of the resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_details
+    #   The details of the resource.
+    #   @return [Types::SpaceQuickSightResourceDetails]
+    #
+    # @!attribute [rw] resource_name
+    #   The name of the resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time that the resource was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SpaceResourceSummary AWS API Documentation
+    #
+    class SpaceResourceSummary < Struct.new(
+      :resource_type,
+      :resource_details,
+      :resource_name,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of an Amazon QuickSight space.
+    #
+    # @!attribute [rw] space_id
+    #   The ID of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_arn
+    #   The ARN of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The display name of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time that the space was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] consumed_source_size
+    #   The total consumed source size in bytes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] consumed_source_doc_count
+    #   The number of consumed source documents.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time that the space was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_by
+    #   The user who created the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_by_arn
+    #   The ARN of the user who created the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] resources_count
+    #   The number of resources in the space.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SpaceSummary AWS API Documentation
+    #
+    class SpaceSummary < Struct.new(
+      :space_id,
+      :space_arn,
+      :name,
+      :description,
+      :updated_at,
+      :consumed_source_size,
+      :consumed_source_doc_count,
+      :created_at,
+      :created_by,
+      :created_by_arn,
+      :resources_count)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
     # The configuration of spacing (often a margin or padding).
     #
     # @!attribute [rw] top
@@ -37830,6 +39317,25 @@ module Aws::QuickSight
     #
     class StaticFileUrlSourceOptions < Struct.new(
       :url)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A mapping between a step identifier and its alias in a flow.
+    #
+    # @!attribute [rw] step_id
+    #   The unique identifier of the step.
+    #   @return [String]
+    #
+    # @!attribute [rw] step_alias
+    #   The alias for the step.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/StepAliasMapping AWS API Documentation
+    #
+    class StepAliasMapping < Struct.new(
+      :step_id,
+      :step_alias)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -42589,6 +44095,184 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # @!attribute [rw] agent_id
+    #   The unique identifier for the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] grant_permissions
+    #   The resource permissions that you want to grant on the agent.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @!attribute [rw] revoke_permissions
+    #   The resource permissions that you want to revoke from the agent.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateAgentPermissionsRequest AWS API Documentation
+    #
+    class UpdateAgentPermissionsRequest < Struct.new(
+      :agent_id,
+      :aws_account_id,
+      :grant_permissions,
+      :revoke_permissions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_id
+    #   The unique identifier for the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] permissions
+    #   The resource permissions for the agent.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateAgentPermissionsResponse AWS API Documentation
+    #
+    class UpdateAgentPermissionsResponse < Struct.new(
+      :arn,
+      :agent_id,
+      :request_id,
+      :permissions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] agent_id
+    #   The unique identifier for the agent to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] icon_id
+    #   The icon identifier for the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] starter_prompts
+    #   A list of starter prompts that are displayed to users when they
+    #   begin interacting with the agent.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] welcome_message
+    #   The welcome message that is displayed when a user starts a
+    #   conversation with the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_prompt_input
+    #   The custom prompt configuration for the agent.
+    #   @return [Types::CustomPromptInput]
+    #
+    # @!attribute [rw] spaces_to_add
+    #   The Amazon Resource Names (ARNs) of the spaces to attach to the
+    #   agent.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] spaces_to_remove
+    #   The Amazon Resource Names (ARNs) of the spaces to detach from the
+    #   agent.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] action_connectors_to_add
+    #   The Amazon Resource Names (ARNs) of the action connectors to attach
+    #   to the agent.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] action_connectors_to_remove
+    #   The Amazon Resource Names (ARNs) of the action connectors to detach
+    #   from the agent.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateAgentRequest AWS API Documentation
+    #
+    class UpdateAgentRequest < Struct.new(
+      :agent_id,
+      :aws_account_id,
+      :name,
+      :description,
+      :icon_id,
+      :starter_prompts,
+      :welcome_message,
+      :custom_prompt_input,
+      :spaces_to_add,
+      :spaces_to_remove,
+      :action_connectors_to_add,
+      :action_connectors_to_remove)
+      SENSITIVE = [:starter_prompts, :welcome_message, :custom_prompt_input]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_id
+    #   The unique identifier for the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_status
+    #   The status of the agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] failed_to_add_spaces
+    #   A list of per-ARN failures from the spaces that were requested to be
+    #   added.
+    #   @return [Array<Types::FailedToUpdateAssociation>]
+    #
+    # @!attribute [rw] failed_to_remove_spaces
+    #   A list of per-ARN failures from the spaces that were requested to be
+    #   removed.
+    #   @return [Array<Types::FailedToUpdateAssociation>]
+    #
+    # @!attribute [rw] failed_to_add_action_connectors
+    #   A list of per-ARN failures from the action connectors that were
+    #   requested to be added.
+    #   @return [Array<Types::FailedToUpdateAssociation>]
+    #
+    # @!attribute [rw] failed_to_remove_action_connectors
+    #   A list of per-ARN failures from the action connectors that were
+    #   requested to be removed.
+    #   @return [Array<Types::FailedToUpdateAssociation>]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateAgentResponse AWS API Documentation
+    #
+    class UpdateAgentResponse < Struct.new(
+      :arn,
+      :agent_id,
+      :agent_status,
+      :failed_to_add_spaces,
+      :failed_to_remove_spaces,
+      :failed_to_add_action_connectors,
+      :failed_to_remove_action_connectors,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] aws_account_id
     #   The ID of the Amazon Web Services account that contains the analysis
     #   whose permissions you're updating. You must be using the Amazon Web
@@ -43760,6 +45444,86 @@ module Aws::QuickSight
     end
 
     # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the flow
+    #   that you are updating.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the flow to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Updated display name for the flow. Omit to preserve the existing
+    #   name.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Updated description for the flow. Omit to preserve the existing
+    #   description.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_definition
+    #   The definition of the flow, specifying the steps and configurations.
+    #   This is the flow definition in Quick Flow's internal format. The
+    #   format is subject to change. When provided, all existing steps are
+    #   replaced. Omit to preserve the existing definition.
+    #
+    #   <note markdown="1"> Always derive or depend on the flow definition from the
+    #   `DescribeFlow` operation to ensure you are working with the latest
+    #   format.
+    #
+    #    </note>
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateFlowRequest AWS API Documentation
+    #
+    class UpdateFlowRequest < Struct.new(
+      :aws_account_id,
+      :flow_id,
+      :name,
+      :description,
+      :flow_definition,
+      :client_token)
+      SENSITIVE = [:flow_definition]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateFlowResponse AWS API Documentation
+    #
+    class UpdateFlowResponse < Struct.new(
+      :arn,
+      :flow_id,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
     #   The ID for the Amazon Web Services account that contains the folder
     #   to update.
     #   @return [String]
@@ -44613,6 +46377,163 @@ module Aws::QuickSight
       :self_upgrade_request_detail,
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_id
+    #   The ID of the space that you want to update permissions for.
+    #   @return [String]
+    #
+    # @!attribute [rw] grant_permissions
+    #   The permissions that you want to grant on the space.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @!attribute [rw] revoke_permissions
+    #   The permissions that you want to revoke from the space.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateSpacePermissionsRequest AWS API Documentation
+    #
+    class UpdateSpacePermissionsRequest < Struct.new(
+      :aws_account_id,
+      :space_id,
+      :grant_permissions,
+      :revoke_permissions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] space_id
+    #   The ID of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_arn
+    #   The ARN of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] permissions
+    #   The updated permissions for the space.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateSpacePermissionsResponse AWS API Documentation
+    #
+    class UpdateSpacePermissionsResponse < Struct.new(
+      :space_id,
+      :space_arn,
+      :permissions,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_id
+    #   The ID of the space that you want to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   A new display name for the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A new description for the space.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateSpaceRequest AWS API Documentation
+    #
+    class UpdateSpaceRequest < Struct.new(
+      :aws_account_id,
+      :space_id,
+      :name,
+      :description)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_id
+    #   The ID of the space that you want to update resources for.
+    #   @return [String]
+    #
+    # @!attribute [rw] add_resources
+    #   A list of resources to add to the space.
+    #   @return [Array<Types::SpaceResourceOperation>]
+    #
+    # @!attribute [rw] remove_resources
+    #   A list of resources to remove from the space.
+    #   @return [Array<Types::SpaceResourceOperation>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateSpaceResourcesRequest AWS API Documentation
+    #
+    class UpdateSpaceResourcesRequest < Struct.new(
+      :aws_account_id,
+      :space_id,
+      :add_resources,
+      :remove_resources)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] space_id
+    #   The ID of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_arn
+    #   The ARN of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] failed_resource_operations
+    #   A list of resource operations that failed.
+    #   @return [Array<Types::FailedSpaceResourceOperation>]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateSpaceResourcesResponse AWS API Documentation
+    #
+    class UpdateSpaceResourcesResponse < Struct.new(
+      :space_id,
+      :space_arn,
+      :failed_resource_operations,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] space_id
+    #   The ID of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_arn
+    #   The ARN of the space.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateSpaceResponse AWS API Documentation
+    #
+    class UpdateSpaceResponse < Struct.new(
+      :space_id,
+      :space_arn,
+      :request_id)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -1875,6 +1875,99 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Creates an agent in Amazon QuickSight.
+    #
+    # @option params [Array<String>] :spaces
+    #   The Amazon Resource Names (ARNs) of the spaces to attach to the agent.
+    #
+    # @option params [Array<String>] :action_connectors
+    #   The Amazon Resource Names (ARNs) of the action connectors to attach to
+    #   the agent.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agent.
+    #
+    # @option params [required, String] :agent_id
+    #   A unique identifier for the agent.
+    #
+    # @option params [required, String] :name
+    #   The name of the agent.
+    #
+    # @option params [String] :description
+    #   A description of the agent.
+    #
+    # @option params [String] :icon_id
+    #   The icon identifier for the agent.
+    #
+    # @option params [Array<String>] :starter_prompts
+    #   A list of starter prompts that are displayed to users when they begin
+    #   interacting with the agent.
+    #
+    # @option params [String] :welcome_message
+    #   The welcome message that is displayed when a user starts a
+    #   conversation with the agent.
+    #
+    # @option params [String] :agent_lifecycle
+    #   The lifecycle state of the agent. Valid values are `PREVIEW` and
+    #   `PUBLISHED`.
+    #
+    # @option params [Types::CustomPromptInput] :custom_prompt_input
+    #   The custom prompt configuration for the agent.
+    #
+    # @return [Types::CreateAgentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateAgentResponse#arn #arn} => String
+    #   * {Types::CreateAgentResponse#agent_id #agent_id} => String
+    #   * {Types::CreateAgentResponse#agent_status #agent_status} => String
+    #   * {Types::CreateAgentResponse#agent_name #agent_name} => String
+    #   * {Types::CreateAgentResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_agent({
+    #     spaces: ["Arn"],
+    #     action_connectors: ["Arn"],
+    #     aws_account_id: "AwsAccountId", # required
+    #     agent_id: "AgentId", # required
+    #     name: "AgentName", # required
+    #     description: "AgentDescription",
+    #     icon_id: "IconId",
+    #     starter_prompts: ["StarterPrompt"],
+    #     welcome_message: "WelcomeMessage",
+    #     agent_lifecycle: "PREVIEW", # accepts PREVIEW, PUBLISHED
+    #     custom_prompt_input: {
+    #       existing_prompt: {
+    #         model_profile_id: "ModelProfileId", # required
+    #         subscription_id: "SubscriptionId", # required
+    #         qbs_aws_account_id: "QbsAwsAccountId", # required
+    #       },
+    #       new_prompt: {
+    #         response_length: "StyleDescription",
+    #         output_style: "StyleDescription",
+    #         identity: "StyleDescription",
+    #         tone: "StyleDescription",
+    #         custom_instructions: "StyleDescription",
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.agent_id #=> String
+    #   resp.agent_status #=> String, one of "ACTIVE", "UPDATING", "FAILED", "CREATING"
+    #   resp.agent_name #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateAgent AWS API Documentation
+    #
+    # @overload create_agent(params = {})
+    # @param [Hash] params ({})
+    def create_agent(params = {}, options = {})
+      req = build_request(:create_agent, params)
+      req.send_request(options)
+    end
+
     # Creates an analysis in Amazon Quick Sight. Analyses can be created
     # either from a template or from an `AnalysisDefinition`.
     #
@@ -3944,6 +4037,88 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Creates a new flow in the specified Amazon Web Services account.
+    # Creates both a DRAFT and PUBLISHED (auto-published) version.
+    #
+    # This operation is idempotent. Supply a `ClientToken` to safely retry
+    # without creating duplicate resources.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account where you want to create the
+    #   flow.
+    #
+    # @option params [required, String] :name
+    #   The display name for the flow.
+    #
+    # @option params [String] :description
+    #   The description for the flow.
+    #
+    # @option params [required, Hash,Array,String,Numeric,Boolean] :flow_definition
+    #   The definition of the flow, specifying the steps and configurations.
+    #   This is the flow definition in Quick Flow's internal format. The
+    #   format is subject to change.
+    #
+    #   <note markdown="1"> Always derive or depend on the flow definition from the `DescribeFlow`
+    #   operation to ensure you are working with the latest format.
+    #
+    #    </note>
+    #
+    #   Document type used to carry open content
+    #   (Hash,Array,String,Numeric,Boolean). A document type value is
+    #   serialized using the same format as its surroundings and requires no
+    #   additional encoding or escaping.
+    #
+    # @option params [Array<Types::Permission>] :permissions
+    #   Initial permissions for the flow. If omitted, the flow is created
+    #   without any permissions.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateFlowResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateFlowResponse#arn #arn} => String
+    #   * {Types::CreateFlowResponse#flow_id #flow_id} => String
+    #   * {Types::CreateFlowResponse#request_id #request_id} => String
+    #   * {Types::CreateFlowResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_flow({
+    #     aws_account_id: "AccountId", # required
+    #     name: "TitleInput", # required
+    #     description: "FlowDescriptionInput",
+    #     flow_definition: { # required
+    #     },
+    #     permissions: [
+    #       {
+    #         actions: ["ActionsListMemberString"], # required
+    #         principal: "PermissionPrincipalString", # required
+    #       },
+    #     ],
+    #     client_token: "CreateFlowRequestClientTokenString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.flow_id #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateFlow AWS API Documentation
+    #
+    # @overload create_flow(params = {})
+    # @param [Hash] params ({})
+    def create_flow(params = {}, options = {})
+      req = build_request(:create_flow, params)
+      req.send_request(options)
+    end
+
     # Creates an empty shared folder.
     #
     # @option params [required, String] :aws_account_id
@@ -4587,6 +4762,52 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def create_role_membership(params = {}, options = {})
       req = build_request(:create_role_membership, params)
+      req.send_request(options)
+    end
+
+    # Creates a new Amazon QuickSight space. A space is a collection of
+    # resources that can be used to organize and manage QuickSight assets.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #
+    # @option params [required, String] :space_id
+    #   The ID of the space. This ID is unique per Amazon Web Services Region
+    #   for each Amazon Web Services account.
+    #
+    # @option params [required, String] :name
+    #   A display name for the space.
+    #
+    # @option params [String] :description
+    #   A description of the space.
+    #
+    # @return [Types::CreateSpaceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateSpaceResponse#space_id #space_id} => String
+    #   * {Types::CreateSpaceResponse#space_arn #space_arn} => String
+    #   * {Types::CreateSpaceResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_space({
+    #     aws_account_id: "AwsAccountId", # required
+    #     space_id: "PublicSpaceId", # required
+    #     name: "SpaceName", # required
+    #     description: "SpaceDescription",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.space_id #=> String
+    #   resp.space_arn #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateSpace AWS API Documentation
+    #
+    # @overload create_space(params = {})
+    # @param [Hash] params ({})
+    def create_space(params = {}, options = {})
+      req = build_request(:create_space, params)
       req.send_request(options)
     end
 
@@ -5677,6 +5898,38 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Deletes an agent.
+    #
+    # @option params [required, String] :agent_id
+    #   The unique identifier for the agent to delete.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agent.
+    #
+    # @return [Types::DeleteAgentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteAgentResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_agent({
+    #     agent_id: "String", # required
+    #     aws_account_id: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteAgent AWS API Documentation
+    #
+    # @overload delete_agent(params = {})
+    # @param [Hash] params ({})
+    def delete_agent(params = {}, options = {})
+      req = build_request(:delete_agent, params)
+      req.send_request(options)
+    end
+
     # Deletes an analysis from Amazon Quick Sight. You can optionally
     # include a recovery window during which you can restore the analysis.
     # If you don't specify a recovery window value, the operation defaults
@@ -6053,6 +6306,42 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def delete_default_q_business_application(params = {}, options = {})
       req = build_request(:delete_default_q_business_application, params)
+      req.send_request(options)
+    end
+
+    # Permanently deletes a flow from the specified Amazon Web Services
+    # account. This operation cannot be undone.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the flow that
+    #   you are deleting.
+    #
+    # @option params [required, String] :flow_id
+    #   The unique identifier of the flow to delete.
+    #
+    # @return [Types::DeleteFlowResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteFlowResponse#request_id #request_id} => String
+    #   * {Types::DeleteFlowResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_flow({
+    #     aws_account_id: "AccountId", # required
+    #     flow_id: "FlowId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteFlow AWS API Documentation
+    #
+    # @overload delete_flow(params = {})
+    # @param [Hash] params ({})
+    def delete_flow(params = {}, options = {})
+      req = build_request(:delete_flow, params)
       req.send_request(options)
     end
 
@@ -6505,6 +6794,42 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def delete_role_membership(params = {}, options = {})
       req = build_request(:delete_role_membership, params)
+      req.send_request(options)
+    end
+
+    # Deletes an Amazon QuickSight space.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #
+    # @option params [required, String] :space_id
+    #   The ID of the space that you want to delete.
+    #
+    # @return [Types::DeleteSpaceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteSpaceResponse#space_id #space_id} => String
+    #   * {Types::DeleteSpaceResponse#space_arn #space_arn} => String
+    #   * {Types::DeleteSpaceResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_space({
+    #     aws_account_id: "AwsAccountId", # required
+    #     space_id: "PublicSpaceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.space_id #=> String
+    #   resp.space_arn #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteSpace AWS API Documentation
+    #
+    # @overload delete_space(params = {})
+    # @param [Hash] params ({})
+    def delete_space(params = {}, options = {})
+      req = build_request(:delete_space, params)
       req.send_request(options)
     end
 
@@ -7278,6 +7603,107 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def describe_action_connector_permissions(params = {}, options = {})
       req = build_request(:describe_action_connector_permissions, params)
+      req.send_request(options)
+    end
+
+    # Describes an agent.
+    #
+    # @option params [required, String] :agent_id
+    #   The unique identifier for the agent.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agent.
+    #
+    # @return [Types::DescribeAgentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeAgentResponse#agent #agent} => Types::Agent
+    #   * {Types::DescribeAgentResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_agent({
+    #     agent_id: "AgentId", # required
+    #     aws_account_id: "AwsAccountId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.agent.spaces #=> Array
+    #   resp.agent.spaces[0] #=> String
+    #   resp.agent.action_connectors #=> Array
+    #   resp.agent.action_connectors[0] #=> String
+    #   resp.agent.description #=> String
+    #   resp.agent.icon_id #=> String
+    #   resp.agent.name #=> String
+    #   resp.agent.starter_prompts #=> Array
+    #   resp.agent.starter_prompts[0] #=> String
+    #   resp.agent.welcome_message #=> String
+    #   resp.agent.arn #=> String
+    #   resp.agent.agent_id #=> String
+    #   resp.agent.agent_lifecycle #=> String, one of "PREVIEW", "PUBLISHED"
+    #   resp.agent.agent_status #=> String, one of "ACTIVE", "UPDATING", "FAILED", "CREATING"
+    #   resp.agent.created_at #=> Time
+    #   resp.agent.creator #=> String
+    #   resp.agent.custom_prompt_interface.model_profile_id #=> String
+    #   resp.agent.custom_prompt_interface.subscription_id #=> String
+    #   resp.agent.custom_prompt_interface.qbs_aws_account_id #=> String
+    #   resp.agent.custom_prompt_interface.response_length #=> String
+    #   resp.agent.custom_prompt_interface.output_style #=> String
+    #   resp.agent.custom_prompt_interface.identity #=> String
+    #   resp.agent.custom_prompt_interface.tone #=> String
+    #   resp.agent.custom_prompt_interface.custom_instructions #=> String
+    #   resp.agent.custom_prompt_interface.prompt_summary #=> String
+    #   resp.agent.error_message #=> String
+    #   resp.agent.updated_at #=> Time
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeAgent AWS API Documentation
+    #
+    # @overload describe_agent(params = {})
+    # @param [Hash] params ({})
+    def describe_agent(params = {}, options = {})
+      req = build_request(:describe_agent, params)
+      req.send_request(options)
+    end
+
+    # Describes the resource permissions for an agent.
+    #
+    # @option params [required, String] :agent_id
+    #   The unique identifier for the agent.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agent.
+    #
+    # @return [Types::DescribeAgentPermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeAgentPermissionsResponse#arn #arn} => String
+    #   * {Types::DescribeAgentPermissionsResponse#agent_id #agent_id} => String
+    #   * {Types::DescribeAgentPermissionsResponse#permissions #permissions} => Array&lt;Types::ResourcePermission&gt;
+    #   * {Types::DescribeAgentPermissionsResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_agent_permissions({
+    #     agent_id: "AgentId", # required
+    #     aws_account_id: "AwsAccountId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.agent_id #=> String
+    #   resp.permissions #=> Array
+    #   resp.permissions[0].principal #=> String
+    #   resp.permissions[0].actions #=> Array
+    #   resp.permissions[0].actions[0] #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeAgentPermissions AWS API Documentation
+    #
+    # @overload describe_agent_permissions(params = {})
+    # @param [Hash] params ({})
+    def describe_agent_permissions(params = {}, options = {})
+      req = build_request(:describe_agent_permissions, params)
       req.send_request(options)
     end
 
@@ -9772,6 +10198,60 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Returns the full details of a flow for the latest version of the
+    # requested publish state.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the flow that
+    #   you are describing.
+    #
+    # @option params [required, String] :flow_id
+    #   The unique identifier of the flow.
+    #
+    # @option params [required, String] :publish_state
+    #   The publish state of the flow version to describe. Valid values are
+    #   `DRAFT`, `PUBLISHED`, or `PENDING_APPROVAL`.
+    #
+    # @return [Types::DescribeFlowResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeFlowResponse#flow #flow} => Types::FlowDetail
+    #   * {Types::DescribeFlowResponse#request_id #request_id} => String
+    #   * {Types::DescribeFlowResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_flow({
+    #     aws_account_id: "AccountId", # required
+    #     flow_id: "FlowId", # required
+    #     publish_state: "PUBLISHED", # required, accepts PUBLISHED, DRAFT, PENDING_APPROVAL
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.flow.arn #=> String
+    #   resp.flow.flow_id #=> String
+    #   resp.flow.name #=> String
+    #   resp.flow.description #=> String
+    #   resp.flow.publish_state #=> String, one of "PUBLISHED", "DRAFT", "PENDING_APPROVAL"
+    #   resp.flow.created_time #=> Time
+    #   resp.flow.created_by #=> String
+    #   resp.flow.last_updated_time #=> Time
+    #   resp.flow.last_updated_by #=> String
+    #   resp.flow.step_aliases #=> Array
+    #   resp.flow.step_aliases[0].step_id #=> String
+    #   resp.flow.step_aliases[0].step_alias #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeFlow AWS API Documentation
+    #
+    # @overload describe_flow(params = {})
+    # @param [Hash] params ({})
+    def describe_flow(params = {}, options = {})
+      req = build_request(:describe_flow, params)
+      req.send_request(options)
+    end
+
     # Describes a folder.
     #
     # @option params [required, String] :aws_account_id
@@ -10507,6 +10987,104 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def describe_self_upgrade_configuration(params = {}, options = {})
       req = build_request(:describe_self_upgrade_configuration, params)
+      req.send_request(options)
+    end
+
+    # Describes an Amazon QuickSight space.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #
+    # @option params [required, String] :space_id
+    #   The ID of the space that you want to describe.
+    #
+    # @option params [Integer] :max_contributors
+    #   The maximum number of contributors to include in the response.
+    #
+    # @return [Types::DescribeSpaceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeSpaceResponse#space_id #space_id} => String
+    #   * {Types::DescribeSpaceResponse#space_arn #space_arn} => String
+    #   * {Types::DescribeSpaceResponse#space #space} => Types::SpaceDetails
+    #   * {Types::DescribeSpaceResponse#contributors #contributors} => Array&lt;Types::SpaceContributor&gt;
+    #   * {Types::DescribeSpaceResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_space({
+    #     aws_account_id: "AwsAccountId", # required
+    #     space_id: "PublicSpaceId", # required
+    #     max_contributors: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.space_id #=> String
+    #   resp.space_arn #=> String
+    #   resp.space.name #=> String
+    #   resp.space.description #=> String
+    #   resp.space.resources #=> Array
+    #   resp.space.resources[0].resource_type #=> String, one of "TOPIC", "DASHBOARD", "KNOWLEDGE_BASE", "SPACE", "ACTION_CONNECTOR", "DATA_SET", "ARTIFACT"
+    #   resp.space.resources[0].resource_details.resource_arn #=> String
+    #   resp.space.created_at #=> Time
+    #   resp.space.updated_at #=> Time
+    #   resp.space.consumed_source_size #=> Integer
+    #   resp.space.consumed_source_doc_count #=> Integer
+    #   resp.space.created_by #=> String
+    #   resp.space.created_by_arn #=> String
+    #   resp.contributors #=> Array
+    #   resp.contributors[0].user_name #=> String
+    #   resp.contributors[0].raw_file_size_bytes #=> Integer
+    #   resp.contributors[0].percentage #=> Float
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeSpace AWS API Documentation
+    #
+    # @overload describe_space(params = {})
+    # @param [Hash] params ({})
+    def describe_space(params = {}, options = {})
+      req = build_request(:describe_space, params)
+      req.send_request(options)
+    end
+
+    # Describes the permissions for an Amazon QuickSight space.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #
+    # @option params [required, String] :space_id
+    #   The ID of the space that you want to describe permissions for.
+    #
+    # @return [Types::DescribeSpacePermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeSpacePermissionsResponse#space_id #space_id} => String
+    #   * {Types::DescribeSpacePermissionsResponse#space_arn #space_arn} => String
+    #   * {Types::DescribeSpacePermissionsResponse#permissions #permissions} => Array&lt;Types::ResourcePermission&gt;
+    #   * {Types::DescribeSpacePermissionsResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_space_permissions({
+    #     aws_account_id: "AwsAccountId", # required
+    #     space_id: "PublicSpaceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.space_id #=> String
+    #   resp.space_arn #=> String
+    #   resp.permissions #=> Array
+    #   resp.permissions[0].principal #=> String
+    #   resp.permissions[0].actions #=> Array
+    #   resp.permissions[0].actions[0] #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeSpacePermissions AWS API Documentation
+    #
+    # @overload describe_space_permissions(params = {})
+    # @param [Hash] params ({})
+    def describe_space_permissions(params = {}, options = {})
+      req = build_request(:describe_space_permissions, params)
       req.send_request(options)
     end
 
@@ -12501,6 +13079,54 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Lists all agents in an Amazon QuickSight account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agents.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @return [Types::ListAgentsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAgentsResponse#request_id #request_id} => String
+    #   * {Types::ListAgentsResponse#agent_summaries #agent_summaries} => Array&lt;Types::AgentSummary&gt;
+    #   * {Types::ListAgentsResponse#next_token #next_token} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_agents({
+    #     aws_account_id: "AwsAccountId", # required
+    #     max_results: 1,
+    #     next_token: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.agent_summaries #=> Array
+    #   resp.agent_summaries[0].arn #=> String
+    #   resp.agent_summaries[0].agent_id #=> String
+    #   resp.agent_summaries[0].name #=> String
+    #   resp.agent_summaries[0].description #=> String
+    #   resp.agent_summaries[0].created_at #=> Time
+    #   resp.agent_summaries[0].updated_at #=> Time
+    #   resp.agent_summaries[0].icon_id #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListAgents AWS API Documentation
+    #
+    # @overload list_agents(params = {})
+    # @param [Hash] params ({})
+    def list_agents(params = {}, options = {})
+      req = build_request(:list_agents, params)
+      req.send_request(options)
+    end
+
     # Lists Amazon Quick Sight analyses that exist in the specified Amazon
     # Web Services account.
     #
@@ -14268,6 +14894,104 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Lists the resources in an Amazon QuickSight space.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #
+    # @option params [required, String] :space_id
+    #   The ID of the space that you want to list resources for.
+    #
+    # @return [Types::ListSpaceResourcesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListSpaceResourcesResponse#space_id #space_id} => String
+    #   * {Types::ListSpaceResourcesResponse#space_arn #space_arn} => String
+    #   * {Types::ListSpaceResourcesResponse#space_resources #space_resources} => Array&lt;Types::SpaceResourceSummary&gt;
+    #   * {Types::ListSpaceResourcesResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_space_resources({
+    #     aws_account_id: "AwsAccountId", # required
+    #     space_id: "PublicSpaceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.space_id #=> String
+    #   resp.space_arn #=> String
+    #   resp.space_resources #=> Array
+    #   resp.space_resources[0].resource_type #=> String, one of "TOPIC", "DASHBOARD", "KNOWLEDGE_BASE", "SPACE", "ACTION_CONNECTOR", "DATA_SET", "ARTIFACT"
+    #   resp.space_resources[0].resource_details.resource_arn #=> String
+    #   resp.space_resources[0].resource_name #=> String
+    #   resp.space_resources[0].updated_at #=> Time
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListSpaceResources AWS API Documentation
+    #
+    # @overload list_space_resources(params = {})
+    # @param [Hash] params ({})
+    def list_space_resources(params = {}, options = {})
+      req = build_request(:list_space_resources, params)
+      req.send_request(options)
+    end
+
+    # Lists all Amazon QuickSight spaces in an Amazon Web Services account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the spaces.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return.
+    #
+    # @return [Types::ListSpacesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListSpacesResponse#space_id #space_id} => String
+    #   * {Types::ListSpacesResponse#space_arn #space_arn} => String
+    #   * {Types::ListSpacesResponse#space_summaries #space_summaries} => Array&lt;Types::SpaceSummary&gt;
+    #   * {Types::ListSpacesResponse#next_token #next_token} => String
+    #   * {Types::ListSpacesResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_spaces({
+    #     aws_account_id: "AwsAccountId", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.space_id #=> String
+    #   resp.space_arn #=> String
+    #   resp.space_summaries #=> Array
+    #   resp.space_summaries[0].space_id #=> String
+    #   resp.space_summaries[0].space_arn #=> String
+    #   resp.space_summaries[0].name #=> String
+    #   resp.space_summaries[0].description #=> String
+    #   resp.space_summaries[0].updated_at #=> Time
+    #   resp.space_summaries[0].consumed_source_size #=> Integer
+    #   resp.space_summaries[0].consumed_source_doc_count #=> Integer
+    #   resp.space_summaries[0].created_at #=> Time
+    #   resp.space_summaries[0].created_by #=> String
+    #   resp.space_summaries[0].created_by_arn #=> String
+    #   resp.space_summaries[0].resources_count #=> Integer
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListSpaces AWS API Documentation
+    #
+    # @overload list_spaces(params = {})
+    # @param [Hash] params ({})
+    def list_spaces(params = {}, options = {})
+      req = build_request(:list_spaces, params)
+      req.send_request(options)
+    end
+
     # Lists the tags assigned to a resource.
     #
     # @option params [required, String] :resource_arn
@@ -15873,6 +16597,64 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Searches for agents based on specified filters.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agents.
+    #
+    # @option params [required, Array<Types::AgentSearchFilter>] :filters
+    #   The filters to apply when searching agents.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @return [Types::SearchAgentsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SearchAgentsResponse#agent_summaries #agent_summaries} => Array&lt;Types::AgentSummary&gt;
+    #   * {Types::SearchAgentsResponse#next_token #next_token} => String
+    #   * {Types::SearchAgentsResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.search_agents({
+    #     aws_account_id: "AwsAccountId", # required
+    #     filters: [ # required
+    #       {
+    #         name: "DIRECT_QUICKSIGHT_OWNER", # accepts DIRECT_QUICKSIGHT_OWNER, DIRECT_QUICKSIGHT_VIEWER_OR_OWNER, DIRECT_QUICKSIGHT_SOLE_OWNER, AGENT_NAME
+    #         operator: "StringEquals", # accepts StringEquals, StringLike
+    #         value: "String",
+    #       },
+    #     ],
+    #     max_results: 1,
+    #     next_token: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.agent_summaries #=> Array
+    #   resp.agent_summaries[0].arn #=> String
+    #   resp.agent_summaries[0].agent_id #=> String
+    #   resp.agent_summaries[0].name #=> String
+    #   resp.agent_summaries[0].description #=> String
+    #   resp.agent_summaries[0].created_at #=> Time
+    #   resp.agent_summaries[0].updated_at #=> Time
+    #   resp.agent_summaries[0].icon_id #=> String
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SearchAgents AWS API Documentation
+    #
+    # @overload search_agents(params = {})
+    # @param [Hash] params ({})
+    def search_agents(params = {}, options = {})
+      req = build_request(:search_agents, params)
+      req.send_request(options)
+    end
+
     # Searches for analyses that belong to the user specified in the filter.
     #
     # <note markdown="1"> This operation is eventually consistent. The results are best effort
@@ -16345,6 +17127,73 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def search_groups(params = {}, options = {})
       req = build_request(:search_groups, params)
+      req.send_request(options)
+    end
+
+    # Searches for Amazon QuickSight spaces that match the specified
+    # filters.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the spaces.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return.
+    #
+    # @option params [required, Array<Types::SpaceQuicksightSearchFilter>] :filters
+    #   The filters to apply to the search.
+    #
+    # @return [Types::SearchSpacesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SearchSpacesResponse#space_id #space_id} => String
+    #   * {Types::SearchSpacesResponse#space_arn #space_arn} => String
+    #   * {Types::SearchSpacesResponse#space_summaries #space_summaries} => Array&lt;Types::SpaceSummary&gt;
+    #   * {Types::SearchSpacesResponse#next_token #next_token} => String
+    #   * {Types::SearchSpacesResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.search_spaces({
+    #     aws_account_id: "AwsAccountId", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #     filters: [ # required
+    #       {
+    #         name: "SPACE_ID", # required, accepts SPACE_ID, SPACE_NAME, DIRECT_QUICKSIGHT_OWNER, DIRECT_QUICKSIGHT_VIEWER_OR_OWNER, DIRECT_QUICKSIGHT_SOLE_OWNER, CONTRIBUTED_BY, CONSUMED_SOURCE_SIZE, CREATED_BY
+    #         operator: "STRING_EQUALS", # required, accepts STRING_EQUALS, STRING_LIKE, NUMBER_RANGE
+    #         value: "String", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.space_id #=> String
+    #   resp.space_arn #=> String
+    #   resp.space_summaries #=> Array
+    #   resp.space_summaries[0].space_id #=> String
+    #   resp.space_summaries[0].space_arn #=> String
+    #   resp.space_summaries[0].name #=> String
+    #   resp.space_summaries[0].description #=> String
+    #   resp.space_summaries[0].updated_at #=> Time
+    #   resp.space_summaries[0].consumed_source_size #=> Integer
+    #   resp.space_summaries[0].consumed_source_doc_count #=> Integer
+    #   resp.space_summaries[0].created_at #=> Time
+    #   resp.space_summaries[0].created_by #=> String
+    #   resp.space_summaries[0].created_by_arn #=> String
+    #   resp.space_summaries[0].resources_count #=> Integer
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SearchSpaces AWS API Documentation
+    #
+    # @overload search_spaces(params = {})
+    # @param [Hash] params ({})
+    def search_spaces(params = {}, options = {})
+      req = build_request(:search_spaces, params)
       req.send_request(options)
     end
 
@@ -17929,6 +18778,181 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def update_action_connector_permissions(params = {}, options = {})
       req = build_request(:update_action_connector_permissions, params)
+      req.send_request(options)
+    end
+
+    # Updates an existing agent.
+    #
+    # @option params [required, String] :agent_id
+    #   The unique identifier for the agent to update.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agent.
+    #
+    # @option params [required, String] :name
+    #   The name of the agent.
+    #
+    # @option params [String] :description
+    #   A description of the agent.
+    #
+    # @option params [String] :icon_id
+    #   The icon identifier for the agent.
+    #
+    # @option params [Array<String>] :starter_prompts
+    #   A list of starter prompts that are displayed to users when they begin
+    #   interacting with the agent.
+    #
+    # @option params [String] :welcome_message
+    #   The welcome message that is displayed when a user starts a
+    #   conversation with the agent.
+    #
+    # @option params [Types::CustomPromptInput] :custom_prompt_input
+    #   The custom prompt configuration for the agent.
+    #
+    # @option params [Array<String>] :spaces_to_add
+    #   The Amazon Resource Names (ARNs) of the spaces to attach to the agent.
+    #
+    # @option params [Array<String>] :spaces_to_remove
+    #   The Amazon Resource Names (ARNs) of the spaces to detach from the
+    #   agent.
+    #
+    # @option params [Array<String>] :action_connectors_to_add
+    #   The Amazon Resource Names (ARNs) of the action connectors to attach to
+    #   the agent.
+    #
+    # @option params [Array<String>] :action_connectors_to_remove
+    #   The Amazon Resource Names (ARNs) of the action connectors to detach
+    #   from the agent.
+    #
+    # @return [Types::UpdateAgentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateAgentResponse#arn #arn} => String
+    #   * {Types::UpdateAgentResponse#agent_id #agent_id} => String
+    #   * {Types::UpdateAgentResponse#agent_status #agent_status} => String
+    #   * {Types::UpdateAgentResponse#failed_to_add_spaces #failed_to_add_spaces} => Array&lt;Types::FailedToUpdateAssociation&gt;
+    #   * {Types::UpdateAgentResponse#failed_to_remove_spaces #failed_to_remove_spaces} => Array&lt;Types::FailedToUpdateAssociation&gt;
+    #   * {Types::UpdateAgentResponse#failed_to_add_action_connectors #failed_to_add_action_connectors} => Array&lt;Types::FailedToUpdateAssociation&gt;
+    #   * {Types::UpdateAgentResponse#failed_to_remove_action_connectors #failed_to_remove_action_connectors} => Array&lt;Types::FailedToUpdateAssociation&gt;
+    #   * {Types::UpdateAgentResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_agent({
+    #     agent_id: "AgentId", # required
+    #     aws_account_id: "AwsAccountId", # required
+    #     name: "AgentName", # required
+    #     description: "AgentDescription",
+    #     icon_id: "IconId",
+    #     starter_prompts: ["StarterPrompt"],
+    #     welcome_message: "WelcomeMessage",
+    #     custom_prompt_input: {
+    #       existing_prompt: {
+    #         model_profile_id: "ModelProfileId", # required
+    #         subscription_id: "SubscriptionId", # required
+    #         qbs_aws_account_id: "QbsAwsAccountId", # required
+    #       },
+    #       new_prompt: {
+    #         response_length: "StyleDescription",
+    #         output_style: "StyleDescription",
+    #         identity: "StyleDescription",
+    #         tone: "StyleDescription",
+    #         custom_instructions: "StyleDescription",
+    #       },
+    #     },
+    #     spaces_to_add: ["Arn"],
+    #     spaces_to_remove: ["Arn"],
+    #     action_connectors_to_add: ["Arn"],
+    #     action_connectors_to_remove: ["Arn"],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.agent_id #=> String
+    #   resp.agent_status #=> String, one of "ACTIVE", "UPDATING", "FAILED", "CREATING"
+    #   resp.failed_to_add_spaces #=> Array
+    #   resp.failed_to_add_spaces[0].arn #=> String
+    #   resp.failed_to_add_spaces[0].error_message #=> String
+    #   resp.failed_to_add_spaces[0].error_code #=> String
+    #   resp.failed_to_remove_spaces #=> Array
+    #   resp.failed_to_remove_spaces[0].arn #=> String
+    #   resp.failed_to_remove_spaces[0].error_message #=> String
+    #   resp.failed_to_remove_spaces[0].error_code #=> String
+    #   resp.failed_to_add_action_connectors #=> Array
+    #   resp.failed_to_add_action_connectors[0].arn #=> String
+    #   resp.failed_to_add_action_connectors[0].error_message #=> String
+    #   resp.failed_to_add_action_connectors[0].error_code #=> String
+    #   resp.failed_to_remove_action_connectors #=> Array
+    #   resp.failed_to_remove_action_connectors[0].arn #=> String
+    #   resp.failed_to_remove_action_connectors[0].error_message #=> String
+    #   resp.failed_to_remove_action_connectors[0].error_code #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateAgent AWS API Documentation
+    #
+    # @overload update_agent(params = {})
+    # @param [Hash] params ({})
+    def update_agent(params = {}, options = {})
+      req = build_request(:update_agent, params)
+      req.send_request(options)
+    end
+
+    # Updates the resource permissions for an agent.
+    #
+    # @option params [required, String] :agent_id
+    #   The unique identifier for the agent.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the agent.
+    #
+    # @option params [Array<Types::ResourcePermission>] :grant_permissions
+    #   The resource permissions that you want to grant on the agent.
+    #
+    # @option params [Array<Types::ResourcePermission>] :revoke_permissions
+    #   The resource permissions that you want to revoke from the agent.
+    #
+    # @return [Types::UpdateAgentPermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateAgentPermissionsResponse#arn #arn} => String
+    #   * {Types::UpdateAgentPermissionsResponse#agent_id #agent_id} => String
+    #   * {Types::UpdateAgentPermissionsResponse#request_id #request_id} => String
+    #   * {Types::UpdateAgentPermissionsResponse#permissions #permissions} => Array&lt;Types::ResourcePermission&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_agent_permissions({
+    #     agent_id: "AgentId", # required
+    #     aws_account_id: "AwsAccountId", # required
+    #     grant_permissions: [
+    #       {
+    #         principal: "Principal", # required
+    #         actions: ["String"], # required
+    #       },
+    #     ],
+    #     revoke_permissions: [
+    #       {
+    #         principal: "Principal", # required
+    #         actions: ["String"], # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.agent_id #=> String
+    #   resp.request_id #=> String
+    #   resp.permissions #=> Array
+    #   resp.permissions[0].principal #=> String
+    #   resp.permissions[0].actions #=> Array
+    #   resp.permissions[0].actions[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateAgentPermissions AWS API Documentation
+    #
+    # @overload update_agent_permissions(params = {})
+    # @param [Hash] params ({})
+    def update_agent_permissions(params = {}, options = {})
+      req = build_request(:update_agent_permissions, params)
       req.send_request(options)
     end
 
@@ -20418,6 +21442,82 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Updates an existing flow. Supply only the fields you want to change.
+    # Updates both DRAFT and PUBLISHED versions. When `FlowDefinition` is
+    # provided, all existing steps are replaced with the new definition.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the flow that
+    #   you are updating.
+    #
+    # @option params [required, String] :flow_id
+    #   The unique identifier of the flow to update.
+    #
+    # @option params [String] :name
+    #   Updated display name for the flow. Omit to preserve the existing name.
+    #
+    # @option params [String] :description
+    #   Updated description for the flow. Omit to preserve the existing
+    #   description.
+    #
+    # @option params [Hash,Array,String,Numeric,Boolean] :flow_definition
+    #   The definition of the flow, specifying the steps and configurations.
+    #   This is the flow definition in Quick Flow's internal format. The
+    #   format is subject to change. When provided, all existing steps are
+    #   replaced. Omit to preserve the existing definition.
+    #
+    #   <note markdown="1"> Always derive or depend on the flow definition from the `DescribeFlow`
+    #   operation to ensure you are working with the latest format.
+    #
+    #    </note>
+    #
+    #   Document type used to carry open content
+    #   (Hash,Array,String,Numeric,Boolean). A document type value is
+    #   serialized using the same format as its surroundings and requires no
+    #   additional encoding or escaping.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::UpdateFlowResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateFlowResponse#arn #arn} => String
+    #   * {Types::UpdateFlowResponse#flow_id #flow_id} => String
+    #   * {Types::UpdateFlowResponse#request_id #request_id} => String
+    #   * {Types::UpdateFlowResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_flow({
+    #     aws_account_id: "AccountId", # required
+    #     flow_id: "FlowId", # required
+    #     name: "TitleInput",
+    #     description: "FlowDescriptionInput",
+    #     flow_definition: {
+    #     },
+    #     client_token: "UpdateFlowRequestClientTokenString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.flow_id #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateFlow AWS API Documentation
+    #
+    # @overload update_flow(params = {})
+    # @param [Hash] params ({})
+    def update_flow(params = {}, options = {})
+      req = build_request(:update_flow, params)
+      req.send_request(options)
+    end
+
     # Updates permissions against principals on a flow.
     #
     # @option params [required, String] :aws_account_id
@@ -21327,6 +22427,172 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def update_self_upgrade_configuration(params = {}, options = {})
       req = build_request(:update_self_upgrade_configuration, params)
+      req.send_request(options)
+    end
+
+    # Updates the metadata of an Amazon QuickSight space.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #
+    # @option params [required, String] :space_id
+    #   The ID of the space that you want to update.
+    #
+    # @option params [String] :name
+    #   A new display name for the space.
+    #
+    # @option params [String] :description
+    #   A new description for the space.
+    #
+    # @return [Types::UpdateSpaceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateSpaceResponse#space_id #space_id} => String
+    #   * {Types::UpdateSpaceResponse#space_arn #space_arn} => String
+    #   * {Types::UpdateSpaceResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_space({
+    #     aws_account_id: "AwsAccountId", # required
+    #     space_id: "PublicSpaceId", # required
+    #     name: "SpaceName",
+    #     description: "SpaceDescription",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.space_id #=> String
+    #   resp.space_arn #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateSpace AWS API Documentation
+    #
+    # @overload update_space(params = {})
+    # @param [Hash] params ({})
+    def update_space(params = {}, options = {})
+      req = build_request(:update_space, params)
+      req.send_request(options)
+    end
+
+    # Updates the permissions for an Amazon QuickSight space.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #
+    # @option params [required, String] :space_id
+    #   The ID of the space that you want to update permissions for.
+    #
+    # @option params [Array<Types::ResourcePermission>] :grant_permissions
+    #   The permissions that you want to grant on the space.
+    #
+    # @option params [Array<Types::ResourcePermission>] :revoke_permissions
+    #   The permissions that you want to revoke from the space.
+    #
+    # @return [Types::UpdateSpacePermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateSpacePermissionsResponse#space_id #space_id} => String
+    #   * {Types::UpdateSpacePermissionsResponse#space_arn #space_arn} => String
+    #   * {Types::UpdateSpacePermissionsResponse#permissions #permissions} => Array&lt;Types::ResourcePermission&gt;
+    #   * {Types::UpdateSpacePermissionsResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_space_permissions({
+    #     aws_account_id: "AwsAccountId", # required
+    #     space_id: "PublicSpaceId", # required
+    #     grant_permissions: [
+    #       {
+    #         principal: "Principal", # required
+    #         actions: ["String"], # required
+    #       },
+    #     ],
+    #     revoke_permissions: [
+    #       {
+    #         principal: "Principal", # required
+    #         actions: ["String"], # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.space_id #=> String
+    #   resp.space_arn #=> String
+    #   resp.permissions #=> Array
+    #   resp.permissions[0].principal #=> String
+    #   resp.permissions[0].actions #=> Array
+    #   resp.permissions[0].actions[0] #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateSpacePermissions AWS API Documentation
+    #
+    # @overload update_space_permissions(params = {})
+    # @param [Hash] params ({})
+    def update_space_permissions(params = {}, options = {})
+      req = build_request(:update_space_permissions, params)
+      req.send_request(options)
+    end
+
+    # Adds or removes resources from an Amazon QuickSight space.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the space.
+    #
+    # @option params [required, String] :space_id
+    #   The ID of the space that you want to update resources for.
+    #
+    # @option params [Array<Types::SpaceResourceOperation>] :add_resources
+    #   A list of resources to add to the space.
+    #
+    # @option params [Array<Types::SpaceResourceOperation>] :remove_resources
+    #   A list of resources to remove from the space.
+    #
+    # @return [Types::UpdateSpaceResourcesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateSpaceResourcesResponse#space_id #space_id} => String
+    #   * {Types::UpdateSpaceResourcesResponse#space_arn #space_arn} => String
+    #   * {Types::UpdateSpaceResourcesResponse#failed_resource_operations #failed_resource_operations} => Array&lt;Types::FailedSpaceResourceOperation&gt;
+    #   * {Types::UpdateSpaceResourcesResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_space_resources({
+    #     aws_account_id: "AwsAccountId", # required
+    #     space_id: "PublicSpaceId", # required
+    #     add_resources: [
+    #       {
+    #         resource_type: "TOPIC", # required, accepts TOPIC, DASHBOARD, KNOWLEDGE_BASE, SPACE, ACTION_CONNECTOR, DATA_SET, ARTIFACT
+    #         resource_details: { # required
+    #           resource_arn: "Arn",
+    #         },
+    #       },
+    #     ],
+    #     remove_resources: [
+    #       {
+    #         resource_type: "TOPIC", # required, accepts TOPIC, DASHBOARD, KNOWLEDGE_BASE, SPACE, ACTION_CONNECTOR, DATA_SET, ARTIFACT
+    #         resource_details: { # required
+    #           resource_arn: "Arn",
+    #         },
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.space_id #=> String
+    #   resp.space_arn #=> String
+    #   resp.failed_resource_operations #=> Array
+    #   resp.failed_resource_operations[0].resource_type #=> String, one of "TOPIC", "DASHBOARD", "KNOWLEDGE_BASE", "SPACE", "ACTION_CONNECTOR", "DATA_SET", "ARTIFACT"
+    #   resp.failed_resource_operations[0].resource_details.resource_arn #=> String
+    #   resp.failed_resource_operations[0].error_message #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateSpaceResources AWS API Documentation
+    #
+    # @overload update_space_resources(params = {})
+    # @param [Hash] params ({})
+    def update_space_resources(params = {}, options = {})
+      req = build_request(:update_space_resources, params)
       req.send_request(options)
     end
 
@@ -22581,7 +23847,7 @@ module Aws::QuickSight
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.184.0'
+      context[:gem_version] = '1.185.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

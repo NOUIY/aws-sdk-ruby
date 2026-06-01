@@ -90,6 +90,9 @@ module Aws
       class NotAuthorizedException < ::Aws::Errors::ServiceError
         def message: () -> ::String
       end
+      class OperationNotEnabledException < ::Aws::Errors::ServiceError
+        def message: () -> ::String
+      end
       class PasswordHistoryPolicyViolationException < ::Aws::Errors::ServiceError
         def message: () -> ::String
       end

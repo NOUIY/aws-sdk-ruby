@@ -155,6 +155,7 @@ module Aws::MarketplaceAgreement
       attr_accessor proposer: Types::Proposer
       attr_accessor proposal_summary: Types::ProposalSummary
       attr_accessor status: ("ACTIVE" | "ARCHIVED" | "CANCELLED" | "EXPIRED" | "RENEWED" | "REPLACED" | "ROLLED_BACK" | "SUPERSEDED" | "TERMINATED")
+      attr_accessor entitlements: ::Array[Types::Entitlement]
       SENSITIVE: []
     end
 
@@ -363,6 +364,11 @@ module Aws::MarketplaceAgreement
       attr_accessor type: ::String
       attr_accessor url: ::String
       attr_accessor version: ::String
+      SENSITIVE: []
+    end
+
+    class Entitlement
+      attr_accessor license_arn: ::String
       SENSITIVE: []
     end
 

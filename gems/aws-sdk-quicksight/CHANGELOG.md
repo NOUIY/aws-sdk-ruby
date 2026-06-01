@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.185.0 (2026-06-01)
+------------------
+
+* Feature - This release adds public APIs for Amazon QuickSight Spaces, Agents, and Flows. Spaces APIs enable management of curated resource collections. Agents APIs provide lifecycle control over AI-powered agents that leverage Spaces. Flows APIs add CRUDL APIs for automated workflows.
+
 1.184.0 (2026-05-29)
 ------------------
 

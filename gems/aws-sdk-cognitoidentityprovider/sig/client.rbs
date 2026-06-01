@@ -721,7 +721,14 @@ module Aws
                                   }
                                 ]?
                               },
-                              ?user_pool_tier: ("LITE" | "ESSENTIALS" | "PLUS")
+                              ?user_pool_tier: ("LITE" | "ESSENTIALS" | "PLUS"),
+                              ?key_configuration: {
+                                key_type: ("AWS_OWNED_KEY" | "CUSTOMER_MANAGED_KEY")?,
+                                kms_key_arn: ::String?
+                              },
+                              ?issuer_configuration: {
+                                type: ("ORIGINAL" | "UPDATED")?
+                              }
                             ) -> _CreateUserPoolResponseSuccess
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateUserPoolResponseSuccess
 
@@ -775,6 +782,7 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateUserPoolDomainResponse]
         def managed_login_version: () -> ::Integer
         def cloud_front_domain: () -> ::String
+        def routing: () -> Types::RoutingType
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CognitoIdentityProvider/Client.html#create_user_pool_domain-instance_method
       def create_user_pool_domain: (
@@ -783,9 +791,27 @@ module Aws
                                      ?managed_login_version: ::Integer,
                                      ?custom_domain_config: {
                                        certificate_arn: ::String
+                                     },
+                                     ?routing: {
+                                       failover: {
+                                         secondary_region: ::String,
+                                         primary_route_53_health_check_id: ::String
+                                       }?
                                      }
                                    ) -> _CreateUserPoolDomainResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateUserPoolDomainResponseSuccess
+
+      interface _CreateUserPoolReplicaResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateUserPoolReplicaResponse]
+        def user_pool_replica: () -> Types::UserPoolReplicaType
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CognitoIdentityProvider/Client.html#create_user_pool_replica-instance_method
+      def create_user_pool_replica: (
+                                      user_pool_id: ::String,
+                                      region_name: ::String,
+                                      ?user_pool_tags: Hash[::String, ::String]
+                                    ) -> _CreateUserPoolReplicaResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateUserPoolReplicaResponseSuccess
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CognitoIdentityProvider/Client.html#delete_group-instance_method
       def delete_group: (
@@ -871,6 +897,17 @@ module Aws
                                      user_pool_id: ::String
                                    ) -> _DeleteUserPoolDomainResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteUserPoolDomainResponseSuccess
+
+      interface _DeleteUserPoolReplicaResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteUserPoolReplicaResponse]
+        def user_pool_replica: () -> Types::UserPoolReplicaType
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CognitoIdentityProvider/Client.html#delete_user_pool_replica-instance_method
+      def delete_user_pool_replica: (
+                                      user_pool_id: ::String,
+                                      region_name: ::String
+                                    ) -> _DeleteUserPoolReplicaResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteUserPoolReplicaResponseSuccess
 
       interface _DeleteWebAuthnCredentialResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteWebAuthnCredentialResponse]
@@ -1308,6 +1345,18 @@ module Aws
                                     ?next_token: ::String
                                   ) -> _ListUserPoolClientsResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListUserPoolClientsResponseSuccess
+
+      interface _ListUserPoolReplicasResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListUserPoolReplicasResponse]
+        def user_pool_replicas: () -> ::Array[Types::UserPoolReplicaType]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CognitoIdentityProvider/Client.html#list_user_pool_replicas-instance_method
+      def list_user_pool_replicas: (
+                                     user_pool_id: ::String,
+                                     ?next_token: ::String
+                                   ) -> _ListUserPoolReplicasResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListUserPoolReplicasResponseSuccess
 
       interface _ListUserPoolsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListUserPoolsResponse]
@@ -1852,7 +1901,14 @@ module Aws
                                 ]?
                               },
                               ?pool_name: ::String,
-                              ?user_pool_tier: ("LITE" | "ESSENTIALS" | "PLUS")
+                              ?user_pool_tier: ("LITE" | "ESSENTIALS" | "PLUS"),
+                              ?key_configuration: {
+                                key_type: ("AWS_OWNED_KEY" | "CUSTOMER_MANAGED_KEY")?,
+                                kms_key_arn: ::String?
+                              },
+                              ?issuer_configuration: {
+                                type: ("ORIGINAL" | "UPDATED")?
+                              }
                             ) -> _UpdateUserPoolResponseSuccess
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateUserPoolResponseSuccess
 
@@ -1905,6 +1961,7 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateUserPoolDomainResponse]
         def managed_login_version: () -> ::Integer
         def cloud_front_domain: () -> ::String
+        def routing: () -> Types::RoutingType
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CognitoIdentityProvider/Client.html#update_user_pool_domain-instance_method
       def update_user_pool_domain: (
@@ -1913,9 +1970,27 @@ module Aws
                                      ?managed_login_version: ::Integer,
                                      ?custom_domain_config: {
                                        certificate_arn: ::String
+                                     },
+                                     ?routing: {
+                                       failover: {
+                                         secondary_region: ::String,
+                                         primary_route_53_health_check_id: ::String
+                                       }?
                                      }
                                    ) -> _UpdateUserPoolDomainResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateUserPoolDomainResponseSuccess
+
+      interface _UpdateUserPoolReplicaResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateUserPoolReplicaResponse]
+        def user_pool_replica: () -> Types::UserPoolReplicaType
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CognitoIdentityProvider/Client.html#update_user_pool_replica-instance_method
+      def update_user_pool_replica: (
+                                      user_pool_id: ::String,
+                                      region_name: ::String,
+                                      status: ("ACTIVE" | "INACTIVE")
+                                    ) -> _UpdateUserPoolReplicaResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateUserPoolReplicaResponseSuccess
 
       interface _VerifySoftwareTokenResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::VerifySoftwareTokenResponse]

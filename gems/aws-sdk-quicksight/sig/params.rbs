@@ -238,6 +238,21 @@ module Aws
       authentication_metadata: Params::authentication_metadata
     }
 
+      type custom_prompt_input = {
+      existing_prompt: {
+        model_profile_id: ::String,
+        subscription_id: ::String,
+        qbs_aws_account_id: ::String
+      }?,
+      new_prompt: {
+        response_length: ::String?,
+        output_style: ::String?,
+        identity: ::String?,
+        tone: ::String?,
+        custom_instructions: ::String?
+      }?
+    }
+
       type parameters = {
       string_parameters: Array[
         {

@@ -5005,6 +5005,14 @@ module Aws::CognitoIdentityProvider
     #
     #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html
     #
+    # @option params [Types::KeyConfigurationType] :key_configuration
+    #   The key configuration for the user pool. Specifies the key type and
+    #   KMS key ARN for encryption.
+    #
+    # @option params [Types::IssuerConfigurationType] :issuer_configuration
+    #   The issuer configuration for the user pool. Specifies the issuer type
+    #   for token generation.
+    #
     # @return [Types::CreateUserPoolResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateUserPoolResponse#user_pool #user_pool} => Types::UserPoolType
@@ -5603,6 +5611,13 @@ module Aws::CognitoIdentityProvider
     #       ],
     #     },
     #     user_pool_tier: "LITE", # accepts LITE, ESSENTIALS, PLUS
+    #     key_configuration: {
+    #       key_type: "AWS_OWNED_KEY", # accepts AWS_OWNED_KEY, CUSTOMER_MANAGED_KEY
+    #       kms_key_arn: "EncryptionKeyArnType",
+    #     },
+    #     issuer_configuration: {
+    #       type: "ORIGINAL", # accepts ORIGINAL, UPDATED
+    #     },
     #   })
     #
     # @example Response structure
@@ -5700,6 +5715,9 @@ module Aws::CognitoIdentityProvider
     #   resp.user_pool.account_recovery_setting.recovery_mechanisms[0].priority #=> Integer
     #   resp.user_pool.account_recovery_setting.recovery_mechanisms[0].name #=> String, one of "verified_email", "verified_phone_number", "admin_only"
     #   resp.user_pool.user_pool_tier #=> String, one of "LITE", "ESSENTIALS", "PLUS"
+    #   resp.user_pool.key_configuration.key_type #=> String, one of "AWS_OWNED_KEY", "CUSTOMER_MANAGED_KEY"
+    #   resp.user_pool.key_configuration.kms_key_arn #=> String
+    #   resp.user_pool.issuer_configuration.type #=> String, one of "ORIGINAL", "UPDATED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/CreateUserPool AWS API Documentation
     #
@@ -6405,10 +6423,16 @@ module Aws::CognitoIdentityProvider
     #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-add-custom-domain.html
     #   [2]: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-assign-domain-prefix.html
     #
+    # @option params [Types::RoutingType] :routing
+    #   The configuration of routing for requests to the domain for replicas
+    #   of a replicated user pool. The routing configuration is currently only
+    #   supported for custom domains.
+    #
     # @return [Types::CreateUserPoolDomainResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateUserPoolDomainResponse#managed_login_version #managed_login_version} => Integer
     #   * {Types::CreateUserPoolDomainResponse#cloud_front_domain #cloud_front_domain} => String
+    #   * {Types::CreateUserPoolDomainResponse#routing #routing} => Types::RoutingType
     #
     # @example Request syntax with placeholder values
     #
@@ -6419,12 +6443,20 @@ module Aws::CognitoIdentityProvider
     #     custom_domain_config: {
     #       certificate_arn: "ArnType", # required
     #     },
+    #     routing: {
+    #       failover: {
+    #         secondary_region: "RegionNameType", # required
+    #         primary_route_53_health_check_id: "HealthCheckIdType", # required
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
     #
     #   resp.managed_login_version #=> Integer
     #   resp.cloud_front_domain #=> String
+    #   resp.routing.failover.secondary_region #=> String
+    #   resp.routing.failover.primary_route_53_health_check_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/CreateUserPoolDomain AWS API Documentation
     #
@@ -6432,6 +6464,91 @@ module Aws::CognitoIdentityProvider
     # @param [Hash] params ({})
     def create_user_pool_domain(params = {}, options = {})
       req = build_request(:create_user_pool_domain, params)
+      req.send_request(options)
+    end
+
+    # Creates a replica of an existing user pool in a specified Amazon Web
+    # Services Region. The replica enables multi-region replication for high
+    # availability and disaster recovery. To create a replica, you must have
+    # permissions to create user pools in the target Region.
+    #
+    # <note markdown="1"> Amazon Cognito evaluates Identity and Access Management (IAM) policies
+    # in requests for this API operation. For this operation, you must use
+    # IAM credentials to authorize requests, and you must grant yourself the
+    # corresponding IAM permission in a policy.
+    #
+    #  **Learn more**
+    #
+    #  * [Signing Amazon Web Services API Requests][1]
+    #
+    # * [Using the Amazon Cognito user pools API and user pool endpoints][2]
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html
+    # [2]: https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html
+    #
+    # @option params [required, String] :user_pool_id
+    #   The ID of the user pool to replicate.
+    #
+    # @option params [required, String] :region_name
+    #   The Amazon Web Services Region where you want to create the replica
+    #   user pool.
+    #
+    # @option params [Hash<String,String>] :user_pool_tags
+    #   A map of tags to assign to the replica user pool. Each tag consists of
+    #   a key and an optional value, both of which you define. You can
+    #   maintain tags independently on replica user pools.
+    #
+    # @return [Types::CreateUserPoolReplicaResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateUserPoolReplicaResponse#user_pool_replica #user_pool_replica} => Types::UserPoolReplicaType
+    #
+    #
+    # @example Example: Example create a replica of a user pool in a new Region
+    #
+    #   # The following example creates a replica of a user pool in the ap-south-1 Region.
+    #
+    #   resp = client.create_user_pool_replica({
+    #     region_name: "ap-south-1", 
+    #     user_pool_id: "us-east-1_abcd12345", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     user_pool_replica: {
+    #       region_name: "ap-south-1", 
+    #       role: "SECONDARY", 
+    #       status: "CREATING", 
+    #       user_pool_arn: "arn:aws:cognito-idp:ap-south-1:123456789012:userpool/us-east-1_abcd12345", 
+    #     }, 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_user_pool_replica({
+    #     user_pool_id: "UserPoolIdType", # required
+    #     region_name: "RegionNameType", # required
+    #     user_pool_tags: {
+    #       "TagKeysType" => "TagValueType",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.user_pool_replica.region_name #=> String
+    #   resp.user_pool_replica.status #=> String, one of "CREATING", "ACTIVE", "INACTIVE", "DELETING"
+    #   resp.user_pool_replica.role #=> String, one of "PRIMARY", "SECONDARY"
+    #   resp.user_pool_replica.user_pool_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/CreateUserPoolReplica AWS API Documentation
+    #
+    # @overload create_user_pool_replica(params = {})
+    # @param [Hash] params ({})
+    def create_user_pool_replica(params = {}, options = {})
+      req = build_request(:create_user_pool_replica, params)
       req.send_request(options)
     end
 
@@ -6890,6 +7007,81 @@ module Aws::CognitoIdentityProvider
     # @param [Hash] params ({})
     def delete_user_pool_domain(params = {}, options = {})
       req = build_request(:delete_user_pool_domain, params)
+      req.send_request(options)
+    end
+
+    # Deletes a secondary replica user pool. You can only delete replicas
+    # that are in the INACTIVE status. This operation must be called from
+    # the primary Region.
+    #
+    # <note markdown="1"> Amazon Cognito evaluates Identity and Access Management (IAM) policies
+    # in requests for this API operation. For this operation, you must use
+    # IAM credentials to authorize requests, and you must grant yourself the
+    # corresponding IAM permission in a policy.
+    #
+    #  **Learn more**
+    #
+    #  * [Signing Amazon Web Services API Requests][1]
+    #
+    # * [Using the Amazon Cognito user pools API and user pool endpoints][2]
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html
+    # [2]: https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html
+    #
+    # @option params [required, String] :user_pool_id
+    #   The ID of the user pool that contains the replica to delete.
+    #
+    # @option params [required, String] :region_name
+    #   The Amazon Web Services Region of the replica to delete.
+    #
+    # @return [Types::DeleteUserPoolReplicaResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteUserPoolReplicaResponse#user_pool_replica #user_pool_replica} => Types::UserPoolReplicaType
+    #
+    #
+    # @example Example: Example delete a user pool replica
+    #
+    #   # The following example deletes a user pool replica in the us-east-2 Region.
+    #
+    #   resp = client.delete_user_pool_replica({
+    #     region_name: "us-east-2", 
+    #     user_pool_id: "us-west-2_abcd12345", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     user_pool_replica: {
+    #       region_name: "us-east-2", 
+    #       role: "SECONDARY", 
+    #       status: "DELETING", 
+    #       user_pool_arn: "arn:aws:cognito-idp:us-east-2:123456789012:userpool/us-west-2_abcd12345", 
+    #     }, 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_user_pool_replica({
+    #     user_pool_id: "UserPoolIdType", # required
+    #     region_name: "RegionNameType", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.user_pool_replica.region_name #=> String
+    #   resp.user_pool_replica.status #=> String, one of "CREATING", "ACTIVE", "INACTIVE", "DELETING"
+    #   resp.user_pool_replica.role #=> String, one of "PRIMARY", "SECONDARY"
+    #   resp.user_pool_replica.user_pool_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/DeleteUserPoolReplica AWS API Documentation
+    #
+    # @overload delete_user_pool_replica(params = {})
+    # @param [Hash] params ({})
+    def delete_user_pool_replica(params = {}, options = {})
+      req = build_request(:delete_user_pool_replica, params)
       req.send_request(options)
     end
 
@@ -7450,6 +7642,9 @@ module Aws::CognitoIdentityProvider
     #   resp.user_pool.account_recovery_setting.recovery_mechanisms[0].priority #=> Integer
     #   resp.user_pool.account_recovery_setting.recovery_mechanisms[0].name #=> String, one of "verified_email", "verified_phone_number", "admin_only"
     #   resp.user_pool.user_pool_tier #=> String, one of "LITE", "ESSENTIALS", "PLUS"
+    #   resp.user_pool.key_configuration.key_type #=> String, one of "AWS_OWNED_KEY", "CUSTOMER_MANAGED_KEY"
+    #   resp.user_pool.key_configuration.kms_key_arn #=> String
+    #   resp.user_pool.issuer_configuration.type #=> String, one of "ORIGINAL", "UPDATED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/DescribeUserPool AWS API Documentation
     #
@@ -7602,6 +7797,8 @@ module Aws::CognitoIdentityProvider
     #   resp.domain_description.status #=> String, one of "CREATING", "DELETING", "UPDATING", "ACTIVE", "FAILED"
     #   resp.domain_description.custom_domain_config.certificate_arn #=> String
     #   resp.domain_description.managed_login_version #=> Integer
+    #   resp.domain_description.routing.failover.secondary_region #=> String
+    #   resp.domain_description.routing.failover.primary_route_53_health_check_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/DescribeUserPoolDomain AWS API Documentation
     #
@@ -9616,6 +9813,92 @@ module Aws::CognitoIdentityProvider
       req.send_request(options)
     end
 
+    # Lists all replicas for a user pool, including both primary and
+    # secondary replicas. We recommend using pagination to ensure that the
+    # operation returns quickly and successfully.
+    #
+    # <note markdown="1"> Amazon Cognito evaluates Identity and Access Management (IAM) policies
+    # in requests for this API operation. For this operation, you must use
+    # IAM credentials to authorize requests, and you must grant yourself the
+    # corresponding IAM permission in a policy.
+    #
+    #  **Learn more**
+    #
+    #  * [Signing Amazon Web Services API Requests][1]
+    #
+    # * [Using the Amazon Cognito user pools API and user pool endpoints][2]
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html
+    # [2]: https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html
+    #
+    # @option params [required, String] :user_pool_id
+    #   The ID of the user pool for which to list replicas.
+    #
+    # @option params [String] :next_token
+    #   A pagination token for retrieving the next page of results. If this
+    #   parameter is omitted, the operation returns the first page of results.
+    #
+    # @return [Types::ListUserPoolReplicasResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListUserPoolReplicasResponse#user_pool_replicas #user_pool_replicas} => Array&lt;Types::UserPoolReplicaType&gt;
+    #   * {Types::ListUserPoolReplicasResponse#next_token #next_token} => String
+    #
+    #
+    # @example Example: Example list the replicas of a user pool
+    #
+    #   # The following example lists the replicas of a user pool that has a replica in the ap-south-1 Region.
+    #
+    #   resp = client.list_user_pool_replicas({
+    #     user_pool_id: "eu-north-1_abcd12345", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     user_pool_replicas: [
+    #       {
+    #         region_name: "ap-south-1", 
+    #         role: "SECONDARY", 
+    #         status: "CREATING", 
+    #         user_pool_arn: "arn:aws:cognito-idp:ap-south-1:123456789012:userpool/eu-north-1_abcd12345", 
+    #       }, 
+    #       {
+    #         region_name: "eu-north-1", 
+    #         role: "PRIMARY", 
+    #         status: "ACTIVE", 
+    #         user_pool_arn: "arn:aws:cognito-idp:eu-north-1:123456789012:userpool/eu-north-1_abcd12345", 
+    #       }, 
+    #     ], 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_user_pool_replicas({
+    #     user_pool_id: "UserPoolIdType", # required
+    #     next_token: "PaginationKeyType",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.user_pool_replicas #=> Array
+    #   resp.user_pool_replicas[0].region_name #=> String
+    #   resp.user_pool_replicas[0].status #=> String, one of "CREATING", "ACTIVE", "INACTIVE", "DELETING"
+    #   resp.user_pool_replicas[0].role #=> String, one of "PRIMARY", "SECONDARY"
+    #   resp.user_pool_replicas[0].user_pool_arn #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/ListUserPoolReplicas AWS API Documentation
+    #
+    # @overload list_user_pool_replicas(params = {})
+    # @param [Hash] params ({})
+    def list_user_pool_replicas(params = {}, options = {})
+      req = build_request(:list_user_pool_replicas, params)
+      req.send_request(options)
+    end
+
     # Lists user pools and their details in the current Amazon Web Services
     # account.
     #
@@ -9690,6 +9973,8 @@ module Aws::CognitoIdentityProvider
     #   resp.user_pools[0].status #=> String, one of "Enabled", "Disabled"
     #   resp.user_pools[0].last_modified_date #=> Time
     #   resp.user_pools[0].creation_date #=> Time
+    #   resp.user_pools[0].replica_regions #=> Array
+    #   resp.user_pools[0].replica_regions[0] #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/ListUserPools AWS API Documentation
@@ -10799,6 +11084,12 @@ module Aws::CognitoIdentityProvider
     # threat protection to audit-only or off, update the value of
     # `UserPoolAddOns` in an `UpdateUserPool` request. To activate this
     # setting, your user pool must be on the [ Plus tier][1].
+    #
+    # In secondary regions for user pools with multi-region replication,
+    # only the `SourceARN` and `From` attributes of `NotifyConfiguration`
+    # can be modified to configure region-specific SES integration. All
+    # other risk configuration settings must match the existing values to
+    # maintain consistency across replicas.
     #
     #
     #
@@ -12610,8 +12901,14 @@ module Aws::CognitoIdentityProvider
     # existing configuration of your user pool, modified to include the
     # changes that you want to make.
     #
-    # With the exception of `UserPoolTier`, if you don't provide a value
-    # for an attribute, Amazon Cognito sets it to its default value.
+    # If you don't provide a value for an attribute, Amazon Cognito sets it
+    # to its default value.
+    #
+    # In secondary regions for user pools with multi-region replication,
+    # regional configurations for email, SMS, Lambda functions, and tags can
+    # be updated. Both global and regional settings must be provided as
+    # inputs, with global settings required to match existing values to
+    # maintain consistency across replicas.
     #
     # <note markdown="1"> This action might generate an SMS text message. Starting June 1, 2021,
     # US telecom carriers require you to register an origination phone
@@ -12826,6 +13123,16 @@ module Aws::CognitoIdentityProvider
     #
     #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html
     #
+    # @option params [Types::KeyConfigurationType] :key_configuration
+    #   The key configuration for the user pool. In secondary regions, this
+    #   parameter must match the existing configuration and cannot be
+    #   modified.
+    #
+    # @option params [Types::IssuerConfigurationType] :issuer_configuration
+    #   The issuer configuration for the user pool. In secondary regions, this
+    #   parameter must match the existing configuration and cannot be
+    #   modified.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -12937,6 +13244,13 @@ module Aws::CognitoIdentityProvider
     #     },
     #     pool_name: "UserPoolNameType",
     #     user_pool_tier: "LITE", # accepts LITE, ESSENTIALS, PLUS
+    #     key_configuration: {
+    #       key_type: "AWS_OWNED_KEY", # accepts AWS_OWNED_KEY, CUSTOMER_MANAGED_KEY
+    #       kms_key_arn: "EncryptionKeyArnType",
+    #     },
+    #     issuer_configuration: {
+    #       type: "ORIGINAL", # accepts ORIGINAL, UPDATED
+    #     },
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UpdateUserPool AWS API Documentation
@@ -13501,10 +13815,15 @@ module Aws::CognitoIdentityProvider
     #   mismatch in RP ID. To keep the prefix domain passkey integration
     #   working, you can explicitly set RP ID to the prefix domain.
     #
+    # @option params [Types::RoutingType] :routing
+    #   The routing configuration for the user pool domain. Specifies failover
+    #   settings for multi-region deployments.
+    #
     # @return [Types::UpdateUserPoolDomainResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateUserPoolDomainResponse#managed_login_version #managed_login_version} => Integer
     #   * {Types::UpdateUserPoolDomainResponse#cloud_front_domain #cloud_front_domain} => String
+    #   * {Types::UpdateUserPoolDomainResponse#routing #routing} => Types::RoutingType
     #
     # @example Request syntax with placeholder values
     #
@@ -13515,12 +13834,20 @@ module Aws::CognitoIdentityProvider
     #     custom_domain_config: {
     #       certificate_arn: "ArnType", # required
     #     },
+    #     routing: {
+    #       failover: {
+    #         secondary_region: "RegionNameType", # required
+    #         primary_route_53_health_check_id: "HealthCheckIdType", # required
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
     #
     #   resp.managed_login_version #=> Integer
     #   resp.cloud_front_domain #=> String
+    #   resp.routing.failover.secondary_region #=> String
+    #   resp.routing.failover.primary_route_53_health_check_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UpdateUserPoolDomain AWS API Documentation
     #
@@ -13528,6 +13855,87 @@ module Aws::CognitoIdentityProvider
     # @param [Hash] params ({})
     def update_user_pool_domain(params = {}, options = {})
       req = build_request(:update_user_pool_domain, params)
+      req.send_request(options)
+    end
+
+    # Updates replica-specific settings for a user pool replica. You can
+    # modify the status to activate or deactivate the replica. This request
+    # can be made in both primary and secondary regions of the user pool.
+    #
+    # <note markdown="1"> Amazon Cognito evaluates Identity and Access Management (IAM) policies
+    # in requests for this API operation. For this operation, you must use
+    # IAM credentials to authorize requests, and you must grant yourself the
+    # corresponding IAM permission in a policy.
+    #
+    #  **Learn more**
+    #
+    #  * [Signing Amazon Web Services API Requests][1]
+    #
+    # * [Using the Amazon Cognito user pools API and user pool endpoints][2]
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html
+    # [2]: https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html
+    #
+    # @option params [required, String] :user_pool_id
+    #   The ID of the user pool that contains the replica to update.
+    #
+    # @option params [required, String] :region_name
+    #   The Amazon Web Services Region of the replica to update.
+    #
+    # @option params [required, String] :status
+    #   The status to set for the replica. Valid values are ACTIVE and
+    #   INACTIVE.
+    #
+    # @return [Types::UpdateUserPoolReplicaResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateUserPoolReplicaResponse#user_pool_replica #user_pool_replica} => Types::UserPoolReplicaType
+    #
+    #
+    # @example Example: Example update a user pool replica
+    #
+    #   # The following example sets the status of a user pool replica in the us-east-1 Region to ACTIVE.
+    #
+    #   resp = client.update_user_pool_replica({
+    #     region_name: "us-east-1", 
+    #     status: "ACTIVE", 
+    #     user_pool_id: "ap-south-1_abcd12345", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     user_pool_replica: {
+    #       region_name: "us-east-1", 
+    #       role: "SECONDARY", 
+    #       status: "ACTIVE", 
+    #       user_pool_arn: "arn:aws:cognito-idp:us-east-1:123456789012:userpool/ap-south-1_abcd12345", 
+    #     }, 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_user_pool_replica({
+    #     user_pool_id: "UserPoolIdType", # required
+    #     region_name: "RegionNameType", # required
+    #     status: "ACTIVE", # required, accepts ACTIVE, INACTIVE
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.user_pool_replica.region_name #=> String
+    #   resp.user_pool_replica.status #=> String, one of "CREATING", "ACTIVE", "INACTIVE", "DELETING"
+    #   resp.user_pool_replica.role #=> String, one of "PRIMARY", "SECONDARY"
+    #   resp.user_pool_replica.user_pool_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UpdateUserPoolReplica AWS API Documentation
+    #
+    # @overload update_user_pool_replica(params = {})
+    # @param [Hash] params ({})
+    def update_user_pool_replica(params = {}, options = {})
+      req = build_request(:update_user_pool_replica, params)
       req.send_request(options)
     end
 
@@ -13666,7 +14074,7 @@ module Aws::CognitoIdentityProvider
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cognitoidentityprovider'
-      context[:gem_version] = '1.143.0'
+      context[:gem_version] = '1.144.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

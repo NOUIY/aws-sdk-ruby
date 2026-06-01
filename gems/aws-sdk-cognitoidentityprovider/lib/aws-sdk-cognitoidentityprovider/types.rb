@@ -4560,13 +4560,20 @@ module Aws::CognitoIdentityProvider
     #   [2]: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-assign-domain-prefix.html
     #   @return [Types::CustomDomainConfigType]
     #
+    # @!attribute [rw] routing
+    #   The configuration of routing for requests to the domain for replicas
+    #   of a replicated user pool. The routing configuration is currently
+    #   only supported for custom domains.
+    #   @return [Types::RoutingType]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/CreateUserPoolDomainRequest AWS API Documentation
     #
     class CreateUserPoolDomainRequest < Struct.new(
       :domain,
       :user_pool_id,
       :managed_login_version,
-      :custom_domain_config)
+      :custom_domain_config,
+      :routing)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4587,11 +4594,54 @@ module Aws::CognitoIdentityProvider
     #   this parameter returns null.
     #   @return [String]
     #
+    # @!attribute [rw] routing
+    #   The routing configuration that was applied to the user pool domain.
+    #   @return [Types::RoutingType]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/CreateUserPoolDomainResponse AWS API Documentation
     #
     class CreateUserPoolDomainResponse < Struct.new(
       :managed_login_version,
-      :cloud_front_domain)
+      :cloud_front_domain,
+      :routing)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] user_pool_id
+    #   The ID of the user pool to replicate.
+    #   @return [String]
+    #
+    # @!attribute [rw] region_name
+    #   The Amazon Web Services Region where you want to create the replica
+    #   user pool.
+    #   @return [String]
+    #
+    # @!attribute [rw] user_pool_tags
+    #   A map of tags to assign to the replica user pool. Each tag consists
+    #   of a key and an optional value, both of which you define. You can
+    #   maintain tags independently on replica user pools.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/CreateUserPoolReplicaRequest AWS API Documentation
+    #
+    class CreateUserPoolReplicaRequest < Struct.new(
+      :user_pool_id,
+      :region_name,
+      :user_pool_tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] user_pool_replica
+    #   Information about the created user pool replica, including its
+    #   status and role.
+    #   @return [Types::UserPoolReplicaType]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/CreateUserPoolReplicaResponse AWS API Documentation
+    #
+    class CreateUserPoolReplicaResponse < Struct.new(
+      :user_pool_replica)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4843,6 +4893,16 @@ module Aws::CognitoIdentityProvider
     #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html
     #   @return [String]
     #
+    # @!attribute [rw] key_configuration
+    #   The key configuration for the user pool. Specifies the key type and
+    #   KMS key ARN for encryption.
+    #   @return [Types::KeyConfigurationType]
+    #
+    # @!attribute [rw] issuer_configuration
+    #   The issuer configuration for the user pool. Specifies the issuer
+    #   type for token generation.
+    #   @return [Types::IssuerConfigurationType]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/CreateUserPoolRequest AWS API Documentation
     #
     class CreateUserPoolRequest < Struct.new(
@@ -4869,7 +4929,9 @@ module Aws::CognitoIdentityProvider
       :user_pool_add_ons,
       :username_configuration,
       :account_recovery_setting,
-      :user_pool_tier)
+      :user_pool_tier,
+      :key_configuration,
+      :issuer_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5147,6 +5209,35 @@ module Aws::CognitoIdentityProvider
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/DeleteUserPoolDomainResponse AWS API Documentation
     #
     class DeleteUserPoolDomainResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] user_pool_id
+    #   The ID of the user pool that contains the replica to delete.
+    #   @return [String]
+    #
+    # @!attribute [rw] region_name
+    #   The Amazon Web Services Region of the replica to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/DeleteUserPoolReplicaRequest AWS API Documentation
+    #
+    class DeleteUserPoolReplicaRequest < Struct.new(
+      :user_pool_id,
+      :region_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] user_pool_replica
+    #   Information about the deleted user pool replica.
+    #   @return [Types::UserPoolReplicaType]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/DeleteUserPoolReplicaResponse AWS API Documentation
+    #
+    class DeleteUserPoolReplicaResponse < Struct.new(
+      :user_pool_replica)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # Represents the request to delete a user pool.
     #
@@ -5718,6 +5809,12 @@ module Aws::CognitoIdentityProvider
     #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html
     #   @return [Integer]
     #
+    # @!attribute [rw] routing
+    #   The routing configuration for the domain, including failover
+    #   settings for multi-region deployments. Currently only `Failover`
+    #   configurations are allowed.
+    #   @return [Types::RoutingType]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/DomainDescriptionType AWS API Documentation
     #
     class DomainDescriptionType < Struct.new(
@@ -5729,7 +5826,8 @@ module Aws::CognitoIdentityProvider
       :version,
       :status,
       :custom_domain_config,
-      :managed_login_version)
+      :managed_login_version,
+      :routing)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6077,6 +6175,31 @@ module Aws::CognitoIdentityProvider
     #
     class ExpiredCodeException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies failover configuration for multi-region user pool domains.
+    # Contains settings for the secondary region and health check
+    # configuration.
+    #
+    # @!attribute [rw] secondary_region
+    #   The secondary Amazon Web Services Region to use for failover when
+    #   the primary region becomes unavailable.
+    #   @return [String]
+    #
+    # @!attribute [rw] primary_route_53_health_check_id
+    #   The ID of the Amazon Web Services Route53 healthcheck that controls
+    #   routing. If the healthcheck is healthy, traffic will be routed to
+    #   the primary replica, and if the healthcheck is unhealthy, traffic
+    #   will be routed to the secondary region.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/FailoverType AWS API Documentation
+    #
+    class FailoverType < Struct.new(
+      :secondary_region,
+      :primary_route_53_health_check_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7707,6 +7830,73 @@ module Aws::CognitoIdentityProvider
       include Aws::Structure
     end
 
+    # Specifies the issuer configuration for a user pool. Contains settings
+    # that determine how tokens are issued and validated.
+    #
+    # @!attribute [rw] type
+    #   The type of issuer configuration. Determines the token issuing
+    #   behavior for the user pool.
+    #
+    #   ORIGINAL
+    #
+    #   : The original issuer configuration for user pools. The issuer URL
+    #     is hosted in the user pool’s region and provides OIDC endpoints
+    #     specific to that region.
+    #
+    #     Original issuers have the format of
+    #     `https://cognito-idp.[region].amazonaws.com/[userPoolId]`
+    #
+    #   UPDATED
+    #
+    #   : Recommended for all user pools, including for multi-Region
+    #     replication. Updated issuers host the same JWKS content in
+    #     multiple regions, resulting in improved resilience and efficiency.
+    #
+    #     Updated issuers have the format of
+    #     `https://issuer-cognito-idp.[region].amazonaws.com/[userPoolId]`,
+    #     where region is the primary Amazon Web Services Region of your
+    #     user pool.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/IssuerConfigurationType AWS API Documentation
+    #
+    class IssuerConfigurationType < Struct.new(
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the key configuration for a user pool. Contains settings for
+    # encryption keys used to secure user pool data.
+    #
+    # @!attribute [rw] key_type
+    #   The type of encryption key used for the user pool.
+    #
+    #   AWS\_OWNED\_KEY
+    #
+    #   : A key owned by Amazon Web Services in Key Management Service.
+    #
+    #   CUSTOMER\_MANAGED\_KEY
+    #
+    #   : A key managed by the customer in Key Management Service. You must
+    #     use a multi-region key to enable multi-region replication for a
+    #     user pool.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used for encryption.
+    #   If not specified, Amazon Web Services managed keys are used.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/KeyConfigurationType AWS API Documentation
+    #
+    class KeyConfigurationType < Struct.new(
+      :key_type,
+      :kms_key_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A collection of user pool Lambda triggers. Amazon Cognito invokes
     # triggers at several possible stages of user pool operations. Triggers
     # can modify the outcome of the operations that invoked them.
@@ -8345,6 +8535,44 @@ module Aws::CognitoIdentityProvider
     #
     class ListUserPoolClientsResponse < Struct.new(
       :user_pool_clients,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] user_pool_id
+    #   The ID of the user pool for which to list replicas.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   A pagination token for retrieving the next page of results. If this
+    #   parameter is omitted, the operation returns the first page of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/ListUserPoolReplicasRequest AWS API Documentation
+    #
+    class ListUserPoolReplicasRequest < Struct.new(
+      :user_pool_id,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] user_pool_replicas
+    #   A list of user pool replicas, including information about their
+    #   status, role, and Region.
+    #   @return [Array<Types::UserPoolReplicaType>]
+    #
+    # @!attribute [rw] next_token
+    #   A pagination token for retrieving the next page of results. If this
+    #   value is null, there are no more results to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/ListUserPoolReplicasResponse AWS API Documentation
+    #
+    class ListUserPoolReplicasResponse < Struct.new(
+      :user_pool_replicas,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -9048,6 +9276,22 @@ module Aws::CognitoIdentityProvider
     class NumberAttributeConstraintsType < Struct.new(
       :min_value,
       :max_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # This exception is thrown when an operation is not available in the
+    # current region or for the current user pool configuration. This can
+    # occur when attempting to perform operations that are not supported in
+    # secondary replica regions.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/OperationNotEnabledException AWS API Documentation
+    #
+    class OperationNotEnabledException < Struct.new(
+      :message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10090,6 +10334,22 @@ module Aws::CognitoIdentityProvider
     class RiskExceptionConfigurationType < Struct.new(
       :blocked_ip_range_list,
       :skipped_ip_range_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies routing configuration for user pool domains. Contains
+    # failover settings for multi-region deployments.
+    #
+    # @!attribute [rw] failover
+    #   The failover configuration that specifies the secondary region and
+    #   health check settings.
+    #   @return [Types::FailoverType]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/RoutingType AWS API Documentation
+    #
+    class RoutingType < Struct.new(
+      :failover)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -12521,13 +12781,19 @@ module Aws::CognitoIdentityProvider
     #   working, you can explicitly set RP ID to the prefix domain.
     #   @return [Types::CustomDomainConfigType]
     #
+    # @!attribute [rw] routing
+    #   The routing configuration for the user pool domain. Specifies
+    #   failover settings for multi-region deployments.
+    #   @return [Types::RoutingType]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UpdateUserPoolDomainRequest AWS API Documentation
     #
     class UpdateUserPoolDomainRequest < Struct.new(
       :domain,
       :user_pool_id,
       :managed_login_version,
-      :custom_domain_config)
+      :custom_domain_config,
+      :routing)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -12555,11 +12821,51 @@ module Aws::CognitoIdentityProvider
     #   this operation returns a blank response.
     #   @return [String]
     #
+    # @!attribute [rw] routing
+    #   The updated routing configuration for the user pool domain.
+    #   @return [Types::RoutingType]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UpdateUserPoolDomainResponse AWS API Documentation
     #
     class UpdateUserPoolDomainResponse < Struct.new(
       :managed_login_version,
-      :cloud_front_domain)
+      :cloud_front_domain,
+      :routing)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] user_pool_id
+    #   The ID of the user pool that contains the replica to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] region_name
+    #   The Amazon Web Services Region of the replica to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status to set for the replica. Valid values are ACTIVE and
+    #   INACTIVE.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UpdateUserPoolReplicaRequest AWS API Documentation
+    #
+    class UpdateUserPoolReplicaRequest < Struct.new(
+      :user_pool_id,
+      :region_name,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] user_pool_replica
+    #   Information about the updated user pool replica.
+    #   @return [Types::UserPoolReplicaType]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UpdateUserPoolReplicaResponse AWS API Documentation
+    #
+    class UpdateUserPoolReplicaResponse < Struct.new(
+      :user_pool_replica)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -12762,6 +13068,18 @@ module Aws::CognitoIdentityProvider
     #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html
     #   @return [String]
     #
+    # @!attribute [rw] key_configuration
+    #   The key configuration for the user pool. In secondary regions, this
+    #   parameter must match the existing configuration and cannot be
+    #   modified.
+    #   @return [Types::KeyConfigurationType]
+    #
+    # @!attribute [rw] issuer_configuration
+    #   The issuer configuration for the user pool. In secondary regions,
+    #   this parameter must match the existing configuration and cannot be
+    #   modified.
+    #   @return [Types::IssuerConfigurationType]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UpdateUserPoolRequest AWS API Documentation
     #
     class UpdateUserPoolRequest < Struct.new(
@@ -12785,7 +13103,9 @@ module Aws::CognitoIdentityProvider
       :user_pool_add_ons,
       :account_recovery_setting,
       :pool_name,
-      :user_pool_tier)
+      :user_pool_tier,
+      :key_configuration,
+      :issuer_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13565,6 +13885,11 @@ module Aws::CognitoIdentityProvider
     #   object.
     #   @return [Time]
     #
+    # @!attribute [rw] replica_regions
+    #   A list of Amazon Web Services Regions where replicas of this user
+    #   pool exist.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UserPoolDescriptionType AWS API Documentation
     #
     class UserPoolDescriptionType < Struct.new(
@@ -13573,7 +13898,8 @@ module Aws::CognitoIdentityProvider
       :lambda_config,
       :status,
       :last_modified_date,
-      :creation_date)
+      :creation_date,
+      :replica_regions)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13595,6 +13921,68 @@ module Aws::CognitoIdentityProvider
     class UserPoolPolicyType < Struct.new(
       :password_policy,
       :sign_in_policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about a replica user pool, including Region,
+    # status, role, and ARN.
+    #
+    # @!attribute [rw] region_name
+    #   The Amazon Web Services Region where the replica is located.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the replica.
+    #
+    #   CREATING
+    #
+    #   : The replica is being created.
+    #
+    #   INACTIVE
+    #
+    #   : The replica has been created, but is not accepting requests for
+    #     end-users. Administrator configuration operations are supported.
+    #
+    #   ACTIVE
+    #
+    #   : The replica is available for both end-user and administrator
+    #     operations.
+    #
+    #   DELETING
+    #
+    #   : The replica is being deleted.
+    #   @return [String]
+    #
+    # @!attribute [rw] role
+    #   The role of the user pool replica that determines which API
+    #   operations are enabled.
+    #
+    #   PRIMARY
+    #
+    #   : The primary replica supports all end user and administrator
+    #     operations.
+    #
+    #   SECONDARY
+    #
+    #   : The secondary replica supports a limited set of end user and
+    #     administrator operations. Generally, only administrator operations
+    #     that set configurations specific to the replica, and only end-user
+    #     operations that do not create or change attributes of a user are
+    #     supported.
+    #   @return [String]
+    #
+    # @!attribute [rw] user_pool_arn
+    #   The Amazon Resource Name (ARN) of the replica user pool.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UserPoolReplicaType AWS API Documentation
+    #
+    class UserPoolReplicaType < Struct.new(
+      :region_name,
+      :status,
+      :role,
+      :user_pool_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13891,6 +14279,16 @@ module Aws::CognitoIdentityProvider
     #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html
     #   @return [String]
     #
+    # @!attribute [rw] key_configuration
+    #   The key configuration for the user pool, including encryption
+    #   settings.
+    #   @return [Types::KeyConfigurationType]
+    #
+    # @!attribute [rw] issuer_configuration
+    #   The issuer configuration for the user pool, including token issuing
+    #   settings.
+    #   @return [Types::IssuerConfigurationType]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UserPoolType AWS API Documentation
     #
     class UserPoolType < Struct.new(
@@ -13927,7 +14325,9 @@ module Aws::CognitoIdentityProvider
       :username_configuration,
       :arn,
       :account_recovery_setting,
-      :user_pool_tier)
+      :user_pool_tier,
+      :key_configuration,
+      :issuer_configuration)
       SENSITIVE = []
       include Aws::Structure
     end

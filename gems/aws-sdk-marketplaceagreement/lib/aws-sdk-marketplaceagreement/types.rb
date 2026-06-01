@@ -515,6 +515,10 @@ module Aws::MarketplaceAgreement
     #   The current status of the agreement.
     #   @return [String]
     #
+    # @!attribute [rw] entitlements
+    #   A list of entitlements associated with the agreement.
+    #   @return [Array<Types::Entitlement>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/AgreementViewSummary AWS API Documentation
     #
     class AgreementViewSummary < Struct.new(
@@ -526,7 +530,8 @@ module Aws::MarketplaceAgreement
       :acceptor,
       :proposer,
       :proposal_summary,
-      :status)
+      :status,
+      :entitlements)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1402,6 +1407,21 @@ module Aws::MarketplaceAgreement
       :type,
       :url,
       :version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents an entitlement associated with an agreement.
+    #
+    # @!attribute [rw] license_arn
+    #   The Amazon Resource Name (ARN) of the AWS License Manager license
+    #   associated with the entitlement.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-agreement-2020-03-01/Entitlement AWS API Documentation
+    #
+    class Entitlement < Struct.new(
+      :license_arn)
       SENSITIVE = []
       include Aws::Structure
     end

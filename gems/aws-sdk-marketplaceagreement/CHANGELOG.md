@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.41.0 (2026-06-01)
+------------------
+
+* Feature - Adding Entitlements in SearchAgreements Response
+
 1.40.0 (2026-05-26)
 ------------------
 

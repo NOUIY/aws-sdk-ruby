@@ -686,12 +686,26 @@ module Aws::CognitoIdentityProvider
       attr_accessor user_pool_id: ::String
       attr_accessor managed_login_version: ::Integer
       attr_accessor custom_domain_config: Types::CustomDomainConfigType
+      attr_accessor routing: Types::RoutingType
       SENSITIVE: []
     end
 
     class CreateUserPoolDomainResponse
       attr_accessor managed_login_version: ::Integer
       attr_accessor cloud_front_domain: ::String
+      attr_accessor routing: Types::RoutingType
+      SENSITIVE: []
+    end
+
+    class CreateUserPoolReplicaRequest
+      attr_accessor user_pool_id: ::String
+      attr_accessor region_name: ::String
+      attr_accessor user_pool_tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class CreateUserPoolReplicaResponse
+      attr_accessor user_pool_replica: Types::UserPoolReplicaType
       SENSITIVE: []
     end
 
@@ -720,6 +734,8 @@ module Aws::CognitoIdentityProvider
       attr_accessor username_configuration: Types::UsernameConfigurationType
       attr_accessor account_recovery_setting: Types::AccountRecoverySettingType
       attr_accessor user_pool_tier: ("LITE" | "ESSENTIALS" | "PLUS")
+      attr_accessor key_configuration: Types::KeyConfigurationType
+      attr_accessor issuer_configuration: Types::IssuerConfigurationType
       SENSITIVE: []
     end
 
@@ -807,6 +823,17 @@ module Aws::CognitoIdentityProvider
     end
 
     class DeleteUserPoolDomainResponse < Aws::EmptyStructure
+    end
+
+    class DeleteUserPoolReplicaRequest
+      attr_accessor user_pool_id: ::String
+      attr_accessor region_name: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteUserPoolReplicaResponse
+      attr_accessor user_pool_replica: Types::UserPoolReplicaType
+      SENSITIVE: []
     end
 
     class DeleteUserPoolRequest
@@ -974,6 +1001,7 @@ module Aws::CognitoIdentityProvider
       attr_accessor status: ("CREATING" | "DELETING" | "UPDATING" | "ACTIVE" | "FAILED")
       attr_accessor custom_domain_config: Types::CustomDomainConfigType
       attr_accessor managed_login_version: ::Integer
+      attr_accessor routing: Types::RoutingType
       SENSITIVE: []
     end
 
@@ -1033,6 +1061,12 @@ module Aws::CognitoIdentityProvider
 
     class ExpiredCodeException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class FailoverType
+      attr_accessor secondary_region: ::String
+      attr_accessor primary_route_53_health_check_id: ::String
       SENSITIVE: []
     end
 
@@ -1333,6 +1367,17 @@ module Aws::CognitoIdentityProvider
       SENSITIVE: []
     end
 
+    class IssuerConfigurationType
+      attr_accessor type: ("ORIGINAL" | "UPDATED")
+      SENSITIVE: []
+    end
+
+    class KeyConfigurationType
+      attr_accessor key_type: ("AWS_OWNED_KEY" | "CUSTOMER_MANAGED_KEY")
+      attr_accessor kms_key_arn: ::String
+      SENSITIVE: []
+    end
+
     class LambdaConfigType
       attr_accessor pre_sign_up: ::String
       attr_accessor custom_message: ::String
@@ -1471,6 +1516,18 @@ module Aws::CognitoIdentityProvider
       SENSITIVE: []
     end
 
+    class ListUserPoolReplicasRequest
+      attr_accessor user_pool_id: ::String
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListUserPoolReplicasResponse
+      attr_accessor user_pool_replicas: ::Array[Types::UserPoolReplicaType]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListUserPoolsRequest
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
@@ -1605,6 +1662,11 @@ module Aws::CognitoIdentityProvider
     class NumberAttributeConstraintsType
       attr_accessor min_value: ::String
       attr_accessor max_value: ::String
+      SENSITIVE: []
+    end
+
+    class OperationNotEnabledException
+      attr_accessor message: ::String
       SENSITIVE: []
     end
 
@@ -1748,6 +1810,11 @@ module Aws::CognitoIdentityProvider
     class RiskExceptionConfigurationType
       attr_accessor blocked_ip_range_list: ::Array[::String]
       attr_accessor skipped_ip_range_list: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class RoutingType
+      attr_accessor failover: Types::FailoverType
       SENSITIVE: []
     end
 
@@ -2198,12 +2265,26 @@ module Aws::CognitoIdentityProvider
       attr_accessor user_pool_id: ::String
       attr_accessor managed_login_version: ::Integer
       attr_accessor custom_domain_config: Types::CustomDomainConfigType
+      attr_accessor routing: Types::RoutingType
       SENSITIVE: []
     end
 
     class UpdateUserPoolDomainResponse
       attr_accessor managed_login_version: ::Integer
       attr_accessor cloud_front_domain: ::String
+      attr_accessor routing: Types::RoutingType
+      SENSITIVE: []
+    end
+
+    class UpdateUserPoolReplicaRequest
+      attr_accessor user_pool_id: ::String
+      attr_accessor region_name: ::String
+      attr_accessor status: ("ACTIVE" | "INACTIVE")
+      SENSITIVE: []
+    end
+
+    class UpdateUserPoolReplicaResponse
+      attr_accessor user_pool_replica: Types::UserPoolReplicaType
       SENSITIVE: []
     end
 
@@ -2229,6 +2310,8 @@ module Aws::CognitoIdentityProvider
       attr_accessor account_recovery_setting: Types::AccountRecoverySettingType
       attr_accessor pool_name: ::String
       attr_accessor user_pool_tier: ("LITE" | "ESSENTIALS" | "PLUS")
+      attr_accessor key_configuration: Types::KeyConfigurationType
+      attr_accessor issuer_configuration: Types::IssuerConfigurationType
       SENSITIVE: []
     end
 
@@ -2338,12 +2421,21 @@ module Aws::CognitoIdentityProvider
       attr_accessor status: ("Enabled" | "Disabled")
       attr_accessor last_modified_date: ::Time
       attr_accessor creation_date: ::Time
+      attr_accessor replica_regions: ::Array[::String]
       SENSITIVE: []
     end
 
     class UserPoolPolicyType
       attr_accessor password_policy: Types::PasswordPolicyType
       attr_accessor sign_in_policy: Types::SignInPolicyType
+      SENSITIVE: []
+    end
+
+    class UserPoolReplicaType
+      attr_accessor region_name: ::String
+      attr_accessor status: ("CREATING" | "ACTIVE" | "INACTIVE" | "DELETING")
+      attr_accessor role: ("PRIMARY" | "SECONDARY")
+      attr_accessor user_pool_arn: ::String
       SENSITIVE: []
     end
 
@@ -2387,6 +2479,8 @@ module Aws::CognitoIdentityProvider
       attr_accessor arn: ::String
       attr_accessor account_recovery_setting: Types::AccountRecoverySettingType
       attr_accessor user_pool_tier: ("LITE" | "ESSENTIALS" | "PLUS")
+      attr_accessor key_configuration: Types::KeyConfigurationType
+      attr_accessor issuer_configuration: Types::IssuerConfigurationType
       SENSITIVE: []
     end
 
