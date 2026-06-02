@@ -381,6 +381,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency('aws-sdk-sagemakerruntime', '~> 1')
   spec.add_dependency('aws-sdk-sagemakerruntimehttp2', '~> 1')
   spec.add_dependency('aws-sdk-sagemakeredgemanager', '~> 1')
+  spec.add_dependency('aws-sdk-sagemakerjobruntime', '~> 1')
   spec.add_dependency('aws-sdk-savingsplans', '~> 1')
   spec.add_dependency('aws-sdk-scheduler', '~> 1')
   spec.add_dependency('aws-sdk-schemas', '~> 1')

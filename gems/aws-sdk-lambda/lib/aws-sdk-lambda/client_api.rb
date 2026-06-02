@@ -414,6 +414,9 @@ module Aws::Lambda
     PreconditionFailedException = Shapes::StructureShape.new(name: 'PreconditionFailedException')
     Principal = Shapes::StringShape.new(name: 'Principal')
     PrincipalOrgID = Shapes::StringShape.new(name: 'PrincipalOrgID')
+    PropagateTags = Shapes::StructureShape.new(name: 'PropagateTags')
+    PropagateTagsExplicitTagsMap = Shapes::MapShape.new(name: 'PropagateTagsExplicitTagsMap')
+    PropagateTagsMode = Shapes::StringShape.new(name: 'PropagateTagsMode')
     ProvisionedConcurrencyConfigList = Shapes::ListShape.new(name: 'ProvisionedConcurrencyConfigList')
     ProvisionedConcurrencyConfigListItem = Shapes::StructureShape.new(name: 'ProvisionedConcurrencyConfigListItem')
     ProvisionedConcurrencyConfigNotFoundException = Shapes::StructureShape.new(name: 'ProvisionedConcurrencyConfigNotFoundException')
@@ -676,6 +679,7 @@ module Aws::Lambda
     CapacityProvider.add_member(:capacity_provider_scaling_config, Shapes::ShapeRef.new(shape: CapacityProviderScalingConfig, location_name: "CapacityProviderScalingConfig"))
     CapacityProvider.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KMSKeyArn, location_name: "KmsKeyArn"))
     CapacityProvider.add_member(:last_modified, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastModified"))
+    CapacityProvider.add_member(:propagate_tags, Shapes::ShapeRef.new(shape: PropagateTags, location_name: "PropagateTags"))
     CapacityProvider.struct_class = Types::CapacityProvider
 
     CapacityProviderConfig.add_member(:lambda_managed_instances_capacity_provider_config, Shapes::ShapeRef.new(shape: LambdaManagedInstancesCapacityProviderConfig, required: true, location_name: "LambdaManagedInstancesCapacityProviderConfig"))
@@ -816,6 +820,7 @@ module Aws::Lambda
     CreateCapacityProviderRequest.add_member(:capacity_provider_scaling_config, Shapes::ShapeRef.new(shape: CapacityProviderScalingConfig, location_name: "CapacityProviderScalingConfig"))
     CreateCapacityProviderRequest.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KMSKeyArnNonEmpty, location_name: "KmsKeyArn"))
     CreateCapacityProviderRequest.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "Tags"))
+    CreateCapacityProviderRequest.add_member(:propagate_tags, Shapes::ShapeRef.new(shape: PropagateTags, location_name: "PropagateTags"))
     CreateCapacityProviderRequest.struct_class = Types::CreateCapacityProviderRequest
 
     CreateCapacityProviderResponse.add_member(:capacity_provider, Shapes::ShapeRef.new(shape: CapacityProvider, required: true, location_name: "CapacityProvider"))
@@ -1848,6 +1853,13 @@ module Aws::Lambda
     PreconditionFailedException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
     PreconditionFailedException.struct_class = Types::PreconditionFailedException
 
+    PropagateTags.add_member(:mode, Shapes::ShapeRef.new(shape: PropagateTagsMode, location_name: "Mode"))
+    PropagateTags.add_member(:explicit_tags, Shapes::ShapeRef.new(shape: PropagateTagsExplicitTagsMap, location_name: "ExplicitTags"))
+    PropagateTags.struct_class = Types::PropagateTags
+
+    PropagateTagsExplicitTagsMap.key = Shapes::ShapeRef.new(shape: TagKey)
+    PropagateTagsExplicitTagsMap.value = Shapes::ShapeRef.new(shape: TagValue)
+
     ProvisionedConcurrencyConfigList.member = Shapes::ShapeRef.new(shape: ProvisionedConcurrencyConfigListItem)
 
     ProvisionedConcurrencyConfigListItem.add_member(:function_arn, Shapes::ShapeRef.new(shape: FunctionArn, location_name: "FunctionArn"))
@@ -2175,6 +2187,7 @@ module Aws::Lambda
 
     UpdateCapacityProviderRequest.add_member(:capacity_provider_name, Shapes::ShapeRef.new(shape: CapacityProviderName, required: true, location: "uri", location_name: "CapacityProviderName"))
     UpdateCapacityProviderRequest.add_member(:capacity_provider_scaling_config, Shapes::ShapeRef.new(shape: CapacityProviderScalingConfig, location_name: "CapacityProviderScalingConfig"))
+    UpdateCapacityProviderRequest.add_member(:propagate_tags, Shapes::ShapeRef.new(shape: PropagateTags, location_name: "PropagateTags"))
     UpdateCapacityProviderRequest.struct_class = Types::UpdateCapacityProviderRequest
 
     UpdateCapacityProviderResponse.add_member(:capacity_provider, Shapes::ShapeRef.new(shape: CapacityProvider, required: true, location_name: "CapacityProvider"))

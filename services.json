@@ -1210,6 +1210,9 @@
   "SagemakerEdgeManager": {
     "models": "sagemaker-edge/2020-09-23"
   },
+  "SagemakerJobRuntime": {
+    "models": "sagemakerjobruntime/2026-02-01"
+  },
   "SavingsPlans": {
     "models": "savingsplans/2019-06-28"
   },

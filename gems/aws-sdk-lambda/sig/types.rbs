@@ -137,6 +137,7 @@ module Aws::Lambda
       attr_accessor capacity_provider_scaling_config: Types::CapacityProviderScalingConfig
       attr_accessor kms_key_arn: ::String
       attr_accessor last_modified: ::Time
+      attr_accessor propagate_tags: Types::PropagateTags
       SENSITIVE: []
     end
 
@@ -320,6 +321,7 @@ module Aws::Lambda
       attr_accessor capacity_provider_scaling_config: Types::CapacityProviderScalingConfig
       attr_accessor kms_key_arn: ::String
       attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor propagate_tags: Types::PropagateTags
       SENSITIVE: []
     end
 
@@ -1635,6 +1637,12 @@ module Aws::Lambda
       SENSITIVE: []
     end
 
+    class PropagateTags
+      attr_accessor mode: ("None" | "Explicit")
+      attr_accessor explicit_tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
     class ProvisionedConcurrencyConfigListItem
       attr_accessor function_arn: ::String
       attr_accessor requested_provisioned_concurrent_executions: ::Integer
@@ -2066,6 +2074,7 @@ module Aws::Lambda
     class UpdateCapacityProviderRequest
       attr_accessor capacity_provider_name: ::String
       attr_accessor capacity_provider_scaling_config: Types::CapacityProviderScalingConfig
+      attr_accessor propagate_tags: Types::PropagateTags
       SENSITIVE: []
     end
 

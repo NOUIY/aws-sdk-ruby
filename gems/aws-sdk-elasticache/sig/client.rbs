@@ -352,7 +352,8 @@ module Aws
                                       ?ip_discovery: ("ipv4" | "ipv6"),
                                       ?transit_encryption_mode: ("preferred" | "required"),
                                       ?cluster_mode: ("enabled" | "disabled" | "compatible"),
-                                      ?serverless_cache_snapshot_name: ::String
+                                      ?serverless_cache_snapshot_name: ::String,
+                                      ?durability: ("default" | "async" | "sync" | "disabled")
                                     ) -> _CreateReplicationGroupResponseSuccess
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateReplicationGroupResponseSuccess
 
@@ -1145,7 +1146,8 @@ module Aws
                                       ?ip_discovery: ("ipv4" | "ipv6"),
                                       ?transit_encryption_enabled: bool,
                                       ?transit_encryption_mode: ("preferred" | "required"),
-                                      ?cluster_mode: ("enabled" | "disabled" | "compatible")
+                                      ?cluster_mode: ("enabled" | "disabled" | "compatible"),
+                                      ?durability: ("default" | "async" | "sync" | "disabled")
                                     ) -> _ModifyReplicationGroupResponseSuccess
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ModifyReplicationGroupResponseSuccess
 

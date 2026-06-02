@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.141.0 (2026-06-02)
+------------------
+
+* Feature - Release new Language locales including am-ET, es-MX, fa-AF, ht-HT, jv-ID, km-KH, my-MM, sq-AL, ne-NP. The commit shows past locales that have already been release which include cy-gb, ga-ie, gd-gb.
+
 1.140.0 (2026-05-21)
 ------------------
 

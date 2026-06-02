@@ -43,8 +43,10 @@ module Aws::GeoRoutes
     DistanceThresholdListMemberLong = Shapes::IntegerShape.new(name: 'DistanceThresholdListMemberLong')
     Double = Shapes::FloatShape.new(name: 'Double')
     DurationSeconds = Shapes::IntegerShape.new(name: 'DurationSeconds')
+    EnergyKilowattHours = Shapes::FloatShape.new(name: 'EnergyKilowattHours')
     GeometryFormat = Shapes::StringShape.new(name: 'GeometryFormat')
     Heading = Shapes::FloatShape.new(name: 'Heading')
+    HexColor = Shapes::StringShape.new(name: 'HexColor')
     IndexList = Shapes::ListShape.new(name: 'IndexList')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
@@ -119,6 +121,7 @@ module Aws::GeoRoutes
     PolylineRingList = Shapes::ListShape.new(name: 'PolylineRingList')
     Position = Shapes::ListShape.new(name: 'Position')
     Position23 = Shapes::ListShape.new(name: 'Position23')
+    PowerKilowatts = Shapes::FloatShape.new(name: 'PowerKilowatts')
     RoadSnapHazardousCargoType = Shapes::StringShape.new(name: 'RoadSnapHazardousCargoType')
     RoadSnapHazardousCargoTypeList = Shapes::ListShape.new(name: 'RoadSnapHazardousCargoTypeList')
     RoadSnapNotice = Shapes::StructureShape.new(name: 'RoadSnapNotice')
@@ -140,7 +143,15 @@ module Aws::GeoRoutes
     RoadSnapTruckOptionsWidthLong = Shapes::IntegerShape.new(name: 'RoadSnapTruckOptionsWidthLong')
     RoundaboutAngle = Shapes::FloatShape.new(name: 'RoundaboutAngle')
     Route = Shapes::StructureShape.new(name: 'Route')
+    RouteAccessPointDetails = Shapes::StructureShape.new(name: 'RouteAccessPointDetails')
+    RouteAccessibilityAttribute = Shapes::StringShape.new(name: 'RouteAccessibilityAttribute')
+    RouteAccessibilityAttributeList = Shapes::ListShape.new(name: 'RouteAccessibilityAttributeList')
+    RouteAccessibilityAvailability = Shapes::StringShape.new(name: 'RouteAccessibilityAvailability')
+    RouteAccessibilityAvailabilityDetails = Shapes::StructureShape.new(name: 'RouteAccessibilityAvailabilityDetails')
     RouteAllowOptions = Shapes::StructureShape.new(name: 'RouteAllowOptions')
+    RouteAttribution = Shapes::StructureShape.new(name: 'RouteAttribution')
+    RouteAttributionList = Shapes::ListShape.new(name: 'RouteAttributionList')
+    RouteAttributionType = Shapes::StringShape.new(name: 'RouteAttributionType')
     RouteAvoidanceArea = Shapes::StructureShape.new(name: 'RouteAvoidanceArea')
     RouteAvoidanceAreaGeometry = Shapes::StructureShape.new(name: 'RouteAvoidanceAreaGeometry')
     RouteAvoidanceAreaGeometryList = Shapes::ListShape.new(name: 'RouteAvoidanceAreaGeometryList')
@@ -153,6 +164,7 @@ module Aws::GeoRoutes
     RouteCarOptions = Shapes::StructureShape.new(name: 'RouteCarOptions')
     RouteCarOptionsMaxSpeedDouble = Shapes::FloatShape.new(name: 'RouteCarOptionsMaxSpeedDouble')
     RouteCarOptionsOccupancyInteger = Shapes::IntegerShape.new(name: 'RouteCarOptionsOccupancyInteger')
+    RouteChargeStepDetails = Shapes::StructureShape.new(name: 'RouteChargeStepDetails')
     RouteContinueHighwayStepDetails = Shapes::StructureShape.new(name: 'RouteContinueHighwayStepDetails')
     RouteContinueStepDetails = Shapes::StructureShape.new(name: 'RouteContinueStepDetails')
     RouteDestinationOptions = Shapes::StructureShape.new(name: 'RouteDestinationOptions')
@@ -194,6 +206,17 @@ module Aws::GeoRoutes
     RouteFerryTravelStepType = Shapes::StringShape.new(name: 'RouteFerryTravelStepType')
     RouteHazardousCargoType = Shapes::StringShape.new(name: 'RouteHazardousCargoType')
     RouteHazardousCargoTypeList = Shapes::ListShape.new(name: 'RouteHazardousCargoTypeList')
+    RouteIntermodalEnabledLegs = Shapes::StringShape.new(name: 'RouteIntermodalEnabledLegs')
+    RouteIntermodalEnabledLegsList = Shapes::ListShape.new(name: 'RouteIntermodalEnabledLegsList')
+    RouteIntermodalOptions = Shapes::StructureShape.new(name: 'RouteIntermodalOptions')
+    RouteIntermodalOptionsMaxTransfersInteger = Shapes::IntegerShape.new(name: 'RouteIntermodalOptionsMaxTransfersInteger')
+    RouteIntermodalPedestrianOptions = Shapes::StructureShape.new(name: 'RouteIntermodalPedestrianOptions')
+    RouteIntermodalPedestrianOptionsMaxDistanceLong = Shapes::IntegerShape.new(name: 'RouteIntermodalPedestrianOptionsMaxDistanceLong')
+    RouteIntermodalPedestrianOptionsSpeedDouble = Shapes::FloatShape.new(name: 'RouteIntermodalPedestrianOptionsSpeedDouble')
+    RouteIntermodalRentalOptions = Shapes::StructureShape.new(name: 'RouteIntermodalRentalOptions')
+    RouteIntermodalTaxiOptions = Shapes::StructureShape.new(name: 'RouteIntermodalTaxiOptions')
+    RouteIntermodalTransitOptions = Shapes::StructureShape.new(name: 'RouteIntermodalTransitOptions')
+    RouteIntermodalVehicleOptions = Shapes::StructureShape.new(name: 'RouteIntermodalVehicleOptions')
     RouteKeepStepDetails = Shapes::StructureShape.new(name: 'RouteKeepStepDetails')
     RouteLeg = Shapes::StructureShape.new(name: 'RouteLeg')
     RouteLegAdditionalFeature = Shapes::StringShape.new(name: 'RouteLegAdditionalFeature')
@@ -273,6 +296,9 @@ module Aws::GeoRoutes
     RoutePassThroughWaypoint = Shapes::StructureShape.new(name: 'RoutePassThroughWaypoint')
     RoutePassThroughWaypointGeometryOffsetInteger = Shapes::IntegerShape.new(name: 'RoutePassThroughWaypointGeometryOffsetInteger')
     RoutePassThroughWaypointList = Shapes::ListShape.new(name: 'RoutePassThroughWaypointList')
+    RoutePedestrianAfterTravelStep = Shapes::StructureShape.new(name: 'RoutePedestrianAfterTravelStep')
+    RoutePedestrianAfterTravelStepList = Shapes::ListShape.new(name: 'RoutePedestrianAfterTravelStepList')
+    RoutePedestrianAfterTravelStepType = Shapes::StringShape.new(name: 'RoutePedestrianAfterTravelStepType')
     RoutePedestrianArrival = Shapes::StructureShape.new(name: 'RoutePedestrianArrival')
     RoutePedestrianDeparture = Shapes::StructureShape.new(name: 'RoutePedestrianDeparture')
     RoutePedestrianLegDetails = Shapes::StructureShape.new(name: 'RoutePedestrianLegDetails')
@@ -283,6 +309,7 @@ module Aws::GeoRoutes
     RoutePedestrianOptionsSpeedDouble = Shapes::FloatShape.new(name: 'RoutePedestrianOptionsSpeedDouble')
     RoutePedestrianOverviewSummary = Shapes::StructureShape.new(name: 'RoutePedestrianOverviewSummary')
     RoutePedestrianPlace = Shapes::StructureShape.new(name: 'RoutePedestrianPlace')
+    RoutePedestrianPlaceType = Shapes::StringShape.new(name: 'RoutePedestrianPlaceType')
     RoutePedestrianPlaceWaypointIndexInteger = Shapes::IntegerShape.new(name: 'RoutePedestrianPlaceWaypointIndexInteger')
     RoutePedestrianSpan = Shapes::StructureShape.new(name: 'RoutePedestrianSpan')
     RoutePedestrianSpanFunctionalClassificationInteger = Shapes::IntegerShape.new(name: 'RoutePedestrianSpanFunctionalClassificationInteger')
@@ -296,6 +323,30 @@ module Aws::GeoRoutes
     RoutePedestrianTravelStepList = Shapes::ListShape.new(name: 'RoutePedestrianTravelStepList')
     RoutePedestrianTravelStepType = Shapes::StringShape.new(name: 'RoutePedestrianTravelStepType')
     RouteRampStepDetails = Shapes::StructureShape.new(name: 'RouteRampStepDetails')
+    RouteRentalAfterTravelStep = Shapes::StructureShape.new(name: 'RouteRentalAfterTravelStep')
+    RouteRentalAfterTravelStepList = Shapes::ListShape.new(name: 'RouteRentalAfterTravelStepList')
+    RouteRentalAfterTravelStepType = Shapes::StringShape.new(name: 'RouteRentalAfterTravelStepType')
+    RouteRentalAgency = Shapes::StructureShape.new(name: 'RouteRentalAgency')
+    RouteRentalArrival = Shapes::StructureShape.new(name: 'RouteRentalArrival')
+    RouteRentalBeforeTravelStep = Shapes::StructureShape.new(name: 'RouteRentalBeforeTravelStep')
+    RouteRentalBeforeTravelStepList = Shapes::ListShape.new(name: 'RouteRentalBeforeTravelStepList')
+    RouteRentalBeforeTravelStepType = Shapes::StringShape.new(name: 'RouteRentalBeforeTravelStepType')
+    RouteRentalDeparture = Shapes::StructureShape.new(name: 'RouteRentalDeparture')
+    RouteRentalLegDetails = Shapes::StructureShape.new(name: 'RouteRentalLegDetails')
+    RouteRentalMode = Shapes::StringShape.new(name: 'RouteRentalMode')
+    RouteRentalModeList = Shapes::ListShape.new(name: 'RouteRentalModeList')
+    RouteRentalOverviewSummary = Shapes::StructureShape.new(name: 'RouteRentalOverviewSummary')
+    RouteRentalPlace = Shapes::StructureShape.new(name: 'RouteRentalPlace')
+    RouteRentalPlaceType = Shapes::StringShape.new(name: 'RouteRentalPlaceType')
+    RouteRentalPlaceWaypointIndexInteger = Shapes::IntegerShape.new(name: 'RouteRentalPlaceWaypointIndexInteger')
+    RouteRentalSummary = Shapes::StructureShape.new(name: 'RouteRentalSummary')
+    RouteRentalTransportModeDetails = Shapes::StructureShape.new(name: 'RouteRentalTransportModeDetails')
+    RouteRentalTransportModeDetailsAvailableSeatsInteger = Shapes::IntegerShape.new(name: 'RouteRentalTransportModeDetailsAvailableSeatsInteger')
+    RouteRentalTravelOnlySummary = Shapes::StructureShape.new(name: 'RouteRentalTravelOnlySummary')
+    RouteRentalTravelStep = Shapes::StructureShape.new(name: 'RouteRentalTravelStep')
+    RouteRentalTravelStepGeometryOffsetInteger = Shapes::IntegerShape.new(name: 'RouteRentalTravelStepGeometryOffsetInteger')
+    RouteRentalTravelStepList = Shapes::ListShape.new(name: 'RouteRentalTravelStepList')
+    RouteRentalTravelStepType = Shapes::StringShape.new(name: 'RouteRentalTravelStepType')
     RouteResponseNotice = Shapes::StructureShape.new(name: 'RouteResponseNotice')
     RouteResponseNoticeCode = Shapes::StringShape.new(name: 'RouteResponseNoticeCode')
     RouteResponseNoticeList = Shapes::ListShape.new(name: 'RouteResponseNoticeList')
@@ -329,8 +380,36 @@ module Aws::GeoRoutes
     RouteSpanSpeedLimitDetails = Shapes::StructureShape.new(name: 'RouteSpanSpeedLimitDetails')
     RouteSpanTruckAccessAttribute = Shapes::StringShape.new(name: 'RouteSpanTruckAccessAttribute')
     RouteSpanTruckAccessAttributeList = Shapes::ListShape.new(name: 'RouteSpanTruckAccessAttributeList')
+    RouteStationDetails = Shapes::StructureShape.new(name: 'RouteStationDetails')
     RouteSteeringDirection = Shapes::StringShape.new(name: 'RouteSteeringDirection')
     RouteSummary = Shapes::StructureShape.new(name: 'RouteSummary')
+    RouteTaxiAfterTravelStep = Shapes::StructureShape.new(name: 'RouteTaxiAfterTravelStep')
+    RouteTaxiAfterTravelStepList = Shapes::ListShape.new(name: 'RouteTaxiAfterTravelStepList')
+    RouteTaxiAfterTravelStepType = Shapes::StringShape.new(name: 'RouteTaxiAfterTravelStepType')
+    RouteTaxiAgency = Shapes::StructureShape.new(name: 'RouteTaxiAgency')
+    RouteTaxiArrival = Shapes::StructureShape.new(name: 'RouteTaxiArrival')
+    RouteTaxiBeforeTravelStep = Shapes::StructureShape.new(name: 'RouteTaxiBeforeTravelStep')
+    RouteTaxiBeforeTravelStepList = Shapes::ListShape.new(name: 'RouteTaxiBeforeTravelStepList')
+    RouteTaxiBeforeTravelStepType = Shapes::StringShape.new(name: 'RouteTaxiBeforeTravelStepType')
+    RouteTaxiDeparture = Shapes::StructureShape.new(name: 'RouteTaxiDeparture')
+    RouteTaxiLegDetails = Shapes::StructureShape.new(name: 'RouteTaxiLegDetails')
+    RouteTaxiMode = Shapes::StringShape.new(name: 'RouteTaxiMode')
+    RouteTaxiModeList = Shapes::ListShape.new(name: 'RouteTaxiModeList')
+    RouteTaxiNotice = Shapes::StructureShape.new(name: 'RouteTaxiNotice')
+    RouteTaxiNoticeCode = Shapes::StringShape.new(name: 'RouteTaxiNoticeCode')
+    RouteTaxiNoticeList = Shapes::ListShape.new(name: 'RouteTaxiNoticeList')
+    RouteTaxiOverviewSummary = Shapes::StructureShape.new(name: 'RouteTaxiOverviewSummary')
+    RouteTaxiPlace = Shapes::StructureShape.new(name: 'RouteTaxiPlace')
+    RouteTaxiPlaceType = Shapes::StringShape.new(name: 'RouteTaxiPlaceType')
+    RouteTaxiPlaceWaypointIndexInteger = Shapes::IntegerShape.new(name: 'RouteTaxiPlaceWaypointIndexInteger')
+    RouteTaxiSummary = Shapes::StructureShape.new(name: 'RouteTaxiSummary')
+    RouteTaxiTransportModeDetails = Shapes::StructureShape.new(name: 'RouteTaxiTransportModeDetails')
+    RouteTaxiTransportModeDetailsAvailableSeatsInteger = Shapes::IntegerShape.new(name: 'RouteTaxiTransportModeDetailsAvailableSeatsInteger')
+    RouteTaxiTravelOnlySummary = Shapes::StructureShape.new(name: 'RouteTaxiTravelOnlySummary')
+    RouteTaxiTravelStep = Shapes::StructureShape.new(name: 'RouteTaxiTravelStep')
+    RouteTaxiTravelStepGeometryOffsetInteger = Shapes::IntegerShape.new(name: 'RouteTaxiTravelStepGeometryOffsetInteger')
+    RouteTaxiTravelStepList = Shapes::ListShape.new(name: 'RouteTaxiTravelStepList')
+    RouteTaxiTravelStepType = Shapes::StringShape.new(name: 'RouteTaxiTravelStepType')
     RouteToll = Shapes::StructureShape.new(name: 'RouteToll')
     RouteTollList = Shapes::ListShape.new(name: 'RouteTollList')
     RouteTollOptions = Shapes::StructureShape.new(name: 'RouteTollOptions')
@@ -361,6 +440,53 @@ module Aws::GeoRoutes
     RouteTrailerOptions = Shapes::StructureShape.new(name: 'RouteTrailerOptions')
     RouteTrailerOptionsAxleCountInteger = Shapes::IntegerShape.new(name: 'RouteTrailerOptionsAxleCountInteger')
     RouteTrailerOptionsTrailerCountInteger = Shapes::IntegerShape.new(name: 'RouteTrailerOptionsTrailerCountInteger')
+    RouteTransitAfterTravelStep = Shapes::StructureShape.new(name: 'RouteTransitAfterTravelStep')
+    RouteTransitAfterTravelStepList = Shapes::ListShape.new(name: 'RouteTransitAfterTravelStepList')
+    RouteTransitAfterTravelStepType = Shapes::StringShape.new(name: 'RouteTransitAfterTravelStepType')
+    RouteTransitAgency = Shapes::StructureShape.new(name: 'RouteTransitAgency')
+    RouteTransitArrival = Shapes::StructureShape.new(name: 'RouteTransitArrival')
+    RouteTransitBeforeTravelStep = Shapes::StructureShape.new(name: 'RouteTransitBeforeTravelStep')
+    RouteTransitBeforeTravelStepList = Shapes::ListShape.new(name: 'RouteTransitBeforeTravelStepList')
+    RouteTransitBeforeTravelStepType = Shapes::StringShape.new(name: 'RouteTransitBeforeTravelStepType')
+    RouteTransitDeparture = Shapes::StructureShape.new(name: 'RouteTransitDeparture')
+    RouteTransitIncident = Shapes::StructureShape.new(name: 'RouteTransitIncident')
+    RouteTransitIncidentEffect = Shapes::StringShape.new(name: 'RouteTransitIncidentEffect')
+    RouteTransitIncidentList = Shapes::ListShape.new(name: 'RouteTransitIncidentList')
+    RouteTransitIncidentType = Shapes::StringShape.new(name: 'RouteTransitIncidentType')
+    RouteTransitIntermediateStop = Shapes::StructureShape.new(name: 'RouteTransitIntermediateStop')
+    RouteTransitIntermediateStopAttribute = Shapes::StringShape.new(name: 'RouteTransitIntermediateStopAttribute')
+    RouteTransitIntermediateStopAttributeList = Shapes::ListShape.new(name: 'RouteTransitIntermediateStopAttributeList')
+    RouteTransitIntermediateStopGeometryOffsetInteger = Shapes::IntegerShape.new(name: 'RouteTransitIntermediateStopGeometryOffsetInteger')
+    RouteTransitIntermediateStopList = Shapes::ListShape.new(name: 'RouteTransitIntermediateStopList')
+    RouteTransitLegDetails = Shapes::StructureShape.new(name: 'RouteTransitLegDetails')
+    RouteTransitMode = Shapes::StringShape.new(name: 'RouteTransitMode')
+    RouteTransitModeList = Shapes::ListShape.new(name: 'RouteTransitModeList')
+    RouteTransitNextDeparture = Shapes::StructureShape.new(name: 'RouteTransitNextDeparture')
+    RouteTransitNextDepartureList = Shapes::ListShape.new(name: 'RouteTransitNextDepartureList')
+    RouteTransitNotice = Shapes::StructureShape.new(name: 'RouteTransitNotice')
+    RouteTransitNoticeCode = Shapes::StringShape.new(name: 'RouteTransitNoticeCode')
+    RouteTransitNoticeList = Shapes::ListShape.new(name: 'RouteTransitNoticeList')
+    RouteTransitOptions = Shapes::StructureShape.new(name: 'RouteTransitOptions')
+    RouteTransitOptionsMaxTransfersInteger = Shapes::IntegerShape.new(name: 'RouteTransitOptionsMaxTransfersInteger')
+    RouteTransitOverviewSummary = Shapes::StructureShape.new(name: 'RouteTransitOverviewSummary')
+    RouteTransitPedestrianOptions = Shapes::StructureShape.new(name: 'RouteTransitPedestrianOptions')
+    RouteTransitPedestrianOptionsMaxDistanceLong = Shapes::IntegerShape.new(name: 'RouteTransitPedestrianOptionsMaxDistanceLong')
+    RouteTransitPedestrianOptionsSpeedDouble = Shapes::FloatShape.new(name: 'RouteTransitPedestrianOptionsSpeedDouble')
+    RouteTransitPlace = Shapes::StructureShape.new(name: 'RouteTransitPlace')
+    RouteTransitPlaceType = Shapes::StringShape.new(name: 'RouteTransitPlaceType')
+    RouteTransitPlaceWaypointIndexInteger = Shapes::IntegerShape.new(name: 'RouteTransitPlaceWaypointIndexInteger')
+    RouteTransitSpan = Shapes::StructureShape.new(name: 'RouteTransitSpan')
+    RouteTransitSpanGeometryOffsetInteger = Shapes::IntegerShape.new(name: 'RouteTransitSpanGeometryOffsetInteger')
+    RouteTransitSpanList = Shapes::ListShape.new(name: 'RouteTransitSpanList')
+    RouteTransitSpanRegionString = Shapes::StringShape.new(name: 'RouteTransitSpanRegionString')
+    RouteTransitSummary = Shapes::StructureShape.new(name: 'RouteTransitSummary')
+    RouteTransitTransportModeDetails = Shapes::StructureShape.new(name: 'RouteTransitTransportModeDetails')
+    RouteTransitTravelOnlySummary = Shapes::StructureShape.new(name: 'RouteTransitTravelOnlySummary')
+    RouteTransitTravelStep = Shapes::StructureShape.new(name: 'RouteTransitTravelStep')
+    RouteTransitTravelStepGeometryOffsetInteger = Shapes::IntegerShape.new(name: 'RouteTransitTravelStepGeometryOffsetInteger')
+    RouteTransitTravelStepList = Shapes::ListShape.new(name: 'RouteTransitTravelStepList')
+    RouteTransitTravelStepType = Shapes::StringShape.new(name: 'RouteTransitTravelStepType')
+    RouteTransitTripStatus = Shapes::StringShape.new(name: 'RouteTransitTripStatus')
     RouteTransponder = Shapes::StructureShape.new(name: 'RouteTransponder')
     RouteTransponderList = Shapes::ListShape.new(name: 'RouteTransponderList')
     RouteTravelMode = Shapes::StringShape.new(name: 'RouteTravelMode')
@@ -380,6 +506,9 @@ module Aws::GeoRoutes
     RouteTurnIntensity = Shapes::StringShape.new(name: 'RouteTurnIntensity')
     RouteTurnStepDetails = Shapes::StructureShape.new(name: 'RouteTurnStepDetails')
     RouteUTurnStepDetails = Shapes::StructureShape.new(name: 'RouteUTurnStepDetails')
+    RouteVehicleAfterTravelStep = Shapes::StructureShape.new(name: 'RouteVehicleAfterTravelStep')
+    RouteVehicleAfterTravelStepList = Shapes::ListShape.new(name: 'RouteVehicleAfterTravelStepList')
+    RouteVehicleAfterTravelStepType = Shapes::StringShape.new(name: 'RouteVehicleAfterTravelStepType')
     RouteVehicleArrival = Shapes::StructureShape.new(name: 'RouteVehicleArrival')
     RouteVehicleDeparture = Shapes::StructureShape.new(name: 'RouteVehicleDeparture')
     RouteVehicleIncident = Shapes::StructureShape.new(name: 'RouteVehicleIncident')
@@ -389,6 +518,8 @@ module Aws::GeoRoutes
     RouteVehicleLegDetails = Shapes::StructureShape.new(name: 'RouteVehicleLegDetails')
     RouteVehicleLicensePlate = Shapes::StructureShape.new(name: 'RouteVehicleLicensePlate')
     RouteVehicleLicensePlateLastCharacterString = Shapes::StringShape.new(name: 'RouteVehicleLicensePlateLastCharacterString')
+    RouteVehicleMode = Shapes::StringShape.new(name: 'RouteVehicleMode')
+    RouteVehicleModeList = Shapes::ListShape.new(name: 'RouteVehicleModeList')
     RouteVehicleNotice = Shapes::StructureShape.new(name: 'RouteVehicleNotice')
     RouteVehicleNoticeCode = Shapes::StringShape.new(name: 'RouteVehicleNoticeCode')
     RouteVehicleNoticeDetail = Shapes::StructureShape.new(name: 'RouteVehicleNoticeDetail')
@@ -396,6 +527,7 @@ module Aws::GeoRoutes
     RouteVehicleNoticeList = Shapes::ListShape.new(name: 'RouteVehicleNoticeList')
     RouteVehicleOverviewSummary = Shapes::StructureShape.new(name: 'RouteVehicleOverviewSummary')
     RouteVehiclePlace = Shapes::StructureShape.new(name: 'RouteVehiclePlace')
+    RouteVehiclePlaceType = Shapes::StringShape.new(name: 'RouteVehiclePlaceType')
     RouteVehiclePlaceWaypointIndexInteger = Shapes::IntegerShape.new(name: 'RouteVehiclePlaceWaypointIndexInteger')
     RouteVehicleSpan = Shapes::StructureShape.new(name: 'RouteVehicleSpan')
     RouteVehicleSpanFunctionalClassificationInteger = Shapes::IntegerShape.new(name: 'RouteVehicleSpanFunctionalClassificationInteger')
@@ -413,6 +545,9 @@ module Aws::GeoRoutes
     RouteWaypointAvoidActionsForDistanceLong = Shapes::IntegerShape.new(name: 'RouteWaypointAvoidActionsForDistanceLong')
     RouteWaypointList = Shapes::ListShape.new(name: 'RouteWaypointList')
     RouteWaypointStopDurationLong = Shapes::IntegerShape.new(name: 'RouteWaypointStopDurationLong')
+    RouteWebLink = Shapes::StructureShape.new(name: 'RouteWebLink')
+    RouteWebLinkDeviceType = Shapes::StringShape.new(name: 'RouteWebLinkDeviceType')
+    RouteWebLinkList = Shapes::ListShape.new(name: 'RouteWebLinkList')
     RouteWeightConstraint = Shapes::StructureShape.new(name: 'RouteWeightConstraint')
     RouteWeightConstraintType = Shapes::StringShape.new(name: 'RouteWeightConstraintType')
     RouteZone = Shapes::StructureShape.new(name: 'RouteZone')
@@ -852,9 +987,23 @@ module Aws::GeoRoutes
     Route.add_member(:summary, Shapes::ShapeRef.new(shape: RouteSummary, location_name: "Summary"))
     Route.struct_class = Types::Route
 
+    RouteAccessPointDetails.add_member(:accessibility, Shapes::ShapeRef.new(shape: RouteAccessibilityAvailabilityDetails, location_name: "Accessibility"))
+    RouteAccessPointDetails.struct_class = Types::RouteAccessPointDetails
+
+    RouteAccessibilityAttributeList.member = Shapes::ShapeRef.new(shape: RouteAccessibilityAttribute)
+
+    RouteAccessibilityAvailabilityDetails.add_member(:wheelchair, Shapes::ShapeRef.new(shape: RouteAccessibilityAvailability, location_name: "Wheelchair"))
+    RouteAccessibilityAvailabilityDetails.struct_class = Types::RouteAccessibilityAvailabilityDetails
+
     RouteAllowOptions.add_member(:hot, Shapes::ShapeRef.new(shape: SensitiveBoolean, location_name: "Hot"))
     RouteAllowOptions.add_member(:hov, Shapes::ShapeRef.new(shape: SensitiveBoolean, location_name: "Hov"))
     RouteAllowOptions.struct_class = Types::RouteAllowOptions
+
+    RouteAttribution.add_member(:attribution_type, Shapes::ShapeRef.new(shape: RouteAttributionType, location_name: "AttributionType"))
+    RouteAttribution.add_member(:web_link, Shapes::ShapeRef.new(shape: RouteWebLink, required: true, location_name: "WebLink"))
+    RouteAttribution.struct_class = Types::RouteAttribution
+
+    RouteAttributionList.member = Shapes::ShapeRef.new(shape: RouteAttribution)
 
     RouteAvoidanceArea.add_member(:except, Shapes::ShapeRef.new(shape: RouteAvoidanceAreaGeometryList, location_name: "Except"))
     RouteAvoidanceArea.add_member(:geometry, Shapes::ShapeRef.new(shape: RouteAvoidanceAreaGeometry, required: true, location_name: "Geometry"))
@@ -899,6 +1048,11 @@ module Aws::GeoRoutes
     RouteCarOptions.add_member(:max_speed, Shapes::ShapeRef.new(shape: RouteCarOptionsMaxSpeedDouble, location_name: "MaxSpeed", metadata: {"box" => true}))
     RouteCarOptions.add_member(:occupancy, Shapes::ShapeRef.new(shape: RouteCarOptionsOccupancyInteger, location_name: "Occupancy"))
     RouteCarOptions.struct_class = Types::RouteCarOptions
+
+    RouteChargeStepDetails.add_member(:arrival_charge, Shapes::ShapeRef.new(shape: EnergyKilowattHours, location_name: "ArrivalCharge"))
+    RouteChargeStepDetails.add_member(:consumable_power, Shapes::ShapeRef.new(shape: PowerKilowatts, location_name: "ConsumablePower"))
+    RouteChargeStepDetails.add_member(:desired_charge, Shapes::ShapeRef.new(shape: EnergyKilowattHours, location_name: "DesiredCharge"))
+    RouteChargeStepDetails.struct_class = Types::RouteChargeStepDetails
 
     RouteContinueHighwayStepDetails.add_member(:intersection, Shapes::ShapeRef.new(shape: LocalizedStringList, required: true, location_name: "Intersection"))
     RouteContinueHighwayStepDetails.add_member(:steering_direction, Shapes::ShapeRef.new(shape: RouteSteeringDirection, location_name: "SteeringDirection"))
@@ -1024,6 +1178,41 @@ module Aws::GeoRoutes
 
     RouteHazardousCargoTypeList.member = Shapes::ShapeRef.new(shape: RouteHazardousCargoType)
 
+    RouteIntermodalEnabledLegsList.member = Shapes::ShapeRef.new(shape: RouteIntermodalEnabledLegs)
+
+    RouteIntermodalOptions.add_member(:accessibility_attributes, Shapes::ShapeRef.new(shape: RouteAccessibilityAttributeList, location_name: "AccessibilityAttributes"))
+    RouteIntermodalOptions.add_member(:max_transfers, Shapes::ShapeRef.new(shape: RouteIntermodalOptionsMaxTransfersInteger, location_name: "MaxTransfers"))
+    RouteIntermodalOptions.add_member(:pedestrian, Shapes::ShapeRef.new(shape: RouteIntermodalPedestrianOptions, location_name: "Pedestrian"))
+    RouteIntermodalOptions.add_member(:rental, Shapes::ShapeRef.new(shape: RouteIntermodalRentalOptions, location_name: "Rental"))
+    RouteIntermodalOptions.add_member(:taxi, Shapes::ShapeRef.new(shape: RouteIntermodalTaxiOptions, location_name: "Taxi"))
+    RouteIntermodalOptions.add_member(:transit, Shapes::ShapeRef.new(shape: RouteIntermodalTransitOptions, location_name: "Transit"))
+    RouteIntermodalOptions.add_member(:vehicle, Shapes::ShapeRef.new(shape: RouteIntermodalVehicleOptions, location_name: "Vehicle"))
+    RouteIntermodalOptions.struct_class = Types::RouteIntermodalOptions
+
+    RouteIntermodalPedestrianOptions.add_member(:max_distance, Shapes::ShapeRef.new(shape: RouteIntermodalPedestrianOptionsMaxDistanceLong, location_name: "MaxDistance", metadata: {"box" => true}))
+    RouteIntermodalPedestrianOptions.add_member(:speed, Shapes::ShapeRef.new(shape: RouteIntermodalPedestrianOptionsSpeedDouble, location_name: "Speed", metadata: {"box" => true}))
+    RouteIntermodalPedestrianOptions.struct_class = Types::RouteIntermodalPedestrianOptions
+
+    RouteIntermodalRentalOptions.add_member(:allowed_modes, Shapes::ShapeRef.new(shape: RouteRentalModeList, location_name: "AllowedModes"))
+    RouteIntermodalRentalOptions.add_member(:enabled_for, Shapes::ShapeRef.new(shape: RouteIntermodalEnabledLegsList, location_name: "EnabledFor"))
+    RouteIntermodalRentalOptions.add_member(:excluded_modes, Shapes::ShapeRef.new(shape: RouteRentalModeList, location_name: "ExcludedModes"))
+    RouteIntermodalRentalOptions.struct_class = Types::RouteIntermodalRentalOptions
+
+    RouteIntermodalTaxiOptions.add_member(:allowed_modes, Shapes::ShapeRef.new(shape: RouteTaxiModeList, location_name: "AllowedModes"))
+    RouteIntermodalTaxiOptions.add_member(:enabled_for, Shapes::ShapeRef.new(shape: RouteIntermodalEnabledLegsList, location_name: "EnabledFor"))
+    RouteIntermodalTaxiOptions.add_member(:excluded_modes, Shapes::ShapeRef.new(shape: RouteTaxiModeList, location_name: "ExcludedModes"))
+    RouteIntermodalTaxiOptions.struct_class = Types::RouteIntermodalTaxiOptions
+
+    RouteIntermodalTransitOptions.add_member(:allowed_modes, Shapes::ShapeRef.new(shape: RouteTransitModeList, location_name: "AllowedModes"))
+    RouteIntermodalTransitOptions.add_member(:enabled_for, Shapes::ShapeRef.new(shape: RouteIntermodalEnabledLegsList, location_name: "EnabledFor"))
+    RouteIntermodalTransitOptions.add_member(:excluded_modes, Shapes::ShapeRef.new(shape: RouteTransitModeList, location_name: "ExcludedModes"))
+    RouteIntermodalTransitOptions.struct_class = Types::RouteIntermodalTransitOptions
+
+    RouteIntermodalVehicleOptions.add_member(:allowed_modes, Shapes::ShapeRef.new(shape: RouteVehicleModeList, location_name: "AllowedModes"))
+    RouteIntermodalVehicleOptions.add_member(:enabled_for, Shapes::ShapeRef.new(shape: RouteIntermodalEnabledLegsList, location_name: "EnabledFor"))
+    RouteIntermodalVehicleOptions.add_member(:excluded_modes, Shapes::ShapeRef.new(shape: RouteVehicleModeList, location_name: "ExcludedModes"))
+    RouteIntermodalVehicleOptions.struct_class = Types::RouteIntermodalVehicleOptions
+
     RouteKeepStepDetails.add_member(:intersection, Shapes::ShapeRef.new(shape: LocalizedStringList, required: true, location_name: "Intersection"))
     RouteKeepStepDetails.add_member(:steering_direction, Shapes::ShapeRef.new(shape: RouteSteeringDirection, location_name: "SteeringDirection"))
     RouteKeepStepDetails.add_member(:turn_angle, Shapes::ShapeRef.new(shape: TurnAngle, location_name: "TurnAngle"))
@@ -1037,6 +1226,9 @@ module Aws::GeoRoutes
     RouteLeg.add_member(:travel_mode, Shapes::ShapeRef.new(shape: RouteLegTravelMode, required: true, location_name: "TravelMode"))
     RouteLeg.add_member(:type, Shapes::ShapeRef.new(shape: RouteLegType, required: true, location_name: "Type"))
     RouteLeg.add_member(:vehicle_leg_details, Shapes::ShapeRef.new(shape: RouteVehicleLegDetails, location_name: "VehicleLegDetails"))
+    RouteLeg.add_member(:rental_leg_details, Shapes::ShapeRef.new(shape: RouteRentalLegDetails, location_name: "RentalLegDetails"))
+    RouteLeg.add_member(:taxi_leg_details, Shapes::ShapeRef.new(shape: RouteTaxiLegDetails, location_name: "TaxiLegDetails"))
+    RouteLeg.add_member(:transit_leg_details, Shapes::ShapeRef.new(shape: RouteTransitLegDetails, location_name: "TransitLegDetails"))
     RouteLeg.struct_class = Types::RouteLeg
 
     RouteLegAdditionalFeatureList.member = Shapes::ShapeRef.new(shape: RouteLegAdditionalFeature)
@@ -1229,6 +1421,13 @@ module Aws::GeoRoutes
 
     RoutePassThroughWaypointList.member = Shapes::ShapeRef.new(shape: RoutePassThroughWaypoint)
 
+    RoutePedestrianAfterTravelStep.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RoutePedestrianAfterTravelStep.add_member(:instruction, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Instruction"))
+    RoutePedestrianAfterTravelStep.add_member(:type, Shapes::ShapeRef.new(shape: RoutePedestrianAfterTravelStepType, required: true, location_name: "Type"))
+    RoutePedestrianAfterTravelStep.struct_class = Types::RoutePedestrianAfterTravelStep
+
+    RoutePedestrianAfterTravelStepList.member = Shapes::ShapeRef.new(shape: RoutePedestrianAfterTravelStep)
+
     RoutePedestrianArrival.add_member(:place, Shapes::ShapeRef.new(shape: RoutePedestrianPlace, required: true, location_name: "Place"))
     RoutePedestrianArrival.add_member(:time, Shapes::ShapeRef.new(shape: TimestampWithTimezoneOffset, location_name: "Time"))
     RoutePedestrianArrival.struct_class = Types::RoutePedestrianArrival
@@ -1237,6 +1436,7 @@ module Aws::GeoRoutes
     RoutePedestrianDeparture.add_member(:time, Shapes::ShapeRef.new(shape: TimestampWithTimezoneOffset, location_name: "Time"))
     RoutePedestrianDeparture.struct_class = Types::RoutePedestrianDeparture
 
+    RoutePedestrianLegDetails.add_member(:after_travel_steps, Shapes::ShapeRef.new(shape: RoutePedestrianAfterTravelStepList, required: true, location_name: "AfterTravelSteps"))
     RoutePedestrianLegDetails.add_member(:arrival, Shapes::ShapeRef.new(shape: RoutePedestrianArrival, required: true, location_name: "Arrival"))
     RoutePedestrianLegDetails.add_member(:departure, Shapes::ShapeRef.new(shape: RoutePedestrianDeparture, required: true, location_name: "Departure"))
     RoutePedestrianLegDetails.add_member(:notices, Shapes::ShapeRef.new(shape: RoutePedestrianNoticeList, required: true, location_name: "Notices"))
@@ -1259,10 +1459,13 @@ module Aws::GeoRoutes
     RoutePedestrianOverviewSummary.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration"))
     RoutePedestrianOverviewSummary.struct_class = Types::RoutePedestrianOverviewSummary
 
+    RoutePedestrianPlace.add_member(:access_point_details, Shapes::ShapeRef.new(shape: RouteAccessPointDetails, location_name: "AccessPointDetails"))
     RoutePedestrianPlace.add_member(:name, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Name"))
     RoutePedestrianPlace.add_member(:original_position, Shapes::ShapeRef.new(shape: Position23, location_name: "OriginalPosition"))
     RoutePedestrianPlace.add_member(:position, Shapes::ShapeRef.new(shape: Position23, required: true, location_name: "Position"))
     RoutePedestrianPlace.add_member(:side_of_street, Shapes::ShapeRef.new(shape: RouteSideOfStreet, location_name: "SideOfStreet"))
+    RoutePedestrianPlace.add_member(:station_details, Shapes::ShapeRef.new(shape: RouteStationDetails, location_name: "StationDetails"))
+    RoutePedestrianPlace.add_member(:type, Shapes::ShapeRef.new(shape: RoutePedestrianPlaceType, location_name: "Type"))
     RoutePedestrianPlace.add_member(:waypoint_index, Shapes::ShapeRef.new(shape: RoutePedestrianPlaceWaypointIndexInteger, location_name: "WaypointIndex"))
     RoutePedestrianPlace.struct_class = Types::RoutePedestrianPlace
 
@@ -1316,6 +1519,95 @@ module Aws::GeoRoutes
     RouteRampStepDetails.add_member(:turn_angle, Shapes::ShapeRef.new(shape: TurnAngle, location_name: "TurnAngle"))
     RouteRampStepDetails.add_member(:turn_intensity, Shapes::ShapeRef.new(shape: RouteTurnIntensity, location_name: "TurnIntensity"))
     RouteRampStepDetails.struct_class = Types::RouteRampStepDetails
+
+    RouteRentalAfterTravelStep.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteRentalAfterTravelStep.add_member(:instruction, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Instruction"))
+    RouteRentalAfterTravelStep.add_member(:type, Shapes::ShapeRef.new(shape: RouteRentalAfterTravelStepType, required: true, location_name: "Type"))
+    RouteRentalAfterTravelStep.struct_class = Types::RouteRentalAfterTravelStep
+
+    RouteRentalAfterTravelStepList.member = Shapes::ShapeRef.new(shape: RouteRentalAfterTravelStep)
+
+    RouteRentalAgency.add_member(:name, Shapes::ShapeRef.new(shape: SensitiveString, required: true, location_name: "Name"))
+    RouteRentalAgency.add_member(:url, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Url"))
+    RouteRentalAgency.struct_class = Types::RouteRentalAgency
+
+    RouteRentalArrival.add_member(:place, Shapes::ShapeRef.new(shape: RouteRentalPlace, required: true, location_name: "Place"))
+    RouteRentalArrival.add_member(:time, Shapes::ShapeRef.new(shape: TimestampWithTimezoneOffset, location_name: "Time"))
+    RouteRentalArrival.struct_class = Types::RouteRentalArrival
+
+    RouteRentalBeforeTravelStep.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteRentalBeforeTravelStep.add_member(:instruction, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Instruction"))
+    RouteRentalBeforeTravelStep.add_member(:type, Shapes::ShapeRef.new(shape: RouteRentalBeforeTravelStepType, required: true, location_name: "Type"))
+    RouteRentalBeforeTravelStep.struct_class = Types::RouteRentalBeforeTravelStep
+
+    RouteRentalBeforeTravelStepList.member = Shapes::ShapeRef.new(shape: RouteRentalBeforeTravelStep)
+
+    RouteRentalDeparture.add_member(:place, Shapes::ShapeRef.new(shape: RouteRentalPlace, required: true, location_name: "Place"))
+    RouteRentalDeparture.add_member(:time, Shapes::ShapeRef.new(shape: TimestampWithTimezoneOffset, location_name: "Time"))
+    RouteRentalDeparture.struct_class = Types::RouteRentalDeparture
+
+    RouteRentalLegDetails.add_member(:after_travel_steps, Shapes::ShapeRef.new(shape: RouteRentalAfterTravelStepList, required: true, location_name: "AfterTravelSteps"))
+    RouteRentalLegDetails.add_member(:agency, Shapes::ShapeRef.new(shape: RouteRentalAgency, required: true, location_name: "Agency"))
+    RouteRentalLegDetails.add_member(:arrival, Shapes::ShapeRef.new(shape: RouteRentalArrival, required: true, location_name: "Arrival"))
+    RouteRentalLegDetails.add_member(:attributions, Shapes::ShapeRef.new(shape: RouteAttributionList, required: true, location_name: "Attributions"))
+    RouteRentalLegDetails.add_member(:before_travel_steps, Shapes::ShapeRef.new(shape: RouteRentalBeforeTravelStepList, required: true, location_name: "BeforeTravelSteps"))
+    RouteRentalLegDetails.add_member(:booking_web_links, Shapes::ShapeRef.new(shape: RouteWebLinkList, required: true, location_name: "BookingWebLinks"))
+    RouteRentalLegDetails.add_member(:departure, Shapes::ShapeRef.new(shape: RouteRentalDeparture, required: true, location_name: "Departure"))
+    RouteRentalLegDetails.add_member(:summary, Shapes::ShapeRef.new(shape: RouteRentalSummary, location_name: "Summary"))
+    RouteRentalLegDetails.add_member(:transport, Shapes::ShapeRef.new(shape: RouteRentalTransportModeDetails, required: true, location_name: "Transport"))
+    RouteRentalLegDetails.add_member(:travel_steps, Shapes::ShapeRef.new(shape: RouteRentalTravelStepList, required: true, location_name: "TravelSteps"))
+    RouteRentalLegDetails.struct_class = Types::RouteRentalLegDetails
+
+    RouteRentalModeList.member = Shapes::ShapeRef.new(shape: RouteRentalMode)
+
+    RouteRentalOverviewSummary.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteRentalOverviewSummary.add_member(:distance, Shapes::ShapeRef.new(shape: DistanceMeters, required: true, location_name: "Distance", metadata: {"box" => true}))
+    RouteRentalOverviewSummary.struct_class = Types::RouteRentalOverviewSummary
+
+    RouteRentalPlace.add_member(:access_point_details, Shapes::ShapeRef.new(shape: RouteAccessPointDetails, location_name: "AccessPointDetails"))
+    RouteRentalPlace.add_member(:name, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Name"))
+    RouteRentalPlace.add_member(:original_position, Shapes::ShapeRef.new(shape: Position23, location_name: "OriginalPosition"))
+    RouteRentalPlace.add_member(:position, Shapes::ShapeRef.new(shape: Position23, required: true, location_name: "Position"))
+    RouteRentalPlace.add_member(:station_details, Shapes::ShapeRef.new(shape: RouteStationDetails, location_name: "StationDetails"))
+    RouteRentalPlace.add_member(:type, Shapes::ShapeRef.new(shape: RouteRentalPlaceType, location_name: "Type"))
+    RouteRentalPlace.add_member(:waypoint_index, Shapes::ShapeRef.new(shape: RouteRentalPlaceWaypointIndexInteger, location_name: "WaypointIndex"))
+    RouteRentalPlace.struct_class = Types::RouteRentalPlace
+
+    RouteRentalSummary.add_member(:overview, Shapes::ShapeRef.new(shape: RouteRentalOverviewSummary, location_name: "Overview"))
+    RouteRentalSummary.add_member(:travel_only, Shapes::ShapeRef.new(shape: RouteRentalTravelOnlySummary, location_name: "TravelOnly"))
+    RouteRentalSummary.struct_class = Types::RouteRentalSummary
+
+    RouteRentalTransportModeDetails.add_member(:available_seats, Shapes::ShapeRef.new(shape: RouteRentalTransportModeDetailsAvailableSeatsInteger, location_name: "AvailableSeats"))
+    RouteRentalTransportModeDetails.add_member(:category, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Category"))
+    RouteRentalTransportModeDetails.add_member(:color, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Color"))
+    RouteRentalTransportModeDetails.add_member(:engine, Shapes::ShapeRef.new(shape: RouteEngineType, location_name: "Engine"))
+    RouteRentalTransportModeDetails.add_member(:license_plate, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "LicensePlate"))
+    RouteRentalTransportModeDetails.add_member(:mode, Shapes::ShapeRef.new(shape: RouteRentalMode, required: true, location_name: "Mode"))
+    RouteRentalTransportModeDetails.add_member(:model, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Model"))
+    RouteRentalTransportModeDetails.add_member(:name, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Name"))
+    RouteRentalTransportModeDetails.add_member(:text_color, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "TextColor"))
+    RouteRentalTransportModeDetails.struct_class = Types::RouteRentalTransportModeDetails
+
+    RouteRentalTravelOnlySummary.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteRentalTravelOnlySummary.struct_class = Types::RouteRentalTravelOnlySummary
+
+    RouteRentalTravelStep.add_member(:continue_step_details, Shapes::ShapeRef.new(shape: RouteContinueStepDetails, location_name: "ContinueStepDetails"))
+    RouteRentalTravelStep.add_member(:distance, Shapes::ShapeRef.new(shape: DistanceMeters, location_name: "Distance", metadata: {"box" => true}))
+    RouteRentalTravelStep.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteRentalTravelStep.add_member(:exit_step_details, Shapes::ShapeRef.new(shape: RouteExitStepDetails, location_name: "ExitStepDetails"))
+    RouteRentalTravelStep.add_member(:geometry_offset, Shapes::ShapeRef.new(shape: RouteRentalTravelStepGeometryOffsetInteger, location_name: "GeometryOffset"))
+    RouteRentalTravelStep.add_member(:instruction, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Instruction"))
+    RouteRentalTravelStep.add_member(:keep_step_details, Shapes::ShapeRef.new(shape: RouteKeepStepDetails, location_name: "KeepStepDetails"))
+    RouteRentalTravelStep.add_member(:ramp_step_details, Shapes::ShapeRef.new(shape: RouteRampStepDetails, location_name: "RampStepDetails"))
+    RouteRentalTravelStep.add_member(:roundabout_enter_step_details, Shapes::ShapeRef.new(shape: RouteRoundaboutEnterStepDetails, location_name: "RoundaboutEnterStepDetails"))
+    RouteRentalTravelStep.add_member(:roundabout_exit_step_details, Shapes::ShapeRef.new(shape: RouteRoundaboutExitStepDetails, location_name: "RoundaboutExitStepDetails"))
+    RouteRentalTravelStep.add_member(:roundabout_pass_step_details, Shapes::ShapeRef.new(shape: RouteRoundaboutPassStepDetails, location_name: "RoundaboutPassStepDetails"))
+    RouteRentalTravelStep.add_member(:turn_step_details, Shapes::ShapeRef.new(shape: RouteTurnStepDetails, location_name: "TurnStepDetails"))
+    RouteRentalTravelStep.add_member(:type, Shapes::ShapeRef.new(shape: RouteRentalTravelStepType, required: true, location_name: "Type"))
+    RouteRentalTravelStep.add_member(:u_turn_step_details, Shapes::ShapeRef.new(shape: RouteUTurnStepDetails, location_name: "UTurnStepDetails"))
+    RouteRentalTravelStep.struct_class = Types::RouteRentalTravelStep
+
+    RouteRentalTravelStepList.member = Shapes::ShapeRef.new(shape: RouteRentalTravelStep)
 
     RouteResponseNotice.add_member(:code, Shapes::ShapeRef.new(shape: RouteResponseNoticeCode, required: true, location_name: "Code"))
     RouteResponseNotice.add_member(:impact, Shapes::ShapeRef.new(shape: RouteNoticeImpact, location_name: "Impact"))
@@ -1387,10 +1679,111 @@ module Aws::GeoRoutes
 
     RouteSpanTruckAccessAttributeList.member = Shapes::ShapeRef.new(shape: RouteSpanTruckAccessAttribute)
 
+    RouteStationDetails.add_member(:accessibility, Shapes::ShapeRef.new(shape: RouteAccessibilityAvailabilityDetails, location_name: "Accessibility"))
+    RouteStationDetails.add_member(:platform_name, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "PlatformName"))
+    RouteStationDetails.add_member(:short_name, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "ShortName"))
+    RouteStationDetails.struct_class = Types::RouteStationDetails
+
     RouteSummary.add_member(:distance, Shapes::ShapeRef.new(shape: DistanceMeters, location_name: "Distance"))
     RouteSummary.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, location_name: "Duration"))
     RouteSummary.add_member(:tolls, Shapes::ShapeRef.new(shape: RouteTollSummary, location_name: "Tolls"))
     RouteSummary.struct_class = Types::RouteSummary
+
+    RouteTaxiAfterTravelStep.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteTaxiAfterTravelStep.add_member(:instruction, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Instruction"))
+    RouteTaxiAfterTravelStep.add_member(:type, Shapes::ShapeRef.new(shape: RouteTaxiAfterTravelStepType, required: true, location_name: "Type"))
+    RouteTaxiAfterTravelStep.struct_class = Types::RouteTaxiAfterTravelStep
+
+    RouteTaxiAfterTravelStepList.member = Shapes::ShapeRef.new(shape: RouteTaxiAfterTravelStep)
+
+    RouteTaxiAgency.add_member(:name, Shapes::ShapeRef.new(shape: SensitiveString, required: true, location_name: "Name"))
+    RouteTaxiAgency.add_member(:url, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Url"))
+    RouteTaxiAgency.struct_class = Types::RouteTaxiAgency
+
+    RouteTaxiArrival.add_member(:place, Shapes::ShapeRef.new(shape: RouteTaxiPlace, required: true, location_name: "Place"))
+    RouteTaxiArrival.add_member(:time, Shapes::ShapeRef.new(shape: TimestampWithTimezoneOffset, location_name: "Time"))
+    RouteTaxiArrival.struct_class = Types::RouteTaxiArrival
+
+    RouteTaxiBeforeTravelStep.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteTaxiBeforeTravelStep.add_member(:instruction, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Instruction"))
+    RouteTaxiBeforeTravelStep.add_member(:type, Shapes::ShapeRef.new(shape: RouteTaxiBeforeTravelStepType, required: true, location_name: "Type"))
+    RouteTaxiBeforeTravelStep.struct_class = Types::RouteTaxiBeforeTravelStep
+
+    RouteTaxiBeforeTravelStepList.member = Shapes::ShapeRef.new(shape: RouteTaxiBeforeTravelStep)
+
+    RouteTaxiDeparture.add_member(:place, Shapes::ShapeRef.new(shape: RouteTaxiPlace, required: true, location_name: "Place"))
+    RouteTaxiDeparture.add_member(:time, Shapes::ShapeRef.new(shape: TimestampWithTimezoneOffset, location_name: "Time"))
+    RouteTaxiDeparture.struct_class = Types::RouteTaxiDeparture
+
+    RouteTaxiLegDetails.add_member(:after_travel_steps, Shapes::ShapeRef.new(shape: RouteTaxiAfterTravelStepList, required: true, location_name: "AfterTravelSteps"))
+    RouteTaxiLegDetails.add_member(:agency, Shapes::ShapeRef.new(shape: RouteTaxiAgency, required: true, location_name: "Agency"))
+    RouteTaxiLegDetails.add_member(:arrival, Shapes::ShapeRef.new(shape: RouteTaxiArrival, required: true, location_name: "Arrival"))
+    RouteTaxiLegDetails.add_member(:attributions, Shapes::ShapeRef.new(shape: RouteAttributionList, required: true, location_name: "Attributions"))
+    RouteTaxiLegDetails.add_member(:before_travel_steps, Shapes::ShapeRef.new(shape: RouteTaxiBeforeTravelStepList, required: true, location_name: "BeforeTravelSteps"))
+    RouteTaxiLegDetails.add_member(:booking_web_links, Shapes::ShapeRef.new(shape: RouteWebLinkList, required: true, location_name: "BookingWebLinks"))
+    RouteTaxiLegDetails.add_member(:departure, Shapes::ShapeRef.new(shape: RouteTaxiDeparture, required: true, location_name: "Departure"))
+    RouteTaxiLegDetails.add_member(:notices, Shapes::ShapeRef.new(shape: RouteTaxiNoticeList, required: true, location_name: "Notices"))
+    RouteTaxiLegDetails.add_member(:summary, Shapes::ShapeRef.new(shape: RouteTaxiSummary, location_name: "Summary"))
+    RouteTaxiLegDetails.add_member(:transport, Shapes::ShapeRef.new(shape: RouteTaxiTransportModeDetails, required: true, location_name: "Transport"))
+    RouteTaxiLegDetails.add_member(:travel_steps, Shapes::ShapeRef.new(shape: RouteTaxiTravelStepList, required: true, location_name: "TravelSteps"))
+    RouteTaxiLegDetails.struct_class = Types::RouteTaxiLegDetails
+
+    RouteTaxiModeList.member = Shapes::ShapeRef.new(shape: RouteTaxiMode)
+
+    RouteTaxiNotice.add_member(:code, Shapes::ShapeRef.new(shape: RouteTaxiNoticeCode, required: true, location_name: "Code"))
+    RouteTaxiNotice.add_member(:impact, Shapes::ShapeRef.new(shape: RouteNoticeImpact, location_name: "Impact"))
+    RouteTaxiNotice.struct_class = Types::RouteTaxiNotice
+
+    RouteTaxiNoticeList.member = Shapes::ShapeRef.new(shape: RouteTaxiNotice)
+
+    RouteTaxiOverviewSummary.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteTaxiOverviewSummary.add_member(:distance, Shapes::ShapeRef.new(shape: DistanceMeters, required: true, location_name: "Distance", metadata: {"box" => true}))
+    RouteTaxiOverviewSummary.struct_class = Types::RouteTaxiOverviewSummary
+
+    RouteTaxiPlace.add_member(:access_point_details, Shapes::ShapeRef.new(shape: RouteAccessPointDetails, location_name: "AccessPointDetails"))
+    RouteTaxiPlace.add_member(:name, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Name"))
+    RouteTaxiPlace.add_member(:original_position, Shapes::ShapeRef.new(shape: Position23, location_name: "OriginalPosition"))
+    RouteTaxiPlace.add_member(:position, Shapes::ShapeRef.new(shape: Position23, required: true, location_name: "Position"))
+    RouteTaxiPlace.add_member(:station_details, Shapes::ShapeRef.new(shape: RouteStationDetails, location_name: "StationDetails"))
+    RouteTaxiPlace.add_member(:type, Shapes::ShapeRef.new(shape: RouteTaxiPlaceType, location_name: "Type"))
+    RouteTaxiPlace.add_member(:waypoint_index, Shapes::ShapeRef.new(shape: RouteTaxiPlaceWaypointIndexInteger, location_name: "WaypointIndex"))
+    RouteTaxiPlace.struct_class = Types::RouteTaxiPlace
+
+    RouteTaxiSummary.add_member(:overview, Shapes::ShapeRef.new(shape: RouteTaxiOverviewSummary, location_name: "Overview"))
+    RouteTaxiSummary.add_member(:travel_only, Shapes::ShapeRef.new(shape: RouteTaxiTravelOnlySummary, location_name: "TravelOnly"))
+    RouteTaxiSummary.struct_class = Types::RouteTaxiSummary
+
+    RouteTaxiTransportModeDetails.add_member(:available_seats, Shapes::ShapeRef.new(shape: RouteTaxiTransportModeDetailsAvailableSeatsInteger, location_name: "AvailableSeats"))
+    RouteTaxiTransportModeDetails.add_member(:category, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Category"))
+    RouteTaxiTransportModeDetails.add_member(:color, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Color"))
+    RouteTaxiTransportModeDetails.add_member(:engine, Shapes::ShapeRef.new(shape: RouteEngineType, location_name: "Engine"))
+    RouteTaxiTransportModeDetails.add_member(:license_plate, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "LicensePlate"))
+    RouteTaxiTransportModeDetails.add_member(:mode, Shapes::ShapeRef.new(shape: RouteTaxiMode, required: true, location_name: "Mode"))
+    RouteTaxiTransportModeDetails.add_member(:model, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Model"))
+    RouteTaxiTransportModeDetails.add_member(:name, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Name"))
+    RouteTaxiTransportModeDetails.add_member(:text_color, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "TextColor"))
+    RouteTaxiTransportModeDetails.struct_class = Types::RouteTaxiTransportModeDetails
+
+    RouteTaxiTravelOnlySummary.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteTaxiTravelOnlySummary.struct_class = Types::RouteTaxiTravelOnlySummary
+
+    RouteTaxiTravelStep.add_member(:continue_step_details, Shapes::ShapeRef.new(shape: RouteContinueStepDetails, location_name: "ContinueStepDetails"))
+    RouteTaxiTravelStep.add_member(:distance, Shapes::ShapeRef.new(shape: DistanceMeters, location_name: "Distance", metadata: {"box" => true}))
+    RouteTaxiTravelStep.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteTaxiTravelStep.add_member(:exit_step_details, Shapes::ShapeRef.new(shape: RouteExitStepDetails, location_name: "ExitStepDetails"))
+    RouteTaxiTravelStep.add_member(:geometry_offset, Shapes::ShapeRef.new(shape: RouteTaxiTravelStepGeometryOffsetInteger, location_name: "GeometryOffset"))
+    RouteTaxiTravelStep.add_member(:instruction, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Instruction"))
+    RouteTaxiTravelStep.add_member(:keep_step_details, Shapes::ShapeRef.new(shape: RouteKeepStepDetails, location_name: "KeepStepDetails"))
+    RouteTaxiTravelStep.add_member(:ramp_step_details, Shapes::ShapeRef.new(shape: RouteRampStepDetails, location_name: "RampStepDetails"))
+    RouteTaxiTravelStep.add_member(:roundabout_enter_step_details, Shapes::ShapeRef.new(shape: RouteRoundaboutEnterStepDetails, location_name: "RoundaboutEnterStepDetails"))
+    RouteTaxiTravelStep.add_member(:roundabout_exit_step_details, Shapes::ShapeRef.new(shape: RouteRoundaboutExitStepDetails, location_name: "RoundaboutExitStepDetails"))
+    RouteTaxiTravelStep.add_member(:roundabout_pass_step_details, Shapes::ShapeRef.new(shape: RouteRoundaboutPassStepDetails, location_name: "RoundaboutPassStepDetails"))
+    RouteTaxiTravelStep.add_member(:turn_step_details, Shapes::ShapeRef.new(shape: RouteTurnStepDetails, location_name: "TurnStepDetails"))
+    RouteTaxiTravelStep.add_member(:type, Shapes::ShapeRef.new(shape: RouteTaxiTravelStepType, required: true, location_name: "Type"))
+    RouteTaxiTravelStep.add_member(:u_turn_step_details, Shapes::ShapeRef.new(shape: RouteUTurnStepDetails, location_name: "UTurnStepDetails"))
+    RouteTaxiTravelStep.struct_class = Types::RouteTaxiTravelStep
+
+    RouteTaxiTravelStepList.member = Shapes::ShapeRef.new(shape: RouteTaxiTravelStep)
 
     RouteToll.add_member(:country, Shapes::ShapeRef.new(shape: CountryCode3, location_name: "Country"))
     RouteToll.add_member(:payment_sites, Shapes::ShapeRef.new(shape: RouteTollPaymentSiteList, required: true, location_name: "PaymentSites"))
@@ -1473,6 +1866,151 @@ module Aws::GeoRoutes
     RouteTrailerOptions.add_member(:trailer_count, Shapes::ShapeRef.new(shape: RouteTrailerOptionsTrailerCountInteger, location_name: "TrailerCount"))
     RouteTrailerOptions.struct_class = Types::RouteTrailerOptions
 
+    RouteTransitAfterTravelStep.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteTransitAfterTravelStep.add_member(:instruction, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Instruction"))
+    RouteTransitAfterTravelStep.add_member(:type, Shapes::ShapeRef.new(shape: RouteTransitAfterTravelStepType, required: true, location_name: "Type"))
+    RouteTransitAfterTravelStep.struct_class = Types::RouteTransitAfterTravelStep
+
+    RouteTransitAfterTravelStepList.member = Shapes::ShapeRef.new(shape: RouteTransitAfterTravelStep)
+
+    RouteTransitAgency.add_member(:name, Shapes::ShapeRef.new(shape: SensitiveString, required: true, location_name: "Name"))
+    RouteTransitAgency.add_member(:url, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Url"))
+    RouteTransitAgency.struct_class = Types::RouteTransitAgency
+
+    RouteTransitArrival.add_member(:delay, Shapes::ShapeRef.new(shape: DurationSeconds, location_name: "Delay", metadata: {"box" => true}))
+    RouteTransitArrival.add_member(:place, Shapes::ShapeRef.new(shape: RouteTransitPlace, required: true, location_name: "Place"))
+    RouteTransitArrival.add_member(:status, Shapes::ShapeRef.new(shape: RouteTransitTripStatus, location_name: "Status"))
+    RouteTransitArrival.add_member(:time, Shapes::ShapeRef.new(shape: TimestampWithTimezoneOffset, location_name: "Time"))
+    RouteTransitArrival.struct_class = Types::RouteTransitArrival
+
+    RouteTransitBeforeTravelStep.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteTransitBeforeTravelStep.add_member(:instruction, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Instruction"))
+    RouteTransitBeforeTravelStep.add_member(:type, Shapes::ShapeRef.new(shape: RouteTransitBeforeTravelStepType, required: true, location_name: "Type"))
+    RouteTransitBeforeTravelStep.struct_class = Types::RouteTransitBeforeTravelStep
+
+    RouteTransitBeforeTravelStepList.member = Shapes::ShapeRef.new(shape: RouteTransitBeforeTravelStep)
+
+    RouteTransitDeparture.add_member(:delay, Shapes::ShapeRef.new(shape: DurationSeconds, location_name: "Delay", metadata: {"box" => true}))
+    RouteTransitDeparture.add_member(:place, Shapes::ShapeRef.new(shape: RouteTransitPlace, required: true, location_name: "Place"))
+    RouteTransitDeparture.add_member(:status, Shapes::ShapeRef.new(shape: RouteTransitTripStatus, location_name: "Status"))
+    RouteTransitDeparture.add_member(:time, Shapes::ShapeRef.new(shape: TimestampWithTimezoneOffset, location_name: "Time"))
+    RouteTransitDeparture.struct_class = Types::RouteTransitDeparture
+
+    RouteTransitIncident.add_member(:description, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Description"))
+    RouteTransitIncident.add_member(:effect, Shapes::ShapeRef.new(shape: RouteTransitIncidentEffect, required: true, location_name: "Effect"))
+    RouteTransitIncident.add_member(:end_time, Shapes::ShapeRef.new(shape: TimestampWithTimezoneOffset, location_name: "EndTime"))
+    RouteTransitIncident.add_member(:start_time, Shapes::ShapeRef.new(shape: TimestampWithTimezoneOffset, location_name: "StartTime"))
+    RouteTransitIncident.add_member(:type, Shapes::ShapeRef.new(shape: RouteTransitIncidentType, required: true, location_name: "Type"))
+    RouteTransitIncident.add_member(:url, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Url"))
+    RouteTransitIncident.struct_class = Types::RouteTransitIncident
+
+    RouteTransitIncidentList.member = Shapes::ShapeRef.new(shape: RouteTransitIncident)
+
+    RouteTransitIntermediateStop.add_member(:attributes, Shapes::ShapeRef.new(shape: RouteTransitIntermediateStopAttributeList, location_name: "Attributes"))
+    RouteTransitIntermediateStop.add_member(:departure, Shapes::ShapeRef.new(shape: RouteTransitDeparture, required: true, location_name: "Departure"))
+    RouteTransitIntermediateStop.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteTransitIntermediateStop.add_member(:geometry_offset, Shapes::ShapeRef.new(shape: RouteTransitIntermediateStopGeometryOffsetInteger, location_name: "GeometryOffset"))
+    RouteTransitIntermediateStop.add_member(:transport, Shapes::ShapeRef.new(shape: RouteTransitTransportModeDetails, location_name: "Transport"))
+    RouteTransitIntermediateStop.struct_class = Types::RouteTransitIntermediateStop
+
+    RouteTransitIntermediateStopAttributeList.member = Shapes::ShapeRef.new(shape: RouteTransitIntermediateStopAttribute)
+
+    RouteTransitIntermediateStopList.member = Shapes::ShapeRef.new(shape: RouteTransitIntermediateStop)
+
+    RouteTransitLegDetails.add_member(:after_travel_steps, Shapes::ShapeRef.new(shape: RouteTransitAfterTravelStepList, required: true, location_name: "AfterTravelSteps"))
+    RouteTransitLegDetails.add_member(:agency, Shapes::ShapeRef.new(shape: RouteTransitAgency, location_name: "Agency"))
+    RouteTransitLegDetails.add_member(:arrival, Shapes::ShapeRef.new(shape: RouteTransitArrival, required: true, location_name: "Arrival"))
+    RouteTransitLegDetails.add_member(:attributions, Shapes::ShapeRef.new(shape: RouteAttributionList, required: true, location_name: "Attributions"))
+    RouteTransitLegDetails.add_member(:before_travel_steps, Shapes::ShapeRef.new(shape: RouteTransitBeforeTravelStepList, required: true, location_name: "BeforeTravelSteps"))
+    RouteTransitLegDetails.add_member(:booking_web_links, Shapes::ShapeRef.new(shape: RouteWebLinkList, required: true, location_name: "BookingWebLinks"))
+    RouteTransitLegDetails.add_member(:departure, Shapes::ShapeRef.new(shape: RouteTransitDeparture, required: true, location_name: "Departure"))
+    RouteTransitLegDetails.add_member(:incidents, Shapes::ShapeRef.new(shape: RouteTransitIncidentList, required: true, location_name: "Incidents"))
+    RouteTransitLegDetails.add_member(:intermediate_stops, Shapes::ShapeRef.new(shape: RouteTransitIntermediateStopList, required: true, location_name: "IntermediateStops"))
+    RouteTransitLegDetails.add_member(:next_departures, Shapes::ShapeRef.new(shape: RouteTransitNextDepartureList, required: true, location_name: "NextDepartures"))
+    RouteTransitLegDetails.add_member(:notices, Shapes::ShapeRef.new(shape: RouteTransitNoticeList, required: true, location_name: "Notices"))
+    RouteTransitLegDetails.add_member(:pass_through_waypoints, Shapes::ShapeRef.new(shape: RoutePassThroughWaypointList, required: true, location_name: "PassThroughWaypoints"))
+    RouteTransitLegDetails.add_member(:spans, Shapes::ShapeRef.new(shape: RouteTransitSpanList, required: true, location_name: "Spans"))
+    RouteTransitLegDetails.add_member(:summary, Shapes::ShapeRef.new(shape: RouteTransitSummary, location_name: "Summary"))
+    RouteTransitLegDetails.add_member(:transport, Shapes::ShapeRef.new(shape: RouteTransitTransportModeDetails, required: true, location_name: "Transport"))
+    RouteTransitLegDetails.add_member(:travel_steps, Shapes::ShapeRef.new(shape: RouteTransitTravelStepList, required: true, location_name: "TravelSteps"))
+    RouteTransitLegDetails.struct_class = Types::RouteTransitLegDetails
+
+    RouteTransitModeList.member = Shapes::ShapeRef.new(shape: RouteTransitMode)
+
+    RouteTransitNextDeparture.add_member(:delay, Shapes::ShapeRef.new(shape: DurationSeconds, location_name: "Delay", metadata: {"box" => true}))
+    RouteTransitNextDeparture.add_member(:platform_name, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "PlatformName"))
+    RouteTransitNextDeparture.add_member(:status, Shapes::ShapeRef.new(shape: RouteTransitTripStatus, location_name: "Status"))
+    RouteTransitNextDeparture.add_member(:time, Shapes::ShapeRef.new(shape: TimestampWithTimezoneOffset, required: true, location_name: "Time"))
+    RouteTransitNextDeparture.add_member(:transport, Shapes::ShapeRef.new(shape: RouteTransitTransportModeDetails, location_name: "Transport"))
+    RouteTransitNextDeparture.struct_class = Types::RouteTransitNextDeparture
+
+    RouteTransitNextDepartureList.member = Shapes::ShapeRef.new(shape: RouteTransitNextDeparture)
+
+    RouteTransitNotice.add_member(:code, Shapes::ShapeRef.new(shape: RouteTransitNoticeCode, required: true, location_name: "Code"))
+    RouteTransitNotice.add_member(:impact, Shapes::ShapeRef.new(shape: RouteNoticeImpact, location_name: "Impact"))
+    RouteTransitNotice.struct_class = Types::RouteTransitNotice
+
+    RouteTransitNoticeList.member = Shapes::ShapeRef.new(shape: RouteTransitNotice)
+
+    RouteTransitOptions.add_member(:accessibility_attributes, Shapes::ShapeRef.new(shape: RouteAccessibilityAttributeList, location_name: "AccessibilityAttributes"))
+    RouteTransitOptions.add_member(:allowed_modes, Shapes::ShapeRef.new(shape: RouteTransitModeList, location_name: "AllowedModes"))
+    RouteTransitOptions.add_member(:excluded_modes, Shapes::ShapeRef.new(shape: RouteTransitModeList, location_name: "ExcludedModes"))
+    RouteTransitOptions.add_member(:max_transfers, Shapes::ShapeRef.new(shape: RouteTransitOptionsMaxTransfersInteger, location_name: "MaxTransfers"))
+    RouteTransitOptions.add_member(:pedestrian, Shapes::ShapeRef.new(shape: RouteTransitPedestrianOptions, location_name: "Pedestrian"))
+    RouteTransitOptions.struct_class = Types::RouteTransitOptions
+
+    RouteTransitOverviewSummary.add_member(:distance, Shapes::ShapeRef.new(shape: DistanceMeters, required: true, location_name: "Distance", metadata: {"box" => true}))
+    RouteTransitOverviewSummary.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteTransitOverviewSummary.struct_class = Types::RouteTransitOverviewSummary
+
+    RouteTransitPedestrianOptions.add_member(:max_distance, Shapes::ShapeRef.new(shape: RouteTransitPedestrianOptionsMaxDistanceLong, location_name: "MaxDistance", metadata: {"box" => true}))
+    RouteTransitPedestrianOptions.add_member(:speed, Shapes::ShapeRef.new(shape: RouteTransitPedestrianOptionsSpeedDouble, location_name: "Speed", metadata: {"box" => true}))
+    RouteTransitPedestrianOptions.struct_class = Types::RouteTransitPedestrianOptions
+
+    RouteTransitPlace.add_member(:name, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Name"))
+    RouteTransitPlace.add_member(:original_position, Shapes::ShapeRef.new(shape: Position23, location_name: "OriginalPosition"))
+    RouteTransitPlace.add_member(:position, Shapes::ShapeRef.new(shape: Position23, required: true, location_name: "Position"))
+    RouteTransitPlace.add_member(:station_details, Shapes::ShapeRef.new(shape: RouteStationDetails, location_name: "StationDetails"))
+    RouteTransitPlace.add_member(:type, Shapes::ShapeRef.new(shape: RouteTransitPlaceType, location_name: "Type"))
+    RouteTransitPlace.add_member(:waypoint_index, Shapes::ShapeRef.new(shape: RouteTransitPlaceWaypointIndexInteger, location_name: "WaypointIndex"))
+    RouteTransitPlace.struct_class = Types::RouteTransitPlace
+
+    RouteTransitSpan.add_member(:country, Shapes::ShapeRef.new(shape: CountryCode3, location_name: "Country"))
+    RouteTransitSpan.add_member(:distance, Shapes::ShapeRef.new(shape: DistanceMeters, location_name: "Distance", metadata: {"box" => true}))
+    RouteTransitSpan.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, location_name: "Duration", metadata: {"box" => true}))
+    RouteTransitSpan.add_member(:geometry_offset, Shapes::ShapeRef.new(shape: RouteTransitSpanGeometryOffsetInteger, location_name: "GeometryOffset"))
+    RouteTransitSpan.add_member(:names, Shapes::ShapeRef.new(shape: LocalizedStringList, location_name: "Names"))
+    RouteTransitSpan.add_member(:region, Shapes::ShapeRef.new(shape: RouteTransitSpanRegionString, location_name: "Region"))
+    RouteTransitSpan.struct_class = Types::RouteTransitSpan
+
+    RouteTransitSpanList.member = Shapes::ShapeRef.new(shape: RouteTransitSpan)
+
+    RouteTransitSummary.add_member(:overview, Shapes::ShapeRef.new(shape: RouteTransitOverviewSummary, location_name: "Overview"))
+    RouteTransitSummary.add_member(:travel_only, Shapes::ShapeRef.new(shape: RouteTransitTravelOnlySummary, location_name: "TravelOnly"))
+    RouteTransitSummary.struct_class = Types::RouteTransitSummary
+
+    RouteTransitTransportModeDetails.add_member(:accessibility, Shapes::ShapeRef.new(shape: RouteAccessibilityAvailabilityDetails, location_name: "Accessibility"))
+    RouteTransitTransportModeDetails.add_member(:color, Shapes::ShapeRef.new(shape: HexColor, location_name: "Color"))
+    RouteTransitTransportModeDetails.add_member(:headsign, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Headsign"))
+    RouteTransitTransportModeDetails.add_member(:long_route_name, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "LongRouteName"))
+    RouteTransitTransportModeDetails.add_member(:mode, Shapes::ShapeRef.new(shape: RouteTransitMode, required: true, location_name: "Mode"))
+    RouteTransitTransportModeDetails.add_member(:route_name, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "RouteName"))
+    RouteTransitTransportModeDetails.add_member(:short_route_name, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "ShortRouteName"))
+    RouteTransitTransportModeDetails.add_member(:text_color, Shapes::ShapeRef.new(shape: HexColor, location_name: "TextColor"))
+    RouteTransitTransportModeDetails.struct_class = Types::RouteTransitTransportModeDetails
+
+    RouteTransitTravelOnlySummary.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteTransitTravelOnlySummary.struct_class = Types::RouteTransitTravelOnlySummary
+
+    RouteTransitTravelStep.add_member(:distance, Shapes::ShapeRef.new(shape: DistanceMeters, location_name: "Distance", metadata: {"box" => true}))
+    RouteTransitTravelStep.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteTransitTravelStep.add_member(:geometry_offset, Shapes::ShapeRef.new(shape: RouteTransitTravelStepGeometryOffsetInteger, location_name: "GeometryOffset"))
+    RouteTransitTravelStep.add_member(:instruction, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Instruction"))
+    RouteTransitTravelStep.add_member(:type, Shapes::ShapeRef.new(shape: RouteTransitTravelStepType, required: true, location_name: "Type"))
+    RouteTransitTravelStep.struct_class = Types::RouteTransitTravelStep
+
+    RouteTransitTravelStepList.member = Shapes::ShapeRef.new(shape: RouteTransitTravelStep)
+
     RouteTransponder.add_member(:system_name, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "SystemName"))
     RouteTransponder.struct_class = Types::RouteTransponder
 
@@ -1482,6 +2020,8 @@ module Aws::GeoRoutes
     RouteTravelModeOptions.add_member(:pedestrian, Shapes::ShapeRef.new(shape: RoutePedestrianOptions, location_name: "Pedestrian"))
     RouteTravelModeOptions.add_member(:scooter, Shapes::ShapeRef.new(shape: RouteScooterOptions, location_name: "Scooter"))
     RouteTravelModeOptions.add_member(:truck, Shapes::ShapeRef.new(shape: RouteTruckOptions, location_name: "Truck"))
+    RouteTravelModeOptions.add_member(:intermodal, Shapes::ShapeRef.new(shape: RouteIntermodalOptions, location_name: "Intermodal"))
+    RouteTravelModeOptions.add_member(:transit, Shapes::ShapeRef.new(shape: RouteTransitOptions, location_name: "Transit"))
     RouteTravelModeOptions.struct_class = Types::RouteTravelModeOptions
 
     RouteTruckOptions.add_member(:axle_count, Shapes::ShapeRef.new(shape: RouteTruckOptionsAxleCountInteger, location_name: "AxleCount"))
@@ -1517,6 +2057,14 @@ module Aws::GeoRoutes
     RouteUTurnStepDetails.add_member(:turn_intensity, Shapes::ShapeRef.new(shape: RouteTurnIntensity, location_name: "TurnIntensity"))
     RouteUTurnStepDetails.struct_class = Types::RouteUTurnStepDetails
 
+    RouteVehicleAfterTravelStep.add_member(:charge_step_details, Shapes::ShapeRef.new(shape: RouteChargeStepDetails, location_name: "ChargeStepDetails"))
+    RouteVehicleAfterTravelStep.add_member(:duration, Shapes::ShapeRef.new(shape: DurationSeconds, required: true, location_name: "Duration", metadata: {"box" => true}))
+    RouteVehicleAfterTravelStep.add_member(:instruction, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Instruction"))
+    RouteVehicleAfterTravelStep.add_member(:type, Shapes::ShapeRef.new(shape: RouteVehicleAfterTravelStepType, required: true, location_name: "Type"))
+    RouteVehicleAfterTravelStep.struct_class = Types::RouteVehicleAfterTravelStep
+
+    RouteVehicleAfterTravelStepList.member = Shapes::ShapeRef.new(shape: RouteVehicleAfterTravelStep)
+
     RouteVehicleArrival.add_member(:place, Shapes::ShapeRef.new(shape: RouteVehiclePlace, required: true, location_name: "Place"))
     RouteVehicleArrival.add_member(:time, Shapes::ShapeRef.new(shape: TimestampWithTimezoneOffset, location_name: "Time"))
     RouteVehicleArrival.struct_class = Types::RouteVehicleArrival
@@ -1534,6 +2082,7 @@ module Aws::GeoRoutes
 
     RouteVehicleIncidentList.member = Shapes::ShapeRef.new(shape: RouteVehicleIncident)
 
+    RouteVehicleLegDetails.add_member(:after_travel_steps, Shapes::ShapeRef.new(shape: RouteVehicleAfterTravelStepList, required: true, location_name: "AfterTravelSteps"))
     RouteVehicleLegDetails.add_member(:arrival, Shapes::ShapeRef.new(shape: RouteVehicleArrival, required: true, location_name: "Arrival"))
     RouteVehicleLegDetails.add_member(:departure, Shapes::ShapeRef.new(shape: RouteVehicleDeparture, required: true, location_name: "Departure"))
     RouteVehicleLegDetails.add_member(:incidents, Shapes::ShapeRef.new(shape: RouteVehicleIncidentList, required: true, location_name: "Incidents"))
@@ -1550,6 +2099,8 @@ module Aws::GeoRoutes
 
     RouteVehicleLicensePlate.add_member(:last_character, Shapes::ShapeRef.new(shape: RouteVehicleLicensePlateLastCharacterString, location_name: "LastCharacter"))
     RouteVehicleLicensePlate.struct_class = Types::RouteVehicleLicensePlate
+
+    RouteVehicleModeList.member = Shapes::ShapeRef.new(shape: RouteVehicleMode)
 
     RouteVehicleNotice.add_member(:code, Shapes::ShapeRef.new(shape: RouteVehicleNoticeCode, required: true, location_name: "Code"))
     RouteVehicleNotice.add_member(:details, Shapes::ShapeRef.new(shape: RouteVehicleNoticeDetailList, required: true, location_name: "Details"))
@@ -1575,6 +2126,9 @@ module Aws::GeoRoutes
     RouteVehiclePlace.add_member(:position, Shapes::ShapeRef.new(shape: Position23, required: true, location_name: "Position"))
     RouteVehiclePlace.add_member(:side_of_street, Shapes::ShapeRef.new(shape: RouteSideOfStreet, location_name: "SideOfStreet"))
     RouteVehiclePlace.add_member(:waypoint_index, Shapes::ShapeRef.new(shape: RouteVehiclePlaceWaypointIndexInteger, location_name: "WaypointIndex"))
+    RouteVehiclePlace.add_member(:access_point_details, Shapes::ShapeRef.new(shape: RouteAccessPointDetails, location_name: "AccessPointDetails"))
+    RouteVehiclePlace.add_member(:station_details, Shapes::ShapeRef.new(shape: RouteStationDetails, location_name: "StationDetails"))
+    RouteVehiclePlace.add_member(:type, Shapes::ShapeRef.new(shape: RouteVehiclePlaceType, location_name: "Type"))
     RouteVehiclePlace.struct_class = Types::RouteVehiclePlace
 
     RouteVehicleSpan.add_member(:best_case_duration, Shapes::ShapeRef.new(shape: DurationSeconds, location_name: "BestCaseDuration"))
@@ -1669,6 +2223,14 @@ module Aws::GeoRoutes
     RouteWaypoint.struct_class = Types::RouteWaypoint
 
     RouteWaypointList.member = Shapes::ShapeRef.new(shape: RouteWaypoint)
+
+    RouteWebLink.add_member(:anchor_text, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "AnchorText"))
+    RouteWebLink.add_member(:description, Shapes::ShapeRef.new(shape: SensitiveString, required: true, location_name: "Description"))
+    RouteWebLink.add_member(:device_type, Shapes::ShapeRef.new(shape: RouteWebLinkDeviceType, location_name: "DeviceType"))
+    RouteWebLink.add_member(:url, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Url"))
+    RouteWebLink.struct_class = Types::RouteWebLink
+
+    RouteWebLinkList.member = Shapes::ShapeRef.new(shape: RouteWebLink)
 
     RouteWeightConstraint.add_member(:type, Shapes::ShapeRef.new(shape: RouteWeightConstraintType, required: true, location_name: "Type"))
     RouteWeightConstraint.add_member(:value, Shapes::ShapeRef.new(shape: WeightKilograms, required: true, location_name: "Value"))
@@ -1887,7 +2449,7 @@ module Aws::GeoRoutes
       api.add_operation(:calculate_isolines, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CalculateIsolines"
         o.http_method = "POST"
-        o.http_request_uri = "/isolines"
+        o.http_request_uri = "/v2/isolines"
         o.input = Shapes::ShapeRef.new(shape: CalculateIsolinesRequest)
         o.output = Shapes::ShapeRef.new(shape: CalculateIsolinesResponse)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
@@ -1899,7 +2461,7 @@ module Aws::GeoRoutes
       api.add_operation(:calculate_route_matrix, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CalculateRouteMatrix"
         o.http_method = "POST"
-        o.http_request_uri = "/route-matrix"
+        o.http_request_uri = "/v2/route-matrix"
         o.input = Shapes::ShapeRef.new(shape: CalculateRouteMatrixRequest)
         o.output = Shapes::ShapeRef.new(shape: CalculateRouteMatrixResponse)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
@@ -1911,7 +2473,7 @@ module Aws::GeoRoutes
       api.add_operation(:calculate_routes, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CalculateRoutes"
         o.http_method = "POST"
-        o.http_request_uri = "/routes"
+        o.http_request_uri = "/v2/routes"
         o.input = Shapes::ShapeRef.new(shape: CalculateRoutesRequest)
         o.output = Shapes::ShapeRef.new(shape: CalculateRoutesResponse)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
@@ -1923,7 +2485,7 @@ module Aws::GeoRoutes
       api.add_operation(:optimize_waypoints, Seahorse::Model::Operation.new.tap do |o|
         o.name = "OptimizeWaypoints"
         o.http_method = "POST"
-        o.http_request_uri = "/optimize-waypoints"
+        o.http_request_uri = "/v2/optimize-waypoints"
         o.input = Shapes::ShapeRef.new(shape: OptimizeWaypointsRequest)
         o.output = Shapes::ShapeRef.new(shape: OptimizeWaypointsResponse)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
@@ -1935,7 +2497,7 @@ module Aws::GeoRoutes
       api.add_operation(:snap_to_roads, Seahorse::Model::Operation.new.tap do |o|
         o.name = "SnapToRoads"
         o.http_method = "POST"
-        o.http_request_uri = "/snap-to-roads"
+        o.http_request_uri = "/v2/snap-to-roads"
         o.input = Shapes::ShapeRef.new(shape: SnapToRoadsRequest)
         o.output = Shapes::ShapeRef.new(shape: SnapToRoadsResponse)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)

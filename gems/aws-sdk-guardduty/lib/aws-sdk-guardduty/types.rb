@@ -10654,6 +10654,22 @@ module Aws::GuardDuty
     #   were found.
     #   @return [String]
     #
+    # @!attribute [rw] file_operation
+    #   Represents the type of file operation that triggered the finding,
+    #   such as Write, Delete, Rename, Link, or Symlink.
+    #   @return [String]
+    #
+    # @!attribute [rw] file_path
+    #   The path of the sensitive file that was modified. Modification
+    #   includes write, delete, rename, link, or symlink operations. This
+    #   field is indexed for filtering.
+    #   @return [String]
+    #
+    # @!attribute [rw] related_file_paths
+    #   All file paths modified by the same process that triggered the
+    #   finding, up to a maximum of 25 paths.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/RuntimeContext AWS API Documentation
     #
     class RuntimeContext < Struct.new(
@@ -10681,7 +10697,10 @@ module Aws::GuardDuty
       :tool_category,
       :service_name,
       :command_line_example,
-      :threat_file_path)
+      :threat_file_path,
+      :file_operation,
+      :file_path,
+      :related_file_paths)
       SENSITIVE = []
       include Aws::Structure
     end

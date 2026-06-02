@@ -374,6 +374,7 @@ module Aws
   autoload :SageMakerRuntime, 'aws-sdk-sagemakerruntime'
   autoload :SageMakerRuntimeHTTP2, 'aws-sdk-sagemakerruntimehttp2'
   autoload :SagemakerEdgeManager, 'aws-sdk-sagemakeredgemanager'
+  autoload :SagemakerJobRuntime, 'aws-sdk-sagemakerjobruntime'
   autoload :SavingsPlans, 'aws-sdk-savingsplans'
   autoload :Scheduler, 'aws-sdk-scheduler'
   autoload :Schemas, 'aws-sdk-schemas'

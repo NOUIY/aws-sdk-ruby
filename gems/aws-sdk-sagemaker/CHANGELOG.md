@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.370.0 (2026-06-02)
+------------------
+
+* Feature - Amazon SageMaker Job is a new service to help you manage various workloads related to model fine tuning, evaluation etc. Two job categories are supported today, AgentRFT for multi-turn agentic reinforcement fine tuning, and AgentRFTEvaluation for evaluating base model or trained model from AgentRFT.
+
 1.369.0 (2026-05-27)
 ------------------
 

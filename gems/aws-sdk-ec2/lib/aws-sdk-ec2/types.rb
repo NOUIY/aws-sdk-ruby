@@ -4672,11 +4672,28 @@ module Aws::EC2
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
     #   @return [Boolean]
     #
+    # @!attribute [rw] apply_cancellation_charges
+    #   Specifies the cancellation charge type to apply when cancelling a
+    #   future-dated Capacity Reservation during its commitment duration.
+    #   Possible values include `commitment-wind-down`, which continues
+    #   billing for the remaining commitment duration without delivering
+    #   capacity.
+    #   @return [String]
+    #
+    # @!attribute [rw] quote_id
+    #   The ID of the cancellation quote to use for the cancellation. You
+    #   can generate a cancellation quote by using the
+    #   `CreateCapacityReservationCancellationQuote` action. The
+    #   cancellation quote must be in an `active` state.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CancelCapacityReservationRequest AWS API Documentation
     #
     class CancelCapacityReservationRequest < Struct.new(
       :capacity_reservation_id,
-      :dry_run)
+      :dry_run,
+      :apply_cancellation_charges,
+      :quote_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5022,6 +5039,43 @@ module Aws::EC2
     #
     class CancelSpotInstanceRequestsResult < Struct.new(
       :cancelled_spot_instance_requests)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the cancellation terms for cancelling a future-dated
+    # Capacity Reservation during its commitment duration.
+    #
+    # @!attribute [rw] cancellation_type
+    #   The type of cancellation charge. Possible values include
+    #   `commitment-wind-down`.
+    #   @return [String]
+    #
+    # @!attribute [rw] reservation_state
+    #   The state that the Capacity Reservation will transition to after
+    #   cancellation.
+    #   @return [String]
+    #
+    # @!attribute [rw] committed_instance_count
+    #   The number of instances under commitment after cancellation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] charge_commitment_duration_hours
+    #   The number of hours for which cancellation charges will apply.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] charge_end_date
+    #   The date and time at which cancellation charges will stop.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CancellationTerms AWS API Documentation
+    #
+    class CancellationTerms < Struct.new(
+      :cancellation_type,
+      :reservation_state,
+      :committed_instance_count,
+      :charge_commitment_duration_hours,
+      :charge_end_date)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5874,6 +5928,12 @@ module Aws::EC2
     #     can't support the future-dated Capacity Reservation request due
     #     to capacity constraints. You can view unsupported requests for 30
     #     days. The Capacity Reservation will not be delivered.
+    #
+    #   * `cancelling` - (*Future-dated Capacity Reservations*) The Capacity
+    #     Reservation is being cancelled. Capacity has been released but
+    #     charges continue for the commitment wind-down period. The
+    #     reservation transitions to `cancelled` when the wind-down
+    #     completes.
     #   @return [String]
     #
     # @!attribute [rw] start_date
@@ -6083,6 +6143,60 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # Describes a Capacity Reservation cancellation quote, which provides
+    # the cancellation terms for cancelling a future-dated Capacity
+    # Reservation during its commitment duration.
+    #
+    # @!attribute [rw] capacity_reservation_cancellation_quote_id
+    #   The ID of the cancellation quote.
+    #   @return [String]
+    #
+    # @!attribute [rw] capacity_reservation_id
+    #   The ID of the Capacity Reservation associated with the cancellation
+    #   quote.
+    #   @return [String]
+    #
+    # @!attribute [rw] create_time
+    #   The date and time at which the cancellation quote was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] expiration_time
+    #   The date and time at which the cancellation quote expires.
+    #   @return [Time]
+    #
+    # @!attribute [rw] quote_state
+    #   The state of the cancellation quote. Possible values include
+    #   `pending`, `active`, and `expired`.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_configuration
+    #   The current configuration of the Capacity Reservation.
+    #   @return [Types::CapacityReservationConfiguration]
+    #
+    # @!attribute [rw] cancellation_terms
+    #   The cancellation terms associated with the quote, including the fee
+    #   type and charge details.
+    #   @return [Array<Types::CancellationTerms>]
+    #
+    # @!attribute [rw] tags
+    #   The tags assigned to the cancellation quote.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CapacityReservationCancellationQuote AWS API Documentation
+    #
+    class CapacityReservationCancellationQuote < Struct.new(
+      :capacity_reservation_cancellation_quote_id,
+      :capacity_reservation_id,
+      :create_time,
+      :expiration_time,
+      :quote_state,
+      :current_configuration,
+      :cancellation_terms,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information about your commitment for a future-dated Capacity
     # Reservation.
     #
@@ -6103,6 +6217,25 @@ module Aws::EC2
     class CapacityReservationCommitmentInfo < Struct.new(
       :committed_instance_count,
       :commitment_end_date)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the configuration of a Capacity Reservation.
+    #
+    # @!attribute [rw] instance_count
+    #   The number of instances in the Capacity Reservation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] reservation_state
+    #   The current state of the Capacity Reservation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CapacityReservationConfiguration AWS API Documentation
+    #
+    class CapacityReservationConfiguration < Struct.new(
+      :instance_count,
+      :reservation_state)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7891,8 +8024,10 @@ module Aws::EC2
     #
     # @!attribute [rw] tcp_established_timeout
     #   Timeout (in seconds) for idle TCP connections in an established
-    #   state. Min: 60 seconds. Max: 432000 seconds (5 days). Default:
-    #   432000 seconds. Recommended: Less than 432000 seconds.
+    #   state. Min: 60 seconds. Max: 432000 seconds (5 days). Default: 350
+    #   seconds for Nitro v6 instance types (excluding P6e-GB200); 432000
+    #   seconds for all other instance types (including P6e-GB200).
+    #   Recommended: Less than 432000 seconds.
     #   @return [Integer]
     #
     # @!attribute [rw] udp_stream_timeout
@@ -7928,8 +8063,10 @@ module Aws::EC2
     #
     # @!attribute [rw] tcp_established_timeout
     #   Timeout (in seconds) for idle TCP connections in an established
-    #   state. Min: 60 seconds. Max: 432000 seconds (5 days). Default:
-    #   432000 seconds. Recommended: Less than 432000 seconds.
+    #   state. Min: 60 seconds. Max: 432000 seconds (5 days). Default: 350
+    #   seconds for Nitro v6 instance types (excluding P6e-GB200); 432000
+    #   seconds for all other instance types (including P6e-GB200).
+    #   Recommended: Less than 432000 seconds.
     #   @return [Integer]
     #
     # @!attribute [rw] udp_timeout
@@ -7965,8 +8102,10 @@ module Aws::EC2
     #
     # @!attribute [rw] tcp_established_timeout
     #   Timeout (in seconds) for idle TCP connections in an established
-    #   state. Min: 60 seconds. Max: 432000 seconds (5 days). Default:
-    #   432000 seconds. Recommended: Less than 432000 seconds.
+    #   state. Min: 60 seconds. Max: 432000 seconds (5 days). Default: 350
+    #   seconds for Nitro v6 instance types (excluding P6e-GB200); 432000
+    #   seconds for all other instance types (including P6e-GB200).
+    #   Recommended: Less than 432000 seconds.
     #   @return [Integer]
     #
     # @!attribute [rw] udp_stream_timeout
@@ -8002,8 +8141,10 @@ module Aws::EC2
     #
     # @!attribute [rw] tcp_established_timeout
     #   Timeout (in seconds) for idle TCP connections in an established
-    #   state. Min: 60 seconds. Max: 432000 seconds (5 days). Default:
-    #   432000 seconds. Recommended: Less than 432000 seconds.
+    #   state. Min: 60 seconds. Max: 432000 seconds (5 days). Default: 350
+    #   seconds for Nitro v6 instance types (excluding P6e-GB200); 432000
+    #   seconds for all other instance types (including P6e-GB200).
+    #   Recommended: Less than 432000 seconds.
     #   @return [Integer]
     #
     # @!attribute [rw] udp_stream_timeout
@@ -8902,6 +9043,57 @@ module Aws::EC2
       :source_capacity_reservation,
       :destination_capacity_reservation,
       :instance_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] capacity_reservation_id
+    #   The ID of the Capacity Reservation.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   Unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. For more information, see [Ensure
+    #   Idempotency][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #   @return [String]
+    #
+    # @!attribute [rw] tag_specifications
+    #   The tags to apply to the cancellation quote.
+    #   @return [Array<Types::TagSpecification>]
+    #
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateCapacityReservationCancellationQuoteRequest AWS API Documentation
+    #
+    class CreateCapacityReservationCancellationQuoteRequest < Struct.new(
+      :capacity_reservation_id,
+      :client_token,
+      :tag_specifications,
+      :dry_run)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] capacity_reservation_cancellation_quote
+    #   Information about the Capacity Reservation cancellation quote.
+    #   @return [Types::CapacityReservationCancellationQuote]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateCapacityReservationCancellationQuoteResult AWS API Documentation
+    #
+    class CreateCapacityReservationCancellationQuoteResult < Struct.new(
+      :capacity_reservation_cancellation_quote)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -22463,6 +22655,65 @@ module Aws::EC2
     class DescribeCapacityReservationBillingRequestsResult < Struct.new(
       :next_token,
       :capacity_reservation_billing_requests)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] capacity_reservation_cancellation_quote_ids
+    #   The IDs of the cancellation quotes to describe.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of items to return for this request. To get the
+    #   next page of items, make another request with the token returned in
+    #   the output. For more information, see [Pagination][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] filters
+    #   One or more filters. Filter names and values are case-sensitive.
+    #   @return [Array<Types::Filter>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeCapacityReservationCancellationQuotesRequest AWS API Documentation
+    #
+    class DescribeCapacityReservationCancellationQuotesRequest < Struct.new(
+      :capacity_reservation_cancellation_quote_ids,
+      :max_results,
+      :next_token,
+      :dry_run,
+      :filters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] capacity_reservation_cancellation_quotes
+    #   Information about the Capacity Reservation cancellation quotes.
+    #   @return [Array<Types::CapacityReservationCancellationQuote>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use to retrieve the next page of results. This value is
+    #   `null` when there are no more results to return.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeCapacityReservationCancellationQuotesResult AWS API Documentation
+    #
+    class DescribeCapacityReservationCancellationQuotesResult < Struct.new(
+      :capacity_reservation_cancellation_quotes,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -43968,6 +44219,12 @@ module Aws::EC2
     #     can't support the future-dated Capacity Reservation request due
     #     to capacity constraints. You can view unsupported requests for 30
     #     days. The Capacity Reservation will not be delivered.
+    #
+    #   * `cancelling` - (*Future-dated Capacity Reservations*) The Capacity
+    #     Reservation is being cancelled. Capacity has been released but
+    #     charges continue for the commitment wind-down period. The
+    #     reservation transitions to `cancelled` when the wind-down
+    #     completes.
     #   @return [String]
     #
     # @!attribute [rw] instance_usages

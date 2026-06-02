@@ -612,6 +612,7 @@ module Aws
             'SageMakerRuntime' => 'runtime.sagemaker',
             'SageMakerRuntimeHTTP2' => 'runtime.sagemaker',
             'SagemakerEdgeManager' => 'edge.sagemaker',
+            'SagemakerJobRuntime' => 'job-runtime.sagemaker',
             'SavingsPlans' => 'savingsplans',
             'Scheduler' => 'scheduler',
             'Schemas' => 'schemas',

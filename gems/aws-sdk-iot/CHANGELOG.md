@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.171.0 (2026-06-02)
+------------------
+
+* Feature - Fleet indexing documentation update
+
 1.170.0 (2026-06-01)
 ------------------
 

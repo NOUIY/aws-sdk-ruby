@@ -2729,16 +2729,13 @@ module Aws::ElastiCache
     #   @return [Boolean]
     #
     # @!attribute [rw] at_rest_encryption_enabled
-    #   A flag that enables encryption at rest when set to `true`.
+    #   A flag that enables encryption at-rest on the replication group when
+    #   set to `true`. In some cases, encryption at-rest may be enabled even
+    #   when this value is false. Use `StorageEncryptionType` to view the
+    #   effective encryption state of a cluster.
     #
     #   You cannot modify the value of `AtRestEncryptionEnabled` after the
-    #   replication group is created. To enable encryption at rest on a
-    #   replication group you must set `AtRestEncryptionEnabled` to `true`
-    #   when you create the replication group.
-    #
-    #   **Required:** Only available when creating a replication group in an
-    #   Amazon VPC using Valkey `7.2` and later, Redis OSS version `3.2.6`,
-    #   or Redis OSS `4.x` and later.
+    #   replication group is created.
     #
     #   Default: `true` when using Valkey, `false` when using Redis OSS
     #   @return [Boolean]
@@ -2823,6 +2820,18 @@ module Aws::ElastiCache
     #   Available for Valkey, Redis OSS only.
     #   @return [String]
     #
+    # @!attribute [rw] durability
+    #   Specifies the durability setting for the replication group. When set
+    #   to `default`, the service determines the effective durability based
+    #   on the engine version, cluster mode, and other parameters. The
+    #   resolved setting is reflected in the `EffectiveDurability` property
+    #   of the replication group. For more information, see [Durability][1].
+    #
+    #
+    #
+    #   [1]: http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/CreateReplicationGroupMessage AWS API Documentation
     #
     class CreateReplicationGroupMessage < Struct.new(
@@ -2864,7 +2873,8 @@ module Aws::ElastiCache
       :ip_discovery,
       :transit_encryption_mode,
       :cluster_mode,
-      :serverless_cache_snapshot_name)
+      :serverless_cache_snapshot_name,
+      :durability)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2959,7 +2969,7 @@ module Aws::ElastiCache
     # @!attribute [rw] network_type
     #   The IP protocol version used by the serverless cache. Must be either
     #   `ipv4` \| `ipv6` \| `dual_stack`. `ipv6` is only supported with
-    #   ipv6-only subnets. If not specified, defaults to `ipv4`, unless all
+    #   IPv6-only subnets. If not specified, defaults to `ipv4`, unless all
     #   provided subnets are IPv6-only, in which case it defaults to `ipv6`.
     #   @return [String]
     #
@@ -6602,6 +6612,17 @@ module Aws::ElastiCache
     #   mode to Enabled.
     #   @return [String]
     #
+    # @!attribute [rw] durability
+    #   Specifies the durability setting for the replication group. Use this
+    #   parameter to change the durability mode of an existing replication
+    #   group, for example from `sync` to `async` or vice versa. For more
+    #   information, see [Durability][1].
+    #
+    #
+    #
+    #   [1]: http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/ModifyReplicationGroupMessage AWS API Documentation
     #
     class ModifyReplicationGroupMessage < Struct.new(
@@ -6634,7 +6655,8 @@ module Aws::ElastiCache
       :ip_discovery,
       :transit_encryption_enabled,
       :transit_encryption_mode,
-      :cluster_mode)
+      :cluster_mode,
+      :durability)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7753,17 +7775,15 @@ module Aws::ElastiCache
     #   @return [Boolean]
     #
     # @!attribute [rw] at_rest_encryption_enabled
-    #   A flag that enables encryption at-rest when set to `true`.
+    #   A flag that enables encryption at-rest on the cluster when set to
+    #   `true`. In some cases, encryption at-rest may be enabled even when
+    #   this value is false. Use `StorageEncryptionType` to view the
+    #   effective encryption state of a cluster.
     #
     #   You cannot modify the value of `AtRestEncryptionEnabled` after the
-    #   cluster is created. To enable encryption at-rest on a cluster you
-    #   must set `AtRestEncryptionEnabled` to `true` when you create a
-    #   cluster.
+    #   cluster is created.
     #
-    #   **Required:** Only available when creating a replication group in an
-    #   Amazon VPC using Redis OSS version `3.2.6`, `4.x` or later.
-    #
-    #   Default: `false`
+    #   Default: `true` when using Valkey, `false` when using Redis OSS
     #   @return [Boolean]
     #
     # @!attribute [rw] member_clusters_outpost_arns
@@ -7772,6 +7792,13 @@ module Aws::ElastiCache
     #
     # @!attribute [rw] kms_key_id
     #   The ID of the KMS key used to encrypt the disk in the cluster.
+    #   @return [String]
+    #
+    # @!attribute [rw] storage_encryption_type
+    #   Indicates the type of encryption for data stored at rest in the
+    #   replication group. The value is `none` if at-rest encryption is not
+    #   enabled, `sse-elasticache` if an ElastiCache service-managed key is
+    #   used, or `sse-kms` if a customer-managed KMS key is used.
     #   @return [String]
     #
     # @!attribute [rw] arn
@@ -7850,6 +7877,27 @@ module Aws::ElastiCache
     #   memcached or redis.
     #   @return [String]
     #
+    # @!attribute [rw] durability
+    #   The durability setting of the replication group. For more
+    #   information, see [Durability][1].
+    #
+    #
+    #
+    #   [1]: http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html
+    #   @return [String]
+    #
+    # @!attribute [rw] effective_durability
+    #   The effective durability of the replication group. When `Durability`
+    #   is set to `default`, the service resolves the actual durability
+    #   based on the engine version, cluster mode, and other parameters.
+    #   This field reflects the resolved value. For more information, see
+    #   [Configuring Durability][1].
+    #
+    #
+    #
+    #   [1]: http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ConfiguringDurability.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/ReplicationGroup AWS API Documentation
     #
     class ReplicationGroup < Struct.new(
@@ -7874,6 +7922,7 @@ module Aws::ElastiCache
       :at_rest_encryption_enabled,
       :member_clusters_outpost_arns,
       :kms_key_id,
+      :storage_encryption_type,
       :arn,
       :user_group_ids,
       :log_delivery_configurations,
@@ -7884,7 +7933,9 @@ module Aws::ElastiCache
       :ip_discovery,
       :transit_encryption_mode,
       :cluster_mode,
-      :engine)
+      :engine,
+      :durability,
+      :effective_durability)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8611,6 +8662,13 @@ module Aws::ElastiCache
     #   that is used to encrypt data at rest in the serverless cache.
     #   @return [String]
     #
+    # @!attribute [rw] storage_encryption_type
+    #   Indicates the type of encryption for data stored at rest in the
+    #   serverless cache. Serverless caches are always encrypted at rest.
+    #   The value is `sse-elasticache` if an ElastiCache service-managed key
+    #   is used, or `sse-kms` if a customer-managed KMS key is used.
+    #   @return [String]
+    #
     # @!attribute [rw] security_group_ids
     #   The IDs of the EC2 security groups associated with the serverless
     #   cache.
@@ -8675,6 +8733,7 @@ module Aws::ElastiCache
       :full_engine_version,
       :cache_usage_limits,
       :kms_key_id,
+      :storage_encryption_type,
       :security_group_ids,
       :endpoint,
       :reader_endpoint,
@@ -9229,6 +9288,17 @@ module Aws::ElastiCache
     #   [1]: https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/data-tiering.html
     #   @return [String]
     #
+    # @!attribute [rw] durability
+    #   The durability setting of the cluster when the snapshot was taken.
+    #   When restoring from this snapshot, the cluster uses this durability
+    #   setting unless overridden in the restore request. For more
+    #   information, see [Durability][1].
+    #
+    #
+    #
+    #   [1]: http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/Snapshot AWS API Documentation
     #
     class Snapshot < Struct.new(
@@ -9259,7 +9329,8 @@ module Aws::ElastiCache
       :node_snapshots,
       :kms_key_id,
       :arn,
-      :data_tiering)
+      :data_tiering,
+      :durability)
       SENSITIVE = []
       include Aws::Structure
     end

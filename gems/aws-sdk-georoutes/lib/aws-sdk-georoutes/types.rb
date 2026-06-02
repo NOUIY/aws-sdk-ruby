@@ -347,7 +347,8 @@ module Aws::GeoRoutes
     #   @return [String]
     #
     # @!attribute [rw] destinations
-    #   List of destinations for the route.
+    #   List of destinations for the route in World Geodetic System (WGS 84)
+    #   format: \[longitude, latitude\].
     #
     #   <note markdown="1"> Route calculations are billed for each origin and destination pair.
     #   If you use a large matrix of origins and destinations, your costs
@@ -356,9 +357,30 @@ module Aws::GeoRoutes
     #
     #    </note>
     #
+    #   The maximum number of destinations depends on the routing boundary
+    #   configuration:
+    #
+    #   * With `RoutingBoundary.Geometry` set: maximum 500 destinations
+    #
+    #   * With `RoutingBoundary.Unbounded` set to `true`: maximum 100
+    #     destinations
+    #
+    #   * For [GrabMaps][2] customers in `ap-southeast-1` and
+    #     `ap-southeast-5`: maximum 350 destinations
+    #
+    #   The total matrix size (origins × destinations) must not exceed:
+    #
+    #   * With `RoutingBoundary.Geometry`: 160,000
+    #
+    #   * With `RoutingBoundary.Unbounded`: 100
+    #
+    #   * For [GrabMaps][2] customers in `ap-southeast-1` and
+    #     `ap-southeast-5`: 122,500
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html
+    #   [2]: https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html
     #   @return [Array<Types::RouteMatrixDestination>]
     #
     # @!attribute [rw] exclude
@@ -385,7 +407,7 @@ module Aws::GeoRoutes
     #   @return [String]
     #
     # @!attribute [rw] origins
-    #   The position for the origin in World Geodetic System (WGS 84)
+    #   List of origins for the route in World Geodetic System (WGS 84)
     #   format: \[longitude, latitude\].
     #
     #   <note markdown="1"> Route calculations are billed for each origin and destination pair.
@@ -395,9 +417,29 @@ module Aws::GeoRoutes
     #
     #    </note>
     #
+    #   The maximum number of origins depends on the routing boundary
+    #   configuration:
+    #
+    #   * With `RoutingBoundary.Geometry` set: maximum 500 origins
+    #
+    #   * With `RoutingBoundary.Unbounded` set to `true`: maximum 15 origins
+    #
+    #   * For [GrabMaps][2] customers in `ap-southeast-1` and
+    #     `ap-southeast-5`: maximum 350 origins
+    #
+    #   The total matrix size (origins × destinations) must not exceed:
+    #
+    #   * With `RoutingBoundary.Geometry`: 160,000
+    #
+    #   * With `RoutingBoundary.Unbounded`: 100
+    #
+    #   * For [GrabMaps][2] customers in `ap-southeast-1` and
+    #     `ap-southeast-5`: 122,500
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html
+    #   [2]: https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html
     #   @return [Array<Types::RouteMatrixOrigin>]
     #
     # @!attribute [rw] routing_boundary
@@ -408,8 +450,8 @@ module Aws::GeoRoutes
     #
     #   Default value: `Unbounded set to true`
     #
-    #   <note markdown="1"> When request routing boundary was set as AutoCircle, the response
-    #   routing boundary will return Circle derived from the AutoCircle
+    #   <note markdown="1"> When `AutoCircle` is set in the request, the response routing
+    #   boundary will return `Circle` derived from the `AutoCircle`
     #   settings.
     #
     #    </note>
@@ -492,8 +534,8 @@ module Aws::GeoRoutes
     #   origins and destinations outside the boundary are considered
     #   invalid.
     #
-    #   <note markdown="1"> When request routing boundary was set as AutoCircle, the response
-    #   routing boundary will return Circle derived from the AutoCircle
+    #   <note markdown="1"> When `AutoCircle` is set in the request, the response routing
+    #   boundary will return `Circle` derived from the `AutoCircle`
     #   settings.
     #
     #    </note>
@@ -859,8 +901,13 @@ module Aws::GeoRoutes
       include Aws::Structure
     end
 
-    # Geometry defined as a circle. When request routing boundary was set as
-    # `AutoCircle`, the response routing boundary will return `Circle`
+    # Geometry defined as a circle. The circle defines the routing boundary
+    # area. Any waypoints outside the circle will result in a route matrix
+    # entry error.
+    #
+    # You can specify a `Circle` directly in the request, or it will be
+    # auto-derived when `AutoCircle` is used. When `AutoCircle` is set in
+    # the request, the response routing boundary will return `Circle`
     # derived from the `AutoCircle` settings.
     #
     # @!attribute [rw] center
@@ -875,6 +922,8 @@ module Aws::GeoRoutes
     #   Radius of the Circle.
     #
     #   **Unit**: `meters`
+    #
+    #   Valid Range: Minimum value of 0. Maximum value of 200000.
     #   @return [Float]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/Circle AWS API Documentation
@@ -2033,7 +2082,16 @@ module Aws::GeoRoutes
     #   @return [Types::WaypointOptimizationTravelModeOptions]
     #
     # @!attribute [rw] waypoints
-    #   List of waypoints between the `Origin` and `Destination`.
+    #   List of waypoints between the `Origin` and `Destination`, in World
+    #   Geodetic System (WGS 84) format: \[longitude, latitude\].
+    #
+    #   The maximum number of waypoints allowed per request:
+    #
+    #   * Maximum 50 waypoints per request
+    #
+    #   * Maximum 20 waypoints when using constraints (`AccessHours`,
+    #     `AppointmentTime`, `ServiceDuration`, `Heading`, `SideOfStreet`,
+    #     `Before`)
     #   @return [Array<Types::WaypointOptimizationWaypoint>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/OptimizeWaypointsRequest AWS API Documentation
@@ -2382,6 +2440,34 @@ module Aws::GeoRoutes
       include Aws::Structure
     end
 
+    # Details of the access point.
+    #
+    # @!attribute [rw] accessibility
+    #   Wheelchair accessibility information for the access point.
+    #   @return [Types::RouteAccessibilityAvailabilityDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteAccessPointDetails AWS API Documentation
+    #
+    class RouteAccessPointDetails < Struct.new(
+      :accessibility)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details about the availability of accessibility features.
+    #
+    # @!attribute [rw] wheelchair
+    #   Wheelchair accessibility status.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteAccessibilityAvailabilityDetails AWS API Documentation
+    #
+    class RouteAccessibilityAvailabilityDetails < Struct.new(
+      :wheelchair)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Features that are allowed while calculating a route.
     #
     # @!attribute [rw] hot
@@ -2403,6 +2489,25 @@ module Aws::GeoRoutes
       :hot,
       :hov)
       SENSITIVE = [:hot, :hov]
+      include Aws::Structure
+    end
+
+    # Required attribution to display.
+    #
+    # @!attribute [rw] attribution_type
+    #   The type of the attribution link.
+    #   @return [String]
+    #
+    # @!attribute [rw] web_link
+    #   The URL to an external resource.
+    #   @return [Types::RouteWebLink]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteAttribution AWS API Documentation
+    #
+    class RouteAttribution < Struct.new(
+      :attribution_type,
+      :web_link)
+      SENSITIVE = [:attribution_type]
       include Aws::Structure
     end
 
@@ -2679,6 +2784,34 @@ module Aws::GeoRoutes
       include Aws::Structure
     end
 
+    # Details about the EV charge at the current step.
+    #
+    # @!attribute [rw] arrival_charge
+    #   Estimated vehicle battery charge before this step (in kWh).
+    #   @return [Float]
+    #
+    # @!attribute [rw] consumable_power
+    #   Maximum charging power available to the vehicle.
+    #
+    #   **Unit**: `KwH`
+    #   @return [Float]
+    #
+    # @!attribute [rw] desired_charge
+    #   Details that are specific to a Charge step.
+    #
+    #   **Unit**: `KwH`
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteChargeStepDetails AWS API Documentation
+    #
+    class RouteChargeStepDetails < Struct.new(
+      :arrival_charge,
+      :consumable_power,
+      :desired_charge)
+      SENSITIVE = [:arrival_charge, :consumable_power, :desired_charge]
+      include Aws::Structure
+    end
+
     # Details related to the continue highway step.
     #
     # @!attribute [rw] intersection
@@ -2945,11 +3078,11 @@ module Aws::GeoRoutes
     # Details corresponding to the arrival for the leg.
     #
     # @!attribute [rw] place
-    #   The place details.
+    #   Place details corresponding to the arrival.
     #   @return [Types::RouteFerryPlace]
     #
     # @!attribute [rw] time
-    #   The time.
+    #   The arrival time.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteFerryArrival AWS API Documentation
@@ -2995,11 +3128,11 @@ module Aws::GeoRoutes
     # Details corresponding to the departure for the leg.
     #
     # @!attribute [rw] place
-    #   The place details.
+    #   Place details corresponding to the departure.
     #   @return [Types::RouteFerryPlace]
     #
     # @!attribute [rw] time
-    #   The time.
+    #   The departure time.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteFerryDeparture AWS API Documentation
@@ -3098,14 +3231,16 @@ module Aws::GeoRoutes
       include Aws::Structure
     end
 
-    # Summarized details of the leg.
+    # Summary including duration and distance for the entire leg.
     #
     # @!attribute [rw] distance
-    #   Distance of the step.
+    #   Distance of the entire leg.
+    #
+    #   **Unit**: `meters`
     #   @return [Integer]
     #
     # @!attribute [rw] duration
-    #   Duration of the step.
+    #   Duration of the entire leg.
     #
     #   **Unit**: `seconds`
     #   @return [Integer]
@@ -3174,7 +3309,7 @@ module Aws::GeoRoutes
     #   @return [Integer]
     #
     # @!attribute [rw] names
-    #   Provides an array of names of the ferry span in available languages.
+    #   Names of the ferry span in available languages.
     #   @return [Array<Types::LocalizedString>]
     #
     # @!attribute [rw] region
@@ -3278,6 +3413,242 @@ module Aws::GeoRoutes
       include Aws::Structure
     end
 
+    # Options related to intermodal routing.
+    #
+    # <note markdown="1"> Not supported in `ap-southeast-1` and `ap-southeast-5` regions for
+    # [GrabMaps][1] customers.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html
+    #
+    # @!attribute [rw] accessibility_attributes
+    #   Accessibility attributes to consider when calculating the route.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] max_transfers
+    #   Maximum number of transfers allowed when calculating the route.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] pedestrian
+    #   Options for the pedestrian leg of the intermodal route.
+    #   @return [Types::RouteIntermodalPedestrianOptions]
+    #
+    # @!attribute [rw] rental
+    #   Options for the rental leg of the intermodal route.
+    #   @return [Types::RouteIntermodalRentalOptions]
+    #
+    # @!attribute [rw] taxi
+    #   Options for the taxi leg of the intermodal route.
+    #   @return [Types::RouteIntermodalTaxiOptions]
+    #
+    # @!attribute [rw] transit
+    #   Options for the transit leg of the intermodal route.
+    #   @return [Types::RouteIntermodalTransitOptions]
+    #
+    # @!attribute [rw] vehicle
+    #   Options for the vehicle leg of the intermodal route.
+    #   @return [Types::RouteIntermodalVehicleOptions]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteIntermodalOptions AWS API Documentation
+    #
+    class RouteIntermodalOptions < Struct.new(
+      :accessibility_attributes,
+      :max_transfers,
+      :pedestrian,
+      :rental,
+      :taxi,
+      :transit,
+      :vehicle)
+      SENSITIVE = [:accessibility_attributes]
+      include Aws::Structure
+    end
+
+    # Options for the pedestrian leg of the intermodal route.
+    #
+    # @!attribute [rw] max_distance
+    #   Maximum walking distance allowed.
+    #
+    #   **Unit**: `meters`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] speed
+    #   Walking speed.
+    #
+    #   **Unit**: `kilometers per hour`
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteIntermodalPedestrianOptions AWS API Documentation
+    #
+    class RouteIntermodalPedestrianOptions < Struct.new(
+      :max_distance,
+      :speed)
+      SENSITIVE = [:max_distance, :speed]
+      include Aws::Structure
+    end
+
+    # Options for the rental leg of the intermodal route.
+    #
+    # @!attribute [rw] allowed_modes
+    #   Allowed rental transport modes when calculating the route. By
+    #   default, all transport modes are allowed. Cannot be used together
+    #   with `ExcludedModes`.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] enabled_for
+    #   Specifies the portion of the route for which this leg type is
+    #   enabled. By default, the leg type is enabled for all legs. Valid
+    #   values:
+    #
+    #   * `FirstLeg` - Enable this leg type for the first non-pedestrian leg
+    #     of the route.
+    #
+    #   * `LastLeg` - Enable this leg type for the last non-pedestrian leg
+    #     of the route.
+    #
+    #   * `EntireRoute` - Enable this leg type for the entire route.
+    #
+    #   * `None` - Disable this leg type entirely.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] excluded_modes
+    #   Excluded rental transport modes when calculating the route. By
+    #   default, all transport modes are allowed. Cannot be used together
+    #   with `AllowedModes`.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteIntermodalRentalOptions AWS API Documentation
+    #
+    class RouteIntermodalRentalOptions < Struct.new(
+      :allowed_modes,
+      :enabled_for,
+      :excluded_modes)
+      SENSITIVE = [:allowed_modes, :enabled_for, :excluded_modes]
+      include Aws::Structure
+    end
+
+    # Options for the taxi leg of the intermodal route.
+    #
+    # @!attribute [rw] allowed_modes
+    #   Allowed taxi transport modes when calculating the route. By default,
+    #   all transport modes are allowed. Cannot be used together with
+    #   `ExcludedModes`.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] enabled_for
+    #   Specifies the portion of the route for which this leg type is
+    #   enabled. By default, the leg type is enabled for all legs. Valid
+    #   values:
+    #
+    #   * `FirstLeg` - Enable this leg type for the first non-pedestrian leg
+    #     of the route.
+    #
+    #   * `LastLeg` - Enable this leg type for the last non-pedestrian leg
+    #     of the route.
+    #
+    #   * `EntireRoute` - Enable this leg type for the entire route.
+    #
+    #   * `None` - Disable this leg type entirely.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] excluded_modes
+    #   Excluded taxi transport modes when calculating the route. By
+    #   default, all transport modes are allowed. Cannot be used together
+    #   with `AllowedModes`.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteIntermodalTaxiOptions AWS API Documentation
+    #
+    class RouteIntermodalTaxiOptions < Struct.new(
+      :allowed_modes,
+      :enabled_for,
+      :excluded_modes)
+      SENSITIVE = [:allowed_modes, :enabled_for, :excluded_modes]
+      include Aws::Structure
+    end
+
+    # Options for the transit leg of the intermodal route.
+    #
+    # @!attribute [rw] allowed_modes
+    #   Allowed transit transport modes when calculating the route. By
+    #   default, all transport modes are allowed. Cannot be used together
+    #   with `ExcludedModes`.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] enabled_for
+    #   Specifies the portion of the route for which this leg type is
+    #   enabled. By default, the leg type is enabled for all legs. Valid
+    #   values:
+    #
+    #   * `FirstLeg` - Enable this leg type for the first non-pedestrian leg
+    #     of the route.
+    #
+    #   * `LastLeg` - Enable this leg type for the last non-pedestrian leg
+    #     of the route.
+    #
+    #   * `EntireRoute` - Enable this leg type for the entire route.
+    #
+    #   * `None` - Disable this leg type entirely.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] excluded_modes
+    #   Excluded transit transport modes when calculating the route. By
+    #   default, all transport modes are allowed. Cannot be used together
+    #   with `AllowedModes`.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteIntermodalTransitOptions AWS API Documentation
+    #
+    class RouteIntermodalTransitOptions < Struct.new(
+      :allowed_modes,
+      :enabled_for,
+      :excluded_modes)
+      SENSITIVE = [:allowed_modes, :enabled_for, :excluded_modes]
+      include Aws::Structure
+    end
+
+    # Options for the vehicle leg of the intermodal route.
+    #
+    # @!attribute [rw] allowed_modes
+    #   Allowed vehicle transport modes when calculating the route. By
+    #   default, all transport modes are allowed. Cannot be used together
+    #   with `ExcludedModes`.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] enabled_for
+    #   Specifies the portion of the route for which this leg type is
+    #   enabled. By default, the leg type is enabled for all legs. Valid
+    #   values:
+    #
+    #   * `FirstLeg` - Enable this leg type for the first non-pedestrian leg
+    #     of the route.
+    #
+    #   * `LastLeg` - Enable this leg type for the last non-pedestrian leg
+    #     of the route.
+    #
+    #   * `EntireRoute` - Enable this leg type for the entire route.
+    #
+    #   * `None` - Disable this leg type entirely.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] excluded_modes
+    #   Excluded vehicle transport modes when calculating the route. By
+    #   default, all transport modes are allowed. Cannot be used together
+    #   with `AllowedModes`.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteIntermodalVehicleOptions AWS API Documentation
+    #
+    class RouteIntermodalVehicleOptions < Struct.new(
+      :allowed_modes,
+      :enabled_for,
+      :excluded_modes)
+      SENSITIVE = [:allowed_modes, :enabled_for, :excluded_modes]
+      include Aws::Structure
+    end
+
     # Details that are specific to a Keep step.
     #
     # @!attribute [rw] intersection
@@ -3358,6 +3729,36 @@ module Aws::GeoRoutes
     #   Details related to the vehicle leg.
     #   @return [Types::RouteVehicleLegDetails]
     #
+    # @!attribute [rw] rental_leg_details
+    #   Details related to the rental leg.
+    #
+    #   <note markdown="1"> Not supported in `ap-southeast-1` and `ap-southeast-5` regions for
+    #   [GrabMaps][1] customers.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html
+    #   @return [Types::RouteRentalLegDetails]
+    #
+    # @!attribute [rw] taxi_leg_details
+    #   Details related to the taxi leg.
+    #
+    #   <note markdown="1"> Not supported in `ap-southeast-1` and `ap-southeast-5` regions for
+    #   [GrabMaps][1] customers.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html
+    #   @return [Types::RouteTaxiLegDetails]
+    #
+    # @!attribute [rw] transit_leg_details
+    #   Details related to the transit leg.
+    #   @return [Types::RouteTransitLegDetails]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteLeg AWS API Documentation
     #
     class RouteLeg < Struct.new(
@@ -3367,7 +3768,10 @@ module Aws::GeoRoutes
       :pedestrian_leg_details,
       :travel_mode,
       :type,
-      :vehicle_leg_details)
+      :vehicle_leg_details,
+      :rental_leg_details,
+      :taxi_leg_details,
+      :transit_leg_details)
       SENSITIVE = [:travel_mode, :type]
       include Aws::Structure
     end
@@ -3484,14 +3888,34 @@ module Aws::GeoRoutes
       include Aws::Structure
     end
 
-    # Provides the circle that was used while calculating the route.
+    # `AutoCircle` requests the route matrix service to define a `Circle`
+    # boundary that best attempts to include most waypoints (`Origins` and
+    # `Destinations`) using the `AutoCircle` settings. Any waypoints outside
+    # of the auto-defined `Circle` boundary will be considered out of the
+    # routing boundary, which results in a route matrix entry error.
+    #
+    # `AutoCircle` is only used in the request to configure a `Circle` for
+    # the route calculation. The derived `Circle` will also be provided in
+    # the response.
     #
     # @!attribute [rw] margin
-    #   The margin provided for the calculation.
+    #   The minimal distance, in meters, between any waypoint and the
+    #   perimeter of the circle auto-defined for the boundary. Some margin
+    #   is usually recommended so that the routing has enough leeway to
+    #   travel from one waypoint to another optimally without conflicting
+    #   with the routing boundary.
+    #
+    #   The total of `MaxRadius` and `Margin` must be less than or equal to
+    #   200,000 meters.
     #   @return [Integer]
     #
     # @!attribute [rw] max_radius
-    #   The maximum size of the radius provided for the calculation.
+    #   The maximum radius, in meters, that the auto-defined `Circle`
+    #   boundary should have, before the `Margin` distance is added to the
+    #   circle.
+    #
+    #   The total of `MaxRadius` and `Margin` must be less than or equal to
+    #   200,000 meters.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteMatrixAutoCircle AWS API Documentation
@@ -3666,12 +4090,26 @@ module Aws::GeoRoutes
     # Geometry of the routing boundary.
     #
     # @!attribute [rw] auto_circle
-    #   Provides the circle that was used while calculating the route.
+    #   `AutoCircle` requests the route matrix service to define a `Circle`
+    #   boundary that best attempts to include most waypoints (`Origins` and
+    #   `Destinations`) using the `AutoCircle` settings. Any waypoints
+    #   outside of the auto-defined `Circle` boundary will be considered out
+    #   of the routing boundary, which results in a route matrix entry
+    #   error.
+    #
+    #   `AutoCircle` is only used in the request to configure a `Circle` for
+    #   the route calculation. The derived `Circle` will also be provided in
+    #   the response.
     #   @return [Types::RouteMatrixAutoCircle]
     #
     # @!attribute [rw] circle
-    #   Geometry defined as a circle. When request routing boundary was set
-    #   as `AutoCircle`, the response routing boundary will return `Circle`
+    #   Geometry defined as a circle. The circle defines the routing
+    #   boundary area. Any waypoints outside the circle will result in a
+    #   route matrix entry error.
+    #
+    #   You can specify a `Circle` directly in the request, or it will be
+    #   auto-derived when `AutoCircle` is used. When `AutoCircle` is set in
+    #   the request, the response routing boundary will return `Circle`
     #   derived from the `AutoCircle` settings.
     #   @return [Types::Circle]
     #
@@ -3680,10 +4118,23 @@ module Aws::GeoRoutes
     #   and Y coordinates (longitude and latitude,) of the southwest corner
     #   of the bounding box; the second pair represents the X and Y
     #   coordinates (longitude and latitude) of the northeast corner.
+    #
+    #   Diagonal distance of the bounding box must be less than or equal to
+    #   400,000 meters.
     #   @return [Array<Float>]
     #
     # @!attribute [rw] polygon
-    #   Geometry defined as a polygon with only one linear ring.
+    #   Geometry defined as a polygon with only one linear ring. A linear
+    #   ring is a closed sequence of four or more coordinates. The first and
+    #   last coordinates are the same, forming a closed boundary. Each
+    #   coordinate is a position in \[longitude, latitude\] format.
+    #
+    #   The structure is an array of linear rings (only 1 allowed). Each
+    #   linear ring is an array of coordinates (minimum 4), and each
+    #   coordinate is an array of two doubles \[longitude, latitude\].
+    #
+    #   Maximum distance between any two vertices must be less than or equal
+    #   to 400,000 meters.
     #   @return [Array<Array<Array<Float>>>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteMatrixBoundaryGeometry AWS API Documentation
@@ -4321,7 +4772,7 @@ module Aws::GeoRoutes
     #   @return [Integer]
     #
     # @!attribute [rw] place
-    #   The place details.
+    #   Place details corresponding to the pass-through waypoint.
     #   @return [Types::RoutePassThroughPlace]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RoutePassThroughWaypoint AWS API Documentation
@@ -4330,6 +4781,37 @@ module Aws::GeoRoutes
       :geometry_offset,
       :place)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Steps of a leg that must be performed after the travel portion of the
+    # leg.
+    #
+    # @!attribute [rw] duration
+    #   Duration of the step.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] instruction
+    #   Brief description of the step in the requested language.
+    #
+    #   <note markdown="1"> Only available when the TravelStepType is Default.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   Type of the step.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RoutePedestrianAfterTravelStep AWS API Documentation
+    #
+    class RoutePedestrianAfterTravelStep < Struct.new(
+      :duration,
+      :instruction,
+      :type)
+      SENSITIVE = [:duration, :instruction, :type]
       include Aws::Structure
     end
 
@@ -4344,11 +4826,11 @@ module Aws::GeoRoutes
     # `2020-04-22T17:57:24+02:00`
     #
     # @!attribute [rw] place
-    #   The place details.
+    #   Place details corresponding to the arrival.
     #   @return [Types::RoutePedestrianPlace]
     #
     # @!attribute [rw] time
-    #   The time.
+    #   The arrival time.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RoutePedestrianArrival AWS API Documentation
@@ -4371,11 +4853,11 @@ module Aws::GeoRoutes
     # `2020-04-22T17:57:24+02:00`
     #
     # @!attribute [rw] place
-    #   The place details.
+    #   Place details corresponding to the departure.
     #   @return [Types::RoutePedestrianPlace]
     #
     # @!attribute [rw] time
-    #   The time.
+    #   The departure time.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RoutePedestrianDeparture AWS API Documentation
@@ -4388,6 +4870,11 @@ module Aws::GeoRoutes
     end
 
     # Details that are specific to a pedestrian leg.
+    #
+    # @!attribute [rw] after_travel_steps
+    #   Steps of a leg that must be performed after the travel portion of
+    #   the leg.
+    #   @return [Array<Types::RoutePedestrianAfterTravelStep>]
     #
     # @!attribute [rw] arrival
     #   Details corresponding to the arrival for the leg.
@@ -4435,6 +4922,7 @@ module Aws::GeoRoutes
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RoutePedestrianLegDetails AWS API Documentation
     #
     class RoutePedestrianLegDetails < Struct.new(
+      :after_travel_steps,
       :arrival,
       :departure,
       :notices,
@@ -4487,14 +4975,18 @@ module Aws::GeoRoutes
       include Aws::Structure
     end
 
-    # Provides a summary of a pedestrian route step.
+    # Summary including duration and distance for the entire leg.
     #
     # @!attribute [rw] distance
-    #   Distance of the step.
+    #   Distance of the entire leg.
+    #
+    #   **Unit**: `meters`
     #   @return [Integer]
     #
     # @!attribute [rw] duration
-    #   Duration of the step.
+    #   Duration of the entire leg.
+    #
+    #   **Unit**: `seconds`
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RoutePedestrianOverviewSummary AWS API Documentation
@@ -4507,6 +4999,10 @@ module Aws::GeoRoutes
     end
 
     # Place details corresponding to the arrival or departure.
+    #
+    # @!attribute [rw] access_point_details
+    #   Details of the access point.
+    #   @return [Types::RouteAccessPointDetails]
     #
     # @!attribute [rw] name
     #   The name of the place.
@@ -4526,6 +5022,14 @@ module Aws::GeoRoutes
     #   street.
     #   @return [String]
     #
+    # @!attribute [rw] station_details
+    #   Details about the station.
+    #   @return [Types::RouteStationDetails]
+    #
+    # @!attribute [rw] type
+    #   The type of the place.
+    #   @return [String]
+    #
     # @!attribute [rw] waypoint_index
     #   Index of the waypoint in the request.
     #   @return [Integer]
@@ -4533,12 +5037,15 @@ module Aws::GeoRoutes
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RoutePedestrianPlace AWS API Documentation
     #
     class RoutePedestrianPlace < Struct.new(
+      :access_point_details,
       :name,
       :original_position,
       :position,
       :side_of_street,
+      :station_details,
+      :type,
       :waypoint_index)
-      SENSITIVE = [:name, :original_position, :position, :side_of_street, :waypoint_index]
+      SENSITIVE = [:name, :original_position, :position, :side_of_street, :type, :waypoint_index]
       include Aws::Structure
     end
 
@@ -4791,7 +5298,7 @@ module Aws::GeoRoutes
       :signpost,
       :turn_step_details,
       :type)
-      SENSITIVE = [:distance, :duration, :instruction]
+      SENSITIVE = [:distance, :duration, :instruction, :type]
       include Aws::Structure
     end
 
@@ -4821,6 +5328,421 @@ module Aws::GeoRoutes
       :turn_angle,
       :turn_intensity)
       SENSITIVE = [:steering_direction, :turn_intensity]
+      include Aws::Structure
+    end
+
+    # A step that must be performed after the travel portion of the leg.
+    #
+    # @!attribute [rw] duration
+    #   Duration of the step.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] instruction
+    #   Brief description of the step in the requested language.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   Type of the step.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteRentalAfterTravelStep AWS API Documentation
+    #
+    class RouteRentalAfterTravelStep < Struct.new(
+      :duration,
+      :instruction,
+      :type)
+      SENSITIVE = [:duration, :instruction, :type]
+      include Aws::Structure
+    end
+
+    # Details about the rental agency.
+    #
+    # @!attribute [rw] name
+    #   Name of the agency.
+    #   @return [String]
+    #
+    # @!attribute [rw] url
+    #   URL to the agency's website.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteRentalAgency AWS API Documentation
+    #
+    class RouteRentalAgency < Struct.new(
+      :name,
+      :url)
+      SENSITIVE = [:name, :url]
+      include Aws::Structure
+    end
+
+    # Details corresponding to the arrival for the leg.
+    #
+    # @!attribute [rw] place
+    #   Place details corresponding to the arrival.
+    #   @return [Types::RouteRentalPlace]
+    #
+    # @!attribute [rw] time
+    #   The arrival time.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteRentalArrival AWS API Documentation
+    #
+    class RouteRentalArrival < Struct.new(
+      :place,
+      :time)
+      SENSITIVE = [:time]
+      include Aws::Structure
+    end
+
+    # A step that must be performed before the travel portion of the leg.
+    #
+    # @!attribute [rw] duration
+    #   Duration of the step.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] instruction
+    #   Brief description of the step in the requested language.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   Type of the step.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteRentalBeforeTravelStep AWS API Documentation
+    #
+    class RouteRentalBeforeTravelStep < Struct.new(
+      :duration,
+      :instruction,
+      :type)
+      SENSITIVE = [:duration, :instruction, :type]
+      include Aws::Structure
+    end
+
+    # Details corresponding to the departure for the leg.
+    #
+    # @!attribute [rw] place
+    #   Place details corresponding to the departure.
+    #   @return [Types::RouteRentalPlace]
+    #
+    # @!attribute [rw] time
+    #   The departure time.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteRentalDeparture AWS API Documentation
+    #
+    class RouteRentalDeparture < Struct.new(
+      :place,
+      :time)
+      SENSITIVE = [:time]
+      include Aws::Structure
+    end
+
+    # Populated when the Leg type is Rental, and provides additional
+    # information that is specific to rental vehicle travel.
+    #
+    # @!attribute [rw] after_travel_steps
+    #   Steps of a leg that must be performed after the travel portion of
+    #   the leg.
+    #   @return [Array<Types::RouteRentalAfterTravelStep>]
+    #
+    # @!attribute [rw] agency
+    #   Details about the rental agency.
+    #   @return [Types::RouteRentalAgency]
+    #
+    # @!attribute [rw] arrival
+    #   Details corresponding to the arrival for the leg.
+    #   @return [Types::RouteRentalArrival]
+    #
+    # @!attribute [rw] attributions
+    #   List of required attributions to display.
+    #   @return [Array<Types::RouteAttribution>]
+    #
+    # @!attribute [rw] before_travel_steps
+    #   Steps of a leg that must be performed before the travel portion of
+    #   the leg.
+    #   @return [Array<Types::RouteRentalBeforeTravelStep>]
+    #
+    # @!attribute [rw] booking_web_links
+    #   Web links to external ticket booking services for the rental.
+    #   @return [Array<Types::RouteWebLink>]
+    #
+    # @!attribute [rw] departure
+    #   Details corresponding to the departure for the leg.
+    #   @return [Types::RouteRentalDeparture]
+    #
+    # @!attribute [rw] summary
+    #   Summary of the rental leg.
+    #   @return [Types::RouteRentalSummary]
+    #
+    # @!attribute [rw] transport
+    #   Transport mode details for the rental leg.
+    #   @return [Types::RouteRentalTransportModeDetails]
+    #
+    # @!attribute [rw] travel_steps
+    #   Steps of a leg that must be performed during the travel portion of
+    #   the leg.
+    #   @return [Array<Types::RouteRentalTravelStep>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteRentalLegDetails AWS API Documentation
+    #
+    class RouteRentalLegDetails < Struct.new(
+      :after_travel_steps,
+      :agency,
+      :arrival,
+      :attributions,
+      :before_travel_steps,
+      :booking_web_links,
+      :departure,
+      :summary,
+      :transport,
+      :travel_steps)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary including duration and distance for the entire leg.
+    #
+    # @!attribute [rw] duration
+    #   Duration of the entire leg.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] distance
+    #   Distance of the entire leg.
+    #
+    #   **Unit**: `meters`
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteRentalOverviewSummary AWS API Documentation
+    #
+    class RouteRentalOverviewSummary < Struct.new(
+      :duration,
+      :distance)
+      SENSITIVE = [:duration, :distance]
+      include Aws::Structure
+    end
+
+    # Place details corresponding to the arrival or departure.
+    #
+    # @!attribute [rw] access_point_details
+    #   Details of the access point.
+    #   @return [Types::RouteAccessPointDetails]
+    #
+    # @!attribute [rw] name
+    #   The name of the place.
+    #   @return [String]
+    #
+    # @!attribute [rw] original_position
+    #   Position provided in the request.
+    #   @return [Array<Float>]
+    #
+    # @!attribute [rw] position
+    #   Position in World Geodetic System (WGS 84) format: \[longitude,
+    #   latitude\].
+    #   @return [Array<Float>]
+    #
+    # @!attribute [rw] station_details
+    #   Details about the station.
+    #   @return [Types::RouteStationDetails]
+    #
+    # @!attribute [rw] type
+    #   The type of the place.
+    #   @return [String]
+    #
+    # @!attribute [rw] waypoint_index
+    #   Index of the waypoint in the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteRentalPlace AWS API Documentation
+    #
+    class RouteRentalPlace < Struct.new(
+      :access_point_details,
+      :name,
+      :original_position,
+      :position,
+      :station_details,
+      :type,
+      :waypoint_index)
+      SENSITIVE = [:name, :original_position, :position, :type, :waypoint_index]
+      include Aws::Structure
+    end
+
+    # Summary of the rental leg.
+    #
+    # @!attribute [rw] overview
+    #   Summary including duration and distance for the entire leg.
+    #   @return [Types::RouteRentalOverviewSummary]
+    #
+    # @!attribute [rw] travel_only
+    #   Summary including duration and distance for the travel portion of
+    #   the leg only.
+    #   @return [Types::RouteRentalTravelOnlySummary]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteRentalSummary AWS API Documentation
+    #
+    class RouteRentalSummary < Struct.new(
+      :overview,
+      :travel_only)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Transport mode details for the rental leg.
+    #
+    # @!attribute [rw] available_seats
+    #   Number of available seats in the vehicle.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] category
+    #   Human readable transport category.
+    #   @return [String]
+    #
+    # @!attribute [rw] color
+    #   Color of the transport polyline and background for the transport
+    #   name.
+    #   @return [String]
+    #
+    # @!attribute [rw] engine
+    #   Vehicle engine type.
+    #   @return [String]
+    #
+    # @!attribute [rw] license_plate
+    #   Vehicle license plate number.
+    #   @return [String]
+    #
+    # @!attribute [rw] mode
+    #   Mode of the rental transport.
+    #   @return [String]
+    #
+    # @!attribute [rw] model
+    #   Vehicle model.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Vehicle name or mobility provider name.
+    #   @return [String]
+    #
+    # @!attribute [rw] text_color
+    #   Color of the transport name text.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteRentalTransportModeDetails AWS API Documentation
+    #
+    class RouteRentalTransportModeDetails < Struct.new(
+      :available_seats,
+      :category,
+      :color,
+      :engine,
+      :license_plate,
+      :mode,
+      :model,
+      :name,
+      :text_color)
+      SENSITIVE = [:available_seats, :category, :color, :engine, :license_plate, :mode, :model, :name, :text_color]
+      include Aws::Structure
+    end
+
+    # Summary including duration and distance for the travel portion of the
+    # leg only.
+    #
+    # @!attribute [rw] duration
+    #   Duration of the travel portion of the rental leg.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteRentalTravelOnlySummary AWS API Documentation
+    #
+    class RouteRentalTravelOnlySummary < Struct.new(
+      :duration)
+      SENSITIVE = [:duration]
+      include Aws::Structure
+    end
+
+    # A step that must be performed during the travel portion of the leg.
+    #
+    # @!attribute [rw] continue_step_details
+    #   Details related to the continue step.
+    #   @return [Types::RouteContinueStepDetails]
+    #
+    # @!attribute [rw] distance
+    #   Distance of the step.
+    #
+    #   **Unit**: `meters`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] duration
+    #   Duration of the step.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] exit_step_details
+    #   Details related to the exit step.
+    #   @return [Types::RouteExitStepDetails]
+    #
+    # @!attribute [rw] geometry_offset
+    #   Offset in the leg geometry corresponding to the start of this step.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] instruction
+    #   Brief description of the step in the requested language.
+    #   @return [String]
+    #
+    # @!attribute [rw] keep_step_details
+    #   Details that are specific to a Keep step.
+    #   @return [Types::RouteKeepStepDetails]
+    #
+    # @!attribute [rw] ramp_step_details
+    #   Details that are specific to a ramp step.
+    #   @return [Types::RouteRampStepDetails]
+    #
+    # @!attribute [rw] roundabout_enter_step_details
+    #   Details about the roundabout leg.
+    #   @return [Types::RouteRoundaboutEnterStepDetails]
+    #
+    # @!attribute [rw] roundabout_exit_step_details
+    #   Details about the roundabout step.
+    #   @return [Types::RouteRoundaboutExitStepDetails]
+    #
+    # @!attribute [rw] roundabout_pass_step_details
+    #   Details about the step.
+    #   @return [Types::RouteRoundaboutPassStepDetails]
+    #
+    # @!attribute [rw] turn_step_details
+    #   Details related to the turn step.
+    #   @return [Types::RouteTurnStepDetails]
+    #
+    # @!attribute [rw] type
+    #   Type of the step.
+    #   @return [String]
+    #
+    # @!attribute [rw] u_turn_step_details
+    #   Details related to the U-turn step.
+    #   @return [Types::RouteUTurnStepDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteRentalTravelStep AWS API Documentation
+    #
+    class RouteRentalTravelStep < Struct.new(
+      :continue_step_details,
+      :distance,
+      :duration,
+      :exit_step_details,
+      :geometry_offset,
+      :instruction,
+      :keep_step_details,
+      :ramp_step_details,
+      :roundabout_enter_step_details,
+      :roundabout_exit_step_details,
+      :roundabout_pass_step_details,
+      :turn_step_details,
+      :type,
+      :u_turn_step_details)
+      SENSITIVE = [:distance, :duration, :instruction, :type]
       include Aws::Structure
     end
 
@@ -5133,6 +6055,30 @@ module Aws::GeoRoutes
       include Aws::Structure
     end
 
+    # Details about the station.
+    #
+    # @!attribute [rw] accessibility
+    #   Wheelchair accessibility information for the station.
+    #   @return [Types::RouteAccessibilityAvailabilityDetails]
+    #
+    # @!attribute [rw] platform_name
+    #   Platform name or number.
+    #   @return [String]
+    #
+    # @!attribute [rw] short_name
+    #   Short text or a number that identifies the station.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteStationDetails AWS API Documentation
+    #
+    class RouteStationDetails < Struct.new(
+      :accessibility,
+      :platform_name,
+      :short_name)
+      SENSITIVE = [:platform_name, :short_name]
+      include Aws::Structure
+    end
+
     # Summarized details for the leg including travel steps only. The
     # Distance for the travel only portion of the journey is the same as the
     # Distance within the Overview summary.
@@ -5158,6 +6104,449 @@ module Aws::GeoRoutes
       :duration,
       :tolls)
       SENSITIVE = [:distance, :duration]
+      include Aws::Structure
+    end
+
+    # A step that must be performed after the travel portion of the leg.
+    #
+    # @!attribute [rw] duration
+    #   Duration of the step.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] instruction
+    #   Brief description of the step in the requested language.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   Type of the step.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTaxiAfterTravelStep AWS API Documentation
+    #
+    class RouteTaxiAfterTravelStep < Struct.new(
+      :duration,
+      :instruction,
+      :type)
+      SENSITIVE = [:duration, :instruction, :type]
+      include Aws::Structure
+    end
+
+    # Details about the taxi agency.
+    #
+    # @!attribute [rw] name
+    #   Name of the agency.
+    #   @return [String]
+    #
+    # @!attribute [rw] url
+    #   URL to the agency's website.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTaxiAgency AWS API Documentation
+    #
+    class RouteTaxiAgency < Struct.new(
+      :name,
+      :url)
+      SENSITIVE = [:name, :url]
+      include Aws::Structure
+    end
+
+    # Details corresponding to the arrival for the leg.
+    #
+    # @!attribute [rw] place
+    #   Place details corresponding to the arrival.
+    #   @return [Types::RouteTaxiPlace]
+    #
+    # @!attribute [rw] time
+    #   The arrival time.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTaxiArrival AWS API Documentation
+    #
+    class RouteTaxiArrival < Struct.new(
+      :place,
+      :time)
+      SENSITIVE = [:time]
+      include Aws::Structure
+    end
+
+    # A step that must be performed before the travel portion of the leg.
+    #
+    # @!attribute [rw] duration
+    #   Duration of the step.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] instruction
+    #   Brief description of the step in the requested language.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   Type of the step.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTaxiBeforeTravelStep AWS API Documentation
+    #
+    class RouteTaxiBeforeTravelStep < Struct.new(
+      :duration,
+      :instruction,
+      :type)
+      SENSITIVE = [:duration, :instruction, :type]
+      include Aws::Structure
+    end
+
+    # Details corresponding to the departure for the leg.
+    #
+    # @!attribute [rw] place
+    #   Place details corresponding to the departure.
+    #   @return [Types::RouteTaxiPlace]
+    #
+    # @!attribute [rw] time
+    #   The departure time.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTaxiDeparture AWS API Documentation
+    #
+    class RouteTaxiDeparture < Struct.new(
+      :place,
+      :time)
+      SENSITIVE = [:time]
+      include Aws::Structure
+    end
+
+    # Populated when the Leg type is Taxi, and provides additional
+    # information that is specific to taxi travel.
+    #
+    # @!attribute [rw] after_travel_steps
+    #   Steps of a leg that must be performed after the travel portion of
+    #   the leg.
+    #   @return [Array<Types::RouteTaxiAfterTravelStep>]
+    #
+    # @!attribute [rw] agency
+    #   Details about the taxi agency.
+    #   @return [Types::RouteTaxiAgency]
+    #
+    # @!attribute [rw] arrival
+    #   Details corresponding to the arrival for the leg.
+    #   @return [Types::RouteTaxiArrival]
+    #
+    # @!attribute [rw] attributions
+    #   List of required attributions to display.
+    #   @return [Array<Types::RouteAttribution>]
+    #
+    # @!attribute [rw] before_travel_steps
+    #   Steps of a leg that must be performed before the travel portion of
+    #   the leg.
+    #   @return [Array<Types::RouteTaxiBeforeTravelStep>]
+    #
+    # @!attribute [rw] booking_web_links
+    #   Web links to external ticket booking services for the taxi.
+    #   @return [Array<Types::RouteWebLink>]
+    #
+    # @!attribute [rw] departure
+    #   Details corresponding to the departure for the leg.
+    #   @return [Types::RouteTaxiDeparture]
+    #
+    # @!attribute [rw] notices
+    #   List of notices that indicate issues that occurred during route
+    #   calculation.
+    #   @return [Array<Types::RouteTaxiNotice>]
+    #
+    # @!attribute [rw] summary
+    #   Summary of the taxi leg.
+    #   @return [Types::RouteTaxiSummary]
+    #
+    # @!attribute [rw] transport
+    #   Transport mode details for the taxi leg.
+    #   @return [Types::RouteTaxiTransportModeDetails]
+    #
+    # @!attribute [rw] travel_steps
+    #   Steps of a leg that must be performed during the travel portion of
+    #   the leg.
+    #   @return [Array<Types::RouteTaxiTravelStep>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTaxiLegDetails AWS API Documentation
+    #
+    class RouteTaxiLegDetails < Struct.new(
+      :after_travel_steps,
+      :agency,
+      :arrival,
+      :attributions,
+      :before_travel_steps,
+      :booking_web_links,
+      :departure,
+      :notices,
+      :summary,
+      :transport,
+      :travel_steps)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A notice that indicates an issue that occurred during route
+    # calculation.
+    #
+    # @!attribute [rw] code
+    #   Code corresponding to the issue.
+    #   @return [String]
+    #
+    # @!attribute [rw] impact
+    #   Impact corresponding to the issue. While Low impact notices can be
+    #   safely ignored, High impact notices must be evaluated further to
+    #   determine the impact.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTaxiNotice AWS API Documentation
+    #
+    class RouteTaxiNotice < Struct.new(
+      :code,
+      :impact)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary including duration and distance for the entire leg.
+    #
+    # @!attribute [rw] duration
+    #   Duration of the entire leg.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] distance
+    #   Distance of the entire leg.
+    #
+    #   **Unit**: `meters`
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTaxiOverviewSummary AWS API Documentation
+    #
+    class RouteTaxiOverviewSummary < Struct.new(
+      :duration,
+      :distance)
+      SENSITIVE = [:duration, :distance]
+      include Aws::Structure
+    end
+
+    # Place details corresponding to the arrival or departure.
+    #
+    # @!attribute [rw] access_point_details
+    #   Details of the access point.
+    #   @return [Types::RouteAccessPointDetails]
+    #
+    # @!attribute [rw] name
+    #   The name of the place.
+    #   @return [String]
+    #
+    # @!attribute [rw] original_position
+    #   Position provided in the request.
+    #   @return [Array<Float>]
+    #
+    # @!attribute [rw] position
+    #   Position in World Geodetic System (WGS 84) format: \[longitude,
+    #   latitude\].
+    #   @return [Array<Float>]
+    #
+    # @!attribute [rw] station_details
+    #   Details about the station.
+    #   @return [Types::RouteStationDetails]
+    #
+    # @!attribute [rw] type
+    #   The type of the place.
+    #   @return [String]
+    #
+    # @!attribute [rw] waypoint_index
+    #   Index of the waypoint in the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTaxiPlace AWS API Documentation
+    #
+    class RouteTaxiPlace < Struct.new(
+      :access_point_details,
+      :name,
+      :original_position,
+      :position,
+      :station_details,
+      :type,
+      :waypoint_index)
+      SENSITIVE = [:name, :original_position, :position, :type, :waypoint_index]
+      include Aws::Structure
+    end
+
+    # Summary of the taxi leg.
+    #
+    # @!attribute [rw] overview
+    #   Summary including duration and distance for the entire leg.
+    #   @return [Types::RouteTaxiOverviewSummary]
+    #
+    # @!attribute [rw] travel_only
+    #   Summary including duration and distance for the travel portion of
+    #   the leg only.
+    #   @return [Types::RouteTaxiTravelOnlySummary]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTaxiSummary AWS API Documentation
+    #
+    class RouteTaxiSummary < Struct.new(
+      :overview,
+      :travel_only)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Transport mode details for the taxi leg.
+    #
+    # @!attribute [rw] available_seats
+    #   Number of available seats in the vehicle.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] category
+    #   Human readable transport category.
+    #   @return [String]
+    #
+    # @!attribute [rw] color
+    #   Color of the transport polyline and background for the transport
+    #   name.
+    #   @return [String]
+    #
+    # @!attribute [rw] engine
+    #   Vehicle engine type.
+    #   @return [String]
+    #
+    # @!attribute [rw] license_plate
+    #   Vehicle license plate number.
+    #   @return [String]
+    #
+    # @!attribute [rw] mode
+    #   Mode of the taxi transport.
+    #   @return [String]
+    #
+    # @!attribute [rw] model
+    #   Vehicle model.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Vehicle name or mobility provider name.
+    #   @return [String]
+    #
+    # @!attribute [rw] text_color
+    #   Color of the transport name text.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTaxiTransportModeDetails AWS API Documentation
+    #
+    class RouteTaxiTransportModeDetails < Struct.new(
+      :available_seats,
+      :category,
+      :color,
+      :engine,
+      :license_plate,
+      :mode,
+      :model,
+      :name,
+      :text_color)
+      SENSITIVE = [:available_seats, :category, :color, :engine, :license_plate, :mode, :model, :name, :text_color]
+      include Aws::Structure
+    end
+
+    # Summary including duration and distance for the travel portion of the
+    # leg only.
+    #
+    # @!attribute [rw] duration
+    #   Duration of the travel portion of the taxi leg.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTaxiTravelOnlySummary AWS API Documentation
+    #
+    class RouteTaxiTravelOnlySummary < Struct.new(
+      :duration)
+      SENSITIVE = [:duration]
+      include Aws::Structure
+    end
+
+    # A step that must be performed during the travel portion of the leg.
+    #
+    # @!attribute [rw] continue_step_details
+    #   Details related to the continue step.
+    #   @return [Types::RouteContinueStepDetails]
+    #
+    # @!attribute [rw] distance
+    #   Distance of the step.
+    #
+    #   **Unit**: `meters`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] duration
+    #   Duration of the step.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] exit_step_details
+    #   Details related to the exit step.
+    #   @return [Types::RouteExitStepDetails]
+    #
+    # @!attribute [rw] geometry_offset
+    #   Offset in the leg geometry corresponding to the start of this step.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] instruction
+    #   Brief description of the step in the requested language.
+    #   @return [String]
+    #
+    # @!attribute [rw] keep_step_details
+    #   Details that are specific to a Keep step.
+    #   @return [Types::RouteKeepStepDetails]
+    #
+    # @!attribute [rw] ramp_step_details
+    #   Details that are specific to a ramp step.
+    #   @return [Types::RouteRampStepDetails]
+    #
+    # @!attribute [rw] roundabout_enter_step_details
+    #   Details about the roundabout leg.
+    #   @return [Types::RouteRoundaboutEnterStepDetails]
+    #
+    # @!attribute [rw] roundabout_exit_step_details
+    #   Details about the roundabout step.
+    #   @return [Types::RouteRoundaboutExitStepDetails]
+    #
+    # @!attribute [rw] roundabout_pass_step_details
+    #   Details about the step.
+    #   @return [Types::RouteRoundaboutPassStepDetails]
+    #
+    # @!attribute [rw] turn_step_details
+    #   Details related to the turn step.
+    #   @return [Types::RouteTurnStepDetails]
+    #
+    # @!attribute [rw] type
+    #   Type of the step.
+    #   @return [String]
+    #
+    # @!attribute [rw] u_turn_step_details
+    #   Details related to the U-turn step.
+    #   @return [Types::RouteUTurnStepDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTaxiTravelStep AWS API Documentation
+    #
+    class RouteTaxiTravelStep < Struct.new(
+      :continue_step_details,
+      :distance,
+      :duration,
+      :exit_step_details,
+      :geometry_offset,
+      :instruction,
+      :keep_step_details,
+      :ramp_step_details,
+      :roundabout_enter_step_details,
+      :roundabout_exit_step_details,
+      :roundabout_pass_step_details,
+      :turn_step_details,
+      :type,
+      :u_turn_step_details)
+      SENSITIVE = [:distance, :duration, :instruction, :type]
       include Aws::Structure
     end
 
@@ -5548,6 +6937,675 @@ module Aws::GeoRoutes
       include Aws::Structure
     end
 
+    # A step that must be performed after the travel portion of the leg.
+    #
+    # @!attribute [rw] duration
+    #   Duration of the step.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] instruction
+    #   Brief description of the step in the requested language.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   Type of the step.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitAfterTravelStep AWS API Documentation
+    #
+    class RouteTransitAfterTravelStep < Struct.new(
+      :duration,
+      :instruction,
+      :type)
+      SENSITIVE = [:duration, :instruction, :type]
+      include Aws::Structure
+    end
+
+    # Details about the transit agency.
+    #
+    # @!attribute [rw] name
+    #   Name of the agency.
+    #   @return [String]
+    #
+    # @!attribute [rw] url
+    #   URL to the agency's website.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitAgency AWS API Documentation
+    #
+    class RouteTransitAgency < Struct.new(
+      :name,
+      :url)
+      SENSITIVE = [:name, :url]
+      include Aws::Structure
+    end
+
+    # Details corresponding to the arrival for the leg.
+    #
+    # @!attribute [rw] delay
+    #   The delay from the scheduled arrival time.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] place
+    #   Place details corresponding to the arrival.
+    #   @return [Types::RouteTransitPlace]
+    #
+    # @!attribute [rw] status
+    #   The status of the arrival.
+    #   @return [String]
+    #
+    # @!attribute [rw] time
+    #   The arrival time.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitArrival AWS API Documentation
+    #
+    class RouteTransitArrival < Struct.new(
+      :delay,
+      :place,
+      :status,
+      :time)
+      SENSITIVE = [:delay, :status, :time]
+      include Aws::Structure
+    end
+
+    # A step that must be performed before the travel portion of the leg.
+    #
+    # @!attribute [rw] duration
+    #   Duration of the step.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] instruction
+    #   Brief description of the step in the requested language.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   Type of the step.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitBeforeTravelStep AWS API Documentation
+    #
+    class RouteTransitBeforeTravelStep < Struct.new(
+      :duration,
+      :instruction,
+      :type)
+      SENSITIVE = [:duration, :instruction, :type]
+      include Aws::Structure
+    end
+
+    # Details corresponding to the departure for the leg.
+    #
+    # @!attribute [rw] delay
+    #   The delay from the scheduled departure time.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] place
+    #   Place details corresponding to the departure.
+    #   @return [Types::RouteTransitPlace]
+    #
+    # @!attribute [rw] status
+    #   The status of the departure.
+    #   @return [String]
+    #
+    # @!attribute [rw] time
+    #   The departure time.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitDeparture AWS API Documentation
+    #
+    class RouteTransitDeparture < Struct.new(
+      :delay,
+      :place,
+      :status,
+      :time)
+      SENSITIVE = [:delay, :status, :time]
+      include Aws::Structure
+    end
+
+    # An incident describes disruptions on the transit route.
+    #
+    # @!attribute [rw] description
+    #   A human readable description of the incident.
+    #   @return [String]
+    #
+    # @!attribute [rw] effect
+    #   The effect of the incident on the transit service.
+    #   @return [String]
+    #
+    # @!attribute [rw] end_time
+    #   The end time of the incident.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The start time of the incident.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   Type of the incident.
+    #   @return [String]
+    #
+    # @!attribute [rw] url
+    #   URL to the original incident published at the agency website.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitIncident AWS API Documentation
+    #
+    class RouteTransitIncident < Struct.new(
+      :description,
+      :effect,
+      :end_time,
+      :start_time,
+      :type,
+      :url)
+      SENSITIVE = [:description, :effect, :end_time, :start_time, :type, :url]
+      include Aws::Structure
+    end
+
+    # An intermediate stop between departure and destination of the transit
+    # route.
+    #
+    # @!attribute [rw] attributes
+    #   Attributes of the intermediate stop.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] departure
+    #   Departure details for the intermediate stop.
+    #   @return [Types::RouteTransitDeparture]
+    #
+    # @!attribute [rw] duration
+    #   Duration of the stop.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] geometry_offset
+    #   Offset in the leg geometry corresponding to the start of this stop.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] transport
+    #   Transport mode details at the intermediate stop.
+    #   @return [Types::RouteTransitTransportModeDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitIntermediateStop AWS API Documentation
+    #
+    class RouteTransitIntermediateStop < Struct.new(
+      :attributes,
+      :departure,
+      :duration,
+      :geometry_offset,
+      :transport)
+      SENSITIVE = [:attributes, :duration]
+      include Aws::Structure
+    end
+
+    # Populated when the Leg type is Transit, and provides additional
+    # information that is specific to public transit travel.
+    #
+    # @!attribute [rw] after_travel_steps
+    #   Steps of a leg that must be performed after the travel portion of
+    #   the leg.
+    #   @return [Array<Types::RouteTransitAfterTravelStep>]
+    #
+    # @!attribute [rw] agency
+    #   Details about the transit agency.
+    #   @return [Types::RouteTransitAgency]
+    #
+    # @!attribute [rw] arrival
+    #   Details corresponding to the arrival for the leg.
+    #   @return [Types::RouteTransitArrival]
+    #
+    # @!attribute [rw] attributions
+    #   List of required attributions to display.
+    #   @return [Array<Types::RouteAttribution>]
+    #
+    # @!attribute [rw] before_travel_steps
+    #   Steps of a leg that must be performed before the travel portion of
+    #   the leg.
+    #   @return [Array<Types::RouteTransitBeforeTravelStep>]
+    #
+    # @!attribute [rw] booking_web_links
+    #   Web links to external ticket booking services for the transit.
+    #   @return [Array<Types::RouteWebLink>]
+    #
+    # @!attribute [rw] departure
+    #   Details corresponding to the departure for the leg.
+    #   @return [Types::RouteTransitDeparture]
+    #
+    # @!attribute [rw] incidents
+    #   Incidents affecting this leg of the transit route.
+    #   @return [Array<Types::RouteTransitIncident>]
+    #
+    # @!attribute [rw] intermediate_stops
+    #   Intermediate stops between departure and destination of the transit
+    #   route.
+    #   @return [Array<Types::RouteTransitIntermediateStop>]
+    #
+    # @!attribute [rw] next_departures
+    #   List of next departures that cover the same section of the route.
+    #   @return [Array<Types::RouteTransitNextDeparture>]
+    #
+    # @!attribute [rw] notices
+    #   List of notices that indicate issues that occurred during route
+    #   calculation.
+    #   @return [Array<Types::RouteTransitNotice>]
+    #
+    # @!attribute [rw] pass_through_waypoints
+    #   Waypoints that were passed through during the leg. This includes the
+    #   waypoints that were configured with the PassThrough option. Not
+    #   populated when the TravelMode is `Transit` or `Intermodal`.
+    #   @return [Array<Types::RoutePassThroughWaypoint>]
+    #
+    # @!attribute [rw] spans
+    #   Spans that were computed for the requested SpanAdditionalFeatures.
+    #   Not populated when the TravelMode is `Transit` or `Intermodal`.
+    #   @return [Array<Types::RouteTransitSpan>]
+    #
+    # @!attribute [rw] summary
+    #   Summary of the transit leg.
+    #   @return [Types::RouteTransitSummary]
+    #
+    # @!attribute [rw] transport
+    #   Transport mode details for the transit leg.
+    #   @return [Types::RouteTransitTransportModeDetails]
+    #
+    # @!attribute [rw] travel_steps
+    #   Steps of a leg that must be performed during the travel portion of
+    #   the leg.
+    #   @return [Array<Types::RouteTransitTravelStep>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitLegDetails AWS API Documentation
+    #
+    class RouteTransitLegDetails < Struct.new(
+      :after_travel_steps,
+      :agency,
+      :arrival,
+      :attributions,
+      :before_travel_steps,
+      :booking_web_links,
+      :departure,
+      :incidents,
+      :intermediate_stops,
+      :next_departures,
+      :notices,
+      :pass_through_waypoints,
+      :spans,
+      :summary,
+      :transport,
+      :travel_steps)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details about the next available departure for the transit service.
+    #
+    # @!attribute [rw] delay
+    #   The delay from the scheduled departure time.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] platform_name
+    #   Platform name or number for the departure.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the departure.
+    #   @return [String]
+    #
+    # @!attribute [rw] time
+    #   The departure time.
+    #   @return [String]
+    #
+    # @!attribute [rw] transport
+    #   Transport mode details for this departure.
+    #   @return [Types::RouteTransitTransportModeDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitNextDeparture AWS API Documentation
+    #
+    class RouteTransitNextDeparture < Struct.new(
+      :delay,
+      :platform_name,
+      :status,
+      :time,
+      :transport)
+      SENSITIVE = [:delay, :platform_name, :status, :time]
+      include Aws::Structure
+    end
+
+    # A notice that indicates an issue that occurred during route
+    # calculation.
+    #
+    # @!attribute [rw] code
+    #   Code corresponding to the issue.
+    #   @return [String]
+    #
+    # @!attribute [rw] impact
+    #   Impact corresponding to the issue. While Low impact notices can be
+    #   safely ignored, High impact notices must be evaluated further to
+    #   determine the impact.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitNotice AWS API Documentation
+    #
+    class RouteTransitNotice < Struct.new(
+      :code,
+      :impact)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Options related to transit routing.
+    #
+    # <note markdown="1"> Not supported in `ap-southeast-1` and `ap-southeast-5` regions for
+    # [GrabMaps][1] customers.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html
+    #
+    # @!attribute [rw] accessibility_attributes
+    #   Accessibility attributes to consider when calculating the route.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] allowed_modes
+    #   Allowed transit transport modes when calculating the route. By
+    #   default, all transport modes are allowed. Cannot be used together
+    #   with `ExcludedModes`.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] excluded_modes
+    #   Excluded transit transport modes when calculating the route. By
+    #   default, all transport modes are allowed. Cannot be used together
+    #   with `AllowedModes`.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] max_transfers
+    #   Maximum number of transfers allowed when calculating the route.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] pedestrian
+    #   Options for the pedestrian leg of the transit route.
+    #   @return [Types::RouteTransitPedestrianOptions]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitOptions AWS API Documentation
+    #
+    class RouteTransitOptions < Struct.new(
+      :accessibility_attributes,
+      :allowed_modes,
+      :excluded_modes,
+      :max_transfers,
+      :pedestrian)
+      SENSITIVE = [:accessibility_attributes, :allowed_modes, :excluded_modes]
+      include Aws::Structure
+    end
+
+    # Summary including duration and distance for the entire leg.
+    #
+    # @!attribute [rw] distance
+    #   Distance of the entire leg.
+    #
+    #   **Unit**: `meters`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] duration
+    #   Duration of the entire leg.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitOverviewSummary AWS API Documentation
+    #
+    class RouteTransitOverviewSummary < Struct.new(
+      :distance,
+      :duration)
+      SENSITIVE = [:distance, :duration]
+      include Aws::Structure
+    end
+
+    # Options for the pedestrian leg of the transit route.
+    #
+    # @!attribute [rw] max_distance
+    #   Maximum walking distance allowed.
+    #
+    #   **Unit**: `meters`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] speed
+    #   Walking speed.
+    #
+    #   **Unit**: `kilometers per hour`
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitPedestrianOptions AWS API Documentation
+    #
+    class RouteTransitPedestrianOptions < Struct.new(
+      :max_distance,
+      :speed)
+      SENSITIVE = [:max_distance, :speed]
+      include Aws::Structure
+    end
+
+    # Place details corresponding to the arrival or departure.
+    #
+    # @!attribute [rw] name
+    #   The name of the place.
+    #   @return [String]
+    #
+    # @!attribute [rw] original_position
+    #   Position provided in the request.
+    #   @return [Array<Float>]
+    #
+    # @!attribute [rw] position
+    #   Position in World Geodetic System (WGS 84) format: \[longitude,
+    #   latitude\].
+    #   @return [Array<Float>]
+    #
+    # @!attribute [rw] station_details
+    #   Details about the station.
+    #   @return [Types::RouteStationDetails]
+    #
+    # @!attribute [rw] type
+    #   The type of the place.
+    #   @return [String]
+    #
+    # @!attribute [rw] waypoint_index
+    #   Index of the waypoint in the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitPlace AWS API Documentation
+    #
+    class RouteTransitPlace < Struct.new(
+      :name,
+      :original_position,
+      :position,
+      :station_details,
+      :type,
+      :waypoint_index)
+      SENSITIVE = [:name, :original_position, :position, :type, :waypoint_index]
+      include Aws::Structure
+    end
+
+    # Span computed for the requested SpanAdditionalFeatures.
+    #
+    # @!attribute [rw] country
+    #   3 letter Country code corresponding to the Span.
+    #   @return [String]
+    #
+    # @!attribute [rw] distance
+    #   Distance of the computed span. This feature doesn't split a span,
+    #   but is always computed on a span split by other properties.
+    #
+    #   **Unit**: `meters`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] duration
+    #   Duration of the computed span. This feature doesn't split a span,
+    #   but is always computed on a span split by other properties.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] geometry_offset
+    #   Offset in the leg geometry corresponding to the start of this span.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] names
+    #   Names of the transit span in available languages.
+    #   @return [Array<Types::LocalizedString>]
+    #
+    # @!attribute [rw] region
+    #   2-3 letter Region code corresponding to the Span. This is either a
+    #   province or a state.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitSpan AWS API Documentation
+    #
+    class RouteTransitSpan < Struct.new(
+      :country,
+      :distance,
+      :duration,
+      :geometry_offset,
+      :names,
+      :region)
+      SENSITIVE = [:country, :distance, :duration, :region]
+      include Aws::Structure
+    end
+
+    # Summary of the transit leg.
+    #
+    # @!attribute [rw] overview
+    #   Summary including duration and distance for the entire leg.
+    #   @return [Types::RouteTransitOverviewSummary]
+    #
+    # @!attribute [rw] travel_only
+    #   Summary including duration and distance for the travel portion of
+    #   the leg only.
+    #   @return [Types::RouteTransitTravelOnlySummary]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitSummary AWS API Documentation
+    #
+    class RouteTransitSummary < Struct.new(
+      :overview,
+      :travel_only)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Transport mode details for the transit leg.
+    #
+    # @!attribute [rw] accessibility
+    #   Wheelchair accessibility information for the transit vehicle.
+    #   @return [Types::RouteAccessibilityAvailabilityDetails]
+    #
+    # @!attribute [rw] color
+    #   Color of the transport polyline and background for the transport
+    #   name.
+    #   @return [String]
+    #
+    # @!attribute [rw] headsign
+    #   Transit route headsign.
+    #   @return [String]
+    #
+    # @!attribute [rw] long_route_name
+    #   Long name of the transit route.
+    #   @return [String]
+    #
+    # @!attribute [rw] mode
+    #   Mode of the transit transport.
+    #   @return [String]
+    #
+    # @!attribute [rw] route_name
+    #   Transit route name.
+    #   @return [String]
+    #
+    # @!attribute [rw] short_route_name
+    #   Short name of the transit route.
+    #   @return [String]
+    #
+    # @!attribute [rw] text_color
+    #   Color of the transport name text.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitTransportModeDetails AWS API Documentation
+    #
+    class RouteTransitTransportModeDetails < Struct.new(
+      :accessibility,
+      :color,
+      :headsign,
+      :long_route_name,
+      :mode,
+      :route_name,
+      :short_route_name,
+      :text_color)
+      SENSITIVE = [:color, :headsign, :long_route_name, :mode, :route_name, :short_route_name, :text_color]
+      include Aws::Structure
+    end
+
+    # Summary including duration and distance for the travel portion of the
+    # leg only.
+    #
+    # @!attribute [rw] duration
+    #   Duration of the travel portion of the transit leg.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitTravelOnlySummary AWS API Documentation
+    #
+    class RouteTransitTravelOnlySummary < Struct.new(
+      :duration)
+      SENSITIVE = [:duration]
+      include Aws::Structure
+    end
+
+    # A step that must be performed during the travel portion of the leg.
+    #
+    # @!attribute [rw] distance
+    #   Distance of the step.
+    #
+    #   **Unit**: `meters`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] duration
+    #   Duration of the step.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] geometry_offset
+    #   Offset in the leg geometry corresponding to the start of this step.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] instruction
+    #   Brief description of the step in the requested language.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   Type of the step.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTransitTravelStep AWS API Documentation
+    #
+    class RouteTransitTravelStep < Struct.new(
+      :distance,
+      :duration,
+      :geometry_offset,
+      :instruction,
+      :type)
+      SENSITIVE = [:distance, :duration, :instruction, :type]
+      include Aws::Structure
+    end
+
     # Transponders for which this toll can be applied.
     #
     # @!attribute [rw] system_name
@@ -5585,13 +7643,41 @@ module Aws::GeoRoutes
     #   Travel mode options when the provided travel mode is `Truck`.
     #   @return [Types::RouteTruckOptions]
     #
+    # @!attribute [rw] intermodal
+    #   Travel mode options when the provided travel mode is `Intermodal`.
+    #
+    #   <note markdown="1"> Not supported in `ap-southeast-1` and `ap-southeast-5` regions for
+    #   [GrabMaps][1] customers.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html
+    #   @return [Types::RouteIntermodalOptions]
+    #
+    # @!attribute [rw] transit
+    #   Travel mode options when the provided travel mode is `Transit`.
+    #
+    #   <note markdown="1"> Not supported in `ap-southeast-1` and `ap-southeast-5` regions for
+    #   [GrabMaps][1] customers.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html
+    #   @return [Types::RouteTransitOptions]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteTravelModeOptions AWS API Documentation
     #
     class RouteTravelModeOptions < Struct.new(
       :car,
       :pedestrian,
       :scooter,
-      :truck)
+      :truck,
+      :intermodal,
+      :transit)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5818,14 +7904,52 @@ module Aws::GeoRoutes
       include Aws::Structure
     end
 
+    # Steps of a leg that must be performed after the travel portion of the
+    # leg.
+    #
+    # @!attribute [rw] charge_step_details
+    #   Details that are specific to a Charge step.
+    #
+    #   **Unit**: `KwH `
+    #   @return [Types::RouteChargeStepDetails]
+    #
+    # @!attribute [rw] duration
+    #   Duration of the step.
+    #
+    #   **Unit**: `seconds`
+    #   @return [Integer]
+    #
+    # @!attribute [rw] instruction
+    #   Brief description of the step in the requested language.
+    #
+    #   <note markdown="1"> Only available when the TravelStepType is Default.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   Type of the step.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteVehicleAfterTravelStep AWS API Documentation
+    #
+    class RouteVehicleAfterTravelStep < Struct.new(
+      :charge_step_details,
+      :duration,
+      :instruction,
+      :type)
+      SENSITIVE = [:duration, :instruction, :type]
+      include Aws::Structure
+    end
+
     # Details corresponding to the arrival for a leg.
     #
     # @!attribute [rw] place
-    #   The place details.
+    #   Place details corresponding to the arrival.
     #   @return [Types::RouteVehiclePlace]
     #
     # @!attribute [rw] time
-    #   The time.
+    #   The arrival time.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteVehicleArrival AWS API Documentation
@@ -5840,7 +7964,7 @@ module Aws::GeoRoutes
     # Details corresponding to the departure for the leg.
     #
     # @!attribute [rw] place
-    #   The place details.
+    #   Place details corresponding to the departure.
     #   @return [Types::RouteVehiclePlace]
     #
     # @!attribute [rw] time
@@ -5895,6 +8019,11 @@ module Aws::GeoRoutes
     end
 
     # Steps of a leg that correspond to the travel portion of the leg.
+    #
+    # @!attribute [rw] after_travel_steps
+    #   Steps of a leg that must be performed after the travel portion of
+    #   the leg.
+    #   @return [Array<Types::RouteVehicleAfterTravelStep>]
     #
     # @!attribute [rw] arrival
     #   Details corresponding to the arrival for the leg.
@@ -5996,6 +8125,7 @@ module Aws::GeoRoutes
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteVehicleLegDetails AWS API Documentation
     #
     class RouteVehicleLegDetails < Struct.new(
+      :after_travel_steps,
       :arrival,
       :departure,
       :incidents,
@@ -6074,7 +8204,7 @@ module Aws::GeoRoutes
       include Aws::Structure
     end
 
-    # Summarized details of the leg.
+    # Summary including duration and distance for the entire leg.
     #
     # @!attribute [rw] best_case_duration
     #   Total duration in free flowing traffic, which is the best case or
@@ -6084,17 +8214,19 @@ module Aws::GeoRoutes
     #   @return [Integer]
     #
     # @!attribute [rw] distance
-    #   Distance of the step.
+    #   Distance of the entire leg.
+    #
+    #   **Unit**: `meters`
     #   @return [Integer]
     #
     # @!attribute [rw] duration
-    #   Duration of the step.
+    #   Duration of the entire leg.
     #
     #   **Unit**: `seconds`
     #   @return [Integer]
     #
     # @!attribute [rw] typical_duration
-    #   Duration of the computed span under typical traffic congestion.
+    #   Duration of the leg under typical traffic congestion.
     #
     #   **Unit**: `seconds`
     #   @return [Integer]
@@ -6134,6 +8266,18 @@ module Aws::GeoRoutes
     #   Index of the waypoint in the request.
     #   @return [Integer]
     #
+    # @!attribute [rw] access_point_details
+    #   Details of the access point.
+    #   @return [Types::RouteAccessPointDetails]
+    #
+    # @!attribute [rw] station_details
+    #   Details about the station.
+    #   @return [Types::RouteStationDetails]
+    #
+    # @!attribute [rw] type
+    #   The type of the place.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteVehiclePlace AWS API Documentation
     #
     class RouteVehiclePlace < Struct.new(
@@ -6141,8 +8285,11 @@ module Aws::GeoRoutes
       :original_position,
       :position,
       :side_of_street,
-      :waypoint_index)
-      SENSITIVE = [:name, :original_position, :position, :side_of_street, :waypoint_index]
+      :waypoint_index,
+      :access_point_details,
+      :station_details,
+      :type)
+      SENSITIVE = [:name, :original_position, :position, :side_of_street, :waypoint_index, :type]
       include Aws::Structure
     end
 
@@ -6352,7 +8499,7 @@ module Aws::GeoRoutes
     #   @return [Integer]
     #
     # @!attribute [rw] typical_duration
-    #   Duration of the computed span under typical traffic congestion.
+    #   Duration of the leg under typical traffic congestion.
     #
     #   **Unit**: `seconds`
     #   @return [Integer]
@@ -6728,6 +8875,35 @@ module Aws::GeoRoutes
       :side_of_street,
       :stop_duration)
       SENSITIVE = [:avoid_actions_for_distance, :avoid_u_turns, :heading, :pass_through, :position, :stop_duration]
+      include Aws::Structure
+    end
+
+    # The URL to an external resource.
+    #
+    # @!attribute [rw] anchor_text
+    #   The interactive or clickable portion of the text.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Text describing the URL.
+    #   @return [String]
+    #
+    # @!attribute [rw] device_type
+    #   Device type for which the link is intended.
+    #   @return [String]
+    #
+    # @!attribute [rw] url
+    #   The URL of the link.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/geo-routes-2020-11-19/RouteWebLink AWS API Documentation
+    #
+    class RouteWebLink < Struct.new(
+      :anchor_text,
+      :description,
+      :device_type,
+      :url)
+      SENSITIVE = [:anchor_text, :description, :device_type, :url]
       include Aws::Structure
     end
 

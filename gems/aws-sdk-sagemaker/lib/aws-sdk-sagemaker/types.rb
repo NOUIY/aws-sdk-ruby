@@ -11551,6 +11551,69 @@ module Aws::SageMaker
       include Aws::Structure
     end
 
+    # @!attribute [rw] job_name
+    #   The name of the job. The name must be unique within your account and
+    #   Amazon Web Services Region.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker
+    #   assumes to perform the job. The role must have the necessary
+    #   permissions to access the resources required by the job
+    #   configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_category
+    #   The category of the job. The category determines the type of
+    #   workload that the job runs.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_config_schema_version
+    #   The version of the configuration schema to use for the job
+    #   configuration document. Use `ListJobSchemaVersions` to get available
+    #   schema versions for a job category.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_config_document
+    #   The JSON configuration document for the job. The document must
+    #   conform to the schema specified by `JobConfigSchemaVersion`. Use
+    #   `DescribeJobSchemaVersion` to retrieve the schema for validation.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   An array of key-value pairs to apply to the job as tags. For more
+    #   information, see [Tagging Amazon Web Services Resources][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/CreateJobRequest AWS API Documentation
+    #
+    class CreateJobRequest < Struct.new(
+      :job_name,
+      :role_arn,
+      :job_category,
+      :job_config_schema_version,
+      :job_config_document,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] job_arn
+    #   The Amazon Resource Name (ARN) of the job.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/CreateJobResponse AWS API Documentation
+    #
+    class CreateJobResponse < Struct.new(
+      :job_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] labeling_job_name
     #   The name of the labeling job. This name is used to identify the job
     #   in a list of labeling jobs. Labeling job names must be unique within
@@ -16040,6 +16103,27 @@ module Aws::SageMaker
       include Aws::Structure
     end
 
+    # @!attribute [rw] job_name
+    #   The name of the job to delete.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_category
+    #   The category of the job to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DeleteJobRequest AWS API Documentation
+    #
+    class DeleteJobRequest < Struct.new(
+      :job_name,
+      :job_category)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DeleteJobResponse AWS API Documentation
+    #
+    class DeleteJobResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] arn
     #   The ARN of the MLflow App to delete.
     #   @return [String]
@@ -20487,6 +20571,144 @@ module Aws::SageMaker
       :stopping_conditions,
       :inference_recommendations,
       :endpoint_performances)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] job_name
+    #   The name of the job to describe.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_category
+    #   The category of the job.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeJobRequest AWS API Documentation
+    #
+    class DescribeJobRequest < Struct.new(
+      :job_name,
+      :job_category)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] job_name
+    #   The name of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_arn
+    #   The Amazon Resource Name (ARN) of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_arn
+    #   The ARN of the IAM role associated with the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_category
+    #   The category of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_config_schema_version
+    #   The schema version used for the job configuration document.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_config_document
+    #   The JSON configuration document for the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   The date and time that the job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The date and time that the job was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The date and time that the job ended.
+    #   @return [Time]
+    #
+    # @!attribute [rw] job_status
+    #   The current status of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] secondary_status
+    #   The detailed secondary status of the job, providing more granular
+    #   information about the job's progress. Secondary statuses may change
+    #   between releases.
+    #   @return [String]
+    #
+    # @!attribute [rw] secondary_status_transitions
+    #   A list of secondary status transitions for the job, with timestamps
+    #   and optional status messages.
+    #   @return [Array<Types::JobSecondaryStatusTransition>]
+    #
+    # @!attribute [rw] failure_reason
+    #   If the job failed, the reason it failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags associated with the job.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeJobResponse AWS API Documentation
+    #
+    class DescribeJobResponse < Struct.new(
+      :job_name,
+      :job_arn,
+      :role_arn,
+      :job_category,
+      :job_config_schema_version,
+      :job_config_document,
+      :creation_time,
+      :last_modified_time,
+      :end_time,
+      :job_status,
+      :secondary_status,
+      :secondary_status_transitions,
+      :failure_reason,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] job_category
+    #   The category of the job schema to describe.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_config_schema_version
+    #   The version of the schema to retrieve. If not specified, the latest
+    #   version is returned.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeJobSchemaVersionRequest AWS API Documentation
+    #
+    class DescribeJobSchemaVersionRequest < Struct.new(
+      :job_category,
+      :job_config_schema_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] job_category
+    #   The category of the job schema.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_config_schema_version
+    #   The version of the schema.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_config_schema
+    #   The JSON schema document that defines the structure of the job
+    #   configuration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeJobSchemaVersionResponse AWS API Documentation
+    #
+    class DescribeJobSchemaVersionResponse < Struct.new(
+      :job_category,
+      :job_config_schema_version,
+      :job_config_schema)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -31957,6 +32179,119 @@ module Aws::SageMaker
       include Aws::Structure
     end
 
+    # Provides summary information about a job configuration schema version.
+    #
+    # @!attribute [rw] job_config_schema_version
+    #   The version of the job configuration schema.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/JobConfigSchemaVersionSummary AWS API Documentation
+    #
+    class JobConfigSchemaVersionSummary < Struct.new(
+      :job_config_schema_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents a secondary status transition for a job. Jobs progress
+    # through multiple secondary statuses during execution. Each transition
+    # records the status, start time, optional end time, and an optional
+    # message with additional details.
+    #
+    # @!attribute [rw] status
+    #   The secondary status of the job at this transition point.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The date and time that the status transition started.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The date and time that the status transition ended.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status_message
+    #   A detailed message about the status transition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/JobSecondaryStatusTransition AWS API Documentation
+    #
+    class JobSecondaryStatusTransition < Struct.new(
+      :status,
+      :start_time,
+      :end_time,
+      :status_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Metadata for a SageMaker job step.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the SageMaker job that was run by
+    #   this step execution.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/JobStepMetadata AWS API Documentation
+    #
+    class JobStepMetadata < Struct.new(
+      :arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides summary information about a job, returned by the `ListJobs`
+    # operation. Use `DescribeJob` to get full details for a specific job.
+    #
+    # @!attribute [rw] job_arn
+    #   The Amazon Resource Name (ARN) of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_name
+    #   The name of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_category
+    #   The category of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_status
+    #   The current status of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_secondary_status
+    #   The secondary status of the job, providing more granular information
+    #   about the job's progress. Secondary statuses may change between
+    #   releases.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   The date and time that the job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The date and time that the job was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The date and time that the job ended.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/JobSummary AWS API Documentation
+    #
+    class JobSummary < Struct.new(
+      :job_arn,
+      :job_name,
+      :job_category,
+      :job_status,
+      :job_secondary_status,
+      :creation_time,
+      :last_modified_time,
+      :end_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The configuration for the file system and kernels in a SageMaker AI
     # image running as a JupyterLab app. The `FileSystemConfig` object is
     # not supported.
@@ -35987,6 +36322,134 @@ module Aws::SageMaker
     class ListInferenceRecommendationsJobsResponse < Struct.new(
       :inference_recommendations_jobs,
       :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] job_category
+    #   The category of job schemas to list.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   If the previous response was truncated, this token retrieves the
+    #   next set of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of schema versions to return in the response. The
+    #   default value is 5.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListJobSchemaVersionsRequest AWS API Documentation
+    #
+    class ListJobSchemaVersionsRequest < Struct.new(
+      :job_category,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   If the response is truncated, this token retrieves the next set of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_config_schemas
+    #   An array of `JobConfigSchemaVersionSummary` objects listing the
+    #   available schema versions.
+    #   @return [Array<Types::JobConfigSchemaVersionSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListJobSchemaVersionsResponse AWS API Documentation
+    #
+    class ListJobSchemaVersionsResponse < Struct.new(
+      :next_token,
+      :job_config_schemas)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] job_category
+    #   The category of jobs to list.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   If the previous response was truncated, this token retrieves the
+    #   next set of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of jobs to return in the response. The default
+    #   value is 50.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] creation_time_after
+    #   A filter that returns only jobs created after the specified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] creation_time_before
+    #   A filter that returns only jobs created before the specified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_time_after
+    #   A filter that returns only jobs modified after the specified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_time_before
+    #   A filter that returns only jobs modified before the specified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] name_contains
+    #   A string in the job name to filter results. Only jobs whose name
+    #   contains the specified string are returned.
+    #   @return [String]
+    #
+    # @!attribute [rw] sort_by
+    #   The field to sort results by.
+    #   @return [String]
+    #
+    # @!attribute [rw] sort_order
+    #   The sort order for results. Valid values are `Ascending` and
+    #   `Descending`.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_equals
+    #   A filter that returns only jobs with the specified status.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListJobsRequest AWS API Documentation
+    #
+    class ListJobsRequest < Struct.new(
+      :job_category,
+      :next_token,
+      :max_results,
+      :creation_time_after,
+      :creation_time_before,
+      :last_modified_time_after,
+      :last_modified_time_before,
+      :name_contains,
+      :sort_by,
+      :sort_order,
+      :status_equals)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   If the response is truncated, this token retrieves the next set of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_summaries
+    #   An array of `JobSummary` objects that provide summary information
+    #   about the jobs.
+    #   @return [Array<Types::JobSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListJobsResponse AWS API Documentation
+    #
+    class ListJobsResponse < Struct.new(
+      :next_token,
+      :job_summaries)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -44757,6 +45220,10 @@ module Aws::SageMaker
     #   The metadata of the lineage used in pipeline execution step.
     #   @return [Types::LineageMetadata]
     #
+    # @!attribute [rw] job
+    #   The metadata for a SageMaker job used in a pipeline execution step.
+    #   @return [Types::JobStepMetadata]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/PipelineExecutionStepMetadata AWS API Documentation
     #
     class PipelineExecutionStepMetadata < Struct.new(
@@ -44781,7 +45248,8 @@ module Aws::SageMaker
       :bedrock_provisioned_model_throughput,
       :bedrock_model_import,
       :inference_component,
-      :lineage)
+      :lineage,
+      :job)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -51025,6 +51493,27 @@ module Aws::SageMaker
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] job_name
+    #   The name of the job to stop.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_category
+    #   The category of the job to stop.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/StopJobRequest AWS API Documentation
+    #
+    class StopJobRequest < Struct.new(
+      :job_name,
+      :job_category)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/StopJobResponse AWS API Documentation
+    #
+    class StopJobResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] labeling_job_name
     #   The name of the labeling job to stop.

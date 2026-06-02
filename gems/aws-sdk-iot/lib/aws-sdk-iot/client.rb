@@ -8645,7 +8645,11 @@ module Aws::IoT
       req.send_request(options)
     end
 
-    # Retrieves the live connectivity status per device.
+    # Retrieves the live connectivity status per device. If a device has
+    # never connected to IoT Core or was disconnected for more than 1 hour
+    # before fleet indexing's `thingConnectivityIndexingMode` was enabled,
+    # the response will have the `connected` field set to `false` with no
+    # additional session details.
     #
     # @option params [required, String] :thing_name
     #   The name of your IoT thing.
@@ -13820,7 +13824,13 @@ module Aws::IoT
       req.send_request(options)
     end
 
-    # The query search index.
+    # Searches the specified index.
+    #
+    # If a device has never connected to IoT Core or was disconnected for
+    # more than 1 hour before fleet indexing's
+    # `thingConnectivityIndexingMode` was enabled, the `connectivity` object
+    # for this device in the response will have the `connected` field set to
+    # `false` with no additional session details.
     #
     # Requires permission to access the [SearchIndex][1] action.
     #
@@ -16697,7 +16707,7 @@ module Aws::IoT
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-iot'
-      context[:gem_version] = '1.170.0'
+      context[:gem_version] = '1.171.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

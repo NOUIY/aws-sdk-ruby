@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.153.0 (2026-06-02)
+------------------
+
+* Feature - Amazon GuardDuty Runtime Monitoring now supports 3 new SensitiveFileModified finding types (Persistence, PrivilegeEscalation, DefenseEvasion) that detect when security-sensitive system files are modified on EC2 instances or containers, indicating potential compromise through file tampering.
+
 1.152.0 (2026-05-26)
 ------------------
 

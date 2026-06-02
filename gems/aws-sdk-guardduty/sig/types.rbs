@@ -2348,6 +2348,9 @@ module Aws::GuardDuty
       attr_accessor service_name: ::String
       attr_accessor command_line_example: ::String
       attr_accessor threat_file_path: ::String
+      attr_accessor file_operation: ::String
+      attr_accessor file_path: ::String
+      attr_accessor related_file_paths: ::Array[::String]
       SENSITIVE: []
     end
 

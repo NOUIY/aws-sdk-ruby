@@ -83,6 +83,7 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::GetRecordsOutput]
         def change_records: () -> ::Array[Types::Record]
         def next_shard_iterator: () -> ::String
+        def iterator_description: () -> Types::IteratorDescription
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/KeyspacesStreams/Client.html#get_records-instance_method
       def get_records: (

@@ -84,7 +84,7 @@ module Aws::GeoRoutes
       attr_accessor instructions_measurement_system: ("Metric" | "Imperial")
       attr_accessor key: ::String
       attr_accessor languages: ::Array[::String]
-      attr_accessor leg_additional_features: ::Array[("Elevation" | "Incidents" | "PassThroughWaypoints" | "Summary" | "Tolls" | "TravelStepInstructions" | "TruckRoadTypes" | "TypicalDuration" | "Zones")]
+      attr_accessor leg_additional_features: ::Array[("Elevation" | "Incidents" | "PassThroughWaypoints" | "Summary" | "Tolls" | "TravelStepInstructions" | "TruckRoadTypes" | "TypicalDuration" | "Zones" | "Bookings" | "IntermediateStops" | "NextDepartures")]
       attr_accessor leg_geometry_format: ("FlexiblePolyline" | "Simple")
       attr_accessor max_alternatives: ::Integer
       attr_accessor optimize_routing_for: ("FastestRoute" | "ShortestRoute")
@@ -93,7 +93,7 @@ module Aws::GeoRoutes
       attr_accessor span_additional_features: ::Array[("BestCaseDuration" | "CarAccess" | "Country" | "Distance" | "Duration" | "DynamicSpeed" | "FunctionalClassification" | "Gates" | "Incidents" | "Names" | "Notices" | "PedestrianAccess" | "RailwayCrossings" | "Region" | "RoadAttributes" | "RouteNumbers" | "ScooterAccess" | "SpeedLimit" | "TollSystems" | "TruckAccess" | "TruckRoadTypes" | "TypicalDuration" | "Zones" | "Consumption")]
       attr_accessor tolls: Types::RouteTollOptions
       attr_accessor traffic: Types::RouteTrafficOptions
-      attr_accessor travel_mode: ("Car" | "Pedestrian" | "Scooter" | "Truck")
+      attr_accessor travel_mode: ("Car" | "Pedestrian" | "Scooter" | "Truck" | "Intermodal" | "Transit")
       attr_accessor travel_mode_options: Types::RouteTravelModeOptions
       attr_accessor travel_step_type: ("Default" | "TurnByTurn")
       attr_accessor waypoints: ::Array[Types::RouteWaypoint]
@@ -397,10 +397,26 @@ module Aws::GeoRoutes
       SENSITIVE: []
     end
 
+    class RouteAccessPointDetails
+      attr_accessor accessibility: Types::RouteAccessibilityAvailabilityDetails
+      SENSITIVE: []
+    end
+
+    class RouteAccessibilityAvailabilityDetails
+      attr_accessor wheelchair: ("Available" | "Limited" | "Unavailable" | "Unknown")
+      SENSITIVE: []
+    end
+
     class RouteAllowOptions
       attr_accessor hot: bool
       attr_accessor hov: bool
       SENSITIVE: [:hot, :hov]
+    end
+
+    class RouteAttribution
+      attr_accessor attribution_type: ("Disclaimer" | "Tariff")
+      attr_accessor web_link: Types::RouteWebLink
+      SENSITIVE: [:attribution_type]
     end
 
     class RouteAvoidanceArea
@@ -445,6 +461,13 @@ module Aws::GeoRoutes
       attr_accessor max_speed: ::Float
       attr_accessor occupancy: ::Integer
       SENSITIVE: [:engine_type, :max_speed, :occupancy]
+    end
+
+    class RouteChargeStepDetails
+      attr_accessor arrival_charge: ::Float
+      attr_accessor consumable_power: ::Float
+      attr_accessor desired_charge: ::Float
+      SENSITIVE: [:arrival_charge, :consumable_power, :desired_charge]
     end
 
     class RouteContinueHighwayStepDetails
@@ -599,6 +622,51 @@ module Aws::GeoRoutes
       SENSITIVE: [:distance, :duration, :instruction, :type]
     end
 
+    class RouteIntermodalOptions
+      attr_accessor accessibility_attributes: ::Array[("Wheelchair")]
+      attr_accessor max_transfers: ::Integer
+      attr_accessor pedestrian: Types::RouteIntermodalPedestrianOptions
+      attr_accessor rental: Types::RouteIntermodalRentalOptions
+      attr_accessor taxi: Types::RouteIntermodalTaxiOptions
+      attr_accessor transit: Types::RouteIntermodalTransitOptions
+      attr_accessor vehicle: Types::RouteIntermodalVehicleOptions
+      SENSITIVE: []
+    end
+
+    class RouteIntermodalPedestrianOptions
+      attr_accessor max_distance: ::Integer
+      attr_accessor speed: ::Float
+      SENSITIVE: [:max_distance, :speed]
+    end
+
+    class RouteIntermodalRentalOptions
+      attr_accessor allowed_modes: ::Array[("All" | "Car")]
+      attr_accessor enabled_for: ::Array[("FirstLeg" | "LastLeg" | "EntireRoute" | "None")]
+      attr_accessor excluded_modes: ::Array[("All" | "Car")]
+      SENSITIVE: []
+    end
+
+    class RouteIntermodalTaxiOptions
+      attr_accessor allowed_modes: ::Array[("All" | "Car")]
+      attr_accessor enabled_for: ::Array[("FirstLeg" | "LastLeg" | "EntireRoute" | "None")]
+      attr_accessor excluded_modes: ::Array[("All" | "Car")]
+      SENSITIVE: []
+    end
+
+    class RouteIntermodalTransitOptions
+      attr_accessor allowed_modes: ::Array[("AerialTramway" | "Airplane" | "All" | "Bus" | "BusRapidTransit" | "CityTrain" | "Ferry" | "FunicularRailway" | "HighSpeedTrain" | "IntercityTrain" | "InterregionalTrain" | "LightRail" | "Monorail" | "PrivateBus" | "RegionalTrain" | "Subway")]
+      attr_accessor enabled_for: ::Array[("FirstLeg" | "LastLeg" | "EntireRoute" | "None")]
+      attr_accessor excluded_modes: ::Array[("AerialTramway" | "Airplane" | "All" | "Bus" | "BusRapidTransit" | "CityTrain" | "Ferry" | "FunicularRailway" | "HighSpeedTrain" | "IntercityTrain" | "InterregionalTrain" | "LightRail" | "Monorail" | "PrivateBus" | "RegionalTrain" | "Subway")]
+      SENSITIVE: []
+    end
+
+    class RouteIntermodalVehicleOptions
+      attr_accessor allowed_modes: ::Array[("All" | "Car")]
+      attr_accessor enabled_for: ::Array[("FirstLeg" | "LastLeg" | "EntireRoute" | "None")]
+      attr_accessor excluded_modes: ::Array[("All" | "Car")]
+      SENSITIVE: []
+    end
+
     class RouteKeepStepDetails
       attr_accessor intersection: ::Array[Types::LocalizedString]
       attr_accessor steering_direction: ("Left" | "Right" | "Straight")
@@ -612,9 +680,12 @@ module Aws::GeoRoutes
       attr_accessor geometry: Types::RouteLegGeometry
       attr_accessor language: ::String
       attr_accessor pedestrian_leg_details: Types::RoutePedestrianLegDetails
-      attr_accessor travel_mode: ("Car" | "Ferry" | "Pedestrian" | "Scooter" | "Truck" | "CarShuttleTrain")
-      attr_accessor type: ("Ferry" | "Pedestrian" | "Vehicle")
+      attr_accessor travel_mode: ("Car" | "Ferry" | "Pedestrian" | "Scooter" | "Truck" | "CarShuttleTrain" | "AerialTramway" | "Airplane" | "Bus" | "BusRapidTransit" | "CityTrain" | "FunicularRailway" | "HighSpeedTrain" | "IntercityTrain" | "InterregionalTrain" | "LightRail" | "Monorail" | "PrivateBus" | "RegionalTrain" | "Subway")
+      attr_accessor type: ("Ferry" | "Pedestrian" | "Vehicle" | "Rental" | "Taxi" | "Transit")
       attr_accessor vehicle_leg_details: Types::RouteVehicleLegDetails
+      attr_accessor rental_leg_details: Types::RouteRentalLegDetails
+      attr_accessor taxi_leg_details: Types::RouteTaxiLegDetails
+      attr_accessor transit_leg_details: Types::RouteTransitLegDetails
       SENSITIVE: [:travel_mode, :type]
     end
 
@@ -842,6 +913,13 @@ module Aws::GeoRoutes
       SENSITIVE: []
     end
 
+    class RoutePedestrianAfterTravelStep
+      attr_accessor duration: ::Integer
+      attr_accessor instruction: ::String
+      attr_accessor type: ("Wait")
+      SENSITIVE: [:duration, :instruction, :type]
+    end
+
     class RoutePedestrianArrival
       attr_accessor place: Types::RoutePedestrianPlace
       attr_accessor time: ::String
@@ -855,6 +933,7 @@ module Aws::GeoRoutes
     end
 
     class RoutePedestrianLegDetails
+      attr_accessor after_travel_steps: ::Array[Types::RoutePedestrianAfterTravelStep]
       attr_accessor arrival: Types::RoutePedestrianArrival
       attr_accessor departure: Types::RoutePedestrianDeparture
       attr_accessor notices: ::Array[Types::RoutePedestrianNotice]
@@ -883,12 +962,15 @@ module Aws::GeoRoutes
     end
 
     class RoutePedestrianPlace
+      attr_accessor access_point_details: Types::RouteAccessPointDetails
       attr_accessor name: ::String
       attr_accessor original_position: ::Array[::Float]
       attr_accessor position: ::Array[::Float]
       attr_accessor side_of_street: ("Left" | "Right")
+      attr_accessor station_details: Types::RouteStationDetails
+      attr_accessor type: ("AccessPoint" | "DockingStation" | "ParkingLot" | "Station")
       attr_accessor waypoint_index: ::Integer
-      SENSITIVE: [:name, :original_position, :position, :side_of_street, :waypoint_index]
+      SENSITIVE: [:name, :original_position, :position, :side_of_street, :type, :waypoint_index]
     end
 
     class RoutePedestrianSpan
@@ -937,7 +1019,7 @@ module Aws::GeoRoutes
       attr_accessor signpost: Types::RouteSignpost
       attr_accessor turn_step_details: Types::RouteTurnStepDetails
       attr_accessor type: ("Arrive" | "Continue" | "Depart" | "Keep" | "RoundaboutEnter" | "RoundaboutExit" | "RoundaboutPass" | "Turn")
-      SENSITIVE: [:distance, :duration, :instruction]
+      SENSITIVE: [:distance, :duration, :instruction, :type]
     end
 
     class RouteRampStepDetails
@@ -948,8 +1030,113 @@ module Aws::GeoRoutes
       SENSITIVE: [:steering_direction, :turn_intensity]
     end
 
+    class RouteRentalAfterTravelStep
+      attr_accessor duration: ::Integer
+      attr_accessor instruction: ::String
+      attr_accessor type: ("Park")
+      SENSITIVE: [:duration, :instruction, :type]
+    end
+
+    class RouteRentalAgency
+      attr_accessor name: ::String
+      attr_accessor url: ::String
+      SENSITIVE: [:name, :url]
+    end
+
+    class RouteRentalArrival
+      attr_accessor place: Types::RouteRentalPlace
+      attr_accessor time: ::String
+      SENSITIVE: [:time]
+    end
+
+    class RouteRentalBeforeTravelStep
+      attr_accessor duration: ::Integer
+      attr_accessor instruction: ::String
+      attr_accessor type: ("Setup")
+      SENSITIVE: [:duration, :instruction, :type]
+    end
+
+    class RouteRentalDeparture
+      attr_accessor place: Types::RouteRentalPlace
+      attr_accessor time: ::String
+      SENSITIVE: [:time]
+    end
+
+    class RouteRentalLegDetails
+      attr_accessor after_travel_steps: ::Array[Types::RouteRentalAfterTravelStep]
+      attr_accessor agency: Types::RouteRentalAgency
+      attr_accessor arrival: Types::RouteRentalArrival
+      attr_accessor attributions: ::Array[Types::RouteAttribution]
+      attr_accessor before_travel_steps: ::Array[Types::RouteRentalBeforeTravelStep]
+      attr_accessor booking_web_links: ::Array[Types::RouteWebLink]
+      attr_accessor departure: Types::RouteRentalDeparture
+      attr_accessor summary: Types::RouteRentalSummary
+      attr_accessor transport: Types::RouteRentalTransportModeDetails
+      attr_accessor travel_steps: ::Array[Types::RouteRentalTravelStep]
+      SENSITIVE: []
+    end
+
+    class RouteRentalOverviewSummary
+      attr_accessor duration: ::Integer
+      attr_accessor distance: ::Integer
+      SENSITIVE: [:duration, :distance]
+    end
+
+    class RouteRentalPlace
+      attr_accessor access_point_details: Types::RouteAccessPointDetails
+      attr_accessor name: ::String
+      attr_accessor original_position: ::Array[::Float]
+      attr_accessor position: ::Array[::Float]
+      attr_accessor station_details: Types::RouteStationDetails
+      attr_accessor type: ("AccessPoint" | "DockingStation" | "ParkingLot" | "Station")
+      attr_accessor waypoint_index: ::Integer
+      SENSITIVE: [:name, :original_position, :position, :type, :waypoint_index]
+    end
+
+    class RouteRentalSummary
+      attr_accessor overview: Types::RouteRentalOverviewSummary
+      attr_accessor travel_only: Types::RouteRentalTravelOnlySummary
+      SENSITIVE: []
+    end
+
+    class RouteRentalTransportModeDetails
+      attr_accessor available_seats: ::Integer
+      attr_accessor category: ::String
+      attr_accessor color: ::String
+      attr_accessor engine: ("Electric" | "InternalCombustion" | "PluginHybrid")
+      attr_accessor license_plate: ::String
+      attr_accessor mode: ("All" | "Car")
+      attr_accessor model: ::String
+      attr_accessor name: ::String
+      attr_accessor text_color: ::String
+      SENSITIVE: [:available_seats, :category, :color, :engine, :license_plate, :mode, :model, :name, :text_color]
+    end
+
+    class RouteRentalTravelOnlySummary
+      attr_accessor duration: ::Integer
+      SENSITIVE: [:duration]
+    end
+
+    class RouteRentalTravelStep
+      attr_accessor continue_step_details: Types::RouteContinueStepDetails
+      attr_accessor distance: ::Integer
+      attr_accessor duration: ::Integer
+      attr_accessor exit_step_details: Types::RouteExitStepDetails
+      attr_accessor geometry_offset: ::Integer
+      attr_accessor instruction: ::String
+      attr_accessor keep_step_details: Types::RouteKeepStepDetails
+      attr_accessor ramp_step_details: Types::RouteRampStepDetails
+      attr_accessor roundabout_enter_step_details: Types::RouteRoundaboutEnterStepDetails
+      attr_accessor roundabout_exit_step_details: Types::RouteRoundaboutExitStepDetails
+      attr_accessor roundabout_pass_step_details: Types::RouteRoundaboutPassStepDetails
+      attr_accessor turn_step_details: Types::RouteTurnStepDetails
+      attr_accessor type: ("Arrive" | "Continue" | "Depart" | "Exit" | "Keep" | "Ramp" | "RoundaboutEnter" | "RoundaboutExit" | "RoundaboutPass" | "Turn" | "UTurn")
+      attr_accessor u_turn_step_details: Types::RouteUTurnStepDetails
+      SENSITIVE: [:distance, :duration, :instruction, :type]
+    end
+
     class RouteResponseNotice
-      attr_accessor code: ("MainLanguageNotFound" | "Other" | "TravelTimeExceedsDriverWorkHours")
+      attr_accessor code: ("MainLanguageNotFound" | "Other" | "TravelTimeExceedsDriverWorkHours" | "TransitDataUnavailable" | "TransitRouteUnavailable" | "NoTransitStationsFound")
       attr_accessor impact: ("High" | "Low")
       SENSITIVE: []
     end
@@ -1024,11 +1211,130 @@ module Aws::GeoRoutes
       SENSITIVE: [:max_speed, :unlimited]
     end
 
+    class RouteStationDetails
+      attr_accessor accessibility: Types::RouteAccessibilityAvailabilityDetails
+      attr_accessor platform_name: ::String
+      attr_accessor short_name: ::String
+      SENSITIVE: [:platform_name, :short_name]
+    end
+
     class RouteSummary
       attr_accessor distance: ::Integer
       attr_accessor duration: ::Integer
       attr_accessor tolls: Types::RouteTollSummary
       SENSITIVE: [:distance, :duration]
+    end
+
+    class RouteTaxiAfterTravelStep
+      attr_accessor duration: ::Integer
+      attr_accessor instruction: ::String
+      attr_accessor type: ("Park")
+      SENSITIVE: [:duration, :instruction, :type]
+    end
+
+    class RouteTaxiAgency
+      attr_accessor name: ::String
+      attr_accessor url: ::String
+      SENSITIVE: [:name, :url]
+    end
+
+    class RouteTaxiArrival
+      attr_accessor place: Types::RouteTaxiPlace
+      attr_accessor time: ::String
+      SENSITIVE: [:time]
+    end
+
+    class RouteTaxiBeforeTravelStep
+      attr_accessor duration: ::Integer
+      attr_accessor instruction: ::String
+      attr_accessor type: ("Wait")
+      SENSITIVE: [:duration, :instruction, :type]
+    end
+
+    class RouteTaxiDeparture
+      attr_accessor place: Types::RouteTaxiPlace
+      attr_accessor time: ::String
+      SENSITIVE: [:time]
+    end
+
+    class RouteTaxiLegDetails
+      attr_accessor after_travel_steps: ::Array[Types::RouteTaxiAfterTravelStep]
+      attr_accessor agency: Types::RouteTaxiAgency
+      attr_accessor arrival: Types::RouteTaxiArrival
+      attr_accessor attributions: ::Array[Types::RouteAttribution]
+      attr_accessor before_travel_steps: ::Array[Types::RouteTaxiBeforeTravelStep]
+      attr_accessor booking_web_links: ::Array[Types::RouteWebLink]
+      attr_accessor departure: Types::RouteTaxiDeparture
+      attr_accessor notices: ::Array[Types::RouteTaxiNotice]
+      attr_accessor summary: Types::RouteTaxiSummary
+      attr_accessor transport: Types::RouteTaxiTransportModeDetails
+      attr_accessor travel_steps: ::Array[Types::RouteTaxiTravelStep]
+      SENSITIVE: []
+    end
+
+    class RouteTaxiNotice
+      attr_accessor code: ("AccuratePolylineUnavailable" | "Other")
+      attr_accessor impact: ("High" | "Low")
+      SENSITIVE: []
+    end
+
+    class RouteTaxiOverviewSummary
+      attr_accessor duration: ::Integer
+      attr_accessor distance: ::Integer
+      SENSITIVE: [:duration, :distance]
+    end
+
+    class RouteTaxiPlace
+      attr_accessor access_point_details: Types::RouteAccessPointDetails
+      attr_accessor name: ::String
+      attr_accessor original_position: ::Array[::Float]
+      attr_accessor position: ::Array[::Float]
+      attr_accessor station_details: Types::RouteStationDetails
+      attr_accessor type: ("AccessPoint" | "Station")
+      attr_accessor waypoint_index: ::Integer
+      SENSITIVE: [:name, :original_position, :position, :type, :waypoint_index]
+    end
+
+    class RouteTaxiSummary
+      attr_accessor overview: Types::RouteTaxiOverviewSummary
+      attr_accessor travel_only: Types::RouteTaxiTravelOnlySummary
+      SENSITIVE: []
+    end
+
+    class RouteTaxiTransportModeDetails
+      attr_accessor available_seats: ::Integer
+      attr_accessor category: ::String
+      attr_accessor color: ::String
+      attr_accessor engine: ("Electric" | "InternalCombustion" | "PluginHybrid")
+      attr_accessor license_plate: ::String
+      attr_accessor mode: ("All" | "Car")
+      attr_accessor model: ::String
+      attr_accessor name: ::String
+      attr_accessor text_color: ::String
+      SENSITIVE: [:available_seats, :category, :color, :engine, :license_plate, :mode, :model, :name, :text_color]
+    end
+
+    class RouteTaxiTravelOnlySummary
+      attr_accessor duration: ::Integer
+      SENSITIVE: [:duration]
+    end
+
+    class RouteTaxiTravelStep
+      attr_accessor continue_step_details: Types::RouteContinueStepDetails
+      attr_accessor distance: ::Integer
+      attr_accessor duration: ::Integer
+      attr_accessor exit_step_details: Types::RouteExitStepDetails
+      attr_accessor geometry_offset: ::Integer
+      attr_accessor instruction: ::String
+      attr_accessor keep_step_details: Types::RouteKeepStepDetails
+      attr_accessor ramp_step_details: Types::RouteRampStepDetails
+      attr_accessor roundabout_enter_step_details: Types::RouteRoundaboutEnterStepDetails
+      attr_accessor roundabout_exit_step_details: Types::RouteRoundaboutExitStepDetails
+      attr_accessor roundabout_pass_step_details: Types::RouteRoundaboutPassStepDetails
+      attr_accessor turn_step_details: Types::RouteTurnStepDetails
+      attr_accessor type: ("Arrive" | "Continue" | "Depart" | "Exit" | "Keep" | "Ramp" | "RoundaboutEnter" | "RoundaboutExit" | "RoundaboutPass" | "Turn" | "UTurn")
+      attr_accessor u_turn_step_details: Types::RouteUTurnStepDetails
+      SENSITIVE: [:distance, :duration, :instruction, :type]
     end
 
     class RouteToll
@@ -1128,6 +1434,169 @@ module Aws::GeoRoutes
       SENSITIVE: [:axle_count, :trailer_count]
     end
 
+    class RouteTransitAfterTravelStep
+      attr_accessor duration: ::Integer
+      attr_accessor instruction: ::String
+      attr_accessor type: ("Deboard")
+      SENSITIVE: [:duration, :instruction, :type]
+    end
+
+    class RouteTransitAgency
+      attr_accessor name: ::String
+      attr_accessor url: ::String
+      SENSITIVE: [:name, :url]
+    end
+
+    class RouteTransitArrival
+      attr_accessor delay: ::Integer
+      attr_accessor place: Types::RouteTransitPlace
+      attr_accessor status: ("Added" | "Cancelled" | "Replaced" | "Scheduled")
+      attr_accessor time: ::String
+      SENSITIVE: [:delay, :status, :time]
+    end
+
+    class RouteTransitBeforeTravelStep
+      attr_accessor duration: ::Integer
+      attr_accessor instruction: ::String
+      attr_accessor type: ("Board")
+      SENSITIVE: [:duration, :instruction, :type]
+    end
+
+    class RouteTransitDeparture
+      attr_accessor delay: ::Integer
+      attr_accessor place: Types::RouteTransitPlace
+      attr_accessor status: ("Added" | "Cancelled" | "Replaced" | "Scheduled")
+      attr_accessor time: ::String
+      SENSITIVE: [:delay, :status, :time]
+    end
+
+    class RouteTransitIncident
+      attr_accessor description: ::String
+      attr_accessor effect: ("Delayed" | "Detoured" | "Other" | "ServiceAdded" | "ServiceCancelled" | "ServiceModified" | "ServiceReduced" | "StopMoved")
+      attr_accessor end_time: ::String
+      attr_accessor start_time: ::String
+      attr_accessor type: ("Accident" | "Construction" | "Demonstration" | "Holiday" | "Maintenance" | "MedicalEmergency" | "Other" | "PoliceActivity" | "Strike" | "TechnicalProblem" | "Weather")
+      attr_accessor url: ::String
+      SENSITIVE: [:description, :effect, :end_time, :start_time, :type, :url]
+    end
+
+    class RouteTransitIntermediateStop
+      attr_accessor attributes: ::Array[("NoEntry" | "NoExit")]
+      attr_accessor departure: Types::RouteTransitDeparture
+      attr_accessor duration: ::Integer
+      attr_accessor geometry_offset: ::Integer
+      attr_accessor transport: Types::RouteTransitTransportModeDetails
+      SENSITIVE: [:duration]
+    end
+
+    class RouteTransitLegDetails
+      attr_accessor after_travel_steps: ::Array[Types::RouteTransitAfterTravelStep]
+      attr_accessor agency: Types::RouteTransitAgency
+      attr_accessor arrival: Types::RouteTransitArrival
+      attr_accessor attributions: ::Array[Types::RouteAttribution]
+      attr_accessor before_travel_steps: ::Array[Types::RouteTransitBeforeTravelStep]
+      attr_accessor booking_web_links: ::Array[Types::RouteWebLink]
+      attr_accessor departure: Types::RouteTransitDeparture
+      attr_accessor incidents: ::Array[Types::RouteTransitIncident]
+      attr_accessor intermediate_stops: ::Array[Types::RouteTransitIntermediateStop]
+      attr_accessor next_departures: ::Array[Types::RouteTransitNextDeparture]
+      attr_accessor notices: ::Array[Types::RouteTransitNotice]
+      attr_accessor pass_through_waypoints: ::Array[Types::RoutePassThroughWaypoint]
+      attr_accessor spans: ::Array[Types::RouteTransitSpan]
+      attr_accessor summary: Types::RouteTransitSummary
+      attr_accessor transport: Types::RouteTransitTransportModeDetails
+      attr_accessor travel_steps: ::Array[Types::RouteTransitTravelStep]
+      SENSITIVE: []
+    end
+
+    class RouteTransitNextDeparture
+      attr_accessor delay: ::Integer
+      attr_accessor platform_name: ::String
+      attr_accessor status: ("Added" | "Cancelled" | "Replaced" | "Scheduled")
+      attr_accessor time: ::String
+      attr_accessor transport: Types::RouteTransitTransportModeDetails
+      SENSITIVE: [:delay, :platform_name, :status, :time]
+    end
+
+    class RouteTransitNotice
+      attr_accessor code: ("AccuratePolylineUnavailable" | "IntermediateStopsUnavailable" | "NoSchedule" | "Other" | "PotentialViolatedVehicleRestrictionUsage" | "ScheduledTimes" | "SeasonalClosure" | "ViolatedAvoidFerry" | "ViolatedAvoidRailFerry" | "ViolatedExcludedTransitMode" | "ViolatedVehicleRestriction" | "ViolatedAvoidAreas")
+      attr_accessor impact: ("High" | "Low")
+      SENSITIVE: []
+    end
+
+    class RouteTransitOptions
+      attr_accessor accessibility_attributes: ::Array[("Wheelchair")]
+      attr_accessor allowed_modes: ::Array[("AerialTramway" | "Airplane" | "All" | "Bus" | "BusRapidTransit" | "CityTrain" | "Ferry" | "FunicularRailway" | "HighSpeedTrain" | "IntercityTrain" | "InterregionalTrain" | "LightRail" | "Monorail" | "PrivateBus" | "RegionalTrain" | "Subway")]
+      attr_accessor excluded_modes: ::Array[("AerialTramway" | "Airplane" | "All" | "Bus" | "BusRapidTransit" | "CityTrain" | "Ferry" | "FunicularRailway" | "HighSpeedTrain" | "IntercityTrain" | "InterregionalTrain" | "LightRail" | "Monorail" | "PrivateBus" | "RegionalTrain" | "Subway")]
+      attr_accessor max_transfers: ::Integer
+      attr_accessor pedestrian: Types::RouteTransitPedestrianOptions
+      SENSITIVE: []
+    end
+
+    class RouteTransitOverviewSummary
+      attr_accessor distance: ::Integer
+      attr_accessor duration: ::Integer
+      SENSITIVE: [:distance, :duration]
+    end
+
+    class RouteTransitPedestrianOptions
+      attr_accessor max_distance: ::Integer
+      attr_accessor speed: ::Float
+      SENSITIVE: [:max_distance, :speed]
+    end
+
+    class RouteTransitPlace
+      attr_accessor name: ::String
+      attr_accessor original_position: ::Array[::Float]
+      attr_accessor position: ::Array[::Float]
+      attr_accessor station_details: Types::RouteStationDetails
+      attr_accessor type: ("Station")
+      attr_accessor waypoint_index: ::Integer
+      SENSITIVE: [:name, :original_position, :position, :type, :waypoint_index]
+    end
+
+    class RouteTransitSpan
+      attr_accessor country: ::String
+      attr_accessor distance: ::Integer
+      attr_accessor duration: ::Integer
+      attr_accessor geometry_offset: ::Integer
+      attr_accessor names: ::Array[Types::LocalizedString]
+      attr_accessor region: ::String
+      SENSITIVE: [:country, :distance, :duration, :region]
+    end
+
+    class RouteTransitSummary
+      attr_accessor overview: Types::RouteTransitOverviewSummary
+      attr_accessor travel_only: Types::RouteTransitTravelOnlySummary
+      SENSITIVE: []
+    end
+
+    class RouteTransitTransportModeDetails
+      attr_accessor accessibility: Types::RouteAccessibilityAvailabilityDetails
+      attr_accessor color: ::String
+      attr_accessor headsign: ::String
+      attr_accessor long_route_name: ::String
+      attr_accessor mode: ("AerialTramway" | "Airplane" | "All" | "Bus" | "BusRapidTransit" | "CityTrain" | "Ferry" | "FunicularRailway" | "HighSpeedTrain" | "IntercityTrain" | "InterregionalTrain" | "LightRail" | "Monorail" | "PrivateBus" | "RegionalTrain" | "Subway")
+      attr_accessor route_name: ::String
+      attr_accessor short_route_name: ::String
+      attr_accessor text_color: ::String
+      SENSITIVE: [:color, :headsign, :long_route_name, :mode, :route_name, :short_route_name, :text_color]
+    end
+
+    class RouteTransitTravelOnlySummary
+      attr_accessor duration: ::Integer
+      SENSITIVE: [:duration]
+    end
+
+    class RouteTransitTravelStep
+      attr_accessor distance: ::Integer
+      attr_accessor duration: ::Integer
+      attr_accessor geometry_offset: ::Integer
+      attr_accessor instruction: ::String
+      attr_accessor type: ("Depart")
+      SENSITIVE: [:distance, :duration, :instruction, :type]
+    end
+
     class RouteTransponder
       attr_accessor system_name: ::String
       SENSITIVE: [:system_name]
@@ -1138,6 +1607,8 @@ module Aws::GeoRoutes
       attr_accessor pedestrian: Types::RoutePedestrianOptions
       attr_accessor scooter: Types::RouteScooterOptions
       attr_accessor truck: Types::RouteTruckOptions
+      attr_accessor intermodal: Types::RouteIntermodalOptions
+      attr_accessor transit: Types::RouteTransitOptions
       SENSITIVE: []
     end
 
@@ -1180,6 +1651,14 @@ module Aws::GeoRoutes
       SENSITIVE: [:steering_direction, :turn_intensity]
     end
 
+    class RouteVehicleAfterTravelStep
+      attr_accessor charge_step_details: Types::RouteChargeStepDetails
+      attr_accessor duration: ::Integer
+      attr_accessor instruction: ::String
+      attr_accessor type: ("Park")
+      SENSITIVE: [:duration, :instruction, :type]
+    end
+
     class RouteVehicleArrival
       attr_accessor place: Types::RouteVehiclePlace
       attr_accessor time: ::String
@@ -1202,6 +1681,7 @@ module Aws::GeoRoutes
     end
 
     class RouteVehicleLegDetails
+      attr_accessor after_travel_steps: ::Array[Types::RouteVehicleAfterTravelStep]
       attr_accessor arrival: Types::RouteVehicleArrival
       attr_accessor departure: Types::RouteVehicleDeparture
       attr_accessor incidents: ::Array[Types::RouteVehicleIncident]
@@ -1249,7 +1729,10 @@ module Aws::GeoRoutes
       attr_accessor position: ::Array[::Float]
       attr_accessor side_of_street: ("Left" | "Right")
       attr_accessor waypoint_index: ::Integer
-      SENSITIVE: [:name, :original_position, :position, :side_of_street, :waypoint_index]
+      attr_accessor access_point_details: Types::RouteAccessPointDetails
+      attr_accessor station_details: Types::RouteStationDetails
+      attr_accessor type: ("AccessPoint" | "DockingStation" | "ParkingLot" | "Station")
+      SENSITIVE: [:name, :original_position, :position, :side_of_street, :waypoint_index, :type]
     end
 
     class RouteVehicleSpan
@@ -1349,6 +1832,14 @@ module Aws::GeoRoutes
       attr_accessor side_of_street: Types::RouteSideOfStreetOptions
       attr_accessor stop_duration: ::Integer
       SENSITIVE: [:avoid_actions_for_distance, :avoid_u_turns, :heading, :pass_through, :position, :stop_duration]
+    end
+
+    class RouteWebLink
+      attr_accessor anchor_text: ::String
+      attr_accessor description: ::String
+      attr_accessor device_type: ("Android" | "Ios" | "Web")
+      attr_accessor url: ::String
+      SENSITIVE: [:anchor_text, :description, :device_type, :url]
     end
 
     class RouteWeightConstraint

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.621.0 (2026-06-02)
+------------------
+
+* Feature - Amazon EC2 now supports self-service cancellation of future-dated Capacity Reservations. A cancellation charge applies based on remaining commitment. Customers can generate a cancellation quote to review charges before confirming.
+
 1.620.0 (2026-05-22)
 ------------------
 

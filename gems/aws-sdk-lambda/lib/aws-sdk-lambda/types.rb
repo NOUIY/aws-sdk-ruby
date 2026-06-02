@@ -543,6 +543,11 @@ module Aws::Lambda
     #   The date and time when the capacity provider was last modified.
     #   @return [Time]
     #
+    # @!attribute [rw] propagate_tags
+    #   Configuration for tag propagation to managed resources launched by
+    #   the capacity provider.
+    #   @return [Types::PropagateTags]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CapacityProvider AWS API Documentation
     #
     class CapacityProvider < Struct.new(
@@ -553,7 +558,8 @@ module Aws::Lambda
       :instance_requirements,
       :capacity_provider_scaling_config,
       :kms_key_arn,
-      :last_modified)
+      :last_modified,
+      :propagate_tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1246,6 +1252,11 @@ module Aws::Lambda
     #   A list of tags to associate with the capacity provider.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] propagate_tags
+    #   The tag propagation configuration for the capacity provider.
+    #   Specifies tags to apply to managed resources at launch.
+    #   @return [Types::PropagateTags]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateCapacityProviderRequest AWS API Documentation
     #
     class CreateCapacityProviderRequest < Struct.new(
@@ -1255,7 +1266,8 @@ module Aws::Lambda
       :instance_requirements,
       :capacity_provider_scaling_config,
       :kms_key_arn,
-      :tags)
+      :tags,
+      :propagate_tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7273,6 +7285,29 @@ module Aws::Lambda
       include Aws::Structure
     end
 
+    # Configuration for tag propagation to managed resources launched by the
+    # capacity provider.
+    #
+    # @!attribute [rw] mode
+    #   The tag propagation mode. Set to `Explicit` to propagate the tags
+    #   specified in `ExplicitTags` to managed resources. Set to `None` to
+    #   disable tag propagation.
+    #   @return [String]
+    #
+    # @!attribute [rw] explicit_tags
+    #   A list of tags to apply to managed resources when `Mode` is set to
+    #   `Explicit`. You can specify up to 40 tags.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PropagateTags AWS API Documentation
+    #
+    class PropagateTags < Struct.new(
+      :mode,
+      :explicit_tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Details about the provisioned concurrency configuration for a function
     # alias or version.
     #
@@ -9049,11 +9084,17 @@ module Aws::Lambda
     #   The updated scaling configuration for the capacity provider.
     #   @return [Types::CapacityProviderScalingConfig]
     #
+    # @!attribute [rw] propagate_tags
+    #   Configuration for tag propagation to managed resources launched by
+    #   the capacity provider.
+    #   @return [Types::PropagateTags]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateCapacityProviderRequest AWS API Documentation
     #
     class UpdateCapacityProviderRequest < Struct.new(
       :capacity_provider_name,
-      :capacity_provider_scaling_config)
+      :capacity_provider_scaling_config,
+      :propagate_tags)
       SENSITIVE = []
       include Aws::Structure
     end

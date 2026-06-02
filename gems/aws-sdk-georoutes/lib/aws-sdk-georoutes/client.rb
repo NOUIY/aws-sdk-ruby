@@ -933,7 +933,8 @@ module Aws::GeoRoutes
     #   `2020-04-22T17:57:24+02:00`
     #
     # @option params [required, Array<Types::RouteMatrixDestination>] :destinations
-    #   List of destinations for the route.
+    #   List of destinations for the route in World Geodetic System (WGS 84)
+    #   format: \[longitude, latitude\].
     #
     #   <note markdown="1"> Route calculations are billed for each origin and destination pair. If
     #   you use a large matrix of origins and destinations, your costs will
@@ -942,9 +943,30 @@ module Aws::GeoRoutes
     #
     #    </note>
     #
+    #   The maximum number of destinations depends on the routing boundary
+    #   configuration:
+    #
+    #   * With `RoutingBoundary.Geometry` set: maximum 500 destinations
+    #
+    #   * With `RoutingBoundary.Unbounded` set to `true`: maximum 100
+    #     destinations
+    #
+    #   * For [GrabMaps][2] customers in `ap-southeast-1` and
+    #     `ap-southeast-5`: maximum 350 destinations
+    #
+    #   The total matrix size (origins × destinations) must not exceed:
+    #
+    #   * With `RoutingBoundary.Geometry`: 160,000
+    #
+    #   * With `RoutingBoundary.Unbounded`: 100
+    #
+    #   * For [GrabMaps][2] customers in `ap-southeast-1` and
+    #     `ap-southeast-5`: 122,500
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html
+    #   [2]: https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html
     #
     # @option params [Types::RouteMatrixExclusionOptions] :exclude
     #   Features to be strictly excluded while calculating the route. Not
@@ -967,8 +989,8 @@ module Aws::GeoRoutes
     #   Default value: `FastestRoute`
     #
     # @option params [required, Array<Types::RouteMatrixOrigin>] :origins
-    #   The position for the origin in World Geodetic System (WGS 84) format:
-    #   \[longitude, latitude\].
+    #   List of origins for the route in World Geodetic System (WGS 84)
+    #   format: \[longitude, latitude\].
     #
     #   <note markdown="1"> Route calculations are billed for each origin and destination pair.
     #   Using a large amount of Origins in a request can lead you to incur
@@ -977,9 +999,29 @@ module Aws::GeoRoutes
     #
     #    </note>
     #
+    #   The maximum number of origins depends on the routing boundary
+    #   configuration:
+    #
+    #   * With `RoutingBoundary.Geometry` set: maximum 500 origins
+    #
+    #   * With `RoutingBoundary.Unbounded` set to `true`: maximum 15 origins
+    #
+    #   * For [GrabMaps][2] customers in `ap-southeast-1` and
+    #     `ap-southeast-5`: maximum 350 origins
+    #
+    #   The total matrix size (origins × destinations) must not exceed:
+    #
+    #   * With `RoutingBoundary.Geometry`: 160,000
+    #
+    #   * With `RoutingBoundary.Unbounded`: 100
+    #
+    #   * For [GrabMaps][2] customers in `ap-southeast-1` and
+    #     `ap-southeast-5`: 122,500
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html
+    #   [2]: https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html
     #
     # @option params [Types::RouteMatrixBoundary] :routing_boundary
     #   Boundary within which the matrix is to be calculated. All data,
@@ -989,9 +1031,8 @@ module Aws::GeoRoutes
     #
     #   Default value: `Unbounded set to true`
     #
-    #   <note markdown="1"> When request routing boundary was set as AutoCircle, the response
-    #   routing boundary will return Circle derived from the AutoCircle
-    #   settings.
+    #   <note markdown="1"> When `AutoCircle` is set in the request, the response routing boundary
+    #   will return `Circle` derived from the `AutoCircle` settings.
     #
     #    </note>
     #
@@ -1586,7 +1627,7 @@ module Aws::GeoRoutes
     #     instructions_measurement_system: "Metric", # accepts Metric, Imperial
     #     key: "ApiKey",
     #     languages: ["LanguageTag"],
-    #     leg_additional_features: ["Elevation"], # accepts Elevation, Incidents, PassThroughWaypoints, Summary, Tolls, TravelStepInstructions, TruckRoadTypes, TypicalDuration, Zones
+    #     leg_additional_features: ["Elevation"], # accepts Elevation, Incidents, PassThroughWaypoints, Summary, Tolls, TravelStepInstructions, TruckRoadTypes, TypicalDuration, Zones, Bookings, IntermediateStops, NextDepartures
     #     leg_geometry_format: "FlexiblePolyline", # accepts FlexiblePolyline, Simple
     #     max_alternatives: 1,
     #     optimize_routing_for: "FastestRoute", # accepts FastestRoute, ShortestRoute
@@ -1621,7 +1662,7 @@ module Aws::GeoRoutes
     #       flow_event_threshold_override: 1,
     #       usage: "IgnoreTrafficData", # accepts IgnoreTrafficData, UseTrafficData
     #     },
-    #     travel_mode: "Car", # accepts Car, Pedestrian, Scooter, Truck
+    #     travel_mode: "Car", # accepts Car, Pedestrian, Scooter, Truck, Intermodal, Transit
     #     travel_mode_options: {
     #       car: {
     #         engine_type: "Electric", # accepts Electric, InternalCombustion, PluginHybrid
@@ -1674,6 +1715,44 @@ module Aws::GeoRoutes
     #         },
     #         width: 1,
     #       },
+    #       intermodal: {
+    #         accessibility_attributes: ["Wheelchair"], # accepts Wheelchair
+    #         max_transfers: 1,
+    #         pedestrian: {
+    #           max_distance: 1,
+    #           speed: 1.0,
+    #         },
+    #         rental: {
+    #           allowed_modes: ["All"], # accepts All, Car
+    #           enabled_for: ["FirstLeg"], # accepts FirstLeg, LastLeg, EntireRoute, None
+    #           excluded_modes: ["All"], # accepts All, Car
+    #         },
+    #         taxi: {
+    #           allowed_modes: ["All"], # accepts All, Car
+    #           enabled_for: ["FirstLeg"], # accepts FirstLeg, LastLeg, EntireRoute, None
+    #           excluded_modes: ["All"], # accepts All, Car
+    #         },
+    #         transit: {
+    #           allowed_modes: ["AerialTramway"], # accepts AerialTramway, Airplane, All, Bus, BusRapidTransit, CityTrain, Ferry, FunicularRailway, HighSpeedTrain, IntercityTrain, InterregionalTrain, LightRail, Monorail, PrivateBus, RegionalTrain, Subway
+    #           enabled_for: ["FirstLeg"], # accepts FirstLeg, LastLeg, EntireRoute, None
+    #           excluded_modes: ["AerialTramway"], # accepts AerialTramway, Airplane, All, Bus, BusRapidTransit, CityTrain, Ferry, FunicularRailway, HighSpeedTrain, IntercityTrain, InterregionalTrain, LightRail, Monorail, PrivateBus, RegionalTrain, Subway
+    #         },
+    #         vehicle: {
+    #           allowed_modes: ["All"], # accepts All, Car
+    #           enabled_for: ["FirstLeg"], # accepts FirstLeg, LastLeg, EntireRoute, None
+    #           excluded_modes: ["All"], # accepts All, Car
+    #         },
+    #       },
+    #       transit: {
+    #         accessibility_attributes: ["Wheelchair"], # accepts Wheelchair
+    #         allowed_modes: ["AerialTramway"], # accepts AerialTramway, Airplane, All, Bus, BusRapidTransit, CityTrain, Ferry, FunicularRailway, HighSpeedTrain, IntercityTrain, InterregionalTrain, LightRail, Monorail, PrivateBus, RegionalTrain, Subway
+    #         excluded_modes: ["AerialTramway"], # accepts AerialTramway, Airplane, All, Bus, BusRapidTransit, CityTrain, Ferry, FunicularRailway, HighSpeedTrain, IntercityTrain, InterregionalTrain, LightRail, Monorail, PrivateBus, RegionalTrain, Subway
+    #         max_transfers: 1,
+    #         pedestrian: {
+    #           max_distance: 1,
+    #           speed: 1.0,
+    #         },
+    #       },
     #     },
     #     travel_step_type: "Default", # accepts Default, TurnByTurn
     #     waypoints: [
@@ -1702,7 +1781,7 @@ module Aws::GeoRoutes
     #
     #   resp.leg_geometry_format #=> String, one of "FlexiblePolyline", "Simple"
     #   resp.notices #=> Array
-    #   resp.notices[0].code #=> String, one of "MainLanguageNotFound", "Other", "TravelTimeExceedsDriverWorkHours"
+    #   resp.notices[0].code #=> String, one of "MainLanguageNotFound", "Other", "TravelTimeExceedsDriverWorkHours", "TransitDataUnavailable", "TransitRouteUnavailable", "NoTransitStationsFound"
     #   resp.notices[0].impact #=> String, one of "High", "Low"
     #   resp.pricing_bucket #=> String
     #   resp.routes #=> Array
@@ -1763,20 +1842,34 @@ module Aws::GeoRoutes
     #   resp.routes[0].legs[0].geometry.line_string[0][0] #=> Float
     #   resp.routes[0].legs[0].geometry.polyline #=> String
     #   resp.routes[0].legs[0].language #=> String
+    #   resp.routes[0].legs[0].pedestrian_leg_details.after_travel_steps #=> Array
+    #   resp.routes[0].legs[0].pedestrian_leg_details.after_travel_steps[0].duration #=> Integer
+    #   resp.routes[0].legs[0].pedestrian_leg_details.after_travel_steps[0].instruction #=> String
+    #   resp.routes[0].legs[0].pedestrian_leg_details.after_travel_steps[0].type #=> String, one of "Wait"
+    #   resp.routes[0].legs[0].pedestrian_leg_details.arrival.place.access_point_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
     #   resp.routes[0].legs[0].pedestrian_leg_details.arrival.place.name #=> String
     #   resp.routes[0].legs[0].pedestrian_leg_details.arrival.place.original_position #=> Array
     #   resp.routes[0].legs[0].pedestrian_leg_details.arrival.place.original_position[0] #=> Float
     #   resp.routes[0].legs[0].pedestrian_leg_details.arrival.place.position #=> Array
     #   resp.routes[0].legs[0].pedestrian_leg_details.arrival.place.position[0] #=> Float
     #   resp.routes[0].legs[0].pedestrian_leg_details.arrival.place.side_of_street #=> String, one of "Left", "Right"
+    #   resp.routes[0].legs[0].pedestrian_leg_details.arrival.place.station_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].pedestrian_leg_details.arrival.place.station_details.platform_name #=> String
+    #   resp.routes[0].legs[0].pedestrian_leg_details.arrival.place.station_details.short_name #=> String
+    #   resp.routes[0].legs[0].pedestrian_leg_details.arrival.place.type #=> String, one of "AccessPoint", "DockingStation", "ParkingLot", "Station"
     #   resp.routes[0].legs[0].pedestrian_leg_details.arrival.place.waypoint_index #=> Integer
     #   resp.routes[0].legs[0].pedestrian_leg_details.arrival.time #=> String
+    #   resp.routes[0].legs[0].pedestrian_leg_details.departure.place.access_point_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
     #   resp.routes[0].legs[0].pedestrian_leg_details.departure.place.name #=> String
     #   resp.routes[0].legs[0].pedestrian_leg_details.departure.place.original_position #=> Array
     #   resp.routes[0].legs[0].pedestrian_leg_details.departure.place.original_position[0] #=> Float
     #   resp.routes[0].legs[0].pedestrian_leg_details.departure.place.position #=> Array
     #   resp.routes[0].legs[0].pedestrian_leg_details.departure.place.position[0] #=> Float
     #   resp.routes[0].legs[0].pedestrian_leg_details.departure.place.side_of_street #=> String, one of "Left", "Right"
+    #   resp.routes[0].legs[0].pedestrian_leg_details.departure.place.station_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].pedestrian_leg_details.departure.place.station_details.platform_name #=> String
+    #   resp.routes[0].legs[0].pedestrian_leg_details.departure.place.station_details.short_name #=> String
+    #   resp.routes[0].legs[0].pedestrian_leg_details.departure.place.type #=> String, one of "AccessPoint", "DockingStation", "ParkingLot", "Station"
     #   resp.routes[0].legs[0].pedestrian_leg_details.departure.place.waypoint_index #=> Integer
     #   resp.routes[0].legs[0].pedestrian_leg_details.departure.time #=> String
     #   resp.routes[0].legs[0].pedestrian_leg_details.notices #=> Array
@@ -1889,8 +1982,15 @@ module Aws::GeoRoutes
     #   resp.routes[0].legs[0].pedestrian_leg_details.travel_steps[0].turn_step_details.turn_angle #=> Float
     #   resp.routes[0].legs[0].pedestrian_leg_details.travel_steps[0].turn_step_details.turn_intensity #=> String, one of "Sharp", "Slight", "Typical"
     #   resp.routes[0].legs[0].pedestrian_leg_details.travel_steps[0].type #=> String, one of "Arrive", "Continue", "Depart", "Keep", "RoundaboutEnter", "RoundaboutExit", "RoundaboutPass", "Turn"
-    #   resp.routes[0].legs[0].travel_mode #=> String, one of "Car", "Ferry", "Pedestrian", "Scooter", "Truck", "CarShuttleTrain"
-    #   resp.routes[0].legs[0].type #=> String, one of "Ferry", "Pedestrian", "Vehicle"
+    #   resp.routes[0].legs[0].travel_mode #=> String, one of "Car", "Ferry", "Pedestrian", "Scooter", "Truck", "CarShuttleTrain", "AerialTramway", "Airplane", "Bus", "BusRapidTransit", "CityTrain", "FunicularRailway", "HighSpeedTrain", "IntercityTrain", "InterregionalTrain", "LightRail", "Monorail", "PrivateBus", "RegionalTrain", "Subway"
+    #   resp.routes[0].legs[0].type #=> String, one of "Ferry", "Pedestrian", "Vehicle", "Rental", "Taxi", "Transit"
+    #   resp.routes[0].legs[0].vehicle_leg_details.after_travel_steps #=> Array
+    #   resp.routes[0].legs[0].vehicle_leg_details.after_travel_steps[0].charge_step_details.arrival_charge #=> Float
+    #   resp.routes[0].legs[0].vehicle_leg_details.after_travel_steps[0].charge_step_details.consumable_power #=> Float
+    #   resp.routes[0].legs[0].vehicle_leg_details.after_travel_steps[0].charge_step_details.desired_charge #=> Float
+    #   resp.routes[0].legs[0].vehicle_leg_details.after_travel_steps[0].duration #=> Integer
+    #   resp.routes[0].legs[0].vehicle_leg_details.after_travel_steps[0].instruction #=> String
+    #   resp.routes[0].legs[0].vehicle_leg_details.after_travel_steps[0].type #=> String, one of "Park"
     #   resp.routes[0].legs[0].vehicle_leg_details.arrival.place.name #=> String
     #   resp.routes[0].legs[0].vehicle_leg_details.arrival.place.original_position #=> Array
     #   resp.routes[0].legs[0].vehicle_leg_details.arrival.place.original_position[0] #=> Float
@@ -1898,6 +1998,11 @@ module Aws::GeoRoutes
     #   resp.routes[0].legs[0].vehicle_leg_details.arrival.place.position[0] #=> Float
     #   resp.routes[0].legs[0].vehicle_leg_details.arrival.place.side_of_street #=> String, one of "Left", "Right"
     #   resp.routes[0].legs[0].vehicle_leg_details.arrival.place.waypoint_index #=> Integer
+    #   resp.routes[0].legs[0].vehicle_leg_details.arrival.place.access_point_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].vehicle_leg_details.arrival.place.station_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].vehicle_leg_details.arrival.place.station_details.platform_name #=> String
+    #   resp.routes[0].legs[0].vehicle_leg_details.arrival.place.station_details.short_name #=> String
+    #   resp.routes[0].legs[0].vehicle_leg_details.arrival.place.type #=> String, one of "AccessPoint", "DockingStation", "ParkingLot", "Station"
     #   resp.routes[0].legs[0].vehicle_leg_details.arrival.time #=> String
     #   resp.routes[0].legs[0].vehicle_leg_details.departure.place.name #=> String
     #   resp.routes[0].legs[0].vehicle_leg_details.departure.place.original_position #=> Array
@@ -1906,6 +2011,11 @@ module Aws::GeoRoutes
     #   resp.routes[0].legs[0].vehicle_leg_details.departure.place.position[0] #=> Float
     #   resp.routes[0].legs[0].vehicle_leg_details.departure.place.side_of_street #=> String, one of "Left", "Right"
     #   resp.routes[0].legs[0].vehicle_leg_details.departure.place.waypoint_index #=> Integer
+    #   resp.routes[0].legs[0].vehicle_leg_details.departure.place.access_point_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].vehicle_leg_details.departure.place.station_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].vehicle_leg_details.departure.place.station_details.platform_name #=> String
+    #   resp.routes[0].legs[0].vehicle_leg_details.departure.place.station_details.short_name #=> String
+    #   resp.routes[0].legs[0].vehicle_leg_details.departure.place.type #=> String, one of "AccessPoint", "DockingStation", "ParkingLot", "Station"
     #   resp.routes[0].legs[0].vehicle_leg_details.departure.time #=> String
     #   resp.routes[0].legs[0].vehicle_leg_details.incidents #=> Array
     #   resp.routes[0].legs[0].vehicle_leg_details.incidents[0].description #=> String
@@ -2145,6 +2255,368 @@ module Aws::GeoRoutes
     #   resp.routes[0].legs[0].vehicle_leg_details.zones #=> Array
     #   resp.routes[0].legs[0].vehicle_leg_details.zones[0].category #=> String, one of "CongestionPricing", "Environmental", "Vignette"
     #   resp.routes[0].legs[0].vehicle_leg_details.zones[0].name #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.after_travel_steps #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.after_travel_steps[0].duration #=> Integer
+    #   resp.routes[0].legs[0].rental_leg_details.after_travel_steps[0].instruction #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.after_travel_steps[0].type #=> String, one of "Park"
+    #   resp.routes[0].legs[0].rental_leg_details.agency.name #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.agency.url #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.arrival.place.access_point_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].rental_leg_details.arrival.place.name #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.arrival.place.original_position #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.arrival.place.original_position[0] #=> Float
+    #   resp.routes[0].legs[0].rental_leg_details.arrival.place.position #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.arrival.place.position[0] #=> Float
+    #   resp.routes[0].legs[0].rental_leg_details.arrival.place.station_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].rental_leg_details.arrival.place.station_details.platform_name #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.arrival.place.station_details.short_name #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.arrival.place.type #=> String, one of "AccessPoint", "DockingStation", "ParkingLot", "Station"
+    #   resp.routes[0].legs[0].rental_leg_details.arrival.place.waypoint_index #=> Integer
+    #   resp.routes[0].legs[0].rental_leg_details.arrival.time #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.attributions #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.attributions[0].attribution_type #=> String, one of "Disclaimer", "Tariff"
+    #   resp.routes[0].legs[0].rental_leg_details.attributions[0].web_link.anchor_text #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.attributions[0].web_link.description #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.attributions[0].web_link.device_type #=> String, one of "Android", "Ios", "Web"
+    #   resp.routes[0].legs[0].rental_leg_details.attributions[0].web_link.url #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.before_travel_steps #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.before_travel_steps[0].duration #=> Integer
+    #   resp.routes[0].legs[0].rental_leg_details.before_travel_steps[0].instruction #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.before_travel_steps[0].type #=> String, one of "Setup"
+    #   resp.routes[0].legs[0].rental_leg_details.booking_web_links #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.booking_web_links[0].anchor_text #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.booking_web_links[0].description #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.booking_web_links[0].device_type #=> String, one of "Android", "Ios", "Web"
+    #   resp.routes[0].legs[0].rental_leg_details.booking_web_links[0].url #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.departure.place.access_point_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].rental_leg_details.departure.place.name #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.departure.place.original_position #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.departure.place.original_position[0] #=> Float
+    #   resp.routes[0].legs[0].rental_leg_details.departure.place.position #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.departure.place.position[0] #=> Float
+    #   resp.routes[0].legs[0].rental_leg_details.departure.place.station_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].rental_leg_details.departure.place.station_details.platform_name #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.departure.place.station_details.short_name #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.departure.place.type #=> String, one of "AccessPoint", "DockingStation", "ParkingLot", "Station"
+    #   resp.routes[0].legs[0].rental_leg_details.departure.place.waypoint_index #=> Integer
+    #   resp.routes[0].legs[0].rental_leg_details.departure.time #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.summary.overview.duration #=> Integer
+    #   resp.routes[0].legs[0].rental_leg_details.summary.overview.distance #=> Integer
+    #   resp.routes[0].legs[0].rental_leg_details.summary.travel_only.duration #=> Integer
+    #   resp.routes[0].legs[0].rental_leg_details.transport.available_seats #=> Integer
+    #   resp.routes[0].legs[0].rental_leg_details.transport.category #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.transport.color #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.transport.engine #=> String, one of "Electric", "InternalCombustion", "PluginHybrid"
+    #   resp.routes[0].legs[0].rental_leg_details.transport.license_plate #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.transport.mode #=> String, one of "All", "Car"
+    #   resp.routes[0].legs[0].rental_leg_details.transport.model #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.transport.name #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.transport.text_color #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].continue_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].continue_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].continue_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].distance #=> Integer
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].duration #=> Integer
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].exit_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].exit_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].exit_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].exit_step_details.relative_exit #=> Integer
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].exit_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].exit_step_details.turn_angle #=> Float
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].exit_step_details.turn_intensity #=> String, one of "Sharp", "Slight", "Typical"
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].geometry_offset #=> Integer
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].instruction #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].keep_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].keep_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].keep_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].keep_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].keep_step_details.turn_angle #=> Float
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].keep_step_details.turn_intensity #=> String, one of "Sharp", "Slight", "Typical"
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].ramp_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].ramp_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].ramp_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].ramp_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].ramp_step_details.turn_angle #=> Float
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].ramp_step_details.turn_intensity #=> String, one of "Sharp", "Slight", "Typical"
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_enter_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_enter_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_enter_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_enter_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_enter_step_details.turn_angle #=> Float
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_enter_step_details.turn_intensity #=> String, one of "Sharp", "Slight", "Typical"
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_exit_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_exit_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_exit_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_exit_step_details.relative_exit #=> Integer
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_exit_step_details.roundabout_angle #=> Float
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_exit_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_pass_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_pass_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_pass_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_pass_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_pass_step_details.turn_angle #=> Float
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].roundabout_pass_step_details.turn_intensity #=> String, one of "Sharp", "Slight", "Typical"
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].turn_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].turn_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].turn_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].turn_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].turn_step_details.turn_angle #=> Float
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].turn_step_details.turn_intensity #=> String, one of "Sharp", "Slight", "Typical"
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].type #=> String, one of "Arrive", "Continue", "Depart", "Exit", "Keep", "Ramp", "RoundaboutEnter", "RoundaboutExit", "RoundaboutPass", "Turn", "UTurn"
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].u_turn_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].u_turn_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].u_turn_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].u_turn_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].u_turn_step_details.turn_angle #=> Float
+    #   resp.routes[0].legs[0].rental_leg_details.travel_steps[0].u_turn_step_details.turn_intensity #=> String, one of "Sharp", "Slight", "Typical"
+    #   resp.routes[0].legs[0].taxi_leg_details.after_travel_steps #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.after_travel_steps[0].duration #=> Integer
+    #   resp.routes[0].legs[0].taxi_leg_details.after_travel_steps[0].instruction #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.after_travel_steps[0].type #=> String, one of "Park"
+    #   resp.routes[0].legs[0].taxi_leg_details.agency.name #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.agency.url #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.arrival.place.access_point_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].taxi_leg_details.arrival.place.name #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.arrival.place.original_position #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.arrival.place.original_position[0] #=> Float
+    #   resp.routes[0].legs[0].taxi_leg_details.arrival.place.position #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.arrival.place.position[0] #=> Float
+    #   resp.routes[0].legs[0].taxi_leg_details.arrival.place.station_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].taxi_leg_details.arrival.place.station_details.platform_name #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.arrival.place.station_details.short_name #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.arrival.place.type #=> String, one of "AccessPoint", "Station"
+    #   resp.routes[0].legs[0].taxi_leg_details.arrival.place.waypoint_index #=> Integer
+    #   resp.routes[0].legs[0].taxi_leg_details.arrival.time #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.attributions #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.attributions[0].attribution_type #=> String, one of "Disclaimer", "Tariff"
+    #   resp.routes[0].legs[0].taxi_leg_details.attributions[0].web_link.anchor_text #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.attributions[0].web_link.description #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.attributions[0].web_link.device_type #=> String, one of "Android", "Ios", "Web"
+    #   resp.routes[0].legs[0].taxi_leg_details.attributions[0].web_link.url #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.before_travel_steps #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.before_travel_steps[0].duration #=> Integer
+    #   resp.routes[0].legs[0].taxi_leg_details.before_travel_steps[0].instruction #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.before_travel_steps[0].type #=> String, one of "Wait"
+    #   resp.routes[0].legs[0].taxi_leg_details.booking_web_links #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.booking_web_links[0].anchor_text #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.booking_web_links[0].description #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.booking_web_links[0].device_type #=> String, one of "Android", "Ios", "Web"
+    #   resp.routes[0].legs[0].taxi_leg_details.booking_web_links[0].url #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.departure.place.access_point_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].taxi_leg_details.departure.place.name #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.departure.place.original_position #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.departure.place.original_position[0] #=> Float
+    #   resp.routes[0].legs[0].taxi_leg_details.departure.place.position #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.departure.place.position[0] #=> Float
+    #   resp.routes[0].legs[0].taxi_leg_details.departure.place.station_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].taxi_leg_details.departure.place.station_details.platform_name #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.departure.place.station_details.short_name #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.departure.place.type #=> String, one of "AccessPoint", "Station"
+    #   resp.routes[0].legs[0].taxi_leg_details.departure.place.waypoint_index #=> Integer
+    #   resp.routes[0].legs[0].taxi_leg_details.departure.time #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.notices #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.notices[0].code #=> String, one of "AccuratePolylineUnavailable", "Other"
+    #   resp.routes[0].legs[0].taxi_leg_details.notices[0].impact #=> String, one of "High", "Low"
+    #   resp.routes[0].legs[0].taxi_leg_details.summary.overview.duration #=> Integer
+    #   resp.routes[0].legs[0].taxi_leg_details.summary.overview.distance #=> Integer
+    #   resp.routes[0].legs[0].taxi_leg_details.summary.travel_only.duration #=> Integer
+    #   resp.routes[0].legs[0].taxi_leg_details.transport.available_seats #=> Integer
+    #   resp.routes[0].legs[0].taxi_leg_details.transport.category #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.transport.color #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.transport.engine #=> String, one of "Electric", "InternalCombustion", "PluginHybrid"
+    #   resp.routes[0].legs[0].taxi_leg_details.transport.license_plate #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.transport.mode #=> String, one of "All", "Car"
+    #   resp.routes[0].legs[0].taxi_leg_details.transport.model #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.transport.name #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.transport.text_color #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].continue_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].continue_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].continue_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].distance #=> Integer
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].duration #=> Integer
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].exit_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].exit_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].exit_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].exit_step_details.relative_exit #=> Integer
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].exit_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].exit_step_details.turn_angle #=> Float
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].exit_step_details.turn_intensity #=> String, one of "Sharp", "Slight", "Typical"
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].geometry_offset #=> Integer
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].instruction #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].keep_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].keep_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].keep_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].keep_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].keep_step_details.turn_angle #=> Float
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].keep_step_details.turn_intensity #=> String, one of "Sharp", "Slight", "Typical"
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].ramp_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].ramp_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].ramp_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].ramp_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].ramp_step_details.turn_angle #=> Float
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].ramp_step_details.turn_intensity #=> String, one of "Sharp", "Slight", "Typical"
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_enter_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_enter_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_enter_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_enter_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_enter_step_details.turn_angle #=> Float
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_enter_step_details.turn_intensity #=> String, one of "Sharp", "Slight", "Typical"
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_exit_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_exit_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_exit_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_exit_step_details.relative_exit #=> Integer
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_exit_step_details.roundabout_angle #=> Float
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_exit_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_pass_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_pass_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_pass_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_pass_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_pass_step_details.turn_angle #=> Float
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].roundabout_pass_step_details.turn_intensity #=> String, one of "Sharp", "Slight", "Typical"
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].turn_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].turn_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].turn_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].turn_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].turn_step_details.turn_angle #=> Float
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].turn_step_details.turn_intensity #=> String, one of "Sharp", "Slight", "Typical"
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].type #=> String, one of "Arrive", "Continue", "Depart", "Exit", "Keep", "Ramp", "RoundaboutEnter", "RoundaboutExit", "RoundaboutPass", "Turn", "UTurn"
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].u_turn_step_details.intersection #=> Array
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].u_turn_step_details.intersection[0].language #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].u_turn_step_details.intersection[0].value #=> String
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].u_turn_step_details.steering_direction #=> String, one of "Left", "Right", "Straight"
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].u_turn_step_details.turn_angle #=> Float
+    #   resp.routes[0].legs[0].taxi_leg_details.travel_steps[0].u_turn_step_details.turn_intensity #=> String, one of "Sharp", "Slight", "Typical"
+    #   resp.routes[0].legs[0].transit_leg_details.after_travel_steps #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.after_travel_steps[0].duration #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.after_travel_steps[0].instruction #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.after_travel_steps[0].type #=> String, one of "Deboard"
+    #   resp.routes[0].legs[0].transit_leg_details.agency.name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.agency.url #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.arrival.delay #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.arrival.place.name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.arrival.place.original_position #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.arrival.place.original_position[0] #=> Float
+    #   resp.routes[0].legs[0].transit_leg_details.arrival.place.position #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.arrival.place.position[0] #=> Float
+    #   resp.routes[0].legs[0].transit_leg_details.arrival.place.station_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].transit_leg_details.arrival.place.station_details.platform_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.arrival.place.station_details.short_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.arrival.place.type #=> String, one of "Station"
+    #   resp.routes[0].legs[0].transit_leg_details.arrival.place.waypoint_index #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.arrival.status #=> String, one of "Added", "Cancelled", "Replaced", "Scheduled"
+    #   resp.routes[0].legs[0].transit_leg_details.arrival.time #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.attributions #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.attributions[0].attribution_type #=> String, one of "Disclaimer", "Tariff"
+    #   resp.routes[0].legs[0].transit_leg_details.attributions[0].web_link.anchor_text #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.attributions[0].web_link.description #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.attributions[0].web_link.device_type #=> String, one of "Android", "Ios", "Web"
+    #   resp.routes[0].legs[0].transit_leg_details.attributions[0].web_link.url #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.before_travel_steps #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.before_travel_steps[0].duration #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.before_travel_steps[0].instruction #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.before_travel_steps[0].type #=> String, one of "Board"
+    #   resp.routes[0].legs[0].transit_leg_details.booking_web_links #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.booking_web_links[0].anchor_text #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.booking_web_links[0].description #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.booking_web_links[0].device_type #=> String, one of "Android", "Ios", "Web"
+    #   resp.routes[0].legs[0].transit_leg_details.booking_web_links[0].url #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.departure.delay #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.departure.place.name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.departure.place.original_position #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.departure.place.original_position[0] #=> Float
+    #   resp.routes[0].legs[0].transit_leg_details.departure.place.position #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.departure.place.position[0] #=> Float
+    #   resp.routes[0].legs[0].transit_leg_details.departure.place.station_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].transit_leg_details.departure.place.station_details.platform_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.departure.place.station_details.short_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.departure.place.type #=> String, one of "Station"
+    #   resp.routes[0].legs[0].transit_leg_details.departure.place.waypoint_index #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.departure.status #=> String, one of "Added", "Cancelled", "Replaced", "Scheduled"
+    #   resp.routes[0].legs[0].transit_leg_details.departure.time #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.incidents #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.incidents[0].description #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.incidents[0].effect #=> String, one of "Delayed", "Detoured", "Other", "ServiceAdded", "ServiceCancelled", "ServiceModified", "ServiceReduced", "StopMoved"
+    #   resp.routes[0].legs[0].transit_leg_details.incidents[0].end_time #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.incidents[0].start_time #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.incidents[0].type #=> String, one of "Accident", "Construction", "Demonstration", "Holiday", "Maintenance", "MedicalEmergency", "Other", "PoliceActivity", "Strike", "TechnicalProblem", "Weather"
+    #   resp.routes[0].legs[0].transit_leg_details.incidents[0].url #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].attributes #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].attributes[0] #=> String, one of "NoEntry", "NoExit"
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].departure.delay #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].departure.place.name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].departure.place.original_position #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].departure.place.original_position[0] #=> Float
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].departure.place.position #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].departure.place.position[0] #=> Float
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].departure.place.station_details.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].departure.place.station_details.platform_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].departure.place.station_details.short_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].departure.place.type #=> String, one of "Station"
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].departure.place.waypoint_index #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].departure.status #=> String, one of "Added", "Cancelled", "Replaced", "Scheduled"
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].departure.time #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].duration #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].geometry_offset #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].transport.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].transport.color #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].transport.headsign #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].transport.long_route_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].transport.mode #=> String, one of "AerialTramway", "Airplane", "All", "Bus", "BusRapidTransit", "CityTrain", "Ferry", "FunicularRailway", "HighSpeedTrain", "IntercityTrain", "InterregionalTrain", "LightRail", "Monorail", "PrivateBus", "RegionalTrain", "Subway"
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].transport.route_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].transport.short_route_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.intermediate_stops[0].transport.text_color #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.next_departures #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.next_departures[0].delay #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.next_departures[0].platform_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.next_departures[0].status #=> String, one of "Added", "Cancelled", "Replaced", "Scheduled"
+    #   resp.routes[0].legs[0].transit_leg_details.next_departures[0].time #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.next_departures[0].transport.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].transit_leg_details.next_departures[0].transport.color #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.next_departures[0].transport.headsign #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.next_departures[0].transport.long_route_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.next_departures[0].transport.mode #=> String, one of "AerialTramway", "Airplane", "All", "Bus", "BusRapidTransit", "CityTrain", "Ferry", "FunicularRailway", "HighSpeedTrain", "IntercityTrain", "InterregionalTrain", "LightRail", "Monorail", "PrivateBus", "RegionalTrain", "Subway"
+    #   resp.routes[0].legs[0].transit_leg_details.next_departures[0].transport.route_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.next_departures[0].transport.short_route_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.next_departures[0].transport.text_color #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.notices #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.notices[0].code #=> String, one of "AccuratePolylineUnavailable", "IntermediateStopsUnavailable", "NoSchedule", "Other", "PotentialViolatedVehicleRestrictionUsage", "ScheduledTimes", "SeasonalClosure", "ViolatedAvoidFerry", "ViolatedAvoidRailFerry", "ViolatedExcludedTransitMode", "ViolatedVehicleRestriction", "ViolatedAvoidAreas"
+    #   resp.routes[0].legs[0].transit_leg_details.notices[0].impact #=> String, one of "High", "Low"
+    #   resp.routes[0].legs[0].transit_leg_details.pass_through_waypoints #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.pass_through_waypoints[0].geometry_offset #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.pass_through_waypoints[0].place.original_position #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.pass_through_waypoints[0].place.original_position[0] #=> Float
+    #   resp.routes[0].legs[0].transit_leg_details.pass_through_waypoints[0].place.position #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.pass_through_waypoints[0].place.position[0] #=> Float
+    #   resp.routes[0].legs[0].transit_leg_details.pass_through_waypoints[0].place.waypoint_index #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.spans #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.spans[0].country #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.spans[0].distance #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.spans[0].duration #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.spans[0].geometry_offset #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.spans[0].names #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.spans[0].names[0].language #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.spans[0].names[0].value #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.spans[0].region #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.summary.overview.distance #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.summary.overview.duration #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.summary.travel_only.duration #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.transport.accessibility.wheelchair #=> String, one of "Available", "Limited", "Unavailable", "Unknown"
+    #   resp.routes[0].legs[0].transit_leg_details.transport.color #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.transport.headsign #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.transport.long_route_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.transport.mode #=> String, one of "AerialTramway", "Airplane", "All", "Bus", "BusRapidTransit", "CityTrain", "Ferry", "FunicularRailway", "HighSpeedTrain", "IntercityTrain", "InterregionalTrain", "LightRail", "Monorail", "PrivateBus", "RegionalTrain", "Subway"
+    #   resp.routes[0].legs[0].transit_leg_details.transport.route_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.transport.short_route_name #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.transport.text_color #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.travel_steps #=> Array
+    #   resp.routes[0].legs[0].transit_leg_details.travel_steps[0].distance #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.travel_steps[0].duration #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.travel_steps[0].geometry_offset #=> Integer
+    #   resp.routes[0].legs[0].transit_leg_details.travel_steps[0].instruction #=> String
+    #   resp.routes[0].legs[0].transit_leg_details.travel_steps[0].type #=> String, one of "Depart"
     #   resp.routes[0].major_road_labels #=> Array
     #   resp.routes[0].major_road_labels[0].road_name.language #=> String
     #   resp.routes[0].major_road_labels[0].road_name.value #=> String
@@ -2243,7 +2715,16 @@ module Aws::GeoRoutes
     #   Travel mode related options for the provided travel mode.
     #
     # @option params [Array<Types::WaypointOptimizationWaypoint>] :waypoints
-    #   List of waypoints between the `Origin` and `Destination`.
+    #   List of waypoints between the `Origin` and `Destination`, in World
+    #   Geodetic System (WGS 84) format: \[longitude, latitude\].
+    #
+    #   The maximum number of waypoints allowed per request:
+    #
+    #   * Maximum 50 waypoints per request
+    #
+    #   * Maximum 20 waypoints when using constraints (`AccessHours`,
+    #     `AppointmentTime`, `ServiceDuration`, `Heading`, `SideOfStreet`,
+    #     `Before`)
     #
     # @return [Types::OptimizeWaypointsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2538,7 +3019,7 @@ module Aws::GeoRoutes
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-georoutes'
-      context[:gem_version] = '1.25.0'
+      context[:gem_version] = '1.26.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

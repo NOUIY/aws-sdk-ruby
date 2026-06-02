@@ -6769,6 +6769,101 @@ module Aws::SageMaker
       req.send_request(options)
     end
 
+    # Creates a model customization job in Amazon SageMaker. A job runs a
+    # workload based on the job category and configuration you provide. You
+    # specify the job category, a schema-versioned configuration document,
+    # and an IAM role that grants Amazon SageMaker permission to access
+    # resources on your behalf.
+    #
+    # Use the `AgentRFT` category to fine-tune a model using multi-turn
+    # reinforcement learning with reward signals. Use the
+    # `AgentRFTEvaluation` category to evaluate a fine-tuned or base model
+    # by running multi-turn rollouts against a held-out prompt dataset and
+    # computing metrics such as pass@k and mean reward.
+    #
+    # Before creating a job, call `ListJobSchemaVersions` and
+    # `DescribeJobSchemaVersion` to retrieve the configuration schema for
+    # your job category. The `JobConfigDocument` must conform to the schema
+    # specified by `JobConfigSchemaVersion`.
+    #
+    # The following operations are related to `CreateJob`:
+    #
+    # * `DescribeJob`
+    #
+    # * `ListJobs`
+    #
+    # * `StopJob`
+    #
+    # * `DeleteJob`
+    #
+    # * `ListJobSchemaVersions`
+    #
+    # * `DescribeJobSchemaVersion`
+    #
+    # @option params [required, String] :job_name
+    #   The name of the job. The name must be unique within your account and
+    #   Amazon Web Services Region.
+    #
+    # @option params [required, String] :role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker
+    #   assumes to perform the job. The role must have the necessary
+    #   permissions to access the resources required by the job configuration.
+    #
+    # @option params [required, String] :job_category
+    #   The category of the job. The category determines the type of workload
+    #   that the job runs.
+    #
+    # @option params [required, String] :job_config_schema_version
+    #   The version of the configuration schema to use for the job
+    #   configuration document. Use `ListJobSchemaVersions` to get available
+    #   schema versions for a job category.
+    #
+    # @option params [required, String] :job_config_document
+    #   The JSON configuration document for the job. The document must conform
+    #   to the schema specified by `JobConfigSchemaVersion`. Use
+    #   `DescribeJobSchemaVersion` to retrieve the schema for validation.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   An array of key-value pairs to apply to the job as tags. For more
+    #   information, see [Tagging Amazon Web Services Resources][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #
+    # @return [Types::CreateJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateJobResponse#job_arn #job_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_job({
+    #     job_name: "JobName", # required
+    #     role_arn: "RoleArn", # required
+    #     job_category: "AgentRFT", # required, accepts AgentRFT, AgentRFTEvaluation
+    #     job_config_schema_version: "JobSchemaVersion", # required
+    #     job_config_document: "JobConfigDocument", # required
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.job_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/CreateJob AWS API Documentation
+    #
+    # @overload create_job(params = {})
+    # @param [Hash] params ({})
+    def create_job(params = {}, options = {})
+      req = build_request(:create_job, params)
+      req.send_request(options)
+    end
+
     # Creates a job that uses workers to label the data objects in your
     # input dataset. You can use the labeled data to train machine learning
     # models.
@@ -12928,6 +13023,41 @@ module Aws::SageMaker
       req.send_request(options)
     end
 
+    # Deletes a job. This operation is idempotent. If the job is currently
+    # running, you must stop it before deleting it by calling `StopJob`.
+    #
+    # The following operations are related to `DeleteJob`:
+    #
+    # * `CreateJob`
+    #
+    # * `StopJob`
+    #
+    # * `DescribeJob`
+    #
+    # @option params [required, String] :job_name
+    #   The name of the job to delete.
+    #
+    # @option params [required, String] :job_category
+    #   The category of the job to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_job({
+    #     job_name: "JobName", # required
+    #     job_category: "AgentRFT", # required, accepts AgentRFT, AgentRFTEvaluation
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DeleteJob AWS API Documentation
+    #
+    # @overload delete_job(params = {})
+    # @param [Hash] params ({})
+    def delete_job(params = {}, options = {})
+      req = build_request(:delete_job, params)
+      req.send_request(options)
+    end
+
     # Deletes an MLflow App.
     #
     # @option params [required, String] :arn
@@ -17579,6 +17709,131 @@ module Aws::SageMaker
     # @param [Hash] params ({})
     def describe_inference_recommendations_job(params = {}, options = {})
       req = build_request(:describe_inference_recommendations_job, params)
+      req.send_request(options)
+    end
+
+    # Returns detailed information about a job, including its current
+    # status, secondary status, configuration, and timestamps. Use
+    # `SecondaryStatus` for granular progress tracking and
+    # `SecondaryStatusTransitions` to see the full history of status changes
+    # with timestamps.
+    #
+    # The following operations are related to `DescribeJob`:
+    #
+    # * `CreateJob`
+    #
+    # * `ListJobs`
+    #
+    # * `StopJob`
+    #
+    # * `DeleteJob`
+    #
+    # @option params [required, String] :job_name
+    #   The name of the job to describe.
+    #
+    # @option params [required, String] :job_category
+    #   The category of the job.
+    #
+    # @return [Types::DescribeJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeJobResponse#job_name #job_name} => String
+    #   * {Types::DescribeJobResponse#job_arn #job_arn} => String
+    #   * {Types::DescribeJobResponse#role_arn #role_arn} => String
+    #   * {Types::DescribeJobResponse#job_category #job_category} => String
+    #   * {Types::DescribeJobResponse#job_config_schema_version #job_config_schema_version} => String
+    #   * {Types::DescribeJobResponse#job_config_document #job_config_document} => String
+    #   * {Types::DescribeJobResponse#creation_time #creation_time} => Time
+    #   * {Types::DescribeJobResponse#last_modified_time #last_modified_time} => Time
+    #   * {Types::DescribeJobResponse#end_time #end_time} => Time
+    #   * {Types::DescribeJobResponse#job_status #job_status} => String
+    #   * {Types::DescribeJobResponse#secondary_status #secondary_status} => String
+    #   * {Types::DescribeJobResponse#secondary_status_transitions #secondary_status_transitions} => Array&lt;Types::JobSecondaryStatusTransition&gt;
+    #   * {Types::DescribeJobResponse#failure_reason #failure_reason} => String
+    #   * {Types::DescribeJobResponse#tags #tags} => Array&lt;Types::Tag&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_job({
+    #     job_name: "JobName", # required
+    #     job_category: "AgentRFT", # required, accepts AgentRFT, AgentRFTEvaluation
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.job_name #=> String
+    #   resp.job_arn #=> String
+    #   resp.role_arn #=> String
+    #   resp.job_category #=> String, one of "AgentRFT", "AgentRFTEvaluation"
+    #   resp.job_config_schema_version #=> String
+    #   resp.job_config_document #=> String
+    #   resp.creation_time #=> Time
+    #   resp.last_modified_time #=> Time
+    #   resp.end_time #=> Time
+    #   resp.job_status #=> String, one of "InProgress", "Completed", "Failed", "Stopping", "Stopped", "Deleting", "DeleteFailed"
+    #   resp.secondary_status #=> String, one of "Starting", "Downloading", "Training", "Uploading", "Stopping", "Stopped", "MaxRuntimeExceeded", "Interrupted", "Failed", "Completed", "Restarting", "Pending", "Evaluating", "Deleting", "DeleteFailed"
+    #   resp.secondary_status_transitions #=> Array
+    #   resp.secondary_status_transitions[0].status #=> String, one of "Starting", "Downloading", "Training", "Uploading", "Stopping", "Stopped", "MaxRuntimeExceeded", "Interrupted", "Failed", "Completed", "Restarting", "Pending", "Evaluating", "Deleting", "DeleteFailed"
+    #   resp.secondary_status_transitions[0].start_time #=> Time
+    #   resp.secondary_status_transitions[0].end_time #=> Time
+    #   resp.secondary_status_transitions[0].status_message #=> String
+    #   resp.failure_reason #=> String
+    #   resp.tags #=> Array
+    #   resp.tags[0].key #=> String
+    #   resp.tags[0].value #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeJob AWS API Documentation
+    #
+    # @overload describe_job(params = {})
+    # @param [Hash] params ({})
+    def describe_job(params = {}, options = {})
+      req = build_request(:describe_job, params)
+      req.send_request(options)
+    end
+
+    # Returns the JSON schema for a specified job category and schema
+    # version. Use this schema to validate your `JobConfigDocument` before
+    # calling `CreateJob`. If you don't specify a schema version, the
+    # latest version is returned. The schema defines required fields,
+    # allowed values, and constraints for the job configuration.
+    #
+    # The following operations are related to `DescribeJobSchemaVersion`:
+    #
+    # * `ListJobSchemaVersions`
+    #
+    # * `CreateJob`
+    #
+    # @option params [required, String] :job_category
+    #   The category of the job schema to describe.
+    #
+    # @option params [String] :job_config_schema_version
+    #   The version of the schema to retrieve. If not specified, the latest
+    #   version is returned.
+    #
+    # @return [Types::DescribeJobSchemaVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeJobSchemaVersionResponse#job_category #job_category} => String
+    #   * {Types::DescribeJobSchemaVersionResponse#job_config_schema_version #job_config_schema_version} => String
+    #   * {Types::DescribeJobSchemaVersionResponse#job_config_schema #job_config_schema} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_job_schema_version({
+    #     job_category: "AgentRFT", # required, accepts AgentRFT, AgentRFTEvaluation
+    #     job_config_schema_version: "JobSchemaVersion",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.job_category #=> String, one of "AgentRFT", "AgentRFTEvaluation"
+    #   resp.job_config_schema_version #=> String
+    #   resp.job_config_schema #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeJobSchemaVersion AWS API Documentation
+    #
+    # @overload describe_job_schema_version(params = {})
+    # @param [Hash] params ({})
+    def describe_job_schema_version(params = {}, options = {})
+      req = build_request(:describe_job_schema_version, params)
       req.send_request(options)
     end
 
@@ -24564,6 +24819,150 @@ module Aws::SageMaker
       req.send_request(options)
     end
 
+    # Lists available configuration schema versions for a specified job
+    # category. Use the schema versions with `DescribeJobSchemaVersion` to
+    # retrieve the full schema document.
+    #
+    # The following operations are related to `ListJobSchemaVersions`:
+    #
+    # * `DescribeJobSchemaVersion`
+    #
+    # * `CreateJob`
+    #
+    # @option params [required, String] :job_category
+    #   The category of job schemas to list.
+    #
+    # @option params [String] :next_token
+    #   If the previous response was truncated, this token retrieves the next
+    #   set of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of schema versions to return in the response. The
+    #   default value is 5.
+    #
+    # @return [Types::ListJobSchemaVersionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListJobSchemaVersionsResponse#next_token #next_token} => String
+    #   * {Types::ListJobSchemaVersionsResponse#job_config_schemas #job_config_schemas} => Array&lt;Types::JobConfigSchemaVersionSummary&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_job_schema_versions({
+    #     job_category: "AgentRFT", # required, accepts AgentRFT, AgentRFTEvaluation
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.job_config_schemas #=> Array
+    #   resp.job_config_schemas[0].job_config_schema_version #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListJobSchemaVersions AWS API Documentation
+    #
+    # @overload list_job_schema_versions(params = {})
+    # @param [Hash] params ({})
+    def list_job_schema_versions(params = {}, options = {})
+      req = build_request(:list_job_schema_versions, params)
+      req.send_request(options)
+    end
+
+    # Lists jobs in a specified category. You can filter results by creation
+    # time, last modified time, name, and status. Results are sorted by the
+    # field you specify in `SortBy`. Use pagination to retrieve large result
+    # sets efficiently.
+    #
+    # The following operations are related to `ListJobs`:
+    #
+    # * `CreateJob`
+    #
+    # * `DescribeJob`
+    #
+    # @option params [required, String] :job_category
+    #   The category of jobs to list.
+    #
+    # @option params [String] :next_token
+    #   If the previous response was truncated, this token retrieves the next
+    #   set of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of jobs to return in the response. The default
+    #   value is 50.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :creation_time_after
+    #   A filter that returns only jobs created after the specified time.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :creation_time_before
+    #   A filter that returns only jobs created before the specified time.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :last_modified_time_after
+    #   A filter that returns only jobs modified after the specified time.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :last_modified_time_before
+    #   A filter that returns only jobs modified before the specified time.
+    #
+    # @option params [String] :name_contains
+    #   A string in the job name to filter results. Only jobs whose name
+    #   contains the specified string are returned.
+    #
+    # @option params [String] :sort_by
+    #   The field to sort results by.
+    #
+    # @option params [String] :sort_order
+    #   The sort order for results. Valid values are `Ascending` and
+    #   `Descending`.
+    #
+    # @option params [String] :status_equals
+    #   A filter that returns only jobs with the specified status.
+    #
+    # @return [Types::ListJobsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListJobsResponse#next_token #next_token} => String
+    #   * {Types::ListJobsResponse#job_summaries #job_summaries} => Array&lt;Types::JobSummary&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_jobs({
+    #     job_category: "AgentRFT", # required, accepts AgentRFT, AgentRFTEvaluation
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #     creation_time_after: Time.now,
+    #     creation_time_before: Time.now,
+    #     last_modified_time_after: Time.now,
+    #     last_modified_time_before: Time.now,
+    #     name_contains: "NameContains",
+    #     sort_by: "Name", # accepts Name, CreationTime, Status
+    #     sort_order: "Ascending", # accepts Ascending, Descending
+    #     status_equals: "InProgress", # accepts InProgress, Completed, Failed, Stopping, Stopped, Deleting, DeleteFailed
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.job_summaries #=> Array
+    #   resp.job_summaries[0].job_arn #=> String
+    #   resp.job_summaries[0].job_name #=> String
+    #   resp.job_summaries[0].job_category #=> String, one of "AgentRFT", "AgentRFTEvaluation"
+    #   resp.job_summaries[0].job_status #=> String, one of "InProgress", "Completed", "Failed", "Stopping", "Stopped", "Deleting", "DeleteFailed"
+    #   resp.job_summaries[0].job_secondary_status #=> String, one of "Starting", "Downloading", "Training", "Uploading", "Stopping", "Stopped", "MaxRuntimeExceeded", "Interrupted", "Failed", "Completed", "Restarting", "Pending", "Evaluating", "Deleting", "DeleteFailed"
+    #   resp.job_summaries[0].creation_time #=> Time
+    #   resp.job_summaries[0].last_modified_time #=> Time
+    #   resp.job_summaries[0].end_time #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListJobs AWS API Documentation
+    #
+    # @overload list_jobs(params = {})
+    # @param [Hash] params ({})
+    def list_jobs(params = {}, options = {})
+      req = build_request(:list_jobs, params)
+      req.send_request(options)
+    end
+
     # Gets a list of labeling jobs.
     #
     # @option params [Time,DateTime,Date,Integer,String] :creation_time_after
@@ -26470,6 +26869,7 @@ module Aws::SageMaker
     #   resp.pipeline_execution_steps[0].metadata.lineage.associations #=> Array
     #   resp.pipeline_execution_steps[0].metadata.lineage.associations[0].source_arn #=> String
     #   resp.pipeline_execution_steps[0].metadata.lineage.associations[0].destination_arn #=> String
+    #   resp.pipeline_execution_steps[0].metadata.job.arn #=> String
     #   resp.pipeline_execution_steps[0].attempt_count #=> Integer
     #   resp.pipeline_execution_steps[0].selective_execution_result.source_pipeline_execution_arn #=> String
     #   resp.next_token #=> String
@@ -29299,6 +29699,43 @@ module Aws::SageMaker
     # @param [Hash] params ({})
     def stop_inference_recommendations_job(params = {}, options = {})
       req = build_request(:stop_inference_recommendations_job, params)
+      req.send_request(options)
+    end
+
+    # Stops a running job. When you call `StopJob`, Amazon SageMaker sets
+    # the job status to `Stopping`. After the job stops, the status changes
+    # to `Stopped`. Partial results may be available in the output location
+    # if the job was in progress. To delete a stopped job, call `DeleteJob`.
+    #
+    # The following operations are related to `StopJob`:
+    #
+    # * `CreateJob`
+    #
+    # * `DescribeJob`
+    #
+    # * `DeleteJob`
+    #
+    # @option params [required, String] :job_name
+    #   The name of the job to stop.
+    #
+    # @option params [required, String] :job_category
+    #   The category of the job to stop.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.stop_job({
+    #     job_name: "JobName", # required
+    #     job_category: "AgentRFT", # required, accepts AgentRFT, AgentRFTEvaluation
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/StopJob AWS API Documentation
+    #
+    # @overload stop_job(params = {})
+    # @param [Hash] params ({})
+    def stop_job(params = {}, options = {})
+      req = build_request(:stop_job, params)
       req.send_request(options)
     end
 
@@ -33871,7 +34308,7 @@ module Aws::SageMaker
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemaker'
-      context[:gem_version] = '1.369.0'
+      context[:gem_version] = '1.370.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

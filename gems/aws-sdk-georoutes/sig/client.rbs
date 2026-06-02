@@ -452,7 +452,7 @@ module Aws
                               ?instructions_measurement_system: ("Metric" | "Imperial"),
                               ?key: ::String,
                               ?languages: Array[::String],
-                              ?leg_additional_features: Array[("Elevation" | "Incidents" | "PassThroughWaypoints" | "Summary" | "Tolls" | "TravelStepInstructions" | "TruckRoadTypes" | "TypicalDuration" | "Zones")],
+                              ?leg_additional_features: Array[("Elevation" | "Incidents" | "PassThroughWaypoints" | "Summary" | "Tolls" | "TravelStepInstructions" | "TruckRoadTypes" | "TypicalDuration" | "Zones" | "Bookings" | "IntermediateStops" | "NextDepartures")],
                               ?leg_geometry_format: ("FlexiblePolyline" | "Simple"),
                               ?max_alternatives: ::Integer,
                               ?optimize_routing_for: ("FastestRoute" | "ShortestRoute"),
@@ -487,7 +487,7 @@ module Aws
                                 flow_event_threshold_override: ::Integer?,
                                 usage: ("IgnoreTrafficData" | "UseTrafficData")?
                               },
-                              ?travel_mode: ("Car" | "Pedestrian" | "Scooter" | "Truck"),
+                              ?travel_mode: ("Car" | "Pedestrian" | "Scooter" | "Truck" | "Intermodal" | "Transit"),
                               ?travel_mode_options: {
                                 car: {
                                   engine_type: ("Electric" | "InternalCombustion" | "PluginHybrid")?,
@@ -539,6 +539,44 @@ module Aws
                                     quint: ::Integer?
                                   }?,
                                   width: ::Integer?
+                                }?,
+                                intermodal: {
+                                  accessibility_attributes: Array[("Wheelchair")]?,
+                                  max_transfers: ::Integer?,
+                                  pedestrian: {
+                                    max_distance: ::Integer?,
+                                    speed: ::Float?
+                                  }?,
+                                  rental: {
+                                    allowed_modes: Array[("All" | "Car")]?,
+                                    enabled_for: Array[("FirstLeg" | "LastLeg" | "EntireRoute" | "None")]?,
+                                    excluded_modes: Array[("All" | "Car")]?
+                                  }?,
+                                  taxi: {
+                                    allowed_modes: Array[("All" | "Car")]?,
+                                    enabled_for: Array[("FirstLeg" | "LastLeg" | "EntireRoute" | "None")]?,
+                                    excluded_modes: Array[("All" | "Car")]?
+                                  }?,
+                                  transit: {
+                                    allowed_modes: Array[("AerialTramway" | "Airplane" | "All" | "Bus" | "BusRapidTransit" | "CityTrain" | "Ferry" | "FunicularRailway" | "HighSpeedTrain" | "IntercityTrain" | "InterregionalTrain" | "LightRail" | "Monorail" | "PrivateBus" | "RegionalTrain" | "Subway")]?,
+                                    enabled_for: Array[("FirstLeg" | "LastLeg" | "EntireRoute" | "None")]?,
+                                    excluded_modes: Array[("AerialTramway" | "Airplane" | "All" | "Bus" | "BusRapidTransit" | "CityTrain" | "Ferry" | "FunicularRailway" | "HighSpeedTrain" | "IntercityTrain" | "InterregionalTrain" | "LightRail" | "Monorail" | "PrivateBus" | "RegionalTrain" | "Subway")]?
+                                  }?,
+                                  vehicle: {
+                                    allowed_modes: Array[("All" | "Car")]?,
+                                    enabled_for: Array[("FirstLeg" | "LastLeg" | "EntireRoute" | "None")]?,
+                                    excluded_modes: Array[("All" | "Car")]?
+                                  }?
+                                }?,
+                                transit: {
+                                  accessibility_attributes: Array[("Wheelchair")]?,
+                                  allowed_modes: Array[("AerialTramway" | "Airplane" | "All" | "Bus" | "BusRapidTransit" | "CityTrain" | "Ferry" | "FunicularRailway" | "HighSpeedTrain" | "IntercityTrain" | "InterregionalTrain" | "LightRail" | "Monorail" | "PrivateBus" | "RegionalTrain" | "Subway")]?,
+                                  excluded_modes: Array[("AerialTramway" | "Airplane" | "All" | "Bus" | "BusRapidTransit" | "CityTrain" | "Ferry" | "FunicularRailway" | "HighSpeedTrain" | "IntercityTrain" | "InterregionalTrain" | "LightRail" | "Monorail" | "PrivateBus" | "RegionalTrain" | "Subway")]?,
+                                  max_transfers: ::Integer?,
+                                  pedestrian: {
+                                    max_distance: ::Integer?,
+                                    speed: ::Float?
+                                  }?
                                 }?
                               },
                               ?travel_step_type: ("Default" | "TurnByTurn"),

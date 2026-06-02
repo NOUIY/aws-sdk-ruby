@@ -69,11 +69,17 @@ module Aws::KeyspacesStreams
     #   requested iterator will not return any more data.
     #   @return [String]
     #
+    # @!attribute [rw] iterator_description
+    #   Provides information about the current iterator at the time
+    #   GetRecords request was processed by Keyspaces.
+    #   @return [Types::IteratorDescription]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/keyspacesstreams-2024-09-09/GetRecordsOutput AWS API Documentation
     #
     class GetRecordsOutput < Struct.new(
       :change_records,
-      :next_shard_iterator)
+      :next_shard_iterator,
+      :iterator_description)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -271,6 +277,30 @@ module Aws::KeyspacesStreams
     #
     class InternalServerException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information about the current iterator.
+    #
+    # @!attribute [rw] iterator_position
+    #   Indicates the current iterator's position within the shard. The
+    #   possible values are:
+    #
+    #   * `AT_TIP` - No more records are currently available.
+    #
+    #   * `BEHIND_TIP` - Additional records may be available.
+    #
+    #   Stream progresses in absence of customer records. `BEHIND_TIP` with
+    #   an empty `changeRecords` list indicates the stream is progressing
+    #   but no customer records are available at this position. Continue
+    #   polling normally.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/keyspacesstreams-2024-09-09/IteratorDescription AWS API Documentation
+    #
+    class IteratorDescription < Struct.new(
+      :iterator_position)
       SENSITIVE = []
       include Aws::Structure
     end

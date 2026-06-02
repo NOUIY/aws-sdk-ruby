@@ -4303,6 +4303,10 @@ module Aws::GuardDuty
     #   resp.findings[0].service.runtime_details.context.service_name #=> String
     #   resp.findings[0].service.runtime_details.context.command_line_example #=> String
     #   resp.findings[0].service.runtime_details.context.threat_file_path #=> String
+    #   resp.findings[0].service.runtime_details.context.file_operation #=> String
+    #   resp.findings[0].service.runtime_details.context.file_path #=> String
+    #   resp.findings[0].service.runtime_details.context.related_file_paths #=> Array
+    #   resp.findings[0].service.runtime_details.context.related_file_paths[0] #=> String
     #   resp.findings[0].service.detection.anomaly.profiles #=> Hash
     #   resp.findings[0].service.detection.anomaly.profiles["String"] #=> Hash
     #   resp.findings[0].service.detection.anomaly.profiles["String"]["String"] #=> Array
@@ -8968,7 +8972,7 @@ module Aws::GuardDuty
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-guardduty'
-      context[:gem_version] = '1.152.0'
+      context[:gem_version] = '1.153.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

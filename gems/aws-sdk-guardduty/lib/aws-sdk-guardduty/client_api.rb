@@ -510,6 +510,7 @@ module Aws::GuardDuty
     RdsLoginAttemptAction = Shapes::StructureShape.new(name: 'RdsLoginAttemptAction')
     RecoveryPoint = Shapes::StructureShape.new(name: 'RecoveryPoint')
     RecoveryPointDetails = Shapes::StructureShape.new(name: 'RecoveryPointDetails')
+    RelatedFilePathsList = Shapes::ListShape.new(name: 'RelatedFilePathsList')
     RemoteAccountDetails = Shapes::StructureShape.new(name: 'RemoteAccountDetails')
     RemoteIpDetails = Shapes::StructureShape.new(name: 'RemoteIpDetails')
     RemotePortDetails = Shapes::StructureShape.new(name: 'RemotePortDetails')
@@ -2456,6 +2457,8 @@ module Aws::GuardDuty
     RecoveryPointDetails.add_member(:backup_vault_name, Shapes::ShapeRef.new(shape: String, location_name: "backupVaultName"))
     RecoveryPointDetails.struct_class = Types::RecoveryPointDetails
 
+    RelatedFilePathsList.member = Shapes::ShapeRef.new(shape: String)
+
     RemoteAccountDetails.add_member(:account_id, Shapes::ShapeRef.new(shape: String, location_name: "accountId"))
     RemoteAccountDetails.add_member(:affiliated, Shapes::ShapeRef.new(shape: Boolean, location_name: "affiliated"))
     RemoteAccountDetails.struct_class = Types::RemoteAccountDetails
@@ -2564,6 +2567,9 @@ module Aws::GuardDuty
     RuntimeContext.add_member(:service_name, Shapes::ShapeRef.new(shape: String, location_name: "serviceName"))
     RuntimeContext.add_member(:command_line_example, Shapes::ShapeRef.new(shape: String, location_name: "commandLineExample"))
     RuntimeContext.add_member(:threat_file_path, Shapes::ShapeRef.new(shape: String, location_name: "threatFilePath"))
+    RuntimeContext.add_member(:file_operation, Shapes::ShapeRef.new(shape: String, location_name: "fileOperation"))
+    RuntimeContext.add_member(:file_path, Shapes::ShapeRef.new(shape: String, location_name: "filePath"))
+    RuntimeContext.add_member(:related_file_paths, Shapes::ShapeRef.new(shape: RelatedFilePathsList, location_name: "relatedFilePaths"))
     RuntimeContext.struct_class = Types::RuntimeContext
 
     RuntimeDetails.add_member(:process, Shapes::ShapeRef.new(shape: ProcessDetails, location_name: "process"))

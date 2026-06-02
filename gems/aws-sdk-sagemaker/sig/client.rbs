@@ -1661,6 +1661,26 @@ module Aws
                                                 ) -> _CreateInferenceRecommendationsJobResponseSuccess
                                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateInferenceRecommendationsJobResponseSuccess
 
+      interface _CreateJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateJobResponse]
+        def job_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#create_job-instance_method
+      def create_job: (
+                        job_name: ::String,
+                        role_arn: ::String,
+                        job_category: ("AgentRFT" | "AgentRFTEvaluation"),
+                        job_config_schema_version: ::String,
+                        job_config_document: ::String,
+                        ?tags: Array[
+                          {
+                            key: ::String,
+                            value: ::String
+                          }
+                        ]
+                      ) -> _CreateJobResponseSuccess
+                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateJobResponseSuccess
+
       interface _CreateLabelingJobResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateLabelingJobResponse]
         def labeling_job_arn: () -> ::String
@@ -3247,6 +3267,16 @@ module Aws
                                        ) -> _DeleteInferenceExperimentResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteInferenceExperimentResponseSuccess
 
+      interface _DeleteJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteJobResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#delete_job-instance_method
+      def delete_job: (
+                        job_name: ::String,
+                        job_category: ("AgentRFT" | "AgentRFTEvaluation")
+                      ) -> _DeleteJobResponseSuccess
+                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteJobResponseSuccess
+
       interface _DeleteMlflowAppResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteMlflowAppResponse]
         def arn: () -> ::String
@@ -4316,6 +4346,43 @@ module Aws
                                                     job_name: ::String
                                                   ) -> _DescribeInferenceRecommendationsJobResponseSuccess
                                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeInferenceRecommendationsJobResponseSuccess
+
+      interface _DescribeJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeJobResponse]
+        def job_name: () -> ::String
+        def job_arn: () -> ::String
+        def role_arn: () -> ::String
+        def job_category: () -> ("AgentRFT" | "AgentRFTEvaluation")
+        def job_config_schema_version: () -> ::String
+        def job_config_document: () -> ::String
+        def creation_time: () -> ::Time
+        def last_modified_time: () -> ::Time
+        def end_time: () -> ::Time
+        def job_status: () -> ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped" | "Deleting" | "DeleteFailed")
+        def secondary_status: () -> ("Starting" | "Downloading" | "Training" | "Uploading" | "Stopping" | "Stopped" | "MaxRuntimeExceeded" | "Interrupted" | "Failed" | "Completed" | "Restarting" | "Pending" | "Evaluating" | "Deleting" | "DeleteFailed")
+        def secondary_status_transitions: () -> ::Array[Types::JobSecondaryStatusTransition]
+        def failure_reason: () -> ::String
+        def tags: () -> ::Array[Types::Tag]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#describe_job-instance_method
+      def describe_job: (
+                          job_name: ::String,
+                          job_category: ("AgentRFT" | "AgentRFTEvaluation")
+                        ) -> _DescribeJobResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeJobResponseSuccess
+
+      interface _DescribeJobSchemaVersionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeJobSchemaVersionResponse]
+        def job_category: () -> ("AgentRFT" | "AgentRFTEvaluation")
+        def job_config_schema_version: () -> ::String
+        def job_config_schema: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#describe_job_schema_version-instance_method
+      def describe_job_schema_version: (
+                                         job_category: ("AgentRFT" | "AgentRFTEvaluation"),
+                                         ?job_config_schema_version: ::String
+                                       ) -> _DescribeJobSchemaVersionResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeJobSchemaVersionResponseSuccess
 
       interface _DescribeLabelingJobResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeLabelingJobResponse]
@@ -6045,6 +6112,40 @@ module Aws
                                                ) -> _ListInferenceRecommendationsJobsResponseSuccess
                                              | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListInferenceRecommendationsJobsResponseSuccess
 
+      interface _ListJobSchemaVersionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListJobSchemaVersionsResponse]
+        def next_token: () -> ::String
+        def job_config_schemas: () -> ::Array[Types::JobConfigSchemaVersionSummary]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#list_job_schema_versions-instance_method
+      def list_job_schema_versions: (
+                                      job_category: ("AgentRFT" | "AgentRFTEvaluation"),
+                                      ?next_token: ::String,
+                                      ?max_results: ::Integer
+                                    ) -> _ListJobSchemaVersionsResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListJobSchemaVersionsResponseSuccess
+
+      interface _ListJobsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListJobsResponse]
+        def next_token: () -> ::String
+        def job_summaries: () -> ::Array[Types::JobSummary]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#list_jobs-instance_method
+      def list_jobs: (
+                       job_category: ("AgentRFT" | "AgentRFTEvaluation"),
+                       ?next_token: ::String,
+                       ?max_results: ::Integer,
+                       ?creation_time_after: ::Time,
+                       ?creation_time_before: ::Time,
+                       ?last_modified_time_after: ::Time,
+                       ?last_modified_time_before: ::Time,
+                       ?name_contains: ::String,
+                       ?sort_by: ("Name" | "CreationTime" | "Status"),
+                       ?sort_order: ("Ascending" | "Descending"),
+                       ?status_equals: ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped" | "Deleting" | "DeleteFailed")
+                     ) -> _ListJobsResponseSuccess
+                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListJobsResponseSuccess
+
       interface _ListLabelingJobsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListLabelingJobsResponse]
         def labeling_job_summary_list: () -> ::Array[Types::LabelingJobSummary]
@@ -7193,6 +7294,16 @@ module Aws
                                                 job_name: ::String
                                               ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
+      interface _StopJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StopJobResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#stop_job-instance_method
+      def stop_job: (
+                      job_name: ::String,
+                      job_category: ("AgentRFT" | "AgentRFTEvaluation")
+                    ) -> _StopJobResponseSuccess
+                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StopJobResponseSuccess
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#stop_labeling_job-instance_method
       def stop_labeling_job: (

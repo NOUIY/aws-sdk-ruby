@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.146.0 (2026-06-02)
+------------------
+
+* Feature - Amazon ElastiCache for Valkey now supports durability. This new capability is enabled through a Multi-AZ transactional log, enabling fast recovery and restart during failures.
+
 1.145.0 (2026-06-01)
 ------------------
 

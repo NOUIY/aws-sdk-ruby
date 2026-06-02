@@ -2319,6 +2319,21 @@ module Aws::SageMaker
       SENSITIVE: []
     end
 
+    class CreateJobRequest
+      attr_accessor job_name: ::String
+      attr_accessor role_arn: ::String
+      attr_accessor job_category: ("AgentRFT" | "AgentRFTEvaluation")
+      attr_accessor job_config_schema_version: ::String
+      attr_accessor job_config_document: ::String
+      attr_accessor tags: ::Array[Types::Tag]
+      SENSITIVE: []
+    end
+
+    class CreateJobResponse
+      attr_accessor job_arn: ::String
+      SENSITIVE: []
+    end
+
     class CreateLabelingJobRequest
       attr_accessor labeling_job_name: ::String
       attr_accessor label_attribute_name: ::String
@@ -3344,6 +3359,15 @@ module Aws::SageMaker
     class DeleteInferenceExperimentResponse
       attr_accessor inference_experiment_arn: ::String
       SENSITIVE: []
+    end
+
+    class DeleteJobRequest
+      attr_accessor job_name: ::String
+      attr_accessor job_category: ("AgentRFT" | "AgentRFTEvaluation")
+      SENSITIVE: []
+    end
+
+    class DeleteJobResponse < Aws::EmptyStructure
     end
 
     class DeleteMlflowAppRequest
@@ -4439,6 +4463,43 @@ module Aws::SageMaker
       attr_accessor stopping_conditions: Types::RecommendationJobStoppingConditions
       attr_accessor inference_recommendations: ::Array[Types::InferenceRecommendation]
       attr_accessor endpoint_performances: ::Array[Types::EndpointPerformance]
+      SENSITIVE: []
+    end
+
+    class DescribeJobRequest
+      attr_accessor job_name: ::String
+      attr_accessor job_category: ("AgentRFT" | "AgentRFTEvaluation")
+      SENSITIVE: []
+    end
+
+    class DescribeJobResponse
+      attr_accessor job_name: ::String
+      attr_accessor job_arn: ::String
+      attr_accessor role_arn: ::String
+      attr_accessor job_category: ("AgentRFT" | "AgentRFTEvaluation")
+      attr_accessor job_config_schema_version: ::String
+      attr_accessor job_config_document: ::String
+      attr_accessor creation_time: ::Time
+      attr_accessor last_modified_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor job_status: ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped" | "Deleting" | "DeleteFailed")
+      attr_accessor secondary_status: ("Starting" | "Downloading" | "Training" | "Uploading" | "Stopping" | "Stopped" | "MaxRuntimeExceeded" | "Interrupted" | "Failed" | "Completed" | "Restarting" | "Pending" | "Evaluating" | "Deleting" | "DeleteFailed")
+      attr_accessor secondary_status_transitions: ::Array[Types::JobSecondaryStatusTransition]
+      attr_accessor failure_reason: ::String
+      attr_accessor tags: ::Array[Types::Tag]
+      SENSITIVE: []
+    end
+
+    class DescribeJobSchemaVersionRequest
+      attr_accessor job_category: ("AgentRFT" | "AgentRFTEvaluation")
+      attr_accessor job_config_schema_version: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeJobSchemaVersionResponse
+      attr_accessor job_category: ("AgentRFT" | "AgentRFTEvaluation")
+      attr_accessor job_config_schema_version: ::String
+      attr_accessor job_config_schema: ::String
       SENSITIVE: []
     end
 
@@ -6666,6 +6727,36 @@ module Aws::SageMaker
       SENSITIVE: []
     end
 
+    class JobConfigSchemaVersionSummary
+      attr_accessor job_config_schema_version: ::String
+      SENSITIVE: []
+    end
+
+    class JobSecondaryStatusTransition
+      attr_accessor status: ("Starting" | "Downloading" | "Training" | "Uploading" | "Stopping" | "Stopped" | "MaxRuntimeExceeded" | "Interrupted" | "Failed" | "Completed" | "Restarting" | "Pending" | "Evaluating" | "Deleting" | "DeleteFailed")
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor status_message: ::String
+      SENSITIVE: []
+    end
+
+    class JobStepMetadata
+      attr_accessor arn: ::String
+      SENSITIVE: []
+    end
+
+    class JobSummary
+      attr_accessor job_arn: ::String
+      attr_accessor job_name: ::String
+      attr_accessor job_category: ("AgentRFT" | "AgentRFTEvaluation")
+      attr_accessor job_status: ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped" | "Deleting" | "DeleteFailed")
+      attr_accessor job_secondary_status: ("Starting" | "Downloading" | "Training" | "Uploading" | "Stopping" | "Stopped" | "MaxRuntimeExceeded" | "Interrupted" | "Failed" | "Completed" | "Restarting" | "Pending" | "Evaluating" | "Deleting" | "DeleteFailed")
+      attr_accessor creation_time: ::Time
+      attr_accessor last_modified_time: ::Time
+      attr_accessor end_time: ::Time
+      SENSITIVE: []
+    end
+
     class JupyterLabAppImageConfig
       attr_accessor file_system_config: Types::FileSystemConfig
       attr_accessor container_config: Types::ContainerConfig
@@ -7613,6 +7704,40 @@ module Aws::SageMaker
     class ListInferenceRecommendationsJobsResponse
       attr_accessor inference_recommendations_jobs: ::Array[Types::InferenceRecommendationsJob]
       attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListJobSchemaVersionsRequest
+      attr_accessor job_category: ("AgentRFT" | "AgentRFTEvaluation")
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListJobSchemaVersionsResponse
+      attr_accessor next_token: ::String
+      attr_accessor job_config_schemas: ::Array[Types::JobConfigSchemaVersionSummary]
+      SENSITIVE: []
+    end
+
+    class ListJobsRequest
+      attr_accessor job_category: ("AgentRFT" | "AgentRFTEvaluation")
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor creation_time_after: ::Time
+      attr_accessor creation_time_before: ::Time
+      attr_accessor last_modified_time_after: ::Time
+      attr_accessor last_modified_time_before: ::Time
+      attr_accessor name_contains: ::String
+      attr_accessor sort_by: ("Name" | "CreationTime" | "Status")
+      attr_accessor sort_order: ("Ascending" | "Descending")
+      attr_accessor status_equals: ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped" | "Deleting" | "DeleteFailed")
+      SENSITIVE: []
+    end
+
+    class ListJobsResponse
+      attr_accessor next_token: ::String
+      attr_accessor job_summaries: ::Array[Types::JobSummary]
       SENSITIVE: []
     end
 
@@ -9626,6 +9751,7 @@ module Aws::SageMaker
       attr_accessor bedrock_model_import: Types::BedrockModelImportMetadata
       attr_accessor inference_component: Types::InferenceComponentMetadata
       attr_accessor lineage: Types::LineageMetadata
+      attr_accessor job: Types::JobStepMetadata
       SENSITIVE: []
     end
 
@@ -10886,6 +11012,15 @@ module Aws::SageMaker
     class StopInferenceRecommendationsJobRequest
       attr_accessor job_name: ::String
       SENSITIVE: []
+    end
+
+    class StopJobRequest
+      attr_accessor job_name: ::String
+      attr_accessor job_category: ("AgentRFT" | "AgentRFTEvaluation")
+      SENSITIVE: []
+    end
+
+    class StopJobResponse < Aws::EmptyStructure
     end
 
     class StopLabelingJobRequest

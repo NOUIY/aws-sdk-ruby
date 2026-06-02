@@ -27,6 +27,8 @@ module Aws::KeyspacesStreams
     GetStreamInputMaxResultsInteger = Shapes::IntegerShape.new(name: 'GetStreamInputMaxResultsInteger')
     GetStreamOutput = Shapes::StructureShape.new(name: 'GetStreamOutput')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
+    IteratorDescription = Shapes::StructureShape.new(name: 'IteratorDescription')
+    IteratorPosition = Shapes::StringShape.new(name: 'IteratorPosition')
     KeyspaceName = Shapes::StringShape.new(name: 'KeyspaceName')
     KeyspacesCell = Shapes::StructureShape.new(name: 'KeyspacesCell')
     KeyspacesCellList = Shapes::ListShape.new(name: 'KeyspacesCellList')
@@ -77,6 +79,7 @@ module Aws::KeyspacesStreams
 
     GetRecordsOutput.add_member(:change_records, Shapes::ShapeRef.new(shape: RecordList, location_name: "changeRecords"))
     GetRecordsOutput.add_member(:next_shard_iterator, Shapes::ShapeRef.new(shape: ShardIterator, location_name: "nextShardIterator"))
+    GetRecordsOutput.add_member(:iterator_description, Shapes::ShapeRef.new(shape: IteratorDescription, location_name: "iteratorDescription"))
     GetRecordsOutput.struct_class = Types::GetRecordsOutput
 
     GetShardIteratorInput.add_member(:stream_arn, Shapes::ShapeRef.new(shape: StreamArn, required: true, location_name: "streamArn"))
@@ -107,6 +110,9 @@ module Aws::KeyspacesStreams
 
     InternalServerException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
     InternalServerException.struct_class = Types::InternalServerException
+
+    IteratorDescription.add_member(:iterator_position, Shapes::ShapeRef.new(shape: IteratorPosition, location_name: "iteratorPosition"))
+    IteratorDescription.struct_class = Types::IteratorDescription
 
     KeyspacesCell.add_member(:value, Shapes::ShapeRef.new(shape: KeyspacesCellValue, location_name: "value"))
     KeyspacesCell.add_member(:metadata, Shapes::ShapeRef.new(shape: KeyspacesMetadata, location_name: "metadata"))

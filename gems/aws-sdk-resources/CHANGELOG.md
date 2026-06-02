@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+3.264.0 (2026-06-02)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-sagemakerjobruntime` gem.
+
 3.263.0 (2026-05-28)
 ------------------
 

@@ -174,9 +174,11 @@ module Aws::ElastiCache
     DisassociateGlobalReplicationGroupResult = Shapes::StructureShape.new(name: 'DisassociateGlobalReplicationGroupResult')
     Double = Shapes::FloatShape.new(name: 'Double')
     DuplicateUserNameFault = Shapes::StructureShape.new(name: 'DuplicateUserNameFault', error: {"code" => "DuplicateUserName", "httpStatusCode" => 400, "senderFault" => true})
+    Durability = Shapes::StringShape.new(name: 'Durability')
     EC2SecurityGroup = Shapes::StructureShape.new(name: 'EC2SecurityGroup')
     EC2SecurityGroupList = Shapes::ListShape.new(name: 'EC2SecurityGroupList')
     ECPUPerSecond = Shapes::StructureShape.new(name: 'ECPUPerSecond')
+    EffectiveDurability = Shapes::StringShape.new(name: 'EffectiveDurability')
     Endpoint = Shapes::StructureShape.new(name: 'Endpoint')
     EngineDefaults = Shapes::StructureShape.new(name: 'EngineDefaults')
     EngineType = Shapes::StringShape.new(name: 'EngineType')
@@ -370,6 +372,7 @@ module Aws::ElastiCache
     SourceType = Shapes::StringShape.new(name: 'SourceType')
     StartMigrationMessage = Shapes::StructureShape.new(name: 'StartMigrationMessage')
     StartMigrationResponse = Shapes::StructureShape.new(name: 'StartMigrationResponse')
+    StorageEncryptionType = Shapes::StringShape.new(name: 'StorageEncryptionType')
     String = Shapes::StringShape.new(name: 'String')
     Subnet = Shapes::StructureShape.new(name: 'Subnet')
     SubnetIdentifierList = Shapes::ListShape.new(name: 'SubnetIdentifierList')
@@ -805,6 +808,7 @@ module Aws::ElastiCache
     CreateReplicationGroupMessage.add_member(:transit_encryption_mode, Shapes::ShapeRef.new(shape: TransitEncryptionMode, location_name: "TransitEncryptionMode"))
     CreateReplicationGroupMessage.add_member(:cluster_mode, Shapes::ShapeRef.new(shape: ClusterMode, location_name: "ClusterMode"))
     CreateReplicationGroupMessage.add_member(:serverless_cache_snapshot_name, Shapes::ShapeRef.new(shape: String, location_name: "ServerlessCacheSnapshotName"))
+    CreateReplicationGroupMessage.add_member(:durability, Shapes::ShapeRef.new(shape: Durability, location_name: "Durability"))
     CreateReplicationGroupMessage.struct_class = Types::CreateReplicationGroupMessage
 
     CreateReplicationGroupResult.add_member(:replication_group, Shapes::ShapeRef.new(shape: ReplicationGroup, location_name: "ReplicationGroup"))
@@ -1395,6 +1399,7 @@ module Aws::ElastiCache
     ModifyReplicationGroupMessage.add_member(:transit_encryption_enabled, Shapes::ShapeRef.new(shape: BooleanOptional, location_name: "TransitEncryptionEnabled"))
     ModifyReplicationGroupMessage.add_member(:transit_encryption_mode, Shapes::ShapeRef.new(shape: TransitEncryptionMode, location_name: "TransitEncryptionMode"))
     ModifyReplicationGroupMessage.add_member(:cluster_mode, Shapes::ShapeRef.new(shape: ClusterMode, location_name: "ClusterMode"))
+    ModifyReplicationGroupMessage.add_member(:durability, Shapes::ShapeRef.new(shape: Durability, location_name: "Durability"))
     ModifyReplicationGroupMessage.struct_class = Types::ModifyReplicationGroupMessage
 
     ModifyReplicationGroupResult.add_member(:replication_group, Shapes::ShapeRef.new(shape: ReplicationGroup, location_name: "ReplicationGroup"))
@@ -1643,6 +1648,7 @@ module Aws::ElastiCache
     ReplicationGroup.add_member(:at_rest_encryption_enabled, Shapes::ShapeRef.new(shape: BooleanOptional, location_name: "AtRestEncryptionEnabled"))
     ReplicationGroup.add_member(:member_clusters_outpost_arns, Shapes::ShapeRef.new(shape: ReplicationGroupOutpostArnList, location_name: "MemberClustersOutpostArns"))
     ReplicationGroup.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: String, location_name: "KmsKeyId"))
+    ReplicationGroup.add_member(:storage_encryption_type, Shapes::ShapeRef.new(shape: StorageEncryptionType, location_name: "StorageEncryptionType"))
     ReplicationGroup.add_member(:arn, Shapes::ShapeRef.new(shape: String, location_name: "ARN"))
     ReplicationGroup.add_member(:user_group_ids, Shapes::ShapeRef.new(shape: UserGroupIdList, location_name: "UserGroupIds"))
     ReplicationGroup.add_member(:log_delivery_configurations, Shapes::ShapeRef.new(shape: LogDeliveryConfigurationList, location_name: "LogDeliveryConfigurations"))
@@ -1654,6 +1660,8 @@ module Aws::ElastiCache
     ReplicationGroup.add_member(:transit_encryption_mode, Shapes::ShapeRef.new(shape: TransitEncryptionMode, location_name: "TransitEncryptionMode"))
     ReplicationGroup.add_member(:cluster_mode, Shapes::ShapeRef.new(shape: ClusterMode, location_name: "ClusterMode"))
     ReplicationGroup.add_member(:engine, Shapes::ShapeRef.new(shape: String, location_name: "Engine"))
+    ReplicationGroup.add_member(:durability, Shapes::ShapeRef.new(shape: Durability, location_name: "Durability"))
+    ReplicationGroup.add_member(:effective_durability, Shapes::ShapeRef.new(shape: EffectiveDurability, location_name: "EffectiveDurability"))
     ReplicationGroup.struct_class = Types::ReplicationGroup
 
     ReplicationGroupAlreadyExistsFault.struct_class = Types::ReplicationGroupAlreadyExistsFault
@@ -1773,6 +1781,7 @@ module Aws::ElastiCache
     ServerlessCache.add_member(:full_engine_version, Shapes::ShapeRef.new(shape: String, location_name: "FullEngineVersion"))
     ServerlessCache.add_member(:cache_usage_limits, Shapes::ShapeRef.new(shape: CacheUsageLimits, location_name: "CacheUsageLimits"))
     ServerlessCache.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: String, location_name: "KmsKeyId"))
+    ServerlessCache.add_member(:storage_encryption_type, Shapes::ShapeRef.new(shape: StorageEncryptionType, location_name: "StorageEncryptionType"))
     ServerlessCache.add_member(:security_group_ids, Shapes::ShapeRef.new(shape: SecurityGroupIdsList, location_name: "SecurityGroupIds"))
     ServerlessCache.add_member(:endpoint, Shapes::ShapeRef.new(shape: Endpoint, location_name: "Endpoint"))
     ServerlessCache.add_member(:reader_endpoint, Shapes::ShapeRef.new(shape: Endpoint, location_name: "ReaderEndpoint"))
@@ -1873,6 +1882,7 @@ module Aws::ElastiCache
     Snapshot.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: String, location_name: "KmsKeyId"))
     Snapshot.add_member(:arn, Shapes::ShapeRef.new(shape: String, location_name: "ARN"))
     Snapshot.add_member(:data_tiering, Shapes::ShapeRef.new(shape: DataTieringStatus, location_name: "DataTiering"))
+    Snapshot.add_member(:durability, Shapes::ShapeRef.new(shape: Durability, location_name: "Durability"))
     Snapshot.struct_class = Types::Snapshot
 
     SnapshotAlreadyExistsFault.struct_class = Types::SnapshotAlreadyExistsFault

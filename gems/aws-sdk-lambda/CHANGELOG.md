@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.183.0 (2026-06-02)
+------------------
+
+* Feature - Adds configuration for tag propagation to Lambda-managed resources.
+
 1.182.0 (2026-06-01)
 ------------------
 

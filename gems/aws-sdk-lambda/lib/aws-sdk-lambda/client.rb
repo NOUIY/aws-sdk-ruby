@@ -1027,6 +1027,10 @@ module Aws::Lambda
     # @option params [Hash<String,String>] :tags
     #   A list of tags to associate with the capacity provider.
     #
+    # @option params [Types::PropagateTags] :propagate_tags
+    #   The tag propagation configuration for the capacity provider. Specifies
+    #   tags to apply to managed resources at launch.
+    #
     # @return [Types::CreateCapacityProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateCapacityProviderResponse#capacity_provider #capacity_provider} => Types::CapacityProvider
@@ -1061,6 +1065,12 @@ module Aws::Lambda
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
+    #     propagate_tags: {
+    #       mode: "None", # accepts None, Explicit
+    #       explicit_tags: {
+    #         "TagKey" => "TagValue",
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -1085,6 +1095,9 @@ module Aws::Lambda
     #   resp.capacity_provider.capacity_provider_scaling_config.scaling_policies[0].target_value #=> Float
     #   resp.capacity_provider.kms_key_arn #=> String
     #   resp.capacity_provider.last_modified #=> Time
+    #   resp.capacity_provider.propagate_tags.mode #=> String, one of "None", "Explicit"
+    #   resp.capacity_provider.propagate_tags.explicit_tags #=> Hash
+    #   resp.capacity_provider.propagate_tags.explicit_tags["TagKey"] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateCapacityProvider AWS API Documentation
     #
@@ -2451,6 +2464,9 @@ module Aws::Lambda
     #   resp.capacity_provider.capacity_provider_scaling_config.scaling_policies[0].target_value #=> Float
     #   resp.capacity_provider.kms_key_arn #=> String
     #   resp.capacity_provider.last_modified #=> Time
+    #   resp.capacity_provider.propagate_tags.mode #=> String, one of "None", "Explicit"
+    #   resp.capacity_provider.propagate_tags.explicit_tags #=> Hash
+    #   resp.capacity_provider.propagate_tags.explicit_tags["TagKey"] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteCapacityProvider AWS API Documentation
     #
@@ -3136,6 +3152,9 @@ module Aws::Lambda
     #   resp.capacity_provider.capacity_provider_scaling_config.scaling_policies[0].target_value #=> Float
     #   resp.capacity_provider.kms_key_arn #=> String
     #   resp.capacity_provider.last_modified #=> Time
+    #   resp.capacity_provider.propagate_tags.mode #=> String, one of "None", "Explicit"
+    #   resp.capacity_provider.propagate_tags.explicit_tags #=> Hash
+    #   resp.capacity_provider.propagate_tags.explicit_tags["TagKey"] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetCapacityProvider AWS API Documentation
     #
@@ -4698,9 +4717,9 @@ module Aws::Lambda
     #   * {Types::GetProvisionedConcurrencyConfigResponse#last_modified #last_modified} => Time
     #
     #
-    # @example Example: To get a provisioned concurrency configuration
+    # @example Example: To view a provisioned concurrency configuration
     #
-    #   # The following example returns details for the provisioned concurrency configuration for the BLUE alias of the specified
+    #   # The following example displays details for the provisioned concurrency configuration for the BLUE alias of the specified
     #   # function.
     #
     #   resp = client.get_provisioned_concurrency_config({
@@ -4717,9 +4736,9 @@ module Aws::Lambda
     #     status: "READY", 
     #   }
     #
-    # @example Example: To view a provisioned concurrency configuration
+    # @example Example: To get a provisioned concurrency configuration
     #
-    #   # The following example displays details for the provisioned concurrency configuration for the BLUE alias of the specified
+    #   # The following example returns details for the provisioned concurrency configuration for the BLUE alias of the specified
     #   # function.
     #
     #   resp = client.get_provisioned_concurrency_config({
@@ -5470,6 +5489,9 @@ module Aws::Lambda
     #   resp.capacity_providers[0].capacity_provider_scaling_config.scaling_policies[0].target_value #=> Float
     #   resp.capacity_providers[0].kms_key_arn #=> String
     #   resp.capacity_providers[0].last_modified #=> Time
+    #   resp.capacity_providers[0].propagate_tags.mode #=> String, one of "None", "Explicit"
+    #   resp.capacity_providers[0].propagate_tags.explicit_tags #=> Hash
+    #   resp.capacity_providers[0].propagate_tags.explicit_tags["TagKey"] #=> String
     #   resp.next_marker #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListCapacityProviders AWS API Documentation
@@ -8203,6 +8225,10 @@ module Aws::Lambda
     # @option params [Types::CapacityProviderScalingConfig] :capacity_provider_scaling_config
     #   The updated scaling configuration for the capacity provider.
     #
+    # @option params [Types::PropagateTags] :propagate_tags
+    #   Configuration for tag propagation to managed resources launched by the
+    #   capacity provider.
+    #
     # @return [Types::UpdateCapacityProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateCapacityProviderResponse#capacity_provider #capacity_provider} => Types::CapacityProvider
@@ -8220,6 +8246,12 @@ module Aws::Lambda
     #           target_value: 1.0, # required
     #         },
     #       ],
+    #     },
+    #     propagate_tags: {
+    #       mode: "None", # accepts None, Explicit
+    #       explicit_tags: {
+    #         "TagKey" => "TagValue",
+    #       },
     #     },
     #   })
     #
@@ -8245,6 +8277,9 @@ module Aws::Lambda
     #   resp.capacity_provider.capacity_provider_scaling_config.scaling_policies[0].target_value #=> Float
     #   resp.capacity_provider.kms_key_arn #=> String
     #   resp.capacity_provider.last_modified #=> Time
+    #   resp.capacity_provider.propagate_tags.mode #=> String, one of "None", "Explicit"
+    #   resp.capacity_provider.propagate_tags.explicit_tags #=> Hash
+    #   resp.capacity_provider.propagate_tags.explicit_tags["TagKey"] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateCapacityProvider AWS API Documentation
     #
@@ -9746,7 +9781,7 @@ module Aws::Lambda
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-lambda'
-      context[:gem_version] = '1.182.0'
+      context[:gem_version] = '1.183.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

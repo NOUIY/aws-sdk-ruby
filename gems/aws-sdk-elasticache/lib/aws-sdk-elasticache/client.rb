@@ -828,6 +828,7 @@ module Aws::ElastiCache
     #   resp.replication_group.member_clusters_outpost_arns #=> Array
     #   resp.replication_group.member_clusters_outpost_arns[0] #=> String
     #   resp.replication_group.kms_key_id #=> String
+    #   resp.replication_group.storage_encryption_type #=> String, one of "none", "sse-elasticache", "sse-kms"
     #   resp.replication_group.arn #=> String
     #   resp.replication_group.user_group_ids #=> Array
     #   resp.replication_group.user_group_ids[0] #=> String
@@ -847,6 +848,8 @@ module Aws::ElastiCache
     #   resp.replication_group.transit_encryption_mode #=> String, one of "preferred", "required"
     #   resp.replication_group.cluster_mode #=> String, one of "enabled", "disabled", "compatible"
     #   resp.replication_group.engine #=> String
+    #   resp.replication_group.durability #=> String, one of "default", "async", "sync", "disabled"
+    #   resp.replication_group.effective_durability #=> String, one of "async", "sync", "disabled"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/CompleteMigration AWS API Documentation
     #
@@ -1138,6 +1141,7 @@ module Aws::ElastiCache
     #   resp.snapshot.kms_key_id #=> String
     #   resp.snapshot.arn #=> String
     #   resp.snapshot.data_tiering #=> String, one of "enabled", "disabled"
+    #   resp.snapshot.durability #=> String, one of "default", "async", "sync", "disabled"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/CopySnapshot AWS API Documentation
     #
@@ -2593,16 +2597,13 @@ module Aws::ElastiCache
     #   `true`, an `AuthToken`, and a `CacheSubnetGroup`.
     #
     # @option params [Boolean] :at_rest_encryption_enabled
-    #   A flag that enables encryption at rest when set to `true`.
+    #   A flag that enables encryption at-rest on the replication group when
+    #   set to `true`. In some cases, encryption at-rest may be enabled even
+    #   when this value is false. Use `StorageEncryptionType` to view the
+    #   effective encryption state of a cluster.
     #
     #   You cannot modify the value of `AtRestEncryptionEnabled` after the
-    #   replication group is created. To enable encryption at rest on a
-    #   replication group you must set `AtRestEncryptionEnabled` to `true`
-    #   when you create the replication group.
-    #
-    #   **Required:** Only available when creating a replication group in an
-    #   Amazon VPC using Valkey `7.2` and later, Redis OSS version `3.2.6`, or
-    #   Redis OSS `4.x` and later.
+    #   replication group is created.
     #
     #   Default: `true` when using Valkey, `false` when using Redis OSS
     #
@@ -2675,6 +2676,17 @@ module Aws::ElastiCache
     # @option params [String] :serverless_cache_snapshot_name
     #   The name of the snapshot used to create a replication group. Available
     #   for Valkey, Redis OSS only.
+    #
+    # @option params [String] :durability
+    #   Specifies the durability setting for the replication group. When set
+    #   to `default`, the service determines the effective durability based on
+    #   the engine version, cluster mode, and other parameters. The resolved
+    #   setting is reflected in the `EffectiveDurability` property of the
+    #   replication group. For more information, see [Durability][1].
+    #
+    #
+    #
+    #   [1]: http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html
     #
     # @return [Types::CreateReplicationGroupResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2843,6 +2855,7 @@ module Aws::ElastiCache
     #     transit_encryption_mode: "preferred", # accepts preferred, required
     #     cluster_mode: "enabled", # accepts enabled, disabled, compatible
     #     serverless_cache_snapshot_name: "String",
+    #     durability: "default", # accepts default, async, sync, disabled
     #   })
     #
     # @example Response structure
@@ -2903,6 +2916,7 @@ module Aws::ElastiCache
     #   resp.replication_group.member_clusters_outpost_arns #=> Array
     #   resp.replication_group.member_clusters_outpost_arns[0] #=> String
     #   resp.replication_group.kms_key_id #=> String
+    #   resp.replication_group.storage_encryption_type #=> String, one of "none", "sse-elasticache", "sse-kms"
     #   resp.replication_group.arn #=> String
     #   resp.replication_group.user_group_ids #=> Array
     #   resp.replication_group.user_group_ids[0] #=> String
@@ -2922,6 +2936,8 @@ module Aws::ElastiCache
     #   resp.replication_group.transit_encryption_mode #=> String, one of "preferred", "required"
     #   resp.replication_group.cluster_mode #=> String, one of "enabled", "disabled", "compatible"
     #   resp.replication_group.engine #=> String
+    #   resp.replication_group.durability #=> String, one of "default", "async", "sync", "disabled"
+    #   resp.replication_group.effective_durability #=> String, one of "async", "sync", "disabled"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/CreateReplicationGroup AWS API Documentation
     #
@@ -2998,7 +3014,7 @@ module Aws::ElastiCache
     # @option params [String] :network_type
     #   The IP protocol version used by the serverless cache. Must be either
     #   `ipv4` \| `ipv6` \| `dual_stack`. `ipv6` is only supported with
-    #   ipv6-only subnets. If not specified, defaults to `ipv4`, unless all
+    #   IPv6-only subnets. If not specified, defaults to `ipv4`, unless all
     #   provided subnets are IPv6-only, in which case it defaults to `ipv6`.
     #
     # @return [Types::CreateServerlessCacheResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
@@ -3054,6 +3070,7 @@ module Aws::ElastiCache
     #   resp.serverless_cache.cache_usage_limits.ecpu_per_second.maximum #=> Integer
     #   resp.serverless_cache.cache_usage_limits.ecpu_per_second.minimum #=> Integer
     #   resp.serverless_cache.kms_key_id #=> String
+    #   resp.serverless_cache.storage_encryption_type #=> String, one of "none", "sse-elasticache", "sse-kms"
     #   resp.serverless_cache.security_group_ids #=> Array
     #   resp.serverless_cache.security_group_ids[0] #=> String
     #   resp.serverless_cache.endpoint.address #=> String
@@ -3358,6 +3375,7 @@ module Aws::ElastiCache
     #   resp.snapshot.kms_key_id #=> String
     #   resp.snapshot.arn #=> String
     #   resp.snapshot.data_tiering #=> String, one of "enabled", "disabled"
+    #   resp.snapshot.durability #=> String, one of "default", "async", "sync", "disabled"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/CreateSnapshot AWS API Documentation
     #
@@ -3729,6 +3747,7 @@ module Aws::ElastiCache
     #   resp.replication_group.member_clusters_outpost_arns #=> Array
     #   resp.replication_group.member_clusters_outpost_arns[0] #=> String
     #   resp.replication_group.kms_key_id #=> String
+    #   resp.replication_group.storage_encryption_type #=> String, one of "none", "sse-elasticache", "sse-kms"
     #   resp.replication_group.arn #=> String
     #   resp.replication_group.user_group_ids #=> Array
     #   resp.replication_group.user_group_ids[0] #=> String
@@ -3748,6 +3767,8 @@ module Aws::ElastiCache
     #   resp.replication_group.transit_encryption_mode #=> String, one of "preferred", "required"
     #   resp.replication_group.cluster_mode #=> String, one of "enabled", "disabled", "compatible"
     #   resp.replication_group.engine #=> String
+    #   resp.replication_group.durability #=> String, one of "default", "async", "sync", "disabled"
+    #   resp.replication_group.effective_durability #=> String, one of "async", "sync", "disabled"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DecreaseReplicaCount AWS API Documentation
     #
@@ -4239,6 +4260,7 @@ module Aws::ElastiCache
     #   resp.replication_group.member_clusters_outpost_arns #=> Array
     #   resp.replication_group.member_clusters_outpost_arns[0] #=> String
     #   resp.replication_group.kms_key_id #=> String
+    #   resp.replication_group.storage_encryption_type #=> String, one of "none", "sse-elasticache", "sse-kms"
     #   resp.replication_group.arn #=> String
     #   resp.replication_group.user_group_ids #=> Array
     #   resp.replication_group.user_group_ids[0] #=> String
@@ -4258,6 +4280,8 @@ module Aws::ElastiCache
     #   resp.replication_group.transit_encryption_mode #=> String, one of "preferred", "required"
     #   resp.replication_group.cluster_mode #=> String, one of "enabled", "disabled", "compatible"
     #   resp.replication_group.engine #=> String
+    #   resp.replication_group.durability #=> String, one of "default", "async", "sync", "disabled"
+    #   resp.replication_group.effective_durability #=> String, one of "async", "sync", "disabled"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DeleteReplicationGroup AWS API Documentation
     #
@@ -4310,6 +4334,7 @@ module Aws::ElastiCache
     #   resp.serverless_cache.cache_usage_limits.ecpu_per_second.maximum #=> Integer
     #   resp.serverless_cache.cache_usage_limits.ecpu_per_second.minimum #=> Integer
     #   resp.serverless_cache.kms_key_id #=> String
+    #   resp.serverless_cache.storage_encryption_type #=> String, one of "none", "sse-elasticache", "sse-kms"
     #   resp.serverless_cache.security_group_ids #=> Array
     #   resp.serverless_cache.security_group_ids[0] #=> String
     #   resp.serverless_cache.endpoint.address #=> String
@@ -4480,6 +4505,7 @@ module Aws::ElastiCache
     #   resp.snapshot.kms_key_id #=> String
     #   resp.snapshot.arn #=> String
     #   resp.snapshot.data_tiering #=> String, one of "enabled", "disabled"
+    #   resp.snapshot.durability #=> String, one of "default", "async", "sync", "disabled"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DeleteSnapshot AWS API Documentation
     #
@@ -6982,6 +7008,7 @@ module Aws::ElastiCache
     #   resp.replication_groups[0].member_clusters_outpost_arns #=> Array
     #   resp.replication_groups[0].member_clusters_outpost_arns[0] #=> String
     #   resp.replication_groups[0].kms_key_id #=> String
+    #   resp.replication_groups[0].storage_encryption_type #=> String, one of "none", "sse-elasticache", "sse-kms"
     #   resp.replication_groups[0].arn #=> String
     #   resp.replication_groups[0].user_group_ids #=> Array
     #   resp.replication_groups[0].user_group_ids[0] #=> String
@@ -7001,6 +7028,8 @@ module Aws::ElastiCache
     #   resp.replication_groups[0].transit_encryption_mode #=> String, one of "preferred", "required"
     #   resp.replication_groups[0].cluster_mode #=> String, one of "enabled", "disabled", "compatible"
     #   resp.replication_groups[0].engine #=> String
+    #   resp.replication_groups[0].durability #=> String, one of "default", "async", "sync", "disabled"
+    #   resp.replication_groups[0].effective_durability #=> String, one of "async", "sync", "disabled"
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -7887,6 +7916,7 @@ module Aws::ElastiCache
     #   resp.serverless_caches[0].cache_usage_limits.ecpu_per_second.maximum #=> Integer
     #   resp.serverless_caches[0].cache_usage_limits.ecpu_per_second.minimum #=> Integer
     #   resp.serverless_caches[0].kms_key_id #=> String
+    #   resp.serverless_caches[0].storage_encryption_type #=> String, one of "none", "sse-elasticache", "sse-kms"
     #   resp.serverless_caches[0].security_group_ids #=> Array
     #   resp.serverless_caches[0].security_group_ids[0] #=> String
     #   resp.serverless_caches[0].endpoint.address #=> String
@@ -8127,6 +8157,7 @@ module Aws::ElastiCache
     #   resp.snapshots[0].kms_key_id #=> String
     #   resp.snapshots[0].arn #=> String
     #   resp.snapshots[0].data_tiering #=> String, one of "enabled", "disabled"
+    #   resp.snapshots[0].durability #=> String, one of "default", "async", "sync", "disabled"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeSnapshots AWS API Documentation
     #
@@ -8722,6 +8753,7 @@ module Aws::ElastiCache
     #   resp.replication_group.member_clusters_outpost_arns #=> Array
     #   resp.replication_group.member_clusters_outpost_arns[0] #=> String
     #   resp.replication_group.kms_key_id #=> String
+    #   resp.replication_group.storage_encryption_type #=> String, one of "none", "sse-elasticache", "sse-kms"
     #   resp.replication_group.arn #=> String
     #   resp.replication_group.user_group_ids #=> Array
     #   resp.replication_group.user_group_ids[0] #=> String
@@ -8741,6 +8773,8 @@ module Aws::ElastiCache
     #   resp.replication_group.transit_encryption_mode #=> String, one of "preferred", "required"
     #   resp.replication_group.cluster_mode #=> String, one of "enabled", "disabled", "compatible"
     #   resp.replication_group.engine #=> String
+    #   resp.replication_group.durability #=> String, one of "default", "async", "sync", "disabled"
+    #   resp.replication_group.effective_durability #=> String, one of "async", "sync", "disabled"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/IncreaseReplicaCount AWS API Documentation
     #
@@ -9943,6 +9977,16 @@ module Aws::ElastiCache
     #   complete cluster mode configuration and set the cluster mode to
     #   Enabled.
     #
+    # @option params [String] :durability
+    #   Specifies the durability setting for the replication group. Use this
+    #   parameter to change the durability mode of an existing replication
+    #   group, for example from `sync` to `async` or vice versa. For more
+    #   information, see [Durability][1].
+    #
+    #
+    #
+    #   [1]: http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html
+    #
     # @return [Types::ModifyReplicationGroupResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ModifyReplicationGroupResult#replication_group #replication_group} => Types::ReplicationGroup
@@ -10066,6 +10110,7 @@ module Aws::ElastiCache
     #     transit_encryption_enabled: false,
     #     transit_encryption_mode: "preferred", # accepts preferred, required
     #     cluster_mode: "enabled", # accepts enabled, disabled, compatible
+    #     durability: "default", # accepts default, async, sync, disabled
     #   })
     #
     # @example Response structure
@@ -10126,6 +10171,7 @@ module Aws::ElastiCache
     #   resp.replication_group.member_clusters_outpost_arns #=> Array
     #   resp.replication_group.member_clusters_outpost_arns[0] #=> String
     #   resp.replication_group.kms_key_id #=> String
+    #   resp.replication_group.storage_encryption_type #=> String, one of "none", "sse-elasticache", "sse-kms"
     #   resp.replication_group.arn #=> String
     #   resp.replication_group.user_group_ids #=> Array
     #   resp.replication_group.user_group_ids[0] #=> String
@@ -10145,6 +10191,8 @@ module Aws::ElastiCache
     #   resp.replication_group.transit_encryption_mode #=> String, one of "preferred", "required"
     #   resp.replication_group.cluster_mode #=> String, one of "enabled", "disabled", "compatible"
     #   resp.replication_group.engine #=> String
+    #   resp.replication_group.durability #=> String, one of "default", "async", "sync", "disabled"
+    #   resp.replication_group.effective_durability #=> String, one of "async", "sync", "disabled"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/ModifyReplicationGroup AWS API Documentation
     #
@@ -10279,6 +10327,7 @@ module Aws::ElastiCache
     #   resp.replication_group.member_clusters_outpost_arns #=> Array
     #   resp.replication_group.member_clusters_outpost_arns[0] #=> String
     #   resp.replication_group.kms_key_id #=> String
+    #   resp.replication_group.storage_encryption_type #=> String, one of "none", "sse-elasticache", "sse-kms"
     #   resp.replication_group.arn #=> String
     #   resp.replication_group.user_group_ids #=> Array
     #   resp.replication_group.user_group_ids[0] #=> String
@@ -10298,6 +10347,8 @@ module Aws::ElastiCache
     #   resp.replication_group.transit_encryption_mode #=> String, one of "preferred", "required"
     #   resp.replication_group.cluster_mode #=> String, one of "enabled", "disabled", "compatible"
     #   resp.replication_group.engine #=> String
+    #   resp.replication_group.durability #=> String, one of "default", "async", "sync", "disabled"
+    #   resp.replication_group.effective_durability #=> String, one of "async", "sync", "disabled"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/ModifyReplicationGroupShardConfiguration AWS API Documentation
     #
@@ -10402,6 +10453,7 @@ module Aws::ElastiCache
     #   resp.serverless_cache.cache_usage_limits.ecpu_per_second.maximum #=> Integer
     #   resp.serverless_cache.cache_usage_limits.ecpu_per_second.minimum #=> Integer
     #   resp.serverless_cache.kms_key_id #=> String
+    #   resp.serverless_cache.storage_encryption_type #=> String, one of "none", "sse-elasticache", "sse-kms"
     #   resp.serverless_cache.security_group_ids #=> Array
     #   resp.serverless_cache.security_group_ids[0] #=> String
     #   resp.serverless_cache.endpoint.address #=> String
@@ -11180,6 +11232,7 @@ module Aws::ElastiCache
     #   resp.replication_group.member_clusters_outpost_arns #=> Array
     #   resp.replication_group.member_clusters_outpost_arns[0] #=> String
     #   resp.replication_group.kms_key_id #=> String
+    #   resp.replication_group.storage_encryption_type #=> String, one of "none", "sse-elasticache", "sse-kms"
     #   resp.replication_group.arn #=> String
     #   resp.replication_group.user_group_ids #=> Array
     #   resp.replication_group.user_group_ids[0] #=> String
@@ -11199,6 +11252,8 @@ module Aws::ElastiCache
     #   resp.replication_group.transit_encryption_mode #=> String, one of "preferred", "required"
     #   resp.replication_group.cluster_mode #=> String, one of "enabled", "disabled", "compatible"
     #   resp.replication_group.engine #=> String
+    #   resp.replication_group.durability #=> String, one of "default", "async", "sync", "disabled"
+    #   resp.replication_group.effective_durability #=> String, one of "async", "sync", "disabled"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/StartMigration AWS API Documentation
     #
@@ -11347,6 +11402,7 @@ module Aws::ElastiCache
     #   resp.replication_group.member_clusters_outpost_arns #=> Array
     #   resp.replication_group.member_clusters_outpost_arns[0] #=> String
     #   resp.replication_group.kms_key_id #=> String
+    #   resp.replication_group.storage_encryption_type #=> String, one of "none", "sse-elasticache", "sse-kms"
     #   resp.replication_group.arn #=> String
     #   resp.replication_group.user_group_ids #=> Array
     #   resp.replication_group.user_group_ids[0] #=> String
@@ -11366,6 +11422,8 @@ module Aws::ElastiCache
     #   resp.replication_group.transit_encryption_mode #=> String, one of "preferred", "required"
     #   resp.replication_group.cluster_mode #=> String, one of "enabled", "disabled", "compatible"
     #   resp.replication_group.engine #=> String
+    #   resp.replication_group.durability #=> String, one of "default", "async", "sync", "disabled"
+    #   resp.replication_group.effective_durability #=> String, one of "async", "sync", "disabled"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/TestFailover AWS API Documentation
     #
@@ -11460,6 +11518,7 @@ module Aws::ElastiCache
     #   resp.replication_group.member_clusters_outpost_arns #=> Array
     #   resp.replication_group.member_clusters_outpost_arns[0] #=> String
     #   resp.replication_group.kms_key_id #=> String
+    #   resp.replication_group.storage_encryption_type #=> String, one of "none", "sse-elasticache", "sse-kms"
     #   resp.replication_group.arn #=> String
     #   resp.replication_group.user_group_ids #=> Array
     #   resp.replication_group.user_group_ids[0] #=> String
@@ -11479,6 +11538,8 @@ module Aws::ElastiCache
     #   resp.replication_group.transit_encryption_mode #=> String, one of "preferred", "required"
     #   resp.replication_group.cluster_mode #=> String, one of "enabled", "disabled", "compatible"
     #   resp.replication_group.engine #=> String
+    #   resp.replication_group.durability #=> String, one of "default", "async", "sync", "disabled"
+    #   resp.replication_group.effective_durability #=> String, one of "async", "sync", "disabled"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/TestMigration AWS API Documentation
     #
@@ -11507,7 +11568,7 @@ module Aws::ElastiCache
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-elasticache'
-      context[:gem_version] = '1.145.0'
+      context[:gem_version] = '1.146.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

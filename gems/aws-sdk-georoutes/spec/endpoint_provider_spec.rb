@@ -14,49 +14,9 @@ module Aws::GeoRoutes
   describe EndpointProvider do
     subject { Aws::GeoRoutes::EndpointProvider.new }
 
-    context "For custom endpoint with region not set and fips disabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://example.com"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{endpoint: "https://example.com", use_fips: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For custom endpoint with fips enabled" do
-      let(:expected) do
-        {"error" => "Invalid Configuration: FIPS and custom endpoint are not supported"}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{endpoint: "https://example.com", use_fips: true})
-        expect do
-          subject.resolve_endpoint(params)
-        end.to raise_error(ArgumentError, expected['error'])
-      end
-    end
-
-    context "For custom endpoint with fips disabled and dualstack enabled" do
-      let(:expected) do
-        {"error" => "Invalid Configuration: Dualstack and custom endpoint are not supported"}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{endpoint: "https://example.com", use_fips: false, use_dual_stack: true})
-        expect do
-          subject.resolve_endpoint(params)
-        end.to raise_error(ArgumentError, expected['error'])
-      end
-    end
-
     context "For region us-east-1 with FIPS enabled and DualStack enabled" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://routes.geo-fips.us-east-1.api.aws/v2"}}
+        {"endpoint" => {"url" => "https://geo-routes-fips.us-east-1.api.aws"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
@@ -70,7 +30,7 @@ module Aws::GeoRoutes
 
     context "For region us-east-1 with FIPS enabled and DualStack disabled" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://routes.geo-fips.us-east-1.amazonaws.com/v2"}}
+        {"endpoint" => {"url" => "https://geo-routes-fips.us-east-1.amazonaws.com"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
@@ -84,7 +44,7 @@ module Aws::GeoRoutes
 
     context "For region us-east-1 with FIPS disabled and DualStack enabled" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://routes.geo.us-east-1.api.aws/v2"}}
+        {"endpoint" => {"url" => "https://geo-routes.us-east-1.api.aws"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
@@ -98,7 +58,7 @@ module Aws::GeoRoutes
 
     context "For region us-east-1 with FIPS disabled and DualStack disabled" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://routes.geo.us-east-1.amazonaws.com/v2"}}
+        {"endpoint" => {"url" => "https://geo-routes.us-east-1.amazonaws.com"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
@@ -110,13 +70,13 @@ module Aws::GeoRoutes
       end
     end
 
-    context "For region cn-northwest-1 with FIPS enabled and DualStack enabled" do
+    context "For region cn-north-1 with FIPS enabled and DualStack enabled" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://geo-routes-fips.cn-northwest-1.api.amazonwebservices.com.cn"}}
+        {"endpoint" => {"url" => "https://geo-routes-fips.cn-north-1.api.amazonwebservices.com.cn"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "cn-northwest-1", use_fips: true, use_dual_stack: true})
+        params = EndpointParameters.new(**{region: "cn-north-1", use_fips: true, use_dual_stack: true})
         endpoint = subject.resolve_endpoint(params)
         expect(endpoint.url).to eq(expected['endpoint']['url'])
         expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
@@ -124,13 +84,13 @@ module Aws::GeoRoutes
       end
     end
 
-    context "For region cn-northwest-1 with FIPS enabled and DualStack disabled" do
+    context "For region cn-north-1 with FIPS enabled and DualStack disabled" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://geo-routes-fips.cn-northwest-1.amazonaws.com.cn"}}
+        {"endpoint" => {"url" => "https://geo-routes-fips.cn-north-1.amazonaws.com.cn"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "cn-northwest-1", use_fips: true, use_dual_stack: false})
+        params = EndpointParameters.new(**{region: "cn-north-1", use_fips: true, use_dual_stack: false})
         endpoint = subject.resolve_endpoint(params)
         expect(endpoint.url).to eq(expected['endpoint']['url'])
         expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
@@ -138,13 +98,13 @@ module Aws::GeoRoutes
       end
     end
 
-    context "For region cn-northwest-1 with FIPS disabled and DualStack enabled" do
+    context "For region cn-north-1 with FIPS disabled and DualStack enabled" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://geo-routes.cn-northwest-1.api.amazonwebservices.com.cn"}}
+        {"endpoint" => {"url" => "https://geo-routes.cn-north-1.api.amazonwebservices.com.cn"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "cn-northwest-1", use_fips: false, use_dual_stack: true})
+        params = EndpointParameters.new(**{region: "cn-north-1", use_fips: false, use_dual_stack: true})
         endpoint = subject.resolve_endpoint(params)
         expect(endpoint.url).to eq(expected['endpoint']['url'])
         expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
@@ -152,13 +112,13 @@ module Aws::GeoRoutes
       end
     end
 
-    context "For region cn-northwest-1 with FIPS disabled and DualStack disabled" do
+    context "For region cn-north-1 with FIPS disabled and DualStack disabled" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://geo-routes.cn-northwest-1.amazonaws.com.cn"}}
+        {"endpoint" => {"url" => "https://geo-routes.cn-north-1.amazonaws.com.cn"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "cn-northwest-1", use_fips: false, use_dual_stack: false})
+        params = EndpointParameters.new(**{region: "cn-north-1", use_fips: false, use_dual_stack: false})
         endpoint = subject.resolve_endpoint(params)
         expect(endpoint.url).to eq(expected['endpoint']['url'])
         expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
@@ -166,13 +126,13 @@ module Aws::GeoRoutes
       end
     end
 
-    context "For region eusc-de-east-1 with FIPS enabled and DualStack disabled" do
+    context "For region us-gov-east-1 with FIPS enabled and DualStack enabled" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://geo-routes-fips.eusc-de-east-1.amazonaws.eu"}}
+        {"endpoint" => {"url" => "https://geo-routes-fips.us-gov-east-1.api.aws"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "eusc-de-east-1", use_fips: true, use_dual_stack: false})
+        params = EndpointParameters.new(**{region: "us-gov-east-1", use_fips: true, use_dual_stack: true})
         endpoint = subject.resolve_endpoint(params)
         expect(endpoint.url).to eq(expected['endpoint']['url'])
         expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
@@ -180,13 +140,41 @@ module Aws::GeoRoutes
       end
     end
 
-    context "For region eusc-de-east-1 with FIPS disabled and DualStack disabled" do
+    context "For region us-gov-east-1 with FIPS enabled and DualStack disabled" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://geo-routes.eusc-de-east-1.amazonaws.eu"}}
+        {"endpoint" => {"url" => "https://geo-routes-fips.us-gov-east-1.amazonaws.com"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "eusc-de-east-1", use_fips: false, use_dual_stack: false})
+        params = EndpointParameters.new(**{region: "us-gov-east-1", use_fips: true, use_dual_stack: false})
+        endpoint = subject.resolve_endpoint(params)
+        expect(endpoint.url).to eq(expected['endpoint']['url'])
+        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
+        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
+      end
+    end
+
+    context "For region us-gov-east-1 with FIPS disabled and DualStack enabled" do
+      let(:expected) do
+        {"endpoint" => {"url" => "https://geo-routes.us-gov-east-1.api.aws"}}
+      end
+
+      it 'produces the expected output from the EndpointProvider' do
+        params = EndpointParameters.new(**{region: "us-gov-east-1", use_fips: false, use_dual_stack: true})
+        endpoint = subject.resolve_endpoint(params)
+        expect(endpoint.url).to eq(expected['endpoint']['url'])
+        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
+        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
+      end
+    end
+
+    context "For region us-gov-east-1 with FIPS disabled and DualStack disabled" do
+      let(:expected) do
+        {"endpoint" => {"url" => "https://geo-routes.us-gov-east-1.amazonaws.com"}}
+      end
+
+      it 'produces the expected output from the EndpointProvider' do
+        params = EndpointParameters.new(**{region: "us-gov-east-1", use_fips: false, use_dual_stack: false})
         endpoint = subject.resolve_endpoint(params)
         expect(endpoint.url).to eq(expected['endpoint']['url'])
         expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
@@ -250,13 +238,13 @@ module Aws::GeoRoutes
       end
     end
 
-    context "For region eu-isoe-west-1 with FIPS enabled and DualStack disabled" do
+    context "For custom endpoint with region set and fips disabled and dualstack disabled" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://geo-routes-fips.eu-isoe-west-1.cloud.adc-e.uk"}}
+        {"endpoint" => {"url" => "https://example.com"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "eu-isoe-west-1", use_fips: true, use_dual_stack: false})
+        params = EndpointParameters.new(**{region: "us-east-1", use_fips: false, use_dual_stack: false, endpoint: "https://example.com"})
         endpoint = subject.resolve_endpoint(params)
         expect(endpoint.url).to eq(expected['endpoint']['url'])
         expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
@@ -264,13 +252,13 @@ module Aws::GeoRoutes
       end
     end
 
-    context "For region eu-isoe-west-1 with FIPS disabled and DualStack disabled" do
+    context "For custom endpoint with region not set and fips disabled and dualstack disabled" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://geo-routes.eu-isoe-west-1.cloud.adc-e.uk"}}
+        {"endpoint" => {"url" => "https://example.com"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "eu-isoe-west-1", use_fips: false, use_dual_stack: false})
+        params = EndpointParameters.new(**{use_fips: false, use_dual_stack: false, endpoint: "https://example.com"})
         endpoint = subject.resolve_endpoint(params)
         expect(endpoint.url).to eq(expected['endpoint']['url'])
         expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
@@ -278,87 +266,29 @@ module Aws::GeoRoutes
       end
     end
 
-    context "For region us-isof-south-1 with FIPS enabled and DualStack disabled" do
+    context "For custom endpoint with fips enabled and dualstack disabled" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://geo-routes-fips.us-isof-south-1.csp.hci.ic.gov"}}
+        {"error" => "Invalid Configuration: FIPS and custom endpoint are not supported"}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-isof-south-1", use_fips: true, use_dual_stack: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
+        params = EndpointParameters.new(**{region: "us-east-1", use_fips: true, use_dual_stack: false, endpoint: "https://example.com"})
+        expect do
+          subject.resolve_endpoint(params)
+        end.to raise_error(ArgumentError, expected['error'])
       end
     end
 
-    context "For region us-isof-south-1 with FIPS disabled and DualStack disabled" do
+    context "For custom endpoint with fips disabled and dualstack enabled" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://geo-routes.us-isof-south-1.csp.hci.ic.gov"}}
+        {"error" => "Invalid Configuration: Dualstack and custom endpoint are not supported"}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-isof-south-1", use_fips: false, use_dual_stack: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region us-gov-west-1 with FIPS enabled and DualStack enabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://routes.geo-fips.us-gov-west-1.us-gov.api.aws/v2"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-gov-west-1", use_fips: true, use_dual_stack: true})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region us-gov-west-1 with FIPS enabled and DualStack disabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://routes.geo-fips.us-gov-west-1.us-gov.amazonaws.com/v2"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-gov-west-1", use_fips: true, use_dual_stack: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region us-gov-west-1 with FIPS disabled and DualStack enabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://routes.geo.us-gov-west-1.us-gov.api.aws/v2"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-gov-west-1", use_fips: false, use_dual_stack: true})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region us-gov-west-1 with FIPS disabled and DualStack disabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://routes.geo.us-gov-west-1.us-gov.amazonaws.com/v2"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-gov-west-1", use_fips: false, use_dual_stack: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
+        params = EndpointParameters.new(**{region: "us-east-1", use_fips: false, use_dual_stack: true, endpoint: "https://example.com"})
+        expect do
+          subject.resolve_endpoint(params)
+        end.to raise_error(ArgumentError, expected['error'])
       end
     end
 

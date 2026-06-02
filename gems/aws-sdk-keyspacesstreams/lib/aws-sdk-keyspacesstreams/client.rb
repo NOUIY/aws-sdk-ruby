@@ -506,6 +506,7 @@ module Aws::KeyspacesStreams
     #
     #   * {Types::GetRecordsOutput#change_records #change_records} => Array&lt;Types::Record&gt;
     #   * {Types::GetRecordsOutput#next_shard_iterator #next_shard_iterator} => String
+    #   * {Types::GetRecordsOutput#iterator_description #iterator_description} => Types::IteratorDescription
     #
     # @example Request syntax with placeholder values
     #
@@ -760,6 +761,7 @@ module Aws::KeyspacesStreams
     #   resp.change_records[0].old_image.row_metadata.write_time #=> String
     #   resp.change_records[0].sequence_number #=> String
     #   resp.next_shard_iterator #=> String
+    #   resp.iterator_description.iterator_position #=> String, one of "AT_TIP", "BEHIND_TIP"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/keyspacesstreams-2024-09-09/GetRecords AWS API Documentation
     #
@@ -993,7 +995,7 @@ module Aws::KeyspacesStreams
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-keyspacesstreams'
-      context[:gem_version] = '1.17.0'
+      context[:gem_version] = '1.18.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

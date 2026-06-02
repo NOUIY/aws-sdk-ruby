@@ -8979,17 +8979,11 @@ module Aws::IoT
     #   @return [Boolean]
     #
     # @!attribute [rw] timestamp
-    #   The timestamp of when the event occurred. When you enable or update
-    #   the indexing configuration, this value might be the Unix epoch time
-    #   (0) for devices that have never connected or have been disconnected
-    #   for more than an hour.
+    #   The timestamp of when the device connected or disconnected.
     #   @return [Time]
     #
     # @!attribute [rw] disconnect_reason
-    #   The reason why the client is disconnecting. When you enable or
-    #   update the indexing configuration, this value might be `UNKNOWN` for
-    #   devices that have never connected or have been disconnected for more
-    #   than an hour.
+    #   The reason that the client is disconnected.
     #   @return [String]
     #
     # @!attribute [rw] source_ip
@@ -16472,18 +16466,11 @@ module Aws::IoT
     #
     # @!attribute [rw] timestamp
     #   The epoch time (in milliseconds) when the thing last connected or
-    #   disconnected. If the thing has been disconnected for approximately
-    #   an hour, the time value might be missing. When you enable or update
-    #   the indexing configuration, this value might be `0` (the Unix epoch
-    #   time) for devices that have never connected or have been
-    #   disconnected for more than an hour.
+    #   disconnected.
     #   @return [Integer]
     #
     # @!attribute [rw] disconnect_reason
-    #   The reason why the client is disconnected. When you enable or update
-    #   the indexing configuration, this value might be missing for devices
-    #   that have never connected or have been disconnected for more than an
-    #   hour.
+    #   The reason that the client is disconnected.
     #   @return [String]
     #
     # @!attribute [rw] keep_alive_duration

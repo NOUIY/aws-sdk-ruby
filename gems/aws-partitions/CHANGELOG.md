@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1256.0 (2026-06-02)
+------------------
+
+* Feature - Added support for enumerating regions for `Aws::SagemakerJobRuntime`.
+
 1.1255.0 (2026-05-29)
 ------------------
 

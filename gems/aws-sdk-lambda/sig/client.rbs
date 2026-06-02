@@ -208,7 +208,11 @@ module Aws
                                       },
                                       ?capacity_provider_scaling_config: Params::capacity_provider_scaling_config,
                                       ?kms_key_arn: ::String,
-                                      ?tags: Hash[::String, ::String]
+                                      ?tags: Hash[::String, ::String],
+                                      ?propagate_tags: {
+                                        mode: ("None" | "Explicit")?,
+                                        explicit_tags: Hash[::String, ::String]?
+                                      }
                                     ) -> _CreateCapacityProviderResponseSuccess
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateCapacityProviderResponseSuccess
 
@@ -1499,7 +1503,11 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Lambda/Client.html#update_capacity_provider-instance_method
       def update_capacity_provider: (
                                       capacity_provider_name: ::String,
-                                      ?capacity_provider_scaling_config: Params::capacity_provider_scaling_config
+                                      ?capacity_provider_scaling_config: Params::capacity_provider_scaling_config,
+                                      ?propagate_tags: {
+                                        mode: ("None" | "Explicit")?,
+                                        explicit_tags: Hash[::String, ::String]?
+                                      }
                                     ) -> _UpdateCapacityProviderResponseSuccess
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateCapacityProviderResponseSuccess
 

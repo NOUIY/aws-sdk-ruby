@@ -664,6 +664,8 @@ module Aws::SageMaker
     CreateInferenceExperimentResponse = Shapes::StructureShape.new(name: 'CreateInferenceExperimentResponse')
     CreateInferenceRecommendationsJobRequest = Shapes::StructureShape.new(name: 'CreateInferenceRecommendationsJobRequest')
     CreateInferenceRecommendationsJobResponse = Shapes::StructureShape.new(name: 'CreateInferenceRecommendationsJobResponse')
+    CreateJobRequest = Shapes::StructureShape.new(name: 'CreateJobRequest')
+    CreateJobResponse = Shapes::StructureShape.new(name: 'CreateJobResponse')
     CreateLabelingJobRequest = Shapes::StructureShape.new(name: 'CreateLabelingJobRequest')
     CreateLabelingJobResponse = Shapes::StructureShape.new(name: 'CreateLabelingJobResponse')
     CreateMlflowAppRequest = Shapes::StructureShape.new(name: 'CreateMlflowAppRequest')
@@ -833,6 +835,8 @@ module Aws::SageMaker
     DeleteInferenceComponentInput = Shapes::StructureShape.new(name: 'DeleteInferenceComponentInput')
     DeleteInferenceExperimentRequest = Shapes::StructureShape.new(name: 'DeleteInferenceExperimentRequest')
     DeleteInferenceExperimentResponse = Shapes::StructureShape.new(name: 'DeleteInferenceExperimentResponse')
+    DeleteJobRequest = Shapes::StructureShape.new(name: 'DeleteJobRequest')
+    DeleteJobResponse = Shapes::StructureShape.new(name: 'DeleteJobResponse')
     DeleteMlflowAppRequest = Shapes::StructureShape.new(name: 'DeleteMlflowAppRequest')
     DeleteMlflowAppResponse = Shapes::StructureShape.new(name: 'DeleteMlflowAppResponse')
     DeleteMlflowTrackingServerRequest = Shapes::StructureShape.new(name: 'DeleteMlflowTrackingServerRequest')
@@ -961,6 +965,10 @@ module Aws::SageMaker
     DescribeInferenceExperimentResponse = Shapes::StructureShape.new(name: 'DescribeInferenceExperimentResponse')
     DescribeInferenceRecommendationsJobRequest = Shapes::StructureShape.new(name: 'DescribeInferenceRecommendationsJobRequest')
     DescribeInferenceRecommendationsJobResponse = Shapes::StructureShape.new(name: 'DescribeInferenceRecommendationsJobResponse')
+    DescribeJobRequest = Shapes::StructureShape.new(name: 'DescribeJobRequest')
+    DescribeJobResponse = Shapes::StructureShape.new(name: 'DescribeJobResponse')
+    DescribeJobSchemaVersionRequest = Shapes::StructureShape.new(name: 'DescribeJobSchemaVersionRequest')
+    DescribeJobSchemaVersionResponse = Shapes::StructureShape.new(name: 'DescribeJobSchemaVersionResponse')
     DescribeLabelingJobRequest = Shapes::StructureShape.new(name: 'DescribeLabelingJobRequest')
     DescribeLabelingJobResponse = Shapes::StructureShape.new(name: 'DescribeLabelingJobResponse')
     DescribeLineageGroupRequest = Shapes::StructureShape.new(name: 'DescribeLineageGroupRequest')
@@ -1530,9 +1538,23 @@ module Aws::SageMaker
     IotRoleAlias = Shapes::StringShape.new(name: 'IotRoleAlias')
     IsTrackingServerActive = Shapes::StringShape.new(name: 'IsTrackingServerActive')
     ItemIdentifierAttributeName = Shapes::StringShape.new(name: 'ItemIdentifierAttributeName')
+    JobArn = Shapes::StringShape.new(name: 'JobArn')
+    JobCategory = Shapes::StringShape.new(name: 'JobCategory')
+    JobConfigDocument = Shapes::StringShape.new(name: 'JobConfigDocument')
+    JobConfigSchemaVersionSummary = Shapes::StructureShape.new(name: 'JobConfigSchemaVersionSummary')
+    JobConfigSchemas = Shapes::ListShape.new(name: 'JobConfigSchemas')
     JobDurationInSeconds = Shapes::IntegerShape.new(name: 'JobDurationInSeconds')
+    JobName = Shapes::StringShape.new(name: 'JobName')
     JobReferenceCode = Shapes::StringShape.new(name: 'JobReferenceCode')
     JobReferenceCodeContains = Shapes::StringShape.new(name: 'JobReferenceCodeContains')
+    JobSchemaVersion = Shapes::StringShape.new(name: 'JobSchemaVersion')
+    JobSecondaryStatus = Shapes::StringShape.new(name: 'JobSecondaryStatus')
+    JobSecondaryStatusTransition = Shapes::StructureShape.new(name: 'JobSecondaryStatusTransition')
+    JobSecondaryStatusTransitions = Shapes::ListShape.new(name: 'JobSecondaryStatusTransitions')
+    JobStatus = Shapes::StringShape.new(name: 'JobStatus')
+    JobStepMetadata = Shapes::StructureShape.new(name: 'JobStepMetadata')
+    JobSummaries = Shapes::ListShape.new(name: 'JobSummaries')
+    JobSummary = Shapes::StructureShape.new(name: 'JobSummary')
     JobType = Shapes::StringShape.new(name: 'JobType')
     JoinSource = Shapes::StringShape.new(name: 'JoinSource')
     JsonContentType = Shapes::StringShape.new(name: 'JsonContentType')
@@ -1680,6 +1702,10 @@ module Aws::SageMaker
     ListInferenceRecommendationsJobsRequest = Shapes::StructureShape.new(name: 'ListInferenceRecommendationsJobsRequest')
     ListInferenceRecommendationsJobsResponse = Shapes::StructureShape.new(name: 'ListInferenceRecommendationsJobsResponse')
     ListInferenceRecommendationsJobsSortBy = Shapes::StringShape.new(name: 'ListInferenceRecommendationsJobsSortBy')
+    ListJobSchemaVersionsRequest = Shapes::StructureShape.new(name: 'ListJobSchemaVersionsRequest')
+    ListJobSchemaVersionsResponse = Shapes::StructureShape.new(name: 'ListJobSchemaVersionsResponse')
+    ListJobsRequest = Shapes::StructureShape.new(name: 'ListJobsRequest')
+    ListJobsResponse = Shapes::StructureShape.new(name: 'ListJobsResponse')
     ListLabelingJobsForWorkteamRequest = Shapes::StructureShape.new(name: 'ListLabelingJobsForWorkteamRequest')
     ListLabelingJobsForWorkteamResponse = Shapes::StructureShape.new(name: 'ListLabelingJobsForWorkteamResponse')
     ListLabelingJobsForWorkteamSortByOptions = Shapes::StringShape.new(name: 'ListLabelingJobsForWorkteamSortByOptions')
@@ -2583,6 +2609,8 @@ module Aws::SageMaker
     StopInferenceExperimentRequest = Shapes::StructureShape.new(name: 'StopInferenceExperimentRequest')
     StopInferenceExperimentResponse = Shapes::StructureShape.new(name: 'StopInferenceExperimentResponse')
     StopInferenceRecommendationsJobRequest = Shapes::StructureShape.new(name: 'StopInferenceRecommendationsJobRequest')
+    StopJobRequest = Shapes::StructureShape.new(name: 'StopJobRequest')
+    StopJobResponse = Shapes::StructureShape.new(name: 'StopJobResponse')
     StopLabelingJobRequest = Shapes::StructureShape.new(name: 'StopLabelingJobRequest')
     StopMlflowTrackingServerRequest = Shapes::StructureShape.new(name: 'StopMlflowTrackingServerRequest')
     StopMlflowTrackingServerResponse = Shapes::StructureShape.new(name: 'StopMlflowTrackingServerResponse')
@@ -4910,6 +4938,17 @@ module Aws::SageMaker
     CreateInferenceRecommendationsJobResponse.add_member(:job_arn, Shapes::ShapeRef.new(shape: RecommendationJobArn, required: true, location_name: "JobArn"))
     CreateInferenceRecommendationsJobResponse.struct_class = Types::CreateInferenceRecommendationsJobResponse
 
+    CreateJobRequest.add_member(:job_name, Shapes::ShapeRef.new(shape: JobName, required: true, location_name: "JobName"))
+    CreateJobRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "RoleArn"))
+    CreateJobRequest.add_member(:job_category, Shapes::ShapeRef.new(shape: JobCategory, required: true, location_name: "JobCategory"))
+    CreateJobRequest.add_member(:job_config_schema_version, Shapes::ShapeRef.new(shape: JobSchemaVersion, required: true, location_name: "JobConfigSchemaVersion"))
+    CreateJobRequest.add_member(:job_config_document, Shapes::ShapeRef.new(shape: JobConfigDocument, required: true, location_name: "JobConfigDocument"))
+    CreateJobRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateJobRequest.struct_class = Types::CreateJobRequest
+
+    CreateJobResponse.add_member(:job_arn, Shapes::ShapeRef.new(shape: JobArn, required: true, location_name: "JobArn"))
+    CreateJobResponse.struct_class = Types::CreateJobResponse
+
     CreateLabelingJobRequest.add_member(:labeling_job_name, Shapes::ShapeRef.new(shape: LabelingJobName, required: true, location_name: "LabelingJobName"))
     CreateLabelingJobRequest.add_member(:label_attribute_name, Shapes::ShapeRef.new(shape: LabelAttributeName, required: true, location_name: "LabelAttributeName"))
     CreateLabelingJobRequest.add_member(:input_config, Shapes::ShapeRef.new(shape: LabelingJobInputConfig, required: true, location_name: "InputConfig"))
@@ -5686,6 +5725,12 @@ module Aws::SageMaker
 
     DeleteInferenceExperimentResponse.add_member(:inference_experiment_arn, Shapes::ShapeRef.new(shape: InferenceExperimentArn, required: true, location_name: "InferenceExperimentArn"))
     DeleteInferenceExperimentResponse.struct_class = Types::DeleteInferenceExperimentResponse
+
+    DeleteJobRequest.add_member(:job_name, Shapes::ShapeRef.new(shape: JobName, required: true, location_name: "JobName"))
+    DeleteJobRequest.add_member(:job_category, Shapes::ShapeRef.new(shape: JobCategory, required: true, location_name: "JobCategory"))
+    DeleteJobRequest.struct_class = Types::DeleteJobRequest
+
+    DeleteJobResponse.struct_class = Types::DeleteJobResponse
 
     DeleteMlflowAppRequest.add_member(:arn, Shapes::ShapeRef.new(shape: MlflowAppArn, required: true, location_name: "Arn"))
     DeleteMlflowAppRequest.struct_class = Types::DeleteMlflowAppRequest
@@ -6546,6 +6591,35 @@ module Aws::SageMaker
     DescribeInferenceRecommendationsJobResponse.add_member(:inference_recommendations, Shapes::ShapeRef.new(shape: InferenceRecommendations, location_name: "InferenceRecommendations"))
     DescribeInferenceRecommendationsJobResponse.add_member(:endpoint_performances, Shapes::ShapeRef.new(shape: EndpointPerformances, location_name: "EndpointPerformances"))
     DescribeInferenceRecommendationsJobResponse.struct_class = Types::DescribeInferenceRecommendationsJobResponse
+
+    DescribeJobRequest.add_member(:job_name, Shapes::ShapeRef.new(shape: JobName, required: true, location_name: "JobName"))
+    DescribeJobRequest.add_member(:job_category, Shapes::ShapeRef.new(shape: JobCategory, required: true, location_name: "JobCategory"))
+    DescribeJobRequest.struct_class = Types::DescribeJobRequest
+
+    DescribeJobResponse.add_member(:job_name, Shapes::ShapeRef.new(shape: JobName, required: true, location_name: "JobName"))
+    DescribeJobResponse.add_member(:job_arn, Shapes::ShapeRef.new(shape: JobArn, required: true, location_name: "JobArn"))
+    DescribeJobResponse.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "RoleArn"))
+    DescribeJobResponse.add_member(:job_category, Shapes::ShapeRef.new(shape: JobCategory, required: true, location_name: "JobCategory"))
+    DescribeJobResponse.add_member(:job_config_schema_version, Shapes::ShapeRef.new(shape: JobSchemaVersion, required: true, location_name: "JobConfigSchemaVersion"))
+    DescribeJobResponse.add_member(:job_config_document, Shapes::ShapeRef.new(shape: JobConfigDocument, location_name: "JobConfigDocument"))
+    DescribeJobResponse.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreationTime"))
+    DescribeJobResponse.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "LastModifiedTime"))
+    DescribeJobResponse.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndTime"))
+    DescribeJobResponse.add_member(:job_status, Shapes::ShapeRef.new(shape: JobStatus, required: true, location_name: "JobStatus"))
+    DescribeJobResponse.add_member(:secondary_status, Shapes::ShapeRef.new(shape: JobSecondaryStatus, required: true, location_name: "SecondaryStatus"))
+    DescribeJobResponse.add_member(:secondary_status_transitions, Shapes::ShapeRef.new(shape: JobSecondaryStatusTransitions, required: true, location_name: "SecondaryStatusTransitions"))
+    DescribeJobResponse.add_member(:failure_reason, Shapes::ShapeRef.new(shape: FailureReason, location_name: "FailureReason"))
+    DescribeJobResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    DescribeJobResponse.struct_class = Types::DescribeJobResponse
+
+    DescribeJobSchemaVersionRequest.add_member(:job_category, Shapes::ShapeRef.new(shape: JobCategory, required: true, location_name: "JobCategory"))
+    DescribeJobSchemaVersionRequest.add_member(:job_config_schema_version, Shapes::ShapeRef.new(shape: JobSchemaVersion, location_name: "JobConfigSchemaVersion"))
+    DescribeJobSchemaVersionRequest.struct_class = Types::DescribeJobSchemaVersionRequest
+
+    DescribeJobSchemaVersionResponse.add_member(:job_category, Shapes::ShapeRef.new(shape: JobCategory, required: true, location_name: "JobCategory"))
+    DescribeJobSchemaVersionResponse.add_member(:job_config_schema_version, Shapes::ShapeRef.new(shape: JobSchemaVersion, required: true, location_name: "JobConfigSchemaVersion"))
+    DescribeJobSchemaVersionResponse.add_member(:job_config_schema, Shapes::ShapeRef.new(shape: JobConfigDocument, required: true, location_name: "JobConfigSchema"))
+    DescribeJobSchemaVersionResponse.struct_class = Types::DescribeJobSchemaVersionResponse
 
     DescribeLabelingJobRequest.add_member(:labeling_job_name, Shapes::ShapeRef.new(shape: LabelingJobName, required: true, location_name: "LabelingJobName"))
     DescribeLabelingJobRequest.struct_class = Types::DescribeLabelingJobRequest
@@ -8440,6 +8514,34 @@ module Aws::SageMaker
 
     IntegerParameterRanges.member = Shapes::ShapeRef.new(shape: IntegerParameterRange)
 
+    JobConfigSchemaVersionSummary.add_member(:job_config_schema_version, Shapes::ShapeRef.new(shape: JobSchemaVersion, required: true, location_name: "JobConfigSchemaVersion"))
+    JobConfigSchemaVersionSummary.struct_class = Types::JobConfigSchemaVersionSummary
+
+    JobConfigSchemas.member = Shapes::ShapeRef.new(shape: JobConfigSchemaVersionSummary)
+
+    JobSecondaryStatusTransition.add_member(:status, Shapes::ShapeRef.new(shape: JobSecondaryStatus, required: true, location_name: "Status"))
+    JobSecondaryStatusTransition.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "StartTime"))
+    JobSecondaryStatusTransition.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndTime"))
+    JobSecondaryStatusTransition.add_member(:status_message, Shapes::ShapeRef.new(shape: String, location_name: "StatusMessage"))
+    JobSecondaryStatusTransition.struct_class = Types::JobSecondaryStatusTransition
+
+    JobSecondaryStatusTransitions.member = Shapes::ShapeRef.new(shape: JobSecondaryStatusTransition)
+
+    JobStepMetadata.add_member(:arn, Shapes::ShapeRef.new(shape: String1024, location_name: "Arn"))
+    JobStepMetadata.struct_class = Types::JobStepMetadata
+
+    JobSummaries.member = Shapes::ShapeRef.new(shape: JobSummary)
+
+    JobSummary.add_member(:job_arn, Shapes::ShapeRef.new(shape: JobArn, required: true, location_name: "JobArn"))
+    JobSummary.add_member(:job_name, Shapes::ShapeRef.new(shape: JobName, required: true, location_name: "JobName"))
+    JobSummary.add_member(:job_category, Shapes::ShapeRef.new(shape: JobCategory, required: true, location_name: "JobCategory"))
+    JobSummary.add_member(:job_status, Shapes::ShapeRef.new(shape: JobStatus, required: true, location_name: "JobStatus"))
+    JobSummary.add_member(:job_secondary_status, Shapes::ShapeRef.new(shape: JobSecondaryStatus, required: true, location_name: "JobSecondaryStatus"))
+    JobSummary.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreationTime"))
+    JobSummary.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "LastModifiedTime"))
+    JobSummary.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndTime"))
+    JobSummary.struct_class = Types::JobSummary
+
     JsonContentTypes.member = Shapes::ShapeRef.new(shape: JsonContentType)
 
     JupyterLabAppImageConfig.add_member(:file_system_config, Shapes::ShapeRef.new(shape: FileSystemConfig, location_name: "FileSystemConfig"))
@@ -9186,6 +9288,32 @@ module Aws::SageMaker
     ListInferenceRecommendationsJobsResponse.add_member(:inference_recommendations_jobs, Shapes::ShapeRef.new(shape: InferenceRecommendationsJobs, required: true, location_name: "InferenceRecommendationsJobs"))
     ListInferenceRecommendationsJobsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     ListInferenceRecommendationsJobsResponse.struct_class = Types::ListInferenceRecommendationsJobsResponse
+
+    ListJobSchemaVersionsRequest.add_member(:job_category, Shapes::ShapeRef.new(shape: JobCategory, required: true, location_name: "JobCategory"))
+    ListJobSchemaVersionsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListJobSchemaVersionsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "MaxResults"))
+    ListJobSchemaVersionsRequest.struct_class = Types::ListJobSchemaVersionsRequest
+
+    ListJobSchemaVersionsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListJobSchemaVersionsResponse.add_member(:job_config_schemas, Shapes::ShapeRef.new(shape: JobConfigSchemas, required: true, location_name: "JobConfigSchemas"))
+    ListJobSchemaVersionsResponse.struct_class = Types::ListJobSchemaVersionsResponse
+
+    ListJobsRequest.add_member(:job_category, Shapes::ShapeRef.new(shape: JobCategory, required: true, location_name: "JobCategory"))
+    ListJobsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListJobsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "MaxResults"))
+    ListJobsRequest.add_member(:creation_time_after, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTimeAfter"))
+    ListJobsRequest.add_member(:creation_time_before, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTimeBefore"))
+    ListJobsRequest.add_member(:last_modified_time_after, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastModifiedTimeAfter"))
+    ListJobsRequest.add_member(:last_modified_time_before, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastModifiedTimeBefore"))
+    ListJobsRequest.add_member(:name_contains, Shapes::ShapeRef.new(shape: NameContains, location_name: "NameContains"))
+    ListJobsRequest.add_member(:sort_by, Shapes::ShapeRef.new(shape: SortBy, location_name: "SortBy"))
+    ListJobsRequest.add_member(:sort_order, Shapes::ShapeRef.new(shape: SortOrder, location_name: "SortOrder"))
+    ListJobsRequest.add_member(:status_equals, Shapes::ShapeRef.new(shape: JobStatus, location_name: "StatusEquals"))
+    ListJobsRequest.struct_class = Types::ListJobsRequest
+
+    ListJobsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListJobsResponse.add_member(:job_summaries, Shapes::ShapeRef.new(shape: JobSummaries, required: true, location_name: "JobSummaries"))
+    ListJobsResponse.struct_class = Types::ListJobsResponse
 
     ListLabelingJobsForWorkteamRequest.add_member(:workteam_arn, Shapes::ShapeRef.new(shape: WorkteamArn, required: true, location_name: "WorkteamArn"))
     ListLabelingJobsForWorkteamRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "MaxResults"))
@@ -10835,6 +10963,7 @@ module Aws::SageMaker
     PipelineExecutionStepMetadata.add_member(:bedrock_model_import, Shapes::ShapeRef.new(shape: BedrockModelImportMetadata, location_name: "BedrockModelImport"))
     PipelineExecutionStepMetadata.add_member(:inference_component, Shapes::ShapeRef.new(shape: InferenceComponentMetadata, location_name: "InferenceComponent"))
     PipelineExecutionStepMetadata.add_member(:lineage, Shapes::ShapeRef.new(shape: LineageMetadata, location_name: "Lineage"))
+    PipelineExecutionStepMetadata.add_member(:job, Shapes::ShapeRef.new(shape: JobStepMetadata, location_name: "Job"))
     PipelineExecutionStepMetadata.struct_class = Types::PipelineExecutionStepMetadata
 
     PipelineExecutionSummary.add_member(:pipeline_execution_arn, Shapes::ShapeRef.new(shape: PipelineExecutionArn, location_name: "PipelineExecutionArn"))
@@ -11863,6 +11992,12 @@ module Aws::SageMaker
 
     StopInferenceRecommendationsJobRequest.add_member(:job_name, Shapes::ShapeRef.new(shape: RecommendationJobName, required: true, location_name: "JobName"))
     StopInferenceRecommendationsJobRequest.struct_class = Types::StopInferenceRecommendationsJobRequest
+
+    StopJobRequest.add_member(:job_name, Shapes::ShapeRef.new(shape: JobName, required: true, location_name: "JobName"))
+    StopJobRequest.add_member(:job_category, Shapes::ShapeRef.new(shape: JobCategory, required: true, location_name: "JobCategory"))
+    StopJobRequest.struct_class = Types::StopJobRequest
+
+    StopJobResponse.struct_class = Types::StopJobResponse
 
     StopLabelingJobRequest.add_member(:labeling_job_name, Shapes::ShapeRef.new(shape: LabelingJobName, required: true, location_name: "LabelingJobName"))
     StopLabelingJobRequest.struct_class = Types::StopLabelingJobRequest
@@ -13570,6 +13705,17 @@ module Aws::SageMaker
         o.errors << Shapes::ShapeRef.new(shape: ResourceLimitExceeded)
       end)
 
+      api.add_operation(:create_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceLimitExceeded)
+      end)
+
       api.add_operation(:create_labeling_job, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateLabelingJob"
         o.http_method = "POST"
@@ -14210,6 +14356,16 @@ module Aws::SageMaker
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
       end)
 
+      api.add_operation(:delete_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUse)
+      end)
+
       api.add_operation(:delete_mlflow_app, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteMlflowApp"
         o.http_method = "POST"
@@ -14806,6 +14962,24 @@ module Aws::SageMaker
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DescribeInferenceRecommendationsJobRequest)
         o.output = Shapes::ShapeRef.new(shape: DescribeInferenceRecommendationsJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+      end)
+
+      api.add_operation(:describe_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+      end)
+
+      api.add_operation(:describe_job_schema_version, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeJobSchemaVersion"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeJobSchemaVersionRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeJobSchemaVersionResponse)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
       end)
 
@@ -15808,6 +15982,35 @@ module Aws::SageMaker
         )
       end)
 
+      api.add_operation(:list_job_schema_versions, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListJobSchemaVersions"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListJobSchemaVersionsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListJobSchemaVersionsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_jobs, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListJobs"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListJobsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListJobsResponse)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_labeling_jobs, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListLabelingJobs"
         o.http_method = "POST"
@@ -16716,6 +16919,15 @@ module Aws::SageMaker
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: StopInferenceRecommendationsJobRequest)
         o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
+      end)
+
+      api.add_operation(:stop_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StopJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: StopJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: StopJobResponse)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFound)
       end)
 

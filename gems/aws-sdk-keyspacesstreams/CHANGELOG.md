@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.18.0 (2026-06-02)
+------------------
+
+* Feature - Added iterator description to the GetRecords API response for Amazon Keyspaces Change Data Capture (CDC) streams, enabling consumers to track their current position within the stream.
+
 1.17.0 (2026-05-26)
 ------------------
 

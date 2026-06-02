@@ -1,0 +1,94 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the contributing guide for more information:
+# https://github.com/aws/aws-sdk-ruby/blob/version-3/CONTRIBUTING.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws::SagemakerJobRuntime
+  module Types
+
+    class AccessDeniedException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class CompleteRolloutRequest
+      attr_accessor job_arn: ::String
+      attr_accessor trajectory_id: ::String
+      attr_accessor status: ("ready" | "failed")
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class CompleteRolloutResponse < Aws::EmptyStructure
+    end
+
+    class ConflictException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class InternalServiceError
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class ResourceNotFoundException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class SampleRequest
+      attr_accessor job_arn: ::String
+      attr_accessor trajectory_id: ::String
+      attr_accessor body: ::String
+      SENSITIVE: [:body]
+    end
+
+    class SampleResponse
+      attr_accessor content_type: ::String
+      attr_accessor body: ::String
+      SENSITIVE: [:body]
+    end
+
+    class SampleWithResponseStreamRequest
+      attr_accessor job_arn: ::String
+      attr_accessor trajectory_id: ::String
+      attr_accessor body: ::String
+      SENSITIVE: [:body]
+    end
+
+    class SampleWithResponseStreamResponse
+      attr_accessor content_type: ::String
+      attr_accessor body: ::IO
+      SENSITIVE: [:body]
+    end
+
+    class ServiceQuotaExceededException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class ThrottlingException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateRewardRequest
+      attr_accessor job_arn: ::String
+      attr_accessor trajectory_id: ::String
+      attr_accessor rewards: ::Array[::Float]
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateRewardResponse < Aws::EmptyStructure
+    end
+
+    class ValidationException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+  end
+end
