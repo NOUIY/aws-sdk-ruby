@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.27.0 (2026-06-03)
+------------------
+
+* Feature - Add "standardRegionalEndpoints" back to fix 'Could not connect to the endpoint URL'
+
 1.26.0 (2026-06-02)
 ------------------
 
