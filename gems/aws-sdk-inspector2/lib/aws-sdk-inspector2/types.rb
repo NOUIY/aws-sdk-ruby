@@ -2643,7 +2643,8 @@ module Aws::Inspector2
     #
     # @!attribute [rw] scan_mode
     #   The filter to search for Amazon EC2 instance coverage by scan mode.
-    #   Valid values are `EC2_SSM_AGENT_BASED` and `EC2_AGENTLESS`.
+    #   Valid values are `EC2_SSM_AGENT_BASED`, `EC2_AGENTLESS`, and
+    #   `EC2_INSPECTOR_AGENT_BASED`.
     #   @return [Array<Types::CoverageStringFilter>]
     #
     # @!attribute [rw] image_pulled_at
@@ -3642,10 +3643,16 @@ module Aws::Inspector2
     #   The scan method that is applied to the instance.
     #   @return [String]
     #
+    # @!attribute [rw] activate_vm_scanner
+    #   Whether to activate Amazon Inspector VM scanner for Amazon EC2
+    #   scanning.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/inspector2-2020-06-08/Ec2Configuration AWS API Documentation
     #
     class Ec2Configuration < Struct.new(
-      :scan_mode)
+      :scan_mode,
+      :activate_vm_scanner)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3658,10 +3665,16 @@ module Aws::Inspector2
     #   scan mode.
     #   @return [Types::Ec2ScanModeState]
     #
+    # @!attribute [rw] vm_scanner_state
+    #   An object that contains details about the state of the Amazon
+    #   Inspector VM scanner.
+    #   @return [Types::VMScannerState]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/inspector2-2020-06-08/Ec2ConfigurationState AWS API Documentation
     #
     class Ec2ConfigurationState < Struct.new(
-      :scan_mode_state)
+      :scan_mode_state,
+      :vm_scanner_state)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9005,6 +9018,30 @@ module Aws::Inspector2
     class UsageTotal < Struct.new(
       :account_id,
       :usage)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The state of the Amazon Inspector VM scanner.
+    #
+    # @!attribute [rw] activated
+    #   Whether the VM scanner is activated.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] activated_at
+    #   The date and time the VM scanner was activated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The status of the VM scanner.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/inspector2-2020-06-08/VMScannerState AWS API Documentation
+    #
+    class VMScannerState < Struct.new(
+      :activated,
+      :activated_at,
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end

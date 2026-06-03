@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.97.0 (2026-06-03)
+------------------
+
+* Feature - This release lets customers extend the lookback period for Amazon EBS volume and Amazon ECS rightsizing recommendations to 32 days.
+
 1.96.0 (2026-05-27)
 ------------------
 

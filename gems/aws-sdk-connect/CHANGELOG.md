@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.259.0 (2026-06-03)
+------------------
+
+* Feature - SearchContacts Connect API now supports filtering contacts by the AI Agents involved in handling them
+
 1.258.0 (2026-05-21)
 ------------------
 

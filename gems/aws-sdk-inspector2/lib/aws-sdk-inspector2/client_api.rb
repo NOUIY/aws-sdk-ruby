@@ -716,6 +716,8 @@ module Aws::Inspector2
     UsageTotalList = Shapes::ListShape.new(name: 'UsageTotalList')
     UsageType = Shapes::StringShape.new(name: 'UsageType')
     UsageValue = Shapes::FloatShape.new(name: 'UsageValue')
+    VMScannerState = Shapes::StructureShape.new(name: 'VMScannerState')
+    VMScannerStatus = Shapes::StringShape.new(name: 'VMScannerStatus')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
     ValidationExceptionField = Shapes::StructureShape.new(name: 'ValidationExceptionField')
     ValidationExceptionFields = Shapes::ListShape.new(name: 'ValidationExceptionFields')
@@ -1607,9 +1609,11 @@ module Aws::Inspector2
     DisassociateMemberResponse.struct_class = Types::DisassociateMemberResponse
 
     Ec2Configuration.add_member(:scan_mode, Shapes::ShapeRef.new(shape: Ec2ScanMode, required: true, location_name: "scanMode"))
+    Ec2Configuration.add_member(:activate_vm_scanner, Shapes::ShapeRef.new(shape: Boolean, location_name: "activateVMScanner"))
     Ec2Configuration.struct_class = Types::Ec2Configuration
 
     Ec2ConfigurationState.add_member(:scan_mode_state, Shapes::ShapeRef.new(shape: Ec2ScanModeState, location_name: "scanModeState"))
+    Ec2ConfigurationState.add_member(:vm_scanner_state, Shapes::ShapeRef.new(shape: VMScannerState, location_name: "vmScannerState"))
     Ec2ConfigurationState.struct_class = Types::Ec2ConfigurationState
 
     Ec2InstanceAggregation.add_member(:amis, Shapes::ShapeRef.new(shape: StringFilterList, location_name: "amis"))
@@ -2789,6 +2793,11 @@ module Aws::Inspector2
     UsageTotal.struct_class = Types::UsageTotal
 
     UsageTotalList.member = Shapes::ShapeRef.new(shape: UsageTotal)
+
+    VMScannerState.add_member(:activated, Shapes::ShapeRef.new(shape: Boolean, location_name: "activated"))
+    VMScannerState.add_member(:activated_at, Shapes::ShapeRef.new(shape: DateTimeTimestamp, location_name: "activatedAt"))
+    VMScannerState.add_member(:status, Shapes::ShapeRef.new(shape: VMScannerStatus, location_name: "status"))
+    VMScannerState.struct_class = Types::VMScannerState
 
     ValidationException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ValidationException.add_member(:reason, Shapes::ShapeRef.new(shape: ValidationExceptionReason, required: true, location_name: "reason"))

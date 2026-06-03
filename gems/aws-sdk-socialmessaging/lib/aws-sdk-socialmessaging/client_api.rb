@@ -27,6 +27,8 @@ module Aws::SocialMessaging
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
     ButtonType = Shapes::StringShape.new(name: 'ButtonType')
     CodeExpirationMinutes = Shapes::IntegerShape.new(name: 'CodeExpirationMinutes')
+    CreateWhatsAppFlowInput = Shapes::StructureShape.new(name: 'CreateWhatsAppFlowInput')
+    CreateWhatsAppFlowOutput = Shapes::StructureShape.new(name: 'CreateWhatsAppFlowOutput')
     CreateWhatsAppMessageTemplateFromLibraryInput = Shapes::StructureShape.new(name: 'CreateWhatsAppMessageTemplateFromLibraryInput')
     CreateWhatsAppMessageTemplateFromLibraryOutput = Shapes::StructureShape.new(name: 'CreateWhatsAppMessageTemplateFromLibraryOutput')
     CreateWhatsAppMessageTemplateInput = Shapes::StructureShape.new(name: 'CreateWhatsAppMessageTemplateInput')
@@ -34,11 +36,15 @@ module Aws::SocialMessaging
     CreateWhatsAppMessageTemplateMediaOutput = Shapes::StructureShape.new(name: 'CreateWhatsAppMessageTemplateMediaOutput')
     CreateWhatsAppMessageTemplateOutput = Shapes::StructureShape.new(name: 'CreateWhatsAppMessageTemplateOutput')
     DeleteAllLanguages = Shapes::BooleanShape.new(name: 'DeleteAllLanguages')
+    DeleteWhatsAppFlowInput = Shapes::StructureShape.new(name: 'DeleteWhatsAppFlowInput')
+    DeleteWhatsAppFlowOutput = Shapes::StructureShape.new(name: 'DeleteWhatsAppFlowOutput')
     DeleteWhatsAppMessageMediaInput = Shapes::StructureShape.new(name: 'DeleteWhatsAppMessageMediaInput')
     DeleteWhatsAppMessageMediaOutput = Shapes::StructureShape.new(name: 'DeleteWhatsAppMessageMediaOutput')
     DeleteWhatsAppMessageTemplateInput = Shapes::StructureShape.new(name: 'DeleteWhatsAppMessageTemplateInput')
     DeleteWhatsAppMessageTemplateOutput = Shapes::StructureShape.new(name: 'DeleteWhatsAppMessageTemplateOutput')
     DependencyException = Shapes::StructureShape.new(name: 'DependencyException')
+    DeprecateWhatsAppFlowInput = Shapes::StructureShape.new(name: 'DeprecateWhatsAppFlowInput')
+    DeprecateWhatsAppFlowOutput = Shapes::StructureShape.new(name: 'DeprecateWhatsAppFlowOutput')
     DisassociateWhatsAppBusinessAccountInput = Shapes::StructureShape.new(name: 'DisassociateWhatsAppBusinessAccountInput')
     DisassociateWhatsAppBusinessAccountOutput = Shapes::StructureShape.new(name: 'DisassociateWhatsAppBusinessAccountOutput')
     ErrorMessage = Shapes::StringShape.new(name: 'ErrorMessage')
@@ -50,6 +56,10 @@ module Aws::SocialMessaging
     GetLinkedWhatsAppBusinessAccountOutput = Shapes::StructureShape.new(name: 'GetLinkedWhatsAppBusinessAccountOutput')
     GetLinkedWhatsAppBusinessAccountPhoneNumberInput = Shapes::StructureShape.new(name: 'GetLinkedWhatsAppBusinessAccountPhoneNumberInput')
     GetLinkedWhatsAppBusinessAccountPhoneNumberOutput = Shapes::StructureShape.new(name: 'GetLinkedWhatsAppBusinessAccountPhoneNumberOutput')
+    GetWhatsAppFlowInput = Shapes::StructureShape.new(name: 'GetWhatsAppFlowInput')
+    GetWhatsAppFlowOutput = Shapes::StructureShape.new(name: 'GetWhatsAppFlowOutput')
+    GetWhatsAppFlowPreviewInput = Shapes::StructureShape.new(name: 'GetWhatsAppFlowPreviewInput')
+    GetWhatsAppFlowPreviewOutput = Shapes::StructureShape.new(name: 'GetWhatsAppFlowPreviewOutput')
     GetWhatsAppMessageMediaInput = Shapes::StructureShape.new(name: 'GetWhatsAppMessageMediaInput')
     GetWhatsAppMessageMediaOutput = Shapes::StructureShape.new(name: 'GetWhatsAppMessageMediaOutput')
     GetWhatsAppMessageTemplateInput = Shapes::StructureShape.new(name: 'GetWhatsAppMessageTemplateInput')
@@ -75,12 +85,49 @@ module Aws::SocialMessaging
     ListLinkedWhatsAppBusinessAccountsOutput = Shapes::StructureShape.new(name: 'ListLinkedWhatsAppBusinessAccountsOutput')
     ListTagsForResourceInput = Shapes::StructureShape.new(name: 'ListTagsForResourceInput')
     ListTagsForResourceOutput = Shapes::StructureShape.new(name: 'ListTagsForResourceOutput')
+    ListWhatsAppFlowAssetsInput = Shapes::StructureShape.new(name: 'ListWhatsAppFlowAssetsInput')
+    ListWhatsAppFlowAssetsOutput = Shapes::StructureShape.new(name: 'ListWhatsAppFlowAssetsOutput')
+    ListWhatsAppFlowsInput = Shapes::StructureShape.new(name: 'ListWhatsAppFlowsInput')
+    ListWhatsAppFlowsOutput = Shapes::StructureShape.new(name: 'ListWhatsAppFlowsOutput')
     ListWhatsAppMessageTemplatesInput = Shapes::StructureShape.new(name: 'ListWhatsAppMessageTemplatesInput')
     ListWhatsAppMessageTemplatesOutput = Shapes::StructureShape.new(name: 'ListWhatsAppMessageTemplatesOutput')
     ListWhatsAppTemplateLibraryInput = Shapes::StructureShape.new(name: 'ListWhatsAppTemplateLibraryInput')
     ListWhatsAppTemplateLibraryOutput = Shapes::StructureShape.new(name: 'ListWhatsAppTemplateLibraryOutput')
     Long = Shapes::IntegerShape.new(name: 'Long')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
+    MetaFlowApplicationId = Shapes::StringShape.new(name: 'MetaFlowApplicationId')
+    MetaFlowApplicationInfo = Shapes::StructureShape.new(name: 'MetaFlowApplicationInfo')
+    MetaFlowApplicationLink = Shapes::StringShape.new(name: 'MetaFlowApplicationLink')
+    MetaFlowApplicationName = Shapes::StringShape.new(name: 'MetaFlowApplicationName')
+    MetaFlowAsset = Shapes::StructureShape.new(name: 'MetaFlowAsset')
+    MetaFlowAssetDownloadUrl = Shapes::StringShape.new(name: 'MetaFlowAssetDownloadUrl')
+    MetaFlowAssetList = Shapes::ListShape.new(name: 'MetaFlowAssetList')
+    MetaFlowAssetName = Shapes::StringShape.new(name: 'MetaFlowAssetName')
+    MetaFlowAssetType = Shapes::StringShape.new(name: 'MetaFlowAssetType')
+    MetaFlowCategory = Shapes::StringShape.new(name: 'MetaFlowCategory')
+    MetaFlowCategoryList = Shapes::ListShape.new(name: 'MetaFlowCategoryList')
+    MetaFlowDataApiVersion = Shapes::StringShape.new(name: 'MetaFlowDataApiVersion')
+    MetaFlowEndpointUri = Shapes::StringShape.new(name: 'MetaFlowEndpointUri')
+    MetaFlowHealthEntity = Shapes::StructureShape.new(name: 'MetaFlowHealthEntity')
+    MetaFlowHealthEntityList = Shapes::ListShape.new(name: 'MetaFlowHealthEntityList')
+    MetaFlowHealthEntityType = Shapes::StringShape.new(name: 'MetaFlowHealthEntityType')
+    MetaFlowHealthStatus = Shapes::StructureShape.new(name: 'MetaFlowHealthStatus')
+    MetaFlowHealthStatusAvailability = Shapes::StringShape.new(name: 'MetaFlowHealthStatusAvailability')
+    MetaFlowId = Shapes::StringShape.new(name: 'MetaFlowId')
+    MetaFlowJsonBlob = Shapes::BlobShape.new(name: 'MetaFlowJsonBlob')
+    MetaFlowJsonVersion = Shapes::StringShape.new(name: 'MetaFlowJsonVersion')
+    MetaFlowName = Shapes::StringShape.new(name: 'MetaFlowName')
+    MetaFlowPreviewInfo = Shapes::StructureShape.new(name: 'MetaFlowPreviewInfo')
+    MetaFlowPreviewUrl = Shapes::StringShape.new(name: 'MetaFlowPreviewUrl')
+    MetaFlowStatus = Shapes::StringShape.new(name: 'MetaFlowStatus')
+    MetaFlowSummary = Shapes::StructureShape.new(name: 'MetaFlowSummary')
+    MetaFlowSummaryList = Shapes::ListShape.new(name: 'MetaFlowSummaryList')
+    MetaFlowTimestamp = Shapes::StringShape.new(name: 'MetaFlowTimestamp')
+    MetaFlowValidationError = Shapes::StringShape.new(name: 'MetaFlowValidationError')
+    MetaFlowWabaCurrency = Shapes::StringShape.new(name: 'MetaFlowWabaCurrency')
+    MetaFlowWabaTemplateNamespace = Shapes::StringShape.new(name: 'MetaFlowWabaTemplateNamespace')
+    MetaFlowWabaTimezoneId = Shapes::StringShape.new(name: 'MetaFlowWabaTimezoneId')
+    MetaFlowWhatsAppBusinessAccountInfo = Shapes::StructureShape.new(name: 'MetaFlowWhatsAppBusinessAccountInfo')
     MetaIndustries = Shapes::ListShape.new(name: 'MetaIndustries')
     MetaIndustry = Shapes::StringShape.new(name: 'MetaIndustry')
     MetaLibraryTemplate = Shapes::StructureShape.new(name: 'MetaLibraryTemplate')
@@ -114,6 +161,8 @@ module Aws::SocialMessaging
     PhoneNumber = Shapes::StringShape.new(name: 'PhoneNumber')
     PostWhatsAppMessageMediaInput = Shapes::StructureShape.new(name: 'PostWhatsAppMessageMediaInput')
     PostWhatsAppMessageMediaOutput = Shapes::StructureShape.new(name: 'PostWhatsAppMessageMediaOutput')
+    PublishWhatsAppFlowInput = Shapes::StructureShape.new(name: 'PublishWhatsAppFlowInput')
+    PublishWhatsAppFlowOutput = Shapes::StructureShape.new(name: 'PublishWhatsAppFlowOutput')
     PutWhatsAppBusinessAccountEventDestinationsInput = Shapes::StructureShape.new(name: 'PutWhatsAppBusinessAccountEventDestinationsInput')
     PutWhatsAppBusinessAccountEventDestinationsOutput = Shapes::StructureShape.new(name: 'PutWhatsAppBusinessAccountEventDestinationsOutput')
     RegistrationStatus = Shapes::StringShape.new(name: 'RegistrationStatus')
@@ -144,8 +193,13 @@ module Aws::SocialMessaging
     TwoFactorPin = Shapes::StringShape.new(name: 'TwoFactorPin')
     UntagResourceInput = Shapes::StructureShape.new(name: 'UntagResourceInput')
     UntagResourceOutput = Shapes::StructureShape.new(name: 'UntagResourceOutput')
+    UpdateWhatsAppFlowAssetsInput = Shapes::StructureShape.new(name: 'UpdateWhatsAppFlowAssetsInput')
+    UpdateWhatsAppFlowAssetsOutput = Shapes::StructureShape.new(name: 'UpdateWhatsAppFlowAssetsOutput')
+    UpdateWhatsAppFlowInput = Shapes::StructureShape.new(name: 'UpdateWhatsAppFlowInput')
+    UpdateWhatsAppFlowOutput = Shapes::StructureShape.new(name: 'UpdateWhatsAppFlowOutput')
     UpdateWhatsAppMessageTemplateInput = Shapes::StructureShape.new(name: 'UpdateWhatsAppMessageTemplateInput')
     UpdateWhatsAppMessageTemplateOutput = Shapes::StructureShape.new(name: 'UpdateWhatsAppMessageTemplateOutput')
+    ValidationErrorList = Shapes::ListShape.new(name: 'ValidationErrorList')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
     WabaPhoneNumberSetupFinalization = Shapes::StructureShape.new(name: 'WabaPhoneNumberSetupFinalization')
     WabaPhoneNumberSetupFinalizationList = Shapes::ListShape.new(name: 'WabaPhoneNumberSetupFinalizationList')
@@ -189,6 +243,18 @@ module Aws::SocialMessaging
     AssociateWhatsAppBusinessAccountOutput.add_member(:linked_whats_app_business_account_id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, location_name: "linkedWhatsAppBusinessAccountId"))
     AssociateWhatsAppBusinessAccountOutput.struct_class = Types::AssociateWhatsAppBusinessAccountOutput
 
+    CreateWhatsAppFlowInput.add_member(:id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, required: true, location_name: "id"))
+    CreateWhatsAppFlowInput.add_member(:flow_name, Shapes::ShapeRef.new(shape: MetaFlowName, required: true, location_name: "flowName"))
+    CreateWhatsAppFlowInput.add_member(:categories, Shapes::ShapeRef.new(shape: MetaFlowCategoryList, required: true, location_name: "categories"))
+    CreateWhatsAppFlowInput.add_member(:flow_json, Shapes::ShapeRef.new(shape: MetaFlowJsonBlob, location_name: "flowJson"))
+    CreateWhatsAppFlowInput.add_member(:publish, Shapes::ShapeRef.new(shape: Boolean, location_name: "publish"))
+    CreateWhatsAppFlowInput.add_member(:clone_flow_id, Shapes::ShapeRef.new(shape: MetaFlowId, location_name: "cloneFlowId"))
+    CreateWhatsAppFlowInput.struct_class = Types::CreateWhatsAppFlowInput
+
+    CreateWhatsAppFlowOutput.add_member(:flow_id, Shapes::ShapeRef.new(shape: MetaFlowId, location_name: "flowId"))
+    CreateWhatsAppFlowOutput.add_member(:validation_errors, Shapes::ShapeRef.new(shape: ValidationErrorList, location_name: "validationErrors"))
+    CreateWhatsAppFlowOutput.struct_class = Types::CreateWhatsAppFlowOutput
+
     CreateWhatsAppMessageTemplateFromLibraryInput.add_member(:meta_library_template, Shapes::ShapeRef.new(shape: MetaLibraryTemplate, required: true, location_name: "metaLibraryTemplate"))
     CreateWhatsAppMessageTemplateFromLibraryInput.add_member(:id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, required: true, location_name: "id"))
     CreateWhatsAppMessageTemplateFromLibraryInput.struct_class = Types::CreateWhatsAppMessageTemplateFromLibraryInput
@@ -214,6 +280,12 @@ module Aws::SocialMessaging
     CreateWhatsAppMessageTemplateOutput.add_member(:category, Shapes::ShapeRef.new(shape: MetaTemplateCategory, location_name: "category"))
     CreateWhatsAppMessageTemplateOutput.struct_class = Types::CreateWhatsAppMessageTemplateOutput
 
+    DeleteWhatsAppFlowInput.add_member(:id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, required: true, location: "querystring", location_name: "id"))
+    DeleteWhatsAppFlowInput.add_member(:flow_id, Shapes::ShapeRef.new(shape: MetaFlowId, required: true, location: "querystring", location_name: "flowId"))
+    DeleteWhatsAppFlowInput.struct_class = Types::DeleteWhatsAppFlowInput
+
+    DeleteWhatsAppFlowOutput.struct_class = Types::DeleteWhatsAppFlowOutput
+
     DeleteWhatsAppMessageMediaInput.add_member(:media_id, Shapes::ShapeRef.new(shape: WhatsAppMediaId, required: true, location: "querystring", location_name: "mediaId"))
     DeleteWhatsAppMessageMediaInput.add_member(:origination_phone_number_id, Shapes::ShapeRef.new(shape: WhatsAppPhoneNumberId, required: true, location: "querystring", location_name: "originationPhoneNumberId"))
     DeleteWhatsAppMessageMediaInput.struct_class = Types::DeleteWhatsAppMessageMediaInput
@@ -231,6 +303,12 @@ module Aws::SocialMessaging
 
     DependencyException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
     DependencyException.struct_class = Types::DependencyException
+
+    DeprecateWhatsAppFlowInput.add_member(:id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, required: true, location_name: "id"))
+    DeprecateWhatsAppFlowInput.add_member(:flow_id, Shapes::ShapeRef.new(shape: MetaFlowId, required: true, location_name: "flowId"))
+    DeprecateWhatsAppFlowInput.struct_class = Types::DeprecateWhatsAppFlowInput
+
+    DeprecateWhatsAppFlowOutput.struct_class = Types::DeprecateWhatsAppFlowOutput
 
     DisassociateWhatsAppBusinessAccountInput.add_member(:id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, required: true, location: "querystring", location_name: "id"))
     DisassociateWhatsAppBusinessAccountInput.struct_class = Types::DisassociateWhatsAppBusinessAccountInput
@@ -252,6 +330,33 @@ module Aws::SocialMessaging
     GetLinkedWhatsAppBusinessAccountPhoneNumberOutput.add_member(:phone_number, Shapes::ShapeRef.new(shape: WhatsAppPhoneNumberDetail, location_name: "phoneNumber"))
     GetLinkedWhatsAppBusinessAccountPhoneNumberOutput.add_member(:linked_whats_app_business_account_id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, location_name: "linkedWhatsAppBusinessAccountId"))
     GetLinkedWhatsAppBusinessAccountPhoneNumberOutput.struct_class = Types::GetLinkedWhatsAppBusinessAccountPhoneNumberOutput
+
+    GetWhatsAppFlowInput.add_member(:id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, required: true, location: "querystring", location_name: "id"))
+    GetWhatsAppFlowInput.add_member(:flow_id, Shapes::ShapeRef.new(shape: MetaFlowId, required: true, location: "querystring", location_name: "flowId"))
+    GetWhatsAppFlowInput.struct_class = Types::GetWhatsAppFlowInput
+
+    GetWhatsAppFlowOutput.add_member(:flow_id, Shapes::ShapeRef.new(shape: MetaFlowId, required: true, location_name: "flowId"))
+    GetWhatsAppFlowOutput.add_member(:flow_name, Shapes::ShapeRef.new(shape: MetaFlowName, required: true, location_name: "flowName"))
+    GetWhatsAppFlowOutput.add_member(:flow_status, Shapes::ShapeRef.new(shape: MetaFlowStatus, required: true, location_name: "flowStatus"))
+    GetWhatsAppFlowOutput.add_member(:categories, Shapes::ShapeRef.new(shape: MetaFlowCategoryList, location_name: "categories"))
+    GetWhatsAppFlowOutput.add_member(:validation_errors, Shapes::ShapeRef.new(shape: ValidationErrorList, location_name: "validationErrors"))
+    GetWhatsAppFlowOutput.add_member(:json_version, Shapes::ShapeRef.new(shape: MetaFlowJsonVersion, location_name: "jsonVersion"))
+    GetWhatsAppFlowOutput.add_member(:data_api_version, Shapes::ShapeRef.new(shape: MetaFlowDataApiVersion, location_name: "dataApiVersion"))
+    GetWhatsAppFlowOutput.add_member(:endpoint_uri, Shapes::ShapeRef.new(shape: MetaFlowEndpointUri, location_name: "endpointUri"))
+    GetWhatsAppFlowOutput.add_member(:preview, Shapes::ShapeRef.new(shape: MetaFlowPreviewInfo, location_name: "preview"))
+    GetWhatsAppFlowOutput.add_member(:whats_app_business_account, Shapes::ShapeRef.new(shape: MetaFlowWhatsAppBusinessAccountInfo, location_name: "whatsAppBusinessAccount"))
+    GetWhatsAppFlowOutput.add_member(:application, Shapes::ShapeRef.new(shape: MetaFlowApplicationInfo, location_name: "application"))
+    GetWhatsAppFlowOutput.add_member(:health_status, Shapes::ShapeRef.new(shape: MetaFlowHealthStatus, location_name: "healthStatus"))
+    GetWhatsAppFlowOutput.struct_class = Types::GetWhatsAppFlowOutput
+
+    GetWhatsAppFlowPreviewInput.add_member(:id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, required: true, location: "querystring", location_name: "id"))
+    GetWhatsAppFlowPreviewInput.add_member(:flow_id, Shapes::ShapeRef.new(shape: MetaFlowId, required: true, location: "querystring", location_name: "flowId"))
+    GetWhatsAppFlowPreviewInput.add_member(:invalidate, Shapes::ShapeRef.new(shape: Boolean, location: "querystring", location_name: "invalidate"))
+    GetWhatsAppFlowPreviewInput.struct_class = Types::GetWhatsAppFlowPreviewInput
+
+    GetWhatsAppFlowPreviewOutput.add_member(:flow_id, Shapes::ShapeRef.new(shape: MetaFlowId, required: true, location_name: "flowId"))
+    GetWhatsAppFlowPreviewOutput.add_member(:preview, Shapes::ShapeRef.new(shape: MetaFlowPreviewInfo, required: true, location_name: "preview"))
+    GetWhatsAppFlowPreviewOutput.struct_class = Types::GetWhatsAppFlowPreviewOutput
 
     GetWhatsAppMessageMediaInput.add_member(:media_id, Shapes::ShapeRef.new(shape: WhatsAppMediaId, required: true, location_name: "mediaId"))
     GetWhatsAppMessageMediaInput.add_member(:origination_phone_number_id, Shapes::ShapeRef.new(shape: WhatsAppPhoneNumberId, required: true, location_name: "originationPhoneNumberId"))
@@ -356,6 +461,25 @@ module Aws::SocialMessaging
     ListTagsForResourceOutput.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
     ListTagsForResourceOutput.struct_class = Types::ListTagsForResourceOutput
 
+    ListWhatsAppFlowAssetsInput.add_member(:id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, required: true, location: "querystring", location_name: "id"))
+    ListWhatsAppFlowAssetsInput.add_member(:flow_id, Shapes::ShapeRef.new(shape: MetaFlowId, required: true, location: "querystring", location_name: "flowId"))
+    ListWhatsAppFlowAssetsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListWhatsAppFlowAssetsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListWhatsAppFlowAssetsInput.struct_class = Types::ListWhatsAppFlowAssetsInput
+
+    ListWhatsAppFlowAssetsOutput.add_member(:flow_assets, Shapes::ShapeRef.new(shape: MetaFlowAssetList, required: true, location_name: "flowAssets"))
+    ListWhatsAppFlowAssetsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListWhatsAppFlowAssetsOutput.struct_class = Types::ListWhatsAppFlowAssetsOutput
+
+    ListWhatsAppFlowsInput.add_member(:id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, required: true, location: "querystring", location_name: "id"))
+    ListWhatsAppFlowsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListWhatsAppFlowsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListWhatsAppFlowsInput.struct_class = Types::ListWhatsAppFlowsInput
+
+    ListWhatsAppFlowsOutput.add_member(:flows, Shapes::ShapeRef.new(shape: MetaFlowSummaryList, required: true, location_name: "flows"))
+    ListWhatsAppFlowsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListWhatsAppFlowsOutput.struct_class = Types::ListWhatsAppFlowsOutput
+
     ListWhatsAppMessageTemplatesInput.add_member(:id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, required: true, location: "querystring", location_name: "id"))
     ListWhatsAppMessageTemplatesInput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
     ListWhatsAppMessageTemplatesInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
@@ -374,6 +498,51 @@ module Aws::SocialMessaging
     ListWhatsAppTemplateLibraryOutput.add_member(:meta_library_templates, Shapes::ShapeRef.new(shape: MetaLibraryTemplatesList, location_name: "metaLibraryTemplates"))
     ListWhatsAppTemplateLibraryOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListWhatsAppTemplateLibraryOutput.struct_class = Types::ListWhatsAppTemplateLibraryOutput
+
+    MetaFlowApplicationInfo.add_member(:link, Shapes::ShapeRef.new(shape: MetaFlowApplicationLink, location_name: "link"))
+    MetaFlowApplicationInfo.add_member(:name, Shapes::ShapeRef.new(shape: MetaFlowApplicationName, required: true, location_name: "name"))
+    MetaFlowApplicationInfo.add_member(:id, Shapes::ShapeRef.new(shape: MetaFlowApplicationId, required: true, location_name: "id"))
+    MetaFlowApplicationInfo.struct_class = Types::MetaFlowApplicationInfo
+
+    MetaFlowAsset.add_member(:name, Shapes::ShapeRef.new(shape: MetaFlowAssetName, required: true, location_name: "name"))
+    MetaFlowAsset.add_member(:asset_type, Shapes::ShapeRef.new(shape: MetaFlowAssetType, required: true, location_name: "assetType"))
+    MetaFlowAsset.add_member(:download_url, Shapes::ShapeRef.new(shape: MetaFlowAssetDownloadUrl, required: true, location_name: "downloadUrl"))
+    MetaFlowAsset.struct_class = Types::MetaFlowAsset
+
+    MetaFlowAssetList.member = Shapes::ShapeRef.new(shape: MetaFlowAsset)
+
+    MetaFlowCategoryList.member = Shapes::ShapeRef.new(shape: MetaFlowCategory)
+
+    MetaFlowHealthEntity.add_member(:entity_type, Shapes::ShapeRef.new(shape: MetaFlowHealthEntityType, required: true, location_name: "entityType"))
+    MetaFlowHealthEntity.add_member(:id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "id"))
+    MetaFlowHealthEntity.add_member(:can_send_message, Shapes::ShapeRef.new(shape: MetaFlowHealthStatusAvailability, required: true, location_name: "canSendMessage"))
+    MetaFlowHealthEntity.struct_class = Types::MetaFlowHealthEntity
+
+    MetaFlowHealthEntityList.member = Shapes::ShapeRef.new(shape: MetaFlowHealthEntity)
+
+    MetaFlowHealthStatus.add_member(:can_send_message, Shapes::ShapeRef.new(shape: MetaFlowHealthStatusAvailability, required: true, location_name: "canSendMessage"))
+    MetaFlowHealthStatus.add_member(:entities, Shapes::ShapeRef.new(shape: MetaFlowHealthEntityList, location_name: "entities"))
+    MetaFlowHealthStatus.struct_class = Types::MetaFlowHealthStatus
+
+    MetaFlowPreviewInfo.add_member(:preview_url, Shapes::ShapeRef.new(shape: MetaFlowPreviewUrl, required: true, location_name: "previewUrl"))
+    MetaFlowPreviewInfo.add_member(:expires_at, Shapes::ShapeRef.new(shape: MetaFlowTimestamp, required: true, location_name: "expiresAt"))
+    MetaFlowPreviewInfo.struct_class = Types::MetaFlowPreviewInfo
+
+    MetaFlowSummary.add_member(:flow_id, Shapes::ShapeRef.new(shape: MetaFlowId, required: true, location_name: "flowId"))
+    MetaFlowSummary.add_member(:flow_name, Shapes::ShapeRef.new(shape: MetaFlowName, required: true, location_name: "flowName"))
+    MetaFlowSummary.add_member(:flow_status, Shapes::ShapeRef.new(shape: MetaFlowStatus, required: true, location_name: "flowStatus"))
+    MetaFlowSummary.add_member(:flow_categories, Shapes::ShapeRef.new(shape: MetaFlowCategoryList, required: true, location_name: "flowCategories"))
+    MetaFlowSummary.add_member(:validation_errors, Shapes::ShapeRef.new(shape: ValidationErrorList, required: true, location_name: "validationErrors"))
+    MetaFlowSummary.struct_class = Types::MetaFlowSummary
+
+    MetaFlowSummaryList.member = Shapes::ShapeRef.new(shape: MetaFlowSummary)
+
+    MetaFlowWhatsAppBusinessAccountInfo.add_member(:id, Shapes::ShapeRef.new(shape: WhatsAppBusinessAccountId, required: true, location_name: "id"))
+    MetaFlowWhatsAppBusinessAccountInfo.add_member(:name, Shapes::ShapeRef.new(shape: WhatsAppBusinessAccountName, required: true, location_name: "name"))
+    MetaFlowWhatsAppBusinessAccountInfo.add_member(:currency, Shapes::ShapeRef.new(shape: MetaFlowWabaCurrency, location_name: "currency"))
+    MetaFlowWhatsAppBusinessAccountInfo.add_member(:timezone_id, Shapes::ShapeRef.new(shape: MetaFlowWabaTimezoneId, location_name: "timezoneId"))
+    MetaFlowWhatsAppBusinessAccountInfo.add_member(:message_template_namespace, Shapes::ShapeRef.new(shape: MetaFlowWabaTemplateNamespace, location_name: "messageTemplateNamespace"))
+    MetaFlowWhatsAppBusinessAccountInfo.struct_class = Types::MetaFlowWhatsAppBusinessAccountInfo
 
     MetaIndustries.member = Shapes::ShapeRef.new(shape: MetaIndustry)
 
@@ -416,6 +585,12 @@ module Aws::SocialMessaging
 
     PostWhatsAppMessageMediaOutput.add_member(:media_id, Shapes::ShapeRef.new(shape: WhatsAppMediaId, location_name: "mediaId"))
     PostWhatsAppMessageMediaOutput.struct_class = Types::PostWhatsAppMessageMediaOutput
+
+    PublishWhatsAppFlowInput.add_member(:id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, required: true, location_name: "id"))
+    PublishWhatsAppFlowInput.add_member(:flow_id, Shapes::ShapeRef.new(shape: MetaFlowId, required: true, location_name: "flowId"))
+    PublishWhatsAppFlowInput.struct_class = Types::PublishWhatsAppFlowInput
+
+    PublishWhatsAppFlowOutput.struct_class = Types::PublishWhatsAppFlowOutput
 
     PutWhatsAppBusinessAccountEventDestinationsInput.add_member(:id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, required: true, location_name: "id"))
     PutWhatsAppBusinessAccountEventDestinationsInput.add_member(:event_destinations, Shapes::ShapeRef.new(shape: WhatsAppBusinessAccountEventDestinations, required: true, location_name: "eventDestinations"))
@@ -482,6 +657,22 @@ module Aws::SocialMessaging
     UntagResourceOutput.add_member(:status_code, Shapes::ShapeRef.new(shape: Integer, location_name: "statusCode"))
     UntagResourceOutput.struct_class = Types::UntagResourceOutput
 
+    UpdateWhatsAppFlowAssetsInput.add_member(:id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, required: true, location_name: "id"))
+    UpdateWhatsAppFlowAssetsInput.add_member(:flow_id, Shapes::ShapeRef.new(shape: MetaFlowId, required: true, location_name: "flowId"))
+    UpdateWhatsAppFlowAssetsInput.add_member(:flow_json, Shapes::ShapeRef.new(shape: MetaFlowJsonBlob, required: true, location_name: "flowJson"))
+    UpdateWhatsAppFlowAssetsInput.struct_class = Types::UpdateWhatsAppFlowAssetsInput
+
+    UpdateWhatsAppFlowAssetsOutput.add_member(:validation_errors, Shapes::ShapeRef.new(shape: ValidationErrorList, location_name: "validationErrors"))
+    UpdateWhatsAppFlowAssetsOutput.struct_class = Types::UpdateWhatsAppFlowAssetsOutput
+
+    UpdateWhatsAppFlowInput.add_member(:id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, required: true, location_name: "id"))
+    UpdateWhatsAppFlowInput.add_member(:flow_id, Shapes::ShapeRef.new(shape: MetaFlowId, required: true, location_name: "flowId"))
+    UpdateWhatsAppFlowInput.add_member(:flow_name, Shapes::ShapeRef.new(shape: MetaFlowName, location_name: "flowName"))
+    UpdateWhatsAppFlowInput.add_member(:categories, Shapes::ShapeRef.new(shape: MetaFlowCategoryList, location_name: "categories"))
+    UpdateWhatsAppFlowInput.struct_class = Types::UpdateWhatsAppFlowInput
+
+    UpdateWhatsAppFlowOutput.struct_class = Types::UpdateWhatsAppFlowOutput
+
     UpdateWhatsAppMessageTemplateInput.add_member(:id, Shapes::ShapeRef.new(shape: LinkedWhatsAppBusinessAccountId, required: true, location_name: "id"))
     UpdateWhatsAppMessageTemplateInput.add_member(:meta_template_id, Shapes::ShapeRef.new(shape: MetaTemplateId, location_name: "metaTemplateId"))
     UpdateWhatsAppMessageTemplateInput.add_member(:template_name, Shapes::ShapeRef.new(shape: MetaTemplateName, location_name: "templateName"))
@@ -493,6 +684,8 @@ module Aws::SocialMessaging
     UpdateWhatsAppMessageTemplateInput.struct_class = Types::UpdateWhatsAppMessageTemplateInput
 
     UpdateWhatsAppMessageTemplateOutput.struct_class = Types::UpdateWhatsAppMessageTemplateOutput
+
+    ValidationErrorList.member = Shapes::ShapeRef.new(shape: MetaFlowValidationError)
 
     ValidationException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
     ValidationException.struct_class = Types::ValidationException
@@ -587,6 +780,22 @@ module Aws::SocialMessaging
         o.errors << Shapes::ShapeRef.new(shape: DependencyException)
       end)
 
+      api.add_operation(:create_whats_app_flow, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateWhatsAppFlow"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/whatsapp/flow/create"
+        o.input = Shapes::ShapeRef.new(shape: CreateWhatsAppFlowInput)
+        o.output = Shapes::ShapeRef.new(shape: CreateWhatsAppFlowOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: DependencyException)
+      end)
+
       api.add_operation(:create_whats_app_message_template, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateWhatsAppMessageTemplate"
         o.http_method = "POST"
@@ -597,6 +806,7 @@ module Aws::SocialMessaging
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: DependencyException)
@@ -612,6 +822,7 @@ module Aws::SocialMessaging
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: DependencyException)
@@ -627,6 +838,23 @@ module Aws::SocialMessaging
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: DependencyException)
+      end)
+
+      api.add_operation(:delete_whats_app_flow, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteWhatsAppFlow"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/v1/whatsapp/flow"
+        o.input = Shapes::ShapeRef.new(shape: DeleteWhatsAppFlowInput)
+        o.output = Shapes::ShapeRef.new(shape: DeleteWhatsAppFlowOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: DependencyException)
@@ -658,6 +886,23 @@ module Aws::SocialMessaging
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: DependencyException)
+      end)
+
+      api.add_operation(:deprecate_whats_app_flow, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeprecateWhatsAppFlow"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/whatsapp/flow/deprecate"
+        o.input = Shapes::ShapeRef.new(shape: DeprecateWhatsAppFlowInput)
+        o.output = Shapes::ShapeRef.new(shape: DeprecateWhatsAppFlowOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: DependencyException)
@@ -707,6 +952,38 @@ module Aws::SocialMessaging
         o.errors << Shapes::ShapeRef.new(shape: DependencyException)
       end)
 
+      api.add_operation(:get_whats_app_flow, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetWhatsAppFlow"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/whatsapp/flow"
+        o.input = Shapes::ShapeRef.new(shape: GetWhatsAppFlowInput)
+        o.output = Shapes::ShapeRef.new(shape: GetWhatsAppFlowOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: DependencyException)
+      end)
+
+      api.add_operation(:get_whats_app_flow_preview, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetWhatsAppFlowPreview"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/whatsapp/flow/preview"
+        o.input = Shapes::ShapeRef.new(shape: GetWhatsAppFlowPreviewInput)
+        o.output = Shapes::ShapeRef.new(shape: GetWhatsAppFlowPreviewOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: DependencyException)
+      end)
+
       api.add_operation(:get_whats_app_message_media, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetWhatsAppMessageMedia"
         o.http_method = "POST"
@@ -733,6 +1010,7 @@ module Aws::SocialMessaging
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: DependencyException)
@@ -771,6 +1049,50 @@ module Aws::SocialMessaging
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
       end)
 
+      api.add_operation(:list_whats_app_flow_assets, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListWhatsAppFlowAssets"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/whatsapp/flow/assets"
+        o.input = Shapes::ShapeRef.new(shape: ListWhatsAppFlowAssetsInput)
+        o.output = Shapes::ShapeRef.new(shape: ListWhatsAppFlowAssetsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: DependencyException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_whats_app_flows, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListWhatsAppFlows"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/whatsapp/flow/list"
+        o.input = Shapes::ShapeRef.new(shape: ListWhatsAppFlowsInput)
+        o.output = Shapes::ShapeRef.new(shape: ListWhatsAppFlowsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: DependencyException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_whats_app_message_templates, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListWhatsAppMessageTemplates"
         o.http_method = "GET"
@@ -781,6 +1103,7 @@ module Aws::SocialMessaging
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: DependencyException)
@@ -802,6 +1125,7 @@ module Aws::SocialMessaging
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: DependencyException)
@@ -819,6 +1143,22 @@ module Aws::SocialMessaging
         o.http_request_uri = "/v1/whatsapp/media"
         o.input = Shapes::ShapeRef.new(shape: PostWhatsAppMessageMediaInput)
         o.output = Shapes::ShapeRef.new(shape: PostWhatsAppMessageMediaOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: DependencyException)
+      end)
+
+      api.add_operation(:publish_whats_app_flow, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PublishWhatsAppFlow"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/whatsapp/flow/publish"
+        o.input = Shapes::ShapeRef.new(shape: PublishWhatsAppFlowInput)
+        o.output = Shapes::ShapeRef.new(shape: PublishWhatsAppFlowOutput)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
@@ -883,6 +1223,38 @@ module Aws::SocialMessaging
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
       end)
 
+      api.add_operation(:update_whats_app_flow, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateWhatsAppFlow"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/whatsapp/flow/update"
+        o.input = Shapes::ShapeRef.new(shape: UpdateWhatsAppFlowInput)
+        o.output = Shapes::ShapeRef.new(shape: UpdateWhatsAppFlowOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: DependencyException)
+      end)
+
+      api.add_operation(:update_whats_app_flow_assets, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateWhatsAppFlowAssets"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/whatsapp/flow/assets/update"
+        o.input = Shapes::ShapeRef.new(shape: UpdateWhatsAppFlowAssetsInput)
+        o.output = Shapes::ShapeRef.new(shape: UpdateWhatsAppFlowAssetsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: DependencyException)
+      end)
+
       api.add_operation(:update_whats_app_message_template, Seahorse::Model::Operation.new.tap do |o|
         o.name = "UpdateWhatsAppMessageTemplate"
         o.http_method = "POST"
@@ -893,6 +1265,7 @@ module Aws::SocialMessaging
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedByMetaException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottledRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: DependencyException)

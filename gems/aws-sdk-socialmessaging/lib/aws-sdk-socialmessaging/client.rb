@@ -560,6 +560,66 @@ module Aws::SocialMessaging
       req.send_request(options)
     end
 
+    # Creates a new WhatsApp Flow. Flows enable businesses to create rich,
+    # interactive forms and experiences that users can complete without
+    # leaving WhatsApp. The Flow is created in DRAFT status. If `publish` is
+    # set to `true` and a valid `flowJson` is provided, the Flow is
+    # published immediately.
+    #
+    # @option params [required, String] :id
+    #   The ID of the WhatsApp Business Account to associate with this Flow.
+    #
+    # @option params [required, String] :flow_name
+    #   The name of the Flow. Must be unique within the WhatsApp Business
+    #   Account.
+    #
+    # @option params [required, Array<String>] :categories
+    #   The categories that classify the business purpose of the Flow. At
+    #   least one category is required.
+    #
+    # @option params [String, StringIO, File] :flow_json
+    #   The Flow JSON definition that describes the screens, components, and
+    #   logic of the Flow. Maximum size is 10 MB.
+    #
+    # @option params [Boolean] :publish
+    #   Set to `true` to publish the Flow immediately after creation. Requires
+    #   a valid `flowJson` that passes Meta's validation.
+    #
+    # @option params [String] :clone_flow_id
+    #   The ID of an existing Flow within the same WhatsApp Business Account
+    #   to clone.
+    #
+    # @return [Types::CreateWhatsAppFlowOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateWhatsAppFlowOutput#flow_id #flow_id} => String
+    #   * {Types::CreateWhatsAppFlowOutput#validation_errors #validation_errors} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_whats_app_flow({
+    #     id: "LinkedWhatsAppBusinessAccountId", # required
+    #     flow_name: "MetaFlowName", # required
+    #     categories: ["SIGN_UP"], # required, accepts SIGN_UP, SIGN_IN, APPOINTMENT_BOOKING, LEAD_GENERATION, SHOPPING, CONTACT_US, CUSTOMER_SUPPORT, SURVEY, OTHER
+    #     flow_json: "data",
+    #     publish: false,
+    #     clone_flow_id: "MetaFlowId",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.flow_id #=> String
+    #   resp.validation_errors #=> Array
+    #   resp.validation_errors[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/CreateWhatsAppFlow AWS API Documentation
+    #
+    # @overload create_whats_app_flow(params = {})
+    # @param [Hash] params ({})
+    def create_whats_app_flow(params = {}, options = {})
+      req = build_request(:create_whats_app_flow, params)
+      req.send_request(options)
+    end
+
     # Creates a new WhatsApp message template from a custom definition.
     #
     # <note markdown="1"> Amazon Web Services End User Messaging Social does not store any
@@ -705,6 +765,33 @@ module Aws::SocialMessaging
       req.send_request(options)
     end
 
+    # Deletes a WhatsApp Flow permanently. Only Flows in DRAFT status can be
+    # deleted. Published or deprecated Flows cannot be deleted.
+    #
+    # @option params [required, String] :id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #
+    # @option params [required, String] :flow_id
+    #   The unique identifier of the Flow to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_whats_app_flow({
+    #     id: "LinkedWhatsAppBusinessAccountId", # required
+    #     flow_id: "MetaFlowId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/DeleteWhatsAppFlow AWS API Documentation
+    #
+    # @overload delete_whats_app_flow(params = {})
+    # @param [Hash] params ({})
+    def delete_whats_app_flow(params = {}, options = {})
+      req = build_request(:delete_whats_app_flow, params)
+      req.send_request(options)
+    end
+
     # Delete a media object from the WhatsApp service. If the object is
     # still in an Amazon S3 bucket you should delete it from there too.
     #
@@ -781,6 +868,34 @@ module Aws::SocialMessaging
     # @param [Hash] params ({})
     def delete_whats_app_message_template(params = {}, options = {})
       req = build_request(:delete_whats_app_message_template, params)
+      req.send_request(options)
+    end
+
+    # Deprecates a published WhatsApp Flow, marking it as no longer
+    # recommended for use. The Flow must be in PUBLISHED status. This is an
+    # irreversible operation.
+    #
+    # @option params [required, String] :id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #
+    # @option params [required, String] :flow_id
+    #   The unique identifier of the Flow to deprecate.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.deprecate_whats_app_flow({
+    #     id: "LinkedWhatsAppBusinessAccountId", # required
+    #     flow_id: "MetaFlowId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/DeprecateWhatsAppFlow AWS API Documentation
+    #
+    # @overload deprecate_whats_app_flow(params = {})
+    # @param [Hash] params ({})
+    def deprecate_whats_app_flow(params = {}, options = {})
+      req = build_request(:deprecate_whats_app_flow, params)
       req.send_request(options)
     end
 
@@ -910,6 +1025,117 @@ module Aws::SocialMessaging
     # @param [Hash] params ({})
     def get_linked_whats_app_business_account_phone_number(params = {}, options = {})
       req = build_request(:get_linked_whats_app_business_account_phone_number, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the metadata and status of a WhatsApp Flow, including
+    # validation errors, preview information, and health status.
+    #
+    # @option params [required, String] :id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #
+    # @option params [required, String] :flow_id
+    #   The unique identifier of the Flow to retrieve.
+    #
+    # @return [Types::GetWhatsAppFlowOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetWhatsAppFlowOutput#flow_id #flow_id} => String
+    #   * {Types::GetWhatsAppFlowOutput#flow_name #flow_name} => String
+    #   * {Types::GetWhatsAppFlowOutput#flow_status #flow_status} => String
+    #   * {Types::GetWhatsAppFlowOutput#categories #categories} => Array&lt;String&gt;
+    #   * {Types::GetWhatsAppFlowOutput#validation_errors #validation_errors} => Array&lt;String&gt;
+    #   * {Types::GetWhatsAppFlowOutput#json_version #json_version} => String
+    #   * {Types::GetWhatsAppFlowOutput#data_api_version #data_api_version} => String
+    #   * {Types::GetWhatsAppFlowOutput#endpoint_uri #endpoint_uri} => String
+    #   * {Types::GetWhatsAppFlowOutput#preview #preview} => Types::MetaFlowPreviewInfo
+    #   * {Types::GetWhatsAppFlowOutput#whats_app_business_account #whats_app_business_account} => Types::MetaFlowWhatsAppBusinessAccountInfo
+    #   * {Types::GetWhatsAppFlowOutput#application #application} => Types::MetaFlowApplicationInfo
+    #   * {Types::GetWhatsAppFlowOutput#health_status #health_status} => Types::MetaFlowHealthStatus
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_whats_app_flow({
+    #     id: "LinkedWhatsAppBusinessAccountId", # required
+    #     flow_id: "MetaFlowId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.flow_id #=> String
+    #   resp.flow_name #=> String
+    #   resp.flow_status #=> String
+    #   resp.categories #=> Array
+    #   resp.categories[0] #=> String, one of "SIGN_UP", "SIGN_IN", "APPOINTMENT_BOOKING", "LEAD_GENERATION", "SHOPPING", "CONTACT_US", "CUSTOMER_SUPPORT", "SURVEY", "OTHER"
+    #   resp.validation_errors #=> Array
+    #   resp.validation_errors[0] #=> String
+    #   resp.json_version #=> String
+    #   resp.data_api_version #=> String
+    #   resp.endpoint_uri #=> String
+    #   resp.preview.preview_url #=> String
+    #   resp.preview.expires_at #=> String
+    #   resp.whats_app_business_account.id #=> String
+    #   resp.whats_app_business_account.name #=> String
+    #   resp.whats_app_business_account.currency #=> String
+    #   resp.whats_app_business_account.timezone_id #=> String
+    #   resp.whats_app_business_account.message_template_namespace #=> String
+    #   resp.application.link #=> String
+    #   resp.application.name #=> String
+    #   resp.application.id #=> String
+    #   resp.health_status.can_send_message #=> String
+    #   resp.health_status.entities #=> Array
+    #   resp.health_status.entities[0].entity_type #=> String
+    #   resp.health_status.entities[0].id #=> String
+    #   resp.health_status.entities[0].can_send_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/GetWhatsAppFlow AWS API Documentation
+    #
+    # @overload get_whats_app_flow(params = {})
+    # @param [Hash] params ({})
+    def get_whats_app_flow(params = {}, options = {})
+      req = build_request(:get_whats_app_flow, params)
+      req.send_request(options)
+    end
+
+    # Generates a web preview URL for testing a WhatsApp Flow before
+    # publishing. Preview URLs expire in 30 days and can be shared with
+    # stakeholders for review.
+    #
+    # @option params [required, String] :id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #
+    # @option params [required, String] :flow_id
+    #   The unique identifier of the Flow to preview.
+    #
+    # @option params [Boolean] :invalidate
+    #   Set to `true` to force generation of a new preview URL. Use this if
+    #   the previous URL has been compromised or you want a fresh expiration
+    #   period.
+    #
+    # @return [Types::GetWhatsAppFlowPreviewOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetWhatsAppFlowPreviewOutput#flow_id #flow_id} => String
+    #   * {Types::GetWhatsAppFlowPreviewOutput#preview #preview} => Types::MetaFlowPreviewInfo
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_whats_app_flow_preview({
+    #     id: "LinkedWhatsAppBusinessAccountId", # required
+    #     flow_id: "MetaFlowId", # required
+    #     invalidate: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.flow_id #=> String
+    #   resp.preview.preview_url #=> String
+    #   resp.preview.expires_at #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/GetWhatsAppFlowPreview AWS API Documentation
+    #
+    # @overload get_whats_app_flow_preview(params = {})
+    # @param [Hash] params ({})
+    def get_whats_app_flow_preview(params = {}, options = {})
+      req = build_request(:get_whats_app_flow_preview, params)
       req.send_request(options)
     end
 
@@ -1103,6 +1329,103 @@ module Aws::SocialMessaging
       req.send_request(options)
     end
 
+    # Lists the assets (Flow JSON definition) of a WhatsApp Flow with
+    # presigned download URLs. Download URLs are generated by Meta and
+    # expire after a short period.
+    #
+    # @option params [required, String] :id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #
+    # @option params [required, String] :flow_id
+    #   The unique identifier of the Flow whose assets to list.
+    #
+    # @option params [String] :next_token
+    #   The token for the next page of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return per page.
+    #
+    # @return [Types::ListWhatsAppFlowAssetsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListWhatsAppFlowAssetsOutput#flow_assets #flow_assets} => Array&lt;Types::MetaFlowAsset&gt;
+    #   * {Types::ListWhatsAppFlowAssetsOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_whats_app_flow_assets({
+    #     id: "LinkedWhatsAppBusinessAccountId", # required
+    #     flow_id: "MetaFlowId", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.flow_assets #=> Array
+    #   resp.flow_assets[0].name #=> String
+    #   resp.flow_assets[0].asset_type #=> String
+    #   resp.flow_assets[0].download_url #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/ListWhatsAppFlowAssets AWS API Documentation
+    #
+    # @overload list_whats_app_flow_assets(params = {})
+    # @param [Hash] params ({})
+    def list_whats_app_flow_assets(params = {}, options = {})
+      req = build_request(:list_whats_app_flow_assets, params)
+      req.send_request(options)
+    end
+
+    # Lists all WhatsApp Flows for a WhatsApp Business Account. Returns
+    # summary information including Flow ID, name, status, and categories.
+    #
+    # @option params [required, String] :id
+    #   The ID of the WhatsApp Business Account to list Flows for.
+    #
+    # @option params [String] :next_token
+    #   The token for the next page of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return per page.
+    #
+    # @return [Types::ListWhatsAppFlowsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListWhatsAppFlowsOutput#flows #flows} => Array&lt;Types::MetaFlowSummary&gt;
+    #   * {Types::ListWhatsAppFlowsOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_whats_app_flows({
+    #     id: "LinkedWhatsAppBusinessAccountId", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.flows #=> Array
+    #   resp.flows[0].flow_id #=> String
+    #   resp.flows[0].flow_name #=> String
+    #   resp.flows[0].flow_status #=> String
+    #   resp.flows[0].flow_categories #=> Array
+    #   resp.flows[0].flow_categories[0] #=> String, one of "SIGN_UP", "SIGN_IN", "APPOINTMENT_BOOKING", "LEAD_GENERATION", "SHOPPING", "CONTACT_US", "CUSTOMER_SUPPORT", "SURVEY", "OTHER"
+    #   resp.flows[0].validation_errors #=> Array
+    #   resp.flows[0].validation_errors[0] #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/ListWhatsAppFlows AWS API Documentation
+    #
+    # @overload list_whats_app_flows(params = {})
+    # @param [Hash] params ({})
+    def list_whats_app_flows(params = {}, options = {})
+      req = build_request(:list_whats_app_flows, params)
+      req.send_request(options)
+    end
+
     # Lists WhatsApp message templates for a specific WhatsApp Business
     # Account.
     #
@@ -1276,6 +1599,34 @@ module Aws::SocialMessaging
     # @param [Hash] params ({})
     def post_whats_app_message_media(params = {}, options = {})
       req = build_request(:post_whats_app_message_media, params)
+      req.send_request(options)
+    end
+
+    # Publishes a WhatsApp Flow, making it available for use in template
+    # messages. The Flow must be in DRAFT status with valid Flow JSON that
+    # passes Meta's validation. This is an irreversible operation.
+    #
+    # @option params [required, String] :id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #
+    # @option params [required, String] :flow_id
+    #   The unique identifier of the Flow to publish.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.publish_whats_app_flow({
+    #     id: "LinkedWhatsAppBusinessAccountId", # required
+    #     flow_id: "MetaFlowId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/PublishWhatsAppFlow AWS API Documentation
+    #
+    # @overload publish_whats_app_flow(params = {})
+    # @param [Hash] params ({})
+    def publish_whats_app_flow(params = {}, options = {})
+      req = build_request(:publish_whats_app_flow, params)
       req.send_request(options)
     end
 
@@ -1455,6 +1806,85 @@ module Aws::SocialMessaging
       req.send_request(options)
     end
 
+    # Updates the metadata of a WhatsApp Flow, such as its name or
+    # categories. This does not update the Flow JSON definition. Use
+    # [UpdateWhatsAppFlowAssets][1] to update the Flow JSON.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_UpdateWhatsAppFlowAssets.html
+    #
+    # @option params [required, String] :id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #
+    # @option params [required, String] :flow_id
+    #   The unique identifier of the Flow to update.
+    #
+    # @option params [String] :flow_name
+    #   The updated name for the Flow.
+    #
+    # @option params [Array<String>] :categories
+    #   The updated categories for the Flow.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_whats_app_flow({
+    #     id: "LinkedWhatsAppBusinessAccountId", # required
+    #     flow_id: "MetaFlowId", # required
+    #     flow_name: "MetaFlowName",
+    #     categories: ["SIGN_UP"], # accepts SIGN_UP, SIGN_IN, APPOINTMENT_BOOKING, LEAD_GENERATION, SHOPPING, CONTACT_US, CUSTOMER_SUPPORT, SURVEY, OTHER
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/UpdateWhatsAppFlow AWS API Documentation
+    #
+    # @overload update_whats_app_flow(params = {})
+    # @param [Hash] params ({})
+    def update_whats_app_flow(params = {}, options = {})
+      req = build_request(:update_whats_app_flow, params)
+      req.send_request(options)
+    end
+
+    # Updates the Flow JSON definition (assets) of a WhatsApp Flow. Updating
+    # a published Flow's assets reverts it to DRAFT status, requiring
+    # re-publishing.
+    #
+    # @option params [required, String] :id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #
+    # @option params [required, String] :flow_id
+    #   The unique identifier of the Flow whose assets to update.
+    #
+    # @option params [required, String, StringIO, File] :flow_json
+    #   The updated Flow JSON definition. Maximum size is 10 MB.
+    #
+    # @return [Types::UpdateWhatsAppFlowAssetsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateWhatsAppFlowAssetsOutput#validation_errors #validation_errors} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_whats_app_flow_assets({
+    #     id: "LinkedWhatsAppBusinessAccountId", # required
+    #     flow_id: "MetaFlowId", # required
+    #     flow_json: "data", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.validation_errors #=> Array
+    #   resp.validation_errors[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/UpdateWhatsAppFlowAssets AWS API Documentation
+    #
+    # @overload update_whats_app_flow_assets(params = {})
+    # @param [Hash] params ({})
+    def update_whats_app_flow_assets(params = {}, options = {})
+      req = build_request(:update_whats_app_flow_assets, params)
+      req.send_request(options)
+    end
+
     # Updates an existing WhatsApp message template.
     #
     # @option params [required, String] :id
@@ -1530,7 +1960,7 @@ module Aws::SocialMessaging
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-socialmessaging'
-      context[:gem_version] = '1.26.0'
+      context[:gem_version] = '1.27.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

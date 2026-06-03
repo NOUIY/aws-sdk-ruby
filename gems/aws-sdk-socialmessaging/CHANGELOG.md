@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.27.0 (2026-06-03)
+------------------
+
+* Feature - Adding support for WhatsApp flow APIs and adding AccessDeniedByMetaException for Template APIs
+
 1.26.0 (2026-05-28)
 ------------------
 

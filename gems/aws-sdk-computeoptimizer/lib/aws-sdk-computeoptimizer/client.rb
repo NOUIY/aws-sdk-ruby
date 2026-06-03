@@ -856,7 +856,7 @@ module Aws::ComputeOptimizer
     #         values: ["FilterValue"],
     #       },
     #     ],
-    #     fields_to_export: ["AccountId"], # accepts AccountId, VolumeArn, Finding, UtilizationMetricsVolumeReadOpsPerSecondMaximum, UtilizationMetricsVolumeWriteOpsPerSecondMaximum, UtilizationMetricsVolumeReadBytesPerSecondMaximum, UtilizationMetricsVolumeWriteBytesPerSecondMaximum, LookbackPeriodInDays, CurrentConfigurationVolumeType, CurrentConfigurationVolumeBaselineIOPS, CurrentConfigurationVolumeBaselineThroughput, CurrentConfigurationVolumeBurstIOPS, CurrentConfigurationVolumeBurstThroughput, CurrentConfigurationVolumeSize, CurrentMonthlyPrice, RecommendationOptionsConfigurationVolumeType, RecommendationOptionsConfigurationVolumeBaselineIOPS, RecommendationOptionsConfigurationVolumeBaselineThroughput, RecommendationOptionsConfigurationVolumeBurstIOPS, RecommendationOptionsConfigurationVolumeBurstThroughput, RecommendationOptionsConfigurationVolumeSize, RecommendationOptionsMonthlyPrice, RecommendationOptionsPerformanceRisk, LastRefreshTimestamp, CurrentPerformanceRisk, RecommendationOptionsSavingsOpportunityPercentage, RecommendationOptionsEstimatedMonthlySavingsCurrency, RecommendationOptionsEstimatedMonthlySavingsValue, Tags, RootVolume, CurrentConfigurationRootVolume, EffectiveRecommendationPreferencesSavingsEstimationMode, RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage, RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts, RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
+    #     fields_to_export: ["AccountId"], # accepts AccountId, VolumeArn, Finding, UtilizationMetricsVolumeReadOpsPerSecondMaximum, UtilizationMetricsVolumeWriteOpsPerSecondMaximum, UtilizationMetricsVolumeReadBytesPerSecondMaximum, UtilizationMetricsVolumeWriteBytesPerSecondMaximum, LookbackPeriodInDays, CurrentConfigurationVolumeType, CurrentConfigurationVolumeBaselineIOPS, CurrentConfigurationVolumeBaselineThroughput, CurrentConfigurationVolumeBurstIOPS, CurrentConfigurationVolumeBurstThroughput, CurrentConfigurationVolumeSize, CurrentMonthlyPrice, RecommendationOptionsConfigurationVolumeType, RecommendationOptionsConfigurationVolumeBaselineIOPS, RecommendationOptionsConfigurationVolumeBaselineThroughput, RecommendationOptionsConfigurationVolumeBurstIOPS, RecommendationOptionsConfigurationVolumeBurstThroughput, RecommendationOptionsConfigurationVolumeSize, RecommendationOptionsMonthlyPrice, RecommendationOptionsPerformanceRisk, LastRefreshTimestamp, CurrentPerformanceRisk, RecommendationOptionsSavingsOpportunityPercentage, RecommendationOptionsEstimatedMonthlySavingsCurrency, RecommendationOptionsEstimatedMonthlySavingsValue, Tags, RootVolume, CurrentConfigurationRootVolume, EffectiveRecommendationPreferencesSavingsEstimationMode, RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage, RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts, RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts, EffectiveRecommendationPreferencesLookBackPeriod
     #     s3_destination_config: { # required
     #       bucket: "DestinationBucket",
     #       key_prefix: "DestinationKeyPrefix",
@@ -1121,7 +1121,7 @@ module Aws::ComputeOptimizer
     #         values: ["FilterValue"],
     #       },
     #     ],
-    #     fields_to_export: ["AccountId"], # accepts AccountId, ServiceArn, LookbackPeriodInDays, LastRefreshTimestamp, LaunchType, CurrentPerformanceRisk, CurrentServiceConfigurationMemory, CurrentServiceConfigurationCpu, CurrentServiceConfigurationTaskDefinitionArn, CurrentServiceConfigurationAutoScalingConfiguration, CurrentServiceContainerConfigurations, UtilizationMetricsCpuMaximum, UtilizationMetricsMemoryMaximum, Finding, FindingReasonCodes, RecommendationOptionsMemory, RecommendationOptionsCpu, RecommendationOptionsSavingsOpportunityPercentage, RecommendationOptionsEstimatedMonthlySavingsCurrency, RecommendationOptionsEstimatedMonthlySavingsValue, RecommendationOptionsContainerRecommendations, RecommendationOptionsProjectedUtilizationMetricsCpuMaximum, RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum, Tags, EffectiveRecommendationPreferencesSavingsEstimationMode, RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage, RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts, RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
+    #     fields_to_export: ["AccountId"], # accepts AccountId, ServiceArn, LookbackPeriodInDays, LastRefreshTimestamp, LaunchType, CurrentPerformanceRisk, CurrentServiceConfigurationMemory, CurrentServiceConfigurationCpu, CurrentServiceConfigurationTaskDefinitionArn, CurrentServiceConfigurationAutoScalingConfiguration, CurrentServiceContainerConfigurations, UtilizationMetricsCpuMaximum, UtilizationMetricsMemoryMaximum, Finding, FindingReasonCodes, RecommendationOptionsMemory, RecommendationOptionsCpu, RecommendationOptionsSavingsOpportunityPercentage, RecommendationOptionsEstimatedMonthlySavingsCurrency, RecommendationOptionsEstimatedMonthlySavingsValue, RecommendationOptionsContainerRecommendations, RecommendationOptionsProjectedUtilizationMetricsCpuMaximum, RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum, Tags, EffectiveRecommendationPreferencesSavingsEstimationMode, RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage, RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts, RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts, EffectiveRecommendationPreferencesLookBackPeriod
     #     s3_destination_config: { # required
     #       bucket: "DestinationBucket",
     #       key_prefix: "DestinationKeyPrefix",
@@ -1929,6 +1929,7 @@ module Aws::ComputeOptimizer
     #   resp.volume_recommendations[0].last_refresh_timestamp #=> Time
     #   resp.volume_recommendations[0].current_performance_risk #=> String, one of "VeryLow", "Low", "Medium", "High"
     #   resp.volume_recommendations[0].effective_recommendation_preferences.savings_estimation_mode.source #=> String, one of "PublicPricing", "CostExplorerRightsizing", "CostOptimizationHub"
+    #   resp.volume_recommendations[0].effective_recommendation_preferences.look_back_period #=> String, one of "DAYS_14", "DAYS_32", "DAYS_93"
     #   resp.volume_recommendations[0].tags #=> Array
     #   resp.volume_recommendations[0].tags[0].key #=> String
     #   resp.volume_recommendations[0].tags[0].value #=> String
@@ -2340,6 +2341,7 @@ module Aws::ComputeOptimizer
     #   resp.ecs_service_recommendations[0].service_recommendation_options[0].container_recommendations[0].cpu #=> Integer
     #   resp.ecs_service_recommendations[0].current_performance_risk #=> String, one of "VeryLow", "Low", "Medium", "High"
     #   resp.ecs_service_recommendations[0].effective_recommendation_preferences.savings_estimation_mode.source #=> String, one of "PublicPricing", "CostExplorerRightsizing", "CostOptimizationHub"
+    #   resp.ecs_service_recommendations[0].effective_recommendation_preferences.look_back_period #=> String, one of "DAYS_14", "DAYS_32", "DAYS_93"
     #   resp.ecs_service_recommendations[0].tags #=> Array
     #   resp.ecs_service_recommendations[0].tags[0].key #=> String
     #   resp.ecs_service_recommendations[0].tags[0].value #=> String
@@ -3367,14 +3369,33 @@ module Aws::ComputeOptimizer
     #   of the Amazon Web Services resource are analyzed. When this preference
     #   isn't specified, we use the default value `DAYS_14`.
     #
-    #   You can only set this preference for the Amazon EC2 instance and Auto
-    #   Scaling group resource types.
+    #   You can only set this preference for the Amazon EC2 instance, Auto
+    #   Scaling group, Amazon EBS volume, Amazon ECS service on Fargate,
+    #   Amazon RDS DB instance, and Aurora DB cluster storage resource types.
     #
-    #   <note markdown="1"> * Amazon EC2 instance lookback preferences can be set at the
-    #     organization, account, and resource levels.
+    #   <note markdown="1"> * Lookback period preferences for Amazon EC2 instances, Amazon EBS
+    #     volumes, Amazon ECS services, Amazon RDS DB instances, and Aurora DB
+    #     cluster storage resource types can be set at the organization,
+    #     account, and resource levels.
     #
     #   * Auto Scaling group lookback preferences can only be set at the
     #     resource level.
+    #
+    #   * Amazon EBS volume lookback preferences can be set at the
+    #     organization, account, and resource levels.
+    #
+    #   * Amazon ECS service on Fargate lookback preferences can be set at the
+    #     organization, account, and resource levels.
+    #
+    #   * Amazon RDS DB instance lookback preferences can be set at the
+    #     organization, account, and resource levels.
+    #
+    #   * Aurora DB cluster storage lookback preferences can be set at the
+    #     organization, account, and resource levels.
+    #
+    #   * Changing the lookback period for Amazon EBS volumes to 14 days does
+    #     not affect the 32-day lookback period used to determine whether an
+    #     Amazon EBS volume is unattached.
     #
     #    </note>
     #
@@ -3409,8 +3430,9 @@ module Aws::ComputeOptimizer
     #   specify either an `includeList` or `excludeList`. If the preference is
     #   an empty set of resource type values, an error occurs.
     #
-    #   <note markdown="1"> You can only set this preference for the Amazon EC2 instance and Auto
-    #   Scaling group resource types.
+    #   <note markdown="1"> You can only set this preference for the Amazon EC2 instance, Auto
+    #   Scaling group, Amazon EBS volume, Amazon ECS service, Amazon RDS DB
+    #   instance, and Aurora DB cluster storage resource types.
     #
     #    </note>
     #
@@ -3569,7 +3591,7 @@ module Aws::ComputeOptimizer
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-computeoptimizer'
-      context[:gem_version] = '1.96.0'
+      context[:gem_version] = '1.97.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

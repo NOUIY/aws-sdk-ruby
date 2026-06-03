@@ -572,6 +572,7 @@ module Aws::ComputeOptimizer
     DescribeRecommendationExportJobsResponse.struct_class = Types::DescribeRecommendationExportJobsResponse
 
     EBSEffectiveRecommendationPreferences.add_member(:savings_estimation_mode, Shapes::ShapeRef.new(shape: EBSSavingsEstimationMode, location_name: "savingsEstimationMode"))
+    EBSEffectiveRecommendationPreferences.add_member(:look_back_period, Shapes::ShapeRef.new(shape: LookBackPeriodPreference, location_name: "lookBackPeriod"))
     EBSEffectiveRecommendationPreferences.struct_class = Types::EBSEffectiveRecommendationPreferences
 
     EBSEstimatedMonthlySavings.add_member(:currency, Shapes::ShapeRef.new(shape: Currency, location_name: "currency"))
@@ -599,6 +600,7 @@ module Aws::ComputeOptimizer
     EBSUtilizationMetrics.member = Shapes::ShapeRef.new(shape: EBSUtilizationMetric)
 
     ECSEffectiveRecommendationPreferences.add_member(:savings_estimation_mode, Shapes::ShapeRef.new(shape: ECSSavingsEstimationMode, location_name: "savingsEstimationMode"))
+    ECSEffectiveRecommendationPreferences.add_member(:look_back_period, Shapes::ShapeRef.new(shape: LookBackPeriodPreference, location_name: "lookBackPeriod"))
     ECSEffectiveRecommendationPreferences.struct_class = Types::ECSEffectiveRecommendationPreferences
 
     ECSEstimatedMonthlySavings.add_member(:currency, Shapes::ShapeRef.new(shape: Currency, location_name: "currency"))

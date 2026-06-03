@@ -2793,6 +2793,9 @@ module Aws::Inspector2
     #   resp.ecr_configuration.rescan_duration_state.pull_date_rescan_mode #=> String, one of "LAST_PULL_DATE", "LAST_IN_USE_AT"
     #   resp.ec2_configuration.scan_mode_state.scan_mode #=> String, one of "EC2_SSM_AGENT_BASED", "EC2_HYBRID"
     #   resp.ec2_configuration.scan_mode_state.scan_mode_status #=> String, one of "SUCCESS", "PENDING"
+    #   resp.ec2_configuration.vm_scanner_state.activated #=> Boolean
+    #   resp.ec2_configuration.vm_scanner_state.activated_at #=> Time
+    #   resp.ec2_configuration.vm_scanner_state.status #=> String, one of "SUCCESS", "PENDING", "FAILED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/inspector2-2020-06-08/GetConfiguration AWS API Documentation
     #
@@ -4148,7 +4151,7 @@ module Aws::Inspector2
     #   resp.covered_resources[0].resource_metadata.code_repository.on_demand_scan.scan_status.status_code #=> String, one of "ACTIVE", "INACTIVE"
     #   resp.covered_resources[0].resource_metadata.code_repository.on_demand_scan.scan_status.reason #=> String, one of "PENDING_INITIAL_SCAN", "ACCESS_DENIED", "INTERNAL_ERROR", "UNMANAGED_EC2_INSTANCE", "UNSUPPORTED_OS", "SCAN_ELIGIBILITY_EXPIRED", "RESOURCE_TERMINATED", "SUCCESSFUL", "NO_RESOURCES_FOUND", "IMAGE_SIZE_EXCEEDED", "SCAN_FREQUENCY_MANUAL", "SCAN_FREQUENCY_SCAN_ON_PUSH", "EC2_INSTANCE_STOPPED", "PENDING_DISABLE", "NO_INVENTORY", "STALE_INVENTORY", "EXCLUDED_BY_TAG", "UNSUPPORTED_RUNTIME", "UNSUPPORTED_MEDIA_TYPE", "UNSUPPORTED_CONFIG_FILE", "DEEP_INSPECTION_PACKAGE_COLLECTION_LIMIT_EXCEEDED", "DEEP_INSPECTION_DAILY_SSM_INVENTORY_LIMIT_EXCEEDED", "DEEP_INSPECTION_COLLECTION_TIME_LIMIT_EXCEEDED", "DEEP_INSPECTION_NO_INVENTORY", "AGENTLESS_INSTANCE_STORAGE_LIMIT_EXCEEDED", "AGENTLESS_INSTANCE_COLLECTION_TIME_LIMIT_EXCEEDED", "PENDING_REVIVAL_SCAN", "INTEGRATION_CONNECTION_LOST", "ACCESS_DENIED_TO_ENCRYPTION_KEY", "UNSUPPORTED_LANGUAGE", "NO_SCAN_CONFIGURATION_ASSOCIATED", "SCAN_IN_PROGRESS", "IMAGE_ARCHIVED", "UNSUPPORTED_CODE_ARTIFACTS"
     #   resp.covered_resources[0].last_scanned_at #=> Time
-    #   resp.covered_resources[0].scan_mode #=> String, one of "EC2_SSM_AGENT_BASED", "EC2_AGENTLESS"
+    #   resp.covered_resources[0].scan_mode #=> String, one of "EC2_SSM_AGENT_BASED", "EC2_AGENTLESS", "EC2_INSPECTOR_AGENT_BASED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/inspector2-2020-06-08/ListCoverage AWS API Documentation
     #
@@ -6271,6 +6274,7 @@ module Aws::Inspector2
     #     },
     #     ec2_configuration: {
     #       scan_mode: "EC2_SSM_AGENT_BASED", # required, accepts EC2_SSM_AGENT_BASED, EC2_HYBRID
+    #       activate_vm_scanner: false,
     #     },
     #   })
     #
@@ -6804,7 +6808,7 @@ module Aws::Inspector2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-inspector2'
-      context[:gem_version] = '1.74.0'
+      context[:gem_version] = '1.75.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1343,10 +1343,11 @@ module Aws::CostExplorer
     class SavingsPlansPurchaseAnalysisConfiguration
       attr_accessor account_scope: ("PAYER" | "LINKED")
       attr_accessor account_id: ::String
-      attr_accessor analysis_type: ("MAX_SAVINGS" | "CUSTOM_COMMITMENT")
+      attr_accessor analysis_type: ("MAX_SAVINGS" | "CUSTOM_COMMITMENT" | "TARGET_AVERAGE_COVERAGE")
       attr_accessor savings_plans_to_add: ::Array[Types::SavingsPlans]
       attr_accessor savings_plans_to_exclude: ::Array[::String]
       attr_accessor look_back_time_period: Types::DateInterval
+      attr_accessor savings_plans_target_coverage: ::Integer
       SENSITIVE: []
     end
 

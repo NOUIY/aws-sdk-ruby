@@ -36,6 +36,11 @@ module Aws::ARCRegionswitch
     AssociatedAlarmMap = Shapes::MapShape.new(name: 'AssociatedAlarmMap')
     AuroraClusterArn = Shapes::StringShape.new(name: 'AuroraClusterArn')
     AuroraClusterArns = Shapes::ListShape.new(name: 'AuroraClusterArns')
+    AuroraInstanceArn = Shapes::StringShape.new(name: 'AuroraInstanceArn')
+    AuroraProvisionedScalingConfiguration = Shapes::StructureShape.new(name: 'AuroraProvisionedScalingConfiguration')
+    AuroraProvisionedScalingConfigurationTimeoutMinutesInteger = Shapes::IntegerShape.new(name: 'AuroraProvisionedScalingConfigurationTimeoutMinutesInteger')
+    AuroraServerlessScalingConfiguration = Shapes::StructureShape.new(name: 'AuroraServerlessScalingConfiguration')
+    AuroraServerlessScalingConfigurationTimeoutMinutesInteger = Shapes::IntegerShape.new(name: 'AuroraServerlessScalingConfigurationTimeoutMinutesInteger')
     CancelPlanExecutionRequest = Shapes::StructureShape.new(name: 'CancelPlanExecutionRequest')
     CancelPlanExecutionResponse = Shapes::StructureShape.new(name: 'CancelPlanExecutionResponse')
     CreatePlanRequest = Shapes::StructureShape.new(name: 'CreatePlanRequest')
@@ -150,6 +155,13 @@ module Aws::ARCRegionswitch
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
     MinimalWorkflow = Shapes::StructureShape.new(name: 'MinimalWorkflow')
+    NeptuneClusterArn = Shapes::StringShape.new(name: 'NeptuneClusterArn')
+    NeptuneDefaultBehavior = Shapes::StringShape.new(name: 'NeptuneDefaultBehavior')
+    NeptuneGlobalClusterIdentifier = Shapes::StringShape.new(name: 'NeptuneGlobalClusterIdentifier')
+    NeptuneGlobalDatabaseConfiguration = Shapes::StructureShape.new(name: 'NeptuneGlobalDatabaseConfiguration')
+    NeptuneGlobalDatabaseConfigurationTimeoutMinutesInteger = Shapes::IntegerShape.new(name: 'NeptuneGlobalDatabaseConfigurationTimeoutMinutesInteger')
+    NeptuneUngraceful = Shapes::StructureShape.new(name: 'NeptuneUngraceful')
+    NeptuneUngracefulBehavior = Shapes::StringShape.new(name: 'NeptuneUngracefulBehavior')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     ParallelExecutionBlockConfiguration = Shapes::StructureShape.new(name: 'ParallelExecutionBlockConfiguration')
     Plan = Shapes::StructureShape.new(name: 'Plan')
@@ -168,8 +180,11 @@ module Aws::ARCRegionswitch
     RecoveryExecutionId = Shapes::StringShape.new(name: 'RecoveryExecutionId')
     Region = Shapes::StringShape.new(name: 'Region')
     RegionAndRoutingControls = Shapes::MapShape.new(name: 'RegionAndRoutingControls')
+    RegionAuroraClusterMap = Shapes::MapShape.new(name: 'RegionAuroraClusterMap')
+    RegionAuroraInstanceArnMap = Shapes::MapShape.new(name: 'RegionAuroraInstanceArnMap')
     RegionEventSourceMappingMap = Shapes::MapShape.new(name: 'RegionEventSourceMappingMap')
     RegionList = Shapes::ListShape.new(name: 'RegionList')
+    RegionNeptuneClusterArnMap = Shapes::MapShape.new(name: 'RegionNeptuneClusterArnMap')
     RegionSwitchPlanConfiguration = Shapes::StructureShape.new(name: 'RegionSwitchPlanConfiguration')
     RegionToRunIn = Shapes::StringShape.new(name: 'RegionToRunIn')
     RegionalScalingResource = Shapes::MapShape.new(name: 'RegionalScalingResource')
@@ -309,6 +324,22 @@ module Aws::ARCRegionswitch
 
     AuroraClusterArns.member = Shapes::ShapeRef.new(shape: AuroraClusterArn)
 
+    AuroraProvisionedScalingConfiguration.add_member(:timeout_minutes, Shapes::ShapeRef.new(shape: AuroraProvisionedScalingConfigurationTimeoutMinutesInteger, location_name: "timeoutMinutes"))
+    AuroraProvisionedScalingConfiguration.add_member(:cross_account_role, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "crossAccountRole"))
+    AuroraProvisionedScalingConfiguration.add_member(:external_id, Shapes::ShapeRef.new(shape: String, location_name: "externalId"))
+    AuroraProvisionedScalingConfiguration.add_member(:global_cluster_identifier, Shapes::ShapeRef.new(shape: GlobalClusterIdentifier, required: true, location_name: "globalClusterIdentifier"))
+    AuroraProvisionedScalingConfiguration.add_member(:region_database_cluster_arns, Shapes::ShapeRef.new(shape: RegionAuroraClusterMap, required: true, location_name: "regionDatabaseClusterArns"))
+    AuroraProvisionedScalingConfiguration.add_member(:instance_arns, Shapes::ShapeRef.new(shape: RegionAuroraInstanceArnMap, required: true, location_name: "instanceArns"))
+    AuroraProvisionedScalingConfiguration.struct_class = Types::AuroraProvisionedScalingConfiguration
+
+    AuroraServerlessScalingConfiguration.add_member(:timeout_minutes, Shapes::ShapeRef.new(shape: AuroraServerlessScalingConfigurationTimeoutMinutesInteger, location_name: "timeoutMinutes"))
+    AuroraServerlessScalingConfiguration.add_member(:cross_account_role, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "crossAccountRole"))
+    AuroraServerlessScalingConfiguration.add_member(:external_id, Shapes::ShapeRef.new(shape: String, location_name: "externalId"))
+    AuroraServerlessScalingConfiguration.add_member(:global_cluster_identifier, Shapes::ShapeRef.new(shape: GlobalClusterIdentifier, required: true, location_name: "globalClusterIdentifier"))
+    AuroraServerlessScalingConfiguration.add_member(:region_database_cluster_arns, Shapes::ShapeRef.new(shape: RegionAuroraClusterMap, required: true, location_name: "regionDatabaseClusterArns"))
+    AuroraServerlessScalingConfiguration.add_member(:target_percent, Shapes::ShapeRef.new(shape: Integer, location_name: "targetPercent"))
+    AuroraServerlessScalingConfiguration.struct_class = Types::AuroraServerlessScalingConfiguration
+
     CancelPlanExecutionRequest.add_member(:plan_arn, Shapes::ShapeRef.new(shape: PlanArn, required: true, location_name: "planArn"))
     CancelPlanExecutionRequest.add_member(:execution_id, Shapes::ShapeRef.new(shape: ExecutionId, required: true, location_name: "executionId"))
     CancelPlanExecutionRequest.add_member(:comment, Shapes::ShapeRef.new(shape: ExecutionComment, location_name: "comment"))
@@ -421,6 +452,9 @@ module Aws::ARCRegionswitch
     ExecutionBlockConfiguration.add_member(:rds_promote_read_replica_config, Shapes::ShapeRef.new(shape: RdsPromoteReadReplicaConfiguration, location_name: "rdsPromoteReadReplicaConfig"))
     ExecutionBlockConfiguration.add_member(:rds_create_cross_region_read_replica_config, Shapes::ShapeRef.new(shape: RdsCreateCrossRegionReplicaConfiguration, location_name: "rdsCreateCrossRegionReadReplicaConfig"))
     ExecutionBlockConfiguration.add_member(:lambda_event_source_mapping_config, Shapes::ShapeRef.new(shape: LambdaEventSourceMappingConfiguration, location_name: "lambdaEventSourceMappingConfig"))
+    ExecutionBlockConfiguration.add_member(:aurora_serverless_scaling_config, Shapes::ShapeRef.new(shape: AuroraServerlessScalingConfiguration, location_name: "auroraServerlessScalingConfig"))
+    ExecutionBlockConfiguration.add_member(:aurora_provisioned_scaling_config, Shapes::ShapeRef.new(shape: AuroraProvisionedScalingConfiguration, location_name: "auroraProvisionedScalingConfig"))
+    ExecutionBlockConfiguration.add_member(:neptune_global_database_config, Shapes::ShapeRef.new(shape: NeptuneGlobalDatabaseConfiguration, location_name: "neptuneGlobalDatabaseConfig"))
     ExecutionBlockConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     ExecutionBlockConfiguration.add_member_subclass(:custom_action_lambda_config, Types::ExecutionBlockConfiguration::CustomActionLambdaConfig)
     ExecutionBlockConfiguration.add_member_subclass(:ec2_asg_capacity_increase_config, Types::ExecutionBlockConfiguration::Ec2AsgCapacityIncreaseConfig)
@@ -436,6 +470,9 @@ module Aws::ARCRegionswitch
     ExecutionBlockConfiguration.add_member_subclass(:rds_promote_read_replica_config, Types::ExecutionBlockConfiguration::RdsPromoteReadReplicaConfig)
     ExecutionBlockConfiguration.add_member_subclass(:rds_create_cross_region_read_replica_config, Types::ExecutionBlockConfiguration::RdsCreateCrossRegionReadReplicaConfig)
     ExecutionBlockConfiguration.add_member_subclass(:lambda_event_source_mapping_config, Types::ExecutionBlockConfiguration::LambdaEventSourceMappingConfig)
+    ExecutionBlockConfiguration.add_member_subclass(:aurora_serverless_scaling_config, Types::ExecutionBlockConfiguration::AuroraServerlessScalingConfig)
+    ExecutionBlockConfiguration.add_member_subclass(:aurora_provisioned_scaling_config, Types::ExecutionBlockConfiguration::AuroraProvisionedScalingConfig)
+    ExecutionBlockConfiguration.add_member_subclass(:neptune_global_database_config, Types::ExecutionBlockConfiguration::NeptuneGlobalDatabaseConfig)
     ExecutionBlockConfiguration.add_member_subclass(:unknown, Types::ExecutionBlockConfiguration::Unknown)
     ExecutionBlockConfiguration.struct_class = Types::ExecutionBlockConfiguration
 
@@ -636,6 +673,18 @@ module Aws::ARCRegionswitch
     MinimalWorkflow.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
     MinimalWorkflow.struct_class = Types::MinimalWorkflow
 
+    NeptuneGlobalDatabaseConfiguration.add_member(:timeout_minutes, Shapes::ShapeRef.new(shape: NeptuneGlobalDatabaseConfigurationTimeoutMinutesInteger, location_name: "timeoutMinutes"))
+    NeptuneGlobalDatabaseConfiguration.add_member(:cross_account_role, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "crossAccountRole"))
+    NeptuneGlobalDatabaseConfiguration.add_member(:external_id, Shapes::ShapeRef.new(shape: String, location_name: "externalId"))
+    NeptuneGlobalDatabaseConfiguration.add_member(:behavior, Shapes::ShapeRef.new(shape: NeptuneDefaultBehavior, required: true, location_name: "behavior"))
+    NeptuneGlobalDatabaseConfiguration.add_member(:ungraceful, Shapes::ShapeRef.new(shape: NeptuneUngraceful, location_name: "ungraceful"))
+    NeptuneGlobalDatabaseConfiguration.add_member(:global_cluster_identifier, Shapes::ShapeRef.new(shape: NeptuneGlobalClusterIdentifier, required: true, location_name: "globalClusterIdentifier"))
+    NeptuneGlobalDatabaseConfiguration.add_member(:region_database_cluster_arns, Shapes::ShapeRef.new(shape: RegionNeptuneClusterArnMap, required: true, location_name: "regionDatabaseClusterArns"))
+    NeptuneGlobalDatabaseConfiguration.struct_class = Types::NeptuneGlobalDatabaseConfiguration
+
+    NeptuneUngraceful.add_member(:ungraceful, Shapes::ShapeRef.new(shape: NeptuneUngracefulBehavior, location_name: "ungraceful"))
+    NeptuneUngraceful.struct_class = Types::NeptuneUngraceful
+
     ParallelExecutionBlockConfiguration.add_member(:steps, Shapes::ShapeRef.new(shape: Steps, required: true, location_name: "steps"))
     ParallelExecutionBlockConfiguration.struct_class = Types::ParallelExecutionBlockConfiguration
 
@@ -678,10 +727,19 @@ module Aws::ARCRegionswitch
     RegionAndRoutingControls.key = Shapes::ShapeRef.new(shape: String)
     RegionAndRoutingControls.value = Shapes::ShapeRef.new(shape: ArcRoutingControlStates)
 
+    RegionAuroraClusterMap.key = Shapes::ShapeRef.new(shape: Region)
+    RegionAuroraClusterMap.value = Shapes::ShapeRef.new(shape: AuroraClusterArn)
+
+    RegionAuroraInstanceArnMap.key = Shapes::ShapeRef.new(shape: Region)
+    RegionAuroraInstanceArnMap.value = Shapes::ShapeRef.new(shape: AuroraInstanceArn)
+
     RegionEventSourceMappingMap.key = Shapes::ShapeRef.new(shape: Region)
     RegionEventSourceMappingMap.value = Shapes::ShapeRef.new(shape: EventSourceMapping)
 
     RegionList.member = Shapes::ShapeRef.new(shape: Region)
+
+    RegionNeptuneClusterArnMap.key = Shapes::ShapeRef.new(shape: Region)
+    RegionNeptuneClusterArnMap.value = Shapes::ShapeRef.new(shape: NeptuneClusterArn)
 
     RegionSwitchPlanConfiguration.add_member(:cross_account_role, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "crossAccountRole"))
     RegionSwitchPlanConfiguration.add_member(:external_id, Shapes::ShapeRef.new(shape: String, location_name: "externalId"))
@@ -1044,6 +1102,7 @@ module Aws::ARCRegionswitch
         o.output = Shapes::ShapeRef.new(shape: ListRoute53HealthChecksResponse)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: IllegalArgumentException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",

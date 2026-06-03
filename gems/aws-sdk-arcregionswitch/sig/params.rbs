@@ -144,6 +144,36 @@ module Aws
       }?
     }
 
+      type aurora_serverless_scaling_configuration = {
+      timeout_minutes: ::Integer?,
+      cross_account_role: ::String?,
+      external_id: ::String?,
+      global_cluster_identifier: ::String,
+      region_database_cluster_arns: Hash[::String, ::String],
+      target_percent: ::Integer?
+    }
+
+      type aurora_provisioned_scaling_configuration = {
+      timeout_minutes: ::Integer?,
+      cross_account_role: ::String?,
+      external_id: ::String?,
+      global_cluster_identifier: ::String,
+      region_database_cluster_arns: Hash[::String, ::String],
+      instance_arns: Hash[::String, ::String]
+    }
+
+      type neptune_global_database_configuration = {
+      timeout_minutes: ::Integer?,
+      cross_account_role: ::String?,
+      external_id: ::String?,
+      behavior: ("switchoverOnly" | "failover"),
+      ungraceful: {
+        ungraceful: ("failover")?
+      }?,
+      global_cluster_identifier: ::String,
+      region_database_cluster_arns: Hash[::String, ::String]
+    }
+
       type execution_block_configuration = {
       custom_action_lambda_config: Params::custom_action_lambda_configuration?,
       ec2_asg_capacity_increase_config: Params::ec2_asg_capacity_increase_configuration?,
@@ -189,14 +219,17 @@ module Aws
         external_id: ::String?,
         db_instance_arn_map: Hash[::String, ::String]
       }?,
-      lambda_event_source_mapping_config: Params::lambda_event_source_mapping_configuration?
+      lambda_event_source_mapping_config: Params::lambda_event_source_mapping_configuration?,
+      aurora_serverless_scaling_config: Params::aurora_serverless_scaling_configuration?,
+      aurora_provisioned_scaling_config: Params::aurora_provisioned_scaling_configuration?,
+      neptune_global_database_config: Params::neptune_global_database_configuration?
     }
 
       type step = {
       name: ::String,
       description: ::String?,
       execution_block_configuration: Params::execution_block_configuration,
-      execution_block_type: ("CustomActionLambda" | "ManualApproval" | "AuroraGlobalDatabase" | "EC2AutoScaling" | "ARCRoutingControl" | "ARCRegionSwitchPlan" | "Parallel" | "ECSServiceScaling" | "EKSResourceScaling" | "Route53HealthCheck" | "DocumentDb" | "RdsPromoteReadReplica" | "RdsCreateCrossRegionReplica" | "LambdaEventSourceMapping")
+      execution_block_type: ("CustomActionLambda" | "ManualApproval" | "AuroraGlobalDatabase" | "EC2AutoScaling" | "ARCRoutingControl" | "ARCRegionSwitchPlan" | "Parallel" | "ECSServiceScaling" | "EKSResourceScaling" | "Route53HealthCheck" | "DocumentDb" | "RdsPromoteReadReplica" | "RdsCreateCrossRegionReplica" | "LambdaEventSourceMapping" | "AuroraServerlessScaling" | "AuroraProvisionedScaling" | "NeptuneGlobalDatabase")
     }
 
       type trigger = {

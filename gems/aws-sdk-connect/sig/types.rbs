@@ -169,6 +169,19 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class AiAgentSearchCriteria
+      attr_accessor id: ::String
+      attr_accessor version_number: ::Integer
+      attr_accessor ai_agent_escalated: bool
+      attr_accessor ai_use_case: ("AgentAssistance" | "SelfService")
+      SENSITIVE: []
+    end
+
+    class AiAgentsCriteria
+      attr_accessor criteria: ::Array[Types::AiAgentSearchCriteria]
+      SENSITIVE: []
+    end
+
     class AliasConfiguration
       attr_accessor email_address_id: ::String
       SENSITIVE: []
@@ -1161,12 +1174,20 @@ module Aws::Connect
       attr_accessor routing_criteria: Types::RoutingCriteria
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor global_resiliency_metadata: Types::GlobalResiliencyMetadata
+      attr_accessor ai_agent_info: ::Array[Types::ContactSearchSummaryAiAgentInfo]
       SENSITIVE: [:segment_attributes, :name]
     end
 
     class ContactSearchSummaryAgentInfo
       attr_accessor id: ::String
       attr_accessor connected_to_agent_timestamp: ::Time
+      SENSITIVE: []
+    end
+
+    class ContactSearchSummaryAiAgentInfo
+      attr_accessor ai_agent_version_id: ::String
+      attr_accessor ai_agent_escalated: bool
+      attr_accessor ai_use_case: ("AgentAssistance" | "SelfService")
       SENSITIVE: []
     end
 
@@ -6754,6 +6775,7 @@ module Aws::Connect
       attr_accessor searchable_segment_attributes: Types::SearchableSegmentAttributes
       attr_accessor active_regions: ::Array[::String]
       attr_accessor contact_tags: Types::ControlPlaneTagFilter
+      attr_accessor ai_agents: Types::AiAgentsCriteria
       SENSITIVE: []
     end
 

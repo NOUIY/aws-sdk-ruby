@@ -800,7 +800,7 @@ module Aws::Inspector2
       attr_accessor scan_status: Types::ScanStatus
       attr_accessor resource_metadata: Types::ResourceScanMetadata
       attr_accessor last_scanned_at: ::Time
-      attr_accessor scan_mode: ("EC2_SSM_AGENT_BASED" | "EC2_AGENTLESS")
+      attr_accessor scan_mode: ("EC2_SSM_AGENT_BASED" | "EC2_AGENTLESS" | "EC2_INSPECTOR_AGENT_BASED")
       SENSITIVE: []
     end
 
@@ -1070,11 +1070,13 @@ module Aws::Inspector2
 
     class Ec2Configuration
       attr_accessor scan_mode: ("EC2_SSM_AGENT_BASED" | "EC2_HYBRID")
+      attr_accessor activate_vm_scanner: bool
       SENSITIVE: []
     end
 
     class Ec2ConfigurationState
       attr_accessor scan_mode_state: Types::Ec2ScanModeState
+      attr_accessor vm_scanner_state: Types::VMScannerState
       SENSITIVE: []
     end
 
@@ -2515,6 +2517,13 @@ module Aws::Inspector2
     class UsageTotal
       attr_accessor account_id: ::String
       attr_accessor usage: ::Array[Types::Usage]
+      SENSITIVE: []
+    end
+
+    class VMScannerState
+      attr_accessor activated: bool
+      attr_accessor activated_at: ::Time
+      attr_accessor status: ("SUCCESS" | "PENDING" | "FAILED")
       SENSITIVE: []
     end
 

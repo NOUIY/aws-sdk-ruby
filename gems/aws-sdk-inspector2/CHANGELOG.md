@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.75.0 (2026-06-03)
+------------------
+
+* Feature - Inspector support for enhanced scanning
+
 1.74.0 (2026-05-27)
 ------------------
 

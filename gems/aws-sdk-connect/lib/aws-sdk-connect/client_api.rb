@@ -68,9 +68,14 @@ module Aws::Connect
     AgentUsername = Shapes::StringShape.new(name: 'AgentUsername')
     AgentsCriteria = Shapes::StructureShape.new(name: 'AgentsCriteria')
     AgentsMinOneMaxHundred = Shapes::ListShape.new(name: 'AgentsMinOneMaxHundred')
+    AiAgentId = Shapes::StringShape.new(name: 'AiAgentId')
     AiAgentInfo = Shapes::StructureShape.new(name: 'AiAgentInfo')
+    AiAgentSearchCriteria = Shapes::StructureShape.new(name: 'AiAgentSearchCriteria')
+    AiAgentSearchCriteriaList = Shapes::ListShape.new(name: 'AiAgentSearchCriteriaList')
     AiAgentVersionId = Shapes::StringShape.new(name: 'AiAgentVersionId')
+    AiAgentVersionNumber = Shapes::IntegerShape.new(name: 'AiAgentVersionNumber')
     AiAgents = Shapes::ListShape.new(name: 'AiAgents')
+    AiAgentsCriteria = Shapes::StructureShape.new(name: 'AiAgentsCriteria')
     AiUseCase = Shapes::StringShape.new(name: 'AiUseCase')
     AliasArn = Shapes::StringShape.new(name: 'AliasArn')
     AliasConfiguration = Shapes::StructureShape.new(name: 'AliasConfiguration')
@@ -328,6 +333,8 @@ module Aws::Connect
     ContactReferences = Shapes::MapShape.new(name: 'ContactReferences')
     ContactSearchSummary = Shapes::StructureShape.new(name: 'ContactSearchSummary')
     ContactSearchSummaryAgentInfo = Shapes::StructureShape.new(name: 'ContactSearchSummaryAgentInfo')
+    ContactSearchSummaryAiAgentInfo = Shapes::StructureShape.new(name: 'ContactSearchSummaryAiAgentInfo')
+    ContactSearchSummaryAiAgentInfoList = Shapes::ListShape.new(name: 'ContactSearchSummaryAiAgentInfoList')
     ContactSearchSummaryQueueInfo = Shapes::StructureShape.new(name: 'ContactSearchSummaryQueueInfo')
     ContactSearchSummarySegmentAttributeValue = Shapes::StructureShape.new(name: 'ContactSearchSummarySegmentAttributeValue')
     ContactSearchSummarySegmentAttributes = Shapes::MapShape.new(name: 'ContactSearchSummarySegmentAttributes')
@@ -2286,7 +2293,18 @@ module Aws::Connect
     AiAgentInfo.add_member(:ai_agent_escalated, Shapes::ShapeRef.new(shape: Boolean, location_name: "AiAgentEscalated"))
     AiAgentInfo.struct_class = Types::AiAgentInfo
 
+    AiAgentSearchCriteria.add_member(:id, Shapes::ShapeRef.new(shape: AiAgentId, location_name: "Id"))
+    AiAgentSearchCriteria.add_member(:version_number, Shapes::ShapeRef.new(shape: AiAgentVersionNumber, location_name: "VersionNumber", metadata: {"box" => true}))
+    AiAgentSearchCriteria.add_member(:ai_agent_escalated, Shapes::ShapeRef.new(shape: Boolean, location_name: "AiAgentEscalated", metadata: {"box" => true}))
+    AiAgentSearchCriteria.add_member(:ai_use_case, Shapes::ShapeRef.new(shape: AiUseCase, location_name: "AiUseCase"))
+    AiAgentSearchCriteria.struct_class = Types::AiAgentSearchCriteria
+
+    AiAgentSearchCriteriaList.member = Shapes::ShapeRef.new(shape: AiAgentSearchCriteria)
+
     AiAgents.member = Shapes::ShapeRef.new(shape: AiAgentInfo)
+
+    AiAgentsCriteria.add_member(:criteria, Shapes::ShapeRef.new(shape: AiAgentSearchCriteriaList, location_name: "Criteria"))
+    AiAgentsCriteria.struct_class = Types::AiAgentsCriteria
 
     AliasConfiguration.add_member(:email_address_id, Shapes::ShapeRef.new(shape: EmailAddressId, required: true, location_name: "EmailAddressId"))
     AliasConfiguration.struct_class = Types::AliasConfiguration
@@ -3136,11 +3154,19 @@ module Aws::Connect
     ContactSearchSummary.add_member(:routing_criteria, Shapes::ShapeRef.new(shape: RoutingCriteria, location_name: "RoutingCriteria"))
     ContactSearchSummary.add_member(:tags, Shapes::ShapeRef.new(shape: ContactTagMap, location_name: "Tags"))
     ContactSearchSummary.add_member(:global_resiliency_metadata, Shapes::ShapeRef.new(shape: GlobalResiliencyMetadata, location_name: "GlobalResiliencyMetadata"))
+    ContactSearchSummary.add_member(:ai_agent_info, Shapes::ShapeRef.new(shape: ContactSearchSummaryAiAgentInfoList, location_name: "AiAgentInfo"))
     ContactSearchSummary.struct_class = Types::ContactSearchSummary
 
     ContactSearchSummaryAgentInfo.add_member(:id, Shapes::ShapeRef.new(shape: AgentResourceId, location_name: "Id"))
     ContactSearchSummaryAgentInfo.add_member(:connected_to_agent_timestamp, Shapes::ShapeRef.new(shape: timestamp, location_name: "ConnectedToAgentTimestamp"))
     ContactSearchSummaryAgentInfo.struct_class = Types::ContactSearchSummaryAgentInfo
+
+    ContactSearchSummaryAiAgentInfo.add_member(:ai_agent_version_id, Shapes::ShapeRef.new(shape: AiAgentVersionId, location_name: "AiAgentVersionId"))
+    ContactSearchSummaryAiAgentInfo.add_member(:ai_agent_escalated, Shapes::ShapeRef.new(shape: Boolean, location_name: "AiAgentEscalated", metadata: {"box" => true}))
+    ContactSearchSummaryAiAgentInfo.add_member(:ai_use_case, Shapes::ShapeRef.new(shape: AiUseCase, location_name: "AiUseCase"))
+    ContactSearchSummaryAiAgentInfo.struct_class = Types::ContactSearchSummaryAiAgentInfo
+
+    ContactSearchSummaryAiAgentInfoList.member = Shapes::ShapeRef.new(shape: ContactSearchSummaryAiAgentInfo)
 
     ContactSearchSummaryQueueInfo.add_member(:id, Shapes::ShapeRef.new(shape: QueueId, location_name: "Id"))
     ContactSearchSummaryQueueInfo.add_member(:enqueue_timestamp, Shapes::ShapeRef.new(shape: timestamp, location_name: "EnqueueTimestamp"))
@@ -7525,6 +7551,7 @@ module Aws::Connect
     SearchCriteria.add_member(:searchable_segment_attributes, Shapes::ShapeRef.new(shape: SearchableSegmentAttributes, location_name: "SearchableSegmentAttributes"))
     SearchCriteria.add_member(:active_regions, Shapes::ShapeRef.new(shape: ActiveRegionList, location_name: "ActiveRegions"))
     SearchCriteria.add_member(:contact_tags, Shapes::ShapeRef.new(shape: ControlPlaneTagFilter, location_name: "ContactTags"))
+    SearchCriteria.add_member(:ai_agents, Shapes::ShapeRef.new(shape: AiAgentsCriteria, location_name: "AiAgents"))
     SearchCriteria.struct_class = Types::SearchCriteria
 
     SearchDataTablesRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "InstanceId"))

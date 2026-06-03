@@ -335,6 +335,7 @@ module Aws::CostExplorer
     SavingsPlansPurchaseRecommendationMetadata = Shapes::StructureShape.new(name: 'SavingsPlansPurchaseRecommendationMetadata')
     SavingsPlansPurchaseRecommendationSummary = Shapes::StructureShape.new(name: 'SavingsPlansPurchaseRecommendationSummary')
     SavingsPlansSavings = Shapes::StructureShape.new(name: 'SavingsPlansSavings')
+    SavingsPlansTargetCoverage = Shapes::IntegerShape.new(name: 'SavingsPlansTargetCoverage')
     SavingsPlansToAdd = Shapes::ListShape.new(name: 'SavingsPlansToAdd')
     SavingsPlansToExclude = Shapes::ListShape.new(name: 'SavingsPlansToExclude')
     SavingsPlansUtilization = Shapes::StructureShape.new(name: 'SavingsPlansUtilization')
@@ -1528,6 +1529,7 @@ module Aws::CostExplorer
     SavingsPlansPurchaseAnalysisConfiguration.add_member(:savings_plans_to_add, Shapes::ShapeRef.new(shape: SavingsPlansToAdd, required: true, location_name: "SavingsPlansToAdd"))
     SavingsPlansPurchaseAnalysisConfiguration.add_member(:savings_plans_to_exclude, Shapes::ShapeRef.new(shape: SavingsPlansToExclude, location_name: "SavingsPlansToExclude"))
     SavingsPlansPurchaseAnalysisConfiguration.add_member(:look_back_time_period, Shapes::ShapeRef.new(shape: DateInterval, required: true, location_name: "LookBackTimePeriod"))
+    SavingsPlansPurchaseAnalysisConfiguration.add_member(:savings_plans_target_coverage, Shapes::ShapeRef.new(shape: SavingsPlansTargetCoverage, location_name: "SavingsPlansTargetCoverage"))
     SavingsPlansPurchaseAnalysisConfiguration.struct_class = Types::SavingsPlansPurchaseAnalysisConfiguration
 
     SavingsPlansPurchaseAnalysisDetails.add_member(:currency_code, Shapes::ShapeRef.new(shape: GenericString, location_name: "CurrencyCode"))

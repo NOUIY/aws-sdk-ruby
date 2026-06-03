@@ -323,6 +323,89 @@ module Aws::ARCRegionswitch
       include Aws::Structure
     end
 
+    # Configuration for Amazon Aurora provisioned cluster scaling used in a
+    # Region switch plan.
+    #
+    # @!attribute [rw] timeout_minutes
+    #   The timeout value specified for the configuration.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] cross_account_role
+    #   The cross account role for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] external_id
+    #   The external ID (secret key) for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] global_cluster_identifier
+    #   The global cluster identifier for a global database.
+    #   @return [String]
+    #
+    # @!attribute [rw] region_database_cluster_arns
+    #   Per-Region configuration that maps each Region to the Aurora
+    #   database cluster ARN for scaling.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] instance_arns
+    #   Per-Region configuration that maps each Region to the Aurora
+    #   database instance ARN for scaling.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/arc-region-switch-2022-07-26/AuroraProvisionedScalingConfiguration AWS API Documentation
+    #
+    class AuroraProvisionedScalingConfiguration < Struct.new(
+      :timeout_minutes,
+      :cross_account_role,
+      :external_id,
+      :global_cluster_identifier,
+      :region_database_cluster_arns,
+      :instance_arns)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for Amazon Aurora Serverless scaling used in a Region
+    # switch plan.
+    #
+    # @!attribute [rw] timeout_minutes
+    #   The timeout value specified for the configuration.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] cross_account_role
+    #   The cross account role for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] external_id
+    #   The external ID (secret key) for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] global_cluster_identifier
+    #   The global cluster identifier for a global database.
+    #   @return [String]
+    #
+    # @!attribute [rw] region_database_cluster_arns
+    #   Per-Region configuration that maps each Region to the Aurora
+    #   database cluster ARN for scaling.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] target_percent
+    #   The target capacity percentage for Aurora Serverless scaling.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/arc-region-switch-2022-07-26/AuroraServerlessScalingConfiguration AWS API Documentation
+    #
+    class AuroraServerlessScalingConfiguration < Struct.new(
+      :timeout_minutes,
+      :cross_account_role,
+      :external_id,
+      :global_cluster_identifier,
+      :region_database_cluster_arns,
+      :target_percent)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] plan_arn
     #   The Amazon Resource Name (ARN) of the plan.
     #   @return [String]
@@ -851,6 +934,18 @@ module Aws::ARCRegionswitch
     #   A Lambda event source mapping execution block.
     #   @return [Types::LambdaEventSourceMappingConfiguration]
     #
+    # @!attribute [rw] aurora_serverless_scaling_config
+    #   An Aurora Serverless scaling execution block.
+    #   @return [Types::AuroraServerlessScalingConfiguration]
+    #
+    # @!attribute [rw] aurora_provisioned_scaling_config
+    #   An Aurora provisioned cluster scaling execution block.
+    #   @return [Types::AuroraProvisionedScalingConfiguration]
+    #
+    # @!attribute [rw] neptune_global_database_config
+    #   A Neptune global database execution block.
+    #   @return [Types::NeptuneGlobalDatabaseConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/arc-region-switch-2022-07-26/ExecutionBlockConfiguration AWS API Documentation
     #
     class ExecutionBlockConfiguration < Struct.new(
@@ -868,6 +963,9 @@ module Aws::ARCRegionswitch
       :rds_promote_read_replica_config,
       :rds_create_cross_region_read_replica_config,
       :lambda_event_source_mapping_config,
+      :aurora_serverless_scaling_config,
+      :aurora_provisioned_scaling_config,
+      :neptune_global_database_config,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -887,6 +985,9 @@ module Aws::ARCRegionswitch
       class RdsPromoteReadReplicaConfig < ExecutionBlockConfiguration; end
       class RdsCreateCrossRegionReadReplicaConfig < ExecutionBlockConfiguration; end
       class LambdaEventSourceMappingConfig < ExecutionBlockConfiguration; end
+      class AuroraServerlessScalingConfig < ExecutionBlockConfiguration; end
+      class AuroraProvisionedScalingConfig < ExecutionBlockConfiguration; end
+      class NeptuneGlobalDatabaseConfig < ExecutionBlockConfiguration; end
       class Unknown < ExecutionBlockConfiguration; end
     end
 
@@ -1688,7 +1789,7 @@ module Aws::ARCRegionswitch
     #   @return [String]
     #
     # @!attribute [rw] max_results
-    #   The number of objects that you want to return with this call.
+    #   The maximum number of results to return in the response.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -1716,11 +1817,9 @@ module Aws::ARCRegionswitch
     #   @return [Array<Types::Route53HealthCheck>]
     #
     # @!attribute [rw] next_token
-    #   Specifies that you want to receive the next page of results. Valid
-    #   only if you received a `nextToken` response in the previous request.
-    #   If you did, it indicates that more output is available. Set this
-    #   parameter to the value provided by the previous call's `nextToken`
-    #   response to request the next page of results.
+    #   A pagination token. A response may contain no results while still
+    #   including a `nextToken`. Continue paginating until `nextToken` is
+    #   null to retrieve all results.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/arc-region-switch-2022-07-26/ListRoute53HealthChecksInRegionResponse AWS API Documentation
@@ -1746,7 +1845,7 @@ module Aws::ARCRegionswitch
     #   @return [String]
     #
     # @!attribute [rw] max_results
-    #   The number of objects that you want to return with this call.
+    #   The maximum number of results to return in the response.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -1774,11 +1873,9 @@ module Aws::ARCRegionswitch
     #   @return [Array<Types::Route53HealthCheck>]
     #
     # @!attribute [rw] next_token
-    #   Specifies that you want to receive the next page of results. Valid
-    #   only if you received a `nextToken` response in the previous request.
-    #   If you did, it indicates that more output is available. Set this
-    #   parameter to the value provided by the previous call's `nextToken`
-    #   response to request the next page of results.
+    #   A pagination token. A response may contain no results while still
+    #   including a `nextToken`. Continue paginating until `nextToken` is
+    #   null to retrieve all results.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/arc-region-switch-2022-07-26/ListRoute53HealthChecksResponse AWS API Documentation
@@ -1830,6 +1927,68 @@ module Aws::ARCRegionswitch
     class MinimalWorkflow < Struct.new(
       :action,
       :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for Amazon Neptune global databases used in a Region
+    # switch plan.
+    #
+    # @!attribute [rw] timeout_minutes
+    #   The timeout value specified for the configuration.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] cross_account_role
+    #   The cross account role for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] external_id
+    #   The external ID (secret key) for the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] behavior
+    #   The behavior for a global database, that is, only allow switchover
+    #   or also allow failover.
+    #   @return [String]
+    #
+    # @!attribute [rw] ungraceful
+    #   The settings for ungraceful execution.
+    #   @return [Types::NeptuneUngraceful]
+    #
+    # @!attribute [rw] global_cluster_identifier
+    #   The global cluster identifier for a Neptune global database.
+    #   @return [String]
+    #
+    # @!attribute [rw] region_database_cluster_arns
+    #   The database cluster Amazon Resource Names (ARNs) for a Neptune
+    #   global database.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/arc-region-switch-2022-07-26/NeptuneGlobalDatabaseConfiguration AWS API Documentation
+    #
+    class NeptuneGlobalDatabaseConfiguration < Struct.new(
+      :timeout_minutes,
+      :cross_account_role,
+      :external_id,
+      :behavior,
+      :ungraceful,
+      :global_cluster_identifier,
+      :region_database_cluster_arns)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for handling failures when performing operations on
+    # Neptune global databases.
+    #
+    # @!attribute [rw] ungraceful
+    #   The settings for ungraceful execution.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/arc-region-switch-2022-07-26/NeptuneUngraceful AWS API Documentation
+    #
+    class NeptuneUngraceful < Struct.new(
+      :ungraceful)
       SENSITIVE = []
       include Aws::Structure
     end

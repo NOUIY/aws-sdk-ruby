@@ -1347,7 +1347,7 @@ module Aws::CostExplorer
     #   resp.analysis_details.savings_plans_purchase_analysis_details.metrics_over_lookback_period[0].estimated_new_commitment_utilization #=> String
     #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.account_scope #=> String, one of "PAYER", "LINKED"
     #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.account_id #=> String
-    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.analysis_type #=> String, one of "MAX_SAVINGS", "CUSTOM_COMMITMENT"
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.analysis_type #=> String, one of "MAX_SAVINGS", "CUSTOM_COMMITMENT", "TARGET_AVERAGE_COVERAGE"
     #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add #=> Array
     #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].payment_option #=> String, one of "NO_UPFRONT", "PARTIAL_UPFRONT", "ALL_UPFRONT", "LIGHT_UTILIZATION", "MEDIUM_UTILIZATION", "HEAVY_UTILIZATION"
     #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].savings_plans_type #=> String, one of "COMPUTE_SP", "EC2_INSTANCE_SP", "SAGEMAKER_SP", "DATABASE_SP"
@@ -1360,6 +1360,7 @@ module Aws::CostExplorer
     #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_exclude[0] #=> String
     #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.look_back_time_period.start #=> String
     #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.look_back_time_period.end #=> String
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_target_coverage #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/GetCommitmentPurchaseAnalysis AWS API Documentation
     #
@@ -5233,7 +5234,7 @@ module Aws::CostExplorer
     #   resp.analysis_summary_list[0].analysis_id #=> String
     #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.account_scope #=> String, one of "PAYER", "LINKED"
     #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.account_id #=> String
-    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.analysis_type #=> String, one of "MAX_SAVINGS", "CUSTOM_COMMITMENT"
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.analysis_type #=> String, one of "MAX_SAVINGS", "CUSTOM_COMMITMENT", "TARGET_AVERAGE_COVERAGE"
     #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add #=> Array
     #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].payment_option #=> String, one of "NO_UPFRONT", "PARTIAL_UPFRONT", "ALL_UPFRONT", "LIGHT_UTILIZATION", "MEDIUM_UTILIZATION", "HEAVY_UTILIZATION"
     #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].savings_plans_type #=> String, one of "COMPUTE_SP", "EC2_INSTANCE_SP", "SAGEMAKER_SP", "DATABASE_SP"
@@ -5246,6 +5247,7 @@ module Aws::CostExplorer
     #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_exclude[0] #=> String
     #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.look_back_time_period.start #=> String
     #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.look_back_time_period.end #=> String
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_target_coverage #=> Integer
     #   resp.next_page_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/ListCommitmentPurchaseAnalyses AWS API Documentation
@@ -5625,7 +5627,7 @@ module Aws::CostExplorer
     #       savings_plans_purchase_analysis_configuration: {
     #         account_scope: "PAYER", # accepts PAYER, LINKED
     #         account_id: "AccountId",
-    #         analysis_type: "MAX_SAVINGS", # required, accepts MAX_SAVINGS, CUSTOM_COMMITMENT
+    #         analysis_type: "MAX_SAVINGS", # required, accepts MAX_SAVINGS, CUSTOM_COMMITMENT, TARGET_AVERAGE_COVERAGE
     #         savings_plans_to_add: [ # required
     #           {
     #             payment_option: "NO_UPFRONT", # accepts NO_UPFRONT, PARTIAL_UPFRONT, ALL_UPFRONT, LIGHT_UTILIZATION, MEDIUM_UTILIZATION, HEAVY_UTILIZATION
@@ -5642,6 +5644,7 @@ module Aws::CostExplorer
     #           start: "YearMonthDay", # required
     #           end: "YearMonthDay", # required
     #         },
+    #         savings_plans_target_coverage: 1,
     #       },
     #     },
     #   })
@@ -6183,7 +6186,7 @@ module Aws::CostExplorer
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-costexplorer'
-      context[:gem_version] = '1.151.0'
+      context[:gem_version] = '1.152.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -843,7 +843,7 @@ module Aws
                                                   savings_plans_purchase_analysis_configuration: {
                                                     account_scope: ("PAYER" | "LINKED")?,
                                                     account_id: ::String?,
-                                                    analysis_type: ("MAX_SAVINGS" | "CUSTOM_COMMITMENT"),
+                                                    analysis_type: ("MAX_SAVINGS" | "CUSTOM_COMMITMENT" | "TARGET_AVERAGE_COVERAGE"),
                                                     savings_plans_to_add: Array[
                                                       {
                                                         payment_option: ("NO_UPFRONT" | "PARTIAL_UPFRONT" | "ALL_UPFRONT" | "LIGHT_UTILIZATION" | "MEDIUM_UTILIZATION" | "HEAVY_UTILIZATION")?,
@@ -859,7 +859,8 @@ module Aws
                                                     look_back_time_period: {
                                                       start: ::String,
                                                       end: ::String
-                                                    }
+                                                    },
+                                                    savings_plans_target_coverage: ::Integer?
                                                   }?
                                                 }
                                               ) -> _StartCommitmentPurchaseAnalysisResponseSuccess

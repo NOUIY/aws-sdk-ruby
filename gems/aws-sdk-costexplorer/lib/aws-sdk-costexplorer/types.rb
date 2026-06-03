@@ -7383,6 +7383,14 @@ module Aws::CostExplorer
     #   The time period associated with the analysis.
     #   @return [Types::DateInterval]
     #
+    # @!attribute [rw] savings_plans_target_coverage
+    #   Specifies the target Savings Plans coverage as a percentage from
+    #   `10` to `100`. This field is required when `AnalysisType` is
+    #   `TARGET_AVERAGE_COVERAGE`. It defines the target average hourly
+    #   coverage that the recommended Savings Plans commitment should
+    #   achieve over the lookback period.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/SavingsPlansPurchaseAnalysisConfiguration AWS API Documentation
     #
     class SavingsPlansPurchaseAnalysisConfiguration < Struct.new(
@@ -7391,7 +7399,8 @@ module Aws::CostExplorer
       :analysis_type,
       :savings_plans_to_add,
       :savings_plans_to_exclude,
-      :look_back_time_period)
+      :look_back_time_period,
+      :savings_plans_target_coverage)
       SENSITIVE = []
       include Aws::Structure
     end

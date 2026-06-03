@@ -3807,7 +3807,17 @@ module Aws
                                  match_type: ("MATCH_ALL" | "MATCH_ANY" | "MATCH_EXACT" | "MATCH_NONE")?
                                }?,
                                active_regions: Array[::String]?,
-                               contact_tags: Params::control_plane_tag_filter?
+                               contact_tags: Params::control_plane_tag_filter?,
+                               ai_agents: {
+                                 criteria: Array[
+                                   {
+                                     id: ::String?,
+                                     version_number: ::Integer?,
+                                     ai_agent_escalated: bool?,
+                                     ai_use_case: ("AgentAssistance" | "SelfService")?
+                                   }
+                                 ]?
+                               }?
                              },
                              ?max_results: ::Integer,
                              ?next_token: ::String,

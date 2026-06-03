@@ -1521,7 +1521,8 @@ module Aws
                                     pull_date_rescan_mode: ("LAST_PULL_DATE" | "LAST_IN_USE_AT")?
                                   },
                                   ?ec2_configuration: {
-                                    scan_mode: ("EC2_SSM_AGENT_BASED" | "EC2_HYBRID")
+                                    scan_mode: ("EC2_SSM_AGENT_BASED" | "EC2_HYBRID"),
+                                    activate_vm_scanner: bool?
                                   }
                                 ) -> _UpdateConfigurationResponseSuccess
                               | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateConfigurationResponseSuccess

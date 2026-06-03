@@ -796,8 +796,43 @@ module Aws::ARCRegionswitch
     #                   behavior: "skip", # accepts skip
     #                 },
     #               },
+    #               aurora_serverless_scaling_config: {
+    #                 timeout_minutes: 1,
+    #                 cross_account_role: "IamRoleArn",
+    #                 external_id: "String",
+    #                 global_cluster_identifier: "GlobalClusterIdentifier", # required
+    #                 region_database_cluster_arns: { # required
+    #                   "Region" => "AuroraClusterArn",
+    #                 },
+    #                 target_percent: 1,
+    #               },
+    #               aurora_provisioned_scaling_config: {
+    #                 timeout_minutes: 1,
+    #                 cross_account_role: "IamRoleArn",
+    #                 external_id: "String",
+    #                 global_cluster_identifier: "GlobalClusterIdentifier", # required
+    #                 region_database_cluster_arns: { # required
+    #                   "Region" => "AuroraClusterArn",
+    #                 },
+    #                 instance_arns: { # required
+    #                   "Region" => "AuroraInstanceArn",
+    #                 },
+    #               },
+    #               neptune_global_database_config: {
+    #                 timeout_minutes: 1,
+    #                 cross_account_role: "IamRoleArn",
+    #                 external_id: "String",
+    #                 behavior: "switchoverOnly", # required, accepts switchoverOnly, failover
+    #                 ungraceful: {
+    #                   ungraceful: "failover", # accepts failover
+    #                 },
+    #                 global_cluster_identifier: "NeptuneGlobalClusterIdentifier", # required
+    #                 region_database_cluster_arns: { # required
+    #                   "Region" => "NeptuneClusterArn",
+    #                 },
+    #               },
     #             },
-    #             execution_block_type: "CustomActionLambda", # required, accepts CustomActionLambda, ManualApproval, AuroraGlobalDatabase, EC2AutoScaling, ARCRoutingControl, ARCRegionSwitchPlan, Parallel, ECSServiceScaling, EKSResourceScaling, Route53HealthCheck, DocumentDb, RdsPromoteReadReplica, RdsCreateCrossRegionReplica, LambdaEventSourceMapping
+    #             execution_block_type: "CustomActionLambda", # required, accepts CustomActionLambda, ManualApproval, AuroraGlobalDatabase, EC2AutoScaling, ARCRoutingControl, ARCRegionSwitchPlan, Parallel, ECSServiceScaling, EKSResourceScaling, Route53HealthCheck, DocumentDb, RdsPromoteReadReplica, RdsCreateCrossRegionReplica, LambdaEventSourceMapping, AuroraServerlessScaling, AuroraProvisionedScaling, NeptuneGlobalDatabase
     #           },
     #         ],
     #         workflow_target_action: "activate", # required, accepts activate, deactivate, postRecovery
@@ -951,7 +986,30 @@ module Aws::ARCRegionswitch
     #   resp.plan.workflows[0].steps[0].execution_block_configuration.lambda_event_source_mapping_config.region_event_source_mappings["Region"].external_id #=> String
     #   resp.plan.workflows[0].steps[0].execution_block_configuration.lambda_event_source_mapping_config.region_event_source_mappings["Region"].arn #=> String
     #   resp.plan.workflows[0].steps[0].execution_block_configuration.lambda_event_source_mapping_config.ungraceful.behavior #=> String, one of "skip"
-    #   resp.plan.workflows[0].steps[0].execution_block_type #=> String, one of "CustomActionLambda", "ManualApproval", "AuroraGlobalDatabase", "EC2AutoScaling", "ARCRoutingControl", "ARCRegionSwitchPlan", "Parallel", "ECSServiceScaling", "EKSResourceScaling", "Route53HealthCheck", "DocumentDb", "RdsPromoteReadReplica", "RdsCreateCrossRegionReplica", "LambdaEventSourceMapping"
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.timeout_minutes #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.cross_account_role #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.external_id #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.global_cluster_identifier #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.region_database_cluster_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.region_database_cluster_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.target_percent #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.timeout_minutes #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.cross_account_role #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.external_id #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.global_cluster_identifier #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.region_database_cluster_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.region_database_cluster_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.instance_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.instance_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.timeout_minutes #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.cross_account_role #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.external_id #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.behavior #=> String, one of "switchoverOnly", "failover"
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.ungraceful.ungraceful #=> String, one of "failover"
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.global_cluster_identifier #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.region_database_cluster_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.region_database_cluster_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_type #=> String, one of "CustomActionLambda", "ManualApproval", "AuroraGlobalDatabase", "EC2AutoScaling", "ARCRoutingControl", "ARCRegionSwitchPlan", "Parallel", "ECSServiceScaling", "EKSResourceScaling", "Route53HealthCheck", "DocumentDb", "RdsPromoteReadReplica", "RdsCreateCrossRegionReplica", "LambdaEventSourceMapping", "AuroraServerlessScaling", "AuroraProvisionedScaling", "NeptuneGlobalDatabase"
     #   resp.plan.workflows[0].workflow_target_action #=> String, one of "activate", "deactivate", "postRecovery"
     #   resp.plan.workflows[0].workflow_target_region #=> String
     #   resp.plan.workflows[0].workflow_description #=> String
@@ -1135,7 +1193,30 @@ module Aws::ARCRegionswitch
     #   resp.plan.workflows[0].steps[0].execution_block_configuration.lambda_event_source_mapping_config.region_event_source_mappings["Region"].external_id #=> String
     #   resp.plan.workflows[0].steps[0].execution_block_configuration.lambda_event_source_mapping_config.region_event_source_mappings["Region"].arn #=> String
     #   resp.plan.workflows[0].steps[0].execution_block_configuration.lambda_event_source_mapping_config.ungraceful.behavior #=> String, one of "skip"
-    #   resp.plan.workflows[0].steps[0].execution_block_type #=> String, one of "CustomActionLambda", "ManualApproval", "AuroraGlobalDatabase", "EC2AutoScaling", "ARCRoutingControl", "ARCRegionSwitchPlan", "Parallel", "ECSServiceScaling", "EKSResourceScaling", "Route53HealthCheck", "DocumentDb", "RdsPromoteReadReplica", "RdsCreateCrossRegionReplica", "LambdaEventSourceMapping"
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.timeout_minutes #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.cross_account_role #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.external_id #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.global_cluster_identifier #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.region_database_cluster_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.region_database_cluster_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.target_percent #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.timeout_minutes #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.cross_account_role #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.external_id #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.global_cluster_identifier #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.region_database_cluster_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.region_database_cluster_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.instance_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.instance_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.timeout_minutes #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.cross_account_role #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.external_id #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.behavior #=> String, one of "switchoverOnly", "failover"
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.ungraceful.ungraceful #=> String, one of "failover"
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.global_cluster_identifier #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.region_database_cluster_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.region_database_cluster_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_type #=> String, one of "CustomActionLambda", "ManualApproval", "AuroraGlobalDatabase", "EC2AutoScaling", "ARCRoutingControl", "ARCRegionSwitchPlan", "Parallel", "ECSServiceScaling", "EKSResourceScaling", "Route53HealthCheck", "DocumentDb", "RdsPromoteReadReplica", "RdsCreateCrossRegionReplica", "LambdaEventSourceMapping", "AuroraServerlessScaling", "AuroraProvisionedScaling", "NeptuneGlobalDatabase"
     #   resp.plan.workflows[0].workflow_target_action #=> String, one of "activate", "deactivate", "postRecovery"
     #   resp.plan.workflows[0].workflow_target_region #=> String
     #   resp.plan.workflows[0].workflow_description #=> String
@@ -1417,7 +1498,30 @@ module Aws::ARCRegionswitch
     #   resp.plan.workflows[0].steps[0].execution_block_configuration.lambda_event_source_mapping_config.region_event_source_mappings["Region"].external_id #=> String
     #   resp.plan.workflows[0].steps[0].execution_block_configuration.lambda_event_source_mapping_config.region_event_source_mappings["Region"].arn #=> String
     #   resp.plan.workflows[0].steps[0].execution_block_configuration.lambda_event_source_mapping_config.ungraceful.behavior #=> String, one of "skip"
-    #   resp.plan.workflows[0].steps[0].execution_block_type #=> String, one of "CustomActionLambda", "ManualApproval", "AuroraGlobalDatabase", "EC2AutoScaling", "ARCRoutingControl", "ARCRegionSwitchPlan", "Parallel", "ECSServiceScaling", "EKSResourceScaling", "Route53HealthCheck", "DocumentDb", "RdsPromoteReadReplica", "RdsCreateCrossRegionReplica", "LambdaEventSourceMapping"
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.timeout_minutes #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.cross_account_role #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.external_id #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.global_cluster_identifier #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.region_database_cluster_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.region_database_cluster_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.target_percent #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.timeout_minutes #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.cross_account_role #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.external_id #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.global_cluster_identifier #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.region_database_cluster_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.region_database_cluster_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.instance_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.instance_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.timeout_minutes #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.cross_account_role #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.external_id #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.behavior #=> String, one of "switchoverOnly", "failover"
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.ungraceful.ungraceful #=> String, one of "failover"
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.global_cluster_identifier #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.region_database_cluster_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.region_database_cluster_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_type #=> String, one of "CustomActionLambda", "ManualApproval", "AuroraGlobalDatabase", "EC2AutoScaling", "ARCRoutingControl", "ARCRegionSwitchPlan", "Parallel", "ECSServiceScaling", "EKSResourceScaling", "Route53HealthCheck", "DocumentDb", "RdsPromoteReadReplica", "RdsCreateCrossRegionReplica", "LambdaEventSourceMapping", "AuroraServerlessScaling", "AuroraProvisionedScaling", "NeptuneGlobalDatabase"
     #   resp.plan.workflows[0].workflow_target_action #=> String, one of "activate", "deactivate", "postRecovery"
     #   resp.plan.workflows[0].workflow_target_region #=> String
     #   resp.plan.workflows[0].workflow_description #=> String
@@ -1589,7 +1693,30 @@ module Aws::ARCRegionswitch
     #   resp.plan.workflows[0].steps[0].execution_block_configuration.lambda_event_source_mapping_config.region_event_source_mappings["Region"].external_id #=> String
     #   resp.plan.workflows[0].steps[0].execution_block_configuration.lambda_event_source_mapping_config.region_event_source_mappings["Region"].arn #=> String
     #   resp.plan.workflows[0].steps[0].execution_block_configuration.lambda_event_source_mapping_config.ungraceful.behavior #=> String, one of "skip"
-    #   resp.plan.workflows[0].steps[0].execution_block_type #=> String, one of "CustomActionLambda", "ManualApproval", "AuroraGlobalDatabase", "EC2AutoScaling", "ARCRoutingControl", "ARCRegionSwitchPlan", "Parallel", "ECSServiceScaling", "EKSResourceScaling", "Route53HealthCheck", "DocumentDb", "RdsPromoteReadReplica", "RdsCreateCrossRegionReplica", "LambdaEventSourceMapping"
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.timeout_minutes #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.cross_account_role #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.external_id #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.global_cluster_identifier #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.region_database_cluster_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.region_database_cluster_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.target_percent #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.timeout_minutes #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.cross_account_role #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.external_id #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.global_cluster_identifier #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.region_database_cluster_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.region_database_cluster_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.instance_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.instance_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.timeout_minutes #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.cross_account_role #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.external_id #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.behavior #=> String, one of "switchoverOnly", "failover"
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.ungraceful.ungraceful #=> String, one of "failover"
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.global_cluster_identifier #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.region_database_cluster_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.region_database_cluster_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_type #=> String, one of "CustomActionLambda", "ManualApproval", "AuroraGlobalDatabase", "EC2AutoScaling", "ARCRoutingControl", "ARCRegionSwitchPlan", "Parallel", "ECSServiceScaling", "EKSResourceScaling", "Route53HealthCheck", "DocumentDb", "RdsPromoteReadReplica", "RdsCreateCrossRegionReplica", "LambdaEventSourceMapping", "AuroraServerlessScaling", "AuroraProvisionedScaling", "NeptuneGlobalDatabase"
     #   resp.plan.workflows[0].workflow_target_action #=> String, one of "activate", "deactivate", "postRecovery"
     #   resp.plan.workflows[0].workflow_target_region #=> String
     #   resp.plan.workflows[0].workflow_description #=> String
@@ -1674,7 +1801,7 @@ module Aws::ARCRegionswitch
     #   resp.items[0].timestamp #=> Time
     #   resp.items[0].type #=> String, one of "unknown", "executionPending", "executionStarted", "executionSucceeded", "executionFailed", "executionPausing", "executionPaused", "executionCanceling", "executionCanceled", "executionPendingApproval", "executionBehaviorChangedToUngraceful", "executionBehaviorChangedToGraceful", "executionPendingChildPlanManualApproval", "executionSuccessMonitoringApplicationHealth", "stepStarted", "stepUpdate", "stepSucceeded", "stepFailed", "stepSkipped", "stepPausedByError", "stepPausedByOperator", "stepCanceled", "stepPendingApproval", "stepExecutionBehaviorChangedToUngraceful", "stepPendingApplicationHealthMonitor", "planEvaluationWarning"
     #   resp.items[0].step_name #=> String
-    #   resp.items[0].execution_block_type #=> String, one of "CustomActionLambda", "ManualApproval", "AuroraGlobalDatabase", "EC2AutoScaling", "ARCRoutingControl", "ARCRegionSwitchPlan", "Parallel", "ECSServiceScaling", "EKSResourceScaling", "Route53HealthCheck", "DocumentDb", "RdsPromoteReadReplica", "RdsCreateCrossRegionReplica", "LambdaEventSourceMapping"
+    #   resp.items[0].execution_block_type #=> String, one of "CustomActionLambda", "ManualApproval", "AuroraGlobalDatabase", "EC2AutoScaling", "ARCRoutingControl", "ARCRegionSwitchPlan", "Parallel", "ECSServiceScaling", "EKSResourceScaling", "Route53HealthCheck", "DocumentDb", "RdsPromoteReadReplica", "RdsCreateCrossRegionReplica", "LambdaEventSourceMapping", "AuroraServerlessScaling", "AuroraProvisionedScaling", "NeptuneGlobalDatabase"
     #   resp.items[0].resources #=> Array
     #   resp.items[0].resources[0] #=> String
     #   resp.items[0].error #=> String
@@ -1875,7 +2002,7 @@ module Aws::ARCRegionswitch
     #   The record name for the health checks.
     #
     # @option params [Integer] :max_results
-    #   The number of objects that you want to return with this call.
+    #   The maximum number of results to return in the response.
     #
     # @option params [String] :next_token
     #   Specifies that you want to receive the next page of results. Valid
@@ -1933,7 +2060,7 @@ module Aws::ARCRegionswitch
     #   The record name for the health checks.
     #
     # @option params [Integer] :max_results
-    #   The number of objects that you want to return with this call.
+    #   The maximum number of results to return in the response.
     #
     # @option params [String] :next_token
     #   Specifies that you want to receive the next page of results. Valid
@@ -2384,8 +2511,43 @@ module Aws::ARCRegionswitch
     #                   behavior: "skip", # accepts skip
     #                 },
     #               },
+    #               aurora_serverless_scaling_config: {
+    #                 timeout_minutes: 1,
+    #                 cross_account_role: "IamRoleArn",
+    #                 external_id: "String",
+    #                 global_cluster_identifier: "GlobalClusterIdentifier", # required
+    #                 region_database_cluster_arns: { # required
+    #                   "Region" => "AuroraClusterArn",
+    #                 },
+    #                 target_percent: 1,
+    #               },
+    #               aurora_provisioned_scaling_config: {
+    #                 timeout_minutes: 1,
+    #                 cross_account_role: "IamRoleArn",
+    #                 external_id: "String",
+    #                 global_cluster_identifier: "GlobalClusterIdentifier", # required
+    #                 region_database_cluster_arns: { # required
+    #                   "Region" => "AuroraClusterArn",
+    #                 },
+    #                 instance_arns: { # required
+    #                   "Region" => "AuroraInstanceArn",
+    #                 },
+    #               },
+    #               neptune_global_database_config: {
+    #                 timeout_minutes: 1,
+    #                 cross_account_role: "IamRoleArn",
+    #                 external_id: "String",
+    #                 behavior: "switchoverOnly", # required, accepts switchoverOnly, failover
+    #                 ungraceful: {
+    #                   ungraceful: "failover", # accepts failover
+    #                 },
+    #                 global_cluster_identifier: "NeptuneGlobalClusterIdentifier", # required
+    #                 region_database_cluster_arns: { # required
+    #                   "Region" => "NeptuneClusterArn",
+    #                 },
+    #               },
     #             },
-    #             execution_block_type: "CustomActionLambda", # required, accepts CustomActionLambda, ManualApproval, AuroraGlobalDatabase, EC2AutoScaling, ARCRoutingControl, ARCRegionSwitchPlan, Parallel, ECSServiceScaling, EKSResourceScaling, Route53HealthCheck, DocumentDb, RdsPromoteReadReplica, RdsCreateCrossRegionReplica, LambdaEventSourceMapping
+    #             execution_block_type: "CustomActionLambda", # required, accepts CustomActionLambda, ManualApproval, AuroraGlobalDatabase, EC2AutoScaling, ARCRoutingControl, ARCRegionSwitchPlan, Parallel, ECSServiceScaling, EKSResourceScaling, Route53HealthCheck, DocumentDb, RdsPromoteReadReplica, RdsCreateCrossRegionReplica, LambdaEventSourceMapping, AuroraServerlessScaling, AuroraProvisionedScaling, NeptuneGlobalDatabase
     #           },
     #         ],
     #         workflow_target_action: "activate", # required, accepts activate, deactivate, postRecovery
@@ -2532,7 +2694,30 @@ module Aws::ARCRegionswitch
     #   resp.plan.workflows[0].steps[0].execution_block_configuration.lambda_event_source_mapping_config.region_event_source_mappings["Region"].external_id #=> String
     #   resp.plan.workflows[0].steps[0].execution_block_configuration.lambda_event_source_mapping_config.region_event_source_mappings["Region"].arn #=> String
     #   resp.plan.workflows[0].steps[0].execution_block_configuration.lambda_event_source_mapping_config.ungraceful.behavior #=> String, one of "skip"
-    #   resp.plan.workflows[0].steps[0].execution_block_type #=> String, one of "CustomActionLambda", "ManualApproval", "AuroraGlobalDatabase", "EC2AutoScaling", "ARCRoutingControl", "ARCRegionSwitchPlan", "Parallel", "ECSServiceScaling", "EKSResourceScaling", "Route53HealthCheck", "DocumentDb", "RdsPromoteReadReplica", "RdsCreateCrossRegionReplica", "LambdaEventSourceMapping"
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.timeout_minutes #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.cross_account_role #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.external_id #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.global_cluster_identifier #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.region_database_cluster_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.region_database_cluster_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_serverless_scaling_config.target_percent #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.timeout_minutes #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.cross_account_role #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.external_id #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.global_cluster_identifier #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.region_database_cluster_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.region_database_cluster_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.instance_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.aurora_provisioned_scaling_config.instance_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.timeout_minutes #=> Integer
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.cross_account_role #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.external_id #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.behavior #=> String, one of "switchoverOnly", "failover"
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.ungraceful.ungraceful #=> String, one of "failover"
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.global_cluster_identifier #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.region_database_cluster_arns #=> Hash
+    #   resp.plan.workflows[0].steps[0].execution_block_configuration.neptune_global_database_config.region_database_cluster_arns["Region"] #=> String
+    #   resp.plan.workflows[0].steps[0].execution_block_type #=> String, one of "CustomActionLambda", "ManualApproval", "AuroraGlobalDatabase", "EC2AutoScaling", "ARCRoutingControl", "ARCRegionSwitchPlan", "Parallel", "ECSServiceScaling", "EKSResourceScaling", "Route53HealthCheck", "DocumentDb", "RdsPromoteReadReplica", "RdsCreateCrossRegionReplica", "LambdaEventSourceMapping", "AuroraServerlessScaling", "AuroraProvisionedScaling", "NeptuneGlobalDatabase"
     #   resp.plan.workflows[0].workflow_target_action #=> String, one of "activate", "deactivate", "postRecovery"
     #   resp.plan.workflows[0].workflow_target_region #=> String
     #   resp.plan.workflows[0].workflow_description #=> String
@@ -2670,7 +2855,7 @@ module Aws::ARCRegionswitch
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-arcregionswitch'
-      context[:gem_version] = '1.18.0'
+      context[:gem_version] = '1.19.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

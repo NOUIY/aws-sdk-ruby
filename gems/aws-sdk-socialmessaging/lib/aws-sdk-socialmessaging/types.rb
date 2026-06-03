@@ -77,6 +77,66 @@ module Aws::SocialMessaging
       include Aws::Structure
     end
 
+    # @!attribute [rw] id
+    #   The ID of the WhatsApp Business Account to associate with this Flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_name
+    #   The name of the Flow. Must be unique within the WhatsApp Business
+    #   Account.
+    #   @return [String]
+    #
+    # @!attribute [rw] categories
+    #   The categories that classify the business purpose of the Flow. At
+    #   least one category is required.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] flow_json
+    #   The Flow JSON definition that describes the screens, components, and
+    #   logic of the Flow. Maximum size is 10 MB.
+    #   @return [String]
+    #
+    # @!attribute [rw] publish
+    #   Set to `true` to publish the Flow immediately after creation.
+    #   Requires a valid `flowJson` that passes Meta's validation.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] clone_flow_id
+    #   The ID of an existing Flow within the same WhatsApp Business Account
+    #   to clone.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/CreateWhatsAppFlowInput AWS API Documentation
+    #
+    class CreateWhatsAppFlowInput < Struct.new(
+      :id,
+      :flow_name,
+      :categories,
+      :flow_json,
+      :publish,
+      :clone_flow_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flow_id
+    #   The unique identifier assigned to the Flow by Meta.
+    #   @return [String]
+    #
+    # @!attribute [rw] validation_errors
+    #   A list of validation errors returned by Meta, if any. Validation
+    #   errors must be resolved before the Flow can be published.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/CreateWhatsAppFlowOutput AWS API Documentation
+    #
+    class CreateWhatsAppFlowOutput < Struct.new(
+      :flow_id,
+      :validation_errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] meta_library_template
     #   The template configuration from Meta's library, including
     #   customizations for buttons and body text.
@@ -190,6 +250,27 @@ module Aws::SocialMessaging
       include Aws::Structure
     end
 
+    # @!attribute [rw] id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the Flow to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/DeleteWhatsAppFlowInput AWS API Documentation
+    #
+    class DeleteWhatsAppFlowInput < Struct.new(
+      :id,
+      :flow_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/DeleteWhatsAppFlowOutput AWS API Documentation
+    #
+    class DeleteWhatsAppFlowOutput < Aws::EmptyStructure; end
+
     # @!attribute [rw] media_id
     #   The unique identifier of the media file to delete. Use the `mediaId`
     #   returned from [PostWhatsAppMessageMedia][1].
@@ -275,6 +356,27 @@ module Aws::SocialMessaging
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the Flow to deprecate.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/DeprecateWhatsAppFlowInput AWS API Documentation
+    #
+    class DeprecateWhatsAppFlowInput < Struct.new(
+      :id,
+      :flow_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/DeprecateWhatsAppFlowOutput AWS API Documentation
+    #
+    class DeprecateWhatsAppFlowOutput < Aws::EmptyStructure; end
 
     # @!attribute [rw] id
     #   The unique identifier of your WhatsApp Business Account. WABA
@@ -365,6 +467,134 @@ module Aws::SocialMessaging
     class GetLinkedWhatsAppBusinessAccountPhoneNumberOutput < Struct.new(
       :phone_number,
       :linked_whats_app_business_account_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the Flow to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/GetWhatsAppFlowInput AWS API Documentation
+    #
+    class GetWhatsAppFlowInput < Struct.new(
+      :id,
+      :flow_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the Flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_name
+    #   The name of the Flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_status
+    #   The lifecycle status of the Flow. Valid values are DRAFT, PUBLISHED,
+    #   DEPRECATED, BLOCKED, and THROTTLED.
+    #   @return [String]
+    #
+    # @!attribute [rw] categories
+    #   The categories that classify the business purpose of the Flow.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] validation_errors
+    #   A list of validation errors from Meta, if any.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] json_version
+    #   The version of the Flow JSON schema used by this Flow (for example,
+    #   7.3).
+    #   @return [String]
+    #
+    # @!attribute [rw] data_api_version
+    #   The data API version for data exchange endpoint Flows.
+    #   @return [String]
+    #
+    # @!attribute [rw] endpoint_uri
+    #   The endpoint URI for data exchange Flows, if configured.
+    #   @return [String]
+    #
+    # @!attribute [rw] preview
+    #   The preview URL and its expiration timestamp for testing the Flow.
+    #   @return [Types::MetaFlowPreviewInfo]
+    #
+    # @!attribute [rw] whats_app_business_account
+    #   The WhatsApp Business Account information from Meta associated with
+    #   this Flow.
+    #   @return [Types::MetaFlowWhatsAppBusinessAccountInfo]
+    #
+    # @!attribute [rw] application
+    #   The Meta application information associated with this Flow.
+    #   @return [Types::MetaFlowApplicationInfo]
+    #
+    # @!attribute [rw] health_status
+    #   The health status information for this Flow from Meta.
+    #   @return [Types::MetaFlowHealthStatus]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/GetWhatsAppFlowOutput AWS API Documentation
+    #
+    class GetWhatsAppFlowOutput < Struct.new(
+      :flow_id,
+      :flow_name,
+      :flow_status,
+      :categories,
+      :validation_errors,
+      :json_version,
+      :data_api_version,
+      :endpoint_uri,
+      :preview,
+      :whats_app_business_account,
+      :application,
+      :health_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the Flow to preview.
+    #   @return [String]
+    #
+    # @!attribute [rw] invalidate
+    #   Set to `true` to force generation of a new preview URL. Use this if
+    #   the previous URL has been compromised or you want a fresh expiration
+    #   period.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/GetWhatsAppFlowPreviewInput AWS API Documentation
+    #
+    class GetWhatsAppFlowPreviewInput < Struct.new(
+      :id,
+      :flow_id,
+      :invalidate)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the Flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] preview
+    #   The preview URL and its expiration timestamp.
+    #   @return [Types::MetaFlowPreviewInfo]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/GetWhatsAppFlowPreviewOutput AWS API Documentation
+    #
+    class GetWhatsAppFlowPreviewOutput < Struct.new(
+      :flow_id,
+      :preview)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -836,6 +1066,89 @@ module Aws::SocialMessaging
     end
 
     # @!attribute [rw] id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the Flow whose assets to list.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/ListWhatsAppFlowAssetsInput AWS API Documentation
+    #
+    class ListWhatsAppFlowAssetsInput < Struct.new(
+      :id,
+      :flow_id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flow_assets
+    #   A list of Flow assets with download URLs.
+    #   @return [Array<Types::MetaFlowAsset>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to retrieve the next page of results, if any.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/ListWhatsAppFlowAssetsOutput AWS API Documentation
+    #
+    class ListWhatsAppFlowAssetsOutput < Struct.new(
+      :flow_assets,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The ID of the WhatsApp Business Account to list Flows for.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/ListWhatsAppFlowsInput AWS API Documentation
+    #
+    class ListWhatsAppFlowsInput < Struct.new(
+      :id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flows
+    #   A list of Flow summaries.
+    #   @return [Array<Types::MetaFlowSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to retrieve the next page of results, if any.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/ListWhatsAppFlowsOutput AWS API Documentation
+    #
+    class ListWhatsAppFlowsOutput < Struct.new(
+      :flows,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
     #   The ID of the WhatsApp Business Account to list templates for.
     #   @return [String]
     #
@@ -916,6 +1229,198 @@ module Aws::SocialMessaging
     class ListWhatsAppTemplateLibraryOutput < Struct.new(
       :meta_library_templates,
       :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the Meta application metadata associated with a WhatsApp
+    # Flow.
+    #
+    # @!attribute [rw] link
+    #   The URL link for the Meta application.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the Meta application.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The unique identifier of the Meta application.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/MetaFlowApplicationInfo AWS API Documentation
+    #
+    class MetaFlowApplicationInfo < Struct.new(
+      :link,
+      :name,
+      :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents a single asset file associated with a WhatsApp Flow,
+    # including a presigned download URL.
+    #
+    # @!attribute [rw] name
+    #   The filename of the asset (for example, flow.json).
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_type
+    #   The type of asset. Currently the only supported value is FLOW\_JSON.
+    #   @return [String]
+    #
+    # @!attribute [rw] download_url
+    #   A presigned URL from Meta for downloading the asset. The URL expires
+    #   after a short period.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/MetaFlowAsset AWS API Documentation
+    #
+    class MetaFlowAsset < Struct.new(
+      :name,
+      :asset_type,
+      :download_url)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents a single entity in the health status check for a WhatsApp
+    # Flow.
+    #
+    # @!attribute [rw] entity_type
+    #   The type of entity (for example, FLOW, WABA, BUSINESS, or APP).
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The unique identifier of the entity.
+    #   @return [String]
+    #
+    # @!attribute [rw] can_send_message
+    #   The messaging availability status for this entity (for example,
+    #   AVAILABLE, LIMITED, or BLOCKED).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/MetaFlowHealthEntity AWS API Documentation
+    #
+    class MetaFlowHealthEntity < Struct.new(
+      :entity_type,
+      :id,
+      :can_send_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the overall health status and per-entity breakdown for a
+    # WhatsApp Flow.
+    #
+    # @!attribute [rw] can_send_message
+    #   The overall messaging availability status (for example, AVAILABLE,
+    #   LIMITED, or BLOCKED).
+    #   @return [String]
+    #
+    # @!attribute [rw] entities
+    #   A list of health status entities with per-entity availability
+    #   information.
+    #   @return [Array<Types::MetaFlowHealthEntity>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/MetaFlowHealthStatus AWS API Documentation
+    #
+    class MetaFlowHealthStatus < Struct.new(
+      :can_send_message,
+      :entities)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the preview URL for testing a WhatsApp Flow and its
+    # expiration timestamp.
+    #
+    # @!attribute [rw] preview_url
+    #   The web URL for previewing the Flow. Can be shared with stakeholders
+    #   for review.
+    #   @return [String]
+    #
+    # @!attribute [rw] expires_at
+    #   The timestamp when the preview URL expires.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/MetaFlowPreviewInfo AWS API Documentation
+    #
+    class MetaFlowPreviewInfo < Struct.new(
+      :preview_url,
+      :expires_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains summary information about a WhatsApp Flow, including its ID,
+    # name, status, and categories.
+    #
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the Flow assigned by Meta.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_name
+    #   The name of the Flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_status
+    #   The lifecycle status of the Flow (DRAFT, PUBLISHED, DEPRECATED,
+    #   BLOCKED, or THROTTLED).
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_categories
+    #   The categories that classify the business purpose of the Flow.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] validation_errors
+    #   A list of validation errors from Meta, if any.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/MetaFlowSummary AWS API Documentation
+    #
+    class MetaFlowSummary < Struct.new(
+      :flow_id,
+      :flow_name,
+      :flow_status,
+      :flow_categories,
+      :validation_errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains WhatsApp Business Account metadata associated with a Flow, as
+    # returned by Meta.
+    #
+    # @!attribute [rw] id
+    #   The WhatsApp Business Account ID from Meta.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the WhatsApp Business Account.
+    #   @return [String]
+    #
+    # @!attribute [rw] currency
+    #   The currency code for the WhatsApp Business Account (for example,
+    #   USD).
+    #   @return [String]
+    #
+    # @!attribute [rw] timezone_id
+    #   The timezone ID for the WhatsApp Business Account.
+    #   @return [String]
+    #
+    # @!attribute [rw] message_template_namespace
+    #   The message template namespace for the WhatsApp Business Account.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/MetaFlowWhatsAppBusinessAccountInfo AWS API Documentation
+    #
+    class MetaFlowWhatsAppBusinessAccountInfo < Struct.new(
+      :id,
+      :name,
+      :currency,
+      :timezone_id,
+      :message_template_namespace)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1065,6 +1570,27 @@ module Aws::SocialMessaging
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the Flow to publish.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/PublishWhatsAppFlowInput AWS API Documentation
+    #
+    class PublishWhatsAppFlowInput < Struct.new(
+      :id,
+      :flow_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/PublishWhatsAppFlowOutput AWS API Documentation
+    #
+    class PublishWhatsAppFlowOutput < Aws::EmptyStructure; end
 
     # @!attribute [rw] id
     #   The unique identifier of your WhatsApp Business Account. WABA
@@ -1354,6 +1880,72 @@ module Aws::SocialMessaging
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the Flow whose assets to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_json
+    #   The updated Flow JSON definition. Maximum size is 10 MB.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/UpdateWhatsAppFlowAssetsInput AWS API Documentation
+    #
+    class UpdateWhatsAppFlowAssetsInput < Struct.new(
+      :id,
+      :flow_id,
+      :flow_json)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] validation_errors
+    #   A list of validation errors returned by Meta, if any. Validation
+    #   errors must be resolved before the Flow can be published.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/UpdateWhatsAppFlowAssetsOutput AWS API Documentation
+    #
+    class UpdateWhatsAppFlowAssetsOutput < Struct.new(
+      :validation_errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The ID of the WhatsApp Business Account associated with this Flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_id
+    #   The unique identifier of the Flow to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_name
+    #   The updated name for the Flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] categories
+    #   The updated categories for the Flow.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/UpdateWhatsAppFlowInput AWS API Documentation
+    #
+    class UpdateWhatsAppFlowInput < Struct.new(
+      :id,
+      :flow_id,
+      :flow_name,
+      :categories)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/socialmessaging-2024-01-01/UpdateWhatsAppFlowOutput AWS API Documentation
+    #
+    class UpdateWhatsAppFlowOutput < Aws::EmptyStructure; end
 
     # @!attribute [rw] id
     #   The ID of the WhatsApp Business Account associated with this

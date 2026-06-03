@@ -649,10 +649,16 @@ module Aws::ComputeOptimizer
     #   calculating savings opportunity for Amazon EBS volumes.
     #   @return [Types::EBSSavingsEstimationMode]
     #
+    # @!attribute [rw] look_back_period
+    #   The number of days for which utilization metrics were analyzed for
+    #   the volume.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/compute-optimizer-2019-11-01/EBSEffectiveRecommendationPreferences AWS API Documentation
     #
     class EBSEffectiveRecommendationPreferences < Struct.new(
-      :savings_estimation_mode)
+      :savings_estimation_mode,
+      :look_back_period)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -844,10 +850,16 @@ module Aws::ComputeOptimizer
     #   calculating savings opportunity for Amazon ECS services.
     #   @return [Types::ECSSavingsEstimationMode]
     #
+    # @!attribute [rw] look_back_period
+    #   The number of days the Amazon ECS service utilization metrics were
+    #   analyzed.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/compute-optimizer-2019-11-01/ECSEffectiveRecommendationPreferences AWS API Documentation
     #
     class ECSEffectiveRecommendationPreferences < Struct.new(
-      :savings_estimation_mode)
+      :savings_estimation_mode,
+      :look_back_period)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3169,8 +3181,9 @@ module Aws::ComputeOptimizer
     #   To validate that the preference is applied to your last generated
     #   set of recommendations, review the
     #   `effectiveRecommendationPreferences` value in the response of the
-    #   GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations
-    #   actions.
+    #   GetAutoScalingGroupRecommendations, GetEC2InstanceRecommendations,
+    #   GetEBSVolumeRecommendations, GetECSServiceRecommendations, or
+    #   GetRDSDatabaseRecommendations actions.
     #   @return [String]
     #
     # @!attribute [rw] utilization_preferences
@@ -5828,14 +5841,34 @@ module Aws::ComputeOptimizer
     #   of the Amazon Web Services resource are analyzed. When this
     #   preference isn't specified, we use the default value `DAYS_14`.
     #
-    #   You can only set this preference for the Amazon EC2 instance and
-    #   Auto Scaling group resource types.
+    #   You can only set this preference for the Amazon EC2 instance, Auto
+    #   Scaling group, Amazon EBS volume, Amazon ECS service on Fargate,
+    #   Amazon RDS DB instance, and Aurora DB cluster storage resource
+    #   types.
     #
-    #   <note markdown="1"> * Amazon EC2 instance lookback preferences can be set at the
-    #     organization, account, and resource levels.
+    #   <note markdown="1"> * Lookback period preferences for Amazon EC2 instances, Amazon EBS
+    #     volumes, Amazon ECS services, Amazon RDS DB instances, and Aurora
+    #     DB cluster storage resource types can be set at the organization,
+    #     account, and resource levels.
     #
     #   * Auto Scaling group lookback preferences can only be set at the
     #     resource level.
+    #
+    #   * Amazon EBS volume lookback preferences can be set at the
+    #     organization, account, and resource levels.
+    #
+    #   * Amazon ECS service on Fargate lookback preferences can be set at
+    #     the organization, account, and resource levels.
+    #
+    #   * Amazon RDS DB instance lookback preferences can be set at the
+    #     organization, account, and resource levels.
+    #
+    #   * Aurora DB cluster storage lookback preferences can be set at the
+    #     organization, account, and resource levels.
+    #
+    #   * Changing the lookback period for Amazon EBS volumes to 14 days
+    #     does not affect the 32-day lookback period used to determine
+    #     whether an Amazon EBS volume is unattached.
     #
     #    </note>
     #   @return [String]
@@ -5872,8 +5905,9 @@ module Aws::ComputeOptimizer
     #   specify either an `includeList` or `excludeList`. If the preference
     #   is an empty set of resource type values, an error occurs.
     #
-    #   <note markdown="1"> You can only set this preference for the Amazon EC2 instance and
-    #   Auto Scaling group resource types.
+    #   <note markdown="1"> You can only set this preference for the Amazon EC2 instance, Auto
+    #   Scaling group, Amazon EBS volume, Amazon ECS service, Amazon RDS DB
+    #   instance, and Aurora DB cluster storage resource types.
     #
     #    </note>
     #   @return [Array<Types::PreferredResource>]
