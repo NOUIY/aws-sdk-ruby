@@ -71,6 +71,7 @@ module Aws::Glue
   # * {SchedulerNotRunningException}
   # * {SchedulerRunningException}
   # * {SchedulerTransitioningException}
+  # * {SessionBusyException}
   # * {TargetResourceNotFound}
   # * {ThrottlingException}
   # * {ValidationException}
@@ -752,6 +753,21 @@ module Aws::Glue
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::Glue::Types::SchedulerTransitioningException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class SessionBusyException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Glue::Types::SessionBusyException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

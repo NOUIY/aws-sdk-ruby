@@ -658,7 +658,7 @@ module Aws::ConnectParticipant
     #   @return [String]
     #
     # @!attribute [rw] resource_type
-    #   The type of Amazon Connect resource.
+    #   The type of Connect Customer resource.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectparticipant-2018-09-07/ResourceNotFoundException AWS API Documentation

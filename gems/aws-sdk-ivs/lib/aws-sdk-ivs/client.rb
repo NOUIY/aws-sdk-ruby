@@ -653,7 +653,14 @@ module Aws::IVS
     #   Ad configuration name. Defaults to “”.
     #
     # @option params [required, Array<Types::MediaTailorPlaybackConfiguration>] :media_tailor_playback_configurations
-    #   List of integration configurations with media tailor resources.
+    #   List of integration configurations with MediaTailor resources. The
+    #   first item in the list is the default playback configuration used for
+    #   the ad configuration. To select a different configuration per viewing
+    #   session, see [Generate and Sign IVS Playback Tokens][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/private-channels-generate-tokens.html
     #
     # @option params [Hash<String,String>] :tags
     #   Array of 1-50 maps, each of the form `string:string (key:value)`. See
@@ -720,7 +727,7 @@ module Aws::IVS
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html
+    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/channel-types.html
     #
     # @option params [Boolean] :authorized
     #   Whether the channel is private (enabled for playback authorization).
@@ -1680,7 +1687,7 @@ module Aws::IVS
     #   ARN of the channel into which the ad break is inserted.
     #
     # @option params [required, Integer] :duration_seconds
-    #   Maximum duration of the ad break, in seconds.
+    #   Duration of the ad break, in seconds.
     #
     # @return [Types::InsertAdBreakResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2314,6 +2321,58 @@ module Aws::IVS
       req.send_request(options)
     end
 
+    # Updates a specified ad configuration.
+    #
+    # @option params [required, String] :arn
+    #   ARN of the ad configuration to be updated.
+    #
+    # @option params [String] :name
+    #   Ad configuration name. The value does not need to be unique.
+    #
+    # @option params [Array<Types::MediaTailorPlaybackConfiguration>] :media_tailor_playback_configurations
+    #   List of integration configurations with MediaTailor resources. The
+    #   first item in the list is the default playback configuration used for
+    #   the ad configuration. To select a different configuration per viewing
+    #   session, see [Generate and Sign IVS Playback Tokens][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/private-channels-generate-tokens.html
+    #
+    # @return [Types::UpdateAdConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateAdConfigurationResponse#ad_configuration #ad_configuration} => Types::AdConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_ad_configuration({
+    #     arn: "AdConfigurationArn", # required
+    #     name: "AdConfigurationName",
+    #     media_tailor_playback_configurations: [
+    #       {
+    #         playback_configuration_arn: "MediaTailorPlaybackConfigurationArn",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.ad_configuration.arn #=> String
+    #   resp.ad_configuration.name #=> String
+    #   resp.ad_configuration.media_tailor_playback_configurations #=> Array
+    #   resp.ad_configuration.media_tailor_playback_configurations[0].playback_configuration_arn #=> String
+    #   resp.ad_configuration.tags #=> Hash
+    #   resp.ad_configuration.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/UpdateAdConfiguration AWS API Documentation
+    #
+    # @overload update_ad_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_ad_configuration(params = {}, options = {})
+      req = build_request(:update_ad_configuration, params)
+      req.send_request(options)
+    end
+
     # Updates a channel's configuration. Live channels cannot be updated.
     # You must stop the ongoing stream, update the channel, and restart the
     # stream for the changes to take effect.
@@ -2336,7 +2395,7 @@ module Aws::IVS
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html
+    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/channel-types.html
     #
     # @option params [Boolean] :authorized
     #   Whether the channel is private (enabled for playback authorization).
@@ -2518,7 +2577,7 @@ module Aws::IVS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ivs'
-      context[:gem_version] = '1.89.0'
+      context[:gem_version] = '1.90.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

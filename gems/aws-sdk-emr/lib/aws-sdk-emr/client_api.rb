@@ -48,6 +48,8 @@ module Aws::EMR
     CancelStepsInput = Shapes::StructureShape.new(name: 'CancelStepsInput')
     CancelStepsOutput = Shapes::StructureShape.new(name: 'CancelStepsOutput')
     CancelStepsRequestStatus = Shapes::StringShape.new(name: 'CancelStepsRequestStatus')
+    CertificateAuthority = Shapes::StructureShape.new(name: 'CertificateAuthority')
+    ClientRequestToken = Shapes::StringShape.new(name: 'ClientRequestToken')
     CloudWatchAlarmDefinition = Shapes::StructureShape.new(name: 'CloudWatchAlarmDefinition')
     CloudWatchLogConfiguration = Shapes::StructureShape.new(name: 'CloudWatchLogConfiguration')
     Cluster = Shapes::StructureShape.new(name: 'Cluster')
@@ -129,6 +131,10 @@ module Aws::EMR
     GetOnClusterAppUIPresignedURLOutput = Shapes::StructureShape.new(name: 'GetOnClusterAppUIPresignedURLOutput')
     GetPersistentAppUIPresignedURLInput = Shapes::StructureShape.new(name: 'GetPersistentAppUIPresignedURLInput')
     GetPersistentAppUIPresignedURLOutput = Shapes::StructureShape.new(name: 'GetPersistentAppUIPresignedURLOutput')
+    GetSessionEndpointInput = Shapes::StructureShape.new(name: 'GetSessionEndpointInput')
+    GetSessionEndpointOutput = Shapes::StructureShape.new(name: 'GetSessionEndpointOutput')
+    GetSessionInput = Shapes::StructureShape.new(name: 'GetSessionInput')
+    GetSessionOutput = Shapes::StructureShape.new(name: 'GetSessionOutput')
     GetStudioSessionMappingInput = Shapes::StructureShape.new(name: 'GetStudioSessionMappingInput')
     GetStudioSessionMappingOutput = Shapes::StructureShape.new(name: 'GetStudioSessionMappingOutput')
     HadoopJarStepConfig = Shapes::StructureShape.new(name: 'HadoopJarStepConfig')
@@ -214,6 +220,8 @@ module Aws::EMR
     ListReleaseLabelsOutput = Shapes::StructureShape.new(name: 'ListReleaseLabelsOutput')
     ListSecurityConfigurationsInput = Shapes::StructureShape.new(name: 'ListSecurityConfigurationsInput')
     ListSecurityConfigurationsOutput = Shapes::StructureShape.new(name: 'ListSecurityConfigurationsOutput')
+    ListSessionsInput = Shapes::StructureShape.new(name: 'ListSessionsInput')
+    ListSessionsOutput = Shapes::StructureShape.new(name: 'ListSessionsOutput')
     ListStepsInput = Shapes::StructureShape.new(name: 'ListStepsInput')
     ListStepsOutput = Shapes::StructureShape.new(name: 'ListStepsOutput')
     ListStudioSessionMappingsInput = Shapes::StructureShape.new(name: 'ListStudioSessionMappingsInput')
@@ -305,9 +313,19 @@ module Aws::EMR
     SecurityConfigurationList = Shapes::ListShape.new(name: 'SecurityConfigurationList')
     SecurityConfigurationSummary = Shapes::StructureShape.new(name: 'SecurityConfigurationSummary')
     SecurityGroupsList = Shapes::ListShape.new(name: 'SecurityGroupsList')
+    SensitiveString = Shapes::StringShape.new(name: 'SensitiveString')
+    Session = Shapes::StructureShape.new(name: 'Session')
+    SessionCloudWatchLoggingConfiguration = Shapes::StructureShape.new(name: 'SessionCloudWatchLoggingConfiguration')
+    SessionId = Shapes::StringShape.new(name: 'SessionId')
+    SessionList = Shapes::ListShape.new(name: 'SessionList')
+    SessionManagedLoggingConfiguration = Shapes::StructureShape.new(name: 'SessionManagedLoggingConfiguration')
     SessionMappingDetail = Shapes::StructureShape.new(name: 'SessionMappingDetail')
     SessionMappingSummary = Shapes::StructureShape.new(name: 'SessionMappingSummary')
     SessionMappingSummaryList = Shapes::ListShape.new(name: 'SessionMappingSummaryList')
+    SessionMonitoringConfiguration = Shapes::StructureShape.new(name: 'SessionMonitoringConfiguration')
+    SessionS3LoggingConfiguration = Shapes::StructureShape.new(name: 'SessionS3LoggingConfiguration')
+    SessionState = Shapes::StringShape.new(name: 'SessionState')
+    SessionStateList = Shapes::ListShape.new(name: 'SessionStateList')
     SetKeepJobFlowAliveWhenNoStepsInput = Shapes::StructureShape.new(name: 'SetKeepJobFlowAliveWhenNoStepsInput')
     SetTerminationProtectionInput = Shapes::StructureShape.new(name: 'SetTerminationProtectionInput')
     SetUnhealthyNodeReplacementInput = Shapes::StructureShape.new(name: 'SetUnhealthyNodeReplacementInput')
@@ -322,6 +340,8 @@ module Aws::EMR
     SpotResizingSpecification = Shapes::StructureShape.new(name: 'SpotResizingSpecification')
     StartNotebookExecutionInput = Shapes::StructureShape.new(name: 'StartNotebookExecutionInput')
     StartNotebookExecutionOutput = Shapes::StructureShape.new(name: 'StartNotebookExecutionOutput')
+    StartSessionInput = Shapes::StructureShape.new(name: 'StartSessionInput')
+    StartSessionOutput = Shapes::StructureShape.new(name: 'StartSessionOutput')
     Statistic = Shapes::StringShape.new(name: 'Statistic')
     Step = Shapes::StructureShape.new(name: 'Step')
     StepCancellationOption = Shapes::StringShape.new(name: 'StepCancellationOption')
@@ -357,6 +377,8 @@ module Aws::EMR
     Tag = Shapes::StructureShape.new(name: 'Tag')
     TagList = Shapes::ListShape.new(name: 'TagList')
     TerminateJobFlowsInput = Shapes::StructureShape.new(name: 'TerminateJobFlowsInput')
+    TerminateSessionInput = Shapes::StructureShape.new(name: 'TerminateSessionInput')
+    TerminateSessionOutput = Shapes::StructureShape.new(name: 'TerminateSessionOutput')
     ThroughputVal = Shapes::IntegerShape.new(name: 'ThroughputVal')
     Unit = Shapes::StringShape.new(name: 'Unit')
     UpdateStudioInput = Shapes::StructureShape.new(name: 'UpdateStudioInput')
@@ -399,6 +421,7 @@ module Aws::EMR
 
     AddTagsInput.add_member(:resource_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "ResourceId"))
     AddTagsInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, required: true, location_name: "Tags"))
+    AddTagsInput.add_member(:cluster_id, Shapes::ShapeRef.new(shape: ClusterId, location_name: "ClusterId"))
     AddTagsInput.struct_class = Types::AddTagsInput
 
     AddTagsOutput.struct_class = Types::AddTagsOutput
@@ -465,6 +488,10 @@ module Aws::EMR
     CancelStepsOutput.add_member(:cancel_steps_info_list, Shapes::ShapeRef.new(shape: CancelStepsInfoList, location_name: "CancelStepsInfoList"))
     CancelStepsOutput.struct_class = Types::CancelStepsOutput
 
+    CertificateAuthority.add_member(:certificate_arn, Shapes::ShapeRef.new(shape: XmlString, location_name: "CertificateArn"))
+    CertificateAuthority.add_member(:certificate_data, Shapes::ShapeRef.new(shape: XmlString, location_name: "CertificateData"))
+    CertificateAuthority.struct_class = Types::CertificateAuthority
+
     CloudWatchAlarmDefinition.add_member(:comparison_operator, Shapes::ShapeRef.new(shape: ComparisonOperator, required: true, location_name: "ComparisonOperator"))
     CloudWatchAlarmDefinition.add_member(:evaluation_periods, Shapes::ShapeRef.new(shape: Integer, location_name: "EvaluationPeriods"))
     CloudWatchAlarmDefinition.add_member(:metric_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "MetricName"))
@@ -519,6 +546,7 @@ module Aws::EMR
     Cluster.add_member(:ebs_root_volume_throughput, Shapes::ShapeRef.new(shape: Integer, location_name: "EbsRootVolumeThroughput"))
     Cluster.add_member(:extended_support, Shapes::ShapeRef.new(shape: BooleanObject, location_name: "ExtendedSupport"))
     Cluster.add_member(:monitoring_configuration, Shapes::ShapeRef.new(shape: MonitoringConfiguration, location_name: "MonitoringConfiguration"))
+    Cluster.add_member(:session_enabled, Shapes::ShapeRef.new(shape: BooleanObject, location_name: "SessionEnabled"))
     Cluster.struct_class = Types::Cluster
 
     ClusterStateChangeReason.add_member(:code, Shapes::ShapeRef.new(shape: ClusterStateChangeReasonCode, location_name: "Code"))
@@ -809,6 +837,23 @@ module Aws::EMR
     GetPersistentAppUIPresignedURLOutput.add_member(:presigned_url_ready, Shapes::ShapeRef.new(shape: Boolean, location_name: "PresignedURLReady"))
     GetPersistentAppUIPresignedURLOutput.add_member(:presigned_url, Shapes::ShapeRef.new(shape: XmlString, location_name: "PresignedURL"))
     GetPersistentAppUIPresignedURLOutput.struct_class = Types::GetPersistentAppUIPresignedURLOutput
+
+    GetSessionEndpointInput.add_member(:cluster_id, Shapes::ShapeRef.new(shape: ClusterId, required: true, location_name: "ClusterId"))
+    GetSessionEndpointInput.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location_name: "SessionId"))
+    GetSessionEndpointInput.struct_class = Types::GetSessionEndpointInput
+
+    GetSessionEndpointOutput.add_member(:endpoint, Shapes::ShapeRef.new(shape: XmlString, required: true, location_name: "Endpoint"))
+    GetSessionEndpointOutput.add_member(:auth_token, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "AuthToken"))
+    GetSessionEndpointOutput.add_member(:auth_token_expiration_time, Shapes::ShapeRef.new(shape: Date, location_name: "AuthTokenExpirationTime"))
+    GetSessionEndpointOutput.add_member(:credentials, Shapes::ShapeRef.new(shape: Credentials, location_name: "Credentials"))
+    GetSessionEndpointOutput.struct_class = Types::GetSessionEndpointOutput
+
+    GetSessionInput.add_member(:cluster_id, Shapes::ShapeRef.new(shape: ClusterId, required: true, location_name: "ClusterId"))
+    GetSessionInput.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location_name: "SessionId"))
+    GetSessionInput.struct_class = Types::GetSessionInput
+
+    GetSessionOutput.add_member(:session, Shapes::ShapeRef.new(shape: Session, required: true, location_name: "Session"))
+    GetSessionOutput.struct_class = Types::GetSessionOutput
 
     GetStudioSessionMappingInput.add_member(:studio_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, required: true, location_name: "StudioId"))
     GetStudioSessionMappingInput.add_member(:identity_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "IdentityId"))
@@ -1196,6 +1241,16 @@ module Aws::EMR
     ListSecurityConfigurationsOutput.add_member(:marker, Shapes::ShapeRef.new(shape: Marker, location_name: "Marker"))
     ListSecurityConfigurationsOutput.struct_class = Types::ListSecurityConfigurationsOutput
 
+    ListSessionsInput.add_member(:cluster_id, Shapes::ShapeRef.new(shape: ClusterId, required: true, location_name: "ClusterId"))
+    ListSessionsInput.add_member(:session_states, Shapes::ShapeRef.new(shape: SessionStateList, location_name: "SessionStates"))
+    ListSessionsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
+    ListSessionsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResultsNumber, location_name: "MaxResults"))
+    ListSessionsInput.struct_class = Types::ListSessionsInput
+
+    ListSessionsOutput.add_member(:sessions, Shapes::ShapeRef.new(shape: SessionList, location_name: "Sessions"))
+    ListSessionsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
+    ListSessionsOutput.struct_class = Types::ListSessionsOutput
+
     ListStepsInput.add_member(:cluster_id, Shapes::ShapeRef.new(shape: ClusterId, required: true, location_name: "ClusterId"))
     ListStepsInput.add_member(:step_states, Shapes::ShapeRef.new(shape: StepStateList, location_name: "StepStates"))
     ListStepsInput.add_member(:step_ids, Shapes::ShapeRef.new(shape: XmlStringList, location_name: "StepIds"))
@@ -1414,6 +1469,7 @@ module Aws::EMR
 
     RemoveTagsInput.add_member(:resource_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "ResourceId"))
     RemoveTagsInput.add_member(:tag_keys, Shapes::ShapeRef.new(shape: StringList, required: true, location_name: "TagKeys"))
+    RemoveTagsInput.add_member(:cluster_id, Shapes::ShapeRef.new(shape: ClusterId, location_name: "ClusterId"))
     RemoveTagsInput.struct_class = Types::RemoveTagsInput
 
     RemoveTagsOutput.struct_class = Types::RemoveTagsOutput
@@ -1452,6 +1508,7 @@ module Aws::EMR
     RunJobFlowInput.add_member(:ebs_root_volume_throughput, Shapes::ShapeRef.new(shape: Integer, location_name: "EbsRootVolumeThroughput"))
     RunJobFlowInput.add_member(:extended_support, Shapes::ShapeRef.new(shape: BooleanObject, location_name: "ExtendedSupport"))
     RunJobFlowInput.add_member(:monitoring_configuration, Shapes::ShapeRef.new(shape: MonitoringConfiguration, location_name: "MonitoringConfiguration"))
+    RunJobFlowInput.add_member(:session_enabled, Shapes::ShapeRef.new(shape: BooleanObject, location_name: "SessionEnabled"))
     RunJobFlowInput.struct_class = Types::RunJobFlowInput
 
     RunJobFlowOutput.add_member(:job_flow_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "JobFlowId"))
@@ -1496,6 +1553,41 @@ module Aws::EMR
 
     SecurityGroupsList.member = Shapes::ShapeRef.new(shape: XmlStringMaxLen256)
 
+    Session.add_member(:id, Shapes::ShapeRef.new(shape: SessionId, required: true, location_name: "Id"))
+    Session.add_member(:cluster_id, Shapes::ShapeRef.new(shape: ClusterId, required: true, location_name: "ClusterId"))
+    Session.add_member(:name, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "Name"))
+    Session.add_member(:arn, Shapes::ShapeRef.new(shape: ArnType, required: true, location_name: "Arn"))
+    Session.add_member(:state, Shapes::ShapeRef.new(shape: SessionState, required: true, location_name: "State"))
+    Session.add_member(:state_change_reason, Shapes::ShapeRef.new(shape: XmlString, location_name: "StateChangeReason"))
+    Session.add_member(:release_label, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "ReleaseLabel"))
+    Session.add_member(:execution_role_arn, Shapes::ShapeRef.new(shape: IAMRoleArn, location_name: "ExecutionRoleArn"))
+    Session.add_member(:account_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "AccountId"))
+    Session.add_member(:created_at, Shapes::ShapeRef.new(shape: Date, location_name: "CreatedAt"))
+    Session.add_member(:updated_at, Shapes::ShapeRef.new(shape: Date, location_name: "UpdatedAt"))
+    Session.add_member(:started_at, Shapes::ShapeRef.new(shape: Date, location_name: "StartedAt"))
+    Session.add_member(:ended_at, Shapes::ShapeRef.new(shape: Date, location_name: "EndedAt"))
+    Session.add_member(:idle_since, Shapes::ShapeRef.new(shape: Date, location_name: "IdleSince"))
+    Session.add_member(:engine_configurations, Shapes::ShapeRef.new(shape: ConfigurationList, location_name: "EngineConfigurations"))
+    Session.add_member(:monitoring_configuration, Shapes::ShapeRef.new(shape: SessionMonitoringConfiguration, location_name: "MonitoringConfiguration"))
+    Session.add_member(:session_idle_timeout_in_minutes, Shapes::ShapeRef.new(shape: Long, location_name: "SessionIdleTimeoutInMinutes"))
+    Session.add_member(:certificate_authority, Shapes::ShapeRef.new(shape: CertificateAuthority, location_name: "CertificateAuthority"))
+    Session.add_member(:server_url, Shapes::ShapeRef.new(shape: XmlString, location_name: "ServerUrl"))
+    Session.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    Session.struct_class = Types::Session
+
+    SessionCloudWatchLoggingConfiguration.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "Enabled"))
+    SessionCloudWatchLoggingConfiguration.add_member(:log_group, Shapes::ShapeRef.new(shape: XmlString, location_name: "LogGroup"))
+    SessionCloudWatchLoggingConfiguration.add_member(:log_stream_name_prefix, Shapes::ShapeRef.new(shape: XmlString, location_name: "LogStreamNamePrefix"))
+    SessionCloudWatchLoggingConfiguration.add_member(:encryption_key_arn, Shapes::ShapeRef.new(shape: XmlString, location_name: "EncryptionKeyArn"))
+    SessionCloudWatchLoggingConfiguration.add_member(:log_types, Shapes::ShapeRef.new(shape: LogTypesMap, location_name: "LogTypes"))
+    SessionCloudWatchLoggingConfiguration.struct_class = Types::SessionCloudWatchLoggingConfiguration
+
+    SessionList.member = Shapes::ShapeRef.new(shape: Session)
+
+    SessionManagedLoggingConfiguration.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "Enabled"))
+    SessionManagedLoggingConfiguration.add_member(:encryption_key_arn, Shapes::ShapeRef.new(shape: XmlString, location_name: "EncryptionKeyArn"))
+    SessionManagedLoggingConfiguration.struct_class = Types::SessionManagedLoggingConfiguration
+
     SessionMappingDetail.add_member(:studio_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "StudioId"))
     SessionMappingDetail.add_member(:identity_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "IdentityId"))
     SessionMappingDetail.add_member(:identity_name, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "IdentityName"))
@@ -1514,6 +1606,19 @@ module Aws::EMR
     SessionMappingSummary.struct_class = Types::SessionMappingSummary
 
     SessionMappingSummaryList.member = Shapes::ShapeRef.new(shape: SessionMappingSummary)
+
+    SessionMonitoringConfiguration.add_member(:cloud_watch_logging_configuration, Shapes::ShapeRef.new(shape: SessionCloudWatchLoggingConfiguration, location_name: "CloudWatchLoggingConfiguration"))
+    SessionMonitoringConfiguration.add_member(:managed_logging_configuration, Shapes::ShapeRef.new(shape: SessionManagedLoggingConfiguration, location_name: "ManagedLoggingConfiguration"))
+    SessionMonitoringConfiguration.add_member(:s3_logging_configuration, Shapes::ShapeRef.new(shape: SessionS3LoggingConfiguration, location_name: "S3LoggingConfiguration"))
+    SessionMonitoringConfiguration.struct_class = Types::SessionMonitoringConfiguration
+
+    SessionS3LoggingConfiguration.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "Enabled"))
+    SessionS3LoggingConfiguration.add_member(:log_uri, Shapes::ShapeRef.new(shape: XmlString, location_name: "LogUri"))
+    SessionS3LoggingConfiguration.add_member(:encryption_key_arn, Shapes::ShapeRef.new(shape: XmlString, location_name: "EncryptionKeyArn"))
+    SessionS3LoggingConfiguration.add_member(:log_types, Shapes::ShapeRef.new(shape: LogTypesMap, location_name: "LogTypes"))
+    SessionS3LoggingConfiguration.struct_class = Types::SessionS3LoggingConfiguration
+
+    SessionStateList.member = Shapes::ShapeRef.new(shape: SessionState)
 
     SetKeepJobFlowAliveWhenNoStepsInput.add_member(:job_flow_ids, Shapes::ShapeRef.new(shape: XmlStringList, required: true, location_name: "JobFlowIds"))
     SetKeepJobFlowAliveWhenNoStepsInput.add_member(:keep_job_flow_alive_when_no_steps, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "KeepJobFlowAliveWhenNoSteps"))
@@ -1572,6 +1677,23 @@ module Aws::EMR
 
     StartNotebookExecutionOutput.add_member(:notebook_execution_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "NotebookExecutionId"))
     StartNotebookExecutionOutput.struct_class = Types::StartNotebookExecutionOutput
+
+    StartSessionInput.add_member(:name, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "Name"))
+    StartSessionInput.add_member(:cluster_id, Shapes::ShapeRef.new(shape: ClusterId, required: true, location_name: "ClusterId"))
+    StartSessionInput.add_member(:execution_role_arn, Shapes::ShapeRef.new(shape: IAMRoleArn, location_name: "ExecutionRoleArn"))
+    StartSessionInput.add_member(:engine_configurations, Shapes::ShapeRef.new(shape: ConfigurationList, location_name: "EngineConfigurations"))
+    StartSessionInput.add_member(:monitoring_configuration, Shapes::ShapeRef.new(shape: SessionMonitoringConfiguration, location_name: "MonitoringConfiguration"))
+    StartSessionInput.add_member(:session_idle_timeout_in_minutes, Shapes::ShapeRef.new(shape: Long, location_name: "SessionIdleTimeoutInMinutes"))
+    StartSessionInput.add_member(:client_request_token, Shapes::ShapeRef.new(shape: ClientRequestToken, location_name: "ClientRequestToken"))
+    StartSessionInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    StartSessionInput.struct_class = Types::StartSessionInput
+
+    StartSessionOutput.add_member(:id, Shapes::ShapeRef.new(shape: SessionId, required: true, location_name: "Id"))
+    StartSessionOutput.add_member(:cluster_id, Shapes::ShapeRef.new(shape: ClusterId, location_name: "ClusterId"))
+    StartSessionOutput.add_member(:arn, Shapes::ShapeRef.new(shape: ArnType, location_name: "Arn"))
+    StartSessionOutput.add_member(:account_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "AccountId"))
+    StartSessionOutput.add_member(:state, Shapes::ShapeRef.new(shape: SessionState, location_name: "State"))
+    StartSessionOutput.struct_class = Types::StartSessionOutput
 
     Step.add_member(:id, Shapes::ShapeRef.new(shape: StepId, location_name: "Id"))
     Step.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "Name"))
@@ -1710,6 +1832,15 @@ module Aws::EMR
 
     TerminateJobFlowsInput.add_member(:job_flow_ids, Shapes::ShapeRef.new(shape: XmlStringList, required: true, location_name: "JobFlowIds"))
     TerminateJobFlowsInput.struct_class = Types::TerminateJobFlowsInput
+
+    TerminateSessionInput.add_member(:cluster_id, Shapes::ShapeRef.new(shape: ClusterId, required: true, location_name: "ClusterId"))
+    TerminateSessionInput.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location_name: "SessionId"))
+    TerminateSessionInput.struct_class = Types::TerminateSessionInput
+
+    TerminateSessionOutput.add_member(:cluster_id, Shapes::ShapeRef.new(shape: ClusterId, required: true, location_name: "ClusterId"))
+    TerminateSessionOutput.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location_name: "SessionId"))
+    TerminateSessionOutput.add_member(:state, Shapes::ShapeRef.new(shape: SessionState, required: true, location_name: "State"))
+    TerminateSessionOutput.struct_class = Types::TerminateSessionOutput
 
     UpdateStudioInput.add_member(:studio_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, required: true, location_name: "StudioId"))
     UpdateStudioInput.add_member(:name, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "Name"))
@@ -2015,6 +2146,26 @@ module Aws::EMR
         o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
       end)
 
+      api.add_operation(:get_session, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetSession"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetSessionInput)
+        o.output = Shapes::ShapeRef.new(shape: GetSessionOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+      end)
+
+      api.add_operation(:get_session_endpoint, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetSessionEndpoint"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetSessionEndpointInput)
+        o.output = Shapes::ShapeRef.new(shape: GetSessionEndpointOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+      end)
+
       api.add_operation(:get_studio_session_mapping, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetStudioSessionMapping"
         o.http_method = "POST"
@@ -2142,6 +2293,21 @@ module Aws::EMR
         o[:pager] = Aws::Pager.new(
           tokens: {
             "marker" => "marker"
+          }
+        )
+      end)
+
+      api.add_operation(:list_sessions, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListSessions"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListSessionsInput)
+        o.output = Shapes::ShapeRef.new(shape: ListSessionsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o[:pager] = Aws::Pager.new(
+          tokens: {
+            "next_token" => "next_token"
           }
         )
       end)
@@ -2358,6 +2524,16 @@ module Aws::EMR
         o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
       end)
 
+      api.add_operation(:start_session, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartSession"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: StartSessionInput)
+        o.output = Shapes::ShapeRef.new(shape: StartSessionOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+      end)
+
       api.add_operation(:stop_notebook_execution, Seahorse::Model::Operation.new.tap do |o|
         o.name = "StopNotebookExecution"
         o.http_method = "POST"
@@ -2375,6 +2551,16 @@ module Aws::EMR
         o.input = Shapes::ShapeRef.new(shape: TerminateJobFlowsInput)
         o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+      end)
+
+      api.add_operation(:terminate_session, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "TerminateSession"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: TerminateSessionInput)
+        o.output = Shapes::ShapeRef.new(shape: TerminateSessionOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
       end)
 
       api.add_operation(:update_studio, Seahorse::Model::Operation.new.tap do |o|

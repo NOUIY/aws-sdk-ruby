@@ -2524,8 +2524,8 @@ module Aws::WorkDocs
     end
 
     # @!attribute [rw] authentication_token
-    #   Amazon WorkDocs authentication token. Not required when using Amazon
-    #   Web Services administrator credentials to access the API.
+    #   WorkDocs authentication token. Not required when using Amazon Web
+    #   Services administrator credentials to access the API.
     #   @return [String]
     #
     # @!attribute [rw] query_text

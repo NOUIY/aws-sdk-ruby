@@ -1443,6 +1443,7 @@ module Aws::SageMaker
     ImportHubContentResponse = Shapes::StructureShape.new(name: 'ImportHubContentResponse')
     InUseInstanceCount = Shapes::IntegerShape.new(name: 'InUseInstanceCount')
     IncludeNodeLogicalIdsBoolean = Shapes::BooleanShape.new(name: 'IncludeNodeLogicalIdsBoolean')
+    IncludedData = Shapes::StringShape.new(name: 'IncludedData')
     InferenceComponentArn = Shapes::StringShape.new(name: 'InferenceComponentArn')
     InferenceComponentAvailabilityZoneBalance = Shapes::StructureShape.new(name: 'InferenceComponentAvailabilityZoneBalance')
     InferenceComponentCapacitySize = Shapes::StructureShape.new(name: 'InferenceComponentCapacitySize')
@@ -1538,6 +1539,7 @@ module Aws::SageMaker
     IotRoleAlias = Shapes::StringShape.new(name: 'IotRoleAlias')
     IsTrackingServerActive = Shapes::StringShape.new(name: 'IsTrackingServerActive')
     ItemIdentifierAttributeName = Shapes::StringShape.new(name: 'ItemIdentifierAttributeName')
+    Job = Shapes::StructureShape.new(name: 'Job')
     JobArn = Shapes::StringShape.new(name: 'JobArn')
     JobCategory = Shapes::StringShape.new(name: 'JobCategory')
     JobConfigDocument = Shapes::StringShape.new(name: 'JobConfigDocument')
@@ -6733,6 +6735,7 @@ module Aws::SageMaker
 
     DescribeModelCardRequest.add_member(:model_card_name, Shapes::ShapeRef.new(shape: ModelCardNameOrArn, required: true, location_name: "ModelCardName"))
     DescribeModelCardRequest.add_member(:model_card_version, Shapes::ShapeRef.new(shape: Integer, location_name: "ModelCardVersion", metadata: {"box" => true}))
+    DescribeModelCardRequest.add_member(:included_data, Shapes::ShapeRef.new(shape: IncludedData, location_name: "IncludedData"))
     DescribeModelCardRequest.struct_class = Types::DescribeModelCardRequest
 
     DescribeModelCardResponse.add_member(:model_card_arn, Shapes::ShapeRef.new(shape: ModelCardArn, required: true, location_name: "ModelCardArn"))
@@ -6792,6 +6795,7 @@ module Aws::SageMaker
     DescribeModelPackageGroupOutput.struct_class = Types::DescribeModelPackageGroupOutput
 
     DescribeModelPackageInput.add_member(:model_package_name, Shapes::ShapeRef.new(shape: VersionedArnOrName, required: true, location_name: "ModelPackageName"))
+    DescribeModelPackageInput.add_member(:included_data, Shapes::ShapeRef.new(shape: IncludedData, location_name: "IncludedData"))
     DescribeModelPackageInput.struct_class = Types::DescribeModelPackageInput
 
     DescribeModelPackageOutput.add_member(:model_package_name, Shapes::ShapeRef.new(shape: EntityName, required: true, location_name: "ModelPackageName"))
@@ -8513,6 +8517,22 @@ module Aws::SageMaker
     IntegerParameterRangeSpecification.struct_class = Types::IntegerParameterRangeSpecification
 
     IntegerParameterRanges.member = Shapes::ShapeRef.new(shape: IntegerParameterRange)
+
+    Job.add_member(:job_name, Shapes::ShapeRef.new(shape: JobName, location_name: "JobName"))
+    Job.add_member(:job_arn, Shapes::ShapeRef.new(shape: JobArn, location_name: "JobArn"))
+    Job.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "RoleArn"))
+    Job.add_member(:job_category, Shapes::ShapeRef.new(shape: JobCategory, location_name: "JobCategory"))
+    Job.add_member(:job_config_schema_version, Shapes::ShapeRef.new(shape: JobSchemaVersion, location_name: "JobConfigSchemaVersion"))
+    Job.add_member(:job_config_document, Shapes::ShapeRef.new(shape: JobConfigDocument, location_name: "JobConfigDocument"))
+    Job.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTime"))
+    Job.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastModifiedTime"))
+    Job.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndTime"))
+    Job.add_member(:job_status, Shapes::ShapeRef.new(shape: JobStatus, location_name: "JobStatus"))
+    Job.add_member(:secondary_status, Shapes::ShapeRef.new(shape: JobSecondaryStatus, location_name: "SecondaryStatus"))
+    Job.add_member(:secondary_status_transitions, Shapes::ShapeRef.new(shape: JobSecondaryStatusTransitions, location_name: "SecondaryStatusTransitions"))
+    Job.add_member(:failure_reason, Shapes::ShapeRef.new(shape: FailureReason, location_name: "FailureReason"))
+    Job.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    Job.struct_class = Types::Job
 
     JobConfigSchemaVersionSummary.add_member(:job_config_schema_version, Shapes::ShapeRef.new(shape: JobSchemaVersion, required: true, location_name: "JobConfigSchemaVersion"))
     JobConfigSchemaVersionSummary.struct_class = Types::JobConfigSchemaVersionSummary
@@ -11710,6 +11730,7 @@ module Aws::SageMaker
     SearchRecord.add_member(:hyper_parameter_tuning_job, Shapes::ShapeRef.new(shape: HyperParameterTuningJobSearchEntity, location_name: "HyperParameterTuningJob"))
     SearchRecord.add_member(:model_card, Shapes::ShapeRef.new(shape: ModelCard, location_name: "ModelCard"))
     SearchRecord.add_member(:model, Shapes::ShapeRef.new(shape: ModelDashboardModel, location_name: "Model"))
+    SearchRecord.add_member(:job, Shapes::ShapeRef.new(shape: Job, location_name: "Job"))
     SearchRecord.struct_class = Types::SearchRecord
 
     SearchRequest.add_member(:resource, Shapes::ShapeRef.new(shape: ResourceType, required: true, location_name: "Resource"))

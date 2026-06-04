@@ -816,6 +816,10 @@ module Aws::EMR
     #   of 128 characters, and an optional value string with a maximum of 256
     #   characters.
     #
+    # @option params [String] :cluster_id
+    #   The ID of the cluster that scopes the tag operation. Required when the
+    #   resource being tagged is a session-scoped resource.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -828,6 +832,7 @@ module Aws::EMR
     #         value: "String",
     #       },
     #     ],
+    #     cluster_id: "ClusterId",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/AddTags AWS API Documentation
@@ -1388,6 +1393,7 @@ module Aws::EMR
     #   resp.cluster.monitoring_configuration.cloud_watch_log_configuration.log_types["XmlString"][0] #=> String
     #   resp.cluster.monitoring_configuration.s3_logging_configuration.log_type_upload_policy #=> Hash
     #   resp.cluster.monitoring_configuration.s3_logging_configuration.log_type_upload_policy["LogType"] #=> String, one of "emr-managed", "on-customer-s3only", "disabled"
+    #   resp.cluster.session_enabled #=> Boolean
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -2054,6 +2060,120 @@ module Aws::EMR
       req.send_request(options)
     end
 
+    # Returns detailed information about a session.
+    #
+    # @option params [required, String] :cluster_id
+    #   The ID of the cluster that the session belongs to.
+    #
+    # @option params [required, String] :session_id
+    #   The ID of the session.
+    #
+    # @return [Types::GetSessionOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetSessionOutput#session #session} => Types::Session
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_session({
+    #     cluster_id: "ClusterId", # required
+    #     session_id: "SessionId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.session.id #=> String
+    #   resp.session.cluster_id #=> String
+    #   resp.session.name #=> String
+    #   resp.session.arn #=> String
+    #   resp.session.state #=> String, one of "SUBMITTED", "STARTING", "STARTED", "IDLE", "BUSY", "TERMINATING", "TERMINATED", "FAILED"
+    #   resp.session.state_change_reason #=> String
+    #   resp.session.release_label #=> String
+    #   resp.session.execution_role_arn #=> String
+    #   resp.session.account_id #=> String
+    #   resp.session.created_at #=> Time
+    #   resp.session.updated_at #=> Time
+    #   resp.session.started_at #=> Time
+    #   resp.session.ended_at #=> Time
+    #   resp.session.idle_since #=> Time
+    #   resp.session.engine_configurations #=> Array
+    #   resp.session.engine_configurations[0].classification #=> String
+    #   resp.session.engine_configurations[0].configurations #=> Types::ConfigurationList
+    #   resp.session.engine_configurations[0].properties #=> Hash
+    #   resp.session.engine_configurations[0].properties["String"] #=> String
+    #   resp.session.monitoring_configuration.cloud_watch_logging_configuration.enabled #=> Boolean
+    #   resp.session.monitoring_configuration.cloud_watch_logging_configuration.log_group #=> String
+    #   resp.session.monitoring_configuration.cloud_watch_logging_configuration.log_stream_name_prefix #=> String
+    #   resp.session.monitoring_configuration.cloud_watch_logging_configuration.encryption_key_arn #=> String
+    #   resp.session.monitoring_configuration.cloud_watch_logging_configuration.log_types #=> Hash
+    #   resp.session.monitoring_configuration.cloud_watch_logging_configuration.log_types["XmlString"] #=> Array
+    #   resp.session.monitoring_configuration.cloud_watch_logging_configuration.log_types["XmlString"][0] #=> String
+    #   resp.session.monitoring_configuration.managed_logging_configuration.enabled #=> Boolean
+    #   resp.session.monitoring_configuration.managed_logging_configuration.encryption_key_arn #=> String
+    #   resp.session.monitoring_configuration.s3_logging_configuration.enabled #=> Boolean
+    #   resp.session.monitoring_configuration.s3_logging_configuration.log_uri #=> String
+    #   resp.session.monitoring_configuration.s3_logging_configuration.encryption_key_arn #=> String
+    #   resp.session.monitoring_configuration.s3_logging_configuration.log_types #=> Hash
+    #   resp.session.monitoring_configuration.s3_logging_configuration.log_types["XmlString"] #=> Array
+    #   resp.session.monitoring_configuration.s3_logging_configuration.log_types["XmlString"][0] #=> String
+    #   resp.session.session_idle_timeout_in_minutes #=> Integer
+    #   resp.session.certificate_authority.certificate_arn #=> String
+    #   resp.session.certificate_authority.certificate_data #=> String
+    #   resp.session.server_url #=> String
+    #   resp.session.tags #=> Array
+    #   resp.session.tags[0].key #=> String
+    #   resp.session.tags[0].value #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/GetSession AWS API Documentation
+    #
+    # @overload get_session(params = {})
+    # @param [Hash] params ({})
+    def get_session(params = {}, options = {})
+      req = build_request(:get_session, params)
+      req.send_request(options)
+    end
+
+    # Returns the Spark Connect endpoint URL and a time-limited
+    # authentication token for the specified session. Use the endpoint and
+    # token to connect a PySpark client to the session. Call this operation
+    # again when the token expires to obtain a new one.
+    #
+    # @option params [required, String] :cluster_id
+    #   The ID of the cluster that the session belongs to.
+    #
+    # @option params [required, String] :session_id
+    #   The ID of the session.
+    #
+    # @return [Types::GetSessionEndpointOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetSessionEndpointOutput#endpoint #endpoint} => String
+    #   * {Types::GetSessionEndpointOutput#auth_token #auth_token} => String
+    #   * {Types::GetSessionEndpointOutput#auth_token_expiration_time #auth_token_expiration_time} => Time
+    #   * {Types::GetSessionEndpointOutput#credentials #credentials} => Types::Credentials
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_session_endpoint({
+    #     cluster_id: "ClusterId", # required
+    #     session_id: "SessionId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.endpoint #=> String
+    #   resp.auth_token #=> String
+    #   resp.auth_token_expiration_time #=> Time
+    #   resp.credentials.username_password.username #=> String
+    #   resp.credentials.username_password.password #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/GetSessionEndpoint AWS API Documentation
+    #
+    # @overload get_session_endpoint(params = {})
+    # @param [Hash] params ({})
+    def get_session_endpoint(params = {}, options = {})
+      req = build_request(:get_session_endpoint, params)
+      req.send_request(options)
+    end
+
     # Fetches mapping details for the specified Amazon EMR Studio and
     # identity (user or group).
     #
@@ -2686,6 +2806,94 @@ module Aws::EMR
     # @param [Hash] params ({})
     def list_security_configurations(params = {}, options = {})
       req = build_request(:list_security_configurations, params)
+      req.send_request(options)
+    end
+
+    # Lists the sessions on a cluster. You can filter the results by session
+    # state. Newer sessions are returned first.
+    #
+    # @option params [required, String] :cluster_id
+    #   The ID of the cluster to list sessions for.
+    #
+    # @option params [Array<String>] :session_states
+    #   An optional filter that limits the results to sessions in the
+    #   specified states.
+    #
+    # @option params [String] :next_token
+    #   The pagination token returned by a previous `ListSessions` call. Use
+    #   it to retrieve the next page of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of sessions to return in each page of results.
+    #
+    # @return [Types::ListSessionsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListSessionsOutput#sessions #sessions} => Array&lt;Types::Session&gt;
+    #   * {Types::ListSessionsOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_sessions({
+    #     cluster_id: "ClusterId", # required
+    #     session_states: ["SUBMITTED"], # accepts SUBMITTED, STARTING, STARTED, IDLE, BUSY, TERMINATING, TERMINATED, FAILED
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.sessions #=> Array
+    #   resp.sessions[0].id #=> String
+    #   resp.sessions[0].cluster_id #=> String
+    #   resp.sessions[0].name #=> String
+    #   resp.sessions[0].arn #=> String
+    #   resp.sessions[0].state #=> String, one of "SUBMITTED", "STARTING", "STARTED", "IDLE", "BUSY", "TERMINATING", "TERMINATED", "FAILED"
+    #   resp.sessions[0].state_change_reason #=> String
+    #   resp.sessions[0].release_label #=> String
+    #   resp.sessions[0].execution_role_arn #=> String
+    #   resp.sessions[0].account_id #=> String
+    #   resp.sessions[0].created_at #=> Time
+    #   resp.sessions[0].updated_at #=> Time
+    #   resp.sessions[0].started_at #=> Time
+    #   resp.sessions[0].ended_at #=> Time
+    #   resp.sessions[0].idle_since #=> Time
+    #   resp.sessions[0].engine_configurations #=> Array
+    #   resp.sessions[0].engine_configurations[0].classification #=> String
+    #   resp.sessions[0].engine_configurations[0].configurations #=> Types::ConfigurationList
+    #   resp.sessions[0].engine_configurations[0].properties #=> Hash
+    #   resp.sessions[0].engine_configurations[0].properties["String"] #=> String
+    #   resp.sessions[0].monitoring_configuration.cloud_watch_logging_configuration.enabled #=> Boolean
+    #   resp.sessions[0].monitoring_configuration.cloud_watch_logging_configuration.log_group #=> String
+    #   resp.sessions[0].monitoring_configuration.cloud_watch_logging_configuration.log_stream_name_prefix #=> String
+    #   resp.sessions[0].monitoring_configuration.cloud_watch_logging_configuration.encryption_key_arn #=> String
+    #   resp.sessions[0].monitoring_configuration.cloud_watch_logging_configuration.log_types #=> Hash
+    #   resp.sessions[0].monitoring_configuration.cloud_watch_logging_configuration.log_types["XmlString"] #=> Array
+    #   resp.sessions[0].monitoring_configuration.cloud_watch_logging_configuration.log_types["XmlString"][0] #=> String
+    #   resp.sessions[0].monitoring_configuration.managed_logging_configuration.enabled #=> Boolean
+    #   resp.sessions[0].monitoring_configuration.managed_logging_configuration.encryption_key_arn #=> String
+    #   resp.sessions[0].monitoring_configuration.s3_logging_configuration.enabled #=> Boolean
+    #   resp.sessions[0].monitoring_configuration.s3_logging_configuration.log_uri #=> String
+    #   resp.sessions[0].monitoring_configuration.s3_logging_configuration.encryption_key_arn #=> String
+    #   resp.sessions[0].monitoring_configuration.s3_logging_configuration.log_types #=> Hash
+    #   resp.sessions[0].monitoring_configuration.s3_logging_configuration.log_types["XmlString"] #=> Array
+    #   resp.sessions[0].monitoring_configuration.s3_logging_configuration.log_types["XmlString"][0] #=> String
+    #   resp.sessions[0].session_idle_timeout_in_minutes #=> Integer
+    #   resp.sessions[0].certificate_authority.certificate_arn #=> String
+    #   resp.sessions[0].certificate_authority.certificate_data #=> String
+    #   resp.sessions[0].server_url #=> String
+    #   resp.sessions[0].tags #=> Array
+    #   resp.sessions[0].tags[0].key #=> String
+    #   resp.sessions[0].tags[0].value #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ListSessions AWS API Documentation
+    #
+    # @overload list_sessions(params = {})
+    # @param [Hash] params ({})
+    def list_sessions(params = {}, options = {})
+      req = build_request(:list_sessions, params)
       req.send_request(options)
     end
 
@@ -3440,6 +3648,10 @@ module Aws::EMR
     # @option params [required, Array<String>] :tag_keys
     #   A list of tag keys to remove from the resource.
     #
+    # @option params [String] :cluster_id
+    #   The ID of the cluster that scopes the tag operation. Required when the
+    #   resource being untagged is a session-scoped resource.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -3447,6 +3659,7 @@ module Aws::EMR
     #   resp = client.remove_tags({
     #     resource_id: "ResourceId", # required
     #     tag_keys: ["String"], # required
+    #     cluster_id: "ClusterId",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/RemoveTags AWS API Documentation
@@ -3765,6 +3978,11 @@ module Aws::EMR
     # @option params [Types::MonitoringConfiguration] :monitoring_configuration
     #   Contains CloudWatch log configuration metadata and settings.
     #
+    # @option params [Boolean] :session_enabled
+    #   Indicates whether Spark Connect sessions are enabled on the cluster.
+    #   When set to `true`, you can start Spark Connect sessions using the
+    #   `StartSession` operation.
+    #
     # @return [Types::RunJobFlowOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::RunJobFlowOutput#job_flow_id #job_flow_id} => String
@@ -4073,6 +4291,7 @@ module Aws::EMR
     #         },
     #       },
     #     },
+    #     session_enabled: false,
     #   })
     #
     # @example Response structure
@@ -4396,6 +4615,118 @@ module Aws::EMR
       req.send_request(options)
     end
 
+    # Creates and starts a new Spark Connect session on the specified
+    # cluster. The cluster must be in the `RUNNING` or `WAITING` state and
+    # have sessions enabled. This operation is supported in Amazon EMR Spark
+    # 8.0.0 and later.
+    #
+    # @option params [String] :name
+    #   An optional name for the session.
+    #
+    # @option params [required, String] :cluster_id
+    #   The ID of the cluster on which to start the session.
+    #
+    # @option params [String] :execution_role_arn
+    #   The execution role ARN for the session. Amazon EMR uses this role to
+    #   access Amazon Web Services resources on your behalf during session
+    #   execution.
+    #
+    # @option params [Array<Types::Configuration>] :engine_configurations
+    #   The configuration overrides for the session. Only runtime
+    #   configuration overrides are supported.
+    #
+    # @option params [Types::SessionMonitoringConfiguration] :monitoring_configuration
+    #   The monitoring configuration that controls where session logs are
+    #   published, such as Amazon S3, CloudWatch, or managed logging.
+    #
+    # @option params [Integer] :session_idle_timeout_in_minutes
+    #   The idle timeout, in minutes. If the session is idle for this
+    #   duration, Amazon EMR EC2 automatically terminates it.
+    #
+    # @option params [String] :client_request_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If you retry a request that completed
+    #   successfully using the same client request token, the service returns
+    #   the original response without performing the operation again.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags to assign to the session.
+    #
+    # @return [Types::StartSessionOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartSessionOutput#id #id} => String
+    #   * {Types::StartSessionOutput#cluster_id #cluster_id} => String
+    #   * {Types::StartSessionOutput#arn #arn} => String
+    #   * {Types::StartSessionOutput#account_id #account_id} => String
+    #   * {Types::StartSessionOutput#state #state} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_session({
+    #     name: "XmlStringMaxLen256",
+    #     cluster_id: "ClusterId", # required
+    #     execution_role_arn: "IAMRoleArn",
+    #     engine_configurations: [
+    #       {
+    #         classification: "String",
+    #         configurations: {
+    #           # recursive ConfigurationList
+    #         },
+    #         properties: {
+    #           "String" => "String",
+    #         },
+    #       },
+    #     ],
+    #     monitoring_configuration: {
+    #       cloud_watch_logging_configuration: {
+    #         enabled: false,
+    #         log_group: "XmlString",
+    #         log_stream_name_prefix: "XmlString",
+    #         encryption_key_arn: "XmlString",
+    #         log_types: {
+    #           "XmlString" => ["XmlString"],
+    #         },
+    #       },
+    #       managed_logging_configuration: {
+    #         enabled: false,
+    #         encryption_key_arn: "XmlString",
+    #       },
+    #       s3_logging_configuration: {
+    #         enabled: false,
+    #         log_uri: "XmlString",
+    #         encryption_key_arn: "XmlString",
+    #         log_types: {
+    #           "XmlString" => ["XmlString"],
+    #         },
+    #       },
+    #     },
+    #     session_idle_timeout_in_minutes: 1,
+    #     client_request_token: "ClientRequestToken",
+    #     tags: [
+    #       {
+    #         key: "String",
+    #         value: "String",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.cluster_id #=> String
+    #   resp.arn #=> String
+    #   resp.account_id #=> String
+    #   resp.state #=> String, one of "SUBMITTED", "STARTING", "STARTED", "IDLE", "BUSY", "TERMINATING", "TERMINATED", "FAILED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/StartSession AWS API Documentation
+    #
+    # @overload start_session(params = {})
+    # @param [Hash] params ({})
+    def start_session(params = {}, options = {})
+      req = build_request(:start_session, params)
+      req.send_request(options)
+    end
+
     # Stops a notebook execution.
     #
     # @option params [required, String] :notebook_execution_id
@@ -4447,6 +4778,44 @@ module Aws::EMR
     # @param [Hash] params ({})
     def terminate_job_flows(params = {}, options = {})
       req = build_request(:terminate_job_flows, params)
+      req.send_request(options)
+    end
+
+    # Terminates an active session. After you call this operation, the
+    # session enters the `TERMINATING` state and then transitions to
+    # `TERMINATED`.
+    #
+    # @option params [required, String] :cluster_id
+    #   The ID of the cluster that the session belongs to.
+    #
+    # @option params [required, String] :session_id
+    #   The ID of the session to terminate.
+    #
+    # @return [Types::TerminateSessionOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::TerminateSessionOutput#cluster_id #cluster_id} => String
+    #   * {Types::TerminateSessionOutput#session_id #session_id} => String
+    #   * {Types::TerminateSessionOutput#state #state} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.terminate_session({
+    #     cluster_id: "ClusterId", # required
+    #     session_id: "SessionId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.cluster_id #=> String
+    #   resp.session_id #=> String
+    #   resp.state #=> String, one of "SUBMITTED", "STARTING", "STARTED", "IDLE", "BUSY", "TERMINATING", "TERMINATED", "FAILED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/TerminateSession AWS API Documentation
+    #
+    # @overload terminate_session(params = {})
+    # @param [Hash] params ({})
+    def terminate_session(params = {}, options = {})
+      req = build_request(:terminate_session, params)
       req.send_request(options)
     end
 
@@ -4573,7 +4942,7 @@ module Aws::EMR
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-emr'
-      context[:gem_version] = '1.132.0'
+      context[:gem_version] = '1.133.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

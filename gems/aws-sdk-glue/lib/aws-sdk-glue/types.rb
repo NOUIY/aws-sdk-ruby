@@ -7448,6 +7448,10 @@ module Aws::Glue
     #   The origin of the request.
     #   @return [String]
     #
+    # @!attribute [rw] session_type
+    #   The type of session to create.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateSessionRequest AWS API Documentation
     #
     class CreateSessionRequest < Struct.new(
@@ -7465,7 +7469,8 @@ module Aws::Glue
       :security_configuration,
       :glue_version,
       :tags,
-      :request_origin)
+      :request_origin,
+      :session_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -12784,6 +12789,41 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # @!attribute [rw] resource_id
+    #   The unique identifier of the resource for which to retrieve the
+    #   dashboard URL.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_type
+    #   The type of the resource. Valid values are `SESSION` and `JOB`.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_origin
+    #   The origin of the request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetDashboardUrlRequest AWS API Documentation
+    #
+    class GetDashboardUrlRequest < Struct.new(
+      :resource_id,
+      :resource_type,
+      :request_origin)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] url
+    #   The URL for the Spark monitoring dashboard.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetDashboardUrlResponse AWS API Documentation
+    #
+    class GetDashboardUrlResponse < Struct.new(
+      :url)
+      SENSITIVE = [:url]
+      include Aws::Structure
+    end
+
     # @!attribute [rw] catalog_id
     #   The ID of the Data Catalog to retrieve the security configuration
     #   for. If none is provided, the Amazon Web Services account ID is used
@@ -15012,6 +15052,30 @@ module Aws::Glue
     class GetSecurityConfigurationsResponse < Struct.new(
       :security_configurations,
       :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] session_id
+    #   The unique identifier of the interactive session.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetSessionEndpointRequest AWS API Documentation
+    #
+    class GetSessionEndpointRequest < Struct.new(
+      :session_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] spark_connect
+    #   The Spark Connect endpoint details for the session.
+    #   @return [Types::SessionEndpoint]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetSessionEndpointResponse AWS API Documentation
+    #
+    class GetSessionEndpointResponse < Struct.new(
+      :spark_connect)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -25838,6 +25902,10 @@ module Aws::Glue
     #   The name of an Glue usage profile associated with the session.
     #   @return [String]
     #
+    # @!attribute [rw] session_type
+    #   The type of the session.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/Session AWS API Documentation
     #
     class Session < Struct.new(
@@ -25860,7 +25928,23 @@ module Aws::Glue
       :execution_time,
       :dpu_seconds,
       :idle_timeout,
-      :profile_name)
+      :profile_name,
+      :session_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The session is currently busy processing another request and cannot
+    # accept new operations.
+    #
+    # @!attribute [rw] message
+    #   A message describing the problem.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SessionBusyException AWS API Documentation
+    #
+    class SessionBusyException < Struct.new(
+      :message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -25883,6 +25967,32 @@ module Aws::Glue
       :name,
       :python_version)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the Spark Connect endpoint details for an interactive
+    # session, including the URL and authentication credentials.
+    #
+    # @!attribute [rw] url
+    #   The Spark Connect endpoint URL for the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] auth_token
+    #   The authentication token to include in requests to the Spark Connect
+    #   endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] auth_token_expiration_time
+    #   The time at which the authentication token expires.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SessionEndpoint AWS API Documentation
+    #
+    class SessionEndpoint < Struct.new(
+      :url,
+      :auth_token,
+      :auth_token_expiration_time)
+      SENSITIVE = [:auth_token]
       include Aws::Structure
     end
 

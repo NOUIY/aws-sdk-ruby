@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.10.0 (2026-06-04)
+------------------
+
+* Feature - AWS Wickr now allows network administrators to configure a maximum session duration for non-SSO users in security groups, and display customizable consent popups to users at login for terms of use or compliance acknowledgements.
+
 1.9.0 (2026-05-28)
 ------------------
 

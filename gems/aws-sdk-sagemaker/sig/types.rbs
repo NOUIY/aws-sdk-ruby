@@ -4640,6 +4640,7 @@ module Aws::SageMaker
     class DescribeModelCardRequest
       attr_accessor model_card_name: ::String
       attr_accessor model_card_version: ::Integer
+      attr_accessor included_data: ("AllData" | "MetadataOnly")
       SENSITIVE: []
     end
 
@@ -4715,6 +4716,7 @@ module Aws::SageMaker
 
     class DescribeModelPackageInput
       attr_accessor model_package_name: ::String
+      attr_accessor included_data: ("AllData" | "MetadataOnly")
       SENSITIVE: []
     end
 
@@ -6042,7 +6044,7 @@ module Aws::SageMaker
     end
 
     class GetSearchSuggestionsRequest
-      attr_accessor resource: ("TrainingJob" | "Experiment" | "ExperimentTrial" | "ExperimentTrialComponent" | "Endpoint" | "Model" | "ModelPackage" | "ModelPackageGroup" | "Pipeline" | "PipelineExecution" | "FeatureGroup" | "FeatureMetadata" | "Image" | "ImageVersion" | "Project" | "HyperParameterTuningJob" | "ModelCard" | "PipelineVersion")
+      attr_accessor resource: ("TrainingJob" | "Experiment" | "ExperimentTrial" | "ExperimentTrialComponent" | "Endpoint" | "Model" | "ModelPackage" | "ModelPackageGroup" | "Pipeline" | "PipelineExecution" | "FeatureGroup" | "FeatureMetadata" | "Image" | "ImageVersion" | "Project" | "HyperParameterTuningJob" | "ModelCard" | "PipelineVersion" | "Job")
       attr_accessor suggestion_query: Types::SuggestionQuery
       SENSITIVE: []
     end
@@ -6724,6 +6726,24 @@ module Aws::SageMaker
     class IntegerParameterRangeSpecification
       attr_accessor min_value: ::String
       attr_accessor max_value: ::String
+      SENSITIVE: []
+    end
+
+    class Job
+      attr_accessor job_name: ::String
+      attr_accessor job_arn: ::String
+      attr_accessor role_arn: ::String
+      attr_accessor job_category: ("AgentRFT" | "AgentRFTEvaluation")
+      attr_accessor job_config_schema_version: ::String
+      attr_accessor job_config_document: ::String
+      attr_accessor creation_time: ::Time
+      attr_accessor last_modified_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor job_status: ("InProgress" | "Completed" | "Failed" | "Stopping" | "Stopped" | "Deleting" | "DeleteFailed")
+      attr_accessor secondary_status: ("Starting" | "Downloading" | "Training" | "Uploading" | "Stopping" | "Stopped" | "MaxRuntimeExceeded" | "Interrupted" | "Failed" | "Completed" | "Restarting" | "Pending" | "Evaluating" | "Deleting" | "DeleteFailed")
+      attr_accessor secondary_status_transitions: ::Array[Types::JobSecondaryStatusTransition]
+      attr_accessor failure_reason: ::String
+      attr_accessor tags: ::Array[Types::Tag]
       SENSITIVE: []
     end
 
@@ -10627,11 +10647,12 @@ module Aws::SageMaker
       attr_accessor hyper_parameter_tuning_job: Types::HyperParameterTuningJobSearchEntity
       attr_accessor model_card: Types::ModelCard
       attr_accessor model: Types::ModelDashboardModel
+      attr_accessor job: Types::Job
       SENSITIVE: []
     end
 
     class SearchRequest
-      attr_accessor resource: ("TrainingJob" | "Experiment" | "ExperimentTrial" | "ExperimentTrialComponent" | "Endpoint" | "Model" | "ModelPackage" | "ModelPackageGroup" | "Pipeline" | "PipelineExecution" | "FeatureGroup" | "FeatureMetadata" | "Image" | "ImageVersion" | "Project" | "HyperParameterTuningJob" | "ModelCard" | "PipelineVersion")
+      attr_accessor resource: ("TrainingJob" | "Experiment" | "ExperimentTrial" | "ExperimentTrialComponent" | "Endpoint" | "Model" | "ModelPackage" | "ModelPackageGroup" | "Pipeline" | "PipelineExecution" | "FeatureGroup" | "FeatureMetadata" | "Image" | "ImageVersion" | "Project" | "HyperParameterTuningJob" | "ModelCard" | "PipelineVersion" | "Job")
       attr_accessor search_expression: Types::SearchExpression
       attr_accessor sort_by: ::String
       attr_accessor sort_order: ("Ascending" | "Descending")

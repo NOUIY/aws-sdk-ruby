@@ -153,11 +153,17 @@ module Aws::EMR
     #   256 characters.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] cluster_id
+    #   The ID of the cluster that scopes the tag operation. Required when
+    #   the resource being tagged is a session-scoped resource.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/AddTagsInput AWS API Documentation
     #
     class AddTagsInput < Struct.new(
       :resource_id,
-      :tags)
+      :tags,
+      :cluster_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -495,6 +501,31 @@ module Aws::EMR
     #
     class CancelStepsOutput < Struct.new(
       :cancel_steps_info_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the certificate authority used to establish an mTLS
+    # connection to the Spark Connect server when connecting directly over
+    # VPC peering.
+    #
+    # @!attribute [rw] certificate_arn
+    #   The Amazon Resource Name (ARN) of the certificate authority in
+    #   Amazon Web Services Private CA that issued the Spark Connect server
+    #   certificate.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_data
+    #   The PEM-encoded root CA certificate data. Provide this certificate
+    #   to your client's trust store when connecting directly to the Spark
+    #   Connect server over VPC peering.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/CertificateAuthority AWS API Documentation
+    #
+    class CertificateAuthority < Struct.new(
+      :certificate_arn,
+      :certificate_data)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -840,6 +871,10 @@ module Aws::EMR
     #   Contains Cloudwatch log configuration metadata and settings.
     #   @return [Types::MonitoringConfiguration]
     #
+    # @!attribute [rw] session_enabled
+    #   Indicates whether Spark Connect sessions are enabled on the cluster.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/Cluster AWS API Documentation
     #
     class Cluster < Struct.new(
@@ -878,7 +913,8 @@ module Aws::EMR
       :ebs_root_volume_iops,
       :ebs_root_volume_throughput,
       :extended_support,
-      :monitoring_configuration)
+      :monitoring_configuration,
+      :session_enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2310,6 +2346,90 @@ module Aws::EMR
     class GetPersistentAppUIPresignedURLOutput < Struct.new(
       :presigned_url_ready,
       :presigned_url)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input to the `GetSessionEndpoint` operation.
+    #
+    # @!attribute [rw] cluster_id
+    #   The ID of the cluster that the session belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The ID of the session.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/GetSessionEndpointInput AWS API Documentation
+    #
+    class GetSessionEndpointInput < Struct.new(
+      :cluster_id,
+      :session_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output of the `GetSessionEndpoint` operation.
+    #
+    # @!attribute [rw] endpoint
+    #   The Spark Connect endpoint URL to use in the PySpark client.
+    #   @return [String]
+    #
+    # @!attribute [rw] auth_token
+    #   A time-limited authentication token used to connect to the Spark
+    #   Connect endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] auth_token_expiration_time
+    #   The time at which the authentication token expires. After this time,
+    #   call `GetSessionEndpoint` again to obtain a new token.
+    #   @return [Time]
+    #
+    # @!attribute [rw] credentials
+    #   Username and password used to authenticate with the Spark Connect
+    #   server when connecting directly over VPC peering.
+    #   @return [Types::Credentials]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/GetSessionEndpointOutput AWS API Documentation
+    #
+    class GetSessionEndpointOutput < Struct.new(
+      :endpoint,
+      :auth_token,
+      :auth_token_expiration_time,
+      :credentials)
+      SENSITIVE = [:auth_token]
+      include Aws::Structure
+    end
+
+    # Input to the `GetSession` operation.
+    #
+    # @!attribute [rw] cluster_id
+    #   The ID of the cluster that the session belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The ID of the session.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/GetSessionInput AWS API Documentation
+    #
+    class GetSessionInput < Struct.new(
+      :cluster_id,
+      :session_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output of the `GetSession` operation.
+    #
+    # @!attribute [rw] session
+    #   The output displays information about the session.
+    #   @return [Types::Session]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/GetSessionOutput AWS API Documentation
+    #
+    class GetSessionOutput < Struct.new(
+      :session)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4530,6 +4650,58 @@ module Aws::EMR
       include Aws::Structure
     end
 
+    # Input to the `ListSessions` operation.
+    #
+    # @!attribute [rw] cluster_id
+    #   The ID of the cluster to list sessions for.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_states
+    #   An optional filter that limits the results to sessions in the
+    #   specified states.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token returned by a previous `ListSessions` call. Use
+    #   it to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of sessions to return in each page of results.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ListSessionsInput AWS API Documentation
+    #
+    class ListSessionsInput < Struct.new(
+      :cluster_id,
+      :session_states,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output of the `ListSessions` operation.
+    #
+    # @!attribute [rw] sessions
+    #   The sessions that match the request.
+    #   @return [Array<Types::Session>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token to use in a subsequent `ListSessions` call to
+    #   retrieve the next page of results. This field is absent when there
+    #   are no more results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ListSessionsOutput AWS API Documentation
+    #
+    class ListSessionsOutput < Struct.new(
+      :sessions,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # This input determines which steps to list.
     #
     # @!attribute [rw] cluster_id
@@ -5663,11 +5835,17 @@ module Aws::EMR
     #   A list of tag keys to remove from the resource.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] cluster_id
+    #   The ID of the cluster that scopes the tag operation. Required when
+    #   the resource being untagged is a session-scoped resource.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/RemoveTagsInput AWS API Documentation
     #
     class RemoveTagsInput < Struct.new(
       :resource_id,
-      :tag_keys)
+      :tag_keys,
+      :cluster_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5994,6 +6172,12 @@ module Aws::EMR
     #   Contains CloudWatch log configuration metadata and settings.
     #   @return [Types::MonitoringConfiguration]
     #
+    # @!attribute [rw] session_enabled
+    #   Indicates whether Spark Connect sessions are enabled on the cluster.
+    #   When set to `true`, you can start Spark Connect sessions using the
+    #   `StartSession` operation.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/RunJobFlowInput AWS API Documentation
     #
     class RunJobFlowInput < Struct.new(
@@ -6030,7 +6214,8 @@ module Aws::EMR
       :ebs_root_volume_iops,
       :ebs_root_volume_throughput,
       :extended_support,
-      :monitoring_configuration)
+      :monitoring_configuration,
+      :session_enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6064,25 +6249,27 @@ module Aws::EMR
     #
     #   Valid log types:
     #
-    #   * `system-logs`: System-level logs including daemon logs, bootstrap
-    #     logs, and other infrastructure logs.
+    #   * `system-logs`: EMR Daemon logs.
     #
-    #   * `application-logs`: Application-level logs from frameworks like
-    #     Hadoop, Spark, Hive, etc.
+    #   * `application-logs`: Framework logs from Hadoop, Spark, Hive and
+    #     other applications running on the cluster.
     #
-    #   * `persistent-ui-logs`: Logs for persistent application UIs like
-    #     Spark History Server.
+    #   * `persistent-ui-logs`: Logs required for persistent application UIs
+    #     such as Spark History Server and Tez UI.
     #
     #   Valid upload policies:
     #
-    #   * `emr-managed`: Logs are uploaded to both the EMR-managed S3 bucket
-    #     and the customer-specified S3 bucket (if LogUri is provided).
+    #   * `emr-managed`: Standard behavior. Logs are uploaded to S3 bucket
+    #     as configured in your LogUri, with certain logs retained by the
+    #     service for operational support and troubleshooting purposes.
     #
     #   * `on-customer-s3only`: Logs are uploaded only to the
-    #     customer-specified S3 bucket. Requires LogUri to be specified in
-    #     the cluster configuration.
+    #     customer-specified S3 bucket. This requires you to specify a
+    #     LogUri when creating the cluster. Persistent-ui-logs cannot have
+    #     on-customer-s3only policy. Allowed policies for persistent-ui-logs
+    #     are emr-managed and disabled.
     #
-    #   * `disabled`: Log upload is disabled for this log type.
+    #   * `disabled`: No S3 upload for this log type.
     #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/S3LoggingConfiguration AWS API Documentation
@@ -6257,6 +6444,183 @@ module Aws::EMR
       include Aws::Structure
     end
 
+    # Detailed information about a Spark Connect session.
+    #
+    # @!attribute [rw] id
+    #   The ID of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] cluster_id
+    #   The ID of the cluster that the session belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the session, if one was provided at creation time.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The current state of the session. Valid values are `SUBMITTED`,
+    #   `STARTING`, `STARTED`, `IDLE`, `BUSY`, `TERMINATING`, `TERMINATED`,
+    #   and `FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] state_change_reason
+    #   A human-readable message describing the most recent state change.
+    #   @return [String]
+    #
+    # @!attribute [rw] release_label
+    #   The Amazon EMR release label of the cluster that the session is
+    #   running on.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_role_arn
+    #   The execution role ARN for the session. Amazon EMR uses this role to
+    #   access Amazon Web Services resources on your behalf during session
+    #   execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_id
+    #   The Amazon Web Services account ID that owns the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time that the session was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time that the session was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] started_at
+    #   The date and time that the session entered the `STARTED` state.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ended_at
+    #   The date and time that the session was terminated or failed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] idle_since
+    #   The date and time that the session last entered the `IDLE` state.
+    #   @return [Time]
+    #
+    # @!attribute [rw] engine_configurations
+    #   The configuration overrides for the session. Only runtime
+    #   configuration overrides are supported.
+    #   @return [Array<Types::Configuration>]
+    #
+    # @!attribute [rw] monitoring_configuration
+    #   The monitoring configuration for the session.
+    #   @return [Types::SessionMonitoringConfiguration]
+    #
+    # @!attribute [rw] session_idle_timeout_in_minutes
+    #   The idle timeout, in minutes. If the session is idle for this
+    #   duration, Amazon EMR automatically terminates it.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] certificate_authority
+    #   The certificate authority used to establish an mTLS connection to
+    #   the Spark Connect server when connecting directly over VPC peering.
+    #   @return [Types::CertificateAuthority]
+    #
+    # @!attribute [rw] server_url
+    #   The Spark Connect server URL for the session. Use this URL with the
+    #   `Credentials` returned by `GetSessionEndpoint` to connect directly
+    #   to the session over VPC peering.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags associated with the session.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/Session AWS API Documentation
+    #
+    class Session < Struct.new(
+      :id,
+      :cluster_id,
+      :name,
+      :arn,
+      :state,
+      :state_change_reason,
+      :release_label,
+      :execution_role_arn,
+      :account_id,
+      :created_at,
+      :updated_at,
+      :started_at,
+      :ended_at,
+      :idle_since,
+      :engine_configurations,
+      :monitoring_configuration,
+      :session_idle_timeout_in_minutes,
+      :certificate_authority,
+      :server_url,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The CloudWatch Logs configuration for a session.
+    #
+    # @!attribute [rw] enabled
+    #   Whether CloudWatch Logs is enabled for the session.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] log_group
+    #   The name of the log group where session logs are published.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_stream_name_prefix
+    #   The prefix applied to the log stream name where session logs are
+    #   published.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt the
+    #   logs published to CloudWatch Logs.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_types
+    #   A map of log component names (for example, `SPARK_DRIVER`,
+    #   `SPARK_EXECUTOR`) to the list of log types to publish for that
+    #   component (for example, `stdout`, `stderr`).
+    #   @return [Hash<String,Array<String>>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/SessionCloudWatchLoggingConfiguration AWS API Documentation
+    #
+    class SessionCloudWatchLoggingConfiguration < Struct.new(
+      :enabled,
+      :log_group,
+      :log_stream_name_prefix,
+      :encryption_key_arn,
+      :log_types)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Amazon EMR-managed logging configuration for a session.
+    #
+    # @!attribute [rw] enabled
+    #   Whether Amazon EMR-managed logging is enabled for the session.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] encryption_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt the
+    #   managed logs.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/SessionManagedLoggingConfiguration AWS API Documentation
+    #
+    class SessionManagedLoggingConfiguration < Struct.new(
+      :enabled,
+      :encryption_key_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Details for an Amazon EMR Studio session mapping including creation
     # time, user or group ID, Studio ID, and so on.
     #
@@ -6357,6 +6721,63 @@ module Aws::EMR
       :identity_type,
       :session_policy_arn,
       :creation_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The monitoring configuration for a session. Controls where session
+    # logs are published.
+    #
+    # @!attribute [rw] cloud_watch_logging_configuration
+    #   The CloudWatch Logs configuration for the session.
+    #   @return [Types::SessionCloudWatchLoggingConfiguration]
+    #
+    # @!attribute [rw] managed_logging_configuration
+    #   The Amazon EMR-managed logging configuration for the session.
+    #   @return [Types::SessionManagedLoggingConfiguration]
+    #
+    # @!attribute [rw] s3_logging_configuration
+    #   The Amazon S3 logging configuration for the session.
+    #   @return [Types::SessionS3LoggingConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/SessionMonitoringConfiguration AWS API Documentation
+    #
+    class SessionMonitoringConfiguration < Struct.new(
+      :cloud_watch_logging_configuration,
+      :managed_logging_configuration,
+      :s3_logging_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Amazon S3 logging configuration for a session.
+    #
+    # @!attribute [rw] enabled
+    #   Whether Amazon S3 logging is enabled for the session.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] log_uri
+    #   The Amazon S3 destination URI where session logs are published.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt logs
+    #   published to Amazon S3.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_types
+    #   A map of log component names (for example, `SPARK_DRIVER`,
+    #   `SPARK_EXECUTOR`) to the list of log types to publish for that
+    #   component (for example, `stdout`, `stderr`).
+    #   @return [Hash<String,Array<String>>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/SessionS3LoggingConfiguration AWS API Documentation
+    #
+    class SessionS3LoggingConfiguration < Struct.new(
+      :enabled,
+      :log_uri,
+      :encryption_key_arn,
+      :log_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6752,6 +7173,99 @@ module Aws::EMR
     #
     class StartNotebookExecutionOutput < Struct.new(
       :notebook_execution_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input to the `StartSession` operation.
+    #
+    # @!attribute [rw] name
+    #   An optional name for the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] cluster_id
+    #   The ID of the cluster on which to start the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_role_arn
+    #   The execution role ARN for the session. Amazon EMR uses this role to
+    #   access Amazon Web Services resources on your behalf during session
+    #   execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] engine_configurations
+    #   The configuration overrides for the session. Only runtime
+    #   configuration overrides are supported.
+    #   @return [Array<Types::Configuration>]
+    #
+    # @!attribute [rw] monitoring_configuration
+    #   The monitoring configuration that controls where session logs are
+    #   published, such as Amazon S3, CloudWatch, or managed logging.
+    #   @return [Types::SessionMonitoringConfiguration]
+    #
+    # @!attribute [rw] session_idle_timeout_in_minutes
+    #   The idle timeout, in minutes. If the session is idle for this
+    #   duration, Amazon EMR EC2 automatically terminates it.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] client_request_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If you retry a request that completed
+    #   successfully using the same client request token, the service
+    #   returns the original response without performing the operation
+    #   again.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags to assign to the session.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/StartSessionInput AWS API Documentation
+    #
+    class StartSessionInput < Struct.new(
+      :name,
+      :cluster_id,
+      :execution_role_arn,
+      :engine_configurations,
+      :monitoring_configuration,
+      :session_idle_timeout_in_minutes,
+      :client_request_token,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output of the `StartSession` operation.
+    #
+    # @!attribute [rw] id
+    #   The output contains the ID of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] cluster_id
+    #   The ID of the cluster that the session was started on.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The output contains the ARN of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_id
+    #   The Amazon Web Services account ID that owns the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The state of the session at the time the request returned. When a
+    #   session is first created, it enters the `SUBMITTED` state.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/StartSessionOutput AWS API Documentation
+    #
+    class StartSessionOutput < Struct.new(
+      :id,
+      :cluster_id,
+      :arn,
+      :account_id,
+      :state)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7418,6 +7932,50 @@ module Aws::EMR
     #
     class TerminateJobFlowsInput < Struct.new(
       :job_flow_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input to the `TerminateSession` operation.
+    #
+    # @!attribute [rw] cluster_id
+    #   The ID of the cluster that the session belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The ID of the session to terminate.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/TerminateSessionInput AWS API Documentation
+    #
+    class TerminateSessionInput < Struct.new(
+      :cluster_id,
+      :session_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output of the `TerminateSession` operation.
+    #
+    # @!attribute [rw] cluster_id
+    #   The ID of the cluster that the session belonged to.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The ID of the terminated session.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The state of the session after the terminate request has been
+    #   accepted.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/TerminateSessionOutput AWS API Documentation
+    #
+    class TerminateSessionOutput < Struct.new(
+      :cluster_id,
+      :session_id,
+      :state)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -1652,6 +1652,7 @@ module Aws::Wickr
     #   resp.security_group.security_group_settings.shredder.can_process_manually #=> Boolean
     #   resp.security_group.security_group_settings.shredder.intensity #=> Integer
     #   resp.security_group.security_group_settings.sso_max_idle_minutes #=> Integer
+    #   resp.security_group.security_group_settings.max_non_sso_session_minutes #=> Integer
     #   resp.security_group.security_group_settings.federation_mode #=> Integer
     #   resp.security_group.security_group_settings.lockout_threshold #=> Integer
     #   resp.security_group.security_group_settings.permitted_networks #=> Array
@@ -2618,6 +2619,7 @@ module Aws::Wickr
     #   resp.security_group.security_group_settings.shredder.can_process_manually #=> Boolean
     #   resp.security_group.security_group_settings.shredder.intensity #=> Integer
     #   resp.security_group.security_group_settings.sso_max_idle_minutes #=> Integer
+    #   resp.security_group.security_group_settings.max_non_sso_session_minutes #=> Integer
     #   resp.security_group.security_group_settings.federation_mode #=> Integer
     #   resp.security_group.security_group_settings.lockout_threshold #=> Integer
     #   resp.security_group.security_group_settings.permitted_networks #=> Array
@@ -3767,6 +3769,7 @@ module Aws::Wickr
     #   resp.security_groups[0].security_group_settings.shredder.can_process_manually #=> Boolean
     #   resp.security_groups[0].security_group_settings.shredder.intensity #=> Integer
     #   resp.security_groups[0].security_group_settings.sso_max_idle_minutes #=> Integer
+    #   resp.security_groups[0].security_group_settings.max_non_sso_session_minutes #=> Integer
     #   resp.security_groups[0].security_group_settings.federation_mode #=> Integer
     #   resp.security_groups[0].security_group_settings.lockout_threshold #=> Integer
     #   resp.security_groups[0].security_group_settings.permitted_networks #=> Array
@@ -4762,6 +4765,12 @@ module Aws::Wickr
     #       },
     #       data_retention: false,
     #       enable_trusted_data_format: false,
+    #       consent_popup: {
+    #         enabled: false, # required
+    #         header: "ConsentPopupConfigHeaderString",
+    #         content: "ConsentPopupConfigContentString",
+    #         close_button_label: "ConsentPopupConfigCloseButtonLabelString",
+    #       },
     #     },
     #   })
     #
@@ -4888,6 +4897,7 @@ module Aws::Wickr
     #         intensity: 1,
     #       },
     #       sso_max_idle_minutes: 1,
+    #       max_non_sso_session_minutes: 1,
     #       federation_mode: 1,
     #       lockout_threshold: 1,
     #       permitted_networks: ["NetworkId"],
@@ -4954,6 +4964,7 @@ module Aws::Wickr
     #   resp.security_group.security_group_settings.shredder.can_process_manually #=> Boolean
     #   resp.security_group.security_group_settings.shredder.intensity #=> Integer
     #   resp.security_group.security_group_settings.sso_max_idle_minutes #=> Integer
+    #   resp.security_group.security_group_settings.max_non_sso_session_minutes #=> Integer
     #   resp.security_group.security_group_settings.federation_mode #=> Integer
     #   resp.security_group.security_group_settings.lockout_threshold #=> Integer
     #   resp.security_group.security_group_settings.permitted_networks #=> Array
@@ -5155,7 +5166,7 @@ module Aws::Wickr
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-wickr'
-      context[:gem_version] = '1.9.0'
+      context[:gem_version] = '1.10.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

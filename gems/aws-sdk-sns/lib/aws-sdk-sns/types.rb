@@ -661,7 +661,7 @@ module Aws::SNS
 
     # Indicates that the number of filter polices in your Amazon Web
     # Services account exceeds the limit. To add more filter polices, submit
-    # an Amazon SNS Limit Increase case in the Amazon Web ServicesSupport
+    # an Amazon SNS Limit Increase case in the Amazon Web Services Support
     # Center.
     #
     # @!attribute [rw] message

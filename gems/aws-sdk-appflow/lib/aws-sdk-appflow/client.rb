@@ -2359,7 +2359,7 @@ module Aws::Appflow
     #   metadata for.
     #
     #   You can omit this parameter if you're resetting the cache for any of
-    #   the following connectors: Amazon Connect, Amazon EventBridge, Amazon
+    #   the following connectors: Connect Customer, Amazon EventBridge, Amazon
     #   Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the
     #   cache for any other connector, you must include this parameter in your
     #   request.
@@ -2368,10 +2368,10 @@ module Aws::Appflow
     #   The type of connector to reset cached metadata for.
     #
     #   You must include this parameter in your request if you're resetting
-    #   the cache for any of the following connectors: Amazon Connect, Amazon
-    #   EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If
-    #   you're resetting the cache for any other connector, you can omit this
-    #   parameter from your request.
+    #   the cache for any of the following connectors: Connect Customer,
+    #   Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or
+    #   Upsolver. If you're resetting the cache for any other connector, you
+    #   can omit this parameter from your request.
     #
     # @option params [String] :connector_entity_name
     #   Use this parameter if you want to reset cached metadata about the
@@ -3359,7 +3359,7 @@ module Aws::Appflow
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-appflow'
-      context[:gem_version] = '1.91.0'
+      context[:gem_version] = '1.92.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

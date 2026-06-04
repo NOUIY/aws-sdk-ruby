@@ -361,7 +361,8 @@ module Aws
                                    ?config_rule_names: Array[::String],
                                    ?next_token: ::String,
                                    ?filters: {
-                                     evaluation_mode: ("DETECTIVE" | "PROACTIVE")?
+                                     evaluation_mode: ("DETECTIVE" | "PROACTIVE")?,
+                                     rule_evaluation_visibility: ("EXTERNAL" | "INTERNAL")?
                                    }
                                  ) -> _DescribeConfigRulesResponseSuccess
                                | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeConfigRulesResponseSuccess
@@ -1044,7 +1045,8 @@ module Aws
                                  compliance_resource_types: Array[::String]?,
                                  tag_key: ::String?,
                                  tag_value: ::String?,
-                                 compliance_resource_id: ::String?
+                                 compliance_resource_id: ::String?,
+                                 service_principals: Array[::String]?
                                }?,
                                source: {
                                  owner: ("CUSTOM_LAMBDA" | "AWS" | "CUSTOM_POLICY"),
@@ -1070,7 +1072,8 @@ module Aws
                                  {
                                    mode: ("DETECTIVE" | "PROACTIVE")?
                                  }
-                               ]?
+                               ]?,
+                               rule_evaluation_visibility: ("EXTERNAL" | "INTERNAL")?
                              },
                              ?tags: Array[
                                {

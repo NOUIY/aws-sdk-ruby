@@ -215,6 +215,8 @@ module Aws::IVS
     TranscodePreset = Shapes::StringShape.new(name: 'TranscodePreset')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
     UntagResourceResponse = Shapes::StructureShape.new(name: 'UntagResourceResponse')
+    UpdateAdConfigurationRequest = Shapes::StructureShape.new(name: 'UpdateAdConfigurationRequest')
+    UpdateAdConfigurationResponse = Shapes::StructureShape.new(name: 'UpdateAdConfigurationResponse')
     UpdateChannelRequest = Shapes::StructureShape.new(name: 'UpdateChannelRequest')
     UpdateChannelResponse = Shapes::StructureShape.new(name: 'UpdateChannelResponse')
     UpdatePlaybackRestrictionPolicyRequest = Shapes::StructureShape.new(name: 'UpdatePlaybackRestrictionPolicyRequest')
@@ -869,6 +871,14 @@ module Aws::IVS
 
     UntagResourceResponse.struct_class = Types::UntagResourceResponse
 
+    UpdateAdConfigurationRequest.add_member(:arn, Shapes::ShapeRef.new(shape: AdConfigurationArn, required: true, location_name: "arn"))
+    UpdateAdConfigurationRequest.add_member(:name, Shapes::ShapeRef.new(shape: AdConfigurationName, location_name: "name"))
+    UpdateAdConfigurationRequest.add_member(:media_tailor_playback_configurations, Shapes::ShapeRef.new(shape: MediaTailorPlaybackConfigurationsList, location_name: "mediaTailorPlaybackConfigurations"))
+    UpdateAdConfigurationRequest.struct_class = Types::UpdateAdConfigurationRequest
+
+    UpdateAdConfigurationResponse.add_member(:ad_configuration, Shapes::ShapeRef.new(shape: AdConfiguration, required: true, location_name: "adConfiguration"))
+    UpdateAdConfigurationResponse.struct_class = Types::UpdateAdConfigurationResponse
+
     UpdateChannelRequest.add_member(:arn, Shapes::ShapeRef.new(shape: ChannelArn, required: true, location_name: "arn"))
     UpdateChannelRequest.add_member(:name, Shapes::ShapeRef.new(shape: ChannelName, location_name: "name"))
     UpdateChannelRequest.add_member(:latency_mode, Shapes::ShapeRef.new(shape: ChannelLatencyMode, location_name: "latencyMode"))
@@ -1447,6 +1457,22 @@ module Aws::IVS
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
+      api.add_operation(:update_ad_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateAdConfiguration"
+        o.http_method = "POST"
+        o.http_request_uri = "/UpdateAdConfiguration"
+        o.input = Shapes::ShapeRef.new(shape: UpdateAdConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateAdConfigurationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: PendingVerification)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
       end)
 
       api.add_operation(:update_channel, Seahorse::Model::Operation.new.tap do |o|

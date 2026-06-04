@@ -697,6 +697,39 @@ module Aws::Wickr
       include Aws::Structure
     end
 
+    # Consent popup configuration displayed to users on login.
+    #
+    # @!attribute [rw] enabled
+    #   Whether the consent popup is enabled. When set to true, the popup is
+    #   displayed to users on login.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] header
+    #   Header text displayed at the top of the consent popup. Maximum 100
+    #   characters.
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   Body content of the consent popup in Markdown format. Maximum 5000
+    #   characters.
+    #   @return [String]
+    #
+    # @!attribute [rw] close_button_label
+    #   Label for the close button on the consent popup. Maximum 20
+    #   characters. Defaults to "Acknowledge" if not provided.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wickr-2024-02-01/ConsentPopupConfig AWS API Documentation
+    #
+    class ConsentPopupConfig < Struct.new(
+      :enabled,
+      :header,
+      :content,
+      :close_button_label)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] network_id
     #   The ID of the Wickr network where the bot will be created.
     #   @return [String]
@@ -2328,13 +2361,19 @@ module Aws::Wickr
     #   enforcing ABAC decision making when operating in TDF enabled rooms.
     #   @return [Boolean]
     #
+    # @!attribute [rw] consent_popup
+    #   Consent popup configuration for the network, displayed to users on
+    #   login.
+    #   @return [Types::ConsentPopupConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wickr-2024-02-01/NetworkSettings AWS API Documentation
     #
     class NetworkSettings < Struct.new(
       :enable_client_metrics,
       :read_receipt_config,
       :data_retention,
-      :enable_trusted_data_format)
+      :enable_trusted_data_format,
+      :consent_popup)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3129,6 +3168,11 @@ module Aws::Wickr
     #   enabled network.
     #   @return [Integer]
     #
+    # @!attribute [rw] max_non_sso_session_minutes
+    #   Maximum session duration in minutes for non-SSO users. Set to 0 to
+    #   disable. Valid range is 60 to 525600 (1 hour to 365 days).
+    #   @return [Integer]
+    #
     # @!attribute [rw] federation_mode
     #   The local federation mode controlling how users can communicate with
     #   other networks. Values: 0 (none), 1 (federated), 2 (restricted).
@@ -3187,6 +3231,7 @@ module Aws::Wickr
       :show_master_recovery_key,
       :shredder,
       :sso_max_idle_minutes,
+      :max_non_sso_session_minutes,
       :federation_mode,
       :lockout_threshold,
       :permitted_networks,
@@ -3287,8 +3332,16 @@ module Aws::Wickr
       include Aws::Structure
     end
 
-    # Configuration for the message shredder feature, which securely deletes
-    # messages and files from devices to prevent data recovery.
+    # Configuration for the Wickr shredder feature, which writes random data
+    # over free memory and disk space on client devices. You can configure
+    # your Wickr shredder intensity using the parameters below.
+    #
+    # <note markdown="1"> Secure Shredder will not write over files that are permanently stored
+    # on the device or saved outside of the Wickr client. Wickr Network
+    # Administrators are able to disable file downloads within Security
+    # Group Settings.
+    #
+    #  </note>
     #
     # @!attribute [rw] can_process_manually
     #   Specifies whether users can manually trigger the shredder to delete
@@ -3296,8 +3349,13 @@ module Aws::Wickr
     #   @return [Boolean]
     #
     # @!attribute [rw] intensity
-    #   Prevents Wickr data from being recovered by overwriting deleted
-    #   Wickr data. Valid Values: Must be one of \[0, 20, 60, 100\]
+    #   Controls the rate (MB/minute) at which the shredder function runs on
+    #   clients. Valid Values: Must be one of \[0, 20, 60, 100\].
+    #
+    #   <note markdown="1"> A higher intensity setting could lead to higher battery usage on
+    #   mobile devices.
+    #
+    #    </note>
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wickr-2024-02-01/ShredderSettings AWS API Documentation

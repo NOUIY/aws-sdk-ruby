@@ -18334,12 +18334,35 @@ module Aws::SageMaker
     # Describes the content, creation time, and security configuration of an
     # Amazon SageMaker Model Card.
     #
+    # To retrieve only metadata about a model card without requiring
+    # `kms:Decrypt` permission on the associated customer-managed Amazon Web
+    # Services KMS key, set `IncludedData` to `MetadataOnly`. The default is
+    # `AllData`, which returns the full model card `Content` and requires
+    # `kms:Decrypt` permission when a customer-managed key is configured.
+    #
     # @option params [required, String] :model_card_name
     #   The name or Amazon Resource Name (ARN) of the model card to describe.
     #
     # @option params [Integer] :model_card_version
     #   The version of the model card to describe. If a version is not
     #   provided, then the latest version of the model card is described.
+    #
+    # @option params [String] :included_data
+    #   Specifies the level of model card data to include in the response. Use
+    #   this parameter to call `DescribeModelCard` without requiring
+    #   `kms:Decrypt` permission on the customer-managed Amazon Web Services
+    #   KMS key.
+    #
+    #   * `AllData`: Returns the full model card `Content`. This option
+    #     requires `kms:Decrypt` permission on the customer-managed key, if
+    #     one is associated with the model card. This is the default.
+    #
+    #   * `MetadataOnly`: Returns the model card with sanitized `Content` that
+    #     includes only a small set of unencrypted metadata fields. This
+    #     option does not require `kms:Decrypt` permission. For the list of
+    #     fields preserved in the response, see `Content`.
+    #
+    #   If you don't specify a value, SageMaker returns `AllData`.
     #
     # @return [Types::DescribeModelCardResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -18360,6 +18383,7 @@ module Aws::SageMaker
     #   resp = client.describe_model_card({
     #     model_card_name: "ModelCardNameOrArn", # required
     #     model_card_version: 1,
+    #     included_data: "AllData", # accepts AllData, MetadataOnly
     #   })
     #
     # @example Response structure
@@ -18537,7 +18561,10 @@ module Aws::SageMaker
     #
     # If you provided a KMS Key ID when you created your model package, you
     # will see the [KMS Decrypt][1] API call in your CloudTrail logs when
-    # you use this API.
+    # you use this API. To call this operation without requiring
+    # `kms:Decrypt` permission on the customer-managed key, set
+    # `IncludedData` to `MetadataOnly`; the response is returned with the
+    # embedded `ModelCard.ModelCardContent` field sanitized.
     #
     # To create models in SageMaker, buyers can subscribe to model packages
     # listed on Amazon Web Services Marketplace.
@@ -18552,6 +18579,33 @@ module Aws::SageMaker
     #
     #   When you specify a name, the name must have 1 to 63 characters. Valid
     #   characters are a-z, A-Z, 0-9, and - (hyphen).
+    #
+    # @option params [String] :included_data
+    #   Specifies the level of model package data to include in the response.
+    #   Use this parameter to call `DescribeModelPackage` on a model package
+    #   that has an associated model card without requiring `kms:Decrypt`
+    #   permission on the customer-managed KMS key associated with the
+    #   embedded model card.
+    #
+    #   * `AllData`: Returns the full model package response, including the
+    #     unredacted `ModelCard.ModelCardContent`. This option requires
+    #     `kms:Decrypt` permission on the customer-managed key, if one is
+    #     associated with the embedded model card. This is the default.
+    #
+    #   * `MetadataOnly`: Returns the full model package response, but with
+    #     the embedded `ModelCard.ModelCardContent` sanitized to include only
+    #     a small set of unencrypted metadata fields. This option does not
+    #     require `kms:Decrypt` permission. All other top-level response
+    #     fields, including `InferenceSpecification`, `ModelMetrics`,
+    #     `DriftCheckBaselines`, and `SecurityConfig`, are returned unchanged.
+    #     For the list of fields preserved within `ModelCardContent`, see
+    #     [ModelCard][1].
+    #
+    #   If you don't specify a value, SageMaker returns `AllData`.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeModelPackage.html#sagemaker-DescribeModelPackage-response-ModelCard
     #
     # @return [Types::DescribeModelPackageOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -18592,6 +18646,7 @@ module Aws::SageMaker
     #
     #   resp = client.describe_model_package({
     #     model_package_name: "VersionedArnOrName", # required
+    #     included_data: "AllData", # accepts AllData, MetadataOnly
     #   })
     #
     # @example Response structure
@@ -21330,7 +21385,7 @@ module Aws::SageMaker
     # @example Request syntax with placeholder values
     #
     #   resp = client.get_search_suggestions({
-    #     resource: "TrainingJob", # required, accepts TrainingJob, Experiment, ExperimentTrial, ExperimentTrialComponent, Endpoint, Model, ModelPackage, ModelPackageGroup, Pipeline, PipelineExecution, FeatureGroup, FeatureMetadata, Image, ImageVersion, Project, HyperParameterTuningJob, ModelCard, PipelineVersion
+    #     resource: "TrainingJob", # required, accepts TrainingJob, Experiment, ExperimentTrial, ExperimentTrialComponent, Endpoint, Model, ModelPackage, ModelPackageGroup, Pipeline, PipelineExecution, FeatureGroup, FeatureMetadata, Image, ImageVersion, Project, HyperParameterTuningJob, ModelCard, PipelineVersion, Job
     #     suggestion_query: {
     #       property_name_query: {
     #         property_name_hint: "PropertyNameHint", # required
@@ -28846,7 +28901,7 @@ module Aws::SageMaker
     # @example Request syntax with placeholder values
     #
     #   resp = client.search({
-    #     resource: "TrainingJob", # required, accepts TrainingJob, Experiment, ExperimentTrial, ExperimentTrialComponent, Endpoint, Model, ModelPackage, ModelPackageGroup, Pipeline, PipelineExecution, FeatureGroup, FeatureMetadata, Image, ImageVersion, Project, HyperParameterTuningJob, ModelCard, PipelineVersion
+    #     resource: "TrainingJob", # required, accepts TrainingJob, Experiment, ExperimentTrial, ExperimentTrialComponent, Endpoint, Model, ModelPackage, ModelPackageGroup, Pipeline, PipelineExecution, FeatureGroup, FeatureMetadata, Image, ImageVersion, Project, HyperParameterTuningJob, ModelCard, PipelineVersion, Job
     #     search_expression: {
     #       filters: [
     #         {
@@ -34308,7 +34363,7 @@ module Aws::SageMaker
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemaker'
-      context[:gem_version] = '1.370.0'
+      context[:gem_version] = '1.371.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

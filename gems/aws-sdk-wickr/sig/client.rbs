@@ -741,7 +741,13 @@ module Aws
                                          status: ("DISABLED" | "ENABLED" | "FORCE_ENABLED")?
                                        }?,
                                        data_retention: bool?,
-                                       enable_trusted_data_format: bool?
+                                       enable_trusted_data_format: bool?,
+                                       consent_popup: {
+                                         enabled: bool,
+                                         header: ::String?,
+                                         content: ::String?,
+                                         close_button_label: ::String?
+                                       }?
                                      }
                                    ) -> _UpdateNetworkSettingsResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateNetworkSettingsResponseSuccess
@@ -799,6 +805,7 @@ module Aws
                                        intensity: ::Integer?
                                      }?,
                                      sso_max_idle_minutes: ::Integer?,
+                                     max_non_sso_session_minutes: ::Integer?,
                                      federation_mode: ::Integer?,
                                      lockout_threshold: ::Integer?,
                                      permitted_networks: Array[::String]?,

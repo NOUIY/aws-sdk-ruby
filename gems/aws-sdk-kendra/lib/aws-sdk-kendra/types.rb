@@ -2768,8 +2768,8 @@ module Aws::Kendra
     #   @return [Types::WebCrawlerConfiguration]
     #
     # @!attribute [rw] work_docs_configuration
-    #   Provides the configuration information to connect to Amazon WorkDocs
-    #   as your data source.
+    #   Provides the configuration information to connect to WorkDocs as
+    #   your data source.
     #   @return [Types::WorkDocsConfiguration]
     #
     # @!attribute [rw] fsx_configuration
@@ -11370,22 +11370,21 @@ module Aws::Kendra
       include Aws::Structure
     end
 
-    # Provides the configuration information to connect to Amazon WorkDocs
-    # as your data source.
+    # Provides the configuration information to connect to WorkDocs as your
+    # data source.
     #
-    # Amazon WorkDocs connector is available in Oregon, North Virginia,
-    # Sydney, Singapore and Ireland regions.
+    # WorkDocs connector is available in Oregon, North Virginia, Sydney,
+    # Singapore and Ireland regions.
     #
     # @!attribute [rw] organization_id
-    #   The identifier of the directory corresponding to your Amazon
-    #   WorkDocs site repository.
+    #   The identifier of the directory corresponding to your WorkDocs site
+    #   repository.
     #
     #   You can find the organization ID in the [Directory Service][1] by
-    #   going to **Active Directory**, then **Directories**. Your Amazon
-    #   WorkDocs site directory has an ID, which is the organization ID. You
-    #   can also set up a new Amazon WorkDocs directory in the Directory
-    #   Service console and enable a Amazon WorkDocs site for the directory
-    #   in the Amazon WorkDocs console.
+    #   going to **Active Directory**, then **Directories**. Your WorkDocs
+    #   site directory has an ID, which is the organization ID. You can also
+    #   set up a new WorkDocs directory in the Directory Service console and
+    #   enable a WorkDocs site for the directory in the WorkDocs console.
     #
     #
     #
@@ -11401,16 +11400,16 @@ module Aws::Kendra
     #   @return [Boolean]
     #
     # @!attribute [rw] use_change_log
-    #   `TRUE` to use the Amazon WorkDocs change log to determine which
-    #   documents require updating in the index. Depending on the change
-    #   log's size, it may take longer for Amazon Kendra to use the change
-    #   log than to scan all of your documents in Amazon WorkDocs.
+    #   `TRUE` to use the WorkDocs change log to determine which documents
+    #   require updating in the index. Depending on the change log's size,
+    #   it may take longer for Amazon Kendra to use the change log than to
+    #   scan all of your documents in WorkDocs.
     #   @return [Boolean]
     #
     # @!attribute [rw] inclusion_patterns
     #   A list of regular expression patterns to include certain files in
-    #   your Amazon WorkDocs site repository. Files that match the patterns
-    #   are included in the index. Files that don't match the patterns are
+    #   your WorkDocs site repository. Files that match the patterns are
+    #   included in the index. Files that don't match the patterns are
     #   excluded from the index. If a file matches both an inclusion and
     #   exclusion pattern, the exclusion pattern takes precedence and the
     #   file isn't included in the index.
@@ -11418,20 +11417,20 @@ module Aws::Kendra
     #
     # @!attribute [rw] exclusion_patterns
     #   A list of regular expression patterns to exclude certain files in
-    #   your Amazon WorkDocs site repository. Files that match the patterns
-    #   are excluded from the index. Files that don’t match the patterns are
+    #   your WorkDocs site repository. Files that match the patterns are
+    #   excluded from the index. Files that don’t match the patterns are
     #   included in the index. If a file matches both an inclusion and
     #   exclusion pattern, the exclusion pattern takes precedence and the
     #   file isn't included in the index.
     #   @return [Array<String>]
     #
     # @!attribute [rw] field_mappings
-    #   A list of `DataSourceToIndexFieldMapping` objects that map Amazon
-    #   WorkDocs data source attributes or field names to Amazon Kendra
-    #   index field names. To create custom fields, use the `UpdateIndex`
-    #   API before you map to Amazon WorkDocs fields. For more information,
-    #   see [Mapping data source fields][1]. The Amazon WorkDocs data source
-    #   field names must exist in your Amazon WorkDocs custom metadata.
+    #   A list of `DataSourceToIndexFieldMapping` objects that map WorkDocs
+    #   data source attributes or field names to Amazon Kendra index field
+    #   names. To create custom fields, use the `UpdateIndex` API before you
+    #   map to WorkDocs fields. For more information, see [Mapping data
+    #   source fields][1]. The WorkDocs data source field names must exist
+    #   in your WorkDocs custom metadata.
     #
     #
     #

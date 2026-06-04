@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.154.0 (2026-06-04)
+------------------
+
+* Feature - Remove unsupported RDS field for filter
+
 1.153.0 (2026-06-02)
 ------------------
 

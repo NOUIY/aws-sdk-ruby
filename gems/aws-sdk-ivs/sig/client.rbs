@@ -536,6 +536,22 @@ module Aws
                           ) -> _UntagResourceResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UntagResourceResponseSuccess
 
+      interface _UpdateAdConfigurationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateAdConfigurationResponse]
+        def ad_configuration: () -> Types::AdConfiguration
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/IVS/Client.html#update_ad_configuration-instance_method
+      def update_ad_configuration: (
+                                     arn: ::String,
+                                     ?name: ::String,
+                                     ?media_tailor_playback_configurations: Array[
+                                       {
+                                         playback_configuration_arn: ::String?
+                                       }
+                                     ]
+                                   ) -> _UpdateAdConfigurationResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateAdConfigurationResponseSuccess
+
       interface _UpdateChannelResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateChannelResponse]
         def channel: () -> Types::Channel

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.133.0 (2026-06-04)
+------------------
+
+* Feature - Added support for Spark Connect interactive sessions on Amazon EMR on EC2 with new APIs - StartSession, GetSession, GetSessionEndpoint, ListSessions, and TerminateSession. Added sessionEnabled field in RunJobFlow and DescribeCluster to enable Spark Connect endpoints on EMR clusters.
+
 1.132.0 (2026-06-01)
 ------------------
 

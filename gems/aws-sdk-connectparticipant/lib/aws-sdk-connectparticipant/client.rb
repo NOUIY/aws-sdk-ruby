@@ -524,7 +524,7 @@ module Aws::ConnectParticipant
     # exception is thrown when an attachment with that identifier is already
     # being uploaded.
     #
-    # For security recommendations, see [Amazon Connect Chat security best
+    # For security recommendations, see [Connect Customer Chat security best
     # practices][1].
     #
     # <note markdown="1"> `ConnectionToken` is used for invoking this API instead of
@@ -581,10 +581,10 @@ module Aws::ConnectParticipant
 
     # Creates the participant's connection.
     #
-    # For security recommendations, see [Amazon Connect Chat security best
+    # For security recommendations, see [Connect Customer Chat security best
     # practices][1].
     #
-    # For WebRTC security recommendations, see [Amazon Connect WebRTC
+    # For WebRTC security recommendations, see [Connect Customer WebRTC
     # security best practices][2].
     #
     # <note markdown="1"> `ParticipantToken` is used for invoking this API instead of
@@ -727,7 +727,7 @@ module Aws::ConnectParticipant
 
     # Retrieves the view for the specified view token.
     #
-    # For security recommendations, see [Amazon Connect Chat security best
+    # For security recommendations, see [Connect Customer Chat security best
     # practices][1].
     #
     #
@@ -774,7 +774,7 @@ module Aws::ConnectParticipant
 
     # Disconnects a participant.
     #
-    # For security recommendations, see [Amazon Connect Chat security best
+    # For security recommendations, see [Connect Customer Chat security best
     # practices][1].
     #
     # <note markdown="1"> `ConnectionToken` is used for invoking this API instead of
@@ -828,7 +828,7 @@ module Aws::ConnectParticipant
     # Provides a pre-signed URL for download of a completed attachment. This
     # is an asynchronous API for use with active contacts.
     #
-    # For security recommendations, see [Amazon Connect Chat security best
+    # For security recommendations, see [Connect Customer Chat security best
     # practices][1].
     #
     # <note markdown="1"> * The participant role `CUSTOM_BOT` is not permitted to access
@@ -893,7 +893,7 @@ module Aws::ConnectParticipant
     # Retrieves the AuthenticationUrl for the current authentication session
     # for the AuthenticateCustomer flow block.
     #
-    # For security recommendations, see [Amazon Connect Chat security best
+    # For security recommendations, see [Connect Customer Chat security best
     # practices][1].
     #
     # <note markdown="1"> * This API can only be called within one minute of receiving the
@@ -957,7 +957,7 @@ module Aws::ConnectParticipant
     # attachments. For information about accessing past chat contact
     # transcripts for a persistent chat, see [Enable persistent chat][1].
     #
-    # For security recommendations, see [Amazon Connect Chat security best
+    # For security recommendations, see [Connect Customer Chat security best
     # practices][2].
     #
     # If you have a process that consumes events in the transcript of an
@@ -1088,7 +1088,7 @@ module Aws::ConnectParticipant
     # message receipts when a supervisor is barged-in will result in a
     # conflict exception.
     #
-    # For security recommendations, see [Amazon Connect Chat security best
+    # For security recommendations, see [Connect Customer Chat security best
     # practices][2].
     #
     # <note markdown="1"> `ConnectionToken` is used for invoking this API instead of
@@ -1172,7 +1172,7 @@ module Aws::ConnectParticipant
 
     # Sends a message.
     #
-    # For security recommendations, see [Amazon Connect Chat security best
+    # For security recommendations, see [Connect Customer Chat security best
     # practices][1].
     #
     # <note markdown="1"> `ConnectionToken` is used for invoking this API instead of
@@ -1267,7 +1267,7 @@ module Aws::ConnectParticipant
     # Provides a pre-signed Amazon S3 URL in response for uploading the file
     # directly to S3.
     #
-    # For security recommendations, see [Amazon Connect Chat security best
+    # For security recommendations, see [Connect Customer Chat security best
     # practices][1].
     #
     # <note markdown="1"> `ConnectionToken` is used for invoking this API instead of
@@ -1365,7 +1365,7 @@ module Aws::ConnectParticipant
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connectparticipant'
-      context[:gem_version] = '1.80.0'
+      context[:gem_version] = '1.81.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

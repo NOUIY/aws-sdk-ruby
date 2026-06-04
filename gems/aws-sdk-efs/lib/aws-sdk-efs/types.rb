@@ -444,9 +444,9 @@ module Aws::EFS
     #   want to provision for a file system that you're creating. Required
     #   if `ThroughputMode` is set to `provisioned`. Valid values are 1-3414
     #   MiBps, with the upper limit depending on Region. To increase this
-    #   limit, contact Amazon Web ServicesSupport. For more information, see
-    #   [Amazon EFS quotas that you can increase][1] in the *Amazon EFS User
-    #   Guide*.
+    #   limit, contact Amazon Web Services Support. For more information,
+    #   see [Amazon EFS quotas that you can increase][1] in the *Amazon EFS
+    #   User Guide*.
     #
     #
     #
@@ -2889,7 +2889,7 @@ module Aws::EFS
     #   that you want to provision for a file system that you're creating.
     #   Required if `ThroughputMode` is set to `provisioned`. Valid values
     #   are 1-3414 MiBps, with the upper limit depending on Region. To
-    #   increase this limit, contact Amazon Web ServicesSupport. For more
+    #   increase this limit, contact Amazon Web Services Support. For more
     #   information, see [Amazon EFS quotas that you can increase][1] in the
     #   *Amazon EFS User Guide*.
     #

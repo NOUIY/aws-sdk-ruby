@@ -242,6 +242,7 @@ module Aws::ConfigService
       attr_accessor config_rule_state: ("ACTIVE" | "DELETING" | "DELETING_RESULTS" | "EVALUATING")
       attr_accessor created_by: ::String
       attr_accessor evaluation_modes: ::Array[Types::EvaluationModeConfiguration]
+      attr_accessor rule_evaluation_visibility: ("EXTERNAL" | "INTERNAL")
       SENSITIVE: []
     end
 
@@ -674,6 +675,7 @@ module Aws::ConfigService
 
     class DescribeConfigRulesFilters
       attr_accessor evaluation_mode: ("DETECTIVE" | "PROACTIVE")
+      attr_accessor rule_evaluation_visibility: ("EXTERNAL" | "INTERNAL")
       SENSITIVE: []
     end
 
@@ -2011,6 +2013,7 @@ module Aws::ConfigService
       attr_accessor tag_key: ::String
       attr_accessor tag_value: ::String
       attr_accessor compliance_resource_id: ::String
+      attr_accessor service_principals: ::Array[::String]
       SENSITIVE: []
     end
 

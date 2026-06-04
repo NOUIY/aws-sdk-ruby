@@ -1675,6 +1675,7 @@ module Aws::Glue
       attr_accessor glue_version: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor request_origin: ::String
+      attr_accessor session_type: ("LIVY" | "SPARK_CONNECT")
       SENSITIVE: []
     end
 
@@ -3136,6 +3137,18 @@ module Aws::Glue
       SENSITIVE: []
     end
 
+    class GetDashboardUrlRequest
+      attr_accessor resource_id: ::String
+      attr_accessor resource_type: ("JOB" | "SESSION")
+      attr_accessor request_origin: ::String
+      SENSITIVE: []
+    end
+
+    class GetDashboardUrlResponse
+      attr_accessor url: ::String
+      SENSITIVE: [:url]
+    end
+
     class GetDataCatalogEncryptionSettingsRequest
       attr_accessor catalog_id: ::String
       SENSITIVE: []
@@ -3727,6 +3740,16 @@ module Aws::Glue
     class GetSecurityConfigurationsResponse
       attr_accessor security_configurations: ::Array[Types::SecurityConfiguration]
       attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class GetSessionEndpointRequest
+      attr_accessor session_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetSessionEndpointResponse
+      attr_accessor spark_connect: Types::SessionEndpoint
       SENSITIVE: []
     end
 
@@ -6291,6 +6314,12 @@ module Aws::Glue
       attr_accessor dpu_seconds: ::Float
       attr_accessor idle_timeout: ::Integer
       attr_accessor profile_name: ::String
+      attr_accessor session_type: ("LIVY" | "SPARK_CONNECT")
+      SENSITIVE: []
+    end
+
+    class SessionBusyException
+      attr_accessor message: ::String
       SENSITIVE: []
     end
 
@@ -6298,6 +6327,13 @@ module Aws::Glue
       attr_accessor name: ::String
       attr_accessor python_version: ::String
       SENSITIVE: []
+    end
+
+    class SessionEndpoint
+      attr_accessor url: ::String
+      attr_accessor auth_token: ::String
+      attr_accessor auth_token_expiration_time: ::Time
+      SENSITIVE: [:auth_token]
     end
 
     class SkewedInfo

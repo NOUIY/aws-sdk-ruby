@@ -186,6 +186,14 @@ module Aws::Wickr
       SENSITIVE: []
     end
 
+    class ConsentPopupConfig
+      attr_accessor enabled: bool
+      attr_accessor header: ::String
+      attr_accessor content: ::String
+      attr_accessor close_button_label: ::String
+      SENSITIVE: []
+    end
+
     class CreateBotRequest
       attr_accessor network_id: ::String
       attr_accessor username: ::String
@@ -643,6 +651,7 @@ module Aws::Wickr
       attr_accessor read_receipt_config: Types::ReadReceiptConfig
       attr_accessor data_retention: bool
       attr_accessor enable_trusted_data_format: bool
+      attr_accessor consent_popup: Types::ConsentPopupConfig
       SENSITIVE: []
     end
 
@@ -822,6 +831,7 @@ module Aws::Wickr
       attr_accessor show_master_recovery_key: bool
       attr_accessor shredder: Types::ShredderSettings
       attr_accessor sso_max_idle_minutes: ::Integer
+      attr_accessor max_non_sso_session_minutes: ::Integer
       attr_accessor federation_mode: ::Integer
       attr_accessor lockout_threshold: ::Integer
       attr_accessor permitted_networks: ::Array[::String]

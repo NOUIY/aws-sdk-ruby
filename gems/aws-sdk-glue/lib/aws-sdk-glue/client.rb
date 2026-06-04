@@ -4236,6 +4236,9 @@ module Aws::Glue
     # @option params [String] :request_origin
     #   The origin of the request.
     #
+    # @option params [String] :session_type
+    #   The type of session to create.
+    #
     # @return [Types::CreateSessionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateSessionResponse#session #session} => Types::Session
@@ -4267,6 +4270,7 @@ module Aws::Glue
     #       "TagKey" => "TagValue",
     #     },
     #     request_origin: "OrchestrationNameString",
+    #     session_type: "LIVY", # accepts LIVY, SPARK_CONNECT
     #   })
     #
     # @example Response structure
@@ -4294,6 +4298,7 @@ module Aws::Glue
     #   resp.session.dpu_seconds #=> Float
     #   resp.session.idle_timeout #=> Integer
     #   resp.session.profile_name #=> String
+    #   resp.session.session_type #=> String, one of "LIVY", "SPARK_CONNECT"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateSession AWS API Documentation
     #
@@ -7772,6 +7777,44 @@ module Aws::Glue
       req.send_request(options)
     end
 
+    # Retrieves the URL for the Spark monitoring dashboard for a Glue
+    # resource.
+    #
+    # @option params [required, String] :resource_id
+    #   The unique identifier of the resource for which to retrieve the
+    #   dashboard URL.
+    #
+    # @option params [required, String] :resource_type
+    #   The type of the resource. Valid values are `SESSION` and `JOB`.
+    #
+    # @option params [String] :request_origin
+    #   The origin of the request.
+    #
+    # @return [Types::GetDashboardUrlResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDashboardUrlResponse#url #url} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_dashboard_url({
+    #     resource_id: "NameString", # required
+    #     resource_type: "JOB", # required, accepts JOB, SESSION
+    #     request_origin: "OrchestrationNameString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.url #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetDashboardUrl AWS API Documentation
+    #
+    # @overload get_dashboard_url(params = {})
+    # @param [Hash] params ({})
+    def get_dashboard_url(params = {}, options = {})
+      req = build_request(:get_dashboard_url, params)
+      req.send_request(options)
+    end
+
     # Retrieves the security configuration for a specified catalog.
     #
     # @option params [String] :catalog_id
@@ -10386,6 +10429,7 @@ module Aws::Glue
     #   resp.session.dpu_seconds #=> Float
     #   resp.session.idle_timeout #=> Integer
     #   resp.session.profile_name #=> String
+    #   resp.session.session_type #=> String, one of "LIVY", "SPARK_CONNECT"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetSession AWS API Documentation
     #
@@ -10393,6 +10437,37 @@ module Aws::Glue
     # @param [Hash] params ({})
     def get_session(params = {}, options = {})
       req = build_request(:get_session, params)
+      req.send_request(options)
+    end
+
+    # Returns the Spark Connect endpoint URL and authentication token for an
+    # interactive session.
+    #
+    # @option params [required, String] :session_id
+    #   The unique identifier of the interactive session.
+    #
+    # @return [Types::GetSessionEndpointResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetSessionEndpointResponse#spark_connect #spark_connect} => Types::SessionEndpoint
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_session_endpoint({
+    #     session_id: "NameString", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.spark_connect.url #=> String
+    #   resp.spark_connect.auth_token #=> String
+    #   resp.spark_connect.auth_token_expiration_time #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetSessionEndpoint AWS API Documentation
+    #
+    # @overload get_session_endpoint(params = {})
+    # @param [Hash] params ({})
+    def get_session_endpoint(params = {}, options = {})
+      req = build_request(:get_session_endpoint, params)
       req.send_request(options)
     end
 
@@ -13992,6 +14067,7 @@ module Aws::Glue
     #   resp.sessions[0].dpu_seconds #=> Float
     #   resp.sessions[0].idle_timeout #=> Integer
     #   resp.sessions[0].profile_name #=> String
+    #   resp.sessions[0].session_type #=> String, one of "LIVY", "SPARK_CONNECT"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListSessions AWS API Documentation
@@ -19061,7 +19137,7 @@ module Aws::Glue
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-glue'
-      context[:gem_version] = '1.259.0'
+      context[:gem_version] = '1.260.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

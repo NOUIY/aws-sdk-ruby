@@ -771,11 +771,11 @@ module Aws::WorkSpaces
       req.send_request(options)
     end
 
-    # Creates a client-add-in for Amazon Connect within a directory. You can
-    # create only one Amazon Connect client add-in within a directory.
+    # Creates a client-add-in for Connect Customer within a directory. You
+    # can create only one Connect Customer client add-in within a directory.
     #
     # This client add-in allows WorkSpaces users to seamlessly connect to
-    # Amazon Connect.
+    # Connect Customer.
     #
     # @option params [required, String] :resource_id
     #   The directory identifier for which to configure the client add-in.
@@ -784,7 +784,7 @@ module Aws::WorkSpaces
     #   The name of the client add-in.
     #
     # @option params [required, String] :url
-    #   The endpoint URL of the Amazon Connect client add-in.
+    #   The endpoint URL of the Connect Customer client add-in.
     #
     # @return [Types::CreateConnectClientAddInResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1550,8 +1550,8 @@ module Aws::WorkSpaces
       req.send_request(options)
     end
 
-    # Deletes a client-add-in for Amazon Connect that is configured within a
-    # directory.
+    # Deletes a client-add-in for Connect Customer that is configured within
+    # a directory.
     #
     # @option params [required, String] :add_in_id
     #   The identifier of the client add-in to delete.
@@ -2154,7 +2154,7 @@ module Aws::WorkSpaces
       req.send_request(options)
     end
 
-    # Retrieves a list of Amazon Connect client add-ins that have been
+    # Retrieves a list of Connect Customer client add-ins that have been
     # created.
     #
     # @option params [required, String] :resource_id
@@ -4722,8 +4722,8 @@ module Aws::WorkSpaces
       req.send_request(options)
     end
 
-    # Updates a Amazon Connect client add-in. Use this action to update the
-    # name and endpoint URL of a Amazon Connect client add-in.
+    # Updates a Connect Customer client add-in. Use this action to update
+    # the name and endpoint URL of a Connect Customer client add-in.
     #
     # @option params [required, String] :add_in_id
     #   The identifier of the client add-in to update.
@@ -4735,7 +4735,7 @@ module Aws::WorkSpaces
     #   The name of the client add-in.
     #
     # @option params [String] :url
-    #   The endpoint URL of the Amazon Connect client add-in.
+    #   The endpoint URL of the Connect Customer client add-in.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -5052,7 +5052,7 @@ module Aws::WorkSpaces
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-workspaces'
-      context[:gem_version] = '1.159.0'
+      context[:gem_version] = '1.160.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

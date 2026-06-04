@@ -21331,11 +21331,30 @@ module Aws::SageMaker
     #   provided, then the latest version of the model card is described.
     #   @return [Integer]
     #
+    # @!attribute [rw] included_data
+    #   Specifies the level of model card data to include in the response.
+    #   Use this parameter to call `DescribeModelCard` without requiring
+    #   `kms:Decrypt` permission on the customer-managed Amazon Web Services
+    #   KMS key.
+    #
+    #   * `AllData`: Returns the full model card `Content`. This option
+    #     requires `kms:Decrypt` permission on the customer-managed key, if
+    #     one is associated with the model card. This is the default.
+    #
+    #   * `MetadataOnly`: Returns the model card with sanitized `Content`
+    #     that includes only a small set of unencrypted metadata fields.
+    #     This option does not require `kms:Decrypt` permission. For the
+    #     list of fields preserved in the response, see `Content`.
+    #
+    #   If you don't specify a value, SageMaker returns `AllData`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeModelCardRequest AWS API Documentation
     #
     class DescribeModelCardRequest < Struct.new(
       :model_card_name,
-      :model_card_version)
+      :model_card_version,
+      :included_data)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -21353,7 +21372,32 @@ module Aws::SageMaker
     #   @return [Integer]
     #
     # @!attribute [rw] content
-    #   The content of the model card.
+    #   The content of the model card. Content is provided as a string in
+    #   the [model card JSON schema][1].
+    #
+    #   When you set `IncludedData` to `MetadataOnly` in the request,
+    #   SageMaker returns a sanitized version of `Content` that includes
+    #   only the following JSON paths, when present in the model card:
+    #
+    #   * `model_overview.model_id`
+    #
+    #   * `model_overview.model_name`
+    #
+    #   * `intended_uses.risk_rating`
+    #
+    #   * `model_package_details.model_package_group_name`
+    #
+    #   * `model_package_details.model_package_arn`
+    #
+    #   All other fields are removed from `Content` when `IncludedData` is
+    #   `MetadataOnly`, including model description, training details,
+    #   evaluation details, business details, and additional information. To
+    #   retrieve the complete `Content`, set `IncludedData` to `AllData` or
+    #   omit the parameter.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/sagemaker/latest/dg/model-cards.html#model-cards-json-schema
     #   @return [String]
     #
     # @!attribute [rw] model_card_status
@@ -21656,10 +21700,39 @@ module Aws::SageMaker
     #   Valid characters are a-z, A-Z, 0-9, and - (hyphen).
     #   @return [String]
     #
+    # @!attribute [rw] included_data
+    #   Specifies the level of model package data to include in the
+    #   response. Use this parameter to call `DescribeModelPackage` on a
+    #   model package that has an associated model card without requiring
+    #   `kms:Decrypt` permission on the customer-managed KMS key associated
+    #   with the embedded model card.
+    #
+    #   * `AllData`: Returns the full model package response, including the
+    #     unredacted `ModelCard.ModelCardContent`. This option requires
+    #     `kms:Decrypt` permission on the customer-managed key, if one is
+    #     associated with the embedded model card. This is the default.
+    #
+    #   * `MetadataOnly`: Returns the full model package response, but with
+    #     the embedded `ModelCard.ModelCardContent` sanitized to include
+    #     only a small set of unencrypted metadata fields. This option does
+    #     not require `kms:Decrypt` permission. All other top-level response
+    #     fields, including `InferenceSpecification`, `ModelMetrics`,
+    #     `DriftCheckBaselines`, and `SecurityConfig`, are returned
+    #     unchanged. For the list of fields preserved within
+    #     `ModelCardContent`, see [ModelCard][1].
+    #
+    #   If you don't specify a value, SageMaker returns `AllData`.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeModelPackage.html#sagemaker-DescribeModelPackage-response-ModelCard
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribeModelPackageInput AWS API Documentation
     #
     class DescribeModelPackageInput < Struct.new(
-      :model_package_name)
+      :model_package_name,
+      :included_data)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -21816,6 +21889,29 @@ module Aws::SageMaker
     #   package model card schema][1]. For more information about the model
     #   card associated with the model package, see [View the Details of a
     #   Model Version][2].
+    #
+    #   When you set `IncludedData` to `MetadataOnly` in the request,
+    #   `ModelCardStatus` is preserved and `ModelCardContent` is sanitized
+    #   to include only the following JSON paths, when present in the model
+    #   card:
+    #
+    #   * `model_overview.model_id`
+    #
+    #   * `model_overview.model_name`
+    #
+    #   * `intended_uses.risk_rating`
+    #
+    #   * `model_package_details.model_package_group_name`
+    #
+    #   * `model_package_details.model_package_arn`
+    #
+    #   Because the `ModelPackageModelCard` schema does not include
+    #   `model_package_details` and limits `model_overview` to
+    #   `model_creator` and `model_artifact`, the sanitized
+    #   `ModelCardContent` for a model package typically contains only
+    #   `intended_uses.risk_rating` if it was provided when the model card
+    #   was created. To retrieve the complete `ModelCardContent`, set
+    #   `IncludedData` to `AllData` or omit the parameter.
     #
     #
     #
@@ -32175,6 +32271,88 @@ module Aws::SageMaker
     class IntegerParameterRangeSpecification < Struct.new(
       :min_value,
       :max_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Search shape for Job. Mirrors DescribeJobResponse fields. If you
+    # update DescribeJobResponse, update this structure as well.
+    #
+    # @!attribute [rw] job_name
+    #   The name of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_arn
+    #   The Amazon Resource Name (ARN) of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_arn
+    #   The ARN of the IAM role associated with the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_category
+    #   The category of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_config_schema_version
+    #   The schema version used for the job configuration document.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_config_document
+    #   The JSON configuration document for the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   The date and time that the job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The date and time that the job was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The date and time that the job ended.
+    #   @return [Time]
+    #
+    # @!attribute [rw] job_status
+    #   The current status of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] secondary_status
+    #   The detailed secondary status of the job, providing more granular
+    #   information about the job's progress.
+    #   @return [String]
+    #
+    # @!attribute [rw] secondary_status_transitions
+    #   A list of secondary status transitions for the job, with timestamps
+    #   and optional status messages.
+    #   @return [Array<Types::JobSecondaryStatusTransition>]
+    #
+    # @!attribute [rw] failure_reason
+    #   If the job failed, the reason it failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags associated with the job.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/Job AWS API Documentation
+    #
+    class Job < Struct.new(
+      :job_name,
+      :job_arn,
+      :role_arn,
+      :job_category,
+      :job_config_schema_version,
+      :job_config_document,
+      :creation_time,
+      :last_modified_time,
+      :end_time,
+      :job_status,
+      :secondary_status,
+      :secondary_status_transitions,
+      :failure_reason,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -49884,6 +50062,11 @@ module Aws::SageMaker
     #   A model displayed in the Amazon SageMaker Model Dashboard.
     #   @return [Types::ModelDashboardModel]
     #
+    # @!attribute [rw] job
+    #   Search shape for Job. Mirrors DescribeJobResponse fields. If you
+    #   update DescribeJobResponse, update this structure as well.
+    #   @return [Types::Job]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/SearchRecord AWS API Documentation
     #
     class SearchRecord < Struct.new(
@@ -49902,7 +50085,8 @@ module Aws::SageMaker
       :project,
       :hyper_parameter_tuning_job,
       :model_card,
-      :model)
+      :model,
+      :job)
       SENSITIVE = []
       include Aws::Structure
     end

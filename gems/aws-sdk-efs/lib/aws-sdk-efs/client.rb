@@ -773,7 +773,7 @@ module Aws::EFS
     #   want to provision for a file system that you're creating. Required if
     #   `ThroughputMode` is set to `provisioned`. Valid values are 1-3414
     #   MiBps, with the upper limit depending on Region. To increase this
-    #   limit, contact Amazon Web ServicesSupport. For more information, see
+    #   limit, contact Amazon Web Services Support. For more information, see
     #   [Amazon EFS quotas that you can increase][1] in the *Amazon EFS User
     #   Guide*.
     #
@@ -2823,7 +2823,7 @@ module Aws::EFS
     #   that you want to provision for a file system that you're creating.
     #   Required if `ThroughputMode` is set to `provisioned`. Valid values are
     #   1-3414 MiBps, with the upper limit depending on Region. To increase
-    #   this limit, contact Amazon Web ServicesSupport. For more information,
+    #   this limit, contact Amazon Web Services Support. For more information,
     #   see [Amazon EFS quotas that you can increase][1] in the *Amazon EFS
     #   User Guide*.
     #
@@ -2965,7 +2965,7 @@ module Aws::EFS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-efs'
-      context[:gem_version] = '1.111.0'
+      context[:gem_version] = '1.112.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

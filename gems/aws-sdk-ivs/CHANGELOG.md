@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.90.0 (2026-06-04)
+------------------
+
+* Feature - adds UpdateAdConfiguration operation to AWS IVS low-latency APIs
+
 1.89.0 (2026-05-28)
 ------------------
 

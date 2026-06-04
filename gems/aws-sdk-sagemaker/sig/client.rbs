@@ -4535,7 +4535,8 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#describe_model_card-instance_method
       def describe_model_card: (
                                  model_card_name: ::String,
-                                 ?model_card_version: ::Integer
+                                 ?model_card_version: ::Integer,
+                                 ?included_data: ("AllData" | "MetadataOnly")
                                ) -> _DescribeModelCardResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeModelCardResponseSuccess
 
@@ -4615,7 +4616,8 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#describe_model_package-instance_method
       def describe_model_package: (
-                                    model_package_name: ::String
+                                    model_package_name: ::String,
+                                    ?included_data: ("AllData" | "MetadataOnly")
                                   ) -> _DescribeModelPackageResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeModelPackageResponseSuccess
 
@@ -5304,7 +5306,7 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#get_search_suggestions-instance_method
       def get_search_suggestions: (
-                                    resource: ("TrainingJob" | "Experiment" | "ExperimentTrial" | "ExperimentTrialComponent" | "Endpoint" | "Model" | "ModelPackage" | "ModelPackageGroup" | "Pipeline" | "PipelineExecution" | "FeatureGroup" | "FeatureMetadata" | "Image" | "ImageVersion" | "Project" | "HyperParameterTuningJob" | "ModelCard" | "PipelineVersion"),
+                                    resource: ("TrainingJob" | "Experiment" | "ExperimentTrial" | "ExperimentTrialComponent" | "Endpoint" | "Model" | "ModelPackage" | "ModelPackageGroup" | "Pipeline" | "PipelineExecution" | "FeatureGroup" | "FeatureMetadata" | "Image" | "ImageVersion" | "Project" | "HyperParameterTuningJob" | "ModelCard" | "PipelineVersion" | "Job"),
                                     ?suggestion_query: {
                                       property_name_query: {
                                         property_name_hint: ::String
@@ -7058,7 +7060,7 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#search-instance_method
       def search: (
-                    resource: ("TrainingJob" | "Experiment" | "ExperimentTrial" | "ExperimentTrialComponent" | "Endpoint" | "Model" | "ModelPackage" | "ModelPackageGroup" | "Pipeline" | "PipelineExecution" | "FeatureGroup" | "FeatureMetadata" | "Image" | "ImageVersion" | "Project" | "HyperParameterTuningJob" | "ModelCard" | "PipelineVersion"),
+                    resource: ("TrainingJob" | "Experiment" | "ExperimentTrial" | "ExperimentTrialComponent" | "Endpoint" | "Model" | "ModelPackage" | "ModelPackageGroup" | "Pipeline" | "PipelineExecution" | "FeatureGroup" | "FeatureMetadata" | "Image" | "ImageVersion" | "Project" | "HyperParameterTuningJob" | "ModelCard" | "PipelineVersion" | "Job"),
                     ?search_expression: Params::search_expression,
                     ?sort_by: ::String,
                     ?sort_order: ("Ascending" | "Descending"),

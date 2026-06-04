@@ -700,6 +700,8 @@ module Aws::Glue
     GetCrawlersResponse = Shapes::StructureShape.new(name: 'GetCrawlersResponse')
     GetCustomEntityTypeRequest = Shapes::StructureShape.new(name: 'GetCustomEntityTypeRequest')
     GetCustomEntityTypeResponse = Shapes::StructureShape.new(name: 'GetCustomEntityTypeResponse')
+    GetDashboardUrlRequest = Shapes::StructureShape.new(name: 'GetDashboardUrlRequest')
+    GetDashboardUrlResponse = Shapes::StructureShape.new(name: 'GetDashboardUrlResponse')
     GetDataCatalogEncryptionSettingsRequest = Shapes::StructureShape.new(name: 'GetDataCatalogEncryptionSettingsRequest')
     GetDataCatalogEncryptionSettingsResponse = Shapes::StructureShape.new(name: 'GetDataCatalogEncryptionSettingsResponse')
     GetDataQualityModelRequest = Shapes::StructureShape.new(name: 'GetDataQualityModelRequest')
@@ -781,6 +783,8 @@ module Aws::Glue
     GetSecurityConfigurationResponse = Shapes::StructureShape.new(name: 'GetSecurityConfigurationResponse')
     GetSecurityConfigurationsRequest = Shapes::StructureShape.new(name: 'GetSecurityConfigurationsRequest')
     GetSecurityConfigurationsResponse = Shapes::StructureShape.new(name: 'GetSecurityConfigurationsResponse')
+    GetSessionEndpointRequest = Shapes::StructureShape.new(name: 'GetSessionEndpointRequest')
+    GetSessionEndpointResponse = Shapes::StructureShape.new(name: 'GetSessionEndpointResponse')
     GetSessionRequest = Shapes::StructureShape.new(name: 'GetSessionRequest')
     GetSessionResponse = Shapes::StructureShape.new(name: 'GetSessionResponse')
     GetStatementRequest = Shapes::StructureShape.new(name: 'GetStatementRequest')
@@ -826,6 +830,7 @@ module Aws::Glue
     GluePolicy = Shapes::StructureShape.new(name: 'GluePolicy')
     GlueRecordType = Shapes::StringShape.new(name: 'GlueRecordType')
     GlueResourceArn = Shapes::StringShape.new(name: 'GlueResourceArn')
+    GlueResourceType = Shapes::StringShape.new(name: 'GlueResourceType')
     GlueSchema = Shapes::StructureShape.new(name: 'GlueSchema')
     GlueSchemas = Shapes::ListShape.new(name: 'GlueSchemas')
     GlueStudioColumnNameString = Shapes::StringShape.new(name: 'GlueStudioColumnNameString')
@@ -1377,13 +1382,18 @@ module Aws::Glue
     SelectFields = Shapes::StructureShape.new(name: 'SelectFields')
     SelectFromCollection = Shapes::StructureShape.new(name: 'SelectFromCollection')
     SelectedFields = Shapes::ListShape.new(name: 'SelectedFields')
+    SensitiveString = Shapes::StringShape.new(name: 'SensitiveString')
+    SensitiveUrl = Shapes::StringShape.new(name: 'SensitiveUrl')
     Separator = Shapes::StringShape.new(name: 'Separator')
     SerDeInfo = Shapes::StructureShape.new(name: 'SerDeInfo')
     Session = Shapes::StructureShape.new(name: 'Session')
+    SessionBusyException = Shapes::StructureShape.new(name: 'SessionBusyException')
     SessionCommand = Shapes::StructureShape.new(name: 'SessionCommand')
+    SessionEndpoint = Shapes::StructureShape.new(name: 'SessionEndpoint')
     SessionIdList = Shapes::ListShape.new(name: 'SessionIdList')
     SessionList = Shapes::ListShape.new(name: 'SessionList')
     SessionStatus = Shapes::StringShape.new(name: 'SessionStatus')
+    SessionType = Shapes::StringShape.new(name: 'SessionType')
     SettingSource = Shapes::StringShape.new(name: 'SettingSource')
     SkewedInfo = Shapes::StructureShape.new(name: 'SkewedInfo')
     SnowflakeNodeData = Shapes::StructureShape.new(name: 'SnowflakeNodeData')
@@ -1400,6 +1410,7 @@ module Aws::Glue
     SourceProcessingProperties = Shapes::StructureShape.new(name: 'SourceProcessingProperties')
     SourceTableConfig = Shapes::StructureShape.new(name: 'SourceTableConfig')
     SourceTableFieldsList = Shapes::ListShape.new(name: 'SourceTableFieldsList')
+    SparkConnectEndpointUrl = Shapes::StringShape.new(name: 'SparkConnectEndpointUrl')
     SparkConnectorSource = Shapes::StructureShape.new(name: 'SparkConnectorSource')
     SparkConnectorTarget = Shapes::StructureShape.new(name: 'SparkConnectorTarget')
     SparkSQL = Shapes::StructureShape.new(name: 'SparkSQL')
@@ -3127,6 +3138,7 @@ module Aws::Glue
     CreateSessionRequest.add_member(:glue_version, Shapes::ShapeRef.new(shape: GlueVersionString, location_name: "GlueVersion"))
     CreateSessionRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "Tags"))
     CreateSessionRequest.add_member(:request_origin, Shapes::ShapeRef.new(shape: OrchestrationNameString, location_name: "RequestOrigin"))
+    CreateSessionRequest.add_member(:session_type, Shapes::ShapeRef.new(shape: SessionType, location_name: "SessionType"))
     CreateSessionRequest.struct_class = Types::CreateSessionRequest
 
     CreateSessionResponse.add_member(:session, Shapes::ShapeRef.new(shape: Session, location_name: "Session"))
@@ -4284,6 +4296,14 @@ module Aws::Glue
     GetCustomEntityTypeResponse.add_member(:context_words, Shapes::ShapeRef.new(shape: ContextWords, location_name: "ContextWords"))
     GetCustomEntityTypeResponse.struct_class = Types::GetCustomEntityTypeResponse
 
+    GetDashboardUrlRequest.add_member(:resource_id, Shapes::ShapeRef.new(shape: NameString, required: true, location_name: "ResourceId"))
+    GetDashboardUrlRequest.add_member(:resource_type, Shapes::ShapeRef.new(shape: GlueResourceType, required: true, location_name: "ResourceType"))
+    GetDashboardUrlRequest.add_member(:request_origin, Shapes::ShapeRef.new(shape: OrchestrationNameString, location_name: "RequestOrigin"))
+    GetDashboardUrlRequest.struct_class = Types::GetDashboardUrlRequest
+
+    GetDashboardUrlResponse.add_member(:url, Shapes::ShapeRef.new(shape: SensitiveUrl, required: true, location_name: "Url"))
+    GetDashboardUrlResponse.struct_class = Types::GetDashboardUrlResponse
+
     GetDataCatalogEncryptionSettingsRequest.add_member(:catalog_id, Shapes::ShapeRef.new(shape: CatalogIdString, location_name: "CatalogId"))
     GetDataCatalogEncryptionSettingsRequest.struct_class = Types::GetDataCatalogEncryptionSettingsRequest
 
@@ -4720,6 +4740,12 @@ module Aws::Glue
     GetSecurityConfigurationsResponse.add_member(:security_configurations, Shapes::ShapeRef.new(shape: SecurityConfigurationList, location_name: "SecurityConfigurations"))
     GetSecurityConfigurationsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: GenericString, location_name: "NextToken"))
     GetSecurityConfigurationsResponse.struct_class = Types::GetSecurityConfigurationsResponse
+
+    GetSessionEndpointRequest.add_member(:session_id, Shapes::ShapeRef.new(shape: NameString, required: true, location_name: "SessionId"))
+    GetSessionEndpointRequest.struct_class = Types::GetSessionEndpointRequest
+
+    GetSessionEndpointResponse.add_member(:spark_connect, Shapes::ShapeRef.new(shape: SessionEndpoint, required: true, location_name: "SparkConnect"))
+    GetSessionEndpointResponse.struct_class = Types::GetSessionEndpointResponse
 
     GetSessionRequest.add_member(:id, Shapes::ShapeRef.new(shape: NameString, required: true, location_name: "Id"))
     GetSessionRequest.add_member(:request_origin, Shapes::ShapeRef.new(shape: OrchestrationNameString, location_name: "RequestOrigin"))
@@ -6852,11 +6878,20 @@ module Aws::Glue
     Session.add_member(:dpu_seconds, Shapes::ShapeRef.new(shape: NullableDouble, location_name: "DPUSeconds"))
     Session.add_member(:idle_timeout, Shapes::ShapeRef.new(shape: IdleTimeout, location_name: "IdleTimeout"))
     Session.add_member(:profile_name, Shapes::ShapeRef.new(shape: NameString, location_name: "ProfileName"))
+    Session.add_member(:session_type, Shapes::ShapeRef.new(shape: SessionType, location_name: "SessionType"))
     Session.struct_class = Types::Session
+
+    SessionBusyException.add_member(:message, Shapes::ShapeRef.new(shape: OrchestrationMessageString, location_name: "Message"))
+    SessionBusyException.struct_class = Types::SessionBusyException
 
     SessionCommand.add_member(:name, Shapes::ShapeRef.new(shape: NameString, location_name: "Name"))
     SessionCommand.add_member(:python_version, Shapes::ShapeRef.new(shape: PythonVersionString, location_name: "PythonVersion"))
     SessionCommand.struct_class = Types::SessionCommand
+
+    SessionEndpoint.add_member(:url, Shapes::ShapeRef.new(shape: SparkConnectEndpointUrl, required: true, location_name: "Url"))
+    SessionEndpoint.add_member(:auth_token, Shapes::ShapeRef.new(shape: SensitiveString, required: true, location_name: "AuthToken"))
+    SessionEndpoint.add_member(:auth_token_expiration_time, Shapes::ShapeRef.new(shape: TimestampValue, required: true, location_name: "AuthTokenExpirationTime"))
+    SessionEndpoint.struct_class = Types::SessionEndpoint
 
     SessionIdList.member = Shapes::ShapeRef.new(shape: NameString)
 
@@ -8637,6 +8672,7 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: AlreadyExistsException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNumberLimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: OperationNotSupportedException)
       end)
 
       api.add_operation(:create_table, Seahorse::Model::Operation.new.tap do |o|
@@ -9489,6 +9525,19 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: OperationTimeoutException)
       end)
 
+      api.add_operation(:get_dashboard_url, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetDashboardUrl"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetDashboardUrlRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetDashboardUrlResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: OperationNotSupportedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+      end)
+
       api.add_operation(:get_data_catalog_encryption_settings, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetDataCatalogEncryptionSettings"
         o.http_method = "POST"
@@ -10063,6 +10112,21 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: OperationTimeoutException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+      end)
+
+      api.add_operation(:get_session_endpoint, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetSessionEndpoint"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetSessionEndpointRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetSessionEndpointResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: OperationTimeoutException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: OperationNotSupportedException)
+        o.errors << Shapes::ShapeRef.new(shape: IllegalSessionStateException)
       end)
 
       api.add_operation(:get_statement, Seahorse::Model::Operation.new.tap do |o|
@@ -10982,6 +11046,8 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNumberLimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: OperationNotSupportedException)
+        o.errors << Shapes::ShapeRef.new(shape: SessionBusyException)
         o.errors << Shapes::ShapeRef.new(shape: IllegalSessionStateException)
       end)
 

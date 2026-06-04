@@ -1552,8 +1552,6 @@ module Aws::GuardDuty
     #     Type: Timestamp in Unix Epoch millisecond format. Ex:
     #     1486685375000
     #
-    #   * description
-    #
     #   * id
     #
     #   * partition
@@ -1893,10 +1891,6 @@ module Aws::GuardDuty
     #
     #   * resource.rdsDbInstanceDetails.publiclyAccessible
     #
-    #   * resource.rdsDbInstanceDetails.tags.key
-    #
-    #   * resource.rdsDbInstanceDetails.tags.value
-    #
     #   * resource.rdsDbInstanceDetails.vpcId
     #
     #   * resource.rdsDbInstanceDetails.vpcSecurityGroups.status
@@ -1995,8 +1989,6 @@ module Aws::GuardDuty
     #   * schemaVersion
     #
     #   * service.action.actionType
-    #
-    #   * service.action.awsApiCallAction.affectedResources
     #
     #   * service.action.awsApiCallAction.api
     #
@@ -2285,10 +2277,6 @@ module Aws::GuardDuty
     #   * service.archived
     #
     #   * service.count
-    #
-    #   * service.detection.anomaly.profiles
-    #
-    #   * service.detection.anomaly.unusual.behavior
     #
     #   * service.detection.sequence.actors.id
     #
@@ -2881,8 +2869,6 @@ module Aws::GuardDuty
     #     * **Critical**: `["9", "10"]`
     #     For more information, see [Findings severity levels][2] in the
     #     *Amazon GuardDuty User Guide*.
-    #
-    #   * title
     #
     #   * type
     #
@@ -12418,8 +12404,6 @@ module Aws::GuardDuty
     #     Type: Timestamp in Unix Epoch millisecond format. Ex:
     #     1486685375000
     #
-    #   * description
-    #
     #   * id
     #
     #   * partition
@@ -12759,10 +12743,6 @@ module Aws::GuardDuty
     #
     #   * resource.rdsDbInstanceDetails.publiclyAccessible
     #
-    #   * resource.rdsDbInstanceDetails.tags.key
-    #
-    #   * resource.rdsDbInstanceDetails.tags.value
-    #
     #   * resource.rdsDbInstanceDetails.vpcId
     #
     #   * resource.rdsDbInstanceDetails.vpcSecurityGroups.status
@@ -12861,8 +12841,6 @@ module Aws::GuardDuty
     #   * schemaVersion
     #
     #   * service.action.actionType
-    #
-    #   * service.action.awsApiCallAction.affectedResources
     #
     #   * service.action.awsApiCallAction.api
     #
@@ -13151,10 +13129,6 @@ module Aws::GuardDuty
     #   * service.archived
     #
     #   * service.count
-    #
-    #   * service.detection.anomaly.profiles
-    #
-    #   * service.detection.anomaly.unusual.behavior
     #
     #   * service.detection.sequence.actors.id
     #
@@ -13747,8 +13721,6 @@ module Aws::GuardDuty
     #     * **Critical**: `["9", "10"]`
     #     For more information, see [Findings severity levels][2] in the
     #     *Amazon GuardDuty User Guide*.
-    #
-    #   * title
     #
     #   * type
     #

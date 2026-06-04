@@ -7673,10 +7673,10 @@ module Aws::CloudFormation
     #
     # @option params [required, String] :unique_id
     #   A unique ID of the signal. When you signal Amazon EC2 instances or
-    #   Amazon EC2 Auto Scaling groups, specify the instance ID that you are
-    #   signaling as the unique ID. If you send multiple signals to a single
-    #   resource (such as signaling a wait condition), each signal requires a
-    #   different unique ID.
+    #   Auto Scaling groups, specify the instance ID that you are signaling as
+    #   the unique ID. If you send multiple signals to a single resource (such
+    #   as signaling a wait condition), each signal requires a different
+    #   unique ID.
     #
     # @option params [required, String] :status
     #   The status of the signal, which is either success or failure. A
@@ -9123,7 +9123,7 @@ module Aws::CloudFormation
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudformation'
-      context[:gem_version] = '1.153.0'
+      context[:gem_version] = '1.154.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

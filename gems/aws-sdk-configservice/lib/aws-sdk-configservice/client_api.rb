@@ -534,6 +534,7 @@ module Aws::ConfigService
     RetentionConfigurationName = Shapes::StringShape.new(name: 'RetentionConfigurationName')
     RetentionConfigurationNameList = Shapes::ListShape.new(name: 'RetentionConfigurationNameList')
     RetentionPeriodInDays = Shapes::IntegerShape.new(name: 'RetentionPeriodInDays')
+    RuleEvaluationVisibility = Shapes::StringShape.new(name: 'RuleEvaluationVisibility')
     RuleLimit = Shapes::IntegerShape.new(name: 'RuleLimit')
     SSMDocumentName = Shapes::StringShape.new(name: 'SSMDocumentName')
     SSMDocumentVersion = Shapes::StringShape.new(name: 'SSMDocumentVersion')
@@ -546,6 +547,7 @@ module Aws::ConfigService
     ServicePrincipal = Shapes::StringShape.new(name: 'ServicePrincipal')
     ServicePrincipalValue = Shapes::StringShape.new(name: 'ServicePrincipalValue')
     ServicePrincipalValueList = Shapes::ListShape.new(name: 'ServicePrincipalValueList')
+    ServicePrincipals = Shapes::ListShape.new(name: 'ServicePrincipals')
     SortBy = Shapes::StringShape.new(name: 'SortBy')
     SortOrder = Shapes::StringShape.new(name: 'SortOrder')
     Source = Shapes::StructureShape.new(name: 'Source')
@@ -804,6 +806,7 @@ module Aws::ConfigService
     ConfigRule.add_member(:config_rule_state, Shapes::ShapeRef.new(shape: ConfigRuleState, location_name: "ConfigRuleState"))
     ConfigRule.add_member(:created_by, Shapes::ShapeRef.new(shape: StringWithCharLimit256, location_name: "CreatedBy"))
     ConfigRule.add_member(:evaluation_modes, Shapes::ShapeRef.new(shape: EvaluationModes, location_name: "EvaluationModes"))
+    ConfigRule.add_member(:rule_evaluation_visibility, Shapes::ShapeRef.new(shape: RuleEvaluationVisibility, location_name: "RuleEvaluationVisibility"))
     ConfigRule.struct_class = Types::ConfigRule
 
     ConfigRuleComplianceFilters.add_member(:config_rule_name, Shapes::ShapeRef.new(shape: ConfigRuleName, location_name: "ConfigRuleName"))
@@ -1175,6 +1178,7 @@ module Aws::ConfigService
     DescribeConfigRuleEvaluationStatusResponse.struct_class = Types::DescribeConfigRuleEvaluationStatusResponse
 
     DescribeConfigRulesFilters.add_member(:evaluation_mode, Shapes::ShapeRef.new(shape: EvaluationMode, location_name: "EvaluationMode"))
+    DescribeConfigRulesFilters.add_member(:rule_evaluation_visibility, Shapes::ShapeRef.new(shape: RuleEvaluationVisibility, location_name: "RuleEvaluationVisibility"))
     DescribeConfigRulesFilters.struct_class = Types::DescribeConfigRulesFilters
 
     DescribeConfigRulesRequest.add_member(:config_rule_names, Shapes::ShapeRef.new(shape: ConfigRuleNames, location_name: "ConfigRuleNames"))
@@ -2211,6 +2215,7 @@ module Aws::ConfigService
     Scope.add_member(:tag_key, Shapes::ShapeRef.new(shape: StringWithCharLimit128, location_name: "TagKey"))
     Scope.add_member(:tag_value, Shapes::ShapeRef.new(shape: StringWithCharLimit256, location_name: "TagValue"))
     Scope.add_member(:compliance_resource_id, Shapes::ShapeRef.new(shape: BaseResourceId, location_name: "ComplianceResourceId"))
+    Scope.add_member(:service_principals, Shapes::ShapeRef.new(shape: ServicePrincipals, location_name: "ServicePrincipals"))
     Scope.struct_class = Types::Scope
 
     SelectAggregateResourceConfigRequest.add_member(:expression, Shapes::ShapeRef.new(shape: Expression, required: true, location_name: "Expression"))
@@ -2236,6 +2241,8 @@ module Aws::ConfigService
     SelectResourceConfigResponse.struct_class = Types::SelectResourceConfigResponse
 
     ServicePrincipalValueList.member = Shapes::ShapeRef.new(shape: ServicePrincipalValue)
+
+    ServicePrincipals.member = Shapes::ShapeRef.new(shape: StringWithCharLimit128)
 
     Source.add_member(:owner, Shapes::ShapeRef.new(shape: Owner, required: true, location_name: "Owner"))
     Source.add_member(:source_identifier, Shapes::ShapeRef.new(shape: StringWithCharLimit256, location_name: "SourceIdentifier"))

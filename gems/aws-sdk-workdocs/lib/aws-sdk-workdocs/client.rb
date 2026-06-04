@@ -2609,8 +2609,8 @@ module Aws::WorkDocs
     # versions, and comments.
     #
     # @option params [String] :authentication_token
-    #   Amazon WorkDocs authentication token. Not required when using Amazon
-    #   Web Services administrator credentials to access the API.
+    #   WorkDocs authentication token. Not required when using Amazon Web
+    #   Services administrator credentials to access the API.
     #
     # @option params [String] :query_text
     #   The String to search for. Searches across different text fields based
@@ -3004,7 +3004,7 @@ module Aws::WorkDocs
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-workdocs'
-      context[:gem_version] = '1.90.0'
+      context[:gem_version] = '1.91.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

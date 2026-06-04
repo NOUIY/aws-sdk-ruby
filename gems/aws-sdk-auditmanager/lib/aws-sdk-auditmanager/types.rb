@@ -288,12 +288,13 @@ module Aws::AuditManager
     #
     # @!attribute [rw] evidence_by_type_compliance_check_count
     #   The number of evidence that falls under the compliance check
-    #   category. This evidence is collected from Config or Security Hub.
+    #   category. This evidence is collected from Config or Security Hub
+    #   CSPM.
     #   @return [Integer]
     #
     # @!attribute [rw] evidence_by_type_compliance_check_issues_count
     #   The total number of issues that were reported directly from Security
-    #   Hub, Config, or both.
+    #   Hub CSPM, Config, or both.
     #   @return [Integer]
     #
     # @!attribute [rw] evidence_by_type_user_activity_count
@@ -1405,8 +1406,8 @@ module Aws::AuditManager
     #   is a file or text.
     #
     #   For automated evidence, this keyword identifies a specific
-    #   CloudTrail event, Config rule, Security Hub control, or Amazon Web
-    #   Services API name.
+    #   CloudTrail event, Config rule, Security Hub CSPM control, or Amazon
+    #   Web Services API name.
     #
     #   To learn more about the supported keywords that you can use when
     #   mapping a control data source, see the following pages in the *Audit
@@ -1414,7 +1415,7 @@ module Aws::AuditManager
     #
     #   * [Config rules supported by Audit Manager][1]
     #
-    #   * [Security Hub controls supported by Audit Manager][2]
+    #   * [Security Hub CSPM controls supported by Audit Manager][2]
     #
     #   * [API calls supported by Audit Manager][3]
     #
@@ -1779,8 +1780,8 @@ module Aws::AuditManager
     #   is a file or text.
     #
     #   For automated evidence, this keyword identifies a specific
-    #   CloudTrail event, Config rule, Security Hub control, or Amazon Web
-    #   Services API name.
+    #   CloudTrail event, Config rule, Security Hub CSPM control, or Amazon
+    #   Web Services API name.
     #
     #   To learn more about the supported keywords that you can use when
     #   mapping a control data source, see the following pages in the *Audit
@@ -1788,7 +1789,7 @@ module Aws::AuditManager
     #
     #   * [Config rules supported by Audit Manager][1]
     #
-    #   * [Security Hub controls supported by Audit Manager][2]
+    #   * [Security Hub CSPM controls supported by Audit Manager][2]
     #
     #   * [API calls supported by Audit Manager][3]
     #
@@ -2299,20 +2300,20 @@ module Aws::AuditManager
     #   compliance check category.
     #
     #   * Audit Manager classes evidence as non-compliant if Security Hub
-    #     reports a *Fail* result, or if Config reports a *Non-compliant*
-    #     result.
+    #     CSPM reports a *Fail* result, or if Config reports a
+    #     *Non-compliant* result.
     #
-    #   * Audit Manager classes evidence as compliant if Security Hub
+    #   * Audit Manager classes evidence as compliant if Security Hub CSPM
     #     reports a *Pass* result, or if Config reports a *Compliant*
     #     result.
     #
     #   * If a compliance check isn't available or applicable, then no
     #     compliance evaluation can be made for that evidence. This is the
-    #     case if the evidence uses Config or Security Hub as the underlying
-    #     data source type, but those services aren't enabled. This is also
-    #     the case if the evidence uses an underlying data source type that
-    #     doesn't support compliance checks (such as manual evidence,
-    #     Amazon Web Services API calls, or CloudTrail).
+    #     case if the evidence uses Config or Security Hub CSPM as the
+    #     underlying data source type, but those services aren't enabled.
+    #     This is also the case if the evidence uses an underlying data
+    #     source type that doesn't support compliance checks (such as
+    #     manual evidence, Amazon Web Services API calls, or CloudTrail).
     #   @return [String]
     #
     # @!attribute [rw] aws_organization
@@ -2432,24 +2433,24 @@ module Aws::AuditManager
     # @!attribute [rw] noncompliant_evidence_count
     #   The number of compliance check evidence that Audit Manager
     #   classified as non-compliant. This includes evidence that was
-    #   collected from Security Hub with a *Fail* ruling, or collected from
-    #   Config with a *Non-compliant* ruling.
+    #   collected from Security Hub CSPM with a *Fail* ruling, or collected
+    #   from Config with a *Non-compliant* ruling.
     #   @return [Integer]
     #
     # @!attribute [rw] compliant_evidence_count
     #   The number of compliance check evidence that Audit Manager
     #   classified as compliant. This includes evidence that was collected
-    #   from Security Hub with a *Pass* ruling, or collected from Config
-    #   with a *Compliant* ruling.
+    #   from Security Hub CSPM with a *Pass* ruling, or collected from
+    #   Config with a *Compliant* ruling.
     #   @return [Integer]
     #
     # @!attribute [rw] inconclusive_evidence_count
     #   The number of evidence that a compliance check ruling isn't
     #   available for. Evidence is inconclusive when the associated control
-    #   uses Security Hub or Config as a data source but you didn't enable
-    #   those services. This is also the case when a control uses a data
-    #   source that doesn’t support compliance checks (for example, manual
-    #   evidence, API calls, or CloudTrail).
+    #   uses Security Hub CSPM or Config as a data source but you didn't
+    #   enable those services. This is also the case when a control uses a
+    #   data source that doesn’t support compliance checks (for example,
+    #   manual evidence, API calls, or CloudTrail).
     #
     #   <note markdown="1"> If evidence has a compliance check status of *not applicable* in the
     #   console, it's classified as *inconclusive* in `EvidenceInsights`
@@ -3201,22 +3202,22 @@ module Aws::AuditManager
     # @!attribute [rw] noncompliant_evidence_count
     #   The number of compliance check evidence that Audit Manager
     #   classified as non-compliant on the `lastUpdated` date. This includes
-    #   evidence that was collected from Security Hub with a *Fail* ruling,
-    #   or collected from Config with a *Non-compliant* ruling.
+    #   evidence that was collected from Security Hub CSPM with a *Fail*
+    #   ruling, or collected from Config with a *Non-compliant* ruling.
     #   @return [Integer]
     #
     # @!attribute [rw] compliant_evidence_count
     #   The number of compliance check evidence that Audit Manager
     #   classified as compliant on the `lastUpdated` date. This includes
-    #   evidence that was collected from Security Hub with a *Pass* ruling,
-    #   or collected from Config with a *Compliant* ruling.
+    #   evidence that was collected from Security Hub CSPM with a *Pass*
+    #   ruling, or collected from Config with a *Compliant* ruling.
     #   @return [Integer]
     #
     # @!attribute [rw] inconclusive_evidence_count
     #   The number of evidence without a compliance check ruling. Evidence
-    #   is inconclusive when the associated control uses Security Hub or
-    #   Config as a data source but you didn't enable those services. This
-    #   is also the case when a control uses a data source that doesn’t
+    #   is inconclusive when the associated control uses Security Hub CSPM
+    #   or Config as a data source but you didn't enable those services.
+    #   This is also the case when a control uses a data source that doesn’t
     #   support compliance checks (for example: manual evidence, API calls,
     #   or CloudTrail).
     #
@@ -3283,20 +3284,20 @@ module Aws::AuditManager
     # @!attribute [rw] noncompliant_evidence_count
     #   The number of compliance check evidence that Audit Manager
     #   classified as non-compliant. This includes evidence that was
-    #   collected from Security Hub with a *Fail* ruling, or collected from
-    #   Config with a *Non-compliant* ruling.
+    #   collected from Security Hub CSPM with a *Fail* ruling, or collected
+    #   from Config with a *Non-compliant* ruling.
     #   @return [Integer]
     #
     # @!attribute [rw] compliant_evidence_count
     #   The number of compliance check evidence that Audit Manager
     #   classified as compliant. This includes evidence that was collected
-    #   from Security Hub with a *Pass* ruling, or collected from Config
-    #   with a *Compliant* ruling.
+    #   from Security Hub CSPM with a *Pass* ruling, or collected from
+    #   Config with a *Compliant* ruling.
     #   @return [Integer]
     #
     # @!attribute [rw] inconclusive_evidence_count
     #   The amount of evidence without a compliance check ruling. Evidence
-    #   is inconclusive if the associated control uses Security Hub or
+    #   is inconclusive if the associated control uses Security Hub CSPM or
     #   Config as a data source and you didn't enable those services. This
     #   is also the case if a control uses a data source that doesn’t
     #   support compliance checks (for example, manual evidence, API calls,
@@ -4018,18 +4019,18 @@ module Aws::AuditManager
     #   collecting compliance check evidence.
     #
     #   * Audit Manager classes the resource as non-compliant if Security
-    #     Hub reports a *Fail* result, or if Config reports a
+    #     Hub CSPM reports a *Fail* result, or if Config reports a
     #     *Non-compliant* result.
     #
     #   * Audit Manager classes the resource as compliant if Security Hub
-    #     reports a *Pass* result, or if Config reports a *Compliant*
+    #     CSPM reports a *Pass* result, or if Config reports a *Compliant*
     #     result.
     #
     #   * If a compliance check isn't available or applicable, then no
     #     compliance evaluation can be made for that resource. This is the
-    #     case if a resource assessment uses Config or Security Hub as the
-    #     underlying data source type, but those services aren't enabled.
-    #     This is also the case if the resource assessment uses an
+    #     case if a resource assessment uses Config or Security Hub CSPM as
+    #     the underlying data source type, but those services aren't
+    #     enabled. This is also the case if the resource assessment uses an
     #     underlying data source type that doesn't support compliance
     #     checks (such as manual evidence, Amazon Web Services API calls, or
     #     CloudTrail).
@@ -4250,8 +4251,8 @@ module Aws::AuditManager
     # a file or text.
     #
     # For automated evidence, this keyword identifies a specific CloudTrail
-    # event, Config rule, Security Hub control, or Amazon Web Services API
-    # name.
+    # event, Config rule, Security Hub CSPM control, or Amazon Web Services
+    # API name.
     #
     # To learn more about the supported keywords that you can use when
     # mapping a control data source, see the following pages in the *Audit
@@ -4259,7 +4260,7 @@ module Aws::AuditManager
     #
     # * [Config rules supported by Audit Manager][1]
     #
-    # * [Security Hub controls supported by Audit Manager][2]
+    # * [Security Hub CSPM controls supported by Audit Manager][2]
     #
     # * [API calls supported by Audit Manager][3]
     #
@@ -4281,8 +4282,8 @@ module Aws::AuditManager
     #     * When `keywordInputType` is `SELECT_FROM_LIST`, a keyword must be
     #       selected to collect automated evidence. For example, this
     #       keyword can be a CloudTrail event name, a rule name for Config,
-    #       a Security Hub control, or the name of an Amazon Web Services
-    #       API call.
+    #       a Security Hub CSPM control, or the name of an Amazon Web
+    #       Services API call.
     #
     #     ^
     #   * `UPLOAD_FILE` and `INPUT_TEXT` are only used when mapping a data
@@ -4298,8 +4299,8 @@ module Aws::AuditManager
     # @!attribute [rw] keyword_value
     #   The value of the keyword that's used when mapping a control data
     #   source. For example, this can be a CloudTrail event name, a rule
-    #   name for Config, a Security Hub control, or the name of an Amazon
-    #   Web Services API call.
+    #   name for Config, a Security Hub CSPM control, or the name of an
+    #   Amazon Web Services API call.
     #
     #   If you’re mapping a data source to a rule in Config, the
     #   `keywordValue` that you specify depends on the type of rule:
@@ -4364,9 +4365,9 @@ module Aws::AuditManager
     #         of the custom rule name itself may vary. For accuracy, we
     #         recommend that you visit the [Config console][7] to verify
     #         your custom rule name.
-    #   2.  For Security Hub: The format varies for Security Hub control
-    #       names. For accuracy, we recommend that you reference the list of
-    #       [supported Security Hub controls][8].
+    #   2.  For Security Hub CSPM: The format varies for Security Hub CSPM
+    #       control names. For accuracy, we recommend that you reference the
+    #       list of [supported Security Hub CSPM controls][8].
     #
     #   3.  For Amazon Web Services API calls: Make sure that the
     #       `keywordValue` is written as `serviceprefix_ActionName`. For

@@ -934,7 +934,8 @@ module Aws
                             ?security_configuration: ::String,
                             ?glue_version: ::String,
                             ?tags: Hash[::String, ::String],
-                            ?request_origin: ::String
+                            ?request_origin: ::String,
+                            ?session_type: ("LIVY" | "SPARK_CONNECT")
                           ) -> _CreateSessionResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateSessionResponseSuccess
 
@@ -1724,6 +1725,18 @@ module Aws
                                   ) -> _GetCustomEntityTypeResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetCustomEntityTypeResponseSuccess
 
+      interface _GetDashboardUrlResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetDashboardUrlResponse]
+        def url: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#get_dashboard_url-instance_method
+      def get_dashboard_url: (
+                               resource_id: ::String,
+                               resource_type: ("JOB" | "SESSION"),
+                               ?request_origin: ::String
+                             ) -> _GetDashboardUrlResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetDashboardUrlResponseSuccess
+
       interface _GetDataCatalogEncryptionSettingsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetDataCatalogEncryptionSettingsResponse]
         def data_catalog_encryption_settings: () -> Types::DataCatalogEncryptionSettings
@@ -2404,6 +2417,16 @@ module Aws
                          ?request_origin: ::String
                        ) -> _GetSessionResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetSessionResponseSuccess
+
+      interface _GetSessionEndpointResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetSessionEndpointResponse]
+        def spark_connect: () -> Types::SessionEndpoint
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#get_session_endpoint-instance_method
+      def get_session_endpoint: (
+                                  session_id: ::String
+                                ) -> _GetSessionEndpointResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetSessionEndpointResponseSuccess
 
       interface _GetStatementResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetStatementResponse]

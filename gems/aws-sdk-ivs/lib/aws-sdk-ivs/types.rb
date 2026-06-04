@@ -66,7 +66,14 @@ module Aws::IVS
     #   @return [String]
     #
     # @!attribute [rw] media_tailor_playback_configurations
-    #   List of integration configurations with media tailor resources.
+    #   List of integration configurations with MediaTailor resources. The
+    #   first item in the list is the default playback configuration used
+    #   for the ad configuration. To select a different configuration per
+    #   viewing session, see [Generate and Sign IVS Playback Tokens][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/private-channels-generate-tokens.html
     #   @return [Array<Types::MediaTailorPlaybackConfiguration>]
     #
     # @!attribute [rw] tags
@@ -104,7 +111,14 @@ module Aws::IVS
     #   @return [String]
     #
     # @!attribute [rw] media_tailor_playback_configurations
-    #   List of integration configurations with media tailor resources.
+    #   List of integration configurations with MediaTailor resources. The
+    #   first item in the list is the default playback configuration used
+    #   for the ad configuration. To select a different configuration per
+    #   viewing session, see [Generate and Sign IVS Playback Tokens][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/private-channels-generate-tokens.html
     #   @return [Array<Types::MediaTailorPlaybackConfiguration>]
     #
     # @!attribute [rw] tags
@@ -547,7 +561,7 @@ module Aws::IVS
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html
+    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/channel-types.html
     #   @return [String]
     #
     # @!attribute [rw] recording_configuration_arn
@@ -742,7 +756,7 @@ module Aws::IVS
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html
+    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/channel-types.html
     #   @return [String]
     #
     # @!attribute [rw] preset
@@ -830,7 +844,14 @@ module Aws::IVS
     #   @return [String]
     #
     # @!attribute [rw] media_tailor_playback_configurations
-    #   List of integration configurations with media tailor resources.
+    #   List of integration configurations with MediaTailor resources. The
+    #   first item in the list is the default playback configuration used
+    #   for the ad configuration. To select a different configuration per
+    #   viewing session, see [Generate and Sign IVS Playback Tokens][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/private-channels-generate-tokens.html
     #   @return [Array<Types::MediaTailorPlaybackConfiguration>]
     #
     # @!attribute [rw] tags
@@ -885,7 +906,7 @@ module Aws::IVS
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html
+    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/channel-types.html
     #   @return [String]
     #
     # @!attribute [rw] authorized
@@ -1550,7 +1571,7 @@ module Aws::IVS
     #   @return [String]
     #
     # @!attribute [rw] duration_seconds
-    #   Maximum duration of the ad break, in seconds.
+    #   Duration of the ad break, in seconds.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/InsertAdBreakRequest AWS API Documentation
@@ -2553,6 +2574,7 @@ module Aws::IVS
     #   @return [String]
     #
     # @!attribute [rw] exception_message
+    #   The service is temporarily unavailable.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/ServiceUnavailable AWS API Documentation
@@ -3217,6 +3239,47 @@ module Aws::IVS
     class UntagResourceResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] arn
+    #   ARN of the ad configuration to be updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Ad configuration name. The value does not need to be unique.
+    #   @return [String]
+    #
+    # @!attribute [rw] media_tailor_playback_configurations
+    #   List of integration configurations with MediaTailor resources. The
+    #   first item in the list is the default playback configuration used
+    #   for the ad configuration. To select a different configuration per
+    #   viewing session, see [Generate and Sign IVS Playback Tokens][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/private-channels-generate-tokens.html
+    #   @return [Array<Types::MediaTailorPlaybackConfiguration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/UpdateAdConfigurationRequest AWS API Documentation
+    #
+    class UpdateAdConfigurationRequest < Struct.new(
+      :arn,
+      :name,
+      :media_tailor_playback_configurations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ad_configuration
+    #   Object specifying the updated ad configuration.
+    #   @return [Types::AdConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ivs-2020-07-14/UpdateAdConfigurationResponse AWS API Documentation
+    #
+    class UpdateAdConfigurationResponse < Struct.new(
+      :ad_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
     #   ARN of the channel to be updated.
     #   @return [String]
     #
@@ -3238,7 +3301,7 @@ module Aws::IVS
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html
+    #   [1]: https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/channel-types.html
     #   @return [String]
     #
     # @!attribute [rw] authorized

@@ -53,6 +53,10 @@ module Aws::Wickr
     Bots = Shapes::ListShape.new(name: 'Bots')
     CallingSettings = Shapes::StructureShape.new(name: 'CallingSettings')
     ClientToken = Shapes::StringShape.new(name: 'ClientToken')
+    ConsentPopupConfig = Shapes::StructureShape.new(name: 'ConsentPopupConfig')
+    ConsentPopupConfigCloseButtonLabelString = Shapes::StringShape.new(name: 'ConsentPopupConfigCloseButtonLabelString')
+    ConsentPopupConfigContentString = Shapes::StringShape.new(name: 'ConsentPopupConfigContentString')
+    ConsentPopupConfigHeaderString = Shapes::StringShape.new(name: 'ConsentPopupConfigHeaderString')
     CreateBotRequest = Shapes::StructureShape.new(name: 'CreateBotRequest')
     CreateBotResponse = Shapes::StructureShape.new(name: 'CreateBotResponse')
     CreateDataRetentionBotChallengeRequest = Shapes::StructureShape.new(name: 'CreateDataRetentionBotChallengeRequest')
@@ -148,6 +152,7 @@ module Aws::Wickr
     SecurityGroupIdList = Shapes::ListShape.new(name: 'SecurityGroupIdList')
     SecurityGroupList = Shapes::ListShape.new(name: 'SecurityGroupList')
     SecurityGroupSettings = Shapes::StructureShape.new(name: 'SecurityGroupSettings')
+    SecurityGroupSettingsMaxNonSsoSessionMinutesInteger = Shapes::IntegerShape.new(name: 'SecurityGroupSettingsMaxNonSsoSessionMinutesInteger')
     SecurityGroupSettingsRequest = Shapes::StructureShape.new(name: 'SecurityGroupSettingsRequest')
     SecurityGroupStringList = Shapes::ListShape.new(name: 'SecurityGroupStringList')
     SensitiveString = Shapes::StringShape.new(name: 'SensitiveString')
@@ -334,6 +339,12 @@ module Aws::Wickr
     CallingSettings.add_member(:can_video_call, Shapes::ShapeRef.new(shape: Boolean, location_name: "canVideoCall"))
     CallingSettings.add_member(:force_tcp_call, Shapes::ShapeRef.new(shape: Boolean, location_name: "forceTcpCall"))
     CallingSettings.struct_class = Types::CallingSettings
+
+    ConsentPopupConfig.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "enabled"))
+    ConsentPopupConfig.add_member(:header, Shapes::ShapeRef.new(shape: ConsentPopupConfigHeaderString, location_name: "header"))
+    ConsentPopupConfig.add_member(:content, Shapes::ShapeRef.new(shape: ConsentPopupConfigContentString, location_name: "content"))
+    ConsentPopupConfig.add_member(:close_button_label, Shapes::ShapeRef.new(shape: ConsentPopupConfigCloseButtonLabelString, location_name: "closeButtonLabel"))
+    ConsentPopupConfig.struct_class = Types::ConsentPopupConfig
 
     CreateBotRequest.add_member(:network_id, Shapes::ShapeRef.new(shape: NetworkId, required: true, location: "uri", location_name: "networkId"))
     CreateBotRequest.add_member(:username, Shapes::ShapeRef.new(shape: GenericString, required: true, location_name: "username"))
@@ -677,6 +688,7 @@ module Aws::Wickr
     NetworkSettings.add_member(:read_receipt_config, Shapes::ShapeRef.new(shape: ReadReceiptConfig, location_name: "readReceiptConfig"))
     NetworkSettings.add_member(:data_retention, Shapes::ShapeRef.new(shape: Boolean, location_name: "dataRetention"))
     NetworkSettings.add_member(:enable_trusted_data_format, Shapes::ShapeRef.new(shape: Boolean, location_name: "enableTrustedDataFormat"))
+    NetworkSettings.add_member(:consent_popup, Shapes::ShapeRef.new(shape: ConsentPopupConfig, location_name: "consentPopup"))
     NetworkSettings.struct_class = Types::NetworkSettings
 
     OidcConfigInfo.add_member(:application_name, Shapes::ShapeRef.new(shape: GenericString, location_name: "applicationName"))
@@ -834,6 +846,7 @@ module Aws::Wickr
     SecurityGroupSettings.add_member(:show_master_recovery_key, Shapes::ShapeRef.new(shape: Boolean, location_name: "showMasterRecoveryKey"))
     SecurityGroupSettings.add_member(:shredder, Shapes::ShapeRef.new(shape: ShredderSettings, location_name: "shredder"))
     SecurityGroupSettings.add_member(:sso_max_idle_minutes, Shapes::ShapeRef.new(shape: Integer, location_name: "ssoMaxIdleMinutes"))
+    SecurityGroupSettings.add_member(:max_non_sso_session_minutes, Shapes::ShapeRef.new(shape: SecurityGroupSettingsMaxNonSsoSessionMinutesInteger, location_name: "maxNonSsoSessionMinutes"))
     SecurityGroupSettings.add_member(:federation_mode, Shapes::ShapeRef.new(shape: Integer, location_name: "federationMode"))
     SecurityGroupSettings.add_member(:lockout_threshold, Shapes::ShapeRef.new(shape: Integer, location_name: "lockoutThreshold"))
     SecurityGroupSettings.add_member(:permitted_networks, Shapes::ShapeRef.new(shape: PermittedNetworksList, location_name: "permittedNetworks"))

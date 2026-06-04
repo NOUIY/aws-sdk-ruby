@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.102.0 (2026-06-04)
+------------------
+
+* Feature - BDD bulk update change rollout
+
 1.101.0 (2026-05-21)
 ------------------
 

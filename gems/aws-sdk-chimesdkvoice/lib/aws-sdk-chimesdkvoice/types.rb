@@ -567,25 +567,25 @@ module Aws::ChimeSDKVoice
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] integration_type
-    #   The connectors for use with Amazon Connect.
+    #   The connectors for use with Connect Customer.
     #
     #   The following options are available:
     #
     #   * `CONNECT_CALL_TRANSFER_CONNECTOR` - Enables enterprises to
-    #     integrate Amazon Connect with other voice systems to directly
+    #     integrate Connect Customer with other voice systems to directly
     #     transfer voice calls and metadata without using the public
-    #     telephone network. They can use Amazon Connect telephony and
+    #     telephone network. They can use Connect Customer telephony and
     #     Interactive Voice Response (IVR) with their existing voice systems
     #     to modernize the IVR experience of their existing contact center
     #     and their enterprise and branch voice systems. Additionally,
-    #     enterprises migrating their contact center to Amazon Connect can
+    #     enterprises migrating their contact center to Connect Customer can
     #     start with Connect telephony and IVR for immediate modernization
     #     ahead of agent migration.
     #
     #   * `CONNECT_ANALYTICS_CONNECTOR` - Enables enterprises to integrate
-    #     Amazon Connect with other voice systems for real-time and
-    #     post-call analytics. They can use Amazon Connect Contact Lens with
-    #     their existing voice systems to provides call recordings,
+    #     Connect Customer with other voice systems for real-time and
+    #     post-call analytics. They can use Connect Customer Contact Lens
+    #     with their existing voice systems to provides call recordings,
     #     conversational analytics (including contact transcript, sensitive
     #     data redaction, content categorization, theme detection, sentiment
     #     analysis, real-time alerts, and post-contact summary), and agent
@@ -593,7 +593,7 @@ module Aws::ChimeSDKVoice
     #     evaluation, supervisor review) with a rich user experience to
     #     display, search and filter customer interactions, and programmatic
     #     access to data streams and the data lake. Additionally,
-    #     enterprises migrating their contact center to Amazon Connect can
+    #     enterprises migrating their contact center to Connect Customer can
     #     start with Contact Lens analytics and performance insights ahead
     #     of agent migration.
     #   @return [String]
@@ -4089,7 +4089,7 @@ module Aws::ChimeSDKVoice
     #   @return [String]
     #
     # @!attribute [rw] integration_type
-    #   The connectors for use with Amazon Connect.
+    #   The connectors for use with Connect Customer.
     #   @return [String]
     #
     # @!attribute [rw] network_type

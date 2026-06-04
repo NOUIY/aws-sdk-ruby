@@ -1739,6 +1739,7 @@ module Aws::ConfigService
     #     next_token: "String",
     #     filters: {
     #       evaluation_mode: "DETECTIVE", # accepts DETECTIVE, PROACTIVE
+    #       rule_evaluation_visibility: "EXTERNAL", # accepts EXTERNAL, INTERNAL
     #     },
     #   })
     #
@@ -1754,6 +1755,8 @@ module Aws::ConfigService
     #   resp.config_rules[0].scope.tag_key #=> String
     #   resp.config_rules[0].scope.tag_value #=> String
     #   resp.config_rules[0].scope.compliance_resource_id #=> String
+    #   resp.config_rules[0].scope.service_principals #=> Array
+    #   resp.config_rules[0].scope.service_principals[0] #=> String
     #   resp.config_rules[0].source.owner #=> String, one of "CUSTOM_LAMBDA", "AWS", "CUSTOM_POLICY"
     #   resp.config_rules[0].source.source_identifier #=> String
     #   resp.config_rules[0].source.source_details #=> Array
@@ -1769,6 +1772,7 @@ module Aws::ConfigService
     #   resp.config_rules[0].created_by #=> String
     #   resp.config_rules[0].evaluation_modes #=> Array
     #   resp.config_rules[0].evaluation_modes[0].mode #=> String, one of "DETECTIVE", "PROACTIVE"
+    #   resp.config_rules[0].rule_evaluation_visibility #=> String, one of "EXTERNAL", "INTERNAL"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeConfigRules AWS API Documentation
@@ -4750,6 +4754,7 @@ module Aws::ConfigService
     #         tag_key: "StringWithCharLimit128",
     #         tag_value: "StringWithCharLimit256",
     #         compliance_resource_id: "BaseResourceId",
+    #         service_principals: ["StringWithCharLimit128"],
     #       },
     #       source: { # required
     #         owner: "CUSTOM_LAMBDA", # required, accepts CUSTOM_LAMBDA, AWS, CUSTOM_POLICY
@@ -4776,6 +4781,7 @@ module Aws::ConfigService
     #           mode: "DETECTIVE", # accepts DETECTIVE, PROACTIVE
     #         },
     #       ],
+    #       rule_evaluation_visibility: "EXTERNAL", # accepts EXTERNAL, INTERNAL
     #     },
     #     tags: [
     #       {
@@ -6636,7 +6642,7 @@ module Aws::ConfigService
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-configservice'
-      context[:gem_version] = '1.152.0'
+      context[:gem_version] = '1.153.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

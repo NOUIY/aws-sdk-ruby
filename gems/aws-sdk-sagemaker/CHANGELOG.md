@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.371.0 (2026-06-04)
+------------------
+
+* Feature - Adds the IncludedData parameter to DescribeModelCard and DescribeModelPackage. Set it to MetadataOnly to retrieve a model card without decrypt permission on the customer managed AWS KMS key (default AllData returns full content). Adds support for the MTRL Job resource in SageMaker Search.
+
 1.370.0 (2026-06-02)
 ------------------
 

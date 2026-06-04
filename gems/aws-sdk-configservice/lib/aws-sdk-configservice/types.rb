@@ -1086,6 +1086,13 @@ module Aws::ConfigService
     #   only.
     #   @return [Array<Types::EvaluationModeConfiguration>]
     #
+    # @!attribute [rw] rule_evaluation_visibility
+    #   Indicates whether you can get Evaluations for the Config rule. You
+    #   can get Evaluations for the Amazon Web Services Config rule if this
+    #   value is `EXTERNAL`. You cannot get Evaluations for the Amazon Web
+    #   Services Config rule if this value is `INTERNAL`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ConfigRule AWS API Documentation
     #
     class ConfigRule < Struct.new(
@@ -1099,7 +1106,8 @@ module Aws::ConfigService
       :maximum_execution_frequency,
       :config_rule_state,
       :created_by,
-      :evaluation_modes)
+      :evaluation_modes,
+      :rule_evaluation_visibility)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3034,10 +3042,15 @@ module Aws::ConfigService
     #   Proactive.
     #   @return [String]
     #
+    # @!attribute [rw] rule_evaluation_visibility
+    #   Filters the results by `RuleEvaluationVisibility`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeConfigRulesFilters AWS API Documentation
     #
     class DescribeConfigRulesFilters < Struct.new(
-      :evaluation_mode)
+      :evaluation_mode,
+      :rule_evaluation_visibility)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8736,13 +8749,24 @@ module Aws::ConfigService
     #   you must specify one resource type for `ComplianceResourceTypes`.
     #   @return [String]
     #
+    # @!attribute [rw] service_principals
+    #   The service principals of the Amazon Web Services services for the
+    #   rule.
+    #
+    #   <note markdown="1"> The field is populated only if the service-linked rule is created by
+    #   a service. The field is empty if you create your own rule.
+    #
+    #    </note>
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/Scope AWS API Documentation
     #
     class Scope < Struct.new(
       :compliance_resource_types,
       :tag_key,
       :tag_value,
-      :compliance_resource_id)
+      :compliance_resource_id,
+      :service_principals)
       SENSITIVE = []
       include Aws::Structure
     end

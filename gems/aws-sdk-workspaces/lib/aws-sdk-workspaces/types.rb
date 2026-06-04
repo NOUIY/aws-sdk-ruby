@@ -608,7 +608,7 @@ module Aws::WorkSpaces
       include Aws::Structure
     end
 
-    # Describes an Amazon Connect client add-in.
+    # Describes an Connect Customer client add-in.
     #
     # @!attribute [rw] add_in_id
     #   The client add-in identifier.
@@ -828,7 +828,7 @@ module Aws::WorkSpaces
     #   @return [String]
     #
     # @!attribute [rw] url
-    #   The endpoint URL of the Amazon Connect client add-in.
+    #   The endpoint URL of the Connect Customer client add-in.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-2015-04-08/CreateConnectClientAddInRequest AWS API Documentation
@@ -5123,7 +5123,7 @@ module Aws::WorkSpaces
     #   @return [String]
     #
     # @!attribute [rw] url
-    #   The endpoint URL of the Amazon Connect client add-in.
+    #   The endpoint URL of the Connect Customer client add-in.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-2015-04-08/UpdateConnectClientAddInRequest AWS API Documentation

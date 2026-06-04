@@ -699,7 +699,8 @@ module Aws::Appflow
     #   @return [Types::UpsolverMetadata]
     #
     # @!attribute [rw] customer_profiles
-    #   The connector metadata specific to Amazon Connect Customer Profiles.
+    #   The connector metadata specific to Connect Customer Customer
+    #   Profiles.
     #   @return [Types::CustomerProfilesMetadata]
     #
     # @!attribute [rw] honeycode
@@ -1594,15 +1595,15 @@ module Aws::Appflow
       include Aws::Structure
     end
 
-    # The properties that are applied when Amazon Connect Customer Profiles
-    # is used as a destination.
+    # The properties that are applied when Connect Customer Customer
+    # Profiles is used as a destination.
     #
     # @!attribute [rw] domain_name
-    #   The unique name of the Amazon Connect Customer Profiles domain.
+    #   The unique name of the Connect Customer Customer Profiles domain.
     #   @return [String]
     #
     # @!attribute [rw] object_type_name
-    #   The object specified in the Amazon Connect Customer Profiles flow
+    #   The object specified in the Connect Customer Customer Profiles flow
     #   destination.
     #   @return [String]
     #
@@ -1615,7 +1616,7 @@ module Aws::Appflow
       include Aws::Structure
     end
 
-    # The connector metadata specific to Amazon Connect Customer Profiles.
+    # The connector metadata specific to Connect Customer Customer Profiles.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/CustomerProfilesMetadata AWS API Documentation
     #
@@ -2155,7 +2156,7 @@ module Aws::Appflow
     #   @return [Types::HoneycodeDestinationProperties]
     #
     # @!attribute [rw] customer_profiles
-    #   The properties required to query Amazon Connect Customer Profiles.
+    #   The properties required to query Connect Customer Customer Profiles.
     #   @return [Types::CustomerProfilesDestinationProperties]
     #
     # @!attribute [rw] zendesk
@@ -3914,7 +3915,7 @@ module Aws::Appflow
     #   metadata for.
     #
     #   You can omit this parameter if you're resetting the cache for any
-    #   of the following connectors: Amazon Connect, Amazon EventBridge,
+    #   of the following connectors: Connect Customer, Amazon EventBridge,
     #   Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're
     #   resetting the cache for any other connector, you must include this
     #   parameter in your request.
@@ -3924,7 +3925,7 @@ module Aws::Appflow
     #   The type of connector to reset cached metadata for.
     #
     #   You must include this parameter in your request if you're resetting
-    #   the cache for any of the following connectors: Amazon Connect,
+    #   the cache for any of the following connectors: Connect Customer,
     #   Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or
     #   Upsolver. If you're resetting the cache for any other connector,
     #   you can omit this parameter from your request.

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.153.0 (2026-06-04)
+------------------
+
+* Feature - AWS Config now supports internal service-linked rules, allowing AWS service partners to deploy Config rules for customers and use the evaluation results to build enhanced features.
+
 1.152.0 (2026-06-01)
 ------------------
 

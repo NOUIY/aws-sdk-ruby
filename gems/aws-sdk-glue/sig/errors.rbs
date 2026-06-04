@@ -147,6 +147,9 @@ module Aws
       class SchedulerTransitioningException < ::Aws::Errors::ServiceError
         def message: () -> ::String
       end
+      class SessionBusyException < ::Aws::Errors::ServiceError
+        def message: () -> ::String
+      end
       class TargetResourceNotFound < ::Aws::Errors::ServiceError
         def message: () -> ::String
       end
