@@ -808,7 +808,9 @@ module Aws::PaymentCryptography
     #   value of zero, with the key to be checked and retaining the 3 highest
     #   order bytes of the encrypted result. For AES keys, the KCV is computed
     #   using a CMAC algorithm where the input data is 16 bytes of zero and
-    #   retaining the 3 highest order bytes of the encrypted result.
+    #   retaining the 3 highest order bytes of the encrypted result. For HMAC
+    #   keys, the KCV is computed using the hash selected at key creation on a
+    #   zero-length message, taking the leftmost 3 bytes.
     #
     # @option params [required, Boolean] :exportable
     #   Specifies whether the key is exportable from the service.
@@ -2418,7 +2420,9 @@ module Aws::PaymentCryptography
     #   value of zero, with the key to be checked and retaining the 3 highest
     #   order bytes of the encrypted result. For AES keys, the KCV is computed
     #   using a CMAC algorithm where the input data is 16 bytes of zero and
-    #   retaining the 3 highest order bytes of the encrypted result.
+    #   retaining the 3 highest order bytes of the encrypted result. For HMAC
+    #   keys, the KCV is computed using the hash selected at key creation on a
+    #   zero-length message, taking the leftmost 3 bytes.
     #
     # @option params [Boolean] :enabled
     #   Specifies whether import key is enabled.
@@ -3508,7 +3512,7 @@ module Aws::PaymentCryptography
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-paymentcryptography'
-      context[:gem_version] = '1.58.0'
+      context[:gem_version] = '1.59.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

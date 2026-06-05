@@ -910,6 +910,14 @@ module Aws::MediaConvert
     #   format.
     #   @return [String]
     #
+    # @!attribute [rw] object_count
+    #   The number of audio objects in an object-based or immersive audio
+    #   track. This field is present for codecs that support object-based
+    #   audio, such as E-AC-3 with Joint Object Coding (JOC) or IAMF. This
+    #   field is null when the audio track does not contain object-based
+    #   audio metadata.
+    #   @return [Integer]
+    #
     # @!attribute [rw] sample_rate
     #   The sample rate of the audio track.
     #   @return [Integer]
@@ -922,6 +930,7 @@ module Aws::MediaConvert
       :channels,
       :frame_rate,
       :language_code,
+      :object_count,
       :sample_rate)
       SENSITIVE = []
       include Aws::Structure
@@ -2482,23 +2491,25 @@ module Aws::MediaConvert
 
     # Settings for CMAF encryption
     #
-    # @!attribute [rw] clear_lead
-    #   Enable Clear Lead DRM to reduce video startup latency by leaving the
-    #   first segment unencrypted while DRM license retrieval occurs in
-    #   parallel. This optimization allows immediate playback startup while
-    #   maintaining content protection for the remainder of the stream. When
-    #   enabled, the first output segment remains fully unencrypted, and
-    #   encryption begins at the start of the second segment. The HLS
-    #   manifest will omit #EXT-X-KEY tags during the clear segment and
-    #   insert the first #EXT-X-KEY immediately before the first encrypted
-    #   fragment. This feature is supported exclusively for CMAF HLS (fMP4)
-    #   outputs and is compatible with all existing key provider
-    #   integrations (SPEKE v1, SPEKE v2, and Static Key encryption).
-    #   Supported codecs: H.264, H.265, and AV1 video codecs, and AAC audio
-    #   codec. Choose Enabled to activate Clear Lead DRM optimization.
-    #   Choose Disabled to use standard encryption where all segments are
-    #   encrypted from the beginning.
-    #   @return [String]
+    # @!attribute [rw] clear_lead_segments
+    #   Reduce video startup latency by leaving initial segments unencrypted
+    #   while DRM license retrieval occurs in parallel. This optimization
+    #   allows immediate playback startup while maintaining content
+    #   protection for the remainder of the stream. Specify the number of
+    #   initial segments to leave unencrypted. Omit this field to disable
+    #   Clear Lead. The HLS manifest will omit #EXT-X-KEY tags during clear
+    #   segments and insert the first #EXT-X-KEY immediately before the
+    #   first encrypted segment. Because encryption is applied at the
+    #   fragment level, the actual duration of unencrypted content may be
+    #   slightly longer than expected if the segment length is not evenly
+    #   divisible by the fragment length. In such cases, encryption begins
+    #   at the next fragment boundary after the specified clear lead
+    #   segments, rather than at the exact segment boundary. This feature is
+    #   supported exclusively for CMAF HLS (fMP4) outputs and is compatible
+    #   with all existing key provider integrations (SPEKE v1, SPEKE v2, and
+    #   Static Key encryption). Supported codecs: H.264, H.265, and AV1
+    #   video codecs, and AAC audio codec.
+    #   @return [Integer]
     #
     # @!attribute [rw] constant_initialization_vector
     #   This is a 128-bit, 16-byte hex value represented by a 32-character
@@ -2538,7 +2549,7 @@ module Aws::MediaConvert
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/CmafEncryptionSettings AWS API Documentation
     #
     class CmafEncryptionSettings < Struct.new(
-      :clear_lead,
+      :clear_lead_segments,
       :constant_initialization_vector,
       :encryption_method,
       :initialization_vector_in_manifest,
@@ -2638,14 +2649,17 @@ module Aws::MediaConvert
     #   the default value, None, to not generate any images. Choose
     #   Thumbnail to generate tiled thumbnails. Choose Thumbnail and full
     #   frame to generate tiled thumbnails and full-resolution images of
-    #   single frames. When you enable Write HLS manifest, MediaConvert
-    #   creates a child manifest for each set of images that you generate
-    #   and adds corresponding entries to the parent manifest. When you
-    #   enable Write DASH manifest, MediaConvert adds an entry in the .mpd
-    #   manifest for each set of images that you generate. A common
-    #   application for these images is Roku trick mode. The thumbnails and
-    #   full-frame images that MediaConvert creates with this feature are
-    #   compatible with this Roku specification:
+    #   single frames. Choose Advanced to customize thumbnail and tile
+    #   settings for a single trick play variant. Choose Variants to specify
+    #   multiple trick play variants, each with its own thumbnail and tile
+    #   settings. When you enable Write HLS manifest, MediaConvert creates a
+    #   child manifest for each set of images that you generate and adds
+    #   corresponding entries to the parent manifest. When you enable Write
+    #   DASH manifest, MediaConvert adds an entry in the .mpd manifest for
+    #   each set of images that you generate. A common application for these
+    #   images is Roku trick mode. The thumbnails and full-frame images that
+    #   MediaConvert creates with this feature are compatible with this Roku
+    #   specification:
     #   https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
     #   @return [String]
     #
@@ -2653,6 +2667,13 @@ module Aws::MediaConvert
     #   Tile and thumbnail settings applicable when imageBasedTrickPlay is
     #   ADVANCED
     #   @return [Types::CmafImageBasedTrickPlaySettings]
+    #
+    # @!attribute [rw] image_based_trick_play_variants
+    #   Specify multiple image-based trick play variants. Each entry creates
+    #   a separate set of JPEG tile images with its own resolution, tile
+    #   layout, and cadence settings. Set imageBasedTrickPlay to VARIANTS
+    #   when using this setting.
+    #   @return [Array<Types::CmafImageBasedTrickPlayVariant>]
     #
     # @!attribute [rw] manifest_compression
     #   When set to GZIP, compresses HLS playlist.
@@ -2819,6 +2840,7 @@ module Aws::MediaConvert
       :fragment_length,
       :image_based_trick_play,
       :image_based_trick_play_settings,
+      :image_based_trick_play_variants,
       :manifest_compression,
       :manifest_duration_format,
       :min_buffer_time,
@@ -2876,7 +2898,7 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] tile_height
     #   Number of thumbnails in each column of a tile image. Set a value
-    #   between 2 and 2048. Must be divisible by 2.
+    #   between 1 and 2048.
     #   @return [Integer]
     #
     # @!attribute [rw] tile_width
@@ -2887,6 +2909,64 @@ module Aws::MediaConvert
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/CmafImageBasedTrickPlaySettings AWS API Documentation
     #
     class CmafImageBasedTrickPlaySettings < Struct.new(
+      :interval_cadence,
+      :thumbnail_height,
+      :thumbnail_interval,
+      :thumbnail_width,
+      :tile_height,
+      :tile_width)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Settings for one image-based trick play variant. Each variant produces
+    # its own set of JPEG tile images and corresponding manifest entries.
+    #
+    # @!attribute [rw] interval_cadence
+    #   The cadence MediaConvert follows for generating thumbnails. If set
+    #   to FOLLOW\_IFRAME, MediaConvert generates thumbnails for each IDR
+    #   frame in the output (matching the GOP cadence). If set to
+    #   FOLLOW\_CUSTOM, MediaConvert generates thumbnails according to the
+    #   interval you specify in thumbnailInterval. If set to
+    #   FOLLOW\_SEGMENTATION, MediaConvert generates thumbnail playlist
+    #   entries that align exactly with video segment boundaries.
+    #   FOLLOW\_SEGMENTATION requires 1x1 tiling.
+    #   @return [String]
+    #
+    # @!attribute [rw] thumbnail_height
+    #   Height of each thumbnail within each tile image, in pixels. Leave
+    #   blank to maintain aspect ratio with thumbnail width. If following
+    #   the aspect ratio would lead to a total tile height greater than
+    #   4096, then the job will be rejected. Must be divisible by 2.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] thumbnail_interval
+    #   Enter the interval, in seconds, that MediaConvert uses to generate
+    #   thumbnails. If the interval you enter doesn't align with the output
+    #   frame rate, MediaConvert automatically rounds the interval to align
+    #   with the output frame rate. For example, if the output frame rate is
+    #   29.97 frames per second and you enter 5, MediaConvert uses a 150
+    #   frame interval to generate thumbnails.
+    #   @return [Float]
+    #
+    # @!attribute [rw] thumbnail_width
+    #   Width of each thumbnail within each tile image, in pixels. Default
+    #   is 312. Must be divisible by 8.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tile_height
+    #   Number of thumbnails in each column of a tile image. Set a value
+    #   between 1 and 2048.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tile_width
+    #   Number of thumbnails in each row of a tile image. Set a value
+    #   between 1 and 512.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/CmafImageBasedTrickPlayVariant AWS API Documentation
+    #
+    class CmafImageBasedTrickPlayVariant < Struct.new(
       :interval_cadence,
       :thumbnail_height,
       :thumbnail_interval,
@@ -3145,6 +3225,11 @@ module Aws::MediaConvert
     #   and transcoding.
     #   @return [String]
     #
+    # @!attribute [rw] content_light_level
+    #   Content light level information (CTA-861.3). Describes the light
+    #   level characteristics of the content.
+    #   @return [Types::ContentLightLevel]
+    #
     # @!attribute [rw] height
     #   The height in pixels as coded by the codec. This represents the
     #   actual encoded video height as specified in the video stream
@@ -3170,6 +3255,14 @@ module Aws::MediaConvert
     #   different encoding features and complexity levels.
     #   @return [String]
     #
+    # @!attribute [rw] rotation
+    #   The clockwise rotation angle of the video, in degrees, as specified
+    #   in the codec bitstream via a Display Orientation SEI message
+    #   (payload type 47 for both H.264 and H.265). This field is null when
+    #   the video essence does not contain a Display Orientation SEI message
+    #   or when the rotation is 0 degrees.
+    #   @return [Integer]
+    #
     # @!attribute [rw] scan_type
     #   The scanning method specified in the video essence, indicating
     #   whether the video uses progressive or interlaced scanning.
@@ -3194,10 +3287,12 @@ module Aws::MediaConvert
       :chroma_subsampling,
       :coded_frame_rate,
       :color_primaries,
+      :content_light_level,
       :height,
       :level,
       :matrix_coefficients,
       :profile,
+      :rotation,
       :scan_type,
       :transfer_characteristics,
       :width)
@@ -3400,9 +3495,9 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] format
     #   The format of your media file. For example: MP4, QuickTime (MOV),
-    #   Matroska (MKV), WebM, MXF, Wave, AVI, or MPEG-TS. Note that this
-    #   will be blank if your media file has a format that the MediaConvert
-    #   Probe operation does not recognize.
+    #   Matroska (MKV), WebM, MXF, Wave, AVI, MPEG-TS, or MPEG-PS. Note that
+    #   this will be blank if your media file has a format that the
+    #   MediaConvert Probe operation does not recognize.
     #   @return [String]
     #
     # @!attribute [rw] start_timecode
@@ -3493,6 +3588,26 @@ module Aws::MediaConvert
       :mp_4_settings,
       :mpd_settings,
       :mxf_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Content light level information (CTA-861.3). Describes the light level
+    # characteristics of the content.
+    #
+    # @!attribute [rw] max_content_light_level
+    #   Maximum content light level (MaxCLL), in cd/m².
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_frame_average_light_level
+    #   Maximum frame-average light level (MaxFALL), in cd/m².
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/ContentLightLevel AWS API Documentation
+    #
+    class ContentLightLevel < Struct.new(
+      :max_content_light_level,
+      :max_frame_average_light_level)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4043,8 +4158,11 @@ module Aws::MediaConvert
     #   the default value, None, to not generate any images. Choose
     #   Thumbnail to generate tiled thumbnails. Choose Thumbnail and full
     #   frame to generate tiled thumbnails and full-resolution images of
-    #   single frames. MediaConvert adds an entry in the .mpd manifest for
-    #   each set of images that you generate. A common application for these
+    #   single frames. Choose Advanced to customize thumbnail and tile
+    #   settings for a single trick play variant. Choose Variants to specify
+    #   multiple trick play variants, each with its own thumbnail and tile
+    #   settings. MediaConvert adds an entry in the .mpd manifest for each
+    #   set of images that you generate. A common application for these
     #   images is Roku trick mode. The thumbnails and full-frame images that
     #   MediaConvert creates with this feature are compatible with this Roku
     #   specification:
@@ -4055,6 +4173,13 @@ module Aws::MediaConvert
     #   Tile and thumbnail settings applicable when imageBasedTrickPlay is
     #   ADVANCED
     #   @return [Types::DashIsoImageBasedTrickPlaySettings]
+    #
+    # @!attribute [rw] image_based_trick_play_variants
+    #   Specify multiple image-based trick play variants. Each entry creates
+    #   a separate set of JPEG tile images with its own resolution, tile
+    #   layout, and cadence settings. Set imageBasedTrickPlay to VARIANTS
+    #   when using this setting.
+    #   @return [Array<Types::DashIsoImageBasedTrickPlayVariant>]
     #
     # @!attribute [rw] min_buffer_time
     #   Minimum time of initially buffered media that is needed to ensure
@@ -4185,6 +4310,7 @@ module Aws::MediaConvert
       :hbbtv_compliance,
       :image_based_trick_play,
       :image_based_trick_play_settings,
+      :image_based_trick_play_variants,
       :min_buffer_time,
       :min_final_segment_length,
       :mpd_manifest_bandwidth_type,
@@ -4236,7 +4362,7 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] tile_height
     #   Number of thumbnails in each column of a tile image. Set a value
-    #   between 2 and 2048. Must be divisible by 2.
+    #   between 1 and 2048.
     #   @return [Integer]
     #
     # @!attribute [rw] tile_width
@@ -4247,6 +4373,64 @@ module Aws::MediaConvert
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/DashIsoImageBasedTrickPlaySettings AWS API Documentation
     #
     class DashIsoImageBasedTrickPlaySettings < Struct.new(
+      :interval_cadence,
+      :thumbnail_height,
+      :thumbnail_interval,
+      :thumbnail_width,
+      :tile_height,
+      :tile_width)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Settings for one image-based trick play variant. Each variant produces
+    # its own set of JPEG tile images and corresponding manifest entries.
+    #
+    # @!attribute [rw] interval_cadence
+    #   The cadence MediaConvert follows for generating thumbnails. If set
+    #   to FOLLOW\_IFRAME, MediaConvert generates thumbnails for each IDR
+    #   frame in the output (matching the GOP cadence). If set to
+    #   FOLLOW\_CUSTOM, MediaConvert generates thumbnails according to the
+    #   interval you specify in thumbnailInterval. If set to
+    #   FOLLOW\_SEGMENTATION, MediaConvert generates thumbnail playlist
+    #   entries that align exactly with video segment boundaries.
+    #   FOLLOW\_SEGMENTATION requires 1x1 tiling.
+    #   @return [String]
+    #
+    # @!attribute [rw] thumbnail_height
+    #   Height of each thumbnail within each tile image, in pixels. Leave
+    #   blank to maintain aspect ratio with thumbnail width. If following
+    #   the aspect ratio would lead to a total tile height greater than
+    #   4096, then the job will be rejected. Must be divisible by 2.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] thumbnail_interval
+    #   Enter the interval, in seconds, that MediaConvert uses to generate
+    #   thumbnails. If the interval you enter doesn't align with the output
+    #   frame rate, MediaConvert automatically rounds the interval to align
+    #   with the output frame rate. For example, if the output frame rate is
+    #   29.97 frames per second and you enter 5, MediaConvert uses a 150
+    #   frame interval to generate thumbnails.
+    #   @return [Float]
+    #
+    # @!attribute [rw] thumbnail_width
+    #   Width of each thumbnail within each tile image, in pixels. Default
+    #   is 312. Must be divisible by 8.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tile_height
+    #   Number of thumbnails in each column of a tile image. Set a value
+    #   between 1 and 2048.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tile_width
+    #   Number of thumbnails in each row of a tile image. Set a value
+    #   between 1 and 512.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/DashIsoImageBasedTrickPlayVariant AWS API Documentation
+    #
+    class DashIsoImageBasedTrickPlayVariant < Struct.new(
       :interval_cadence,
       :thumbnail_height,
       :thumbnail_interval,
@@ -7561,6 +7745,32 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
+    # HDR (High Dynamic Range) metadata extracted from the container,
+    # including mastering display color volume and content light level
+    # information. This metadata is present in HDR10 and similar HDR
+    # content.
+    #
+    # @!attribute [rw] content_light_level
+    #   Content light level information (CTA-861.3). Describes the light
+    #   level characteristics of the content.
+    #   @return [Types::ContentLightLevel]
+    #
+    # @!attribute [rw] mastering_display_color_volume
+    #   Mastering display color volume metadata (SMPTE ST 2086). Describes
+    #   the color volume of the display used to master the content.
+    #   Chromaticity coordinates are in units of 0.00002. Luminance values
+    #   are in units of 0.0001 cd/m².
+    #   @return [Types::MasteringDisplayColorVolume]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/HdrMetadata AWS API Documentation
+    #
+    class HdrMetadata < Struct.new(
+      :content_light_level,
+      :mastering_display_color_volume)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Specify the details for each additional HLS manifest that you want the
     # service to generate for this output group. Each manifest can reference
     # a different subset of outputs in the group.
@@ -7778,7 +7988,10 @@ module Aws::MediaConvert
     #   the default value, None, to not generate any images. Choose
     #   Thumbnail to generate tiled thumbnails. Choose Thumbnail and full
     #   frame to generate tiled thumbnails and full-resolution images of
-    #   single frames. MediaConvert creates a child manifest for each set of
+    #   single frames. Choose Advanced to customize thumbnail and tile
+    #   settings for a single trick play variant. Choose Variants to specify
+    #   multiple trick play variants, each with its own thumbnail and tile
+    #   settings. MediaConvert creates a child manifest for each set of
     #   images that you generate and adds corresponding entries to the
     #   parent manifest. A common application for these images is Roku trick
     #   mode. The thumbnails and full-frame images that MediaConvert creates
@@ -7790,6 +8003,13 @@ module Aws::MediaConvert
     #   Tile and thumbnail settings applicable when imageBasedTrickPlay is
     #   ADVANCED
     #   @return [Types::HlsImageBasedTrickPlaySettings]
+    #
+    # @!attribute [rw] image_based_trick_play_variants
+    #   Specify multiple image-based trick play variants. Each entry creates
+    #   a separate set of JPEG tile images with its own resolution, tile
+    #   layout, and cadence settings. Set imageBasedTrickPlay to VARIANTS
+    #   when using this setting.
+    #   @return [Array<Types::HlsImageBasedTrickPlayVariant>]
     #
     # @!attribute [rw] manifest_compression
     #   When set to GZIP, compresses HLS playlist.
@@ -7954,6 +8174,7 @@ module Aws::MediaConvert
       :encryption,
       :image_based_trick_play,
       :image_based_trick_play_settings,
+      :image_based_trick_play_variants,
       :manifest_compression,
       :manifest_duration_format,
       :min_final_segment_length,
@@ -8012,7 +8233,7 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] tile_height
     #   Number of thumbnails in each column of a tile image. Set a value
-    #   between 2 and 2048. Must be divisible by 2.
+    #   between 1 and 2048.
     #   @return [Integer]
     #
     # @!attribute [rw] tile_width
@@ -8023,6 +8244,64 @@ module Aws::MediaConvert
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/HlsImageBasedTrickPlaySettings AWS API Documentation
     #
     class HlsImageBasedTrickPlaySettings < Struct.new(
+      :interval_cadence,
+      :thumbnail_height,
+      :thumbnail_interval,
+      :thumbnail_width,
+      :tile_height,
+      :tile_width)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Settings for one image-based trick play variant. Each variant produces
+    # its own set of JPEG tile images and corresponding manifest entries.
+    #
+    # @!attribute [rw] interval_cadence
+    #   The cadence MediaConvert follows for generating thumbnails. If set
+    #   to FOLLOW\_IFRAME, MediaConvert generates thumbnails for each IDR
+    #   frame in the output (matching the GOP cadence). If set to
+    #   FOLLOW\_CUSTOM, MediaConvert generates thumbnails according to the
+    #   interval you specify in thumbnailInterval. If set to
+    #   FOLLOW\_SEGMENTATION, MediaConvert generates thumbnail playlist
+    #   entries that align exactly with video segment boundaries.
+    #   FOLLOW\_SEGMENTATION requires 1x1 tiling.
+    #   @return [String]
+    #
+    # @!attribute [rw] thumbnail_height
+    #   Height of each thumbnail within each tile image, in pixels. Leave
+    #   blank to maintain aspect ratio with thumbnail width. If following
+    #   the aspect ratio would lead to a total tile height greater than
+    #   4096, then the job will be rejected. Must be divisible by 2.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] thumbnail_interval
+    #   Enter the interval, in seconds, that MediaConvert uses to generate
+    #   thumbnails. If the interval you enter doesn't align with the output
+    #   frame rate, MediaConvert automatically rounds the interval to align
+    #   with the output frame rate. For example, if the output frame rate is
+    #   29.97 frames per second and you enter 5, MediaConvert uses a 150
+    #   frame interval to generate thumbnails.
+    #   @return [Float]
+    #
+    # @!attribute [rw] thumbnail_width
+    #   Width of each thumbnail within each tile image, in pixels. Default
+    #   is 312. Must be divisible by 8.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tile_height
+    #   Number of thumbnails in each column of a tile image. Set a value
+    #   between 1 and 2048.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tile_width
+    #   Number of thumbnails in each row of a tile image. Set a value
+    #   between 1 and 512.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/HlsImageBasedTrickPlayVariant AWS API Documentation
+    #
+    class HlsImageBasedTrickPlayVariant < Struct.new(
       :interval_cadence,
       :thumbnail_height,
       :thumbnail_interval,
@@ -10189,9 +10468,10 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # List the tags for your AWS Elemental MediaConvert resource by sending
-    # a request with the Amazon Resource Name (ARN) of the resource. To get
-    # the ARN, send a GET request with the resource name.
+    # List the tags for a MediaConvert queue, preset, job, or job template
+    # by sending a request with the Amazon Resource Name (ARN) of the
+    # resource. To get the ARN for a MediaConvert resource, send a GET
+    # request with the resource name.
     #
     # @!attribute [rw] arn
     #   The Amazon Resource Name (ARN) of the resource that you want to list
@@ -10826,6 +11106,68 @@ module Aws::MediaConvert
       :timed_metadata_pid,
       :transport_stream_id,
       :video_pid)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Mastering display color volume metadata (SMPTE ST 2086). Describes the
+    # color volume of the display used to master the content. Chromaticity
+    # coordinates are in units of 0.00002. Luminance values are in units of
+    # 0.0001 cd/m².
+    #
+    # @!attribute [rw] blue_primary_x
+    #   Blue primary chromaticity x coordinate, in units of 0.00002.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] blue_primary_y
+    #   Blue primary chromaticity y coordinate, in units of 0.00002.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] green_primary_x
+    #   Green primary chromaticity x coordinate, in units of 0.00002.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] green_primary_y
+    #   Green primary chromaticity y coordinate, in units of 0.00002.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_luminance
+    #   Maximum display mastering luminance, in units of 0.0001 cd/m².
+    #   @return [Integer]
+    #
+    # @!attribute [rw] min_luminance
+    #   Minimum display mastering luminance, in units of 0.0001 cd/m².
+    #   @return [Integer]
+    #
+    # @!attribute [rw] red_primary_x
+    #   Red primary chromaticity x coordinate, in units of 0.00002.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] red_primary_y
+    #   Red primary chromaticity y coordinate, in units of 0.00002.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] white_point_x
+    #   White point chromaticity x coordinate, in units of 0.00002.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] white_point_y
+    #   White point chromaticity y coordinate, in units of 0.00002.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/MasteringDisplayColorVolume AWS API Documentation
+    #
+    class MasteringDisplayColorVolume < Struct.new(
+      :blue_primary_x,
+      :blue_primary_y,
+      :green_primary_x,
+      :green_primary_y,
+      :max_luminance,
+      :min_luminance,
+      :red_primary_x,
+      :red_primary_y,
+      :white_point_x,
+      :white_point_y)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13900,9 +14242,9 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # To add tags to a queue, preset, or job template, send a request with
-    # the Amazon Resource Name (ARN) of the resource and the tags that you
-    # want to add.
+    # To add tags to a MediaConvert queue, preset, job, or job template,
+    # send a request with the Amazon Resource Name (ARN) of the resource and
+    # the tags that you want to add.
     #
     # @!attribute [rw] arn
     #   The Amazon Resource Name (ARN) of the resource that you want to tag.
@@ -14358,9 +14700,9 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # To remove tags from a resource, send a request with the Amazon
-    # Resource Name (ARN) of the resource and the keys of the tags that you
-    # want to remove.
+    # To remove tags from a MediaConvert queue, preset, job, or job
+    # template, send a request with the Amazon Resource Name (ARN) of the
+    # resource and the keys of the tags that you want to remove.
     #
     # @!attribute [rw] arn
     #   The Amazon Resource Name (ARN) of the resource that you want to
@@ -15465,6 +15807,13 @@ module Aws::MediaConvert
     #   with numerator and denominator values.
     #   @return [Types::FrameRate]
     #
+    # @!attribute [rw] hdr_metadata
+    #   HDR (High Dynamic Range) metadata extracted from the container,
+    #   including mastering display color volume and content light level
+    #   information. This metadata is present in HDR10 and similar HDR
+    #   content.
+    #   @return [Types::HdrMetadata]
+    #
     # @!attribute [rw] height
     #   The height of the video track, in pixels.
     #   @return [Integer]
@@ -15474,6 +15823,15 @@ module Aws::MediaConvert
     #   RGB color values are converted to and from YUV color space. This
     #   affects color accuracy during encoding and decoding processes.
     #   @return [String]
+    #
+    # @!attribute [rw] rotation
+    #   The clockwise rotation angle of the video track, in degrees, as
+    #   derived from container-level metadata (e.g. the MP4 tkhd
+    #   transformation matrix or the Matroska ProjectionPoseRoll element).
+    #   Common values are 90, 180, and 270. This field is null when no
+    #   rotation metadata is present or when the rotation is 0 degrees. For
+    #   MP4, non-standard transformation matrices also yield null.
+    #   @return [Integer]
     #
     # @!attribute [rw] transfer_characteristics
     #   The color space transfer characteristics of the video track,
@@ -15494,8 +15852,10 @@ module Aws::MediaConvert
       :codec_metadata,
       :color_primaries,
       :frame_rate,
+      :hdr_metadata,
       :height,
       :matrix_coefficients,
+      :rotation,
       :transfer_characteristics,
       :width)
       SENSITIVE = []

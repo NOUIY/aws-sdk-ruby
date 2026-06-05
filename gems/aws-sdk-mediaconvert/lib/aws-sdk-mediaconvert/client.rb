@@ -4463,7 +4463,7 @@ module Aws::MediaConvert
     #
     #   resp.probe_results #=> Array
     #   resp.probe_results[0].container.duration #=> Float
-    #   resp.probe_results[0].container.format #=> String, one of "mp4", "quicktime", "matroska", "webm", "mxf", "wave", "avi", "mpegts"
+    #   resp.probe_results[0].container.format #=> String, one of "mp4", "quicktime", "matroska", "webm", "mxf", "wave", "avi", "mpegts", "mpegps"
     #   resp.probe_results[0].container.start_timecode #=> String
     #   resp.probe_results[0].container.tracks #=> Array
     #   resp.probe_results[0].container.tracks[0].audio_properties.bit_depth #=> Integer
@@ -4472,8 +4472,9 @@ module Aws::MediaConvert
     #   resp.probe_results[0].container.tracks[0].audio_properties.frame_rate.denominator #=> Integer
     #   resp.probe_results[0].container.tracks[0].audio_properties.frame_rate.numerator #=> Integer
     #   resp.probe_results[0].container.tracks[0].audio_properties.language_code #=> String
+    #   resp.probe_results[0].container.tracks[0].audio_properties.object_count #=> Integer
     #   resp.probe_results[0].container.tracks[0].audio_properties.sample_rate #=> Integer
-    #   resp.probe_results[0].container.tracks[0].codec #=> String, one of "UNKNOWN", "AAC", "AC3", "EAC3", "FLAC", "MP3", "OPUS", "PCM", "VORBIS", "AV1", "AVC", "HEVC", "JPEG2000", "MJPEG", "MPEG1", "MP4V", "MPEG2", "PRORES", "QTRLE", "THEORA", "UNCOMPRESSED", "VFW", "VP8", "VP9", "C608", "C708", "WEBVTT"
+    #   resp.probe_results[0].container.tracks[0].codec #=> String, one of "UNKNOWN", "AAC", "AC3", "EAC3", "FLAC", "MP2", "MP3", "OPUS", "PCM", "VORBIS", "AV1", "AVC", "HEVC", "JPEG2000", "MJPEG", "MPEG1", "MP4V", "MPEG2", "PRORES", "QTRLE", "THEORA", "UNCOMPRESSED", "VFW", "VP8", "VP9", "C608", "C708", "WEBVTT"
     #   resp.probe_results[0].container.tracks[0].data_properties.language_code #=> String
     #   resp.probe_results[0].container.tracks[0].duration #=> Float
     #   resp.probe_results[0].container.tracks[0].index #=> Integer
@@ -4485,18 +4486,34 @@ module Aws::MediaConvert
     #   resp.probe_results[0].container.tracks[0].video_properties.codec_metadata.coded_frame_rate.denominator #=> Integer
     #   resp.probe_results[0].container.tracks[0].video_properties.codec_metadata.coded_frame_rate.numerator #=> Integer
     #   resp.probe_results[0].container.tracks[0].video_properties.codec_metadata.color_primaries #=> String, one of "ITU_709", "UNSPECIFIED", "RESERVED", "ITU_470M", "ITU_470BG", "SMPTE_170M", "SMPTE_240M", "GENERIC_FILM", "ITU_2020", "SMPTE_428_1", "SMPTE_431_2", "SMPTE_EG_432_1", "IPT", "SMPTE_2067XYZ", "EBU_3213_E", "LAST"
+    #   resp.probe_results[0].container.tracks[0].video_properties.codec_metadata.content_light_level.max_content_light_level #=> Integer
+    #   resp.probe_results[0].container.tracks[0].video_properties.codec_metadata.content_light_level.max_frame_average_light_level #=> Integer
     #   resp.probe_results[0].container.tracks[0].video_properties.codec_metadata.height #=> Integer
     #   resp.probe_results[0].container.tracks[0].video_properties.codec_metadata.level #=> String
     #   resp.probe_results[0].container.tracks[0].video_properties.codec_metadata.matrix_coefficients #=> String, one of "RGB", "ITU_709", "UNSPECIFIED", "RESERVED", "FCC", "ITU_470BG", "SMPTE_170M", "SMPTE_240M", "YCgCo", "ITU_2020_NCL", "ITU_2020_CL", "SMPTE_2085", "CD_NCL", "CD_CL", "ITU_2100ICtCp", "IPT", "EBU3213", "LAST"
     #   resp.probe_results[0].container.tracks[0].video_properties.codec_metadata.profile #=> String
+    #   resp.probe_results[0].container.tracks[0].video_properties.codec_metadata.rotation #=> Integer
     #   resp.probe_results[0].container.tracks[0].video_properties.codec_metadata.scan_type #=> String
     #   resp.probe_results[0].container.tracks[0].video_properties.codec_metadata.transfer_characteristics #=> String, one of "ITU_709", "UNSPECIFIED", "RESERVED", "ITU_470M", "ITU_470BG", "SMPTE_170M", "SMPTE_240M", "LINEAR", "LOG10_2", "LOC10_2_5", "IEC_61966_2_4", "ITU_1361", "IEC_61966_2_1", "ITU_2020_10bit", "ITU_2020_12bit", "SMPTE_2084", "SMPTE_428_1", "ARIB_B67", "LAST"
     #   resp.probe_results[0].container.tracks[0].video_properties.codec_metadata.width #=> Integer
     #   resp.probe_results[0].container.tracks[0].video_properties.color_primaries #=> String, one of "ITU_709", "UNSPECIFIED", "RESERVED", "ITU_470M", "ITU_470BG", "SMPTE_170M", "SMPTE_240M", "GENERIC_FILM", "ITU_2020", "SMPTE_428_1", "SMPTE_431_2", "SMPTE_EG_432_1", "IPT", "SMPTE_2067XYZ", "EBU_3213_E", "LAST"
     #   resp.probe_results[0].container.tracks[0].video_properties.frame_rate.denominator #=> Integer
     #   resp.probe_results[0].container.tracks[0].video_properties.frame_rate.numerator #=> Integer
+    #   resp.probe_results[0].container.tracks[0].video_properties.hdr_metadata.content_light_level.max_content_light_level #=> Integer
+    #   resp.probe_results[0].container.tracks[0].video_properties.hdr_metadata.content_light_level.max_frame_average_light_level #=> Integer
+    #   resp.probe_results[0].container.tracks[0].video_properties.hdr_metadata.mastering_display_color_volume.blue_primary_x #=> Integer
+    #   resp.probe_results[0].container.tracks[0].video_properties.hdr_metadata.mastering_display_color_volume.blue_primary_y #=> Integer
+    #   resp.probe_results[0].container.tracks[0].video_properties.hdr_metadata.mastering_display_color_volume.green_primary_x #=> Integer
+    #   resp.probe_results[0].container.tracks[0].video_properties.hdr_metadata.mastering_display_color_volume.green_primary_y #=> Integer
+    #   resp.probe_results[0].container.tracks[0].video_properties.hdr_metadata.mastering_display_color_volume.max_luminance #=> Integer
+    #   resp.probe_results[0].container.tracks[0].video_properties.hdr_metadata.mastering_display_color_volume.min_luminance #=> Integer
+    #   resp.probe_results[0].container.tracks[0].video_properties.hdr_metadata.mastering_display_color_volume.red_primary_x #=> Integer
+    #   resp.probe_results[0].container.tracks[0].video_properties.hdr_metadata.mastering_display_color_volume.red_primary_y #=> Integer
+    #   resp.probe_results[0].container.tracks[0].video_properties.hdr_metadata.mastering_display_color_volume.white_point_x #=> Integer
+    #   resp.probe_results[0].container.tracks[0].video_properties.hdr_metadata.mastering_display_color_volume.white_point_y #=> Integer
     #   resp.probe_results[0].container.tracks[0].video_properties.height #=> Integer
     #   resp.probe_results[0].container.tracks[0].video_properties.matrix_coefficients #=> String, one of "RGB", "ITU_709", "UNSPECIFIED", "RESERVED", "FCC", "ITU_470BG", "SMPTE_170M", "SMPTE_240M", "YCgCo", "ITU_2020_NCL", "ITU_2020_CL", "SMPTE_2085", "CD_NCL", "CD_CL", "ITU_2100ICtCp", "IPT", "EBU3213", "LAST"
+    #   resp.probe_results[0].container.tracks[0].video_properties.rotation #=> Integer
     #   resp.probe_results[0].container.tracks[0].video_properties.transfer_characteristics #=> String, one of "ITU_709", "UNSPECIFIED", "RESERVED", "ITU_470M", "ITU_470BG", "SMPTE_170M", "SMPTE_240M", "LINEAR", "LOG10_2", "LOC10_2_5", "IEC_61966_2_4", "ITU_1361", "IEC_61966_2_1", "ITU_2020_10bit", "ITU_2020_12bit", "SMPTE_2084", "SMPTE_428_1", "ARIB_B67", "LAST"
     #   resp.probe_results[0].container.tracks[0].video_properties.width #=> Integer
     #   resp.probe_results[0].metadata.etag #=> String
@@ -4668,9 +4685,9 @@ module Aws::MediaConvert
       req.send_request(options)
     end
 
-    # Add tags to a MediaConvert queue, preset, or job template. For
+    # Add tags to a MediaConvert queue, preset, job, or job template. For
     # information about tagging, see the User Guide at
-    # https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+    # https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-mediaconvert-resources.html.
     #
     # @option params [required, String] :arn
     #   The Amazon Resource Name (ARN) of the resource that you want to tag.
@@ -4700,9 +4717,9 @@ module Aws::MediaConvert
       req.send_request(options)
     end
 
-    # Remove tags from a MediaConvert queue, preset, or job template. For
-    # information about tagging, see the User Guide at
-    # https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+    # Remove tags from a MediaConvert queue, preset, job, or job template.
+    # For information about tagging, see the User Guide at
+    # https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-mediaconvert-resources.html.
     #
     # @option params [required, String] :arn
     #   The Amazon Resource Name (ARN) of the resource that you want to remove
@@ -6478,7 +6495,7 @@ module Aws::MediaConvert
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-mediaconvert'
-      context[:gem_version] = '1.187.0'
+      context[:gem_version] = '1.188.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

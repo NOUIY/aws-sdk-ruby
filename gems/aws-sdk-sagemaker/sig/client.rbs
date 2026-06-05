@@ -232,7 +232,12 @@ module Aws
                                        }?
                                      },
                                      output_config: {
-                                       s3_output_location: ::String
+                                       s3_output_location: ::String,
+                                       mlflow_config: {
+                                         mlflow_resource_arn: ::String,
+                                         mlflow_experiment_name: ::String?,
+                                         mlflow_run_name: ::String?
+                                       }?
                                      },
                                      ai_workload_config_identifier: ::String,
                                      role_arn: ::String,
@@ -265,7 +270,12 @@ module Aws
                                           },
                                           output_config: {
                                             s3_output_location: ::String?,
-                                            model_package_group_identifier: ::String?
+                                            model_package_group_identifier: ::String?,
+                                            mlflow_config: {
+                                              mlflow_resource_arn: ::String,
+                                              mlflow_experiment_name: ::String?,
+                                              mlflow_run_name: ::String?
+                                            }?
                                           },
                                           ai_workload_config_identifier: ::String,
                                           performance_target: {

@@ -255,7 +255,9 @@ module Aws::PaymentCryptography
     #   highest order bytes of the encrypted result. For AES keys, the KCV
     #   is computed using a CMAC algorithm where the input data is 16 bytes
     #   of zero and retaining the 3 highest order bytes of the encrypted
-    #   result.
+    #   result. For HMAC keys, the KCV is computed using the hash selected
+    #   at key creation on a zero-length message, taking the leftmost 3
+    #   bytes.
     #   @return [String]
     #
     # @!attribute [rw] exportable
@@ -594,7 +596,9 @@ module Aws::PaymentCryptography
     #   highest order bytes of the encrypted result. For AES keys, the KCV
     #   is computed using a CMAC algorithm where the input data is 16 bytes
     #   of zero and retaining the 3 highest order bytes of the encrypted
-    #   result.
+    #   result. For HMAC keys, the KCV is computed using the hash selected
+    #   at key creation on a zero-length message, taking the leftmost 3
+    #   bytes.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/ExportAttributes AWS API Documentation
@@ -1404,7 +1408,9 @@ module Aws::PaymentCryptography
     #   highest order bytes of the encrypted result. For AES keys, the KCV
     #   is computed using a CMAC algorithm where the input data is 16 bytes
     #   of zero and retaining the 3 highest order bytes of the encrypted
-    #   result.
+    #   result. For HMAC keys, the KCV is computed using the hash selected
+    #   at key creation on a zero-length message, taking the leftmost 3
+    #   bytes.
     #   @return [String]
     #
     # @!attribute [rw] enabled
@@ -1671,7 +1677,9 @@ module Aws::PaymentCryptography
     #   highest order bytes of the encrypted result. For AES keys, the KCV
     #   is computed using a CMAC algorithm where the input data is 16 bytes
     #   of zero and retaining the 3 highest order bytes of the encrypted
-    #   result.
+    #   result. For HMAC keys, the KCV is computed using the hash selected
+    #   at key creation on a zero-length message, taking the leftmost 3
+    #   bytes.
     #   @return [String]
     #
     # @!attribute [rw] enabled
@@ -2757,7 +2765,9 @@ module Aws::PaymentCryptography
     #   highest order bytes of the encrypted result. For AES keys, the KCV
     #   is computed using a CMAC algorithm where the input data is 16 bytes
     #   of zero and retaining the 3 highest order bytes of the encrypted
-    #   result.
+    #   result. For HMAC keys, the KCV is computed using the hash selected
+    #   at key creation on a zero-length message, taking the leftmost 3
+    #   bytes.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/payment-cryptography-2021-09-14/WrappedKey AWS API Documentation

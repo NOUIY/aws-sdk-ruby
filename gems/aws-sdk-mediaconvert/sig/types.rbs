@@ -156,6 +156,7 @@ module Aws::MediaConvert
       attr_accessor channels: ::Integer
       attr_accessor frame_rate: Types::FrameRate
       attr_accessor language_code: ::String
+      attr_accessor object_count: ::Integer
       attr_accessor sample_rate: ::Integer
       SENSITIVE: []
     end
@@ -380,7 +381,7 @@ module Aws::MediaConvert
     end
 
     class CmafEncryptionSettings
-      attr_accessor clear_lead: ("ENABLED" | "DISABLED")
+      attr_accessor clear_lead_segments: ::Integer
       attr_accessor constant_initialization_vector: ::String
       attr_accessor encryption_method: ("SAMPLE_AES" | "AES_CTR")
       attr_accessor initialization_vector_in_manifest: ("INCLUDE" | "EXCLUDE")
@@ -401,8 +402,9 @@ module Aws::MediaConvert
       attr_accessor destination_settings: Types::DestinationSettings
       attr_accessor encryption: Types::CmafEncryptionSettings
       attr_accessor fragment_length: ::Integer
-      attr_accessor image_based_trick_play: ("NONE" | "THUMBNAIL" | "THUMBNAIL_AND_FULLFRAME" | "ADVANCED")
+      attr_accessor image_based_trick_play: ("NONE" | "THUMBNAIL" | "THUMBNAIL_AND_FULLFRAME" | "ADVANCED" | "VARIANTS")
       attr_accessor image_based_trick_play_settings: Types::CmafImageBasedTrickPlaySettings
+      attr_accessor image_based_trick_play_variants: ::Array[Types::CmafImageBasedTrickPlayVariant]
       attr_accessor manifest_compression: ("GZIP" | "NONE")
       attr_accessor manifest_duration_format: ("FLOATING_POINT" | "INTEGER")
       attr_accessor min_buffer_time: ::Integer
@@ -423,6 +425,16 @@ module Aws::MediaConvert
     end
 
     class CmafImageBasedTrickPlaySettings
+      attr_accessor interval_cadence: ("FOLLOW_IFRAME" | "FOLLOW_CUSTOM" | "FOLLOW_SEGMENTATION")
+      attr_accessor thumbnail_height: ::Integer
+      attr_accessor thumbnail_interval: ::Float
+      attr_accessor thumbnail_width: ::Integer
+      attr_accessor tile_height: ::Integer
+      attr_accessor tile_width: ::Integer
+      SENSITIVE: []
+    end
+
+    class CmafImageBasedTrickPlayVariant
       attr_accessor interval_cadence: ("FOLLOW_IFRAME" | "FOLLOW_CUSTOM" | "FOLLOW_SEGMENTATION")
       attr_accessor thumbnail_height: ::Integer
       attr_accessor thumbnail_interval: ::Float
@@ -458,10 +470,12 @@ module Aws::MediaConvert
       attr_accessor chroma_subsampling: ::String
       attr_accessor coded_frame_rate: Types::FrameRate
       attr_accessor color_primaries: ("ITU_709" | "UNSPECIFIED" | "RESERVED" | "ITU_470M" | "ITU_470BG" | "SMPTE_170M" | "SMPTE_240M" | "GENERIC_FILM" | "ITU_2020" | "SMPTE_428_1" | "SMPTE_431_2" | "SMPTE_EG_432_1" | "IPT" | "SMPTE_2067XYZ" | "EBU_3213_E" | "LAST")
+      attr_accessor content_light_level: Types::ContentLightLevel
       attr_accessor height: ::Integer
       attr_accessor level: ::String
       attr_accessor matrix_coefficients: ("RGB" | "ITU_709" | "UNSPECIFIED" | "RESERVED" | "FCC" | "ITU_470BG" | "SMPTE_170M" | "SMPTE_240M" | "YCgCo" | "ITU_2020_NCL" | "ITU_2020_CL" | "SMPTE_2085" | "CD_NCL" | "CD_CL" | "ITU_2100ICtCp" | "IPT" | "EBU3213" | "LAST")
       attr_accessor profile: ::String
+      attr_accessor rotation: ::Integer
       attr_accessor scan_type: ::String
       attr_accessor transfer_characteristics: ("ITU_709" | "UNSPECIFIED" | "RESERVED" | "ITU_470M" | "ITU_470BG" | "SMPTE_170M" | "SMPTE_240M" | "LINEAR" | "LOG10_2" | "LOC10_2_5" | "IEC_61966_2_4" | "ITU_1361" | "IEC_61966_2_1" | "ITU_2020_10bit" | "ITU_2020_12bit" | "SMPTE_2084" | "SMPTE_428_1" | "ARIB_B67" | "LAST")
       attr_accessor width: ::Integer
@@ -499,7 +513,7 @@ module Aws::MediaConvert
 
     class Container
       attr_accessor duration: ::Float
-      attr_accessor format: ("mp4" | "quicktime" | "matroska" | "webm" | "mxf" | "wave" | "avi" | "mpegts")
+      attr_accessor format: ("mp4" | "quicktime" | "matroska" | "webm" | "mxf" | "wave" | "avi" | "mpegts" | "mpegps")
       attr_accessor start_timecode: ::String
       attr_accessor tracks: ::Array[Types::Track]
       SENSITIVE: []
@@ -515,6 +529,12 @@ module Aws::MediaConvert
       attr_accessor mp_4_settings: Types::Mp4Settings
       attr_accessor mpd_settings: Types::MpdSettings
       attr_accessor mxf_settings: Types::MxfSettings
+      SENSITIVE: []
+    end
+
+    class ContentLightLevel
+      attr_accessor max_content_light_level: ::Integer
+      attr_accessor max_frame_average_light_level: ::Integer
       SENSITIVE: []
     end
 
@@ -623,8 +643,9 @@ module Aws::MediaConvert
       attr_accessor encryption: Types::DashIsoEncryptionSettings
       attr_accessor fragment_length: ::Integer
       attr_accessor hbbtv_compliance: ("HBBTV_1_5" | "NONE")
-      attr_accessor image_based_trick_play: ("NONE" | "THUMBNAIL" | "THUMBNAIL_AND_FULLFRAME" | "ADVANCED")
+      attr_accessor image_based_trick_play: ("NONE" | "THUMBNAIL" | "THUMBNAIL_AND_FULLFRAME" | "ADVANCED" | "VARIANTS")
       attr_accessor image_based_trick_play_settings: Types::DashIsoImageBasedTrickPlaySettings
+      attr_accessor image_based_trick_play_variants: ::Array[Types::DashIsoImageBasedTrickPlayVariant]
       attr_accessor min_buffer_time: ::Integer
       attr_accessor min_final_segment_length: ::Float
       attr_accessor mpd_manifest_bandwidth_type: ("AVERAGE" | "MAX")
@@ -639,6 +660,16 @@ module Aws::MediaConvert
     end
 
     class DashIsoImageBasedTrickPlaySettings
+      attr_accessor interval_cadence: ("FOLLOW_IFRAME" | "FOLLOW_CUSTOM" | "FOLLOW_SEGMENTATION")
+      attr_accessor thumbnail_height: ::Integer
+      attr_accessor thumbnail_interval: ::Float
+      attr_accessor thumbnail_width: ::Integer
+      attr_accessor tile_height: ::Integer
+      attr_accessor tile_width: ::Integer
+      SENSITIVE: []
+    end
+
+    class DashIsoImageBasedTrickPlayVariant
       attr_accessor interval_cadence: ("FOLLOW_IFRAME" | "FOLLOW_CUSTOM" | "FOLLOW_SEGMENTATION")
       attr_accessor thumbnail_height: ::Integer
       attr_accessor thumbnail_interval: ::Float
@@ -1175,6 +1206,12 @@ module Aws::MediaConvert
       SENSITIVE: []
     end
 
+    class HdrMetadata
+      attr_accessor content_light_level: Types::ContentLightLevel
+      attr_accessor mastering_display_color_volume: Types::MasteringDisplayColorVolume
+      SENSITIVE: []
+    end
+
     class HlsAdditionalManifest
       attr_accessor manifest_name_modifier: ::String
       attr_accessor selected_outputs: ::Array[::String]
@@ -1214,8 +1251,9 @@ module Aws::MediaConvert
       attr_accessor destination_settings: Types::DestinationSettings
       attr_accessor directory_structure: ("SINGLE_DIRECTORY" | "SUBDIRECTORY_PER_STREAM")
       attr_accessor encryption: Types::HlsEncryptionSettings
-      attr_accessor image_based_trick_play: ("NONE" | "THUMBNAIL" | "THUMBNAIL_AND_FULLFRAME" | "ADVANCED")
+      attr_accessor image_based_trick_play: ("NONE" | "THUMBNAIL" | "THUMBNAIL_AND_FULLFRAME" | "ADVANCED" | "VARIANTS")
       attr_accessor image_based_trick_play_settings: Types::HlsImageBasedTrickPlaySettings
+      attr_accessor image_based_trick_play_variants: ::Array[Types::HlsImageBasedTrickPlayVariant]
       attr_accessor manifest_compression: ("GZIP" | "NONE")
       attr_accessor manifest_duration_format: ("FLOATING_POINT" | "INTEGER")
       attr_accessor min_final_segment_length: ::Float
@@ -1237,6 +1275,16 @@ module Aws::MediaConvert
     end
 
     class HlsImageBasedTrickPlaySettings
+      attr_accessor interval_cadence: ("FOLLOW_IFRAME" | "FOLLOW_CUSTOM" | "FOLLOW_SEGMENTATION")
+      attr_accessor thumbnail_height: ::Integer
+      attr_accessor thumbnail_interval: ::Float
+      attr_accessor thumbnail_width: ::Integer
+      attr_accessor tile_height: ::Integer
+      attr_accessor tile_width: ::Integer
+      SENSITIVE: []
+    end
+
+    class HlsImageBasedTrickPlayVariant
       attr_accessor interval_cadence: ("FOLLOW_IFRAME" | "FOLLOW_CUSTOM" | "FOLLOW_SEGMENTATION")
       attr_accessor thumbnail_height: ::Integer
       attr_accessor thumbnail_interval: ::Float
@@ -1684,6 +1732,20 @@ module Aws::MediaConvert
       attr_accessor timed_metadata_pid: ::Integer
       attr_accessor transport_stream_id: ::Integer
       attr_accessor video_pid: ::Integer
+      SENSITIVE: []
+    end
+
+    class MasteringDisplayColorVolume
+      attr_accessor blue_primary_x: ::Integer
+      attr_accessor blue_primary_y: ::Integer
+      attr_accessor green_primary_x: ::Integer
+      attr_accessor green_primary_y: ::Integer
+      attr_accessor max_luminance: ::Integer
+      attr_accessor min_luminance: ::Integer
+      attr_accessor red_primary_x: ::Integer
+      attr_accessor red_primary_y: ::Integer
+      attr_accessor white_point_x: ::Integer
+      attr_accessor white_point_y: ::Integer
       SENSITIVE: []
     end
 
@@ -2300,7 +2362,7 @@ module Aws::MediaConvert
 
     class Track
       attr_accessor audio_properties: Types::AudioProperties
-      attr_accessor codec: ("UNKNOWN" | "AAC" | "AC3" | "EAC3" | "FLAC" | "MP3" | "OPUS" | "PCM" | "VORBIS" | "AV1" | "AVC" | "HEVC" | "JPEG2000" | "MJPEG" | "MPEG1" | "MP4V" | "MPEG2" | "PRORES" | "QTRLE" | "THEORA" | "UNCOMPRESSED" | "VFW" | "VP8" | "VP9" | "C608" | "C708" | "WEBVTT")
+      attr_accessor codec: ("UNKNOWN" | "AAC" | "AC3" | "EAC3" | "FLAC" | "MP2" | "MP3" | "OPUS" | "PCM" | "VORBIS" | "AV1" | "AVC" | "HEVC" | "JPEG2000" | "MJPEG" | "MPEG1" | "MP4V" | "MPEG2" | "PRORES" | "QTRLE" | "THEORA" | "UNCOMPRESSED" | "VFW" | "VP8" | "VP9" | "C608" | "C708" | "WEBVTT")
       attr_accessor data_properties: Types::DataProperties
       attr_accessor duration: ::Float
       attr_accessor index: ::Integer
@@ -2524,8 +2586,10 @@ module Aws::MediaConvert
       attr_accessor codec_metadata: Types::CodecMetadata
       attr_accessor color_primaries: ("ITU_709" | "UNSPECIFIED" | "RESERVED" | "ITU_470M" | "ITU_470BG" | "SMPTE_170M" | "SMPTE_240M" | "GENERIC_FILM" | "ITU_2020" | "SMPTE_428_1" | "SMPTE_431_2" | "SMPTE_EG_432_1" | "IPT" | "SMPTE_2067XYZ" | "EBU_3213_E" | "LAST")
       attr_accessor frame_rate: Types::FrameRate
+      attr_accessor hdr_metadata: Types::HdrMetadata
       attr_accessor height: ::Integer
       attr_accessor matrix_coefficients: ("RGB" | "ITU_709" | "UNSPECIFIED" | "RESERVED" | "FCC" | "ITU_470BG" | "SMPTE_170M" | "SMPTE_240M" | "YCgCo" | "ITU_2020_NCL" | "ITU_2020_CL" | "SMPTE_2085" | "CD_NCL" | "CD_CL" | "ITU_2100ICtCp" | "IPT" | "EBU3213" | "LAST")
+      attr_accessor rotation: ::Integer
       attr_accessor transfer_characteristics: ("ITU_709" | "UNSPECIFIED" | "RESERVED" | "ITU_470M" | "ITU_470BG" | "SMPTE_170M" | "SMPTE_240M" | "LINEAR" | "LOG10_2" | "LOC10_2_5" | "IEC_61966_2_4" | "ITU_1361" | "IEC_61966_2_1" | "ITU_2020_10bit" | "ITU_2020_12bit" | "SMPTE_2084" | "SMPTE_428_1" | "ARIB_B67" | "LAST")
       attr_accessor width: ::Integer
       SENSITIVE: []

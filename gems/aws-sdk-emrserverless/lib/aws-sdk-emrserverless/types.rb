@@ -786,7 +786,9 @@ module Aws::EMRServerless
     #   @return [String]
     #
     # @!attribute [rw] auth_token
-    #   Authentication token for accessing the session endpoint.
+    #   The authentication token for connecting to the session endpoint.
+    #   Call `GetSessionEndpoint` again to obtain a new token before it
+    #   expires.
     #   @return [String]
     #
     # @!attribute [rw] auth_token_expires_at
@@ -924,11 +926,20 @@ module Aws::EMRServerless
     #   exist until an application has started.
     #   @return [String]
     #
+    # @!attribute [rw] application_level_digest_resolution
+    #   Boolean value indicating if the digest resolution is application
+    #   level or workload level. If true, a custom image URI is resolved at
+    #   application start time and all workloads submitted will use that
+    #   image digest. If false, the custom image URI is resolved at the
+    #   workload submission time.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/emr-serverless-2021-07-13/ImageConfiguration AWS API Documentation
     #
     class ImageConfiguration < Struct.new(
       :image_uri,
-      :resolved_image_digest)
+      :resolved_image_digest,
+      :application_level_digest_resolution)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -941,10 +952,19 @@ module Aws::EMRServerless
     #   blank in an update, Amazon EMR will remove the image configuration.
     #   @return [String]
     #
+    # @!attribute [rw] application_level_digest_resolution
+    #   Boolean value indicating if the digest resolution is application
+    #   level or workload level. If true, a custom image URI is resolved at
+    #   application start time and all workloads submitted will use that
+    #   image digest. If false, the custom image URI is resolved at the
+    #   workload submission time.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/emr-serverless-2021-07-13/ImageConfigurationInput AWS API Documentation
     #
     class ImageConfigurationInput < Struct.new(
-      :image_uri)
+      :image_uri,
+      :application_level_digest_resolution)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1184,6 +1204,16 @@ module Aws::EMRServerless
     #   The total time for a job in the QUEUED state in milliseconds.
     #   @return [Integer]
     #
+    # @!attribute [rw] image_configuration
+    #   The applied image configuration.
+    #   @return [Types::ImageConfiguration]
+    #
+    # @!attribute [rw] worker_type_specifications
+    #   The specification applied to each worker type. Includes the
+    #   JobRun-level ImageConfiguration when the
+    #   applicationLevelDigestResolution is false for the application.
+    #   @return [Hash<String,Types::WorkerTypeSpecification>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/emr-serverless-2021-07-13/JobRun AWS API Documentation
     #
     class JobRun < Struct.new(
@@ -1214,7 +1244,9 @@ module Aws::EMRServerless
       :attempt_updated_at,
       :started_at,
       :ended_at,
-      :queued_duration_milliseconds)
+      :queued_duration_milliseconds,
+      :image_configuration,
+      :worker_type_specifications)
       SENSITIVE = []
       include Aws::Structure
     end

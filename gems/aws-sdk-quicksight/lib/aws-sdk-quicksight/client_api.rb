@@ -241,6 +241,8 @@ module Aws::QuickSight
     AssignmentStatus = Shapes::StringShape.new(name: 'AssignmentStatus')
     AthenaParameters = Shapes::StructureShape.new(name: 'AthenaParameters')
     AttributeAggregationFunction = Shapes::StructureShape.new(name: 'AttributeAggregationFunction')
+    AudioExtractionConfiguration = Shapes::StructureShape.new(name: 'AudioExtractionConfiguration')
+    AudioExtractionStatus = Shapes::StringShape.new(name: 'AudioExtractionStatus')
     AuroraParameters = Shapes::StructureShape.new(name: 'AuroraParameters')
     AuroraPostgreSqlParameters = Shapes::StructureShape.new(name: 'AuroraPostgreSqlParameters')
     AuthConfig = Shapes::StructureShape.new(name: 'AuthConfig')
@@ -289,6 +291,13 @@ module Aws::QuickSight
     BasicAuthConnectionMetadata = Shapes::StructureShape.new(name: 'BasicAuthConnectionMetadata')
     BatchCreateTopicReviewedAnswerRequest = Shapes::StructureShape.new(name: 'BatchCreateTopicReviewedAnswerRequest')
     BatchCreateTopicReviewedAnswerResponse = Shapes::StructureShape.new(name: 'BatchCreateTopicReviewedAnswerResponse')
+    BatchDeleteKnowledgeBaseFailure = Shapes::StructureShape.new(name: 'BatchDeleteKnowledgeBaseFailure')
+    BatchDeleteKnowledgeBaseFailureList = Shapes::ListShape.new(name: 'BatchDeleteKnowledgeBaseFailureList')
+    BatchDeleteKnowledgeBaseRequest = Shapes::StructureShape.new(name: 'BatchDeleteKnowledgeBaseRequest')
+    BatchDeleteKnowledgeBaseRequestKnowledgeBaseIdsList = Shapes::ListShape.new(name: 'BatchDeleteKnowledgeBaseRequestKnowledgeBaseIdsList')
+    BatchDeleteKnowledgeBaseResponse = Shapes::StructureShape.new(name: 'BatchDeleteKnowledgeBaseResponse')
+    BatchDeleteKnowledgeBaseSuccess = Shapes::StructureShape.new(name: 'BatchDeleteKnowledgeBaseSuccess')
+    BatchDeleteKnowledgeBaseSuccessList = Shapes::ListShape.new(name: 'BatchDeleteKnowledgeBaseSuccessList')
     BatchDeleteTopicReviewedAnswerRequest = Shapes::StructureShape.new(name: 'BatchDeleteTopicReviewedAnswerRequest')
     BatchDeleteTopicReviewedAnswerResponse = Shapes::StructureShape.new(name: 'BatchDeleteTopicReviewedAnswerResponse')
     BigQueryParameters = Shapes::StructureShape.new(name: 'BigQueryParameters')
@@ -345,6 +354,9 @@ module Aws::QuickSight
     CancelIngestionResponse = Shapes::StructureShape.new(name: 'CancelIngestionResponse')
     Capabilities = Shapes::StructureShape.new(name: 'Capabilities')
     CapabilityState = Shapes::StringShape.new(name: 'CapabilityState')
+    CapacityBytesRangeFilter = Shapes::StructureShape.new(name: 'CapacityBytesRangeFilter')
+    CapacityBytesRangeFilterMaxBytesLong = Shapes::IntegerShape.new(name: 'CapacityBytesRangeFilterMaxBytesLong')
+    CapacityBytesRangeFilterMinBytesLong = Shapes::IntegerShape.new(name: 'CapacityBytesRangeFilterMinBytesLong')
     CascadingControlConfiguration = Shapes::StructureShape.new(name: 'CascadingControlConfiguration')
     CascadingControlSource = Shapes::StructureShape.new(name: 'CascadingControlSource')
     CascadingControlSourceList = Shapes::ListShape.new(name: 'CascadingControlSourceList')
@@ -672,6 +684,7 @@ module Aws::QuickSight
     DataSetSemanticDescription = Shapes::StructureShape.new(name: 'DataSetSemanticDescription')
     DataSetSemanticMetadata = Shapes::StructureShape.new(name: 'DataSetSemanticMetadata')
     DataSetSemanticMetadataList = Shapes::ListShape.new(name: 'DataSetSemanticMetadataList')
+    DataSetStatus = Shapes::StringShape.new(name: 'DataSetStatus')
     DataSetStringComparisonFilterCondition = Shapes::StructureShape.new(name: 'DataSetStringComparisonFilterCondition')
     DataSetStringComparisonFilterOperator = Shapes::StringShape.new(name: 'DataSetStringComparisonFilterOperator')
     DataSetStringFilterCondition = Shapes::StructureShape.new(name: 'DataSetStringFilterCondition')
@@ -686,6 +699,7 @@ module Aws::QuickSight
     DataSetUsageConfiguration = Shapes::StructureShape.new(name: 'DataSetUsageConfiguration')
     DataSetUseAs = Shapes::StringShape.new(name: 'DataSetUseAs')
     DataSource = Shapes::StructureShape.new(name: 'DataSource')
+    DataSourceArn = Shapes::StringShape.new(name: 'DataSourceArn')
     DataSourceCredentials = Shapes::StructureShape.new(name: 'DataSourceCredentials')
     DataSourceErrorInfo = Shapes::StructureShape.new(name: 'DataSourceErrorInfo')
     DataSourceErrorInfoType = Shapes::StringShape.new(name: 'DataSourceErrorInfoType')
@@ -811,6 +825,8 @@ module Aws::QuickSight
     DeleteIAMPolicyAssignmentResponse = Shapes::StructureShape.new(name: 'DeleteIAMPolicyAssignmentResponse')
     DeleteIdentityPropagationConfigRequest = Shapes::StructureShape.new(name: 'DeleteIdentityPropagationConfigRequest')
     DeleteIdentityPropagationConfigResponse = Shapes::StructureShape.new(name: 'DeleteIdentityPropagationConfigResponse')
+    DeleteKnowledgeBaseRequest = Shapes::StructureShape.new(name: 'DeleteKnowledgeBaseRequest')
+    DeleteKnowledgeBaseResponse = Shapes::StructureShape.new(name: 'DeleteKnowledgeBaseResponse')
     DeleteNamespaceRequest = Shapes::StructureShape.new(name: 'DeleteNamespaceRequest')
     DeleteNamespaceResponse = Shapes::StructureShape.new(name: 'DeleteNamespaceResponse')
     DeleteOAuthClientApplicationRequest = Shapes::StructureShape.new(name: 'DeleteOAuthClientApplicationRequest')
@@ -924,6 +940,10 @@ module Aws::QuickSight
     DescribeIpRestrictionResponse = Shapes::StructureShape.new(name: 'DescribeIpRestrictionResponse')
     DescribeKeyRegistrationRequest = Shapes::StructureShape.new(name: 'DescribeKeyRegistrationRequest')
     DescribeKeyRegistrationResponse = Shapes::StructureShape.new(name: 'DescribeKeyRegistrationResponse')
+    DescribeKnowledgeBasePermissionsRequest = Shapes::StructureShape.new(name: 'DescribeKnowledgeBasePermissionsRequest')
+    DescribeKnowledgeBasePermissionsResponse = Shapes::StructureShape.new(name: 'DescribeKnowledgeBasePermissionsResponse')
+    DescribeKnowledgeBaseRequest = Shapes::StructureShape.new(name: 'DescribeKnowledgeBaseRequest')
+    DescribeKnowledgeBaseResponse = Shapes::StructureShape.new(name: 'DescribeKnowledgeBaseResponse')
     DescribeNamespaceRequest = Shapes::StructureShape.new(name: 'DescribeNamespaceRequest')
     DescribeNamespaceResponse = Shapes::StructureShape.new(name: 'DescribeNamespaceResponse')
     DescribeOAuthClientApplicationRequest = Shapes::StructureShape.new(name: 'DescribeOAuthClientApplicationRequest')
@@ -1075,6 +1095,7 @@ module Aws::QuickSight
     FilterSliderControl = Shapes::StructureShape.new(name: 'FilterSliderControl')
     FilterTextAreaControl = Shapes::StructureShape.new(name: 'FilterTextAreaControl')
     FilterTextFieldControl = Shapes::StructureShape.new(name: 'FilterTextFieldControl')
+    FilterValue = Shapes::StringShape.new(name: 'FilterValue')
     FilterVisualScope = Shapes::StringShape.new(name: 'FilterVisualScope')
     FilteredVisualsList = Shapes::ListShape.new(name: 'FilteredVisualsList')
     FiltersOperation = Shapes::StructureShape.new(name: 'FiltersOperation')
@@ -1300,6 +1321,8 @@ module Aws::QuickSight
     ImageCustomActionOperation = Shapes::StructureShape.new(name: 'ImageCustomActionOperation')
     ImageCustomActionOperationList = Shapes::ListShape.new(name: 'ImageCustomActionOperationList')
     ImageCustomActionTrigger = Shapes::StringShape.new(name: 'ImageCustomActionTrigger')
+    ImageExtractionConfiguration = Shapes::StructureShape.new(name: 'ImageExtractionConfiguration')
+    ImageExtractionStatus = Shapes::StringShape.new(name: 'ImageExtractionStatus')
     ImageInteractionOptions = Shapes::StructureShape.new(name: 'ImageInteractionOptions')
     ImageMenuOption = Shapes::StructureShape.new(name: 'ImageMenuOption')
     ImageSet = Shapes::StructureShape.new(name: 'ImageSet')
@@ -1341,6 +1364,7 @@ module Aws::QuickSight
     IntegerParameter = Shapes::StructureShape.new(name: 'IntegerParameter')
     IntegerParameterDeclaration = Shapes::StructureShape.new(name: 'IntegerParameterDeclaration')
     IntegerParameterList = Shapes::ListShape.new(name: 'IntegerParameterList')
+    IntegerValue = Shapes::IntegerShape.new(name: 'IntegerValue')
     IntegerValueWhenUnsetConfiguration = Shapes::StructureShape.new(name: 'IntegerValueWhenUnsetConfiguration')
     InternalFailureException = Shapes::StructureShape.new(name: 'InternalFailureException')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
@@ -1379,8 +1403,28 @@ module Aws::QuickSight
     KPIVisualLayoutOptions = Shapes::StructureShape.new(name: 'KPIVisualLayoutOptions')
     KPIVisualStandardLayout = Shapes::StructureShape.new(name: 'KPIVisualStandardLayout')
     KPIVisualStandardLayoutType = Shapes::StringShape.new(name: 'KPIVisualStandardLayoutType')
+    KbAwsAccountId = Shapes::StringShape.new(name: 'KbAwsAccountId')
+    KbIngestionId = Shapes::StringShape.new(name: 'KbIngestionId')
+    KbIngestionStatus = Shapes::StringShape.new(name: 'KbIngestionStatus')
+    KbTemplate = Shapes::DocumentShape.new(name: 'KbTemplate', document: true)
+    KbTemplateConfiguration = Shapes::StructureShape.new(name: 'KbTemplateConfiguration')
     KeyPairCredentials = Shapes::StructureShape.new(name: 'KeyPairCredentials')
     KeyRegistration = Shapes::ListShape.new(name: 'KeyRegistration')
+    KnowledgeBase = Shapes::StructureShape.new(name: 'KnowledgeBase')
+    KnowledgeBaseArn = Shapes::StringShape.new(name: 'KnowledgeBaseArn')
+    KnowledgeBaseConfiguration = Shapes::StructureShape.new(name: 'KnowledgeBaseConfiguration')
+    KnowledgeBaseDescription = Shapes::StringShape.new(name: 'KnowledgeBaseDescription')
+    KnowledgeBaseId = Shapes::StringShape.new(name: 'KnowledgeBaseId')
+    KnowledgeBaseIngestionSummary = Shapes::StructureShape.new(name: 'KnowledgeBaseIngestionSummary')
+    KnowledgeBaseName = Shapes::StringShape.new(name: 'KnowledgeBaseName')
+    KnowledgeBaseSearchFilter = Shapes::StructureShape.new(name: 'KnowledgeBaseSearchFilter')
+    KnowledgeBaseSearchFilterName = Shapes::StringShape.new(name: 'KnowledgeBaseSearchFilterName')
+    KnowledgeBaseSearchFilters = Shapes::ListShape.new(name: 'KnowledgeBaseSearchFilters')
+    KnowledgeBaseSearchOperator = Shapes::StringShape.new(name: 'KnowledgeBaseSearchOperator')
+    KnowledgeBaseSortBy = Shapes::StructureShape.new(name: 'KnowledgeBaseSortBy')
+    KnowledgeBaseSortByField = Shapes::StringShape.new(name: 'KnowledgeBaseSortByField')
+    KnowledgeBaseSummaries = Shapes::ListShape.new(name: 'KnowledgeBaseSummaries')
+    KnowledgeBaseSummary = Shapes::StructureShape.new(name: 'KnowledgeBaseSummary')
     LabelOptions = Shapes::StructureShape.new(name: 'LabelOptions')
     Latitude = Shapes::FloatShape.new(name: 'Latitude')
     LayerCustomAction = Shapes::StructureShape.new(name: 'LayerCustomAction')
@@ -1463,6 +1507,8 @@ module Aws::QuickSight
     ListIdentityPropagationMaxResults = Shapes::IntegerShape.new(name: 'ListIdentityPropagationMaxResults')
     ListIngestionsRequest = Shapes::StructureShape.new(name: 'ListIngestionsRequest')
     ListIngestionsResponse = Shapes::StructureShape.new(name: 'ListIngestionsResponse')
+    ListKnowledgeBasesRequest = Shapes::StructureShape.new(name: 'ListKnowledgeBasesRequest')
+    ListKnowledgeBasesResponse = Shapes::StructureShape.new(name: 'ListKnowledgeBasesResponse')
     ListNamespacesRequest = Shapes::StructureShape.new(name: 'ListNamespacesRequest')
     ListNamespacesResponse = Shapes::StructureShape.new(name: 'ListNamespacesResponse')
     ListOAuthClientApplicationsRequest = Shapes::StructureShape.new(name: 'ListOAuthClientApplicationsRequest')
@@ -1499,6 +1545,9 @@ module Aws::QuickSight
     ListTopicsResponse = Shapes::StructureShape.new(name: 'ListTopicsResponse')
     ListUserGroupsRequest = Shapes::StructureShape.new(name: 'ListUserGroupsRequest')
     ListUserGroupsResponse = Shapes::StructureShape.new(name: 'ListUserGroupsResponse')
+    ListUsersIndexCapacityRequest = Shapes::StructureShape.new(name: 'ListUsersIndexCapacityRequest')
+    ListUsersIndexCapacityRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListUsersIndexCapacityRequestMaxResultsInteger')
+    ListUsersIndexCapacityResponse = Shapes::StructureShape.new(name: 'ListUsersIndexCapacityResponse')
     ListUsersRequest = Shapes::StructureShape.new(name: 'ListUsersRequest')
     ListUsersResponse = Shapes::StructureShape.new(name: 'ListUsersResponse')
     ListVPCConnectionsRequest = Shapes::StructureShape.new(name: 'ListVPCConnectionsRequest')
@@ -1518,6 +1567,7 @@ module Aws::QuickSight
     LongFormatText = Shapes::StructureShape.new(name: 'LongFormatText')
     LongPlainText = Shapes::StringShape.new(name: 'LongPlainText')
     LongRichText = Shapes::StringShape.new(name: 'LongRichText')
+    LongValue = Shapes::IntegerShape.new(name: 'LongValue')
     Longitude = Shapes::FloatShape.new(name: 'Longitude')
     LookbackWindow = Shapes::StructureShape.new(name: 'LookbackWindow')
     LookbackWindowSizeUnit = Shapes::StringShape.new(name: 'LookbackWindowSizeUnit')
@@ -1535,6 +1585,7 @@ module Aws::QuickSight
     MaximumMinimumComputationType = Shapes::StringShape.new(name: 'MaximumMinimumComputationType')
     MeasureField = Shapes::StructureShape.new(name: 'MeasureField')
     MeasureFieldList = Shapes::ListShape.new(name: 'MeasureFieldList')
+    MediaExtractionConfiguration = Shapes::StructureShape.new(name: 'MediaExtractionConfiguration')
     MemberIdArnPair = Shapes::StructureShape.new(name: 'MemberIdArnPair')
     MemberType = Shapes::StringShape.new(name: 'MemberType')
     MetadataFilesLocation = Shapes::StringShape.new(name: 'MetadataFilesLocation')
@@ -1931,6 +1982,8 @@ module Aws::QuickSight
     SearchFoldersResponse = Shapes::StructureShape.new(name: 'SearchFoldersResponse')
     SearchGroupsRequest = Shapes::StructureShape.new(name: 'SearchGroupsRequest')
     SearchGroupsResponse = Shapes::StructureShape.new(name: 'SearchGroupsResponse')
+    SearchKnowledgeBasesRequest = Shapes::StructureShape.new(name: 'SearchKnowledgeBasesRequest')
+    SearchKnowledgeBasesResponse = Shapes::StructureShape.new(name: 'SearchKnowledgeBasesResponse')
     SearchSpacesRequest = Shapes::StructureShape.new(name: 'SearchSpacesRequest')
     SearchSpacesResponse = Shapes::StructureShape.new(name: 'SearchSpacesResponse')
     SearchTopicsRequest = Shapes::StructureShape.new(name: 'SearchTopicsRequest')
@@ -2093,6 +2146,7 @@ module Aws::QuickSight
     SnapshotUserConfigurationRedacted = Shapes::StructureShape.new(name: 'SnapshotUserConfigurationRedacted')
     SnowflakeParameters = Shapes::StructureShape.new(name: 'SnowflakeParameters')
     SortDirection = Shapes::StringShape.new(name: 'SortDirection')
+    SortOrder = Shapes::StringShape.new(name: 'SortOrder')
     SourceTable = Shapes::StructureShape.new(name: 'SourceTable')
     SourceTableMap = Shapes::MapShape.new(name: 'SourceTableMap')
     SpaceContributor = Shapes::StructureShape.new(name: 'SpaceContributor')
@@ -2482,6 +2536,8 @@ module Aws::QuickSight
     UpdateIpRestrictionResponse = Shapes::StructureShape.new(name: 'UpdateIpRestrictionResponse')
     UpdateKeyRegistrationRequest = Shapes::StructureShape.new(name: 'UpdateKeyRegistrationRequest')
     UpdateKeyRegistrationResponse = Shapes::StructureShape.new(name: 'UpdateKeyRegistrationResponse')
+    UpdateKnowledgeBasePermissionsRequest = Shapes::StructureShape.new(name: 'UpdateKnowledgeBasePermissionsRequest')
+    UpdateKnowledgeBasePermissionsResponse = Shapes::StructureShape.new(name: 'UpdateKnowledgeBasePermissionsResponse')
     UpdateLinkPermissionList = Shapes::ListShape.new(name: 'UpdateLinkPermissionList')
     UpdateOAuthClientApplicationRequest = Shapes::StructureShape.new(name: 'UpdateOAuthClientApplicationRequest')
     UpdateOAuthClientApplicationResponse = Shapes::StructureShape.new(name: 'UpdateOAuthClientApplicationResponse')
@@ -2537,8 +2593,15 @@ module Aws::QuickSight
     UploadedDocumentName = Shapes::StringShape.new(name: 'UploadedDocumentName')
     User = Shapes::StructureShape.new(name: 'User')
     UserIdentifier = Shapes::UnionShape.new(name: 'UserIdentifier')
+    UserIndexCapacity = Shapes::StructureShape.new(name: 'UserIndexCapacity')
+    UserIndexCapacityFilter = Shapes::UnionShape.new(name: 'UserIndexCapacityFilter')
+    UserIndexCapacityFilters = Shapes::ListShape.new(name: 'UserIndexCapacityFilters')
+    UserIndexCapacityList = Shapes::ListShape.new(name: 'UserIndexCapacityList')
+    UserIndexCapacitySortBy = Shapes::StringShape.new(name: 'UserIndexCapacitySortBy')
+    UserIndexCapacitySortOrder = Shapes::StringShape.new(name: 'UserIndexCapacitySortOrder')
     UserList = Shapes::ListShape.new(name: 'UserList')
     UserName = Shapes::StringShape.new(name: 'UserName')
+    UserNameOrEmailFilter = Shapes::StructureShape.new(name: 'UserNameOrEmailFilter')
     UserRole = Shapes::StringShape.new(name: 'UserRole')
     VPCConnection = Shapes::StructureShape.new(name: 'VPCConnection')
     VPCConnectionAvailabilityStatus = Shapes::StringShape.new(name: 'VPCConnectionAvailabilityStatus')
@@ -2554,6 +2617,9 @@ module Aws::QuickSight
     VersionDescription = Shapes::StringShape.new(name: 'VersionDescription')
     VersionNumber = Shapes::IntegerShape.new(name: 'VersionNumber')
     VerticalTextAlignment = Shapes::StringShape.new(name: 'VerticalTextAlignment')
+    VideoExtractionConfiguration = Shapes::StructureShape.new(name: 'VideoExtractionConfiguration')
+    VideoExtractionStatus = Shapes::StringShape.new(name: 'VideoExtractionStatus')
+    VideoExtractionType = Shapes::StringShape.new(name: 'VideoExtractionType')
     Visibility = Shapes::StringShape.new(name: 'Visibility')
     VisiblePanelColumns = Shapes::IntegerShape.new(name: 'VisiblePanelColumns')
     VisiblePanelRows = Shapes::IntegerShape.new(name: 'VisiblePanelRows')
@@ -3299,6 +3365,9 @@ module Aws::QuickSight
     AttributeAggregationFunction.add_member(:value_for_multiple_values, Shapes::ShapeRef.new(shape: String, location_name: "ValueForMultipleValues"))
     AttributeAggregationFunction.struct_class = Types::AttributeAggregationFunction
 
+    AudioExtractionConfiguration.add_member(:audio_extraction_status, Shapes::ShapeRef.new(shape: AudioExtractionStatus, required: true, location_name: "audioExtractionStatus"))
+    AudioExtractionConfiguration.struct_class = Types::AudioExtractionConfiguration
+
     AuroraParameters.add_member(:host, Shapes::ShapeRef.new(shape: Host, required: true, location_name: "Host"))
     AuroraParameters.add_member(:port, Shapes::ShapeRef.new(shape: Port, required: true, location_name: "Port"))
     AuroraParameters.add_member(:database, Shapes::ShapeRef.new(shape: Database, required: true, location_name: "Database"))
@@ -3486,6 +3555,31 @@ module Aws::QuickSight
     BatchCreateTopicReviewedAnswerResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
     BatchCreateTopicReviewedAnswerResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     BatchCreateTopicReviewedAnswerResponse.struct_class = Types::BatchCreateTopicReviewedAnswerResponse
+
+    BatchDeleteKnowledgeBaseFailure.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location_name: "KnowledgeBaseId"))
+    BatchDeleteKnowledgeBaseFailure.add_member(:error_code, Shapes::ShapeRef.new(shape: String, required: true, location_name: "ErrorCode"))
+    BatchDeleteKnowledgeBaseFailure.add_member(:error_message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "ErrorMessage"))
+    BatchDeleteKnowledgeBaseFailure.struct_class = Types::BatchDeleteKnowledgeBaseFailure
+
+    BatchDeleteKnowledgeBaseFailureList.member = Shapes::ShapeRef.new(shape: BatchDeleteKnowledgeBaseFailure)
+
+    BatchDeleteKnowledgeBaseRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: KbAwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    BatchDeleteKnowledgeBaseRequest.add_member(:knowledge_base_ids, Shapes::ShapeRef.new(shape: BatchDeleteKnowledgeBaseRequestKnowledgeBaseIdsList, required: true, location_name: "KnowledgeBaseIds"))
+    BatchDeleteKnowledgeBaseRequest.struct_class = Types::BatchDeleteKnowledgeBaseRequest
+
+    BatchDeleteKnowledgeBaseRequestKnowledgeBaseIdsList.member = Shapes::ShapeRef.new(shape: KnowledgeBaseId)
+
+    BatchDeleteKnowledgeBaseResponse.add_member(:deleted, Shapes::ShapeRef.new(shape: BatchDeleteKnowledgeBaseSuccessList, required: true, location_name: "Deleted"))
+    BatchDeleteKnowledgeBaseResponse.add_member(:errors, Shapes::ShapeRef.new(shape: BatchDeleteKnowledgeBaseFailureList, required: true, location_name: "Errors"))
+    BatchDeleteKnowledgeBaseResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    BatchDeleteKnowledgeBaseResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status", metadata: {"box" => true}))
+    BatchDeleteKnowledgeBaseResponse.struct_class = Types::BatchDeleteKnowledgeBaseResponse
+
+    BatchDeleteKnowledgeBaseSuccess.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location_name: "KnowledgeBaseId"))
+    BatchDeleteKnowledgeBaseSuccess.add_member(:knowledge_base_arn, Shapes::ShapeRef.new(shape: KnowledgeBaseArn, required: true, location_name: "KnowledgeBaseArn"))
+    BatchDeleteKnowledgeBaseSuccess.struct_class = Types::BatchDeleteKnowledgeBaseSuccess
+
+    BatchDeleteKnowledgeBaseSuccessList.member = Shapes::ShapeRef.new(shape: BatchDeleteKnowledgeBaseSuccess)
 
     BatchDeleteTopicReviewedAnswerRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     BatchDeleteTopicReviewedAnswerRequest.add_member(:topic_id, Shapes::ShapeRef.new(shape: TopicId, required: true, location: "uri", location_name: "TopicId"))
@@ -3910,6 +4004,10 @@ module Aws::QuickSight
     Capabilities.add_member(:story, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "Story"))
     Capabilities.add_member(:scenario, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "Scenario"))
     Capabilities.struct_class = Types::Capabilities
+
+    CapacityBytesRangeFilter.add_member(:min_bytes, Shapes::ShapeRef.new(shape: CapacityBytesRangeFilterMinBytesLong, location_name: "minBytes"))
+    CapacityBytesRangeFilter.add_member(:max_bytes, Shapes::ShapeRef.new(shape: CapacityBytesRangeFilterMaxBytesLong, location_name: "maxBytes"))
+    CapacityBytesRangeFilter.struct_class = Types::CapacityBytesRangeFilter
 
     CascadingControlConfiguration.add_member(:source_controls, Shapes::ShapeRef.new(shape: CascadingControlSourceList, location_name: "SourceControls"))
     CascadingControlConfiguration.struct_class = Types::CascadingControlConfiguration
@@ -5787,6 +5885,16 @@ module Aws::QuickSight
     DeleteIdentityPropagationConfigResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
     DeleteIdentityPropagationConfigResponse.struct_class = Types::DeleteIdentityPropagationConfigResponse
 
+    DeleteKnowledgeBaseRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: KbAwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    DeleteKnowledgeBaseRequest.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location: "uri", location_name: "KnowledgeBaseId"))
+    DeleteKnowledgeBaseRequest.struct_class = Types::DeleteKnowledgeBaseRequest
+
+    DeleteKnowledgeBaseResponse.add_member(:knowledge_base_arn, Shapes::ShapeRef.new(shape: KnowledgeBaseArn, required: true, location_name: "KnowledgeBaseArn"))
+    DeleteKnowledgeBaseResponse.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location_name: "KnowledgeBaseId"))
+    DeleteKnowledgeBaseResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    DeleteKnowledgeBaseResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status", metadata: {"box" => true}))
+    DeleteKnowledgeBaseResponse.struct_class = Types::DeleteKnowledgeBaseResponse
+
     DeleteNamespaceRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     DeleteNamespaceRequest.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, required: true, location: "uri", location_name: "Namespace"))
     DeleteNamespaceRequest.struct_class = Types::DeleteNamespaceRequest
@@ -6411,6 +6519,26 @@ module Aws::QuickSight
     DescribeKeyRegistrationResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "RequestId"))
     DescribeKeyRegistrationResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location_name: "Status"))
     DescribeKeyRegistrationResponse.struct_class = Types::DescribeKeyRegistrationResponse
+
+    DescribeKnowledgeBasePermissionsRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: KbAwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    DescribeKnowledgeBasePermissionsRequest.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location: "uri", location_name: "KnowledgeBaseId"))
+    DescribeKnowledgeBasePermissionsRequest.struct_class = Types::DescribeKnowledgeBasePermissionsRequest
+
+    DescribeKnowledgeBasePermissionsResponse.add_member(:knowledge_base_arn, Shapes::ShapeRef.new(shape: KnowledgeBaseArn, required: true, location_name: "KnowledgeBaseArn"))
+    DescribeKnowledgeBasePermissionsResponse.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location_name: "KnowledgeBaseId"))
+    DescribeKnowledgeBasePermissionsResponse.add_member(:permissions, Shapes::ShapeRef.new(shape: ResourcePermissionList, location_name: "Permissions"))
+    DescribeKnowledgeBasePermissionsResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    DescribeKnowledgeBasePermissionsResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status", metadata: {"box" => true}))
+    DescribeKnowledgeBasePermissionsResponse.struct_class = Types::DescribeKnowledgeBasePermissionsResponse
+
+    DescribeKnowledgeBaseRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: KbAwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    DescribeKnowledgeBaseRequest.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location: "uri", location_name: "KnowledgeBaseId"))
+    DescribeKnowledgeBaseRequest.struct_class = Types::DescribeKnowledgeBaseRequest
+
+    DescribeKnowledgeBaseResponse.add_member(:knowledge_base, Shapes::ShapeRef.new(shape: KnowledgeBase, required: true, location_name: "KnowledgeBase"))
+    DescribeKnowledgeBaseResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    DescribeKnowledgeBaseResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status", metadata: {"box" => true}))
+    DescribeKnowledgeBaseResponse.struct_class = Types::DescribeKnowledgeBaseResponse
 
     DescribeNamespaceRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     DescribeNamespaceRequest.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, required: true, location: "uri", location_name: "Namespace"))
@@ -7826,6 +7954,9 @@ module Aws::QuickSight
 
     ImageCustomActionOperationList.member = Shapes::ShapeRef.new(shape: ImageCustomActionOperation)
 
+    ImageExtractionConfiguration.add_member(:image_extraction_status, Shapes::ShapeRef.new(shape: ImageExtractionStatus, required: true, location_name: "imageExtractionStatus"))
+    ImageExtractionConfiguration.struct_class = Types::ImageExtractionConfiguration
+
     ImageInteractionOptions.add_member(:image_menu_option, Shapes::ShapeRef.new(shape: ImageMenuOption, location_name: "ImageMenuOption"))
     ImageInteractionOptions.struct_class = Types::ImageInteractionOptions
 
@@ -8086,12 +8217,73 @@ module Aws::QuickSight
     KPIVisualStandardLayout.add_member(:type, Shapes::ShapeRef.new(shape: KPIVisualStandardLayoutType, required: true, location_name: "Type"))
     KPIVisualStandardLayout.struct_class = Types::KPIVisualStandardLayout
 
+    KbTemplateConfiguration.add_member(:template, Shapes::ShapeRef.new(shape: KbTemplate, location_name: "template"))
+    KbTemplateConfiguration.struct_class = Types::KbTemplateConfiguration
+
     KeyPairCredentials.add_member(:key_pair_username, Shapes::ShapeRef.new(shape: DbUsername, required: true, location_name: "KeyPairUsername"))
     KeyPairCredentials.add_member(:private_key, Shapes::ShapeRef.new(shape: PrivateKey, required: true, location_name: "PrivateKey"))
     KeyPairCredentials.add_member(:private_key_passphrase, Shapes::ShapeRef.new(shape: PrivateKeyPassphrase, location_name: "PrivateKeyPassphrase"))
     KeyPairCredentials.struct_class = Types::KeyPairCredentials
 
     KeyRegistration.member = Shapes::ShapeRef.new(shape: RegisteredCustomerManagedKey)
+
+    KnowledgeBase.add_member(:knowledge_base_arn, Shapes::ShapeRef.new(shape: KnowledgeBaseArn, required: true, location_name: "KnowledgeBaseArn"))
+    KnowledgeBase.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location_name: "KnowledgeBaseId"))
+    KnowledgeBase.add_member(:name, Shapes::ShapeRef.new(shape: KnowledgeBaseName, required: true, location_name: "Name"))
+    KnowledgeBase.add_member(:status, Shapes::ShapeRef.new(shape: DataSetStatus, required: true, location_name: "Status"))
+    KnowledgeBase.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: DataSourceArn, required: true, location_name: "DataSourceArn"))
+    KnowledgeBase.add_member(:knowledge_base_configuration, Shapes::ShapeRef.new(shape: KnowledgeBaseConfiguration, required: true, location_name: "KnowledgeBaseConfiguration"))
+    KnowledgeBase.add_member(:media_extraction_configuration, Shapes::ShapeRef.new(shape: MediaExtractionConfiguration, location_name: "MediaExtractionConfiguration"))
+    KnowledgeBase.add_member(:type, Shapes::ShapeRef.new(shape: String, location_name: "Type"))
+    KnowledgeBase.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreatedAt"))
+    KnowledgeBase.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "UpdatedAt"))
+    KnowledgeBase.add_member(:description, Shapes::ShapeRef.new(shape: KnowledgeBaseDescription, location_name: "Description"))
+    KnowledgeBase.add_member(:is_email_notification_opted_for_ingestion_failures, Shapes::ShapeRef.new(shape: Boolean, location_name: "IsEmailNotificationOptedForIngestionFailures", metadata: {"box" => true}))
+    KnowledgeBase.add_member(:first_completed_ingestion_summary, Shapes::ShapeRef.new(shape: KnowledgeBaseIngestionSummary, location_name: "FirstCompletedIngestionSummary"))
+    KnowledgeBase.add_member(:first_incomplete_ingestion_summary, Shapes::ShapeRef.new(shape: KnowledgeBaseIngestionSummary, location_name: "FirstIncompleteIngestionSummary"))
+    KnowledgeBase.add_member(:latest_ingestion_summary, Shapes::ShapeRef.new(shape: KnowledgeBaseIngestionSummary, location_name: "LatestIngestionSummary"))
+    KnowledgeBase.add_member(:knowledge_base_size_bytes, Shapes::ShapeRef.new(shape: Long, location_name: "KnowledgeBaseSizeBytes", metadata: {"box" => true}))
+    KnowledgeBase.add_member(:document_count, Shapes::ShapeRef.new(shape: Long, location_name: "DocumentCount", metadata: {"box" => true}))
+    KnowledgeBase.add_member(:primary_owner_arn, Shapes::ShapeRef.new(shape: String, location_name: "PrimaryOwnerArn"))
+    KnowledgeBase.add_member(:primary_owner_username, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "PrimaryOwnerUsername"))
+    KnowledgeBase.struct_class = Types::KnowledgeBase
+
+    KnowledgeBaseConfiguration.add_member(:template_configuration, Shapes::ShapeRef.new(shape: KbTemplateConfiguration, location_name: "templateConfiguration"))
+    KnowledgeBaseConfiguration.add_member(:event_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "eventEnabled", metadata: {"box" => true}))
+    KnowledgeBaseConfiguration.struct_class = Types::KnowledgeBaseConfiguration
+
+    KnowledgeBaseIngestionSummary.add_member(:ingestion_id, Shapes::ShapeRef.new(shape: KbIngestionId, required: true, location_name: "IngestionId"))
+    KnowledgeBaseIngestionSummary.add_member(:ingestion_status, Shapes::ShapeRef.new(shape: KbIngestionStatus, required: true, location_name: "IngestionStatus"))
+    KnowledgeBaseIngestionSummary.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "StartTime"))
+    KnowledgeBaseIngestionSummary.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndTime"))
+    KnowledgeBaseIngestionSummary.struct_class = Types::KnowledgeBaseIngestionSummary
+
+    KnowledgeBaseSearchFilter.add_member(:name, Shapes::ShapeRef.new(shape: KnowledgeBaseSearchFilterName, required: true, location_name: "name"))
+    KnowledgeBaseSearchFilter.add_member(:operator, Shapes::ShapeRef.new(shape: KnowledgeBaseSearchOperator, required: true, location_name: "operator"))
+    KnowledgeBaseSearchFilter.add_member(:value, Shapes::ShapeRef.new(shape: String, required: true, location_name: "value"))
+    KnowledgeBaseSearchFilter.struct_class = Types::KnowledgeBaseSearchFilter
+
+    KnowledgeBaseSearchFilters.member = Shapes::ShapeRef.new(shape: KnowledgeBaseSearchFilter)
+
+    KnowledgeBaseSortBy.add_member(:sort_by_field, Shapes::ShapeRef.new(shape: KnowledgeBaseSortByField, required: true, location_name: "sortByField"))
+    KnowledgeBaseSortBy.add_member(:sort_order, Shapes::ShapeRef.new(shape: SortOrder, required: true, location_name: "sortOrder"))
+    KnowledgeBaseSortBy.struct_class = Types::KnowledgeBaseSortBy
+
+    KnowledgeBaseSummaries.member = Shapes::ShapeRef.new(shape: KnowledgeBaseSummary)
+
+    KnowledgeBaseSummary.add_member(:knowledge_base_arn, Shapes::ShapeRef.new(shape: KnowledgeBaseArn, required: true, location_name: "KnowledgeBaseArn"))
+    KnowledgeBaseSummary.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location_name: "KnowledgeBaseId"))
+    KnowledgeBaseSummary.add_member(:name, Shapes::ShapeRef.new(shape: KnowledgeBaseName, required: true, location_name: "Name"))
+    KnowledgeBaseSummary.add_member(:status, Shapes::ShapeRef.new(shape: DataSetStatus, required: true, location_name: "Status"))
+    KnowledgeBaseSummary.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: DataSourceArn, required: true, location_name: "DataSourceArn"))
+    KnowledgeBaseSummary.add_member(:type, Shapes::ShapeRef.new(shape: String, location_name: "Type"))
+    KnowledgeBaseSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreatedAt"))
+    KnowledgeBaseSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "UpdatedAt"))
+    KnowledgeBaseSummary.add_member(:knowledge_base_size_bytes, Shapes::ShapeRef.new(shape: Long, location_name: "KnowledgeBaseSizeBytes", metadata: {"box" => true}))
+    KnowledgeBaseSummary.add_member(:document_count, Shapes::ShapeRef.new(shape: Long, location_name: "DocumentCount", metadata: {"box" => true}))
+    KnowledgeBaseSummary.add_member(:primary_owner_arn, Shapes::ShapeRef.new(shape: String, location_name: "PrimaryOwnerArn"))
+    KnowledgeBaseSummary.add_member(:primary_owner_username, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "PrimaryOwnerUsername"))
+    KnowledgeBaseSummary.struct_class = Types::KnowledgeBaseSummary
 
     LabelOptions.add_member(:visibility, Shapes::ShapeRef.new(shape: Visibility, location_name: "Visibility"))
     LabelOptions.add_member(:font_configuration, Shapes::ShapeRef.new(shape: FontConfiguration, location_name: "FontConfiguration"))
@@ -8477,6 +8669,17 @@ module Aws::QuickSight
     ListIngestionsResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
     ListIngestionsResponse.struct_class = Types::ListIngestionsResponse
 
+    ListKnowledgeBasesRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: KbAwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    ListKnowledgeBasesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "max-results", metadata: {"box" => true}))
+    ListKnowledgeBasesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "next-token"))
+    ListKnowledgeBasesRequest.struct_class = Types::ListKnowledgeBasesRequest
+
+    ListKnowledgeBasesResponse.add_member(:knowledge_base_summaries, Shapes::ShapeRef.new(shape: KnowledgeBaseSummaries, required: true, location_name: "KnowledgeBaseSummaries"))
+    ListKnowledgeBasesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListKnowledgeBasesResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    ListKnowledgeBasesResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status", metadata: {"box" => true}))
+    ListKnowledgeBasesResponse.struct_class = Types::ListKnowledgeBasesResponse
+
     ListNamespacesRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     ListNamespacesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "next-token"))
     ListNamespacesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "max-results", metadata: {"box" => true}))
@@ -8680,6 +8883,20 @@ module Aws::QuickSight
     ListUserGroupsResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
     ListUserGroupsResponse.struct_class = Types::ListUserGroupsResponse
 
+    ListUsersIndexCapacityRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "awsAccountId"))
+    ListUsersIndexCapacityRequest.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, location_name: "namespace"))
+    ListUsersIndexCapacityRequest.add_member(:filters, Shapes::ShapeRef.new(shape: UserIndexCapacityFilters, location_name: "filters"))
+    ListUsersIndexCapacityRequest.add_member(:sort_by, Shapes::ShapeRef.new(shape: UserIndexCapacitySortBy, location_name: "sortBy"))
+    ListUsersIndexCapacityRequest.add_member(:sort_order, Shapes::ShapeRef.new(shape: UserIndexCapacitySortOrder, location_name: "sortOrder"))
+    ListUsersIndexCapacityRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListUsersIndexCapacityRequestMaxResultsInteger, location_name: "maxResults"))
+    ListUsersIndexCapacityRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListUsersIndexCapacityRequest.struct_class = Types::ListUsersIndexCapacityRequest
+
+    ListUsersIndexCapacityResponse.add_member(:users, Shapes::ShapeRef.new(shape: UserIndexCapacityList, location_name: "users"))
+    ListUsersIndexCapacityResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListUsersIndexCapacityResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "requestId"))
+    ListUsersIndexCapacityResponse.struct_class = Types::ListUsersIndexCapacityResponse
+
     ListUsersRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     ListUsersRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "next-token"))
     ListUsersRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "max-results", metadata: {"box" => true}))
@@ -8782,6 +8999,11 @@ module Aws::QuickSight
     MeasureField.struct_class = Types::MeasureField
 
     MeasureFieldList.member = Shapes::ShapeRef.new(shape: MeasureField)
+
+    MediaExtractionConfiguration.add_member(:image_extraction_configuration, Shapes::ShapeRef.new(shape: ImageExtractionConfiguration, location_name: "imageExtractionConfiguration"))
+    MediaExtractionConfiguration.add_member(:audio_extraction_configuration, Shapes::ShapeRef.new(shape: AudioExtractionConfiguration, location_name: "audioExtractionConfiguration"))
+    MediaExtractionConfiguration.add_member(:video_extraction_configuration, Shapes::ShapeRef.new(shape: VideoExtractionConfiguration, location_name: "videoExtractionConfiguration"))
+    MediaExtractionConfiguration.struct_class = Types::MediaExtractionConfiguration
 
     MemberIdArnPair.add_member(:member_id, Shapes::ShapeRef.new(shape: RestrictiveResourceId, location_name: "MemberId"))
     MemberIdArnPair.add_member(:member_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "MemberArn"))
@@ -10128,6 +10350,19 @@ module Aws::QuickSight
     SearchGroupsResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     SearchGroupsResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
     SearchGroupsResponse.struct_class = Types::SearchGroupsResponse
+
+    SearchKnowledgeBasesRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: KbAwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    SearchKnowledgeBasesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    SearchKnowledgeBasesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "MaxResults", metadata: {"box" => true}))
+    SearchKnowledgeBasesRequest.add_member(:filters, Shapes::ShapeRef.new(shape: KnowledgeBaseSearchFilters, location_name: "Filters"))
+    SearchKnowledgeBasesRequest.add_member(:sort_by, Shapes::ShapeRef.new(shape: KnowledgeBaseSortBy, location_name: "SortBy"))
+    SearchKnowledgeBasesRequest.struct_class = Types::SearchKnowledgeBasesRequest
+
+    SearchKnowledgeBasesResponse.add_member(:knowledge_base_summaries, Shapes::ShapeRef.new(shape: KnowledgeBaseSummaries, required: true, location_name: "KnowledgeBaseSummaries"))
+    SearchKnowledgeBasesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    SearchKnowledgeBasesResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    SearchKnowledgeBasesResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status", metadata: {"box" => true}))
+    SearchKnowledgeBasesResponse.struct_class = Types::SearchKnowledgeBasesResponse
 
     SearchSpacesRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     SearchSpacesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
@@ -12137,6 +12372,19 @@ module Aws::QuickSight
     UpdateKeyRegistrationResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "RequestId"))
     UpdateKeyRegistrationResponse.struct_class = Types::UpdateKeyRegistrationResponse
 
+    UpdateKnowledgeBasePermissionsRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: KbAwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    UpdateKnowledgeBasePermissionsRequest.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location: "uri", location_name: "KnowledgeBaseId"))
+    UpdateKnowledgeBasePermissionsRequest.add_member(:grant_permissions, Shapes::ShapeRef.new(shape: ResourcePermissionList, location_name: "GrantPermissions"))
+    UpdateKnowledgeBasePermissionsRequest.add_member(:revoke_permissions, Shapes::ShapeRef.new(shape: ResourcePermissionList, location_name: "RevokePermissions"))
+    UpdateKnowledgeBasePermissionsRequest.struct_class = Types::UpdateKnowledgeBasePermissionsRequest
+
+    UpdateKnowledgeBasePermissionsResponse.add_member(:knowledge_base_arn, Shapes::ShapeRef.new(shape: KnowledgeBaseArn, required: true, location_name: "KnowledgeBaseArn"))
+    UpdateKnowledgeBasePermissionsResponse.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location_name: "KnowledgeBaseId"))
+    UpdateKnowledgeBasePermissionsResponse.add_member(:permissions, Shapes::ShapeRef.new(shape: ResourcePermissionList, location_name: "Permissions"))
+    UpdateKnowledgeBasePermissionsResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    UpdateKnowledgeBasePermissionsResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status", metadata: {"box" => true}))
+    UpdateKnowledgeBasePermissionsResponse.struct_class = Types::UpdateKnowledgeBasePermissionsResponse
+
     UpdateLinkPermissionList.member = Shapes::ShapeRef.new(shape: ResourcePermission)
 
     UpdateOAuthClientApplicationRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
@@ -12468,7 +12716,33 @@ module Aws::QuickSight
     UserIdentifier.add_member_subclass(:unknown, Types::UserIdentifier::Unknown)
     UserIdentifier.struct_class = Types::UserIdentifier
 
+    UserIndexCapacity.add_member(:user_arn, Shapes::ShapeRef.new(shape: String, location_name: "userArn"))
+    UserIndexCapacity.add_member(:user_name, Shapes::ShapeRef.new(shape: String, location_name: "userName"))
+    UserIndexCapacity.add_member(:email, Shapes::ShapeRef.new(shape: String, location_name: "email"))
+    UserIndexCapacity.add_member(:role, Shapes::ShapeRef.new(shape: String, location_name: "role"))
+    UserIndexCapacity.add_member(:total_capacity_bytes, Shapes::ShapeRef.new(shape: LongValue, location_name: "totalCapacityBytes"))
+    UserIndexCapacity.add_member(:total_kb_capacity_bytes, Shapes::ShapeRef.new(shape: LongValue, location_name: "totalKBCapacityBytes"))
+    UserIndexCapacity.add_member(:total_space_capacity_bytes, Shapes::ShapeRef.new(shape: LongValue, location_name: "totalSpaceCapacityBytes"))
+    UserIndexCapacity.add_member(:kb_count, Shapes::ShapeRef.new(shape: IntegerValue, location_name: "kbCount"))
+    UserIndexCapacity.add_member(:space_count, Shapes::ShapeRef.new(shape: IntegerValue, location_name: "spaceCount"))
+    UserIndexCapacity.struct_class = Types::UserIndexCapacity
+
+    UserIndexCapacityFilter.add_member(:user_name_or_email, Shapes::ShapeRef.new(shape: UserNameOrEmailFilter, location_name: "userNameOrEmail"))
+    UserIndexCapacityFilter.add_member(:total_capacity_bytes, Shapes::ShapeRef.new(shape: CapacityBytesRangeFilter, location_name: "totalCapacityBytes"))
+    UserIndexCapacityFilter.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    UserIndexCapacityFilter.add_member_subclass(:user_name_or_email, Types::UserIndexCapacityFilter::UserNameOrEmail)
+    UserIndexCapacityFilter.add_member_subclass(:total_capacity_bytes, Types::UserIndexCapacityFilter::TotalCapacityBytes)
+    UserIndexCapacityFilter.add_member_subclass(:unknown, Types::UserIndexCapacityFilter::Unknown)
+    UserIndexCapacityFilter.struct_class = Types::UserIndexCapacityFilter
+
+    UserIndexCapacityFilters.member = Shapes::ShapeRef.new(shape: UserIndexCapacityFilter)
+
+    UserIndexCapacityList.member = Shapes::ShapeRef.new(shape: UserIndexCapacity)
+
     UserList.member = Shapes::ShapeRef.new(shape: User)
+
+    UserNameOrEmailFilter.add_member(:prefix, Shapes::ShapeRef.new(shape: FilterValue, required: true, location_name: "prefix"))
+    UserNameOrEmailFilter.struct_class = Types::UserNameOrEmailFilter
 
     VPCConnection.add_member(:vpc_connection_id, Shapes::ShapeRef.new(shape: VPCConnectionResourceIdUnrestricted, location_name: "VPCConnectionId"))
     VPCConnection.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, location_name: "Arn"))
@@ -12505,6 +12779,10 @@ module Aws::QuickSight
 
     ValueColumnConfiguration.add_member(:aggregation_function, Shapes::ShapeRef.new(shape: DataPrepAggregationFunction, location_name: "AggregationFunction"))
     ValueColumnConfiguration.struct_class = Types::ValueColumnConfiguration
+
+    VideoExtractionConfiguration.add_member(:video_extraction_status, Shapes::ShapeRef.new(shape: VideoExtractionStatus, required: true, location_name: "videoExtractionStatus"))
+    VideoExtractionConfiguration.add_member(:video_extraction_type, Shapes::ShapeRef.new(shape: VideoExtractionType, location_name: "videoExtractionType"))
+    VideoExtractionConfiguration.struct_class = Types::VideoExtractionConfiguration
 
     VisibleRangeOptions.add_member(:percent_range, Shapes::ShapeRef.new(shape: PercentVisibleRange, location_name: "PercentRange"))
     VisibleRangeOptions.struct_class = Types::VisibleRangeOptions
@@ -12752,6 +13030,21 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+      end)
+
+      api.add_operation(:batch_delete_knowledge_base, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchDeleteKnowledgeBase"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/accounts/{AwsAccountId}/knowledge-bases/batch-delete"
+        o.input = Shapes::ShapeRef.new(shape: BatchDeleteKnowledgeBaseRequest)
+        o.output = Shapes::ShapeRef.new(shape: BatchDeleteKnowledgeBaseResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
       api.add_operation(:batch_delete_topic_reviewed_answer, Seahorse::Model::Operation.new.tap do |o|
@@ -13549,6 +13842,23 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
       end)
 
+      api.add_operation(:delete_knowledge_base, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteKnowledgeBase"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/v1/accounts/{AwsAccountId}/knowledge-bases/{KnowledgeBaseId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteKnowledgeBaseRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteKnowledgeBaseResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+      end)
+
       api.add_operation(:delete_namespace, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteNamespace"
         o.http_method = "DELETE"
@@ -14342,6 +14652,38 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+      end)
+
+      api.add_operation(:describe_knowledge_base, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeKnowledgeBase"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/accounts/{AwsAccountId}/knowledge-bases/{KnowledgeBaseId}"
+        o.input = Shapes::ShapeRef.new(shape: DescribeKnowledgeBaseRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeKnowledgeBaseResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:describe_knowledge_base_permissions, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeKnowledgeBasePermissions"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/accounts/{AwsAccountId}/knowledge-bases/{KnowledgeBaseId}/permissions"
+        o.input = Shapes::ShapeRef.new(shape: DescribeKnowledgeBasePermissionsRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeKnowledgeBasePermissionsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
       api.add_operation(:describe_namespace, Seahorse::Model::Operation.new.tap do |o|
@@ -15185,6 +15527,26 @@ module Aws::QuickSight
         )
       end)
 
+      api.add_operation(:list_knowledge_bases, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListKnowledgeBases"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/accounts/{AwsAccountId}/knowledge-bases/"
+        o.input = Shapes::ShapeRef.new(shape: ListKnowledgeBasesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListKnowledgeBasesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_namespaces, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListNamespaces"
         o.http_method = "GET"
@@ -15527,6 +15889,20 @@ module Aws::QuickSight
         )
       end)
 
+      api.add_operation(:list_users_index_capacity, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListUsersIndexCapacity"
+        o.http_method = "POST"
+        o.http_request_uri = "/accounts/{awsAccountId}/quick-index/user-capacity"
+        o.input = Shapes::ShapeRef.new(shape: ListUsersIndexCapacityRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListUsersIndexCapacityResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:list_vpc_connections, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListVPCConnections"
         o.http_method = "GET"
@@ -15774,6 +16150,27 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceUnavailableException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:search_knowledge_bases, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "SearchKnowledgeBases"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/accounts/{AwsAccountId}/search/knowledge-bases"
+        o.input = Shapes::ShapeRef.new(shape: SearchKnowledgeBasesRequest)
+        o.output = Shapes::ShapeRef.new(shape: SearchKnowledgeBasesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidNextTokenException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -16398,6 +16795,23 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+      end)
+
+      api.add_operation(:update_knowledge_base_permissions, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateKnowledgeBasePermissions"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/accounts/{AwsAccountId}/knowledge-bases/{KnowledgeBaseId}/permissions"
+        o.input = Shapes::ShapeRef.new(shape: UpdateKnowledgeBasePermissionsRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateKnowledgeBasePermissionsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
       end)
 
       api.add_operation(:update_o_auth_client_application, Seahorse::Model::Operation.new.tap do |o|

@@ -244,11 +244,13 @@ module Aws::EMRServerless
     class ImageConfiguration
       attr_accessor image_uri: ::String
       attr_accessor resolved_image_digest: ::String
+      attr_accessor application_level_digest_resolution: bool
       SENSITIVE: []
     end
 
     class ImageConfigurationInput
       attr_accessor image_uri: ::String
+      attr_accessor application_level_digest_resolution: bool
       SENSITIVE: []
     end
 
@@ -318,6 +320,8 @@ module Aws::EMRServerless
       attr_accessor started_at: ::Time
       attr_accessor ended_at: ::Time
       attr_accessor queued_duration_milliseconds: ::Integer
+      attr_accessor image_configuration: Types::ImageConfiguration
+      attr_accessor worker_type_specifications: ::Hash[::String, Types::WorkerTypeSpecification]
       SENSITIVE: []
     end
 

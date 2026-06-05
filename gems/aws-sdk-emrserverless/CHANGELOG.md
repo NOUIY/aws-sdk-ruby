@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.69.0 (2026-06-05)
+------------------
+
+* Feature - Adds support for updating max capacity and custom fields while application is started
+
 1.68.0 (2026-05-26)
 ------------------
 

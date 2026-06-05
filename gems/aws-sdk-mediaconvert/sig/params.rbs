@@ -290,7 +290,7 @@ module Aws
     }
 
       type cmaf_encryption_settings = {
-      clear_lead: ("ENABLED" | "DISABLED")?,
+      clear_lead_segments: ::Integer?,
       constant_initialization_vector: ::String?,
       encryption_method: ("SAMPLE_AES" | "AES_CTR")?,
       initialization_vector_in_manifest: ("INCLUDE" | "EXCLUDE")?,
@@ -329,8 +329,11 @@ module Aws
       destination_settings: Params::destination_settings?,
       encryption: Params::cmaf_encryption_settings?,
       fragment_length: ::Integer?,
-      image_based_trick_play: ("NONE" | "THUMBNAIL" | "THUMBNAIL_AND_FULLFRAME" | "ADVANCED")?,
+      image_based_trick_play: ("NONE" | "THUMBNAIL" | "THUMBNAIL_AND_FULLFRAME" | "ADVANCED" | "VARIANTS")?,
       image_based_trick_play_settings: Params::cmaf_image_based_trick_play_settings?,
+      image_based_trick_play_variants: Array[
+        Params::cmaf_image_based_trick_play_variant
+      ]?,
       manifest_compression: ("GZIP" | "NONE")?,
       manifest_duration_format: ("FLOATING_POINT" | "INTEGER")?,
       min_buffer_time: ::Integer?,
@@ -390,8 +393,11 @@ module Aws
       encryption: Params::dash_iso_encryption_settings?,
       fragment_length: ::Integer?,
       hbbtv_compliance: ("HBBTV_1_5" | "NONE")?,
-      image_based_trick_play: ("NONE" | "THUMBNAIL" | "THUMBNAIL_AND_FULLFRAME" | "ADVANCED")?,
+      image_based_trick_play: ("NONE" | "THUMBNAIL" | "THUMBNAIL_AND_FULLFRAME" | "ADVANCED" | "VARIANTS")?,
       image_based_trick_play_settings: Params::dash_iso_image_based_trick_play_settings?,
+      image_based_trick_play_variants: Array[
+        Params::dash_iso_image_based_trick_play_variant
+      ]?,
       min_buffer_time: ::Integer?,
       min_final_segment_length: ::Float?,
       mpd_manifest_bandwidth_type: ("AVERAGE" | "MAX")?,
@@ -459,8 +465,11 @@ module Aws
       destination_settings: Params::destination_settings?,
       directory_structure: ("SINGLE_DIRECTORY" | "SUBDIRECTORY_PER_STREAM")?,
       encryption: Params::hls_encryption_settings?,
-      image_based_trick_play: ("NONE" | "THUMBNAIL" | "THUMBNAIL_AND_FULLFRAME" | "ADVANCED")?,
+      image_based_trick_play: ("NONE" | "THUMBNAIL" | "THUMBNAIL_AND_FULLFRAME" | "ADVANCED" | "VARIANTS")?,
       image_based_trick_play_settings: Params::hls_image_based_trick_play_settings?,
+      image_based_trick_play_variants: Array[
+        Params::hls_image_based_trick_play_variant
+      ]?,
       manifest_compression: ("GZIP" | "NONE")?,
       manifest_duration_format: ("FLOATING_POINT" | "INTEGER")?,
       min_final_segment_length: ::Float?,
@@ -543,6 +552,33 @@ module Aws
         width: ::Integer?
       }?,
       type: ("MIN_TOP_RENDITION_SIZE" | "MIN_BOTTOM_RENDITION_SIZE" | "FORCE_INCLUDE_RENDITIONS" | "ALLOWED_RENDITIONS")?
+    }
+
+      type cmaf_image_based_trick_play_variant = {
+      interval_cadence: ("FOLLOW_IFRAME" | "FOLLOW_CUSTOM" | "FOLLOW_SEGMENTATION")?,
+      thumbnail_height: ::Integer?,
+      thumbnail_interval: ::Float?,
+      thumbnail_width: ::Integer?,
+      tile_height: ::Integer?,
+      tile_width: ::Integer?
+    }
+
+      type dash_iso_image_based_trick_play_variant = {
+      interval_cadence: ("FOLLOW_IFRAME" | "FOLLOW_CUSTOM" | "FOLLOW_SEGMENTATION")?,
+      thumbnail_height: ::Integer?,
+      thumbnail_interval: ::Float?,
+      thumbnail_width: ::Integer?,
+      tile_height: ::Integer?,
+      tile_width: ::Integer?
+    }
+
+      type hls_image_based_trick_play_variant = {
+      interval_cadence: ("FOLLOW_IFRAME" | "FOLLOW_CUSTOM" | "FOLLOW_SEGMENTATION")?,
+      thumbnail_height: ::Integer?,
+      thumbnail_interval: ::Float?,
+      thumbnail_width: ::Integer?,
+      tile_height: ::Integer?,
+      tile_width: ::Integer?
     }
 
       type cmfc_settings = {

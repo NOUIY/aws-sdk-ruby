@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.372.0 (2026-06-05)
+------------------
+
+* Feature - This release adds support for MLflow experiment tracking in SageMaker inference optimization. CreateAIRecommendationJob and CreateAIBenchmarkJob now accept an optional OutputConfig.MlflowConfig (MLflow App ARN, experiment, run name) to stream benchmark metrics and artifacts to your own MLflow App.
+
 1.371.0 (2026-06-04)
 ------------------
 

@@ -112,6 +112,20 @@ module Aws
                                               ) -> _BatchCreateTopicReviewedAnswerResponseSuccess
                                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchCreateTopicReviewedAnswerResponseSuccess
 
+      interface _BatchDeleteKnowledgeBaseResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchDeleteKnowledgeBaseResponse]
+        def deleted: () -> ::Array[Types::BatchDeleteKnowledgeBaseSuccess]
+        def errors: () -> ::Array[Types::BatchDeleteKnowledgeBaseFailure]
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#batch_delete_knowledge_base-instance_method
+      def batch_delete_knowledge_base: (
+                                         aws_account_id: ::String,
+                                         knowledge_base_ids: Array[::String]
+                                       ) -> _BatchDeleteKnowledgeBaseResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchDeleteKnowledgeBaseResponseSuccess
+
       interface _BatchDeleteTopicReviewedAnswerResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::BatchDeleteTopicReviewedAnswerResponse]
         def topic_id: () -> ::String
@@ -1170,6 +1184,20 @@ module Aws
                                               ) -> _DeleteIdentityPropagationConfigResponseSuccess
                                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteIdentityPropagationConfigResponseSuccess
 
+      interface _DeleteKnowledgeBaseResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteKnowledgeBaseResponse]
+        def knowledge_base_arn: () -> ::String
+        def knowledge_base_id: () -> ::String
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#delete_knowledge_base-instance_method
+      def delete_knowledge_base: (
+                                   aws_account_id: ::String,
+                                   knowledge_base_id: ::String
+                                 ) -> _DeleteKnowledgeBaseResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteKnowledgeBaseResponseSuccess
+
       interface _DeleteNamespaceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteNamespaceResponse]
         def request_id: () -> ::String
@@ -2019,6 +2047,34 @@ module Aws
                                      ) -> _DescribeKeyRegistrationResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeKeyRegistrationResponseSuccess
 
+      interface _DescribeKnowledgeBaseResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeKnowledgeBaseResponse]
+        def knowledge_base: () -> Types::KnowledgeBase
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#describe_knowledge_base-instance_method
+      def describe_knowledge_base: (
+                                     aws_account_id: ::String,
+                                     knowledge_base_id: ::String
+                                   ) -> _DescribeKnowledgeBaseResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeKnowledgeBaseResponseSuccess
+
+      interface _DescribeKnowledgeBasePermissionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeKnowledgeBasePermissionsResponse]
+        def knowledge_base_arn: () -> ::String
+        def knowledge_base_id: () -> ::String
+        def permissions: () -> ::Array[Types::ResourcePermission]
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#describe_knowledge_base_permissions-instance_method
+      def describe_knowledge_base_permissions: (
+                                                 aws_account_id: ::String,
+                                                 knowledge_base_id: ::String
+                                               ) -> _DescribeKnowledgeBasePermissionsResponseSuccess
+                                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeKnowledgeBasePermissionsResponseSuccess
+
       interface _DescribeNamespaceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeNamespaceResponse]
         def namespace: () -> Types::NamespaceInfoV2
@@ -2831,6 +2887,21 @@ module Aws
                            ) -> _ListIngestionsResponseSuccess
                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListIngestionsResponseSuccess
 
+      interface _ListKnowledgeBasesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListKnowledgeBasesResponse]
+        def knowledge_base_summaries: () -> ::Array[Types::KnowledgeBaseSummary]
+        def next_token: () -> ::String
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#list_knowledge_bases-instance_method
+      def list_knowledge_bases: (
+                                  aws_account_id: ::String,
+                                  ?max_results: ::Integer,
+                                  ?next_token: ::String
+                                ) -> _ListKnowledgeBasesResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListKnowledgeBasesResponseSuccess
+
       interface _ListNamespacesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListNamespacesResponse]
         def namespaces: () -> ::Array[Types::NamespaceInfoV2]
@@ -3122,6 +3193,34 @@ module Aws
                       ) -> _ListUsersResponseSuccess
                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListUsersResponseSuccess
 
+      interface _ListUsersIndexCapacityResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListUsersIndexCapacityResponse]
+        def users: () -> ::Array[Types::UserIndexCapacity]
+        def next_token: () -> ::String
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#list_users_index_capacity-instance_method
+      def list_users_index_capacity: (
+                                       aws_account_id: ::String,
+                                       ?namespace: ::String,
+                                       ?filters: Array[
+                                         {
+                                           user_name_or_email: {
+                                             prefix: ::String
+                                           }?,
+                                           total_capacity_bytes: {
+                                             min_bytes: ::Integer?,
+                                             max_bytes: ::Integer?
+                                           }?
+                                         }
+                                       ],
+                                       ?sort_by: ("TOTAL_CAPACITY_BYTES"),
+                                       ?sort_order: ("ASC" | "DESC"),
+                                       ?max_results: ::Integer,
+                                       ?next_token: ::String
+                                     ) -> _ListUsersIndexCapacityResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListUsersIndexCapacityResponseSuccess
+
       interface _ListVPCConnectionsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListVPCConnectionsResponse]
         def vpc_connection_summaries: () -> ::Array[Types::VPCConnectionSummary]
@@ -3410,6 +3509,32 @@ module Aws
                            ]
                          ) -> _SearchGroupsResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchGroupsResponseSuccess
+
+      interface _SearchKnowledgeBasesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::SearchKnowledgeBasesResponse]
+        def knowledge_base_summaries: () -> ::Array[Types::KnowledgeBaseSummary]
+        def next_token: () -> ::String
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#search_knowledge_bases-instance_method
+      def search_knowledge_bases: (
+                                    aws_account_id: ::String,
+                                    ?next_token: ::String,
+                                    ?max_results: ::Integer,
+                                    ?filters: Array[
+                                      {
+                                        name: ("KNOWLEDGE_BASE_ID" | "KNOWLEDGE_BASE_NAME" | "DIRECT_QUICKSIGHT_OWNER" | "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER" | "DIRECT_QUICKSIGHT_SOLE_OWNER" | "KNOWLEDGE_BASE_SIZE_BYTES" | "PRIMARY_OWNER"),
+                                        operator: ("STRING_EQUALS" | "STRING_LIKE" | "GREATER_THAN_OR_EQUALS" | "LESS_THAN_OR_EQUALS"),
+                                        value: ::String
+                                      }
+                                    ],
+                                    ?sort_by: {
+                                      sort_by_field: ("KNOWLEDGE_BASE_SIZE_BYTES" | "CREATED_AT"),
+                                      sort_order: ("ASC" | "DESC")
+                                    }
+                                  ) -> _SearchKnowledgeBasesResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchKnowledgeBasesResponseSuccess
 
       interface _SearchSpacesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::SearchSpacesResponse]
@@ -4577,6 +4702,33 @@ module Aws
                                      ]
                                    ) -> _UpdateKeyRegistrationResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateKeyRegistrationResponseSuccess
+
+      interface _UpdateKnowledgeBasePermissionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateKnowledgeBasePermissionsResponse]
+        def knowledge_base_arn: () -> ::String
+        def knowledge_base_id: () -> ::String
+        def permissions: () -> ::Array[Types::ResourcePermission]
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#update_knowledge_base_permissions-instance_method
+      def update_knowledge_base_permissions: (
+                                               aws_account_id: ::String,
+                                               knowledge_base_id: ::String,
+                                               ?grant_permissions: Array[
+                                                 {
+                                                   principal: ::String,
+                                                   actions: Array[::String]
+                                                 }
+                                               ],
+                                               ?revoke_permissions: Array[
+                                                 {
+                                                   principal: ::String,
+                                                   actions: Array[::String]
+                                                 }
+                                               ]
+                                             ) -> _UpdateKnowledgeBasePermissionsResponseSuccess
+                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateKnowledgeBasePermissionsResponseSuccess
 
       interface _UpdateOAuthClientApplicationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateOAuthClientApplicationResponse]

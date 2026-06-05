@@ -383,9 +383,11 @@ module Aws::EMRServerless
 
     ImageConfiguration.add_member(:image_uri, Shapes::ShapeRef.new(shape: ImageUri, required: true, location_name: "imageUri"))
     ImageConfiguration.add_member(:resolved_image_digest, Shapes::ShapeRef.new(shape: ImageDigest, location_name: "resolvedImageDigest"))
+    ImageConfiguration.add_member(:application_level_digest_resolution, Shapes::ShapeRef.new(shape: Boolean, location_name: "applicationLevelDigestResolution"))
     ImageConfiguration.struct_class = Types::ImageConfiguration
 
     ImageConfigurationInput.add_member(:image_uri, Shapes::ShapeRef.new(shape: ImageUri, location_name: "imageUri"))
+    ImageConfigurationInput.add_member(:application_level_digest_resolution, Shapes::ShapeRef.new(shape: Boolean, location_name: "applicationLevelDigestResolution"))
     ImageConfigurationInput.struct_class = Types::ImageConfigurationInput
 
     InitialCapacityConfig.add_member(:worker_count, Shapes::ShapeRef.new(shape: WorkerCounts, required: true, location_name: "workerCount"))
@@ -442,6 +444,8 @@ module Aws::EMRServerless
     JobRun.add_member(:started_at, Shapes::ShapeRef.new(shape: Date, location_name: "startedAt"))
     JobRun.add_member(:ended_at, Shapes::ShapeRef.new(shape: Date, location_name: "endedAt"))
     JobRun.add_member(:queued_duration_milliseconds, Shapes::ShapeRef.new(shape: Long, location_name: "queuedDurationMilliseconds"))
+    JobRun.add_member(:image_configuration, Shapes::ShapeRef.new(shape: ImageConfiguration, location_name: "imageConfiguration"))
+    JobRun.add_member(:worker_type_specifications, Shapes::ShapeRef.new(shape: WorkerTypeSpecificationMap, location_name: "workerTypeSpecifications"))
     JobRun.struct_class = Types::JobRun
 
     JobRunAttemptSummary.add_member(:application_id, Shapes::ShapeRef.new(shape: ApplicationId, required: true, location_name: "applicationId"))

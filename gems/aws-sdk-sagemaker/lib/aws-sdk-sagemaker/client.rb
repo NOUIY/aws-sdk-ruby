@@ -1231,6 +1231,11 @@ module Aws::SageMaker
     #     },
     #     output_config: { # required
     #       s3_output_location: "S3Uri", # required
+    #       mlflow_config: {
+    #         mlflow_resource_arn: "AIMlflowResourceArn", # required
+    #         mlflow_experiment_name: "AIMlflowExperimentName",
+    #         mlflow_run_name: "AIMlflowRunName",
+    #       },
     #     },
     #     ai_workload_config_identifier: "AIResourceIdentifier", # required
     #     role_arn: "RoleArn", # required
@@ -1328,6 +1333,11 @@ module Aws::SageMaker
     #     output_config: { # required
     #       s3_output_location: "S3Uri",
     #       model_package_group_identifier: "AIResourceIdentifier",
+    #       mlflow_config: {
+    #         mlflow_resource_arn: "AIMlflowResourceArn", # required
+    #         mlflow_experiment_name: "AIMlflowExperimentName",
+    #         mlflow_run_name: "AIMlflowRunName",
+    #       },
     #     },
     #     ai_workload_config_identifier: "AIResourceIdentifier", # required
     #     performance_target: { # required
@@ -13884,6 +13894,9 @@ module Aws::SageMaker
     #   resp.output_config.cloud_watch_logs #=> Array
     #   resp.output_config.cloud_watch_logs[0].log_group_arn #=> String
     #   resp.output_config.cloud_watch_logs[0].log_stream_name #=> String
+    #   resp.output_config.mlflow_config.mlflow_resource_arn #=> String
+    #   resp.output_config.mlflow_config.mlflow_experiment_name #=> String
+    #   resp.output_config.mlflow_config.mlflow_run_name #=> String
     #   resp.ai_workload_config_identifier #=> String
     #   resp.role_arn #=> String
     #   resp.network_config.vpc_config.security_group_ids #=> Array
@@ -13948,6 +13961,9 @@ module Aws::SageMaker
     #   resp.model_source.s3.s3_uri #=> String
     #   resp.output_config.s3_output_location #=> String
     #   resp.output_config.model_package_group_identifier #=> String
+    #   resp.output_config.mlflow_config.mlflow_resource_arn #=> String
+    #   resp.output_config.mlflow_config.mlflow_experiment_name #=> String
+    #   resp.output_config.mlflow_config.mlflow_run_name #=> String
     #   resp.inference_specification.framework #=> String, one of "LMI", "VLLM"
     #   resp.ai_workload_config_identifier #=> String
     #   resp.optimize_model #=> Boolean
@@ -34363,7 +34379,7 @@ module Aws::SageMaker
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemaker'
-      context[:gem_version] = '1.371.0'
+      context[:gem_version] = '1.372.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

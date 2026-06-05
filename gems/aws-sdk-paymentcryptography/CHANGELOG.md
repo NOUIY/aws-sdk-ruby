@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.59.0 (2026-06-05)
+------------------
+
+* Feature - Adds CloudFormation support for resource-based policies on AWS Payment Cryptography keys.
+
 1.58.0 (2026-05-27)
 ------------------
 

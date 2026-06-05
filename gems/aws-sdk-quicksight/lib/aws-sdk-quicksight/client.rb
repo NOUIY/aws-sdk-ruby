@@ -1286,6 +1286,50 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Deletes one or more knowledge bases.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the knowledge
+    #   base.
+    #
+    # @option params [required, Array<String>] :knowledge_base_ids
+    #   A list of knowledge base identifiers to delete.
+    #
+    # @return [Types::BatchDeleteKnowledgeBaseResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchDeleteKnowledgeBaseResponse#deleted #deleted} => Array&lt;Types::BatchDeleteKnowledgeBaseSuccess&gt;
+    #   * {Types::BatchDeleteKnowledgeBaseResponse#errors #errors} => Array&lt;Types::BatchDeleteKnowledgeBaseFailure&gt;
+    #   * {Types::BatchDeleteKnowledgeBaseResponse#request_id #request_id} => String
+    #   * {Types::BatchDeleteKnowledgeBaseResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_delete_knowledge_base({
+    #     aws_account_id: "KbAwsAccountId", # required
+    #     knowledge_base_ids: ["KnowledgeBaseId"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.deleted #=> Array
+    #   resp.deleted[0].knowledge_base_id #=> String
+    #   resp.deleted[0].knowledge_base_arn #=> String
+    #   resp.errors #=> Array
+    #   resp.errors[0].knowledge_base_id #=> String
+    #   resp.errors[0].error_code #=> String
+    #   resp.errors[0].error_message #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/BatchDeleteKnowledgeBase AWS API Documentation
+    #
+    # @overload batch_delete_knowledge_base(params = {})
+    # @param [Hash] params ({})
+    def batch_delete_knowledge_base(params = {}, options = {})
+      req = build_request(:batch_delete_knowledge_base, params)
+      req.send_request(options)
+    end
+
     # Deletes reviewed answers for Q Topic.
     #
     # @option params [required, String] :aws_account_id
@@ -6593,6 +6637,45 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Deletes a knowledge base.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the knowledge
+    #   base.
+    #
+    # @option params [required, String] :knowledge_base_id
+    #   The unique identifier for the knowledge base.
+    #
+    # @return [Types::DeleteKnowledgeBaseResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteKnowledgeBaseResponse#knowledge_base_arn #knowledge_base_arn} => String
+    #   * {Types::DeleteKnowledgeBaseResponse#knowledge_base_id #knowledge_base_id} => String
+    #   * {Types::DeleteKnowledgeBaseResponse#request_id #request_id} => String
+    #   * {Types::DeleteKnowledgeBaseResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_knowledge_base({
+    #     aws_account_id: "KbAwsAccountId", # required
+    #     knowledge_base_id: "KnowledgeBaseId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.knowledge_base_arn #=> String
+    #   resp.knowledge_base_id #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteKnowledgeBase AWS API Documentation
+    #
+    # @overload delete_knowledge_base(params = {})
+    # @param [Hash] params ({})
+    def delete_knowledge_base(params = {}, options = {})
+      req = build_request(:delete_knowledge_base, params)
+      req.send_request(options)
+    end
+
     # Deletes a namespace and the users and groups that are associated with
     # the namespace. This is an asynchronous process. Assets including
     # dashboards, analyses, datasets and data sources are not deleted. To
@@ -10702,6 +10785,117 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Describes a knowledge base.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the knowledge
+    #   base.
+    #
+    # @option params [required, String] :knowledge_base_id
+    #   The unique identifier for the knowledge base.
+    #
+    # @return [Types::DescribeKnowledgeBaseResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeKnowledgeBaseResponse#knowledge_base #knowledge_base} => Types::KnowledgeBase
+    #   * {Types::DescribeKnowledgeBaseResponse#request_id #request_id} => String
+    #   * {Types::DescribeKnowledgeBaseResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_knowledge_base({
+    #     aws_account_id: "KbAwsAccountId", # required
+    #     knowledge_base_id: "KnowledgeBaseId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.knowledge_base.knowledge_base_arn #=> String
+    #   resp.knowledge_base.knowledge_base_id #=> String
+    #   resp.knowledge_base.name #=> String
+    #   resp.knowledge_base.status #=> String, one of "CREATING", "UPDATING", "ACTIVE", "FAILED", "DELETING"
+    #   resp.knowledge_base.data_source_arn #=> String
+    #   resp.knowledge_base.knowledge_base_configuration.event_enabled #=> Boolean
+    #   resp.knowledge_base.media_extraction_configuration.image_extraction_configuration.image_extraction_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.knowledge_base.media_extraction_configuration.audio_extraction_configuration.audio_extraction_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.knowledge_base.media_extraction_configuration.video_extraction_configuration.video_extraction_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.knowledge_base.media_extraction_configuration.video_extraction_configuration.video_extraction_type #=> String, one of "AUDIO_TRANSCRIPTION_ONLY", "VISUAL_CONTENT_AND_AUDIO_TRANSCRIPTION"
+    #   resp.knowledge_base.type #=> String
+    #   resp.knowledge_base.created_at #=> Time
+    #   resp.knowledge_base.updated_at #=> Time
+    #   resp.knowledge_base.description #=> String
+    #   resp.knowledge_base.is_email_notification_opted_for_ingestion_failures #=> Boolean
+    #   resp.knowledge_base.first_completed_ingestion_summary.ingestion_id #=> String
+    #   resp.knowledge_base.first_completed_ingestion_summary.ingestion_status #=> String, one of "QUEUED", "RUNNING", "FAILED", "COMPLETED", "INCOMPLETE", "CANCELLED", "CANCELLING", "TIMEOUT"
+    #   resp.knowledge_base.first_completed_ingestion_summary.start_time #=> Time
+    #   resp.knowledge_base.first_completed_ingestion_summary.end_time #=> Time
+    #   resp.knowledge_base.first_incomplete_ingestion_summary.ingestion_id #=> String
+    #   resp.knowledge_base.first_incomplete_ingestion_summary.ingestion_status #=> String, one of "QUEUED", "RUNNING", "FAILED", "COMPLETED", "INCOMPLETE", "CANCELLED", "CANCELLING", "TIMEOUT"
+    #   resp.knowledge_base.first_incomplete_ingestion_summary.start_time #=> Time
+    #   resp.knowledge_base.first_incomplete_ingestion_summary.end_time #=> Time
+    #   resp.knowledge_base.latest_ingestion_summary.ingestion_id #=> String
+    #   resp.knowledge_base.latest_ingestion_summary.ingestion_status #=> String, one of "QUEUED", "RUNNING", "FAILED", "COMPLETED", "INCOMPLETE", "CANCELLED", "CANCELLING", "TIMEOUT"
+    #   resp.knowledge_base.latest_ingestion_summary.start_time #=> Time
+    #   resp.knowledge_base.latest_ingestion_summary.end_time #=> Time
+    #   resp.knowledge_base.knowledge_base_size_bytes #=> Integer
+    #   resp.knowledge_base.document_count #=> Integer
+    #   resp.knowledge_base.primary_owner_arn #=> String
+    #   resp.knowledge_base.primary_owner_username #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeKnowledgeBase AWS API Documentation
+    #
+    # @overload describe_knowledge_base(params = {})
+    # @param [Hash] params ({})
+    def describe_knowledge_base(params = {}, options = {})
+      req = build_request(:describe_knowledge_base, params)
+      req.send_request(options)
+    end
+
+    # Describes the resource permissions for a knowledge base.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the knowledge
+    #   base.
+    #
+    # @option params [required, String] :knowledge_base_id
+    #   The unique identifier for the knowledge base.
+    #
+    # @return [Types::DescribeKnowledgeBasePermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeKnowledgeBasePermissionsResponse#knowledge_base_arn #knowledge_base_arn} => String
+    #   * {Types::DescribeKnowledgeBasePermissionsResponse#knowledge_base_id #knowledge_base_id} => String
+    #   * {Types::DescribeKnowledgeBasePermissionsResponse#permissions #permissions} => Array&lt;Types::ResourcePermission&gt;
+    #   * {Types::DescribeKnowledgeBasePermissionsResponse#request_id #request_id} => String
+    #   * {Types::DescribeKnowledgeBasePermissionsResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_knowledge_base_permissions({
+    #     aws_account_id: "KbAwsAccountId", # required
+    #     knowledge_base_id: "KnowledgeBaseId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.knowledge_base_arn #=> String
+    #   resp.knowledge_base_id #=> String
+    #   resp.permissions #=> Array
+    #   resp.permissions[0].principal #=> String
+    #   resp.permissions[0].actions #=> Array
+    #   resp.permissions[0].actions[0] #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeKnowledgeBasePermissions AWS API Documentation
+    #
+    # @overload describe_knowledge_base_permissions(params = {})
+    # @param [Hash] params ({})
+    def describe_knowledge_base_permissions(params = {}, options = {})
+      req = build_request(:describe_knowledge_base_permissions, params)
+      req.send_request(options)
+    end
+
     # Describes the current namespace.
     #
     # @option params [required, String] :aws_account_id
@@ -14620,6 +14814,64 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Lists all knowledge bases in an Amazon QuickSight account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the knowledge
+    #   base.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @return [Types::ListKnowledgeBasesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListKnowledgeBasesResponse#knowledge_base_summaries #knowledge_base_summaries} => Array&lt;Types::KnowledgeBaseSummary&gt;
+    #   * {Types::ListKnowledgeBasesResponse#next_token #next_token} => String
+    #   * {Types::ListKnowledgeBasesResponse#request_id #request_id} => String
+    #   * {Types::ListKnowledgeBasesResponse#status #status} => Integer
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_knowledge_bases({
+    #     aws_account_id: "KbAwsAccountId", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.knowledge_base_summaries #=> Array
+    #   resp.knowledge_base_summaries[0].knowledge_base_arn #=> String
+    #   resp.knowledge_base_summaries[0].knowledge_base_id #=> String
+    #   resp.knowledge_base_summaries[0].name #=> String
+    #   resp.knowledge_base_summaries[0].status #=> String, one of "CREATING", "UPDATING", "ACTIVE", "FAILED", "DELETING"
+    #   resp.knowledge_base_summaries[0].data_source_arn #=> String
+    #   resp.knowledge_base_summaries[0].type #=> String
+    #   resp.knowledge_base_summaries[0].created_at #=> Time
+    #   resp.knowledge_base_summaries[0].updated_at #=> Time
+    #   resp.knowledge_base_summaries[0].knowledge_base_size_bytes #=> Integer
+    #   resp.knowledge_base_summaries[0].document_count #=> Integer
+    #   resp.knowledge_base_summaries[0].primary_owner_arn #=> String
+    #   resp.knowledge_base_summaries[0].primary_owner_username #=> String
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListKnowledgeBases AWS API Documentation
+    #
+    # @overload list_knowledge_bases(params = {})
+    # @param [Hash] params ({})
+    def list_knowledge_bases(params = {}, options = {})
+      req = build_request(:list_knowledge_bases, params)
+      req.send_request(options)
+    end
+
     # Lists the namespaces for the specified Amazon Web Services account.
     # This operation doesn't list deleted namespaces.
     #
@@ -16056,6 +16308,84 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Lists per-user index capacity consumption for an account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the index
+    #   capacity data.
+    #
+    # @option params [String] :namespace
+    #   The namespace to scope the user search to. Required when the
+    #   userNameOrEmail filter is present.
+    #
+    # @option params [Array<Types::UserIndexCapacityFilter>] :filters
+    #   Filters to apply. Only one filter is supported per request. The
+    #   userNameOrEmail and totalCapacityBytes filters are mutually exclusive.
+    #
+    # @option params [String] :sort_by
+    #   The field to sort results by.
+    #
+    # @option params [String] :sort_order
+    #   The sort order for results. Defaults to DESC if not specified.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return per page.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, received from a previous call.
+    #
+    # @return [Types::ListUsersIndexCapacityResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListUsersIndexCapacityResponse#users #users} => Array&lt;Types::UserIndexCapacity&gt;
+    #   * {Types::ListUsersIndexCapacityResponse#next_token #next_token} => String
+    #   * {Types::ListUsersIndexCapacityResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_users_index_capacity({
+    #     aws_account_id: "AwsAccountId", # required
+    #     namespace: "Namespace",
+    #     filters: [
+    #       {
+    #         user_name_or_email: {
+    #           prefix: "FilterValue", # required
+    #         },
+    #         total_capacity_bytes: {
+    #           min_bytes: 1,
+    #           max_bytes: 1,
+    #         },
+    #       },
+    #     ],
+    #     sort_by: "TOTAL_CAPACITY_BYTES", # accepts TOTAL_CAPACITY_BYTES
+    #     sort_order: "ASC", # accepts ASC, DESC
+    #     max_results: 1,
+    #     next_token: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.users #=> Array
+    #   resp.users[0].user_arn #=> String
+    #   resp.users[0].user_name #=> String
+    #   resp.users[0].email #=> String
+    #   resp.users[0].role #=> String
+    #   resp.users[0].total_capacity_bytes #=> Integer
+    #   resp.users[0].total_kb_capacity_bytes #=> Integer
+    #   resp.users[0].total_space_capacity_bytes #=> Integer
+    #   resp.users[0].kb_count #=> Integer
+    #   resp.users[0].space_count #=> Integer
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListUsersIndexCapacity AWS API Documentation
+    #
+    # @overload list_users_index_capacity(params = {})
+    # @param [Hash] params ({})
+    def list_users_index_capacity(params = {}, options = {})
+      req = build_request(:list_users_index_capacity, params)
+      req.send_request(options)
+    end
+
     # Lists all of the VPC connections in the current set Amazon Web
     # Services Region of an Amazon Web Services account.
     #
@@ -17127,6 +17457,81 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def search_groups(params = {}, options = {})
       req = build_request(:search_groups, params)
+      req.send_request(options)
+    end
+
+    # Searches for a subset of knowledge bases based on specified filters.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the knowledge
+    #   base.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return.
+    #
+    # @option params [Array<Types::KnowledgeBaseSearchFilter>] :filters
+    #   The filters to apply when searching knowledge bases.
+    #
+    # @option params [Types::KnowledgeBaseSortBy] :sort_by
+    #   The sort configuration for the search results.
+    #
+    # @return [Types::SearchKnowledgeBasesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SearchKnowledgeBasesResponse#knowledge_base_summaries #knowledge_base_summaries} => Array&lt;Types::KnowledgeBaseSummary&gt;
+    #   * {Types::SearchKnowledgeBasesResponse#next_token #next_token} => String
+    #   * {Types::SearchKnowledgeBasesResponse#request_id #request_id} => String
+    #   * {Types::SearchKnowledgeBasesResponse#status #status} => Integer
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.search_knowledge_bases({
+    #     aws_account_id: "KbAwsAccountId", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #     filters: [
+    #       {
+    #         name: "KNOWLEDGE_BASE_ID", # required, accepts KNOWLEDGE_BASE_ID, KNOWLEDGE_BASE_NAME, DIRECT_QUICKSIGHT_OWNER, DIRECT_QUICKSIGHT_VIEWER_OR_OWNER, DIRECT_QUICKSIGHT_SOLE_OWNER, KNOWLEDGE_BASE_SIZE_BYTES, PRIMARY_OWNER
+    #         operator: "STRING_EQUALS", # required, accepts STRING_EQUALS, STRING_LIKE, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS
+    #         value: "String", # required
+    #       },
+    #     ],
+    #     sort_by: {
+    #       sort_by_field: "KNOWLEDGE_BASE_SIZE_BYTES", # required, accepts KNOWLEDGE_BASE_SIZE_BYTES, CREATED_AT
+    #       sort_order: "ASC", # required, accepts ASC, DESC
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.knowledge_base_summaries #=> Array
+    #   resp.knowledge_base_summaries[0].knowledge_base_arn #=> String
+    #   resp.knowledge_base_summaries[0].knowledge_base_id #=> String
+    #   resp.knowledge_base_summaries[0].name #=> String
+    #   resp.knowledge_base_summaries[0].status #=> String, one of "CREATING", "UPDATING", "ACTIVE", "FAILED", "DELETING"
+    #   resp.knowledge_base_summaries[0].data_source_arn #=> String
+    #   resp.knowledge_base_summaries[0].type #=> String
+    #   resp.knowledge_base_summaries[0].created_at #=> Time
+    #   resp.knowledge_base_summaries[0].updated_at #=> Time
+    #   resp.knowledge_base_summaries[0].knowledge_base_size_bytes #=> Integer
+    #   resp.knowledge_base_summaries[0].document_count #=> Integer
+    #   resp.knowledge_base_summaries[0].primary_owner_arn #=> String
+    #   resp.knowledge_base_summaries[0].primary_owner_username #=> String
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SearchKnowledgeBases AWS API Documentation
+    #
+    # @overload search_knowledge_bases(params = {})
+    # @param [Hash] params ({})
+    def search_knowledge_bases(params = {}, options = {})
+      req = build_request(:search_knowledge_bases, params)
       req.send_request(options)
     end
 
@@ -21971,6 +22376,69 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Updates the resource permissions for a knowledge base.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the knowledge
+    #   base.
+    #
+    # @option params [required, String] :knowledge_base_id
+    #   The unique identifier for the knowledge base.
+    #
+    # @option params [Array<Types::ResourcePermission>] :grant_permissions
+    #   The resource permissions that you want to grant on the knowledge base.
+    #
+    # @option params [Array<Types::ResourcePermission>] :revoke_permissions
+    #   The resource permissions that you want to revoke from the knowledge
+    #   base.
+    #
+    # @return [Types::UpdateKnowledgeBasePermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateKnowledgeBasePermissionsResponse#knowledge_base_arn #knowledge_base_arn} => String
+    #   * {Types::UpdateKnowledgeBasePermissionsResponse#knowledge_base_id #knowledge_base_id} => String
+    #   * {Types::UpdateKnowledgeBasePermissionsResponse#permissions #permissions} => Array&lt;Types::ResourcePermission&gt;
+    #   * {Types::UpdateKnowledgeBasePermissionsResponse#request_id #request_id} => String
+    #   * {Types::UpdateKnowledgeBasePermissionsResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_knowledge_base_permissions({
+    #     aws_account_id: "KbAwsAccountId", # required
+    #     knowledge_base_id: "KnowledgeBaseId", # required
+    #     grant_permissions: [
+    #       {
+    #         principal: "Principal", # required
+    #         actions: ["String"], # required
+    #       },
+    #     ],
+    #     revoke_permissions: [
+    #       {
+    #         principal: "Principal", # required
+    #         actions: ["String"], # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.knowledge_base_arn #=> String
+    #   resp.knowledge_base_id #=> String
+    #   resp.permissions #=> Array
+    #   resp.permissions[0].principal #=> String
+    #   resp.permissions[0].actions #=> Array
+    #   resp.permissions[0].actions[0] #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateKnowledgeBasePermissions AWS API Documentation
+    #
+    # @overload update_knowledge_base_permissions(params = {})
+    # @param [Hash] params ({})
+    def update_knowledge_base_permissions(params = {}, options = {})
+      req = build_request(:update_knowledge_base_permissions, params)
+      req.send_request(options)
+    end
+
     # Updates an OAuthClientApplication.
     #
     # @option params [required, String] :aws_account_id
@@ -23847,7 +24315,7 @@ module Aws::QuickSight
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.185.0'
+      context[:gem_version] = '1.186.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

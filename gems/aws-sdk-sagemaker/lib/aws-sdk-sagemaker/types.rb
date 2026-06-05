@@ -109,10 +109,16 @@ module Aws::SageMaker
     #   The Amazon S3 URI where benchmark results are stored.
     #   @return [String]
     #
+    # @!attribute [rw] mlflow_config
+    #   The MLflow tracking configuration for the job. If you don't specify
+    #   this parameter, MLflow tracking is disabled.
+    #   @return [Types::AIMlflowConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIBenchmarkOutputConfig AWS API Documentation
     #
     class AIBenchmarkOutputConfig < Struct.new(
-      :s3_output_location)
+      :s3_output_location,
+      :mlflow_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -128,11 +134,16 @@ module Aws::SageMaker
     #   The CloudWatch log information for the benchmark job.
     #   @return [Array<Types::AICloudWatchLogs>]
     #
+    # @!attribute [rw] mlflow_config
+    #   The MLflow tracking configuration for the job.
+    #   @return [Types::AIMlflowConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIBenchmarkOutputResult AWS API Documentation
     #
     class AIBenchmarkOutputResult < Struct.new(
       :s3_output_location,
-      :cloud_watch_logs)
+      :cloud_watch_logs,
+      :mlflow_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -222,6 +233,32 @@ module Aws::SageMaker
 
       class InputDataConfig < AIDatasetConfig; end
       class Unknown < AIDatasetConfig; end
+    end
+
+    # The MLflow tracking configuration for logging metrics and parameters
+    # to a SageMaker managed MLflow tracking server.
+    #
+    # @!attribute [rw] mlflow_resource_arn
+    #   The Amazon Resource Name (ARN) of the SageMaker managed MLflow
+    #   resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] mlflow_experiment_name
+    #   The MLflow experiment name used for tracking.
+    #   @return [String]
+    #
+    # @!attribute [rw] mlflow_run_name
+    #   The MLflow run name used for tracking.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIMlflowConfig AWS API Documentation
+    #
+    class AIMlflowConfig < Struct.new(
+      :mlflow_resource_arn,
+      :mlflow_experiment_name,
+      :mlflow_run_name)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # The source of the model for an AI recommendation job. This is a union
@@ -527,11 +564,17 @@ module Aws::SageMaker
     #   version.
     #   @return [String]
     #
+    # @!attribute [rw] mlflow_config
+    #   The MLflow tracking configuration for the job. If you don't specify
+    #   this parameter, MLflow tracking is disabled.
+    #   @return [Types::AIMlflowConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationOutputConfig AWS API Documentation
     #
     class AIRecommendationOutputConfig < Struct.new(
       :s3_output_location,
-      :model_package_group_identifier)
+      :model_package_group_identifier,
+      :mlflow_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -549,11 +592,16 @@ module Aws::SageMaker
     #   where deployment-ready model packages are registered.
     #   @return [String]
     #
+    # @!attribute [rw] mlflow_config
+    #   The MLflow tracking configuration for the job.
+    #   @return [Types::AIMlflowConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationOutputResult AWS API Documentation
     #
     class AIRecommendationOutputResult < Struct.new(
       :s3_output_location,
-      :model_package_group_identifier)
+      :model_package_group_identifier,
+      :mlflow_config)
       SENSITIVE = []
       include Aws::Structure
     end

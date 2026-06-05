@@ -123,11 +123,13 @@ module Aws
                                 },
                                 ?architecture: ("ARM64" | "X86_64"),
                                 ?image_configuration: {
-                                  image_uri: ::String?
+                                  image_uri: ::String?,
+                                  application_level_digest_resolution: bool?
                                 },
                                 ?worker_type_specifications: Hash[::String, {
                                     image_configuration: {
-                                      image_uri: ::String?
+                                      image_uri: ::String?,
+                                      application_level_digest_resolution: bool?
                                     }?
                                   }],
                                 ?runtime_configuration: Array[
@@ -468,11 +470,13 @@ module Aws
                                 },
                                 ?architecture: ("ARM64" | "X86_64"),
                                 ?image_configuration: {
-                                  image_uri: ::String?
+                                  image_uri: ::String?,
+                                  application_level_digest_resolution: bool?
                                 },
                                 ?worker_type_specifications: Hash[::String, {
                                     image_configuration: {
-                                      image_uri: ::String?
+                                      image_uri: ::String?,
+                                      application_level_digest_resolution: bool?
                                     }?
                                   }],
                                 ?interactive_configuration: {

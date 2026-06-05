@@ -650,11 +650,13 @@ module Aws::EMRServerless
     #     architecture: "ARM64", # accepts ARM64, X86_64
     #     image_configuration: {
     #       image_uri: "ImageUri",
+    #       application_level_digest_resolution: false,
     #     },
     #     worker_type_specifications: {
     #       "WorkerTypeString" => {
     #         image_configuration: {
     #           image_uri: "ImageUri",
+    #           application_level_digest_resolution: false,
     #         },
     #       },
     #     },
@@ -800,9 +802,11 @@ module Aws::EMRServerless
     #   resp.application.architecture #=> String, one of "ARM64", "X86_64"
     #   resp.application.image_configuration.image_uri #=> String
     #   resp.application.image_configuration.resolved_image_digest #=> String
+    #   resp.application.image_configuration.application_level_digest_resolution #=> Boolean
     #   resp.application.worker_type_specifications #=> Hash
     #   resp.application.worker_type_specifications["WorkerTypeString"].image_configuration.image_uri #=> String
     #   resp.application.worker_type_specifications["WorkerTypeString"].image_configuration.resolved_image_digest #=> String
+    #   resp.application.worker_type_specifications["WorkerTypeString"].image_configuration.application_level_digest_resolution #=> Boolean
     #   resp.application.runtime_configuration #=> Array
     #   resp.application.runtime_configuration[0].classification #=> String
     #   resp.application.runtime_configuration[0].properties #=> Hash
@@ -988,6 +992,13 @@ module Aws::EMRServerless
     #   resp.job_run.started_at #=> Time
     #   resp.job_run.ended_at #=> Time
     #   resp.job_run.queued_duration_milliseconds #=> Integer
+    #   resp.job_run.image_configuration.image_uri #=> String
+    #   resp.job_run.image_configuration.resolved_image_digest #=> String
+    #   resp.job_run.image_configuration.application_level_digest_resolution #=> Boolean
+    #   resp.job_run.worker_type_specifications #=> Hash
+    #   resp.job_run.worker_type_specifications["WorkerTypeString"].image_configuration.image_uri #=> String
+    #   resp.job_run.worker_type_specifications["WorkerTypeString"].image_configuration.resolved_image_digest #=> String
+    #   resp.job_run.worker_type_specifications["WorkerTypeString"].image_configuration.application_level_digest_resolution #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/emr-serverless-2021-07-13/GetJobRun AWS API Documentation
     #
@@ -1932,11 +1943,13 @@ module Aws::EMRServerless
     #     architecture: "ARM64", # accepts ARM64, X86_64
     #     image_configuration: {
     #       image_uri: "ImageUri",
+    #       application_level_digest_resolution: false,
     #     },
     #     worker_type_specifications: {
     #       "WorkerTypeString" => {
     #         image_configuration: {
     #           image_uri: "ImageUri",
+    #           application_level_digest_resolution: false,
     #         },
     #       },
     #     },
@@ -2030,9 +2043,11 @@ module Aws::EMRServerless
     #   resp.application.architecture #=> String, one of "ARM64", "X86_64"
     #   resp.application.image_configuration.image_uri #=> String
     #   resp.application.image_configuration.resolved_image_digest #=> String
+    #   resp.application.image_configuration.application_level_digest_resolution #=> Boolean
     #   resp.application.worker_type_specifications #=> Hash
     #   resp.application.worker_type_specifications["WorkerTypeString"].image_configuration.image_uri #=> String
     #   resp.application.worker_type_specifications["WorkerTypeString"].image_configuration.resolved_image_digest #=> String
+    #   resp.application.worker_type_specifications["WorkerTypeString"].image_configuration.application_level_digest_resolution #=> Boolean
     #   resp.application.runtime_configuration #=> Array
     #   resp.application.runtime_configuration[0].classification #=> String
     #   resp.application.runtime_configuration[0].properties #=> Hash
@@ -2090,7 +2105,7 @@ module Aws::EMRServerless
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-emrserverless'
-      context[:gem_version] = '1.68.0'
+      context[:gem_version] = '1.69.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

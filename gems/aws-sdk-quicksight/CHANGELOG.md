@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.186.0 (2026-06-05)
+------------------
+
+* Feature - Adds support for Knowledge Base APIs and Index Capacity API
+
 1.185.0 (2026-06-01)
 ------------------
 

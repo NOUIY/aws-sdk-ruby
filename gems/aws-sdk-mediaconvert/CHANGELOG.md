@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.188.0 (2026-06-05)
+------------------
+
+* Feature - Adds support for configurable number of Clear Lead segments at the beginning of encrypted output. Adds support for multiple trickplay variants.
+
 1.187.0 (2026-06-02)
 ------------------
 

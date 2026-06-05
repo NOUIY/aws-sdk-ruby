@@ -134,6 +134,7 @@ module Aws::MediaConvert
     CmafGroupSettings = Shapes::StructureShape.new(name: 'CmafGroupSettings')
     CmafImageBasedTrickPlay = Shapes::StringShape.new(name: 'CmafImageBasedTrickPlay')
     CmafImageBasedTrickPlaySettings = Shapes::StructureShape.new(name: 'CmafImageBasedTrickPlaySettings')
+    CmafImageBasedTrickPlayVariant = Shapes::StructureShape.new(name: 'CmafImageBasedTrickPlayVariant')
     CmafInitializationVectorInManifest = Shapes::StringShape.new(name: 'CmafInitializationVectorInManifest')
     CmafIntervalCadence = Shapes::StringShape.new(name: 'CmafIntervalCadence')
     CmafKeyProviderType = Shapes::StringShape.new(name: 'CmafKeyProviderType')
@@ -176,6 +177,7 @@ module Aws::MediaConvert
     Container = Shapes::StructureShape.new(name: 'Container')
     ContainerSettings = Shapes::StructureShape.new(name: 'ContainerSettings')
     ContainerType = Shapes::StringShape.new(name: 'ContainerType')
+    ContentLightLevel = Shapes::StructureShape.new(name: 'ContentLightLevel')
     CopyProtectionAction = Shapes::StringShape.new(name: 'CopyProtectionAction')
     CreateJobRequest = Shapes::StructureShape.new(name: 'CreateJobRequest')
     CreateJobResponse = Shapes::StructureShape.new(name: 'CreateJobResponse')
@@ -194,6 +196,7 @@ module Aws::MediaConvert
     DashIsoHbbtvCompliance = Shapes::StringShape.new(name: 'DashIsoHbbtvCompliance')
     DashIsoImageBasedTrickPlay = Shapes::StringShape.new(name: 'DashIsoImageBasedTrickPlay')
     DashIsoImageBasedTrickPlaySettings = Shapes::StructureShape.new(name: 'DashIsoImageBasedTrickPlaySettings')
+    DashIsoImageBasedTrickPlayVariant = Shapes::StructureShape.new(name: 'DashIsoImageBasedTrickPlayVariant')
     DashIsoIntervalCadence = Shapes::StringShape.new(name: 'DashIsoIntervalCadence')
     DashIsoMpdManifestBandwidthType = Shapes::StringShape.new(name: 'DashIsoMpdManifestBandwidthType')
     DashIsoMpdProfile = Shapes::StringShape.new(name: 'DashIsoMpdProfile')
@@ -386,6 +389,7 @@ module Aws::MediaConvert
     HDRToSDRToneMapper = Shapes::StringShape.new(name: 'HDRToSDRToneMapper')
     Hdr10Metadata = Shapes::StructureShape.new(name: 'Hdr10Metadata')
     Hdr10Plus = Shapes::StructureShape.new(name: 'Hdr10Plus')
+    HdrMetadata = Shapes::StructureShape.new(name: 'HdrMetadata')
     HlsAdMarkers = Shapes::StringShape.new(name: 'HlsAdMarkers')
     HlsAdditionalManifest = Shapes::StructureShape.new(name: 'HlsAdditionalManifest')
     HlsAudioOnlyContainer = Shapes::StringShape.new(name: 'HlsAudioOnlyContainer')
@@ -394,7 +398,6 @@ module Aws::MediaConvert
     HlsCaptionLanguageMapping = Shapes::StructureShape.new(name: 'HlsCaptionLanguageMapping')
     HlsCaptionLanguageSetting = Shapes::StringShape.new(name: 'HlsCaptionLanguageSetting')
     HlsCaptionSegmentLengthControl = Shapes::StringShape.new(name: 'HlsCaptionSegmentLengthControl')
-    HlsClearLead = Shapes::StringShape.new(name: 'HlsClearLead')
     HlsClientCache = Shapes::StringShape.new(name: 'HlsClientCache')
     HlsCodecSpecification = Shapes::StringShape.new(name: 'HlsCodecSpecification')
     HlsDescriptiveVideoServiceFlag = Shapes::StringShape.new(name: 'HlsDescriptiveVideoServiceFlag')
@@ -405,6 +408,7 @@ module Aws::MediaConvert
     HlsIFrameOnlyManifest = Shapes::StringShape.new(name: 'HlsIFrameOnlyManifest')
     HlsImageBasedTrickPlay = Shapes::StringShape.new(name: 'HlsImageBasedTrickPlay')
     HlsImageBasedTrickPlaySettings = Shapes::StructureShape.new(name: 'HlsImageBasedTrickPlaySettings')
+    HlsImageBasedTrickPlayVariant = Shapes::StructureShape.new(name: 'HlsImageBasedTrickPlayVariant')
     HlsInitializationVectorInManifest = Shapes::StringShape.new(name: 'HlsInitializationVectorInManifest')
     HlsIntervalCadence = Shapes::StringShape.new(name: 'HlsIntervalCadence')
     HlsKeyProviderType = Shapes::StringShape.new(name: 'HlsKeyProviderType')
@@ -494,6 +498,7 @@ module Aws::MediaConvert
     M3u8PcrControl = Shapes::StringShape.new(name: 'M3u8PcrControl')
     M3u8Scte35Source = Shapes::StringShape.new(name: 'M3u8Scte35Source')
     M3u8Settings = Shapes::StructureShape.new(name: 'M3u8Settings')
+    MasteringDisplayColorVolume = Shapes::StructureShape.new(name: 'MasteringDisplayColorVolume')
     MatrixCoefficients = Shapes::StringShape.new(name: 'MatrixCoefficients')
     Metadata = Shapes::StructureShape.new(name: 'Metadata')
     MinBottomRenditionSize = Shapes::StructureShape.new(name: 'MinBottomRenditionSize')
@@ -849,6 +854,7 @@ module Aws::MediaConvert
     __integerMin1Max60000 = Shapes::IntegerShape.new(name: '__integerMin1Max60000')
     __integerMin1Max64 = Shapes::IntegerShape.new(name: '__integerMin1Max64')
     __integerMin1Max86400000 = Shapes::IntegerShape.new(name: '__integerMin1Max86400000')
+    __integerMin1Max9999 = Shapes::IntegerShape.new(name: '__integerMin1Max9999')
     __integerMin2000Max30000 = Shapes::IntegerShape.new(name: '__integerMin2000Max30000')
     __integerMin22050Max192000 = Shapes::IntegerShape.new(name: '__integerMin22050Max192000')
     __integerMin22050Max48000 = Shapes::IntegerShape.new(name: '__integerMin22050Max48000')
@@ -899,8 +905,10 @@ module Aws::MediaConvert
     __listOfCaptionDescription = Shapes::ListShape.new(name: '__listOfCaptionDescription')
     __listOfCaptionDescriptionPreset = Shapes::ListShape.new(name: '__listOfCaptionDescriptionPreset')
     __listOfCmafAdditionalManifest = Shapes::ListShape.new(name: '__listOfCmafAdditionalManifest')
+    __listOfCmafImageBasedTrickPlayVariant = Shapes::ListShape.new(name: '__listOfCmafImageBasedTrickPlayVariant')
     __listOfColorConversion3DLUTSetting = Shapes::ListShape.new(name: '__listOfColorConversion3DLUTSetting')
     __listOfDashAdditionalManifest = Shapes::ListShape.new(name: '__listOfDashAdditionalManifest')
+    __listOfDashIsoImageBasedTrickPlayVariant = Shapes::ListShape.new(name: '__listOfDashIsoImageBasedTrickPlayVariant')
     __listOfElementalInferenceFeature = Shapes::ListShape.new(name: '__listOfElementalInferenceFeature')
     __listOfElementalInferenceFeed = Shapes::ListShape.new(name: '__listOfElementalInferenceFeed')
     __listOfEndpoint = Shapes::ListShape.new(name: '__listOfEndpoint')
@@ -909,6 +917,7 @@ module Aws::MediaConvert
     __listOfHlsAdMarkers = Shapes::ListShape.new(name: '__listOfHlsAdMarkers')
     __listOfHlsAdditionalManifest = Shapes::ListShape.new(name: '__listOfHlsAdditionalManifest')
     __listOfHlsCaptionLanguageMapping = Shapes::ListShape.new(name: '__listOfHlsCaptionLanguageMapping')
+    __listOfHlsImageBasedTrickPlayVariant = Shapes::ListShape.new(name: '__listOfHlsImageBasedTrickPlayVariant')
     __listOfHopDestination = Shapes::ListShape.new(name: '__listOfHopDestination')
     __listOfId3Insertion = Shapes::ListShape.new(name: '__listOfId3Insertion')
     __listOfInput = Shapes::ListShape.new(name: '__listOfInput')
@@ -1135,6 +1144,7 @@ module Aws::MediaConvert
     AudioProperties.add_member(:channels, Shapes::ShapeRef.new(shape: __integer, location_name: "channels"))
     AudioProperties.add_member(:frame_rate, Shapes::ShapeRef.new(shape: FrameRate, location_name: "frameRate"))
     AudioProperties.add_member(:language_code, Shapes::ShapeRef.new(shape: __string, location_name: "languageCode"))
+    AudioProperties.add_member(:object_count, Shapes::ShapeRef.new(shape: __integer, location_name: "objectCount"))
     AudioProperties.add_member(:sample_rate, Shapes::ShapeRef.new(shape: __integer, location_name: "sampleRate"))
     AudioProperties.struct_class = Types::AudioProperties
 
@@ -1310,7 +1320,7 @@ module Aws::MediaConvert
     CmafAdditionalManifest.add_member(:selected_outputs, Shapes::ShapeRef.new(shape: __listOf__stringMin1, location_name: "selectedOutputs"))
     CmafAdditionalManifest.struct_class = Types::CmafAdditionalManifest
 
-    CmafEncryptionSettings.add_member(:clear_lead, Shapes::ShapeRef.new(shape: HlsClearLead, location_name: "clearLead"))
+    CmafEncryptionSettings.add_member(:clear_lead_segments, Shapes::ShapeRef.new(shape: __integerMin1Max9999, location_name: "clearLeadSegments"))
     CmafEncryptionSettings.add_member(:constant_initialization_vector, Shapes::ShapeRef.new(shape: __stringMin32Max32Pattern09aFAF32, location_name: "constantInitializationVector"))
     CmafEncryptionSettings.add_member(:encryption_method, Shapes::ShapeRef.new(shape: CmafEncryptionType, location_name: "encryptionMethod"))
     CmafEncryptionSettings.add_member(:initialization_vector_in_manifest, Shapes::ShapeRef.new(shape: CmafInitializationVectorInManifest, location_name: "initializationVectorInManifest"))
@@ -1331,6 +1341,7 @@ module Aws::MediaConvert
     CmafGroupSettings.add_member(:fragment_length, Shapes::ShapeRef.new(shape: __integerMin1Max2147483647, location_name: "fragmentLength"))
     CmafGroupSettings.add_member(:image_based_trick_play, Shapes::ShapeRef.new(shape: CmafImageBasedTrickPlay, location_name: "imageBasedTrickPlay"))
     CmafGroupSettings.add_member(:image_based_trick_play_settings, Shapes::ShapeRef.new(shape: CmafImageBasedTrickPlaySettings, location_name: "imageBasedTrickPlaySettings"))
+    CmafGroupSettings.add_member(:image_based_trick_play_variants, Shapes::ShapeRef.new(shape: __listOfCmafImageBasedTrickPlayVariant, location_name: "imageBasedTrickPlayVariants"))
     CmafGroupSettings.add_member(:manifest_compression, Shapes::ShapeRef.new(shape: CmafManifestCompression, location_name: "manifestCompression"))
     CmafGroupSettings.add_member(:manifest_duration_format, Shapes::ShapeRef.new(shape: CmafManifestDurationFormat, location_name: "manifestDurationFormat"))
     CmafGroupSettings.add_member(:min_buffer_time, Shapes::ShapeRef.new(shape: __integerMin0Max2147483647, location_name: "minBufferTime"))
@@ -1357,6 +1368,14 @@ module Aws::MediaConvert
     CmafImageBasedTrickPlaySettings.add_member(:tile_width, Shapes::ShapeRef.new(shape: __integerMin1Max512, location_name: "tileWidth"))
     CmafImageBasedTrickPlaySettings.struct_class = Types::CmafImageBasedTrickPlaySettings
 
+    CmafImageBasedTrickPlayVariant.add_member(:interval_cadence, Shapes::ShapeRef.new(shape: CmafIntervalCadence, location_name: "intervalCadence"))
+    CmafImageBasedTrickPlayVariant.add_member(:thumbnail_height, Shapes::ShapeRef.new(shape: __integerMin2Max4096, location_name: "thumbnailHeight"))
+    CmafImageBasedTrickPlayVariant.add_member(:thumbnail_interval, Shapes::ShapeRef.new(shape: __doubleMin0Max2147483647, location_name: "thumbnailInterval"))
+    CmafImageBasedTrickPlayVariant.add_member(:thumbnail_width, Shapes::ShapeRef.new(shape: __integerMin8Max4096, location_name: "thumbnailWidth"))
+    CmafImageBasedTrickPlayVariant.add_member(:tile_height, Shapes::ShapeRef.new(shape: __integerMin1Max2048, location_name: "tileHeight"))
+    CmafImageBasedTrickPlayVariant.add_member(:tile_width, Shapes::ShapeRef.new(shape: __integerMin1Max512, location_name: "tileWidth"))
+    CmafImageBasedTrickPlayVariant.struct_class = Types::CmafImageBasedTrickPlayVariant
+
     CmfcSettings.add_member(:audio_duration, Shapes::ShapeRef.new(shape: CmfcAudioDuration, location_name: "audioDuration"))
     CmfcSettings.add_member(:audio_group_id, Shapes::ShapeRef.new(shape: __string, location_name: "audioGroupId"))
     CmfcSettings.add_member(:audio_rendition_sets, Shapes::ShapeRef.new(shape: __string, location_name: "audioRenditionSets"))
@@ -1380,10 +1399,12 @@ module Aws::MediaConvert
     CodecMetadata.add_member(:chroma_subsampling, Shapes::ShapeRef.new(shape: __string, location_name: "chromaSubsampling"))
     CodecMetadata.add_member(:coded_frame_rate, Shapes::ShapeRef.new(shape: FrameRate, location_name: "codedFrameRate"))
     CodecMetadata.add_member(:color_primaries, Shapes::ShapeRef.new(shape: ColorPrimaries, location_name: "colorPrimaries"))
+    CodecMetadata.add_member(:content_light_level, Shapes::ShapeRef.new(shape: ContentLightLevel, location_name: "contentLightLevel"))
     CodecMetadata.add_member(:height, Shapes::ShapeRef.new(shape: __integer, location_name: "height"))
     CodecMetadata.add_member(:level, Shapes::ShapeRef.new(shape: __string, location_name: "level"))
     CodecMetadata.add_member(:matrix_coefficients, Shapes::ShapeRef.new(shape: MatrixCoefficients, location_name: "matrixCoefficients"))
     CodecMetadata.add_member(:profile, Shapes::ShapeRef.new(shape: __string, location_name: "profile"))
+    CodecMetadata.add_member(:rotation, Shapes::ShapeRef.new(shape: __integer, location_name: "rotation"))
     CodecMetadata.add_member(:scan_type, Shapes::ShapeRef.new(shape: __string, location_name: "scanType"))
     CodecMetadata.add_member(:transfer_characteristics, Shapes::ShapeRef.new(shape: TransferCharacteristics, location_name: "transferCharacteristics"))
     CodecMetadata.add_member(:width, Shapes::ShapeRef.new(shape: __integer, location_name: "width"))
@@ -1428,6 +1449,10 @@ module Aws::MediaConvert
     ContainerSettings.add_member(:mpd_settings, Shapes::ShapeRef.new(shape: MpdSettings, location_name: "mpdSettings"))
     ContainerSettings.add_member(:mxf_settings, Shapes::ShapeRef.new(shape: MxfSettings, location_name: "mxfSettings"))
     ContainerSettings.struct_class = Types::ContainerSettings
+
+    ContentLightLevel.add_member(:max_content_light_level, Shapes::ShapeRef.new(shape: __integer, location_name: "maxContentLightLevel"))
+    ContentLightLevel.add_member(:max_frame_average_light_level, Shapes::ShapeRef.new(shape: __integer, location_name: "maxFrameAverageLightLevel"))
+    ContentLightLevel.struct_class = Types::ContentLightLevel
 
     CreateJobRequest.add_member(:acceleration_settings, Shapes::ShapeRef.new(shape: AccelerationSettings, location_name: "accelerationSettings"))
     CreateJobRequest.add_member(:billing_tags_source, Shapes::ShapeRef.new(shape: BillingTagsSource, location_name: "billingTagsSource"))
@@ -1512,6 +1537,7 @@ module Aws::MediaConvert
     DashIsoGroupSettings.add_member(:hbbtv_compliance, Shapes::ShapeRef.new(shape: DashIsoHbbtvCompliance, location_name: "hbbtvCompliance"))
     DashIsoGroupSettings.add_member(:image_based_trick_play, Shapes::ShapeRef.new(shape: DashIsoImageBasedTrickPlay, location_name: "imageBasedTrickPlay"))
     DashIsoGroupSettings.add_member(:image_based_trick_play_settings, Shapes::ShapeRef.new(shape: DashIsoImageBasedTrickPlaySettings, location_name: "imageBasedTrickPlaySettings"))
+    DashIsoGroupSettings.add_member(:image_based_trick_play_variants, Shapes::ShapeRef.new(shape: __listOfDashIsoImageBasedTrickPlayVariant, location_name: "imageBasedTrickPlayVariants"))
     DashIsoGroupSettings.add_member(:min_buffer_time, Shapes::ShapeRef.new(shape: __integerMin0Max2147483647, location_name: "minBufferTime"))
     DashIsoGroupSettings.add_member(:min_final_segment_length, Shapes::ShapeRef.new(shape: __doubleMin0Max2147483647, location_name: "minFinalSegmentLength"))
     DashIsoGroupSettings.add_member(:mpd_manifest_bandwidth_type, Shapes::ShapeRef.new(shape: DashIsoMpdManifestBandwidthType, location_name: "mpdManifestBandwidthType"))
@@ -1531,6 +1557,14 @@ module Aws::MediaConvert
     DashIsoImageBasedTrickPlaySettings.add_member(:tile_height, Shapes::ShapeRef.new(shape: __integerMin1Max2048, location_name: "tileHeight"))
     DashIsoImageBasedTrickPlaySettings.add_member(:tile_width, Shapes::ShapeRef.new(shape: __integerMin1Max512, location_name: "tileWidth"))
     DashIsoImageBasedTrickPlaySettings.struct_class = Types::DashIsoImageBasedTrickPlaySettings
+
+    DashIsoImageBasedTrickPlayVariant.add_member(:interval_cadence, Shapes::ShapeRef.new(shape: DashIsoIntervalCadence, location_name: "intervalCadence"))
+    DashIsoImageBasedTrickPlayVariant.add_member(:thumbnail_height, Shapes::ShapeRef.new(shape: __integerMin2Max4096, location_name: "thumbnailHeight"))
+    DashIsoImageBasedTrickPlayVariant.add_member(:thumbnail_interval, Shapes::ShapeRef.new(shape: __doubleMin0Max2147483647, location_name: "thumbnailInterval"))
+    DashIsoImageBasedTrickPlayVariant.add_member(:thumbnail_width, Shapes::ShapeRef.new(shape: __integerMin8Max4096, location_name: "thumbnailWidth"))
+    DashIsoImageBasedTrickPlayVariant.add_member(:tile_height, Shapes::ShapeRef.new(shape: __integerMin1Max2048, location_name: "tileHeight"))
+    DashIsoImageBasedTrickPlayVariant.add_member(:tile_width, Shapes::ShapeRef.new(shape: __integerMin1Max512, location_name: "tileWidth"))
+    DashIsoImageBasedTrickPlayVariant.struct_class = Types::DashIsoImageBasedTrickPlayVariant
 
     DataProperties.add_member(:language_code, Shapes::ShapeRef.new(shape: __string, location_name: "languageCode"))
     DataProperties.struct_class = Types::DataProperties
@@ -1940,6 +1974,10 @@ module Aws::MediaConvert
     Hdr10Plus.add_member(:target_monitor_nits, Shapes::ShapeRef.new(shape: __integerMin0Max4000, location_name: "targetMonitorNits"))
     Hdr10Plus.struct_class = Types::Hdr10Plus
 
+    HdrMetadata.add_member(:content_light_level, Shapes::ShapeRef.new(shape: ContentLightLevel, location_name: "contentLightLevel"))
+    HdrMetadata.add_member(:mastering_display_color_volume, Shapes::ShapeRef.new(shape: MasteringDisplayColorVolume, location_name: "masteringDisplayColorVolume"))
+    HdrMetadata.struct_class = Types::HdrMetadata
+
     HlsAdditionalManifest.add_member(:manifest_name_modifier, Shapes::ShapeRef.new(shape: __stringMin1, location_name: "manifestNameModifier"))
     HlsAdditionalManifest.add_member(:selected_outputs, Shapes::ShapeRef.new(shape: __listOf__stringMin1, location_name: "selectedOutputs"))
     HlsAdditionalManifest.struct_class = Types::HlsAdditionalManifest
@@ -1974,6 +2012,7 @@ module Aws::MediaConvert
     HlsGroupSettings.add_member(:encryption, Shapes::ShapeRef.new(shape: HlsEncryptionSettings, location_name: "encryption"))
     HlsGroupSettings.add_member(:image_based_trick_play, Shapes::ShapeRef.new(shape: HlsImageBasedTrickPlay, location_name: "imageBasedTrickPlay"))
     HlsGroupSettings.add_member(:image_based_trick_play_settings, Shapes::ShapeRef.new(shape: HlsImageBasedTrickPlaySettings, location_name: "imageBasedTrickPlaySettings"))
+    HlsGroupSettings.add_member(:image_based_trick_play_variants, Shapes::ShapeRef.new(shape: __listOfHlsImageBasedTrickPlayVariant, location_name: "imageBasedTrickPlayVariants"))
     HlsGroupSettings.add_member(:manifest_compression, Shapes::ShapeRef.new(shape: HlsManifestCompression, location_name: "manifestCompression"))
     HlsGroupSettings.add_member(:manifest_duration_format, Shapes::ShapeRef.new(shape: HlsManifestDurationFormat, location_name: "manifestDurationFormat"))
     HlsGroupSettings.add_member(:min_final_segment_length, Shapes::ShapeRef.new(shape: __doubleMin0Max2147483647, location_name: "minFinalSegmentLength"))
@@ -2000,6 +2039,14 @@ module Aws::MediaConvert
     HlsImageBasedTrickPlaySettings.add_member(:tile_height, Shapes::ShapeRef.new(shape: __integerMin1Max2048, location_name: "tileHeight"))
     HlsImageBasedTrickPlaySettings.add_member(:tile_width, Shapes::ShapeRef.new(shape: __integerMin1Max512, location_name: "tileWidth"))
     HlsImageBasedTrickPlaySettings.struct_class = Types::HlsImageBasedTrickPlaySettings
+
+    HlsImageBasedTrickPlayVariant.add_member(:interval_cadence, Shapes::ShapeRef.new(shape: HlsIntervalCadence, location_name: "intervalCadence"))
+    HlsImageBasedTrickPlayVariant.add_member(:thumbnail_height, Shapes::ShapeRef.new(shape: __integerMin2Max4096, location_name: "thumbnailHeight"))
+    HlsImageBasedTrickPlayVariant.add_member(:thumbnail_interval, Shapes::ShapeRef.new(shape: __doubleMin0Max2147483647, location_name: "thumbnailInterval"))
+    HlsImageBasedTrickPlayVariant.add_member(:thumbnail_width, Shapes::ShapeRef.new(shape: __integerMin8Max4096, location_name: "thumbnailWidth"))
+    HlsImageBasedTrickPlayVariant.add_member(:tile_height, Shapes::ShapeRef.new(shape: __integerMin1Max2048, location_name: "tileHeight"))
+    HlsImageBasedTrickPlayVariant.add_member(:tile_width, Shapes::ShapeRef.new(shape: __integerMin1Max512, location_name: "tileWidth"))
+    HlsImageBasedTrickPlayVariant.struct_class = Types::HlsImageBasedTrickPlayVariant
 
     HlsRenditionGroupSettings.add_member(:rendition_group_id, Shapes::ShapeRef.new(shape: __string, location_name: "renditionGroupId"))
     HlsRenditionGroupSettings.add_member(:rendition_language_code, Shapes::ShapeRef.new(shape: LanguageCode, location_name: "renditionLanguageCode"))
@@ -2367,6 +2414,18 @@ module Aws::MediaConvert
     M3u8Settings.add_member(:transport_stream_id, Shapes::ShapeRef.new(shape: __integerMin0Max65535, location_name: "transportStreamId"))
     M3u8Settings.add_member(:video_pid, Shapes::ShapeRef.new(shape: __integerMin32Max8182, location_name: "videoPid"))
     M3u8Settings.struct_class = Types::M3u8Settings
+
+    MasteringDisplayColorVolume.add_member(:blue_primary_x, Shapes::ShapeRef.new(shape: __integer, location_name: "bluePrimaryX"))
+    MasteringDisplayColorVolume.add_member(:blue_primary_y, Shapes::ShapeRef.new(shape: __integer, location_name: "bluePrimaryY"))
+    MasteringDisplayColorVolume.add_member(:green_primary_x, Shapes::ShapeRef.new(shape: __integer, location_name: "greenPrimaryX"))
+    MasteringDisplayColorVolume.add_member(:green_primary_y, Shapes::ShapeRef.new(shape: __integer, location_name: "greenPrimaryY"))
+    MasteringDisplayColorVolume.add_member(:max_luminance, Shapes::ShapeRef.new(shape: __long, location_name: "maxLuminance"))
+    MasteringDisplayColorVolume.add_member(:min_luminance, Shapes::ShapeRef.new(shape: __long, location_name: "minLuminance"))
+    MasteringDisplayColorVolume.add_member(:red_primary_x, Shapes::ShapeRef.new(shape: __integer, location_name: "redPrimaryX"))
+    MasteringDisplayColorVolume.add_member(:red_primary_y, Shapes::ShapeRef.new(shape: __integer, location_name: "redPrimaryY"))
+    MasteringDisplayColorVolume.add_member(:white_point_x, Shapes::ShapeRef.new(shape: __integer, location_name: "whitePointX"))
+    MasteringDisplayColorVolume.add_member(:white_point_y, Shapes::ShapeRef.new(shape: __integer, location_name: "whitePointY"))
+    MasteringDisplayColorVolume.struct_class = Types::MasteringDisplayColorVolume
 
     Metadata.add_member(:etag, Shapes::ShapeRef.new(shape: __string, location_name: "eTag"))
     Metadata.add_member(:file_size, Shapes::ShapeRef.new(shape: __long, location_name: "fileSize"))
@@ -3004,8 +3063,10 @@ module Aws::MediaConvert
     VideoProperties.add_member(:codec_metadata, Shapes::ShapeRef.new(shape: CodecMetadata, location_name: "codecMetadata"))
     VideoProperties.add_member(:color_primaries, Shapes::ShapeRef.new(shape: ColorPrimaries, location_name: "colorPrimaries"))
     VideoProperties.add_member(:frame_rate, Shapes::ShapeRef.new(shape: FrameRate, location_name: "frameRate"))
+    VideoProperties.add_member(:hdr_metadata, Shapes::ShapeRef.new(shape: HdrMetadata, location_name: "hdrMetadata"))
     VideoProperties.add_member(:height, Shapes::ShapeRef.new(shape: __integer, location_name: "height"))
     VideoProperties.add_member(:matrix_coefficients, Shapes::ShapeRef.new(shape: MatrixCoefficients, location_name: "matrixCoefficients"))
+    VideoProperties.add_member(:rotation, Shapes::ShapeRef.new(shape: __integer, location_name: "rotation"))
     VideoProperties.add_member(:transfer_characteristics, Shapes::ShapeRef.new(shape: TransferCharacteristics, location_name: "transferCharacteristics"))
     VideoProperties.add_member(:width, Shapes::ShapeRef.new(shape: __integer, location_name: "width"))
     VideoProperties.struct_class = Types::VideoProperties
@@ -3142,9 +3203,13 @@ module Aws::MediaConvert
 
     __listOfCmafAdditionalManifest.member = Shapes::ShapeRef.new(shape: CmafAdditionalManifest)
 
+    __listOfCmafImageBasedTrickPlayVariant.member = Shapes::ShapeRef.new(shape: CmafImageBasedTrickPlayVariant)
+
     __listOfColorConversion3DLUTSetting.member = Shapes::ShapeRef.new(shape: ColorConversion3DLUTSetting)
 
     __listOfDashAdditionalManifest.member = Shapes::ShapeRef.new(shape: DashAdditionalManifest)
+
+    __listOfDashIsoImageBasedTrickPlayVariant.member = Shapes::ShapeRef.new(shape: DashIsoImageBasedTrickPlayVariant)
 
     __listOfElementalInferenceFeature.member = Shapes::ShapeRef.new(shape: ElementalInferenceFeature)
 
@@ -3161,6 +3226,8 @@ module Aws::MediaConvert
     __listOfHlsAdditionalManifest.member = Shapes::ShapeRef.new(shape: HlsAdditionalManifest)
 
     __listOfHlsCaptionLanguageMapping.member = Shapes::ShapeRef.new(shape: HlsCaptionLanguageMapping)
+
+    __listOfHlsImageBasedTrickPlayVariant.member = Shapes::ShapeRef.new(shape: HlsImageBasedTrickPlayVariant)
 
     __listOfHopDestination.member = Shapes::ShapeRef.new(shape: HopDestination)
 

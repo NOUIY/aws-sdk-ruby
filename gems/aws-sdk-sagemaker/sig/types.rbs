@@ -37,12 +37,14 @@ module Aws::SageMaker
 
     class AIBenchmarkOutputConfig
       attr_accessor s3_output_location: ::String
+      attr_accessor mlflow_config: Types::AIMlflowConfig
       SENSITIVE: []
     end
 
     class AIBenchmarkOutputResult
       attr_accessor s3_output_location: ::String
       attr_accessor cloud_watch_logs: ::Array[Types::AICloudWatchLogs]
+      attr_accessor mlflow_config: Types::AIMlflowConfig
       SENSITIVE: []
     end
 
@@ -78,6 +80,13 @@ module Aws::SageMaker
       end
       class Unknown < AIDatasetConfig
       end
+    end
+
+    class AIMlflowConfig
+      attr_accessor mlflow_resource_arn: ::String
+      attr_accessor mlflow_experiment_name: ::String
+      attr_accessor mlflow_run_name: ::String
+      SENSITIVE: []
     end
 
     class AIModelSource
@@ -170,12 +179,14 @@ module Aws::SageMaker
     class AIRecommendationOutputConfig
       attr_accessor s3_output_location: ::String
       attr_accessor model_package_group_identifier: ::String
+      attr_accessor mlflow_config: Types::AIMlflowConfig
       SENSITIVE: []
     end
 
     class AIRecommendationOutputResult
       attr_accessor s3_output_location: ::String
       attr_accessor model_package_group_identifier: ::String
+      attr_accessor mlflow_config: Types::AIMlflowConfig
       SENSITIVE: []
     end
 

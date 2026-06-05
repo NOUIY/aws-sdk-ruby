@@ -2944,6 +2944,21 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # The configuration for audio extraction from knowledge base documents.
+    #
+    # @!attribute [rw] audio_extraction_status
+    #   The status of audio extraction. Valid values are ENABLED and
+    #   DISABLED.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/AudioExtractionConfiguration AWS API Documentation
+    #
+    class AudioExtractionConfiguration < Struct.new(
+      :audio_extraction_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Parameters for Amazon Aurora.
     #
     # @!attribute [rw] host
@@ -3835,6 +3850,97 @@ module Aws::QuickSight
       :invalid_answers,
       :status,
       :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about a knowledge base that failed to be deleted in a
+    # batch operation.
+    #
+    # @!attribute [rw] knowledge_base_id
+    #   The unique identifier of the knowledge base that failed to be
+    #   deleted.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_code
+    #   The error code for the deletion failure.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_message
+    #   The error message for the deletion failure.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/BatchDeleteKnowledgeBaseFailure AWS API Documentation
+    #
+    class BatchDeleteKnowledgeBaseFailure < Struct.new(
+      :knowledge_base_id,
+      :error_code,
+      :error_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the
+    #   knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] knowledge_base_ids
+    #   A list of knowledge base identifiers to delete.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/BatchDeleteKnowledgeBaseRequest AWS API Documentation
+    #
+    class BatchDeleteKnowledgeBaseRequest < Struct.new(
+      :aws_account_id,
+      :knowledge_base_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] deleted
+    #   A list of knowledge bases that were successfully deleted.
+    #   @return [Array<Types::BatchDeleteKnowledgeBaseSuccess>]
+    #
+    # @!attribute [rw] errors
+    #   A list of knowledge bases that failed to be deleted.
+    #   @return [Array<Types::BatchDeleteKnowledgeBaseFailure>]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/BatchDeleteKnowledgeBaseResponse AWS API Documentation
+    #
+    class BatchDeleteKnowledgeBaseResponse < Struct.new(
+      :deleted,
+      :errors,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about a knowledge base that was successfully deleted in a
+    # batch operation.
+    #
+    # @!attribute [rw] knowledge_base_id
+    #   The unique identifier of the successfully deleted knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] knowledge_base_arn
+    #   The ARN of the successfully deleted knowledge base.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/BatchDeleteKnowledgeBaseSuccess AWS API Documentation
+    #
+    class BatchDeleteKnowledgeBaseSuccess < Struct.new(
+      :knowledge_base_id,
+      :knowledge_base_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5894,6 +6000,27 @@ module Aws::QuickSight
       :generate_analyses,
       :story,
       :scenario)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A filter that matches users by total capacity range in bytes.
+    #
+    # @!attribute [rw] min_bytes
+    #   The minimum capacity in bytes (inclusive). At least one of minBytes
+    #   or maxBytes is required.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_bytes
+    #   The maximum capacity in bytes (inclusive). At least one of minBytes
+    #   or maxBytes is required.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CapacityBytesRangeFilter AWS API Documentation
+    #
+    class CapacityBytesRangeFilter < Struct.new(
+      :min_bytes,
+      :max_bytes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -15273,6 +15400,51 @@ module Aws::QuickSight
     end
 
     # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the
+    #   knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] knowledge_base_id
+    #   The unique identifier for the knowledge base.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteKnowledgeBaseRequest AWS API Documentation
+    #
+    class DeleteKnowledgeBaseRequest < Struct.new(
+      :aws_account_id,
+      :knowledge_base_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] knowledge_base_arn
+    #   The ARN of the deleted knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] knowledge_base_id
+    #   The ID of the deleted knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteKnowledgeBaseResponse AWS API Documentation
+    #
+    class DeleteKnowledgeBaseResponse < Struct.new(
+      :knowledge_base_arn,
+      :knowledge_base_id,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
     #   The ID for the Amazon Web Services account that you want to delete
     #   the Quick Sight namespace from.
     #   @return [String]
@@ -18349,6 +18521,96 @@ module Aws::QuickSight
       :aws_account_id,
       :key_registration,
       :q_data_key,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the
+    #   knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] knowledge_base_id
+    #   The unique identifier for the knowledge base.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeKnowledgeBasePermissionsRequest AWS API Documentation
+    #
+    class DescribeKnowledgeBasePermissionsRequest < Struct.new(
+      :aws_account_id,
+      :knowledge_base_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] knowledge_base_arn
+    #   The Amazon Resource Name (ARN) of the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] knowledge_base_id
+    #   The unique identifier for the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] permissions
+    #   The resource permissions for the knowledge base.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeKnowledgeBasePermissionsResponse AWS API Documentation
+    #
+    class DescribeKnowledgeBasePermissionsResponse < Struct.new(
+      :knowledge_base_arn,
+      :knowledge_base_id,
+      :permissions,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the
+    #   knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] knowledge_base_id
+    #   The unique identifier for the knowledge base.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeKnowledgeBaseRequest AWS API Documentation
+    #
+    class DescribeKnowledgeBaseRequest < Struct.new(
+      :aws_account_id,
+      :knowledge_base_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] knowledge_base
+    #   The knowledge base.
+    #   @return [Types::KnowledgeBase]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeKnowledgeBaseResponse AWS API Documentation
+    #
+    class DescribeKnowledgeBaseResponse < Struct.new(
+      :knowledge_base,
       :request_id,
       :status)
       SENSITIVE = []
@@ -25148,6 +25410,21 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # The configuration for image extraction from knowledge base documents.
+    #
+    # @!attribute [rw] image_extraction_status
+    #   The status of image extraction. Valid values are ENABLED and
+    #   DISABLED.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ImageExtractionConfiguration AWS API Documentation
+    #
+    class ImageExtractionConfiguration < Struct.new(
+      :image_extraction_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The general image interactions setup for image publish options.
     #
     # @!attribute [rw] image_menu_option
@@ -26368,6 +26645,20 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # The template configuration for a knowledge base.
+    #
+    # @!attribute [rw] template
+    #   The template document that defines the knowledge base behavior.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/KbTemplateConfiguration AWS API Documentation
+    #
+    class KbTemplateConfiguration < Struct.new(
+      :template)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The combination of username, private key and passphrase that are used
     # as credentials.
     #
@@ -26390,6 +26681,274 @@ module Aws::QuickSight
       :private_key,
       :private_key_passphrase)
       SENSITIVE = [:private_key, :private_key_passphrase]
+      include Aws::Structure
+    end
+
+    # A knowledge base resource that provides data from connected sources
+    # for AI-powered experiences in Amazon QuickSight.
+    #
+    # @!attribute [rw] knowledge_base_arn
+    #   The Amazon Resource Name (ARN) of the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] knowledge_base_id
+    #   The unique identifier for the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_source_arn
+    #   The ARN of the data source associated with the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] knowledge_base_configuration
+    #   The configuration settings for the knowledge base.
+    #   @return [Types::KnowledgeBaseConfiguration]
+    #
+    # @!attribute [rw] media_extraction_configuration
+    #   The media extraction configuration for the knowledge base.
+    #   @return [Types::MediaExtractionConfiguration]
+    #
+    # @!attribute [rw] type
+    #   The type of the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time that the knowledge base was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time that the knowledge base was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] description
+    #   The description of the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_email_notification_opted_for_ingestion_failures
+    #   Indicates whether email notifications are enabled for ingestion
+    #   failures.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] first_completed_ingestion_summary
+    #   A summary of the first completed ingestion for the knowledge base.
+    #   @return [Types::KnowledgeBaseIngestionSummary]
+    #
+    # @!attribute [rw] first_incomplete_ingestion_summary
+    #   A summary of the first incomplete ingestion for the knowledge base.
+    #   @return [Types::KnowledgeBaseIngestionSummary]
+    #
+    # @!attribute [rw] latest_ingestion_summary
+    #   A summary of the most recent ingestion for the knowledge base.
+    #   @return [Types::KnowledgeBaseIngestionSummary]
+    #
+    # @!attribute [rw] knowledge_base_size_bytes
+    #   The size of the knowledge base in bytes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] document_count
+    #   The number of documents in the knowledge base.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] primary_owner_arn
+    #   The ARN of the primary owner of the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] primary_owner_username
+    #   The username of the primary owner of the knowledge base.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/KnowledgeBase AWS API Documentation
+    #
+    class KnowledgeBase < Struct.new(
+      :knowledge_base_arn,
+      :knowledge_base_id,
+      :name,
+      :status,
+      :data_source_arn,
+      :knowledge_base_configuration,
+      :media_extraction_configuration,
+      :type,
+      :created_at,
+      :updated_at,
+      :description,
+      :is_email_notification_opted_for_ingestion_failures,
+      :first_completed_ingestion_summary,
+      :first_incomplete_ingestion_summary,
+      :latest_ingestion_summary,
+      :knowledge_base_size_bytes,
+      :document_count,
+      :primary_owner_arn,
+      :primary_owner_username)
+      SENSITIVE = [:knowledge_base_configuration, :primary_owner_username]
+      include Aws::Structure
+    end
+
+    # The configuration settings for a knowledge base.
+    #
+    # @!attribute [rw] template_configuration
+    #   The template configuration for the knowledge base.
+    #   @return [Types::KbTemplateConfiguration]
+    #
+    # @!attribute [rw] event_enabled
+    #   Indicates whether event notifications are enabled for the knowledge
+    #   base.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/KnowledgeBaseConfiguration AWS API Documentation
+    #
+    class KnowledgeBaseConfiguration < Struct.new(
+      :template_configuration,
+      :event_enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of an ingestion job for a knowledge base.
+    #
+    # @!attribute [rw] ingestion_id
+    #   The unique identifier for the ingestion job.
+    #   @return [String]
+    #
+    # @!attribute [rw] ingestion_status
+    #   The status of the ingestion job.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The start time of the ingestion job.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The end time of the ingestion job.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/KnowledgeBaseIngestionSummary AWS API Documentation
+    #
+    class KnowledgeBaseIngestionSummary < Struct.new(
+      :ingestion_id,
+      :ingestion_status,
+      :start_time,
+      :end_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A filter to apply when searching knowledge bases.
+    #
+    # @!attribute [rw] name
+    #   The name of the field to filter on.
+    #   @return [String]
+    #
+    # @!attribute [rw] operator
+    #   The comparison operator to use for the filter.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value to filter on.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/KnowledgeBaseSearchFilter AWS API Documentation
+    #
+    class KnowledgeBaseSearchFilter < Struct.new(
+      :name,
+      :operator,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The sort configuration for searching knowledge bases.
+    #
+    # @!attribute [rw] sort_by_field
+    #   The field to sort by.
+    #   @return [String]
+    #
+    # @!attribute [rw] sort_order
+    #   The sort order (ascending or descending).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/KnowledgeBaseSortBy AWS API Documentation
+    #
+    class KnowledgeBaseSortBy < Struct.new(
+      :sort_by_field,
+      :sort_order)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of a knowledge base, including its identifier, name, status,
+    # and metadata.
+    #
+    # @!attribute [rw] knowledge_base_arn
+    #   The Amazon Resource Name (ARN) of the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] knowledge_base_id
+    #   The unique identifier for the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_source_arn
+    #   The ARN of the data source associated with the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time that the knowledge base was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time that the knowledge base was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] knowledge_base_size_bytes
+    #   The size of the knowledge base in bytes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] document_count
+    #   The number of documents in the knowledge base.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] primary_owner_arn
+    #   The ARN of the primary owner of the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] primary_owner_username
+    #   The username of the primary owner of the knowledge base.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/KnowledgeBaseSummary AWS API Documentation
+    #
+    class KnowledgeBaseSummary < Struct.new(
+      :knowledge_base_arn,
+      :knowledge_base_id,
+      :name,
+      :status,
+      :data_source_arn,
+      :type,
+      :created_at,
+      :updated_at,
+      :knowledge_base_size_bytes,
+      :document_count,
+      :primary_owner_arn,
+      :primary_owner_username)
+      SENSITIVE = [:primary_owner_username]
       include Aws::Structure
     end
 
@@ -28292,6 +28851,58 @@ module Aws::QuickSight
     end
 
     # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the
+    #   knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListKnowledgeBasesRequest AWS API Documentation
+    #
+    class ListKnowledgeBasesRequest < Struct.new(
+      :aws_account_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] knowledge_base_summaries
+    #   A list of knowledge base summaries.
+    #   @return [Array<Types::KnowledgeBaseSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListKnowledgeBasesResponse AWS API Documentation
+    #
+    class ListKnowledgeBasesResponse < Struct.new(
+      :knowledge_base_summaries,
+      :next_token,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
     #   The ID for the Amazon Web Services account that contains the Quick
     #   Sight namespaces that you want to list.
     #   @return [String]
@@ -29269,6 +29880,76 @@ module Aws::QuickSight
     end
 
     # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the index
+    #   capacity data.
+    #   @return [String]
+    #
+    # @!attribute [rw] namespace
+    #   The namespace to scope the user search to. Required when the
+    #   userNameOrEmail filter is present.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   Filters to apply. Only one filter is supported per request. The
+    #   userNameOrEmail and totalCapacityBytes filters are mutually
+    #   exclusive.
+    #   @return [Array<Types::UserIndexCapacityFilter>]
+    #
+    # @!attribute [rw] sort_by
+    #   The field to sort results by.
+    #   @return [String]
+    #
+    # @!attribute [rw] sort_order
+    #   The sort order for results. Defaults to DESC if not specified.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, received from a previous
+    #   call.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListUsersIndexCapacityRequest AWS API Documentation
+    #
+    class ListUsersIndexCapacityRequest < Struct.new(
+      :aws_account_id,
+      :namespace,
+      :filters,
+      :sort_by,
+      :sort_order,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] users
+    #   The list of users with their index capacity metrics.
+    #   @return [Array<Types::UserIndexCapacity>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListUsersIndexCapacityResponse AWS API Documentation
+    #
+    class ListUsersIndexCapacityResponse < Struct.new(
+      :users,
+      :next_token,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
     #   The ID for the Amazon Web Services account that the user is in.
     #   Currently, you use the ID for the Amazon Web Services account that
     #   contains your Amazon Quick Sight account.
@@ -29738,6 +30419,30 @@ module Aws::QuickSight
       :categorical_measure_field,
       :date_measure_field,
       :calculated_measure_field)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for media extraction from knowledge base documents.
+    #
+    # @!attribute [rw] image_extraction_configuration
+    #   The configuration for image extraction.
+    #   @return [Types::ImageExtractionConfiguration]
+    #
+    # @!attribute [rw] audio_extraction_configuration
+    #   The configuration for audio extraction.
+    #   @return [Types::AudioExtractionConfiguration]
+    #
+    # @!attribute [rw] video_extraction_configuration
+    #   The configuration for video extraction.
+    #   @return [Types::VideoExtractionConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/MediaExtractionConfiguration AWS API Documentation
+    #
+    class MediaExtractionConfiguration < Struct.new(
+      :image_extraction_configuration,
+      :audio_extraction_configuration,
+      :video_extraction_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -36579,6 +37284,68 @@ module Aws::QuickSight
     #
     class SearchGroupsResponse < Struct.new(
       :group_list,
+      :next_token,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the
+    #   knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] filters
+    #   The filters to apply when searching knowledge bases.
+    #   @return [Array<Types::KnowledgeBaseSearchFilter>]
+    #
+    # @!attribute [rw] sort_by
+    #   The sort configuration for the search results.
+    #   @return [Types::KnowledgeBaseSortBy]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SearchKnowledgeBasesRequest AWS API Documentation
+    #
+    class SearchKnowledgeBasesRequest < Struct.new(
+      :aws_account_id,
+      :next_token,
+      :max_results,
+      :filters,
+      :sort_by)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] knowledge_base_summaries
+    #   A list of knowledge base summaries.
+    #   @return [Array<Types::KnowledgeBaseSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SearchKnowledgeBasesResponse AWS API Documentation
+    #
+    class SearchKnowledgeBasesResponse < Struct.new(
+      :knowledge_base_summaries,
       :next_token,
       :request_id,
       :status)
@@ -45935,6 +46702,68 @@ module Aws::QuickSight
     end
 
     # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the
+    #   knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] knowledge_base_id
+    #   The unique identifier for the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] grant_permissions
+    #   The resource permissions that you want to grant on the knowledge
+    #   base.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @!attribute [rw] revoke_permissions
+    #   The resource permissions that you want to revoke from the knowledge
+    #   base.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateKnowledgeBasePermissionsRequest AWS API Documentation
+    #
+    class UpdateKnowledgeBasePermissionsRequest < Struct.new(
+      :aws_account_id,
+      :knowledge_base_id,
+      :grant_permissions,
+      :revoke_permissions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] knowledge_base_arn
+    #   The Amazon Resource Name (ARN) of the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] knowledge_base_id
+    #   The unique identifier for the knowledge base.
+    #   @return [String]
+    #
+    # @!attribute [rw] permissions
+    #   The resource permissions for the knowledge base.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateKnowledgeBasePermissionsResponse AWS API Documentation
+    #
+    class UpdateKnowledgeBasePermissionsResponse < Struct.new(
+      :knowledge_base_arn,
+      :knowledge_base_id,
+      :permissions,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
     #   The Amazon Web Services account ID.
     #   @return [String]
     #
@@ -47611,6 +48440,103 @@ module Aws::QuickSight
       class Unknown < UserIdentifier; end
     end
 
+    # A summary of a user's index capacity consumption.
+    #
+    # @!attribute [rw] user_arn
+    #   The ARN of the user.
+    #   @return [String]
+    #
+    # @!attribute [rw] user_name
+    #   The username of the user.
+    #   @return [String]
+    #
+    # @!attribute [rw] email
+    #   The email address of the user.
+    #   @return [String]
+    #
+    # @!attribute [rw] role
+    #   The role of the user.
+    #   @return [String]
+    #
+    # @!attribute [rw] total_capacity_bytes
+    #   The total index capacity consumed by the user in bytes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] total_kb_capacity_bytes
+    #   The total index capacity consumed by the user's knowledge bases in
+    #   bytes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] total_space_capacity_bytes
+    #   The total index capacity consumed by the user's spaces in bytes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] kb_count
+    #   The number of knowledge bases owned by the user.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] space_count
+    #   The number of spaces owned by the user.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UserIndexCapacity AWS API Documentation
+    #
+    class UserIndexCapacity < Struct.new(
+      :user_arn,
+      :user_name,
+      :email,
+      :role,
+      :total_capacity_bytes,
+      :total_kb_capacity_bytes,
+      :total_space_capacity_bytes,
+      :kb_count,
+      :space_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A filter for user index capacity queries. Only one filter type can be
+    # specified per request.
+    #
+    # @note UserIndexCapacityFilter is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] user_name_or_email
+    #   Filter users by username or email prefix.
+    #   @return [Types::UserNameOrEmailFilter]
+    #
+    # @!attribute [rw] total_capacity_bytes
+    #   Filter users by total capacity range in bytes.
+    #   @return [Types::CapacityBytesRangeFilter]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UserIndexCapacityFilter AWS API Documentation
+    #
+    class UserIndexCapacityFilter < Struct.new(
+      :user_name_or_email,
+      :total_capacity_bytes,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class UserNameOrEmail < UserIndexCapacityFilter; end
+      class TotalCapacityBytes < UserIndexCapacityFilter; end
+      class Unknown < UserIndexCapacityFilter; end
+    end
+
+    # A filter that matches users by username or email prefix.
+    #
+    # @!attribute [rw] prefix
+    #   The prefix to match against username or email (starts-with match).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UserNameOrEmailFilter AWS API Documentation
+    #
+    class UserNameOrEmailFilter < Struct.new(
+      :prefix)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The structure of a VPC connection.
     #
     # @!attribute [rw] vpc_connection_id
@@ -47789,6 +48715,26 @@ module Aws::QuickSight
     #
     class ValueColumnConfiguration < Struct.new(
       :aggregation_function)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for video extraction from knowledge base documents.
+    #
+    # @!attribute [rw] video_extraction_status
+    #   The status of video extraction. Valid values are ENABLED and
+    #   DISABLED.
+    #   @return [String]
+    #
+    # @!attribute [rw] video_extraction_type
+    #   The type of video extraction to perform.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/VideoExtractionConfiguration AWS API Documentation
+    #
+    class VideoExtractionConfiguration < Struct.new(
+      :video_extraction_status,
+      :video_extraction_type)
       SENSITIVE = []
       include Aws::Structure
     end

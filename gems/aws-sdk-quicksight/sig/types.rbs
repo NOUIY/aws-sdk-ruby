@@ -737,6 +737,11 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class AudioExtractionConfiguration
+      attr_accessor audio_extraction_status: ("ENABLED" | "DISABLED")
+      SENSITIVE: []
+    end
+
     class AuroraParameters
       attr_accessor host: ::String
       attr_accessor port: ::Integer
@@ -984,6 +989,33 @@ module Aws::QuickSight
       attr_accessor invalid_answers: ::Array[Types::InvalidTopicReviewedAnswer]
       attr_accessor status: ::Integer
       attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
+    class BatchDeleteKnowledgeBaseFailure
+      attr_accessor knowledge_base_id: ::String
+      attr_accessor error_code: ::String
+      attr_accessor error_message: ::String
+      SENSITIVE: []
+    end
+
+    class BatchDeleteKnowledgeBaseRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor knowledge_base_ids: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class BatchDeleteKnowledgeBaseResponse
+      attr_accessor deleted: ::Array[Types::BatchDeleteKnowledgeBaseSuccess]
+      attr_accessor errors: ::Array[Types::BatchDeleteKnowledgeBaseFailure]
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class BatchDeleteKnowledgeBaseSuccess
+      attr_accessor knowledge_base_id: ::String
+      attr_accessor knowledge_base_arn: ::String
       SENSITIVE: []
     end
 
@@ -1456,6 +1488,12 @@ module Aws::QuickSight
       attr_accessor generate_analyses: ("DENY")
       attr_accessor story: ("DENY")
       attr_accessor scenario: ("DENY")
+      SENSITIVE: []
+    end
+
+    class CapacityBytesRangeFilter
+      attr_accessor min_bytes: ::Integer
+      attr_accessor max_bytes: ::Integer
       SENSITIVE: []
     end
 
@@ -3824,6 +3862,20 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class DeleteKnowledgeBaseRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor knowledge_base_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteKnowledgeBaseResponse
+      attr_accessor knowledge_base_arn: ::String
+      attr_accessor knowledge_base_id: ::String
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
     class DeleteNamespaceRequest
       attr_accessor aws_account_id: ::String
       attr_accessor namespace: ::String
@@ -4668,6 +4720,34 @@ module Aws::QuickSight
       attr_accessor aws_account_id: ::String
       attr_accessor key_registration: ::Array[Types::RegisteredCustomerManagedKey]
       attr_accessor q_data_key: Types::QDataKey
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class DescribeKnowledgeBasePermissionsRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor knowledge_base_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeKnowledgeBasePermissionsResponse
+      attr_accessor knowledge_base_arn: ::String
+      attr_accessor knowledge_base_id: ::String
+      attr_accessor permissions: ::Array[Types::ResourcePermission]
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class DescribeKnowledgeBaseRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor knowledge_base_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeKnowledgeBaseResponse
+      attr_accessor knowledge_base: Types::KnowledgeBase
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
       SENSITIVE: []
@@ -6446,6 +6526,11 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class ImageExtractionConfiguration
+      attr_accessor image_extraction_status: ("ENABLED" | "DISABLED")
+      SENSITIVE: []
+    end
+
     class ImageInteractionOptions
       attr_accessor image_menu_option: Types::ImageMenuOption
       SENSITIVE: []
@@ -6793,11 +6878,82 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class KbTemplateConfiguration
+      attr_accessor template: untyped
+      SENSITIVE: []
+    end
+
     class KeyPairCredentials
       attr_accessor key_pair_username: ::String
       attr_accessor private_key: ::String
       attr_accessor private_key_passphrase: ::String
       SENSITIVE: [:private_key, :private_key_passphrase]
+    end
+
+    class KnowledgeBase
+      attr_accessor knowledge_base_arn: ::String
+      attr_accessor knowledge_base_id: ::String
+      attr_accessor name: ::String
+      attr_accessor status: ("CREATING" | "UPDATING" | "ACTIVE" | "FAILED" | "DELETING")
+      attr_accessor data_source_arn: ::String
+      attr_accessor knowledge_base_configuration: Types::KnowledgeBaseConfiguration
+      attr_accessor media_extraction_configuration: Types::MediaExtractionConfiguration
+      attr_accessor type: ::String
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      attr_accessor description: ::String
+      attr_accessor is_email_notification_opted_for_ingestion_failures: bool
+      attr_accessor first_completed_ingestion_summary: Types::KnowledgeBaseIngestionSummary
+      attr_accessor first_incomplete_ingestion_summary: Types::KnowledgeBaseIngestionSummary
+      attr_accessor latest_ingestion_summary: Types::KnowledgeBaseIngestionSummary
+      attr_accessor knowledge_base_size_bytes: ::Integer
+      attr_accessor document_count: ::Integer
+      attr_accessor primary_owner_arn: ::String
+      attr_accessor primary_owner_username: ::String
+      SENSITIVE: [:knowledge_base_configuration, :primary_owner_username]
+    end
+
+    class KnowledgeBaseConfiguration
+      attr_accessor template_configuration: Types::KbTemplateConfiguration
+      attr_accessor event_enabled: bool
+      SENSITIVE: []
+    end
+
+    class KnowledgeBaseIngestionSummary
+      attr_accessor ingestion_id: ::String
+      attr_accessor ingestion_status: ("QUEUED" | "RUNNING" | "FAILED" | "COMPLETED" | "INCOMPLETE" | "CANCELLED" | "CANCELLING" | "TIMEOUT")
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      SENSITIVE: []
+    end
+
+    class KnowledgeBaseSearchFilter
+      attr_accessor name: ("KNOWLEDGE_BASE_ID" | "KNOWLEDGE_BASE_NAME" | "DIRECT_QUICKSIGHT_OWNER" | "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER" | "DIRECT_QUICKSIGHT_SOLE_OWNER" | "KNOWLEDGE_BASE_SIZE_BYTES" | "PRIMARY_OWNER")
+      attr_accessor operator: ("STRING_EQUALS" | "STRING_LIKE" | "GREATER_THAN_OR_EQUALS" | "LESS_THAN_OR_EQUALS")
+      attr_accessor value: ::String
+      SENSITIVE: []
+    end
+
+    class KnowledgeBaseSortBy
+      attr_accessor sort_by_field: ("KNOWLEDGE_BASE_SIZE_BYTES" | "CREATED_AT")
+      attr_accessor sort_order: ("ASC" | "DESC")
+      SENSITIVE: []
+    end
+
+    class KnowledgeBaseSummary
+      attr_accessor knowledge_base_arn: ::String
+      attr_accessor knowledge_base_id: ::String
+      attr_accessor name: ::String
+      attr_accessor status: ("CREATING" | "UPDATING" | "ACTIVE" | "FAILED" | "DELETING")
+      attr_accessor data_source_arn: ::String
+      attr_accessor type: ::String
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      attr_accessor knowledge_base_size_bytes: ::Integer
+      attr_accessor document_count: ::Integer
+      attr_accessor primary_owner_arn: ::String
+      attr_accessor primary_owner_username: ::String
+      SENSITIVE: [:primary_owner_username]
     end
 
     class LabelOptions
@@ -7304,6 +7460,21 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class ListKnowledgeBasesRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListKnowledgeBasesResponse
+      attr_accessor knowledge_base_summaries: ::Array[Types::KnowledgeBaseSummary]
+      attr_accessor next_token: ::String
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
     class ListNamespacesRequest
       attr_accessor aws_account_id: ::String
       attr_accessor next_token: ::String
@@ -7579,6 +7750,24 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class ListUsersIndexCapacityRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor namespace: ::String
+      attr_accessor filters: ::Array[Types::UserIndexCapacityFilter]
+      attr_accessor sort_by: ("TOTAL_CAPACITY_BYTES")
+      attr_accessor sort_order: ("ASC" | "DESC")
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListUsersIndexCapacityResponse
+      attr_accessor users: ::Array[Types::UserIndexCapacity]
+      attr_accessor next_token: ::String
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
     class ListUsersRequest
       attr_accessor aws_account_id: ::String
       attr_accessor next_token: ::String
@@ -7714,6 +7903,13 @@ module Aws::QuickSight
       attr_accessor categorical_measure_field: Types::CategoricalMeasureField
       attr_accessor date_measure_field: Types::DateMeasureField
       attr_accessor calculated_measure_field: Types::CalculatedMeasureField
+      SENSITIVE: []
+    end
+
+    class MediaExtractionConfiguration
+      attr_accessor image_extraction_configuration: Types::ImageExtractionConfiguration
+      attr_accessor audio_extraction_configuration: Types::AudioExtractionConfiguration
+      attr_accessor video_extraction_configuration: Types::VideoExtractionConfiguration
       SENSITIVE: []
     end
 
@@ -9424,6 +9620,23 @@ module Aws::QuickSight
 
     class SearchGroupsResponse
       attr_accessor group_list: ::Array[Types::Group]
+      attr_accessor next_token: ::String
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class SearchKnowledgeBasesRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor filters: ::Array[Types::KnowledgeBaseSearchFilter]
+      attr_accessor sort_by: Types::KnowledgeBaseSortBy
+      SENSITIVE: []
+    end
+
+    class SearchKnowledgeBasesResponse
+      attr_accessor knowledge_base_summaries: ::Array[Types::KnowledgeBaseSummary]
       attr_accessor next_token: ::String
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
@@ -11851,6 +12064,23 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class UpdateKnowledgeBasePermissionsRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor knowledge_base_id: ::String
+      attr_accessor grant_permissions: ::Array[Types::ResourcePermission]
+      attr_accessor revoke_permissions: ::Array[Types::ResourcePermission]
+      SENSITIVE: []
+    end
+
+    class UpdateKnowledgeBasePermissionsResponse
+      attr_accessor knowledge_base_arn: ::String
+      attr_accessor knowledge_base_id: ::String
+      attr_accessor permissions: ::Array[Types::ResourcePermission]
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
     class UpdateOAuthClientApplicationRequest
       attr_accessor aws_account_id: ::String
       attr_accessor o_auth_client_application_id: ::String
@@ -12287,6 +12517,38 @@ module Aws::QuickSight
       end
     end
 
+    class UserIndexCapacity
+      attr_accessor user_arn: ::String
+      attr_accessor user_name: ::String
+      attr_accessor email: ::String
+      attr_accessor role: ::String
+      attr_accessor total_capacity_bytes: ::Integer
+      attr_accessor total_kb_capacity_bytes: ::Integer
+      attr_accessor total_space_capacity_bytes: ::Integer
+      attr_accessor kb_count: ::Integer
+      attr_accessor space_count: ::Integer
+      SENSITIVE: []
+    end
+
+    class UserIndexCapacityFilter
+      attr_accessor user_name_or_email: Types::UserNameOrEmailFilter
+      attr_accessor total_capacity_bytes: Types::CapacityBytesRangeFilter
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class UserNameOrEmail < UserIndexCapacityFilter
+      end
+      class TotalCapacityBytes < UserIndexCapacityFilter
+      end
+      class Unknown < UserIndexCapacityFilter
+      end
+    end
+
+    class UserNameOrEmailFilter
+      attr_accessor prefix: ::String
+      SENSITIVE: []
+    end
+
     class VPCConnection
       attr_accessor vpc_connection_id: ::String
       attr_accessor arn: ::String
@@ -12326,6 +12588,12 @@ module Aws::QuickSight
 
     class ValueColumnConfiguration
       attr_accessor aggregation_function: Types::DataPrepAggregationFunction
+      SENSITIVE: []
+    end
+
+    class VideoExtractionConfiguration
+      attr_accessor video_extraction_status: ("ENABLED" | "DISABLED")
+      attr_accessor video_extraction_type: ("AUDIO_TRANSCRIPTION_ONLY" | "VISUAL_CONTENT_AND_AUDIO_TRANSCRIPTION")
       SENSITIVE: []
     end
 

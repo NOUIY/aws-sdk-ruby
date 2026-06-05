@@ -35,6 +35,10 @@ module Aws::SageMaker
     AIInferenceSpecificationName = Shapes::StringShape.new(name: 'AIInferenceSpecificationName')
     AIMlReservationArn = Shapes::StringShape.new(name: 'AIMlReservationArn')
     AIMlReservationArnList = Shapes::ListShape.new(name: 'AIMlReservationArnList')
+    AIMlflowConfig = Shapes::StructureShape.new(name: 'AIMlflowConfig')
+    AIMlflowExperimentName = Shapes::StringShape.new(name: 'AIMlflowExperimentName')
+    AIMlflowResourceArn = Shapes::StringShape.new(name: 'AIMlflowResourceArn')
+    AIMlflowRunName = Shapes::StringShape.new(name: 'AIMlflowRunName')
     AIModelSource = Shapes::UnionShape.new(name: 'AIModelSource')
     AIModelSourceS3 = Shapes::StructureShape.new(name: 'AIModelSourceS3')
     AIRecommendation = Shapes::StructureShape.new(name: 'AIRecommendation')
@@ -3040,10 +3044,12 @@ module Aws::SageMaker
     AIBenchmarkNetworkConfig.struct_class = Types::AIBenchmarkNetworkConfig
 
     AIBenchmarkOutputConfig.add_member(:s3_output_location, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "S3OutputLocation"))
+    AIBenchmarkOutputConfig.add_member(:mlflow_config, Shapes::ShapeRef.new(shape: AIMlflowConfig, location_name: "MlflowConfig"))
     AIBenchmarkOutputConfig.struct_class = Types::AIBenchmarkOutputConfig
 
     AIBenchmarkOutputResult.add_member(:s3_output_location, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "S3OutputLocation"))
     AIBenchmarkOutputResult.add_member(:cloud_watch_logs, Shapes::ShapeRef.new(shape: AICloudWatchLogsList, location_name: "CloudWatchLogs"))
+    AIBenchmarkOutputResult.add_member(:mlflow_config, Shapes::ShapeRef.new(shape: AIMlflowConfig, location_name: "MlflowConfig"))
     AIBenchmarkOutputResult.struct_class = Types::AIBenchmarkOutputResult
 
     AIBenchmarkTarget.add_member(:endpoint, Shapes::ShapeRef.new(shape: AIBenchmarkEndpoint, location_name: "Endpoint"))
@@ -3069,6 +3075,11 @@ module Aws::SageMaker
     AIDatasetConfig.struct_class = Types::AIDatasetConfig
 
     AIMlReservationArnList.member = Shapes::ShapeRef.new(shape: AIMlReservationArn)
+
+    AIMlflowConfig.add_member(:mlflow_resource_arn, Shapes::ShapeRef.new(shape: AIMlflowResourceArn, required: true, location_name: "MlflowResourceArn"))
+    AIMlflowConfig.add_member(:mlflow_experiment_name, Shapes::ShapeRef.new(shape: AIMlflowExperimentName, location_name: "MlflowExperimentName"))
+    AIMlflowConfig.add_member(:mlflow_run_name, Shapes::ShapeRef.new(shape: AIMlflowRunName, location_name: "MlflowRunName"))
+    AIMlflowConfig.struct_class = Types::AIMlflowConfig
 
     AIModelSource.add_member(:s3, Shapes::ShapeRef.new(shape: AIModelSourceS3, location_name: "S3"))
     AIModelSource.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
@@ -3149,10 +3160,12 @@ module Aws::SageMaker
 
     AIRecommendationOutputConfig.add_member(:s3_output_location, Shapes::ShapeRef.new(shape: S3Uri, location_name: "S3OutputLocation"))
     AIRecommendationOutputConfig.add_member(:model_package_group_identifier, Shapes::ShapeRef.new(shape: AIResourceIdentifier, location_name: "ModelPackageGroupIdentifier"))
+    AIRecommendationOutputConfig.add_member(:mlflow_config, Shapes::ShapeRef.new(shape: AIMlflowConfig, location_name: "MlflowConfig"))
     AIRecommendationOutputConfig.struct_class = Types::AIRecommendationOutputConfig
 
     AIRecommendationOutputResult.add_member(:s3_output_location, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "S3OutputLocation"))
     AIRecommendationOutputResult.add_member(:model_package_group_identifier, Shapes::ShapeRef.new(shape: AIResourceIdentifier, location_name: "ModelPackageGroupIdentifier"))
+    AIRecommendationOutputResult.add_member(:mlflow_config, Shapes::ShapeRef.new(shape: AIMlflowConfig, location_name: "MlflowConfig"))
     AIRecommendationOutputResult.struct_class = Types::AIRecommendationOutputResult
 
     AIRecommendationPerformanceMetric.add_member(:metric, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Metric"))
