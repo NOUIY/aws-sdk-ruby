@@ -205,6 +205,11 @@ module Aws::ComputeOptimizer
     High = Shapes::IntegerShape.new(name: 'High')
     Identifier = Shapes::StringShape.new(name: 'Identifier')
     Idle = Shapes::StringShape.new(name: 'Idle')
+    IdleDimension = Shapes::StructureShape.new(name: 'IdleDimension')
+    IdleDimensionKey = Shapes::StringShape.new(name: 'IdleDimensionKey')
+    IdleDimensionValue = Shapes::StringShape.new(name: 'IdleDimensionValue')
+    IdleDimensionValues = Shapes::ListShape.new(name: 'IdleDimensionValues')
+    IdleDimensions = Shapes::ListShape.new(name: 'IdleDimensions')
     IdleEstimatedMonthlySavings = Shapes::StructureShape.new(name: 'IdleEstimatedMonthlySavings')
     IdleFinding = Shapes::StringShape.new(name: 'IdleFinding')
     IdleFindingDescription = Shapes::StringShape.new(name: 'IdleFindingDescription')
@@ -1036,6 +1041,14 @@ module Aws::ComputeOptimizer
 
     Gpus.member = Shapes::ShapeRef.new(shape: Gpu)
 
+    IdleDimension.add_member(:key, Shapes::ShapeRef.new(shape: IdleDimensionKey, location_name: "key"))
+    IdleDimension.add_member(:values, Shapes::ShapeRef.new(shape: IdleDimensionValues, location_name: "values"))
+    IdleDimension.struct_class = Types::IdleDimension
+
+    IdleDimensionValues.member = Shapes::ShapeRef.new(shape: IdleDimensionValue)
+
+    IdleDimensions.member = Shapes::ShapeRef.new(shape: IdleDimension)
+
     IdleEstimatedMonthlySavings.add_member(:currency, Shapes::ShapeRef.new(shape: Currency, location_name: "currency"))
     IdleEstimatedMonthlySavings.add_member(:value, Shapes::ShapeRef.new(shape: Value, location_name: "value"))
     IdleEstimatedMonthlySavings.struct_class = Types::IdleEstimatedMonthlySavings
@@ -1087,6 +1100,7 @@ module Aws::ComputeOptimizer
     IdleUtilizationMetric.add_member(:name, Shapes::ShapeRef.new(shape: IdleMetricName, location_name: "name"))
     IdleUtilizationMetric.add_member(:statistic, Shapes::ShapeRef.new(shape: MetricStatistic, location_name: "statistic"))
     IdleUtilizationMetric.add_member(:value, Shapes::ShapeRef.new(shape: MetricValue, location_name: "value"))
+    IdleUtilizationMetric.add_member(:dimensions, Shapes::ShapeRef.new(shape: IdleDimensions, location_name: "dimensions"))
     IdleUtilizationMetric.struct_class = Types::IdleUtilizationMetric
 
     IdleUtilizationMetrics.member = Shapes::ShapeRef.new(shape: IdleUtilizationMetric)

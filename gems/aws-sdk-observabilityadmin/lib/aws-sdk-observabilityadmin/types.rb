@@ -159,12 +159,18 @@ module Aws::ObservabilityAdmin
     #   groups.
     #   @return [Types::DestinationLogsConfiguration]
     #
+    # @!attribute [rw] destination_metrics_configuration
+    #   Metric specific configuration for centralization destination
+    #   metrics.
+    #   @return [Types::DestinationMetricsConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/CentralizationRuleDestination AWS API Documentation
     #
     class CentralizationRuleDestination < Struct.new(
       :region,
       :account,
-      :destination_logs_configuration)
+      :destination_logs_configuration,
+      :destination_metrics_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -187,12 +193,17 @@ module Aws::ObservabilityAdmin
     #   Log specific configuration for centralization source log groups.
     #   @return [Types::SourceLogsConfiguration]
     #
+    # @!attribute [rw] source_metrics_configuration
+    #   Metric specific configuration for centralization source metrics.
+    #   @return [Types::SourceMetricsConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/CentralizationRuleSource AWS API Documentation
     #
     class CentralizationRuleSource < Struct.new(
       :regions,
       :scope,
-      :source_logs_configuration)
+      :source_logs_configuration,
+      :source_metrics_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -681,6 +692,22 @@ module Aws::ObservabilityAdmin
       :logs_encryption_configuration,
       :backup_configuration,
       :log_group_name_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for centralization destination metrics, including backup
+    # settings.
+    #
+    # @!attribute [rw] backup_configuration
+    #   Configuration defining the backup region for the metrics backup
+    #   destination.
+    #   @return [Types::MetricsBackupConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/DestinationMetricsConfiguration AWS API Documentation
+    #
+    class DestinationMetricsConfiguration < Struct.new(
+      :backup_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1762,6 +1789,22 @@ module Aws::ObservabilityAdmin
       include Aws::Structure
     end
 
+    # Configuration for backing up centralized metrics data to a secondary
+    # region.
+    #
+    # @!attribute [rw] region
+    #   Metrics specific backup destination region within the primary
+    #   destination account to which metrics data should be centralized.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/MetricsBackupConfiguration AWS API Documentation
+    #
+    class MetricsBackupConfiguration < Struct.new(
+      :region)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Configuration parameters for Amazon MSK cluster monitoring, including
     # enhanced monitoring level settings.
     #
@@ -2000,6 +2043,22 @@ module Aws::ObservabilityAdmin
       :log_group_selection_criteria,
       :data_source_selection_criteria,
       :encrypted_log_group_strategy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for selecting source metrics for centralization.
+    #
+    # @!attribute [rw] metrics_selection_criteria
+    #   The filter expression that selects which source metrics to
+    #   centralize. Currently, only `*` (all metrics) is supported. Other
+    #   values return a validation error.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/SourceMetricsConfiguration AWS API Documentation
+    #
+    class SourceMetricsConfiguration < Struct.new(
+      :metrics_selection_criteria)
       SENSITIVE = []
       include Aws::Structure
     end

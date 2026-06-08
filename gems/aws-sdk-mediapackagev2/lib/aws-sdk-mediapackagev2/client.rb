@@ -1870,7 +1870,7 @@ module Aws::MediaPackageV2
     #       include_iframe_only_streams: false,
     #       ts_include_dvb_subtitles: false,
     #       scte: {
-    #         scte_filter: ["SPLICE_INSERT"], # accepts SPLICE_INSERT, BREAK, PROVIDER_ADVERTISEMENT, DISTRIBUTOR_ADVERTISEMENT, PROVIDER_PLACEMENT_OPPORTUNITY, DISTRIBUTOR_PLACEMENT_OPPORTUNITY, PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY, DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY, PROGRAM, CHAPTER, UNSCHEDULED_EVENT, ALTERNATE_CONTENT_OPPORTUNITY, NETWORK, PROVIDER_PROMO, DISTRIBUTOR_PROMO, PROVIDER_AD_BLOCK, DISTRIBUTOR_AD_BLOCK
+    #         scte_filter: ["SPLICE_INSERT"], # accepts SPLICE_INSERT, BREAK, PROVIDER_ADVERTISEMENT, DISTRIBUTOR_ADVERTISEMENT, PROVIDER_PLACEMENT_OPPORTUNITY, DISTRIBUTOR_PLACEMENT_OPPORTUNITY, PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY, DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY, PROGRAM, CHAPTER, UNSCHEDULED_EVENT, ALTERNATE_CONTENT_OPPORTUNITY, NETWORK, PROVIDER_PROMO, DISTRIBUTOR_PROMO, PROVIDER_AD_BLOCK, DISTRIBUTOR_AD_BLOCK, CONTENT_IDENTIFICATION, CALL_AD_SERVER
     #         scte_in_segments: "NONE", # accepts NONE, ALL, MATCHES_FILTER
     #         custom_ad_types: ["PROGRAM"], # accepts PROGRAM, CHAPTER, UNSCHEDULED_EVENT, ALTERNATE_CONTENT_OPPORTUNITY, NETWORK
     #       },
@@ -2007,6 +2007,7 @@ module Aws::MediaPackageV2
     #           ],
     #         },
     #         compactness: "STANDARD", # accepts STANDARD, NONE
+    #         audio_timeline_pattern: "NONE", # accepts NONE, PATTERNED
     #         subtitle_configuration: {
     #           ttml_configuration: {
     #             ttml_profile: "IMSC_1", # required, accepts IMSC_1, EBU_TT_D_101
@@ -2055,7 +2056,7 @@ module Aws::MediaPackageV2
     #   resp.segment.include_iframe_only_streams #=> Boolean
     #   resp.segment.ts_include_dvb_subtitles #=> Boolean
     #   resp.segment.scte.scte_filter #=> Array
-    #   resp.segment.scte.scte_filter[0] #=> String, one of "SPLICE_INSERT", "BREAK", "PROVIDER_ADVERTISEMENT", "DISTRIBUTOR_ADVERTISEMENT", "PROVIDER_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_PLACEMENT_OPPORTUNITY", "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY", "PROGRAM", "CHAPTER", "UNSCHEDULED_EVENT", "ALTERNATE_CONTENT_OPPORTUNITY", "NETWORK", "PROVIDER_PROMO", "DISTRIBUTOR_PROMO", "PROVIDER_AD_BLOCK", "DISTRIBUTOR_AD_BLOCK"
+    #   resp.segment.scte.scte_filter[0] #=> String, one of "SPLICE_INSERT", "BREAK", "PROVIDER_ADVERTISEMENT", "DISTRIBUTOR_ADVERTISEMENT", "PROVIDER_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_PLACEMENT_OPPORTUNITY", "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY", "PROGRAM", "CHAPTER", "UNSCHEDULED_EVENT", "ALTERNATE_CONTENT_OPPORTUNITY", "NETWORK", "PROVIDER_PROMO", "DISTRIBUTOR_PROMO", "PROVIDER_AD_BLOCK", "DISTRIBUTOR_AD_BLOCK", "CONTENT_IDENTIFICATION", "CALL_AD_SERVER"
     #   resp.segment.scte.scte_in_segments #=> String, one of "NONE", "ALL", "MATCHES_FILTER"
     #   resp.segment.scte.custom_ad_types #=> Array
     #   resp.segment.scte.custom_ad_types[0] #=> String, one of "PROGRAM", "CHAPTER", "UNSCHEDULED_EVENT", "ALTERNATE_CONTENT_OPPORTUNITY", "NETWORK"
@@ -2153,6 +2154,7 @@ module Aws::MediaPackageV2
     #   resp.dash_manifests[0].dvb_settings.error_metrics[0].reporting_url #=> String
     #   resp.dash_manifests[0].dvb_settings.error_metrics[0].probability #=> Integer
     #   resp.dash_manifests[0].compactness #=> String, one of "STANDARD", "NONE"
+    #   resp.dash_manifests[0].audio_timeline_pattern #=> String, one of "NONE", "PATTERNED"
     #   resp.dash_manifests[0].subtitle_configuration.ttml_configuration.ttml_profile #=> String, one of "IMSC_1", "EBU_TT_D_101"
     #   resp.dash_manifests[0].uri_path_type #=> String, one of "LEAF", "ROOT"
     #   resp.dash_manifests[0].availability_start_time_configuration.fixed_availability_start_time #=> Time
@@ -3017,7 +3019,7 @@ module Aws::MediaPackageV2
     #   resp.segment.include_iframe_only_streams #=> Boolean
     #   resp.segment.ts_include_dvb_subtitles #=> Boolean
     #   resp.segment.scte.scte_filter #=> Array
-    #   resp.segment.scte.scte_filter[0] #=> String, one of "SPLICE_INSERT", "BREAK", "PROVIDER_ADVERTISEMENT", "DISTRIBUTOR_ADVERTISEMENT", "PROVIDER_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_PLACEMENT_OPPORTUNITY", "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY", "PROGRAM", "CHAPTER", "UNSCHEDULED_EVENT", "ALTERNATE_CONTENT_OPPORTUNITY", "NETWORK", "PROVIDER_PROMO", "DISTRIBUTOR_PROMO", "PROVIDER_AD_BLOCK", "DISTRIBUTOR_AD_BLOCK"
+    #   resp.segment.scte.scte_filter[0] #=> String, one of "SPLICE_INSERT", "BREAK", "PROVIDER_ADVERTISEMENT", "DISTRIBUTOR_ADVERTISEMENT", "PROVIDER_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_PLACEMENT_OPPORTUNITY", "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY", "PROGRAM", "CHAPTER", "UNSCHEDULED_EVENT", "ALTERNATE_CONTENT_OPPORTUNITY", "NETWORK", "PROVIDER_PROMO", "DISTRIBUTOR_PROMO", "PROVIDER_AD_BLOCK", "DISTRIBUTOR_AD_BLOCK", "CONTENT_IDENTIFICATION", "CALL_AD_SERVER"
     #   resp.segment.scte.scte_in_segments #=> String, one of "NONE", "ALL", "MATCHES_FILTER"
     #   resp.segment.scte.custom_ad_types #=> Array
     #   resp.segment.scte.custom_ad_types[0] #=> String, one of "PROGRAM", "CHAPTER", "UNSCHEDULED_EVENT", "ALTERNATE_CONTENT_OPPORTUNITY", "NETWORK"
@@ -3116,6 +3118,7 @@ module Aws::MediaPackageV2
     #   resp.dash_manifests[0].dvb_settings.error_metrics[0].reporting_url #=> String
     #   resp.dash_manifests[0].dvb_settings.error_metrics[0].probability #=> Integer
     #   resp.dash_manifests[0].compactness #=> String, one of "STANDARD", "NONE"
+    #   resp.dash_manifests[0].audio_timeline_pattern #=> String, one of "NONE", "PATTERNED"
     #   resp.dash_manifests[0].subtitle_configuration.ttml_configuration.ttml_profile #=> String, one of "IMSC_1", "EBU_TT_D_101"
     #   resp.dash_manifests[0].uri_path_type #=> String, one of "LEAF", "ROOT"
     #   resp.dash_manifests[0].availability_start_time_configuration.fixed_availability_start_time #=> Time
@@ -4992,7 +4995,7 @@ module Aws::MediaPackageV2
     #       include_iframe_only_streams: false,
     #       ts_include_dvb_subtitles: false,
     #       scte: {
-    #         scte_filter: ["SPLICE_INSERT"], # accepts SPLICE_INSERT, BREAK, PROVIDER_ADVERTISEMENT, DISTRIBUTOR_ADVERTISEMENT, PROVIDER_PLACEMENT_OPPORTUNITY, DISTRIBUTOR_PLACEMENT_OPPORTUNITY, PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY, DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY, PROGRAM, CHAPTER, UNSCHEDULED_EVENT, ALTERNATE_CONTENT_OPPORTUNITY, NETWORK, PROVIDER_PROMO, DISTRIBUTOR_PROMO, PROVIDER_AD_BLOCK, DISTRIBUTOR_AD_BLOCK
+    #         scte_filter: ["SPLICE_INSERT"], # accepts SPLICE_INSERT, BREAK, PROVIDER_ADVERTISEMENT, DISTRIBUTOR_ADVERTISEMENT, PROVIDER_PLACEMENT_OPPORTUNITY, DISTRIBUTOR_PLACEMENT_OPPORTUNITY, PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY, DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY, PROGRAM, CHAPTER, UNSCHEDULED_EVENT, ALTERNATE_CONTENT_OPPORTUNITY, NETWORK, PROVIDER_PROMO, DISTRIBUTOR_PROMO, PROVIDER_AD_BLOCK, DISTRIBUTOR_AD_BLOCK, CONTENT_IDENTIFICATION, CALL_AD_SERVER
     #         scte_in_segments: "NONE", # accepts NONE, ALL, MATCHES_FILTER
     #         custom_ad_types: ["PROGRAM"], # accepts PROGRAM, CHAPTER, UNSCHEDULED_EVENT, ALTERNATE_CONTENT_OPPORTUNITY, NETWORK
     #       },
@@ -5128,6 +5131,7 @@ module Aws::MediaPackageV2
     #           ],
     #         },
     #         compactness: "STANDARD", # accepts STANDARD, NONE
+    #         audio_timeline_pattern: "NONE", # accepts NONE, PATTERNED
     #         subtitle_configuration: {
     #           ttml_configuration: {
     #             ttml_profile: "IMSC_1", # required, accepts IMSC_1, EBU_TT_D_101
@@ -5174,7 +5178,7 @@ module Aws::MediaPackageV2
     #   resp.segment.include_iframe_only_streams #=> Boolean
     #   resp.segment.ts_include_dvb_subtitles #=> Boolean
     #   resp.segment.scte.scte_filter #=> Array
-    #   resp.segment.scte.scte_filter[0] #=> String, one of "SPLICE_INSERT", "BREAK", "PROVIDER_ADVERTISEMENT", "DISTRIBUTOR_ADVERTISEMENT", "PROVIDER_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_PLACEMENT_OPPORTUNITY", "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY", "PROGRAM", "CHAPTER", "UNSCHEDULED_EVENT", "ALTERNATE_CONTENT_OPPORTUNITY", "NETWORK", "PROVIDER_PROMO", "DISTRIBUTOR_PROMO", "PROVIDER_AD_BLOCK", "DISTRIBUTOR_AD_BLOCK"
+    #   resp.segment.scte.scte_filter[0] #=> String, one of "SPLICE_INSERT", "BREAK", "PROVIDER_ADVERTISEMENT", "DISTRIBUTOR_ADVERTISEMENT", "PROVIDER_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_PLACEMENT_OPPORTUNITY", "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY", "PROGRAM", "CHAPTER", "UNSCHEDULED_EVENT", "ALTERNATE_CONTENT_OPPORTUNITY", "NETWORK", "PROVIDER_PROMO", "DISTRIBUTOR_PROMO", "PROVIDER_AD_BLOCK", "DISTRIBUTOR_AD_BLOCK", "CONTENT_IDENTIFICATION", "CALL_AD_SERVER"
     #   resp.segment.scte.scte_in_segments #=> String, one of "NONE", "ALL", "MATCHES_FILTER"
     #   resp.segment.scte.custom_ad_types #=> Array
     #   resp.segment.scte.custom_ad_types[0] #=> String, one of "PROGRAM", "CHAPTER", "UNSCHEDULED_EVENT", "ALTERNATE_CONTENT_OPPORTUNITY", "NETWORK"
@@ -5289,6 +5293,7 @@ module Aws::MediaPackageV2
     #   resp.dash_manifests[0].dvb_settings.error_metrics[0].reporting_url #=> String
     #   resp.dash_manifests[0].dvb_settings.error_metrics[0].probability #=> Integer
     #   resp.dash_manifests[0].compactness #=> String, one of "STANDARD", "NONE"
+    #   resp.dash_manifests[0].audio_timeline_pattern #=> String, one of "NONE", "PATTERNED"
     #   resp.dash_manifests[0].subtitle_configuration.ttml_configuration.ttml_profile #=> String, one of "IMSC_1", "EBU_TT_D_101"
     #   resp.dash_manifests[0].uri_path_type #=> String, one of "LEAF", "ROOT"
     #   resp.dash_manifests[0].availability_start_time_configuration.fixed_availability_start_time #=> Time
@@ -5320,7 +5325,7 @@ module Aws::MediaPackageV2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-mediapackagev2'
-      context[:gem_version] = '1.66.0'
+      context[:gem_version] = '1.67.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

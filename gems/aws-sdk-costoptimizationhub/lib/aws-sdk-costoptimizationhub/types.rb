@@ -207,6 +207,20 @@ module Aws::CostOptimizationHub
       include Aws::Structure
     end
 
+    # The Amazon DocumentDB cluster recommendation details.
+    #
+    # @!attribute [rw] cost_calculation
+    #   Cost impact of the resource recommendation.
+    #   @return [Types::ResourceCostCalculation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cost-optimization-hub-2022-07-26/DocumentDbCluster AWS API Documentation
+    #
+    class DocumentDbCluster < Struct.new(
+      :cost_calculation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The DynamoDB reserved capacity recommendation details.
     #
     # @!attribute [rw] configuration
@@ -279,6 +293,20 @@ module Aws::CostOptimizationHub
       :monthly_recurring_cost,
       :number_of_capacity_units_to_purchase,
       :capacity_units)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The DynamoDB table recommendation details.
+    #
+    # @!attribute [rw] cost_calculation
+    #   Cost impact of the resource recommendation.
+    #   @return [Types::ResourceCostCalculation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cost-optimization-hub-2022-07-26/DynamoDbTable AWS API Documentation
+    #
+    class DynamoDbTable < Struct.new(
+      :cost_calculation)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -656,6 +684,20 @@ module Aws::CostOptimizationHub
       :metrics_by_time,
       :group,
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The ElastiCache cluster recommendation details.
+    #
+    # @!attribute [rw] cost_calculation
+    #   Cost impact of the resource recommendation.
+    #   @return [Types::ResourceCostCalculation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cost-optimization-hub-2022-07-26/ElastiCacheCluster AWS API Documentation
+    #
+    class ElastiCacheCluster < Struct.new(
+      :cost_calculation)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1330,6 +1372,20 @@ module Aws::CostOptimizationHub
     class ListRecommendationsResponse < Struct.new(
       :items,
       :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The MemoryDB cluster recommendation details.
+    #
+    # @!attribute [rw] cost_calculation
+    #   Cost impact of the resource recommendation.
+    #   @return [Types::ResourceCostCalculation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cost-optimization-hub-2022-07-26/MemoryDbCluster AWS API Documentation
+    #
+    class MemoryDbCluster < Struct.new(
+      :cost_calculation)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2268,6 +2324,30 @@ module Aws::CostOptimizationHub
     #   The NAT Gateway recommendation details.
     #   @return [Types::NatGateway]
     #
+    # @!attribute [rw] dynamo_db_table
+    #   The DynamoDB table recommendation details.
+    #   @return [Types::DynamoDbTable]
+    #
+    # @!attribute [rw] elasti_cache_cluster
+    #   The ElastiCache cluster recommendation details.
+    #   @return [Types::ElastiCacheCluster]
+    #
+    # @!attribute [rw] memory_db_cluster
+    #   The MemoryDB cluster recommendation details.
+    #   @return [Types::MemoryDbCluster]
+    #
+    # @!attribute [rw] document_db_cluster
+    #   The Amazon DocumentDB cluster recommendation details.
+    #   @return [Types::DocumentDbCluster]
+    #
+    # @!attribute [rw] work_spaces
+    #   The WorkSpaces recommendation details.
+    #   @return [Types::WorkSpaces]
+    #
+    # @!attribute [rw] sage_maker_endpoint
+    #   The SageMaker endpoint recommendation details.
+    #   @return [Types::SageMakerEndpoint]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cost-optimization-hub-2022-07-26/ResourceDetails AWS API Documentation
     #
     class ResourceDetails < Struct.new(
@@ -2290,6 +2370,12 @@ module Aws::CostOptimizationHub
       :dynamo_db_reserved_capacity,
       :memory_db_reserved_instances,
       :nat_gateway,
+      :dynamo_db_table,
+      :elasti_cache_cluster,
+      :memory_db_cluster,
+      :document_db_cluster,
+      :work_spaces,
+      :sage_maker_endpoint,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -2314,6 +2400,12 @@ module Aws::CostOptimizationHub
       class DynamoDbReservedCapacity < ResourceDetails; end
       class MemoryDbReservedInstances < ResourceDetails; end
       class NatGateway < ResourceDetails; end
+      class DynamoDbTable < ResourceDetails; end
+      class ElastiCacheCluster < ResourceDetails; end
+      class MemoryDbCluster < ResourceDetails; end
+      class DocumentDbCluster < ResourceDetails; end
+      class WorkSpaces < ResourceDetails; end
+      class SageMakerEndpoint < ResourceDetails; end
       class Unknown < ResourceDetails; end
     end
 
@@ -2364,6 +2456,20 @@ module Aws::CostOptimizationHub
       :estimated_net_unused_amortized_commitments,
       :estimated_discounts,
       :estimated_cost_after_discounts)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The SageMaker endpoint recommendation details.
+    #
+    # @!attribute [rw] cost_calculation
+    #   Cost impact of the resource recommendation.
+    #   @return [Types::ResourceCostCalculation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cost-optimization-hub-2022-07-26/SageMakerEndpoint AWS API Documentation
+    #
+    class SageMakerEndpoint < Struct.new(
+      :cost_calculation)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2708,6 +2814,20 @@ module Aws::CostOptimizationHub
     class ValidationExceptionDetail < Struct.new(
       :field_name,
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The WorkSpaces recommendation details.
+    #
+    # @!attribute [rw] cost_calculation
+    #   Cost impact of the resource recommendation.
+    #   @return [Types::ResourceCostCalculation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cost-optimization-hub-2022-07-26/WorkSpaces AWS API Documentation
+    #
+    class WorkSpaces < Struct.new(
+      :cost_calculation)
       SENSITIVE = []
       include Aws::Structure
     end

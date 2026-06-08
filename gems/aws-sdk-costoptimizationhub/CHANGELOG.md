@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.46.0 (2026-06-08)
+------------------
+
+* Feature - Adds new Idle Recommendation types in the Cost Optimization Hub API
+
 1.45.0 (2026-05-28)
 ------------------
 

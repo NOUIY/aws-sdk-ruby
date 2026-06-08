@@ -122,6 +122,7 @@ module Aws::MediaPackageV2
       attr_accessor program_information: Types::DashProgramInformation
       attr_accessor dvb_settings: Types::DashDvbSettings
       attr_accessor compactness: ("STANDARD" | "NONE")
+      attr_accessor audio_timeline_pattern: ("NONE" | "PATTERNED")
       attr_accessor subtitle_configuration: Types::DashSubtitleConfiguration
       attr_accessor uri_path_type: ("LEAF" | "ROOT")
       attr_accessor availability_start_time_configuration: Types::DashAvailabilityStartTimeConfiguration
@@ -458,6 +459,7 @@ module Aws::MediaPackageV2
       attr_accessor program_information: Types::DashProgramInformation
       attr_accessor dvb_settings: Types::DashDvbSettings
       attr_accessor compactness: ("STANDARD" | "NONE")
+      attr_accessor audio_timeline_pattern: ("NONE" | "PATTERNED")
       attr_accessor subtitle_configuration: Types::DashSubtitleConfiguration
       attr_accessor uri_path_type: ("LEAF" | "ROOT")
       attr_accessor availability_start_time_configuration: Types::DashAvailabilityStartTimeConfiguration
@@ -816,7 +818,7 @@ module Aws::MediaPackageV2
     end
 
     class Scte
-      attr_accessor scte_filter: ::Array[("SPLICE_INSERT" | "BREAK" | "PROVIDER_ADVERTISEMENT" | "DISTRIBUTOR_ADVERTISEMENT" | "PROVIDER_PLACEMENT_OPPORTUNITY" | "DISTRIBUTOR_PLACEMENT_OPPORTUNITY" | "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY" | "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY" | "PROGRAM" | "CHAPTER" | "UNSCHEDULED_EVENT" | "ALTERNATE_CONTENT_OPPORTUNITY" | "NETWORK" | "PROVIDER_PROMO" | "DISTRIBUTOR_PROMO" | "PROVIDER_AD_BLOCK" | "DISTRIBUTOR_AD_BLOCK")]
+      attr_accessor scte_filter: ::Array[("SPLICE_INSERT" | "BREAK" | "PROVIDER_ADVERTISEMENT" | "DISTRIBUTOR_ADVERTISEMENT" | "PROVIDER_PLACEMENT_OPPORTUNITY" | "DISTRIBUTOR_PLACEMENT_OPPORTUNITY" | "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY" | "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY" | "PROGRAM" | "CHAPTER" | "UNSCHEDULED_EVENT" | "ALTERNATE_CONTENT_OPPORTUNITY" | "NETWORK" | "PROVIDER_PROMO" | "DISTRIBUTOR_PROMO" | "PROVIDER_AD_BLOCK" | "DISTRIBUTOR_AD_BLOCK" | "CONTENT_IDENTIFICATION" | "CALL_AD_SERVER")]
       attr_accessor scte_in_segments: ("NONE" | "ALL" | "MATCHES_FILTER")
       attr_accessor custom_ad_types: ::Array[("PROGRAM" | "CHAPTER" | "UNSCHEDULED_EVENT" | "ALTERNATE_CONTENT_OPPORTUNITY" | "NETWORK")]
       SENSITIVE: []

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.72.0 (2026-06-08)
+------------------
+
+* Feature - StartRunBatch API - Add EngineSettings
+
 1.71.0 (2026-05-29)
 ------------------
 

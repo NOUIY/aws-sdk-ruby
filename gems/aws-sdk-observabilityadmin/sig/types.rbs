@@ -46,6 +46,7 @@ module Aws::ObservabilityAdmin
       attr_accessor region: ::String
       attr_accessor account: ::String
       attr_accessor destination_logs_configuration: Types::DestinationLogsConfiguration
+      attr_accessor destination_metrics_configuration: Types::DestinationMetricsConfiguration
       SENSITIVE: []
     end
 
@@ -53,6 +54,7 @@ module Aws::ObservabilityAdmin
       attr_accessor regions: ::Array[::String]
       attr_accessor scope: ::String
       attr_accessor source_logs_configuration: Types::SourceLogsConfiguration
+      attr_accessor source_metrics_configuration: Types::SourceMetricsConfiguration
       SENSITIVE: []
     end
 
@@ -195,6 +197,11 @@ module Aws::ObservabilityAdmin
       attr_accessor logs_encryption_configuration: Types::LogsEncryptionConfiguration
       attr_accessor backup_configuration: Types::LogsBackupConfiguration
       attr_accessor log_group_name_configuration: Types::LogGroupNameConfiguration
+      SENSITIVE: []
+    end
+
+    class DestinationMetricsConfiguration
+      attr_accessor backup_configuration: Types::MetricsBackupConfiguration
       SENSITIVE: []
     end
 
@@ -485,6 +492,11 @@ module Aws::ObservabilityAdmin
       SENSITIVE: []
     end
 
+    class MetricsBackupConfiguration
+      attr_accessor region: ::String
+      SENSITIVE: []
+    end
+
     class MskMonitoringParameters
       attr_accessor enhanced_monitoring: ("DEFAULT" | "PER_BROKER" | "PER_TOPIC_PER_BROKER" | "PER_TOPIC_PER_PARTITION")
       SENSITIVE: []
@@ -546,6 +558,11 @@ module Aws::ObservabilityAdmin
       attr_accessor log_group_selection_criteria: ::String
       attr_accessor data_source_selection_criteria: ::String
       attr_accessor encrypted_log_group_strategy: ("ALLOW" | "SKIP")
+      SENSITIVE: []
+    end
+
+    class SourceMetricsConfiguration
+      attr_accessor metrics_selection_criteria: ::String
       SENSITIVE: []
     end
 

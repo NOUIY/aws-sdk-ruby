@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.98.0 (2026-06-08)
+------------------
+
+* Feature - Adds new Idle Recommendation Resource types in the AWS Compute Optimizer API
+
 1.97.0 (2026-06-03)
 ------------------
 

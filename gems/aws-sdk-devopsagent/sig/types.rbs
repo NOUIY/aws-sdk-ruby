@@ -89,6 +89,88 @@ module Aws::DevOpsAgent
       SENSITIVE: [:description]
     end
 
+    class Asset
+      attr_accessor asset_id: ::String
+      attr_accessor asset_type: ::String
+      attr_accessor metadata: untyped
+      attr_accessor version: ::Integer
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
+    class AssetContent
+      attr_accessor file: Types::AssetFileContent
+      attr_accessor zip: Types::AssetZipContent
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class File < AssetContent
+      end
+      class Zip < AssetContent
+      end
+      class Unknown < AssetContent
+      end
+    end
+
+    class AssetFile
+      attr_accessor path: ::String
+      attr_accessor content: Types::AssetFileBody
+      attr_accessor metadata: untyped
+      attr_accessor version: ::Integer
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
+    class AssetFileBody
+      attr_accessor bytes: ::String
+      attr_accessor text: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Bytes < AssetFileBody
+      end
+      class Text < AssetFileBody
+      end
+      class Unknown < AssetFileBody
+      end
+    end
+
+    class AssetFileContent
+      attr_accessor path: ::String
+      attr_accessor body: Types::AssetFileBody
+      attr_accessor metadata: untyped
+      SENSITIVE: []
+    end
+
+    class AssetFileSummary
+      attr_accessor path: ::String
+      attr_accessor metadata: untyped
+      attr_accessor version: ::Integer
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
+    class AssetTypeSummary
+      attr_accessor asset_type: ::String
+      attr_accessor description: ::String
+      SENSITIVE: []
+    end
+
+    class AssetVersionMetadata
+      attr_accessor version: ::Integer
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
+    class AssetZipContent
+      attr_accessor zip_file: ::String
+      SENSITIVE: []
+    end
+
     class AssistantMessageBlock
       attr_accessor text: ::String
       attr_accessor tool_use: untyped
@@ -173,6 +255,35 @@ module Aws::DevOpsAgent
       SENSITIVE: []
     end
 
+    class CreateAssetFileRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor asset_id: ::String
+      attr_accessor path: ::String
+      attr_accessor content: Types::AssetFileBody
+      attr_accessor metadata: untyped
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class CreateAssetFileResponse
+      attr_accessor file: Types::AssetFile
+      SENSITIVE: []
+    end
+
+    class CreateAssetRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor asset_type: ::String
+      attr_accessor metadata: untyped
+      attr_accessor content: Types::AssetContent
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class CreateAssetResponse
+      attr_accessor asset: Types::Asset
+      SENSITIVE: []
+    end
+
     class CreateBacklogTaskRequest
       attr_accessor agent_space_id: ::String
       attr_accessor reference: Types::ReferenceInput
@@ -218,6 +329,8 @@ module Aws::DevOpsAgent
       attr_accessor resource_configuration_id: ::String
       attr_accessor status: ("ACTIVE" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "DELETE_IN_PROGRESS" | "DELETE_FAILED")
       attr_accessor certificate_expiry_time: ::Time
+      attr_accessor dns_resolution: ("PUBLIC" | "IN_VPC")
+      attr_accessor failure_message: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
@@ -247,6 +360,25 @@ module Aws::DevOpsAgent
     end
 
     class DeleteAgentSpaceOutput < Aws::EmptyStructure
+    end
+
+    class DeleteAssetFileRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor asset_id: ::String
+      attr_accessor path: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteAssetFileResponse < Aws::EmptyStructure
+    end
+
+    class DeleteAssetRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor asset_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteAssetResponse < Aws::EmptyStructure
     end
 
     class DeletePrivateConnectionInput
@@ -282,6 +414,8 @@ module Aws::DevOpsAgent
       attr_accessor resource_configuration_id: ::String
       attr_accessor status: ("ACTIVE" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "DELETE_IN_PROGRESS" | "DELETE_FAILED")
       attr_accessor certificate_expiry_time: ::Time
+      attr_accessor dns_resolution: ("PUBLIC" | "IN_VPC")
+      attr_accessor failure_message: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
@@ -346,6 +480,7 @@ module Aws::DevOpsAgent
 
     class EnableOperatorAppOutput
       attr_accessor agent_space_id: ::String
+      attr_accessor operator_app_url: ::String
       attr_accessor iam: Types::IamAuthConfiguration
       attr_accessor idc: Types::IdcAuthConfiguration
       attr_accessor idp: Types::IdpAuthConfiguration
@@ -406,6 +541,44 @@ module Aws::DevOpsAgent
       SENSITIVE: []
     end
 
+    class GetAssetContentRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor asset_id: ::String
+      attr_accessor asset_version: ::Integer
+      SENSITIVE: []
+    end
+
+    class GetAssetContentResponse
+      attr_accessor content: Types::AssetZipContent
+      attr_accessor version: ::Integer
+      SENSITIVE: []
+    end
+
+    class GetAssetFileRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor asset_id: ::String
+      attr_accessor path: ::String
+      attr_accessor asset_version: ::Integer
+      SENSITIVE: []
+    end
+
+    class GetAssetFileResponse
+      attr_accessor file: Types::AssetFile
+      SENSITIVE: []
+    end
+
+    class GetAssetRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor asset_id: ::String
+      attr_accessor asset_version: ::Integer
+      SENSITIVE: []
+    end
+
+    class GetAssetResponse
+      attr_accessor asset: Types::Asset
+      SENSITIVE: []
+    end
+
     class GetAssociationInput
       attr_accessor agent_space_id: ::String
       attr_accessor association_id: ::String
@@ -434,6 +607,7 @@ module Aws::DevOpsAgent
     end
 
     class GetOperatorAppOutput
+      attr_accessor operator_app_url: ::String
       attr_accessor iam: Types::IamAuthConfiguration
       attr_accessor idc: Types::IdcAuthConfiguration
       attr_accessor idp: Types::IdpAuthConfiguration
@@ -591,6 +765,63 @@ module Aws::DevOpsAgent
     class ListAgentSpacesOutput
       attr_accessor next_token: ::String
       attr_accessor agent_spaces: ::Array[Types::AgentSpace]
+      SENSITIVE: []
+    end
+
+    class ListAssetFilesRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor asset_id: ::String
+      attr_accessor asset_version: ::Integer
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListAssetFilesResponse
+      attr_accessor items: ::Array[Types::AssetFileSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListAssetTypesRequest
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListAssetTypesResponse
+      attr_accessor items: ::Array[Types::AssetTypeSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListAssetVersionsRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor asset_id: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListAssetVersionsResponse
+      attr_accessor items: ::Array[Types::AssetVersionMetadata]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListAssetsRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor asset_type: ::String
+      attr_accessor updated_after: ::Time
+      attr_accessor updated_before: ::Time
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListAssetsResponse
+      attr_accessor items: ::Array[Types::Asset]
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 
@@ -854,6 +1085,7 @@ module Aws::DevOpsAgent
       attr_accessor region: ::String
       attr_accessor service: ::String
       attr_accessor role_arn: ::String
+      attr_accessor mcp_role_arn: ::String
       attr_accessor custom_headers: ::Hash[::String, ::String]
       SENSITIVE: []
     end
@@ -979,6 +1211,8 @@ module Aws::DevOpsAgent
       attr_accessor resource_configuration_id: ::String
       attr_accessor status: ("ACTIVE" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "DELETE_IN_PROGRESS" | "DELETE_FAILED")
       attr_accessor certificate_expiry_time: ::Time
+      attr_accessor dns_resolution: ("PUBLIC" | "IN_VPC")
+      attr_accessor failure_message: ::String
       SENSITIVE: []
     end
 
@@ -1030,6 +1264,8 @@ module Aws::DevOpsAgent
       attr_accessor service_details: Types::ServiceDetails
       attr_accessor kms_key_arn: ::String
       attr_accessor private_connection_name: ::String
+      attr_accessor target_url_private_connection_name: ::String
+      attr_accessor exchange_url_private_connection_name: ::String
       attr_accessor name: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
@@ -1092,6 +1328,7 @@ module Aws::DevOpsAgent
       attr_accessor region: ::String
       attr_accessor service: ::String
       attr_accessor role_arn: ::String
+      attr_accessor mcp_role_arn: ::String
       attr_accessor custom_headers: ::Hash[::String, ::String]
       SENSITIVE: [:description]
     end
@@ -1206,6 +1443,7 @@ module Aws::DevOpsAgent
       attr_accessor content: ::String
       attr_accessor context: Types::SendMessageContext
       attr_accessor user_id: ::String
+      attr_accessor asset_ids: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -1376,6 +1614,7 @@ module Aws::DevOpsAgent
       attr_accessor ipv4_addresses_per_eni: ::Integer
       attr_accessor port_ranges: ::Array[::String]
       attr_accessor certificate: ::String
+      attr_accessor dns_resolution: ("PUBLIC" | "IN_VPC")
       SENSITIVE: []
     end
 
@@ -1460,7 +1699,7 @@ module Aws::DevOpsAgent
       attr_accessor reference: Types::ReferenceOutput
       attr_accessor task_type: ("INVESTIGATION" | "EVALUATION")
       attr_accessor priority: ("CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "MINIMAL")
-      attr_accessor status: ("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED")
+      attr_accessor status: ("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED" | "SKIPPED")
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
       attr_accessor version: ::Integer
@@ -1476,7 +1715,7 @@ module Aws::DevOpsAgent
       attr_accessor created_after: ::Time
       attr_accessor created_before: ::Time
       attr_accessor priority: ::Array[("CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "MINIMAL")]
-      attr_accessor status: ::Array[("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED")]
+      attr_accessor status: ::Array[("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED" | "SKIPPED")]
       attr_accessor task_type: ::Array[("INVESTIGATION" | "EVALUATION")]
       attr_accessor primary_task_id: ::String
       SENSITIVE: []
@@ -1509,6 +1748,35 @@ module Aws::DevOpsAgent
       SENSITIVE: []
     end
 
+    class UpdateAssetFileRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor asset_id: ::String
+      attr_accessor path: ::String
+      attr_accessor content: Types::AssetFileBody
+      attr_accessor metadata: untyped
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateAssetFileResponse
+      attr_accessor file: Types::AssetFile
+      SENSITIVE: []
+    end
+
+    class UpdateAssetRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor asset_id: ::String
+      attr_accessor metadata: untyped
+      attr_accessor content: Types::AssetContent
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateAssetResponse
+      attr_accessor asset: Types::Asset
+      SENSITIVE: []
+    end
+
     class UpdateAssociationInput
       attr_accessor agent_space_id: ::String
       attr_accessor association_id: ::String
@@ -1525,7 +1793,7 @@ module Aws::DevOpsAgent
     class UpdateBacklogTaskRequest
       attr_accessor agent_space_id: ::String
       attr_accessor task_id: ::String
-      attr_accessor task_status: ("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED")
+      attr_accessor task_status: ("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED" | "SKIPPED")
       attr_accessor client_token: ::String
       SENSITIVE: []
     end
@@ -1575,6 +1843,8 @@ module Aws::DevOpsAgent
       attr_accessor resource_configuration_id: ::String
       attr_accessor status: ("ACTIVE" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "DELETE_IN_PROGRESS" | "DELETE_FAILED")
       attr_accessor certificate_expiry_time: ::Time
+      attr_accessor dns_resolution: ("PUBLIC" | "IN_VPC")
+      attr_accessor failure_message: ::String
       SENSITIVE: []
     end
 

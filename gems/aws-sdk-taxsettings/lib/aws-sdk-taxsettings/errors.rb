@@ -96,13 +96,13 @@ module Aws::TaxSettings
       end
 
       # @return [String]
-      def error_code
-        @data[:error_code]
+      def message
+        @message || @data[:message]
       end
 
       # @return [String]
-      def message
-        @message || @data[:message]
+      def error_code
+        @data[:error_code]
       end
     end
 
@@ -116,13 +116,13 @@ module Aws::TaxSettings
       end
 
       # @return [String]
-      def error_code
-        @data[:error_code]
+      def message
+        @message || @data[:message]
       end
 
       # @return [String]
-      def message
-        @message || @data[:message]
+      def error_code
+        @data[:error_code]
       end
     end
 
@@ -136,13 +136,13 @@ module Aws::TaxSettings
       end
 
       # @return [String]
-      def error_code
-        @data[:error_code]
+      def message
+        @message || @data[:message]
       end
 
       # @return [String]
-      def message
-        @message || @data[:message]
+      def error_code
+        @data[:error_code]
       end
     end
 
@@ -156,6 +156,11 @@ module Aws::TaxSettings
       end
 
       # @return [String]
+      def message
+        @message || @data[:message]
+      end
+
+      # @return [String]
       def error_code
         @data[:error_code]
       end
@@ -163,11 +168,6 @@ module Aws::TaxSettings
       # @return [String]
       def field_list
         @data[:field_list]
-      end
-
-      # @return [String]
-      def message
-        @message || @data[:message]
       end
     end
 

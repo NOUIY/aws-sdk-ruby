@@ -1809,7 +1809,9 @@ module Aws
                                output_bucket_owner_id: ::String?,
                                workflow_version_name: ::String?,
                                networking_mode: ("RESTRICTED" | "VPC")?,
-                               configuration_name: ::String?
+                               configuration_name: ::String?,
+                               engine_settings: {
+                               }?
                              },
                              batch_run_settings: {
                                inline_settings: Array[
@@ -1821,7 +1823,9 @@ module Aws
                                    parameters: {
                                    }?,
                                    output_bucket_owner_id: ::String?,
-                                   run_tags: Hash[::String, ::String]?
+                                   run_tags: Hash[::String, ::String]?,
+                                   engine_settings: {
+                                   }?
                                  }
                                ]?,
                                s3_uri_settings: ::String?

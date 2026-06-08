@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.57.0 (2026-06-08)
+------------------
+
+* Feature - Added optional identityCenterRegion parameter to AssociateMember APIs to allow managing memberships for users and groups in other regions.
+
 1.56.0 (2026-05-28)
 ------------------
 

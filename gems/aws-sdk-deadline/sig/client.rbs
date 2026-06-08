@@ -87,7 +87,8 @@ module Aws
                                       principal_type: ("USER" | "GROUP"),
                                       identity_store_id: ::String,
                                       membership_level: ("VIEWER" | "CONTRIBUTOR" | "OWNER" | "MANAGER"),
-                                      principal_id: ::String
+                                      principal_id: ::String,
+                                      ?identity_center_region: ::String
                                     ) -> _AssociateMemberToFarmResponseSuccess
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AssociateMemberToFarmResponseSuccess
 
@@ -101,7 +102,8 @@ module Aws
                                        principal_type: ("USER" | "GROUP"),
                                        identity_store_id: ::String,
                                        membership_level: ("VIEWER" | "CONTRIBUTOR" | "OWNER" | "MANAGER"),
-                                       principal_id: ::String
+                                       principal_id: ::String,
+                                       ?identity_center_region: ::String
                                      ) -> _AssociateMemberToFleetResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AssociateMemberToFleetResponseSuccess
 
@@ -116,7 +118,8 @@ module Aws
                                      principal_type: ("USER" | "GROUP"),
                                      identity_store_id: ::String,
                                      membership_level: ("VIEWER" | "CONTRIBUTOR" | "OWNER" | "MANAGER"),
-                                     principal_id: ::String
+                                     principal_id: ::String,
+                                     ?identity_center_region: ::String
                                    ) -> _AssociateMemberToJobResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AssociateMemberToJobResponseSuccess
 
@@ -130,7 +133,8 @@ module Aws
                                        principal_type: ("USER" | "GROUP"),
                                        identity_store_id: ::String,
                                        membership_level: ("VIEWER" | "CONTRIBUTOR" | "OWNER" | "MANAGER"),
-                                       principal_id: ::String
+                                       principal_id: ::String,
+                                       ?identity_center_region: ::String
                                      ) -> _AssociateMemberToQueueResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AssociateMemberToQueueResponseSuccess
 

@@ -363,7 +363,7 @@ module Aws::ComputeOptimizer
     class ExportIdleRecommendationsRequest
       attr_accessor account_ids: ::Array[::String]
       attr_accessor filters: ::Array[Types::IdleRecommendationFilter]
-      attr_accessor fields_to_export: ::Array[("AccountId" | "ResourceArn" | "ResourceId" | "ResourceType" | "LastRefreshTimestamp" | "LookbackPeriodInDays" | "SavingsOpportunity" | "SavingsOpportunityAfterDiscount" | "UtilizationMetricsCpuMaximum" | "UtilizationMetricsMemoryMaximum" | "UtilizationMetricsNetworkOutBytesPerSecondMaximum" | "UtilizationMetricsNetworkInBytesPerSecondMaximum" | "UtilizationMetricsDatabaseConnectionsMaximum" | "UtilizationMetricsEBSVolumeReadIOPSMaximum" | "UtilizationMetricsEBSVolumeWriteIOPSMaximum" | "UtilizationMetricsVolumeReadOpsPerSecondMaximum" | "UtilizationMetricsVolumeWriteOpsPerSecondMaximum" | "UtilizationMetricsActiveConnectionCountMaximum" | "UtilizationMetricsPacketsInFromSourceMaximum" | "UtilizationMetricsPacketsInFromDestinationMaximum" | "Finding" | "FindingDescription" | "Tags")]
+      attr_accessor fields_to_export: ::Array[("AccountId" | "ResourceArn" | "ResourceId" | "ResourceType" | "LastRefreshTimestamp" | "LookbackPeriodInDays" | "SavingsOpportunity" | "SavingsOpportunityAfterDiscount" | "UtilizationMetricsCpuMaximum" | "UtilizationMetricsMemoryMaximum" | "UtilizationMetricsNetworkOutBytesPerSecondMaximum" | "UtilizationMetricsNetworkInBytesPerSecondMaximum" | "UtilizationMetricsDatabaseConnectionsMaximum" | "UtilizationMetricsEBSVolumeReadIOPSMaximum" | "UtilizationMetricsEBSVolumeWriteIOPSMaximum" | "UtilizationMetricsVolumeReadOpsPerSecondMaximum" | "UtilizationMetricsVolumeWriteOpsPerSecondMaximum" | "UtilizationMetricsActiveConnectionCountMaximum" | "UtilizationMetricsPacketsInFromSourceMaximum" | "UtilizationMetricsPacketsInFromDestinationMaximum" | "UtilizationMetricsConsumedReadCapacityUnitsSum" | "UtilizationMetricsConsumedWriteCapacityUnitsSum" | "UtilizationMetricsNewConnectionsSum" | "UtilizationMetricsEngineCPUUtilizationMaximum" | "UtilizationMetricsCacheHitsSum" | "UtilizationMetricsCacheMissesSum" | "UtilizationMetricsKeyspaceHitsSum" | "UtilizationMetricsKeyspaceMissesSum" | "UtilizationMetricsIsIdleMinimum" | "UtilizationMetricsUserConnectedSum" | "UtilizationMetricsInvocationsSum" | "UtilizationMetricsGetTypeCmdsSum" | "UtilizationMetricsSetTypeCmdsSum" | "UtilizationMetricsElastiCacheProcessingUnitsSum" | "UtilizationMetricsCurrConnectionsSum" | "UtilizationMetricsDatabaseConnectionsSum" | "Finding" | "FindingDescription" | "Tags")]
       attr_accessor s3_destination_config: Types::S3DestinationConfig
       attr_accessor file_format: ("Csv")
       attr_accessor include_member_accounts: bool
@@ -701,6 +701,12 @@ module Aws::ComputeOptimizer
       SENSITIVE: []
     end
 
+    class IdleDimension
+      attr_accessor key: ::String
+      attr_accessor values: ::Array[::String]
+      SENSITIVE: []
+    end
+
     class IdleEstimatedMonthlySavings
       attr_accessor currency: ("USD" | "CNY")
       attr_accessor value: ::Float
@@ -710,7 +716,7 @@ module Aws::ComputeOptimizer
     class IdleRecommendation
       attr_accessor resource_arn: ::String
       attr_accessor resource_id: ::String
-      attr_accessor resource_type: ("EC2Instance" | "AutoScalingGroup" | "EBSVolume" | "ECSService" | "RDSDBInstance" | "NatGateway")
+      attr_accessor resource_type: ("EC2Instance" | "AutoScalingGroup" | "EBSVolume" | "ECSService" | "RDSDBInstance" | "NatGateway" | "DynamoDBTable" | "ElastiCacheCluster" | "MemoryDBCluster" | "DocumentDBCluster" | "WorkSpaces" | "SageMakerEndpoint")
       attr_accessor account_id: ::String
       attr_accessor finding: ("Idle" | "Unattached" | "Unused")
       attr_accessor finding_description: ::String
@@ -727,7 +733,7 @@ module Aws::ComputeOptimizer
       attr_accessor identifier: ::String
       attr_accessor code: ::String
       attr_accessor message: ::String
-      attr_accessor resource_type: ("EC2Instance" | "AutoScalingGroup" | "EBSVolume" | "ECSService" | "RDSDBInstance" | "NatGateway")
+      attr_accessor resource_type: ("EC2Instance" | "AutoScalingGroup" | "EBSVolume" | "ECSService" | "RDSDBInstance" | "NatGateway" | "DynamoDBTable" | "ElastiCacheCluster" | "MemoryDBCluster" | "DocumentDBCluster" | "WorkSpaces" | "SageMakerEndpoint")
       SENSITIVE: []
     end
 
@@ -756,9 +762,10 @@ module Aws::ComputeOptimizer
     end
 
     class IdleUtilizationMetric
-      attr_accessor name: ("CPU" | "Memory" | "NetworkOutBytesPerSecond" | "NetworkInBytesPerSecond" | "DatabaseConnections" | "EBSVolumeReadIOPS" | "EBSVolumeWriteIOPS" | "VolumeReadOpsPerSecond" | "VolumeWriteOpsPerSecond" | "ActiveConnectionCount" | "PacketsInFromSource" | "PacketsInFromDestination")
+      attr_accessor name: ("CPU" | "Memory" | "NetworkOutBytesPerSecond" | "NetworkInBytesPerSecond" | "DatabaseConnections" | "EBSVolumeReadIOPS" | "EBSVolumeWriteIOPS" | "VolumeReadOpsPerSecond" | "VolumeWriteOpsPerSecond" | "ActiveConnectionCount" | "PacketsInFromSource" | "PacketsInFromDestination" | "ConsumedReadCapacityUnits" | "ConsumedWriteCapacityUnits" | "ConsumedChangeDataCaptureUnits" | "NewConnections" | "EngineCPUUtilization" | "CacheHits" | "CacheMisses" | "KeyspaceHits" | "KeyspaceMisses" | "IsIdle" | "UserConnected" | "Invocations" | "GetTypeCmds" | "SetTypeCmds" | "ElastiCacheProcessingUnits" | "CurrConnections")
       attr_accessor statistic: ("Maximum" | "Average")
       attr_accessor value: ::Float
+      attr_accessor dimensions: ::Array[Types::IdleDimension]
       SENSITIVE: []
     end
 
@@ -1155,14 +1162,14 @@ module Aws::ComputeOptimizer
 
     class RecommendationSource
       attr_accessor recommendation_source_arn: ::String
-      attr_accessor recommendation_source_type: ("Ec2Instance" | "AutoScalingGroup" | "EbsVolume" | "LambdaFunction" | "EcsService" | "License" | "RdsDBInstance" | "RdsDBInstanceStorage" | "AuroraDBClusterStorage" | "NatGateway")
+      attr_accessor recommendation_source_type: ("Ec2Instance" | "AutoScalingGroup" | "EbsVolume" | "LambdaFunction" | "EcsService" | "License" | "RdsDBInstance" | "RdsDBInstanceStorage" | "AuroraDBClusterStorage" | "NatGateway" | "DynamoDBTable" | "ElastiCacheCluster" | "MemoryDBCluster" | "DocumentDBCluster" | "WorkSpaces" | "SageMakerEndpoint")
       SENSITIVE: []
     end
 
     class RecommendationSummary
       attr_accessor summaries: ::Array[Types::Summary]
       attr_accessor idle_summaries: ::Array[Types::IdleSummary]
-      attr_accessor recommendation_resource_type: ("Ec2Instance" | "AutoScalingGroup" | "EbsVolume" | "LambdaFunction" | "EcsService" | "License" | "RdsDBInstance" | "RdsDBInstanceStorage" | "AuroraDBClusterStorage" | "NatGateway")
+      attr_accessor recommendation_resource_type: ("Ec2Instance" | "AutoScalingGroup" | "EbsVolume" | "LambdaFunction" | "EcsService" | "License" | "RdsDBInstance" | "RdsDBInstanceStorage" | "AuroraDBClusterStorage" | "NatGateway" | "DynamoDBTable" | "ElastiCacheCluster" | "MemoryDBCluster" | "DocumentDBCluster" | "WorkSpaces" | "SageMakerEndpoint")
       attr_accessor account_id: ::String
       attr_accessor savings_opportunity: Types::SavingsOpportunity
       attr_accessor idle_savings_opportunity: Types::SavingsOpportunity

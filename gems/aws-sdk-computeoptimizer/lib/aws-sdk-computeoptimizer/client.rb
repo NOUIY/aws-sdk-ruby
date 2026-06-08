@@ -1250,7 +1250,7 @@ module Aws::ComputeOptimizer
     #         values: ["FilterValue"],
     #       },
     #     ],
-    #     fields_to_export: ["AccountId"], # accepts AccountId, ResourceArn, ResourceId, ResourceType, LastRefreshTimestamp, LookbackPeriodInDays, SavingsOpportunity, SavingsOpportunityAfterDiscount, UtilizationMetricsCpuMaximum, UtilizationMetricsMemoryMaximum, UtilizationMetricsNetworkOutBytesPerSecondMaximum, UtilizationMetricsNetworkInBytesPerSecondMaximum, UtilizationMetricsDatabaseConnectionsMaximum, UtilizationMetricsEBSVolumeReadIOPSMaximum, UtilizationMetricsEBSVolumeWriteIOPSMaximum, UtilizationMetricsVolumeReadOpsPerSecondMaximum, UtilizationMetricsVolumeWriteOpsPerSecondMaximum, UtilizationMetricsActiveConnectionCountMaximum, UtilizationMetricsPacketsInFromSourceMaximum, UtilizationMetricsPacketsInFromDestinationMaximum, Finding, FindingDescription, Tags
+    #     fields_to_export: ["AccountId"], # accepts AccountId, ResourceArn, ResourceId, ResourceType, LastRefreshTimestamp, LookbackPeriodInDays, SavingsOpportunity, SavingsOpportunityAfterDiscount, UtilizationMetricsCpuMaximum, UtilizationMetricsMemoryMaximum, UtilizationMetricsNetworkOutBytesPerSecondMaximum, UtilizationMetricsNetworkInBytesPerSecondMaximum, UtilizationMetricsDatabaseConnectionsMaximum, UtilizationMetricsEBSVolumeReadIOPSMaximum, UtilizationMetricsEBSVolumeWriteIOPSMaximum, UtilizationMetricsVolumeReadOpsPerSecondMaximum, UtilizationMetricsVolumeWriteOpsPerSecondMaximum, UtilizationMetricsActiveConnectionCountMaximum, UtilizationMetricsPacketsInFromSourceMaximum, UtilizationMetricsPacketsInFromDestinationMaximum, UtilizationMetricsConsumedReadCapacityUnitsSum, UtilizationMetricsConsumedWriteCapacityUnitsSum, UtilizationMetricsNewConnectionsSum, UtilizationMetricsEngineCPUUtilizationMaximum, UtilizationMetricsCacheHitsSum, UtilizationMetricsCacheMissesSum, UtilizationMetricsKeyspaceHitsSum, UtilizationMetricsKeyspaceMissesSum, UtilizationMetricsIsIdleMinimum, UtilizationMetricsUserConnectedSum, UtilizationMetricsInvocationsSum, UtilizationMetricsGetTypeCmdsSum, UtilizationMetricsSetTypeCmdsSum, UtilizationMetricsElastiCacheProcessingUnitsSum, UtilizationMetricsCurrConnectionsSum, UtilizationMetricsDatabaseConnectionsSum, Finding, FindingDescription, Tags
     #     s3_destination_config: { # required
     #       bucket: "DestinationBucket",
     #       key_prefix: "DestinationKeyPrefix",
@@ -2052,7 +2052,7 @@ module Aws::ComputeOptimizer
     #   resp.instance_recommendations[0].recommendation_options[0].migration_effort #=> String, one of "VeryLow", "Low", "Medium", "High"
     #   resp.instance_recommendations[0].recommendation_sources #=> Array
     #   resp.instance_recommendations[0].recommendation_sources[0].recommendation_source_arn #=> String
-    #   resp.instance_recommendations[0].recommendation_sources[0].recommendation_source_type #=> String, one of "Ec2Instance", "AutoScalingGroup", "EbsVolume", "LambdaFunction", "EcsService", "License", "RdsDBInstance", "RdsDBInstanceStorage", "AuroraDBClusterStorage", "NatGateway"
+    #   resp.instance_recommendations[0].recommendation_sources[0].recommendation_source_type #=> String, one of "Ec2Instance", "AutoScalingGroup", "EbsVolume", "LambdaFunction", "EcsService", "License", "RdsDBInstance", "RdsDBInstanceStorage", "AuroraDBClusterStorage", "NatGateway", "DynamoDBTable", "ElastiCacheCluster", "MemoryDBCluster", "DocumentDBCluster", "WorkSpaces", "SageMakerEndpoint"
     #   resp.instance_recommendations[0].last_refresh_timestamp #=> Time
     #   resp.instance_recommendations[0].current_performance_risk #=> String, one of "VeryLow", "Low", "Medium", "High"
     #   resp.instance_recommendations[0].effective_recommendation_preferences.cpu_vendor_architectures #=> Array
@@ -2579,7 +2579,7 @@ module Aws::ComputeOptimizer
     #   resp.idle_recommendations #=> Array
     #   resp.idle_recommendations[0].resource_arn #=> String
     #   resp.idle_recommendations[0].resource_id #=> String
-    #   resp.idle_recommendations[0].resource_type #=> String, one of "EC2Instance", "AutoScalingGroup", "EBSVolume", "ECSService", "RDSDBInstance", "NatGateway"
+    #   resp.idle_recommendations[0].resource_type #=> String, one of "EC2Instance", "AutoScalingGroup", "EBSVolume", "ECSService", "RDSDBInstance", "NatGateway", "DynamoDBTable", "ElastiCacheCluster", "MemoryDBCluster", "DocumentDBCluster", "WorkSpaces", "SageMakerEndpoint"
     #   resp.idle_recommendations[0].account_id #=> String
     #   resp.idle_recommendations[0].finding #=> String, one of "Idle", "Unattached", "Unused"
     #   resp.idle_recommendations[0].finding_description #=> String
@@ -2590,9 +2590,13 @@ module Aws::ComputeOptimizer
     #   resp.idle_recommendations[0].savings_opportunity_after_discounts.estimated_monthly_savings.currency #=> String, one of "USD", "CNY"
     #   resp.idle_recommendations[0].savings_opportunity_after_discounts.estimated_monthly_savings.value #=> Float
     #   resp.idle_recommendations[0].utilization_metrics #=> Array
-    #   resp.idle_recommendations[0].utilization_metrics[0].name #=> String, one of "CPU", "Memory", "NetworkOutBytesPerSecond", "NetworkInBytesPerSecond", "DatabaseConnections", "EBSVolumeReadIOPS", "EBSVolumeWriteIOPS", "VolumeReadOpsPerSecond", "VolumeWriteOpsPerSecond", "ActiveConnectionCount", "PacketsInFromSource", "PacketsInFromDestination"
+    #   resp.idle_recommendations[0].utilization_metrics[0].name #=> String, one of "CPU", "Memory", "NetworkOutBytesPerSecond", "NetworkInBytesPerSecond", "DatabaseConnections", "EBSVolumeReadIOPS", "EBSVolumeWriteIOPS", "VolumeReadOpsPerSecond", "VolumeWriteOpsPerSecond", "ActiveConnectionCount", "PacketsInFromSource", "PacketsInFromDestination", "ConsumedReadCapacityUnits", "ConsumedWriteCapacityUnits", "ConsumedChangeDataCaptureUnits", "NewConnections", "EngineCPUUtilization", "CacheHits", "CacheMisses", "KeyspaceHits", "KeyspaceMisses", "IsIdle", "UserConnected", "Invocations", "GetTypeCmds", "SetTypeCmds", "ElastiCacheProcessingUnits", "CurrConnections"
     #   resp.idle_recommendations[0].utilization_metrics[0].statistic #=> String, one of "Maximum", "Average"
     #   resp.idle_recommendations[0].utilization_metrics[0].value #=> Float
+    #   resp.idle_recommendations[0].utilization_metrics[0].dimensions #=> Array
+    #   resp.idle_recommendations[0].utilization_metrics[0].dimensions[0].key #=> String
+    #   resp.idle_recommendations[0].utilization_metrics[0].dimensions[0].values #=> Array
+    #   resp.idle_recommendations[0].utilization_metrics[0].dimensions[0].values[0] #=> String
     #   resp.idle_recommendations[0].look_back_period_in_days #=> Float
     #   resp.idle_recommendations[0].last_refresh_timestamp #=> Time
     #   resp.idle_recommendations[0].tags #=> Array
@@ -2602,7 +2606,7 @@ module Aws::ComputeOptimizer
     #   resp.errors[0].identifier #=> String
     #   resp.errors[0].code #=> String
     #   resp.errors[0].message #=> String
-    #   resp.errors[0].resource_type #=> String, one of "EC2Instance", "AutoScalingGroup", "EBSVolume", "ECSService", "RDSDBInstance", "NatGateway"
+    #   resp.errors[0].resource_type #=> String, one of "EC2Instance", "AutoScalingGroup", "EBSVolume", "ECSService", "RDSDBInstance", "NatGateway", "DynamoDBTable", "ElastiCacheCluster", "MemoryDBCluster", "DocumentDBCluster", "WorkSpaces", "SageMakerEndpoint"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/compute-optimizer-2019-11-01/GetIdleRecommendations AWS API Documentation
     #
@@ -3240,7 +3244,7 @@ module Aws::ComputeOptimizer
     #   resp.recommendation_summaries[0].idle_summaries #=> Array
     #   resp.recommendation_summaries[0].idle_summaries[0].name #=> String, one of "Idle", "Unattached", "Unused"
     #   resp.recommendation_summaries[0].idle_summaries[0].value #=> Float
-    #   resp.recommendation_summaries[0].recommendation_resource_type #=> String, one of "Ec2Instance", "AutoScalingGroup", "EbsVolume", "LambdaFunction", "EcsService", "License", "RdsDBInstance", "RdsDBInstanceStorage", "AuroraDBClusterStorage", "NatGateway"
+    #   resp.recommendation_summaries[0].recommendation_resource_type #=> String, one of "Ec2Instance", "AutoScalingGroup", "EbsVolume", "LambdaFunction", "EcsService", "License", "RdsDBInstance", "RdsDBInstanceStorage", "AuroraDBClusterStorage", "NatGateway", "DynamoDBTable", "ElastiCacheCluster", "MemoryDBCluster", "DocumentDBCluster", "WorkSpaces", "SageMakerEndpoint"
     #   resp.recommendation_summaries[0].account_id #=> String
     #   resp.recommendation_summaries[0].savings_opportunity.savings_opportunity_percentage #=> Float
     #   resp.recommendation_summaries[0].savings_opportunity.estimated_monthly_savings.currency #=> String, one of "USD", "CNY"
@@ -3591,7 +3595,7 @@ module Aws::ComputeOptimizer
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-computeoptimizer'
-      context[:gem_version] = '1.97.0'
+      context[:gem_version] = '1.98.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

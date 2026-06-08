@@ -110,6 +110,40 @@ module Aws
                               ) -> _CreateAgentSpaceResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAgentSpaceResponseSuccess
 
+      interface _CreateAssetResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateAssetResponse]
+        def asset: () -> Types::Asset
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#create_asset-instance_method
+      def create_asset: (
+                          agent_space_id: ::String,
+                          asset_type: ::String,
+                          ?metadata: {
+                          },
+                          content: Params::asset_content,
+                          ?client_token: ::String
+                        ) -> _CreateAssetResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAssetResponseSuccess
+
+      interface _CreateAssetFileResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateAssetFileResponse]
+        def file: () -> Types::AssetFile
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#create_asset_file-instance_method
+      def create_asset_file: (
+                               agent_space_id: ::String,
+                               asset_id: ::String,
+                               path: ::String,
+                               content: {
+                                 bytes: ::String?,
+                                 text: ::String?
+                               },
+                               ?metadata: {
+                               },
+                               ?client_token: ::String
+                             ) -> _CreateAssetFileResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAssetFileResponseSuccess
+
       interface _CreateBacklogTaskResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateBacklogTaskResponse]
         def task: () -> Types::Task
@@ -155,6 +189,8 @@ module Aws
         def resource_configuration_id: () -> ::String
         def status: () -> ("ACTIVE" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "DELETE_IN_PROGRESS" | "DELETE_FAILED")
         def certificate_expiry_time: () -> ::Time
+        def dns_resolution: () -> ("PUBLIC" | "IN_VPC")
+        def failure_message: () -> ::String
         def tags: () -> ::Hash[::String, ::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#create_private_connection-instance_method
@@ -169,7 +205,8 @@ module Aws
                                            ip_address_type: ("IPV4" | "IPV6" | "DUAL_STACK")?,
                                            ipv4_addresses_per_eni: ::Integer?,
                                            port_ranges: Array[::String]?,
-                                           certificate: ::String?
+                                           certificate: ::String?,
+                                           dns_resolution: ("PUBLIC" | "IN_VPC")?
                                          }?,
                                          self_managed: {
                                            resource_configuration_id: ::String,
@@ -188,6 +225,27 @@ module Aws
                                 agent_space_id: ::String
                               ) -> _DeleteAgentSpaceResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAgentSpaceResponseSuccess
+
+      interface _DeleteAssetResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAssetResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#delete_asset-instance_method
+      def delete_asset: (
+                          agent_space_id: ::String,
+                          asset_id: ::String
+                        ) -> _DeleteAssetResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAssetResponseSuccess
+
+      interface _DeleteAssetFileResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAssetFileResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#delete_asset_file-instance_method
+      def delete_asset_file: (
+                               agent_space_id: ::String,
+                               asset_id: ::String,
+                               path: ::String
+                             ) -> _DeleteAssetFileResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAssetFileResponseSuccess
 
       interface _DeletePrivateConnectionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeletePrivateConnectionOutput]
@@ -219,6 +277,8 @@ module Aws
         def resource_configuration_id: () -> ::String
         def status: () -> ("ACTIVE" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "DELETE_IN_PROGRESS" | "DELETE_FAILED")
         def certificate_expiry_time: () -> ::Time
+        def dns_resolution: () -> ("PUBLIC" | "IN_VPC")
+        def failure_message: () -> ::String
         def tags: () -> ::Hash[::String, ::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#describe_private_connection-instance_method
@@ -247,6 +307,7 @@ module Aws
       interface _EnableOperatorAppResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::EnableOperatorAppOutput]
         def agent_space_id: () -> ::String
+        def operator_app_url: () -> ::String
         def iam: () -> Types::IamAuthConfiguration
         def idc: () -> Types::IdcAuthConfiguration
         def idp: () -> Types::IdpAuthConfiguration
@@ -289,6 +350,44 @@ module Aws
                            ) -> _GetAgentSpaceResponseSuccess
                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetAgentSpaceResponseSuccess
 
+      interface _GetAssetResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetAssetResponse]
+        def asset: () -> Types::Asset
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#get_asset-instance_method
+      def get_asset: (
+                       agent_space_id: ::String,
+                       asset_id: ::String,
+                       ?asset_version: ::Integer
+                     ) -> _GetAssetResponseSuccess
+                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetAssetResponseSuccess
+
+      interface _GetAssetContentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetAssetContentResponse]
+        def content: () -> Types::AssetZipContent
+        def version: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#get_asset_content-instance_method
+      def get_asset_content: (
+                               agent_space_id: ::String,
+                               asset_id: ::String,
+                               ?asset_version: ::Integer
+                             ) -> _GetAssetContentResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetAssetContentResponseSuccess
+
+      interface _GetAssetFileResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetAssetFileResponse]
+        def file: () -> Types::AssetFile
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#get_asset_file-instance_method
+      def get_asset_file: (
+                            agent_space_id: ::String,
+                            asset_id: ::String,
+                            path: ::String,
+                            ?asset_version: ::Integer
+                          ) -> _GetAssetFileResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetAssetFileResponseSuccess
+
       interface _GetAssociationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetAssociationOutput]
         def association: () -> Types::Association
@@ -313,6 +412,7 @@ module Aws
 
       interface _GetOperatorAppResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetOperatorAppOutput]
+        def operator_app_url: () -> ::String
         def iam: () -> Types::IamAuthConfiguration
         def idc: () -> Types::IdcAuthConfiguration
         def idp: () -> Types::IdpAuthConfiguration
@@ -358,6 +458,63 @@ module Aws
                              ) -> _ListAgentSpacesResponseSuccess
                            | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAgentSpacesResponseSuccess
 
+      interface _ListAssetFilesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAssetFilesResponse]
+        def items: () -> ::Array[Types::AssetFileSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#list_asset_files-instance_method
+      def list_asset_files: (
+                              agent_space_id: ::String,
+                              asset_id: ::String,
+                              ?asset_version: ::Integer,
+                              ?next_token: ::String,
+                              ?max_results: ::Integer
+                            ) -> _ListAssetFilesResponseSuccess
+                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAssetFilesResponseSuccess
+
+      interface _ListAssetTypesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAssetTypesResponse]
+        def items: () -> ::Array[Types::AssetTypeSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#list_asset_types-instance_method
+      def list_asset_types: (
+                              ?next_token: ::String,
+                              ?max_results: ::Integer
+                            ) -> _ListAssetTypesResponseSuccess
+                          | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAssetTypesResponseSuccess
+
+      interface _ListAssetVersionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAssetVersionsResponse]
+        def items: () -> ::Array[Types::AssetVersionMetadata]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#list_asset_versions-instance_method
+      def list_asset_versions: (
+                                 agent_space_id: ::String,
+                                 asset_id: ::String,
+                                 ?max_results: ::Integer,
+                                 ?next_token: ::String
+                               ) -> _ListAssetVersionsResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAssetVersionsResponseSuccess
+
+      interface _ListAssetsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAssetsResponse]
+        def items: () -> ::Array[Types::Asset]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#list_assets-instance_method
+      def list_assets: (
+                         agent_space_id: ::String,
+                         ?asset_type: ::String,
+                         ?updated_after: ::Time,
+                         ?updated_before: ::Time,
+                         ?next_token: ::String,
+                         ?max_results: ::Integer
+                       ) -> _ListAssetsResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAssetsResponseSuccess
+
       interface _ListAssociationsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListAssociationsOutput]
         def next_token: () -> ::String
@@ -384,7 +541,7 @@ module Aws
                                   created_after: ::Time?,
                                   created_before: ::Time?,
                                   priority: Array[("CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "MINIMAL")]?,
-                                  status: Array[("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED")]?,
+                                  status: Array[("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED" | "SKIPPED")]?,
                                   task_type: Array[("INVESTIGATION" | "EVALUATION")]?,
                                   primary_task_id: ::String?
                                 },
@@ -624,13 +781,16 @@ module Aws
                                   authorization_config: {
                                     region: ::String,
                                     service: ::String,
-                                    role_arn: ::String,
+                                    role_arn: ::String?,
+                                    mcp_role_arn: ::String?,
                                     custom_headers: Hash[::String, ::String]?
                                   }
                                 }?
                               },
                               ?kms_key_arn: ::String,
                               ?private_connection_name: ::String,
+                              ?target_url_private_connection_name: ::String,
+                              ?exchange_url_private_connection_name: ::String,
                               ?name: ::String,
                               ?tags: Hash[::String, ::String]
                             ) -> _RegisterServiceResponseSuccess
@@ -650,7 +810,8 @@ module Aws
                             last_message: ::String?,
                             user_action_response: ::String?
                           },
-                          ?user_id: ::String
+                          ?user_id: ::String,
+                          ?asset_ids: Array[::String]
                         ) ?{ (*untyped) -> void } -> _SendMessageResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _SendMessageResponseSuccess
 
@@ -687,6 +848,40 @@ module Aws
                               ) -> _UpdateAgentSpaceResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateAgentSpaceResponseSuccess
 
+      interface _UpdateAssetResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateAssetResponse]
+        def asset: () -> Types::Asset
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#update_asset-instance_method
+      def update_asset: (
+                          agent_space_id: ::String,
+                          asset_id: ::String,
+                          ?metadata: {
+                          },
+                          ?content: Params::asset_content,
+                          ?client_token: ::String
+                        ) -> _UpdateAssetResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateAssetResponseSuccess
+
+      interface _UpdateAssetFileResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateAssetFileResponse]
+        def file: () -> Types::AssetFile
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#update_asset_file-instance_method
+      def update_asset_file: (
+                               agent_space_id: ::String,
+                               asset_id: ::String,
+                               path: ::String,
+                               ?content: {
+                                 bytes: ::String?,
+                                 text: ::String?
+                               },
+                               ?metadata: {
+                               },
+                               ?client_token: ::String
+                             ) -> _UpdateAssetFileResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateAssetFileResponseSuccess
+
       interface _UpdateAssociationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateAssociationOutput]
         def association: () -> Types::Association
@@ -708,7 +903,7 @@ module Aws
       def update_backlog_task: (
                                  agent_space_id: ::String,
                                  task_id: ::String,
-                                 ?task_status: ("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED"),
+                                 ?task_status: ("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED" | "SKIPPED"),
                                  ?client_token: ::String
                                ) -> _UpdateBacklogTaskResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateBacklogTaskResponseSuccess
@@ -750,6 +945,8 @@ module Aws
         def resource_configuration_id: () -> ::String
         def status: () -> ("ACTIVE" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "DELETE_IN_PROGRESS" | "DELETE_FAILED")
         def certificate_expiry_time: () -> ::Time
+        def dns_resolution: () -> ("PUBLIC" | "IN_VPC")
+        def failure_message: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#update_private_connection_certificate-instance_method
       def update_private_connection_certificate: (

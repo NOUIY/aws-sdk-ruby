@@ -211,6 +211,259 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Represents an asset in an agent space, including its identifier, type,
+    # metadata, version, and timestamps.
+    #
+    # @!attribute [rw] asset_id
+    #   The unique identifier for this asset
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_type
+    #   The type of this asset
+    #   @return [String]
+    #
+    # @!attribute [rw] metadata
+    #   The metadata for this asset
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @!attribute [rw] version
+    #   The version number of this asset
+    #   @return [Integer]
+    #
+    # @!attribute [rw] created_at
+    #   Timestamp when this asset was created
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   Timestamp when this asset was last updated
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/Asset AWS API Documentation
+    #
+    class Asset < Struct.new(
+      :asset_id,
+      :asset_type,
+      :metadata,
+      :version,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Content for an asset, either a single file or a zip bundle
+    #
+    # @note AssetContent is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] file
+    #   A single file with path and content
+    #   @return [Types::AssetFileContent]
+    #
+    # @!attribute [rw] zip
+    #   A zip file containing multiple files
+    #   @return [Types::AssetZipContent]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AssetContent AWS API Documentation
+    #
+    class AssetContent < Struct.new(
+      :file,
+      :zip,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class File < AssetContent; end
+      class Zip < AssetContent; end
+      class Unknown < AssetContent; end
+    end
+
+    # Represents a single file within an asset, including its path, content,
+    # version, and timestamps.
+    #
+    # @!attribute [rw] path
+    #   The path of this file within the asset
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   The content of this file
+    #   @return [Types::AssetFileBody]
+    #
+    # @!attribute [rw] metadata
+    #   The metadata for this file
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @!attribute [rw] version
+    #   The asset version this file belongs to
+    #   @return [Integer]
+    #
+    # @!attribute [rw] created_at
+    #   Timestamp when this file was created
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   Timestamp when this file was last updated
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AssetFile AWS API Documentation
+    #
+    class AssetFile < Struct.new(
+      :path,
+      :content,
+      :metadata,
+      :version,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Content of an individual asset file
+    #
+    # @note AssetFileBody is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note AssetFileBody is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of AssetFileBody corresponding to the set member.
+    #
+    # @!attribute [rw] bytes
+    #   Binary file content
+    #   @return [String]
+    #
+    # @!attribute [rw] text
+    #   Text file content
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AssetFileBody AWS API Documentation
+    #
+    class AssetFileBody < Struct.new(
+      :bytes,
+      :text,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Bytes < AssetFileBody; end
+      class Text < AssetFileBody; end
+      class Unknown < AssetFileBody; end
+    end
+
+    # A single file with path and content
+    #
+    # @!attribute [rw] path
+    #   The path of the file within the asset
+    #   @return [String]
+    #
+    # @!attribute [rw] body
+    #   The file content
+    #   @return [Types::AssetFileBody]
+    #
+    # @!attribute [rw] metadata
+    #   Optional metadata for this file
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AssetFileContent AWS API Documentation
+    #
+    class AssetFileContent < Struct.new(
+      :path,
+      :body,
+      :metadata)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary of a file within an asset, including its path, version, and
+    # timestamps.
+    #
+    # @!attribute [rw] path
+    #   The path of this file within the asset
+    #   @return [String]
+    #
+    # @!attribute [rw] metadata
+    #   The metadata for this file
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @!attribute [rw] version
+    #   The asset version this file belongs to
+    #   @return [Integer]
+    #
+    # @!attribute [rw] created_at
+    #   Timestamp when this file was created
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   Timestamp when this file was last updated
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AssetFileSummary AWS API Documentation
+    #
+    class AssetFileSummary < Struct.new(
+      :path,
+      :metadata,
+      :version,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary of an asset type, including its identifier and description.
+    #
+    # @!attribute [rw] asset_type
+    #   The asset type identifier
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the asset type
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AssetTypeSummary AWS API Documentation
+    #
+    class AssetTypeSummary < Struct.new(
+      :asset_type,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Metadata for a single version of an asset, including the version
+    # number and timestamps.
+    #
+    # @!attribute [rw] version
+    #   The version number of this asset
+    #   @return [Integer]
+    #
+    # @!attribute [rw] created_at
+    #   Timestamp when this asset version was created
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   Timestamp when this asset version was last updated
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AssetVersionMetadata AWS API Documentation
+    #
+    class AssetVersionMetadata < Struct.new(
+      :version,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A zip file containing asset files
+    #
+    # @!attribute [rw] zip_file
+    #   The zip file bytes
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AssetZipContent AWS API Documentation
+    #
+    class AssetZipContent < Struct.new(
+      :zip_file)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A block of content in an assistant message.
     #
     # @note AssistantMessageBlock is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of AssistantMessageBlock corresponding to the set member.
@@ -491,6 +744,116 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Request structure for creating an asset file
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_id
+    #   The unique identifier of the asset to create the file in
+    #   @return [String]
+    #
+    # @!attribute [rw] path
+    #   The path of the file within the asset
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   The content of the file to create
+    #   @return [Types::AssetFileBody]
+    #
+    # @!attribute [rw] metadata
+    #   Optional metadata describing this file
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier used for idempotent asset file
+    #   creation
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/CreateAssetFileRequest AWS API Documentation
+    #
+    class CreateAssetFileRequest < Struct.new(
+      :agent_space_id,
+      :asset_id,
+      :path,
+      :content,
+      :metadata,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response structure for creating an asset file
+    #
+    # @!attribute [rw] file
+    #   The asset file object
+    #   @return [Types::AssetFile]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/CreateAssetFileResponse AWS API Documentation
+    #
+    class CreateAssetFileResponse < Struct.new(
+      :file)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Request structure for creating a new asset
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier for the agent space where the asset will be
+    #   created
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_type
+    #   The type of asset to create
+    #   @return [String]
+    #
+    # @!attribute [rw] metadata
+    #   The metadata describing this asset
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @!attribute [rw] content
+    #   The content for the asset. Provide a single file or a zip bundle.
+    #   @return [Types::AssetContent]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier used for idempotent asset
+    #   creation
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/CreateAssetRequest AWS API Documentation
+    #
+    class CreateAssetRequest < Struct.new(
+      :agent_space_id,
+      :asset_type,
+      :metadata,
+      :content,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response structure for creating a new asset
+    #
+    # @!attribute [rw] asset
+    #   The asset object
+    #   @return [Types::Asset]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/CreateAssetResponse AWS API Documentation
+    #
+    class CreateAssetResponse < Struct.new(
+      :asset)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Request structure for creating a new backlog task
     #
     # @!attribute [rw] agent_space_id
@@ -662,6 +1025,15 @@ module Aws::DevOpsAgent
     #   Connection. Only present when a certificate is associated.
     #   @return [Time]
     #
+    # @!attribute [rw] dns_resolution
+    #   DNS resolution mode for the Private Connection's resource gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_message
+    #   Message describing the reason for a failed Private Connection
+    #   creation, if applicable.
+    #   @return [String]
+    #
     # @!attribute [rw] tags
     #   Tags associated with the created Private Connection.
     #   @return [Hash<String,String>]
@@ -677,6 +1049,8 @@ module Aws::DevOpsAgent
       :resource_configuration_id,
       :status,
       :certificate_expiry_time,
+      :dns_resolution,
+      :failure_message,
       :tags)
       SENSITIVE = []
       include Aws::Structure
@@ -753,6 +1127,61 @@ module Aws::DevOpsAgent
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/DeleteAgentSpaceOutput AWS API Documentation
     #
     class DeleteAgentSpaceOutput < Aws::EmptyStructure; end
+
+    # Request structure for deleting an asset file
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_id
+    #   The unique identifier of the asset containing the file
+    #   @return [String]
+    #
+    # @!attribute [rw] path
+    #   The path of the file within the asset to delete
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/DeleteAssetFileRequest AWS API Documentation
+    #
+    class DeleteAssetFileRequest < Struct.new(
+      :agent_space_id,
+      :asset_id,
+      :path)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response structure for deleting an asset file
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/DeleteAssetFileResponse AWS API Documentation
+    #
+    class DeleteAssetFileResponse < Aws::EmptyStructure; end
+
+    # Request structure for deleting an asset
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_id
+    #   The unique identifier of the asset to delete
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/DeleteAssetRequest AWS API Documentation
+    #
+    class DeleteAssetRequest < Struct.new(
+      :agent_space_id,
+      :asset_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response structure for deleting an asset
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/DeleteAssetResponse AWS API Documentation
+    #
+    class DeleteAssetResponse < Aws::EmptyStructure; end
 
     # Input for deleting an existing Private Connection.
     #
@@ -861,6 +1290,15 @@ module Aws::DevOpsAgent
     #   Connection. Only present when a certificate is associated.
     #   @return [Time]
     #
+    # @!attribute [rw] dns_resolution
+    #   DNS resolution mode for the Private Connection's resource gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_message
+    #   Message describing the reason for a failed Private Connection, if
+    #   applicable.
+    #   @return [String]
+    #
     # @!attribute [rw] tags
     #   Tags associated with the Private Connection.
     #   @return [Hash<String,String>]
@@ -876,6 +1314,8 @@ module Aws::DevOpsAgent
       :resource_configuration_id,
       :status,
       :certificate_expiry_time,
+      :dns_resolution,
+      :failure_message,
       :tags)
       SENSITIVE = []
       include Aws::Structure
@@ -1070,6 +1510,10 @@ module Aws::DevOpsAgent
     #   The unique identifier of the AgentSpace
     #   @return [String]
     #
+    # @!attribute [rw] operator_app_url
+    #   The URL for operators to access the Operator App
+    #   @return [String]
+    #
     # @!attribute [rw] iam
     #   Configuration for IAM-based authentication flow for the Operator
     #   App.
@@ -1089,6 +1533,7 @@ module Aws::DevOpsAgent
     #
     class EnableOperatorAppOutput < Struct.new(
       :agent_space_id,
+      :operator_app_url,
       :iam,
       :idc,
       :idp)
@@ -1285,6 +1730,133 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Request structure for getting an asset's content as a zip bundle
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_id
+    #   The unique identifier of the asset
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_version
+    #   The specific asset version to export. If omitted, the latest version
+    #   is returned.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetAssetContentRequest AWS API Documentation
+    #
+    class GetAssetContentRequest < Struct.new(
+      :agent_space_id,
+      :asset_id,
+      :asset_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response structure for getting an asset's content as a zip bundle
+    #
+    # @!attribute [rw] content
+    #   The asset content as a zip file
+    #   @return [Types::AssetZipContent]
+    #
+    # @!attribute [rw] version
+    #   The asset version this content belongs to
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetAssetContentResponse AWS API Documentation
+    #
+    class GetAssetContentResponse < Struct.new(
+      :content,
+      :version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Request structure for getting an asset file
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_id
+    #   The unique identifier of the asset containing the file
+    #   @return [String]
+    #
+    # @!attribute [rw] path
+    #   The path of the file within the asset to retrieve
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_version
+    #   The specific asset version to retrieve the file from. If omitted,
+    #   the latest version is returned.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetAssetFileRequest AWS API Documentation
+    #
+    class GetAssetFileRequest < Struct.new(
+      :agent_space_id,
+      :asset_id,
+      :path,
+      :asset_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response structure for getting an asset file
+    #
+    # @!attribute [rw] file
+    #   The asset file object
+    #   @return [Types::AssetFile]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetAssetFileResponse AWS API Documentation
+    #
+    class GetAssetFileResponse < Struct.new(
+      :file)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Request structure for getting an asset
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_id
+    #   The unique identifier of the asset to retrieve
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_version
+    #   The specific version of the asset to retrieve. If omitted, the
+    #   latest version is returned.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetAssetRequest AWS API Documentation
+    #
+    class GetAssetRequest < Struct.new(
+      :agent_space_id,
+      :asset_id,
+      :asset_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response structure for getting an asset
+    #
+    # @!attribute [rw] asset
+    #   The asset object
+    #   @return [Types::Asset]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetAssetResponse AWS API Documentation
+    #
+    class GetAssetResponse < Struct.new(
+      :asset)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Input for retrieving a specific service association.
     #
     # @!attribute [rw] agent_space_id
@@ -1369,6 +1941,10 @@ module Aws::DevOpsAgent
     # Output containing the Operator App configuration including
     # authentication details.
     #
+    # @!attribute [rw] operator_app_url
+    #   The URL for operators to access the Operator App
+    #   @return [String]
+    #
     # @!attribute [rw] iam
     #   Configuration for IAM-based authentication flow for the Operator
     #   App.
@@ -1387,6 +1963,7 @@ module Aws::DevOpsAgent
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetOperatorAppOutput AWS API Documentation
     #
     class GetOperatorAppOutput < Struct.new(
+      :operator_app_url,
       :iam,
       :idc,
       :idp)
@@ -1940,6 +2517,212 @@ module Aws::DevOpsAgent
     class ListAgentSpacesOutput < Struct.new(
       :next_token,
       :agent_spaces)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Request structure for listing asset files
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_id
+    #   The unique identifier of the asset whose files to list
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_version
+    #   The specific asset version to list files from. If omitted, files
+    #   from the latest version are returned.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Pagination token from a previous response to retrieve the next page
+    #   of results
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single response
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListAssetFilesRequest AWS API Documentation
+    #
+    class ListAssetFilesRequest < Struct.new(
+      :agent_space_id,
+      :asset_id,
+      :asset_version,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response structure for listing asset files
+    #
+    # @!attribute [rw] items
+    #   The list of asset file summaries
+    #   @return [Array<Types::AssetFileSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   Pagination token to retrieve the next page of results. Absent when
+    #   there are no more results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListAssetFilesResponse AWS API Documentation
+    #
+    class ListAssetFilesResponse < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Request structure for listing asset types
+    #
+    # @!attribute [rw] next_token
+    #   Pagination token from a previous response to retrieve the next page
+    #   of results
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single response
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListAssetTypesRequest AWS API Documentation
+    #
+    class ListAssetTypesRequest < Struct.new(
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response structure for listing asset types
+    #
+    # @!attribute [rw] items
+    #   The list of supported asset types
+    #   @return [Array<Types::AssetTypeSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   Pagination token to retrieve the next page of results. Absent when
+    #   there are no more results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListAssetTypesResponse AWS API Documentation
+    #
+    class ListAssetTypesResponse < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Request structure for listing asset versions
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_id
+    #   The unique identifier of the asset whose versions to list
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single response
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Pagination token from a previous response to retrieve the next page
+    #   of results
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListAssetVersionsRequest AWS API Documentation
+    #
+    class ListAssetVersionsRequest < Struct.new(
+      :agent_space_id,
+      :asset_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response structure for listing asset versions
+    #
+    # @!attribute [rw] items
+    #   The list of version metadata for the asset
+    #   @return [Array<Types::AssetVersionMetadata>]
+    #
+    # @!attribute [rw] next_token
+    #   Pagination token to retrieve the next page of results. Absent when
+    #   there are no more results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListAssetVersionsResponse AWS API Documentation
+    #
+    class ListAssetVersionsResponse < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Request structure for listing assets
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier for the agent space to list assets from
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_type
+    #   Filter results to only assets of this type
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_after
+    #   Filter results to only assets updated after this timestamp
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_before
+    #   Filter results to only assets updated before this timestamp
+    #   @return [Time]
+    #
+    # @!attribute [rw] next_token
+    #   Pagination token from a previous response to retrieve the next page
+    #   of results
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single response
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListAssetsRequest AWS API Documentation
+    #
+    class ListAssetsRequest < Struct.new(
+      :agent_space_id,
+      :asset_type,
+      :updated_after,
+      :updated_before,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response structure for listing assets
+    #
+    # @!attribute [rw] items
+    #   The list of assets for the agent space
+    #   @return [Array<Types::Asset>]
+    #
+    # @!attribute [rw] next_token
+    #   Pagination token to retrieve the next page of results. Absent when
+    #   there are no more results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListAssetsResponse AWS API Documentation
+    #
+    class ListAssetsResponse < Struct.new(
+      :items,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2835,7 +3618,14 @@ module Aws::DevOpsAgent
     #   @return [String]
     #
     # @!attribute [rw] role_arn
-    #   IAM role ARN to assume for SigV4 signing.
+    #   Deprecated — use mcpRoleArn instead. IAM role ARN to assume for
+    #   SigV4 signing.
+    #   @return [String]
+    #
+    # @!attribute [rw] mcp_role_arn
+    #   IAM role ARN to assume for SigV4 signing. Optional — when omitted,
+    #   credentials are resolved at runtime via a monitor account
+    #   association.
     #   @return [String]
     #
     # @!attribute [rw] custom_headers
@@ -2848,6 +3638,7 @@ module Aws::DevOpsAgent
       :region,
       :service,
       :role_arn,
+      :mcp_role_arn,
       :custom_headers)
       SENSITIVE = [:custom_headers]
       include Aws::Structure
@@ -3194,6 +3985,15 @@ module Aws::DevOpsAgent
     #   Connection. Only present when a certificate is associated.
     #   @return [Time]
     #
+    # @!attribute [rw] dns_resolution
+    #   DNS resolution mode for the Private Connection's resource gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_message
+    #   Message describing the reason for a failed Private Connection, if
+    #   applicable.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/PrivateConnectionSummary AWS API Documentation
     #
     class PrivateConnectionSummary < Struct.new(
@@ -3204,7 +4004,9 @@ module Aws::DevOpsAgent
       :vpc_id,
       :resource_configuration_id,
       :status,
-      :certificate_expiry_time)
+      :certificate_expiry_time,
+      :dns_resolution,
+      :failure_message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3402,6 +4204,17 @@ module Aws::DevOpsAgent
     #   The name of the private connection to use for VPC connectivity.
     #   @return [String]
     #
+    # @!attribute [rw] target_url_private_connection_name
+    #   The name of the private connection to use for API calls (target URL)
+    #   only. Cannot be specified when privateConnectionName is provided.
+    #   @return [String]
+    #
+    # @!attribute [rw] exchange_url_private_connection_name
+    #   The name of the private connection to use for OAuth token exchange
+    #   requests only. Cannot be specified when privateConnectionName is
+    #   provided.
+    #   @return [String]
+    #
     # @!attribute [rw] name
     #   The display name for the service registration.
     #   @return [String]
@@ -3417,6 +4230,8 @@ module Aws::DevOpsAgent
       :service_details,
       :kms_key_arn,
       :private_connection_name,
+      :target_url_private_connection_name,
+      :exchange_url_private_connection_name,
       :name,
       :tags)
       SENSITIVE = []
@@ -3632,6 +4447,10 @@ module Aws::DevOpsAgent
     #   IAM role ARN to assume for SigV4 signing.
     #   @return [String]
     #
+    # @!attribute [rw] mcp_role_arn
+    #   AWS IAM role ARN.
+    #   @return [String]
+    #
     # @!attribute [rw] custom_headers
     #   Custom headers for the SigV4 MCP server.
     #   @return [Hash<String,String>]
@@ -3645,6 +4464,7 @@ module Aws::DevOpsAgent
       :region,
       :service,
       :role_arn,
+      :mcp_role_arn,
       :custom_headers)
       SENSITIVE = [:description, :custom_headers]
       include Aws::Structure
@@ -3995,6 +4815,10 @@ module Aws::DevOpsAgent
     #   service resolves user identity from the authenticated session.
     #   @return [String]
     #
+    # @!attribute [rw] asset_ids
+    #   Optional list of asset identifiers to attach to the message
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/SendMessageRequest AWS API Documentation
     #
     class SendMessageRequest < Struct.new(
@@ -4002,7 +4826,8 @@ module Aws::DevOpsAgent
       :execution_id,
       :content,
       :context,
-      :user_id)
+      :user_id,
+      :asset_ids)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4419,6 +5244,11 @@ module Aws::DevOpsAgent
     #   Certificate for the Private Connection.
     #   @return [String]
     #
+    # @!attribute [rw] dns_resolution
+    #   DNS resolution mode for the resource gateway. Defaults to PUBLIC
+    #   when not set.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ServiceManagedInput AWS API Documentation
     #
     class ServiceManagedInput < Struct.new(
@@ -4429,7 +5259,8 @@ module Aws::DevOpsAgent
       :ip_address_type,
       :ipv4_addresses_per_eni,
       :port_ranges,
-      :certificate)
+      :certificate,
+      :dns_resolution)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4868,6 +5699,117 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Request structure for updating an asset file
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_id
+    #   The unique identifier of the asset containing the file
+    #   @return [String]
+    #
+    # @!attribute [rw] path
+    #   The path of the file within the asset to update
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   Updated file content. If omitted, the existing content is unchanged.
+    #   @return [Types::AssetFileBody]
+    #
+    # @!attribute [rw] metadata
+    #   Metadata fields to update. Only the fields present in this document
+    #   are updated. Omitted fields retain their current values.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier used for idempotent asset file
+    #   update
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/UpdateAssetFileRequest AWS API Documentation
+    #
+    class UpdateAssetFileRequest < Struct.new(
+      :agent_space_id,
+      :asset_id,
+      :path,
+      :content,
+      :metadata,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response structure for updating an asset file
+    #
+    # @!attribute [rw] file
+    #   The asset file object
+    #   @return [Types::AssetFile]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/UpdateAssetFileResponse AWS API Documentation
+    #
+    class UpdateAssetFileResponse < Struct.new(
+      :file)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Request structure for updating an asset
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_id
+    #   The unique identifier of the asset to update
+    #   @return [String]
+    #
+    # @!attribute [rw] metadata
+    #   Metadata fields to update. Only the fields present in this document
+    #   are updated. Omitted fields retain their current values.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @!attribute [rw] content
+    #   Optional content to set or replace. A single file adds or replaces
+    #   one file; a zip replaces all files.
+    #   @return [Types::AssetContent]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier used for idempotent asset update
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/UpdateAssetRequest AWS API Documentation
+    #
+    class UpdateAssetRequest < Struct.new(
+      :agent_space_id,
+      :asset_id,
+      :metadata,
+      :content,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response structure for updating an asset
+    #
+    # @!attribute [rw] asset
+    #   The asset object
+    #   @return [Types::Asset]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/UpdateAssetResponse AWS API Documentation
+    #
+    class UpdateAssetResponse < Struct.new(
+      :asset)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Input for updating an existing service association. Present fields are
     # fully replaced; absent fields are left unchanged.
     #
@@ -5105,6 +6047,15 @@ module Aws::DevOpsAgent
     #   Connection. Only present when a certificate is associated.
     #   @return [Time]
     #
+    # @!attribute [rw] dns_resolution
+    #   DNS resolution mode for the Private Connection's resource gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_message
+    #   Message describing the reason for a failed Private Connection
+    #   update, if applicable.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/UpdatePrivateConnectionCertificateOutput AWS API Documentation
     #
     class UpdatePrivateConnectionCertificateOutput < Struct.new(
@@ -5115,7 +6066,9 @@ module Aws::DevOpsAgent
       :vpc_id,
       :resource_configuration_id,
       :status,
-      :certificate_expiry_time)
+      :certificate_expiry_time,
+      :dns_resolution,
+      :failure_message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5176,7 +6129,8 @@ module Aws::DevOpsAgent
     # value.
     #
     # @!attribute [rw] limit
-    #   Configured limit for this metric.
+    #   Configured limit for this metric. A value of -1 indicates no limit
+    #   is enforced.
     #   @return [Integer]
     #
     # @!attribute [rw] usage

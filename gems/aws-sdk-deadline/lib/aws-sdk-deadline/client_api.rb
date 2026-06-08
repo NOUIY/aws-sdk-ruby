@@ -860,6 +860,7 @@ module Aws::Deadline
     AssociateMemberToFarmRequest.add_member(:identity_store_id, Shapes::ShapeRef.new(shape: IdentityStoreId, required: true, location_name: "identityStoreId"))
     AssociateMemberToFarmRequest.add_member(:membership_level, Shapes::ShapeRef.new(shape: MembershipLevel, required: true, location_name: "membershipLevel"))
     AssociateMemberToFarmRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, required: true, location: "uri", location_name: "principalId"))
+    AssociateMemberToFarmRequest.add_member(:identity_center_region, Shapes::ShapeRef.new(shape: Region, location_name: "identityCenterRegion"))
     AssociateMemberToFarmRequest.struct_class = Types::AssociateMemberToFarmRequest
 
     AssociateMemberToFarmResponse.struct_class = Types::AssociateMemberToFarmResponse
@@ -870,6 +871,7 @@ module Aws::Deadline
     AssociateMemberToFleetRequest.add_member(:identity_store_id, Shapes::ShapeRef.new(shape: IdentityStoreId, required: true, location_name: "identityStoreId"))
     AssociateMemberToFleetRequest.add_member(:membership_level, Shapes::ShapeRef.new(shape: MembershipLevel, required: true, location_name: "membershipLevel"))
     AssociateMemberToFleetRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, required: true, location: "uri", location_name: "principalId"))
+    AssociateMemberToFleetRequest.add_member(:identity_center_region, Shapes::ShapeRef.new(shape: Region, location_name: "identityCenterRegion"))
     AssociateMemberToFleetRequest.struct_class = Types::AssociateMemberToFleetRequest
 
     AssociateMemberToFleetResponse.struct_class = Types::AssociateMemberToFleetResponse
@@ -881,6 +883,7 @@ module Aws::Deadline
     AssociateMemberToJobRequest.add_member(:identity_store_id, Shapes::ShapeRef.new(shape: IdentityStoreId, required: true, location_name: "identityStoreId"))
     AssociateMemberToJobRequest.add_member(:membership_level, Shapes::ShapeRef.new(shape: MembershipLevel, required: true, location_name: "membershipLevel"))
     AssociateMemberToJobRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, required: true, location: "uri", location_name: "principalId"))
+    AssociateMemberToJobRequest.add_member(:identity_center_region, Shapes::ShapeRef.new(shape: Region, location_name: "identityCenterRegion"))
     AssociateMemberToJobRequest.struct_class = Types::AssociateMemberToJobRequest
 
     AssociateMemberToJobResponse.struct_class = Types::AssociateMemberToJobResponse
@@ -891,6 +894,7 @@ module Aws::Deadline
     AssociateMemberToQueueRequest.add_member(:identity_store_id, Shapes::ShapeRef.new(shape: IdentityStoreId, required: true, location_name: "identityStoreId"))
     AssociateMemberToQueueRequest.add_member(:membership_level, Shapes::ShapeRef.new(shape: MembershipLevel, required: true, location_name: "membershipLevel"))
     AssociateMemberToQueueRequest.add_member(:principal_id, Shapes::ShapeRef.new(shape: IdentityCenterPrincipalId, required: true, location: "uri", location_name: "principalId"))
+    AssociateMemberToQueueRequest.add_member(:identity_center_region, Shapes::ShapeRef.new(shape: Region, location_name: "identityCenterRegion"))
     AssociateMemberToQueueRequest.struct_class = Types::AssociateMemberToQueueRequest
 
     AssociateMemberToQueueResponse.struct_class = Types::AssociateMemberToQueueResponse

@@ -90,8 +90,8 @@ module Aws
 
       interface _BatchGetTaxExemptionsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetTaxExemptionsResponse]
-        def failed_accounts: () -> ::Array[::String]
         def tax_exemption_details_map: () -> ::Hash[::String, Types::TaxExemptionDetails]
+        def failed_accounts: () -> ::Array[::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/TaxSettings/Client.html#batch_get_tax_exemptions-instance_method
       def batch_get_tax_exemptions: (
@@ -101,8 +101,8 @@ module Aws
 
       interface _BatchPutTaxRegistrationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::BatchPutTaxRegistrationResponse]
-        def errors: () -> ::Array[Types::BatchPutTaxRegistrationError]
         def status: () -> ("Verified" | "Pending" | "Deleted" | "Rejected")
+        def errors: () -> ::Array[Types::BatchPutTaxRegistrationError]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/TaxSettings/Client.html#batch_put_tax_registration-instance_method
       def batch_put_tax_registration: (
@@ -177,8 +177,8 @@ module Aws
 
       interface _ListSupplementalTaxRegistrationsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListSupplementalTaxRegistrationsResponse]
-        def next_token: () -> ::String
         def tax_registrations: () -> ::Array[Types::SupplementalTaxRegistration]
+        def next_token: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/TaxSettings/Client.html#list_supplemental_tax_registrations-instance_method
       def list_supplemental_tax_registrations: (
@@ -219,10 +219,10 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/TaxSettings/Client.html#put_supplemental_tax_registration-instance_method
       def put_supplemental_tax_registration: (
                                                tax_registration_entry: {
-                                                 address: Params::address,
-                                                 legal_name: ::String,
                                                  registration_id: ::String,
-                                                 registration_type: ("VAT")
+                                                 registration_type: ("VAT"),
+                                                 legal_name: ::String,
+                                                 address: Params::address
                                                }
                                              ) -> _PutSupplementalTaxRegistrationResponseSuccess
                                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutSupplementalTaxRegistrationResponseSuccess
@@ -238,11 +238,11 @@ module Aws
                                  country: ::String,
                                  state: ::String?
                                },
+                               exemption_type: ::String,
                                exemption_certificate: {
-                                 document_file: ::String,
-                                 document_name: ::String
-                               },
-                               exemption_type: ::String
+                                 document_name: ::String,
+                                 document_file: ::String
+                               }
                              ) -> _PutTaxExemptionResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutTaxExemptionResponseSuccess
 

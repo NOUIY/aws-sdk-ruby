@@ -571,6 +571,26 @@ module Aws::MediaPackageV2
     #   [1]: https://docs.aws.amazon.com/mediapackage/latest/userguide/compacted.html
     #   @return [String]
     #
+    # @!attribute [rw] audio_timeline_pattern
+    #   How MediaPackage represents the audio timeline in the DASH manifest.
+    #   This setting applies DASH Segment Duration Patternization, as
+    #   defined in the MPEG-DASH specification, to audio adaptation sets.
+    #   When set to `PATTERNED`, MediaPackage uses a pattern-based segment
+    #   template for audio, which reduces manifest size by expressing
+    #   repeating segment durations as a pattern instead of listing each
+    #   segment individually. When set to `NONE`, the manifest contains an
+    #   explicit timeline that lists each audio segment.
+    #
+    #   Valid values: `NONE` \| `PATTERNED`
+    #
+    #   For information about audio timeline patterns, see [DASH audio
+    #   timeline pattern][1] in the *Elemental MediaPackage v2 User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/mediapackage/latest/userguide/dash-audio-timeline-pattern.html
+    #   @return [String]
+    #
     # @!attribute [rw] subtitle_configuration
     #   The configuration for DASH subtitles.
     #   @return [Types::DashSubtitleConfiguration]
@@ -609,6 +629,7 @@ module Aws::MediaPackageV2
       :program_information,
       :dvb_settings,
       :compactness,
+      :audio_timeline_pattern,
       :subtitle_configuration,
       :uri_path_type,
       :availability_start_time_configuration)
@@ -2196,6 +2217,15 @@ module Aws::MediaPackageV2
     #   indicates a full manifest.
     #   @return [String]
     #
+    # @!attribute [rw] audio_timeline_pattern
+    #   How MediaPackage represents the audio timeline in the DASH manifest,
+    #   using DASH Segment Duration Patternization for audio adaptation
+    #   sets. `PATTERNED` indicates that MediaPackage uses a pattern-based
+    #   segment template for audio, reducing manifest size. `NONE` indicates
+    #   that the manifest contains an explicit timeline for each audio
+    #   segment.
+    #   @return [String]
+    #
     # @!attribute [rw] subtitle_configuration
     #   The configuration for DASH subtitles.
     #   @return [Types::DashSubtitleConfiguration]
@@ -2231,6 +2261,7 @@ module Aws::MediaPackageV2
       :program_information,
       :dvb_settings,
       :compactness,
+      :audio_timeline_pattern,
       :subtitle_configuration,
       :uri_path_type,
       :availability_start_time_configuration)

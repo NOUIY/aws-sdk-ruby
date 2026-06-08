@@ -24,6 +24,26 @@ module Aws::DevOpsAgent
     AgentSpaceList = Shapes::ListShape.new(name: 'AgentSpaceList')
     AgentSpaceName = Shapes::StringShape.new(name: 'AgentSpaceName')
     ApiKeyValue = Shapes::StringShape.new(name: 'ApiKeyValue')
+    Asset = Shapes::StructureShape.new(name: 'Asset')
+    AssetContent = Shapes::UnionShape.new(name: 'AssetContent')
+    AssetFile = Shapes::StructureShape.new(name: 'AssetFile')
+    AssetFileBody = Shapes::UnionShape.new(name: 'AssetFileBody')
+    AssetFileBytes = Shapes::BlobShape.new(name: 'AssetFileBytes')
+    AssetFileContent = Shapes::StructureShape.new(name: 'AssetFileContent')
+    AssetFilePath = Shapes::StringShape.new(name: 'AssetFilePath')
+    AssetFileSummary = Shapes::StructureShape.new(name: 'AssetFileSummary')
+    AssetFileSummaryList = Shapes::ListShape.new(name: 'AssetFileSummaryList')
+    AssetFileText = Shapes::StringShape.new(name: 'AssetFileText')
+    AssetIdList = Shapes::ListShape.new(name: 'AssetIdList')
+    AssetList = Shapes::ListShape.new(name: 'AssetList')
+    AssetType = Shapes::StringShape.new(name: 'AssetType')
+    AssetTypeList = Shapes::ListShape.new(name: 'AssetTypeList')
+    AssetTypeSummary = Shapes::StructureShape.new(name: 'AssetTypeSummary')
+    AssetTypeSummaryDescriptionString = Shapes::StringShape.new(name: 'AssetTypeSummaryDescriptionString')
+    AssetVersionMetadata = Shapes::StructureShape.new(name: 'AssetVersionMetadata')
+    AssetVersionMetadataList = Shapes::ListShape.new(name: 'AssetVersionMetadataList')
+    AssetZipBytes = Shapes::BlobShape.new(name: 'AssetZipBytes')
+    AssetZipContent = Shapes::StructureShape.new(name: 'AssetZipContent')
     AssistantMessage = Shapes::ListShape.new(name: 'AssistantMessage')
     AssistantMessageBlock = Shapes::UnionShape.new(name: 'AssistantMessageBlock')
     AssociateServiceInput = Shapes::StructureShape.new(name: 'AssociateServiceInput')
@@ -40,6 +60,7 @@ module Aws::DevOpsAgent
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
     CertificateString = Shapes::StringShape.new(name: 'CertificateString')
     ChatExecution = Shapes::StructureShape.new(name: 'ChatExecution')
+    ChatExecutionId = Shapes::StringShape.new(name: 'ChatExecutionId')
     ChatExecutionList = Shapes::ListShape.new(name: 'ChatExecutionList')
     ClientId = Shapes::StringShape.new(name: 'ClientId')
     ClientSecret = Shapes::StringShape.new(name: 'ClientSecret')
@@ -48,6 +69,12 @@ module Aws::DevOpsAgent
     CreateAgentSpaceInput = Shapes::StructureShape.new(name: 'CreateAgentSpaceInput')
     CreateAgentSpaceInputClientTokenString = Shapes::StringShape.new(name: 'CreateAgentSpaceInputClientTokenString')
     CreateAgentSpaceOutput = Shapes::StructureShape.new(name: 'CreateAgentSpaceOutput')
+    CreateAssetFileRequest = Shapes::StructureShape.new(name: 'CreateAssetFileRequest')
+    CreateAssetFileRequestClientTokenString = Shapes::StringShape.new(name: 'CreateAssetFileRequestClientTokenString')
+    CreateAssetFileResponse = Shapes::StructureShape.new(name: 'CreateAssetFileResponse')
+    CreateAssetRequest = Shapes::StructureShape.new(name: 'CreateAssetRequest')
+    CreateAssetRequestClientTokenString = Shapes::StringShape.new(name: 'CreateAssetRequestClientTokenString')
+    CreateAssetResponse = Shapes::StructureShape.new(name: 'CreateAssetResponse')
     CreateBacklogTaskRequest = Shapes::StructureShape.new(name: 'CreateBacklogTaskRequest')
     CreateBacklogTaskResponse = Shapes::StructureShape.new(name: 'CreateBacklogTaskResponse')
     CreateChatRequest = Shapes::StructureShape.new(name: 'CreateChatRequest')
@@ -60,11 +87,13 @@ module Aws::DevOpsAgent
     DatadogAuthorizationConfig = Shapes::UnionShape.new(name: 'DatadogAuthorizationConfig')
     DatadogServiceDetails = Shapes::StructureShape.new(name: 'DatadogServiceDetails')
     DatadogServiceDetailsDescriptionString = Shapes::StringShape.new(name: 'DatadogServiceDetailsDescriptionString')
-    DatadogServiceDetailsEndpointString = Shapes::StringShape.new(name: 'DatadogServiceDetailsEndpointString')
-    DatadogServiceDetailsNameString = Shapes::StringShape.new(name: 'DatadogServiceDetailsNameString')
     DateTime = Shapes::TimestampShape.new(name: 'DateTime', timestampFormat: "iso8601")
     DeleteAgentSpaceInput = Shapes::StructureShape.new(name: 'DeleteAgentSpaceInput')
     DeleteAgentSpaceOutput = Shapes::StructureShape.new(name: 'DeleteAgentSpaceOutput')
+    DeleteAssetFileRequest = Shapes::StructureShape.new(name: 'DeleteAssetFileRequest')
+    DeleteAssetFileResponse = Shapes::StructureShape.new(name: 'DeleteAssetFileResponse')
+    DeleteAssetRequest = Shapes::StructureShape.new(name: 'DeleteAssetRequest')
+    DeleteAssetResponse = Shapes::StructureShape.new(name: 'DeleteAssetResponse')
     DeletePrivateConnectionInput = Shapes::StructureShape.new(name: 'DeletePrivateConnectionInput')
     DeletePrivateConnectionOutput = Shapes::StructureShape.new(name: 'DeletePrivateConnectionOutput')
     DeregisterServiceInput = Shapes::StructureShape.new(name: 'DeregisterServiceInput')
@@ -96,11 +125,21 @@ module Aws::DevOpsAgent
     Execution = Shapes::StructureShape.new(name: 'Execution')
     ExecutionList = Shapes::ListShape.new(name: 'ExecutionList')
     ExecutionStatus = Shapes::StringShape.new(name: 'ExecutionStatus')
+    FailureMessage = Shapes::StringShape.new(name: 'FailureMessage')
     GenericWebhook = Shapes::StructureShape.new(name: 'GenericWebhook')
     GetAccountUsageInput = Shapes::StructureShape.new(name: 'GetAccountUsageInput')
     GetAccountUsageOutput = Shapes::StructureShape.new(name: 'GetAccountUsageOutput')
     GetAgentSpaceInput = Shapes::StructureShape.new(name: 'GetAgentSpaceInput')
     GetAgentSpaceOutput = Shapes::StructureShape.new(name: 'GetAgentSpaceOutput')
+    GetAssetContentRequest = Shapes::StructureShape.new(name: 'GetAssetContentRequest')
+    GetAssetContentRequestAssetVersionInteger = Shapes::IntegerShape.new(name: 'GetAssetContentRequestAssetVersionInteger')
+    GetAssetContentResponse = Shapes::StructureShape.new(name: 'GetAssetContentResponse')
+    GetAssetFileRequest = Shapes::StructureShape.new(name: 'GetAssetFileRequest')
+    GetAssetFileRequestAssetVersionInteger = Shapes::IntegerShape.new(name: 'GetAssetFileRequestAssetVersionInteger')
+    GetAssetFileResponse = Shapes::StructureShape.new(name: 'GetAssetFileResponse')
+    GetAssetRequest = Shapes::StructureShape.new(name: 'GetAssetRequest')
+    GetAssetRequestAssetVersionInteger = Shapes::IntegerShape.new(name: 'GetAssetRequestAssetVersionInteger')
+    GetAssetResponse = Shapes::StructureShape.new(name: 'GetAssetResponse')
     GetAssociationInput = Shapes::StructureShape.new(name: 'GetAssociationInput')
     GetAssociationOutput = Shapes::StructureShape.new(name: 'GetAssociationOutput')
     GetBacklogTaskRequest = Shapes::StructureShape.new(name: 'GetBacklogTaskRequest')
@@ -127,8 +166,6 @@ module Aws::DevOpsAgent
     GoalType = Shapes::StringShape.new(name: 'GoalType')
     GrafanaServiceDetails = Shapes::StructureShape.new(name: 'GrafanaServiceDetails')
     GrafanaServiceDetailsDescriptionString = Shapes::StringShape.new(name: 'GrafanaServiceDetailsDescriptionString')
-    GrafanaServiceDetailsEndpointString = Shapes::StringShape.new(name: 'GrafanaServiceDetailsEndpointString')
-    GrafanaServiceDetailsNameString = Shapes::StringShape.new(name: 'GrafanaServiceDetailsNameString')
     Guid = Shapes::StringShape.new(name: 'Guid')
     IamAuthConfiguration = Shapes::StructureShape.new(name: 'IamAuthConfiguration')
     IdcAuthConfiguration = Shapes::StructureShape.new(name: 'IdcAuthConfiguration')
@@ -148,6 +185,19 @@ module Aws::DevOpsAgent
     ListAgentSpacesInput = Shapes::StructureShape.new(name: 'ListAgentSpacesInput')
     ListAgentSpacesInputMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListAgentSpacesInputMaxResultsInteger')
     ListAgentSpacesOutput = Shapes::StructureShape.new(name: 'ListAgentSpacesOutput')
+    ListAssetFilesRequest = Shapes::StructureShape.new(name: 'ListAssetFilesRequest')
+    ListAssetFilesRequestAssetVersionInteger = Shapes::IntegerShape.new(name: 'ListAssetFilesRequestAssetVersionInteger')
+    ListAssetFilesRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListAssetFilesRequestMaxResultsInteger')
+    ListAssetFilesResponse = Shapes::StructureShape.new(name: 'ListAssetFilesResponse')
+    ListAssetTypesRequest = Shapes::StructureShape.new(name: 'ListAssetTypesRequest')
+    ListAssetTypesRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListAssetTypesRequestMaxResultsInteger')
+    ListAssetTypesResponse = Shapes::StructureShape.new(name: 'ListAssetTypesResponse')
+    ListAssetVersionsRequest = Shapes::StructureShape.new(name: 'ListAssetVersionsRequest')
+    ListAssetVersionsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListAssetVersionsRequestMaxResultsInteger')
+    ListAssetVersionsResponse = Shapes::StructureShape.new(name: 'ListAssetVersionsResponse')
+    ListAssetsRequest = Shapes::StructureShape.new(name: 'ListAssetsRequest')
+    ListAssetsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListAssetsRequestMaxResultsInteger')
+    ListAssetsResponse = Shapes::StructureShape.new(name: 'ListAssetsResponse')
     ListAssociationsInput = Shapes::StructureShape.new(name: 'ListAssociationsInput')
     ListAssociationsInputFilterServiceTypesString = Shapes::StringShape.new(name: 'ListAssociationsInputFilterServiceTypesString')
     ListAssociationsInputMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListAssociationsInputMaxResultsInteger')
@@ -201,11 +251,11 @@ module Aws::DevOpsAgent
     MCPServerDatadogConfiguration = Shapes::StructureShape.new(name: 'MCPServerDatadogConfiguration')
     MCPServerDetails = Shapes::StructureShape.new(name: 'MCPServerDetails')
     MCPServerDetailsDescriptionString = Shapes::StringShape.new(name: 'MCPServerDetailsDescriptionString')
-    MCPServerDetailsEndpointString = Shapes::StringShape.new(name: 'MCPServerDetailsEndpointString')
-    MCPServerDetailsNameString = Shapes::StringShape.new(name: 'MCPServerDetailsNameString')
+    MCPServerEndpoint = Shapes::StringShape.new(name: 'MCPServerEndpoint')
     MCPServerGrafanaConfiguration = Shapes::StructureShape.new(name: 'MCPServerGrafanaConfiguration')
     MCPServerGrafanaConfigurationEndpointString = Shapes::StringShape.new(name: 'MCPServerGrafanaConfigurationEndpointString')
     MCPServerGrafanaConfigurationOrganizationIdString = Shapes::StringShape.new(name: 'MCPServerGrafanaConfigurationOrganizationIdString')
+    MCPServerName = Shapes::StringShape.new(name: 'MCPServerName')
     MCPServerNewRelicConfiguration = Shapes::StructureShape.new(name: 'MCPServerNewRelicConfiguration')
     MCPServerNewRelicConfigurationAccountIdString = Shapes::StringShape.new(name: 'MCPServerNewRelicConfigurationAccountIdString')
     MCPServerNewRelicConfigurationEndpointString = Shapes::StringShape.new(name: 'MCPServerNewRelicConfigurationEndpointString')
@@ -218,12 +268,11 @@ module Aws::DevOpsAgent
     MCPServerOAuthClientCredentialsConfigClientNameString = Shapes::StringShape.new(name: 'MCPServerOAuthClientCredentialsConfigClientNameString')
     MCPServerOAuthClientCredentialsConfigExchangeUrlString = Shapes::StringShape.new(name: 'MCPServerOAuthClientCredentialsConfigExchangeUrlString')
     MCPServerSigV4AuthorizationConfig = Shapes::StructureShape.new(name: 'MCPServerSigV4AuthorizationConfig')
+    MCPServerSigV4AuthorizationConfigRoleArnString = Shapes::StringShape.new(name: 'MCPServerSigV4AuthorizationConfigRoleArnString')
     MCPServerSigV4AuthorizationConfigServiceString = Shapes::StringShape.new(name: 'MCPServerSigV4AuthorizationConfigServiceString')
     MCPServerSigV4Configuration = Shapes::StructureShape.new(name: 'MCPServerSigV4Configuration')
     MCPServerSigV4ServiceDetails = Shapes::StructureShape.new(name: 'MCPServerSigV4ServiceDetails')
     MCPServerSigV4ServiceDetailsDescriptionString = Shapes::StringShape.new(name: 'MCPServerSigV4ServiceDetailsDescriptionString')
-    MCPServerSigV4ServiceDetailsEndpointString = Shapes::StringShape.new(name: 'MCPServerSigV4ServiceDetailsEndpointString')
-    MCPServerSigV4ServiceDetailsNameString = Shapes::StringShape.new(name: 'MCPServerSigV4ServiceDetailsNameString')
     MCPServerSplunkConfiguration = Shapes::StructureShape.new(name: 'MCPServerSplunkConfiguration')
     MCPToolsList = Shapes::ListShape.new(name: 'MCPToolsList')
     MCPToolsListMemberString = Shapes::StringShape.new(name: 'MCPToolsListMemberString')
@@ -245,6 +294,8 @@ module Aws::DevOpsAgent
     NewRelicServiceDetails = Shapes::StructureShape.new(name: 'NewRelicServiceDetails')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     OAuthAdditionalStepDetails = Shapes::StructureShape.new(name: 'OAuthAdditionalStepDetails')
+    OAuthScope = Shapes::StringShape.new(name: 'OAuthScope')
+    OperatorAppUrl = Shapes::StringShape.new(name: 'OperatorAppUrl')
     OrderType = Shapes::StringShape.new(name: 'OrderType')
     PagerDutyAuthorizationConfig = Shapes::UnionShape.new(name: 'PagerDutyAuthorizationConfig')
     PagerDutyConfiguration = Shapes::StructureShape.new(name: 'PagerDutyConfiguration')
@@ -285,12 +336,10 @@ module Aws::DevOpsAgent
     RegisteredGitLabServiceDetails = Shapes::StructureShape.new(name: 'RegisteredGitLabServiceDetails')
     RegisteredGithubServiceDetails = Shapes::StructureShape.new(name: 'RegisteredGithubServiceDetails')
     RegisteredGrafanaServerDetails = Shapes::StructureShape.new(name: 'RegisteredGrafanaServerDetails')
-    RegisteredGrafanaServerDetailsEndpointString = Shapes::StringShape.new(name: 'RegisteredGrafanaServerDetailsEndpointString')
     RegisteredMCPServerDetails = Shapes::StructureShape.new(name: 'RegisteredMCPServerDetails')
     RegisteredMCPServerSigV4Details = Shapes::StructureShape.new(name: 'RegisteredMCPServerSigV4Details')
     RegisteredMCPServerSigV4DetailsDescriptionString = Shapes::StringShape.new(name: 'RegisteredMCPServerSigV4DetailsDescriptionString')
-    RegisteredMCPServerSigV4DetailsEndpointString = Shapes::StringShape.new(name: 'RegisteredMCPServerSigV4DetailsEndpointString')
-    RegisteredMCPServerSigV4DetailsNameString = Shapes::StringShape.new(name: 'RegisteredMCPServerSigV4DetailsNameString')
+    RegisteredMCPServerSigV4DetailsRoleArnString = Shapes::StringShape.new(name: 'RegisteredMCPServerSigV4DetailsRoleArnString')
     RegisteredMCPServerSigV4DetailsServiceString = Shapes::StringShape.new(name: 'RegisteredMCPServerSigV4DetailsServiceString')
     RegisteredNewRelicDetails = Shapes::StructureShape.new(name: 'RegisteredNewRelicDetails')
     RegisteredPagerDutyDetails = Shapes::StructureShape.new(name: 'RegisteredPagerDutyDetails')
@@ -298,6 +347,7 @@ module Aws::DevOpsAgent
     RegisteredServiceNowDetails = Shapes::StructureShape.new(name: 'RegisteredServiceNowDetails')
     RegisteredServicesList = Shapes::ListShape.new(name: 'RegisteredServicesList')
     RegisteredSlackServiceDetails = Shapes::StructureShape.new(name: 'RegisteredSlackServiceDetails')
+    ResourceConfigDnsResolution = Shapes::StringShape.new(name: 'ResourceConfigDnsResolution')
     ResourceConfigurationArn = Shapes::StringShape.new(name: 'ResourceConfigurationArn')
     ResourceGatewayArn = Shapes::StringShape.new(name: 'ResourceGatewayArn')
     ResourceId = Shapes::StringShape.new(name: 'ResourceId')
@@ -374,6 +424,12 @@ module Aws::DevOpsAgent
     UntagResourceResponse = Shapes::StructureShape.new(name: 'UntagResourceResponse')
     UpdateAgentSpaceInput = Shapes::StructureShape.new(name: 'UpdateAgentSpaceInput')
     UpdateAgentSpaceOutput = Shapes::StructureShape.new(name: 'UpdateAgentSpaceOutput')
+    UpdateAssetFileRequest = Shapes::StructureShape.new(name: 'UpdateAssetFileRequest')
+    UpdateAssetFileRequestClientTokenString = Shapes::StringShape.new(name: 'UpdateAssetFileRequestClientTokenString')
+    UpdateAssetFileResponse = Shapes::StructureShape.new(name: 'UpdateAssetFileResponse')
+    UpdateAssetRequest = Shapes::StructureShape.new(name: 'UpdateAssetRequest')
+    UpdateAssetRequestClientTokenString = Shapes::StringShape.new(name: 'UpdateAssetRequestClientTokenString')
+    UpdateAssetResponse = Shapes::StructureShape.new(name: 'UpdateAssetResponse')
     UpdateAssociationInput = Shapes::StructureShape.new(name: 'UpdateAssociationInput')
     UpdateAssociationOutput = Shapes::StructureShape.new(name: 'UpdateAssociationOutput')
     UpdateBacklogTaskRequest = Shapes::StructureShape.new(name: 'UpdateBacklogTaskRequest')
@@ -461,6 +517,72 @@ module Aws::DevOpsAgent
 
     AgentSpaceList.member = Shapes::ShapeRef.new(shape: AgentSpace)
 
+    Asset.add_member(:asset_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "assetId"))
+    Asset.add_member(:asset_type, Shapes::ShapeRef.new(shape: AssetType, required: true, location_name: "assetType"))
+    Asset.add_member(:metadata, Shapes::ShapeRef.new(shape: Document, required: true, location_name: "metadata"))
+    Asset.add_member(:version, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "version"))
+    Asset.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
+    Asset.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    Asset.struct_class = Types::Asset
+
+    AssetContent.add_member(:file, Shapes::ShapeRef.new(shape: AssetFileContent, location_name: "file"))
+    AssetContent.add_member(:zip, Shapes::ShapeRef.new(shape: AssetZipContent, location_name: "zip"))
+    AssetContent.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    AssetContent.add_member_subclass(:file, Types::AssetContent::File)
+    AssetContent.add_member_subclass(:zip, Types::AssetContent::Zip)
+    AssetContent.add_member_subclass(:unknown, Types::AssetContent::Unknown)
+    AssetContent.struct_class = Types::AssetContent
+
+    AssetFile.add_member(:path, Shapes::ShapeRef.new(shape: AssetFilePath, required: true, location_name: "path"))
+    AssetFile.add_member(:content, Shapes::ShapeRef.new(shape: AssetFileBody, required: true, location_name: "content"))
+    AssetFile.add_member(:metadata, Shapes::ShapeRef.new(shape: Document, location_name: "metadata"))
+    AssetFile.add_member(:version, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "version"))
+    AssetFile.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
+    AssetFile.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    AssetFile.struct_class = Types::AssetFile
+
+    AssetFileBody.add_member(:bytes, Shapes::ShapeRef.new(shape: AssetFileBytes, location_name: "bytes"))
+    AssetFileBody.add_member(:text, Shapes::ShapeRef.new(shape: AssetFileText, location_name: "text"))
+    AssetFileBody.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    AssetFileBody.add_member_subclass(:bytes, Types::AssetFileBody::Bytes)
+    AssetFileBody.add_member_subclass(:text, Types::AssetFileBody::Text)
+    AssetFileBody.add_member_subclass(:unknown, Types::AssetFileBody::Unknown)
+    AssetFileBody.struct_class = Types::AssetFileBody
+
+    AssetFileContent.add_member(:path, Shapes::ShapeRef.new(shape: AssetFilePath, required: true, location_name: "path"))
+    AssetFileContent.add_member(:body, Shapes::ShapeRef.new(shape: AssetFileBody, required: true, location_name: "body"))
+    AssetFileContent.add_member(:metadata, Shapes::ShapeRef.new(shape: Document, location_name: "metadata"))
+    AssetFileContent.struct_class = Types::AssetFileContent
+
+    AssetFileSummary.add_member(:path, Shapes::ShapeRef.new(shape: AssetFilePath, required: true, location_name: "path"))
+    AssetFileSummary.add_member(:metadata, Shapes::ShapeRef.new(shape: Document, location_name: "metadata"))
+    AssetFileSummary.add_member(:version, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "version"))
+    AssetFileSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
+    AssetFileSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    AssetFileSummary.struct_class = Types::AssetFileSummary
+
+    AssetFileSummaryList.member = Shapes::ShapeRef.new(shape: AssetFileSummary)
+
+    AssetIdList.member = Shapes::ShapeRef.new(shape: String)
+
+    AssetList.member = Shapes::ShapeRef.new(shape: Asset)
+
+    AssetTypeList.member = Shapes::ShapeRef.new(shape: AssetTypeSummary)
+
+    AssetTypeSummary.add_member(:asset_type, Shapes::ShapeRef.new(shape: AssetType, required: true, location_name: "assetType"))
+    AssetTypeSummary.add_member(:description, Shapes::ShapeRef.new(shape: AssetTypeSummaryDescriptionString, required: true, location_name: "description"))
+    AssetTypeSummary.struct_class = Types::AssetTypeSummary
+
+    AssetVersionMetadata.add_member(:version, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "version"))
+    AssetVersionMetadata.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
+    AssetVersionMetadata.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    AssetVersionMetadata.struct_class = Types::AssetVersionMetadata
+
+    AssetVersionMetadataList.member = Shapes::ShapeRef.new(shape: AssetVersionMetadata)
+
+    AssetZipContent.add_member(:zip_file, Shapes::ShapeRef.new(shape: AssetZipBytes, required: true, location_name: "zipFile"))
+    AssetZipContent.struct_class = Types::AssetZipContent
+
     AssistantMessage.member = Shapes::ShapeRef.new(shape: AssistantMessageBlock)
 
     AssistantMessageBlock.add_member(:text, Shapes::ShapeRef.new(shape: String, location_name: "text"))
@@ -525,6 +647,27 @@ module Aws::DevOpsAgent
     CreateAgentSpaceOutput.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
     CreateAgentSpaceOutput.struct_class = Types::CreateAgentSpaceOutput
 
+    CreateAssetFileRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    CreateAssetFileRequest.add_member(:asset_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "assetId"))
+    CreateAssetFileRequest.add_member(:path, Shapes::ShapeRef.new(shape: AssetFilePath, required: true, location: "uri", location_name: "path"))
+    CreateAssetFileRequest.add_member(:content, Shapes::ShapeRef.new(shape: AssetFileBody, required: true, location_name: "content"))
+    CreateAssetFileRequest.add_member(:metadata, Shapes::ShapeRef.new(shape: Document, location_name: "metadata"))
+    CreateAssetFileRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: CreateAssetFileRequestClientTokenString, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateAssetFileRequest.struct_class = Types::CreateAssetFileRequest
+
+    CreateAssetFileResponse.add_member(:file, Shapes::ShapeRef.new(shape: AssetFile, required: true, location_name: "file"))
+    CreateAssetFileResponse.struct_class = Types::CreateAssetFileResponse
+
+    CreateAssetRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    CreateAssetRequest.add_member(:asset_type, Shapes::ShapeRef.new(shape: AssetType, required: true, location_name: "assetType"))
+    CreateAssetRequest.add_member(:metadata, Shapes::ShapeRef.new(shape: Document, location_name: "metadata"))
+    CreateAssetRequest.add_member(:content, Shapes::ShapeRef.new(shape: AssetContent, required: true, location_name: "content"))
+    CreateAssetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: CreateAssetRequestClientTokenString, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateAssetRequest.struct_class = Types::CreateAssetRequest
+
+    CreateAssetResponse.add_member(:asset, Shapes::ShapeRef.new(shape: Asset, required: true, location_name: "asset"))
+    CreateAssetResponse.struct_class = Types::CreateAssetResponse
+
     CreateBacklogTaskRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
     CreateBacklogTaskRequest.add_member(:reference, Shapes::ShapeRef.new(shape: ReferenceInput, location_name: "reference"))
     CreateBacklogTaskRequest.add_member(:task_type, Shapes::ShapeRef.new(shape: TaskType, required: true, location_name: "taskType"))
@@ -559,6 +702,8 @@ module Aws::DevOpsAgent
     CreatePrivateConnectionOutput.add_member(:resource_configuration_id, Shapes::ShapeRef.new(shape: ResourceConfigurationArn, location_name: "resourceConfigurationId"))
     CreatePrivateConnectionOutput.add_member(:status, Shapes::ShapeRef.new(shape: PrivateConnectionStatus, required: true, location_name: "status"))
     CreatePrivateConnectionOutput.add_member(:certificate_expiry_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "certificateExpiryTime"))
+    CreatePrivateConnectionOutput.add_member(:dns_resolution, Shapes::ShapeRef.new(shape: ResourceConfigDnsResolution, location_name: "dnsResolution"))
+    CreatePrivateConnectionOutput.add_member(:failure_message, Shapes::ShapeRef.new(shape: FailureMessage, location_name: "failureMessage"))
     CreatePrivateConnectionOutput.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
     CreatePrivateConnectionOutput.struct_class = Types::CreatePrivateConnectionOutput
 
@@ -571,8 +716,8 @@ module Aws::DevOpsAgent
     DatadogAuthorizationConfig.add_member_subclass(:unknown, Types::DatadogAuthorizationConfig::Unknown)
     DatadogAuthorizationConfig.struct_class = Types::DatadogAuthorizationConfig
 
-    DatadogServiceDetails.add_member(:name, Shapes::ShapeRef.new(shape: DatadogServiceDetailsNameString, required: true, location_name: "name"))
-    DatadogServiceDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: DatadogServiceDetailsEndpointString, required: true, location_name: "endpoint"))
+    DatadogServiceDetails.add_member(:name, Shapes::ShapeRef.new(shape: MCPServerName, required: true, location_name: "name"))
+    DatadogServiceDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: MCPServerEndpoint, required: true, location_name: "endpoint"))
     DatadogServiceDetails.add_member(:description, Shapes::ShapeRef.new(shape: DatadogServiceDetailsDescriptionString, location_name: "description"))
     DatadogServiceDetails.add_member(:authorization_config, Shapes::ShapeRef.new(shape: DatadogAuthorizationConfig, required: true, location_name: "authorizationConfig"))
     DatadogServiceDetails.struct_class = Types::DatadogServiceDetails
@@ -581,6 +726,19 @@ module Aws::DevOpsAgent
     DeleteAgentSpaceInput.struct_class = Types::DeleteAgentSpaceInput
 
     DeleteAgentSpaceOutput.struct_class = Types::DeleteAgentSpaceOutput
+
+    DeleteAssetFileRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    DeleteAssetFileRequest.add_member(:asset_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "assetId"))
+    DeleteAssetFileRequest.add_member(:path, Shapes::ShapeRef.new(shape: AssetFilePath, required: true, location: "uri", location_name: "path"))
+    DeleteAssetFileRequest.struct_class = Types::DeleteAssetFileRequest
+
+    DeleteAssetFileResponse.struct_class = Types::DeleteAssetFileResponse
+
+    DeleteAssetRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    DeleteAssetRequest.add_member(:asset_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "assetId"))
+    DeleteAssetRequest.struct_class = Types::DeleteAssetRequest
+
+    DeleteAssetResponse.struct_class = Types::DeleteAssetResponse
 
     DeletePrivateConnectionInput.add_member(:name, Shapes::ShapeRef.new(shape: PrivateConnectionName, required: true, location: "uri", location_name: "name"))
     DeletePrivateConnectionInput.struct_class = Types::DeletePrivateConnectionInput
@@ -605,6 +763,8 @@ module Aws::DevOpsAgent
     DescribePrivateConnectionOutput.add_member(:resource_configuration_id, Shapes::ShapeRef.new(shape: ResourceConfigurationArn, location_name: "resourceConfigurationId"))
     DescribePrivateConnectionOutput.add_member(:status, Shapes::ShapeRef.new(shape: PrivateConnectionStatus, required: true, location_name: "status"))
     DescribePrivateConnectionOutput.add_member(:certificate_expiry_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "certificateExpiryTime"))
+    DescribePrivateConnectionOutput.add_member(:dns_resolution, Shapes::ShapeRef.new(shape: ResourceConfigDnsResolution, location_name: "dnsResolution"))
+    DescribePrivateConnectionOutput.add_member(:failure_message, Shapes::ShapeRef.new(shape: FailureMessage, location_name: "failureMessage"))
     DescribePrivateConnectionOutput.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
     DescribePrivateConnectionOutput.struct_class = Types::DescribePrivateConnectionOutput
 
@@ -653,6 +813,7 @@ module Aws::DevOpsAgent
     EnableOperatorAppInput.struct_class = Types::EnableOperatorAppInput
 
     EnableOperatorAppOutput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location_name: "agentSpaceId"))
+    EnableOperatorAppOutput.add_member(:operator_app_url, Shapes::ShapeRef.new(shape: OperatorAppUrl, location_name: "operatorAppUrl"))
     EnableOperatorAppOutput.add_member(:iam, Shapes::ShapeRef.new(shape: IamAuthConfiguration, location_name: "iam"))
     EnableOperatorAppOutput.add_member(:idc, Shapes::ShapeRef.new(shape: IdcAuthConfiguration, location_name: "idc"))
     EnableOperatorAppOutput.add_member(:idp, Shapes::ShapeRef.new(shape: IdpAuthConfiguration, location_name: "idp"))
@@ -703,6 +864,32 @@ module Aws::DevOpsAgent
     GetAgentSpaceOutput.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
     GetAgentSpaceOutput.struct_class = Types::GetAgentSpaceOutput
 
+    GetAssetContentRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    GetAssetContentRequest.add_member(:asset_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "assetId"))
+    GetAssetContentRequest.add_member(:asset_version, Shapes::ShapeRef.new(shape: GetAssetContentRequestAssetVersionInteger, location: "querystring", location_name: "assetVersion"))
+    GetAssetContentRequest.struct_class = Types::GetAssetContentRequest
+
+    GetAssetContentResponse.add_member(:content, Shapes::ShapeRef.new(shape: AssetZipContent, required: true, location_name: "content"))
+    GetAssetContentResponse.add_member(:version, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "version"))
+    GetAssetContentResponse.struct_class = Types::GetAssetContentResponse
+
+    GetAssetFileRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    GetAssetFileRequest.add_member(:asset_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "assetId"))
+    GetAssetFileRequest.add_member(:path, Shapes::ShapeRef.new(shape: AssetFilePath, required: true, location: "uri", location_name: "path"))
+    GetAssetFileRequest.add_member(:asset_version, Shapes::ShapeRef.new(shape: GetAssetFileRequestAssetVersionInteger, location: "querystring", location_name: "assetVersion"))
+    GetAssetFileRequest.struct_class = Types::GetAssetFileRequest
+
+    GetAssetFileResponse.add_member(:file, Shapes::ShapeRef.new(shape: AssetFile, required: true, location_name: "file"))
+    GetAssetFileResponse.struct_class = Types::GetAssetFileResponse
+
+    GetAssetRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    GetAssetRequest.add_member(:asset_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "assetId"))
+    GetAssetRequest.add_member(:asset_version, Shapes::ShapeRef.new(shape: GetAssetRequestAssetVersionInteger, location: "querystring", location_name: "assetVersion"))
+    GetAssetRequest.struct_class = Types::GetAssetRequest
+
+    GetAssetResponse.add_member(:asset, Shapes::ShapeRef.new(shape: Asset, required: true, location_name: "asset"))
+    GetAssetResponse.struct_class = Types::GetAssetResponse
+
     GetAssociationInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
     GetAssociationInput.add_member(:association_id, Shapes::ShapeRef.new(shape: AssociationId, required: true, location: "uri", location_name: "associationId"))
     GetAssociationInput.struct_class = Types::GetAssociationInput
@@ -720,6 +907,7 @@ module Aws::DevOpsAgent
     GetOperatorAppInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
     GetOperatorAppInput.struct_class = Types::GetOperatorAppInput
 
+    GetOperatorAppOutput.add_member(:operator_app_url, Shapes::ShapeRef.new(shape: OperatorAppUrl, location_name: "operatorAppUrl"))
     GetOperatorAppOutput.add_member(:iam, Shapes::ShapeRef.new(shape: IamAuthConfiguration, location_name: "iam"))
     GetOperatorAppOutput.add_member(:idc, Shapes::ShapeRef.new(shape: IdcAuthConfiguration, location_name: "idc"))
     GetOperatorAppOutput.add_member(:idp, Shapes::ShapeRef.new(shape: IdpAuthConfiguration, location_name: "idp"))
@@ -786,8 +974,8 @@ module Aws::DevOpsAgent
     GoalScheduleInput.add_member(:state, Shapes::ShapeRef.new(shape: SchedulerState, required: true, location_name: "state"))
     GoalScheduleInput.struct_class = Types::GoalScheduleInput
 
-    GrafanaServiceDetails.add_member(:name, Shapes::ShapeRef.new(shape: GrafanaServiceDetailsNameString, required: true, location_name: "name"))
-    GrafanaServiceDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: GrafanaServiceDetailsEndpointString, required: true, location_name: "endpoint"))
+    GrafanaServiceDetails.add_member(:name, Shapes::ShapeRef.new(shape: MCPServerName, required: true, location_name: "name"))
+    GrafanaServiceDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: MCPServerEndpoint, required: true, location_name: "endpoint"))
     GrafanaServiceDetails.add_member(:description, Shapes::ShapeRef.new(shape: GrafanaServiceDetailsDescriptionString, location_name: "description"))
     GrafanaServiceDetails.add_member(:authorization_config, Shapes::ShapeRef.new(shape: MCPServerAuthorizationConfig, required: true, location_name: "authorizationConfig"))
     GrafanaServiceDetails.struct_class = Types::GrafanaServiceDetails
@@ -840,6 +1028,47 @@ module Aws::DevOpsAgent
     ListAgentSpacesOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListAgentSpacesOutput.add_member(:agent_spaces, Shapes::ShapeRef.new(shape: AgentSpaceList, required: true, location_name: "agentSpaces"))
     ListAgentSpacesOutput.struct_class = Types::ListAgentSpacesOutput
+
+    ListAssetFilesRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    ListAssetFilesRequest.add_member(:asset_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "assetId"))
+    ListAssetFilesRequest.add_member(:asset_version, Shapes::ShapeRef.new(shape: ListAssetFilesRequestAssetVersionInteger, location: "querystring", location_name: "assetVersion"))
+    ListAssetFilesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListAssetFilesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListAssetFilesRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
+    ListAssetFilesRequest.struct_class = Types::ListAssetFilesRequest
+
+    ListAssetFilesResponse.add_member(:items, Shapes::ShapeRef.new(shape: AssetFileSummaryList, required: true, location_name: "items"))
+    ListAssetFilesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListAssetFilesResponse.struct_class = Types::ListAssetFilesResponse
+
+    ListAssetTypesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListAssetTypesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListAssetTypesRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
+    ListAssetTypesRequest.struct_class = Types::ListAssetTypesRequest
+
+    ListAssetTypesResponse.add_member(:items, Shapes::ShapeRef.new(shape: AssetTypeList, required: true, location_name: "items"))
+    ListAssetTypesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListAssetTypesResponse.struct_class = Types::ListAssetTypesResponse
+
+    ListAssetVersionsRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    ListAssetVersionsRequest.add_member(:asset_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "assetId"))
+    ListAssetVersionsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListAssetVersionsRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
+    ListAssetVersionsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListAssetVersionsRequest.struct_class = Types::ListAssetVersionsRequest
+
+    ListAssetVersionsResponse.add_member(:items, Shapes::ShapeRef.new(shape: AssetVersionMetadataList, required: true, location_name: "items"))
+    ListAssetVersionsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListAssetVersionsResponse.struct_class = Types::ListAssetVersionsResponse
+
+    ListAssetsRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    ListAssetsRequest.add_member(:asset_type, Shapes::ShapeRef.new(shape: AssetType, location: "querystring", location_name: "assetType"))
+    ListAssetsRequest.add_member(:updated_after, Shapes::ShapeRef.new(shape: Timestamp, location: "querystring", location_name: "updatedAfter"))
+    ListAssetsRequest.add_member(:updated_before, Shapes::ShapeRef.new(shape: Timestamp, location: "querystring", location_name: "updatedBefore"))
+    ListAssetsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListAssetsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListAssetsRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
+    ListAssetsRequest.struct_class = Types::ListAssetsRequest
+
+    ListAssetsResponse.add_member(:items, Shapes::ShapeRef.new(shape: AssetList, required: true, location_name: "items"))
+    ListAssetsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListAssetsResponse.struct_class = Types::ListAssetsResponse
 
     ListAssociationsInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
     ListAssociationsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: ListAssociationsInputMaxResultsInteger, location: "querystring", location_name: "maxResults"))
@@ -992,8 +1221,8 @@ module Aws::DevOpsAgent
 
     MCPServerDatadogConfiguration.struct_class = Types::MCPServerDatadogConfiguration
 
-    MCPServerDetails.add_member(:name, Shapes::ShapeRef.new(shape: MCPServerDetailsNameString, required: true, location_name: "name"))
-    MCPServerDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: MCPServerDetailsEndpointString, required: true, location_name: "endpoint"))
+    MCPServerDetails.add_member(:name, Shapes::ShapeRef.new(shape: MCPServerName, required: true, location_name: "name"))
+    MCPServerDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: MCPServerEndpoint, required: true, location_name: "endpoint"))
     MCPServerDetails.add_member(:description, Shapes::ShapeRef.new(shape: MCPServerDetailsDescriptionString, location_name: "description"))
     MCPServerDetails.add_member(:authorization_config, Shapes::ShapeRef.new(shape: MCPServerAuthorizationConfig, required: true, location_name: "authorizationConfig"))
     MCPServerDetails.struct_class = Types::MCPServerDetails
@@ -1028,15 +1257,16 @@ module Aws::DevOpsAgent
 
     MCPServerSigV4AuthorizationConfig.add_member(:region, Shapes::ShapeRef.new(shape: SigV4Region, required: true, location_name: "region"))
     MCPServerSigV4AuthorizationConfig.add_member(:service, Shapes::ShapeRef.new(shape: MCPServerSigV4AuthorizationConfigServiceString, required: true, location_name: "service"))
-    MCPServerSigV4AuthorizationConfig.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "roleArn"))
+    MCPServerSigV4AuthorizationConfig.add_member(:role_arn, Shapes::ShapeRef.new(shape: MCPServerSigV4AuthorizationConfigRoleArnString, deprecated: true, location_name: "roleArn", metadata: {"deprecatedMessage" => "Use mcpRoleArn instead.", "deprecatedSince" => "2026-05-27"}))
+    MCPServerSigV4AuthorizationConfig.add_member(:mcp_role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "mcpRoleArn"))
     MCPServerSigV4AuthorizationConfig.add_member(:custom_headers, Shapes::ShapeRef.new(shape: CustomHeaders, location_name: "customHeaders"))
     MCPServerSigV4AuthorizationConfig.struct_class = Types::MCPServerSigV4AuthorizationConfig
 
     MCPServerSigV4Configuration.add_member(:tools, Shapes::ShapeRef.new(shape: MCPToolsList, required: true, location_name: "tools"))
     MCPServerSigV4Configuration.struct_class = Types::MCPServerSigV4Configuration
 
-    MCPServerSigV4ServiceDetails.add_member(:name, Shapes::ShapeRef.new(shape: MCPServerSigV4ServiceDetailsNameString, required: true, location_name: "name"))
-    MCPServerSigV4ServiceDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: MCPServerSigV4ServiceDetailsEndpointString, required: true, location_name: "endpoint"))
+    MCPServerSigV4ServiceDetails.add_member(:name, Shapes::ShapeRef.new(shape: MCPServerName, required: true, location_name: "name"))
+    MCPServerSigV4ServiceDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: MCPServerEndpoint, required: true, location_name: "endpoint"))
     MCPServerSigV4ServiceDetails.add_member(:description, Shapes::ShapeRef.new(shape: MCPServerSigV4ServiceDetailsDescriptionString, location_name: "description"))
     MCPServerSigV4ServiceDetails.add_member(:authorization_config, Shapes::ShapeRef.new(shape: MCPServerSigV4AuthorizationConfig, required: true, location_name: "authorizationConfig"))
     MCPServerSigV4ServiceDetails.struct_class = Types::MCPServerSigV4ServiceDetails
@@ -1129,6 +1359,8 @@ module Aws::DevOpsAgent
     PrivateConnectionSummary.add_member(:resource_configuration_id, Shapes::ShapeRef.new(shape: ResourceConfigurationArn, location_name: "resourceConfigurationId"))
     PrivateConnectionSummary.add_member(:status, Shapes::ShapeRef.new(shape: PrivateConnectionStatus, required: true, location_name: "status"))
     PrivateConnectionSummary.add_member(:certificate_expiry_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "certificateExpiryTime"))
+    PrivateConnectionSummary.add_member(:dns_resolution, Shapes::ShapeRef.new(shape: ResourceConfigDnsResolution, location_name: "dnsResolution"))
+    PrivateConnectionSummary.add_member(:failure_message, Shapes::ShapeRef.new(shape: FailureMessage, location_name: "failureMessage"))
     PrivateConnectionSummary.struct_class = Types::PrivateConnectionSummary
 
     PrivateConnectionSummaryList.member = Shapes::ShapeRef.new(shape: PrivateConnectionSummary)
@@ -1174,6 +1406,8 @@ module Aws::DevOpsAgent
     RegisterServiceInput.add_member(:service_details, Shapes::ShapeRef.new(shape: ServiceDetails, required: true, location_name: "serviceDetails"))
     RegisterServiceInput.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     RegisterServiceInput.add_member(:private_connection_name, Shapes::ShapeRef.new(shape: PrivateConnectionName, location_name: "privateConnectionName"))
+    RegisterServiceInput.add_member(:target_url_private_connection_name, Shapes::ShapeRef.new(shape: PrivateConnectionName, location_name: "targetUrlPrivateConnectionName"))
+    RegisterServiceInput.add_member(:exchange_url_private_connection_name, Shapes::ShapeRef.new(shape: PrivateConnectionName, location_name: "exchangeUrlPrivateConnectionName"))
     RegisterServiceInput.add_member(:name, Shapes::ShapeRef.new(shape: ServiceName, location_name: "name"))
     RegisterServiceInput.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
     RegisterServiceInput.struct_class = Types::RegisterServiceInput
@@ -1203,7 +1437,7 @@ module Aws::DevOpsAgent
     RegisteredGithubServiceDetails.add_member(:target_url, Shapes::ShapeRef.new(shape: String, location_name: "targetUrl"))
     RegisteredGithubServiceDetails.struct_class = Types::RegisteredGithubServiceDetails
 
-    RegisteredGrafanaServerDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: RegisteredGrafanaServerDetailsEndpointString, required: true, location_name: "endpoint"))
+    RegisteredGrafanaServerDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: MCPServerEndpoint, required: true, location_name: "endpoint"))
     RegisteredGrafanaServerDetails.add_member(:authorization_method, Shapes::ShapeRef.new(shape: MCPServerAuthorizationMethod, required: true, location_name: "authorizationMethod"))
     RegisteredGrafanaServerDetails.struct_class = Types::RegisteredGrafanaServerDetails
 
@@ -1214,12 +1448,13 @@ module Aws::DevOpsAgent
     RegisteredMCPServerDetails.add_member(:api_key_header, Shapes::ShapeRef.new(shape: String, location_name: "apiKeyHeader"))
     RegisteredMCPServerDetails.struct_class = Types::RegisteredMCPServerDetails
 
-    RegisteredMCPServerSigV4Details.add_member(:name, Shapes::ShapeRef.new(shape: RegisteredMCPServerSigV4DetailsNameString, required: true, location_name: "name"))
-    RegisteredMCPServerSigV4Details.add_member(:endpoint, Shapes::ShapeRef.new(shape: RegisteredMCPServerSigV4DetailsEndpointString, required: true, location_name: "endpoint"))
+    RegisteredMCPServerSigV4Details.add_member(:name, Shapes::ShapeRef.new(shape: MCPServerName, required: true, location_name: "name"))
+    RegisteredMCPServerSigV4Details.add_member(:endpoint, Shapes::ShapeRef.new(shape: MCPServerEndpoint, required: true, location_name: "endpoint"))
     RegisteredMCPServerSigV4Details.add_member(:description, Shapes::ShapeRef.new(shape: RegisteredMCPServerSigV4DetailsDescriptionString, location_name: "description"))
     RegisteredMCPServerSigV4Details.add_member(:region, Shapes::ShapeRef.new(shape: SigV4Region, required: true, location_name: "region"))
     RegisteredMCPServerSigV4Details.add_member(:service, Shapes::ShapeRef.new(shape: RegisteredMCPServerSigV4DetailsServiceString, required: true, location_name: "service"))
-    RegisteredMCPServerSigV4Details.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "roleArn"))
+    RegisteredMCPServerSigV4Details.add_member(:role_arn, Shapes::ShapeRef.new(shape: RegisteredMCPServerSigV4DetailsRoleArnString, required: true, deprecated: true, location_name: "roleArn", metadata: {"deprecatedMessage" => "Use mcpRoleArn instead.", "deprecatedSince" => "2026-05-27"}))
+    RegisteredMCPServerSigV4Details.add_member(:mcp_role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "mcpRoleArn"))
     RegisteredMCPServerSigV4Details.add_member(:custom_headers, Shapes::ShapeRef.new(shape: CustomHeaders, location_name: "customHeaders"))
     RegisteredMCPServerSigV4Details.struct_class = Types::RegisteredMCPServerSigV4Details
 
@@ -1252,7 +1487,7 @@ module Aws::DevOpsAgent
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
 
-    Scopes.member = Shapes::ShapeRef.new(shape: String)
+    Scopes.member = Shapes::ShapeRef.new(shape: OAuthScope)
 
     SelfManagedInput.add_member(:resource_configuration_id, Shapes::ShapeRef.new(shape: ResourceConfigurationArn, required: true, location_name: "resourceConfigurationId"))
     SelfManagedInput.add_member(:certificate, Shapes::ShapeRef.new(shape: CertificateString, location_name: "certificate"))
@@ -1307,10 +1542,11 @@ module Aws::DevOpsAgent
     SendMessageJsonDelta.struct_class = Types::SendMessageJsonDelta
 
     SendMessageRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
-    SendMessageRequest.add_member(:execution_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "executionId"))
+    SendMessageRequest.add_member(:execution_id, Shapes::ShapeRef.new(shape: ChatExecutionId, required: true, location_name: "executionId"))
     SendMessageRequest.add_member(:content, Shapes::ShapeRef.new(shape: MessageContent, required: true, location_name: "content"))
     SendMessageRequest.add_member(:context, Shapes::ShapeRef.new(shape: SendMessageContext, location_name: "context"))
     SendMessageRequest.add_member(:user_id, Shapes::ShapeRef.new(shape: ResourceId, deprecated: true, location_name: "userId", metadata: {"deprecatedMessage" => "userId is managed by the service and should not be provided by the caller", "deprecatedSince" => "2026-04-15"}))
+    SendMessageRequest.add_member(:asset_ids, Shapes::ShapeRef.new(shape: AssetIdList, location_name: "assetIds"))
     SendMessageRequest.struct_class = Types::SendMessageRequest
 
     SendMessageResponse.add_member(:events, Shapes::ShapeRef.new(shape: SendMessageEvents, required: true, eventstream: true, location_name: "events"))
@@ -1423,6 +1659,7 @@ module Aws::DevOpsAgent
     ServiceManagedInput.add_member(:ipv4_addresses_per_eni, Shapes::ShapeRef.new(shape: MaxIpv4AddressesPerEni, location_name: "ipv4AddressesPerEni"))
     ServiceManagedInput.add_member(:port_ranges, Shapes::ShapeRef.new(shape: PortRanges, location_name: "portRanges"))
     ServiceManagedInput.add_member(:certificate, Shapes::ShapeRef.new(shape: CertificateString, location_name: "certificate"))
+    ServiceManagedInput.add_member(:dns_resolution, Shapes::ShapeRef.new(shape: ResourceConfigDnsResolution, location_name: "dnsResolution"))
     ServiceManagedInput.struct_class = Types::ServiceManagedInput
 
     ServiceNowAuthenticationScopeList.member = Shapes::ShapeRef.new(shape: String)
@@ -1533,6 +1770,27 @@ module Aws::DevOpsAgent
     UpdateAgentSpaceOutput.add_member(:agent_space, Shapes::ShapeRef.new(shape: AgentSpace, required: true, location_name: "agentSpace"))
     UpdateAgentSpaceOutput.struct_class = Types::UpdateAgentSpaceOutput
 
+    UpdateAssetFileRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    UpdateAssetFileRequest.add_member(:asset_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "assetId"))
+    UpdateAssetFileRequest.add_member(:path, Shapes::ShapeRef.new(shape: AssetFilePath, required: true, location: "uri", location_name: "path"))
+    UpdateAssetFileRequest.add_member(:content, Shapes::ShapeRef.new(shape: AssetFileBody, location_name: "content"))
+    UpdateAssetFileRequest.add_member(:metadata, Shapes::ShapeRef.new(shape: Document, location_name: "metadata"))
+    UpdateAssetFileRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: UpdateAssetFileRequestClientTokenString, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    UpdateAssetFileRequest.struct_class = Types::UpdateAssetFileRequest
+
+    UpdateAssetFileResponse.add_member(:file, Shapes::ShapeRef.new(shape: AssetFile, required: true, location_name: "file"))
+    UpdateAssetFileResponse.struct_class = Types::UpdateAssetFileResponse
+
+    UpdateAssetRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    UpdateAssetRequest.add_member(:asset_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "assetId"))
+    UpdateAssetRequest.add_member(:metadata, Shapes::ShapeRef.new(shape: Document, location_name: "metadata"))
+    UpdateAssetRequest.add_member(:content, Shapes::ShapeRef.new(shape: AssetContent, location_name: "content"))
+    UpdateAssetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: UpdateAssetRequestClientTokenString, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    UpdateAssetRequest.struct_class = Types::UpdateAssetRequest
+
+    UpdateAssetResponse.add_member(:asset, Shapes::ShapeRef.new(shape: Asset, required: true, location_name: "asset"))
+    UpdateAssetResponse.struct_class = Types::UpdateAssetResponse
+
     UpdateAssociationInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
     UpdateAssociationInput.add_member(:association_id, Shapes::ShapeRef.new(shape: AssociationId, required: true, location: "uri", location_name: "associationId"))
     UpdateAssociationInput.add_member(:configuration, Shapes::ShapeRef.new(shape: ServiceConfiguration, required: true, location_name: "configuration"))
@@ -1580,6 +1838,8 @@ module Aws::DevOpsAgent
     UpdatePrivateConnectionCertificateOutput.add_member(:resource_configuration_id, Shapes::ShapeRef.new(shape: ResourceConfigurationArn, location_name: "resourceConfigurationId"))
     UpdatePrivateConnectionCertificateOutput.add_member(:status, Shapes::ShapeRef.new(shape: PrivateConnectionStatus, required: true, location_name: "status"))
     UpdatePrivateConnectionCertificateOutput.add_member(:certificate_expiry_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "certificateExpiryTime"))
+    UpdatePrivateConnectionCertificateOutput.add_member(:dns_resolution, Shapes::ShapeRef.new(shape: ResourceConfigDnsResolution, location_name: "dnsResolution"))
+    UpdatePrivateConnectionCertificateOutput.add_member(:failure_message, Shapes::ShapeRef.new(shape: FailureMessage, location_name: "failureMessage"))
     UpdatePrivateConnectionCertificateOutput.struct_class = Types::UpdatePrivateConnectionCertificateOutput
 
     UpdateRecommendationRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
@@ -1693,6 +1953,46 @@ module Aws::DevOpsAgent
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
+      api.add_operation(:create_asset, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateAsset"
+        o.http_method = "POST"
+        o.http_request_uri = "/asset/agent-space/{agentSpaceId}/assets"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: CreateAssetRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateAssetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:create_asset_file, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateAssetFile"
+        o.http_method = "POST"
+        o.http_request_uri = "/asset/agent-space/{agentSpaceId}/assets/{assetId}/files/{path+}"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: CreateAssetFileRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateAssetFileResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+      end)
+
       api.add_operation(:create_backlog_task, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateBacklogTask"
         o.http_method = "POST"
@@ -1762,6 +2062,46 @@ module Aws::DevOpsAgent
         }
         o.input = Shapes::ShapeRef.new(shape: DeleteAgentSpaceInput)
         o.output = Shapes::ShapeRef.new(shape: DeleteAgentSpaceOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+      end)
+
+      api.add_operation(:delete_asset, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteAsset"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/asset/agent-space/{agentSpaceId}/assets/{assetId}"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: DeleteAssetRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteAssetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+      end)
+
+      api.add_operation(:delete_asset_file, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteAssetFile"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/asset/agent-space/{agentSpaceId}/assets/{assetId}/files/{path+}"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: DeleteAssetFileRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteAssetFileResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
@@ -1935,6 +2275,66 @@ module Aws::DevOpsAgent
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
       end)
 
+      api.add_operation(:get_asset, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetAsset"
+        o.http_method = "GET"
+        o.http_request_uri = "/asset/agent-space/{agentSpaceId}/assets/{assetId}"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: GetAssetRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetAssetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+      end)
+
+      api.add_operation(:get_asset_content, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetAssetContent"
+        o.http_method = "GET"
+        o.http_request_uri = "/asset/agent-space/{agentSpaceId}/assets/{assetId}/content"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: GetAssetContentRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetAssetContentResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+      end)
+
+      api.add_operation(:get_asset_file, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetAssetFile"
+        o.http_method = "GET"
+        o.http_request_uri = "/asset/agent-space/{agentSpaceId}/assets/{assetId}/files/{path+}"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: GetAssetFileRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetAssetFileResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+      end)
+
       api.add_operation(:get_association, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetAssociation"
         o.http_method = "GET"
@@ -2044,6 +2444,110 @@ module Aws::DevOpsAgent
         }
         o.input = Shapes::ShapeRef.new(shape: ListAgentSpacesInput)
         o.output = Shapes::ShapeRef.new(shape: ListAgentSpacesOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_asset_files, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAssetFiles"
+        o.http_method = "GET"
+        o.http_request_uri = "/asset/agent-space/{agentSpaceId}/assets/{assetId}/files"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: ListAssetFilesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListAssetFilesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_asset_types, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAssetTypes"
+        o.http_method = "GET"
+        o.http_request_uri = "/asset/types"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: ListAssetTypesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListAssetTypesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_asset_versions, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAssetVersions"
+        o.http_method = "GET"
+        o.http_request_uri = "/asset/agent-space/{agentSpaceId}/assets/{assetId}/versions"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: ListAssetVersionsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListAssetVersionsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_assets, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAssets"
+        o.http_method = "GET"
+        o.http_request_uri = "/asset/agent-space/{agentSpaceId}/assets"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: ListAssetsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListAssetsResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
@@ -2426,6 +2930,46 @@ module Aws::DevOpsAgent
         }
         o.input = Shapes::ShapeRef.new(shape: UpdateAgentSpaceInput)
         o.output = Shapes::ShapeRef.new(shape: UpdateAgentSpaceOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+      end)
+
+      api.add_operation(:update_asset, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateAsset"
+        o.http_method = "PATCH"
+        o.http_request_uri = "/asset/agent-space/{agentSpaceId}/assets/{assetId}"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: UpdateAssetRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateAssetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+      end)
+
+      api.add_operation(:update_asset_file, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateAssetFile"
+        o.http_method = "PATCH"
+        o.http_request_uri = "/asset/agent-space/{agentSpaceId}/assets/{assetId}/files/{path+}"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: UpdateAssetFileRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateAssetFileResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)

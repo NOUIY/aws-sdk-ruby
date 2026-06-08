@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.71.0 (2026-06-08)
+------------------
+
+* Feature - AWS Transform discovery tool now supported as network migration input source. You can now use the AWS Transform Discovery tool as a source for network migration alongside modelizeIT, enabling hybrid network migrations for environments running both VMware and non-VMware workloads.
+
 1.70.0 (2026-05-27)
 ------------------
 

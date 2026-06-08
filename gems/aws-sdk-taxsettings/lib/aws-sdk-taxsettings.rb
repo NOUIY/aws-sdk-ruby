@@ -49,12 +49,13 @@ module Aws::TaxSettings
   end
   autoload :Client, 'aws-sdk-taxsettings/client'
   autoload :Errors, 'aws-sdk-taxsettings/errors'
+  autoload :Waiters, 'aws-sdk-taxsettings/waiters'
   autoload :Resource, 'aws-sdk-taxsettings/resource'
   autoload :EndpointParameters, 'aws-sdk-taxsettings/endpoint_parameters'
   autoload :EndpointProvider, 'aws-sdk-taxsettings/endpoint_provider'
   autoload :Endpoints, 'aws-sdk-taxsettings/endpoints'
 
-  GEM_VERSION = '1.41.0'
+  GEM_VERSION = '1.42.0'
 
 end
 

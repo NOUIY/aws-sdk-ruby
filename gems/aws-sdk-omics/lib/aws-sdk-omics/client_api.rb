@@ -1123,6 +1123,7 @@ module Aws::Omics
     DefaultRunSetting.add_member(:workflow_version_name, Shapes::ShapeRef.new(shape: WorkflowVersionName, location_name: "workflowVersionName"))
     DefaultRunSetting.add_member(:networking_mode, Shapes::ShapeRef.new(shape: NetworkingMode, location_name: "networkingMode"))
     DefaultRunSetting.add_member(:configuration_name, Shapes::ShapeRef.new(shape: ConfigurationName, location_name: "configurationName"))
+    DefaultRunSetting.add_member(:engine_settings, Shapes::ShapeRef.new(shape: EngineSettings, location_name: "engineSettings"))
     DefaultRunSetting.struct_class = Types::DefaultRunSetting
 
     DefinitionRepository.add_member(:connection_arn, Shapes::ShapeRef.new(shape: ConnectionArn, required: true, location_name: "connectionArn"))
@@ -1796,6 +1797,7 @@ module Aws::Omics
     InlineSetting.add_member(:parameters, Shapes::ShapeRef.new(shape: RunParameters, location_name: "parameters"))
     InlineSetting.add_member(:output_bucket_owner_id, Shapes::ShapeRef.new(shape: AwsAccountId, location_name: "outputBucketOwnerId"))
     InlineSetting.add_member(:run_tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "runTags"))
+    InlineSetting.add_member(:engine_settings, Shapes::ShapeRef.new(shape: EngineSettings, location_name: "engineSettings"))
     InlineSetting.struct_class = Types::InlineSetting
 
     InlineSettings.member = Shapes::ShapeRef.new(shape: InlineSetting)

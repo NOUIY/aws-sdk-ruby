@@ -402,6 +402,11 @@ module Aws::Deadline
     #   The member's principal ID to associate with the farm.
     #   @return [String]
     #
+    # @!attribute [rw] identity_center_region
+    #   The Region of the IAM Identity Center instance. If not provided, the
+    #   service defaults to the Region of the farm.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/AssociateMemberToFarmRequest AWS API Documentation
     #
     class AssociateMemberToFarmRequest < Struct.new(
@@ -409,7 +414,8 @@ module Aws::Deadline
       :principal_type,
       :identity_store_id,
       :membership_level,
-      :principal_id)
+      :principal_id,
+      :identity_center_region)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -446,6 +452,11 @@ module Aws::Deadline
     #   The member's principal ID to associate with a fleet.
     #   @return [String]
     #
+    # @!attribute [rw] identity_center_region
+    #   The Region of the IAM Identity Center instance. If not provided, the
+    #   service defaults to the Region of the farm.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/AssociateMemberToFleetRequest AWS API Documentation
     #
     class AssociateMemberToFleetRequest < Struct.new(
@@ -454,7 +465,8 @@ module Aws::Deadline
       :principal_type,
       :identity_store_id,
       :membership_level,
-      :principal_id)
+      :principal_id,
+      :identity_center_region)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -495,6 +507,11 @@ module Aws::Deadline
     #   The member's principal ID to associate with the job.
     #   @return [String]
     #
+    # @!attribute [rw] identity_center_region
+    #   The Region of the IAM Identity Center instance. If not provided, the
+    #   service defaults to the Region of the farm.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/AssociateMemberToJobRequest AWS API Documentation
     #
     class AssociateMemberToJobRequest < Struct.new(
@@ -504,7 +521,8 @@ module Aws::Deadline
       :principal_type,
       :identity_store_id,
       :membership_level,
-      :principal_id)
+      :principal_id,
+      :identity_center_region)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -541,6 +559,11 @@ module Aws::Deadline
     #   The member's principal ID to associate with the queue.
     #   @return [String]
     #
+    # @!attribute [rw] identity_center_region
+    #   The Region of the IAM Identity Center instance. If not provided, the
+    #   service defaults to the Region of the farm.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/AssociateMemberToQueueRequest AWS API Documentation
     #
     class AssociateMemberToQueueRequest < Struct.new(
@@ -549,7 +572,8 @@ module Aws::Deadline
       :principal_type,
       :identity_store_id,
       :membership_level,
-      :principal_id)
+      :principal_id,
+      :identity_center_region)
       SENSITIVE = []
       include Aws::Structure
     end

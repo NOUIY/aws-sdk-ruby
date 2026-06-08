@@ -6674,6 +6674,8 @@ module Aws::Omics
     #       workflow_version_name: "WorkflowVersionName",
     #       networking_mode: "RESTRICTED", # accepts RESTRICTED, VPC
     #       configuration_name: "ConfigurationName",
+    #       engine_settings: {
+    #       },
     #     },
     #     batch_run_settings: { # required
     #       inline_settings: [
@@ -6687,6 +6689,8 @@ module Aws::Omics
     #           output_bucket_owner_id: "AwsAccountId",
     #           run_tags: {
     #             "TagKey" => "TagValue",
+    #           },
+    #           engine_settings: {
     #           },
     #         },
     #       ],
@@ -7396,7 +7400,7 @@ module Aws::Omics
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-omics'
-      context[:gem_version] = '1.71.0'
+      context[:gem_version] = '1.72.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

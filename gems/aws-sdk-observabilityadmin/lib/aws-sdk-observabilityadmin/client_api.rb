@@ -56,6 +56,7 @@ module Aws::ObservabilityAdmin
     DeleteTelemetryRuleForOrganizationInput = Shapes::StructureShape.new(name: 'DeleteTelemetryRuleForOrganizationInput')
     DeleteTelemetryRuleInput = Shapes::StructureShape.new(name: 'DeleteTelemetryRuleInput')
     DestinationLogsConfiguration = Shapes::StructureShape.new(name: 'DestinationLogsConfiguration')
+    DestinationMetricsConfiguration = Shapes::StructureShape.new(name: 'DestinationMetricsConfiguration')
     DestinationType = Shapes::StringShape.new(name: 'DestinationType')
     ELBLoadBalancerLoggingParameters = Shapes::StructureShape.new(name: 'ELBLoadBalancerLoggingParameters')
     EncryptedLogGroupStrategy = Shapes::StringShape.new(name: 'EncryptedLogGroupStrategy')
@@ -126,6 +127,8 @@ module Aws::ObservabilityAdmin
     LogsEncryptionConfiguration = Shapes::StructureShape.new(name: 'LogsEncryptionConfiguration')
     LogsFilterString = Shapes::StringShape.new(name: 'LogsFilterString')
     Long = Shapes::IntegerShape.new(name: 'Long')
+    MetricsBackupConfiguration = Shapes::StructureShape.new(name: 'MetricsBackupConfiguration')
+    MetricsFilterString = Shapes::StringShape.new(name: 'MetricsFilterString')
     MskEnhancedMonitoringLevel = Shapes::StringShape.new(name: 'MskEnhancedMonitoringLevel')
     MskMonitoringParameters = Shapes::StructureShape.new(name: 'MskMonitoringParameters')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
@@ -162,6 +165,7 @@ module Aws::ObservabilityAdmin
     Source = Shapes::StructureShape.new(name: 'Source')
     SourceFilterString = Shapes::StringShape.new(name: 'SourceFilterString')
     SourceLogsConfiguration = Shapes::StructureShape.new(name: 'SourceLogsConfiguration')
+    SourceMetricsConfiguration = Shapes::StructureShape.new(name: 'SourceMetricsConfiguration')
     Sources = Shapes::ListShape.new(name: 'Sources')
     StartTelemetryEnrichmentOutput = Shapes::StructureShape.new(name: 'StartTelemetryEnrichmentOutput')
     StartTelemetryEvaluationForOrganizationInput = Shapes::StructureShape.new(name: 'StartTelemetryEvaluationForOrganizationInput')
@@ -249,11 +253,13 @@ module Aws::ObservabilityAdmin
     CentralizationRuleDestination.add_member(:region, Shapes::ShapeRef.new(shape: Region, required: true, location_name: "Region"))
     CentralizationRuleDestination.add_member(:account, Shapes::ShapeRef.new(shape: AccountIdentifier, location_name: "Account"))
     CentralizationRuleDestination.add_member(:destination_logs_configuration, Shapes::ShapeRef.new(shape: DestinationLogsConfiguration, location_name: "DestinationLogsConfiguration"))
+    CentralizationRuleDestination.add_member(:destination_metrics_configuration, Shapes::ShapeRef.new(shape: DestinationMetricsConfiguration, location_name: "DestinationMetricsConfiguration"))
     CentralizationRuleDestination.struct_class = Types::CentralizationRuleDestination
 
     CentralizationRuleSource.add_member(:regions, Shapes::ShapeRef.new(shape: Regions, required: true, location_name: "Regions"))
     CentralizationRuleSource.add_member(:scope, Shapes::ShapeRef.new(shape: SourceFilterString, location_name: "Scope"))
     CentralizationRuleSource.add_member(:source_logs_configuration, Shapes::ShapeRef.new(shape: SourceLogsConfiguration, location_name: "SourceLogsConfiguration"))
+    CentralizationRuleSource.add_member(:source_metrics_configuration, Shapes::ShapeRef.new(shape: SourceMetricsConfiguration, location_name: "SourceMetricsConfiguration"))
     CentralizationRuleSource.struct_class = Types::CentralizationRuleSource
 
     CentralizationRuleSummaries.member = Shapes::ShapeRef.new(shape: CentralizationRuleSummary)
@@ -358,6 +364,9 @@ module Aws::ObservabilityAdmin
     DestinationLogsConfiguration.add_member(:backup_configuration, Shapes::ShapeRef.new(shape: LogsBackupConfiguration, location_name: "BackupConfiguration"))
     DestinationLogsConfiguration.add_member(:log_group_name_configuration, Shapes::ShapeRef.new(shape: LogGroupNameConfiguration, location_name: "LogGroupNameConfiguration"))
     DestinationLogsConfiguration.struct_class = Types::DestinationLogsConfiguration
+
+    DestinationMetricsConfiguration.add_member(:backup_configuration, Shapes::ShapeRef.new(shape: MetricsBackupConfiguration, location_name: "BackupConfiguration"))
+    DestinationMetricsConfiguration.struct_class = Types::DestinationMetricsConfiguration
 
     ELBLoadBalancerLoggingParameters.add_member(:output_format, Shapes::ShapeRef.new(shape: OutputFormat, location_name: "OutputFormat"))
     ELBLoadBalancerLoggingParameters.add_member(:field_delimiter, Shapes::ShapeRef.new(shape: String, location_name: "FieldDelimiter"))
@@ -573,6 +582,9 @@ module Aws::ObservabilityAdmin
     LogsEncryptionConfiguration.add_member(:encryption_conflict_resolution_strategy, Shapes::ShapeRef.new(shape: EncryptionConflictResolutionStrategy, location_name: "EncryptionConflictResolutionStrategy"))
     LogsEncryptionConfiguration.struct_class = Types::LogsEncryptionConfiguration
 
+    MetricsBackupConfiguration.add_member(:region, Shapes::ShapeRef.new(shape: Region, required: true, location_name: "Region"))
+    MetricsBackupConfiguration.struct_class = Types::MetricsBackupConfiguration
+
     MskMonitoringParameters.add_member(:enhanced_monitoring, Shapes::ShapeRef.new(shape: MskEnhancedMonitoringLevel, location_name: "EnhancedMonitoring"))
     MskMonitoringParameters.struct_class = Types::MskMonitoringParameters
 
@@ -634,6 +646,9 @@ module Aws::ObservabilityAdmin
     SourceLogsConfiguration.add_member(:data_source_selection_criteria, Shapes::ShapeRef.new(shape: DataSourceFilterString, location_name: "DataSourceSelectionCriteria"))
     SourceLogsConfiguration.add_member(:encrypted_log_group_strategy, Shapes::ShapeRef.new(shape: EncryptedLogGroupStrategy, required: true, location_name: "EncryptedLogGroupStrategy"))
     SourceLogsConfiguration.struct_class = Types::SourceLogsConfiguration
+
+    SourceMetricsConfiguration.add_member(:metrics_selection_criteria, Shapes::ShapeRef.new(shape: MetricsFilterString, location_name: "MetricsSelectionCriteria"))
+    SourceMetricsConfiguration.struct_class = Types::SourceMetricsConfiguration
 
     Sources.member = Shapes::ShapeRef.new(shape: Source)
 

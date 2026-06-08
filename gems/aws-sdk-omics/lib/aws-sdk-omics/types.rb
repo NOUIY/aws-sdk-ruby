@@ -2134,6 +2134,12 @@ module Aws::Omics
     #   Optional configuration name to use for the workflow run.
     #   @return [String]
     #
+    # @!attribute [rw] engine_settings
+    #   Engine-specific settings for the workflow run. Use this field to
+    #   specify configuration options that are specific to the workflow
+    #   engine (for example, Nextflow profiles).
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/DefaultRunSetting AWS API Documentation
     #
     class DefaultRunSetting < Struct.new(
@@ -2156,7 +2162,8 @@ module Aws::Omics
       :output_bucket_owner_id,
       :workflow_version_name,
       :networking_mode,
-      :configuration_name)
+      :configuration_name,
+      :engine_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5212,6 +5219,13 @@ module Aws::Omics
     #   this object take precedence when keys overlap.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] engine_settings
+    #   Per-run engine-specific settings. Use this field to specify
+    #   configuration options that are specific to the workflow engine (for
+    #   example, Nextflow profiles). Overrides
+    #   `defaultRunSetting.engineSettings` for this run.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/InlineSetting AWS API Documentation
     #
     class InlineSetting < Struct.new(
@@ -5221,7 +5235,8 @@ module Aws::Omics
       :priority,
       :parameters,
       :output_bucket_owner_id,
-      :run_tags)
+      :run_tags,
+      :engine_settings)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.32.0 (2026-06-08)
+------------------
+
+* Feature - CloudWatch Observability Admin extends CentralizationRuleForOrganization APIs to support metrics, enabling centralization of metrics across accounts and Regions alongside logs.
+
 1.31.0 (2026-05-26)
 ------------------
 

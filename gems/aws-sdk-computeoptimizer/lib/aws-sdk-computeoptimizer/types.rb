@@ -3873,6 +3873,25 @@ module Aws::ComputeOptimizer
       include Aws::Structure
     end
 
+    # Describes the dimension of an idle resource utilization metric.
+    #
+    # @!attribute [rw] key
+    #   The name of the dimension key.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   The value of the dimension.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/compute-optimizer-2019-11-01/IdleDimension AWS API Documentation
+    #
+    class IdleDimension < Struct.new(
+      :key,
+      :values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Describes the estimated monthly savings possible for idle resources by
     # adopting Compute Optimizer recommendations.
     #
@@ -4134,12 +4153,17 @@ module Aws::ComputeOptimizer
     #   The value of the utilization metric.
     #   @return [Float]
     #
+    # @!attribute [rw] dimensions
+    #   The dimensions of the utilization metric.
+    #   @return [Array<Types::IdleDimension>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/compute-optimizer-2019-11-01/IdleUtilizationMetric AWS API Documentation
     #
     class IdleUtilizationMetric < Struct.new(
       :name,
       :statistic,
-      :value)
+      :value,
+      :dimensions)
       SENSITIVE = []
       include Aws::Structure
     end

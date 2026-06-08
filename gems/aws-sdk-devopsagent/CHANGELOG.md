@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.8.0 (2026-06-08)
+------------------
+
+* Feature - Add Asset APIs for managing versioned assets and asset files in AWS DevOps Agent agent spaces.
+
 1.7.0 (2026-05-27)
 ------------------
 

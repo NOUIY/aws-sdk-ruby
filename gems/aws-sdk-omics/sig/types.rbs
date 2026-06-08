@@ -521,6 +521,7 @@ module Aws::Omics
       attr_accessor workflow_version_name: ::String
       attr_accessor networking_mode: ("RESTRICTED" | "VPC")
       attr_accessor configuration_name: ::String
+      attr_accessor engine_settings: untyped
       SENSITIVE: []
     end
 
@@ -1358,6 +1359,7 @@ module Aws::Omics
       attr_accessor parameters: untyped
       attr_accessor output_bucket_owner_id: ::String
       attr_accessor run_tags: ::Hash[::String, ::String]
+      attr_accessor engine_settings: untyped
       SENSITIVE: []
     end
 

@@ -10,7 +10,7 @@
 module Aws::TaxSettings
   module Types
 
-    # The access is denied for the Amazon Web ServicesSupport API.
+    # The access is denied for the Amazon Web Services Support API.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -29,28 +29,28 @@ module Aws::TaxSettings
     #   List of unique account identifiers.
     #   @return [String]
     #
-    # @!attribute [rw] account_meta_data
-    #   The meta data information associated with the account.
-    #   @return [Types::AccountMetaData]
-    #
-    # @!attribute [rw] tax_inheritance_details
-    #   Tax inheritance information associated with the account.
-    #   @return [Types::TaxInheritanceDetails]
-    #
     # @!attribute [rw] tax_registration
     #   Your TRN information. Instead of having full legal address, here TRN
     #   information will have jurisdiction details (for example, country
     #   code and state/region/province if applicable).
     #   @return [Types::TaxRegistrationWithJurisdiction]
     #
+    # @!attribute [rw] tax_inheritance_details
+    #   Tax inheritance information associated with the account.
+    #   @return [Types::TaxInheritanceDetails]
+    #
+    # @!attribute [rw] account_meta_data
+    #   The meta data information associated with the account.
+    #   @return [Types::AccountMetaData]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/AccountDetails AWS API Documentation
     #
     class AccountDetails < Struct.new(
       :account_id,
-      :account_meta_data,
+      :tax_registration,
       :tax_inheritance_details,
-      :tax_registration)
-      SENSITIVE = [:account_meta_data, :tax_registration]
+      :account_meta_data)
+      SENSITIVE = [:tax_registration, :account_meta_data]
       include Aws::Structure
     end
 
@@ -60,31 +60,31 @@ module Aws::TaxSettings
     #   The Amazon Web Services accounts name.
     #   @return [String]
     #
+    # @!attribute [rw] seller
+    #   Seller information associated with the account.
+    #   @return [String]
+    #
     # @!attribute [rw] address
     #   The details of the address associated with the TRN information.
     #   @return [Types::Address]
+    #
+    # @!attribute [rw] address_type
+    #   The type of address associated with the legal profile.
+    #   @return [String]
     #
     # @!attribute [rw] address_role_map
     #   Address roles associated with the account containing country code
     #   information.
     #   @return [Hash<String,Types::Jurisdiction>]
     #
-    # @!attribute [rw] address_type
-    #   The type of address associated with the legal profile.
-    #   @return [String]
-    #
-    # @!attribute [rw] seller
-    #   Seller information associated with the account.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/AccountMetaData AWS API Documentation
     #
     class AccountMetaData < Struct.new(
       :account_name,
+      :seller,
       :address,
-      :address_role_map,
       :address_type,
-      :seller)
+      :address_role_map)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -102,103 +102,123 @@ module Aws::TaxSettings
     #
     #  </note>
     #
-    # @!attribute [rw] canada_additional_info
-    #   Additional tax information associated with your TRN in Canada.
-    #   @return [Types::CanadaAdditionalInfo]
-    #
-    # @!attribute [rw] egypt_additional_info
-    #   Additional tax information to specify for a TRN in Egypt.
-    #   @return [Types::EgyptAdditionalInfo]
-    #
-    # @!attribute [rw] estonia_additional_info
-    #   Additional tax information to specify for a TRN in Estonia.
-    #   @return [Types::EstoniaAdditionalInfo]
-    #
-    # @!attribute [rw] georgia_additional_info
-    #   Additional tax information to specify for a TRN in Georgia.
-    #   @return [Types::GeorgiaAdditionalInfo]
-    #
-    # @!attribute [rw] greece_additional_info
-    #   Additional tax information to specify for a TRN in Greece.
-    #   @return [Types::GreeceAdditionalInfo]
-    #
-    # @!attribute [rw] indonesia_additional_info
-    #   @return [Types::IndonesiaAdditionalInfo]
+    # @!attribute [rw] malaysia_additional_info
+    #   Additional tax information to specify for a TRN in Malaysia.
+    #   @return [Types::MalaysiaAdditionalInfo]
     #
     # @!attribute [rw] israel_additional_info
     #   Additional tax information to specify for a TRN in Israel.
     #   @return [Types::IsraelAdditionalInfo]
     #
-    # @!attribute [rw] italy_additional_info
-    #   Additional tax information to specify for a TRN in Italy.
-    #   @return [Types::ItalyAdditionalInfo]
+    # @!attribute [rw] estonia_additional_info
+    #   Additional tax information to specify for a TRN in Estonia.
+    #   @return [Types::EstoniaAdditionalInfo]
     #
-    # @!attribute [rw] kenya_additional_info
-    #   Additional tax information to specify for a TRN in Kenya.
-    #   @return [Types::KenyaAdditionalInfo]
-    #
-    # @!attribute [rw] malaysia_additional_info
-    #   Additional tax information to specify for a TRN in Malaysia.
-    #   @return [Types::MalaysiaAdditionalInfo]
-    #
-    # @!attribute [rw] poland_additional_info
-    #   Additional tax information associated with your TRN in Poland.
-    #   @return [Types::PolandAdditionalInfo]
-    #
-    # @!attribute [rw] romania_additional_info
-    #   Additional tax information to specify for a TRN in Romania.
-    #   @return [Types::RomaniaAdditionalInfo]
-    #
-    # @!attribute [rw] saudi_arabia_additional_info
-    #   Additional tax information associated with your TRN in Saudi Arabia.
-    #   @return [Types::SaudiArabiaAdditionalInfo]
-    #
-    # @!attribute [rw] south_korea_additional_info
-    #   Additional tax information to specify for a TRN in South Korea.
-    #   @return [Types::SouthKoreaAdditionalInfo]
+    # @!attribute [rw] canada_additional_info
+    #   Additional tax information associated with your TRN in Canada.
+    #   @return [Types::CanadaAdditionalInfo]
     #
     # @!attribute [rw] spain_additional_info
     #   Additional tax information to specify for a TRN in Spain.
     #   @return [Types::SpainAdditionalInfo]
     #
+    # @!attribute [rw] kenya_additional_info
+    #   Additional tax information to specify for a TRN in Kenya.
+    #   @return [Types::KenyaAdditionalInfo]
+    #
+    # @!attribute [rw] south_korea_additional_info
+    #   Additional tax information to specify for a TRN in South Korea.
+    #   @return [Types::SouthKoreaAdditionalInfo]
+    #
     # @!attribute [rw] turkey_additional_info
     #   Additional tax information to specify for a TRN in Turkey.
     #   @return [Types::TurkeyAdditionalInfo]
+    #
+    # @!attribute [rw] georgia_additional_info
+    #   Additional tax information to specify for a TRN in Georgia.
+    #   @return [Types::GeorgiaAdditionalInfo]
+    #
+    # @!attribute [rw] italy_additional_info
+    #   Additional tax information to specify for a TRN in Italy.
+    #   @return [Types::ItalyAdditionalInfo]
+    #
+    # @!attribute [rw] romania_additional_info
+    #   Additional tax information to specify for a TRN in Romania.
+    #   @return [Types::RomaniaAdditionalInfo]
     #
     # @!attribute [rw] ukraine_additional_info
     #   Additional tax information associated with your TRN in Ukraine.
     #   @return [Types::UkraineAdditionalInfo]
     #
-    # @!attribute [rw] uzbekistan_additional_info
-    #   Additional tax information to specify for a TRN in Uzbekistan.
-    #   @return [Types::UzbekistanAdditionalInfo]
+    # @!attribute [rw] poland_additional_info
+    #   Additional tax information associated with your TRN in Poland.
+    #   @return [Types::PolandAdditionalInfo]
+    #
+    # @!attribute [rw] saudi_arabia_additional_info
+    #   Additional tax information associated with your TRN in Saudi Arabia.
+    #   @return [Types::SaudiArabiaAdditionalInfo]
+    #
+    # @!attribute [rw] indonesia_additional_info
+    #   @return [Types::IndonesiaAdditionalInfo]
     #
     # @!attribute [rw] vietnam_additional_info
     #   Additional tax information to specify for a TRN in Vietnam.
     #   @return [Types::VietnamAdditionalInfo]
     #
+    # @!attribute [rw] egypt_additional_info
+    #   Additional tax information to specify for a TRN in Egypt.
+    #   @return [Types::EgyptAdditionalInfo]
+    #
+    # @!attribute [rw] greece_additional_info
+    #   Additional tax information to specify for a TRN in Greece.
+    #   @return [Types::GreeceAdditionalInfo]
+    #
+    # @!attribute [rw] uzbekistan_additional_info
+    #   Additional tax information to specify for a TRN in Uzbekistan.
+    #   @return [Types::UzbekistanAdditionalInfo]
+    #
+    # @!attribute [rw] philippines_additional_info
+    #   Additional tax information to specify for a TRN in the Philippines.
+    #   @return [Types::PhilippinesAdditionalInfo]
+    #
+    # @!attribute [rw] belgium_additional_info
+    #   Additional tax information to specify for a TRN in Belgium.
+    #   @return [Types::BelgiumAdditionalInfo]
+    #
+    # @!attribute [rw] chile_additional_info
+    #   Additional tax information to specify for a TRN in Chile.
+    #   @return [Types::ChileAdditionalInfo]
+    #
+    # @!attribute [rw] france_additional_info
+    #   Additional tax information to specify for a TRN in France.
+    #   @return [Types::FranceAdditionalInfo]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/AdditionalInfoRequest AWS API Documentation
     #
     class AdditionalInfoRequest < Struct.new(
-      :canada_additional_info,
-      :egypt_additional_info,
-      :estonia_additional_info,
-      :georgia_additional_info,
-      :greece_additional_info,
-      :indonesia_additional_info,
-      :israel_additional_info,
-      :italy_additional_info,
-      :kenya_additional_info,
       :malaysia_additional_info,
-      :poland_additional_info,
-      :romania_additional_info,
-      :saudi_arabia_additional_info,
-      :south_korea_additional_info,
+      :israel_additional_info,
+      :estonia_additional_info,
+      :canada_additional_info,
       :spain_additional_info,
+      :kenya_additional_info,
+      :south_korea_additional_info,
       :turkey_additional_info,
+      :georgia_additional_info,
+      :italy_additional_info,
+      :romania_additional_info,
       :ukraine_additional_info,
+      :poland_additional_info,
+      :saudi_arabia_additional_info,
+      :indonesia_additional_info,
+      :vietnam_additional_info,
+      :egypt_additional_info,
+      :greece_additional_info,
       :uzbekistan_additional_info,
-      :vietnam_additional_info)
+      :philippines_additional_info,
+      :belgium_additional_info,
+      :chile_additional_info,
+      :france_additional_info)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -208,31 +228,67 @@ module Aws::TaxSettings
     # additional information is present with your TRN for the following
     # countries.
     #
+    # @!attribute [rw] malaysia_additional_info
+    #   Additional tax information associated with your TRN in Malaysia.
+    #   @return [Types::MalaysiaAdditionalInfo]
+    #
+    # @!attribute [rw] israel_additional_info
+    #   Additional tax information associated with your TRN in Israel.
+    #   @return [Types::IsraelAdditionalInfo]
+    #
+    # @!attribute [rw] estonia_additional_info
+    #   Additional tax information associated with your TRN in Estonia.
+    #   @return [Types::EstoniaAdditionalInfo]
+    #
+    # @!attribute [rw] canada_additional_info
+    #   Additional tax information associated with your TRN in Canada.
+    #   @return [Types::CanadaAdditionalInfo]
+    #
     # @!attribute [rw] brazil_additional_info
     #   Additional tax information associated with your TRN in Brazil. The
     #   Tax Settings API returns this information in your response when any
     #   additional information is present with your TRN in Brazil.
     #   @return [Types::BrazilAdditionalInfo]
     #
-    # @!attribute [rw] canada_additional_info
-    #   Additional tax information associated with your TRN in Canada.
-    #   @return [Types::CanadaAdditionalInfo]
+    # @!attribute [rw] spain_additional_info
+    #   Additional tax information associated with your TRN in Spain.
+    #   @return [Types::SpainAdditionalInfo]
     #
-    # @!attribute [rw] egypt_additional_info
-    #   Additional tax information to specify for a TRN in Egypt.
-    #   @return [Types::EgyptAdditionalInfo]
+    # @!attribute [rw] kenya_additional_info
+    #   Additional tax information associated with your TRN in Kenya.
+    #   @return [Types::KenyaAdditionalInfo]
     #
-    # @!attribute [rw] estonia_additional_info
-    #   Additional tax information associated with your TRN in Estonia.
-    #   @return [Types::EstoniaAdditionalInfo]
+    # @!attribute [rw] south_korea_additional_info
+    #   Additional tax information associated with your TRN in South Korea.
+    #   @return [Types::SouthKoreaAdditionalInfo]
+    #
+    # @!attribute [rw] turkey_additional_info
+    #   Additional tax information associated with your TRN in Turkey.
+    #   @return [Types::TurkeyAdditionalInfo]
     #
     # @!attribute [rw] georgia_additional_info
     #   Additional tax information associated with your TRN in Georgia.
     #   @return [Types::GeorgiaAdditionalInfo]
     #
-    # @!attribute [rw] greece_additional_info
-    #   Additional tax information to specify for a TRN in Greece.
-    #   @return [Types::GreeceAdditionalInfo]
+    # @!attribute [rw] italy_additional_info
+    #   Additional tax information associated with your TRN in Italy.
+    #   @return [Types::ItalyAdditionalInfo]
+    #
+    # @!attribute [rw] romania_additional_info
+    #   Additional tax information to specify for a TRN in Romania.
+    #   @return [Types::RomaniaAdditionalInfo]
+    #
+    # @!attribute [rw] ukraine_additional_info
+    #   Additional tax information associated with your TRN in Ukraine.
+    #   @return [Types::UkraineAdditionalInfo]
+    #
+    # @!attribute [rw] poland_additional_info
+    #   Additional tax information associated with your TRN in Poland.
+    #   @return [Types::PolandAdditionalInfo]
+    #
+    # @!attribute [rw] saudi_arabia_additional_info
+    #   Additional tax information associated with your TRN in Saudi Arabia.
+    #   @return [Types::SaudiArabiaAdditionalInfo]
     #
     # @!attribute [rw] india_additional_info
     #   Additional tax information in India.
@@ -242,82 +298,67 @@ module Aws::TaxSettings
     #   Additional tax information associated with your TRN in Indonesia.
     #   @return [Types::IndonesiaAdditionalInfo]
     #
-    # @!attribute [rw] israel_additional_info
-    #   Additional tax information associated with your TRN in Israel.
-    #   @return [Types::IsraelAdditionalInfo]
+    # @!attribute [rw] vietnam_additional_info
+    #   Additional tax information to specify for a TRN in Vietnam.
+    #   @return [Types::VietnamAdditionalInfo]
     #
-    # @!attribute [rw] italy_additional_info
-    #   Additional tax information associated with your TRN in Italy.
-    #   @return [Types::ItalyAdditionalInfo]
+    # @!attribute [rw] egypt_additional_info
+    #   Additional tax information to specify for a TRN in Egypt.
+    #   @return [Types::EgyptAdditionalInfo]
     #
-    # @!attribute [rw] kenya_additional_info
-    #   Additional tax information associated with your TRN in Kenya.
-    #   @return [Types::KenyaAdditionalInfo]
-    #
-    # @!attribute [rw] malaysia_additional_info
-    #   Additional tax information associated with your TRN in Malaysia.
-    #   @return [Types::MalaysiaAdditionalInfo]
-    #
-    # @!attribute [rw] poland_additional_info
-    #   Additional tax information associated with your TRN in Poland.
-    #   @return [Types::PolandAdditionalInfo]
-    #
-    # @!attribute [rw] romania_additional_info
-    #   Additional tax information to specify for a TRN in Romania.
-    #   @return [Types::RomaniaAdditionalInfo]
-    #
-    # @!attribute [rw] saudi_arabia_additional_info
-    #   Additional tax information associated with your TRN in Saudi Arabia.
-    #   @return [Types::SaudiArabiaAdditionalInfo]
-    #
-    # @!attribute [rw] south_korea_additional_info
-    #   Additional tax information associated with your TRN in South Korea.
-    #   @return [Types::SouthKoreaAdditionalInfo]
-    #
-    # @!attribute [rw] spain_additional_info
-    #   Additional tax information associated with your TRN in Spain.
-    #   @return [Types::SpainAdditionalInfo]
-    #
-    # @!attribute [rw] turkey_additional_info
-    #   Additional tax information associated with your TRN in Turkey.
-    #   @return [Types::TurkeyAdditionalInfo]
-    #
-    # @!attribute [rw] ukraine_additional_info
-    #   Additional tax information associated with your TRN in Ukraine.
-    #   @return [Types::UkraineAdditionalInfo]
+    # @!attribute [rw] greece_additional_info
+    #   Additional tax information to specify for a TRN in Greece.
+    #   @return [Types::GreeceAdditionalInfo]
     #
     # @!attribute [rw] uzbekistan_additional_info
     #   Additional tax information associated with your TRN in Uzbekistan.
     #   @return [Types::UzbekistanAdditionalInfo]
     #
-    # @!attribute [rw] vietnam_additional_info
-    #   Additional tax information to specify for a TRN in Vietnam.
-    #   @return [Types::VietnamAdditionalInfo]
+    # @!attribute [rw] philippines_additional_info
+    #   Additional tax information associated with your TRN in the
+    #   Philippines.
+    #   @return [Types::PhilippinesAdditionalInfo]
+    #
+    # @!attribute [rw] belgium_additional_info
+    #   Additional tax information associated with your TRN in Belgium.
+    #   @return [Types::BelgiumAdditionalInfo]
+    #
+    # @!attribute [rw] chile_additional_info
+    #   Additional tax information associated with your TRN in Chile.
+    #   @return [Types::ChileAdditionalInfo]
+    #
+    # @!attribute [rw] france_additional_info
+    #   Additional tax information associated with your TRN in France.
+    #   @return [Types::FranceAdditionalInfo]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/AdditionalInfoResponse AWS API Documentation
     #
     class AdditionalInfoResponse < Struct.new(
-      :brazil_additional_info,
-      :canada_additional_info,
-      :egypt_additional_info,
+      :malaysia_additional_info,
+      :israel_additional_info,
       :estonia_additional_info,
+      :canada_additional_info,
+      :brazil_additional_info,
+      :spain_additional_info,
+      :kenya_additional_info,
+      :south_korea_additional_info,
+      :turkey_additional_info,
       :georgia_additional_info,
-      :greece_additional_info,
+      :italy_additional_info,
+      :romania_additional_info,
+      :ukraine_additional_info,
+      :poland_additional_info,
+      :saudi_arabia_additional_info,
       :india_additional_info,
       :indonesia_additional_info,
-      :israel_additional_info,
-      :italy_additional_info,
-      :kenya_additional_info,
-      :malaysia_additional_info,
-      :poland_additional_info,
-      :romania_additional_info,
-      :saudi_arabia_additional_info,
-      :south_korea_additional_info,
-      :spain_additional_info,
-      :turkey_additional_info,
-      :ukraine_additional_info,
+      :vietnam_additional_info,
+      :egypt_additional_info,
+      :greece_additional_info,
       :uzbekistan_additional_info,
-      :vietnam_additional_info)
+      :philippines_additional_info,
+      :belgium_additional_info,
+      :chile_additional_info,
+      :france_additional_info)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -340,14 +381,6 @@ module Aws::TaxSettings
     #   example, you might enter `1234`.
     #   @return [String]
     #
-    # @!attribute [rw] city
-    #   The city that the address is in.
-    #   @return [String]
-    #
-    # @!attribute [rw] country_code
-    #   The country code for the country that the address is in.
-    #   @return [String]
-    #
     # @!attribute [rw] district_or_county
     #   The district or county the address is located.
     #
@@ -358,8 +391,8 @@ module Aws::TaxSettings
     #    </note>
     #   @return [String]
     #
-    # @!attribute [rw] postal_code
-    #   The postal code associated with the address.
+    # @!attribute [rw] city
+    #   The city that the address is in.
     #   @return [String]
     #
     # @!attribute [rw] state_or_region
@@ -371,23 +404,31 @@ module Aws::TaxSettings
     #   the **Tax Settings** page.
     #   @return [String]
     #
+    # @!attribute [rw] postal_code
+    #   The postal code associated with the address.
+    #   @return [String]
+    #
+    # @!attribute [rw] country_code
+    #   The country code for the country that the address is in.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/Address AWS API Documentation
     #
     class Address < Struct.new(
       :address_line_1,
       :address_line_2,
       :address_line_3,
-      :city,
-      :country_code,
       :district_or_county,
+      :city,
+      :state_or_region,
       :postal_code,
-      :state_or_region)
+      :country_code)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # Failed to upload the tax exemption document to Amazon Web
-    # ServicesSupport case.
+    # Failed to upload the tax exemption document to Amazon Web Services
+    # Support case.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -428,22 +469,22 @@ module Aws::TaxSettings
     #   operation.
     #   @return [String]
     #
-    # @!attribute [rw] code
-    #   The error code for an individual failure in
-    #   BatchDeleteTaxRegistration operation.
-    #   @return [String]
-    #
     # @!attribute [rw] message
     #   The error message for an individual failure in the
     #   `BatchDeleteTaxRegistration` operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   The error code for an individual failure in
+    #   BatchDeleteTaxRegistration operation.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/BatchDeleteTaxRegistrationError AWS API Documentation
     #
     class BatchDeleteTaxRegistrationError < Struct.new(
       :account_id,
-      :code,
-      :message)
+      :message,
+      :code)
       SENSITIVE = [:message]
       include Aws::Structure
     end
@@ -485,20 +526,20 @@ module Aws::TaxSettings
       include Aws::Structure
     end
 
-    # @!attribute [rw] failed_accounts
-    #   The list of accounts that failed to get tax exemptions.
-    #   @return [Array<String>]
-    #
     # @!attribute [rw] tax_exemption_details_map
     #   The tax exemption details map of accountId and tax exemption
     #   details.
     #   @return [Hash<String,Types::TaxExemptionDetails>]
     #
+    # @!attribute [rw] failed_accounts
+    #   The list of accounts that failed to get tax exemptions.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/BatchGetTaxExemptionsResponse AWS API Documentation
     #
     class BatchGetTaxExemptionsResponse < Struct.new(
-      :failed_accounts,
-      :tax_exemption_details_map)
+      :tax_exemption_details_map,
+      :failed_accounts)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -512,13 +553,13 @@ module Aws::TaxSettings
     #   `BatchPutTaxRegistration` operation.
     #   @return [String]
     #
-    # @!attribute [rw] code
-    #   The error code for an individual failure in the
+    # @!attribute [rw] message
+    #   The error message for an individual failure in the
     #   `BatchPutTaxRegistration` operation.
     #   @return [String]
     #
-    # @!attribute [rw] message
-    #   The error message for an individual failure in the
+    # @!attribute [rw] code
+    #   The error code for an individual failure in the
     #   `BatchPutTaxRegistration` operation.
     #   @return [String]
     #
@@ -526,8 +567,8 @@ module Aws::TaxSettings
     #
     class BatchPutTaxRegistrationError < Struct.new(
       :account_id,
-      :code,
-      :message)
+      :message,
+      :code)
       SENSITIVE = [:message]
       include Aws::Structure
     end
@@ -550,22 +591,42 @@ module Aws::TaxSettings
       include Aws::Structure
     end
 
-    # @!attribute [rw] errors
-    #   List of errors for the accounts the TRN information could not be
-    #   added or updated to.
-    #   @return [Array<Types::BatchPutTaxRegistrationError>]
-    #
     # @!attribute [rw] status
     #   The status of your TRN stored in the system after processing. Based
     #   on the validation occurring on the TRN, the status can be
     #   `Verified`, `Pending` or `Rejected`.
     #   @return [String]
     #
+    # @!attribute [rw] errors
+    #   List of errors for the accounts the TRN information could not be
+    #   added or updated to.
+    #   @return [Array<Types::BatchPutTaxRegistrationError>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/BatchPutTaxRegistrationResponse AWS API Documentation
     #
     class BatchPutTaxRegistrationResponse < Struct.new(
-      :errors,
-      :status)
+      :status,
+      :errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Additional tax information associated with your TRN in Belgium.
+    #
+    # @!attribute [rw] peppol_id
+    #   The Peppol ID for electronic invoicing in Belgium.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_mercurius_box_enabled
+    #   Indicates whether the Mercurius e-invoicing box is enabled for
+    #   business-to-government (B2G) invoicing in Belgium.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/BelgiumAdditionalInfo AWS API Documentation
+    #
+    class BelgiumAdditionalInfo < Struct.new(
+      :peppol_id,
+      :is_mercurius_box_enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -594,6 +655,22 @@ module Aws::TaxSettings
 
     # Additional tax information associated with your TRN in Canada .
     #
+    # @!attribute [rw] provincial_sales_tax_id
+    #   The provincial sales tax ID for your TRN in Canada. This parameter
+    #   can represent the following:
+    #
+    #   * Provincial sales tax ID number for British Columbia and
+    #     Saskatchewan provinces
+    #
+    #   * Manitoba retail sales tax ID number for Manitoba province
+    #
+    #   * Quebec sales tax ID number for Quebec province
+    #
+    #   The Tax Setting API only accepts this parameter if the TRN is
+    #   specified for the previous provinces. For other provinces, the Tax
+    #   Settings API doesn't accept this parameter.
+    #   @return [String]
+    #
     # @!attribute [rw] canada_quebec_sales_tax_number
     #   The Quebec Sales Tax ID number. Leave blank if you do not have a
     #   Quebec Sales Tax ID number.
@@ -618,34 +695,18 @@ module Aws::TaxSettings
     #   number from the `provincialSalesTaxId` parameter from your request.
     #   @return [Boolean]
     #
-    # @!attribute [rw] provincial_sales_tax_id
-    #   The provincial sales tax ID for your TRN in Canada. This parameter
-    #   can represent the following:
-    #
-    #   * Provincial sales tax ID number for British Columbia and
-    #     Saskatchewan provinces
-    #
-    #   * Manitoba retail sales tax ID number for Manitoba province
-    #
-    #   * Quebec sales tax ID number for Quebec province
-    #
-    #   The Tax Setting API only accepts this parameter if the TRN is
-    #   specified for the previous provinces. For other provinces, the Tax
-    #   Settings API doesn't accept this parameter.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/CanadaAdditionalInfo AWS API Documentation
     #
     class CanadaAdditionalInfo < Struct.new(
+      :provincial_sales_tax_id,
       :canada_quebec_sales_tax_number,
       :canada_retail_sales_tax_number,
-      :is_reseller_account,
-      :provincial_sales_tax_id)
+      :is_reseller_account)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # You've exceeded the Amazon Web ServicesSupport case creation limit
+    # You've exceeded the Amazon Web Services Support case creation limit
     # for your account.
     #
     # @!attribute [rw] message
@@ -659,21 +720,41 @@ module Aws::TaxSettings
       include Aws::Structure
     end
 
+    # Additional tax information associated with your TRN in Chile.
+    #
+    # @!attribute [rw] document_type
+    #   The type of tax document. For Chile, this can be `Invoice` or
+    #   `Receipt`.
+    #   @return [String]
+    #
+    # @!attribute [rw] business_activity
+    #   The business activity of the taxpayer in Chile.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/ChileAdditionalInfo AWS API Documentation
+    #
+    class ChileAdditionalInfo < Struct.new(
+      :document_type,
+      :business_activity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The exception when the input is creating conflict with the given
     # state.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
     #
     # @!attribute [rw] error_code
     #   409
     #   @return [String]
     #
-    # @!attribute [rw] message
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/ConflictException AWS API Documentation
     #
     class ConflictException < Struct.new(
-      :error_code,
-      :message)
+      :message,
+      :error_code)
       SENSITIVE = [:message]
       include Aws::Structure
     end
@@ -773,19 +854,34 @@ module Aws::TaxSettings
 
     # The exemption certificate.
     #
-    # @!attribute [rw] document_file
-    #   The exemption certificate file content.
-    #   @return [String]
-    #
     # @!attribute [rw] document_name
     #   The exemption certificate file name.
+    #   @return [String]
+    #
+    # @!attribute [rw] document_file
+    #   The exemption certificate file content.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/ExemptionCertificate AWS API Documentation
     #
     class ExemptionCertificate < Struct.new(
-      :document_file,
-      :document_name)
+      :document_name,
+      :document_file)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Additional tax information associated with your TRN in France.
+    #
+    # @!attribute [rw] siren_number
+    #   The SIREN number for the company in France. Must be a 9-digit
+    #   number.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/FranceAdditionalInfo AWS API Documentation
+    #
+    class FranceAdditionalInfo < Struct.new(
+      :siren_number)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -930,11 +1026,8 @@ module Aws::TaxSettings
 
     # Additional tax information associated with your TRN in Indonesia.
     #
-    # @!attribute [rw] decision_number
-    #   VAT-exempt customers have a Directorate General of Taxation (DGT)
-    #   exemption letter or certificate (Surat Keterangan Bebas) decision
-    #   number. Non-collected VAT have a DGT letter or certificate (Surat
-    #   Keterangan Tidak Dipungut).
+    # @!attribute [rw] tax_registration_number_type
+    #   The tax registration number type.
     #   @return [String]
     #
     # @!attribute [rw] ppn_exception_designation_code
@@ -943,16 +1036,19 @@ module Aws::TaxSettings
     #   customer.
     #   @return [String]
     #
-    # @!attribute [rw] tax_registration_number_type
-    #   The tax registration number type.
+    # @!attribute [rw] decision_number
+    #   VAT-exempt customers have a Directorate General of Taxation (DGT)
+    #   exemption letter or certificate (Surat Keterangan Bebas) decision
+    #   number. Non-collected VAT have a DGT letter or certificate (Surat
+    #   Keterangan Tidak Dipungut).
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/IndonesiaAdditionalInfo AWS API Documentation
     #
     class IndonesiaAdditionalInfo < Struct.new(
-      :decision_number,
+      :tax_registration_number_type,
       :ppn_exception_designation_code,
-      :tax_registration_number_type)
+      :decision_number)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -960,29 +1056,23 @@ module Aws::TaxSettings
     # The exception thrown when an unexpected error occurs when processing a
     # request.
     #
-    # @!attribute [rw] error_code
-    #   500
+    # @!attribute [rw] message
     #   @return [String]
     #
-    # @!attribute [rw] message
+    # @!attribute [rw] error_code
+    #   500
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/InternalServerException AWS API Documentation
     #
     class InternalServerException < Struct.new(
-      :error_code,
-      :message)
+      :message,
+      :error_code)
       SENSITIVE = [:message]
       include Aws::Structure
     end
 
     # Additional tax information associated with your TRN in Israel.
-    #
-    # @!attribute [rw] customer_type
-    #   Customer type for your TRN in Israel. The value can be `Business` or
-    #   `Individual`. Use `Business`for entities such as not-for-profit and
-    #   financial institutions.
-    #   @return [String]
     #
     # @!attribute [rw] dealer_type
     #   Dealer type for your TRN in Israel. If you're not a local
@@ -991,16 +1081,28 @@ module Aws::TaxSettings
     #   compliant tax invoice.
     #   @return [String]
     #
+    # @!attribute [rw] customer_type
+    #   Customer type for your TRN in Israel. The value can be `Business` or
+    #   `Individual`. Use `Business`for entities such as not-for-profit and
+    #   financial institutions.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/IsraelAdditionalInfo AWS API Documentation
     #
     class IsraelAdditionalInfo < Struct.new(
-      :customer_type,
-      :dealer_type)
+      :dealer_type,
+      :customer_type)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Additional tax information associated with your TRN in Italy.
+    #
+    # @!attribute [rw] sdi_account_id
+    #   Additional tax information to specify for a TRN in Italy. Use
+    #   CodiceDestinatario to receive your invoices via web service (API) or
+    #   FTP.
+    #   @return [String]
     #
     # @!attribute [rw] cig_number
     #   The tender procedure identification code.
@@ -1013,24 +1115,24 @@ module Aws::TaxSettings
     #   (Individual Project Code).
     #   @return [String]
     #
-    # @!attribute [rw] sdi_account_id
-    #   Additional tax information to specify for a TRN in Italy. Use
-    #   CodiceDestinatario to receive your invoices via web service (API) or
-    #   FTP.
-    #   @return [String]
-    #
     # @!attribute [rw] tax_code
     #   List of service tax codes for your TRN in Italy. You can use your
     #   customer tax code as part of a VAT Group.
     #   @return [String]
     #
+    # @!attribute [rw] customer_type
+    #   The customer type for tax registration in Italy. Valid values are
+    #   `Business` or `Individual`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/ItalyAdditionalInfo AWS API Documentation
     #
     class ItalyAdditionalInfo < Struct.new(
+      :sdi_account_id,
       :cig_number,
       :cup_number,
-      :sdi_account_id,
-      :tax_code)
+      :tax_code,
+      :customer_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1039,20 +1141,20 @@ module Aws::TaxSettings
     # doesn't contain full legal address, and contains only country code
     # and state/region/province.
     #
-    # @!attribute [rw] country_code
-    #   The country code of the jurisdiction.
-    #   @return [String]
-    #
     # @!attribute [rw] state_or_region
     #   The state, region, or province associated with the country of the
     #   jurisdiction, if applicable.
     #   @return [String]
     #
+    # @!attribute [rw] country_code
+    #   The country code of the jurisdiction.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/Jurisdiction AWS API Documentation
     #
     class Jurisdiction < Struct.new(
-      :country_code,
-      :state_or_region)
+      :state_or_region,
+      :country_code)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1088,19 +1190,19 @@ module Aws::TaxSettings
       include Aws::Structure
     end
 
-    # @!attribute [rw] next_token
-    #   The token to retrieve the next set of results.
-    #   @return [String]
-    #
     # @!attribute [rw] tax_registrations
     #   The list of supplemental tax registrations.
     #   @return [Array<Types::SupplementalTaxRegistration>]
     #
+    # @!attribute [rw] next_token
+    #   The token to retrieve the next set of results.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/ListSupplementalTaxRegistrationsResponse AWS API Documentation
     #
     class ListSupplementalTaxRegistrationsResponse < Struct.new(
-      :next_token,
-      :tax_registrations)
+      :tax_registrations,
+      :next_token)
       SENSITIVE = [:tax_registrations]
       include Aws::Structure
     end
@@ -1177,27 +1279,6 @@ module Aws::TaxSettings
 
     # Additional tax information associated with your TRN in Malaysia.
     #
-    # @!attribute [rw] business_registration_number
-    #   The tax registration number (TRN) in Malaysia.
-    #
-    #   For individual, you can specify the `taxInformationNumber` in
-    #   `MalaysiaAdditionalInfo` with NRIC type, and a valid MyKad or NRIC
-    #   number. For business, you must specify a
-    #   `businessRegistrationNumber` in `MalaysiaAdditionalInfo` with a TIN
-    #   type and tax identification number. For business resellers, you must
-    #   specify a `businessRegistrationNumber` and `taxInformationNumber` in
-    #   `MalaysiaAdditionalInfo` with a sales and service tax (SST) type and
-    #   a valid SST number.
-    #
-    #   For business resellers with service codes, you must specify
-    #   `businessRegistrationNumber`, `taxInformationNumber`, and distinct
-    #   `serviceTaxCodes` in `MalaysiaAdditionalInfo` with a SST type and
-    #   valid sales and service tax (SST) number. By using this API
-    #   operation, Amazon Web Services registers your self-declaration that
-    #   you’re an authorized business reseller registered with the Royal
-    #   Malaysia Customs Department (RMCD), and have a valid SST number.
-    #   @return [String]
-    #
     # @!attribute [rw] service_tax_codes
     #   List of service tax codes for your TRN in Malaysia.
     #   @return [Array<String>]
@@ -1221,12 +1302,49 @@ module Aws::TaxSettings
     #   Malaysia Customs Department (RMCD), and have a valid SST number.
     #   @return [String]
     #
+    # @!attribute [rw] business_registration_number
+    #   The tax registration number (TRN) in Malaysia.
+    #
+    #   For individual, you can specify the `taxInformationNumber` in
+    #   `MalaysiaAdditionalInfo` with NRIC type, and a valid MyKad or NRIC
+    #   number. For business, you must specify a
+    #   `businessRegistrationNumber` in `MalaysiaAdditionalInfo` with a TIN
+    #   type and tax identification number. For business resellers, you must
+    #   specify a `businessRegistrationNumber` and `taxInformationNumber` in
+    #   `MalaysiaAdditionalInfo` with a sales and service tax (SST) type and
+    #   a valid SST number.
+    #
+    #   For business resellers with service codes, you must specify
+    #   `businessRegistrationNumber`, `taxInformationNumber`, and distinct
+    #   `serviceTaxCodes` in `MalaysiaAdditionalInfo` with a SST type and
+    #   valid sales and service tax (SST) number. By using this API
+    #   operation, Amazon Web Services registers your self-declaration that
+    #   you’re an authorized business reseller registered with the Royal
+    #   Malaysia Customs Department (RMCD), and have a valid SST number.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/MalaysiaAdditionalInfo AWS API Documentation
     #
     class MalaysiaAdditionalInfo < Struct.new(
-      :business_registration_number,
       :service_tax_codes,
-      :tax_information_number)
+      :tax_information_number,
+      :business_registration_number)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Additional tax information associated with your TRN in the
+    # Philippines.
+    #
+    # @!attribute [rw] is_vat_registered
+    #   Indicates whether the account is VAT-registered with the Philippines
+    #   Bureau of Internal Revenue (BIR).
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/PhilippinesAdditionalInfo AWS API Documentation
+    #
+    class PhilippinesAdditionalInfo < Struct.new(
+      :is_vat_registered)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1243,11 +1361,18 @@ module Aws::TaxSettings
     #   for VAT purposes. Otherwise, this is false.
     #   @return [Boolean]
     #
+    # @!attribute [rw] tax_registration_number_type
+    #   The tax registration number type. Valid values are
+    #   `EUTaxRegistrationNumber`, `LocalTaxRegistrationNumber`, or
+    #   `LocalRegistrationNumber`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/PolandAdditionalInfo AWS API Documentation
     #
     class PolandAdditionalInfo < Struct.new(
       :individual_registration_number,
-      :is_group_vat_enabled)
+      :is_group_vat_enabled,
+      :tax_registration_number_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1293,22 +1418,22 @@ module Aws::TaxSettings
     #   The address domain associate with the tax information.
     #   @return [Types::Authority]
     #
-    # @!attribute [rw] exemption_certificate
-    #   The exemption certificate.
-    #   @return [Types::ExemptionCertificate]
-    #
     # @!attribute [rw] exemption_type
     #   The exemption type. Use the supported tax exemption type
     #   description.
     #   @return [String]
+    #
+    # @!attribute [rw] exemption_certificate
+    #   The exemption certificate.
+    #   @return [Types::ExemptionCertificate]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/PutTaxExemptionRequest AWS API Documentation
     #
     class PutTaxExemptionRequest < Struct.new(
       :account_ids,
       :authority,
-      :exemption_certificate,
-      :exemption_type)
+      :exemption_type,
+      :exemption_certificate)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1376,18 +1501,18 @@ module Aws::TaxSettings
     # The exception thrown when the input doesn't have a resource
     # associated to it.
     #
-    # @!attribute [rw] error_code
-    #   404
+    # @!attribute [rw] message
     #   @return [String]
     #
-    # @!attribute [rw] message
+    # @!attribute [rw] error_code
+    #   404
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/ResourceNotFoundException AWS API Documentation
     #
     class ResourceNotFoundException < Struct.new(
-      :error_code,
-      :message)
+      :message,
+      :error_code)
       SENSITIVE = [:message]
       include Aws::Structure
     end
@@ -1448,13 +1573,13 @@ module Aws::TaxSettings
     #   registration certificate.
     #   @return [String]
     #
-    # @!attribute [rw] item_of_business
-    #   Item of business based on the most recently uploaded tax
+    # @!attribute [rw] line_of_business
+    #   Line of business based on the most recently uploaded tax
     #   registration certificate.
     #   @return [String]
     #
-    # @!attribute [rw] line_of_business
-    #   Line of business based on the most recently uploaded tax
+    # @!attribute [rw] item_of_business
+    #   Item of business based on the most recently uploaded tax
     #   registration certificate.
     #   @return [String]
     #
@@ -1462,8 +1587,8 @@ module Aws::TaxSettings
     #
     class SouthKoreaAdditionalInfo < Struct.new(
       :business_representative_name,
-      :item_of_business,
-      :line_of_business)
+      :line_of_business,
+      :item_of_business)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1484,24 +1609,24 @@ module Aws::TaxSettings
 
     # Supplemental TRN details.
     #
-    # @!attribute [rw] address
-    #   The details of the address associated with the TRN information.
-    #   @return [Types::Address]
-    #
-    # @!attribute [rw] authority_id
-    #   Unique authority ID for the supplemental TRN.
-    #   @return [String]
-    #
-    # @!attribute [rw] legal_name
-    #   The legal name associated with your TRN registration.
-    #   @return [String]
-    #
     # @!attribute [rw] registration_id
     #   The supplemental TRN unique identifier.
     #   @return [String]
     #
     # @!attribute [rw] registration_type
     #   Type of supplemental TRN. Currently, this can only be VAT.
+    #   @return [String]
+    #
+    # @!attribute [rw] legal_name
+    #   The legal name associated with your TRN registration.
+    #   @return [String]
+    #
+    # @!attribute [rw] address
+    #   The details of the address associated with the TRN information.
+    #   @return [Types::Address]
+    #
+    # @!attribute [rw] authority_id
+    #   Unique authority ID for the supplemental TRN.
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -1511,11 +1636,11 @@ module Aws::TaxSettings
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/SupplementalTaxRegistration AWS API Documentation
     #
     class SupplementalTaxRegistration < Struct.new(
-      :address,
-      :authority_id,
-      :legal_name,
       :registration_id,
       :registration_type,
+      :legal_name,
+      :address,
+      :authority_id,
       :status)
       SENSITIVE = []
       include Aws::Structure
@@ -1523,14 +1648,6 @@ module Aws::TaxSettings
 
     # The supplemental TRN information to provide when adding or updating a
     # supplemental TRN.
-    #
-    # @!attribute [rw] address
-    #   The details of the address associated with the TRN information.
-    #   @return [Types::Address]
-    #
-    # @!attribute [rw] legal_name
-    #   The legal name associated with your TRN registration.
-    #   @return [String]
     #
     # @!attribute [rw] registration_id
     #   The supplemental TRN unique identifier.
@@ -1540,13 +1657,21 @@ module Aws::TaxSettings
     #   Type of supplemental TRN. Currently, this can only be VAT.
     #   @return [String]
     #
+    # @!attribute [rw] legal_name
+    #   The legal name associated with your TRN registration.
+    #   @return [String]
+    #
+    # @!attribute [rw] address
+    #   The details of the address associated with the TRN information.
+    #   @return [Types::Address]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/SupplementalTaxRegistrationEntry AWS API Documentation
     #
     class SupplementalTaxRegistrationEntry < Struct.new(
-      :address,
-      :legal_name,
       :registration_id,
-      :registration_type)
+      :registration_type,
+      :legal_name,
+      :address)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1584,6 +1709,10 @@ module Aws::TaxSettings
     #   The address domain associate with tax exemption.
     #   @return [Types::Authority]
     #
+    # @!attribute [rw] tax_exemption_type
+    #   The tax exemption type.
+    #   @return [Types::TaxExemptionType]
+    #
     # @!attribute [rw] effective_date
     #   The tax exemption effective date.
     #   @return [Time]
@@ -1592,32 +1721,32 @@ module Aws::TaxSettings
     #   The tax exemption expiration date.
     #   @return [Time]
     #
-    # @!attribute [rw] status
-    #   The tax exemption status.
-    #   @return [String]
-    #
     # @!attribute [rw] system_effective_date
     #   The tax exemption recording time in the `TaxSettings` system.
     #   @return [Time]
     #
-    # @!attribute [rw] tax_exemption_type
-    #   The tax exemption type.
-    #   @return [Types::TaxExemptionType]
+    # @!attribute [rw] status
+    #   The tax exemption status.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/TaxExemption AWS API Documentation
     #
     class TaxExemption < Struct.new(
       :authority,
+      :tax_exemption_type,
       :effective_date,
       :expiration_date,
-      :status,
       :system_effective_date,
-      :tax_exemption_type)
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # The tax exemption details.
+    #
+    # @!attribute [rw] tax_exemptions
+    #   Tax exemptions.
+    #   @return [Array<Types::TaxExemption>]
     #
     # @!attribute [rw] heritage_obtained_details
     #   The indicator if the tax exemption is inherited from the
@@ -1633,82 +1762,62 @@ module Aws::TaxSettings
     #   The reason of the heritage inheritance.
     #   @return [String]
     #
-    # @!attribute [rw] tax_exemptions
-    #   Tax exemptions.
-    #   @return [Array<Types::TaxExemption>]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/TaxExemptionDetails AWS API Documentation
     #
     class TaxExemptionDetails < Struct.new(
+      :tax_exemptions,
       :heritage_obtained_details,
       :heritage_obtained_parent_entity,
-      :heritage_obtained_reason,
-      :tax_exemptions)
+      :heritage_obtained_reason)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # The tax exemption type.
     #
-    # @!attribute [rw] applicable_jurisdictions
-    #   The tax exemption's applicable jurisdictions.
-    #   @return [Array<Types::Authority>]
+    # @!attribute [rw] display_name
+    #   The tax exemption's type display name.
+    #   @return [String]
     #
     # @!attribute [rw] description
     #   The tax exemption's type description.
     #   @return [String]
     #
-    # @!attribute [rw] display_name
-    #   The tax exemption's type display name.
-    #   @return [String]
+    # @!attribute [rw] applicable_jurisdictions
+    #   The tax exemption's applicable jurisdictions.
+    #   @return [Array<Types::Authority>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/TaxExemptionType AWS API Documentation
     #
     class TaxExemptionType < Struct.new(
-      :applicable_jurisdictions,
+      :display_name,
       :description,
-      :display_name)
+      :applicable_jurisdictions)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Tax inheritance information associated with the account.
     #
-    # @!attribute [rw] inheritance_obtained_reason
-    #   Tax inheritance reason information associated with the account.
-    #   @return [String]
-    #
     # @!attribute [rw] parent_entity_id
     #   Tax inheritance parent account information associated with the
     #   account.
     #   @return [String]
     #
+    # @!attribute [rw] inheritance_obtained_reason
+    #   Tax inheritance reason information associated with the account.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/TaxInheritanceDetails AWS API Documentation
     #
     class TaxInheritanceDetails < Struct.new(
-      :inheritance_obtained_reason,
-      :parent_entity_id)
+      :parent_entity_id,
+      :inheritance_obtained_reason)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Your TRN information.
-    #
-    # @!attribute [rw] additional_tax_information
-    #   Additional tax information associated with your TRN.
-    #   @return [Types::AdditionalInfoResponse]
-    #
-    # @!attribute [rw] certified_email_id
-    #   The email address to receive VAT invoices.
-    #   @return [String]
-    #
-    # @!attribute [rw] legal_address
-    #   The legal address associated with your TRN registration.
-    #   @return [Types::Address]
-    #
-    # @!attribute [rw] legal_name
-    #   The legal name associated with your TRN registration.
-    #   @return [String]
     #
     # @!attribute [rw] registration_id
     #   Your tax registration unique identifier.
@@ -1716,6 +1825,15 @@ module Aws::TaxSettings
     #
     # @!attribute [rw] registration_type
     #   Type of your tax registration.
+    #   @return [String]
+    #
+    # @!attribute [rw] legal_name
+    #   The legal name associated with your TRN registration.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of your TRN. This can be either `Verified`, `Pending`,
+    #   `Deleted`, or `Rejected`.
     #   @return [String]
     #
     # @!attribute [rw] sector
@@ -1727,81 +1845,95 @@ module Aws::TaxSettings
     #   API document.
     #   @return [String]
     #
-    # @!attribute [rw] status
-    #   The status of your TRN. This can be either `Verified`, `Pending`,
-    #   `Deleted`, or `Rejected`.
-    #   @return [String]
-    #
     # @!attribute [rw] tax_document_metadatas
     #   The metadata for your tax document.
     #   @return [Array<Types::TaxDocumentMetadata>]
     #
+    # @!attribute [rw] certified_email_id
+    #   The email address to receive VAT invoices.
+    #   @return [String]
+    #
+    # @!attribute [rw] additional_tax_information
+    #   Additional tax information associated with your TRN.
+    #   @return [Types::AdditionalInfoResponse]
+    #
+    # @!attribute [rw] legal_address
+    #   The legal address associated with your TRN registration.
+    #   @return [Types::Address]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/TaxRegistration AWS API Documentation
     #
     class TaxRegistration < Struct.new(
-      :additional_tax_information,
-      :certified_email_id,
-      :legal_address,
-      :legal_name,
       :registration_id,
       :registration_type,
-      :sector,
+      :legal_name,
       :status,
-      :tax_document_metadatas)
+      :sector,
+      :tax_document_metadatas,
+      :certified_email_id,
+      :additional_tax_information,
+      :legal_address)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # The tax registration document.
     #
-    # @!attribute [rw] file_content
-    #   The tax registration document content.
-    #   @return [String]
-    #
     # @!attribute [rw] file_name
     #   The tax registration document name.
+    #   @return [String]
+    #
+    # @!attribute [rw] file_content
+    #   The tax registration document content.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/TaxRegistrationDocFile AWS API Documentation
     #
     class TaxRegistrationDocFile < Struct.new(
-      :file_content,
-      :file_name)
+      :file_name,
+      :file_content)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Tax registration document information.
     #
-    # @!attribute [rw] file
-    #   The tax registration document.
-    #   @return [Types::TaxRegistrationDocFile]
-    #
     # @!attribute [rw] s3_location
     #   The Amazon S3 location where your tax registration document is
     #   stored.
     #   @return [Types::SourceS3Location]
     #
+    # @!attribute [rw] file
+    #   The tax registration document.
+    #   @return [Types::TaxRegistrationDocFile]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/TaxRegistrationDocument AWS API Documentation
     #
     class TaxRegistrationDocument < Struct.new(
-      :file,
-      :s3_location)
+      :s3_location,
+      :file)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # The TRN information you provide when you add a new TRN, or update.
     #
-    # @!attribute [rw] additional_tax_information
-    #   Additional tax information associated with your TRN. You only need
-    #   to specify this parameter if Amazon Web Services collects any
-    #   additional information for your country within
-    #   AdditionalInfoRequest.
-    #   @return [Types::AdditionalInfoRequest]
+    # @!attribute [rw] registration_id
+    #   Your tax registration unique identifier.
+    #   @return [String]
     #
-    # @!attribute [rw] certified_email_id
-    #   The email address to receive VAT invoices.
+    # @!attribute [rw] registration_type
+    #   Your tax registration type. This can be either `VAT` or `GST`.
+    #   @return [String]
+    #
+    # @!attribute [rw] legal_name
+    #   The legal name associated with your TRN.
+    #
+    #   <note markdown="1"> If you're setting a TRN in Brazil, you don't need to specify the
+    #   legal name. For TRNs in other countries, you must specify the legal
+    #   name.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] legal_address
@@ -1816,24 +1948,6 @@ module Aws::TaxSettings
     #    </note>
     #   @return [Types::Address]
     #
-    # @!attribute [rw] legal_name
-    #   The legal name associated with your TRN.
-    #
-    #   <note markdown="1"> If you're setting a TRN in Brazil, you don't need to specify the
-    #   legal name. For TRNs in other countries, you must specify the legal
-    #   name.
-    #
-    #    </note>
-    #   @return [String]
-    #
-    # @!attribute [rw] registration_id
-    #   Your tax registration unique identifier.
-    #   @return [String]
-    #
-    # @!attribute [rw] registration_type
-    #   Your tax registration type. This can be either `VAT` or `GST`.
-    #   @return [String]
-    #
     # @!attribute [rw] sector
     #   The industry that describes your business. For business-to-business
     #   (B2B) customers, specify Business. For business-to-consumer (B2C)
@@ -1842,6 +1956,13 @@ module Aws::TaxSettings
     #   the request country. Please refer to country specific information in
     #   API document.
     #   @return [String]
+    #
+    # @!attribute [rw] additional_tax_information
+    #   Additional tax information associated with your TRN. You only need
+    #   to specify this parameter if Amazon Web Services collects any
+    #   additional information for your country within
+    #   AdditionalInfoRequest.
+    #   @return [Types::AdditionalInfoRequest]
     #
     # @!attribute [rw] verification_details
     #   Additional details needed to verify your TRN information in Brazil.
@@ -1854,39 +1975,27 @@ module Aws::TaxSettings
     #    </note>
     #   @return [Types::VerificationDetails]
     #
+    # @!attribute [rw] certified_email_id
+    #   The email address to receive VAT invoices.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/TaxRegistrationEntry AWS API Documentation
     #
     class TaxRegistrationEntry < Struct.new(
-      :additional_tax_information,
-      :certified_email_id,
-      :legal_address,
-      :legal_name,
       :registration_id,
       :registration_type,
+      :legal_name,
+      :legal_address,
       :sector,
-      :verification_details)
+      :additional_tax_information,
+      :verification_details,
+      :certified_email_id)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Your TRN information with jurisdiction details. This doesn't contain
     # the full legal address associated with the TRN information.
-    #
-    # @!attribute [rw] additional_tax_information
-    #   Additional tax information associated with your TRN.
-    #   @return [Types::AdditionalInfoResponse]
-    #
-    # @!attribute [rw] certified_email_id
-    #   The email address to receive VAT invoices.
-    #   @return [String]
-    #
-    # @!attribute [rw] jurisdiction
-    #   The jurisdiction associated with your TRN information.
-    #   @return [Types::Jurisdiction]
-    #
-    # @!attribute [rw] legal_name
-    #   The legal name associated with your TRN information.
-    #   @return [String]
     #
     # @!attribute [rw] registration_id
     #   Your tax registration unique identifier.
@@ -1895,6 +2004,15 @@ module Aws::TaxSettings
     # @!attribute [rw] registration_type
     #   The type of your tax registration. This can be either `VAT` or
     #   `GST`.
+    #   @return [String]
+    #
+    # @!attribute [rw] legal_name
+    #   The legal name associated with your TRN information.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of your TRN. This can be either `Verified`, `Pending`,
+    #   `Deleted`, or `Rejected`.
     #   @return [String]
     #
     # @!attribute [rw] sector
@@ -1906,39 +2024,46 @@ module Aws::TaxSettings
     #   API document.
     #   @return [String]
     #
-    # @!attribute [rw] status
-    #   The status of your TRN. This can be either `Verified`, `Pending`,
-    #   `Deleted`, or `Rejected`.
-    #   @return [String]
-    #
     # @!attribute [rw] tax_document_metadatas
     #   The metadata for your tax document.
     #   @return [Array<Types::TaxDocumentMetadata>]
     #
+    # @!attribute [rw] certified_email_id
+    #   The email address to receive VAT invoices.
+    #   @return [String]
+    #
+    # @!attribute [rw] additional_tax_information
+    #   Additional tax information associated with your TRN.
+    #   @return [Types::AdditionalInfoResponse]
+    #
+    # @!attribute [rw] jurisdiction
+    #   The jurisdiction associated with your TRN information.
+    #   @return [Types::Jurisdiction]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/TaxRegistrationWithJurisdiction AWS API Documentation
     #
     class TaxRegistrationWithJurisdiction < Struct.new(
-      :additional_tax_information,
-      :certified_email_id,
-      :jurisdiction,
-      :legal_name,
       :registration_id,
       :registration_type,
-      :sector,
+      :legal_name,
       :status,
-      :tax_document_metadatas)
+      :sector,
+      :tax_document_metadatas,
+      :certified_email_id,
+      :additional_tax_information,
+      :jurisdiction)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Additional tax information associated with your TRN in Turkey.
     #
-    # @!attribute [rw] industries
-    #   The industry information that tells the Tax Settings API if you're
-    #   subject to additional withholding taxes. This information required
-    #   for business-to-business (B2B) customers. This information is
-    #   conditionally mandatory for B2B customers who are subject to KDV
-    #   tax.
+    # @!attribute [rw] tax_office
+    #   The tax office where you're registered. You can enter this
+    #   information as a string. The Tax Settings API will add this
+    #   information to your invoice. This parameter is required for
+    #   business-to-business (B2B) and business-to-government customers.
+    #   It's not required for business-to-consumer (B2C) customers.
     #   @return [String]
     #
     # @!attribute [rw] kep_email_id
@@ -1953,21 +2078,21 @@ module Aws::TaxSettings
     #   we will use your VKN as the secondary ID.
     #   @return [String]
     #
-    # @!attribute [rw] tax_office
-    #   The tax office where you're registered. You can enter this
-    #   information as a string. The Tax Settings API will add this
-    #   information to your invoice. This parameter is required for
-    #   business-to-business (B2B) and business-to-government customers.
-    #   It's not required for business-to-consumer (B2C) customers.
+    # @!attribute [rw] industries
+    #   The industry information that tells the Tax Settings API if you're
+    #   subject to additional withholding taxes. This information required
+    #   for business-to-business (B2B) customers. This information is
+    #   conditionally mandatory for B2B customers who are subject to KDV
+    #   tax.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/TurkeyAdditionalInfo AWS API Documentation
     #
     class TurkeyAdditionalInfo < Struct.new(
-      :industries,
+      :tax_office,
       :kep_email_id,
       :secondary_tax_id,
-      :tax_office)
+      :industries)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2010,6 +2135,9 @@ module Aws::TaxSettings
     # The exception when the input doesn't pass validation for at least one
     # of the input parameters.
     #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
     # @!attribute [rw] error_code
     #   400
     #   @return [String]
@@ -2018,15 +2146,12 @@ module Aws::TaxSettings
     #   400
     #   @return [Array<Types::ValidationExceptionField>]
     #
-    # @!attribute [rw] message
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/ValidationException AWS API Documentation
     #
     class ValidationException < Struct.new(
+      :message,
       :error_code,
-      :field_list,
-      :message)
+      :field_list)
       SENSITIVE = [:message]
       include Aws::Structure
     end
@@ -2069,14 +2194,14 @@ module Aws::TaxSettings
 
     # Additional tax information to specify for a TRN in Vietnam.
     #
-    # @!attribute [rw] electronic_transaction_code_number
-    #   The electronic transaction code number on the tax return document.
-    #   This field must be provided for successful API operation.
-    #   @return [String]
-    #
     # @!attribute [rw] enterprise_identification_number
     #   The enterprise identification number for tax registration. This
     #   field must be provided for successful API operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] electronic_transaction_code_number
+    #   The electronic transaction code number on the tax return document.
+    #   This field must be provided for successful API operation.
     #   @return [String]
     #
     # @!attribute [rw] payment_voucher_number
@@ -2092,8 +2217,8 @@ module Aws::TaxSettings
     # @see http://docs.aws.amazon.com/goto/WebAPI/taxsettings-2018-05-10/VietnamAdditionalInfo AWS API Documentation
     #
     class VietnamAdditionalInfo < Struct.new(
-      :electronic_transaction_code_number,
       :enterprise_identification_number,
+      :electronic_transaction_code_number,
       :payment_voucher_number,
       :payment_voucher_number_date)
       SENSITIVE = []

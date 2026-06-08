@@ -15,6 +15,9 @@ module Aws
         log_group_selection_criteria: ::String?,
         data_source_selection_criteria: ::String?,
         encrypted_log_group_strategy: ("ALLOW" | "SKIP")
+      }?,
+      source_metrics_configuration: {
+        metrics_selection_criteria: ::String?
       }?
     }
 
@@ -36,7 +39,12 @@ module Aws
       type centralization_rule_destination = {
       region: ::String,
       account: ::String?,
-      destination_logs_configuration: Params::destination_logs_configuration?
+      destination_logs_configuration: Params::destination_logs_configuration?,
+      destination_metrics_configuration: {
+        backup_configuration: {
+          region: ::String
+        }?
+      }?
     }
 
       type centralization_rule = {

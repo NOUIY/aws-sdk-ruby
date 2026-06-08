@@ -1174,7 +1174,7 @@ module Aws::Mgn
     #     description: "NetworkMigrationDefinitionDescription",
     #     source_configurations: [
     #       {
-    #         source_environment: "NSX", # required, accepts NSX, VSPHERE, FORTIGATE_FIREWALL, PALO_ALTO_FIREWALL, CISCO_ACI, LOGICAL_MODEL, MODELIZE_IT
+    #         source_environment: "NSX", # required, accepts NSX, VSPHERE, FORTIGATE_FIREWALL, PALO_ALTO_FIREWALL, CISCO_ACI, LOGICAL_MODEL, MODELIZE_IT, AWS_DISCOVERY_COLLECTOR
     #         source_s3_configuration: { # required
     #           s3_bucket: "S3BucketName", # required
     #           s3_bucket_owner: "AccountID", # required
@@ -1208,7 +1208,7 @@ module Aws::Mgn
     #   resp.name #=> String
     #   resp.description #=> String
     #   resp.source_configurations #=> Array
-    #   resp.source_configurations[0].source_environment #=> String, one of "NSX", "VSPHERE", "FORTIGATE_FIREWALL", "PALO_ALTO_FIREWALL", "CISCO_ACI", "LOGICAL_MODEL", "MODELIZE_IT"
+    #   resp.source_configurations[0].source_environment #=> String, one of "NSX", "VSPHERE", "FORTIGATE_FIREWALL", "PALO_ALTO_FIREWALL", "CISCO_ACI", "LOGICAL_MODEL", "MODELIZE_IT", "AWS_DISCOVERY_COLLECTOR"
     #   resp.source_configurations[0].source_s3_configuration.s3_bucket #=> String
     #   resp.source_configurations[0].source_s3_configuration.s3_bucket_owner #=> String
     #   resp.source_configurations[0].source_s3_configuration.s3_key #=> String
@@ -2555,7 +2555,7 @@ module Aws::Mgn
     #   resp.name #=> String
     #   resp.description #=> String
     #   resp.source_configurations #=> Array
-    #   resp.source_configurations[0].source_environment #=> String, one of "NSX", "VSPHERE", "FORTIGATE_FIREWALL", "PALO_ALTO_FIREWALL", "CISCO_ACI", "LOGICAL_MODEL", "MODELIZE_IT"
+    #   resp.source_configurations[0].source_environment #=> String, one of "NSX", "VSPHERE", "FORTIGATE_FIREWALL", "PALO_ALTO_FIREWALL", "CISCO_ACI", "LOGICAL_MODEL", "MODELIZE_IT", "AWS_DISCOVERY_COLLECTOR"
     #   resp.source_configurations[0].source_s3_configuration.s3_bucket #=> String
     #   resp.source_configurations[0].source_s3_configuration.s3_bucket_owner #=> String
     #   resp.source_configurations[0].source_s3_configuration.s3_key #=> String
@@ -3618,7 +3618,7 @@ module Aws::Mgn
     #   resp.items #=> Array
     #   resp.items[0].network_migration_definition_id #=> String
     #   resp.items[0].name #=> String
-    #   resp.items[0].source_environment #=> String, one of "NSX", "VSPHERE", "FORTIGATE_FIREWALL", "PALO_ALTO_FIREWALL", "CISCO_ACI", "LOGICAL_MODEL", "MODELIZE_IT"
+    #   resp.items[0].source_environment #=> String, one of "NSX", "VSPHERE", "FORTIGATE_FIREWALL", "PALO_ALTO_FIREWALL", "CISCO_ACI", "LOGICAL_MODEL", "MODELIZE_IT", "AWS_DISCOVERY_COLLECTOR"
     #   resp.items[0].arn #=> String
     #   resp.items[0].tags #=> Hash
     #   resp.items[0].tags["TagKey"] #=> String
@@ -6873,7 +6873,7 @@ module Aws::Mgn
     #     description: "NetworkMigrationDefinitionDescription",
     #     source_configurations: [
     #       {
-    #         source_environment: "NSX", # required, accepts NSX, VSPHERE, FORTIGATE_FIREWALL, PALO_ALTO_FIREWALL, CISCO_ACI, LOGICAL_MODEL, MODELIZE_IT
+    #         source_environment: "NSX", # required, accepts NSX, VSPHERE, FORTIGATE_FIREWALL, PALO_ALTO_FIREWALL, CISCO_ACI, LOGICAL_MODEL, MODELIZE_IT, AWS_DISCOVERY_COLLECTOR
     #         source_s3_configuration: { # required
     #           s3_bucket: "S3BucketName", # required
     #           s3_bucket_owner: "AccountID", # required
@@ -6904,7 +6904,7 @@ module Aws::Mgn
     #   resp.name #=> String
     #   resp.description #=> String
     #   resp.source_configurations #=> Array
-    #   resp.source_configurations[0].source_environment #=> String, one of "NSX", "VSPHERE", "FORTIGATE_FIREWALL", "PALO_ALTO_FIREWALL", "CISCO_ACI", "LOGICAL_MODEL", "MODELIZE_IT"
+    #   resp.source_configurations[0].source_environment #=> String, one of "NSX", "VSPHERE", "FORTIGATE_FIREWALL", "PALO_ALTO_FIREWALL", "CISCO_ACI", "LOGICAL_MODEL", "MODELIZE_IT", "AWS_DISCOVERY_COLLECTOR"
     #   resp.source_configurations[0].source_s3_configuration.s3_bucket #=> String
     #   resp.source_configurations[0].source_s3_configuration.s3_bucket_owner #=> String
     #   resp.source_configurations[0].source_s3_configuration.s3_key #=> String
@@ -7649,7 +7649,7 @@ module Aws::Mgn
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-mgn'
-      context[:gem_version] = '1.70.0'
+      context[:gem_version] = '1.71.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -725,6 +725,143 @@ module Aws::DevOpsAgent
       req.send_request(options)
     end
 
+    # Creates a new asset in the specified agent space
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier for the agent space where the asset will be
+    #   created
+    #
+    # @option params [required, String] :asset_type
+    #   The type of asset to create
+    #
+    # @option params [Hash,Array,String,Numeric,Boolean] :metadata
+    #   The metadata describing this asset
+    #
+    #   Document type used to carry open content
+    #   (Hash,Array,String,Numeric,Boolean). A document type value is
+    #   serialized using the same format as its surroundings and requires no
+    #   additional encoding or escaping.
+    #
+    # @option params [required, Types::AssetContent] :content
+    #   The content for the asset. Provide a single file or a zip bundle.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier used for idempotent asset creation
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateAssetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateAssetResponse#asset #asset} => Types::Asset
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_asset({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     asset_type: "AssetType", # required
+    #     metadata: {
+    #     },
+    #     content: { # required
+    #       file: {
+    #         path: "AssetFilePath", # required
+    #         body: { # required
+    #           bytes: "data",
+    #           text: "AssetFileText",
+    #         },
+    #         metadata: {
+    #         },
+    #       },
+    #       zip: {
+    #         zip_file: "data", # required
+    #       },
+    #     },
+    #     client_token: "CreateAssetRequestClientTokenString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.asset.asset_id #=> String
+    #   resp.asset.asset_type #=> String
+    #   resp.asset.version #=> Integer
+    #   resp.asset.created_at #=> Time
+    #   resp.asset.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/CreateAsset AWS API Documentation
+    #
+    # @overload create_asset(params = {})
+    # @param [Hash] params ({})
+    def create_asset(params = {}, options = {})
+      req = build_request(:create_asset, params)
+      req.send_request(options)
+    end
+
+    # Creates a file in an asset
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #
+    # @option params [required, String] :asset_id
+    #   The unique identifier of the asset to create the file in
+    #
+    # @option params [required, String] :path
+    #   The path of the file within the asset
+    #
+    # @option params [required, Types::AssetFileBody] :content
+    #   The content of the file to create
+    #
+    # @option params [Hash,Array,String,Numeric,Boolean] :metadata
+    #   Optional metadata describing this file
+    #
+    #   Document type used to carry open content
+    #   (Hash,Array,String,Numeric,Boolean). A document type value is
+    #   serialized using the same format as its surroundings and requires no
+    #   additional encoding or escaping.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier used for idempotent asset file
+    #   creation
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateAssetFileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateAssetFileResponse#file #file} => Types::AssetFile
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_asset_file({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     asset_id: "ResourceId", # required
+    #     path: "AssetFilePath", # required
+    #     content: { # required
+    #       bytes: "data",
+    #       text: "AssetFileText",
+    #     },
+    #     metadata: {
+    #     },
+    #     client_token: "CreateAssetFileRequestClientTokenString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.file.path #=> String
+    #   resp.file.content.bytes #=> String
+    #   resp.file.content.text #=> String
+    #   resp.file.version #=> Integer
+    #   resp.file.created_at #=> Time
+    #   resp.file.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/CreateAssetFile AWS API Documentation
+    #
+    # @overload create_asset_file(params = {})
+    # @param [Hash] params ({})
+    def create_asset_file(params = {}, options = {})
+      req = build_request(:create_asset_file, params)
+      req.send_request(options)
+    end
+
     # Creates a new backlog task in the specified agent space
     #
     # @option params [required, String] :agent_space_id
@@ -788,7 +925,7 @@ module Aws::DevOpsAgent
     #   resp.task.reference.association_id #=> String
     #   resp.task.task_type #=> String, one of "INVESTIGATION", "EVALUATION"
     #   resp.task.priority #=> String, one of "CRITICAL", "HIGH", "MEDIUM", "LOW", "MINIMAL"
-    #   resp.task.status #=> String, one of "PENDING_TRIAGE", "LINKED", "PENDING_START", "IN_PROGRESS", "PENDING_CUSTOMER_APPROVAL", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELED"
+    #   resp.task.status #=> String, one of "PENDING_TRIAGE", "LINKED", "PENDING_START", "IN_PROGRESS", "PENDING_CUSTOMER_APPROVAL", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELED", "SKIPPED"
     #   resp.task.created_at #=> Time
     #   resp.task.updated_at #=> Time
     #   resp.task.version #=> Integer
@@ -867,6 +1004,8 @@ module Aws::DevOpsAgent
     #   * {Types::CreatePrivateConnectionOutput#resource_configuration_id #resource_configuration_id} => String
     #   * {Types::CreatePrivateConnectionOutput#status #status} => String
     #   * {Types::CreatePrivateConnectionOutput#certificate_expiry_time #certificate_expiry_time} => Time
+    #   * {Types::CreatePrivateConnectionOutput#dns_resolution #dns_resolution} => String
+    #   * {Types::CreatePrivateConnectionOutput#failure_message #failure_message} => String
     #   * {Types::CreatePrivateConnectionOutput#tags #tags} => Hash&lt;String,String&gt;
     #
     # @example Request syntax with placeholder values
@@ -883,6 +1022,7 @@ module Aws::DevOpsAgent
     #         ipv4_addresses_per_eni: 1,
     #         port_ranges: ["PortRange"],
     #         certificate: "CertificateString",
+    #         dns_resolution: "PUBLIC", # accepts PUBLIC, IN_VPC
     #       },
     #       self_managed: {
     #         resource_configuration_id: "ResourceConfigurationArn", # required
@@ -904,6 +1044,8 @@ module Aws::DevOpsAgent
     #   resp.resource_configuration_id #=> String
     #   resp.status #=> String, one of "ACTIVE", "CREATE_IN_PROGRESS", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
     #   resp.certificate_expiry_time #=> Time
+    #   resp.dns_resolution #=> String, one of "PUBLIC", "IN_VPC"
+    #   resp.failure_message #=> String
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
     #
@@ -936,6 +1078,62 @@ module Aws::DevOpsAgent
     # @param [Hash] params ({})
     def delete_agent_space(params = {}, options = {})
       req = build_request(:delete_agent_space, params)
+      req.send_request(options)
+    end
+
+    # Deletes an asset and all its files from the specified agent space
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #
+    # @option params [required, String] :asset_id
+    #   The unique identifier of the asset to delete
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_asset({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     asset_id: "ResourceId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/DeleteAsset AWS API Documentation
+    #
+    # @overload delete_asset(params = {})
+    # @param [Hash] params ({})
+    def delete_asset(params = {}, options = {})
+      req = build_request(:delete_asset, params)
+      req.send_request(options)
+    end
+
+    # Deletes a file from an asset
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #
+    # @option params [required, String] :asset_id
+    #   The unique identifier of the asset containing the file
+    #
+    # @option params [required, String] :path
+    #   The path of the file within the asset to delete
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_asset_file({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     asset_id: "ResourceId", # required
+    #     path: "AssetFilePath", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/DeleteAssetFile AWS API Documentation
+    #
+    # @overload delete_asset_file(params = {})
+    # @param [Hash] params ({})
+    def delete_asset_file(params = {}, options = {})
+      req = build_request(:delete_asset_file, params)
       req.send_request(options)
     end
 
@@ -1008,6 +1206,8 @@ module Aws::DevOpsAgent
     #   * {Types::DescribePrivateConnectionOutput#resource_configuration_id #resource_configuration_id} => String
     #   * {Types::DescribePrivateConnectionOutput#status #status} => String
     #   * {Types::DescribePrivateConnectionOutput#certificate_expiry_time #certificate_expiry_time} => Time
+    #   * {Types::DescribePrivateConnectionOutput#dns_resolution #dns_resolution} => String
+    #   * {Types::DescribePrivateConnectionOutput#failure_message #failure_message} => String
     #   * {Types::DescribePrivateConnectionOutput#tags #tags} => Hash&lt;String,String&gt;
     #
     # @example Request syntax with placeholder values
@@ -1026,6 +1226,8 @@ module Aws::DevOpsAgent
     #   resp.resource_configuration_id #=> String
     #   resp.status #=> String, one of "ACTIVE", "CREATE_IN_PROGRESS", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
     #   resp.certificate_expiry_time #=> Time
+    #   resp.dns_resolution #=> String, one of "PUBLIC", "IN_VPC"
+    #   resp.failure_message #=> String
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
     #
@@ -1122,6 +1324,7 @@ module Aws::DevOpsAgent
     # @return [Types::EnableOperatorAppOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::EnableOperatorAppOutput#agent_space_id #agent_space_id} => String
+    #   * {Types::EnableOperatorAppOutput#operator_app_url #operator_app_url} => String
     #   * {Types::EnableOperatorAppOutput#iam #iam} => Types::IamAuthConfiguration
     #   * {Types::EnableOperatorAppOutput#idc #idc} => Types::IdcAuthConfiguration
     #   * {Types::EnableOperatorAppOutput#idp #idp} => Types::IdpAuthConfiguration
@@ -1142,6 +1345,7 @@ module Aws::DevOpsAgent
     # @example Response structure
     #
     #   resp.agent_space_id #=> String
+    #   resp.operator_app_url #=> String
     #   resp.iam.operator_app_role_arn #=> String
     #   resp.iam.created_at #=> Time
     #   resp.iam.updated_at #=> Time
@@ -1234,6 +1438,132 @@ module Aws::DevOpsAgent
     # @param [Hash] params ({})
     def get_agent_space(params = {}, options = {})
       req = build_request(:get_agent_space, params)
+      req.send_request(options)
+    end
+
+    # Gets an asset from the specified agent space
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #
+    # @option params [required, String] :asset_id
+    #   The unique identifier of the asset to retrieve
+    #
+    # @option params [Integer] :asset_version
+    #   The specific version of the asset to retrieve. If omitted, the latest
+    #   version is returned.
+    #
+    # @return [Types::GetAssetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetAssetResponse#asset #asset} => Types::Asset
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_asset({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     asset_id: "ResourceId", # required
+    #     asset_version: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.asset.asset_id #=> String
+    #   resp.asset.asset_type #=> String
+    #   resp.asset.version #=> Integer
+    #   resp.asset.created_at #=> Time
+    #   resp.asset.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetAsset AWS API Documentation
+    #
+    # @overload get_asset(params = {})
+    # @param [Hash] params ({})
+    def get_asset(params = {}, options = {})
+      req = build_request(:get_asset, params)
+      req.send_request(options)
+    end
+
+    # Gets an asset's content as a zip bundle
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #
+    # @option params [required, String] :asset_id
+    #   The unique identifier of the asset
+    #
+    # @option params [Integer] :asset_version
+    #   The specific asset version to export. If omitted, the latest version
+    #   is returned.
+    #
+    # @return [Types::GetAssetContentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetAssetContentResponse#content #content} => Types::AssetZipContent
+    #   * {Types::GetAssetContentResponse#version #version} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_asset_content({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     asset_id: "ResourceId", # required
+    #     asset_version: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.content.zip_file #=> String
+    #   resp.version #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetAssetContent AWS API Documentation
+    #
+    # @overload get_asset_content(params = {})
+    # @param [Hash] params ({})
+    def get_asset_content(params = {}, options = {})
+      req = build_request(:get_asset_content, params)
+      req.send_request(options)
+    end
+
+    # Gets a file from an asset
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #
+    # @option params [required, String] :asset_id
+    #   The unique identifier of the asset containing the file
+    #
+    # @option params [required, String] :path
+    #   The path of the file within the asset to retrieve
+    #
+    # @option params [Integer] :asset_version
+    #   The specific asset version to retrieve the file from. If omitted, the
+    #   latest version is returned.
+    #
+    # @return [Types::GetAssetFileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetAssetFileResponse#file #file} => Types::AssetFile
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_asset_file({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     asset_id: "ResourceId", # required
+    #     path: "AssetFilePath", # required
+    #     asset_version: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.file.path #=> String
+    #   resp.file.content.bytes #=> String
+    #   resp.file.content.text #=> String
+    #   resp.file.version #=> Integer
+    #   resp.file.created_at #=> Time
+    #   resp.file.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetAssetFile AWS API Documentation
+    #
+    # @overload get_asset_file(params = {})
+    # @param [Hash] params ({})
+    def get_asset_file(params = {}, options = {})
+      req = build_request(:get_asset_file, params)
       req.send_request(options)
     end
 
@@ -1351,7 +1681,7 @@ module Aws::DevOpsAgent
     #   resp.task.reference.association_id #=> String
     #   resp.task.task_type #=> String, one of "INVESTIGATION", "EVALUATION"
     #   resp.task.priority #=> String, one of "CRITICAL", "HIGH", "MEDIUM", "LOW", "MINIMAL"
-    #   resp.task.status #=> String, one of "PENDING_TRIAGE", "LINKED", "PENDING_START", "IN_PROGRESS", "PENDING_CUSTOMER_APPROVAL", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELED"
+    #   resp.task.status #=> String, one of "PENDING_TRIAGE", "LINKED", "PENDING_START", "IN_PROGRESS", "PENDING_CUSTOMER_APPROVAL", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELED", "SKIPPED"
     #   resp.task.created_at #=> Time
     #   resp.task.updated_at #=> Time
     #   resp.task.version #=> Integer
@@ -1376,6 +1706,7 @@ module Aws::DevOpsAgent
     #
     # @return [Types::GetOperatorAppOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
+    #   * {Types::GetOperatorAppOutput#operator_app_url #operator_app_url} => String
     #   * {Types::GetOperatorAppOutput#iam #iam} => Types::IamAuthConfiguration
     #   * {Types::GetOperatorAppOutput#idc #idc} => Types::IdcAuthConfiguration
     #   * {Types::GetOperatorAppOutput#idp #idp} => Types::IdpAuthConfiguration
@@ -1388,6 +1719,7 @@ module Aws::DevOpsAgent
     #
     # @example Response structure
     #
+    #   resp.operator_app_url #=> String
     #   resp.iam.operator_app_role_arn #=> String
     #   resp.iam.created_at #=> Time
     #   resp.iam.updated_at #=> Time
@@ -1530,6 +1862,7 @@ module Aws::DevOpsAgent
     #   resp.service.additional_service_details.mcpserversigv4.region #=> String
     #   resp.service.additional_service_details.mcpserversigv4.service #=> String
     #   resp.service.additional_service_details.mcpserversigv4.role_arn #=> String
+    #   resp.service.additional_service_details.mcpserversigv4.mcp_role_arn #=> String
     #   resp.service.additional_service_details.mcpserversigv4.custom_headers #=> Hash
     #   resp.service.additional_service_details.mcpserversigv4.custom_headers["CustomHeaderName"] #=> String
     #   resp.service.kms_key_arn #=> String
@@ -1586,6 +1919,205 @@ module Aws::DevOpsAgent
     # @param [Hash] params ({})
     def list_agent_spaces(params = {}, options = {})
       req = build_request(:list_agent_spaces, params)
+      req.send_request(options)
+    end
+
+    # Lists files in an asset
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #
+    # @option params [required, String] :asset_id
+    #   The unique identifier of the asset whose files to list
+    #
+    # @option params [Integer] :asset_version
+    #   The specific asset version to list files from. If omitted, files from
+    #   the latest version are returned.
+    #
+    # @option params [String] :next_token
+    #   Pagination token from a previous response to retrieve the next page of
+    #   results
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single response
+    #
+    # @return [Types::ListAssetFilesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAssetFilesResponse#items #items} => Array&lt;Types::AssetFileSummary&gt;
+    #   * {Types::ListAssetFilesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_asset_files({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     asset_id: "ResourceId", # required
+    #     asset_version: 1,
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].path #=> String
+    #   resp.items[0].version #=> Integer
+    #   resp.items[0].created_at #=> Time
+    #   resp.items[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListAssetFiles AWS API Documentation
+    #
+    # @overload list_asset_files(params = {})
+    # @param [Hash] params ({})
+    def list_asset_files(params = {}, options = {})
+      req = build_request(:list_asset_files, params)
+      req.send_request(options)
+    end
+
+    # Lists the supported asset types
+    #
+    # @option params [String] :next_token
+    #   Pagination token from a previous response to retrieve the next page of
+    #   results
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single response
+    #
+    # @return [Types::ListAssetTypesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAssetTypesResponse#items #items} => Array&lt;Types::AssetTypeSummary&gt;
+    #   * {Types::ListAssetTypesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_asset_types({
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].asset_type #=> String
+    #   resp.items[0].description #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListAssetTypes AWS API Documentation
+    #
+    # @overload list_asset_types(params = {})
+    # @param [Hash] params ({})
+    def list_asset_types(params = {}, options = {})
+      req = build_request(:list_asset_types, params)
+      req.send_request(options)
+    end
+
+    # Lists versions of an asset in the specified agent space
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #
+    # @option params [required, String] :asset_id
+    #   The unique identifier of the asset whose versions to list
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single response
+    #
+    # @option params [String] :next_token
+    #   Pagination token from a previous response to retrieve the next page of
+    #   results
+    #
+    # @return [Types::ListAssetVersionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAssetVersionsResponse#items #items} => Array&lt;Types::AssetVersionMetadata&gt;
+    #   * {Types::ListAssetVersionsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_asset_versions({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     asset_id: "ResourceId", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].version #=> Integer
+    #   resp.items[0].created_at #=> Time
+    #   resp.items[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListAssetVersions AWS API Documentation
+    #
+    # @overload list_asset_versions(params = {})
+    # @param [Hash] params ({})
+    def list_asset_versions(params = {}, options = {})
+      req = build_request(:list_asset_versions, params)
+      req.send_request(options)
+    end
+
+    # Lists assets in the specified agent space
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier for the agent space to list assets from
+    #
+    # @option params [String] :asset_type
+    #   Filter results to only assets of this type
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :updated_after
+    #   Filter results to only assets updated after this timestamp
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :updated_before
+    #   Filter results to only assets updated before this timestamp
+    #
+    # @option params [String] :next_token
+    #   Pagination token from a previous response to retrieve the next page of
+    #   results
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single response
+    #
+    # @return [Types::ListAssetsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAssetsResponse#items #items} => Array&lt;Types::Asset&gt;
+    #   * {Types::ListAssetsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_assets({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     asset_type: "AssetType",
+    #     updated_after: Time.now,
+    #     updated_before: Time.now,
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].asset_id #=> String
+    #   resp.items[0].asset_type #=> String
+    #   resp.items[0].version #=> Integer
+    #   resp.items[0].created_at #=> Time
+    #   resp.items[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListAssets AWS API Documentation
+    #
+    # @overload list_assets(params = {})
+    # @param [Hash] params ({})
+    def list_assets(params = {}, options = {})
+      req = build_request(:list_assets, params)
       req.send_request(options)
     end
 
@@ -1728,7 +2260,7 @@ module Aws::DevOpsAgent
     #       created_after: Time.now,
     #       created_before: Time.now,
     #       priority: ["CRITICAL"], # accepts CRITICAL, HIGH, MEDIUM, LOW, MINIMAL
-    #       status: ["PENDING_TRIAGE"], # accepts PENDING_TRIAGE, LINKED, PENDING_START, IN_PROGRESS, PENDING_CUSTOMER_APPROVAL, COMPLETED, FAILED, TIMED_OUT, CANCELED
+    #       status: ["PENDING_TRIAGE"], # accepts PENDING_TRIAGE, LINKED, PENDING_START, IN_PROGRESS, PENDING_CUSTOMER_APPROVAL, COMPLETED, FAILED, TIMED_OUT, CANCELED, SKIPPED
     #       task_type: ["INVESTIGATION"], # accepts INVESTIGATION, EVALUATION
     #       primary_task_id: "ResourceId",
     #     },
@@ -1753,7 +2285,7 @@ module Aws::DevOpsAgent
     #   resp.tasks[0].reference.association_id #=> String
     #   resp.tasks[0].task_type #=> String, one of "INVESTIGATION", "EVALUATION"
     #   resp.tasks[0].priority #=> String, one of "CRITICAL", "HIGH", "MEDIUM", "LOW", "MINIMAL"
-    #   resp.tasks[0].status #=> String, one of "PENDING_TRIAGE", "LINKED", "PENDING_START", "IN_PROGRESS", "PENDING_CUSTOMER_APPROVAL", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELED"
+    #   resp.tasks[0].status #=> String, one of "PENDING_TRIAGE", "LINKED", "PENDING_START", "IN_PROGRESS", "PENDING_CUSTOMER_APPROVAL", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELED", "SKIPPED"
     #   resp.tasks[0].created_at #=> Time
     #   resp.tasks[0].updated_at #=> Time
     #   resp.tasks[0].version #=> Integer
@@ -2059,6 +2591,8 @@ module Aws::DevOpsAgent
     #   resp.private_connections[0].resource_configuration_id #=> String
     #   resp.private_connections[0].status #=> String, one of "ACTIVE", "CREATE_IN_PROGRESS", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
     #   resp.private_connections[0].certificate_expiry_time #=> Time
+    #   resp.private_connections[0].dns_resolution #=> String, one of "PUBLIC", "IN_VPC"
+    #   resp.private_connections[0].failure_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListPrivateConnections AWS API Documentation
     #
@@ -2217,6 +2751,7 @@ module Aws::DevOpsAgent
     #   resp.services[0].additional_service_details.mcpserversigv4.region #=> String
     #   resp.services[0].additional_service_details.mcpserversigv4.service #=> String
     #   resp.services[0].additional_service_details.mcpserversigv4.role_arn #=> String
+    #   resp.services[0].additional_service_details.mcpserversigv4.mcp_role_arn #=> String
     #   resp.services[0].additional_service_details.mcpserversigv4.custom_headers #=> Hash
     #   resp.services[0].additional_service_details.mcpserversigv4.custom_headers["CustomHeaderName"] #=> String
     #   resp.services[0].kms_key_arn #=> String
@@ -2311,6 +2846,15 @@ module Aws::DevOpsAgent
     # @option params [String] :private_connection_name
     #   The name of the private connection to use for VPC connectivity.
     #
+    # @option params [String] :target_url_private_connection_name
+    #   The name of the private connection to use for API calls (target URL)
+    #   only. Cannot be specified when privateConnectionName is provided.
+    #
+    # @option params [String] :exchange_url_private_connection_name
+    #   The name of the private connection to use for OAuth token exchange
+    #   requests only. Cannot be specified when privateConnectionName is
+    #   provided.
+    #
     # @option params [String] :name
     #   The display name for the service registration.
     #
@@ -2356,8 +2900,8 @@ module Aws::DevOpsAgent
     #         },
     #       },
     #       mcpserverdatadog: {
-    #         name: "DatadogServiceDetailsNameString", # required
-    #         endpoint: "DatadogServiceDetailsEndpointString", # required
+    #         name: "MCPServerName", # required
+    #         endpoint: "MCPServerEndpoint", # required
     #         description: "DatadogServiceDetailsDescriptionString",
     #         authorization_config: { # required
     #           authorization_discovery: {
@@ -2366,8 +2910,8 @@ module Aws::DevOpsAgent
     #         },
     #       },
     #       mcpserver: {
-    #         name: "MCPServerDetailsNameString", # required
-    #         endpoint: "MCPServerDetailsEndpointString", # required
+    #         name: "MCPServerName", # required
+    #         endpoint: "MCPServerEndpoint", # required
     #         description: "MCPServerDetailsDescriptionString",
     #         authorization_config: { # required
     #           o_auth_client_credentials: {
@@ -2378,7 +2922,7 @@ module Aws::DevOpsAgent
     #             },
     #             client_secret: "ClientSecret", # required
     #             exchange_url: "MCPServerOAuthClientCredentialsConfigExchangeUrlString", # required
-    #             scopes: ["String"],
+    #             scopes: ["OAuthScope"],
     #           },
     #           o_auth_3_lo: {
     #             client_name: "MCPServerOAuth3LOConfigClientNameString",
@@ -2391,7 +2935,7 @@ module Aws::DevOpsAgent
     #             exchange_url: "MCPServerOAuth3LOConfigExchangeUrlString", # required
     #             client_secret: "ClientSecret",
     #             support_code_challenge: false,
-    #             scopes: ["String"],
+    #             scopes: ["OAuthScope"],
     #           },
     #           api_key: {
     #             api_key_name: "MCPServerAPIKeyConfigApiKeyNameString", # required
@@ -2415,8 +2959,8 @@ module Aws::DevOpsAgent
     #         group_id: "String",
     #       },
     #       mcpserversplunk: {
-    #         name: "MCPServerDetailsNameString", # required
-    #         endpoint: "MCPServerDetailsEndpointString", # required
+    #         name: "MCPServerName", # required
+    #         endpoint: "MCPServerEndpoint", # required
     #         description: "MCPServerDetailsDescriptionString",
     #         authorization_config: { # required
     #           o_auth_client_credentials: {
@@ -2427,7 +2971,7 @@ module Aws::DevOpsAgent
     #             },
     #             client_secret: "ClientSecret", # required
     #             exchange_url: "MCPServerOAuthClientCredentialsConfigExchangeUrlString", # required
-    #             scopes: ["String"],
+    #             scopes: ["OAuthScope"],
     #           },
     #           o_auth_3_lo: {
     #             client_name: "MCPServerOAuth3LOConfigClientNameString",
@@ -2440,7 +2984,7 @@ module Aws::DevOpsAgent
     #             exchange_url: "MCPServerOAuth3LOConfigExchangeUrlString", # required
     #             client_secret: "ClientSecret",
     #             support_code_challenge: false,
-    #             scopes: ["String"],
+    #             scopes: ["OAuthScope"],
     #           },
     #           api_key: {
     #             api_key_name: "MCPServerAPIKeyConfigApiKeyNameString", # required
@@ -2473,8 +3017,8 @@ module Aws::DevOpsAgent
     #         type: "webhook", # accepts webhook
     #       },
     #       mcpservergrafana: {
-    #         name: "GrafanaServiceDetailsNameString", # required
-    #         endpoint: "GrafanaServiceDetailsEndpointString", # required
+    #         name: "MCPServerName", # required
+    #         endpoint: "MCPServerEndpoint", # required
     #         description: "GrafanaServiceDetailsDescriptionString",
     #         authorization_config: { # required
     #           o_auth_client_credentials: {
@@ -2485,7 +3029,7 @@ module Aws::DevOpsAgent
     #             },
     #             client_secret: "ClientSecret", # required
     #             exchange_url: "MCPServerOAuthClientCredentialsConfigExchangeUrlString", # required
-    #             scopes: ["String"],
+    #             scopes: ["OAuthScope"],
     #           },
     #           o_auth_3_lo: {
     #             client_name: "MCPServerOAuth3LOConfigClientNameString",
@@ -2498,7 +3042,7 @@ module Aws::DevOpsAgent
     #             exchange_url: "MCPServerOAuth3LOConfigExchangeUrlString", # required
     #             client_secret: "ClientSecret",
     #             support_code_challenge: false,
-    #             scopes: ["String"],
+    #             scopes: ["OAuthScope"],
     #           },
     #           api_key: {
     #             api_key_name: "MCPServerAPIKeyConfigApiKeyNameString", # required
@@ -2535,13 +3079,14 @@ module Aws::DevOpsAgent
     #         web_identity_token_audiences: ["String"], # required
     #       },
     #       mcpserversigv4: {
-    #         name: "MCPServerSigV4ServiceDetailsNameString", # required
-    #         endpoint: "MCPServerSigV4ServiceDetailsEndpointString", # required
+    #         name: "MCPServerName", # required
+    #         endpoint: "MCPServerEndpoint", # required
     #         description: "MCPServerSigV4ServiceDetailsDescriptionString",
     #         authorization_config: { # required
     #           region: "SigV4Region", # required
     #           service: "MCPServerSigV4AuthorizationConfigServiceString", # required
-    #           role_arn: "RoleArn", # required
+    #           role_arn: "MCPServerSigV4AuthorizationConfigRoleArnString",
+    #           mcp_role_arn: "RoleArn",
     #           custom_headers: {
     #             "CustomHeaderName" => "CustomHeaderValue",
     #           },
@@ -2550,6 +3095,8 @@ module Aws::DevOpsAgent
     #     },
     #     kms_key_arn: "KmsKeyArn",
     #     private_connection_name: "PrivateConnectionName",
+    #     target_url_private_connection_name: "PrivateConnectionName",
+    #     exchange_url_private_connection_name: "PrivateConnectionName",
     #     name: "ServiceName",
     #     tags: {
     #       "TagKey" => "TagValue",
@@ -2591,6 +3138,9 @@ module Aws::DevOpsAgent
     # @option params [String] :user_id
     #   User identifier. This field is deprecated and will be ignored — the
     #   service resolves user identity from the authenticated session.
+    #
+    # @option params [Array<String>] :asset_ids
+    #   Optional list of asset identifiers to attach to the message
     #
     # @return [Types::SendMessageResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2761,7 +3311,7 @@ module Aws::DevOpsAgent
     #
     #   resp = client.send_message({
     #     agent_space_id: "AgentSpaceId", # required
-    #     execution_id: "ResourceId", # required
+    #     execution_id: "ChatExecutionId", # required
     #     content: "MessageContent", # required
     #     context: {
     #       current_page: "String",
@@ -2769,6 +3319,7 @@ module Aws::DevOpsAgent
     #       user_action_response: "String",
     #     },
     #     user_id: "ResourceId",
+    #     asset_ids: ["String"],
     #   })
     #
     # @example Response structure
@@ -2949,6 +3500,145 @@ module Aws::DevOpsAgent
     # @param [Hash] params ({})
     def update_agent_space(params = {}, options = {})
       req = build_request(:update_agent_space, params)
+      req.send_request(options)
+    end
+
+    # Updates an asset in the specified agent space
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #
+    # @option params [required, String] :asset_id
+    #   The unique identifier of the asset to update
+    #
+    # @option params [Hash,Array,String,Numeric,Boolean] :metadata
+    #   Metadata fields to update. Only the fields present in this document
+    #   are updated. Omitted fields retain their current values.
+    #
+    #   Document type used to carry open content
+    #   (Hash,Array,String,Numeric,Boolean). A document type value is
+    #   serialized using the same format as its surroundings and requires no
+    #   additional encoding or escaping.
+    #
+    # @option params [Types::AssetContent] :content
+    #   Optional content to set or replace. A single file adds or replaces one
+    #   file; a zip replaces all files.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier used for idempotent asset update
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::UpdateAssetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateAssetResponse#asset #asset} => Types::Asset
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_asset({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     asset_id: "ResourceId", # required
+    #     metadata: {
+    #     },
+    #     content: {
+    #       file: {
+    #         path: "AssetFilePath", # required
+    #         body: { # required
+    #           bytes: "data",
+    #           text: "AssetFileText",
+    #         },
+    #         metadata: {
+    #         },
+    #       },
+    #       zip: {
+    #         zip_file: "data", # required
+    #       },
+    #     },
+    #     client_token: "UpdateAssetRequestClientTokenString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.asset.asset_id #=> String
+    #   resp.asset.asset_type #=> String
+    #   resp.asset.version #=> Integer
+    #   resp.asset.created_at #=> Time
+    #   resp.asset.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/UpdateAsset AWS API Documentation
+    #
+    # @overload update_asset(params = {})
+    # @param [Hash] params ({})
+    def update_asset(params = {}, options = {})
+      req = build_request(:update_asset, params)
+      req.send_request(options)
+    end
+
+    # Updates a file in an asset
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier for the agent space containing the asset
+    #
+    # @option params [required, String] :asset_id
+    #   The unique identifier of the asset containing the file
+    #
+    # @option params [required, String] :path
+    #   The path of the file within the asset to update
+    #
+    # @option params [Types::AssetFileBody] :content
+    #   Updated file content. If omitted, the existing content is unchanged.
+    #
+    # @option params [Hash,Array,String,Numeric,Boolean] :metadata
+    #   Metadata fields to update. Only the fields present in this document
+    #   are updated. Omitted fields retain their current values.
+    #
+    #   Document type used to carry open content
+    #   (Hash,Array,String,Numeric,Boolean). A document type value is
+    #   serialized using the same format as its surroundings and requires no
+    #   additional encoding or escaping.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier used for idempotent asset file
+    #   update
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::UpdateAssetFileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateAssetFileResponse#file #file} => Types::AssetFile
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_asset_file({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     asset_id: "ResourceId", # required
+    #     path: "AssetFilePath", # required
+    #     content: {
+    #       bytes: "data",
+    #       text: "AssetFileText",
+    #     },
+    #     metadata: {
+    #     },
+    #     client_token: "UpdateAssetFileRequestClientTokenString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.file.path #=> String
+    #   resp.file.content.bytes #=> String
+    #   resp.file.content.text #=> String
+    #   resp.file.version #=> Integer
+    #   resp.file.created_at #=> Time
+    #   resp.file.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/UpdateAssetFile AWS API Documentation
+    #
+    # @overload update_asset_file(params = {})
+    # @param [Hash] params ({})
+    def update_asset_file(params = {}, options = {})
+      req = build_request(:update_asset_file, params)
       req.send_request(options)
     end
 
@@ -3151,7 +3841,7 @@ module Aws::DevOpsAgent
     #   resp = client.update_backlog_task({
     #     agent_space_id: "AgentSpaceId", # required
     #     task_id: "ResourceId", # required
-    #     task_status: "PENDING_TRIAGE", # accepts PENDING_TRIAGE, LINKED, PENDING_START, IN_PROGRESS, PENDING_CUSTOMER_APPROVAL, COMPLETED, FAILED, TIMED_OUT, CANCELED
+    #     task_status: "PENDING_TRIAGE", # accepts PENDING_TRIAGE, LINKED, PENDING_START, IN_PROGRESS, PENDING_CUSTOMER_APPROVAL, COMPLETED, FAILED, TIMED_OUT, CANCELED, SKIPPED
     #     client_token: "String",
     #   })
     #
@@ -3169,7 +3859,7 @@ module Aws::DevOpsAgent
     #   resp.task.reference.association_id #=> String
     #   resp.task.task_type #=> String, one of "INVESTIGATION", "EVALUATION"
     #   resp.task.priority #=> String, one of "CRITICAL", "HIGH", "MEDIUM", "LOW", "MINIMAL"
-    #   resp.task.status #=> String, one of "PENDING_TRIAGE", "LINKED", "PENDING_START", "IN_PROGRESS", "PENDING_CUSTOMER_APPROVAL", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELED"
+    #   resp.task.status #=> String, one of "PENDING_TRIAGE", "LINKED", "PENDING_START", "IN_PROGRESS", "PENDING_CUSTOMER_APPROVAL", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELED", "SKIPPED"
     #   resp.task.created_at #=> Time
     #   resp.task.updated_at #=> Time
     #   resp.task.version #=> Integer
@@ -3303,6 +3993,8 @@ module Aws::DevOpsAgent
     #   * {Types::UpdatePrivateConnectionCertificateOutput#resource_configuration_id #resource_configuration_id} => String
     #   * {Types::UpdatePrivateConnectionCertificateOutput#status #status} => String
     #   * {Types::UpdatePrivateConnectionCertificateOutput#certificate_expiry_time #certificate_expiry_time} => Time
+    #   * {Types::UpdatePrivateConnectionCertificateOutput#dns_resolution #dns_resolution} => String
+    #   * {Types::UpdatePrivateConnectionCertificateOutput#failure_message #failure_message} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -3321,6 +4013,8 @@ module Aws::DevOpsAgent
     #   resp.resource_configuration_id #=> String
     #   resp.status #=> String, one of "ACTIVE", "CREATE_IN_PROGRESS", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
     #   resp.certificate_expiry_time #=> Time
+    #   resp.dns_resolution #=> String, one of "PUBLIC", "IN_VPC"
+    #   resp.failure_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/UpdatePrivateConnectionCertificate AWS API Documentation
     #
@@ -3436,7 +4130,7 @@ module Aws::DevOpsAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-devopsagent'
-      context[:gem_version] = '1.7.0'
+      context[:gem_version] = '1.8.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

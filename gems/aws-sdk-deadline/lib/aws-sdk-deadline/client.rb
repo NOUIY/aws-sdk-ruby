@@ -491,6 +491,10 @@ module Aws::Deadline
     # @option params [required, String] :principal_id
     #   The member's principal ID to associate with the farm.
     #
+    # @option params [String] :identity_center_region
+    #   The Region of the IAM Identity Center instance. If not provided, the
+    #   service defaults to the Region of the farm.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -501,6 +505,7 @@ module Aws::Deadline
     #     identity_store_id: "IdentityStoreId", # required
     #     membership_level: "VIEWER", # required, accepts VIEWER, CONTRIBUTOR, OWNER, MANAGER
     #     principal_id: "IdentityCenterPrincipalId", # required
+    #     identity_center_region: "Region",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/AssociateMemberToFarm AWS API Documentation
@@ -532,6 +537,10 @@ module Aws::Deadline
     # @option params [required, String] :principal_id
     #   The member's principal ID to associate with a fleet.
     #
+    # @option params [String] :identity_center_region
+    #   The Region of the IAM Identity Center instance. If not provided, the
+    #   service defaults to the Region of the farm.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -543,6 +552,7 @@ module Aws::Deadline
     #     identity_store_id: "IdentityStoreId", # required
     #     membership_level: "VIEWER", # required, accepts VIEWER, CONTRIBUTOR, OWNER, MANAGER
     #     principal_id: "IdentityCenterPrincipalId", # required
+    #     identity_center_region: "Region",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/AssociateMemberToFleet AWS API Documentation
@@ -577,6 +587,10 @@ module Aws::Deadline
     # @option params [required, String] :principal_id
     #   The member's principal ID to associate with the job.
     #
+    # @option params [String] :identity_center_region
+    #   The Region of the IAM Identity Center instance. If not provided, the
+    #   service defaults to the Region of the farm.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -589,6 +603,7 @@ module Aws::Deadline
     #     identity_store_id: "IdentityStoreId", # required
     #     membership_level: "VIEWER", # required, accepts VIEWER, CONTRIBUTOR, OWNER, MANAGER
     #     principal_id: "IdentityCenterPrincipalId", # required
+    #     identity_center_region: "Region",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/AssociateMemberToJob AWS API Documentation
@@ -620,6 +635,10 @@ module Aws::Deadline
     # @option params [required, String] :principal_id
     #   The member's principal ID to associate with the queue.
     #
+    # @option params [String] :identity_center_region
+    #   The Region of the IAM Identity Center instance. If not provided, the
+    #   service defaults to the Region of the farm.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -631,6 +650,7 @@ module Aws::Deadline
     #     identity_store_id: "IdentityStoreId", # required
     #     membership_level: "VIEWER", # required, accepts VIEWER, CONTRIBUTOR, OWNER, MANAGER
     #     principal_id: "IdentityCenterPrincipalId", # required
+    #     identity_center_region: "Region",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/deadline-2023-10-12/AssociateMemberToQueue AWS API Documentation
@@ -8342,7 +8362,7 @@ module Aws::Deadline
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-deadline'
-      context[:gem_version] = '1.56.0'
+      context[:gem_version] = '1.57.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

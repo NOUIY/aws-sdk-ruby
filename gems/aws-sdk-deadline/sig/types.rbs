@@ -106,6 +106,7 @@ module Aws::Deadline
       attr_accessor identity_store_id: ::String
       attr_accessor membership_level: ("VIEWER" | "CONTRIBUTOR" | "OWNER" | "MANAGER")
       attr_accessor principal_id: ::String
+      attr_accessor identity_center_region: ::String
       SENSITIVE: []
     end
 
@@ -119,6 +120,7 @@ module Aws::Deadline
       attr_accessor identity_store_id: ::String
       attr_accessor membership_level: ("VIEWER" | "CONTRIBUTOR" | "OWNER" | "MANAGER")
       attr_accessor principal_id: ::String
+      attr_accessor identity_center_region: ::String
       SENSITIVE: []
     end
 
@@ -133,6 +135,7 @@ module Aws::Deadline
       attr_accessor identity_store_id: ::String
       attr_accessor membership_level: ("VIEWER" | "CONTRIBUTOR" | "OWNER" | "MANAGER")
       attr_accessor principal_id: ::String
+      attr_accessor identity_center_region: ::String
       SENSITIVE: []
     end
 
@@ -146,6 +149,7 @@ module Aws::Deadline
       attr_accessor identity_store_id: ::String
       attr_accessor membership_level: ("VIEWER" | "CONTRIBUTOR" | "OWNER" | "MANAGER")
       attr_accessor principal_id: ::String
+      attr_accessor identity_center_region: ::String
       SENSITIVE: []
     end
 

@@ -509,6 +509,9 @@ module Aws::ObservabilityAdmin
     #           data_source_selection_criteria: "DataSourceFilterString",
     #           encrypted_log_group_strategy: "ALLOW", # required, accepts ALLOW, SKIP
     #         },
+    #         source_metrics_configuration: {
+    #           metrics_selection_criteria: "MetricsFilterString",
+    #         },
     #       },
     #       destination: { # required
     #         region: "Region", # required
@@ -525,6 +528,11 @@ module Aws::ObservabilityAdmin
     #           },
     #           log_group_name_configuration: {
     #             log_group_name_pattern: "LogGroupNamePattern", # required
+    #           },
+    #         },
+    #         destination_metrics_configuration: {
+    #           backup_configuration: {
+    #             region: "Region", # required
     #           },
     #         },
     #       },
@@ -1057,6 +1065,7 @@ module Aws::ObservabilityAdmin
     #   resp.centralization_rule.source.source_logs_configuration.log_group_selection_criteria #=> String
     #   resp.centralization_rule.source.source_logs_configuration.data_source_selection_criteria #=> String
     #   resp.centralization_rule.source.source_logs_configuration.encrypted_log_group_strategy #=> String, one of "ALLOW", "SKIP"
+    #   resp.centralization_rule.source.source_metrics_configuration.metrics_selection_criteria #=> String
     #   resp.centralization_rule.destination.region #=> String
     #   resp.centralization_rule.destination.account #=> String
     #   resp.centralization_rule.destination.destination_logs_configuration.logs_encryption_configuration.encryption_strategy #=> String, one of "CUSTOMER_MANAGED", "AWS_OWNED"
@@ -1065,6 +1074,7 @@ module Aws::ObservabilityAdmin
     #   resp.centralization_rule.destination.destination_logs_configuration.backup_configuration.region #=> String
     #   resp.centralization_rule.destination.destination_logs_configuration.backup_configuration.kms_key_arn #=> String
     #   resp.centralization_rule.destination.destination_logs_configuration.log_group_name_configuration.log_group_name_pattern #=> String
+    #   resp.centralization_rule.destination.destination_metrics_configuration.backup_configuration.region #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/GetCentralizationRuleForOrganization AWS API Documentation
     #
@@ -2186,6 +2196,9 @@ module Aws::ObservabilityAdmin
     #           data_source_selection_criteria: "DataSourceFilterString",
     #           encrypted_log_group_strategy: "ALLOW", # required, accepts ALLOW, SKIP
     #         },
+    #         source_metrics_configuration: {
+    #           metrics_selection_criteria: "MetricsFilterString",
+    #         },
     #       },
     #       destination: { # required
     #         region: "Region", # required
@@ -2202,6 +2215,11 @@ module Aws::ObservabilityAdmin
     #           },
     #           log_group_name_configuration: {
     #             log_group_name_pattern: "LogGroupNamePattern", # required
+    #           },
+    #         },
+    #         destination_metrics_configuration: {
+    #           backup_configuration: {
+    #             region: "Region", # required
     #           },
     #         },
     #       },
@@ -2604,7 +2622,7 @@ module Aws::ObservabilityAdmin
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-observabilityadmin'
-      context[:gem_version] = '1.31.0'
+      context[:gem_version] = '1.32.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

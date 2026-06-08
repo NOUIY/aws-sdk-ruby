@@ -93,6 +93,23 @@ module Aws
       }?
     }
 
+      type asset_file_content = {
+      path: ::String,
+      body: {
+        bytes: ::String?,
+        text: ::String?
+      },
+      metadata: {
+      }?
+    }
+
+      type asset_content = {
+      file: Params::asset_file_content?,
+      zip: {
+        zip_file: ::String
+      }?
+    }
+
       type mcp_server_o_auth_client_credentials_config = {
       client_name: ::String?,
       client_id: ::String,
